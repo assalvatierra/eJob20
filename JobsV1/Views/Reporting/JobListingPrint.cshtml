@@ -1,0 +1,154 @@
+﻿
+@model IEnumerable<JobsV1.Controllers.cJobOrder>
+@{
+    ViewBag.Title = "JobListingPrint";
+}
+<table>
+
+    <tr>
+        <td valign="top">
+            <img src="~/Images/LOGO_AJRENTACAR.jpg" width="135" />
+        </td>
+        <td>
+            <span style="font:bold 21px arial, verdana;">AJ88 Car Rental Services </span>
+            <span style="font:12px arial, verdana;color:royalblue">
+                <br />2nd Floor J. Sulit Bldg. Mac Arthur Highway, Matina Davao City
+                <br />Tel# (+63)822971831; (+63)9167558473; (+63)9330895358
+                <br />Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/
+                <br />TIN: 414-880-772-001 (non-Vat)
+            </span>
+        </td>
+    </tr>
+</table>
+<div class="container">
+    <div class="row">
+
+        <h3>
+            Job Listing
+        </h3>
+
+        <table class="table table-bordered">
+
+            <tr>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Company
+                </th>
+                <th>
+                    Unit/Driver 
+                </th>
+                <th>
+                    Rate/Payment
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (@item.Services.FirstOrDefault() != null)
+                {
+                    string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd (ddd)");
+                            @s1
+                        }
+                        else
+                        {
+                            string s1 = ((DateTime)item.Main.JobDate).ToString("MMM-dd (ddd)");
+                            @s1
+
+                        }
+                    </td>
+                    <td>
+                        @if (@item.Services.FirstOrDefault() != null)
+                {
+
+                            string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd (ddd)");
+                            @s2
+                        }
+                    </td>
+                    <td>
+                        <span style="font-weight:bold;">
+                            @item.Main.Customer.Name
+                        </span>
+                        <span>/</span>
+                        @item.Main.Description
+                    </td>
+
+                    <td>
+                        <span style="font-weight:bold;">
+                            <!-- Job Service List : Display Unit Driver -->
+                            @{
+                                var services = item.Services.Where(d => d.Service.JobMainId == item.Main.Id).ToList();
+                                foreach (var service in services)
+                                {
+                                    <text>
+                                        @service.Service.Particulars
+                                        <hr style="margin:1px;" />
+                                    </text>
+                                    var jobserviceItems = service.Service.JobServiceItems.ToList();
+                                    foreach (var serviceItem in jobserviceItems)
+                                    {
+                                        if (serviceItem.InvItem.ViewLabel == "UNIT")
+                                        {
+                                            <text>
+                                                <span style="font-size:13px;">
+                                                    @serviceItem.InvItem.Description.ToString()
+                                                </span>
+                                            </text>
+                                        }
+
+                                        if (serviceItem.InvItem.ViewLabel == "DRIVER" || serviceItem.InvItem.ViewLabel == "GUIDE")
+                                        {
+                                            <text>
+                                                <span>/</span>
+                                                <span>
+                                                    @serviceItem.InvItem.Description.ToString()
+                                                </span>
+                                            </text>
+                                        }
+
+                                        <text>
+                                            <br />
+                                        </text>
+                                    }
+                                }
+                            }
+                        </span>
+                    </td>
+                    <td>
+
+                        @if (@item.Main.AgreedAmt != 0)
+                        {
+                            <span style="color:blue; font: bold 12px arial, verdana;">
+                                @string.Format("{0:N0}", @item.Main.AgreedAmt)
+                            </span>
+
+                        }
+
+
+                        @if (@item.Payment != 0)
+                        {
+                            <span>/ </span>
+                            <span style="color:green; font: bold 12px arial, verdana;">
+                                @string.Format("{0:N0}", @item.Payment)
+                            </span>
+                            if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
+                            {
+                                <span>
+                                    Paid in
+                                    <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
+                                </span>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</div>

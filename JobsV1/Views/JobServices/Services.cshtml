@@ -1,0 +1,203 @@
+﻿@model IEnumerable<JobsV1.Models.JobServices>
+
+@{
+    ViewBag.Title = "Services";
+    System.Collections.ArrayList providers = ViewBag.Providers;
+    var iti = ViewBag.Itineraries;
+}
+
+
+<div id="dialog" title="Service Provider">
+    <table>
+        @foreach (var item in providers)
+            {
+            <tr>
+                <td style="white-space:nowrap">
+                    @if ((string)item == "Provider not defined.")
+                    { <p>@item</p> }
+                    else
+                    {
+                    @Html.ActionLink("[ " + @item + " ]", "SubDetails", "JobMains", new { id = ViewBag.JobOrder.Id, sProvider = @item }, null)
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+
+
+
+<h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
+<div>
+    <p>
+        Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
+        <br />Description: @ViewBag.JobOrder.Description
+        <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+        | @Html.ActionLink("Client", "Details", "JobMains", new { id = ViewBag.JobOrder.Id }, null) 
+        | <a href="" id="aContractorLink">Contractors</a>
+        | @Html.ActionLink("Invoice", "Details", "JobMains", new { id = ViewBag.JobOrder.Id, iType = 1 }, null)
+
+    </p>
+    <p>
+        Services | 
+        @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
+    </p>
+
+</div>
+
+<h2>Services</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Type
+        </th>
+        <th>
+            Particulars
+        </th>
+        <th>
+            Supplier Items
+        </th>
+        <th>
+            Supplier
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    JobsV1.Models.JobServicePickup pickup = item.JobServicePickups.FirstOrDefault();
+
+    <tr>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(modelItem => item.Service.Name)
+            @{
+                string sStart = ((DateTime)item.DtStart).ToString("MMM-dd-yyyy (ddd)");
+                string sEnd = ((DateTime)item.DtEnd).ToString("MMM-dd-yyyy (ddd)");
+            }
+            <p>
+                Start: @sStart
+                <br />
+                End: @sEnd
+            </p>
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Particulars)
+            <br />[Quote: @Html.DisplayFor(modelItem => item.QuotedAmt)]
+            <br />[Supplier: @Html.DisplayFor(modelItem => item.SupplierAmt)]
+            <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+        </td>
+        <td>
+            @foreach (var supitem in item.Supplier.SupplierInvItems)
+            {
+
+                @Html.DisplayFor(modelItem => supitem.InvItem.Description)
+                <br />
+                <span>[</span>
+                @Html.DisplayFor(modelItem => supitem.InvItem.Remarks)
+                <span>]</span>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Supplier.Name)
+            <br />[ Make/Model: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            <br />
+            @Html.ActionLink("Pickup", "InitServicePickup", new { id = item.Id }) |
+            @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id, SvcId = item.Id }, null) | 
+            @Html.ActionLink("Text Form", "TextMessage", new { id = item.Id })  |
+            @Html.ActionLink("Send Notification", "Notification", new { id = item.Id })
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" style="border-top:none">
+        @{string sIti = "";
+            foreach (var ititmp in iti)
+            {
+                if (ititmp.SvcId == item.Id)
+                {
+                    if (sIti.Trim() != "") { sIti += ","; }
+                    else { sIti += "Destinations:"; }
+
+                    sIti += " " + ititmp.Destination.Description;
+                }
+            }
+
+        }
+
+        <span style="font:14px arial, verdana;">
+            @sIti
+        </span>
+
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="4" style="border-top:none">
+            @if (pickup != null)
+                {
+                <span style="font:bold 12px arial, verdana;">
+                    [ Time: @pickup.JsTime @pickup.JsLocation ]  &nbsp; &nbsp;
+                    [ Contact: @pickup.ClientName / <a href="tel:@pickup.ClientContact">@pickup.ClientContact</a> ] &nbsp; &nbsp;
+                    [ InCharge: @pickup.ProviderName / <a href="tel:@pickup.ProviderContact">@pickup.ProviderContact</a> ]
+                </span>
+            }
+        </td>
+    </tr>
+
+}
+
+</table>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { JobMainId = ViewBag.JobMainId })
+    <br />@Html.ActionLink("Add Template", "BrowseTemplate", new { JobMainId = ViewBag.JobMainId })
+    <br />    @Html.ActionLink("Go to Job List", "JobTable", "JobMains", null, null)
+    <br />@Html.ActionLink("Go to Sales Lead", "Index", "SalesLeads",null,new { leadId = ViewBag.leadId})
+</p>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script>
+            var dlg;
+
+            $(function () {
+                // Initialize Dialog
+                dlg = $("#dialog").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    buttons:
+                        {
+                            Close: function () {
+                                dlg.dialog("close");
+                            }
+                        }
+                });
+
+                // Initialize Controls
+                $("#aContractorLink").click(function (event) {
+                    dlg.dialog("open");
+                    event.preventDefault();
+                });
+
+
+
+            });
+
+    </script>
+
+
+
+}

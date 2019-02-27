@@ -1,0 +1,153 @@
+﻿@model JobsV1.Models.JobServicePickup
+
+@{
+    ViewBag.Title = "ServicePickup";
+    List<JobsV1.Models.JobContact> contacts = (List< JobsV1.Models.JobContact>)ViewBag.Contact;
+}
+
+<h2>ServicePickup</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>JobServicePickup</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.JobServicesId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JsDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.JsDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JsDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JsTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.JsTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JsTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JsLocation, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.JsLocation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JsLocation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClientName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ClientName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ClientContact, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ClientContact, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ClientContact, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"><button id="selectProvider">Provider</button></label>
+            <div class="col-md-10">
+                
+                @Html.EditorFor(model => model.ProviderName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProviderName, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">&nbsp;</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProviderContact, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProviderContact, "", new { @class = "text-danger" })
+                </div>
+</div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+                @Html.ActionLink("Reset Values", "ResetServicePickup", new { id = Model.Id })
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Services", new { id = Model.JobService.JobMainId })
+</div>
+
+
+
+    <div id="dialog" title="Service Provider">
+        <table>
+            @foreach (var item in contacts)
+            {
+                <tr>
+                    <td style="white-space:nowrap">
+                        <a href="Javascript:SetProvider('@item.ShortName','@item.Tel1')"> 
+                            @item.ShortName
+                        </a>
+                        @Html.DisplayFor(modelItem => item.Tel1)   @Html.DisplayFor(modelItem => item.Tel2)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+
+        <script type="text/javascript" src="~/Scripts/Job/JobPickup.js"></script>
+
+        <script>
+            var dlg;
+
+            $(function () {
+                // Initialize Dialog
+                dlg = $("#dialog").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    buttons:
+                        {
+                            Close: function () {
+                                dlg.dialog("close");
+                            }
+                        }
+                });
+
+                // Initialize Controls
+                $("#selectProvider").click(function (event) {
+                    dlg.dialog("open");
+                    event.preventDefault();
+                });
+
+
+
+            });
+
+            function SetProvider(name, contact)
+            {
+                $("#ProviderName").val(name);
+                $("#ProviderContact").val(contact);
+            }
+
+
+        </script>
+
+
+
+    }

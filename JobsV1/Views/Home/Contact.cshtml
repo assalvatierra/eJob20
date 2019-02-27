@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+<h2>@ViewBag.Title</h2>
+<h3>Real Wheels Davao</h3>
+
+<address>
+    c/o Real Breeze Travel and Tours<br />
+    2nd Floor Prime-Z Bldg Mac Arthur Hway<br />
+    Matina, Davao City (fronting Ateneo Grade School) <br />
+</address>
+
+<address>
+    <strong>Landline:</strong><a href="tel:+63822971831">(+63) 82 297 1831 </a><br />
+    <strong>Smart:</strong>   <a href="tel:+639292113987">(+63) 929-211-3987</a><br />
+    <strong>Globe:</strong>   <a href="tel:+639167558473">(+63) 916-755-8473</a><br />
+    <strong>Viber:</strong>   <a href="viber://chat?number=09167558473">[09167558473]</a><br />
+</address>
+<address>
+    <strong>Inquiry:</strong><a href="mailto:Inquiries.RealWheels@Gmail.com">Inquiries.RealWheels@Gmail.com</a><br />
+    <strong>Reservation:</strong><a href="mailto:Reservation.RealWheels@Gmail.com">Reservation.RealWheels@Gmail.com</a>
+</address>
+
+<div id="map" style="width:600px">
+   <a href="https://goo.gl/maps/Q5QBmS8mEWn" target="_blank" >
+       <img src="~/Images/googleMaps_office.png" alt="realwheelsoffice" width="800" height="400"/>
+   </a>
+
+</div>
+
+
+
+@Html.Action("MobileModalView")

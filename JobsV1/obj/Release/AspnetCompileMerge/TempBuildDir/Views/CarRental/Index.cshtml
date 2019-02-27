@@ -1,0 +1,204 @@
+﻿@model IEnumerable<JobsV1.Models.CarUnit>
+
+@{
+    //ViewBag.Title = "Car Rental Davao";
+}
+
+<div class="jumbotron row">
+    <div class="col-md-5">
+        <h2>Welcome to Davao!</h2>
+        <p class="lead">Start your journey with us.</p>
+        @Html.ActionLink("Contact us", "Contact", "CarRental", null, new { @class = "btn btn-primary btn-lg" })
+        <!--
+        <button href="" class="btn btn-primary" id="catbtn" data-toggle="modal" data-target="#ReserveCarList" style="margin-bottom:10px; font-size:18px; margin:1px;"> Reservation </button>      
+        --> 
+        @Html.ActionLink("Reservation", "FormRenter", "CarRental", new { id = 1 }, new { @class = "btn btn-primary btn-lg" })
+    
+     </div>
+
+    <div class="col-md-5"> 
+
+        <img src="~/Images/CarRental/hondaCity_Banner.png"  alt="realwheelsdavao-car-rental-davao" width="350"/>
+    
+    </div>
+
+    <div class="col-md-2">
+
+    </div>
+    @*@Html.ActionLink("Book a Car", "Create", "JobMains", null, new { @class = "btn btn-primary btn-lg" })*@ 
+    
+</div>
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        
+        <div class="col-md-4 car-primary">
+            <h2>@Html.DisplayFor(modelItem => item.Description)</h2>
+            <div style="background-image:url('/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)');background-position:center;background-repeat:no-repeat;background-size:200px;height:180px;">
+                <p>&nbsp</p>
+            </div>
+
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.Remarks)  &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.Action("CarRate", new { unitid = int.Parse(@Html.DisplayFor(modelItem => item.Id).ToString()) })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+    }
+    </div>
+<!--
+    <div class="row">
+        <div class="col-md-4 car-primary">
+            <h2>Van 10 seater</h2>
+            <div style="background-image:url('/CarRental/MainImage/1');background-position:center;background-repeat:no-repeat;background-size:200px;height:180px;">
+                <p>&nbsp</p>
+            </div>
+
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            Toyota Grandia GL  &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Html.Action("CarRate", new { unitid = 1 })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4 car-primary">
+            <h2>Van 14 seater</h2>
+            <div style="background-image:url('/CarRental/MainImage/2');background-position:center;background-repeat:no-repeat;background-size:200px;height:180px;">
+                <p>&nbsp</p>
+            </div>
+
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            Nissan Premium  &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Html.Action("CarRate", new { unitid = 2 })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4 car-primary">
+            <h2>SUV</h2>
+            <div style="background-image:url('/CarRental/MainImage/3');background-position:center;background-repeat:no-repeat;background-size:200px;height:180px;">
+                <p>&nbsp</p>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            Ford Everest 2016 &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Html.Action("CarRate", new { unitid = 3 })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4 car-primary">
+            <h2>MPV/AUV</h2>
+            <div style="background-image:url('/CarRental/MainImage/4');background-position: center;background-repeat:no-repeat;background-size:200px;height:180px;">
+                <p>&nbsp</p>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            Toyota Innova &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Html.Action("CarRate", new { unitid = 4 })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="col-md-4 car-primary">
+            <h2>Sedans</h2>
+            <div style="background-image:url('/CarRental/MainImage/5');background-position: center;background-repeat:no-repeat;background-size:200px;height:180px;">
+                <p>&nbsp</p>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            Honda City &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Html.Action("CarRate", new { unitid = 5 })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4 car-primary">
+            <h2>Pickups</h2>
+            <div style="background-image:url('/CarRental/MainImage/6');background-position: center;background-repeat:no-repeat;background-size:200px;height:180px;">
+                <p>&nbsp</p>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            Pickups &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Html.Action("CarRate", new { unitid = 6 })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    -->
+    <div class="row">
+        <div class="col-md-12">
+            @{Html.RenderPartial("Partial_content_1");}
+        </div>
+    </div>
+
+        
+
+    
+    @Html.ActionLink("Send Email", "sendMail", "CarRental", new { jobId = 2,  renterEmail = "jahdielsvillosa@gmail.com", mailType = "ADMIN" } , new { @class = "btn btn-primary" })
+
+    @Html.Action("MobileModalView")

@@ -1,0 +1,212 @@
+﻿@model IEnumerable<JobsV1.Models.InvItem >
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Item List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Order No.
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            Categories
+        </th>
+        <th>
+            ContactInfo
+        </th>
+        <th>
+            ViewInfo
+        </th>
+        <th>
+            Current Odometer
+        </th>
+        <th>
+            Maintenance
+        </th>
+        <th>
+            Records
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description) <br /> 
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            <!--List for Inv Item Categories-->
+            @foreach (var cat in item.InvItemCategories as IEnumerable<JobsV1.Models.InvItemCategory>)
+            {                    
+                <img src=@Url.Content(@cat.InvItemCat.ImgPath)
+                                      alt=@cat.InvItemCat.ImgPath height="21"
+                                      title=@cat.InvItemCat.ImgPath />
+                <span > 
+                    @Html.DisplayFor(modelItem => cat.InvItemCat.Name)
+                    @Html.ActionLink(" [ x ]", "CatRemove", "InvItems", new { id = cat.Id }, null) |
+                </span>
+               
+            }
+            <a id="catbtn" data-toggle="modal" data-target="#@item.Id" style="margin-bottom:10px;cursor:pointer" >Add Category</a>
+            <br />
+            <!--List for Inv Item Suppliers-->
+            @foreach (var supplier in item.SupplierInvItems as IEnumerable<JobsV1.Models.SupplierInvItem>)
+            {
+                @Html.DisplayFor(modelItem => supplier.Supplier.Name )
+                @Html.ActionLink(" [ x ]", "removeSupplier", "InvItems", new { id = supplier.Id }, null) 
+            }
+            <a id="catbtn" data-toggle="modal" data-target="@("#sup"+@item.Id)" style="margin-bottom:10px;cursor:pointer">Add Supplier</a>
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactInfo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ViewLabel)
+        </td>
+        <td>
+            @if ( item.InvCarGateControls.OrderByDescending(s => s.dtControl).FirstOrDefault() != null ) {
+
+                @String.Format("{0:n0}", int.Parse(item.InvCarGateControls.OrderByDescending(s => s.dtControl).FirstOrDefault().Odometer))
+
+            }
+        </td>
+        <td width="180">
+
+            @if (item.InvCarRecords.OrderByDescending(s => s.dtDone).FirstOrDefault() != null)
+            {
+
+                <span>Odometer:</span>
+                @String.Format("{0:n0}",item.InvCarRecords.OrderByDescending(s => s.dtDone).FirstOrDefault().NextOdometer)
+
+            }
+            <br />
+
+           
+            @if (@item.InvCarRecords.OrderByDescending(s => s.dtDone).FirstOrDefault() != null)
+            {
+                <span>Schedule:</span>
+                @item.InvCarRecords.OrderByDescending(s => s.dtDone).FirstOrDefault().NextSched.ToString("MM/dd/yyyy")
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Records", "Index", "InvCarRecords", new { carId = item.Id }, null) |
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |         
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Items List</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+
+                    <div class="list-group" id="categorylist">
+                        @foreach (var cat in ViewBag.CatList as IEnumerable<JobsV1.Models.InvItemCat>)
+                        {
+                            <a href="@Url.Action("addCategory", "InvItems", new { id = @item.Id, catid = @cat.Id })" class="list-group-item"> @cat.Name </a>
+                        }
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="@("sup"+@item.Id)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Supplier List</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+
+                    <div class="list-group" id="categorylist">
+                        @foreach (var supplier in ViewBag.SupplierList as IEnumerable<JobsV1.Models.Supplier>)
+                        {
+                            <a href="@Url.Action("AddSupplier", "InvItems", new { id = @item.Id, supId = @supplier.Id })" class="list-group-item"> @supplier.Name </a>
+
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+}
+
+</table>
+
+
+
+<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+
+
+    //AJAX CALLS
+    function DeleteIcon(id) {
+        var serviceURL = '/SMSWebService/CatRemove';
+
+        $.ajax({
+            type: "GET",
+            url: serviceURL,
+            data: { id: id },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc(),
+            error: errorFunc()
+        });
+
+    }
+
+    function successFunc() {
+        alert("Successfully Done!");
+        location.reload();
+    }
+
+    function errorFunc() {
+        alert('error');
+    }
+
+    function openSupModal(){
+        $('suppliers').modal('toggle');
+    }
+
+</script>

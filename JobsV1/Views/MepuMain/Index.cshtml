@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "MEPU-CV";
+}
+
+<div class="jumbotron">
+    <h2>Marine Environmental Protection Unit - Central Visayas</h2>
+    <img src="~/Images/Mepu/Logo.jpg" width="110" />
+    <img src="~/Images/Mepu/Logo2.png" width="110" />
+    
+    <h2></h2>
+    <p class="lead">"TO PREVENT, CONTROL AND MITIGATE POLLUTION AT SEA, RIVERS, AND TRIBUTARIES IN ORDER TO PRESERVE A HEALTHFUL AND WELL-BALANCED MARINE ENVIRONMENT AND RESOURCES WITHIN COAST GUARD DISTRICT CENTRAL VISAYAS’ AREA OF RESPONSIBILITY"</p>
+    <p>
+        @Html.ActionLink("Learn more", "About", null, new { @class = "btn btn-primary btn-lg" })
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Marine Protected</h2>
+        <p>
+            Directory of Marine Protected Areas in Central Visayas
+        </p>
+        <p>
+            @Html.ActionLink("List", "ProtectedAreas", null, new { @class = "btn btn-default" })
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Marpol Equipment</h2>
+        <p>
+            Marpol Equipment on progress
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Marpol Incident Report</h2>
+        <p>
+            Marpol Incident Report. On progress
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Vessel Inventory</h2>
+        <p>
+            Inventory of vessels plying central visayas
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Contacts</h2>
+        <p>List of Contacts for Shipyards, Depots, Terminals, Shipping companies, Philippine Coast Guard</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Inspection Apprehension Report</h2>
+        <p>
+            Inspection Apprehension Report on progress.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+
+</div>

@@ -1,0 +1,74 @@
+﻿@model JobsV1.Models.JobChecklist
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>JobChecklist</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.dtEntered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dtEntered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dtDue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dtDue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dtNotification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dtNotification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<JobsV1.Models.SalesLeadCategory>
+
+@{
+    ViewBag.Title = "SalesLeadCat";
+
+    var Catcode = (List<JobsV1.Models.SalesLeadCatCode>)ViewBag.CategoryList;
+    var LeadId = ViewBag.SalesLeadId;
+
+    string strMsg = ViewBag.Message;
+}
+
+<h2>Sales Category</h2>
+
+<h3>Categories Added to the Lead</h3>
+<table class="table">
+
+@foreach (var item in Model) {
+    LeadId = item.SalesLeadId;
+
+    <tr>
+        <td>
+            <img src=@Url.Content(@item.SalesLeadCatCode.iconPath) alt=@item.SalesLeadCatCode.CatName height="24" />
+            @Html.DisplayFor(modelItem => item.SalesLeadCatCode.CatName)
+        </td>
+        <td>
+
+            @Html.ActionLink("Remove", "RemoveSalesLeadCat", new { CodeId = item.SalesLeadCatCodeId, slId = LeadId })
+        </td>
+    </tr>
+    
+}
+
+</table>
+
+
+@if (strMsg != null)
+{
+<div> @strMsg </div>
+}
+@Html.ActionLink("Back to Sales Lead", "Index" , new { leadId = ViewBag.SalesLeadId })
+<br />
+<br />
+
+
+<h3>Available Categories</h3>
+@foreach (var item in Catcode)
+{
+    <img src=@Url.Content(@item.iconPath) alt=@item.CatName height="24" />
+    @Html.ActionLink(item.CatName, "AddSalesLeadCat", new { CodeId = item.Id, slId= LeadId })
+    <br />
+}
+<br />
+@Html.ActionLink("Back to Sales Lead", "Index", new { leadId = ViewBag.SalesLeadId })

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<JobsV1.Areas.Accounting.Models.AsExpense>
+
+@{
+    ViewBag.Title = "Expense Module";
+    decimal dTotal = 0;
+}
+
+<h2>Expense</h2>
+
+<p>
+    @Html.ActionLink("Enter New Expense", "Create") |
+    @Html.ActionLink("Change Param", "ParamForm")
+</p>
+
+<table class="table">
+    <tr>
+        <th>Ref#</th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrxDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrxDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrxRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateEntered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AsCostCenter.ccName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AsExpCategory.Desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AsExpBiller.ShortName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    dTotal += item.Amount;
+
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrxDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrxDesc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrxRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateEntered)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AsCostCenter.ccName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AsExpCategory.Desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AsExpBiller.ShortName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+    <tr>
+        <td>
+            -
+        </td>
+        <td>
+            -
+        </td>
+        <td>
+            Total
+        </td>
+        <td>
+            @dTotal.ToString("###,###.00")
+        </td>
+        <td colspan="6"></td>
+    </tr>
+
+
+</table>

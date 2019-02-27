@@ -1,0 +1,132 @@
+﻿@model IEnumerable<JobsV1.Models.ItemSchedule>
+
+@{
+    ViewBag.Title = "Item Availability";
+
+    List<JobsV1.Models.DayLabel> vLabel = (List<JobsV1.Models.DayLabel>)ViewBag.dtLabel;
+}
+
+<h2>Item Availability</h2>
+
+@Html.ActionLink("Create New", "jobCreate", "JobOrder", null, null)
+| @Html.ActionLink("Work In Progress", "Index", "JobOrder")
+| @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
+| Availability
+
+
+<table class="table">
+    <tr>
+        <td>ITEM</td>
+        @foreach (var dtLabel in vLabel)
+        {
+            <td style="font:300 10px arial;">
+                @{
+                    string fColor = "darkgray";
+                    if (@dtLabel.sDayName == "Sun")
+                    { fColor = "red"; }
+                    if (@dtLabel.sDayName == "Sat")
+                    { fColor = "blue"; }
+                }
+
+                <span style="color: @fColor ; ">
+                    @dtLabel.sDayNo
+                </span>
+                <br />
+                <span style="color: @fColor ; ">
+                    @dtLabel.sDayName
+                </span>
+
+            </td>
+        }
+
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td nowrap>
+                @foreach (var iconpath in item.Item.InvItemCategories)
+                {
+                    <img src=@Url.Content(@iconpath.InvItemCat.ImgPath)
+                         alt=@iconpath.InvItemCat.ImgPath height="21"
+                         title=@iconpath.InvItemCat.ImgPath />
+                }
+                &nbsp;
+                <span style="font:700 12px verdana,arial;">
+                    @Html.ActionLink(item.Item.ItemCode + "-" + @item.Item.Description,
+                "AddItem", new { itemId = @item.ItemId, serviceId = @ViewBag.serviceId })
+                </span>
+                <span>@item.Item.Remarks</span>
+            </td>
+
+
+            @foreach (var dt in item.dayStatus)
+            {
+                string sBgColor = "none";
+                if (dt.status == 1)
+                { sBgColor = "darkgray"; }
+                if (dt.status > 1)
+                { sBgColor = "red"; }
+
+                <td style="border:1px solid red; font:300 8px arial; background-color:@sBgColor;">
+                   
+                    <span>@Html.DisplayFor(modelItemday => dt.Date.Day)</span>
+
+                    <p>
+                        @if (dt.status > 0)
+                        {
+
+                            <a href="#" id="catbtn" data-toggle="modal" data-target="#@(dt.Day)@(item.ItemId)" style="margin-bottom:10px;">
+                                <img src="~/Images/CarRental/settings.png" width="20" height="20" />
+                            </a>
+
+                                <!-- Modal -->
+                            <div class="modal fade" id="@(dt.Day)@(item.ItemId)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Item List</h4>
+
+                                            <span>@Html.DisplayFor(modelItemday => dt.Date.Day)</span>-
+                                            <span>@Html.DisplayFor(modelItemday => item.ItemId)</span>
+                                        </div>
+                                        <!--
+                                            
+                                        -->
+                                        <div class="modal-body" id="modal2-content">
+
+                                            <div class="list-group" id="categorylist" style="font:500 14px arial, verdana;">
+                                                @foreach (var svc2 in dt.svc)
+                                                {
+                                                    <a href="@Url.Action("JobServices", "JobOrder", new {
+                                                                JobMainId = @Html.DisplayFor(modelItemday =>
+                                                                item.Item.JobServiceItems.Where(j => j.InvItemId == item.Item.Id)    
+                                                                .Where(s => s.JobService.Id == svc2.Id).FirstOrDefault().JobService.JobMainId) })"
+                                                       class="list-group-item">
+
+                                                        @Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.JobMain.Customer.Name)
+                                                        -
+                                                        @Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.JobMain.Description)
+                                                        -
+                                                        @Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.Particulars)
+                                                        
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+                        }
+                    </p>
+
+                </td>
+            }
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<JobsV1.Models.Product>
+
+@{
+    ViewBag.Title = "Products & Services";
+}
+
+<h2>Products & Services</h2>
+
+@if (ViewBag.ListType == 0)
+{
+    <p>
+        @Html.ActionLink("Create New Product", "Create")
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            Highlights
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+            <span style="font-size:smaller">
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </span>
+        </td>
+        <td colspan="7">
+            @foreach (var jobItem in ViewBag.jobTemplates)
+            {
+                if (item.TemplateId == jobItem.Id)
+                {
+                    <p>
+                        @Html.Partial("PartialViewProductItineraries", (IEnumerable<JobsV1.Models.JobItinerary>)jobItem.JobItineraries)
+                    </p>
+                }
+            }
+        </td>
+        <td>
+            @if (ViewBag.ListType == 0)
+            {
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Price", "Price", new { id = item.Id }) |
+                    @Html.ActionLink("Categories", "Categories", new { id = item.Id }) |
+                </p>
+            }
+            else
+            {
+                <p>
+                    @Html.ActionLink("Select Template", "SelectTemplate", new { id = item.Id, TemplateId = item.TemplateId })
+                </p>
+            }
+
+        </td>
+    </tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("Back to Main", "index", "Home")
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/Job/Product.js"></script>
+}

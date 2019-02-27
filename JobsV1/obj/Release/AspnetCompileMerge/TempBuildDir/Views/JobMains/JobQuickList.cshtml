@@ -1,0 +1,66 @@
+﻿@model IEnumerable<JobsV1.Models.JobServices>
+
+@{
+    ViewBag.Title = "ActiveJobs";
+}
+
+<h2>Job Quick List</h2>
+
+<table class="table">
+    <tr>
+        <th>Service</th>
+        <th>
+            Name
+        </th>
+        <th>
+            &nbsp;
+        </th>
+        <th>
+            Start
+        </th>
+        <th>
+            End
+        </th>
+        <th>
+            Item
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    string s1 = ((DateTime)item.DtStart).ToString("MMM-dd-yyyy (ddd)");
+    string s2 = ((DateTime)item.DtEnd).ToString("MMM-dd-yyyy (ddd)");
+    string sStyle1 = "";
+    if (ViewBag.Current == s1) { sStyle1 = "background-color:gray"; }
+
+    <tr style="@sStyle1" >
+        <td>
+            @Html.DisplayFor(modelItem => item.Service.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobMain.Description)
+            <br />
+            @Html.DisplayFor(modelItem => item.Particulars)
+        </td>
+        <td>
+            @s1
+        </td>
+        <td>
+            @s2
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierItem.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Services", "JobServices", new { id = item.JobMainId }, null)
+            @Html.ActionLink("Close", "CloseJobActive", new { id = item.JobMainId })
+        </td>
+    </tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("Back to List", "JobTable", "JobMains",null,null)
+</p>

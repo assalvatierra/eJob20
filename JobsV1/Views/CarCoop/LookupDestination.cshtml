@@ -1,0 +1,49 @@
+﻿@model IEnumerable<JobsV1.Models.CarDestination>
+
+@{
+    ViewBag.Title = "LookupDestination";
+}
+
+<h2>Lookup Destination</h2>
+
+<p>
+    <a href="javascript:selectItem(0);">Back</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Select from list Area/Destination
+        </th>
+        <th>
+            Distance in Km (One-way)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <a href="javascript:selectItem( (2*@item.Kms) );">@item.Description</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kms)
+        </td>
+        <td>
+        </td>
+    </tr>
+}
+
+</table>
+<p>
+    <a href="javascript:selectItem(0);">Back</a>
+</p>
+
+@section scripts{
+    <script type="text/javascript">
+        function selectItem(Km)
+        {
+            window.opener.ParentTest(Km);
+            window.close();
+        }
+</script>
+}

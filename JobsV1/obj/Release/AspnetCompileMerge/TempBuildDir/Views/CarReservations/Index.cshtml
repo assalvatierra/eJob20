@@ -1,0 +1,113 @@
+﻿@model IEnumerable<JobsV1.Models.CarReservation>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .cust-rsvr-date {
+        background-color: dodgerblue;
+        color:white;
+        font-size:20px;
+        width:10px;
+    }
+
+    .cust-rsvr-rdate {
+        font-size:14px;
+        color:dodgerblue;
+    }
+
+    .cust-rsvr-item {
+        border-radius: 15px;
+        box-shadow: 0px 0px 10px lightgray;
+        padding:5px;
+    }
+    
+
+</style>
+
+<h2>Rental Reservation List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p>
+    Filter by: 
+</p>
+<table class="table">
+
+@foreach (var item in Model)
+{
+
+    <tr class="cust-rsvr-item">
+        <td class="col-sm-2 cust-rsvr-date ">
+            <center>@item.DtTrx.ToShortDateString()</center>
+            <br />
+            <p>
+                @int.Parse(item.BaseRate).ToString("N0")php
+            </p>
+        </td>
+
+        <td class="col-sm-4">
+            <p><label class="cust-rsvr-rdate" >
+                 @Html.DisplayFor(modelItem => item.DtStart) - @Html.DisplayFor(modelItem => item.DtEnd) 
+            </label></p>
+            <p> <span style="color:gray;"> Destination: </span> @Html.DisplayFor(modelItem => item.Destinations) - @Html.DisplayFor(modelItem => item.UseFor) </p>
+            <p> <span style="color:gray;"> Vehicle: </span>@Html.DisplayFor(modelItem => item.CarUnit.Description) -
+            @foreach (var packages in ViewBag.PackageList as IEnumerable<JobsV1.Models.CarRateUnitPackage>) {
+            
+             @Html.DisplayFor(modelItem => item.CarResPackages.Where(c=>c.CarRateUnitPackageId == packages.Id).FirstOrDefault().CarRateUnitPackage.CarRatePackage.Remarks)
+
+            }
+            <p>
+                <span style="color:gray;"> Meals & Accomodation: </span>
+                @if (@Html.DisplayFor(modelItem => item.CarResPackages.Where(s => s.CarReservationId == item.Id).FirstOrDefault().DrvMealByClient).ToString() == "0")
+                {
+                    <span> By Renter</span>
+                }
+                else
+                {
+                    <span>Included in the Package</span>
+                }
+            </p>
+            <p>
+                <span style="color:gray;"> Fuel: </span>
+                @if (@Html.DisplayFor(modelItem => item.CarResPackages.Where(s => s.CarReservationId == item.Id).FirstOrDefault().FuelByClient).ToString() == "0")
+                {
+                    <span> By Renter</span>
+                }
+                else
+                {
+                    <span>Included in the Package</span>
+                }
+            </p>
+        </td>
+
+
+        <td class="col-sm-4">
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </p>
+            <p> <span style="color:gray;"> Name: </span> @Html.DisplayFor(modelItem => item.RenterName) </p>
+            <p> <span style="color:gray;"> Company: </span> @Html.DisplayFor(modelItem => item.RenterCompany) </p>
+            <p> <span style="color:gray;"> Contact Info: </span> @Html.DisplayFor(modelItem => item.RenterEmail) / @Html.DisplayFor(modelItem => item.RenterMobile) </p>
+           
+        </td>
+        <td class="col-sm-3">
+            <p></p>
+
+            <p> <span style="color:black;"> Job Details: </span></p>
+            <buton class="btn btn-default"> Create Quotation</buton>
+            <buton class="btn btn-default"> Link Quotation</buton>
+        </td>
+    </tr>
+    <tr>
+        <td>
+           
+        </td>
+    </tr>
+}
+
+</table>

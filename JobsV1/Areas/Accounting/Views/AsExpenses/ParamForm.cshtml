@@ -1,0 +1,26 @@
+﻿@model IEnumerable<JobsV1.Areas.Accounting.Controllers.ParamObject>
+
+@{
+    ViewBag.Title = "Expense Period";
+}
+
+<h2>Expense Period</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Year/Month
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Year / @item.MonthName</td>
+            <td>@Html.ActionLink("RealBreeze", "Index", new { iyr = item.Year, imon = item.month, icc = 1 })</td>
+            <td>@Html.ActionLink("AJ88", "Index", new { iyr = item.Year, imon = item.month, icc = 2 })</td>
+
+        </tr>
+    }
+</table>

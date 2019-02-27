@@ -1,0 +1,69 @@
+﻿@model IEnumerable<JobsV1.Models.SupplierInvItem>
+
+@{
+    ViewBag.Title = "InvItems";
+}
+
+<h2>InvItems</h2>
+<h3>@ViewBag.SupplierName</h3>
+
+<table class="table">
+    <tr>
+        <th>
+            Item
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvItem.ItemCode)
+            -
+            @Html.DisplayFor(modelItem => item.InvItem.Description)
+            -
+            @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Remove", "RemoveInvItems", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>
+
+
+<!-- Modal -->
+<div class="modal fade" id="ItemAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Item List</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+
+                <div class="list-group" id="categorylist">
+
+                    @foreach (var carList in ViewBag.ItemList as IEnumerable<JobsV1.Models.InvItem>)
+                    {
+                        <a href="@Url.Action("AddInvItems", "Suppliers", new { InvID = carList.Id, supID = ViewBag.SupplierId},null)" class="list-group-item">
+                            @Html.DisplayFor(modelItem => carList.ItemCode)
+                            <span>-</span>
+                             @Html.DisplayFor(modelItem => carList.Description)
+                            <span>-</span>
+                            @Html.DisplayFor(modelItem => carList.Remarks)
+                        </a>
+                  }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

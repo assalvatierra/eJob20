@@ -1,0 +1,270 @@
+﻿@model IEnumerable<JobsV1.Models.SalesLead>
+
+@{
+    ViewBag.Title = "Leads";
+    var SalesStatCode = (List < JobsV1.Models.SalesStatusCode >) ViewBag.StatusCodes;
+}
+
+<h2>Sales Lead: List</h2>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create") |
+    Sales Lead |
+    @Html.ActionLink("Quotation", "JobLeads", "JobMains")
+</p>
+<p>
+    Filters:
+    @Html.ActionLink("New Lead", "Index", new { sortid = 5 }, new { @id = "newLead" }) |
+    @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }, new { @id = "ongoing" }) |
+    @Html.ActionLink("Accepted", "Index", new { sortid = 1 }, new { @id="acceptedLead", @onclick= "filter();" }) |
+    @Html.ActionLink("Closed", "Index", new { sortid = 2 }, new { @id = "closedLead" }) |
+    @Html.ActionLink("All", "Index", new { sortid = 3 }, new { @id = "allLead" })
+</p>
+
+<table class="table">
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td id="lead@(item.Id)">
+            <div style="background-color:lightgray;text-align:center;">
+                <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Date.ToString("MMM-yyyy")</span>
+                <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Date.ToString("dd")</span>
+                <span style="color:blue; font: bold 12px arial, verdana;">(@item.Date.ToString("ddd"))</span>
+                <br /><br /><span style="color:red; font: normal 18px arial, verdana;">@item.Price.ToString("##,###")</span>
+            </div>
+
+            @{
+                foreach (var status in item.SalesStatus)
+                {
+                    if (@status.SalesStatusCodeId == 5)
+                    {
+                        <img src="~/Images/Customers/Category/Active-30.png"  height="20" alt="ACCEPTED" />
+                    }
+
+                    if (@status.SalesStatusCodeId == 7)
+                    {
+                        <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
+                    }
+                }
+            }
+
+        </td>
+        <td>
+            <div style="background-color:lightgray;" >
+                @foreach (var salesstat in SalesStatCode)
+                {
+                            if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
+                            {
+                        <span style="font-weight:800; color: gray">
+                            @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
+                        </span>
+                            }
+                            else
+                            {
+                        <span>
+                            @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
+                        </span>
+                            }
+                        }
+            </div>
+            <div >
+                <span style="color:darkgreen;font:bold 16px arial, verdana;">
+                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                </span> |
+                <span style="color:maroon;font:bold 12px arial, verdana;">
+                    @Html.DisplayFor(modelItem => item.CustName) /
+                    @Html.DisplayFor(modelItem => item.CustPhone) /
+                    @Html.DisplayFor(modelItem => item.CustEmail)
+                </span>
+                &nbsp; &nbsp;
+                [ @Html.ActionLink("Edit Company", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |
+                @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })  |
+                @Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })
+
+                ]
+
+                @foreach (var salescat in item.SalesLeadCategories)
+                    {
+                    <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
+                         alt=@salescat.SalesLeadCatCode.CatName height="24"
+                         title=@salescat.SalesLeadCatCode.CatName />
+                }
+
+
+                <br />
+                <span style="font-weight:600;color:darkblue;">
+                    @Html.DisplayFor(modelItem => item.Details)
+                </span>
+                <br />
+                <span style="font:500 arial, verdana;">
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </span>
+                <br />
+                @if( item.SalesActivities.Count()>0)
+                {
+                    <span style="font:bold 8px, arial, verdana; color:maroon ;">
+                        Activities<br />
+                    </span>
+
+                    <span style="font:bold 8px, arial, verdana; color: royalblue;">
+                        @foreach (var tmpAct in item.SalesActivities)
+                    {
+                        if (tmpAct.SalesActStatusId == 1)
+                        {
+                            <span style="color:red;font-weight:800;">! </span>
+                            <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                 alt=@tmpAct.SalesActCode.iconPath height="16"
+                                 title=@tmpAct.SalesActCode.iconPath />
+
+                            <span style="color:maroon;">@tmpAct.Particulars</span>
+                            <span style="font:status-bar;color:maroon;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                            @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
+                            @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })
+
+                            <br />
+                            }
+                        if (tmpAct.SalesActStatusId == 2)
+                        {
+                            <span style="color:darkgray;font-weight:800;">&#10004; </span>
+                            <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                 alt=@tmpAct.SalesActCode.iconPath height="16"
+                                 title=@tmpAct.SalesActCode.iconPath />
+                            <span style="color:darkgray;">@tmpAct.Particulars</span>
+                            <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                            <br />
+                            }
+                        if (tmpAct.SalesActStatusId == 3)
+                        {
+                            <span style="color:darkgray;font-weight:800;">&#x2022; </span>
+                            <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                 alt=@tmpAct.SalesActCode.iconPath height="16"
+                                 title=@tmpAct.SalesActCode.iconPath />
+                            <span style="color:darkgray;">@tmpAct.Particulars</span>
+                            <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                            <br />
+                            }
+                    }
+                    </span>
+                }
+                [ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]
+                <br />[ 
+                @{  
+                    if (@item.SalesLeadLinks.Count() == 0)
+                    {
+                        @Html.ActionLink("New Quotation ", "QuotationCreate", new { id = item.Id, custid = item.CustomerId, amount = item.Price,
+                       cusmail = item.CustEmail, contact = item.CustPhone, desc = item.CustName, remarks = item.Remarks,
+                       leadDT = item.Date }, null)
+                        <span>|</span>
+
+                        @Html.ActionLink("Link Quotation ", "QuotationLink", new { id = item.Id }, null)
+
+                        <span>|</span>
+
+                        @Html.ActionLink("Link JobOrder ", "QuotationLink", new { id = item.Id , linkid  = 1}, null)
+
+                    }
+                    else if (@item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id).FirstOrDefault().JobMain.JobStatusId == 3)
+                    {
+                       <img src="~/Images/Customers/Category/Active-30.png" width="15" height="15" alt="quotation approve"/>
+
+                        @Html.ActionLink(" - View Quotation", "Services", "JobServices",
+                                        new{ id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
+                                            .FirstOrDefault().JobMainId }, null)
+                        <span>|</span>
+                        @Html.ActionLink(" Unlink ", "QuotationUnlink", "SalesLeads",
+                                        new { id = item.Id }, null)
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Approve Quotation ", "ConfirmJob", "SalesLeads" ,
+                                        new { id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
+                                        .FirstOrDefault().JobMainId }, null) 
+                        <span>|</span>
+                        @Html.ActionLink(" View Quotation ", "Services", "JobServices",
+                                        new { id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
+                                        .FirstOrDefault().JobMainId }, null)
+                        <span>|</span>
+                        @Html.ActionLink(" Unlink ", "QuotationUnlink", "SalesLeads",
+                                        new{ id = item.Id }, null)
+                    }
+
+                } ]
+
+                <br />
+                <span style="font: status-bar; color:gray;">
+                    Entered: @Html.DisplayFor(modelItem => item.EnteredBy)
+                    @@ @Html.DisplayFor(modelItem => item.DtEntered)
+                </span>
+                <br />
+                <span style="font: status-bar; color:gray;">
+                    Assigned: @Html.DisplayFor(modelItem => item.AssignedTo)
+                </span>
+            </div>
+
+        </td>
+    </tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("Create New", "Create") |
+    Sales Lead |
+    @Html.ActionLink("Quotation", "JobLeads", "JobMains")
+</p>
+<p>
+    Filters:
+    @Html.ActionLink("New Lead", "Index", null, null) |
+    @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }) |
+    @Html.ActionLink("Accepted", "Index", new { sortid = 1 }) |
+    @Html.ActionLink("Closed", "Index", new { sortid = 2 }) |
+    @Html.ActionLink("All", "Index", new { sortid = 3 }, null)
+</p>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('html, body').animate({
+                scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
+            }, 750);
+
+        });
+
+        if(@((int)Session["SLFilterID"]) != null){
+
+            switch(@((int)Session["SLFilterID"])){
+                case 1:
+                    $("#acceptedLead").css("color","black")
+                    $("#previous-bot").css("color","black")
+                    break;
+                case 2:
+                    $("#closedLead").css("color","black")
+                    $("#previous-bot").css("color","black")
+                    break;
+                case 3:
+                    $("#allLead").css("color","black")
+                    $("#closed-bot").css("color","black")
+                    break;
+                case 4:
+                    $("#ongoing").css("color","black")
+                    $("#ongoing-bot").css("color","black")
+                    break;
+                case 5:
+                    $("#newLead").css("color","black")
+                    $("#newLead-bot").css("color","black")
+                    break;
+                default:
+                    $("#newLead").css("color","black")
+                    $("#newLead-bot").css("color","black")
+                    break;
+            }
+
+        }
+    </script>
+
+}

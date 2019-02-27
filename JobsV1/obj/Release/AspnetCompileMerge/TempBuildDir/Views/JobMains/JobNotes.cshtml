@@ -1,0 +1,65 @@
+﻿@model IEnumerable<JobsV1.Models.JobNote>
+
+@{
+    ViewBag.Title = "Jo bNotes";
+}
+
+
+<h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
+<div>
+    <p>
+        Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
+        <br />Description: @ViewBag.JobOrder.Description
+        <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+        | @Html.ActionLink("Client", "Details", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+        | <a href="" id="aContractorLink">Contractors</a>
+
+    </p>
+    <p>
+        @Html.ActionLink("Services", "Services", "JobServices", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
+        Notes | 
+        @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
+    </p>
+
+</div>
+
+
+<h2>JobNotes</h2>
+
+<p>
+    @Html.ActionLink("Add New", "CreateJobNote", new { id = ViewBag.JobOrder.Id })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobMain.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sort)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobMain.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditJobNote", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

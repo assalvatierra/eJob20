@@ -1,0 +1,47 @@
+﻿
+<footer class="navbar navbar-inverse navbar-fixed-bottom" id="mobile-footer">
+    <div class="container">
+        <ul class="nav navbar">
+            <li>
+                <a href="tel:+63 909-076-1575">
+                    <img src="~/Images/Call.png" alt="Call" class="footer-img">
+                    <h4> Call </h4>
+                </a>
+            </li>
+            <li>
+                <a href="sms:+63 909-076-1575">
+                    <img src="~/Images/SMS.png" alt="SMS" class="footer-img">
+                    <h4> SMS </h4>
+                </a>
+            </li>
+            <li>
+                <a href="mailto: realbreezedavao@gmail.com">
+                    <img src="~/Images/Mail.png" alt="Mail" class="footer-img">
+                    <h4> Mail </h4>
+                </a>
+            </li>
+        </ul>
+    </div>
+</footer>
+
+<script>
+    /**
+    *   Handles footer. Show Footer only when device is
+    *   mobile or screen width less than 600 pixels.
+    */
+    function toggleScreen() {
+        var f = document.getElementById("mobile-footer");
+        var screenwidth = document.documentElement.clientWidth;
+
+        if (screenwidth < 600) {
+            //alert("MOBILE DEVICE!!");
+            f.style.display = "block";
+        }
+        else {
+            f.style.display = "none";
+        }
+    }
+</script>
+
+
+

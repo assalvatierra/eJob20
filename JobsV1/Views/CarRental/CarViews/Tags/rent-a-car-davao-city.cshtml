@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Rent a Car Davao City";
+}
+
+
+
+<div class="jumbotron">
+    <h2>Listing</h2>
+     <p>
+         <a href="/ads/">Listing</a> >
+         <a href="/ads/">Tag</a>>
+         <a href="/ads/">Rent a Car Davao City</a>
+     </p>
+</div>
+
+<div class="container" >
+    <div class="col-lg-8 ads-listing-container">
+       <div class="col-sm-12 ads-listing-title-bar" >
+           <h3>Rent a Car Davao City <span class="badge" > 6 </span></h3>
+       </div>
+
+        <div class="col-sm-12 ads-listing-item"  >
+                <h3 class="btn btn-success ads-listing-price">PHP 2,000</h3>
+                <img src="~/Images/CarRental/CarViews/HondaCity/HondaCity2018.png" class="img-thumbnail ads-listing-img" />
+
+                <h4><a href="~/ads/honda-city-automatic/">
+                    <b>Honda City Automatic</b></a></h4>
+                    <h4 class="label label-default">Sedan</h4>
+                    <h4 class="label label-default">Honda</h4>
+                <hr style="margin:7px;" />
+                <p >Honda City 22018, Diesel, Milage: 1000, 5 persons driver, w/ or w/o driver included.</p>
+                <br />
+        </div>
+
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 2,000</h3>
+            <img src="~/Images/CarRental/CarViews/HondaCity2012/HondaCityFront.jpg" class="img-thumbnail ads-listing-img" alt="honda city 2012" />
+            <h4>
+                <a href="~/ads/rent-a-car-davao-city-self-drive/">
+                    <b>Davao rent a car (Sedan & MPV)</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">Sedan</h4>
+            <h4 class="label label-default">MPV</h4>
+            <hr style="margin:7px;" />
+            <p>Car for Rent Davao City.Honda City Automatic. Self drive on Davao City Area </p>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 2,000</h3>
+            <img src="~/Images/CarRental/CarViews/ToyotaAvanza/ToyotaAvanza.jpg" class="img-thumbnail ads-listing-img" alt="toyota gl grandia 2012" />
+            <h4>
+                <a href="~/ads/toyota-avanza-1-3e-at/">
+                    <b>Cheap Car Rental Davao City, Toyota Avanza 1.3E AT</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">MPV</h4>
+            <h4 class="label label-default">Toyota Avanza</h4>
+            <hr style="margin:7px;" />
+            <p>Car for Rent Davao City. Toyota Avanza 2013. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 2,500</h3>
+            <img src="~/Images/CarRental/CarViews/VanRental/VanRental.jpg" class="img-thumbnail ads-listing-img" alt="toyota gl grandia" />
+            <h4>
+                <a href="~/ads/van-rental-davao-city/">
+                    <b>Van Rental Davao City</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">MPV</h4>
+            <h4 class="label label-default">Toyota Avanza</h4>
+            <hr style="margin:7px;" />
+            <p>Van for Rent Davao City. Toyota gl grandia. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 2,000</h3>
+            <img src="~/Images/CarRental/CarViews/ToyotaSelfDrive/ToyotaSelfDrive.jpg" class="img-thumbnail ads-listing-img" alt="Innova Self Drive" />
+            <h4>
+                <a href="~/ads/rent-a-car-davao-city-self-drive/">
+                    <b>Rent a car davao city self drive</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">Innova</h4>
+            <h4 class="label label-default">MPV</h4>
+            <hr style="margin:7px;" />
+            <p>MPV for Rent Davao City. Toyota Innova 2013. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+
+    </div>
+
+    <div class="col-lg-3 ads-listing-side">
+        @{Html.RenderPartial("CarViews/TagsViewListing");}
+
+        <div class="col-lg-3 ads-link" >
+            <h3>
+                Popular Ads
+            </h3>
+            <p>
+                <hr /> <a href="~/ads/honda-city-automatic/"> Honda City 2018</a>
+                <hr /> <a href="~/ads/rent-a-car-suv-for-rent-davao-city/"> Ford Everest 2016</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+

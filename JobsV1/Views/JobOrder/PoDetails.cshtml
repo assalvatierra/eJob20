@@ -1,0 +1,157 @@
+﻿@model IEnumerable<JobsV1.Models.SupplierPoDtl>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.dtlID = 0;
+}
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<h2>Supplier PO Details:</h2>
+<p>
+    @Html.ActionLink("Back to List", "Index", "JobOrder", null, null)
+</p>
+<table class="table">
+    @foreach (var header in ViewBag.HdrInfo as IEnumerable<JobsV1.Models.SupplierPoHdr>)
+    {
+
+        <tr style=" background-color:lightgray;color:dodgerblue">
+            <td>
+                <span style="font-weight:bold">Supplier:</span>
+
+                @Html.DisplayFor(modelItem => header.Supplier.Name)
+
+            </td>
+
+            <td>
+                <span style="font-weight:bold">Date:</span>
+                @Html.DisplayFor(modelItem => header.PoDate)
+            </td>
+            <td>
+                <span style="font-weight:bold">Remarks:</span>
+                @Html.DisplayFor(modelItem => header.Remarks)
+            </td>
+            <td>
+                <span style="font-weight:bold">Status:</span>
+                @Html.DisplayFor(modelItem => header.SupplierPoStatu.Status)
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+</table>
+
+<table class="table table-striped" id="details-tbl">
+
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th>
+            Items
+        </th>
+        <th>
+            Amount
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @foreach (var car in @item.SupplierPoItems)
+                {
+
+                    <p>
+                        @Html.DisplayFor(modelItem => car.InvItem.Description)
+                        |
+                        @Html.ActionLink("Remove", "Remove", new { SupPOItemId = car.Id }, null)
+                    </p>
+
+
+                }
+
+                <a href="" id="catbtn" data-toggle="modal" data-target="#@item.Id" style="margin-bottom:10px;">Add Item</a>
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+
+
+                    <!-- Modal -->
+        <div class="modal fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Item List</h4>
+                    </div>
+
+                    <div class="modal-body" id="modal2-content">
+
+                        <div class="list-group" id="categorylist">
+
+                            @foreach (var carList in ViewBag.InvItemsList as IEnumerable<JobsV1.Models.InvItem>)
+                            {
+                                <a href="@Url.Action("addInvItem", "SupplierPoDtls", new { InvID = carList.Id, DtlsId = @item.Id })" class="list-group-item">
+                                    @{
+                                        if (carList.SupplierInvItems.Where(s => s.InvItemId == carList.Id).FirstOrDefault() == null)
+                                        {
+                                            @Html.DisplayFor(modelItem => carList.ItemCode)
+                                            <span> - </span>
+                                            @Html.DisplayFor(modelItem => carList.Description)
+
+                                        }
+                                        else
+                                        {
+
+                                            @Html.DisplayFor(modelItem => carList.ItemCode)
+                                            <span> - </span>
+                                            @Html.DisplayFor(modelItem => carList.Description)
+                                            <span> - </span>
+                                            @Html.DisplayFor(modelItem => carList.SupplierInvItems.Where(s => s.InvItemId == carList.Id).FirstOrDefault().Supplier.Name)
+
+                                        }
+                                    }
+                                </a>
+                                        }
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+                                        }
+
+</table>
+
+
+<p>
+    @Html.ActionLink("Back to List", "Index", "JobOrder", new {   }, null)
+</p>
+
+<br />

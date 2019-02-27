@@ -1,0 +1,139 @@
+﻿@model IEnumerable<JobsV1.Models.JobMain>
+
+@{
+    ViewBag.Title = "Job Listing";
+}
+
+<h2>Job List</h2>
+<p>
+    @Html.ActionLink("Create New Job Order", "Create")
+    <br />@Html.ActionLink("Job Table", "JobTable", new { span = 30 }, null)
+
+</p>
+
+<div>
+    <table>
+        <tr>
+            <th>List Options</th>
+        </tr>
+        <tr>
+            <td>
+                Job Status:
+                <select id="StatusList" name="StatusList">
+                    <option value="0">All</option>
+                    <option value="1">Confirmed</option>
+                    <option value="2">Closed</option>
+                </select>
+            </td>
+            <td>
+                Date Range:
+                <select id="DateRangeList" name="DateRangeList">
+                    <option value="0">Today</option>
+                    <option value="1">7 Days Before</option>
+                    <option value="2">Next 7 Days</option>
+                </select>
+            </td>
+            <td>
+                <a href="javascript:refreshList();">Refresh List</a>
+            </td>
+        </tr>
+
+        <tr><td>&nbsp;</td></tr>
+    </table>
+
+<p>
+    <span>Parameter: @ViewBag.ListParam</span>
+</p>      
+
+</div>
+
+<table class="table">
+    <tr>
+        <th>Date/Status
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="white-space:nowrap">
+            <span class="userRemarks">@Html.DisplayFor(modelItem => item.JobDate)</span>
+            <span class="userData01"><br />@Html.DisplayFor(modelItem => item.JobStatus.Status)</span>
+            <br />[ @Html.ActionLink("Confirm", "ConfirmJob", new { id = item.Id }) | @Html.ActionLink("Close", "CloseJob", new { id = item.Id }) ]
+        </td>
+        <td style="white-space:nowrap">
+            <span class="userClient">@Html.DisplayFor(modelItem => item.Customer.Name) </span>
+            <br /><span class="userRemarks">@Html.DisplayFor(modelItem => item.Description)</span>
+            <br /><span class="userRemarks">Pax:@Html.DisplayFor(modelItem => item.NoOfPax) | Days: @Html.DisplayFor(modelItem => item.NoOfDays)</span>
+            <br /><span class="userData01"> Amount: @Html.DisplayFor(modelItem => item.AgreedAmt) </span>
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Services", "Services", "JobServices", new { id=item.Id }, null) | 
+            @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = item.Id }, null) |
+            @Html.ActionLink("Itinerary","JobItinerary","JobItineraries", new { id = item.Id }, null )
+
+            <br />
+            @if(item.JobSuppliers.Count() == 0 )
+            {
+                <span class="userData01">[ NO Services Defined ]</span>
+            } else {
+                <span class="userRemarks">Services: @item.JobSuppliers.Count()</span>
+            }
+
+            <br />
+            @if (item.JobItineraries.Count() == 0)
+            {
+                <span class="userData01">[ NO Itinerary Item Defined ]</span>
+            }
+            else
+            {
+                <span class="userRemarks">Itinerary: @item.JobItineraries.Count()</span>
+            }
+
+            <br />
+            @if (item.JobPayments.Sum(d => d.PaymentAmt) == 0)
+            {
+                <span class="userData01">[ NO Payment ]</span>
+            }
+            else
+            {
+                <span class="userRemarks">
+                    Payments: @(item.JobPayments.Sum(d => d.PaymentAmt) == 0 ? "" : @item.JobPayments.Sum(d => d.PaymentAmt).ToString("#,###.00"))
+                </span>
+            }
+        </td>
+    </tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("Create New Job Order", "Create")
+    <br />@Html.ActionLink("Job Table", "JobTable", new { span = 30 }, null)
+    
+</p>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+        })
+
+        function refreshList() {
+            
+            var s1 = $("#StatusList").val();
+            var s2 = $("#DateRangeList").val();
+
+            var url = '@Url.Action("Index", "JobMains")' + "?Param1="+s1 +"&Param2=" + s2 ;
+            window.location.href = url;
+
+        }
+    </script>
+}

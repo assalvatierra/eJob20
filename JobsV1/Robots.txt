@@ -1,0 +1,5 @@
+﻿User-agent: *
+Disallow: /cgi-bin/
+Disallow: /temp/ 
+
+SITEMAP:https://realwheelsdavao.com/Home/SiteMapxml

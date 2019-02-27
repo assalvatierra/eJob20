@@ -1,0 +1,148 @@
+﻿
+<div id="joblisting-filter" class="row" style="background-color:#f3f3f3;padding:15px; box-shadow:0px 0px 5px 2px lightgray; ">
+
+    <div class="col-lg-3">
+        <h5>Start Date</h5>
+        <input type="date"  value="@ViewBag.sDate" id="startDate" />
+    </div>
+
+    <div class="col-lg-3">
+        <h5>End Date</h5>
+        <input type="date"  value="@ViewBag.eDate" id="endDate" />
+    </div>
+   
+    <div class="col-lg-3">
+        <h5>Payers Name (Description)</h5>
+        <input type="text" value="@ViewBag.Id" id="company-input" />
+    </div>
+
+    <div class="col-lg-3">
+        <!-- Package Status Search Filter -->
+        <h5>&nbsp; Bank</h5>
+        <select class="dropdown" id="bank-input" style="font-size:15px;padding:7px;">
+            <option value="all">All</option>
+            <option value="Cash">Cash</option>
+            <option value="BDO">BDO</option>
+            <option value="BPI">BPI</option>
+            <option value="Paypal">Paypal</option>
+            <option value="Personal Guarantee">Personal Guarantee</option>
+        </select>
+    </div>
+
+
+    <div class="col-lg-3">
+        <br />
+        <button class="btn btn-primary" onclick="paymentUpdate();">
+            <span class="glyphicon glyphicon-search"></span> Filter
+        </button>
+
+        <button class="btn btn-primary" onclick="paymentPrint();">
+            <span class="glyphicon glyphicon-print"></span> Print
+        </button>
+    </div>
+</div>
+
+<div class="row" style="border: 1px solid lightgray; padding:20px;margin-top:15px; box-shadow:0px 0px 5px 2px lightgray; ">
+
+    @{Html.RenderAction("Payments");}
+
+</div>
+
+
+<script src="~/Scripts/jquery-1.12.4.min.js"> </script>
+<script>
+
+    function Update() {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var date1 = url.searchParams.get("sDate") != null ? url.searchParams.get("sDate") : getToday();
+        var date2 = url.searchParams.get("eDate") != null ? url.searchParams.get("eDate") : getToday();
+        var company = url.searchParams.get("company");
+        var bank = url.searchParams.get("bank");
+        $('#startDate').val(date1);
+        $('#endDate').val(date2);
+        $('#company-input').val(company);
+        $('#bank-input').val(bank);
+    }
+
+
+    $(function () {
+        Update();
+    });
+
+    function getToday(){
+        
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+
+        today = yyyy + '-' + mm + '-' + dd;
+        return today;
+    }
+
+    function paymentUpdate() {
+        var CompanyVal = document.getElementById("company-input").value;
+        var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
+        var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
+        var bankVal = document.getElementById("bank-input").value;
+
+        var requestString = "/Reporting?";
+
+        requestString += "reportkey=payments&";
+
+        if (eDateVal != null && sDateVal != null) {
+
+            requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
+        }
+
+        if (bankVal != null) {
+
+            requestString = requestString + "&bank=" + bankVal ;
+        }
+
+
+        if (CompanyVal == "") {
+            CompanyVal = "all";
+        }
+        requestString += "&company=" + CompanyVal;
+
+         
+        window.location.href = requestString;
+        //window.location.href = "/Reporting/Index/" + idVal + "&sDate=" + sDateVal + "&sDate=" + eDateVal;
+    }
+
+    function paymentPrint() {
+        var CompanyVal = document.getElementById("company-input").value;
+        var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
+        var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
+
+        var requestString = "/Reporting/PaymentsPrint?";
+
+        if (eDateVal != null && sDateVal != null) {
+            requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
+        }
+
+        if (bankVal != null) {
+
+            requestString = requestString + "&bank=" + bankVal;
+        }
+
+        if (CompanyVal == "") {
+            CompanyVal = "all";
+        }
+        requestString += "&company=" + CompanyVal;
+
+        window.location.href = requestString;
+        //window.location.href = "/Reporting/Index/" + idVal + "&sDate=" + sDateVal + "&sDate=" + eDateVal;
+    }
+
+</script>

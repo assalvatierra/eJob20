@@ -1,0 +1,74 @@
+﻿@{
+        ViewBag.Title = "FileUpload";
+    
+}
+ <h2> AsynFileUpload </h2>
+
+@using ( Ajax.BeginForm("AsynFileUpload", "UploadFile", 
+    new AjaxOptions(){
+        HttpMethod = "post"
+    },
+    new {
+        enctype = "multipart/form-data"
+    }))
+    {
+    @Html.AntiForgeryToken() 
+    <input type="file" name="file" id="ful" /> 
+    <input type="submit" value="upload file" />
+    }   
+    <div class="progress"> 
+        <div class="progress-bar" > 0 % </div> 
+    </div>   
+    <div id="status"> </div>   
+
+    <style> 
+        .progress {
+            position: relative;
+            width: 450px;
+            border: 1px solid #ddd;
+            padding: 1px;
+        }
+        
+        .progress-bar {
+            width: 0px;
+            height: 30px;
+            background-color: green;
+        } 
+    </style>
+
+    @section scripts { 
+        <script src = "http://localhost:50382/Scripts/jquery.form.js" > </script>  
+        <script> (function() {
+            var bar = $('.progress-bar');
+            var percent = $('.progress-bar');
+            var status = $('#status');
+
+            $('form').ajaxForm({
+                beforeSend: function() {
+                    status.empty();
+                    var percentValue = '0%';
+                    bar.width(percentValue);
+                    percent.html(percentValue);
+                },
+
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentValue = percentComplete + '%';
+                    bar.width(percentValue);
+                    percent.html(percentValue);
+                },
+
+                success: function(d) {
+                    var percentValue = '100%';
+                    bar.width(percentValue);
+                    percent.html(percentValue);
+                    $('#fu1').val('');
+                    alert(d);
+                },
+
+                complete: function(xhr) {
+                    status.html(xhr.responseText);
+                }
+            });
+        })(); 
+        </script>
+    }  

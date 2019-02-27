@@ -1,0 +1,50 @@
+﻿@model IEnumerable<JobsV1.Areas.Accounting.Controllers.ParamObject>
+
+@{
+    ViewBag.Title = "Sales Period";
+}
+
+<h2>Sales Period</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Year/Month
+        </th>
+        <th></th><th></th>
+    </tr>
+@foreach (var item in Model)
+{
+    JobsV1.Areas.Accounting.Controllers.TrxSummary ccRealBreeze = null;
+    JobsV1.Areas.Accounting.Controllers.TrxSummary ccAJ88 = null;
+    foreach (var cCenter in item.CostCenter)
+    {
+        if (cCenter.iCenter == 1)
+        {
+            ccRealBreeze = cCenter;
+        }
+        if (cCenter.iCenter == 2)
+        {
+            ccAJ88 = cCenter;
+        }
+    }
+
+
+    <tr>
+        <td>@item.Year / @item.MonthName</td>
+        <td>@Html.ActionLink("RealBreeze", "Index", new { iyr = item.Year, imon = item.month, icc = 1 })
+            @if (ccRealBreeze != null)
+            {
+                <span>[ @ccRealBreeze.total.ToString("#,###.00")  (@ccRealBreeze.trx)  ]</span>
+            }
+        </td>
+        <td>@Html.ActionLink("AJ88", "Index", new { iyr = item.Year, imon = item.month, icc = 2 })
+            @if (ccAJ88 != null)
+            {
+                <span>[ @ccAJ88.total.ToString("#,###.00")  (@ccAJ88.trx)  ]</span>
+            }
+        </td>
+    </tr>
+}
+
+</table>

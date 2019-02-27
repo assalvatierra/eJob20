@@ -1,0 +1,131 @@
+﻿@model IEnumerable<JobsV1.Models.InvCarGateControl>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Gate Control Records</h2>
+
+<p>
+    @Html.ActionLink(" Vehicle  Out ", "Create", new { control = 1 }) |
+    @Html.ActionLink(" Vehicle  In ", "Create", new { control = 2 })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Vehicle
+        </th>
+        <th>
+            Out
+        </th>
+        <th>
+            In
+        </th>
+        <th>
+            Odometer
+        </th>
+        <th>
+            Driver
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.InvItem.ItemCode)
+            -
+            @Html.DisplayFor(modelItem => item.InvItem.Description)
+        </td>
+
+        @if (item.In_Out_flag == 1)
+        { // out
+
+            <td>
+                @Html.DisplayFor(modelItem => item.dtControl)
+            </td>
+            <td>  - </td>
+        }
+        else
+        {
+            <td> - </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dtControl)
+            </td>
+        }
+
+        <td>
+            @String.Format("{0:n0}", int.Parse( item.Odometer))
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Driver)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Records", "Index", "InvCarGateControls",new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+
+@foreach (var prio in ViewBag.priority as IEnumerable<JobsV1.Models.InvCarRecord>)
+{
+    //Odometer filter
+    try
+    {
+        var currentOdo = int.Parse(@prio.InvItem.InvCarGateControls.OrderByDescending(s => s.dtControl).FirstOrDefault().Odometer);
+        if (currentOdo > prio.NextOdometer)
+        {
+            <script type="text/javascript">
+                alert('@prio.InvItem.ItemCode @prio.InvItem.Description is needed for @prio.InvCarRecordType.Description . @currentOdo of @prio.NextOdometer ');
+            </script>
+        }
+        else
+        {
+
+            if (currentOdo + 1000 > prio.NextOdometer)
+            {
+                <script type="text/javascript">
+                alert('@prio.InvItem.ItemCode @prio.InvItem.Description is needed for @prio.InvCarRecordType.Description . @currentOdo of @prio.NextOdometer ');
+                </script>
+            }
+
+        }
+
+
+    }
+    catch (Exception e)
+    { }
+
+    //Date of last change filter
+    try
+    {
+        if (DateTime.Compare(DateTime.Today, prio.NextSched) >= 0)
+        {
+            <script type="text/javascript">
+                alert('@prio.InvItem.ItemCode @prio.InvItem.Description is needed for @prio.InvCarRecordType.Description . Scheduled change: @prio.NextSched ');
+            </script>
+        }
+        else
+        {
+
+            if (DateTime.Compare(DateTime.Today.AddDays(10), prio.NextSched) >= 0)
+            {
+                <script type="text/javascript">
+                alert('@prio.InvItem.ItemCode @prio.InvItem.Description is needed for @prio.InvCarRecordType.Description . Scheduled change: @prio.NextSched ');
+                </script>
+            }
+        }
+
+    }
+    catch (Exception e)
+    { }
+
+}
+
+

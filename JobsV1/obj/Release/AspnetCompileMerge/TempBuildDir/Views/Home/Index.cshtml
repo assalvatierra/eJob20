@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Sys Online v1.1</h1>
+    <p class="lead">Resource Planning App</p>
+
+    <p>@Html.ActionLink("Register New Job Order »", "Create", "JobMains", null, new { @class = "btn btn-primary btn-lg" }) </p>
+    <p class="lead">Jobs
+    [ @Html.ActionLink("Work In Progress", "Index", "JobOrder", new { sortid = 1 },null) ] [ @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null) ]
+    [ @Html.ActionLink("Payments", "AdvanceList", "JobPayments") ]
+        <br />Sales Lead  
+        [ @Html.ActionLink("List", "Index", "SalesLeads") ]
+        <br />Inventory
+        [ @Html.ActionLink("Availability", "Availability", "InvItems") ]
+        <br />Daily Update
+        [ @Html.ActionLink("List", "DailyUpdateList", "JobOrder") ]
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Sales Lead</h2>
+        <p>
+            Inquiries, Leads, Opportunities <br />
+            [ @Html.ActionLink("List", "Index", "SalesLeads", new { sortid = 5 },null) | 
+            @Html.ActionLink("Quotations", "JobLeads", "JobMains") |
+            @Html.ActionLink("Reservations", "Index", "CarReservations") ]
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "SalesLeads", null, new { @class = "btn btn-default" }) </p>
+
+    </div>
+    <div class="col-md-4">
+        <h2>Job Orders</h2>
+        <p>
+            Jobs / Work in Progress <br />
+            [ @Html.ActionLink("Work In Progress", "Index", "JobOrder", new { sortid = 1 }, null) | 
+            @Html.ActionLink("Quick List", "ActiveJobs", "JobMains") ]
+        </p>
+        <p>@Html.ActionLink("Add New »", "jobCreate", "JobOrder", null, new { @class = "btn btn-default" }) </p>
+
+    </div>
+    <div class="col-md-4">
+        <h2>Suppliers</h2>
+        <p>
+            Tour Operators, Island Hopping,
+            Van and Car Rentals, Boat Rentals,
+            Hotel, Accomodation, Rooms, Party Venues
+            [ @Html.ActionLink("List", "Index", "Suppliers") | @Html.ActionLink("PO List", "Index", "SupplierPoHdrs") ]
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "Suppliers", null, new { @class = "btn btn-default" }) </p>
+
+    </div>
+    <div class="col-md-4">
+        <h2>Customers</h2>
+        <p>Regular Clients, Guests, Companies, Corporate Accounts.
+            @Html.ActionLink("List", "Index", "Customers") 
+           
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "Customers", null, new { @class = "btn btn-default" }) </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Equipments</h2>
+        <p>
+            Buses, Vans, Cars, Boats,
+            Sporting Gears, Cameras
+            <br />
+            [
+            @Html.ActionLink("List", "Index", "SupplierItems") |
+            @Html.ActionLink("Items", "Index", "InvItems") |
+            @Html.ActionLink("Availability", "Availability", "InvItems") |
+            @Html.ActionLink("Gate Control", "Index", "InvCarGateControls") |
+            @Html.ActionLink("Maintenance", "Index", "InvCarRecords") ]
+
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "SupplierItems", null, new { @class = "btn btn-default" }) </p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Packages</h2>
+        <p>
+            Buses, Vans, Cars, Boats,
+            Sporting Gears, Cameras
+            <br />
+            [
+            @Html.ActionLink("Packages", "Index", "CarRatePackages") |
+            @Html.ActionLink("Unit Rates", "Index", "CarRateUnitPackages") ]
+
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "SupplierItems", null, new { @class = "btn btn-default" }) </p>
+    </div>
+
+    <!--
+    <div class="col-md-4">
+        <h2>Destinations</h2>
+        <p>Tourist Destinations, Resorts, Places, museums, parks
+            @Html.ActionLink("List", "Index", "Destinations")
+
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "Destinations", null, new { @class = "btn btn-default" }) </p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Products</h2>
+        <p>
+            Products & Services
+            @Html.ActionLink("List", "Index", "Products")
+            <br />Categories
+            @Html.ActionLink("List", "Index", "ProductCategories")
+            <br />Templates
+            @Html.ActionLink("List", "ProductTemplates", "JobMains")
+
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "Products", null, new { @class = "btn btn-default" }) </p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Notes</h2>
+        <p>
+            Predefined Notes, terms, conditions
+            @Html.ActionLink("List", "Index", "PreDefinedNotes")
+
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "PreDefinedNotes", null, new { @class = "btn btn-default" }) </p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Contacts</h2>
+        <p>
+            Entity Contacts
+            @Html.ActionLink("List", "Index", "JobContacts")
+
+        </p>
+        <p>@Html.ActionLink("Add New »", "Create", "JobContacts", null, new { @class = "btn btn-default" }) </p>
+    </div>
+    -->
+
+
+</div>

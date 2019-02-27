@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Car Rental Services";
+}
+
+<h2>Welcome to Car Rental Management System</h2>
+
+@if (Request.IsAuthenticated)
+{
+    <p>
+        go to @Html.ActionLink("Control Panel", "Index", "Home")
+    </p>
+}
+else
+{
+   <p>Version 1.0 B</p>
+   <b>Kindly Login to start using the system</b>
+}

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<JobsV1.Models.CustomerJobDetails >
+
+@{
+    ViewBag.Title = "PartialView_JobDetails";
+    int customerid = Convert.ToInt32(ViewData["customerId"]);
+}
+
+<br /><br /><br />
+<dl class="dl-horizontal">
+    
+    <dd></dd>
+    <table  class="table table-striped">
+
+        <tr style="border:1px solid lightgray">
+            <th>Job Date </th>
+            <th>Description </th>
+            <th> No of Days </th>
+            <th> No of Pax </th>
+            <th> Status </th>
+            <th>  </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+         <tr style="border:1px solid lightgray">
+            <td>
+                @Html.DisplayFor(modelItem => item.JobDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+             <td>
+                 @Html.DisplayFor(modelItem => item.NoOfDays) Day(s)
+             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoOfPax) Person(s)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusRemarks)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "JobMains", new { id = item.Id }, null)
+            </td>
+        </tr>
+        }
+
+    </table>
+    <h4>
+        @Html.ActionLink("Add Job", "Create", "JobMains", new { id = customerid }, null)
+    </h4>
+
+</dl>

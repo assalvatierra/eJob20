@@ -1,0 +1,154 @@
+﻿@model JobsV1.Models.CarUnit
+
+@{
+    
+}
+
+@Styles.Render("~/Content/css/Site")
+<div class="container" style="min-width:500px">
+
+    <div class="col-sm-12" style="margin: 30px 20px;">
+
+        <div class="col-lg-8">
+            <h2>Nissan Urvan Premium </h2>
+        </div>
+    </div>
+
+    <div class="col-lg-8" >
+
+
+        <div class="col-lg-12 details-container">
+
+            <img src="~/Images/CarRental/POTTMPC/Van_Nissan_Urban.png" class="center-block img-responsive" alt="nissan-premium Van rental Palawan" style="width:60%;margin:auto;" />
+            <h2>VAN</h2>
+            &nbsp;
+
+            <a href="../CarCoop/Van-Starex-for-rent">VAN</a> is the most popular vehicle transporting people for both company and family use. It can
+
+            comfortably accommodate 10-14 pax with enough luggage.
+
+            &nbsp;
+            <br />
+
+            <h2>Rent-A-Car</h2>
+            <a href="../CarCoop/Van-Starex-for-rent">VAN</a> is top choice for rent-a-car business for conventions, city tours and all types of
+
+            occasions. Top models use by rent-a-car companies are:
+
+            <a href="../CarCoop/Van-Starex-for-rent">Hyundai Starex</a> is a 10-12 seater van and as of this time, top choice due to
+
+            its known reliability and toughness. This model is the all-time favorite in
+
+            rent-a-car business because it can accommodate most of the client needs.
+
+            <a href="../CarCoop/Van-Starex-for-rent">Hyundai Starex</a> is a 10 seater executive van that built for comfort. You
+
+            expect 2 captain seats and other well padded leather seats at the back. Commonly
+
+            used to VIP and hire profile guests of rent-a-car company.
+
+            <a href="../CarCoop/Van-Starex-for-rent">Nissan-Urvan-Premium-for-rent</a> is another contender for van rentals (rent-a-car) due to its
+
+            capacity which accommodates up to 14 pax and still got extra room for luggages.
+
+            It's a highroof van that makes it even bigger and have extra head space that
+
+            makes the van more ventilated and refreshing compared to other regular vans.
+
+            &nbsp;
+            <br />
+            <h2>VAN rental</h2>
+            <a href="../CarCoop/Van-Starex-for-rent">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
+
+            occasions and any kind of business trips. VIP guests are welcome with special
+
+            attention from the company. Short term and Long term van rental with special
+
+            arrangements, terms and rates are open for negotiation.
+
+            &nbsp;
+            <br /><br />
+
+        </div>
+
+
+        <div class="col-lg-12 details-container">
+            <h3 class="text-primary">  Available Vans for rent:</h3>
+            <table class="table">
+                <tr>
+                    <td><strong>Nissan Urvan Premium</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                       5 speed Automatic Transmission
+                    </td>
+                    <td>
+                        Driver + 14 persons
+                        <br /> 3-6 trolleys
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="col-lg-12 details-container">
+            <h3 class="text-primary"> Services </h3>
+            <button class="btn btn-primary dtls-services"> With Driver </button>
+            <button class="btn btn-primary dtls-services"> Airport Pickup / Drop-off </button>
+            <button class="btn btn-primary dtls-services"> Hotel Pickup / Drop-off </button>
+            <button class="btn btn-primary dtls-services"> City Tour </button>
+            <button class="btn btn-primary dtls-services"> Out of town tour</button>
+        </div>
+
+        <div class="col-lg-12 details-container dtls-gallery">
+            <h1 class="text-primary">Gallery</h1>
+
+                <a href="~/Images/CarRental/nissanPremium/nissanpremium_frontview.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/nissanpremium_frontview.jpg" alt="nissan-premium-car-rental-davao"  /></a>
+                <a href="~/Images/CarRental/nissanPremium/nissanpremium_sideview.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/nissanpremium_sideview.jpg" alt="nissan-premium-car-rental-davao"   /></a>
+                <a href="~/Images/CarRental/nissanPremium/nissanpremium_interior.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/nissanpremium_interior.jpg"  alt="nissan-premium-car-rental-davao"  /></a>
+            
+        </div>
+
+        <div class="col-lg-12 details-container" >
+            <h1 class="text-primary text-center">Book Now! </h1>
+            @Html.ActionLink("Cost Estimate and Reservation", "CarReserve", "CarCoop", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
+            <p class="text-info text-center" style="font-size:12px;color:gray;">
+            Note: availability of the vehicle will depend on the date of reservation. </p>
+        </div>
+    </div>
+
+        <div class="col-lg-3" style="margin:30px;">
+            <a href="@Url.Action("CarDetail", "CarCoop", new { unitid = 1 }, null)" class="list-group-item  details-container-list ">  Hyundai Starex         </a>
+            <a href="@Url.Action("CarDetail", "CarCoop", new { unitid = 2 }, null)" class="list-group-item  details-container-list active">  Nissan Urvan Premium   </a>
+
+            <a href="@Url.Action("CarDetail", "CarCoop", new { unitid = 3 },null)" class="list-group-item  details-container-list ">  Nissan Urvan      </a>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<p>
+    @Html.ActionLink("Back to Home", "Index")
+</p>

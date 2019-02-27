@@ -1,0 +1,17 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<div class="container" style="width:500px;margin-top:100px;margin-bottom:100px;">
+    <div class="center-block">
+        <h1 class="text-info" style="font-size:200px"> 404 </h1>
+        <h2 class="text-danger"> Page not Found</h2>
+        <h4 class="text-primary"> Click the botton below to return to the website. </h4>
+
+        @Html.ActionLink("Go Home", "Index", "", null, new { @class = "btn btn-default" })
+
+    </div>
+</div>
+

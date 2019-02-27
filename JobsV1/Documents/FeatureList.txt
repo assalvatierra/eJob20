@@ -1,0 +1,20 @@
+﻿Customer Management
+ +Contact Listing
+ +Contact Category
+ +Contact Tags
+
+ Sales Lead
+
+
+ Job Order
+ - Leads accepted
+
+ Supplier
+
+ Purchase Order
+
+
+ Logging
+ - Latest Leads added
+ - Sales Lead accepted/rejected
+ - Sales Lead activity

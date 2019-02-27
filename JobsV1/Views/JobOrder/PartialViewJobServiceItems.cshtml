@@ -1,0 +1,26 @@
+﻿@model IEnumerable<JobsV1.Models.JobServiceItem>
+@{ int SvcId = Convert.ToInt32(ViewData["svcId1"]);  }
+
+<div class="section">
+    <span>Inventory </span>
+    <span>&#187;</span>
+    <span>
+        @Html.ActionLink("Edit List", "InventoryItemList", new { serviceId = @SvcId })
+    </span>
+
+    <div style="padding-left:1.5em;" >
+
+        @foreach (var item in Model)
+        {
+            <div>
+                <span style="color:black;font:600 12px arial, verdana;">  
+                    @Html.DisplayFor(modelItem => item.InvItem.ItemCode)
+                    - @Html.DisplayFor(modelItem => item.InvItem.Description)
+                </span>
+            </div>
+        }
+        [
+            @Html.ActionLink("ADD ITEM", "BrowseInvItem_withSchedule", new { JobServiceId = @SvcId })
+        ]
+    </div>
+</div>

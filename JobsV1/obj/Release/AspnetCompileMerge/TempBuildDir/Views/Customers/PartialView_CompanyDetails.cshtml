@@ -1,0 +1,75 @@
+﻿@model IEnumerable<JobsV1.Models.CustEntMain>
+
+@{
+    ViewBag.Title = "PartialView_CompanyDetails";
+    int customerid = Convert.ToInt32(ViewData["customerId"]);
+
+}
+
+    <dl class="dl-horizontal">
+        <dt>
+                Company
+        </dt>
+        <dd></dd>
+    @foreach (var item in Model)
+    {
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(modelItem => item.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(modelItem => item.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact1 )
+        </dt>
+        <dd>
+            <a href='tel:@Html.DisplayFor(modelItem => item.Contact1)'>  @Html.DisplayFor(modelItem => item.Contact1) </a> |
+            <a href='tel:@Html.DisplayFor(modelItem => item.Contact1)'> @Html.DisplayFor(modelItem => item.Contact2) </a>
+</dd>
+        <dd>
+            @Html.ActionLink("Details", "Details", "CustEntMains",new { id = item.Id }, null) |
+            @Html.ActionLink("Remove", "Remove", "CustEntities", new { comid = item.Id, custid = customerid }, null) 
+
+         </dd>
+        }
+
+        <dd>
+            <a id="catbtn" data-toggle="modal" data-target="#companyViewModal" style="margin-bottom:10px;">Add Company</a> 
+        </dd>
+    </dl>
+
+<!-- Modal -->
+<div class="modal fade" id="companyViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Company List</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+            
+                <div class="list-group" id="categorylist">
+
+                    @foreach (var item in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
+                    {
+                        <a href="@Url.Action("addCategory", "CustEntities", new { companyId = item.Id, userid = @customerid })" class="list-group-item"> @item.Name </a>
+                        
+                    }
+                </div>
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

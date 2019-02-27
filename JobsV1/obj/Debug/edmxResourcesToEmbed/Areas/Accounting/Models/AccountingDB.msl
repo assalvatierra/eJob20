@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AccountingDBStoreContainer" CdmEntityContainer="AccountingDBContainer">
+    <EntitySetMapping Name="AsExpenses">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AsExpense)">
+        <MappingFragment StoreEntitySet="AsExpenses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TrxDate" ColumnName="TrxDate" />
+          <ScalarProperty Name="TrxDesc" ColumnName="TrxDesc" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="TrxRemarks" ColumnName="TrxRemarks" />
+          <ScalarProperty Name="DateEntered" ColumnName="DateEntered" />
+          <ScalarProperty Name="AsCostCenterId" ColumnName="AsCostCenterId" />
+          <ScalarProperty Name="AsExpCategoryId" ColumnName="AsExpCategoryId" />
+          <ScalarProperty Name="AsExpBillerId" ColumnName="AsExpBillerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AsExpCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AsExpCategory)">
+        <MappingFragment StoreEntitySet="AsExpCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AsExpBillers">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AsExpBiller)">
+        <MappingFragment StoreEntitySet="AsExpBillers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="Contact2" ColumnName="Contact2" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AsCostCenters">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AsCostCenter)">
+        <MappingFragment StoreEntitySet="AsCostCenters">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ccName" ColumnName="ccName" />
+          <ScalarProperty Name="xxRemarks" ColumnName="xxRemarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AsIncCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AsIncCategory)">
+        <MappingFragment StoreEntitySet="AsIncCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AsIncClients">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AsIncClient)">
+        <MappingFragment StoreEntitySet="AsIncClients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Company" ColumnName="Company" />
+          <ScalarProperty Name="Contact1" ColumnName="Contact1" />
+          <ScalarProperty Name="Contact2" ColumnName="Contact2" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AsSales">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AsSales)">
+        <MappingFragment StoreEntitySet="AsSales">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TrxDate" ColumnName="TrxDate" />
+          <ScalarProperty Name="TrxDesc" ColumnName="TrxDesc" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="DateEntered" ColumnName="DateEntered" />
+          <ScalarProperty Name="AsCostCenterId" ColumnName="AsCostCenterId" />
+          <ScalarProperty Name="AsIncCategoryId" ColumnName="AsIncCategoryId" />
+          <ScalarProperty Name="AsIncClientId" ColumnName="AsIncClientId" />
+          <ScalarProperty Name="OrRef" ColumnName="OrRef" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

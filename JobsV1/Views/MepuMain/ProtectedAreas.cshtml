@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "ProtectedAreas";
+}
+
+<h2>Marine Protected Areas</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Search</h2>
+        <p>
+            Keyword
+            <input type="text" name="search1" id="search1" />
+        </p>
+        <p><a class="btn btn-default" href="javascript:fSearch()">Search &raquo;</a></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div id="searchresult">
+        </div>
+    </div>
+</div>
+
+    @section scripts{
+        <script type="text/javascript">
+            $(document).ready(PageReady());
+
+            function PageReady() {
+            }
+
+            function fSearch() {
+                /*
+                alert("Search with Json Object Return");
+                $.ajax({
+                    url: "/MepuMain/SearchAreas",
+                    type: "POST",
+                    data: JSON.stringify({ 'Options': "TEST" }),
+                    dataType: "json",
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //$('#searchresult').html(data);
+                        if (data.status == "OK") {
+                            alert("Done:" + data.message);
+                        } else {
+                            alert("Error Detected:" + data.message);
+                        }
+                    },
+                    error: function () {
+                        alert("An error has occured!!!");
+                    }
+                });
+                */
+
+                alert("Search with Partial View Return");
+                $.ajax({
+                    url: "/MepuMain/PartialSearchAreas/",
+                    type: "GET",
+                    data: JSON.stringify({ 'Options': "TEST" }),
+                    success: function (data) {
+                        $('#searchresult').html(data);
+                    },
+                    error: function (data) {
+                        alert(data);
+                        $('#searchresult').html(data);
+                    }
+                });
+
+                /*
+
+    public ActionResult SaveDetailedInfo(Option[] Options)
+    {
+        return Json(new { status = "Success", message = "Success" });
+    }
+
+    [HttpPost]
+    public ActionResult Save()
+    {
+        return RedirectToAction("Index", "Home");
+    }
+
+                */
+
+            }
+
+
+
+        </script>
+    }
+

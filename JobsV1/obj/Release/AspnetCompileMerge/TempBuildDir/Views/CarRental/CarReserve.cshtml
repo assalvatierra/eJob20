@@ -1,0 +1,97 @@
+﻿
+<style>
+    .rental-type {
+       visibility:hidden;
+    }
+</style>
+
+
+<div class="modal-body row" id="modal2-content">
+
+    <div id="btn-rentalType" class="btn-group btn-group-justified">
+        <label class="btn btn-primary active" id="rental-type-wdriver"  data-toggle="tooltip" title="Hooray!" >
+            <input type="radio" name="options" id="withdriver" value="With Driver" class="rental-type" />
+            <span >
+                With Driver
+               </span>
+        </label>
+        <label class="btn btn-primary" id="rental-type-sdrive">
+            <input type="radio" name="options" id="selfdrive" value="Self Drive" class="rental-type" onclick="rentalTypeChange()" />
+            <span >
+                Self Drive
+            </span>
+        </label>
+
+        <label class="btn btn-primary" id="rental-type-sdrive">
+            <input type="radio" name="options" id="longterm" value="longterm" class="rental-type"  onclick="longtermRental()" />
+            <span>
+                Long Term Rental
+            </span>
+        </label>
+    </div>
+    <br />
+    
+    <!-- Number of Days, Fuel and Meals-->
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label class="control-label col-lg-1"> Days </label>
+            <div class="col-lg-1"  onchange="dayschange()" >
+                <input type="number" value="1" class="form-control" id="rsv-days"/>
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-default " id="days-add"> + </button>
+                <button class="btn btn-default " id="days-sub"> - </button>
+            </div>
+
+                <div class="col-lg-4">
+                    @Html.DropDownList("MealsAcc", null, htmlAttributes: new { @class = "form-control", @id = "rsv-meal" })
+                </div>
+
+                <div class="col-lg-4">
+                    @Html.DropDownList("Fuel", null, htmlAttributes: new { @class = "form-control", @id = "rsv-fuel" })
+                </div>
+
+        </div>
+    </div>
+
+
+    <!-- Car selection list -->
+    <div class="col-lg-12 carent" id="btn-rentalUnit">
+        @foreach (var carList in ViewBag.CarUnitList as IEnumerable<JobsV1.Models.CarUnit>)
+            {
+            <label class="btn col-md-4 car-selection isSelfDrive@(carList.SelfDrive)" id="car@(carList.Id)" style="width:180px;height:200px;">
+                <h5><b>@carList.Description</b></h5>
+                <input type="radio" name="cars" value="@carList.Description" id="@(carList.Id)" style="visibility:hidden;" />
+                <img src="~/Images/CarRental/@carList.CarImages.Where(c=>c.CarUnitId == carList.Id).First().ImgUrl" width="100%" style="margin-left:-30px;" />
+            </label>
+            }
+    </div>
+
+    <br />
+
+</div>
+
+    <div class="modal-body row" id="formPackages" style="display:none;">
+        @Html.Action("FormPackages")
+    </div>
+    
+    <!--
+    <div class="modal-body row" id="formReserve" style="display:none;">
+        Html.Action("FormReservation")
+    </div>
+    -->
+
+    <div class="modal-body row" id="formSummary" style="display:none;">
+        @Html.Action("FormSummary")
+    </div>
+
+
+    <div class="modal-body row" id="formFinish" style="display:none;">
+       <img src="~/Images/LOGO_AJRENTACAR.jpg" width="200" />
+
+        <h2>Thank you for the Reservation. </h2>
+        <p>We will contact you through provided email and mobile number.</p>
+
+        <button class="btn btn-primary">Close</button>
+    </div>

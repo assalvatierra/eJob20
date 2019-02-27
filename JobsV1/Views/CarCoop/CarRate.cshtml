@@ -1,0 +1,47 @@
+﻿@model IEnumerable<JobsV1.Models.CarRate>
+
+<table class="table">
+
+@foreach (var item in Model) {
+    
+
+    <tr >
+        <td class="userRemarks" colspan="4" >
+            <span class="userRemarks" >
+
+                @{ 
+
+                    string metaDesc = item.CarUnit.CarUnitMetas.Where(s => s.CarUnitId == item.CarUnitId).FirstOrDefault().MetaDesc.ToString();
+                    string metaShow = metaDesc;
+                    int icnt = 120;
+                    if( metaDesc.Length > icnt)
+                    {
+                        metaShow = metaDesc.Substring(0, icnt) +"...";
+                    }
+                    else
+                    {
+                        metaShow = metaDesc.PadRight(icnt);
+                    }
+
+                }
+
+                <span>
+                    @metaShow
+                </span>
+            </span>
+        </td>
+    </tr>
+
+    <tr><td colspan="4">
+
+            @Html.ActionLink("Cost Estimate and Reservation", "CarReserve", "CarCoop", new { id = item.CarUnitId }, new { @class = "btn btn-primary" })
+          
+            @Html.ActionLink("More Details", "CarDetail", "CarCoop", new { unitid = item.CarUnitId }, new { @class = "btn btn-primary" })
+    </td></tr>
+
+    <tr >
+        <td class="userLabel-lg1" colspan="4"></td>
+    </tr>
+    
+    }
+</table>

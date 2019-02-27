@@ -1,0 +1,58 @@
+﻿@model JobsV1.Models.JobPayment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>JobPayment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DtPayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtPayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentAmt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentAmt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobMain.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobMain.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bank.BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bank.BankName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

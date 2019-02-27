@@ -1,0 +1,153 @@
+﻿@model IEnumerable<JobsV1.Models.JobMain>
+
+@{
+    ViewBag.Title = "JobTable";
+    string remarksClass = "userRemarks01"; //css class for inventory items
+}
+
+<h2>Schedules</h2>
+
+@Html.ActionLink("Create New", "jobCreate", "JobOrder", null, null) 
+| @Html.ActionLink("Work In Progress", "Index", "JobOrder") 
+| Job Table
+| @Html.ActionLink("Availability", "Availability", "InvItems")
+
+<p>
+    @Html.ActionLink("Previous", "JobQuickList", "JobMains",null,null)
+
+</p>
+<table class="table" style="white-space:nowrap;">
+    <tr>
+        <td>
+            Client
+        </td>
+
+        @foreach(var item in ViewBag.ColLabels)
+        {
+            <td>
+                @item
+            </td>
+        }
+
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (item.JobStatusId == 3)
+            {
+                <span class="userClient">
+                    @Html.ActionLink(item.Customer.Name, "JobServices", "JobOrder", new { JobMainId = item.Id },null)
+                </span>
+                <br />
+                <span>
+                    @Html.DisplayFor(itemModel => item.JobDate)
+                </span>
+            }
+            else
+            {
+                <span class="userRemarks">@Html.DisplayFor(modelItem => item.Customer.Name)</span>
+            }
+
+            <span class="userRemarks"><br />@Html.DisplayFor(modelItem => item.Description)</span>
+            <span class="userRemarks" style="font-size:smaller">[ Pax:@Html.DisplayFor(modelItem => item.NoOfPax) | Days: @Html.DisplayFor(modelItem => item.NoOfDays) ]</span>
+            <span class="userRemarks"><br />@Html.DisplayFor(modelItem => item.JobStatus.Status)</span>
+
+                @if (item.JobStatus.Status == "CONFIRMED")
+                {
+                    <span class="userRemarks">
+                        [@Html.ActionLink("Close", "CloseJob", new { id = item.Id })]
+                    </span>
+                }
+                else
+                {
+                    <span class="userRemarks">
+                        [@Html.ActionLink("Confirm", "ConfirmJob", new { id = item.Id })]
+                    </span>
+                }
+                <br />
+                [ @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Services", "Services", "JobServices", new { id = item.Id }, null) |
+                @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = item.Id }, null) |
+                @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = item.Id }, null)
+                ]
+
+
+                <br /><span class="userRemarks">
+                    <img src="~/Images/Phone001.png" width="20" />
+                    <a href="tel:@item.Customer.Contact1">@item.Customer.Contact1</a>
+                </span>
+        </td>
+
+
+        @foreach (var sLabel in ViewBag.ColLabels)
+        {
+            <td>
+
+                @foreach (var itemBookings in ViewBag.ColValues)
+                {
+                    if (item.CustomerId == itemBookings.iCustId && item.Id == itemBookings.iJobId)
+                    {
+                        foreach (var bkValue in itemBookings.tblValue)
+                        {
+                            if (sLabel == bkValue.label)
+                            {
+                                if (bkValue.Book == 1)
+                                {
+                                    if (bkValue.supplier == "Internal")
+                                    {
+                                        <img src=@Url.Content(@bkValue.itemicon)
+                                             alt=@bkValue.itemicon height="16"
+                                             title=@bkValue.itemicon />
+                                        <span class="userRemarks02">
+                                            @bkValue.item
+                                        </span>
+                                    }
+                                    if (bkValue.supplier != "Internal")
+                                    {
+                                        <div style="background-color:lightgray;">
+                                            <span style="font:600 10px arial, verdanan;">@bkValue.supplier</span>
+                                            <br />
+                                            <img src=@Url.Content(@bkValue.itemicon)
+                                                 alt=@bkValue.itemicon height="16"
+                                                 title=@bkValue.itemicon />
+                                            <span class="userRemarks02">
+                                                @bkValue.item
+                                            </span>
+                                        </div>
+                                    }
+                                    <br />
+                                    if (bkValue.Incharge != "")
+                                    {
+                                    <span class="userRemarks02">[@bkValue.Incharge]</span>
+                                    <br />
+                                    }
+
+                                }
+                                else
+                                {
+                                    <span>---</span><br />
+                                }
+                            }
+                        }
+                    }
+                }
+
+            </td>
+        }
+
+
+
+    </tr>
+}
+
+</table>
+<p>
+    @Html.ActionLink("Create New Job Order", "Create")
+</p>
+
+<p>
+    @Html.ActionLink("Go to List", "Index")
+</p>

@@ -1,0 +1,17 @@
+﻿@model IEnumerable<JobsV1.Models.JobItinerary>
+@{ 
+    int icnt = 0;
+    string sComma = "";
+}
+        @foreach (var item in Model)
+        {
+            if (icnt > 0){sComma = ","; }
+            else { icnt = 1; }
+            <span>
+                @sComma @Html.DisplayFor(modelItem => item.Destination.Description)
+            </span>
+
+            
+        }
+
+

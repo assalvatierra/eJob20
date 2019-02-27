@@ -1,0 +1,92 @@
+﻿@model JobsV1.Models.Customer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+    <div class="col-sm-12">
+        <h2>Details</h2>
+
+        <h4>Customer</h4>
+        @Html.ActionLink("Back to List", "Index")
+        <hr />
+     </div>
+<div class="col-sm-6">
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                Customer
+            </dt>
+            <dd></dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                <a href='mailto:@Html.DisplayFor(model => model.Email)'>  @Html.DisplayFor(model => model.Email) </a>
+
+            </dd>
+
+            <dt>
+               @Html.DisplayNameFor(model => model.Contact1)
+            </dt>
+
+            <dd>
+                <a href='tel:@Html.DisplayFor(model => model.Contact1)'>  @Html.DisplayFor(model => model.Contact1) </a> |
+
+                <a href='tel:@Html.DisplayFor(model => model.Contact2)'>  @Html.DisplayFor(model => model.Contact2) </a> 
+
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Remarks)
+            </dd>
+
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+        </dl>
+    </div>
+
+    <div>
+        @{Html.RenderPartial("PartialView_CategoryDetails", (List<JobsV1.Models.CustCategory>)ViewBag.categoryDetails, new ViewDataDictionary { { "customerId", Model.Id } });}
+    </div>
+
+</div>
+
+<div class="col-sm-6">
+
+    <div>
+        <p style="padding:2px">
+        </p>
+        @{Html.RenderPartial("PartialView_CompanyDetails", (List<JobsV1.Models.CustEntMain>)ViewBag.companyList, new ViewDataDictionary { { "customerId", Model.Id }, { "companies", (List<JobsV1.Models.CustEntMain>)ViewBag.companies } });}
+    </div>
+    <div>
+
+        @{Html.RenderPartial("PartialView_Files", (List<JobsV1.Models.CustFiles>)ViewBag.fileList, new ViewDataDictionary { { "customerId", Model.Id } });}
+
+    </div>
+</div>
+    <div>
+
+        @{Html.RenderPartial("PartialView_JobDetails", (List<JobsV1.Models.CustomerJobDetails>)ViewBag.jobList, new ViewDataDictionary { { "customerId", Model.Id } });}
+
+    </div>
+
+
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<JobsV1.Models.JobItinerary>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
+
+<div>
+    <p>
+        Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
+        <br />Description: @ViewBag.JobOrder.Description
+        <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+        | @Html.ActionLink("Details", "Details", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+
+    </p>
+    <p>
+        @Html.ActionLink("Services", "Services", "JobServices", new { id = ViewBag.JobOrder.Id }, null) |
+        Itinerary | 
+        @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
+    </p>
+</div>
+@if (ViewBag.SvcParticular != "")
+{<h2>Services: @ViewBag.SvcParticular</h2>}
+
+<h2>Itinerary</h2>
+<table class="table">
+    <tr>
+        <th>Svc Item</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItiDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActualRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SvcId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItiDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Destination.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActualRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+
+<p>
+    @Html.ActionLink("Add Destination", "Create", new { JobMainId = ViewBag.JobOrder.Id })
+    <br />@Html.ActionLink("Back to Job List", "Index", "JobMains")
+</p>
+

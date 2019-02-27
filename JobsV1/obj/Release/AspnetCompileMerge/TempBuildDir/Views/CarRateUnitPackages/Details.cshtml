@@ -1,0 +1,58 @@
+﻿@model JobsV1.Models.CarRateUnitPackage
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CarRateUnitPackage</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DailyRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DailyRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FuelLonghaul)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FuelLonghaul)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FuelDaily)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FuelDaily)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarRatePackage.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarRatePackage.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarUnit.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarUnit.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

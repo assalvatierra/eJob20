@@ -1,0 +1,108 @@
+﻿@model IEnumerable<JobsV1.Models.PackageperUnit>
+
+
+<table>
+    <tr>
+        <td valign="top">
+            <img src="~/Images/LOGO_AJRENTACAR.jpg" width="135" />
+        </td>
+        <td>
+            <span style="font:bold 21px arial, verdana;">AJ88 Car Rental Services </span>
+            <span style="font:12px arial, verdana;color:royalblue">
+                <br />2nd Floor J. Sulit Bldg. Mac Arthur Highway, Matina Davao City
+                <br />Tel# (+63)822971831; (+63)9167558473; (+63)9330895358
+                <br />Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/
+                <br />TIN: 414-880-772-001 (non-Vat)
+            </span>
+        </td>
+    </tr>
+</table>
+<div class="container">
+    <div class="row">
+        <h3>
+            Package Rates Report :
+        </h3>
+        <p>
+            STATUS : @ViewBag.status | UNIT : @ViewBag.unit |
+            PACKAGE : @ViewBag.package  | GROUP : @ViewBag.group
+        </p> 
+        <table class="table table-bordered">
+            <tr>
+                <th>
+                    Tour Package
+                </th>
+                <th>
+                    Daily Rate
+                </th>
+                <th>
+                    Weekly Rate
+                </th>
+                <th>
+                    Monthly Rate
+                </th>
+                <th>
+                    Add-on Rate
+                </th>
+                <th>
+                    Fuel Longhaul
+                </th>
+                <th>
+                    Fuel Daily
+                </th>
+                <th>
+                    Driver Meals
+                </th>
+                <th>
+                    Driver Acc.
+                </th>
+                <th>
+                    Unit
+                </th>
+                <th>
+                    Group
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PkgDesc)
+                    </td>
+                    <td>
+                        @item.RateperDay.ToString("N0")
+                    </td>
+                    <td>
+                        @item.RateperWeek.ToString("N0")
+                    </td>
+                    <td>
+                        @item.RateperMonth.ToString("N0")
+                    </td>
+                    <td>
+                        @item.AddOn.ToString()
+                    </td>
+                    <td>
+                        @item.FuelLonghaul.ToString("N0")
+                    </td>
+                    <td>
+                        @item.FuelDaily.ToString("N0")
+                    </td>
+                    <td>
+                        @item.FuelDaily
+                    </td>
+                    <td>
+                        @item.Acc
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Group)
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>

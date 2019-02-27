@@ -1,0 +1,41 @@
+﻿@model IEnumerable<JobsV1.Models.DailyUpdate>
+
+@{
+    ViewBag.Title = "DailyUpdateList";
+}
+
+<h2>DailyUpdateList</h2>
+
+<table class="table">
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+                <span style="color:darkblue;">
+                    @Html.DisplayFor(modelItem => item.dtTaken)
+                </span>
+                -
+                <span>
+                    @Html.DisplayFor(modelItem => item.StatusCategory)
+                </span>
+                [
+                @Html.DisplayFor(modelItem => item.refId)
+
+                ]
+
+                <br />
+                <span style="font-weight:bold">
+                    @Html.DisplayFor(modelItem => item.Details)
+                </span>
+          
+        </td>
+    </tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("Home", "Index","Home")
+</p>
+

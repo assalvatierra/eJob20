@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Listing";
+}
+
+
+
+<div class="jumbotron">
+    <h2>Listing</h2>
+     <p>
+         <a href="/ads/">Listing</a> >
+         <a href="/ads/">All</a> >
+         <a href="#">page 2</a>
+     </p>
+</div>
+
+<div class="container" >
+    <div class="col-lg-8 ads-listing-container">
+       <div class="col-sm-12 ads-listing-title-bar" >
+           <h3>Listing <span class="badge" > 6 </span></h3>
+       </div>
+        <!--Listing starts here-->
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 2,500</h3>
+            <img src="~/Images/CarRental/CarViews/ToyotaInnova/ToyotaInnovaSilver.jpg" class="img-thumbnail ads-listing-img" alt="toyota gl grandia" />
+            <h4>
+                <a href="~/ads/innovacar-for-rent-davao-city/">
+                    <b>Innova,Car for Rent Davao City</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">MPV</h4>
+            <h4 class="label label-default">Toyota Innova</h4>
+            <hr style="margin:7px;" />
+            <p>MPV for Rent Davao City. Toyota Innova. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 2,500</h3>
+            <img src="~/Images/CarRental/CarViews/FordEverest/Ford-Fiesta.jpg" class="img-thumbnail ads-listing-img" alt="Ford Fiesta" />
+            <h4>
+                <a href="~/ads/ford-fiesta-1-6l-sedan-2012/">
+                    <b>Ford Fiesta 1.6L-Sedan 2012</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">Sedan</h4>
+            <h4 class="label label-default">Ford Fiesta</h4>
+            <hr style="margin:7px;" />
+            <p>Sedan for Rent Davao City. Ford Fiesta 2012. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 2,000</h3>
+            <img src="~/Images/CarRental/CarViews/ToyotaSelfDrive/ToyotaSelfDrive.jpg" class="img-thumbnail ads-listing-img" alt="Innova Self Drive" />
+            <h4>
+                <a href="~/ads/rent-a-car-davao-city-self-drive/">
+                    <b>Rent a car davao city self drive</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">Innova</h4>
+            <h4 class="label label-default">MPV</h4>
+            <hr style="margin:7px;" />
+            <p>MPV for Rent Davao City. Toyota Innova 2013. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 2,000</h3>
+            <img src="~/Images/CarRental/CarViews/HondaCity/HondaCity2018.png" class="img-thumbnail ads-listing-img" alt="Honda City Self Drive" />
+            <h4>
+                <a href="~/ads/car-rental-honda-city-for-rent-self-drive/">
+                    <b>Car Rental Honda City for rent Self Drive</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">Sedan</h4>
+            <h4 class="label label-default">Honda City</h4>
+            <hr style="margin:7px;" />
+            <p>Sedan for Rent Davao City. Honda City. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 3,000</h3>
+            <img src="~/Images/CarRental/CarViews/ToyotaFortuner/Fortuner.png" class="img-thumbnail ads-listing-img" alt="Toyota Fortuner" />
+            <h4>
+                <a href="~/ads/4x4-rental-suv-for-rent-davao/">
+                    <b>4×4 rental SUV for rent Davao</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">SUV</h4>
+            <h4 class="label label-default">Fortuner</h4>
+            <hr style="margin:7px;" />
+            <p>SUV for Rent Davao City. Ford Everest. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 3,000</h3>
+            <img src="~/Images/CarRental/CarViews/Pickup/Estrada.jpg" class="img-thumbnail ads-listing-img" alt="Pickup" />
+            <h4>
+                <a href="~/ads/4x4-rental-pickup-for-rent-davao/">
+                    <b>4×4 Rental Pickup for Rent Davao</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">Pickup</h4>
+            <hr style="margin:7px;" />
+            <p>Pickup for Rent Davao City Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+        <!--Listing paging here-->
+        <div class="col-lg-12">
+            <a href="~/ads/page/1/" class="btn btn-default">1</a>
+            <a href="~/ads/page/2/" class="btn btn-default">2</a>
+        </div>
+    </div>
+    <div class="col-lg-3 ads-listing-side">
+        @{Html.RenderPartial("CarViews/TagsViewListing");}
+
+        @{Html.RenderPartial("CarViews/PopularAdsView");}
+    </div>
+</div>
+
+

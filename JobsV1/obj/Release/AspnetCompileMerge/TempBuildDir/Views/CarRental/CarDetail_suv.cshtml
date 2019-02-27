@@ -1,0 +1,190 @@
+﻿@model JobsV1.Models.CarUnit
+
+@{
+//ViewBag.Title = "CarDetail_sedan";
+}
+
+@Styles.Render("~/Content/css/Site")
+
+<div class="container" style="min-width:500px">
+
+    <div class="col-sm-12" style="margin: 30px 20px;">
+
+        <div class="col-lg-8">
+            <h2>SUV (Sports Utility Vehicle) Rental </h2>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+
+        <div class="col-lg-12 details-container">
+            <img src="~/Images/CarRental/fordeverest_primary.jpg" class="center-block img-responsive" alt="ford-everest-car-rental-davao"  style="width:60%;margin:auto;" />
+
+            <h2>SUV</h2>
+
+            <a href="http://RealWheelsDavao.com/carrental/suvpickup4x4-rental-rates">SUV (Sports Utility Vehicle)</a> is one of the most popular vehicle for executives, long travels and rough
+
+            terrain in Philippines. Different SUVs offer different ride quality and terrain capabilities. Most of
+
+            the SUVs are capable of carrying at least 7 persons and have ample amount of cargo for luggages, tools,
+
+            and/or equipments. SUVs usually built tough with high ground clearance that gives confidence and command
+
+            in the road.
+
+            &nbsp;
+
+            &nbsp;
+            <h2>Rent-A-car</h2>
+            Ford Everest is one of most popular <a href="http://RealWheelsDavao.com/carrental/suvpickup4x4-rental-rates">SUV</a> in the Philippines. The comfort of riding a Ford Everest in long
+
+            travel makes it the best choice for <a href="http://RealWheelsDavao.com">Real wheels Davao</a>. Executives also choose the Ford
+
+            Everest due to its comfort and relaxing ride in the city.
+
+            Toyota Fortuner 4x4 is a popular tough <a href="http://RealWheelsDavao.com/carrental/suvpickup4x4-rental-rates">SUV </a>for rugged terrains. A very popular choice for every <a href="http://RealWheelsDavao.com">Rent-</a>
+
+            A-car company due to its toughness, high ground clearance and, being Toyota, it durability.
+
+            &nbsp;
+            <h2>SUVs for Rent</h2>
+            <a href="http://RealWheelsDavao.com/carrental/suvpickup4x4-rental-rates">Ford Everest</a> is offered as with Driver for SUV rental. It can cater all types of family occasions and
+
+            any kind of business trips. VIP guests are welcome with special attention from the company. Long term
+
+            contracts with special arrangements, terms and rates are open for negotiation.
+
+            <a href="http://RealWheelsDavao.com/carrental/suvpickup4x4-rental-rates">Toyota Fortuner</a> is offered for selfDrive and with driver option by the Rent-a-car company. SelfDrive
+
+            rental is limited within Davao City areas only. Adjacent cities are considered for long term rentals.
+
+            With driver rental is offered in convenient and flexible options. Fuel and Driver's meals/accommodation
+
+            is flexible and can be discussed openly.
+
+        </div>
+
+        <div class="col-lg-12 details-container">
+            <h3 class="text-primary">Base Rate</h3>
+            <table class="table">
+                <tr>
+                    <td>1-6 Days</td>
+                    <td>@ViewBag.dailyRate.ToString("N0") php</td>
+                </tr>
+                <tr>
+                    <td>7-21 Days</td>
+                    <td>@ViewBag.weeklyRate.ToString("N0") php</td>
+                </tr>
+                <tr>
+                    <td>22 and Above</td>
+                    <td>@ViewBag.monthlyRate.ToString("N0") php</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-lg-12 details-container">  
+            <h3 class="text-primary">  Available Vans for rent:</h3>
+            <table class="table">
+                <tr>
+                    <td><strong>
+                            <a href="http://RealWheelsDavao.com/carrental/suvpickup4x4-rental-rates">Ford Everest 2016</a>
+                        </strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        2.2 Diesel
+                        <br /> 6 speed Automatic Transmission
+                    </td>
+                    <td>
+                        Driver + 5-7 persons 
+                        <br /> 2-4 trolleys
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>
+                            <a href="http://RealWheelsDavao.com/carrental/suvpickup4x4-rental-rates">Toyota fortuner 2011</a>
+                        </strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        3.0 Diesel
+                        <br /> 5 speed Manual/Automatic Transmission
+                    </td>
+                    <td>
+                        Driver + 5-7 persons
+                        <br /> 2-4 trolleys
+                    </td>
+                </tr>
+
+
+            </table>
+
+        </div>
+
+        <div class="col-lg-12 details-container">
+            <h3 class="text-primary"> Services </h3>
+            <button class="btn btn-primary dtls-services"> Self-Drive </button>
+            <button class="btn btn-primary dtls-services"> With Driver </button>
+            <button class="btn btn-primary dtls-services"> Airport Pickup / Drop-off </button>
+            <button class="btn btn-primary dtls-services"> Hotel Pickup / Drop-off </button>
+            <button class="btn btn-primary dtls-services"> City Tour </button>
+            <button class="btn btn-primary dtls-services"> Out of town tour</button>
+        </div>
+
+        <div class="col-lg-12 details-container dtls-gallery">
+            <h1 class="text-primary">Gallery</h1>
+            <a href="~/Images/CarRental/fordeverest_primary.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental//fordeverest_primary.jpg" alt="ford-everest-car-rental-davao"/></a>
+            <a href="~/Images/CarRental/ford/frod_sideview.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/ford/frod_sideview.jpg"  alt="ford-everest-car-rental-davao"/></a>
+            <a href="~/Images/CarRental/ford/fordeverest_interior.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/ford/fordeverest_interior.jpg"  alt="ford-everest-car-rental-davao"/></a>
+        </div>
+
+        <div class="col-lg-12 details-container">
+            <h1 class="text-primary text-center">Book Now! </h1>
+            @Html.ActionLink("Cost Estimate and Reservation", "FormRenter", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
+            <p class="text-info text-center" style="font-size:12px;color:gray;">
+            Note: availability of the vehicle will depend on the date of reservation. </p>
+        </div>
+    </div>
+
+    <div class="col-lg-3" style="margin:30px;">
+        <a href="@Url.Action("CarDetail", "CarRental",new { unitid = 1 },null)" class="list-group-item  details-container-list">  Van (10 seater)   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list">  Van (14 seater)   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list active">  SUV   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list">  MPV   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list">  Sedan   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list">  Pickup   </a>
+    </div>
+
+
+    <div class="col-sm-3" style="margin:30px;">
+        <label></label>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to Home", "Index")
+</p>

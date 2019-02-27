@@ -1,0 +1,39 @@
+﻿@model IEnumerable<JobsV1.Models.JobServiceItem>
+
+@{
+    ViewBag.Title = "Inventory List";
+
+    JobsV1.Models.JobServices jobservice = (JobsV1.Models.JobServices)ViewBag.hdrdata;
+}
+
+<span style="color:darkgreen;font:bold 16px arial, verdana;">
+    @jobservice.JobMain.Customer.Name
+</span>
+<span style="color:darkgreen;font:14px arial, verdana;">
+    @jobservice.JobMain.Description
+</span>
+
+<h3>
+    @jobservice.Particulars
+</h3>
+<span style="font-weight:600;color:darkblue;"></span>
+
+<table class="table">
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvItem.ItemCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvItem.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Remove", "RemoveItem", new { itemId = item.InvItemId, serviceId = item.JobServicesId })
+        </td>
+    </tr>
+}
+
+</table>
+
+@Html.ActionLink("Back to List", "Index", new {   serviceId = @ViewBag.svcId }, null) 

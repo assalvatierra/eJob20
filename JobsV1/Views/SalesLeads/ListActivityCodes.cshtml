@@ -1,0 +1,26 @@
+﻿@model IEnumerable<JobsV1.Models.SalesActCode>
+
+@{
+    ViewBag.Title = "AddActivityRequest";
+    int LeadId = ViewBag.SalesLeadId;
+}
+
+<h2>Select type of Request</h2>
+
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img src=@Url.Content(@item.iconPath)
+                     alt=@item.iconPath height="16"
+                     title=@item.iconPath />
+                &nbsp;
+                @Html.ActionLink(item.Name, "AddActivityCode", new { ActCodeId = item.Id, slId = LeadId }) |
+                @Html.DisplayFor(modelItem => item.Desc) |
+                @Html.DisplayFor(modelItem => item.DefaultActStatus)
+            </td>
+        </tr>
+    }
+
+</table>

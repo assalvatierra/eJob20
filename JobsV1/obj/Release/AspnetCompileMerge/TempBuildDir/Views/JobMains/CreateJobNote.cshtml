@@ -1,0 +1,111 @@
+﻿@model JobsV1.Models.JobNote
+
+@{
+    ViewBag.Title = "CreateJobNote";
+    List<JobsV1.Models.PreDefinedNote> pNotes = (List<JobsV1.Models.PreDefinedNote>)ViewBag.templateNotes;
+}
+
+<h2>Create Job Note</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>JobNote</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobMainId, "JobMainId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("JobMainId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JobMainId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sort, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sort, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sort, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Note, 10, 40, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button id="PredefinedNote">Predefined Note</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<div id="dialog" title="Pre Defined Notes">
+    <table>
+        @foreach (var item in pNotes)
+            {
+            <tr>
+                <td style="white-space:nowrap">
+                    [<a href="Javascript:SetNote('@item.Note')">
+                        Use Note
+                    </a>] &nbsp; 
+                    <span>@item.Note</span>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+    var dlg;
+    $(function () {
+        // Initialize Dialog
+        dlg = $("#dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons:
+                {
+                    Close: function () {
+                        dlg.dialog("close");
+                    }
+                }
+        });
+
+        // Initialize Controls
+        $("#PredefinedNote").click(function (event) {
+            dlg.dialog("open");
+            event.preventDefault();
+        });
+
+
+
+    });
+
+    function SetNote(sNote) {
+        $("#Note").val(sNote);
+        dlg.dialog("close");
+    }
+    </script>>
+
+}

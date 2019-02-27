@@ -1,0 +1,96 @@
+﻿@model IEnumerable<JobsV1.Models.CustomerDetails >
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Status
+        </th>
+        <th>
+           Customer
+        </th>
+        <th>
+           Category
+        </th>
+        <th>
+           Company
+        </th>
+        <th>
+            Jobs
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
+                <p>
+                    <a href="mailto:@item.Email">@Html.DisplayFor(modelItem => item.Email)</a>
+                </p>
+                <p>
+                    <a href="tel:@item.Contact1">@Html.DisplayFor(modelItem => item.Contact1)</a> |
+                    <a href="tel:@item.Contact2">@Html.DisplayFor(modelItem => item.Contact2)</a>
+                </p>
+                <p>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </p>
+            </td>
+            <td>
+                <p>
+                    @foreach (var cat in @item.categories)
+                    {
+                        <img src="@Html.DisplayFor(modelItem => cat.iconPath)" width="25" height="25" />
+                    }
+                </p>
+            </td>
+            <td>
+                <p>
+
+                    @foreach (var comp in @item.companies)
+                    {
+                        <p>
+                        <img src="@Html.DisplayFor(modelItem => comp.iconPath)" width="25" height="25" />
+
+                        @Html.DisplayFor(modelItem => comp.Name)
+                        </p>
+                    }
+
+                   
+                </p>
+            </td>
+
+            <td>
+                <p>
+                 
+                    @Html.DisplayFor(modelItem => item.JobID)
+                     
+                </p>
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,110 @@
+﻿@model IEnumerable<JobsV1.Models.CustomerDetails >
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Customer List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p>
+    @Html.ActionLink("Email Blaster", "Index","EmailBlaster")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Customer
+        </th>
+        <th>
+            Contact
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+           Category
+        </th>
+        <th>
+           Company
+        </th>
+        <th>
+            Jobs
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
+                <p>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </p>
+            </td>
+            <td>
+                <p>
+                    <a href="tel:@item.Contact1">@Html.DisplayFor(modelItem => item.Contact1)</a>
+                    @if (item.Contact2 != null && item.Contact2.Trim().Length > 0)
+                    {
+                        <a href="tel:@item.Contact2">@Html.DisplayFor(modelItem => item.Contact2)</a>
+                    }
+
+                </p>
+            </td>
+            <td>
+                <p>
+                    <a href="mailto:@item.Email">@Html.DisplayFor(modelItem => item.Email)</a>
+                </p>
+            </td>
+            <td>
+                <p>
+                    @foreach (var cat in @item.categories)
+                    {
+                        <img src="~/@Html.DisplayFor(modelItem => cat.iconPath)" width="25" height="25" />
+                    }
+                </p>
+            </td>
+            <td>
+                <p>
+
+                    @foreach (var comp in @item.companies)
+                    {
+                        <p>
+                        <img src="~/@Html.DisplayFor(modelItem => comp.iconPath)" width="25" height="25" />
+
+                        @Html.DisplayFor(modelItem => comp.Name)
+                        </p>
+                    }
+                </p>
+            </td>
+
+            <td>
+                <p>
+                 
+                    @Html.DisplayFor(modelItem => item.JobID)
+                     
+                </p>
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+    Customers |
+    @Html.ActionLink("Companies", "Index", "CustEntMains", null, null) 
+</p>

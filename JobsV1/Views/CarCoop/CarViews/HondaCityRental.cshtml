@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Car Rental Honda City for rent Self Drive";
+}
+
+<div class="jumbotron">
+
+    <h2>Real Wheels Rent a Car 
+    </h2>    
+    <p>
+        <a href="/ads/">Listing</a> >
+        <a href="~/ad-category/sedans/">Sedan</a> >
+        <a href="">Honda City 2012</a>
+     </p>
+
+</div>
+<div class="container">
+
+    <div class="col-lg-8 ads-desc-box">
+
+        <div class="col-lg-12">
+            <h3 class="text-left" style="float: left;font-weight:bold;">Car Rental Honda City for rent Self Drive</h3>
+            <h3 class="label label-success ads-desc-carPrice" >PHP 2,000</h3>
+            <br />
+            <br />
+            <hr />
+        </div>
+
+        <div class="col-lg-12 ">
+            <img src="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012.jpg"  alt="realwheelsdavao honda city 2012" class="img-thumbnail ads-desc-img-primary" />
+        </div>
+
+        <div class="col-lg-12 ads-desc-img-box" >
+            <a href="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012.jpg" target="_blank">
+                <img src="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012.jpg" alt="realwheelsdavao honda city 2012" class="img-thumbnail ads-desc-img-box-gallery" />
+            </a>
+            <a href="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012-interior.jpg" target="_blank">
+                <img src="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012-interior.jpg" alt="realwheelsdavao honda city 2012" class="img-thumbnail ads-desc-img-box-gallery" />
+            </a>
+
+            <a href="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012-rear.jpg" target="_blank">
+                <img src="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012-interior.jpg" alt="realwheelsdavao honda city 2012" class="img-thumbnail ads-desc-img-box-gallery" />
+            </a>
+
+            <a href="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012-seats.jpg" target="_blank">
+                <img src="~/Images/CarRental/CarViews/HondaCity2012/HondaCity2012-interior.jpg" alt="realwheelsdavao honda city 2012" class="img-thumbnail ads-desc-img-box-gallery" />
+            </a>
+        </div>
+
+        <div class="col-lg-12">
+            <h3>
+                Services Offered
+            </h3>
+            <p>                
+                <br /> DAILY RATES
+                <br /> Special Events, Weddings, seminars, business meetings
+                <br /> Half day service: P2,000 per day (4hrs)
+                <br /> Whole day service: P2,500 per day (10hrs)
+                <br /> 
+                <br /> LONG TERM RATES
+                <br /> We offer special price for Weekly and Monthly rentals.
+                <br /> Weekly – as low as P2,000 per day
+                <br /> Monthly – as low as P1,500 per day
+                <br /> Prices may vary depending on destinations
+            </p>
+
+            <p>
+                <h3>Contact Details</h3>
+                <p> Contact Person: Elvie </p>
+                <a class="btn btn-default" style="margin-bottom:5px;" href="tel:+63 926-733-5449"> Globe: +63 926-733-5449 </a>
+                <br /><a class="btn btn-default" style="margin-bottom:5px;" href="tel:+63 909-076-1575">Smart: +63 909-076-1575 </a>
+                <br /><a class="btn btn-default" style="margin-bottom:5px;" href="mailto: AJDavao88@gmail.com">email: AJDavao88@gmail.com </a>
+                <p>CHECK OUR PACKAGE TOURS <a href="http://realbreezedavaotours.com/"> HERE</a></p>
+            </p>
+        </div>
+
+        @{Html.RenderPartial("CarViews/TagsView");}
+    </div>
+
+
+    <div class="col-lg-4 ads-tech-details" >
+        <h3>
+            Technical Details
+        </h3>
+        <p>
+            <br /> Manufacturer:       <b>Honda</b>
+            <hr /><br /> Model:        <b>City </b>
+            <hr /><br /> Year:         <b>2012 </b>
+            <hr /><br /> Color:        <b>Maroon </b>
+            <hr /><br /> Transmission: <b>Automatic </b>
+            <hr /><br /> Fuel:         <b>1.3L </b>
+            <hr /><br /> Seats:        <b>4 </b>
+            <hr /><br /> Engine:       <b>N/A </b>
+        </p>
+
+    </div>
+
+    @{Html.RenderPartial("CarViews/PopularAdsView");}
+
+</div>

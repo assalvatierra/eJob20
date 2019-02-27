@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AccountingDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="AccountingDBContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AsExpenses" EntityType="AccountingDB.AsExpense" />
+    <EntitySet Name="AsExpCategories" EntityType="AccountingDB.AsExpCategory" />
+    <EntitySet Name="AsExpBillers" EntityType="AccountingDB.AsExpBiller" />
+    <EntitySet Name="AsCostCenters" EntityType="AccountingDB.AsCostCenter" />
+    <AssociationSet Name="AsCostCenterAsExpense" Association="AccountingDB.AsCostCenterAsExpense">
+      <End Role="AsCostCenter" EntitySet="AsCostCenters" />
+      <End Role="AsExpense" EntitySet="AsExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="AsExpCategoryAsExpense" Association="AccountingDB.AsExpCategoryAsExpense">
+      <End Role="AsExpCategory" EntitySet="AsExpCategories" />
+      <End Role="AsExpense" EntitySet="AsExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="AsExpBillerAsExpense" Association="AccountingDB.AsExpBillerAsExpense">
+      <End Role="AsExpBiller" EntitySet="AsExpBillers" />
+      <End Role="AsExpense" EntitySet="AsExpenses" />
+    </AssociationSet>
+    <EntitySet Name="AsIncCategories" EntityType="AccountingDB.AsIncCategory" />
+    <EntitySet Name="AsIncClients" EntityType="AccountingDB.AsIncClient" />
+    <EntitySet Name="AsSales" EntityType="AccountingDB.AsSales" />
+    <AssociationSet Name="AsCostCenterAsSales" Association="AccountingDB.AsCostCenterAsSales">
+      <End Role="AsCostCenter" EntitySet="AsCostCenters" />
+      <End Role="AsSales" EntitySet="AsSales" />
+    </AssociationSet>
+    <AssociationSet Name="AsIncCategoryAsSales" Association="AccountingDB.AsIncCategoryAsSales">
+      <End Role="AsIncCategory" EntitySet="AsIncCategories" />
+      <End Role="AsSales" EntitySet="AsSales" />
+    </AssociationSet>
+    <AssociationSet Name="AsIncClientAsSales" Association="AccountingDB.AsIncClientAsSales">
+      <End Role="AsIncClient" EntitySet="AsIncClients" />
+      <End Role="AsSales" EntitySet="AsSales" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AsExpense">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TrxDate" Type="DateTime" Nullable="false" />
+    <Property Name="TrxDesc" Type="String" Nullable="false" MaxLength="80" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" />
+    <Property Name="TrxRemarks" Type="String" Nullable="true" MaxLength="250" />
+    <Property Name="DateEntered" Type="DateTime" Nullable="false" />
+    <Property Name="AsCostCenterId" Type="Int32" Nullable="false" />
+    <Property Name="AsExpCategoryId" Type="Int32" Nullable="false" />
+    <Property Name="AsExpBillerId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AsCostCenter" Relationship="AccountingDB.AsCostCenterAsExpense" FromRole="AsExpense" ToRole="AsCostCenter" />
+    <NavigationProperty Name="AsExpCategory" Relationship="AccountingDB.AsExpCategoryAsExpense" FromRole="AsExpense" ToRole="AsExpCategory" />
+    <NavigationProperty Name="AsExpBiller" Relationship="AccountingDB.AsExpBillerAsExpense" FromRole="AsExpense" ToRole="AsExpBiller" />
+  </EntityType>
+  <EntityType Name="AsExpCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Desc" Type="String" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
+    <NavigationProperty Name="AsExpenses" Relationship="AccountingDB.AsExpCategoryAsExpense" FromRole="AsExpCategory" ToRole="AsExpense" />
+  </EntityType>
+  <EntityType Name="AsExpBiller">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ShortName" Type="String" Nullable="false" MaxLength="50" />
+    <Property Name="FullName" Type="String" Nullable="true" MaxLength="80" />
+    <Property Name="Address" Type="String" Nullable="true" MaxLength="80" />
+    <Property Name="Contact" Type="String" Nullable="true" MaxLength="80" />
+    <Property Name="Contact2" Type="String" Nullable="true" MaxLength="80" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
+    <NavigationProperty Name="AsExpenses" Relationship="AccountingDB.AsExpBillerAsExpense" FromRole="AsExpBiller" ToRole="AsExpense" />
+  </EntityType>
+  <EntityType Name="AsCostCenter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ccName" Type="String" Nullable="false" MaxLength="80" />
+    <Property Name="xxRemarks" Type="String" Nullable="true" MaxLength="250" />
+    <NavigationProperty Name="AsExpenses" Relationship="AccountingDB.AsCostCenterAsExpense" FromRole="AsCostCenter" ToRole="AsExpense" />
+    <NavigationProperty Name="AsSales" Relationship="AccountingDB.AsCostCenterAsSales" FromRole="AsCostCenter" ToRole="AsSales" />
+  </EntityType>
+  <Association Name="AsCostCenterAsExpense">
+    <End Type="AccountingDB.AsCostCenter" Role="AsCostCenter" Multiplicity="1" />
+    <End Type="AccountingDB.AsExpense" Role="AsExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AsCostCenter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AsExpense">
+        <PropertyRef Name="AsCostCenterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AsExpCategoryAsExpense">
+    <End Type="AccountingDB.AsExpCategory" Role="AsExpCategory" Multiplicity="1" />
+    <End Type="AccountingDB.AsExpense" Role="AsExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AsExpCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AsExpense">
+        <PropertyRef Name="AsExpCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AsExpBillerAsExpense">
+    <End Type="AccountingDB.AsExpBiller" Role="AsExpBiller" Multiplicity="1" />
+    <End Type="AccountingDB.AsExpense" Role="AsExpense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AsExpBiller">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AsExpense">
+        <PropertyRef Name="AsExpBillerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AsIncCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Desc" Type="String" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
+    <NavigationProperty Name="AsSales" Relationship="AccountingDB.AsIncCategoryAsSales" FromRole="AsIncCategory" ToRole="AsSales" />
+  </EntityType>
+  <EntityType Name="AsIncClient">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ShortName" Type="String" Nullable="false" MaxLength="50" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+    <Property Name="Company" Type="String" Nullable="true" MaxLength="80" />
+    <Property Name="Contact1" Type="String" Nullable="true" MaxLength="80" />
+    <Property Name="Contact2" Type="String" Nullable="true" MaxLength="80" />
+    <Property Name="Address" Type="String" Nullable="true" MaxLength="250" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
+    <NavigationProperty Name="AsSales" Relationship="AccountingDB.AsIncClientAsSales" FromRole="AsIncClient" ToRole="AsSales" />
+  </EntityType>
+  <EntityType Name="AsSales">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TrxDate" Type="DateTime" Nullable="false" />
+    <Property Name="TrxDesc" Type="String" Nullable="false" MaxLength="80" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" />
+    <Property Name="DateEntered" Type="DateTime" Nullable="true" />
+    <NavigationProperty Name="AsCostCenter" Relationship="AccountingDB.AsCostCenterAsSales" FromRole="AsSales" ToRole="AsCostCenter" />
+    <Property Name="AsCostCenterId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AsIncCategory" Relationship="AccountingDB.AsIncCategoryAsSales" FromRole="AsSales" ToRole="AsIncCategory" />
+    <Property Name="AsIncCategoryId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AsIncClient" Relationship="AccountingDB.AsIncClientAsSales" FromRole="AsSales" ToRole="AsIncClient" />
+    <Property Name="AsIncClientId" Type="Int32" Nullable="false" />
+    <Property Name="OrRef" Type="String" Nullable="true" MaxLength="20" />
+  </EntityType>
+  <Association Name="AsCostCenterAsSales">
+    <End Type="AccountingDB.AsCostCenter" Role="AsCostCenter" Multiplicity="1" />
+    <End Type="AccountingDB.AsSales" Role="AsSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AsCostCenter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AsSales">
+        <PropertyRef Name="AsCostCenterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AsIncCategoryAsSales">
+    <End Type="AccountingDB.AsIncCategory" Role="AsIncCategory" Multiplicity="1" />
+    <End Type="AccountingDB.AsSales" Role="AsSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AsIncCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AsSales">
+        <PropertyRef Name="AsIncCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AsIncClientAsSales">
+    <End Type="AccountingDB.AsIncClient" Role="AsIncClient" Multiplicity="1" />
+    <End Type="AccountingDB.AsSales" Role="AsSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AsIncClient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AsSales">
+        <PropertyRef Name="AsIncClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<JobsV1.Models.JobMain>
+
+@{
+    ViewBag.Title = "Product Templates";
+}
+
+<h2>Sales Lead</h2>
+
+<p>
+    @Html.ActionLink("Create New Template", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Template ID
+        </th>
+        <th>
+            Details
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td style="white-space:nowrap">
+                <span class="userClient">@Html.DisplayFor(modelItem => item.Description) </span>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Services", "Services", "JobServices", new { id = item.Id }, null) |
+                @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+
+</table>

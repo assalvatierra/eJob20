@@ -1,0 +1,237 @@
+﻿@model IEnumerable<JobsV1.Controllers.cJobOrder>
+
+@{
+    ViewBag.Title = "Job Listing";
+}
+
+<h2>Job Orders</h2>
+
+<p>
+    @Html.ActionLink("Create New", "jobCreate", null, null)
+    | @Html.ActionLink("Work In Progress", "Index", "JobOrder", new { span = 30 }, null)
+    | Listing
+    | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
+    | @Html.ActionLink("Availability", "Availability", "InvItems")
+</p>
+
+<p>
+    Filters:
+    @Html.ActionLink("OnGoing", "JobListing", "JobOrder", new { sortid = 1 }, new { @id = "ongoing" }) |
+    @Html.ActionLink("Previous", "JobListing", "JobOrder", new { sortid = 2 }, new { @id = "previous" }) |
+    @Html.ActionLink("Closed", "JobListing", "JobOrder", new { sortid = 3 }, new { @id = "closed" })
+</p>
+
+<table class="table">
+
+    <tr>
+        <th>
+            From
+        </th>
+        <th>
+            To
+        </th>
+        <th>
+            Company
+        </th>
+        <th>
+            Rate/Payment
+        </th>
+        <th>
+         
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+               @if (@item.Services.FirstOrDefault() != null)
+               {
+                   string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd (ddd)");
+                   @s1
+               }
+               else
+               {
+                   string s1 = ((DateTime)item.Main.JobDate).ToString("MMM-dd (ddd)");
+                   @s1
+                  
+               }
+            </td>
+            <td>
+                @if (@item.Services.FirstOrDefault() != null)
+                {
+
+                    string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd (ddd)");
+                    @s2
+                }
+            </td>
+            <td>
+                <span style="font-weight:bold;">
+                    @item.Main.Customer.Name
+                </span>
+                <span>/</span>
+                @item.Main.Description
+                <span>
+                   [ @item.Main.JobStatus.Status ]
+                </span>
+            </td>
+            <td>
+
+                @if (@item.Main.AgreedAmt != 0)
+                {
+                    <span style="color:blue; font: bold 12px arial, verdana;">
+                        @string.Format("{0:N0}", @item.Main.AgreedAmt) 
+                    </span>
+
+                }
+                 
+
+                @if (@item.Payment != 0)
+                {
+                    <span>/ </span>
+                    <span style="color:green; font: bold 12px arial, verdana;">
+                      @string.Format("{0:N0}", @item.Payment)
+                    </span>
+                    if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
+                    {
+                        <span>
+                            Paid in
+                            <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
+                        </span>
+                    }
+                }
+            </td>
+            <td>
+
+                @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
+                @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
+                @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
+                <a href="#" id="acctbtn" data-toggle="modal" data-target="#Payment@(item.Main.Id)" style="margin-bottom:10px;" onclick="updateval()">[ Payment ]</a>
+                @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+            </td>
+        </tr>
+        
+
+
+    <!-- Modal -->
+        <div class="modal fade" id="Payment@(item.Main.Id)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Payment Methods</h4>
+                    </div>
+
+                    <div class="modal-body" id="modal2-content">
+
+                        <h4>
+                            Payment History
+                        </h4>
+
+                        @if (item.Main.JobPayments.Count() != 0)
+                        {
+
+                            foreach (var payments in item.Main.JobPayments)
+                            {
+                                string pDate = ((DateTime)payments.DtPayment).ToString("MMM-dd-yyyy (ddd)");
+
+                                <p>
+                                    @string.Format("{0:N}", payments.PaymentAmt)
+                                    <span>-</span>
+                                    @pDate
+                                </p>
+                            }
+
+                            <span style="color:green;">
+                                @string.Format("{0:N}", @item.Payment)
+                                <span>-</span>
+                                <span>Total</span>
+                            </span>
+                        }
+                        else
+                        {
+                            <p>No previous payment</p>
+                        }
+
+                        <hr /><h4> Create New Payment </h4>
+
+                        <div class="list-group" id="categorylist">
+
+                            <a href="@Url.Action("Payments", "JobOrder", new { id = item.Main.Id}, null)" class="list-group-item">  Payment Transaction</a>
+                            <a href="@Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Partial Payment" }, null)" class="list-group-item"> Partial Payment</a>
+                            <a href="@Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Full Payment" }, null)" class="list-group-item"> Full Payment</a>
+                            <a href="@Url.Action("PaymentCreatePG", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Personal Guarentee" }, null)" class="list-group-item"> Personal Guarantee</a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    }
+</table>
+
+@Html.Partial("PartialViewJS")
+
+
+<p>
+      @Html.ActionLink("Create New", "jobCreate", null, null)
+    | @Html.ActionLink("Work In Progress", "Index", "JobOrder", new { span = 30 }, null)
+    | Listing
+    | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
+    | @Html.ActionLink("Availability", "Availability", "InvItems")
+</p>
+
+<p>
+    Filters:
+    @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing-bot" }) |
+    @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous-bot" }) |
+    @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed-bot" })
+</p>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            initialize();
+
+            $('html, body').animate({
+                scrollTop: $("#main@(ViewBag.mainId)").offset().top - 50
+            }, 500);
+
+        });
+
+        switch(@(Session["FilterID"] != null? (int)Session["FilterID"]: 1 )){
+            case 1:
+                $("#ongoing").css("color","black")
+                $("#ongoing-bot").css("color","black")
+                break;
+            case 2:
+                $("#previous").css("color","black")
+                $("#previous-bot").css("color","black")
+                break;
+            case 3:
+                $("#closed").css("color","black")
+                $("#closed-bot").css("color","black")
+                break;
+            default:
+
+                break;
+        }
+
+        function updateval(){
+            var iDiv = document.getElementbyId('categorylist');
+
+            // Now create and append to iDiv
+            var innerDiv = document.createElement('p');
+            innerDiv.className = 'list-group-item';
+
+            // The variable iDiv is still good... Just append to it.
+            iDiv.appendChild(innerDiv);
+        }
+
+    </script>
+
+}

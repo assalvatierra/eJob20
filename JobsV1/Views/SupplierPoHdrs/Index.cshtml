@@ -1,0 +1,118 @@
+﻿@model IEnumerable<JobsV1.Models.SupplierPoHdr>
+
+@{
+    ViewBag.Title = "Index";
+    int itemID = 0;
+}
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<h2>Purchase Order List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+<table class="table">
+
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td style="width:12%">
+            <div style="background-color:lightgray;text-align:center">
+                <span style="color:darkblue; font: bold 12px arial, verdana;">@item.PoDate.ToString("MMM-yyyy")</span>
+                <br /><span style="color:blue; font: bold 20px arial, verdana;">@item.PoDate.ToString("dd")</span>
+                <span style="color:blue; font: bold 20px arial, verdana;">(@item.PoDate.ToString("ddd"))</span> <br /><br />
+            </div>
+        </td>
+
+        <td style="width:85%;">
+            <div>
+                <a href="#" id="statusbtn" onclick="updateId(@item.Id)" data-toggle="modal" data-target="#HdrStatusModal" style="margin-bottom:10px;">@Html.DisplayFor(modelItem => item.SupplierPoStatu.Status)</a>
+            </div>
+            <div>
+                <p>
+                    <span style="color:darkgreen;font:bold 16px arial, verdana;">
+                        @Html.DisplayFor(modelItem => item.Supplier.Name)
+                    </span>
+                    [
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    ]
+                </p>
+                <p style="color:navy;font:bold 14px arial, verdana;">
+                    Remarks:
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </p>
+            </div>
+            <div>
+                <p style="color:gray;font-size:12px;">
+                    Requested by:
+                    @Html.DisplayFor(modelItem => item.RequestBy)
+                    -
+                    @Html.DisplayFor(modelItem => item.DtRequest)
+                    <br />
+                    Approved by:
+                    @Html.DisplayFor(modelItem => item.ApprovedBy)
+                    -
+                    @Html.DisplayFor(modelItem => item.DtApproved)
+                </p>
+               
+        </div>
+        </td>
+    </tr>
+}
+
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="HdrStatusModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Purchase Order Status </h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+
+                <div class="list-group" id="categorylist">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<p>
+    List |
+    @Html.ActionLink("PO List", "Index", "SupplierPoHdrs") |
+    @Html.ActionLink("Coop Members", "Index", "CoopMembers") ]
+</p> 
+
+<script>
+
+    function updateId(ID) {
+        itemID = ID;
+
+        var id = ID;
+        var newLink = '<a href="SupplierPoHdrs/updateStatus?statusid=1&hdrid=' + ID + '" class="list-group-item"> REQUEST </a>';
+
+         newLink += '<a href="SupplierPoHdrs/updateStatus?statusid=2&hdrid=' + ID + '" class="list-group-item"> APPROVED </a>';
+
+         newLink += '<a href="SupplierPoHdrs/updateStatus?statusid=3&hdrid=' + ID + '" class="list-group-item"> CANCELLED </a>';
+
+         newLink += '<a href="SupplierPoHdrs/updateStatus?statusid=4&hdrid=' + ID + '" class="list-group-item"> CONFIRMED </a>';
+
+         newLink += '<a href="SupplierPoHdrs/updateStatus?statusid=5&hdrid=' + ID + '" class="list-group-item"> DELIVERED </a>';
+
+         newLink += '<a href="SupplierPoHdrs/updateStatus?statusid=6&hdrid=' + ID + '" class="list-group-item"> CLOSE </a>';
+
+        $("#categorylist").append( newLink);
+    }
+</script>

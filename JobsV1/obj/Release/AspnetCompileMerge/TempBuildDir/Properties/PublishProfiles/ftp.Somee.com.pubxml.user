@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAATmn4fi51IECv+VuQG043awAAAAACAAAAAAAQZgAAAAEAACAAAABn7T5y9K4Xn/47pH+WjkVKBxwiZNllAKT75kUdK8wT3QAAAAAOgAAAAAIAACAAAACNW82LBO/opeuGTDAt5nLn76pnCI2tB2ONTzCnQ1SbVyAAAACMefz5p5JjgS8u42Kykw9bJgaIkOXY7nhRbnxA1XbeFUAAAAAy+xA8OdHwj3WT+i1kHDhB18VE5D6Sb4nOl6OFOmXZl0y/XfRxeqvJ2bDBLBIEWzNhzlSqauXT+aIJ9PBbN1Gm</EncryptedPassword>
+    <_PublishTargetUrl>ftp://www.RealWheels.somee.com</_PublishTargetUrl>
+  </PropertyGroup>
+</Project>

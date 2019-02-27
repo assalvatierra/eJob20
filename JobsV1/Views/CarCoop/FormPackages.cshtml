@@ -1,0 +1,126 @@
+﻿
+<div class="modal-content" style="min-width:600px;">
+    <div class="modal-header">
+        <h3 class="modal-title">Car Packages </h3>
+
+        <a href="#" onclick="FormPackages_PrevForm()"> Previous      </a>&bull;
+        <a href="#" onclick="FormPackages_NextForm()"> Proceed         </a>
+
+        <h5 id="modal-text-foot">-</h5>
+    </div>
+
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <h4>Please Select a Package</h4>
+        </div>
+        <div class="col-md-12" id="pkg-table">
+            <table class="table table-bordered table-hover" id="table-packages" style="width:96%;margin-right:50px">
+                <tr>
+                    <th>Package</th>
+                    <th>Driver Accomodation/Meals</th>
+                    <th>Fuel</th>
+                    <th>No Days</th>
+                    <th>Rate </th>
+                </tr>
+
+                @foreach (var package in ViewBag.PackageList as IEnumerable<JobsV1.Models.PackageTable>)
+                {
+                    if (package.Id == 1)
+                    {
+
+                        <tr class="clickable-row" id="pkg-@(package.Id)" style="display:none;" title="@(package.Id)" data-toggle="popover">
+                            <td id="pkg-desc">@package.Description</td>
+                            <td id="pkg-meal@(package.Id)">@package.TextMeals</td>
+                            <td id="pkg-fuel@(package.Id)">@package.TextFuel</td>
+                            <td id="pkg-days@(package.Id)">@package.Days</td>
+                            <td>
+                                <span id="pkg-rate@(package.Id)">  @package.TextRate </span>
+                                <b id="pkg-total@(package.Id)"> =  @package.Rate</b>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+
+                        <tr class="clickable-row" id="pkg-@(package.Id)" title="@(package.Id)" data-toggle="popover">
+                            <td id="pkg-desc">@package.Description</td>
+                            <td id="pkg-meal@(package.Id)">@package.TextMeals</td>
+                            <td id="pkg-fuel@(package.Id)">@package.TextFuel</td>
+                            <td id="pkg-days@(package.Id)">@package.Days</td>
+                            <td>
+                                <span id="pkg-rate@(package.Id)">  @package.TextRate = </span>
+                                <b id="pkg-total@(package.Id)">  @package.Rate.ToString("N0")</b>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </table>
+        </div>
+
+        <div style="margin:35px;">
+
+
+        </div>
+    </div>
+
+    <div class="modal-footer" id="rsv-footer" style="display:block;">
+
+        <div class="pull-left">
+            @Html.ActionLink("Cancel", "Index", "CarRental", null, new { @class = "btn btn-primary" })
+
+            <button class="btn btn-primary" onclick="FormPackages_PrevForm()">Previous</button>
+
+            <button class="btn btn-primary" onclick="FormPackages_NextForm()"> Next </button>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="~/Scripts/CarRental/FormCarPackages.js"></script>
+
+<script>
+    function FormPackages_NextForm() {
+
+        var rentalType = @ViewBag.rentType;
+        var carId = @ViewBag.carId;
+        var noDays = @ViewBag.days;
+        var mealsAcc = @ViewBag.meals;
+        var fuel = @ViewBag.fuel;
+
+        //loading screen
+        LoadOverlay();
+
+        FormPackages_Next("CarCoop",carId, noDays, rentalType, mealsAcc, fuel, selectedTour);
+
+    }
+
+    function FormPackages_PrevForm() {
+        var rentalType = @ViewBag.rentType;
+        var carId = @ViewBag.carId;
+        var noDays = @ViewBag.days;
+        var mealsAcc = @ViewBag.meals;
+        var fuel = @ViewBag.fuel;
+
+        //loading screen
+        LoadOverlay();
+
+        FormPackages_Prev("CarCoop",carId, noDays, rentalType, mealsAcc, fuel, selectedTour);
+    }
+
+    //next popup on formpackages package list
+    $(document).ready(function () {
+
+        formPackages_default();
+
+        formPackages_TransText(@ViewBag.carId,@ViewBag.days,@ViewBag.meals,@ViewBag.fuel,"@ViewBag.RentTypeTxt","@ViewBag.carDesc");
+    });
+
+
+    function formPackages_default() {
+        $('#pkg-' + selectedTour).addClass('active').siblings().removeClass('active');
+    }
+
+</script>

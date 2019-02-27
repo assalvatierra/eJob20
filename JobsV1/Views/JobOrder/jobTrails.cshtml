@@ -1,0 +1,57 @@
+﻿@model IEnumerable<JobsV1.Models.JobTrail>
+
+@{
+    ViewBag.Title = "jobTrails";
+}
+
+<h2>jobTrails</h2>
+
+<p>
+    @Html.ActionLink("Create New", "createTrailTest")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RefTable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RefId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dtTrail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Action)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RefTable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RefId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dtTrail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Action)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

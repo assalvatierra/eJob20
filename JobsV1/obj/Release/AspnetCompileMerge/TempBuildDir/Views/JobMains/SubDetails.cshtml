@@ -1,0 +1,176 @@
+﻿@model JobsV1.Models.JobMain
+
+@{
+    ViewBag.Title = "Details";
+    IEnumerable<JobsV1.Models.JobServices> services = ViewBag.Services;
+    IEnumerable<JobsV1.Models.JobItinerary> itineraries = ViewBag.Itinerary;
+    IEnumerable<JobsV1.Models.JobPayment> payments = ViewBag.Payments;
+
+    decimal dContractAmt = 0;
+    decimal dQuotedAmt = 0;
+    decimal dPaidAmt = 0;
+
+}
+
+
+<table>
+    <tr>
+        <td valign="top">
+            <img src="~/Images/@ViewBag.sLogo" width="135" />
+        </td>
+        <td>
+            <span style="font:bold 21px arial, verdana;">@ViewBag.sCompany</span>
+            <span style="font:12px arial, verdana;color:royalblue">
+                <br />@ViewBag.sLine1
+                <br />@ViewBag.sLine2
+                <br />@ViewBag.sLine3
+            </span>
+        </td>
+    </tr>
+</table>
+<hr />
+
+<h2>PURCHASE ORDER</h2>
+
+<table>
+    <tr>
+        <th>
+            Job Ref #
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Id)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Date
+        </th>
+        <td>
+            @Model.JobDate.ToString("MMM dd yyyy")
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Details
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Customer.Name)
+        </td>
+    </tr>
+    <tr>
+        <th valign="top">
+            &nbsp;
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.Description)
+            <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
+            | Remarks: @Html.DisplayFor(model => model.JobRemarks)
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Status
+        </th>
+        <td>
+            @Html.DisplayFor(model => model.JobStatus.Status)
+        </td>
+    </tr>
+</table>
+
+
+<h3>Services</h3>
+<table class="table">
+    <tr>
+        <th>
+            Type
+        </th>
+        <th>
+            Particulars
+        </th>
+        <th>
+            Supplier
+        </th>
+        <th>Amount</th>
+    </tr>
+    @foreach (var item in services)
+    {
+        dContractAmt += (item.SupplierAmt == null ? 0 : (decimal)item.SupplierAmt);
+        dQuotedAmt += (item.SupplierAmt == null ? 0 : (decimal)item.QuotedAmt);
+        JobsV1.Models.JobServicePickup pickup = item.JobServicePickups.FirstOrDefault();
+
+        <tr>
+            <td style="white-space:nowrap">
+                @Html.DisplayFor(modelItem => item.Service.Name)
+
+                @{
+                    string sStart = ((DateTime)item.DtStart).ToString("MMM-dd-yyyy (ddd)");
+                    string sEnd = ((DateTime)item.DtEnd).ToString("MMM-dd-yyyy (ddd)");
+                }
+                <p>
+                    Start: @sStart
+                    <br />
+                    End: @sEnd
+                </p>
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Particulars)
+                <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supplier.Name)
+                <br />[ Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
+                @*<br /><a href="~/Reports/TripVoucher/Viewer.aspx?SrvId=@item.Id&JobId=@item.JobMainId&file=@item.JobMain.Customer.Name">Trip Voucher</a>*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierAmt)
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4" style="border-top:none">
+                @{string sIti = "";
+                    foreach (var ititmp in itineraries)
+                    {
+                        if (ititmp.SvcId == item.Id)
+                        {
+                            if (sIti.Trim() != "") { sIti += ","; }
+                            else { sIti += "Destinations:"; }
+
+                            sIti += " " + ititmp.Destination.Description;
+                        }
+                    }
+
+                }
+
+                <span style="font:14px arial, verdana;">
+                    @sIti
+                </span>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4" style="border-top:none">
+                @if (pickup != null)
+                {
+                    <span style="font:bold 12px arial, verdana;">
+                        [ Call Time: @pickup.JsTime @pickup.JsLocation ]  &nbsp; &nbsp;
+                        [ Contact: @pickup.ClientName / @pickup.ClientContact ]  &nbsp; &nbsp;
+                        [ InCharge: @pickup.ProviderName / @pickup.ProviderContact ]
+                    </span>
+                }
+            </td>
+        </tr>
+    }
+
+    <tr><td colspan="4"></td></tr>
+
+</table>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

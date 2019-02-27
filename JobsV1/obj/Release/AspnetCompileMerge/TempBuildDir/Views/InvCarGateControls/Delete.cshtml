@@ -1,0 +1,80 @@
+﻿@model JobsV1.Models.InvCarGateControl
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>InvCarGateControl</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.In_Out_flag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.In_Out_flag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Odometer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Odometer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dtControl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dtControl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Driver)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Driver)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inspector)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inspector)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvItem.ItemCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvItem.ItemCode)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

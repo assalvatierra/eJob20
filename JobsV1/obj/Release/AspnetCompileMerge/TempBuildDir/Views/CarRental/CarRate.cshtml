@@ -1,0 +1,75 @@
+﻿@model IEnumerable<JobsV1.Models.CarRate>
+
+<table class="table">
+
+@foreach (var item in Model) {
+    <tr>
+        <td><span class="userLabel-lg1">Rate</span></td>
+        <td>
+            <span class="userRemarks">1-6 Days</span>
+                <br />
+            <span class="userData">
+                @item.Daily.ToString("##,###")
+            </span>
+            </td>
+        <td>
+            <span class="userRemarks">7-21 Days</span>
+            <br />
+            <span class="userData">
+                @item.Weekly.ToString("##,###")
+            </span>
+        </td>
+        <td>
+            <span class="userRemarks">22 and Above </span>
+            <br />
+            <span class="userData">
+                @item.Monthly.ToString("##,###")
+            </span>
+            </td>
+    </tr>
+
+    <tr >
+        <td class="userRemarks" colspan="4" >
+
+            <span class="userRemarks" >
+
+                @{ 
+                    string metaDesc = item.CarUnit.CarUnitMetas.Where(s => s.CarUnitId == item.CarUnitId).FirstOrDefault().MetaDesc.ToString();
+                    string metaShow = metaDesc;
+                    int icnt = 120;
+                    if( metaDesc.Length > icnt)
+                    {
+                        metaShow = metaDesc.Substring(0, icnt) +"...";
+                    }
+                    else
+                    {
+                        metaShow = metaDesc.PadRight(icnt);
+                    }
+
+                }
+
+                <span>
+                    @metaShow
+                </span>
+
+
+            </span>
+        </td>
+
+</tr>
+
+    <tr><td colspan="4">
+
+            @Html.ActionLink("Cost Estimate and Reservation", "FormRenter", "CarRental", new { id = item.CarUnitId }, new { @class = "btn btn-primary" })
+            <!--  
+              @Html.ActionLink("Cost Estimate and Reservation", "Reservation", "CarRental", new { unitid = item.CarUnitId }, new { @class = "btn btn-primary" })
+            -->
+            @Html.ActionLink("More Detail", "CarDetail", "CarRental", new { unitid = item.CarUnitId }, new { @class = "btn btn-primary" })
+    </td></tr>
+
+    <tr>
+        <td class="userLabel-lg1" colspan="4"></td>
+    </tr>
+
+                    }
+</table>

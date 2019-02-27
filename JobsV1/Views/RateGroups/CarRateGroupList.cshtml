@@ -1,0 +1,37 @@
+﻿@model IEnumerable<JobsV1.Models.CarRateGroup >
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2> @ViewBag.GroupNameGroup List</h2>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", null, null ) |
+    @Html.ActionLink("Add New", "CreateRateGroup", new { GroupId = ViewBag.GroupId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @ViewBag.GroupName
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+         
+ 
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CarRatePackage.Description)
+        </td>
+
+        <td>
+            @Html.ActionLink("Remove", "RemoveItem", new { itemId = item.Id, GroupId = ViewBag.GroupId })
+        </td>
+    </tr>
+}
+
+</table>

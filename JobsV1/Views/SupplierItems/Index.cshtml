@@ -1,0 +1,79 @@
+﻿@model IEnumerable<JobsV1.Models.SupplierItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Item Types</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InCharge)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tel1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tel2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tel3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InCharge)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tel1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tel2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tel3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Supplier.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) 
+        </td>
+    </tr>
+}
+
+</table>
+
+List |
+@Html.ActionLink("Items", "Index", "InvItems") |
+@Html.ActionLink("Availability", "Availability", "InvItems") |
+@Html.ActionLink("Gate Control", "Index", "InvCarGateControls") |
+@Html.ActionLink("Maintenance", "Index", "InvCarRecords")

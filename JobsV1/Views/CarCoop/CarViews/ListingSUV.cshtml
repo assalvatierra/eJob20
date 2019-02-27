@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "SUV Listing";
+}
+
+<div class="jumbotron">
+    <h2>SUV Listing</h2>
+     <p>
+         <a href="/ads/">Listing</a> >
+         <a href="#">SUV</a>
+     </p>
+</div>
+<div class="container" >
+    <div class="col-lg-8 ads-listing-container">
+        <div class="col-sm-12 ads-listing-title-bar">
+            <h3>Listing for SUV <span class="badge"> 2 </span></h3>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+
+            <h3 class="btn btn-success ads-listing-price">PHP 2,000</h3>
+            <img src="~/Images/CarRental/CarViews/FordEverest/Ford-Everest.png" class="img-thumbnail ads-listing-img" />
+            <h4>
+                <a href="~/ads/rent-a-car-suv-for-rent-davao-city/">
+                    <b>Ford Everest 2.2L A/T 2016 All New!</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">Ford</h4>
+            <h4 class="label label-default">Everest</h4>
+            <h4 class="label label-default">SUV</h4>
+            <hr style="margin:7px;" />
+            <p>Ford Everest 2016, 2.2L Diesel, Milage: 1000, 8 persons, w/ or w/o driver included. </p>
+        </div>
+
+        <div class="col-sm-12 ads-listing-item">
+            <h3 class="btn btn-success ads-listing-price">PHP 3,000</h3>
+            <img src="~/Images/CarRental/CarViews/ToyotaFortuner/Fortuner.png" class="img-thumbnail ads-listing-img" alt="Toyota Fortuner" />
+            <h4>
+                <a href="~/ads/4x4-rental-suv-for-rent-davao/">
+                    <b>4×4 rental SUV for rent Davao</b>
+                </a>
+            </h4>
+            <h4 class="label label-default">SUV</h4>
+            <h4 class="label label-default">Fortuner</h4>
+            <hr style="margin:7px;" />
+            <p>Pickup for Rent Davao City. Ford Everest. Self drive on Davao City Area. Rental  w/ or w/o driver included. </p>
+        </div>
+
+    </div>
+    <div class="col-lg-3 ads-listing-side">
+        @{Html.RenderPartial("CarViews/TagsViewListing");}
+
+        @{Html.RenderPartial("CarViews/PopularAdsView");}
+    </div>
+</div>
+
+

@@ -1,0 +1,75 @@
+﻿<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+
+    function initialize() {
+        $(".clickitem").click(fClick_item);
+    }
+
+    function fClick_item() {
+        var svcid = $(this).attr("data_svcid");
+        var actionid = $(this).attr("id");
+
+        //alert(".clickitem - svcid : " + svcid + " : actionid : " + actionid);
+        var r = confirm("Mark '" + $(this).attr("Name") + "' as done?");
+
+        if (r) {
+            fAjax_updateAction(svcid, actionid);
+        }
+
+        event.preventDefault();
+    }
+
+    //AJAX CALLS
+    function fAjax_updateAction(svcid, actionid) {
+        var serviceURL = '/JobOrder/MarkDone';
+       // alert("fAjax_updateAction - svcid : " + svcid + " : actionid : " + actionid);
+
+        $.ajax({
+            type: "GET",
+            url: serviceURL,
+            data: { SvcId: svcid, ActionId: actionid },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc(actionid),
+            error: errorFunc()
+        });
+
+    }
+
+    function successFunc(actionid) {
+        //alert("Successfully Done!");
+        $("#" + actionid).hide();
+        $("#" + actionid).css("color", "gray");
+        $("#" + actionid).css("background-color", "gray");
+       // location.reload();
+    }
+
+    function errorFunc() {
+        //alert('error');
+    }
+
+    // test function
+    /*
+    function fAjax_test() {
+        var serviceURL = '/JobOrder/AjaxTest';
+
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: param = "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+
+        function successFunc(data, status) {
+            alert(data);    
+        }
+
+        function errorFunc() {
+            alert('error');
+        }
+    }
+    */
+</script>

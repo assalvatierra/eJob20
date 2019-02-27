@@ -1,0 +1,75 @@
+﻿@model IEnumerable<JobsV1.Models.JobPayment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
+
+<div>
+    <p>
+        Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
+        <br />Description: @ViewBag.JobOrder.Description
+        <br />@Html.ActionLink("Edit", "PaymentEdit", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+        | @Html.ActionLink("Details", "PaymentDetails", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+
+
+    </p>
+    <p>
+        @Html.ActionLink("Services", "Services", "JobServices", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) | 
+        @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
+        Payments
+    </p>
+
+</div>
+
+<h2>Payment Details</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Bank
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtPayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bank.BankName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "PaymentEdit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "PaymentDelete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+<p>
+    @Html.ActionLink("New Payment", "PaymentCreate", new { JobMainId = ViewBag.JobMainId })
+
+<p>
+    @Html.ActionLink("Back to List", "Index", new { sortid = Session["FilterID"]!=null ? (int)Session["FilterID"]:5, mainid = ViewBag.JobMainId }, null)
+</p>
+
+</p>

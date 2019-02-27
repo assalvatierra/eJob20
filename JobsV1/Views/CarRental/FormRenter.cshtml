@@ -1,0 +1,290 @@
+﻿@model JobsV1.Models.CarReservation
+
+
+
+<div class="modal-body row" id="formRenter" style="padding:0px;">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal col-md-12">
+            <h3>Usage Details</h3>
+            <p>Fields with * are required.</p>
+             <label style="color:orangered;display:none" id="dtls-warning-usage"></label>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group" style="display:none">
+                <label class="control-label col-md-2"> Trans.Date* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DtTrx, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DtTrx, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="display:none">
+                <label class="control-label col-md-2"> Vehicle* </label>
+                <div class="col-md-10">
+                    @Html.DropDownList("CarUnitId", null, htmlAttributes: new { @class = "form-control", @id = "rnt-carUnit" })
+                    @Html.ValidationMessageFor(model => model.CarUnitId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="control-label col-md-2"> Start Date* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DtStart, new { htmlAttributes = new { @class = "form-control", @id = "rnt-startDate" } })
+                    @Html.ValidationMessageFor(model => model.DtStart, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2"> Pick-Up </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LocStart, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LocStart, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="control-label col-md-2"> Date End* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DtEnd, new { htmlAttributes = new { @class = "form-control", @id = "rnt-endDate" } })
+                    @Html.ValidationMessageFor(model => model.DtEnd, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="control-label col-md-2"> Drop-Off </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LocEnd, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LocEnd, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="display:none">
+                <label class="control-label col-md-2"> Base Rate* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BaseRate, new { htmlAttributes = new { @class = "form-control", @id = "rnt-baseRate" } })
+                    @Html.ValidationMessageFor(model => model.BaseRate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="display:none">
+                <label class="control-label col-md-2"> Destination* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Destinations, new { htmlAttributes = new { @class = "form-control", @id = "rnt-destination" } })
+                    @Html.ValidationMessageFor(model => model.Destinations, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="display:none">
+                <label class="control-label col-md-2"> Used for* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.UseFor, new { htmlAttributes = new { @class = "form-control", @id = "rnt-usedfor" } })
+                    @Html.ValidationMessageFor(model => model.UseFor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group" style="display:none">
+                @Html.LabelFor(model => model.EstHrPerDay, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" disabled="disabled">
+                    @Html.EditorFor(model => model.EstHrPerDay, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.EstHrPerDay, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="display:none">
+                @Html.LabelFor(model => model.EstKmTravel, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EstKmTravel, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.EstKmTravel, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <h3>Renter Details</h3>
+            <p>Fields with * are required.
+                <label style="color:orangered;display:none" id="dtls-warning"></label>
+            </p>
+            <hr />
+
+            <div class="form-group"   >
+                <label class="control-label col-md-2"> Name* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RenterName, new { htmlAttributes = new { @class = "form-control" , @id = "rnt-name" } })
+                    @Html.ValidationMessageFor(model => model.RenterName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2"> Company </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RenterCompany, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RenterCompany, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group"  >
+                <label class="control-label col-md-2"> Email* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RenterEmail, new { htmlAttributes = new { @class = "form-control", @id = "rnt-email" } })
+                    @Html.ValidationMessageFor(model => model.RenterEmail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="control-label col-md-2"> Mobile* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RenterMobile, new { htmlAttributes = new { @class = "form-control", @id = "rnt-mobile" } })
+                    @Html.ValidationMessageFor(model => model.RenterMobile, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2"> Address </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RenterAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RenterAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2"> Facebook </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RenterFbAccnt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RenterFbAccnt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2"> Linkedln </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RenterLinkedInAccnt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RenterLinkedInAccnt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!--Captcha validation-->
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div id="ReCaptchContainer"></div> 
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-default disabled" id="submit-btn" onclick="LoadOverlay();" />
+                </div>
+            </div>
+
+            <div class="form-group" style="visibility:hidden;height:0px;">
+                <label class="control-label col-md-2">JobRefNo</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.JobRefNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.JobRefNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="visibility:hidden;height:0px;">
+                <label class="control-label col-md-2">SelfDrive</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SelfDrive, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SelfDrive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <!--
+            Hidden
+            -->
+            <div style="display:none;">
+                <input type="text" name="packageid" id="dtls-packageId" value="@ViewBag.pkgId" />
+                <input type="text" name="mealAcc" id="dtls-mealsAcc" value="@ViewBag.meals" />
+                <input type="text" name="fuel" id="dtls-fuel" value="@ViewBag.fuel" />
+            </div>
+            <br />
+
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+
+<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="~/Scripts/Job/FormRenter.js"></script>
+<script type="text/javascript" src="~/Scripts/CarRental/FormRenterValid.js"></script>
+
+<!--Google Recaptcha-->
+<script type="text/javascript">
+
+    var renderRecaptcha = function () {
+        grecaptcha.render('ReCaptchContainer', {
+            'sitekey': '6LdjKIgUAAAAAAkNJ8O2EYia89srVY6YMPf4nzWo',
+            'callback': reCaptchaCallback,
+            theme: 'light', //light or dark
+            type: 'image',// image or audio
+            size: 'normal'//normal or compact
+        });
+    };
+
+    var reCaptchaCallback = function (response) {
+        if (response !== '') {
+            ajaxValidationResponse(response);
+            captchaflag = true;
+        } 
+        checkRenterDetails();
+
+    };
+
+    jQuery('#submit-btn').click(function (e) {
+
+        var message = 'Please checck the checkbox';
+        if (typeof (grecaptcha) != 'undefined') {
+            var response = grecaptcha.getResponse();
+            (response.length === 0) ? (message = 'Captcha verification failed') : (message = 'Success!');
+        }
+
+        console.log("submit: "+message);
+       
+    });
+
+
+    function ajaxValidationResponse(response) {
+        var data = {
+            response: response
+        }
+        var serviceURL = '/CarRental/IsReCaptchValid';
+
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                if (data) {
+                    captchaflag = true;
+                    console.log('s-success');
+                } else {
+                    captchaflag = false;
+                    console.log('s-failed');
+                    alert('Captcha validation failed. Please reload the page and try again.');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //console.log('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+                //alert("jqxhr:" + jqXHR.responseText);
+
+                alert('Captcha validation failed. Please reload the page and try again.');
+            }
+        });
+    }
+</script>  
+
+<!--Refere reCaptcha API-->
+<script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit" async defer></script>

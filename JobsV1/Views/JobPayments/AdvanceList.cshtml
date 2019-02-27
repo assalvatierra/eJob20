@@ -1,0 +1,51 @@
+﻿@model IEnumerable<JobsV1.Models.JobPayment>
+
+@{
+    ViewBag.Title = "AdvanceList";
+}
+
+<h2>AdvanceList</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtPayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentAmt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bank.BankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobMain.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtPayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentAmt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bank.BankName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobMain.JobDate) 
+            <br />@Html.DisplayFor(modelItem => item.JobMain.Customer.Name)
+            <br />@Html.DisplayFor(modelItem => item.JobMain.Description)
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<JobsV1.Models.JobMain>
+
+@{
+    ViewBag.Title = "Sales Lead";
+}
+
+<h2>Sales Lead : Quotations</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Sales Lead", "Index", "SalesLeads") |
+    Quotations
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ETA/Status
+        </th>
+        <th>
+            Details
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td style="white-space:nowrap">
+            <span class="userRemarks">@Html.DisplayFor(modelItem => item.JobDate)</span>
+            <span class="userData01"><br />@Html.DisplayFor(modelItem => item.JobStatus.Status)</span>
+            <br />[ @Html.ActionLink("Confirm", "ConfirmJob", new { id = item.Id }) | @Html.ActionLink("Close", "CloseJob", new { id = item.Id }) ]
+        </td>
+        <td style="white-space:nowrap">
+            <span class="userClient">@Html.DisplayFor(modelItem => item.Customer.Name) </span><span class="userRemarks">@Html.DisplayFor(modelItem => item.Description)</span>
+            <br /><span class="userRemarks">[eMail:@Html.DisplayFor(modelItem => item.Customer.Email)] [Phone:@Html.DisplayFor(modelItem => item.Customer.Contact1)]</span>
+            <br /><span class="userRemarks">Pax:@Html.DisplayFor(modelItem => item.NoOfPax) | Days: @Html.DisplayFor(modelItem => item.NoOfDays)</span>
+            
+
+            @{ var svcs = item.JobSuppliers; }
+            @foreach (var svc in svcs)
+            {
+                <br /><span class="userData01">
+                    @svc.Service.Name: @svc.Particulars
+                </span>
+            }
+
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Services", "Services", "JobServices", new { id = item.Id }, null) |
+            @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = item.Id }, null)
+        </td>
+</tr>
+}
+
+</table>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "SalesLeads") |
+    @Html.ActionLink("Sales Lead", "Index", "SalesLeads") |
+    Quotations
+</p>

@@ -1,0 +1,66 @@
+﻿@model JobsV1.Models.JobPickup
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>JobPickup</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.puDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.puDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.puTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.puTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.puLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.puLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobMain.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobMain.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

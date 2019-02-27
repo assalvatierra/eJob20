@@ -1,0 +1,42 @@
+﻿
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <h4>Please Select a Package</h4>
+        </div>
+        <div class="col-md-12" id="pkg-table">
+            <table class="table table-bordered table-hover" id="table-packages" style="width:100%;" >
+                <tr>
+                    <th>Package</th>
+                    <th>Driver Accomodation/Meals</th>
+                    <th>Fuel</th>
+                    <th>No Days</th>
+                    <th>Rate </th>
+                </tr>
+
+                    @foreach (var package in ViewBag.Packages as IEnumerable<JobsV1.Models.CarRatePackage>)
+                    {
+                        if (package.Id == 1)
+                        {
+                            <tr class="clickable-row" id="pkg-@(package.Id)" title="@(package.Id)" style="visibility:collapse">
+                                <td id="pkg-desc">@package.Description</td>
+                                <td id="pkg-meal@(package.Id)">N/A</td>
+                                <td id="pkg-fuel@(package.Id)">N/A</td>
+                                <td id="pkg-days@(package.Id)">-</td>
+                                <td id="pkg-rate@(package.Id)"></td>
+                            </tr>
+
+                        }
+                        else
+                        {
+                            <tr class="clickable-row" id="pkg-@(package.Id)" title="@(package.Id)">
+                                <td id="pkg-desc">@package.Description</td>
+                                <td id="pkg-meal@(package.Id)">N/A</td>
+                                <td id="pkg-fuel@(package.Id)">N/A</td>
+                                <td id="pkg-days@(package.Id)">-</td>
+                                <td ><span id="pkg-rate@(package.Id)"> </span>  <b id="pkg-total@(package.Id)">total</b></td>
+                            </tr>
+                        }
+                    }
+            </table>
+        </div>
+    </div>

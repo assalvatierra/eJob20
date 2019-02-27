@@ -1,0 +1,1597 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C7180C0-7C07-454E-96F3-562B508371DC}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JobsV1</RootNamespace>
+    <AssemblyName>JobsV1</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.2.3\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.1.2.3\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.1.2.3\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.1.2.3\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.1.2.3\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportViewer.Runtime.Common.12.0.2402.15\lib\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportViewer.Runtime.Common.12.0.2402.15\lib\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportViewer.Runtime.Common.12.0.2402.15\lib\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportViewer.Runtime.WebForms.12.0.2402.15\lib\Microsoft.ReportViewer.WebForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.6\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.6\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Accounting\AccountingAreaRegistration.cs" />
+    <Compile Include="Areas\Accounting\Controllers\AsExpensesController.cs" />
+    <Compile Include="Areas\Accounting\Controllers\AsMainController.cs" />
+    <Compile Include="Areas\Accounting\Controllers\AsSalesController.cs" />
+    <Compile Include="Areas\Accounting\Models\AccountingDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountingDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AccountingDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AccountingDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountingDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AsCostCenter.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AsExpBiller.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AsExpCategory.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AsExpense.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AsIncCategory.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AsIncClient.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AsSales.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CarCoopController.cs" />
+    <Compile Include="Controllers\CarDestinationsController.cs" />
+    <Compile Include="Controllers\CarRatePackagesController.cs" />
+    <Compile Include="Controllers\CarRatesController.cs" />
+    <Compile Include="Controllers\CarRateUnitPackagesController.cs" />
+    <Compile Include="Controllers\CarRentalController.cs" />
+    <Compile Include="Controllers\CarReservationsController.cs" />
+    <Compile Include="Controllers\CarUnitsController.cs" />
+    <Compile Include="Controllers\CoopMembersController.cs" />
+    <Compile Include="Controllers\CustCategoriesController.cs" />
+    <Compile Include="Controllers\CustCatsController.cs" />
+    <Compile Include="Controllers\CustEntitiesController.cs" />
+    <Compile Include="Controllers\CustEntMainsController.cs" />
+    <Compile Include="Controllers\CustFilesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\DestinationsController.cs" />
+    <Compile Include="Controllers\EmailBlasterController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvCarGateControlsController.cs" />
+    <Compile Include="Controllers\InvCarRecordsController.cs" />
+    <Compile Include="Controllers\InvCarRecordTypesController.cs" />
+    <Compile Include="Controllers\InvItemsController.cs" />
+    <Compile Include="Controllers\JobChecklistsController.cs" />
+    <Compile Include="Controllers\JobContactsController.cs" />
+    <Compile Include="Controllers\JobItinerariesController.cs" />
+    <Compile Include="Controllers\JobMainsController.cs" />
+    <Compile Include="Controllers\JobOrderController.cs" />
+    <Compile Include="Controllers\JobPaymentsController.cs" />
+    <Compile Include="Controllers\JobPickupsController.cs" />
+    <Compile Include="Controllers\JobServicePickupsController.cs" />
+    <Compile Include="Controllers\JobServicesController.cs" />
+    <Compile Include="Controllers\MainGenericController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MepuMainController.cs" />
+    <Compile Include="Controllers\PaypalController.cs" />
+    <Compile Include="Controllers\PaypalTransactionsController.cs" />
+    <Compile Include="Controllers\PreDefinedNotesController.cs" />
+    <Compile Include="Controllers\ProductCategoriesController.cs" />
+    <Compile Include="Controllers\ProductPricesController.cs" />
+    <Compile Include="Controllers\ProductProdCatsController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\RateGroupsController.cs" />
+    <Compile Include="Controllers\ReportingController.cs" />
+    <Compile Include="Controllers\SalesActivitiesController.cs" />
+    <Compile Include="Controllers\SalesLeadsController.cs" />
+    <Compile Include="Controllers\SupplierItemsController.cs" />
+    <Compile Include="Controllers\SupplierPoDtlsController.cs" />
+    <Compile Include="Controllers\SupplierPoHdrsController.cs" />
+    <Compile Include="Controllers\SuppliersController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Bank.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BlasterLog.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Branch.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarDestination.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarImage.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarRate.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarRateGroup.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarRatePackage.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarRateUnitPackage.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarReservation.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarReserve.cs" />
+    <Compile Include="Models\CarResPackage.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarUnit.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarUnitMeta.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarViewPage.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\City.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CoopMember.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CoopMemberItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CostumerViewModel.cs" />
+    <Compile Include="Models\CustCat.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustEntity.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustEntMain.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustFileRef.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustFiles.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customer.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustSalesCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DBClasses.cs" />
+    <Compile Include="Models\Destination.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmailBlaster.cs" />
+    <Compile Include="Models\EmailBlasterLogs.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmailBlasterTemplate.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EMailHandler.cs" />
+    <Compile Include="Models\EntAddress.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EntBusiness.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EntContact.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EntServices.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EntSetting.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EntSupportFile.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InvCarGateControl.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvCarRecord.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvCarRecordType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItemCat.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItemCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobAction.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobChecklist.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobContact.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JobDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JobDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobItinerary.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobMain.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobNote.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobNotificationRequest.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobPayment.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobPickup.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobServiceItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobServicePickup.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobServices.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobThru.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobTrail.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PaypalAccount.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayPalHandler.cs" />
+    <Compile Include="Models\PaypalTransaction.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PreDefinedNote.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductCondition.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductImage.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductPrice.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductProdCat.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RateGroup.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesActCode.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesActivity.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesActStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesLead.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesLeadCatCode.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesLeadCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesLeadLink.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesStatusCode.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Services.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sitemap.cs" />
+    <Compile Include="Models\SrvActionCode.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SrvActionItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierInvItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierPoDtl.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierPoHdr.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierPoItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierPoStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysAccessLayer.cs" />
+    <Compile Include="Models\SysAccessRole.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysAccessUser.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysCmdIdRef.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SysDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SysDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysMenu.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysService.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysServiceMenu.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysSetting.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SysSetupType.cs">
+      <DependentUpon>SysDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SMSWebService.asmx.cs">
+      <DependentUpon>SMSWebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Startup.cs" />
+    <Compile Include="WebService.asmx.cs">
+      <DependentUpon>WebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\aspnet-JobsV1-20160528101923.mdf" />
+    <Content Include="App_Data\aspnet-JobsV1-20160528101923_log.ldf">
+      <DependentUpon>aspnet-JobsV1-20160528101923.mdf</DependentUpon>
+    </Content>
+    <Content Include="Areas\Accounting\Models\AccountingDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccountingDB.Context.cs</LastGenOutput>
+      <DependentUpon>AccountingDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Accounting\Models\AccountingDB.edmx.sql" />
+    <Content Include="Areas\Accounting\Models\AccountingDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccountingDB.cs</LastGenOutput>
+      <DependentUpon>AccountingDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Accounting\Models\InitData.sql" />
+    <Content Include="Areas\Accounting\Scripts\Sales.js" />
+    <Content Include="BingSiteAuth.xml" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.slate.css" />
+    <Content Include="Content\daterangepicker.css" />
+    <Content Include="Content\Login.css" />
+    <Content Include="Content\ModalUser.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\ModalSalesLead.css" />
+    <Content Include="Documents\FeatureList.txt" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Images\Call.png" />
+    <Content Include="Images\CarRental\4x4.101.png" />
+    <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.png" />
+    <Content Include="Images\CarRental\car101.png" />
+    <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Everest.png" />
+    <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Fiesta.jpg" />
+    <Content Include="Images\CarRental\CarViews\HondaCity2012\HondaCity2012-interior.jpg" />
+    <Content Include="Images\CarRental\CarViews\HondaCity2012\HondaCity2012-rear.jpg" />
+    <Content Include="Images\CarRental\CarViews\HondaCity2012\HondaCity2012-seats.jpg" />
+    <Content Include="Images\CarRental\CarViews\HondaCity2012\HondaCity2012.jpg" />
+    <Content Include="Images\CarRental\CarViews\HondaCity2012\HondaCityFront.jpg" />
+    <Content Include="Images\CarRental\CarViews\HondaCity\HondaCity2018.png" />
+    <Content Include="Images\CarRental\CarViews\Pickup\Estrada.jpg" />
+    <Content Include="Images\CarRental\CarViews\SelfDrive\HondaCity2012 %282%29.jpg" />
+    <Content Include="Images\CarRental\CarViews\SelfDrive\Toyota-Innova %282%29.png" />
+    <Content Include="Images\CarRental\CarViews\SelfDrive\ToyotaInnova2015 %282%29.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaAvanza\ToyotaAvanza.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaFortuner\Fortuner.png" />
+    <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-GL-Grandia-interior.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-GL-Grandia-rear.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-GL-Grandia.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaInnova\toyota-innova-cabin.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaInnova\Toyota-innova.png" />
+    <Content Include="Images\CarRental\CarViews\ToyotaInnova\toyotainnova2015.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaInnova\ToyotaInnovaSilver.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaSelfDrive\ToyotaSelfDrive.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaSelfDrive\ToyotaSelfDrive2.jpg" />
+    <Content Include="Images\CarRental\CarViews\VanRental\VanRear.jpg" />
+    <Content Include="Images\CarRental\CarViews\VanRental\VanRental.jpg" />
+    <Content Include="Images\CarRental\CarViews\VanRental\VanSeats.jpg" />
+    <Content Include="Images\CarRental\Driver101.png" />
+    <Content Include="Images\CarRental\Driver102x.png" />
+    <Content Include="Images\CarRental\ford-everest-car-rental.PNG" />
+    <Content Include="Images\CarRental\FordEverest.jpg" />
+    <Content Include="Images\CarRental\fordeverest_primary.jpg" />
+    <Content Include="Images\CarRental\ford\fordeverest_front side view.jpg" />
+    <Content Include="Images\CarRental\ford\fordeverest_interior.jpg" />
+    <Content Include="Images\CarRental\ford\frod_sideview.jpg" />
+    <Content Include="Images\CarRental\FortunerPrimary.png" />
+    <Content Include="Images\CarRental\fortuner\fortuner_frontview.jpg" />
+    <Content Include="Images\CarRental\fortuner\fortuner_interior.jpg" />
+    <Content Include="Images\CarRental\fortuner\fortuner_sideview.jpg" />
+    <Content Include="Images\CarRental\fortuner\toyotafortuner_rearview.jpg" />
+    <Content Include="Images\CarRental\glgrandia-car-rental.PNG" />
+    <Content Include="Images\CarRental\glgrandia\glgrandia_frontview.jpg" />
+    <Content Include="Images\CarRental\glgrandia\glgrandia_interior.jpg" />
+    <Content Include="Images\CarRental\glgrandia\glgrandia_sideview.jpg" />
+    <Content Include="Images\CarRental\honda-city-car-rental.PNG" />
+    <Content Include="Images\CarRental\hondacity\hondaCity_frontview.jpg" />
+    <Content Include="Images\CarRental\hondacity\hondacity_interior.jpg" />
+    <Content Include="Images\CarRental\hondacity\hondacity_rearview.jpg" />
+    <Content Include="Images\CarRental\hondaCity_Banner.png" />
+    <Content Include="Images\CarRental\HondaCityPrimary.png" />
+    <Content Include="Images\CarRental\icon-gas-station.png" />
+    <Content Include="Images\CarRental\icon-gas.png" />
+    <Content Include="Images\CarRental\icon-meal.png" />
+    <Content Include="Images\CarRental\icon-sleep.png" />
+    <Content Include="Images\CarRental\InnovaPrimary.png" />
+    <Content Include="Images\CarRental\innova\toyotainnova_front.jpg" />
+    <Content Include="Images\CarRental\innova\toyotainnova_interior.jpg" />
+    <Content Include="Images\CarRental\innova\ToyotaInnova_SideView.jpg" />
+    <Content Include="Images\CarRental\nissan-premium-car-rental.PNG" />
+    <Content Include="Images\CarRental\NissanPremiumPrimary.png" />
+    <Content Include="Images\CarRental\nissanPremium\nissanpremium_frontview.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\nissanpremium_interior.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\nissanpremium_sideview.jpg" />
+    <Content Include="Images\CarRental\nissan_premium_primary.png" />
+    <Content Include="Images\CarRental\paymentIcons\american-express.png" />
+    <Content Include="Images\CarRental\paymentIcons\Bdo.jpg" />
+    <Content Include="Images\CarRental\paymentIcons\BDO.png" />
+    <Content Include="Images\CarRental\paymentIcons\Bpi.png" />
+    <Content Include="Images\CarRental\paymentIcons\discover.png" />
+    <Content Include="Images\CarRental\paymentIcons\visa.png" />
+    <Content Include="Images\CarRental\paymentIcons\mastercard.png" />
+    <Content Include="Images\CarRental\paymentIcons\paypal.png" />
+    <Content Include="Images\CarRental\pickup-car-rental.PNG" />
+    <Content Include="Images\CarRental\PickupPrimary.png" />
+    <Content Include="Images\CarRental\pickup\pickup_front.jpg" />
+    <Content Include="Images\CarRental\pickup\pickup_interior.jpg" />
+    <Content Include="Images\CarRental\pickup\pickup_sideview.jpg" />
+    <Content Include="Images\CarRental\POTTMPC\Van_Nissan_Urban.png" />
+    <Content Include="Images\CarRental\POTTMPC\Van_Nissan_Urban_premium.png" />
+    <Content Include="Images\CarRental\POTTMPC\Van_Starex.png" />
+    <Content Include="Images\CarRental\toyota-innova-car-rental.PNG" />
+    <Content Include="Images\CarRental\toyotagrandia_primary.jpg" />
+    <Content Include="Images\CarRental\HondaCity.jpg" />
+    <Content Include="Images\CarRental\Driver102.png" />
+    <Content Include="Images\CarRental\hondacity_primary.jpg" />
+    <Content Include="Images\CarRental\nissanpremium_primary.jpg" />
+    <Content Include="Images\CarRental\OffRoad101.png" />
+    <Content Include="Images\CarRental\settings.png" />
+    <Content Include="Images\CarRental\OffRoad101.jpg" />
+    <Content Include="Images\CarRental\OffRoad102.jpg" />
+    <Content Include="Images\CarRental\placeholder.png" />
+    <Content Include="Images\CarRental\Repair101.png" />
+    <Content Include="Images\CarRental\sedan-101.png" />
+    <Content Include="Images\CarRental\strada_primary.jpg" />
+    <Content Include="Images\CarRental\suv-101.png" />
+    <Content Include="Images\CarRental\ToyotaFortuner_primary.png" />
+    <Content Include="Images\CarRental\ToyotaGrandia.jpg" />
+    <Content Include="Images\CarRental\ToyotaHilux.jpg" />
+    <Content Include="Images\CarRental\ToyotaInnova.jpg" />
+    <Content Include="Images\CarRental\ToyotaInnovaDetails.jpg" />
+    <Content Include="Images\CarRental\toyotainnova_primary.jpg" />
+    <Content Include="Images\CarRental\Van101.jpg" />
+    <Content Include="Images\CarRental\Van102.jpg" />
+    <Content Include="Images\CarRental\grandiaPrimary.png" />
+    <Content Include="Images\CarRental\vios\toyotavios_backsideview.jpg" />
+    <Content Include="Images\CarRental\vios\toyotavios_frontview.jpg" />
+    <Content Include="Images\CarRental\vios\toyotavios_interior.jpg" />
+    <Content Include="Images\CarRental\vios_primary.png" />
+    <Content Include="Images\CustomerFiles\13\20180623_131024.jpg" />
+    <Content Include="Images\CustomerFiles\13\tutorme.png" />
+    <Content Include="Images\CustomerFiles\2\IMG_20151223_064601.jpg" />
+    <Content Include="Images\CustomerFiles\3\20180623_131024.jpg" />
+    <Content Include="Images\CustomerFiles\3\tutorme.png" />
+    <Content Include="Images\CustomerFiles\3\WDashboard-bigger.png" />
+    <Content Include="Images\Customers\Category\Active-30.png" />
+    <Content Include="Images\Customers\Category\cancel-40.png" />
+    <Content Include="Images\Customers\Category\high-priority-40.png" />
+    <Content Include="Images\Customers\Category\client-40.png" />
+    <Content Include="Images\Customers\Category\tour-40.png" />
+    <Content Include="Images\Customers\Category\car-40.png" />
+    <Content Include="Images\Customers\Category\low-priority-40.png" />
+    <Content Include="Images\Customers\Category\medium-priority-40.png" />
+    <Content Include="Images\Customers\Category\medium2-priority-40.png" />
+    <Content Include="Images\Customers\Category\star-filled-40.png" />
+    <Content Include="Images\Customers\Category\suspended-64.png" />
+    <Content Include="Images\Customers\Category\unavailable-40.png" />
+    <Content Include="Images\Customers\Category\vip-50.png" />
+    <Content Include="Images\Customers\Company\beach-40.png" />
+    <Content Include="Images\Customers\Company\dining-50.png" />
+    <Content Include="Images\Customers\Company\hotel-bed-40.png" />
+    <Content Include="Images\Customers\Company\hotel-building-50.png" />
+    <Content Include="Images\Customers\Company\museum-40.png" />
+    <Content Include="Images\Customers\Company\organization-40.png" />
+    <Content Include="Images\Customers\Company\small-business-40.png" />
+    <Content Include="Images\Envelop001.png" />
+    <Content Include="Images\GIF\gif-sending-mail.gif" />
+    <Content Include="Images\GIF\loading.gif" />
+    <Content Include="Images\googleMaps_office.png" />
+    <Content Include="Images\paypal.png" />
+    <Content Include="Images\LOGO_AJRENTACAR.jpg" />
+    <Content Include="Images\Mail.png" />
+    <Content Include="Images\Mepu\Logo.jpg" />
+    <Content Include="Images\Mepu\Logo2.png" />
+    <Content Include="Images\Phone001.png" />
+    <Content Include="Images\POTTMPC\icons\facebook-f-48.png" />
+    <Content Include="Images\POTTMPC\icons\gmail-48.png" />
+    <Content Include="Images\POTTMPC\icons\google-plus-48.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-airplane-take-off-100.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-car-rental-100.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-checkmark-64.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-hotel-100.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-new-ticket-104.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-star-96.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-taxi-booking-office-512%281%29.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-taxi-booking-office-512.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-tourist-guide-100.png" />
+    <Content Include="Images\POTTMPC\icons\icons8-van-100.png" />
+    <Content Include="Images\POTTMPC\icons\marker-100.png" />
+    <Content Include="Images\POTTMPC\icons\twitter-48.png" />
+    <Content Include="Images\POTTMPC\org chart.jpg" />
+    <Content Include="Images\POTTMPC\Palawan_map.jpg" />
+    <Content Include="Images\POTTMPC\POTTMPCBanner2.png" />
+    <Content Include="Images\POTTMPC\POTTMPC_logo.png" />
+    <Content Include="Images\POTTMPC\Starex\hyundai-starex-front.jpg" />
+    <Content Include="Images\POTTMPC\Starex\hyundai-starex-rear2.jpg" />
+    <Content Include="Images\POTTMPC\Starex\hyundai-starex-seats2.jpg" />
+    <Content Include="Images\POTTMPC\Starex\hyundai-starex-seats21.jpg" />
+    <Content Include="Images\POTTMPC\Urvan\Nissan-Urvan-front.jpg" />
+    <Content Include="Images\POTTMPC\Urvan\Nissan-Urvan-seats.jpg" />
+    <Content Include="Images\POTTMPC\Urvan\Nissan-Urvan-side.jpg" />
+    <Content Include="Images\RealBreezeLogo01.png" />
+    <Content Include="Images\SalesLead\3dots.jpg" />
+    <Content Include="Images\SalesLead\approve-icon.png" />
+    <Content Include="Images\SalesLead\close-icon.png" />
+    <Content Include="Images\SalesLead\DoubleArrow.jpg" />
+    <Content Include="Images\SalesLead\email101.png" />
+    <Content Include="Images\SalesLead\Email102.jpg" />
+    <Content Include="Images\SalesLead\GreenArrow.png" />
+    <Content Include="Images\SalesLead\high-importance.png" />
+    <Content Include="Images\SalesLead\Longterm.png" />
+    <Content Include="Images\SalesLead\meeting101.jpg" />
+    <Content Include="Images\SalesLead\meeting101.png" />
+    <Content Include="Images\SalesLead\meeting102.jpg" />
+    <Content Include="Images\SalesLead\Phone101.png" />
+    <Content Include="Images\SalesLead\phone102.png" />
+    <Content Include="Images\SalesLead\Phone103.png" />
+    <Content Include="Images\SalesLead\Quotation101.png" />
+    <Content Include="Images\SalesLead\Quotation102.png" />
+    <Content Include="Images\SalesLead\ShakeHands.png" />
+    <Content Include="Images\SalesLead\unhappy.jpg" />
+    <Content Include="Images\Signature-1.png" />
+    <Content Include="Images\SMS.png" />
+    <Content Include="Models\SQL.Job\AddChecklist.SQL" />
+    <Content Include="Models\SQL.Job\AsExpenseDB.sql" />
+    <Content Include="Models\SQL.CarCoop\CarRentalInitial.sql" />
+    <Content Include="Models\SQL.Job\CarRentalInitial.sql" />
+    <Content Include="Models\SQL.Job\CarRentalInitial_RatePackage.sql" />
+    <Content Include="Models\SQL.Job\CarRentalInitial_meta.sql" />
+    <Content Include="Models\SQL.Job\CustomerInitial.sql" />
+    <Content Include="Models\SQL.Job\DailyStatusUpdate.sql" />
+    <Content Include="Models\SQL.Job\InitialData.sql" />
+    <Content Include="Models\SQL.Job\JobDB.Car.sql" />
+    <Content Include="Models\JobDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JobDB.Context.cs</LastGenOutput>
+      <DependentUpon>JobDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\JobDB.edmx.sql" />
+    <Content Include="Models\JobDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JobDB.cs</LastGenOutput>
+      <DependentUpon>JobDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\SQL.Job\JobNotes.sql" />
+    <Content Include="Models\SQL.Job\JobOrder.PO.Tbls.sql" />
+    <Content Include="Models\SQL.Job\Job_ActionItemCount.sql" />
+    <Content Include="Models\SQL.Job\Job_ItemSchedules.sql" />
+    <Content Include="Models\SQL.Job\ProductsDB.sql" />
+    <Content Include="Models\SQL.Job\SalesLead.sql" />
+    <Content Include="Models\SQL.Job\InitTestData.sql" />
+    <Content Include="Models\SysDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SysDB.Context.cs</LastGenOutput>
+      <DependentUpon>SysDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\SysDB.edmx.sql" />
+    <Content Include="Models\SysDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SysDB.cs</LastGenOutput>
+      <DependentUpon>SysDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Properties\PublishProfiles\ftp.myasp.net.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\ftp.Somee.com.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\LocalPath.C.pubxml.user" />
+    <Content Include="Scripts\ai.0.15.0-build58334.js" />
+    <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WebService.asmx" />
+    <EntityDeploy Include="Models\JobDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>JobDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\JobDB.edmx.diagram">
+      <DependentUpon>JobDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Content\daterangepicker.scss" />
+    <Content Include="Areas\Accounting\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Accounting\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Accounting\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsExpenses\Create.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsExpenses\Delete.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsExpenses\Details.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsExpenses\Edit.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsExpenses\Index.cshtml" />
+    <EntityDeploy Include="Areas\Accounting\Models\AccountingDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AccountingDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Areas\Accounting\Models\AccountingDB.edmx.diagram">
+      <DependentUpon>AccountingDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Accounting\Views\AsSales\Create.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsSales\Delete.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsSales\Details.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsSales\Edit.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsSales\Index.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsSales\ParamForm.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsExpenses\ParamForm.cshtml" />
+    <Content Include="Areas\Accounting\Views\AsMain\Index.cshtml" />
+    <EntityDeploy Include="Models\SysDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SysDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SysDB.edmx.diagram">
+      <DependentUpon>SysDB.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\ftp.myasp.net.pubxml" />
+    <None Include="Properties\PublishProfiles\ftp.Somee.com.pubxml" />
+    <Content Include="Scripts\CarRental\FormCarSummary.js" />
+    <Content Include="Scripts\CarRental\FormCarPackages.js" />
+    <Content Include="Scripts\CarRental\FormCarReserve.js" />
+    <Content Include="Scripts\CarRental\ReservationClass.js" />
+    <Content Include="Scripts\CarRental\FormRenterValid.js" />
+    <Content Include="Scripts\DateRangePicker\bower.json" />
+    <Content Include="Scripts\DateRangePicker\package.json" />
+    <Content Include="Scripts\CarRental\Reservation.js" />
+    <Content Include="Scripts\DateRangePicker\daterangepicker.js" />
+    <Content Include="Scripts\DateRangePicker\moment.js" />
+    <Content Include="Scripts\DateRangePicker\moment.min.js" />
+    <Content Include="Scripts\DateRangePicker\package.js" />
+    <None Include="Properties\PublishProfiles\LocalPath.C.pubxml" />
+    <None Include="Properties\PublishProfiles\LocalPath.D.pubxml" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\Job\CarGateControl.js" />
+    <Content Include="Scripts\Job\CarMaintenance.js" />
+    <Content Include="Scripts\Job\Itinerary.js" />
+    <Content Include="Scripts\Job\FormRenter.js" />
+    <Content Include="Scripts\Job\PO.js" />
+    <Content Include="Scripts\Job\Product.js" />
+    <Content Include="Scripts\Job\Reporting.js" />
+    <Content Include="Scripts\Job\SalesLead.js" />
+    <Content Include="Scripts\Job\JobPickup.js" />
+    <Content Include="Scripts\Job\Services.js" />
+    <Content Include="Scripts\Job\Main.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Modal.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="SMSWebService.asmx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Suppliers\Create.cshtml" />
+    <Content Include="Views\Suppliers\Delete.cshtml" />
+    <Content Include="Views\Suppliers\Details.cshtml" />
+    <Content Include="Views\Suppliers\Edit.cshtml" />
+    <Content Include="Views\Suppliers\Index.cshtml" />
+    <Content Include="Views\Destinations\Create.cshtml" />
+    <Content Include="Views\Destinations\Delete.cshtml" />
+    <Content Include="Views\Destinations\Details.cshtml" />
+    <Content Include="Views\Destinations\Edit.cshtml" />
+    <Content Include="Views\Destinations\Index.cshtml" />
+    <Content Include="Views\SupplierItems\Create.cshtml" />
+    <Content Include="Views\SupplierItems\Delete.cshtml" />
+    <Content Include="Views\SupplierItems\Details.cshtml" />
+    <Content Include="Views\SupplierItems\Edit.cshtml" />
+    <Content Include="Views\SupplierItems\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\JobMains\Create.cshtml" />
+    <Content Include="Views\JobMains\Delete.cshtml" />
+    <Content Include="Views\JobMains\Details.cshtml" />
+    <Content Include="Views\JobMains\Edit.cshtml" />
+    <Content Include="Views\JobMains\Index.cshtml" />
+    <Content Include="Views\JobServices\Create.cshtml" />
+    <Content Include="Views\JobServices\Delete.cshtml" />
+    <Content Include="Views\JobServices\Details.cshtml" />
+    <Content Include="Views\JobServices\Edit.cshtml" />
+    <Content Include="Views\JobServices\Index.cshtml" />
+    <Content Include="Views\JobServices\Services.cshtml" />
+    <Content Include="Views\JobPayments\Create.cshtml" />
+    <Content Include="Views\JobPayments\Delete.cshtml" />
+    <Content Include="Views\JobPayments\Details.cshtml" />
+    <Content Include="Views\JobPayments\Edit.cshtml" />
+    <Content Include="Views\JobPayments\Index.cshtml" />
+    <Content Include="Views\JobItineraries\Create.cshtml" />
+    <Content Include="Views\JobItineraries\Delete.cshtml" />
+    <Content Include="Views\JobItineraries\Details.cshtml" />
+    <Content Include="Views\JobItineraries\Edit.cshtml" />
+    <Content Include="Views\JobItineraries\Index.cshtml" />
+    <Content Include="Views\JobMains\CreateCustomer.cshtml" />
+    <Content Include="Views\JobServices\CreateSupplier.cshtml" />
+    <Content Include="Views\JobMains\CloseJob.cshtml" />
+    <Content Include="Views\JobPickups\Create.cshtml" />
+    <Content Include="Views\JobPickups\Delete.cshtml" />
+    <Content Include="Views\JobPickups\Details.cshtml" />
+    <Content Include="Views\JobPickups\Edit.cshtml" />
+    <Content Include="Views\JobPickups\Index.cshtml" />
+    <Content Include="Views\JobServicePickups\Create.cshtml" />
+    <Content Include="Views\JobServicePickups\Delete.cshtml" />
+    <Content Include="Views\JobServicePickups\Details.cshtml" />
+    <Content Include="Views\JobServicePickups\Edit.cshtml" />
+    <Content Include="Views\JobServicePickups\Index.cshtml" />
+    <Content Include="Views\JobServices\ServicePickup.cshtml" />
+    <Content Include="Views\JobMains\JobTable.cshtml" />
+    <Content Include="Views\JobMains\JobLeads.cshtml" />
+    <Content Include="Views\CarRental\Index.cshtml" />
+    <Content Include="Views\CarRental\Reservation.cshtml" />
+    <Content Include="Views\CarRental\RateConfig.cshtml" />
+    <Content Include="Views\CarRental\LookupDestination.cshtml" />
+    <Content Include="Views\CarRental\LookupDestinationPartialView.cshtml" />
+    <Content Include="Views\CarDestinations\Create.cshtml" />
+    <Content Include="Views\CarDestinations\Delete.cshtml" />
+    <Content Include="Views\CarDestinations\Details.cshtml" />
+    <Content Include="Views\CarDestinations\Edit.cshtml" />
+    <Content Include="Views\CarDestinations\Index.cshtml" />
+    <Content Include="Views\CarUnits\Create.cshtml" />
+    <Content Include="Views\CarUnits\Delete.cshtml" />
+    <Content Include="Views\CarUnits\Details.cshtml" />
+    <Content Include="Views\CarUnits\Edit.cshtml" />
+    <Content Include="Views\CarUnits\Index.cshtml" />
+    <Content Include="Views\CarUnits\Rates.cshtml" />
+    <Content Include="Views\CarRental\RateDetails.cshtml" />
+    <Content Include="Views\CarRental\Index2.cshtml" />
+    <Content Include="Views\CarRental\CarRate.cshtml" />
+    <Content Include="Views\CarRates\Create.cshtml" />
+    <Content Include="Views\CarRates\Delete.cshtml" />
+    <Content Include="Views\CarRates\Details.cshtml" />
+    <Content Include="Views\CarRates\Edit.cshtml" />
+    <Content Include="Views\CarRates\Index.cshtml" />
+    <Content Include="Views\CarUnits\CreateRate.cshtml" />
+    <Content Include="Views\CarRental\UnitRate.cshtml" />
+    <Content Include="Views\CarReservations\Create.cshtml" />
+    <Content Include="Views\CarReservations\Delete.cshtml" />
+    <Content Include="Views\CarReservations\Details.cshtml" />
+    <Content Include="Views\CarReservations\Edit.cshtml" />
+    <Content Include="Views\CarReservations\Index.cshtml" />
+    <Content Include="Views\CarRental\ReservationNotification.cshtml" />
+    <Content Include="Views\MepuMain\Index.cshtml" />
+    <Content Include="Views\MepuMain\ProtectedAreas.cshtml" />
+    <Content Include="Views\MepuMain\_PartialViewSearchAreas.cshtml" />
+    <Content Include="Views\MepuMain\About.cshtml" />
+    <Content Include="Views\JobServices\TextMessage.cshtml" />
+    <Content Include="Views\JobContacts\Create.cshtml" />
+    <Content Include="Views\JobContacts\Delete.cshtml" />
+    <Content Include="Views\JobContacts\Details.cshtml" />
+    <Content Include="Views\JobContacts\Edit.cshtml" />
+    <Content Include="Views\JobContacts\Index.cshtml" />
+    <Content Include="Views\JobMains\SubDetails.cshtml" />
+    <Content Include="Views\JobPayments\AdvanceList.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\ProductPrices\Create.cshtml" />
+    <Content Include="Views\ProductPrices\Delete.cshtml" />
+    <Content Include="Views\ProductPrices\Details.cshtml" />
+    <Content Include="Views\ProductPrices\Edit.cshtml" />
+    <Content Include="Views\ProductPrices\Index.cshtml" />
+    <Content Include="Views\ProductProdCats\Create.cshtml" />
+    <Content Include="Views\ProductProdCats\Delete.cshtml" />
+    <Content Include="Views\ProductProdCats\Details.cshtml" />
+    <Content Include="Views\ProductProdCats\Edit.cshtml" />
+    <Content Include="Views\ProductProdCats\Index.cshtml" />
+    <Content Include="Views\ProductCategories\Create.cshtml" />
+    <Content Include="Views\ProductCategories\Delete.cshtml" />
+    <Content Include="Views\ProductCategories\Details.cshtml" />
+    <Content Include="Views\ProductCategories\Edit.cshtml" />
+    <Content Include="Views\ProductCategories\Index.cshtml" />
+    <Content Include="Views\Products\PartialViewProductTemplate.cshtml" />
+    <Content Include="Views\Products\PartialViewProductItineraries.cshtml" />
+    <Content Include="Views\JobMains\Details_Quote.cshtml" />
+    <Content Include="Views\JobMains\ProductTemplates.cshtml" />
+    <Content Include="Views\PreDefinedNotes\Create.cshtml" />
+    <Content Include="Views\PreDefinedNotes\Delete.cshtml" />
+    <Content Include="Views\PreDefinedNotes\Details.cshtml" />
+    <Content Include="Views\PreDefinedNotes\Edit.cshtml" />
+    <Content Include="Views\PreDefinedNotes\Index.cshtml" />
+    <Content Include="Views\JobMains\JobNotes.cshtml" />
+    <Content Include="Views\JobMains\CreateJobNote.cshtml" />
+    <Content Include="Views\JobMains\EditJobNote.cshtml" />
+    <Content Include="Views\JobMains\Details_Invoice.cshtml" />
+    <Content Include="Views\JobMains\ActiveJobs.cshtml" />
+    <Content Include="Views\JobChecklists\Create.cshtml" />
+    <Content Include="Views\JobChecklists\Delete.cshtml" />
+    <Content Include="Views\JobChecklists\Details.cshtml" />
+    <Content Include="Views\JobChecklists\Edit.cshtml" />
+    <Content Include="Views\JobChecklists\Index.cshtml" />
+    <Content Include="Views\SalesLeads\Create.cshtml" />
+    <Content Include="Views\SalesLeads\Delete.cshtml" />
+    <Content Include="Views\SalesLeads\Details.cshtml" />
+    <Content Include="Views\SalesLeads\Edit.cshtml" />
+    <Content Include="Views\SalesLeads\Index.cshtml" />
+    <Content Include="Views\SalesLeads\SalesLeadCat.cshtml" />
+    <Content Include="Views\SalesLeads\ListActivityCodes.cshtml" />
+    <Content Include="Views\SalesLeads\AddActivityCode.cshtml" />
+    <Content Include="Views\SalesActivities\Create.cshtml" />
+    <Content Include="Views\SalesActivities\Delete.cshtml" />
+    <Content Include="Views\SalesActivities\Details.cshtml" />
+    <Content Include="Views\SalesActivities\Edit.cshtml" />
+    <Content Include="Views\SalesActivities\Index.cshtml" />
+    <Content Include="Views\SalesLeads\CompanyEdit.cshtml" />
+    <Content Include="Views\SalesLeads\CompanyDetail.cshtml" />
+    <Content Include="Views\JobOrder\Index.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewService.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewServiceList.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewJobServiceItems.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewSrvActionItems.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewJS.cshtml" />
+    <Content Include="Views\InvItems\Create.cshtml" />
+    <Content Include="Views\InvItems\Delete.cshtml" />
+    <Content Include="Views\InvItems\Details.cshtml" />
+    <Content Include="Views\InvItems\Edit.cshtml" />
+    <Content Include="Views\InvItems\Index.cshtml" />
+    <Content Include="Views\InvItems\ItemSchedules.cshtml" />
+    <Content Include="Views\InvItems\ItemList_byServiceId.cshtml" />
+    <Content Include="Views\JobOrder\InventoryItemList.cshtml" />
+    <Content Include="Views\JobOrder\BrowseInvItem_withSchedule.cshtml" />
+    <Content Include="Views\JobOrder\CompanyDetail.cshtml" />
+    <Content Include="Views\JobOrder\CreateCustomer.cshtml" />
+    <Content Include="Views\JobOrder\JobDetails.cshtml" />
+    <Content Include="Views\CustCategories\Create.cshtml" />
+    <Content Include="Views\CustCategories\Delete.cshtml" />
+    <Content Include="Views\CustCategories\Details.cshtml" />
+    <Content Include="Views\CustCategories\Edit.cshtml" />
+    <Content Include="Views\CustCategories\Index.cshtml" />
+    <Content Include="Views\CustCats\Create.cshtml" />
+    <Content Include="Views\CustCats\Delete.cshtml" />
+    <Content Include="Views\CustCats\Details.cshtml" />
+    <Content Include="Views\CustCats\Edit.cshtml" />
+    <Content Include="Views\CustCats\Index.cshtml" />
+    <Content Include="Views\CustEntities\Create.cshtml" />
+    <Content Include="Views\CustEntities\Delete.cshtml" />
+    <Content Include="Views\CustEntities\Details.cshtml" />
+    <Content Include="Views\CustEntities\Edit.cshtml" />
+    <Content Include="Views\CustEntities\Index.cshtml" />
+    <Content Include="Views\CustEntMains\Create.cshtml" />
+    <Content Include="Views\CustEntMains\Delete.cshtml" />
+    <Content Include="Views\CustEntMains\Details.cshtml" />
+    <Content Include="Views\CustEntMains\Edit.cshtml" />
+    <Content Include="Views\CustEntMains\Index.cshtml" />
+    <Content Include="Views\CustFiles\AsynFileUpload.cshtml" />
+    <Content Include="Views\CustFiles\Create.cshtml" />
+    <Content Include="Views\CustFiles\Delete.cshtml" />
+    <Content Include="Views\CustFiles\Details.cshtml" />
+    <Content Include="Views\CustFiles\Edit.cshtml" />
+    <Content Include="Views\Customers\PartialView_CategoryDetails.cshtml" />
+    <Content Include="Views\Customers\PartialView_CompanyDetails.cshtml" />
+    <Content Include="Views\Customers\PartialView_Files.cshtml" />
+    <Content Include="Views\Customers\PartialView_JobDetails.cshtml" />
+    <Content Include="Views\CustFiles\UploadFiles.cshtml" />
+    <Content Include="Views\CustFiles\Index.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewServiceSupPo.cshtml" />
+    <Content Include="Views\SupplierPoHdrs\Create.cshtml" />
+    <Content Include="Views\SupplierPoHdrs\Delete.cshtml" />
+    <Content Include="Views\SupplierPoHdrs\Details.cshtml" />
+    <Content Include="Views\SupplierPoHdrs\Edit.cshtml" />
+    <Content Include="Views\SupplierPoHdrs\Index.cshtml" />
+    <Content Include="Views\SupplierPoDtls\Create.cshtml" />
+    <Content Include="Views\SupplierPoDtls\Delete.cshtml" />
+    <Content Include="Views\SupplierPoDtls\Details.cshtml" />
+    <Content Include="Views\SupplierPoDtls\Edit.cshtml" />
+    <Content Include="Views\SupplierPoDtls\Index.cshtml" />
+    <Content Include="Views\Customers\PartialView_UploadFiles.cshtml" />
+    <Content Include="Views\SupplierPoDtls\ItemCreate.cshtml" />
+    <Content Include="Views\SupplierPoDtls\AddVehicle.cshtml" />
+    <Content Include="Views\JobMains\JobTable2.cshtml" />
+    <Content Include="Views\JobOrder\InitializePO.cshtml" />
+    <Content Include="Views\JobOrder\JobServiceDetails.cshtml" />
+    <Content Include="Views\JobOrder\JobServiceEdit.cshtml" />
+    <Content Include="Views\JobOrder\PoDetails.cshtml" />
+    <Content Include="Views\InvItems\Availability.cshtml" />
+    <Content Include="Views\JobOrder\JobServiceAdd.cshtml" />
+    <Content Include="Views\JobOrder\jobCreate.cshtml" />
+    <Content Include="Views\SalesLeads\FileCreate.cshtml" />
+    <Content Include="Views\SalesLeads\FileList.cshtml" />
+    <Content Include="Views\SalesLeads\QuotationCreate.cshtml" />
+    <Content Include="Views\SalesLeads\QuotationEdit.cshtml" />
+    <Content Include="Views\JobOrder\DailyUpdateList.cshtml" />
+    <Content Include="Views\SalesLeads\QuotationLink.cshtml" />
+    <Content Include="Views\Suppliers\InvItems.cshtml" />
+    <Content Include="Views\Suppliers\AddInvItem.cshtml" />
+    <Content Include="Views\JobOrder\JobServicePickup.cshtml" />
+    <Content Include="Views\JobOrder\JobServices.cshtml" />
+    <Content Include="Views\JobMains\JobQuickList.cshtml" />
+    <Content Include="Views\JobOrder\BookingDetails.cshtml" />
+    <Content Include="Views\JobOrder\Details_Invoice.cshtml" />
+    <Content Include="Views\JobOrder\Details_Quote.cshtml" />
+    <Content Include="Views\JobOrder\TextMessage.cshtml" />
+    <Content Include="Views\SalesLeads\CreateCustomer.cshtml" />
+    <Content Include="Views\JobOrder\PaymentIndex.cshtml" />
+    <Content Include="Views\JobOrder\PaymentAdvanceList.cshtml" />
+    <Content Include="Views\JobOrder\PaymentCreate.cshtml" />
+    <Content Include="Views\JobOrder\PaymentDelete.cshtml" />
+    <Content Include="Views\JobOrder\PaymentDetails.cshtml" />
+    <Content Include="Views\JobOrder\PaymentEdit.cshtml" />
+    <Content Include="Views\MainGeneric\Index.cshtml" />
+    <Content Include="Views\InvCarGateControls\Create.cshtml" />
+    <Content Include="Views\InvCarGateControls\Delete.cshtml" />
+    <Content Include="Views\InvCarGateControls\Details.cshtml" />
+    <Content Include="Views\InvCarGateControls\Edit.cshtml" />
+    <Content Include="Views\InvCarGateControls\Index.cshtml" />
+    <Content Include="Views\InvCarRecords\Create.cshtml" />
+    <Content Include="Views\InvCarRecords\Delete.cshtml" />
+    <Content Include="Views\InvCarRecords\Details.cshtml" />
+    <Content Include="Views\InvCarRecords\Edit.cshtml" />
+    <Content Include="Views\InvCarRecords\Index.cshtml" />
+    <Content Include="Views\InvCarRecordTypes\Create.cshtml" />
+    <Content Include="Views\InvCarRecordTypes\Delete.cshtml" />
+    <Content Include="Views\InvCarRecordTypes\Details.cshtml" />
+    <Content Include="Views\InvCarRecordTypes\Edit.cshtml" />
+    <Content Include="Views\InvCarRecordTypes\Index.cshtml" />
+    <Content Include="Views\JobOrder\BrowseInvItem_withScheduleJS.cshtml" />
+    <Content Include="Views\JobServices\NotificationList.cshtml" />
+    <Content Include="Views\JobOrder\jobTrails.cshtml" />
+    <Content Include="Views\CarRental\CarHome.cshtml" />
+    <Content Include="Views\CarRental\CarDetail_van.cshtml" />
+    <Content Include="Views\CarRental\CarDetail_sedan.cshtml" />
+    <Content Include="Views\CarRental\CarDetail_suv.cshtml" />
+    <Content Include="Views\CarRental\CarDetail_mpv.cshtml" />
+    <Content Include="Views\CarRental\CarDetail_pickup.cshtml" />
+    <Content Include="Views\CarRental\CarDetail_temp.cshtml" />
+    <Content Include="Views\CarRental\Partial_content_1.cshtml" />
+    <Content Include="Views\CarRental\CarReserve.cshtml" />
+    <Content Include="Views\CarRental\FormReservation.cshtml" />
+    <Content Include="Views\CarRental\FormPackages.cshtml" />
+    <Content Include="Views\CarRental\FormSummary.cshtml" />
+    <Content Include="Views\CarRental\FormRenter.cshtml" />
+    <Content Include="Views\CarRental\FormThankYou.cshtml" />
+    <Content Include="Views\CarRatePackages\Create.cshtml" />
+    <Content Include="Views\CarRatePackages\Delete.cshtml" />
+    <Content Include="Views\CarRatePackages\Details.cshtml" />
+    <Content Include="Views\CarRatePackages\Edit.cshtml" />
+    <Content Include="Views\CarRatePackages\Index.cshtml" />
+    <Content Include="Views\CarRateUnitPackages\Create.cshtml" />
+    <Content Include="Views\CarRateUnitPackages\Delete.cshtml" />
+    <Content Include="Views\CarRateUnitPackages\Details.cshtml" />
+    <Content Include="Views\CarRateUnitPackages\Edit.cshtml" />
+    <Content Include="Views\CarRateUnitPackages\Index.cshtml" />
+    <Content Include="Views\CarRental\Contact.cshtml" />
+    <Content Include="Views\CarRental\About.cshtml" />
+    <Content Include="Views\Home\MobileModalView.cshtml" />
+    <Content Include="Views\CarRental\MobileModalView.cshtml" />
+    <Content Include="Views\CarReservations\CreateQuotation.cshtml" />
+    <Content Include="Views\CarRental\CarViews\HondaCity.cshtml" />
+    <Content Include="Views\CarRental\CarViews\FordEverest.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ToyotaGLGrandia.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ListingSedan.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ToyotaInnova.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ListingAds.cshtml" />
+    <Content Include="Views\CarRental\CarViews\HondaCity2012.cshtml" />
+    <Content Include="Views\CarRental\CarViews\HondaCity2012-SelfDrive.cshtml" />
+    <Content Include="Views\CarRental\CarViews\MiniVanSedan.cshtml" />
+    <Content Include="Views\CarRental\CarViews\DavaoRentaCar.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ToyotaAvanza.cshtml" />
+    <Content Include="Views\CarRental\CarViews\VanRental.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ListingAds2.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ToyotaInnovaCarForRent.cshtml" />
+    <Content Include="Views\CarRental\CarViews\FordFiesta.cshtml" />
+    <Content Include="Views\CarRental\CarViews\RentCarSelfDrive.cshtml" />
+    <Content Include="Views\CarRental\CarViews\HondaCityRental.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ToyotaFortuner.cshtml" />
+    <Content Include="Views\CarRental\CarViews\Pickup4x4.cshtml" />
+    <Content Include="Views\CarRental\CarViews\Tags\car-rental-davao.cshtml" />
+    <Content Include="Views\CarRental\CarViews\Tags\davao-rent-A-car.cshtml" />
+    <Content Include="Views\CarRental\CarViews\Tags\rent-a-car-davao-city.cshtml" />
+    <Content Include="Views\CarRental\CarViews\Tags\van-for-rent-davao-city.cshtml" />
+    <Content Include="Views\CarRental\CarViews\TagsView.cshtml" />
+    <Content Include="Views\CarRental\CarViews\TagsViewListing.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ListingSUV.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ListingVan.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ListingMPV.cshtml" />
+    <Content Include="Views\CarRental\CarViews\PopularAdsView.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ListingPickup.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\DavaoRentaCar.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\FordEverest.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\FordFiesta.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\HondaCity.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\HondaCity2012-SelfDrive.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\HondaCity2012.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\HondaCityRental.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ListingAds.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ListingAds2.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ListingMPV.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ListingPickup.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ListingSedan.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ListingSUV.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ListingVan.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\MiniVanSedan.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\Pickup4x4.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\PopularAdsView.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\RentCarSelfDrive.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\Tags\car-rental-davao.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\Tags\davao-rent-A-car.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\Tags\rent-a-car-davao-city.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\Tags\van-for-rent-davao-city.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\TagsView.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\TagsViewListing.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ToyotaAvanza.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ToyotaFortuner.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ToyotaGLGrandia.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ToyotaInnova.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\ToyotaInnovaCarForRent.cshtml" />
+    <Content Include="Views\CarCoop\CarViews\VanRental.cshtml" />
+    <Content Include="Views\CarCoop\About.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_mpv.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_pickup.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_sedan.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_suv.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_temp.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_van.cshtml" />
+    <Content Include="Views\CarCoop\CarHome.cshtml" />
+    <Content Include="Views\CarCoop\CarRate.cshtml" />
+    <Content Include="Views\CarCoop\CarReserve.cshtml" />
+    <Content Include="Views\CarCoop\Contact.cshtml" />
+    <Content Include="Views\CarCoop\FormPackages.cshtml" />
+    <Content Include="Views\CarCoop\FormRenter.cshtml" />
+    <Content Include="Views\CarCoop\FormReservation.cshtml" />
+    <Content Include="Views\CarCoop\FormSummary.cshtml" />
+    <Content Include="Views\CarCoop\FormThankYou.cshtml" />
+    <Content Include="Views\CarCoop\Index.cshtml" />
+    <Content Include="Views\CarCoop\Index2.cshtml" />
+    <Content Include="Views\CarCoop\LookupDestination.cshtml" />
+    <Content Include="Views\CarCoop\LookupDestinationPartialView.cshtml" />
+    <Content Include="Views\CarCoop\MobileModalView.cshtml" />
+    <Content Include="Views\CarCoop\Partial_content_1-old.cshtml" />
+    <Content Include="Views\CarCoop\RateConfig.cshtml" />
+    <Content Include="Views\CarCoop\RateDetails.cshtml" />
+    <Content Include="Views\CarCoop\Reservation.cshtml" />
+    <Content Include="Views\CarCoop\ReservationNotification.cshtml" />
+    <Content Include="Views\CarCoop\UnitRate.cshtml" />
+    <Content Include="Views\CoopMembers\Create.cshtml" />
+    <Content Include="Views\CoopMembers\Delete.cshtml" />
+    <Content Include="Views\CoopMembers\Details.cshtml" />
+    <Content Include="Views\CoopMembers\Edit.cshtml" />
+    <Content Include="Views\CoopMembers\Index.cshtml" />
+    <Content Include="Views\CarCoop\Index - Copy.cshtml" />
+    <Content Include="Views\CarCoop\Partial_content_1.cshtml" />
+    <Content Include="Views\JobOrder\JobListing.cshtml" />
+    <Content Include="Views\Customers\CompanyCreate.cshtml" />
+    <Content Include="Views\Reporting\Index.cshtml" />
+    <Content Include="Views\Reporting\JobListing.cshtml" />
+    <Content Include="Views\Reporting\PaymentsReport.cshtml" />
+    <Content Include="Views\Reporting\JobListingReport.cshtml" />
+    <Content Include="Views\Reporting\Payments.cshtml" />
+    <Content Include="Views\Reporting\PaymentsPrint.cshtml" />
+    <Content Include="Views\Reporting\JobListingPrint.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_van_starex.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_van_urvan.cshtml" />
+    <Content Include="Views\CarCoop\CarDetail_van_urvan_premium.cshtml" />
+    <Content Include="Views\PaypalTransactions\Create.cshtml" />
+    <Content Include="Views\PaypalTransactions\Delete.cshtml" />
+    <Content Include="Views\PaypalTransactions\Details.cshtml" />
+    <Content Include="Views\PaypalTransactions\Edit.cshtml" />
+    <Content Include="Views\PaypalTransactions\Index.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\RateGroups\Create.cshtml" />
+    <Content Include="Views\RateGroups\Delete.cshtml" />
+    <Content Include="Views\RateGroups\Details.cshtml" />
+    <Content Include="Views\RateGroups\Edit.cshtml" />
+    <Content Include="Views\RateGroups\Index.cshtml" />
+    <Content Include="Views\RateGroups\CreateRateGroup.cshtml" />
+    <Content Include="Views\RateGroups\CarRateGroupList.cshtml" />
+    <Content Include="Views\Reporting\PackageRates.cshtml" />
+    <Content Include="Views\Reporting\PackageRatesReport.cshtml" />
+    <Content Include="Views\Reporting\PackageRatesPrint.cshtml" />
+    <Content Include="Views\CarRental\Articles.cshtml" />
+    <Content Include="Views\EmailBlaster\Create.cshtml" />
+    <Content Include="Views\EmailBlaster\Delete.cshtml" />
+    <Content Include="Views\EmailBlaster\Details.cshtml" />
+    <Content Include="Views\EmailBlaster\Edit.cshtml" />
+    <Content Include="Views\EmailBlaster\Index.cshtml" />
+    <Content Include="Views\EmailBlaster\BlastResult.cshtml" />
+    <Content Include="Views\JobOrder\TextConfirmation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Accounting\Scripts\Accounting.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\Reporting\" />
+    <Folder Include="Views\Paypal\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50382</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50382/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
