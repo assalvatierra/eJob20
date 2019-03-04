@@ -502,6 +502,106 @@ rental-type-wdriver {
     }
 
 
+/* **********************************
+    Real Breeze Styles 
+    2019
+************************************* */
+    /* featured */
+.featured {
+    background-color: #fff;
+}
+
+    .featured .content-wrapper1 {
+        background-color: #7ac0da;
+        background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
+        background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        color: #3e5667;
+        padding: 20px 40px 30px 40px;
+    }
+    .featured .content-wrapper {
+        background-position:center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-color: #7ac0da;
+        padding: 2px 40px 3px 60px;
+    }
+
+
+
+        .featured hgroup.title h1, .featured hgroup.title h2 {
+            color: #333;
+        }
+
+        .featured p {
+            font-size: 1.1em;
+        }
+
+/**--- ERP2015 styles*/
+.textClass_dark {
+    color:rgba(0, 0, 0, 0.5);
+	text-shadow: 1px 4px 6px #e2e2e2;
+    font: 9px, arial, verdana;
+}
+.textClass_light {
+    color: #fff;
+	text-shadow: 1px 4px 6px #e2e2e2;
+}
+.HomePageLogo{
+	padding:6px;
+    margin:10px;
+	margin-top:25px;
+	border-radius:4px;
+    float:left;
+	background-color:#e2e2e2;
+}
+    .HomePageLogo img {
+        height: 90px;
+    }
+
+.ModuleIcon {
+	float: left;
+	width: 135px;
+	height: 150px;
+	border: 1px solid #d2d2d2;
+	border-radius: 4px;
+	margin: 3px;
+	text-align: center;
+}
+
+.ModulePageIcon {
+	height: 80px;
+	margin: 3px;
+	float:left;
+}
+.HomeLinkIcon {
+	height: 40px;
+	width: 160px;
+	margin: 3px;
+}
+
+.CustomBox{
+	float:left;
+	border: solid 1px #c8c8c8;
+	box-shadow: 2px 2px 6px #999;
+	background: none repeat scroll 0% 0% #E2E2E2;
+	padding: 12px;
+	margin: 6px 3px 6px 3px;
+	border-radius:4px;
+}
+	.CustomBox p {
+		color: #3a2d5b;
+		text-shadow: 0px -1px 0px #fff;
+	}
+
+	.CustomBox a{
+		font: bold 14px arial, verdana;
+		color: blue;
+	}
+
+
     /*CarRental/Index*/
     .carrental-car-img{
         display:block;

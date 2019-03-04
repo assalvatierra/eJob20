@@ -2,10 +2,39 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Sys Online v1.1</h1>
-    <p class="lead">Resource Planning App</p>
 
+<div class="featured">
+    <div class="content-wrapper @ViewBag.TextClass"
+         style="background-image:url('@Url.Content("~/")@ViewBag.EntHomeBackgroundImage');">
+        <div class="HomePageLogo">
+            <img src="@Url.Content("~/")@ViewBag.EntHomePageLogo" />
+        </div>
+        <div style="background-position:center;background-size:cover;">
+            <h2 class="@ViewBag.TextClass">
+                @ViewBag.EntName
+            </h2>
+            <p class="@ViewBag.TextClass">
+                @ViewBag.EntAddress1 <br />
+                @ViewBag.EntAddress2 <br />
+                @ViewBag.EntAddress3 <br />
+                @ViewBag.EntAddress4 <br />
+                @ViewBag.EntAddress5 <br /> <br />
+            </p>
+        </div>
+    </div>
+</div>
+
+<div>
+    <h3>Modules</h3>
+    <span>
+        @( ViewBag.ConfigVersion != "" || ViewBag.DBActive != "" ? "Configuration: " : "")
+        @( ViewBag.ConfigVersion != "" ? " Web: " + ViewBag.ConfigVersion : "" )
+        @( ViewBag.DBActive != "" ? " | DB: " + ViewBag.DBActive : "" )
+    </span>
+</div>
+
+
+<div class="jumbotron">
     <p>@Html.ActionLink("Register New Job Order »", "jobCreate", "JobOrder", null, new { @class = "btn btn-primary btn-lg" }) </p>
     <p class="lead">Jobs
     [ @Html.ActionLink("Work In Progress", "Index", "JobOrder", new { sortid = 1 },null) ] [ @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null) ]
