@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsV1", "JobsV1\JobsV1.csproj", "{0C7180C0-7C07-454E-96F3-562B508371DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsV2", "JobsV1\JobsV2.csproj", "{0C7180C0-7C07-454E-96F3-562B508371DC}"
 EndProject
 Global
 	GlobalSection(Performance) = preSolution
