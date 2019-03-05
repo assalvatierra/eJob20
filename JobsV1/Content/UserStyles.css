@@ -1,0 +1,292 @@
+﻿/* **********************************
+    Real Breeze Styles 
+    2019
+************************************* */
+    /* featured */
+.featured {
+    background-color: #fff;
+}
+
+    .featured .content-wrapper1 {
+        background-color: #7ac0da;
+        background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
+        background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        color: #3e5667;
+        padding: 20px 40px 30px 40px;
+    }
+    .featured .content-wrapper {
+        background-position:center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-color: #7ac0da;
+        padding: 2px 40px 3px 60px;
+    }
+
+
+
+        .featured hgroup.title h1, .featured hgroup.title h2 {
+            color: #333;
+        }
+
+        .featured p {
+            font-size: 1.1em;
+        }
+
+
+/**--- ERP2015 styles*/
+
+.ModuleIcon {
+	float: left;
+	width: 135px;
+	height: 150px;
+	border: 1px solid #d2d2d2;
+	border-radius: 4px;
+	margin: 3px;
+	text-align: center;
+}
+
+.ModulePageIcon {
+	height: 80px;
+	margin: 3px;
+	float:left;
+}
+.HomeLinkIcon {
+	height: 40px;
+	width: 160px;
+	margin: 3px;
+}
+
+.CustomBox{
+	float:left;
+	border: solid 1px #c8c8c8;
+	box-shadow: 2px 2px 6px #999;
+	background: none repeat scroll 0% 0% #E2E2E2;
+	padding: 12px;
+	margin: 6px 3px 6px 3px;
+	border-radius:4px;
+}
+	.CustomBox p {
+		color: #3a2d5b;
+		text-shadow: 0px -1px 0px #fff;
+	}
+
+	.CustomBox a{
+		font: bold 14px arial, verdana;
+		color: blue;
+	}
+
+.TicketItem{
+	background-color: #3c5998;
+	font: 300 14px Verdana;
+	color: #0ff;
+	border: 1px none #7ac0da;
+	margin: 1px 1px 12px 1px;
+	border-radius: 8px;
+}
+	.TicketItem a{
+		font: 600 14px Verdana;
+		color: #00ff90;
+	}
+
+	.TicketItem h1{
+		font: 500 14px helvitica, verdana;
+		color:#e2e2e2;
+		text-shadow:0px 0px 0px #fff;
+	}
+
+.TicketItem .TicketDetails
+{
+	margin: 10px;
+	width:100%;
+}
+
+.TicketItem .TaskList{
+	background-color: #efeeef;
+	font: 300 14px Tahoma, Verdana;
+	color: #575757;
+	padding-left:12px;
+	border:  1px dotted gray;
+	margin:0px;
+	border-radius: 8px;
+}
+.TicketItem .TaskList a{
+	font: 400 14px Tahoma, Verdana;
+	color: #179cce;
+}
+
+
+.infotable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #999999;
+	border-collapse: collapse;
+}
+.infotable th {
+	background-color:#f0fefe;
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+.infotable tr {
+	background-color:#f6fafc;
+}
+.infotable td {
+	border-width: 1px;
+	padding: 3px;
+	border-style: solid;
+	border-color: #a9c6c9;
+	white-space:nowrap;
+
+}
+
+.infotable2 {
+	font-family: verdana,arial,sans-serif;
+	font-size:12px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #999999;
+	border-collapse: collapse;
+}
+.infotable2 th {
+	background-color:#f0fefe;
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+.infotable2 tr {
+	background-color:#f6fafc;
+	padding: 12px;
+}
+.infotable2 td {
+	border-width: 1px;
+	padding: 6px;
+	border-style: solid;
+	border-color: #a9c6c9;
+	white-space:nowrap;
+
+}
+	.infotable2 td a
+	{
+		color:saddlebrown;
+	}
+
+
+.box101
+{
+	padding:12px;
+	border: solid 1px #d9d9d9;
+	width:100%;
+}
+
+.bordered .box102
+{
+	
+	border: solid 1px #d9d9d9;
+	border-radius: 4px;
+	background-color: #337ab7;
+	color:white;
+}
+	.bordered .box102 td, .bordered.box102 th {
+	    padding: 4px;
+	    text-align: right;    
+		min-width: 30px;
+	}
+		.bordered .box102 td h1{
+			font:800 10px arial, verdana;
+			color: rgba(255,255,255,.5);
+			margin:2px;
+		}
+
+	.bordered .box102 tr:hover {
+	    background: #338ab8;
+	    -o-transition: all 0.1s ease-in-out;
+	    -webkit-transition: all 0.1s ease-in-out;
+		-moz-transition: all 0.1s ease-in-out;
+		-ms-transition: all 0.1s ease-in-out;
+		transition: all 0.1s ease-in-out;     
+	}    
+
+
+
+.bordered {
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc; 
+    -moz-box-shadow: 0 1px 1px #ccc; 
+    box-shadow: 0 1px 1px #ccc;         
+}
+
+.bordered1 tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;     
+}    
+    
+.bordered td, .bordered th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;    
+	white-space: nowrap;
+}
+
+.bordered th {
+    background-color: #dce9f9;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
+    background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5); 
+}
+
+.bordered td:first-child, .bordered th:first-child {
+    border-left: none;
+}
+
+.bordered th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+
+.bordered th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+
+.bordered th:only-child{
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+
+.bordered tr:last-child td:first-child {
+    -moz-border-radius: 0 0 0 6px;
+    -webkit-border-radius: 0 0 0 6px;
+    border-radius: 0 0 0 6px;
+}
+
+.bordered tr:last-child td:last-child {
+    -moz-border-radius: 0 0 6px 0;
+    -webkit-border-radius: 0 0 6px 0;
+    border-radius: 0 0 6px 0;
+}

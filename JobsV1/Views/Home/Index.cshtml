@@ -10,15 +10,16 @@
             <img src="@Url.Content("~/")@ViewBag.EntHomePageLogo" />
         </div>
         <div style="background-position:center;background-size:cover;">
-            <h2 class="@ViewBag.TextClass">
-                @ViewBag.EntName
-            </h2>
-            <p class="@ViewBag.TextClass">
+            <br />
+                <h2 class="@ViewBag.TextClass">
+                    @ViewBag.EntName
+                </h2>
+                <p class="@ViewBag.TextClass">
                 @ViewBag.EntAddress1 <br />
                 @ViewBag.EntAddress2 <br />
                 @ViewBag.EntAddress3 <br />
                 @ViewBag.EntAddress4 <br />
-                @ViewBag.EntAddress5 <br /> <br />
+                @ViewBag.EntAddress5 <br />
             </p>
         </div>
     </div>
@@ -38,7 +39,7 @@
     <div class="col-md-4">
 
         <a href="@Url.Action("Service","Module", new { id=@t.Id })">
-            <img src="@Url.Content("~/")@t.IconPath" style="height:75%;" alt="Edit" />
+            <img src="@Url.Content("~/")@t.IconPath" style="height:140px;" alt="Edit" />
         </a>
         <p>
             @t.Description

@@ -16,10 +16,10 @@ namespace JobsV1.Controllers
         {
 
             ViewBag.Message = "Main page";
-            ViewBag.EntHomePageLogo = "Images/EntityFiles/GAC/gaclogo.jpg"; //to update
+            ViewBag.EntHomePageLogo = "Images/EntityFiles/RBC/RealBreezeLogo01.png"; //to update
             ViewBag.EntHomeBackgroundImage = "Images/EntityFiles/GAC/home_background.jpg"; //to update
 
-            ViewBag.TextClass = "textClass_dark";
+            ViewBag.TextClass = "textClass_dark"; // { textClass_dark | textClass_light }
             ViewBag.EntName = "Real Breeze Travel and Tours";
             ViewBag.EntAddress1 = "2/F Prime-Z Bldg, McArthur Hway, Davao city, Philipines ";
             ViewBag.EntAddress2 = "M: 0916-755-8473, 0926-733-5449, 0909-076-1575";

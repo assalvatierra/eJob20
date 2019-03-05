@@ -695,6 +695,7 @@
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\ModalUser.css" />
+    <Content Include="Content\Erp.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -752,6 +753,7 @@
     <Content Include="Content\themes\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Content\themes\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\themes\ui-lightness\jquery-ui.css" />
+    <Content Include="Content\UserStyles.css" />
     <Content Include="Documents\FeatureList.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -901,6 +903,7 @@
     <Content Include="Images\EntityFiles\GAC\home_background3.jpg" />
     <Content Include="Images\EntityFiles\GAC\home_background4.jpg" />
     <Content Include="Images\EntityFiles\GAC\home_background5.jpg" />
+    <Content Include="Images\EntityFiles\RBC\RealBreezeLogo01.png" />
     <Content Include="Images\Envelop001.png" />
     <Content Include="Images\Erp\Container05.png" />
     <Content Include="Images\Erp\Container_01.png" />

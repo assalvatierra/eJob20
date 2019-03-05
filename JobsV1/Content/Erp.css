@@ -1,0 +1,31 @@
+﻿/* **********************************
+    Real Breeze Styles 
+    2019
+************************************* */
+
+.featured {
+    background-color: #fff;
+    padding-top: 2px;
+}
+
+.textClass_dark {
+    color: #0026ff;
+	text-shadow: 1px 4px 6px #e2e2e2;
+}
+.textClass_light {
+    color: #fff;
+	text-shadow: 1px 4px 6px #e2e2e2;
+}
+
+.HomePageLogo{
+	padding:6px;
+    margin:10px;
+	margin-top:25px;
+	border-radius:4px;
+    float:left;
+	background-color:#e2e2e2;
+}
+    .HomePageLogo img {
+        height: 90px;
+    }
+
