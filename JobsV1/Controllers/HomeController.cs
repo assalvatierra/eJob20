@@ -39,11 +39,11 @@ namespace JobsV1.Controllers
             catch { }
             ViewBag.ConfigVersion = sConfigVersion;
 
-            //try
-            //{
-            //    sDBActive = sysdb.getSysSetting("DatabaseState");
-            //}
-            //catch { }
+            try
+            {
+                sDBActive = sysdb.getSysSetting("DatabaseState");
+            }
+            catch { }
             ViewBag.DBActive = sDBActive;
 
 

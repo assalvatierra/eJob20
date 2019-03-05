@@ -1,0 +1,32 @@
+﻿@model IEnumerable<JobsV1.Models.SysMenu>
+
+<table>
+@{ 
+    int parentId = -1;
+    int preId = -1;
+    }
+
+@foreach (var item in Model) {
+    <tr>
+    @if (item.ParentId == parentId || item.ParentId == preId)
+    {
+        <td></td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Menu)
+            
+        </td>
+    }
+    else
+    {
+        <td colspan="2">
+            @Html.ActionLink(item.Menu, item.Action, item.Controller)
+        </td>
+    }
+
+    @{  parentId = item.ParentId;
+        preId = item.Id; }
+
+    </tr>
+}
+
+</table>

@@ -313,6 +313,7 @@
     <Compile Include="Controllers\MainGenericController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MepuMainController.cs" />
+    <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\PaypalController.cs" />
     <Compile Include="Controllers\PaypalTransactionsController.cs" />
     <Compile Include="Controllers\PreDefinedNotesController.cs" />
@@ -877,7 +878,35 @@
     <Content Include="Images\Customers\Company\museum-40.png" />
     <Content Include="Images\Customers\Company\organization-40.png" />
     <Content Include="Images\Customers\Company\small-business-40.png" />
+    <Content Include="Images\EntityFiles\GAC\gaclogo.jpg" />
+    <Content Include="Images\EntityFiles\GAC\home_background-temp.jpg" />
+    <Content Include="Images\EntityFiles\GAC\home_background.jpg" />
+    <Content Include="Images\EntityFiles\GAC\home_background2.jpg" />
+    <Content Include="Images\EntityFiles\GAC\home_background3.jpg" />
+    <Content Include="Images\EntityFiles\GAC\home_background4.jpg" />
+    <Content Include="Images\EntityFiles\GAC\home_background5.jpg" />
     <Content Include="Images\Envelop001.png" />
+    <Content Include="Images\Erp\Container05.png" />
+    <Content Include="Images\Erp\Container_01.png" />
+    <Content Include="Images\Erp\Container_02.png" />
+    <Content Include="Images\Erp\Container_03.jpg" />
+    <Content Include="Images\Erp\Container_04.jpg" />
+    <Content Include="Images\Erp\ErpHomeIcon.jpg" />
+    <Content Include="Images\Erp\ErpHomeIcon.png" />
+    <Content Include="Images\Erp\Exclamation_mark_red.png" />
+    <Content Include="Images\Erp\FdaDispatchingIcon.jpg" />
+    <Content Include="Images\Erp\FdaDispatchingIcon1.jpg" />
+    <Content Include="Images\Erp\green-ok-mark.jpg" />
+    <Content Include="Images\Erp\HelpDeskIcon.jpg" />
+    <Content Include="Images\Erp\HomeLogin_img.jpg" />
+    <Content Include="Images\Erp\partial-128.png" />
+    <Content Include="Images\Erp\Person01.png" />
+    <Content Include="Images\Erp\PersonLock01.png" />
+    <Content Include="Images\Erp\Recon10.jpg" />
+    <Content Include="Images\Erp\shipsteering.jpg" />
+    <Content Include="Images\Erp\shipsteering2.jpg" />
+    <Content Include="Images\Erp\SimpleInventory10.jpg" />
+    <Content Include="Images\Erp\WorkOrder.jpg" />
     <Content Include="Images\GIF\gif-sending-mail.gif" />
     <Content Include="Images\GIF\loading.gif" />
     <Content Include="Images\googleMaps_office.png" />
@@ -963,6 +992,7 @@
     <Content Include="Models\SQL.Job\ProductsDB.sql" />
     <Content Include="Models\SQL.Job\SalesLead.sql" />
     <Content Include="Models\SQL.Job\InitTestData.sql" />
+    <Content Include="Models\SQL.Sys\InitialData_SysTbls.sql" />
     <Content Include="Models\SysDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SysDB.Context.cs</LastGenOutput>
@@ -1534,6 +1564,7 @@
     <Content Include="Views\EmailBlaster\Index.cshtml" />
     <Content Include="Views\EmailBlaster\BlastResult.cshtml" />
     <Content Include="Views\JobOrder\TextConfirmation.cshtml" />
+    <Content Include="Views\Module\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

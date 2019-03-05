@@ -33,6 +33,21 @@
     </span>
 </div>
 
+@foreach (var t in ViewBag.EntServices)
+{
+    <div class="col-md-4">
+
+        <a href="@Url.Action("Service","Module", new { id=@t.Id })">
+            <img src="@Url.Content("~/")@t.IconPath" style="height:75%;" alt="Edit" />
+        </a>
+        <p>
+            @t.Description
+        </p>
+    </div>
+}
+
+<br /><br /><br />
+<hr />
 
 <div class="jumbotron">
     <p>@Html.ActionLink("Register New Job Order »", "jobCreate", "JobOrder", null, new { @class = "btn btn-primary btn-lg" }) </p>
