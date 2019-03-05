@@ -293,6 +293,7 @@
     <Compile Include="Controllers\CustEntMainsController.cs" />
     <Compile Include="Controllers\CustFilesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\CustomHelper.cs" />
     <Compile Include="Controllers\DestinationsController.cs" />
     <Compile Include="Controllers\EmailBlasterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -1565,6 +1566,7 @@
     <Content Include="Views\EmailBlaster\BlastResult.cshtml" />
     <Content Include="Views\JobOrder\TextConfirmation.cshtml" />
     <Content Include="Views\Module\Menu.cshtml" />
+    <Content Include="Views\Shared\_ModuleLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1582,6 +1584,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Reporting\" />
+    <Folder Include="Views\CustomHelper\" />
     <Folder Include="Views\Paypal\" />
   </ItemGroup>
   <PropertyGroup>
