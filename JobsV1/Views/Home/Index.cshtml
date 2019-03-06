@@ -40,10 +40,10 @@
         <div class="col-md-4">
 
             <a href="@Url.Action("Service","Module", new { id=@t.Id })">
-                <img src="@Url.Content("~/")@t.IconPath" style="height:140px;" alt="Edit" />
+                <img src="@Url.Content("~/")@t.IconPath" style="height:90px;margin:20px" alt="Edit" />
             </a>
             <p>
-                @t.Description
+                <h3> @t.Description </h3>
             </p>
         </div>
     }

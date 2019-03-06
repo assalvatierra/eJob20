@@ -17,8 +17,9 @@ namespace JobsV1.Controllers
 
             ViewBag.Message = "Main page";
             ViewBag.EntHomePageLogo = "Images/EntityFiles/RBC/RealBreezeLogo01.png"; //to update
-            ViewBag.EntHomeBackgroundImage = "Images/EntityFiles/GAC/home_background.jpg"; //to update
-
+            ViewBag.EntHomeBackgroundImage = "Images/CarRental/Banner/RealwheelsDavaoBanner2.png"; //to update
+            
+                    
             ViewBag.TextClass = "textClass_dark"; // { textClass_dark | textClass_light }
             ViewBag.EntName = "Real Breeze Travel and Tours";
             ViewBag.EntAddress1 = "2/F Prime-Z Bldg, McArthur Hway, Davao city, Philipines ";

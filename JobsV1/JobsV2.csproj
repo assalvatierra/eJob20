@@ -330,6 +330,7 @@
     <Compile Include="Controllers\SupplierPoDtlsController.cs" />
     <Compile Include="Controllers\SupplierPoHdrsController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
+    <Compile Include="Controllers\SysAccessUsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -762,6 +763,7 @@
     <Content Include="Images\Call.png" />
     <Content Include="Images\CarRental\4x4.101.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.png" />
+    <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner2.png" />
     <Content Include="Images\CarRental\car101.png" />
     <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Everest.png" />
     <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Fiesta.jpg" />
@@ -918,6 +920,25 @@
     <Content Include="Images\Erp\green-ok-mark.jpg" />
     <Content Include="Images\Erp\HelpDeskIcon.jpg" />
     <Content Include="Images\Erp\HomeLogin_img.jpg" />
+    <Content Include="Images\Erp\icons-flag.png" />
+    <Content Include="Images\Erp\icons-key.png" />
+    <Content Include="Images\Erp\icons\icons-box.png" />
+    <Content Include="Images\Erp\icons\icons-business.png" />
+    <Content Include="Images\Erp\icons\icons-chart.png" />
+    <Content Include="Images\Erp\icons\icons-exchange.png" />
+    <Content Include="Images\Erp\icons\icons-flag.png" />
+    <Content Include="Images\Erp\icons\icons-invoice.png" />
+    <Content Include="Images\Erp\icons\icons-key.png" />
+    <Content Include="Images\Erp\icons\icons-lease.png" />
+    <Content Include="Images\Erp\icons\icons-move.png" />
+    <Content Include="Images\Erp\icons\icons-notification.png" />
+    <Content Include="Images\Erp\icons\icons-package.png" />
+    <Content Include="Images\Erp\icons\icons-report.png" />
+    <Content Include="Images\Erp\icons\icons-technical.png" />
+    <Content Include="Images\Erp\icons\icons-trolley.png" />
+    <Content Include="Images\Erp\icons\icons8-lease-64.png" />
+    <Content Include="Images\Erp\icons\inprogress.png" />
+    <Content Include="Images\Erp\inprogress.png" />
     <Content Include="Images\Erp\partial-128.png" />
     <Content Include="Images\Erp\Person01.png" />
     <Content Include="Images\Erp\PersonLock01.png" />
@@ -1033,6 +1054,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\ssl.js" />
     <Content Include="WebService.asmx" />
     <EntityDeploy Include="Models\JobDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1585,6 +1607,11 @@
     <Content Include="Views\JobOrder\TextConfirmation.cshtml" />
     <Content Include="Views\Module\Menu.cshtml" />
     <Content Include="Views\Shared\_ModuleLayout.cshtml" />
+    <Content Include="Views\SysAccessUsers\Create.cshtml" />
+    <Content Include="Views\SysAccessUsers\Delete.cshtml" />
+    <Content Include="Views\SysAccessUsers\Details.cshtml" />
+    <Content Include="Views\SysAccessUsers\Edit.cshtml" />
+    <Content Include="Views\SysAccessUsers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

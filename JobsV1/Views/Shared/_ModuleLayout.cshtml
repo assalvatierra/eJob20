@@ -13,6 +13,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <!--
     <header>
         <div class="content-wrapper">
             <div class="float-left">
@@ -35,20 +36,54 @@
             </div>
         </div>
     </header>
+        -->
+    <!--Top Nav Bar-->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" id="navbar-title">@ViewBag.NavBarTitle</a>
+                @*@Html.ActionLink("AJ88", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Home", "Index", "MepuMain")</li>*@
+                    <li><a href="/">Home</a></li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Control Panel", "Index", "Home")</li>
+                        @*
+                            <li>@Html.ActionLink("Jobs", "JobTable", "JobMains", new { span = 30 }, null)</li>
+                            <li>@Html.ActionLink("Accounting", "Index", "AsMain", new { Area = "Accounting", span = 30 }, null)</li>
+                        *@
+                    }
+                    <li>@Html.ActionLink("About", "About")</li>
+                    <li>@Html.ActionLink("Contact", "Contact")</li>
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
     <div id="body">
         <section class="content-wrapper main-content clear-fix">
 
             <table>
                 <tr>
                     <td style="vertical-align:top;">
-                        <div class="CustomBox" style="float:left;height:90px;width:90%;">
+                        <div class="CustomBox" style="float:left;height:110px;width:90%;">
                             <a href="@Url.Action("Index", "Home", new { area = "" })">
                                 <img src="~/Images/Erp/ErpHomeIcon.png" class="ModulePageIcon" alt="Home" />
                             </a>
                         </div>
                     </td>
                     <td style="vertical-align:top;white-space:nowrap;width:70%;">
-                        <div class="CustomBox" style="height:90px;width:100%;">
+                        <div class="CustomBox" style="height:110px;width:100%;">
                             @Html.Module(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
                         </div>
                     </td>

@@ -13,6 +13,11 @@ namespace JobsV1
                         "~/Scripts/jquery-ui-{version}.js"
                         ));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui-{version}.js"
+                        ));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -31,10 +36,15 @@ namespace JobsV1
                       "~/Content/themes/base/jquery-ui.css",
                       "~/Content/login.css",
                       "~/Content/Erp.css",
+                      "~/Content/UserStyles.css",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+                        "~/Content/themes/base/all.css",
+                        "~/Content/themes/base/base.css",
+                        "~/Content/themes/base/selectmenu.css",
                         "~/Content/themes/base/core.css",
+                        "~/Content/themes/base/jquiry-ui.css",
                         "~/Content/themes/base/resizable.css",
                         "~/Content/themes/base/selectable.css",
                         "~/Content/themes/base/accordion.css",
