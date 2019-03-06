@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/26/2019 15:26:19
--- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob2\JobsV1\Models\SysDB.edmx
+-- Date Created: 03/06/2019 10:46:27
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\SysDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,11 +17,95 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_SysServiceEntServices]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntServices] DROP CONSTRAINT [FK_SysServiceEntServices];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SysServiceSysServiceMenu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SysServiceMenus] DROP CONSTRAINT [FK_SysServiceSysServiceMenu];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EntCompanyEntServices]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntServices] DROP CONSTRAINT [FK_EntCompanyEntServices];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EntCompanyEntSupportFile]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntSupportFiles] DROP CONSTRAINT [FK_EntCompanyEntSupportFile];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EntCompanyEntAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntAddresses] DROP CONSTRAINT [FK_EntCompanyEntAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EntCompanyEntContact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntContacts] DROP CONSTRAINT [FK_EntCompanyEntContact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_EntBusinessEntSetting]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntSettings] DROP CONSTRAINT [FK_EntBusinessEntSetting];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SysFileTypeEntSupportFile]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntSupportFiles] DROP CONSTRAINT [FK_SysFileTypeEntSupportFile];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SysSetupTypeEntAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntAddresses] DROP CONSTRAINT [FK_SysSetupTypeEntAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SysSetupTypeEntContact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntContacts] DROP CONSTRAINT [FK_SysSetupTypeEntContact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SysSetupTypeEntSetting]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EntSettings] DROP CONSTRAINT [FK_SysSetupTypeEntSetting];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SysMenuSysServiceMenu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SysServiceMenus] DROP CONSTRAINT [FK_SysMenuSysServiceMenu];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SysMenuSysUserAccess]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SysAccessUsers] DROP CONSTRAINT [FK_SysMenuSysUserAccess];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SysMenuSysRoleAccess]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SysAccessRoles] DROP CONSTRAINT [FK_SysMenuSysRoleAccess];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[SysServices]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysServices];
+GO
+IF OBJECT_ID(N'[dbo].[EntBusinesses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EntBusinesses];
+GO
+IF OBJECT_ID(N'[dbo].[EntServices]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EntServices];
+GO
+IF OBJECT_ID(N'[dbo].[SysSetupTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysSetupTypes];
+GO
+IF OBJECT_ID(N'[dbo].[EntSupportFiles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EntSupportFiles];
+GO
+IF OBJECT_ID(N'[dbo].[EntAddresses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EntAddresses];
+GO
+IF OBJECT_ID(N'[dbo].[EntContacts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EntContacts];
+GO
+IF OBJECT_ID(N'[dbo].[SysMenus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysMenus];
+GO
+IF OBJECT_ID(N'[dbo].[SysServiceMenus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysServiceMenus];
+GO
+IF OBJECT_ID(N'[dbo].[SysAccessUsers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysAccessUsers];
+GO
+IF OBJECT_ID(N'[dbo].[SysAccessRoles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysAccessRoles];
+GO
+IF OBJECT_ID(N'[dbo].[SysCmdIdRefs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysCmdIdRefs];
+GO
+IF OBJECT_ID(N'[dbo].[EntSettings]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EntSettings];
+GO
+IF OBJECT_ID(N'[dbo].[SysSettings]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysSettings];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables

@@ -1,0 +1,42 @@
+﻿@model JobsV1.Models.SysAccessUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SysAccessUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seqno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seqno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SysMenu.Menu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SysMenu.Menu)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
