@@ -6,6 +6,7 @@
 .featured {
     background-color: #fff;
     padding-top: 2px;
+    min-width:700px;
 }
 
 .textClass_dark {
@@ -30,3 +31,18 @@
         height: 90px;
     }
 
+     .banner-title-text {
+         display:block;
+
+    }
+
+@media screen and (max-width: 800px) {
+    .banner-title-text {
+        display:none;
+    }
+
+    .banner-home {
+        height:220px;
+    }
+
+    }

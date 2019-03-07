@@ -20,29 +20,31 @@ namespace JobsV1.CustomHelper
             int parentId = -1;
             int preId = -1;
 
+            htmlString += "<tr>";
             foreach (var item in menu)
             {
-                htmlString += "<tr>";
+                htmlString += "<td>";
                 if (item.ParentId == parentId || item.ParentId == preId)
                 {
                     htmlString += "<td></td>";
                     htmlString += "<td>";
                     //        htmlString += "<a href='" + rootUrl + item.Controller + "/" + item.Action + "/'>" + item.Menu + "</a>";
-                    htmlString += "<a href='" + rootUrl + "Module/Menu/" + item.Id + "/' >" + item.Menu + "</a>";
+                    htmlString += "<a href='" + rootUrl + "Module/Menu/" + item.Id + "/' >" + item.Menu + "</a>  | ";
                     htmlString += "</td>";
                 }
                 else
                 {
                     htmlString += "<td colspan='2'>";
-                    htmlString += item.Menu;
+                   // htmlString += item.Menu;
                     htmlString += "</td>";
                 }
 
                 parentId = item.ParentId;
                 preId = item.Id;
 
-                htmlString += "</tr>";
+                htmlString += "</td>";
             }
+            htmlString += "</tr>";
 
             htmlString += "</table>";
 
@@ -59,6 +61,7 @@ namespace JobsV1.CustomHelper
             htmlString += "<h2>" + service.Description + "</h2>";
             htmlString += "<p>" + service.Remarks + "</p>";
             htmlString += "</span>";
+            htmlString += "<a style='float:right;margin-top:-25px;' href='" + rootUrl + "' >Home</a>";
 
             return new HtmlString(htmlString);
         }

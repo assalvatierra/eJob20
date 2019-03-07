@@ -73,8 +73,9 @@
     <div id="body">
         <section class="content-wrapper main-content clear-fix">
 
-            <table>
-                <tr>
+            <div class="row" style="margin:20px;">
+                <div>
+                    <!--
                     <td style="vertical-align:top;">
                         <div class="CustomBox" style="float:left;height:110px;width:90%;">
                             <a href="@Url.Action("Index", "Home", new { area = "" })">
@@ -82,35 +83,36 @@
                             </a>
                         </div>
                     </td>
-                    <td style="vertical-align:top;white-space:nowrap;width:70%;">
+                    -->
+                    <div style="vertical-align:top;white-space:nowrap;width:100%;">
                         <div class="CustomBox" style="height:110px;width:100%;">
                             @Html.Module(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
                         </div>
-                    </td>
+                    </div>
 
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">
-                        <div class="CustomBox" style="float:left;width:90%;">
+                </div>
+                <div>
+                    <div style="vertical-align:top;">
+                        <div class="CustomBox" style="float:left;width:100%;">
                             @Html.Menu(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
                         </div>
                         <div class="PanelContainer">
                             @RenderSection("LeftInfo", required: false)
                         </div>
-                    </td>
-                    <td style="vertical-align:top;max-width:620px;">
+                    </div>
+                    <div style="vertical-align:top;max-width:100%;margin-left:20px">
                         <div class="PanelContainer">
                             @RenderBody()
                         </div>
-                    </td>
-                </tr>
+                    </div>
+                </div>
 
-            </table>
+            </div>
         </section>
     </div>
     <footer>
         <div class="content-wrapper">
-            <div class="float-left">
+            <div class="float-left" style="margin-left:10px;">
                 <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
             </div>
         </div>

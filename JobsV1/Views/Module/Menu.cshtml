@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<JobsV1.Models.SysMenu>
 
-<table>
+<table class="table table-bordered">
 @{ 
     int parentId = -1;
     int preId = -1;
@@ -18,9 +18,11 @@
     }
     else
     {
-        <td colspan="2">
-            @Html.ActionLink(item.Menu, item.Action, item.Controller)
+        <!--
+        <td colspan="2" style="display:none;">
+            Html.ActionLink(item.Menu, item.Action, item.Controller)
         </td>
+            -->
     }
 
     @{  parentId = item.ParentId;
@@ -28,5 +30,5 @@
 
     </tr>
 }
-
+   
 </table>
