@@ -1,0 +1,48 @@
+﻿@model IEnumerable<JobsV1.Models.SysAccessUser>
+
+@{
+    ViewBag.Title = "ModuleUsers";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>ModuleUsers</h2>
+
+<p>
+    @Html.ActionLink("Add User", "ModuleUserAdd", new { moduleId = ViewBag.MenuId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Seqno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SysMenu.Menu)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Seqno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SysMenu.Menu)
+        </td>
+        <td>
+            @Html.ActionLink("Remove", "ModuleDelete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "ModuleList", "SysAccessUsers", new { id = ViewBag.MenuId }, null)
+</div>

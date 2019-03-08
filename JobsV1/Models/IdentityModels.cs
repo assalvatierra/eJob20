@@ -29,5 +29,7 @@ namespace JobsV1.Models
         {
             return new ApplicationDbContext();
         }
+        //removed because of conflict from users 3/8/2019
+       // public System.Data.Entity.DbSet<JobsV1.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

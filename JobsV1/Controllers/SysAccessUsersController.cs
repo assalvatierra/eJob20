@@ -13,6 +13,7 @@ namespace JobsV1.Controllers
     public class SysAccessUsersController : Controller
     {
         private SysDBContainer db = new SysDBContainer();
+        private DBClasses userdb = new DBClasses();
 
         // GET: SysAccessUsers
         public ActionResult Index()
@@ -20,6 +21,7 @@ namespace JobsV1.Controllers
             var sysAccessUsers = db.SysAccessUsers.Include(s => s.SysMenu);
             return View(sysAccessUsers.ToList());
         }
+
 
         // GET: SysAccessUsers/Details/5
         public ActionResult Details(int? id)
@@ -37,8 +39,19 @@ namespace JobsV1.Controllers
         }
 
         // GET: SysAccessUsers/Create
-        public ActionResult Create()
+        public ActionResult Create(string username)
         {
+            if(username != "" || username != null)
+            {
+                int latest = db.SysAccessUsers.Where(s=>s.UserId == username).ToList().LastOrDefault().Seqno;
+                SysAccessUser newAccess = new SysAccessUser();
+                ViewBag.SysMenuId = new SelectList(db.SysMenus, "Id", "Menu");
+                newAccess.Seqno = 1;
+                newAccess.UserId = username;
+                ViewBag.Username = username;
+                return View(newAccess);
+            }
+
             ViewBag.SysMenuId = new SelectList(db.SysMenus, "Id", "Menu");
             return View();
         }
@@ -52,9 +65,10 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+                sysAccessUser.Seqno = sysAccessUser.SysMenuId;
                 db.SysAccessUsers.Add(sysAccessUser);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("UsersAccessList", new { username = sysAccessUser.UserId });
             }
 
             ViewBag.SysMenuId = new SelectList(db.SysMenus, "Id", "Menu", sysAccessUser.SysMenuId);
@@ -128,5 +142,125 @@ namespace JobsV1.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        //Users
+        // GET: UsersList
+        public ActionResult UsersList()
+        {
+            return View(userdb.getUsers());
+        }
+
+        // GET: UsersAccessList
+        public ActionResult UsersAccessList(string username)
+        {
+            ViewBag.Username = username;
+            var sysAccessUsers = db.SysAccessUsers.Include(s => s.SysMenu).Where(s=>s.UserId.CompareTo(username) == 0);
+            return View(sysAccessUsers.ToList().OrderBy(s => s.Seqno));
+        }
+
+
+        // GET: SysAccessUsers/UsersAccess/5
+        public ActionResult UsersAccessDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+            if (sysAccessUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(sysAccessUser);
+        }
+
+        // POST: SysAccessUsers/UsersAccess/5
+        [HttpPost, ActionName("UsersAccessDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult UsersAccessDeleteConfirmed(int id)
+        {
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+            db.SysAccessUsers.Remove(sysAccessUser);
+            db.SaveChanges();
+            return RedirectToAction("UsersAccessList", new { username = sysAccessUser.UserId });
+        }
+
+
+        //Modules
+        // GET: UsersList
+        public ActionResult ModuleList()
+        {
+            return View(db.SysMenus.ToList());
+        }
+
+        // GET: ModuleUsers
+        public ActionResult ModuleUsers(int id)
+        {
+            ViewBag.MenuId = id;
+            return View(db.SysAccessUsers.Where(s => s.SysMenuId == id).ToList());
+        }
+
+
+
+        // GET: SysAccessUsers/ModuleUserAdd
+        // model sysaccessusers
+        public ActionResult ModuleUserAdd(int moduleId)
+        {
+           
+            SysAccessUser newAccess = new SysAccessUser();
+            ViewBag.SysMenuId = new SelectList(db.SysMenus, "Id", "Menu", moduleId);
+            newAccess.Seqno   = moduleId;
+            ViewBag.UserId = new SelectList(userdb.getUsers(), "username", "username");
+            ViewBag.moduleId = moduleId;
+            return View(newAccess);
+
+        }
+
+        // POST: SysAccessUsers/ModuleUserAdd
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ModuleUserAdd([Bind(Include = "Id,UserId,SysMenuId,Seqno")] SysAccessUser sysAccessUser)
+        {
+            if (ModelState.IsValid)
+            {
+                db.SysAccessUsers.Add(sysAccessUser);
+                db.SaveChanges();
+                return RedirectToAction("ModuleUsers", new { id = sysAccessUser.SysMenuId });
+            }
+
+            ViewBag.SysMenuId = new SelectList(db.SysMenus, "Id", "Menu", sysAccessUser.SysMenuId);
+            return View(sysAccessUser);
+        }
+
+
+        // GET: SysAccessUsers/ModuleDelete/5
+        public ActionResult ModuleDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+            if (sysAccessUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(sysAccessUser);
+        }
+
+        // POST: SysAccessUsers/ModuleDelete/5
+        [HttpPost, ActionName("ModuleDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ModuleDeleteConfirmed(int id)
+        {
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+            db.SysAccessUsers.Remove(sysAccessUser);
+            db.SaveChanges();
+            return RedirectToAction("ModuleUsers", new { id = sysAccessUser.SysMenuId });
+        }
+
     }
 }

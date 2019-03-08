@@ -35,7 +35,8 @@ namespace JobsV1.CustomHelper
                 else
                 {
                     htmlString += "<td colspan='2'>";
-                   // htmlString += item.Menu;
+                    // htmlString += item.Menu;
+                    htmlString += "<a href='" + rootUrl + "Module/Menu/" + item.Id + "/' >" + item.Menu + "</a>  | ";
                     htmlString += "</td>";
                 }
 
@@ -61,7 +62,7 @@ namespace JobsV1.CustomHelper
             htmlString += "<h2>" + service.Description + "</h2>";
             htmlString += "<p>" + service.Remarks + "</p>";
             htmlString += "</span>";
-            htmlString += "<a style='float:right;margin-top:-25px;' href='" + rootUrl + "' >Home</a>";
+            htmlString += "<a style='float:right;margin-top:-25px;' href='" + rootUrl + "/Home/' >Home</a>";
 
             return new HtmlString(htmlString);
         }

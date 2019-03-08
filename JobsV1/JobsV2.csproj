@@ -1612,6 +1612,13 @@
     <Content Include="Views\SysAccessUsers\Details.cshtml" />
     <Content Include="Views\SysAccessUsers\Edit.cshtml" />
     <Content Include="Views\SysAccessUsers\Index.cshtml" />
+    <Content Include="Views\SysAccessUsers\UsersList.cshtml" />
+    <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleList.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleUsers.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleUserAdd.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleDelete.cshtml" />
+    <Content Include="Views\SysAccessUsers\UsersAccessDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<JobsV1.Models.SysMenu>
+
+@{
+    ViewBag.Title = "ModulesList";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>ModulesList</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Menu)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Menu)
+        </td>
+        <td>
+            @Html.ActionLink("Users", "ModuleUsers", new { id=item.Id }) 
+        </td>
+    </tr>
+}
+
+</table>

@@ -104,6 +104,11 @@ namespace JobsV1.Models
             return data.ToList();
         }
 
+        public IList<AppUser> getUsers2()
+        {
+            var data = db.Database.SqlQuery<AppUser>("Select UserName from AspNetUsers");
+            return data.ToList();
+        }
 
         public getItemSchedReturn ItemSchedules()
         {

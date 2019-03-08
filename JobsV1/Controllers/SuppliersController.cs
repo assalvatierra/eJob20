@@ -13,7 +13,7 @@ namespace JobsV1.Controllers
     public class SuppliersController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
-
+        
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "ACT", Text = "Active" },
                 new SelectListItem { Value = "INC", Text = "Inactive" },

@@ -44,9 +44,9 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('SA101','System Access','Users Access Control','A','../Images/Erp/icons-key.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (1,1);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('Modules','',1,'FdaDispatch','Index','',21,11),
-	('Users','',1,'SysAccessUsers','Index','',21,12),
-	('Add Users','',1,'SysAccessUsers','Create','',21,13),
+	('Modules','',1,'SysAccessUsers','ModuleList','',21,11),
+	('Users','',1,'SysAccessUsers','UsersList','',21,12),
+	('Add Users','',1,'Account','Register','',21,13),
 	('Password','',1,'Account','ForgotPassword','',21,14);
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (1,1,'2019/1/1');
