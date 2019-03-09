@@ -6,7 +6,10 @@
 }
 
 <h2>ModuleUsers</h2>
-
+<div>
+    @Html.ActionLink(" Module List", "ModuleList", "SysAccessUsers", new { id = ViewBag.MenuId }, null) |
+    @Html.ActionLink(" SubMenu List", "ModuleSubMenu", "SysAccessUsers", new { id = ViewBag.MenuId }, null)
+</div>
 <p>
     @Html.ActionLink("Add User", "ModuleUserAdd", new { moduleId = ViewBag.MenuId })
 </p>
@@ -43,6 +46,4 @@
 
 </table>
 
-<div>
-    @Html.ActionLink("Back to List", "ModuleList", "SysAccessUsers", new { id = ViewBag.MenuId }, null)
-</div>
+

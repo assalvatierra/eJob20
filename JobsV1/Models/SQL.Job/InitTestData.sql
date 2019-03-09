@@ -1,7 +1,7 @@
 ﻿insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt])
 values
-('12-25-2018',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
-('12-28-2018',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000);
+('2-25-2018',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
+('2-28-2018',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000);
 
 
 insert into JobServices([JobMainId],[ServicesId],[SupplierId],[Particulars],[QuotedAmt],[SupplierAmt],[ActualAmt],[Remarks],[SupplierItemId],[DtStart],[DtEnd])

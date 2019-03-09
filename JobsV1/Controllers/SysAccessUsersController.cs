@@ -191,6 +191,22 @@ namespace JobsV1.Controllers
         // GET: UsersList
         public ActionResult ModuleList()
         {
+            return View(db.SysServices.Where(s=>s.Status=="A").ToList());
+        }
+
+
+        public ActionResult ModuleSubMenu(int id)
+        {
+            try
+            {
+                int sysMenuId = db.SysServiceMenus.Where(s => s.SysServiceId == id)
+                    .FirstOrDefault().SysMenuId;
+
+                return View(db.SysMenus.Where(s => s.ParentId == sysMenuId || s.Id == sysMenuId).ToList());
+            }
+            catch (Exception ex)
+            { }
+
             return View(db.SysMenus.ToList());
         }
 
@@ -213,6 +229,7 @@ namespace JobsV1.Controllers
             newAccess.Seqno   = moduleId;
             ViewBag.UserId = new SelectList(userdb.getUsers(), "username", "username");
             ViewBag.moduleId = moduleId;
+            ViewBag.Users = userdb.getUsersModules(moduleId);
             return View(newAccess);
 
         }
@@ -235,6 +252,19 @@ namespace JobsV1.Controllers
             return View(sysAccessUser);
         }
 
+
+        // GET: SysAccessUsers/ModuleAddUser/5
+        public ActionResult ModuleAddUser(string username, int moduleId)
+        {
+            SysAccessUser moduleUser = new SysAccessUser();
+            moduleUser.SysMenuId = moduleId;
+            moduleUser.Seqno = db.SysMenus.Where(s => s.Id == moduleId).FirstOrDefault().Id;
+            moduleUser.UserId = username;
+
+            db.SysAccessUsers.Add(moduleUser);
+            db.SaveChanges();
+            return RedirectToAction("ModuleUsers", new { id = moduleUser.SysMenuId });
+        }
 
         // GET: SysAccessUsers/ModuleDelete/5
         public ActionResult ModuleDelete(int? id)

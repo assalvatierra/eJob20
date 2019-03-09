@@ -79,14 +79,25 @@
 
     </div>
 </div>
-    <div>
+<div class="col-lg-12">
 
+    <div class="row">
         @{Html.RenderPartial("PartialView_JobDetails", (List<JobsV1.Models.CustomerJobDetails>)ViewBag.jobList, new ViewDataDictionary { { "customerId", Model.Id } });}
 
     </div>
 
 
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("Back to List", "Index")
-        </p>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+</div>
+
+
+<p>
+    Customers |
+    @Html.ActionLink("Companies", "Index", "CustEntMains", null, null)
+</p>
+
+

@@ -4,7 +4,7 @@ insert into SysCmdIdRefs([CmdId],[Description],[Remarks]) values
 (21,'EXECUTE','Execute controller/action');
 
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-('System Access','Access Control',0,'SysAccessUsers','Index','',20,101),
+('System Access','Access Control',0,'SysAccessUsers','ModuleList','',20,101),
 ('Sales Lead','Sales Lead',0,'SalesLeads','Index','',20,102),
 ('Job Orders','Job Orders',0,'JobOrder','Index','',20,103),
 ('Suppliers','List of Suppliers',0,'Suppliers','Index','',20,104),
@@ -152,9 +152,6 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',4,4), 
 ('assalvatierra@gmail.com',5,5), 
 ('assalvatierra@gmail.com',6,6), 
-('assalvatierra@gmail.com',7,7), 
-('assalvatierra@gmail.com',8,8), 
-('assalvatierra@gmail.com',9,9),
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 

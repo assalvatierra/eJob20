@@ -7,8 +7,17 @@
 
 <br /><br /><br />
 <dl class="dl-horizontal">
-    
+
     <dd></dd>
+
+    <p>
+        <b>Date: </b>
+        <input id="startDate" type="date"  /> - 
+        <input id="endDate" type="date" />
+
+        <input type="button" value="Top 30" class="btn btn-default"  style="margin-top:-10px" onclick="detailsUpdate(30)" />
+        <input type="button" value="Top 60" class="btn btn-default"  style="margin-top:-10px" onclick="detailsUpdate(60)"/>
+    </p>
     <table  class="table table-striped">
 
         <tr style="border:1px solid lightgray">
@@ -49,3 +58,64 @@
     </h4>
 
 </dl>
+
+<script src="~/Scripts/jquery-1.12.4.min.js"> </script>
+
+<script>
+
+    function Update() {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var date1 = url.searchParams.get("sDate") != null ? url.searchParams.get("sDate") : getToday();
+        var date2 = url.searchParams.get("eDate") != null ? url.searchParams.get("eDate") : getToday();
+        var top = url.searchParams.get("top")
+
+        $('#startDate').val(date1);
+        $('#endDate').val(date2);
+    }
+
+
+    $(function () {
+        Update();
+    });
+
+    Update();
+
+    function getToday() {
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        return today;
+    }
+
+    function detailsUpdate(top) {
+        var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
+        var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
+        var topVal = top;
+
+        var requestString = "/Customers/Details/"+@customerid+"?";
+
+        requestString += "top="+topVal+"&";
+
+        if (eDateVal != null && sDateVal != null) {
+            requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
+        }
+
+        window.location.href = requestString;
+
+    }
+
+</script>
+

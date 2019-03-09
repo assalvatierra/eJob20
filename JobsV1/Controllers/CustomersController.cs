@@ -220,7 +220,7 @@ namespace JobsV1.Controllers
         }
 
         // GET: Customers/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? top, string sdate, string edate)
         {
             if (id == null)
             {
@@ -232,12 +232,18 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
+            if (top == null)
+            {
+                top = 30;
+            }
+
             //generate partial view list for companies
             PartialView_Companies(id);
-            PartialView_Jobs(id);
+            PartialView_Jobs(id,(int)top,sdate,edate);
             PartialView_Categories(id);
             PartialView_CustomerFiles(id);
             ViewBag.categoryList = db.CustCategories.ToList();
+            ViewBag.custId = (int)id;
 
             return View(customer);
         }
@@ -423,13 +429,27 @@ namespace JobsV1.Controllers
         }
 
 
-        private void PartialView_Jobs(int? id)
+        private void PartialView_Jobs(int? id, int? top, string sdate, string edate)
         {
 
+            int topFilter = (int)top;
             //PartialView for Details of the Customer
             List<CustomerJobDetails> jobList = new List<CustomerJobDetails>();
+
+            DateTime StartDate = DateTime.Today;
+            DateTime EndDate = DateTime.Today;
+
+            if (sdate != null && edate != null)
+            {
+                StartDate = DateTime.Parse(sdate).Date;
+                EndDate = DateTime.Parse(edate).Date;
+            }
+
+
             //error
-            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).ToList();
+            var jobRecord = db.JobMains.Where(j => j.CustomerId == id)
+                .Where(j=>j.JobDate.CompareTo(StartDate) >= 0 && j.JobDate.CompareTo(EndDate) <= 0)
+                .ToList().Take(topFilter);
 
             if (jobRecord == null)
             {

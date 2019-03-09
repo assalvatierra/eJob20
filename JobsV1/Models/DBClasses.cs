@@ -97,6 +97,7 @@ namespace JobsV1.Models
     public class DBClasses
     {
         JobDBContainer db = new JobDBContainer();
+        SysDBContainer sdb = new SysDBContainer();
 
         public IList<AppUser> getUsers()
         {
@@ -104,10 +105,35 @@ namespace JobsV1.Models
             return data.ToList();
         }
 
-        public IList<AppUser> getUsers2()
+        public List<AppUser> getUsersModules(int moduleId)
         {
-            var data = db.Database.SqlQuery<AppUser>("Select UserName from AspNetUsers");
-            return data.ToList();
+            List<AppUser> users = new List<AppUser>() ;
+
+            //get list of users
+            //loop through users list
+            foreach (var items in getUsers().ToList())
+            {
+                var sysaccess = sdb.SysAccessUsers.Where(s => s.SysMenuId == 1 && s.UserId.Contains(items.UserName)).ToList();
+                //list of access
+                foreach (var access in sysaccess.Contains(items))
+                {
+                    //check if user is not present in the sysAccessUsers where moduleID 
+                    if (access.UserId.CompareTo(items.UserName) == 0)
+                    {
+                       
+
+                    }
+
+                    //if not add user to list
+                    users.Add(new AppUser()
+                    {
+                        UserName = items.UserName+" = " + access.UserId + " - " + access.UserId.CompareTo(items.UserName).ToString()
+                    });
+                }
+               
+            }
+            
+            return users;
         }
 
         public getItemSchedReturn ItemSchedules()

@@ -1,16 +1,18 @@
-﻿@model IEnumerable<JobsV1.Models.SysMenu>
+﻿@model IEnumerable<JobsV1.Models.SysService>
 
 @{
-    ViewBag.Title = "ModulesList";
+    ViewBag.Title = "ModuleList";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>ModulesList</h2>
-
+<h2>Module List</h2>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Menu)
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th></th>
     </tr>
@@ -18,10 +20,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Menu)
+            @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Users", "ModuleUsers", new { id=item.Id }) 
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.ActionLink("Sub Modules", "ModuleSubMenu", new { id=item.Id }) 
         </td>
     </tr>
 }

@@ -90,3 +90,29 @@ where datediff(day, getdate(),g.dtControl) > - 1
 Order by dtTaken
 ;
 
+select a.UserName, b.SysMenuId  from AspNetUsers a
+left join SysAccessUsers b 
+on a.UserName =  b.UserId;
+
+select a.UserName, b.SysMenuId, c.Id  from AspNetUsers a
+right join SysAccessUsers b 
+on a.UserName =  b.UserId
+right join SysMenus c 
+on b.SysMenuId =  c.Id
+where not exists(  select * where b.SysMenuId = c.Id)
+;
+
+ select a.Menu , b.Id, c.UserName from SysMenus a
+ left join SysAccessUsers b on a.Id = b.SysMenuId
+ left join AspNetUsers c on b.UserId = c.UserName
+ ;
+
+ select * from SysMenus a
+ left join SysAccessUsers b on a.Id = b.SysMenuId
+ where not exists (select * from AspNetUsers c where c.UserName = b.UserId)
+ ;
+
+ select a.UserName, b.* from AspNetUsers a
+ left join SysAccessUsers b on a.UserName = b.UserId
+ where not exists (select * from SysMenus c where c.Id = b.SysMenuId);
+  ;

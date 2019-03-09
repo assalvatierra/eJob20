@@ -62,7 +62,7 @@ namespace JobsV1.CustomHelper
             htmlString += "<h2>" + service.Description + "</h2>";
             htmlString += "<p>" + service.Remarks + "</p>";
             htmlString += "</span>";
-            htmlString += "<a style='float:right;margin-top:-25px;' href='" + rootUrl + "/Home/' >Home</a>";
+            htmlString += "<a  href='" + rootUrl + "Home/' style='float:right;margin-top:-25px;' >Home</a>";
 
             return new HtmlString(htmlString);
         }

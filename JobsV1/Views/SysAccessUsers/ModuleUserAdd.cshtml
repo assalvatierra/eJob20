@@ -4,50 +4,26 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Add Users to Module</h2>
+<p>Please Select a user from the list</p>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>SysAccessUser</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group" >
-            @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-                <!--
-                Html.EditorFor(model => model.UserId, new { htmlAttributes = new { class = "form-control" } })
-                    -->
-                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-            </div>
+<div class="row">
+    <div class="col-lg-6">
+
+        <div class="list-group" id="categorylist2">
+            @foreach (var user in ViewBag.Users as IEnumerable<JobsV1.Models.AppUser>)
+            {
+
+                <a href="@Url.Action("ModuleAddUser", "SysAccessUsers", new {moduleId = ViewBag.moduleId, id = user.UserName}, null)" id="set1" class="list-group-item"> @user.UserName </a>
+
+            }
         </div>
 
-        <div class="form-group" style="display:none;">
-            @Html.LabelFor(model => model.SysMenuId, "SysMenuId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("SysMenuId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SysMenuId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="display:none;" >
-            @Html.LabelFor(model => model.Seqno, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Seqno, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Seqno, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
+  </div>
+
+
+
 
 <div>
     @Html.ActionLink("Back to List", "ModuleUsers","SysAccessUsers" , new { id = ViewBag.moduleId },null)
