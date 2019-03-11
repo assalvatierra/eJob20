@@ -1614,11 +1614,14 @@
     <Content Include="Views\SysAccessUsers\Index.cshtml" />
     <Content Include="Views\SysAccessUsers\UsersList.cshtml" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
-    <Content Include="Views\SysAccessUsers\ModuleList.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleSubMenu.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleUsers.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleUserAdd.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleDelete.cshtml" />
     <Content Include="Views\SysAccessUsers\UsersAccessDelete.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleList.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleMenuUsers.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleMenuUserAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

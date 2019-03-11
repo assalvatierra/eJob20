@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>@ViewBag.MenuName</h2>
+<h2>ModuleUsers</h2>
 <div>
-    @Html.ActionLink(" Module List", "ModuleList", "SysAccessUsers", new { moduleId = ViewBag.MenuId }, null) |
-    @Html.ActionLink(" SubMenu List", "ModuleSubMenu", "SysAccessUsers", new { moduleId = ViewBag.MenuId }, null)
+    @Html.ActionLink(" Module List", "ModuleList", "SysAccessUsers", new { id = ViewBag.MenuId }, null) |
+    @Html.ActionLink(" SubMenu List", "ModuleSubMenu", "SysAccessUsers", new { id = ViewBag.MenuId }, null)
 </div>
 <p>
     @Html.ActionLink("Add User", "ModuleUserAdd", new { moduleId = ViewBag.MenuId })

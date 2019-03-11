@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Sub Modules List</h2>
+<h2>Module : @ViewBag.MenuName</h2>
 
 <p>
     @Html.ActionLink("Module List", "ModuleList", null, null)
@@ -14,7 +14,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Menu)
+            Sub Modules
         </th>
         <th></th>
     </tr>

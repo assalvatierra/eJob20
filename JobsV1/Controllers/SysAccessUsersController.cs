@@ -194,15 +194,56 @@ namespace JobsV1.Controllers
             return View(db.SysServices.Where(s=>s.Status=="A").ToList());
         }
 
-
-        public ActionResult ModuleSubMenu(int id)
+        //ModuleMenuUsers
+        // GET: UsersList
+        public ActionResult ModuleMenuUsers(int id)
         {
+            ViewBag.MenuId = id;
+            return View(db.SysAccessUsers.Where(s => s.SysMenuId == id).ToList());
+        }
+
+
+        public ActionResult ModuleSubMenu(int? id, int? moduleId)
+        {
+            
             try
             {
-                int sysMenuId = db.SysServiceMenus.Where(s => s.SysServiceId == id)
-                    .FirstOrDefault().SysMenuId;
+                int sysMenuId = 1;
+                string menuName = "";
+                //return main module menu list using module id
+                if (id != null)
+                {
+                    //get menuid in services menu
+                    var sysServiceMenuResult = db.SysServiceMenus.Where(s => s.SysServiceId == id)
+                        .FirstOrDefault();
 
-                return View(db.SysMenus.Where(s => s.ParentId == sysMenuId || s.Id == sysMenuId).ToList());
+                    sysMenuId = sysServiceMenuResult.SysMenuId;
+                    menuName = sysServiceMenuResult.SysMenu.Menu;
+                }
+
+                //return main module menu list using submodule id
+                if (moduleId != null)
+                {
+                    //get submenu 
+                    var sysMenuResult = db.SysMenus.Where(s => s.Id == moduleId)
+                        .FirstOrDefault();
+
+                    //get parent
+                    var parentResultId = sysMenuResult.ParentId;
+
+                    var subMenuResult = db.SysMenus.Where(s => s.Id == parentResultId)
+                        .FirstOrDefault();
+
+                    sysMenuId = sysMenuResult.ParentId;
+                    menuName = subMenuResult.Menu;
+                }
+
+                //module
+                var sysMenu = db.SysMenus.Where(s => s.ParentId == sysMenuId);
+
+                ViewBag.MenuName = menuName;
+
+                return View(sysMenu.ToList());
             }
             catch (Exception ex)
             { }
@@ -213,7 +254,14 @@ namespace JobsV1.Controllers
         // GET: ModuleUsers
         public ActionResult ModuleUsers(int id)
         {
+            //get system subModule
+            var sysMenu = db.SysMenus.Find(id);
+            var syssubMenu = db.SysMenus.Where(s=>s.ParentId == id).FirstOrDefault();
+
+
+            ViewBag.MenuName = sysMenu.Menu;
             ViewBag.MenuId = id;
+            
             return View(db.SysAccessUsers.Where(s => s.SysMenuId == id).ToList());
         }
 
@@ -229,7 +277,14 @@ namespace JobsV1.Controllers
             newAccess.Seqno   = moduleId;
             ViewBag.UserId = new SelectList(userdb.getUsers(), "username", "username");
             ViewBag.moduleId = moduleId;
-            ViewBag.Users = userdb.getUsersModules(moduleId);
+
+            var userNameList = userdb.getUsersModules(moduleId);
+            if (userNameList != null )
+            {
+
+            }
+
+            
             return View(newAccess);
 
         }

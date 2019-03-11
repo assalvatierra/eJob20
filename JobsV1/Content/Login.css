@@ -15,14 +15,15 @@ body{
 }
 
 #loginForm {
-    width: 66%;
+    width: 45%;
 	height: auto;
 	border: 1px solid #c8c8c8;
 	border-radius: 4px;
-	background-color: #a9c6c9;
-	padding: 25px 8px 25px 8px;
+	background-color: #dde0e8;
+	padding: 25px 18px 25px 25px;
 	box-shadow: #7f7f7f 6px 6px 6px;
 	margin:0 auto;
+
 }
 
 

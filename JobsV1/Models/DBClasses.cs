@@ -109,29 +109,47 @@ namespace JobsV1.Models
         {
             List<AppUser> users = new List<AppUser>() ;
 
+            //var sysaccess = sdb.SysAccessUsers.Where(s => s.SysMenuId == moduleId).ToList();
+            var accessCount = 0;
+
             //get list of users
             //loop through users list
-            foreach (var items in getUsers().ToList())
+            foreach (var user in getUsers().ToList())
             {
-                var sysaccess = sdb.SysAccessUsers.Where(s => s.SysMenuId == 1 && s.UserId.Contains(items.UserName)).ToList();
+                var sysaccess = sdb.SysAccessUsers.Where(s => s.SysMenuId == moduleId && s.UserId == user.UserName ).ToList();
                 //list of access
-                foreach (var access in sysaccess.Contains(items))
+                foreach (var access in sysaccess)
                 {
                     //check if user is not present in the sysAccessUsers where moduleID 
-                    if (access.UserId.CompareTo(items.UserName) == 0)
+                    // -1 = not in the list
+                    //  0 = in the list 
+                    if (access.UserId.CompareTo(user.UserName) != 0)
                     {
-                       
+                        //if not add user to list
+                        users.Add(new AppUser()
+                        {
+                            //UserName = user.UserName + " = " + access.UserId + " - " + access.UserId.CompareTo(user.UserName).ToString()
+                             UserName = user.UserName
+                        });
 
                     }
 
+                    accessCount++;
+
+                }
+
+                if (accessCount == 0)
+                {
                     //if not add user to list
                     users.Add(new AppUser()
                     {
-                        UserName = items.UserName+" = " + access.UserId + " - " + access.UserId.CompareTo(items.UserName).ToString()
+                        //UserName = user.UserName + " - " + accessCount
+                        UserName = user.UserName
                     });
                 }
-               
             }
+
+            
             
             return users;
         }
