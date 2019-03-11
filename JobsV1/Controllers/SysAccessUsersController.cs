@@ -277,14 +277,18 @@ namespace JobsV1.Controllers
             newAccess.Seqno   = moduleId;
             ViewBag.UserId = new SelectList(userdb.getUsers(), "username", "username");
             ViewBag.moduleId = moduleId;
-
-            var userNameList = userdb.getUsersModules(moduleId);
-            if (userNameList != null )
-            {
-
-            }
-
             
+            var userNameList = userdb.getUsersModules(moduleId);
+            if (userNameList == null)
+            {
+                ViewBag.listEmpty = "";
+            }
+            else
+            {
+                ViewBag.listEmpty = "All Users have been added.";
+            }
+            ViewBag.Users = userNameList;
+
             return View(newAccess);
 
         }
