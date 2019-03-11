@@ -14,7 +14,7 @@
             @foreach (var user in ViewBag.Users as IEnumerable<JobsV1.Models.AppUser>)
             {
 
-                <a href="@Url.Action("ModuleAddUser", "SysAccessUsers", new {moduleId = ViewBag.moduleId, username = user.UserName}, null)" id="set1" class="list-group-item"> @user.UserName </a>
+                <a href="@Url.Action("ModuleMenuAddUser", "SysAccessUsers", new {moduleId = ViewBag.moduleId, username = user.UserName}, null)" id="set1" class="list-group-item"> @user.UserName </a>
 
             }
         </div>

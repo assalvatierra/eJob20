@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>@ViewBag.MenuName</h2>
+<h2>@ViewBag.MenuName @ViewBag.ParentMenuid - @ViewBag.SubMenuName</h2>
 <div>
     @Html.ActionLink(" Module List", "ModuleList", "SysAccessUsers", new { moduleId = ViewBag.MenuId }, null) |
     @Html.ActionLink(" SubMenu List", "ModuleSubMenu", "SysAccessUsers", new { moduleId = ViewBag.MenuId }, null)
@@ -19,9 +19,6 @@
             @Html.DisplayNameFor(model => model.UserId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Seqno)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.SysMenu.Menu)
         </th>
         <th></th>
@@ -31,9 +28,6 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Seqno)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SysMenu.Menu)

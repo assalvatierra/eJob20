@@ -69,46 +69,49 @@
             </div>
         </div>
     </div>
+    <div class="container">
 
-    <div id="body">
-        <section class="content-wrapper main-content clear-fix">
+        <div id="body">
+            <section class="content-wrapper main-content clear-fix">
 
-            <div class="row" style="margin:20px;">
-                <div>
-                    <!--
-                    <td style="vertical-align:top;">
-                        <div class="CustomBox" style="float:left;height:110px;width:90%;">
-                            <a href="@Url.Action("Index", "Home", new { area = "" })">
-                                <img src="~/Images/Erp/ErpHomeIcon.png" class="ModulePageIcon" alt="Home" />
-                            </a>
+                <div class="row" style="margin:20px;">
+                    <div>
+                        <!--
+                        <td style="vertical-align:top;">
+                            <div class="CustomBox" style="float:left;height:110px;width:90%;">
+                                <a href="@Url.Action("Index", "Home", new { area = "" })">
+                                    <img src="~/Images/Erp/ErpHomeIcon.png" class="ModulePageIcon" alt="Home" />
+                                </a>
+                            </div>
+                        </td>
+                        -->
+                        <div style="vertical-align:top;white-space:nowrap;width:100%;">
+                            <div class="CustomBox" style="height:110px;width:100%;">
+                                @Html.Module(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
+                            </div>
                         </div>
-                    </td>
-                    -->
-                    <div style="vertical-align:top;white-space:nowrap;width:100%;">
-                        <div class="CustomBox" style="height:110px;width:100%;">
-                            @Html.Module(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
+
+                    </div>
+                    <div>
+                        <div style="vertical-align:top;">
+                            <div class="CustomBox" style="float:left;width:100%;">
+                                @Html.Menu(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
+                            </div>
+                            <div class="PanelContainer">
+                                @RenderSection("LeftInfo", required: false)
+                            </div>
+                        </div>
+                        <div style="vertical-align:top;max-width:100%;margin-left:20px">
+                            <div class="PanelContainer">
+                                @RenderBody()
+                            </div>
                         </div>
                     </div>
 
                 </div>
-                <div>
-                    <div style="vertical-align:top;">
-                        <div class="CustomBox" style="float:left;width:100%;">
-                            @Html.Menu(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
-                        </div>
-                        <div class="PanelContainer">
-                            @RenderSection("LeftInfo", required: false)
-                        </div>
-                    </div>
-                    <div style="vertical-align:top;max-width:100%;margin-left:20px">
-                        <div class="PanelContainer">
-                            @RenderBody()
-                        </div>
-                    </div>
-                </div>
+            </section>
+        </div>
 
-            </div>
-        </section>
     </div>
     <footer>
         <div class="content-wrapper">

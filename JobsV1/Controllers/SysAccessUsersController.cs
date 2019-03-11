@@ -186,7 +186,18 @@ namespace JobsV1.Controllers
             return RedirectToAction("UsersAccessList", new { username = sysAccessUser.UserId });
         }
 
+        //GET: UsersServices
+        public ActionResult UserServicesList(string username)
+        {
+            //get list of services - Active
+            var services = db.SysAccessUsers.Where(s=>s.UserId == username).OrderBy(s=>s.Seqno).ToList();
+            ViewBag.Username = username;
 
+            return View(services.ToList());
+
+        }
+
+        #region Modules
         //Modules
         // GET: UsersList
         public ActionResult ModuleList()
@@ -199,6 +210,7 @@ namespace JobsV1.Controllers
         public ActionResult ModuleMenuUsers(int id)
         {
             ViewBag.MenuId = id;
+            ViewBag.MenuName = db.SysMenus.Find(id).Menu;
             return View(db.SysAccessUsers.Where(s => s.SysMenuId == id).ToList());
         }
 
@@ -251,15 +263,20 @@ namespace JobsV1.Controllers
             return View(db.SysMenus.ToList());
         }
 
-        // GET: ModuleUsers
+        // GET: ModuleUsers - submodule users list
         public ActionResult ModuleUsers(int id)
         {
             //get system subModule
             var sysMenu = db.SysMenus.Find(id);
-            var syssubMenu = db.SysMenus.Where(s=>s.ParentId == id).FirstOrDefault();
+            //submenu of parentid
+           // var subMenu = db.SysMenus.Where(s=>s.ParentId == sysMenu.ParentId).FirstOrDefault();
+            //parent menu 
+           // var parentMenuName = db.SysMenus.Find(subMenu.ParentId);
+            ViewBag.SubMenuName = sysMenu.Menu;
 
+            // ViewBag.MenuName = parentMenuName.Menu != null ? parentMenuName.Menu : sysMenu.Menu;
+            ViewBag.MenuName = "";
 
-            ViewBag.MenuName = sysMenu.Menu;
             ViewBag.MenuId = id;
             
             return View(db.SysAccessUsers.Where(s => s.SysMenuId == id).ToList());
@@ -287,6 +304,8 @@ namespace JobsV1.Controllers
             {
                 ViewBag.listEmpty = "All Users have been added.";
             }
+
+            ViewBag.UsersTest = userdb.getUsersModulesTest(moduleId);
             ViewBag.Users = userNameList;
 
             return View(newAccess);
@@ -351,5 +370,68 @@ namespace JobsV1.Controllers
             return RedirectToAction("ModuleUsers", new { id = sysAccessUser.SysMenuId });
         }
 
+
+        // GET: SysAccessUsers/ModuleUserAdd
+        // model sysaccessusers
+        public ActionResult ModuleMenuUserAdd(int moduleId)
+        {
+
+            SysAccessUser newAccess = new SysAccessUser();
+            ViewBag.SysMenuId = new SelectList(db.SysMenus, "Id", "Menu", moduleId);
+            newAccess.Seqno = moduleId;
+            ViewBag.UserId = new SelectList(userdb.getUsers(), "username", "username");
+            ViewBag.moduleId = moduleId;
+
+            var userNameList = userdb.getUsersModules(moduleId);
+            if (userNameList == null)
+            {
+                ViewBag.listEmpty = "";
+            }
+            else
+            {
+                ViewBag.listEmpty = "All Users have been added.";
+            }
+
+            ViewBag.UsersTest = userdb.getUsersModulesTest(moduleId);
+            ViewBag.Users = userNameList;
+
+            return View(newAccess);
+
+        }
+
+        // POST: SysAccessUsers/ModuleUserAdd
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ModuleMenuUserAdd([Bind(Include = "Id,UserId,SysMenuId,Seqno")] SysAccessUser sysAccessUser)
+        {
+            if (ModelState.IsValid)
+            {
+                db.SysAccessUsers.Add(sysAccessUser);
+                db.SaveChanges();
+                return RedirectToAction("ModuleMenuUsers", new { id = sysAccessUser.SysMenuId });
+            }
+
+            ViewBag.SysMenuId = new SelectList(db.SysMenus, "Id", "Menu", sysAccessUser.SysMenuId);
+            return View(sysAccessUser);
+        }
+
+
+        // GET: SysAccessUsers/ModuleAddUser/5
+        public ActionResult ModuleMenuAddUser(string username, int moduleId)
+        {
+            SysAccessUser moduleUser = new SysAccessUser();
+            moduleUser.SysMenuId = moduleId;
+            moduleUser.Seqno = db.SysMenus.Where(s => s.Id == moduleId).FirstOrDefault().Id;
+            moduleUser.UserId = username;
+
+            db.SysAccessUsers.Add(moduleUser);
+            db.SaveChanges();
+            return RedirectToAction("ModuleMenuUsers", new { id = moduleUser.SysMenuId });
+        }
+
+
+        #endregion
     }
 }
