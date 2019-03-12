@@ -1,20 +1,17 @@
 ﻿@model IEnumerable<JobsV1.Models.SysAccessUser>
 
 @{
-    ViewBag.Title = "UsersAccessList";
+    ViewBag.Title = "UserSubModuleList";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>UsersAccessList</h2>
+<h2>@ViewBag.Username - @ViewBag.ModuleDesc</h2>
 
 <p>
-    @Html.ActionLink("Add Module", "UserServicesAdd", new { username = ViewBag.Username })
+    @Html.ActionLink("Add SubModule", "UserSubModuleAdd" , new { username = ViewBag.Username , moduleId = ViewBag.ModuleId })
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Seqno)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.SysMenu.Menu)
         </th>
@@ -24,15 +21,14 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Seqno)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.SysMenu.Menu)
         </td>
         <td>
-            @Html.ActionLink("Remove", "UsersAccessDelete", new { id=item.Id })
+            @Html.ActionLink("Remove", "UserSubModuleDelete", new { id=item.Id, username = ViewBag.Username })
         </td>
     </tr>
 }
 
 </table>
+
+@Html.ActionLink("Back to List", "UserServicesList", new { username = ViewBag.UserName })

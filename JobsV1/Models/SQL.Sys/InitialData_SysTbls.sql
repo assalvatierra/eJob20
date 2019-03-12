@@ -4,15 +4,15 @@ insert into SysCmdIdRefs([CmdId],[Description],[Remarks]) values
 (21,'EXECUTE','Execute controller/action');
 
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-('System Access','Access Control',0,'SysAccessUsers','ModuleList','',20,101),
-('Sales Lead','Sales Lead',0,'SalesLeads','Index','',20,102),
-('Job Orders','Job Orders',0,'JobOrder','Index','',20,103),
-('Suppliers','List of Suppliers',0,'Suppliers','Index','',20,104),
-('Customers','Job Orders',0,'Customers','Index','',20,105),
-('Equipments','Job Orders',0,'SupplierItems','Index','',20,106),
-('Packages','Job Orders',0,'CarRatePackages','Index','',20,107),
-('Reporting','Job Orders',0,'Reporting','Index','',20,108),
-('Notifications','Job Orders',0,'NotificationList','Index','',20,109)
+('System Access','Access Control',0,'SysAccessUsers','ModuleList','',20,1),
+('Sales Leads','Sales Lead',0,'SalesLeads','Index','',20,2),
+('Job Orders','Job Orders',0,'JobOrder','Index','',20,3),
+('Suppliers','List of Suppliers',0,'Suppliers','Index','',20,4),
+('Customers','Job Orders',0,'Customers','Index','',20,5),
+('Equipments','Job Orders',0,'SupplierItems','Index','',20,6),
+('Packages','Job Orders',0,'CarRatePackages','Index','',20,7),
+('Reporting','Job Orders',0,'Reporting','Index','',20,8),
+('Notifications','Job Orders',0,'NotificationList','Index','',20,9)
 ;
 --('Account','Account',0,'','','',20,102),
 --('Customer','Customer',0,'Customer','Index','',20,103),

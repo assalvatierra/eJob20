@@ -183,19 +183,155 @@ namespace JobsV1.Controllers
             SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
             db.SysAccessUsers.Remove(sysAccessUser);
             db.SaveChanges();
-            return RedirectToAction("UsersAccessList", new { username = sysAccessUser.UserId });
+            return RedirectToAction("UserServicesList", new { username = sysAccessUser.UserId });
         }
 
         //GET: UsersServices
         public ActionResult UserServicesList(string username)
         {
             //get list of services - Active
-            var services = db.SysAccessUsers.Where(s=>s.UserId == username).OrderBy(s=>s.Seqno).ToList();
+            var services = db.SysAccessUsers.Where(s=>s.UserId == username && s.SysMenu.SysServiceMenus.Where(sm=>sm.SysService.Status == "A").Count() != 0)
+                .OrderBy(s=>s.Seqno).ToList();
+           
             ViewBag.Username = username;
 
             return View(services.ToList());
 
         }
+        
+        //GET: UsersServices
+        public ActionResult UserServicesAdd(string username)
+        {
+
+
+            //get list of services - Active
+            var actServices = db.SysMenus.Where(s=>s.SysUserAccesses.Where(sa=>sa.UserId == username).Count() != 0 
+                && s.SysServiceMenus.Where(ssm=>ssm.SysMenuId == s.Id).Count() != 0 
+                && s.ParentId == 0).ToList();
+
+            //get List of user modules
+            var servicesList = db.SysMenus.Where(s => s.ParentId == 0 ).ToList();
+
+            IEnumerable<SysMenu> AvServices = servicesList.Except(actServices).ToList();
+
+            ViewBag.modules = AvServices;
+            ViewBag.Username = username;
+
+            return View();
+        }
+
+        //POST : UserServicesCreate
+        //Add User to the module service
+        public ActionResult UserServicesCreate(string username, string moduleName)
+        {
+            var moduleResult = db.SysMenus.Where(s => s.Menu == moduleName).FirstOrDefault();
+
+            SysAccessUser moduleUser = new SysAccessUser();
+            moduleUser.SysMenuId = moduleResult.Id;
+            moduleUser.Seqno = moduleResult.Seqno;
+            moduleUser.UserId = username;
+
+            db.SysAccessUsers.Add(moduleUser);
+            db.SaveChanges();
+            return RedirectToAction("UserServicesList", new { username = username });
+        }
+        
+        //Filter Module List filter
+        public ActionResult getModuleList(string username, string modulename )
+        {
+            ViewBag.Username = username;
+            var sysAccessUsers = db.SysAccessUsers.Include(s => s.SysMenu).Where(s => s.UserId.CompareTo(username) == 0);
+            return View(sysAccessUsers.ToList().OrderBy(s => s.Seqno));
+        }
+        
+        //Filter Module List View
+        public ActionResult UserSubModuleList(int moduleId, string username)
+        {
+            //list of existing submodules
+            IEnumerable<SysAccessUser> submodules = db.SysAccessUsers.Where(sa => sa.UserId == username && sa.SysMenu.ParentId == moduleId).ToList();
+
+            ViewBag.Username = username;
+            ViewBag.ModuleId = moduleId;
+            ViewBag.ModuleDesc = db.SysMenus.Find(moduleId).Menu;
+
+            return View(submodules.OrderBy(s => s.SysMenu.Seqno));
+        }
+
+        //GET: UsersServices
+        public ActionResult UserSubModuleAdd(string username, int moduleId)
+        {
+            //get List of user modules
+            var userAccess = db.SysAccessUsers.Where(s => s.UserId == username && s.SysMenu.ParentId == moduleId).ToList();
+
+            //overall list
+            var avMenu = db.SysMenus.Where(sm => sm.ParentId == moduleId).ToList();
+
+            //list of existing submodules
+            List<SysMenu> existingSubmenu = db.SysMenus.Where(s => s.SysUserAccesses.Where(sa => sa.UserId == username).Count() != 0 && s.ParentId == moduleId).ToList();
+
+            //get list of submodules except the existing
+            //IEnumerable<SysMenu> availableModules = db.SysMenus.Except(existingSubmenu).ToList();
+            IEnumerable<SysMenu> availableModules = avMenu.Except(existingSubmenu);
+            
+
+            ViewBag.subModules = availableModules;
+            ViewBag.Username = username;
+            ViewBag.ModuleId = moduleId;
+            return View();
+        }
+
+        //POST : UserSubModuleCreate
+        //Add User to the submodule service
+        public ActionResult UserSubModuleCreate(string username, int moduleId)
+        {
+            var moduleResult = db.SysMenus.Where(s => s.Id == moduleId).FirstOrDefault();
+
+            //build moduleuser
+            SysAccessUser moduleUser = new SysAccessUser();
+            moduleUser.SysMenuId = moduleResult.Id;
+            moduleUser.Seqno = moduleResult.Seqno;
+            moduleUser.UserId = username;
+
+            //assign user to the module
+            db.SysAccessUsers.Add(moduleUser);
+            db.SaveChanges();
+
+            return RedirectToAction("UserSubModuleList", new { username = username , moduleId = moduleResult.ParentId });
+        }
+
+        // DELETE CONFIRMATION
+        // GET: SysAccessUsers/UsersAccess/5
+        public ActionResult UserSubModuleDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+            if (sysAccessUser == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Username = sysAccessUser.UserId;
+            return View(sysAccessUser);
+        }
+
+        // DELETE:
+        // POST: SysAccessUsers/UsersAccessDelete/5
+        [HttpPost, ActionName("UserSubModuleDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult UserSubModuleDeleteConfirm(int id)
+        {
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+
+            var username = sysAccessUser.UserId;
+            var moduleId = sysAccessUser.SysMenu.ParentId;
+
+            db.SysAccessUsers.Remove(sysAccessUser);
+            db.SaveChanges();
+            return RedirectToAction("UserSubModuleList", new { username = username, moduleId = moduleId });
+        }
+
 
         #region Modules
         //Modules
@@ -430,6 +566,7 @@ namespace JobsV1.Controllers
             db.SaveChanges();
             return RedirectToAction("ModuleMenuUsers", new { id = moduleUser.SysMenuId });
         }
+
 
 
         #endregion

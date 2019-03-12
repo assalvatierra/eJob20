@@ -1055,6 +1055,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\ssl.js" />
+    <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />
     <EntityDeploy Include="Models\JobDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1613,7 +1614,6 @@
     <Content Include="Views\SysAccessUsers\Edit.cshtml" />
     <Content Include="Views\SysAccessUsers\Index.cshtml" />
     <Content Include="Views\SysAccessUsers\UsersList.cshtml" />
-    <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleSubMenu.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleUsers.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleUserAdd.cshtml" />
@@ -1622,6 +1622,11 @@
     <Content Include="Views\SysAccessUsers\ModuleList.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleMenuUsers.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleMenuUserAdd.cshtml" />
+    <Content Include="Views\SysAccessUsers\UserServicesList.cshtml" />
+    <Content Include="Views\SysAccessUsers\UserServicesAdd.cshtml" />
+    <Content Include="Views\SysAccessUsers\UserSubModuleList.cshtml" />
+    <Content Include="Views\SysAccessUsers\UserSubModuleAdd.cshtml" />
+    <Content Include="Views\SysAccessUsers\UserSubModuleDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

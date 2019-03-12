@@ -1,0 +1,24 @@
+﻿
+
+@{
+    ViewBag.Title = "User Services Add";
+}
+
+<h2>Add Moduels to User</h2>
+<p>Please Select a module from the list</p>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="list-group" id="categorylist2">
+            @foreach (var module in ViewBag.modules as IEnumerable<JobsV1.Models.SysMenu>)
+            {
+                <a href="@Url.Action("UserServicesCreate", "SysAccessUsers", new {username = ViewBag.username, moduleName = module.Menu}, null)" id="modules" class="list-group-item"> @module.Menu </a>
+            }
+        </div>
+        <h3> @ViewBag.listEmpty </h3>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "UserServicesList", "SysAccessUsers", new { username = ViewBag.Username }, null)
+</div>
