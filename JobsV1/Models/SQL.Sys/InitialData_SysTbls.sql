@@ -12,7 +12,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Equipments','Job Orders',0,'SupplierItems','Index','',20,6),
 ('Packages','Job Orders',0,'CarRatePackages','Index','',20,7),
 ('Reporting','Job Orders',0,'Reporting','Index','',20,8),
-('Notifications','Job Orders',0,'NotificationList','Index','',20,9)
+('Notifications','Job Orders',0,'JobServices','NotificationList','',20,9)
 ;
 --('Account','Account',0,'','','',20,102),
 --('Customer','Customer',0,'Customer','Index','',20,103),
@@ -67,7 +67,10 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (3,3);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 	('Work in Progress','',3,'JobOrder','Index','',21,31),
-	('Quick List','',3,'JobMains','ActiveJobs','',21,32);
+	('Quick List','',3,'JobMains','ActiveJobs','',21,32),
+	('Listing','',3,'JobOrder','JobListing','span=30',21,33),
+	('Job Table','',3,'JobMains','JobTable','span=30',21,34),
+	('Availability','',3,'InvItems','Availability','',21,35);
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (3,1,'2019/1/1');
 
@@ -76,9 +79,9 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('SU104','Suppliers','List of Suppliers','A','../Images/Erp/icons/icons-exchange.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (4,4);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('List','',4,'JobOrder','Index','',21,41),
-	('PO List','',4,'JobMains','ActiveJobs','',21,42),
-	('Coop Members','',4,'JobMains','ActiveJobs','',21,42);
+	('List','',4,'Suppliers','Index','',21,41),
+	('PO List','',4,'SupplierPoHdrs','Index','',21,42),
+	('Coop Members','',4,'CoopMembers','Index','',21,42);
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (4,1,'2019/1/1');
 
@@ -127,7 +130,7 @@ insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (8,8);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 	('Job Listing','',8,'Reporting','Index','',21,81),
 	('Payment','',8,'Reporting','Index','',21,82),
-	('Package Rates','',8,'Reporting','Availability','',21,83);
+	('Package Rates','',8,'Reporting','Index','',21,83);
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (8,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
@@ -138,7 +141,7 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('NO109','Notifications','Reports','A','../Images/Erp/icons/icons-notification.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (9,9);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('SMS','',9,'JobServices','NotificationLsssist','',21,91),
+	('SMS','',9,'JobServices','NotificationList','',21,91),
 	('Paypal','',9,'PaypalTransactions','Index','',21,92);
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (9,1,'2019/1/1');

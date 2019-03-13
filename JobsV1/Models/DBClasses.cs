@@ -12,6 +12,36 @@ namespace JobsV1.Models
         public string UserName { get; set; }
     }
 
+
+    class AppUserEqualityComparer : IEqualityComparer<AppUser>
+    {
+        public bool Equals(AppUser x, AppUser y)
+        {
+            if (Object.ReferenceEquals(x, y)) return true;
+
+            if (Object.ReferenceEquals(x, null) ||
+
+                Object.ReferenceEquals(y, null))
+
+                return false;
+
+            return x.UserName == y.UserName;
+        }
+
+        public int GetHashCode(AppUser appuser)
+        {
+            if (Object.ReferenceEquals(appuser, null)) return 0;
+
+            int hashTextual = appuser.UserName == null
+
+                ? 0 : appuser.UserName.GetHashCode();
+
+            int hashDigital = appuser.UserName.GetHashCode();
+
+            return hashTextual ^ hashDigital;
+        }
+    }
+
     public class InvItemsModified
     {
         public int Id { get; set; }
@@ -105,103 +135,74 @@ namespace JobsV1.Models
             return data.ToList();
         }
 
-        public List<AppUser> getUsersModules(int moduleId)
+        public IEnumerable<AppUser> getUsersModules(int moduleId)
         {
-            List<AppUser> users = new List<AppUser>() ;
-          
-            //var sysaccess = sdb.SysAccessUsers.Where(s => s.SysMenuId == moduleId).ToList();
-            var accessCount = 0;
 
-            //get list of users
-            //loop through users list
-            foreach (var user in getUsers().ToList())
+            //all users
+            List<AppUser> users = getUsers().ToList();
+
+            //active users in the module
+            List<AppUser> actUsers = new List<AppUser>();
+
+            //get list of users from sys access
+            var modules = sdb.SysAccessUsers.Where(s => s.SysMenuId == moduleId).ToList();
+
+            foreach (var mod in modules)
             {
-                var sysaccess = sdb.SysAccessUsers.Where(s => s.SysMenuId == moduleId).ToList();
-                //list of access
-                foreach (var access in sysaccess)
-                {
-                     //check if user is not present in the sysAccessUsers where moduleID 
-                    // true = not in the list
-                    // false = in the list 
-                    var isNotIntheList =!( access.UserId == user.UserName);
-                    if (isNotIntheList)
-                    {
-                        //if not add user to list
-                        users.Add(new AppUser()
-                        {
-                            //UserName = user.UserName + " = " + access.UserId + " - " + isNotIntheList.ToString()
-                            UserName = user.UserName
-                        });
-                    }
-
-                    accessCount++;
-
-                }
-
-                if (accessCount == 0)
-                {
-                    //if not add user to list
-                    users.Add(new AppUser()
-                    {
-                        //UserName = user.UserName + " - " + accessCount
-                        UserName = user.UserName
-                    });
-                }
+                actUsers.Add(new AppUser() { UserName = mod.UserId });
+                //actUsers.Add(new AppUser() { UserName = mod.UserId + " - " + mod.SysMenuId });
             }
-           
-            
-            return users;
+
+            //users not found in the module
+            var appUserEqualityComparer = new AppUserEqualityComparer();
+            IEnumerable<AppUser> Eusers = users.Except(actUsers, appUserEqualityComparer).ToList();
+
+
+            return Eusers;
         }
 
 
-        public List<AppUser> getUsersModulesTest(int moduleId)
+        public IEnumerable<AppUser> getUsersModulesTest(int moduleId)
         {
-            List<AppUser> users = new List<AppUser>();
+            //all users
+            List<AppUser> users =  getUsers().ToList();
 
-            //var sysaccess = sdb.SysAccessUsers.Where(s => s.SysMenuId == moduleId).ToList();
-            var accessCount = 0;
+            //active users in the module
+            List<AppUser> actUsers = new List<AppUser>();
 
-            //get list of users
-            //loop through users list
-            foreach (var user in getUsers().ToList())
+            //get list of users from sys access
+            var modules = sdb.SysAccessUsers.Where(s=>s.SysMenuId == moduleId).ToList();
+
+            foreach (var mod in modules )
             {
-                var sysaccess = sdb.SysAccessUsers.Where(s => s.SysMenuId == moduleId).ToList();
-                //list of access
-                foreach (var access in sysaccess)
-                {
-                    //check if user is not present in the sysAccessUsers where moduleID 
-                    // true = not in the list
-                    // false = in the list 
-                    var isNotIntheList =!( access.UserId == user.UserName);
-                    if (isNotIntheList)
-                    {
-                        //if not add user to list
-                        users.Add(new AppUser()
-                        {
-                            UserName = user.UserName + " = " + access.UserId + " - " + isNotIntheList.ToString()
-                            //UserName = user.UserName
-                        });
-                    }
-
-                   
-
-                    accessCount++;
-
-                }
-                if (accessCount == 0)
-                {
-                    //if not add user to list
-                    users.Add(new AppUser()
-                    {
-                        UserName = user.UserName + " - " + accessCount
-                        //UserName = user.UserName
-                    });
-                }
+                  actUsers.Add(new AppUser() { UserName = mod.UserId });
+                //actUsers.Add(new AppUser() { UserName = mod.UserId + " - " + mod.SysMenuId });
             }
 
+            //users not found in the module
+            var appUserEqualityComparer = new AppUserEqualityComparer();
+            IEnumerable<AppUser> Eusers = users.Except(actUsers, appUserEqualityComparer).ToList();
 
-            return users;
+            //actUsers.Add(new AppUser() { UserName = "jahdielvillosa@gmail.com" });
+            //actUsers.Add(new AppUser() { UserName = "assalvatierra@gmail.com" });
+
+            List<AppUser> actUsers1 = new List<AppUser>();
+            List<AppUser> actUsers2 = new List<AppUser>();
+            actUsers1.Add(new AppUser() { UserName = "jahdielvillosa@gmail.com" });
+            actUsers1.Add(new AppUser() { UserName = "assalvatierra@gmail.com" });
+            actUsers1.Add(new AppUser() { UserName = "test@gmail.com" });
+
+            actUsers2.Add(new AppUser() { UserName = "assalvatierra@gmail.com" });
+
+            IEnumerable<AppUser> Exusers = actUsers1.Except(actUsers2);
+
+            //set3 = set1.Where((item) => !set2.Any((item2) => item.id == item2.id));
+            appUserEqualityComparer = new AppUserEqualityComparer();
+            var common = actUsers1.Except(actUsers2, appUserEqualityComparer);
+
+            return Eusers;
         }
+
 
         public getItemSchedReturn ItemSchedules()
         {

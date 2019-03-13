@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Item Availability";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     List<JobsV1.Models.DayLabel> vLabel = (List<JobsV1.Models.DayLabel>)ViewBag.dtLabel;
 }
@@ -9,10 +10,11 @@
 <h2>Item Availability</h2>
 
 @Html.ActionLink("Create New", "jobCreate", "JobOrder", null, null)
-| @Html.ActionLink("Work In Progress", "Index", "JobOrder")
+<!--| @Html.ActionLink("Work In Progress", "Index", "JobOrder")
 | @Html.ActionLink("Listing", "JobListing", "JobOrder", new { span = 30 }, null)
 | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
 | Availability
+    -->
 
 
 <table class="table">

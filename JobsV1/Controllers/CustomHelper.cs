@@ -12,6 +12,7 @@ namespace JobsV1.CustomHelper
         #region HTML custom helpers
         public static IHtmlString Menu(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId)
         {
+
             SysAccessLayer dal = new SysAccessLayer();
             var menu = dal.getModMenu(MenuId);
 
@@ -36,7 +37,7 @@ namespace JobsV1.CustomHelper
                 {
                     htmlString += "<td colspan='2'>";
                     // htmlString += item.Menu;
-                    htmlString += "<a href='" + rootUrl + "Module/Menu/" + item.Id + "/' >" + item.Menu + "</a>  | ";
+                    //htmlString += "<a href='" + rootUrl + "Module/Menu/" + item.Id + "/' >" + item.Menu + "</a>  | ";
                     htmlString += "</td>";
                 }
 
@@ -45,6 +46,8 @@ namespace JobsV1.CustomHelper
 
                 htmlString += "</td>";
             }
+            htmlString += "<a class:'float:right;' href='" + rootUrl + "Home/' style='float:right;' >Home</a>";
+            
             htmlString += "</tr>";
 
             htmlString += "</table>";
@@ -62,8 +65,6 @@ namespace JobsV1.CustomHelper
             htmlString += "<h2>" + service.Description + "</h2>";
             htmlString += "<p>" + service.Remarks + "</p>";
             htmlString += "</span>";
-            htmlString += "<a  href='" + rootUrl + "Home/' style='float:right;margin-top:-25px;' >Home</a>";
-
             return new HtmlString(htmlString);
         }
 

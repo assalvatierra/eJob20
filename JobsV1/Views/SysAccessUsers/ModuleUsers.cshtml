@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>@ViewBag.MenuName @ViewBag.ParentMenuid - @ViewBag.SubMenuName</h2>
+<h2> @ViewBag.MenuName - @ViewBag.SubMenuName</h2>
 <div>
     @Html.ActionLink(" Module List", "ModuleList", "SysAccessUsers", new { moduleId = ViewBag.MenuId }, null) |
     @Html.ActionLink(" SubMenu List", "ModuleSubMenu", "SysAccessUsers", new { moduleId = ViewBag.MenuId }, null)
@@ -33,7 +33,7 @@
             @Html.DisplayFor(modelItem => item.SysMenu.Menu)
         </td>
         <td>
-            @Html.ActionLink("Remove", "ModuleDelete", new { id=item.Id })
+            @Html.ActionLink("Remove", "ModuleSubMenuDelete", new { id=item.Id })
         </td>
     </tr>
 }

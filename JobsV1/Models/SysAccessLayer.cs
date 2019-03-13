@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace JobsV1
 {
@@ -129,7 +130,7 @@ namespace JobsV1
         {
             List<Models.SysMenu> sMenu = new List<Models.SysMenu>();
             sMenu.Add(db.SysMenus.Find(id));
-
+            
             var subMenus = db.SysMenus.Where(d => d.ParentId == id);
             foreach (Models.SysMenu m in subMenus)
             {

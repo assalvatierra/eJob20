@@ -2,16 +2,19 @@
 
 @{
     ViewBag.Title = "Job Listing";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Job Orders</h2>
 
 <p>
     @Html.ActionLink("Create New", "jobCreate", null, null)
+    <!--
     | @Html.ActionLink("Work In Progress", "Index", "JobOrder", new { span = 30 }, null)
     | Listing
     | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
     | @Html.ActionLink("Availability", "Availability", "InvItems")
+        -->
 </p>
 
 <p>

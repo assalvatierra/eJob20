@@ -405,21 +405,20 @@ namespace JobsV1.Controllers
             //get system subModule
             var sysMenu = db.SysMenus.Find(id);
             //submenu of parentid
-           // var subMenu = db.SysMenus.Where(s=>s.ParentId == sysMenu.ParentId).FirstOrDefault();
+            var subMenu = db.SysMenus.Where(s=>s.ParentId == sysMenu.ParentId).FirstOrDefault();
             //parent menu 
-           // var parentMenuName = db.SysMenus.Find(subMenu.ParentId);
+             var parentMenuName = db.SysMenus.Find(subMenu.ParentId);
             ViewBag.SubMenuName = sysMenu.Menu;
 
-            // ViewBag.MenuName = parentMenuName.Menu != null ? parentMenuName.Menu : sysMenu.Menu;
-            ViewBag.MenuName = "";
+            ViewBag.MenuName = parentMenuName.Menu != null ? parentMenuName.Menu : sysMenu.Menu;
+           // ViewBag.MenuName = "";
 
             ViewBag.MenuId = id;
             
             return View(db.SysAccessUsers.Where(s => s.SysMenuId == id).ToList());
         }
 
-
-
+        
         // GET: SysAccessUsers/ModuleUserAdd
         // model sysaccessusers
         public ActionResult ModuleUserAdd(int moduleId)
@@ -430,7 +429,8 @@ namespace JobsV1.Controllers
             newAccess.Seqno   = moduleId;
             ViewBag.UserId = new SelectList(userdb.getUsers(), "username", "username");
             ViewBag.moduleId = moduleId;
-            
+
+
             var userNameList = userdb.getUsersModules(moduleId);
             if (userNameList == null)
             {
@@ -440,11 +440,10 @@ namespace JobsV1.Controllers
             {
                 ViewBag.listEmpty = "All Users have been added.";
             }
-
-            ViewBag.UsersTest = userdb.getUsersModulesTest(moduleId);
+            
             ViewBag.Users = userNameList;
 
-            return View(newAccess);
+            return View();
 
         }
 
@@ -480,8 +479,8 @@ namespace JobsV1.Controllers
             return RedirectToAction("ModuleUsers", new { id = moduleUser.SysMenuId });
         }
 
-        // GET: SysAccessUsers/ModuleDelete/5
-        public ActionResult ModuleDelete(int? id)
+        // GET: SysAccessUsers/ModuleSubMenuDelete/5
+        public ActionResult ModuleSubMenuDelete(int? id)
         {
             if (id == null)
             {
@@ -495,19 +494,20 @@ namespace JobsV1.Controllers
             return View(sysAccessUser);
         }
 
-        // POST: SysAccessUsers/ModuleDelete/5
-        [HttpPost, ActionName("ModuleDelete")]
+        // POST: SysAccessUsers/ModuleSubMenuDelete/5
+        [HttpPost, ActionName("ModuleSubMenuDelete")]
         [ValidateAntiForgeryToken]
-        public ActionResult ModuleDeleteConfirmed(int id)
+        public ActionResult ModuleSubMenuDeleteConfirmed(int id)
         {
             SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+            var tempSubModuleId = sysAccessUser.SysMenuId;
             db.SysAccessUsers.Remove(sysAccessUser);
             db.SaveChanges();
-            return RedirectToAction("ModuleUsers", new { id = sysAccessUser.SysMenuId });
+            return RedirectToAction("ModuleUsers", new { id = tempSubModuleId });
         }
 
 
-        // GET: SysAccessUsers/ModuleUserAdd
+        // GET: SysAccessUsers/ModuleUse
         // model sysaccessusers
         public ActionResult ModuleMenuUserAdd(int moduleId)
         {
@@ -527,15 +527,14 @@ namespace JobsV1.Controllers
             {
                 ViewBag.listEmpty = "All Users have been added.";
             }
-
-            ViewBag.UsersTest = userdb.getUsersModulesTest(moduleId);
+            
             ViewBag.Users = userNameList;
 
             return View(newAccess);
 
         }
 
-        // POST: SysAccessUsers/ModuleUserAdd
+        // POST: SysAccessUsers/ModuleUser
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -554,6 +553,7 @@ namespace JobsV1.Controllers
         }
 
 
+
         // GET: SysAccessUsers/ModuleAddUser/5
         public ActionResult ModuleMenuAddUser(string username, int moduleId)
         {
@@ -565,6 +565,34 @@ namespace JobsV1.Controllers
             db.SysAccessUsers.Add(moduleUser);
             db.SaveChanges();
             return RedirectToAction("ModuleMenuUsers", new { id = moduleUser.SysMenuId });
+        }
+        
+        // GET: SysAccessUsers/ModuleMenuUserDelete/5
+        public ActionResult ModuleMenuUserDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+            if (sysAccessUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(sysAccessUser);
+        }
+
+        // POST: SysAccessUsers/ModuleMenuUserDelete/5
+        [HttpPost, ActionName("ModuleMenuUserDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ModuleMenuUserDeleteConfirmed(int id)
+        {
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+            var tempModuleId = sysAccessUser.SysMenuId;
+
+            db.SysAccessUsers.Remove(sysAccessUser);
+            db.SaveChanges();
+            return RedirectToAction("ModuleMenuUsers", new { id = tempModuleId });
         }
 
 

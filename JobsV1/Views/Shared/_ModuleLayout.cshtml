@@ -85,6 +85,7 @@
                             </div>
                         </td>
                         -->
+                       
                         <div style="vertical-align:top;white-space:nowrap;width:100%;">
                             <div class="CustomBox" style="height:110px;width:100%;">
                                 @Html.Module(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
@@ -95,12 +96,13 @@
                     <div>
                         <div style="vertical-align:top;">
                             <div class="CustomBox" style="float:left;width:100%;">
-                                @Html.Menu(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
+                                @Html.Menu(Url.Content("~/"), "" , "", (int)Session["ROOTMENUID"])
                             </div>
                             <div class="PanelContainer">
                                 @RenderSection("LeftInfo", required: false)
                             </div>
                         </div>
+
                         <div style="vertical-align:top;max-width:100%;margin-left:20px">
                             <div class="PanelContainer">
                                 @RenderBody()

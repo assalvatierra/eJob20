@@ -1,4 +1,4 @@
-﻿@model JobsV1.Models.SysAccessUser
+﻿
 
 @{
     ViewBag.Title = "Create";
@@ -21,21 +21,6 @@
         <h3> @ViewBag.listEmpty </h3>
     </div>
   </div>
-
-<div class="row">
-    <div class="col-lg-6">
-
-        <div class="list-group" id="categorylist2">
-            @foreach (var user in ViewBag.UsersTest as IEnumerable<JobsV1.Models.AppUser>)
-            {
-
-                <a href="@Url.Action("ModuleAddUser", "SysAccessUsers", new {moduleId = ViewBag.moduleId, username = user.UserName}, null)" id="set1" class="list-group-item"> @user.UserName </a>
-
-            }
-        </div>
-        <h3> @ViewBag.listEmpty </h3>
-    </div>
-</div>
 
 
 <div>
