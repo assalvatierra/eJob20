@@ -87,6 +87,7 @@
     <EntitySet Name="EmailBlasterTemplates" EntityType="JobDB.Store.EmailBlasterTemplates" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="BlasterLogs" EntityType="JobDB.Store.BlasterLogs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EmailBlasterLogs" EntityType="JobDB.Store.EmailBlasterLogs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobEntMains" EntityType="JobDB.Store.JobEntMains" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -406,6 +407,14 @@
     <AssociationSet Name="EmailBlasterTemplateBlasterLog" Association="JobDB.Store.EmailBlasterTemplateBlasterLog">
       <End Role="EmailBlasterTemplate" EntitySet="EmailBlasterTemplates" />
       <End Role="BlasterLog" EntitySet="BlasterLogs" />
+    </AssociationSet>
+    <AssociationSet Name="JobEntMainJobMain" Association="JobDB.Store.JobEntMainJobMain">
+      <End Role="JobEntMain" EntitySet="JobEntMains" />
+      <End Role="JobMain" EntitySet="JobMains" />
+    </AssociationSet>
+    <AssociationSet Name="JobEntMainCustEntMain" Association="JobDB.Store.JobEntMainCustEntMain">
+      <End Role="JobEntMain" EntitySet="JobEntMains" />
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1266,6 +1275,14 @@
     <Property Name="DateTime" Type="datetime" Nullable="false" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="CustId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobEntMains">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JobMainId" Type="int" Nullable="false" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2227,6 +2244,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="JobEntMainJobMain">
+    <End Role="JobEntMain" Type="JobDB.Store.JobEntMains" Multiplicity="*" />
+    <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="JobMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobEntMain">
+        <PropertyRef Name="JobMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="JobEntMainCustEntMain">
+    <End Role="JobEntMain" Type="JobDB.Store.JobEntMains" Multiplicity="*" />
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobEntMain">
+        <PropertyRef Name="CustEntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2633,6 +2674,15 @@
             <End Role="EmailBlasterTemplate" EntitySet="EmailBlasterTemplates" />
             <End Role="BlasterLog" EntitySet="BlasterLogs" />
           </AssociationSet>
+          <EntitySet Name="JobEntMains" EntityType="JobDB.JobEntMain" />
+          <AssociationSet Name="JobEntMainJobMain" Association="JobDB.JobEntMainJobMain">
+            <End Role="JobEntMain" EntitySet="JobEntMains" />
+            <End Role="JobMain" EntitySet="JobMains" />
+          </AssociationSet>
+          <AssociationSet Name="JobEntMainCustEntMain" Association="JobDB.JobEntMainCustEntMain">
+            <End Role="JobEntMain" EntitySet="JobEntMains" />
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -2663,6 +2713,7 @@
           <Property Name="CustContactNumber" Type="String" Nullable="true" MaxLength="120" />
           <NavigationProperty Name="JobNotes" Relationship="JobDB.JobMainJobNote" FromRole="JobMain" ToRole="JobNote" />
           <NavigationProperty Name="SalesLeadLinks" Relationship="JobDB.JobMainSalesLeadLink" FromRole="JobMain" ToRole="SalesLeadLink" />
+          <NavigationProperty Name="JobEntMains" Relationship="JobDB.JobEntMainJobMain" FromRole="JobMain" ToRole="JobEntMain" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -3524,6 +3575,7 @@
           <Property Name="Contact2" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="CustEntities" Relationship="JobDB.CustEntMainCustEntity" FromRole="CustEntMain" ToRole="CustEntity" />
           <Property Name="iconPath" Type="String" Nullable="true" MaxLength="150" />
+          <NavigationProperty Name="JobEntMains" Relationship="JobDB.JobEntMainCustEntMain" FromRole="CustEntMain" ToRole="JobEntMain" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -4613,6 +4665,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="JobEntMain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="JobMain" Relationship="JobDB.JobEntMainJobMain" FromRole="JobEntMain" ToRole="JobMain" />
+          <Property Name="JobMainId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.JobEntMainCustEntMain" FromRole="JobEntMain" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="JobEntMainJobMain">
+          <End Type="JobDB.JobEntMain" Role="JobEntMain" Multiplicity="*" />
+          <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="JobMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobEntMain">
+              <PropertyRef Name="JobMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JobEntMainCustEntMain">
+          <End Type="JobDB.JobEntMain" Role="JobEntMain" Multiplicity="*" />
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobEntMain">
+              <PropertyRef Name="CustEntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5556,6 +5642,15 @@
           <ScalarProperty Name="DateTime" ColumnName="DateTime" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="CustId" ColumnName="CustId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobEntMains">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.JobEntMain)">
+        <MappingFragment StoreEntitySet="JobEntMains">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -488,6 +488,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JobDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\JobEntMain.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\JobItinerary.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1617,7 +1620,7 @@
     <Content Include="Views\SysAccessUsers\ModuleSubMenu.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleUsers.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleUserAdd.cshtml" />
-    <Content Include="Views\SysAccessUsers\ModuleDelete.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleSubMenuDelete.cshtml" />
     <Content Include="Views\SysAccessUsers\UsersAccessDelete.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleList.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleMenuUsers.cshtml" />
@@ -1627,6 +1630,7 @@
     <Content Include="Views\SysAccessUsers\UserSubModuleList.cshtml" />
     <Content Include="Views\SysAccessUsers\UserSubModuleAdd.cshtml" />
     <Content Include="Views\SysAccessUsers\UserSubModuleDelete.cshtml" />
+    <Content Include="Views\SysAccessUsers\ModuleMenuUserDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

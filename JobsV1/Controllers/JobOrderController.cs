@@ -762,15 +762,14 @@ order by x.jobid
             return View(jobMain);
         }
 
-        // GET: JobMains/Create
+        // GET: JobMains/jobCreate
         public ActionResult jobCreate(int? id)
         {
 
-            DateTime today = DateTime.Today;
-            today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
-
+            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+            
             JobMain job = new JobMain();
-            job.JobDate = today;
+            job.JobDate = today.AddDays(1);
             job.NoOfDays = 1;
             job.NoOfPax = 1;
 

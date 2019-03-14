@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/01/2019 10:24:39
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJobs\JobsV1\Models\JobDB.edmx
+-- Date Created: 03/14/2019 13:53:38
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -1369,6 +1369,14 @@ CREATE TABLE [dbo].[EmailBlasterLogs] (
 );
 GO
 
+-- Creating table 'JobEntMains'
+CREATE TABLE [dbo].[JobEntMains] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [JobMainId] int  NOT NULL,
+    [CustEntMainId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -1856,6 +1864,12 @@ GO
 -- Creating primary key on [Id] in table 'EmailBlasterLogs'
 ALTER TABLE [dbo].[EmailBlasterLogs]
 ADD CONSTRAINT [PK_EmailBlasterLogs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'JobEntMains'
+ALTER TABLE [dbo].[JobEntMains]
+ADD CONSTRAINT [PK_JobEntMains]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3061,6 +3075,36 @@ GO
 CREATE INDEX [IX_FK_EmailBlasterTemplateBlasterLog]
 ON [dbo].[BlasterLogs]
     ([EmailBlasterTemplateId]);
+GO
+
+-- Creating foreign key on [JobMainId] in table 'JobEntMains'
+ALTER TABLE [dbo].[JobEntMains]
+ADD CONSTRAINT [FK_JobEntMainJobMain]
+    FOREIGN KEY ([JobMainId])
+    REFERENCES [dbo].[JobMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobEntMainJobMain'
+CREATE INDEX [IX_FK_JobEntMainJobMain]
+ON [dbo].[JobEntMains]
+    ([JobMainId]);
+GO
+
+-- Creating foreign key on [CustEntMainId] in table 'JobEntMains'
+ALTER TABLE [dbo].[JobEntMains]
+ADD CONSTRAINT [FK_JobEntMainCustEntMain]
+    FOREIGN KEY ([CustEntMainId])
+    REFERENCES [dbo].[CustEntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobEntMainCustEntMain'
+CREATE INDEX [IX_FK_JobEntMainCustEntMain]
+ON [dbo].[JobEntMains]
+    ([CustEntMainId]);
 GO
 
 -- --------------------------------------------------

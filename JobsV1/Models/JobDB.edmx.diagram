@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="JobDB.JobMain" Width="1.5" PointX="11.25" PointY="4.75" />
         <EntityTypeShape EntityType="JobDB.Supplier" Width="1.5" PointX="18.875" PointY="4.125" />
         <EntityTypeShape EntityType="JobDB.Customer" Width="1.5" PointX="5" PointY="5.5" />
-        <EntityTypeShape EntityType="JobDB.JobType" Width="1.5" PointX="10.375" PointY="1.25" />
+        <EntityTypeShape EntityType="JobDB.JobType" Width="1.5" PointX="13.5" PointY="5.375" />
         <EntityTypeShape EntityType="JobDB.Services" Width="1.5" PointX="17.875" PointY="24.25" />
         <AssociationConnector Association="JobDB.JobMainJobType" />
         <EntityTypeShape EntityType="JobDB.JobServices" Width="1.5" PointX="15.75" PointY="9.75" />
@@ -22,7 +22,7 @@
         <AssociationConnector Association="JobDB.DestinationJobItinerary" />
         <EntityTypeShape EntityType="JobDB.JobPickup" Width="1.5" PointX="9.25" PointY="10.625" />
         <AssociationConnector Association="JobDB.JobMainJobPickup" />
-        <EntityTypeShape EntityType="JobDB.Branch" Width="1.5" PointX="12" PointY="1.25" />
+        <EntityTypeShape EntityType="JobDB.Branch" Width="1.5" PointX="12.375" PointY="0.75" />
         <EntityTypeShape EntityType="JobDB.City" Width="1.5" PointX="19.875" PointY="1.25" />
         <AssociationConnector Association="JobDB.CityBranch" />
         <AssociationConnector Association="JobDB.CitySupplier" />
@@ -74,7 +74,7 @@
         <EntityTypeShape EntityType="JobDB.CustCat" Width="1.5" PointX="5" PointY="2.75" />
         <AssociationConnector Association="JobDB.CustomerCustCat" />
         <AssociationConnector Association="JobDB.CustCategoryCustCat" />
-        <EntityTypeShape EntityType="JobDB.CustEntMain" Width="1.5" PointX="7.875" PointY="0.625" />
+        <EntityTypeShape EntityType="JobDB.CustEntMain" Width="1.5" PointX="7.625" PointY="0.5" />
         <EntityTypeShape EntityType="JobDB.SalesLead" Width="1.5" PointX="5" PointY="9.25" />
         <EntityTypeShape EntityType="JobDB.SalesStatusCode" Width="1.5" PointX="7" PointY="9.75" />
         <EntityTypeShape EntityType="JobDB.SalesStatus" Width="1.5" PointX="7" PointY="12.125" />
@@ -83,7 +83,7 @@
         <EntityTypeShape EntityType="JobDB.SalesActivity" Width="1.5" PointX="5.125" PointY="15.125" />
         <AssociationConnector Association="JobDB.SalesActCodeSalesActivity" />
         <AssociationConnector Association="JobDB.SalesLeadSalesActivity" />
-        <EntityTypeShape EntityType="JobDB.CustEntity" Width="1.5" PointX="7.875" PointY="3.125" />
+        <EntityTypeShape EntityType="JobDB.CustEntity" Width="1.5" PointX="7.625" PointY="3.875" />
         <AssociationConnector Association="JobDB.CustEntMainCustEntity" />
         <AssociationConnector Association="JobDB.CustomerCustEntity" />
         <EntityTypeShape EntityType="JobDB.SalesActStatus" Width="1.5" PointX="7.125" PointY="17.75" />
@@ -168,6 +168,9 @@
         <EntityTypeShape EntityType="JobDB.EmailBlasterLogs" Width="1.5" PointX="4.25" PointY="23.875" />
         <AssociationConnector Association="JobDB.EmailBlasterLogsBlasterLog" />
         <AssociationConnector Association="JobDB.EmailBlasterTemplateBlasterLog" />
+        <EntityTypeShape EntityType="JobDB.JobEntMain" Width="1.5" PointX="10.5" PointY="0.75" />
+        <AssociationConnector Association="JobDB.JobEntMainJobMain" />
+        <AssociationConnector Association="JobDB.JobEntMainCustEntMain" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

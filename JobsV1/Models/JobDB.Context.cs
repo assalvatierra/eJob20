@@ -106,11 +106,6 @@ namespace JobsV1.Models
         public virtual DbSet<EmailBlasterTemplate> EmailBlasterTemplates { get; set; }
         public virtual DbSet<BlasterLog> BlasterLogs { get; set; }
         public virtual DbSet<EmailBlasterLogs> EmailBlasterLogs { get; set; }
-
-        public System.Data.Entity.DbSet<JobsV1.Models.SysAccessUser> SysAccessUsers { get; set; }
-
-        public System.Data.Entity.DbSet<JobsV1.Models.SysMenu> SysMenus { get; set; }
-
-        public System.Data.Entity.DbSet<JobsV1.Models.AppUser> AppUsers { get; set; }
+        public virtual DbSet<JobEntMain> JobEntMains { get; set; }
     }
 }

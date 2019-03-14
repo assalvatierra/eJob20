@@ -46,11 +46,7 @@ namespace JobsV1.Controllers
             }
             catch { }
             ViewBag.DBActive = sDBActive;
-
-
-
-
-
+            
             return View();
         }
 

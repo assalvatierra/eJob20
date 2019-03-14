@@ -11,87 +11,108 @@
         @Html.ActionLink("Back to List", "Index")
         <hr />
      </div>
-<div class="col-sm-6">
-    <div>
-        <dl class="dl-horizontal">
-            <dt>
-                Customer
-            </dt>
-            <dd></dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
+<div class="row">
 
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
+    <div class="col-sm-6">
+        <div >
+            <p>
+                <h3>
+                    Customer
+                </h3>
+                <span>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Email)
-            </dt>
+                </span>
+            </p>
+            <p>
+                <b>
+                    @Html.DisplayNameFor(model => model.Name)
+                </b>
 
-            <dd>
-                <a href='mailto:@Html.DisplayFor(model => model.Email)'>  @Html.DisplayFor(model => model.Email) </a>
+                <span>
+                    @Html.DisplayFor(model => model.Name)
+                </span>
+            </p>
+            <p>
 
-            </dd>
+                <b>
+                    @Html.DisplayNameFor(model => model.Email)
+                </b>
 
-            <dt>
-               @Html.DisplayNameFor(model => model.Contact1)
-            </dt>
+                <span>
+                    <a href='mailto:@Html.DisplayFor(model => model.Email)'>  @Html.DisplayFor(model => model.Email) </a>
 
-            <dd>
-                <a href='tel:@Html.DisplayFor(model => model.Contact1)'>  @Html.DisplayFor(model => model.Contact1) </a> |
+                </span>
 
-                <a href='tel:@Html.DisplayFor(model => model.Contact2)'>  @Html.DisplayFor(model => model.Contact2) </a> 
+            </p>
+            <p>
 
-            </dd>
+                <b>
+                    Contact
+                </b>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Remarks)
-            </dt>
+                <span>
+                    <a href='tel:@Html.DisplayFor(model => model.Contact1)'>  @Html.DisplayFor(model => model.Contact1) </a> |
 
-            <dd>
-                @Html.DisplayFor(model => model.Remarks)
-            </dd>
+                    <a href='tel:@Html.DisplayFor(model => model.Contact2)'>  @Html.DisplayFor(model => model.Contact2) </a>
 
-            <dd>
-                @Html.DisplayFor(model => model.Status)
-            </dd>
-        </dl>
+                </span>
+
+            </p>
+            <p>
+                <b>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </b>
+
+                <span>
+                    @Html.DisplayFor(model => model.Remarks)
+                </span>
+
+            </p>
+            <p>
+                <b>Status</b>
+                <span>
+                    @Html.DisplayFor(model => model.Status)
+                </span>
+            </p>
+        </div>
+
+        <div>
+            @{Html.RenderPartial("PartialView_CategoryDetails", (List<JobsV1.Models.CustCategory>)ViewBag.categoryDetails, new ViewDataDictionary { { "customerId", Model.Id } });}
+        </div>
+
     </div>
 
-    <div>
-        @{Html.RenderPartial("PartialView_CategoryDetails", (List<JobsV1.Models.CustCategory>)ViewBag.categoryDetails, new ViewDataDictionary { { "customerId", Model.Id } });}
+    <div class="col-sm-6">
+
+        <div>
+            <p style="padding:2px">
+            </p>
+            @{Html.RenderPartial("PartialView_CompanyDetails", (List<JobsV1.Models.CustEntMain>)ViewBag.companyList, new ViewDataDictionary { { "customerId", Model.Id }, { "companies", (List<JobsV1.Models.CustEntMain>)ViewBag.companies } });}
+        </div>
+        <div>
+
+            @{Html.RenderPartial("PartialView_Files", (List<JobsV1.Models.CustFiles>)ViewBag.fileList, new ViewDataDictionary { { "customerId", Model.Id } });}
+
+        </div>
     </div>
 
-</div>
-
-<div class="col-sm-6">
-
-    <div>
-        <p style="padding:2px">
-        </p>
-        @{Html.RenderPartial("PartialView_CompanyDetails", (List<JobsV1.Models.CustEntMain>)ViewBag.companyList, new ViewDataDictionary { { "customerId", Model.Id }, { "companies", (List<JobsV1.Models.CustEntMain>)ViewBag.companies } });}
-    </div>
-    <div>
-
-        @{Html.RenderPartial("PartialView_Files", (List<JobsV1.Models.CustFiles>)ViewBag.fileList, new ViewDataDictionary { { "customerId", Model.Id } });}
-
-    </div>
 </div>
 <div class="col-lg-12">
 
     <div class="row">
         @{Html.RenderPartial("PartialView_JobDetails", (List<JobsV1.Models.CustomerJobDetails>)ViewBag.jobList, new ViewDataDictionary { { "customerId", Model.Id } });}
 
+
     </div>
 
+    <div class="row">
 
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+        <p>
+            @Html.ActionLink("Back to List", "Index")
+        </p>
 
+    </div>
 </div>
 
 
