@@ -37,7 +37,9 @@ namespace JobsV1.Controllers
         // GET: CustEntMains/Create
         public ActionResult Create()
         {
-            return View();
+            CustEntMain main = new CustEntMain();
+            main.iconPath = "Images/Customers/Company/organization-40.png";
+            return View(main);
         }
 
         // POST: CustEntMains/Create
@@ -49,19 +51,20 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
-                
                 db.CustEntMains.Add(custEntMain);
                 db.SaveChanges();
 
-                //save new company to customer
-                CustEntity company = new CustEntity();
-                company.CustEntMainId = custEntMain.Id;
-                company.CustomerId = (int)id;
-                db.CustEntities.Add(company);
-                db.SaveChanges();
-
-                return RedirectToAction("Details", "Customers", new { id = id });
-                // return RedirectToAction("Create", "CustEntities", new { id = id, companyId = custEntMain.Id });
+                if (id != null)
+                {
+                    //save new company to customer
+                    CustEntity company = new CustEntity();
+                    company.CustEntMainId = custEntMain.Id;
+                    company.CustomerId = (int)id;
+                    db.CustEntities.Add(company);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", "Customers", new { id = id });
+                }
+                 return RedirectToAction("Index", "CustEntities", null);
             }
 
             return View(custEntMain);

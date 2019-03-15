@@ -6,17 +6,26 @@
 }
 
 <br /><br /><br />
-<dl class="dl-horizontal">
-
-    <dd></dd>
+<div class="row">
 
     <p>
         <b>Date: </b>
         <input id="startDate" type="date"  /> - 
         <input id="endDate" type="date" />
 
-        <input type="button" value="Top 30" class="btn btn-default"  style="margin-top:-10px" onclick="detailsUpdate(30)" />
-        <input type="button" value="Top 60" class="btn btn-default"  style="margin-top:-10px" onclick="detailsUpdate(60)"/>
+        <input type="button" value="Filter" class="btn btn-default"  style="margin-top:-10px;padding:5px;" onclick="detailsUpdate(30)" />
+        &nbsp;&nbsp;&nbsp;
+        <a onclick="getLastJobs(30)">Last 30 Days</a> |
+        <a onclick="getLastJobs(60)">Last 60 Days</a>
+    </p>
+    <p>
+        <b>Status: </b>
+        <a onclick="statusUpdate('ALL')">ALL</a> | 
+        <a onclick="statusUpdate('INQUIRY')">INQUIRY</a> | 
+        <a onclick="statusUpdate('RESERVATION')">RESERVATION</a> | 
+        <a onclick="statusUpdate('CONFIRMED')">CONFIRMED</a> | 
+        <a onclick="statusUpdate('CLOSED')">CLOSED</a> | 
+        <a onclick="statusUpdate('CANCELLED')">CANCELLED</a> 
     </p>
     <table  class="table table-striped">
 
@@ -47,7 +56,7 @@
                 @Html.DisplayFor(modelItem => item.StatusRemarks)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", "JobMains", new { id = item.Id }, null)
+                @Html.ActionLink("Details", "BookingDetails", "JobOrder", new { id = item.Id }, null)
             </td>
         </tr>
         }
@@ -57,7 +66,7 @@
         @Html.ActionLink("Add Job", "Create", "JobMains", new { id = customerid }, null)
     </h4>
 
-</dl>
+</div>
 
 <script src="~/Scripts/jquery-1.12.4.min.js"> </script>
 
@@ -68,7 +77,8 @@
         var url = new URL(url_string);
         var date1 = url.searchParams.get("sDate") != null ? url.searchParams.get("sDate") : getToday();
         var date2 = url.searchParams.get("eDate") != null ? url.searchParams.get("eDate") : getToday();
-        var top = url.searchParams.get("top")
+        var top = url.searchParams.get("top");
+        var status = url.searchParams.get("status");
 
         $('#startDate').val(date1);
         $('#endDate').val(date2);
@@ -79,7 +89,10 @@
         Update();
     });
 
-    Update();
+    $(document).load(function () {
+        getLastJobs(30);
+        Update();
+    });
 
     function getToday() {
 
@@ -100,7 +113,12 @@
         return today;
     }
 
-    function detailsUpdate(top) {
+    function statusUpdate(status) {
+
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var top = url.searchParams.get("top");
+
         var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
         var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
         var topVal = top;
@@ -113,8 +131,69 @@
             requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
         }
 
+        requestString += "&status=" + status
+
         window.location.href = requestString;
 
+    }
+
+
+    function detailsUpdate(top) {
+        var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
+        var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
+        var topVal = top;
+
+
+        var requestString = "/Customers/Details/"+@customerid+"?";
+
+        requestString += "top="+topVal+"&";
+
+        if (eDateVal != null && sDateVal != null) {
+            requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
+        }
+        requestString += "&status=ALL"
+
+
+        window.location.href = requestString;
+
+    }
+
+    //get jobs from today to 30 previous days
+    function getLastJobs(days) {
+        var eDateVal = getToday();//end date = today
+        var sDateVal = new Date();
+
+        sDateVal.setDate(sDateVal.getDate() - days);
+
+       // console.log(eDateVal);
+
+        sDateVal = sDateVal.toLocaleString();
+
+        console.log(sDateVal);
+
+        var topVal = 10; //10 items
+
+        var requestString = "/Customers/Details/"+@customerid+"?";
+
+        requestString += "top="+topVal+"&";
+
+        if (eDateVal != null && sDateVal != null) {
+            requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
+        }
+        requestString += "&status=" + status
+    
+
+        wait(5000);
+
+        window.location.href = requestString;
+
+    }
+    function wait(ms){
+        var start = new Date().getTime();
+        var end = start;
+        while(end < start + ms) {
+            end = new Date().getTime();
+        }
     }
 
 </script>

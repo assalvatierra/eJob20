@@ -18,6 +18,7 @@ namespace JobsV1.Models
         public CustEntMain()
         {
             this.CustEntities = new HashSet<CustEntity>();
+            this.JobEntMains = new HashSet<JobEntMain>();
         }
     
         public int Id { get; set; }
@@ -29,5 +30,7 @@ namespace JobsV1.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntity> CustEntities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobEntMain> JobEntMains { get; set; }
     }
 }

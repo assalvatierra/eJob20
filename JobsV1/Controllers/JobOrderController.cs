@@ -772,6 +772,7 @@ order by x.jobid
             job.JobDate = today.AddDays(1);
             job.NoOfDays = 1;
             job.NoOfPax = 1;
+            
 
             if (id == null)
             {
@@ -907,7 +908,7 @@ order by x.jobid
             DateTime dtTmp = new DateTime(job.JobDate.Year, job.JobDate.Month, job.JobDate.Day, 8, 0, 0);
             js.DtStart = dtTmp;
             js.DtEnd = dtTmp.AddDays(job.NoOfDays - 1).AddHours(10);
-            js.Remarks = "10hrs use per day P250 in excess, Driver and Fuel Included";
+            js.Remarks = "10hrs use per day P300/hr in excess, Driver and Fuel Included";
 
 
              //modify SupplierItem

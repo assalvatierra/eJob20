@@ -17,11 +17,11 @@ function InitDatePicker()
     $('input[name="JobDate"]').daterangepicker(
     {
         timePicker: false,
-        timePickerIncrement: 30,
+        timePickerIncrement: 1,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'MM/DD/YYYY'
+            format: 'MM/DD/YYYY  hh:mm A'
         }
     },
     function (start, end, label) {
@@ -41,7 +41,8 @@ function InitDatePicker()
         }
     );
 
-    $('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
+    $('input[name="JobDate"]').val(ddd1);
+    //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
 
 }
 

@@ -220,7 +220,7 @@ namespace JobsV1.Controllers
         }
 
         // GET: Customers/Details/5
-        public ActionResult Details(int? id, int? top, string sdate, string edate)
+        public ActionResult Details(int? id, int? top, string sdate, string edate, string status)
         {
             if (id == null)
             {
@@ -239,7 +239,7 @@ namespace JobsV1.Controllers
 
             //generate partial view list for companies
             PartialView_Companies(id);
-            PartialView_Jobs(id,(int)top,sdate,edate);
+            PartialView_Jobs(id,(int)top,sdate,edate,status);
             PartialView_Categories(id);
             PartialView_CustomerFiles(id);
             ViewBag.categoryList = db.CustCategories.ToList();
@@ -251,6 +251,8 @@ namespace JobsV1.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
+
+
             ViewBag.Status = new SelectList(StatusList, "value", "text");
 
             return View();
@@ -429,7 +431,7 @@ namespace JobsV1.Controllers
         }
 
 
-        private void PartialView_Jobs(int? id, int? top, string sdate, string edate)
+        private void PartialView_Jobs(int? id, int? top, string sdate, string edate, string status)
         {
 
             int topFilter = (int)top;
@@ -439,17 +441,29 @@ namespace JobsV1.Controllers
             DateTime StartDate = DateTime.Today;
             DateTime EndDate = DateTime.Today;
 
+            //handle empty dates
             if (sdate != null && edate != null)
             {
                 StartDate = DateTime.Parse(sdate).Date;
                 EndDate = DateTime.Parse(edate).Date;
             }
 
-
             //error
-            var jobRecord = db.JobMains.Where(j => j.CustomerId == id)
-                .Where(j=>j.JobDate.CompareTo(StartDate) >= 0 && j.JobDate.CompareTo(EndDate) <= 0)
-                .ToList().Take(topFilter);
+            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).ToList().Take(topFilter);
+            
+            //handle empty status
+            if (status == null || status == "" || status == "ALL")
+            {
+                jobRecord = db.JobMains.Where(j => j.CustomerId == id)
+                    .Where(j => j.JobDate.CompareTo(StartDate) >= 0 && j.JobDate.CompareTo(EndDate) <= 0)
+                    .ToList().Take(topFilter).OrderByDescending(j=>j.JobDate);
+            } else {
+
+                jobRecord = db.JobMains.Where(j => j.CustomerId == id)
+                    .Where(j => j.JobDate.CompareTo(StartDate) >= 0 && j.JobDate.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status)
+                    .ToList().Take(topFilter).OrderByDescending(j => j.JobDate);
+            }
+
 
             if (jobRecord == null)
             {

@@ -6,31 +6,16 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 
     <div>
-            <h3>
-                Category
-            </h3>
-            <dd></dd>
-
-        @foreach (var item in Model)
-        {
-            <dt>
-                <img src="~/@Html.DisplayFor(modelItem => item.iconPath)" width="25" height="25" style="margin-right:20px;" />
-
-            </dt>
-            <dd>
-                @Html.DisplayFor(modelItem => item.Name) - 
-
-                @Html.ActionLink("Remove", "Remove", "CustCats", new { catid = item.Id, custid = customerid }, null)
-            </dd>
+       <h3> Category </h3>
+        @foreach (var item in Model){
+            <img src="~/@Html.DisplayFor(modelItem => item.iconPath)" width="20" height="20" style="margin-right:20px;margin-bottom:5px;" />
+             @Html.DisplayFor(modelItem => item.Name) 
+             <text> &nbsp; </text>
+             @Html.ActionLink("Remove", "Remove", "CustCats", new { catid = item.Id, custid = customerid }, null)
+            <br />
         }
-            <dd>
-                <a id="catbtn" href="#" data-toggle="modal" data-target="#categoryModal" style="margin-bottom:10px;">Add Category</a>
-                
-            </dd>
-
+        <br /><a id="catbtn" href="#" data-toggle="modal" data-target="#categoryModal" style="margin-bottom:10px;">Add Category</a>
 </div>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
