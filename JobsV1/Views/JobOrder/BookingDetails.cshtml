@@ -75,8 +75,9 @@
             Account
         </th>
         <td>
-            @Html.DisplayFor(model => model.Description)
-            <br />@Html.DisplayFor(model => model.Customer.Name)
+            @Html.DisplayFor(model => model.Description) / @Html.DisplayFor(model => model.Customer.Name)
+            <!--Company-->
+            <br />@ViewBag.custCompany
             <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
            
         </td>

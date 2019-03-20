@@ -1356,10 +1356,19 @@ order by x.jobid
                 return HttpNotFound();
             }
 
+            string custCompany = "";
+            //check customer if assigned to a company
+            if (jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault() != null)
+            {
+                custCompany = jobMain.Customer.CustEntities.Where(c=>c.CustomerId==jobMain.CustomerId).FirstOrDefault().CustEntMain.Name;
+            }
+
+            
             ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).OrderBy(s => s.DtStart);
             ViewBag.Itinerary = db.JobItineraries.Include(j => j.Destination).Where(j => j.JobMainId == jobMain.Id);
             ViewBag.Payments = db.JobPayments.Where(j => j.JobMainId == jobMain.Id);
             ViewBag.jNotes = db.JobNotes.Where(d => d.JobMainId == jobMain.Id).OrderBy(s => s.Sort);
+            ViewBag.custCompany = custCompany;
 
             //Default form
             string sCompany = "AJ88 Car Rental Services";
