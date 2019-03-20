@@ -86,7 +86,7 @@
                         </td>
                         -->
                        
-                        <div style="vertical-align:top;white-space:nowrap;width:100%;">
+                        <div  class="row" style="min-width:300px;">
                             <div class="CustomBox" style="height:110px;width:100%;">
                                 @Html.Module(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
                             </div>
@@ -94,7 +94,7 @@
 
                     </div>
                     <div>
-                        <div style="vertical-align:top;">
+                        <div class="row" style="vertical-align:top;min-width:300px;">
                             <div class="CustomBox" style="float:left;width:100%;">
                                 @Html.Menu(Url.Content("~/"), "" , "", (int)Session["ROOTMENUID"])
                             </div>
@@ -123,6 +123,7 @@
         </div>
     </footer>
 
+    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
     @RenderSection("scripts", required: false)

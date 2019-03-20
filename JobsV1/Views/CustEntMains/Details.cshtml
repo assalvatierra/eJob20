@@ -2,57 +2,74 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    int customerid = Model.Id;
 }
 
-<h2>Details</h2>
+<h2>Company Details</h2>
 
-<div>
-    <h4>CustEntMain</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contact1)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contact1)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contact2)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contact2)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.iconPath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.iconPath)
-        </dd>
-
-    </dl>
-</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1> @Html.DisplayFor(model => model.Name) </h1>
+        <h5>@Html.DisplayFor(model => model.Contact1) / @Html.DisplayFor(model => model.Contact2) </h5>
+        <h5>@Html.DisplayFor(model => model.Address) </h5>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+
+    <p>
+        <b>Date: </b>
+        <input id="startDate" type="date" /> -
+        <input id="endDate" type="date" />
+
+        <input type="button" value="Filter" class="btn btn-default" style="margin-top:-10px;padding:5px;" onclick="detailsUpdate(30, @customerid)" />
+        &nbsp;&nbsp;&nbsp;
+        <a onclick="getLastJobs(30,@customerid)">Last 30 Days</a> |
+        <a onclick="getLastJobs(60,@customerid)">Last 60 Days</a>
+    </p>
+    <p>
+        <b>Status: </b>
+        <a onclick="statusUpdate('ALL',@customerid)">ALL</a> |
+        <a onclick="statusUpdate('INQUIRY',@customerid)">INQUIRY</a> |
+        <a onclick="statusUpdate('RESERVATION',@customerid)">RESERVATION</a> |
+        <a onclick="statusUpdate('CONFIRMED',@customerid)">CONFIRMED</a> |
+        <a onclick="statusUpdate('CLOSED',@customerid)">CLOSED</a> |
+        <a onclick="statusUpdate('CANCELLED',@customerid)">CANCELLED</a>
+    </p>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Job Date</th>
+            <th>Description</th>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Details</th>
+        </tr>
+        @foreach (var job in ViewBag.CompanyJobs as IEnumerable<JobsV1.Models.JobMain>)
+        {
+            <tr>
+                <td>@job.JobDate</td>
+                <td>@job.Description</td>
+                <td>@job.Customer.Name</td>
+                <td>@job.AgreedAmt</td>
+                <td>@job.JobStatus.Status</td>
+                <td>
+                    @Html.ActionLink("Details", "BookingDetails", "JobOrder", new { id = job.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<script src="~/Scripts/jquery-1.12.4.min.js"> </script>
+<script src="~/Scripts/Job/CompanyReport.js"> </script>
+

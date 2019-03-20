@@ -20,7 +20,7 @@ namespace JobsV1.Controllers
         }
 
         // GET: CustEntMains/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? top, string sdate, string edate, string status)
         {
             if (id == null)
             {
@@ -31,14 +31,60 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (top == null)
+            {
+                top = 30;
+            }
+            
+            ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
+
             return View(custEntMain);
+        }
+
+        public IEnumerable<JobMain> getJobList(int? id, int? top, string sdate, string edate, string status) {
+
+            int topFilter = (int)top;
+            //PartialView for Details of the Customer
+            List<CustomerJobDetails> jobList = new List<CustomerJobDetails>();
+
+            DateTime StartDate = DateTime.Today;
+            DateTime EndDate = DateTime.Today;
+
+            //handle empty dates
+            if (sdate != null && edate != null)
+            {
+                StartDate = DateTime.Parse(sdate).Date;
+                EndDate = DateTime.Parse(edate).Date;
+            }
+
+            //get company
+            var company = db.CustEntities.Where(c => c.CustEntMainId == id).Select(c => c.CustomerId);
+
+            //get customers with companies like this
+            var customers = db.Customers.Where(c => company.Contains(c.Id)).Select(c => c.Id);
+
+            //get company 
+            var jobRecord = db.JobMains.Where(j => customers.Contains(j.CustomerId)).Take(topFilter).OrderByDescending(j => j.JobDate).ToList();
+            
+            //handle empty status
+            if (status == null || status == "" || status == "ALL")
+            {
+                jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0).ToList();
+            }
+            else
+            {
+                jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status).ToList();
+            }
+          
+            return jobRecord;
         }
 
         // GET: CustEntMains/Create
         public ActionResult Create()
         {
             CustEntMain main = new CustEntMain();
-            main.iconPath = "Images/Customers/Company/organization-40.png";
+            main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
             return View(main);
         }
 

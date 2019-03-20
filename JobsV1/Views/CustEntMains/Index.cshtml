@@ -19,9 +19,7 @@
             @Html.DisplayNameFor(model => model.Address)
         </th>
         <th>
-            Contact Info
-        <th>
-            @Html.DisplayNameFor(model => model.iconPath)
+            Contact Numbers
         </th>
         <th></th>
     </tr>
@@ -35,11 +33,8 @@
             @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Contact1) |
+            @Html.DisplayFor(modelItem => item.Contact1) <br />
             @Html.DisplayFor(modelItem => item.Contact2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.iconPath)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

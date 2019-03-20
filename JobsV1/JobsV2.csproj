@@ -241,6 +241,24 @@
     <Compile Include="Areas\Accounting\Controllers\AsExpensesController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsMainController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsSalesController.cs" />
+    <Compile Include="Areas\Accounting\Models\AccntCOA.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AccntLedger.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AccntTrxDtl.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AccntTrxHdr.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AccntTrxType.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Accounting\Models\AccntType.cs">
+      <DependentUpon>AccountingDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Accounting\Models\AccountingDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1057,6 +1075,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\Job\CompanyReport.js" />
+    <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\ssl.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />

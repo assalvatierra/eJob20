@@ -84,14 +84,10 @@ namespace JobsV1.Controllers
             List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
             var data = new List<cJobOrder>();
             
-            //DateTime today = DateTime.Today;
-            //today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
-            
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+            DateTime today = new DateTime();
+            ViewBag.today = getDateTimeToday();
+            today = getDateTimeToday().Date;
 
-            ViewBag.today = today;
-            today = today.Date;
-            
             switch (sortid)
             {
                 case 1: //OnGoing
@@ -222,8 +218,9 @@ namespace JobsV1.Controllers
             DateTime minDate = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault().JobDate.Date;
             DateTime maxDate = new DateTime(1,1,1);
 
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
-            today = today.Date;
+            DateTime today = new DateTime();
+            today = getDateTimeToday().Date;
+
             //loop though all jobservices in the jobmain
             //to get the latest date
             var counter = 1;
@@ -311,21 +308,14 @@ namespace JobsV1.Controllers
             DateTime minDate = main.JobDate;
             DateTime maxDate = new DateTime(1, 1, 1);
 
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
-            today = today.Date;
+            DateTime today = new DateTime();
+            today = getDateTimeToday().Date;
+
             //loop though all jobservices in the jobmain
             //to get the latest date
             foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
             {
-                //var svcDtStart = (DateTime)svc.DtStart;
-                //var svcDtEnd = (DateTime)svc.DtEnd;
-                ////get min date
-                //// minDate = (DateTime)svc.DtStart;
-                //if (DateTime.Compare(minDate, svcDtStart.Date) >= 0)
-                //{
-                //    minDate = svcDtStart.Date; //if minDate > Dtstart
-                //}
-
+             
                 var svcDtStart = (DateTime)svc.DtStart;
                 var svcDtEnd = (DateTime)svc.DtEnd;
                 //get min date
@@ -418,11 +408,10 @@ order by x.jobid
 
             List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
             var data = new List<cJobOrder>();
-            
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
 
+            DateTime today = new DateTime();
             ViewBag.today = today;
-            today = today.Date;
+            today = getDateTimeToday().Date;
 
             switch (sortid)
             {
@@ -533,6 +522,13 @@ order by x.jobid
                 return View(data.OrderByDescending(d => d.Main.JobDate));
 
             }
+        }
+
+        //get utc date time today (singapore standard time) gmt + 8
+        public DateTime getDateTimeToday()
+        {
+            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+            return today;
         }
 
         #region Inventory Items
@@ -1028,13 +1024,12 @@ order by x.jobid
         }
 
         public void updateJobDate(int mainId) {
-
-
+            
             //update jobdate
             var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
 
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
-            today = today.Date;
+            DateTime today = new DateTime();
+            today = getDateTimeToday().Date;
 
             //loop though all jobservices in the jobmain
             //to get the latest date
@@ -1334,9 +1329,9 @@ order by x.jobid
             //get paypal keys at db
             PaypalAccount paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();
             ViewBag.key = paypal.Key;
-              
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
-            today = today.Date;
+
+            DateTime today = new DateTime();
+            today = getDateTimeToday().Date;
 
             ViewBag.isPaymentValid = (jobMain.JobDate.Date == today) || (jobMain.JobDate.Date == today.AddDays(1).Date) ? "True" : "False";
              
@@ -1418,8 +1413,8 @@ order by x.jobid
             ViewBag.ReservationType = "Rental";
             ViewBag.Amount = 1000;
 
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
-            today = today.Date;
+            DateTime today = new DateTime();
+            today = getDateTimeToday().Date;
 
             //get paypal keys at db
             PaypalAccount paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();

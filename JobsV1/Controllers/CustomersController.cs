@@ -391,7 +391,6 @@ namespace JobsV1.Controllers
 
             if (CompanyRecord == null)
             {
-
                 CompanyList.Add(new CustEntMain
                 {
                     Id = 0,
@@ -401,11 +400,9 @@ namespace JobsV1.Controllers
                     Contact2 = "None",
                     iconPath = "None"
                 });
-
             }
             else
             {
-
                 foreach (var record in CompanyRecord)
                 {
                     CompanyList.Add(new CustEntMain
@@ -449,19 +446,15 @@ namespace JobsV1.Controllers
             }
 
             //error
-            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).ToList().Take(topFilter);
+            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).Take(topFilter).OrderByDescending(j => j.JobDate).ToList();
             
             //handle empty status
             if (status == null || status == "" || status == "ALL")
             {
-                jobRecord = db.JobMains.Where(j => j.CustomerId == id)
-                    .Where(j => j.JobDate.CompareTo(StartDate) >= 0 && j.JobDate.CompareTo(EndDate) <= 0)
-                    .ToList().Take(topFilter).OrderByDescending(j=>j.JobDate);
+                jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0).ToList();
             } else {
 
-                jobRecord = db.JobMains.Where(j => j.CustomerId == id)
-                    .Where(j => j.JobDate.CompareTo(StartDate) >= 0 && j.JobDate.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status)
-                    .ToList().Take(topFilter).OrderByDescending(j => j.JobDate);
+                jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status).ToList();
             }
 
 
