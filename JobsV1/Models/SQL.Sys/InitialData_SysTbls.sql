@@ -14,7 +14,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Reporting','Job Orders',0,'Reporting','Index','',20,8),
 ('Notifications','Job Orders',0,'JobServices','NotificationList','',20,9),
 ('Accounts','Accounts',0,'Accounting/AccntMains','Index','',20,10);
-;
+
 --('Account','Account',0,'','','',20,102),
 --('Customer','Customer',0,'Customer','Index','',20,103),
 --('Supplier','Supplier',0,'Supplier','Index','',20,104);

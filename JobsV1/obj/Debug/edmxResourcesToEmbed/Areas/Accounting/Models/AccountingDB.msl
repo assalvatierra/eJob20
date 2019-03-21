@@ -93,6 +93,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
+          <ScalarProperty Name="AccntCategoryId" ColumnName="AccntCategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -159,23 +160,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="AccntCharts">
-      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntChart)">
-        <MappingFragment StoreEntitySet="AccntCharts">
+    <EntitySetMapping Name="AccntCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntCategory)">
+        <MappingFragment StoreEntitySet="AccntCategories">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
           <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AccntChartAccounts">
-      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntChartAccount)">
-        <MappingFragment StoreEntitySet="AccntChartAccounts">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="AccntChartId" ColumnName="AccntChartId" />
-          <ScalarProperty Name="AccntMainId" ColumnName="AccntMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -20,8 +20,7 @@
     <EntitySet Name="AccntLedgers" EntityType="AccountingDB.Store.AccntLedgers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AccntTypes" EntityType="AccountingDB.Store.AccntTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AccntTrxHists" EntityType="AccountingDB.Store.AccntTrxHists" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AccntCharts" EntityType="AccountingDB.Store.AccntCharts" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AccntChartAccounts" EntityType="AccountingDB.Store.AccntChartAccounts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntCategories" EntityType="AccountingDB.Store.AccntCategories" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AsCostCenterAsExpense" Association="AccountingDB.Store.AsCostCenterAsExpense">
       <End Role="AsCostCenter" EntitySet="AsCostCenters" />
       <End Role="AsExpense" EntitySet="AsExpenses" />
@@ -70,17 +69,13 @@
       <End Role="AccntTrxDtl" EntitySet="AccntTrxDtls" />
       <End Role="AccntTrxHist" EntitySet="AccntTrxHists" />
     </AssociationSet>
-    <AssociationSet Name="AccntChartAccntChartAccount" Association="AccountingDB.Store.AccntChartAccntChartAccount">
-      <End Role="AccntChart" EntitySet="AccntCharts" />
-      <End Role="AccntChartAccount" EntitySet="AccntChartAccounts" />
-    </AssociationSet>
-    <AssociationSet Name="AccntMainAccntChartAccount" Association="AccountingDB.Store.AccntMainAccntChartAccount">
-      <End Role="AccntMain" EntitySet="AccntMains" />
-      <End Role="AccntChartAccount" EntitySet="AccntChartAccounts" />
-    </AssociationSet>
     <AssociationSet Name="AccntTypeAccntChart" Association="AccountingDB.Store.AccntTypeAccntChart">
       <End Role="AccntType" EntitySet="AccntTypes" />
-      <End Role="AccntChart" EntitySet="AccntCharts" />
+      <End Role="AccntChart" EntitySet="AccntCategories" />
+    </AssociationSet>
+    <AssociationSet Name="AccntCategoryAccntMain" Association="AccountingDB.Store.AccntCategoryAccntMain">
+      <End Role="AccntCategory" EntitySet="AccntCategories" />
+      <End Role="AccntMain" EntitySet="AccntMains" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AsExpenses">
@@ -169,6 +164,7 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="200" />
     <Property Name="AccntTypeId" Type="int" Nullable="false" />
+    <Property Name="AccntCategoryId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AccntTrxHdrs">
     <Key>
@@ -227,7 +223,7 @@
     <Property Name="OldData" Type="nvarchar" Nullable="false" MaxLength="250" />
     <Property Name="User" Type="nvarchar" Nullable="false" MaxLength="80" />
   </EntityType>
-  <EntityType Name="AccntCharts">
+  <EntityType Name="AccntCategories">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -236,14 +232,6 @@
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="OrderNo" Type="int" Nullable="false" />
     <Property Name="AccntTypeId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="AccntChartAccounts">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AccntChartId" Type="int" Nullable="false" />
-    <Property Name="AccntMainId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="AsCostCenterAsExpense">
     <End Role="AsCostCenter" Type="AccountingDB.Store.AsCostCenters" Multiplicity="1" />
@@ -389,39 +377,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="AccntChartAccntChartAccount">
-    <End Role="AccntChart" Type="AccountingDB.Store.AccntCharts" Multiplicity="1" />
-    <End Role="AccntChartAccount" Type="AccountingDB.Store.AccntChartAccounts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AccntChart">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AccntChartAccount">
-        <PropertyRef Name="AccntChartId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AccntMainAccntChartAccount">
-    <End Role="AccntMain" Type="AccountingDB.Store.AccntMains" Multiplicity="1" />
-    <End Role="AccntChartAccount" Type="AccountingDB.Store.AccntChartAccounts" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AccntMain">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AccntChartAccount">
-        <PropertyRef Name="AccntMainId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="AccntTypeAccntChart">
     <End Role="AccntType" Type="AccountingDB.Store.AccntTypes" Multiplicity="1" />
-    <End Role="AccntChart" Type="AccountingDB.Store.AccntCharts" Multiplicity="*" />
+    <End Role="AccntChart" Type="AccountingDB.Store.AccntCategories" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="AccntType">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="AccntChart">
         <PropertyRef Name="AccntTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntCategoryAccntMain">
+    <End Role="AccntCategory" Type="AccountingDB.Store.AccntCategories" Multiplicity="1" />
+    <End Role="AccntMain" Type="AccountingDB.Store.AccntMains" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntMain">
+        <PropertyRef Name="AccntCategoryId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -492,19 +468,14 @@
             <End Role="AccntTrxDtl" EntitySet="AccntTrxDtls" />
             <End Role="AccntTrxHist" EntitySet="AccntTrxHists" />
           </AssociationSet>
-          <EntitySet Name="AccntCharts" EntityType="AccountingDB.AccntChart" />
-          <EntitySet Name="AccntChartAccounts" EntityType="AccountingDB.AccntChartAccount" />
-          <AssociationSet Name="AccntChartAccntChartAccount" Association="AccountingDB.AccntChartAccntChartAccount">
-            <End Role="AccntChart" EntitySet="AccntCharts" />
-            <End Role="AccntChartAccount" EntitySet="AccntChartAccounts" />
-          </AssociationSet>
-          <AssociationSet Name="AccntMainAccntChartAccount" Association="AccountingDB.AccntMainAccntChartAccount">
-            <End Role="AccntMain" EntitySet="AccntMains" />
-            <End Role="AccntChartAccount" EntitySet="AccntChartAccounts" />
-          </AssociationSet>
+          <EntitySet Name="AccntCategories" EntityType="AccountingDB.AccntCategory" />
           <AssociationSet Name="AccntTypeAccntChart" Association="AccountingDB.AccntTypeAccntChart">
             <End Role="AccntType" EntitySet="AccntTypes" />
-            <End Role="AccntChart" EntitySet="AccntCharts" />
+            <End Role="AccntChart" EntitySet="AccntCategories" />
+          </AssociationSet>
+          <AssociationSet Name="AccntCategoryAccntMain" Association="AccountingDB.AccntCategoryAccntMain">
+            <End Role="AccntCategory" EntitySet="AccntCategories" />
+            <End Role="AccntMain" EntitySet="AccntMains" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AsExpense">
@@ -679,7 +650,8 @@
           <NavigationProperty Name="AccntType" Relationship="AccountingDB.AccntTypeAccntCOA" FromRole="AccntCOA" ToRole="AccntType" />
           <Property Name="AccntTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AccntLedgers" Relationship="AccountingDB.AccntMainAccntLedger" FromRole="AccntMain" ToRole="AccntLedger" />
-          <NavigationProperty Name="AccntChartAccounts" Relationship="AccountingDB.AccntMainAccntChartAccount" FromRole="AccntMain" ToRole="AccntChartAccount" />
+          <NavigationProperty Name="AccntCategory" Relationship="AccountingDB.AccntCategoryAccntMain" FromRole="AccntMain" ToRole="AccntCategory" />
+          <Property Name="AccntCategoryId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="AccntTrxHdr">
           <Key>
@@ -821,7 +793,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AccntChart">
+        <EntityType Name="AccntCategory">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -829,53 +801,31 @@
           <Property Name="Code" Type="String" Nullable="false" MaxLength="5" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="OrderNo" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AccntChartAccounts" Relationship="AccountingDB.AccntChartAccntChartAccount" FromRole="AccntChart" ToRole="AccntChartAccount" />
           <NavigationProperty Name="AccntType" Relationship="AccountingDB.AccntTypeAccntChart" FromRole="AccntChart" ToRole="AccntType" />
           <Property Name="AccntTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AccntMains" Relationship="AccountingDB.AccntCategoryAccntMain" FromRole="AccntCategory" ToRole="AccntMain" />
         </EntityType>
-        <EntityType Name="AccntChartAccount">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="AccntChart" Relationship="AccountingDB.AccntChartAccntChartAccount" FromRole="AccntChartAccount" ToRole="AccntChart" />
-          <Property Name="AccntChartId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AccntMain" Relationship="AccountingDB.AccntMainAccntChartAccount" FromRole="AccntChartAccount" ToRole="AccntMain" />
-          <Property Name="AccntMainId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="AccntChartAccntChartAccount">
-          <End Type="AccountingDB.AccntChart" Role="AccntChart" Multiplicity="1" />
-          <End Type="AccountingDB.AccntChartAccount" Role="AccntChartAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccntChart">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AccntChartAccount">
-              <PropertyRef Name="AccntChartId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="AccntMainAccntChartAccount">
-          <End Type="AccountingDB.AccntMain" Role="AccntMain" Multiplicity="1" />
-          <End Type="AccountingDB.AccntChartAccount" Role="AccntChartAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccntMain">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AccntChartAccount">
-              <PropertyRef Name="AccntMainId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AccntTypeAccntChart">
           <End Type="AccountingDB.AccntType" Role="AccntType" Multiplicity="1" />
-          <End Type="AccountingDB.AccntChart" Role="AccntChart" Multiplicity="*" />
+          <End Type="AccountingDB.AccntCategory" Role="AccntChart" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccntType">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AccntChart">
               <PropertyRef Name="AccntTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AccntCategoryAccntMain">
+          <End Type="AccountingDB.AccntCategory" Role="AccntCategory" Multiplicity="1" />
+          <End Type="AccountingDB.AccntMain" Role="AccntMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccntCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccntMain">
+              <PropertyRef Name="AccntCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -977,6 +927,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
+          <ScalarProperty Name="AccntCategoryId" ColumnName="AccntCategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1043,23 +994,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="AccntCharts">
-      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntChart)">
-        <MappingFragment StoreEntitySet="AccntCharts">
+    <EntitySetMapping Name="AccntCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntCategory)">
+        <MappingFragment StoreEntitySet="AccntCategories">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
           <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AccntChartAccounts">
-      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntChartAccount)">
-        <MappingFragment StoreEntitySet="AccntChartAccounts">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="AccntChartId" ColumnName="AccntChartId" />
-          <ScalarProperty Name="AccntMainId" ColumnName="AccntMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

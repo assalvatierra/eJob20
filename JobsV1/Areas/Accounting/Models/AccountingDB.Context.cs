@@ -39,7 +39,6 @@ namespace JobsV1.Areas.Accounting.Models
         public virtual DbSet<AccntLedger> AccntLedgers { get; set; }
         public virtual DbSet<AccntType> AccntTypes { get; set; }
         public virtual DbSet<AccntTrxHist> AccntTrxHists { get; set; }
-        public virtual DbSet<AccntChart> AccntCharts { get; set; }
-        public virtual DbSet<AccntChartAccount> AccntChartAccounts { get; set; }
+        public virtual DbSet<AccntCategory> AccntCategories { get; set; }
     }
 }

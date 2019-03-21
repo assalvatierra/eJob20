@@ -12,12 +12,12 @@ namespace JobsV1.Areas.Accounting.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AccntChart
+    public partial class AccntCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AccntChart()
+        public AccntCategory()
         {
-            this.AccntChartAccounts = new HashSet<AccntChartAccount>();
+            this.AccntMains = new HashSet<AccntMain>();
         }
     
         public int Id { get; set; }
@@ -26,8 +26,8 @@ namespace JobsV1.Areas.Accounting.Models
         public int OrderNo { get; set; }
         public int AccntTypeId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccntChartAccount> AccntChartAccounts { get; set; }
         public virtual AccntType AccntType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccntMain> AccntMains { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/21/2019 10:42:50
+-- Date Created: 03/21/2019 16:34:36
 -- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Areas\Accounting\Models\AccountingDB.edmx
 -- --------------------------------------------------
 
@@ -35,6 +35,30 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AsIncClientAsSales]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AsSales] DROP CONSTRAINT [FK_AsIncClientAsSales];
 GO
+IF OBJECT_ID(N'[dbo].[FK_AccntTrxTypeAccntTrxHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntTrxHdrs] DROP CONSTRAINT [FK_AccntTrxTypeAccntTrxHdr];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntTrxHdrAccntTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntTrxDtls] DROP CONSTRAINT [FK_AccntTrxHdrAccntTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntLedgerAccntTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntTrxDtls] DROP CONSTRAINT [FK_AccntLedgerAccntTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntCOA]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntTypeAccntCOA];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntMainAccntLedger]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntLedgers] DROP CONSTRAINT [FK_AccntMainAccntLedger];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntTrxDtlAccntTrxHist]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntTrxHists] DROP CONSTRAINT [FK_AccntTrxDtlAccntTrxHist];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntChart]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntCategories] DROP CONSTRAINT [FK_AccntTypeAccntChart];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntCategoryAccntMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntCategoryAccntMain];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -60,6 +84,30 @@ IF OBJECT_ID(N'[dbo].[AsIncClients]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[AsSales]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AsSales];
+GO
+IF OBJECT_ID(N'[dbo].[AccntMains]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntMains];
+GO
+IF OBJECT_ID(N'[dbo].[AccntTrxHdrs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntTrxHdrs];
+GO
+IF OBJECT_ID(N'[dbo].[AccntTrxDtls]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntTrxDtls];
+GO
+IF OBJECT_ID(N'[dbo].[AccntTrxTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntTrxTypes];
+GO
+IF OBJECT_ID(N'[dbo].[AccntLedgers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntLedgers];
+GO
+IF OBJECT_ID(N'[dbo].[AccntTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntTypes];
+GO
+IF OBJECT_ID(N'[dbo].[AccntTrxHists]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntTrxHists];
+GO
+IF OBJECT_ID(N'[dbo].[AccntCategories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntCategories];
 GO
 
 -- --------------------------------------------------
@@ -149,7 +197,8 @@ CREATE TABLE [dbo].[AccntMains] (
     [Code] nvarchar(5)  NOT NULL,
     [Name] nvarchar(50)  NOT NULL,
     [Remarks] nvarchar(200)  NULL,
-    [AccntTypeId] int  NOT NULL
+    [AccntTypeId] int  NOT NULL,
+    [AccntCategoryId] int  NOT NULL
 );
 GO
 
@@ -210,21 +259,13 @@ CREATE TABLE [dbo].[AccntTrxHists] (
 );
 GO
 
--- Creating table 'AccntCharts'
-CREATE TABLE [dbo].[AccntCharts] (
+-- Creating table 'AccntCategories'
+CREATE TABLE [dbo].[AccntCategories] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Code] nvarchar(5)  NOT NULL,
     [Description] nvarchar(80)  NOT NULL,
     [OrderNo] int  NOT NULL,
     [AccntTypeId] int  NOT NULL
-);
-GO
-
--- Creating table 'AccntChartAccounts'
-CREATE TABLE [dbo].[AccntChartAccounts] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [AccntChartId] int  NOT NULL,
-    [AccntMainId] int  NOT NULL
 );
 GO
 
@@ -316,15 +357,9 @@ ADD CONSTRAINT [PK_AccntTrxHists]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'AccntCharts'
-ALTER TABLE [dbo].[AccntCharts]
-ADD CONSTRAINT [PK_AccntCharts]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'AccntChartAccounts'
-ALTER TABLE [dbo].[AccntChartAccounts]
-ADD CONSTRAINT [PK_AccntChartAccounts]
+-- Creating primary key on [Id] in table 'AccntCategories'
+ALTER TABLE [dbo].[AccntCategories]
+ADD CONSTRAINT [PK_AccntCategories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -512,38 +547,8 @@ ON [dbo].[AccntTrxHists]
     ([AccntTrxDtlId]);
 GO
 
--- Creating foreign key on [AccntChartId] in table 'AccntChartAccounts'
-ALTER TABLE [dbo].[AccntChartAccounts]
-ADD CONSTRAINT [FK_AccntChartAccntChartAccount]
-    FOREIGN KEY ([AccntChartId])
-    REFERENCES [dbo].[AccntCharts]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AccntChartAccntChartAccount'
-CREATE INDEX [IX_FK_AccntChartAccntChartAccount]
-ON [dbo].[AccntChartAccounts]
-    ([AccntChartId]);
-GO
-
--- Creating foreign key on [AccntMainId] in table 'AccntChartAccounts'
-ALTER TABLE [dbo].[AccntChartAccounts]
-ADD CONSTRAINT [FK_AccntMainAccntChartAccount]
-    FOREIGN KEY ([AccntMainId])
-    REFERENCES [dbo].[AccntMains]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AccntMainAccntChartAccount'
-CREATE INDEX [IX_FK_AccntMainAccntChartAccount]
-ON [dbo].[AccntChartAccounts]
-    ([AccntMainId]);
-GO
-
--- Creating foreign key on [AccntTypeId] in table 'AccntCharts'
-ALTER TABLE [dbo].[AccntCharts]
+-- Creating foreign key on [AccntTypeId] in table 'AccntCategories'
+ALTER TABLE [dbo].[AccntCategories]
 ADD CONSTRAINT [FK_AccntTypeAccntChart]
     FOREIGN KEY ([AccntTypeId])
     REFERENCES [dbo].[AccntTypes]
@@ -553,8 +558,23 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AccntTypeAccntChart'
 CREATE INDEX [IX_FK_AccntTypeAccntChart]
-ON [dbo].[AccntCharts]
+ON [dbo].[AccntCategories]
     ([AccntTypeId]);
+GO
+
+-- Creating foreign key on [AccntCategoryId] in table 'AccntMains'
+ALTER TABLE [dbo].[AccntMains]
+ADD CONSTRAINT [FK_AccntCategoryAccntMain]
+    FOREIGN KEY ([AccntCategoryId])
+    REFERENCES [dbo].[AccntCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntCategoryAccntMain'
+CREATE INDEX [IX_FK_AccntCategoryAccntMain]
+ON [dbo].[AccntMains]
+    ([AccntCategoryId]);
 GO
 
 -- --------------------------------------------------

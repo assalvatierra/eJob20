@@ -7,13 +7,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.Accounting.Models;
-using JobsV1.Models;
 
 namespace JobsV1.Areas.Accounting.Controllers
 {
     public class AccntMainsController : Controller
     {
-        private SysDBContainer db = new SysDBContainer();
+        private AccountingDBContainer db = new AccountingDBContainer();
 
         // GET: Accounting/AccntMains
         public ActionResult Index()

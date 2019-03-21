@@ -18,7 +18,6 @@ namespace JobsV1.Areas.Accounting.Models
         public AccntMain()
         {
             this.AccntLedgers = new HashSet<AccntLedger>();
-            this.AccntChartAccounts = new HashSet<AccntChartAccount>();
         }
     
         public int Id { get; set; }
@@ -26,11 +25,11 @@ namespace JobsV1.Areas.Accounting.Models
         public string Name { get; set; }
         public string Remarks { get; set; }
         public int AccntTypeId { get; set; }
+        public int AccntCategoryId { get; set; }
     
         public virtual AccntType AccntType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccntLedger> AccntLedgers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccntChartAccount> AccntChartAccounts { get; set; }
+        public virtual AccntCategory AccntCategory { get; set; }
     }
 }

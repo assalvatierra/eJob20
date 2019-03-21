@@ -242,10 +242,7 @@
     <Compile Include="Areas\Accounting\Controllers\AsExpensesController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsMainController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsSalesController.cs" />
-    <Compile Include="Areas\Accounting\Models\AccntChart.cs">
-      <DependentUpon>AccountingDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\Accounting\Models\AccntChartAccount.cs">
+    <Compile Include="Areas\Accounting\Models\AccntCategory.cs">
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Accounting\Models\AccntLedger.cs">
