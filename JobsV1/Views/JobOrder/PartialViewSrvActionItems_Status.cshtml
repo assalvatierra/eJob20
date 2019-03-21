@@ -2,14 +2,12 @@
 @{ int SvcId = Convert.ToInt32(ViewData["svcId1"]);  }
 
 <div >
-    <span>Tasks </span>
-   
           @foreach (var item in Model)
           {
               
             <span>&#187;</span>
-            <span>
-                <a id="@item.Id" data_svcid="@SvcId" name="@item.Desc" href="?serviceId=@(SvcId)&sortid=@((int)Session["FilterID"])" class="clickitem">@item.Desc</a>
+            <span  class="btn btn-primary btn-arrow-right" >
+                <a style="color:white;font-size:9px;" id="@item.Id" data_svcid="@SvcId" name="@item.Desc" href="?serviceId=@(SvcId)&sortid=@((int)Session["FilterID"])" class="clickitem">@item.Desc</a>
             </span>
           }
 </div>

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<JobsV1.Controllers.cJobService>
+
+<div style="padding-left:0.5em;">
+
+@foreach (var item in Model) {
+    DateTime dtstart = (DateTime) item.Service.DtStart;
+    DateTime dtend = (DateTime)item.Service.DtEnd;
+
+    <div class="row" >
+        <div style="padding:0.5em;cursor:pointer;" class="row jobservice" 
+             onMouseOver="$(this).css('background-color', '#bfbfbf')"
+             onMouseOut="$(this).css('background-color', 'lightgray')"
+             data-toggle="collapse" 
+             data-target="#col@(item.Service.Id)"
+             >
+
+            <div class="pull-left col-lg-2" style="font:bold 11px;color:darkblue;width:20%">
+                @dtstart.ToString("MMM-dd")
+                 &nbsp;<span style="font-weight:600;color:darkblue;">@item.Service.Particulars</span>
+                 <br />
+                @dtend.ToString("MMM-dd") 
+                <span style="font:bold 11px;color:darkblue;">&nbsp;[item: @item.Service.SupplierItem.Description]</span>
+            </div> 
+            <div class="pull-left col-lg-10" style="width:80%;">
+                @Html.Partial("PartialViewSrvActionItems_Status", item.SvcActions, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
+            </div>
+        </div>
+
+        <div id="col@(item.Service.Id)" class="panel-collapse collapse "   style="border:1px solid lightgray; padding : 8px;">
+           
+            @Html.Partial("PartialViewJobServiceItems", item.SvcItems, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
+            @Html.Partial("PartialViewServiceSupPo", item.SupplierPos, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
+        </div>
+    </div>
+        
+}
+</div>

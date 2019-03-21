@@ -721,6 +721,7 @@
     <Content Include="Areas\Accounting\Models\InitData.sql" />
     <Content Include="Areas\Accounting\Scripts\Sales.js" />
     <Content Include="BingSiteAuth.xml" />
+    <Content Include="Content\bootstrap-directional-buttons.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.slate.css" />
@@ -1665,6 +1666,9 @@
     <Content Include="Views\SysAccessUsers\UserSubModuleAdd.cshtml" />
     <Content Include="Views\SysAccessUsers\UserSubModuleDelete.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleMenuUserDelete.cshtml" />
+    <Content Include="Views\Suppliers\IndexExpand.cshtml" />
+    <Content Include="Views\JobOrder\jobStatus.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewServiceList_Status.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

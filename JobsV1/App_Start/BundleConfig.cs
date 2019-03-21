@@ -34,6 +34,7 @@ namespace JobsV1
                       "~/Content/bootstrap.css",
                       "~/Content/ModalUser.css",
                       "~/Content/themes/base/jquery-ui.css",
+                      "~/Content/themes/base/bootstrap-directional-buttons.min.css",
                       "~/Content/login.css",
                       "~/Content/Erp.css",
                       "~/Content/UserStyles.css",
