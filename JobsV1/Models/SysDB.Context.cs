@@ -39,5 +39,9 @@ namespace JobsV1.Models
         public virtual DbSet<SysCmdIdRef> SysCmdIdRefs { get; set; }
         public virtual DbSet<EntSetting> EntSettings { get; set; }
         public virtual DbSet<SysSetting> SysSettings { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Accounting.Models.AccntMain> AccntMains { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Accounting.Models.AccntType> AccntTypes { get; set; }
     }
 }

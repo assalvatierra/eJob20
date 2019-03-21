@@ -238,6 +238,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Accounting\AccountingAreaRegistration.cs" />
+    <Compile Include="Areas\Accounting\Controllers\AccntMainsController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsExpensesController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsMainController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsSalesController.cs" />
@@ -1127,6 +1128,11 @@
     <Content Include="Models\SysDB.edmx.diagram">
       <DependentUpon>SysDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Accounting\Views\AccntMains\Create.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntMains\Delete.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntMains\Details.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntMains\Edit.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntMains\Index.cshtml" />
     <None Include="Properties\PublishProfiles\ftp.myasp.net.pubxml" />
     <None Include="Properties\PublishProfiles\ftp.Somee.com.pubxml" />
     <Content Include="Scripts\CarRental\FormCarSummary.js" />
