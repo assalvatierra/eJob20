@@ -47,8 +47,8 @@ namespace JobsV1.Controllers
             Session["ROOTMENUID"] = (int)mr.RootMenuId;
 
             string sAction = (mr.Action == null || mr.Action.Trim() == "" ? "Index" : mr.Action);
-            string sController = (mr.Controller == null || mr.Controller.Trim() == "" ? "Home" : mr.Controller); 
-
+            string sController = (mr.Controller == null || mr.Controller.Trim() == "" ? "Home" : mr.Controller);
+            
             Object oArea = new { area = mr.Area };
 
             //return RedirectToAction(mr.Action, mr.Controller, oArea);

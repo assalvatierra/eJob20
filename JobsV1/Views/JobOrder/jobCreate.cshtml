@@ -22,8 +22,17 @@
             </div>
         </div>
 
+
         <div class="form-group">
-            @Html.LabelFor(model => model.CustomerId, "CustomerId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Job Thru  </b>
+            <div class="col-md-10">
+                @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JobThruId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="control-label col-md-2"> Customer </b>
             <div class="col-md-10">
                 @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" , @id = "customerList"})
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
@@ -55,7 +64,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.JobRemarks, htmlAttributes: new { @class = "control-label col-md-2" })
+           <b class="control-label col-md-2"> Job Status </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.JobRemarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                 @Html.ValidationMessageFor(model => model.JobRemarks, "", new { @class = "text-danger" })
@@ -63,7 +72,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.JobStatusId, "JobStatusId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Job Status </b>
             <div class="col-md-10">
                 @Html.DropDownList("JobStatusId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.JobStatusId, "", new { @class = "text-danger" })
@@ -71,7 +80,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.StatusRemarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Status Remarks </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StatusRemarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                 @Html.ValidationMessageFor(model => model.StatusRemarks, "", new { @class = "text-danger" })
@@ -79,7 +88,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Branch </b>
             <div class="col-md-10">
                 @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
@@ -87,7 +96,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.JobThruId, "JobThruId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Job Thru  </b>
             <div class="col-md-10">
                 @Html.DropDownList("JobThruId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.JobThruId, "", new { @class = "text-danger" })

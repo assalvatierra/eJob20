@@ -54,6 +54,7 @@ namespace JobsV1.CustomHelper
 
             return new HtmlString(htmlString);
         }
+
         public static IHtmlString Module(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId)
         {
             SysAccessLayer dal = new SysAccessLayer();
@@ -67,19 +68,16 @@ namespace JobsV1.CustomHelper
             htmlString += "</span>";
             return new HtmlString(htmlString);
         }
-
-
-
-        /*
-                public static IHtmlString Module(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId)
-                {
-                    SysService service = new ErpDataLayer().getModule(MenuId);
-                    string str2 = "<span>";
-                    return new HtmlString(((((str2 + "<img src='" + rootUrl + service.IconPath + "' class='ModulePageIcon' alt='' />") + "</span>" + "<span>") + "<h2>" + service.Description + "</h2>") + "<p>" + service.Remarks + "</p>") + "</span>");
-                }
-                */
-
-
+        
+       /*
+        public static IHtmlString Module(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId)
+        {
+           SysService service = new ErpDataLayer().getModule(MenuId);
+           string str2 = "<span>";
+           return new HtmlString(((((str2 + "<img src='" + rootUrl + service.IconPath + "' class='ModulePageIcon' alt='' />") + "</span>" + "<span>") + "<h2>" + service.Description + "</h2>") + "<p>" + service.Remarks + "</p>") + "</span>");
+        }
+        */
+        
         #endregion
     }
 }

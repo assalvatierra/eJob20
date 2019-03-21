@@ -72,9 +72,14 @@ namespace JobsV1.Controllers
                 else
                     sortid = 1;
             }
+            
+            if (Session["FilterID"] == null)
+            {
+                Session["FilterID"] = 1;
+            }
 
 
-            IEnumerable<Models.JobMain> jobMains = db.JobMains
+                IEnumerable<Models.JobMain> jobMains = db.JobMains
                 .Include(j => j.Customer)
                 .Include(j => j.Branch)
                 .Include(j => j.JobStatus)
@@ -131,8 +136,8 @@ namespace JobsV1.Controllers
                     cjoTmp.Service = svc;
 
                     var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
-
-                    cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id) ).Include(d => d.SrvActionCode);
+                    
+                    cjoTmp.SvcActions =  db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id) ).Include(d => d.SrvActionCode);
                     cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d=>d.SrvActionItem);
                     cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
                     cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
@@ -780,6 +785,7 @@ order by x.jobid
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", id);
             }
 
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name");
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
@@ -813,12 +819,14 @@ order by x.jobid
 
             }
 
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             return View(jobMain);
         }
+        
 
         public ActionResult ChangeCompany(int id , int newId) {
 
