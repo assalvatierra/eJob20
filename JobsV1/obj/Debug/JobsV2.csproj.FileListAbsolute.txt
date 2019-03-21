@@ -184,3 +184,4 @@ C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\bin\zh-Hans\Microsoft.Sql
 C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\bin\zh-Hant\Microsoft.SqlServer.Types.resources.dll
 C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\obj\Debug\JobsV1.dll
 C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\obj\Debug\JobsV1.pdb
+D:\Data\Real\Apps\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csprojResolveAssemblyReference.cache

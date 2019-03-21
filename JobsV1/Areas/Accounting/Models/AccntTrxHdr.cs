@@ -22,7 +22,8 @@ namespace JobsV1.Areas.Accounting.Models
     
         public int Id { get; set; }
         public int AccntTrxTypeId { get; set; }
-        public string DtTrx { get; set; }
+        public System.DateTime DtTrx { get; set; }
+        public string Remarks { get; set; }
     
         public virtual AccntTrxType AccntTrxType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

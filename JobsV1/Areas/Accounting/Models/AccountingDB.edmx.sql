@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/13/2016 16:32:07
--- Generated from EDMX file: D:\Data\Real\Apps\JobsV1\JobsV1\Areas\Accounting\Models\AccountingDB.edmx
+-- Date Created: 03/21/2019 10:42:50
+-- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Areas\Accounting\Models\AccountingDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -143,6 +143,91 @@ CREATE TABLE [dbo].[AsSales] (
 );
 GO
 
+-- Creating table 'AccntMains'
+CREATE TABLE [dbo].[AccntMains] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(5)  NOT NULL,
+    [Name] nvarchar(50)  NOT NULL,
+    [Remarks] nvarchar(200)  NULL,
+    [AccntTypeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'AccntTrxHdrs'
+CREATE TABLE [dbo].[AccntTrxHdrs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [AccntTrxTypeId] int  NOT NULL,
+    [DtTrx] datetime  NOT NULL,
+    [Remarks] nvarchar(80)  NULL
+);
+GO
+
+-- Creating table 'AccntTrxDtls'
+CREATE TABLE [dbo].[AccntTrxDtls] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [AccntTrxHdrId] int  NOT NULL,
+    [AccntLedgerId] int  NOT NULL,
+    [Remarks] nvarchar(50)  NULL,
+    [DbAmt] decimal(18,0)  NOT NULL,
+    [CrAmt] decimal(18,0)  NOT NULL
+);
+GO
+
+-- Creating table 'AccntTrxTypes'
+CREATE TABLE [dbo].[AccntTrxTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(3)  NOT NULL,
+    [Remarks] nvarchar(30)  NULL
+);
+GO
+
+-- Creating table 'AccntLedgers'
+CREATE TABLE [dbo].[AccntLedgers] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(4)  NOT NULL,
+    [Name] nvarchar(50)  NOT NULL,
+    [AccntMainId] int  NOT NULL,
+    [Remarks] nvarchar(200)  NULL
+);
+GO
+
+-- Creating table 'AccntTypes'
+CREATE TABLE [dbo].[AccntTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(5)  NOT NULL,
+    [NormalForm] nvarchar(2)  NOT NULL
+);
+GO
+
+-- Creating table 'AccntTrxHists'
+CREATE TABLE [dbo].[AccntTrxHists] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtHist] nvarchar(max)  NOT NULL,
+    [AccntTrxDtlId] int  NOT NULL,
+    [HistType] nvarchar(20)  NOT NULL,
+    [OldData] nvarchar(250)  NOT NULL,
+    [User] nvarchar(80)  NOT NULL
+);
+GO
+
+-- Creating table 'AccntCharts'
+CREATE TABLE [dbo].[AccntCharts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(5)  NOT NULL,
+    [Description] nvarchar(80)  NOT NULL,
+    [OrderNo] int  NOT NULL,
+    [AccntTypeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'AccntChartAccounts'
+CREATE TABLE [dbo].[AccntChartAccounts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [AccntChartId] int  NOT NULL,
+    [AccntMainId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -186,6 +271,60 @@ GO
 -- Creating primary key on [Id] in table 'AsSales'
 ALTER TABLE [dbo].[AsSales]
 ADD CONSTRAINT [PK_AsSales]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntMains'
+ALTER TABLE [dbo].[AccntMains]
+ADD CONSTRAINT [PK_AccntMains]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntTrxHdrs'
+ALTER TABLE [dbo].[AccntTrxHdrs]
+ADD CONSTRAINT [PK_AccntTrxHdrs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntTrxDtls'
+ALTER TABLE [dbo].[AccntTrxDtls]
+ADD CONSTRAINT [PK_AccntTrxDtls]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntTrxTypes'
+ALTER TABLE [dbo].[AccntTrxTypes]
+ADD CONSTRAINT [PK_AccntTrxTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntLedgers'
+ALTER TABLE [dbo].[AccntLedgers]
+ADD CONSTRAINT [PK_AccntLedgers]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntTypes'
+ALTER TABLE [dbo].[AccntTypes]
+ADD CONSTRAINT [PK_AccntTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntTrxHists'
+ALTER TABLE [dbo].[AccntTrxHists]
+ADD CONSTRAINT [PK_AccntTrxHists]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntCharts'
+ALTER TABLE [dbo].[AccntCharts]
+ADD CONSTRAINT [PK_AccntCharts]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntChartAccounts'
+ALTER TABLE [dbo].[AccntChartAccounts]
+ADD CONSTRAINT [PK_AccntChartAccounts]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -281,6 +420,141 @@ GO
 CREATE INDEX [IX_FK_AsIncClientAsSales]
 ON [dbo].[AsSales]
     ([AsIncClientId]);
+GO
+
+-- Creating foreign key on [AccntTrxTypeId] in table 'AccntTrxHdrs'
+ALTER TABLE [dbo].[AccntTrxHdrs]
+ADD CONSTRAINT [FK_AccntTrxTypeAccntTrxHdr]
+    FOREIGN KEY ([AccntTrxTypeId])
+    REFERENCES [dbo].[AccntTrxTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntTrxTypeAccntTrxHdr'
+CREATE INDEX [IX_FK_AccntTrxTypeAccntTrxHdr]
+ON [dbo].[AccntTrxHdrs]
+    ([AccntTrxTypeId]);
+GO
+
+-- Creating foreign key on [AccntTrxHdrId] in table 'AccntTrxDtls'
+ALTER TABLE [dbo].[AccntTrxDtls]
+ADD CONSTRAINT [FK_AccntTrxHdrAccntTrxDtl]
+    FOREIGN KEY ([AccntTrxHdrId])
+    REFERENCES [dbo].[AccntTrxHdrs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntTrxHdrAccntTrxDtl'
+CREATE INDEX [IX_FK_AccntTrxHdrAccntTrxDtl]
+ON [dbo].[AccntTrxDtls]
+    ([AccntTrxHdrId]);
+GO
+
+-- Creating foreign key on [AccntLedgerId] in table 'AccntTrxDtls'
+ALTER TABLE [dbo].[AccntTrxDtls]
+ADD CONSTRAINT [FK_AccntLedgerAccntTrxDtl]
+    FOREIGN KEY ([AccntLedgerId])
+    REFERENCES [dbo].[AccntLedgers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntLedgerAccntTrxDtl'
+CREATE INDEX [IX_FK_AccntLedgerAccntTrxDtl]
+ON [dbo].[AccntTrxDtls]
+    ([AccntLedgerId]);
+GO
+
+-- Creating foreign key on [AccntTypeId] in table 'AccntMains'
+ALTER TABLE [dbo].[AccntMains]
+ADD CONSTRAINT [FK_AccntTypeAccntCOA]
+    FOREIGN KEY ([AccntTypeId])
+    REFERENCES [dbo].[AccntTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntTypeAccntCOA'
+CREATE INDEX [IX_FK_AccntTypeAccntCOA]
+ON [dbo].[AccntMains]
+    ([AccntTypeId]);
+GO
+
+-- Creating foreign key on [AccntMainId] in table 'AccntLedgers'
+ALTER TABLE [dbo].[AccntLedgers]
+ADD CONSTRAINT [FK_AccntMainAccntLedger]
+    FOREIGN KEY ([AccntMainId])
+    REFERENCES [dbo].[AccntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntMainAccntLedger'
+CREATE INDEX [IX_FK_AccntMainAccntLedger]
+ON [dbo].[AccntLedgers]
+    ([AccntMainId]);
+GO
+
+-- Creating foreign key on [AccntTrxDtlId] in table 'AccntTrxHists'
+ALTER TABLE [dbo].[AccntTrxHists]
+ADD CONSTRAINT [FK_AccntTrxDtlAccntTrxHist]
+    FOREIGN KEY ([AccntTrxDtlId])
+    REFERENCES [dbo].[AccntTrxDtls]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntTrxDtlAccntTrxHist'
+CREATE INDEX [IX_FK_AccntTrxDtlAccntTrxHist]
+ON [dbo].[AccntTrxHists]
+    ([AccntTrxDtlId]);
+GO
+
+-- Creating foreign key on [AccntChartId] in table 'AccntChartAccounts'
+ALTER TABLE [dbo].[AccntChartAccounts]
+ADD CONSTRAINT [FK_AccntChartAccntChartAccount]
+    FOREIGN KEY ([AccntChartId])
+    REFERENCES [dbo].[AccntCharts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntChartAccntChartAccount'
+CREATE INDEX [IX_FK_AccntChartAccntChartAccount]
+ON [dbo].[AccntChartAccounts]
+    ([AccntChartId]);
+GO
+
+-- Creating foreign key on [AccntMainId] in table 'AccntChartAccounts'
+ALTER TABLE [dbo].[AccntChartAccounts]
+ADD CONSTRAINT [FK_AccntMainAccntChartAccount]
+    FOREIGN KEY ([AccntMainId])
+    REFERENCES [dbo].[AccntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntMainAccntChartAccount'
+CREATE INDEX [IX_FK_AccntMainAccntChartAccount]
+ON [dbo].[AccntChartAccounts]
+    ([AccntMainId]);
+GO
+
+-- Creating foreign key on [AccntTypeId] in table 'AccntCharts'
+ALTER TABLE [dbo].[AccntCharts]
+ADD CONSTRAINT [FK_AccntTypeAccntChart]
+    FOREIGN KEY ([AccntTypeId])
+    REFERENCES [dbo].[AccntTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntTypeAccntChart'
+CREATE INDEX [IX_FK_AccntTypeAccntChart]
+ON [dbo].[AccntCharts]
+    ([AccntTypeId]);
 GO
 
 -- --------------------------------------------------

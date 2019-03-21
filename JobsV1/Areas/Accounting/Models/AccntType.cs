@@ -18,6 +18,7 @@ namespace JobsV1.Areas.Accounting.Models
         public AccntType()
         {
             this.AccntCOAs = new HashSet<AccntMain>();
+            this.AccntCharts = new HashSet<AccntChart>();
         }
     
         public int Id { get; set; }
@@ -26,5 +27,7 @@ namespace JobsV1.Areas.Accounting.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccntMain> AccntCOAs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccntChart> AccntCharts { get; set; }
     }
 }

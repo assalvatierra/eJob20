@@ -13,6 +13,15 @@
     <EntitySet Name="AsIncCategories" EntityType="AccountingDB.Store.AsIncCategories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AsIncClients" EntityType="AccountingDB.Store.AsIncClients" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AsSales" EntityType="AccountingDB.Store.AsSales" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntMains" EntityType="AccountingDB.Store.AccntMains" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntTrxHdrs" EntityType="AccountingDB.Store.AccntTrxHdrs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntTrxDtls" EntityType="AccountingDB.Store.AccntTrxDtls" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntTrxTypes" EntityType="AccountingDB.Store.AccntTrxTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntLedgers" EntityType="AccountingDB.Store.AccntLedgers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntTypes" EntityType="AccountingDB.Store.AccntTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntTrxHists" EntityType="AccountingDB.Store.AccntTrxHists" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntCharts" EntityType="AccountingDB.Store.AccntCharts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccntChartAccounts" EntityType="AccountingDB.Store.AccntChartAccounts" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AsCostCenterAsExpense" Association="AccountingDB.Store.AsCostCenterAsExpense">
       <End Role="AsCostCenter" EntitySet="AsCostCenters" />
       <End Role="AsExpense" EntitySet="AsExpenses" />
@@ -36,6 +45,42 @@
     <AssociationSet Name="AsIncClientAsSales" Association="AccountingDB.Store.AsIncClientAsSales">
       <End Role="AsIncClient" EntitySet="AsIncClients" />
       <End Role="AsSales" EntitySet="AsSales" />
+    </AssociationSet>
+    <AssociationSet Name="AccntTrxTypeAccntTrxHdr" Association="AccountingDB.Store.AccntTrxTypeAccntTrxHdr">
+      <End Role="AccntTrxType" EntitySet="AccntTrxTypes" />
+      <End Role="AccntTrxHdr" EntitySet="AccntTrxHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="AccntTrxHdrAccntTrxDtl" Association="AccountingDB.Store.AccntTrxHdrAccntTrxDtl">
+      <End Role="AccntTrxHdr" EntitySet="AccntTrxHdrs" />
+      <End Role="AccntTrxDtl" EntitySet="AccntTrxDtls" />
+    </AssociationSet>
+    <AssociationSet Name="AccntLedgerAccntTrxDtl" Association="AccountingDB.Store.AccntLedgerAccntTrxDtl">
+      <End Role="AccntLedger" EntitySet="AccntLedgers" />
+      <End Role="AccntTrxDtl" EntitySet="AccntTrxDtls" />
+    </AssociationSet>
+    <AssociationSet Name="AccntTypeAccntCOA" Association="AccountingDB.Store.AccntTypeAccntCOA">
+      <End Role="AccntType" EntitySet="AccntTypes" />
+      <End Role="AccntCOA" EntitySet="AccntMains" />
+    </AssociationSet>
+    <AssociationSet Name="AccntMainAccntLedger" Association="AccountingDB.Store.AccntMainAccntLedger">
+      <End Role="AccntMain" EntitySet="AccntMains" />
+      <End Role="AccntLedger" EntitySet="AccntLedgers" />
+    </AssociationSet>
+    <AssociationSet Name="AccntTrxDtlAccntTrxHist" Association="AccountingDB.Store.AccntTrxDtlAccntTrxHist">
+      <End Role="AccntTrxDtl" EntitySet="AccntTrxDtls" />
+      <End Role="AccntTrxHist" EntitySet="AccntTrxHists" />
+    </AssociationSet>
+    <AssociationSet Name="AccntChartAccntChartAccount" Association="AccountingDB.Store.AccntChartAccntChartAccount">
+      <End Role="AccntChart" EntitySet="AccntCharts" />
+      <End Role="AccntChartAccount" EntitySet="AccntChartAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="AccntMainAccntChartAccount" Association="AccountingDB.Store.AccntMainAccntChartAccount">
+      <End Role="AccntMain" EntitySet="AccntMains" />
+      <End Role="AccntChartAccount" EntitySet="AccntChartAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="AccntTypeAccntChart" Association="AccountingDB.Store.AccntTypeAccntChart">
+      <End Role="AccntType" EntitySet="AccntTypes" />
+      <End Role="AccntChart" EntitySet="AccntCharts" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AsExpenses">
@@ -115,6 +160,91 @@
     <Property Name="AsIncClientId" Type="int" Nullable="false" />
     <Property Name="OrRef" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
+  <EntityType Name="AccntMains">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="5" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="AccntTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AccntTrxHdrs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccntTrxTypeId" Type="int" Nullable="false" />
+    <Property Name="DtTrx" Type="datetime" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="AccntTrxDtls">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccntTrxHdrId" Type="int" Nullable="false" />
+    <Property Name="AccntLedgerId" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="DbAmt" Type="decimal" Nullable="false" />
+    <Property Name="CrAmt" Type="decimal" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AccntTrxTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="3" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="AccntLedgers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="4" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="AccntMainId" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="AccntTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="5" />
+    <Property Name="NormalForm" Type="nvarchar" Nullable="false" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="AccntTrxHists">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtHist" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AccntTrxDtlId" Type="int" Nullable="false" />
+    <Property Name="HistType" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="OldData" Type="nvarchar" Nullable="false" MaxLength="250" />
+    <Property Name="User" Type="nvarchar" Nullable="false" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="AccntCharts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="5" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="OrderNo" Type="int" Nullable="false" />
+    <Property Name="AccntTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AccntChartAccounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccntChartId" Type="int" Nullable="false" />
+    <Property Name="AccntMainId" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="AsCostCenterAsExpense">
     <End Role="AsCostCenter" Type="AccountingDB.Store.AsCostCenters" Multiplicity="1" />
     <End Role="AsExpense" Type="AccountingDB.Store.AsExpenses" Multiplicity="*" />
@@ -187,6 +317,114 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="AccntTrxTypeAccntTrxHdr">
+    <End Role="AccntTrxType" Type="AccountingDB.Store.AccntTrxTypes" Multiplicity="1" />
+    <End Role="AccntTrxHdr" Type="AccountingDB.Store.AccntTrxHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntTrxType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntTrxHdr">
+        <PropertyRef Name="AccntTrxTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntTrxHdrAccntTrxDtl">
+    <End Role="AccntTrxHdr" Type="AccountingDB.Store.AccntTrxHdrs" Multiplicity="1" />
+    <End Role="AccntTrxDtl" Type="AccountingDB.Store.AccntTrxDtls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntTrxHdr">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntTrxDtl">
+        <PropertyRef Name="AccntTrxHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntLedgerAccntTrxDtl">
+    <End Role="AccntLedger" Type="AccountingDB.Store.AccntLedgers" Multiplicity="1" />
+    <End Role="AccntTrxDtl" Type="AccountingDB.Store.AccntTrxDtls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntLedger">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntTrxDtl">
+        <PropertyRef Name="AccntLedgerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntTypeAccntCOA">
+    <End Role="AccntType" Type="AccountingDB.Store.AccntTypes" Multiplicity="1" />
+    <End Role="AccntCOA" Type="AccountingDB.Store.AccntMains" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntCOA">
+        <PropertyRef Name="AccntTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntMainAccntLedger">
+    <End Role="AccntMain" Type="AccountingDB.Store.AccntMains" Multiplicity="1" />
+    <End Role="AccntLedger" Type="AccountingDB.Store.AccntLedgers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntLedger">
+        <PropertyRef Name="AccntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntTrxDtlAccntTrxHist">
+    <End Role="AccntTrxDtl" Type="AccountingDB.Store.AccntTrxDtls" Multiplicity="1" />
+    <End Role="AccntTrxHist" Type="AccountingDB.Store.AccntTrxHists" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntTrxDtl">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntTrxHist">
+        <PropertyRef Name="AccntTrxDtlId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntChartAccntChartAccount">
+    <End Role="AccntChart" Type="AccountingDB.Store.AccntCharts" Multiplicity="1" />
+    <End Role="AccntChartAccount" Type="AccountingDB.Store.AccntChartAccounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntChart">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntChartAccount">
+        <PropertyRef Name="AccntChartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntMainAccntChartAccount">
+    <End Role="AccntMain" Type="AccountingDB.Store.AccntMains" Multiplicity="1" />
+    <End Role="AccntChartAccount" Type="AccountingDB.Store.AccntChartAccounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntChartAccount">
+        <PropertyRef Name="AccntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccntTypeAccntChart">
+    <End Role="AccntType" Type="AccountingDB.Store.AccntTypes" Multiplicity="1" />
+    <End Role="AccntChart" Type="AccountingDB.Store.AccntCharts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccntType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccntChart">
+        <PropertyRef Name="AccntTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -248,6 +486,25 @@
           <AssociationSet Name="AccntMainAccntLedger" Association="AccountingDB.AccntMainAccntLedger">
             <End Role="AccntMain" EntitySet="AccntMains" />
             <End Role="AccntLedger" EntitySet="AccntLedgers" />
+          </AssociationSet>
+          <EntitySet Name="AccntTrxHists" EntityType="AccountingDB.AccntTrxHist" />
+          <AssociationSet Name="AccntTrxDtlAccntTrxHist" Association="AccountingDB.AccntTrxDtlAccntTrxHist">
+            <End Role="AccntTrxDtl" EntitySet="AccntTrxDtls" />
+            <End Role="AccntTrxHist" EntitySet="AccntTrxHists" />
+          </AssociationSet>
+          <EntitySet Name="AccntCharts" EntityType="AccountingDB.AccntChart" />
+          <EntitySet Name="AccntChartAccounts" EntityType="AccountingDB.AccntChartAccount" />
+          <AssociationSet Name="AccntChartAccntChartAccount" Association="AccountingDB.AccntChartAccntChartAccount">
+            <End Role="AccntChart" EntitySet="AccntCharts" />
+            <End Role="AccntChartAccount" EntitySet="AccntChartAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="AccntMainAccntChartAccount" Association="AccountingDB.AccntMainAccntChartAccount">
+            <End Role="AccntMain" EntitySet="AccntMains" />
+            <End Role="AccntChartAccount" EntitySet="AccntChartAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="AccntTypeAccntChart" Association="AccountingDB.AccntTypeAccntChart">
+            <End Role="AccntType" EntitySet="AccntTypes" />
+            <End Role="AccntChart" EntitySet="AccntCharts" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AsExpense">
@@ -416,12 +673,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="5" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="200" />
           <NavigationProperty Name="AccntType" Relationship="AccountingDB.AccntTypeAccntCOA" FromRole="AccntCOA" ToRole="AccntType" />
           <Property Name="AccntTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AccntLedgers" Relationship="AccountingDB.AccntMainAccntLedger" FromRole="AccntMain" ToRole="AccntLedger" />
+          <NavigationProperty Name="AccntChartAccounts" Relationship="AccountingDB.AccntMainAccntChartAccount" FromRole="AccntMain" ToRole="AccntChartAccount" />
         </EntityType>
         <EntityType Name="AccntTrxHdr">
           <Key>
@@ -431,8 +689,9 @@
           <NavigationProperty Name="AccntTrxType" Relationship="AccountingDB.AccntTrxTypeAccntTrxHdr" FromRole="AccntTrxHdr" ToRole="AccntTrxType" />
           <Property Name="AccntTrxTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AccntTrxDtls" Relationship="AccountingDB.AccntTrxHdrAccntTrxDtl" FromRole="AccntTrxHdr" ToRole="AccntTrxDtl" />
-          <Property Name="DtTrx" Type="String" Nullable="false" />
-        </EntityType>
+          <Property Name="DtTrx" Type="DateTime" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          </EntityType>
         <EntityType Name="AccntTrxDtl">
           <Key>
             <PropertyRef Name="Id" />
@@ -442,14 +701,19 @@
           <Property Name="AccntTrxHdrId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AccntLedger" Relationship="AccountingDB.AccntLedgerAccntTrxDtl" FromRole="AccntTrxDtl" ToRole="AccntLedger" />
           <Property Name="AccntLedgerId" Type="Int32" Nullable="false" />
-        </EntityType>
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
+          <Property Name="DbAmt" Type="Decimal" Nullable="false" />
+          <Property Name="CrAmt" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="AccntTrxHists" Relationship="AccountingDB.AccntTrxDtlAccntTrxHist" FromRole="AccntTrxDtl" ToRole="AccntTrxHist" />
+          </EntityType>
         <EntityType Name="AccntTrxType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="AccntTrxHdrs" Relationship="AccountingDB.AccntTrxTypeAccntTrxHdr" FromRole="AccntTrxType" ToRole="AccntTrxHdr" />
-          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="3" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="30" />
         </EntityType>
         <Association Name="AccntTrxTypeAccntTrxHdr">
           <End Type="AccountingDB.AccntTrxType" Role="AccntTrxType" Multiplicity="1" />
@@ -480,11 +744,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="4" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" />
           <NavigationProperty Name="AccntTrxDtls" Relationship="AccountingDB.AccntLedgerAccntTrxDtl" FromRole="AccntLedger" ToRole="AccntTrxDtl" />
           <NavigationProperty Name="AccntMain" Relationship="AccountingDB.AccntMainAccntLedger" FromRole="AccntLedger" ToRole="AccntMain" />
           <Property Name="AccntMainId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="200" />
         </EntityType>
         <Association Name="AccntLedgerAccntTrxDtl">
           <End Type="AccountingDB.AccntLedger" Role="AccntLedger" Multiplicity="1" />
@@ -503,9 +768,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="5" />
           <NavigationProperty Name="AccntCOAs" Relationship="AccountingDB.AccntTypeAccntCOA" FromRole="AccntType" ToRole="AccntCOA" />
-          <Property Name="NormalForm" Type="String" Nullable="false" />
+          <Property Name="NormalForm" Type="String" Nullable="false" MaxLength="2" />
+          <NavigationProperty Name="AccntCharts" Relationship="AccountingDB.AccntTypeAccntChart" FromRole="AccntType" ToRole="AccntChart" />
         </EntityType>
         <Association Name="AccntTypeAccntCOA">
           <End Type="AccountingDB.AccntType" Role="AccntType" Multiplicity="1" />
@@ -528,6 +794,88 @@
             </Principal>
             <Dependent Role="AccntLedger">
               <PropertyRef Name="AccntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AccntTrxHist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtHist" Type="String" Nullable="false" />
+          <NavigationProperty Name="AccntTrxDtl" Relationship="AccountingDB.AccntTrxDtlAccntTrxHist" FromRole="AccntTrxHist" ToRole="AccntTrxDtl" />
+          <Property Name="AccntTrxDtlId" Type="Int32" Nullable="false" />
+          <Property Name="HistType" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="OldData" Type="String" Nullable="false" MaxLength="250" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="80" />
+        </EntityType>
+        <Association Name="AccntTrxDtlAccntTrxHist">
+          <End Type="AccountingDB.AccntTrxDtl" Role="AccntTrxDtl" Multiplicity="1" />
+          <End Type="AccountingDB.AccntTrxHist" Role="AccntTrxHist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccntTrxDtl">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccntTrxHist">
+              <PropertyRef Name="AccntTrxDtlId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AccntChart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="5" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AccntChartAccounts" Relationship="AccountingDB.AccntChartAccntChartAccount" FromRole="AccntChart" ToRole="AccntChartAccount" />
+          <NavigationProperty Name="AccntType" Relationship="AccountingDB.AccntTypeAccntChart" FromRole="AccntChart" ToRole="AccntType" />
+          <Property Name="AccntTypeId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AccntChartAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="AccntChart" Relationship="AccountingDB.AccntChartAccntChartAccount" FromRole="AccntChartAccount" ToRole="AccntChart" />
+          <Property Name="AccntChartId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AccntMain" Relationship="AccountingDB.AccntMainAccntChartAccount" FromRole="AccntChartAccount" ToRole="AccntMain" />
+          <Property Name="AccntMainId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="AccntChartAccntChartAccount">
+          <End Type="AccountingDB.AccntChart" Role="AccntChart" Multiplicity="1" />
+          <End Type="AccountingDB.AccntChartAccount" Role="AccntChartAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccntChart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccntChartAccount">
+              <PropertyRef Name="AccntChartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AccntMainAccntChartAccount">
+          <End Type="AccountingDB.AccntMain" Role="AccntMain" Multiplicity="1" />
+          <End Type="AccountingDB.AccntChartAccount" Role="AccntChartAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccntChartAccount">
+              <PropertyRef Name="AccntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AccntTypeAccntChart">
+          <End Type="AccountingDB.AccntType" Role="AccntType" Multiplicity="1" />
+          <End Type="AccountingDB.AccntChart" Role="AccntChart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccntType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccntChart">
+              <PropertyRef Name="AccntTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -618,6 +966,100 @@
           <ScalarProperty Name="AsIncCategoryId" ColumnName="AsIncCategoryId" />
           <ScalarProperty Name="AsIncClientId" ColumnName="AsIncClientId" />
           <ScalarProperty Name="OrRef" ColumnName="OrRef" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntMains">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntMain)">
+        <MappingFragment StoreEntitySet="AccntMains">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntTrxHdrs">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntTrxHdr)">
+        <MappingFragment StoreEntitySet="AccntTrxHdrs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AccntTrxTypeId" ColumnName="AccntTrxTypeId" />
+          <ScalarProperty Name="DtTrx" ColumnName="DtTrx" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntTrxDtls">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntTrxDtl)">
+        <MappingFragment StoreEntitySet="AccntTrxDtls">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AccntTrxHdrId" ColumnName="AccntTrxHdrId" />
+          <ScalarProperty Name="AccntLedgerId" ColumnName="AccntLedgerId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="DbAmt" ColumnName="DbAmt" />
+          <ScalarProperty Name="CrAmt" ColumnName="CrAmt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntTrxTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntTrxType)">
+        <MappingFragment StoreEntitySet="AccntTrxTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntLedgers">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntLedger)">
+        <MappingFragment StoreEntitySet="AccntLedgers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="AccntMainId" ColumnName="AccntMainId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntType)">
+        <MappingFragment StoreEntitySet="AccntTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="NormalForm" ColumnName="NormalForm" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntTrxHists">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntTrxHist)">
+        <MappingFragment StoreEntitySet="AccntTrxHists">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtHist" ColumnName="DtHist" />
+          <ScalarProperty Name="AccntTrxDtlId" ColumnName="AccntTrxDtlId" />
+          <ScalarProperty Name="HistType" ColumnName="HistType" />
+          <ScalarProperty Name="OldData" ColumnName="OldData" />
+          <ScalarProperty Name="User" ColumnName="User" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntCharts">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntChart)">
+        <MappingFragment StoreEntitySet="AccntCharts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntChartAccounts">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntChartAccount)">
+        <MappingFragment StoreEntitySet="AccntChartAccounts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AccntChartId" ColumnName="AccntChartId" />
+          <ScalarProperty Name="AccntMainId" ColumnName="AccntMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

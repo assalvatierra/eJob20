@@ -12,19 +12,13 @@ namespace JobsV1.Areas.Accounting.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AccntTrxType
+    public partial class AccntChartAccount
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AccntTrxType()
-        {
-            this.AccntTrxHdrs = new HashSet<AccntTrxHdr>();
-        }
-    
         public int Id { get; set; }
-        public string Code { get; set; }
-        public string Remarks { get; set; }
+        public int AccntChartId { get; set; }
+        public int AccntMainId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccntTrxHdr> AccntTrxHdrs { get; set; }
+        public virtual AccntChart AccntChart { get; set; }
+        public virtual AccntMain AccntMain { get; set; }
     }
 }
