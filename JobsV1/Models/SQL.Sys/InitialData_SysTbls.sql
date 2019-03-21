@@ -13,7 +13,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Packages','Job Orders',0,'CarRatePackages','Index','',20,7),
 ('Reporting','Job Orders',0,'Reporting','Index','',20,8),
 ('Notifications','Job Orders',0,'JobServices','NotificationList','',20,9),
-('Accounts','Accounts',0,'Accounting/AsMain','Index','Accounting',20,10);
+('Accounts','Accounts',0,'Accounting/AccntMains','Index','',20,10);
 ;
 --('Account','Account',0,'','','',20,102),
 --('Customer','Customer',0,'Customer','Index','',20,103),
