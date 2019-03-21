@@ -24,8 +24,7 @@ namespace JobsV1
                 url: "sitemap",
                 defaults: new { controller = "Home", action = "SitemapXml", id = UrlParameter.Optional }
                 );
-
-
+            
             #region wordpress links
             routes.MapRoute(
                 name: "van-for-rent",
@@ -94,7 +93,7 @@ namespace JobsV1
             //    url: "{controller}/{action}/{id}",
             //    defaults: new { controller = "MainGeneric", action = "Index", id = UrlParameter.Optional }
             //);
-
+            
             /*******************************
              * Custom from ajdavaocarrental
              ********************************/

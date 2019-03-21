@@ -967,6 +967,7 @@
     <Content Include="Images\Erp\icons\icons-report.png" />
     <Content Include="Images\Erp\icons\icons-technical.png" />
     <Content Include="Images\Erp\icons\icons-trolley.png" />
+    <Content Include="Images\Erp\icons\icons-accounting.png" />
     <Content Include="Images\Erp\icons\icons8-lease-64.png" />
     <Content Include="Images\Erp\icons\inprogress.png" />
     <Content Include="Images\Erp\inprogress.png" />

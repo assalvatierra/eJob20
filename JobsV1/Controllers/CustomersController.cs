@@ -271,7 +271,7 @@ namespace JobsV1.Controllers
 
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = customer .Id});
             }
 
             return View(customer);
@@ -338,7 +338,7 @@ namespace JobsV1.Controllers
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = customer.Id });
             }
 
             ViewBag.Status = new SelectList(StatusList, "value", "text", customer.Status);
