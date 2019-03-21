@@ -32,7 +32,7 @@ namespace JobsV1.Areas.Accounting.Models
         public virtual DbSet<AsIncCategory> AsIncCategories { get; set; }
         public virtual DbSet<AsIncClient> AsIncClients { get; set; }
         public virtual DbSet<AsSales> AsSales { get; set; }
-        public virtual DbSet<AccntCOA> AccntCOAs { get; set; }
+        public virtual DbSet<AccntMain> AccntMains { get; set; }
         public virtual DbSet<AccntTrxHdr> AccntTrxHdrs { get; set; }
         public virtual DbSet<AccntTrxDtl> AccntTrxDtls { get; set; }
         public virtual DbSet<AccntTrxType> AccntTrxTypes { get; set; }

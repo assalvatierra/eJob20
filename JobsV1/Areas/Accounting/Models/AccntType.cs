@@ -17,13 +17,14 @@ namespace JobsV1.Areas.Accounting.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AccntType()
         {
-            this.AccntCOAs = new HashSet<AccntCOA>();
+            this.AccntCOAs = new HashSet<AccntMain>();
         }
     
         public int Id { get; set; }
         public string Code { get; set; }
+        public string NormalForm { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccntCOA> AccntCOAs { get; set; }
+        public virtual ICollection<AccntMain> AccntCOAs { get; set; }
     }
 }

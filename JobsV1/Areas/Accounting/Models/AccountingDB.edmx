@@ -223,7 +223,7 @@
             <End Role="AsIncClient" EntitySet="AsIncClients" />
             <End Role="AsSales" EntitySet="AsSales" />
           </AssociationSet>
-          <EntitySet Name="AccntCOAs" EntityType="AccountingDB.AccntCOA" />
+          <EntitySet Name="AccntMains" EntityType="AccountingDB.AccntMain" />
           <EntitySet Name="AccntTrxHdrs" EntityType="AccountingDB.AccntTrxHdr" />
           <EntitySet Name="AccntTrxDtls" EntityType="AccountingDB.AccntTrxDtl" />
           <EntitySet Name="AccntTrxTypes" EntityType="AccountingDB.AccntTrxType" />
@@ -236,10 +236,6 @@
             <End Role="AccntTrxDtl" EntitySet="AccntTrxDtls" />
           </AssociationSet>
           <EntitySet Name="AccntLedgers" EntityType="AccountingDB.AccntLedger" />
-          <AssociationSet Name="AccntCOAAccntSubLedger" Association="AccountingDB.AccntCOAAccntSubLedger">
-            <End Role="AccntCOA" EntitySet="AccntCOAs" />
-            <End Role="AccntSubLedger" EntitySet="AccntLedgers" />
-          </AssociationSet>
           <AssociationSet Name="AccntLedgerAccntTrxDtl" Association="AccountingDB.AccntLedgerAccntTrxDtl">
             <End Role="AccntLedger" EntitySet="AccntLedgers" />
             <End Role="AccntTrxDtl" EntitySet="AccntTrxDtls" />
@@ -247,7 +243,11 @@
           <EntitySet Name="AccntTypes" EntityType="AccountingDB.AccntType" />
           <AssociationSet Name="AccntTypeAccntCOA" Association="AccountingDB.AccntTypeAccntCOA">
             <End Role="AccntType" EntitySet="AccntTypes" />
-            <End Role="AccntCOA" EntitySet="AccntCOAs" />
+            <End Role="AccntCOA" EntitySet="AccntMains" />
+          </AssociationSet>
+          <AssociationSet Name="AccntMainAccntLedger" Association="AccountingDB.AccntMainAccntLedger">
+            <End Role="AccntMain" EntitySet="AccntMains" />
+            <End Role="AccntLedger" EntitySet="AccntLedgers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AsExpense">
@@ -411,7 +411,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AccntCOA">
+        <EntityType Name="AccntMain">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -419,9 +419,9 @@
           <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="false" />
-          <NavigationProperty Name="AccntSubLedgers" Relationship="AccountingDB.AccntCOAAccntSubLedger" FromRole="AccntCOA" ToRole="AccntSubLedger" />
           <NavigationProperty Name="AccntType" Relationship="AccountingDB.AccntTypeAccntCOA" FromRole="AccntCOA" ToRole="AccntType" />
           <Property Name="AccntTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AccntLedgers" Relationship="AccountingDB.AccntMainAccntLedger" FromRole="AccntMain" ToRole="AccntLedger" />
         </EntityType>
         <EntityType Name="AccntTrxHdr">
           <Key>
@@ -482,22 +482,10 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="false" />
-          <NavigationProperty Name="AccntCOA" Relationship="AccountingDB.AccntCOAAccntSubLedger" FromRole="AccntSubLedger" ToRole="AccntCOA" />
-          <Property Name="AccntCOAId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AccntTrxDtls" Relationship="AccountingDB.AccntLedgerAccntTrxDtl" FromRole="AccntLedger" ToRole="AccntTrxDtl" />
+          <NavigationProperty Name="AccntMain" Relationship="AccountingDB.AccntMainAccntLedger" FromRole="AccntLedger" ToRole="AccntMain" />
+          <Property Name="AccntMainId" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="AccntCOAAccntSubLedger">
-          <End Type="AccountingDB.AccntCOA" Role="AccntCOA" Multiplicity="1" />
-          <End Type="AccountingDB.AccntLedger" Role="AccntSubLedger" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccntCOA">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AccntSubLedger">
-              <PropertyRef Name="AccntCOAId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AccntLedgerAccntTrxDtl">
           <End Type="AccountingDB.AccntLedger" Role="AccntLedger" Multiplicity="1" />
           <End Type="AccountingDB.AccntTrxDtl" Role="AccntTrxDtl" Multiplicity="*" />
@@ -517,16 +505,29 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" Nullable="false" />
           <NavigationProperty Name="AccntCOAs" Relationship="AccountingDB.AccntTypeAccntCOA" FromRole="AccntType" ToRole="AccntCOA" />
+          <Property Name="NormalForm" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="AccntTypeAccntCOA">
           <End Type="AccountingDB.AccntType" Role="AccntType" Multiplicity="1" />
-          <End Type="AccountingDB.AccntCOA" Role="AccntCOA" Multiplicity="*" />
+          <End Type="AccountingDB.AccntMain" Role="AccntCOA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccntType">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AccntCOA">
               <PropertyRef Name="AccntTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AccntMainAccntLedger">
+          <End Type="AccountingDB.AccntMain" Role="AccntMain" Multiplicity="1" />
+          <End Type="AccountingDB.AccntLedger" Role="AccntLedger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccntLedger">
+              <PropertyRef Name="AccntMainId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

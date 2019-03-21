@@ -12,12 +12,12 @@ namespace JobsV1.Areas.Accounting.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AccntCOA
+    public partial class AccntMain
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AccntCOA()
+        public AccntMain()
         {
-            this.AccntSubLedgers = new HashSet<AccntLedger>();
+            this.AccntLedgers = new HashSet<AccntLedger>();
         }
     
         public int Id { get; set; }
@@ -26,8 +26,8 @@ namespace JobsV1.Areas.Accounting.Models
         public string Remarks { get; set; }
         public int AccntTypeId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccntLedger> AccntSubLedgers { get; set; }
         public virtual AccntType AccntType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccntLedger> AccntLedgers { get; set; }
     }
 }
