@@ -7,15 +7,6 @@
 
 <h2>Status</h2>
 
-<p>
-    @Html.ActionLink("Create New", "jobCreate", "JobOrder", null,null) 
-    <!--
-    | Work In Progress     
-    | @Html.ActionLink("Listing", "JobListing", "JobOrder", new { span = 30 }, null)
-    | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null) 
-    | @Html.ActionLink("Availability", "Availability", "InvItems")
-        -->
-</p>
 
 <p>
     Filters:
@@ -41,7 +32,7 @@
             </div>
         </td>
 
-        <td>
+        <td >
             <div>
                 <span style="color:darkgreen;font:bold 16px arial, verdana;" >
                     @item.Main.Customer.Name 
@@ -84,16 +75,12 @@
          </td>
     </tr>
     <tr>
-        <td colspan="2" style="width:100%;padding:0px;">
+        <td colspan="2" style="width:100%;padding:0px;margin:0px;">
 
-            <div>
                 @Html.Partial("PartialViewServiceList_Status", item.Services, new ViewDataDictionary { { "SvcActionsDone", ViewBag.SvcActionsDone } })
-            </div>
-
+           
         </td>
-    </tr>
-       
-            
+    </tr>   
 
 <div class="modal fade" id="@item.Main.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
