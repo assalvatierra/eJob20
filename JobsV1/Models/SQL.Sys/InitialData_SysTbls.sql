@@ -68,10 +68,11 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (3,3);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 	('Work in Progress','',3,'JobOrder','Index','',21,31),
-	('Quick List','',3,'JobMains','ActiveJobs','',21,32),
-	('Listing','',3,'JobOrder','JobListing','span=30',21,33),
-	('Job Table','',3,'JobMains','JobTable','span=30',21,34),
-	('Availability','',3,'InvItems','Availability','',21,35);
+	('Status','',3,'JobOrder','jobStatus','',21,32),
+	('Quick List','',3,'JobMains','ActiveJobs','',21,33),
+	('Listing','',3,'JobOrder','JobListing','span=30',21,34),
+	('Job Table','',3,'JobMains','JobTable','span=30',21,35),
+	('Availability','',3,'InvItems','Availability','',21,36);
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (3,1,'2019/1/1');
 

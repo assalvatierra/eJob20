@@ -5,11 +5,10 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Job Orders</h2>
+<h2>Status</h2>
 
 <p>
-    @Html.ActionLink("Create New", "jobCreate", "JobOrder", null,null)  | 
-    @Html.ActionLink("Status", "jobStatus", "JobOrder",null,null)
+    @Html.ActionLink("Create New", "jobCreate", "JobOrder", null,null) 
     <!--
     | Work In Progress     
     | @Html.ActionLink("Listing", "JobListing", "JobOrder", new { span = 30 }, null)
@@ -29,85 +28,69 @@
     @ViewBag.today
 </p>
 
-<table class="table">
+<table class="table ">
 
 @foreach (var item in Model) {
     <tr >
-        <td id="main@(item.Main.Id)">
+        <td id="main@(item.Main.Id)" style="width:10%">
             <div style="background-color:lightgray;text-align:center;">
                 <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Main.JobDate.ToString("MMM-yyyy")</span>
-                <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Main.JobDate.ToString("dd")</span>
+                <br /><span style="color:blue; font: bold 24px arial, verdana;">@item.Main.JobDate.ToString("dd")</span>
                 <span style="color:blue; font: bold 12px arial, verdana;">(@item.Main.JobDate.ToString("ddd"))</span>
-                <br /><br /><span style="color:red; font: normal 18px arial, verdana;">&nbsp;</span>
-                
+
+            </div>
+        </td>
+
+        <td>
+            <div>
+                <span style="color:darkgreen;font:bold 16px arial, verdana;" >
+                    @item.Main.Customer.Name 
+                </span>
+                |
                 @if (@item.Main.AgreedAmt != 0)
                 {
-                    <span style="color:blue; font: bold 12px arial, verdana;">
+                    <span style="color:blue; font: bold 15px arial, verdana;">
                         @string.Format("{0:N}", @item.Main.AgreedAmt)
                     </span>
-                    <br />
 
                 }
 
                 @if (@item.Payment != 0)
                 {
-                    <span style="color:green; font: bold 10px arial, verdana;">
-                        @string.Format("{0:N}", @item.Payment)
+                    <span style="color:green; font: bold 15px arial, verdana;">
+                       / @string.Format("{0:N}", @item.Payment)
                     </span>
                     if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
                     {
-                        <br />
                         <span>
                             Paid in
                             <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
                         </span>
                     }
                 }
-            </div>
-        </td>
-
-        <td>
-            <div>
-                <span style="color:darkgreen;font:bold 16px arial, verdana;">
-                    @item.Main.Customer.Name
-                </span>
-                [
-                @Html.ActionLink("Customer Details", "CompanyDetail", new { jobid = item.Main.Id, custid = item.Main.CustomerId}) |
-                @Html.ActionLink("Edit Job", "JobDetails", new { jobid = item.Main.Id }) |     
-
-                <a href="#" id="catbtn" data-toggle="modal" data-target="#@item.Main.Id" style="margin-bottom:10px;">Change Company</a>
-                ]
                 <br />
+
                 <span style="font:500 10px;color:darkblue;">
-                 
                     @item.Main.Description 
-                   
                 </span>
                 <span>
                    [ @item.Main.JobStatus.Status ]
                 </span>
+
+                <span class="pull-right" style="margin-top:-25px;">
+                    @Html.ActionLink("[ EDIT ]", "JobServices", new { JobMainId = item.Main.Id }, null)
+                </span>
             </div>
-            <div>
-                    @Html.Partial("PartialViewServiceList", item.Services)
-            </div>
-
-            <p>
-                @Html.ActionLink("[ Add New Service ]", "JobServiceAdd", new { JobMainId = item.Main.Id }, null)
-            </p>
-
-            <p>
-                @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
-                @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
-                @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
-                <a href="#" id="acctbtn" data-toggle="modal" data-target="#Payment@(item.Main.Id)" style="margin-bottom:10px;" onclick="updateval()" >[ Payment ]</a>
-                <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(item.Main.Id))">[ Send Invoice ]</a>
-                @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
-
-                <!--
-                 Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
-                   -->
-            </p>
          </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="width:100%;padding:0px;">
+
+            <div>
+                @Html.Partial("PartialViewServiceList_Status", item.Services)
+            </div>
+
+        </td>
     </tr>
        
             
