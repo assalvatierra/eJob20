@@ -16,11 +16,8 @@ namespace JobsV1.Areas.Accounting.Models
     {
         public int Id { get; set; }
         public string DtHist { get; set; }
-        public int AccntTrxDtlId { get; set; }
         public string HistType { get; set; }
         public string OldData { get; set; }
         public string User { get; set; }
-    
-        public virtual AccntTrxDtl AccntTrxDtl { get; set; }
     }
 }

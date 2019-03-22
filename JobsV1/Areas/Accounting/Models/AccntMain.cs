@@ -24,12 +24,12 @@ namespace JobsV1.Areas.Accounting.Models
         public string Code { get; set; }
         public string Name { get; set; }
         public string Remarks { get; set; }
-        public int AccntTypeId { get; set; }
         public int AccntCategoryId { get; set; }
+        public int AccntTypeId { get; set; }
     
-        public virtual AccntType AccntType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccntLedger> AccntLedgers { get; set; }
         public virtual AccntCategory AccntCategory { get; set; }
+        public virtual AccntType AccntType { get; set; }
     }
 }

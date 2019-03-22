@@ -17,8 +17,8 @@ namespace JobsV1.Areas.Accounting.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AccntType()
         {
-            this.AccntCOAs = new HashSet<AccntMain>();
-            this.AccntCharts = new HashSet<AccntCategory>();
+            this.AccntMains = new HashSet<AccntMain>();
+            this.AccntCategories = new HashSet<AccntCategory>();
         }
     
         public int Id { get; set; }
@@ -26,8 +26,8 @@ namespace JobsV1.Areas.Accounting.Models
         public string NormalForm { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccntMain> AccntCOAs { get; set; }
+        public virtual ICollection<AccntMain> AccntMains { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccntCategory> AccntCharts { get; set; }
+        public virtual ICollection<AccntCategory> AccntCategories { get; set; }
     }
 }

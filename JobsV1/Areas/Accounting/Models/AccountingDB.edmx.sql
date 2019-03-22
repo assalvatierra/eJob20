@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/21/2019 16:34:36
+-- Date Created: 03/22/2019 16:11:56
 -- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Areas\Accounting\Models\AccountingDB.edmx
 -- --------------------------------------------------
 
@@ -41,23 +41,23 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AccntTrxHdrAccntTrxDtl]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccntTrxDtls] DROP CONSTRAINT [FK_AccntTrxHdrAccntTrxDtl];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AccntLedgerAccntTrxDtl]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccntTrxDtls] DROP CONSTRAINT [FK_AccntLedgerAccntTrxDtl];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntCOA]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntTypeAccntCOA];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AccntMainAccntLedger]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccntLedgers] DROP CONSTRAINT [FK_AccntMainAccntLedger];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AccntTrxDtlAccntTrxHist]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccntTrxHists] DROP CONSTRAINT [FK_AccntTrxDtlAccntTrxHist];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntChart]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccntCategories] DROP CONSTRAINT [FK_AccntTypeAccntChart];
 GO
+IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntTypeAccntMain];
+GO
 IF OBJECT_ID(N'[dbo].[FK_AccntCategoryAccntMain]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntCategoryAccntMain];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntMainAccntLedger]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntLedgers] DROP CONSTRAINT [FK_AccntMainAccntLedger];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntLedgerAccntTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntTrxDtls] DROP CONSTRAINT [FK_AccntLedgerAccntTrxDtl];
 GO
 
 -- --------------------------------------------------
@@ -85,9 +85,6 @@ GO
 IF OBJECT_ID(N'[dbo].[AsSales]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AsSales];
 GO
-IF OBJECT_ID(N'[dbo].[AccntMains]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AccntMains];
-GO
 IF OBJECT_ID(N'[dbo].[AccntTrxHdrs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AccntTrxHdrs];
 GO
@@ -97,9 +94,6 @@ GO
 IF OBJECT_ID(N'[dbo].[AccntTrxTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AccntTrxTypes];
 GO
-IF OBJECT_ID(N'[dbo].[AccntLedgers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AccntLedgers];
-GO
 IF OBJECT_ID(N'[dbo].[AccntTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AccntTypes];
 GO
@@ -108,6 +102,12 @@ IF OBJECT_ID(N'[dbo].[AccntTrxHists]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[AccntCategories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AccntCategories];
+GO
+IF OBJECT_ID(N'[dbo].[AccntMains]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntMains];
+GO
+IF OBJECT_ID(N'[dbo].[AccntLedgers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccntLedgers];
 GO
 
 -- --------------------------------------------------
@@ -191,17 +191,6 @@ CREATE TABLE [dbo].[AsSales] (
 );
 GO
 
--- Creating table 'AccntMains'
-CREATE TABLE [dbo].[AccntMains] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Code] nvarchar(5)  NOT NULL,
-    [Name] nvarchar(50)  NOT NULL,
-    [Remarks] nvarchar(200)  NULL,
-    [AccntTypeId] int  NOT NULL,
-    [AccntCategoryId] int  NOT NULL
-);
-GO
-
 -- Creating table 'AccntTrxHdrs'
 CREATE TABLE [dbo].[AccntTrxHdrs] (
     [Id] int IDENTITY(1,1) NOT NULL,
@@ -215,10 +204,10 @@ GO
 CREATE TABLE [dbo].[AccntTrxDtls] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [AccntTrxHdrId] int  NOT NULL,
-    [AccntLedgerId] int  NOT NULL,
     [Remarks] nvarchar(50)  NULL,
     [DbAmt] decimal(18,0)  NOT NULL,
-    [CrAmt] decimal(18,0)  NOT NULL
+    [CrAmt] decimal(18,0)  NOT NULL,
+    [AccntLedgerId] int  NOT NULL
 );
 GO
 
@@ -227,16 +216,6 @@ CREATE TABLE [dbo].[AccntTrxTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Code] nvarchar(3)  NOT NULL,
     [Remarks] nvarchar(30)  NULL
-);
-GO
-
--- Creating table 'AccntLedgers'
-CREATE TABLE [dbo].[AccntLedgers] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Code] nvarchar(4)  NOT NULL,
-    [Name] nvarchar(50)  NOT NULL,
-    [AccntMainId] int  NOT NULL,
-    [Remarks] nvarchar(200)  NULL
 );
 GO
 
@@ -252,7 +231,6 @@ GO
 CREATE TABLE [dbo].[AccntTrxHists] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DtHist] nvarchar(max)  NOT NULL,
-    [AccntTrxDtlId] int  NOT NULL,
     [HistType] nvarchar(20)  NOT NULL,
     [OldData] nvarchar(250)  NOT NULL,
     [User] nvarchar(80)  NOT NULL
@@ -266,6 +244,27 @@ CREATE TABLE [dbo].[AccntCategories] (
     [Description] nvarchar(80)  NOT NULL,
     [OrderNo] int  NOT NULL,
     [AccntTypeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'AccntMains'
+CREATE TABLE [dbo].[AccntMains] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(5)  NOT NULL,
+    [Name] nvarchar(50)  NOT NULL,
+    [Remarks] nvarchar(200)  NULL,
+    [AccntCategoryId] int  NOT NULL,
+    [AccntTypeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'AccntLedgers'
+CREATE TABLE [dbo].[AccntLedgers] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(4)  NOT NULL,
+    [Name] nvarchar(50)  NOT NULL,
+    [Remarks] nvarchar(200)  NULL,
+    [AccntMainId] int  NOT NULL
 );
 GO
 
@@ -315,12 +314,6 @@ ADD CONSTRAINT [PK_AsSales]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'AccntMains'
-ALTER TABLE [dbo].[AccntMains]
-ADD CONSTRAINT [PK_AccntMains]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
 -- Creating primary key on [Id] in table 'AccntTrxHdrs'
 ALTER TABLE [dbo].[AccntTrxHdrs]
 ADD CONSTRAINT [PK_AccntTrxHdrs]
@@ -339,12 +332,6 @@ ADD CONSTRAINT [PK_AccntTrxTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'AccntLedgers'
-ALTER TABLE [dbo].[AccntLedgers]
-ADD CONSTRAINT [PK_AccntLedgers]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
 -- Creating primary key on [Id] in table 'AccntTypes'
 ALTER TABLE [dbo].[AccntTypes]
 ADD CONSTRAINT [PK_AccntTypes]
@@ -360,6 +347,18 @@ GO
 -- Creating primary key on [Id] in table 'AccntCategories'
 ALTER TABLE [dbo].[AccntCategories]
 ADD CONSTRAINT [PK_AccntCategories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntMains'
+ALTER TABLE [dbo].[AccntMains]
+ADD CONSTRAINT [PK_AccntMains]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AccntLedgers'
+ALTER TABLE [dbo].[AccntLedgers]
+ADD CONSTRAINT [PK_AccntLedgers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -487,36 +486,6 @@ ON [dbo].[AccntTrxDtls]
     ([AccntTrxHdrId]);
 GO
 
--- Creating foreign key on [AccntLedgerId] in table 'AccntTrxDtls'
-ALTER TABLE [dbo].[AccntTrxDtls]
-ADD CONSTRAINT [FK_AccntLedgerAccntTrxDtl]
-    FOREIGN KEY ([AccntLedgerId])
-    REFERENCES [dbo].[AccntLedgers]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AccntLedgerAccntTrxDtl'
-CREATE INDEX [IX_FK_AccntLedgerAccntTrxDtl]
-ON [dbo].[AccntTrxDtls]
-    ([AccntLedgerId]);
-GO
-
--- Creating foreign key on [AccntTypeId] in table 'AccntMains'
-ALTER TABLE [dbo].[AccntMains]
-ADD CONSTRAINT [FK_AccntTypeAccntCOA]
-    FOREIGN KEY ([AccntTypeId])
-    REFERENCES [dbo].[AccntTypes]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AccntTypeAccntCOA'
-CREATE INDEX [IX_FK_AccntTypeAccntCOA]
-ON [dbo].[AccntMains]
-    ([AccntTypeId]);
-GO
-
 -- Creating foreign key on [AccntMainId] in table 'AccntLedgers'
 ALTER TABLE [dbo].[AccntLedgers]
 ADD CONSTRAINT [FK_AccntMainAccntLedger]
@@ -532,34 +501,19 @@ ON [dbo].[AccntLedgers]
     ([AccntMainId]);
 GO
 
--- Creating foreign key on [AccntTrxDtlId] in table 'AccntTrxHists'
-ALTER TABLE [dbo].[AccntTrxHists]
-ADD CONSTRAINT [FK_AccntTrxDtlAccntTrxHist]
-    FOREIGN KEY ([AccntTrxDtlId])
-    REFERENCES [dbo].[AccntTrxDtls]
+-- Creating foreign key on [AccntLedgerId] in table 'AccntTrxDtls'
+ALTER TABLE [dbo].[AccntTrxDtls]
+ADD CONSTRAINT [FK_AccntLedgerAccntTrxDtl]
+    FOREIGN KEY ([AccntLedgerId])
+    REFERENCES [dbo].[AccntLedgers]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_AccntTrxDtlAccntTrxHist'
-CREATE INDEX [IX_FK_AccntTrxDtlAccntTrxHist]
-ON [dbo].[AccntTrxHists]
-    ([AccntTrxDtlId]);
-GO
-
--- Creating foreign key on [AccntTypeId] in table 'AccntCategories'
-ALTER TABLE [dbo].[AccntCategories]
-ADD CONSTRAINT [FK_AccntTypeAccntChart]
-    FOREIGN KEY ([AccntTypeId])
-    REFERENCES [dbo].[AccntTypes]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AccntTypeAccntChart'
-CREATE INDEX [IX_FK_AccntTypeAccntChart]
-ON [dbo].[AccntCategories]
-    ([AccntTypeId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntLedgerAccntTrxDtl'
+CREATE INDEX [IX_FK_AccntLedgerAccntTrxDtl]
+ON [dbo].[AccntTrxDtls]
+    ([AccntLedgerId]);
 GO
 
 -- Creating foreign key on [AccntCategoryId] in table 'AccntMains'
@@ -575,6 +529,36 @@ GO
 CREATE INDEX [IX_FK_AccntCategoryAccntMain]
 ON [dbo].[AccntMains]
     ([AccntCategoryId]);
+GO
+
+-- Creating foreign key on [AccntTypeId] in table 'AccntMains'
+ALTER TABLE [dbo].[AccntMains]
+ADD CONSTRAINT [FK_AccntTypeAccntMain]
+    FOREIGN KEY ([AccntTypeId])
+    REFERENCES [dbo].[AccntTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntTypeAccntMain'
+CREATE INDEX [IX_FK_AccntTypeAccntMain]
+ON [dbo].[AccntMains]
+    ([AccntTypeId]);
+GO
+
+-- Creating foreign key on [AccntTypeId] in table 'AccntCategories'
+ALTER TABLE [dbo].[AccntCategories]
+ADD CONSTRAINT [FK_AccntTypeAccntCategory]
+    FOREIGN KEY ([AccntTypeId])
+    REFERENCES [dbo].[AccntTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccntTypeAccntCategory'
+CREATE INDEX [IX_FK_AccntTypeAccntCategory]
+ON [dbo].[AccntCategories]
+    ([AccntTypeId]);
 GO
 
 -- --------------------------------------------------

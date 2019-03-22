@@ -14,22 +14,14 @@ namespace JobsV1.Areas.Accounting.Models
     
     public partial class AccntTrxDtl
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AccntTrxDtl()
-        {
-            this.AccntTrxHists = new HashSet<AccntTrxHist>();
-        }
-    
         public int Id { get; set; }
         public int AccntTrxHdrId { get; set; }
-        public int AccntLedgerId { get; set; }
         public string Remarks { get; set; }
         public decimal DbAmt { get; set; }
         public decimal CrAmt { get; set; }
+        public int AccntLedgerId { get; set; }
     
         public virtual AccntTrxHdr AccntTrxHdr { get; set; }
         public virtual AccntLedger AccntLedger { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccntTrxHist> AccntTrxHists { get; set; }
     }
 }

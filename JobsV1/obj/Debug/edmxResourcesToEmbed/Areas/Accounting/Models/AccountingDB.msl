@@ -85,18 +85,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="AccntMains">
-      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntMain)">
-        <MappingFragment StoreEntitySet="AccntMains">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-          <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
-          <ScalarProperty Name="AccntCategoryId" ColumnName="AccntCategoryId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="AccntTrxHdrs">
       <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntTrxHdr)">
         <MappingFragment StoreEntitySet="AccntTrxHdrs">
@@ -112,10 +100,10 @@
         <MappingFragment StoreEntitySet="AccntTrxDtls">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="AccntTrxHdrId" ColumnName="AccntTrxHdrId" />
-          <ScalarProperty Name="AccntLedgerId" ColumnName="AccntLedgerId" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="DbAmt" ColumnName="DbAmt" />
           <ScalarProperty Name="CrAmt" ColumnName="CrAmt" />
+          <ScalarProperty Name="AccntLedgerId" ColumnName="AccntLedgerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -124,17 +112,6 @@
         <MappingFragment StoreEntitySet="AccntTrxTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AccntLedgers">
-      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntLedger)">
-        <MappingFragment StoreEntitySet="AccntLedgers">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="AccntMainId" ColumnName="AccntMainId" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -153,7 +130,6 @@
         <MappingFragment StoreEntitySet="AccntTrxHists">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DtHist" ColumnName="DtHist" />
-          <ScalarProperty Name="AccntTrxDtlId" ColumnName="AccntTrxDtlId" />
           <ScalarProperty Name="HistType" ColumnName="HistType" />
           <ScalarProperty Name="OldData" ColumnName="OldData" />
           <ScalarProperty Name="User" ColumnName="User" />
@@ -168,6 +144,29 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
           <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntMains">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntMain)">
+        <MappingFragment StoreEntitySet="AccntMains">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="AccntCategoryId" ColumnName="AccntCategoryId" />
+          <ScalarProperty Name="AccntTypeId" ColumnName="AccntTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccntLedgers">
+      <EntityTypeMapping TypeName="IsTypeOf(AccountingDB.AccntLedger)">
+        <MappingFragment StoreEntitySet="AccntLedgers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="AccntMainId" ColumnName="AccntMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
