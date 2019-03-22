@@ -38,6 +38,7 @@ namespace JobsV1
                       "~/Content/login.css",
                       "~/Content/Erp.css",
                       "~/Content/UserStyles.css",
+                      "~/Content/ModalSalesLead.css",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

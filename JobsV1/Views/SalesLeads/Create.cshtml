@@ -52,8 +52,8 @@
             <div class="col-sm-4" style="width:320px" >
                 @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" ,@id= "CustomerId" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
-               
             </div>
+
             <span style="float:left">
                 <button class="btn btn-default" href="#" id="catbtn" data-toggle="modal" data-target="#CustomersModal" style="margin-bottom:10px;float:left;">Search Customer</button>
             </span>
@@ -133,7 +133,7 @@
 
                 <input type="text" id="SearchBarCustomer" onkeyup="searchCustomer()" placeholder="Search for names.." title="Type in a name">
 
-                <ul id="SearchListCustomer">
+                <ul  id="SearchListCustomer">
                     @foreach (var cust in ViewBag.CustomerList as IEnumerable<JobsV1.Models.Customer>)
                     {
                         <li style="cursor:pointer;" value="@cust.Name">

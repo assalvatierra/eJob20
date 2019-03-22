@@ -375,7 +375,26 @@ namespace JobsV1.Controllers
             }
         }
 
-        
+        public string getCustomerEmail(int id)
+        {
+            string custEmail = db.Customers.Find(id).Email;
+
+            return custEmail;
+        }
+
+        public string getCustomerNumber(int id)
+        {
+            string custNum = db.Customers.Find(id).Contact1;
+
+            return custNum;
+        }
+
+        public string getCustomerCompany(int id)
+        {
+            //int companyNum = db.CustEntities.Where(s=>s.CustomerId == id).LastOrDefault() != null ? db.CustEntities.Where(s => s.CustomerId == id).LastOrDefault().CustEntMain.Id : 1;
+
+            return "2";
+        }
 
         public DateTime TempJobDate(int mainId)
         {
@@ -946,6 +965,7 @@ order by x.jobid
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", id);
             }
 
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name");
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
