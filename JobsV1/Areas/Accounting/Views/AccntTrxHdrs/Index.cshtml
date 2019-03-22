@@ -1,11 +1,11 @@
-﻿@model IEnumerable<JobsV1.Areas.Accounting.Models.AccntMain>
+﻿@model IEnumerable<JobsV1.Areas.Accounting.Models.AccntTrxHdr>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Account Main </h2>
+<h2>Transactions</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -13,16 +13,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.DtTrx)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccntType.Code)
+            @Html.DisplayNameFor(model => model.AccntTrxType.Code)
         </th>
         <th></th>
     </tr>
@@ -30,16 +27,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.DtTrx)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Remarks)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AccntType.Code)
+            @Html.DisplayFor(modelItem => item.AccntTrxType.Code)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

@@ -157,9 +157,9 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (10,10);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Main Accounts','',10,'Accounting/AccntMains','Index','',21,101),
-		('Ledgers','',10,'Accounting/AccntMains','Index','',21,102),
-		('Transactions','',10,'Accounting/AccntMains','Index','',21,103),
-		('Account Category','',10,'Accounting/AccntMains','Index','',21,103);
+		('Ledgers','',10,'Accounting/Accntledgers','Index','',21,102),
+		('Account Category','',10,'Accounting/AccntCategories','Index','',21,103),
+		('Transactions','',10,'Accounting/AccntTrxHdrs','Index','',21,103);
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (10,1,'2019/1/1');

@@ -1,11 +1,11 @@
-﻿@model IEnumerable<JobsV1.Areas.Accounting.Models.AccntMain>
+﻿@model IEnumerable<JobsV1.Areas.Accounting.Models.AccntLedger>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Account Main </h2>
+<h2>Ledgers</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccntType.Code)
+            @Html.DisplayNameFor(model => model.AccntMain.Code)
         </th>
         <th></th>
     </tr>
@@ -39,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.Remarks)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AccntType.Code)
+            @Html.DisplayFor(modelItem => item.AccntMain.Code)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
