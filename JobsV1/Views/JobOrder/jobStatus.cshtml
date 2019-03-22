@@ -87,7 +87,7 @@
         <td colspan="2" style="width:100%;padding:0px;">
 
             <div>
-                @Html.Partial("PartialViewServiceList_Status", item.Services)
+                @Html.Partial("PartialViewServiceList_Status", item.Services, new ViewDataDictionary { { "SvcActionsDone", ViewBag.SvcActionsDone } })
             </div>
 
         </td>

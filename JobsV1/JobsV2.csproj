@@ -1666,6 +1666,7 @@
     <Content Include="Views\Suppliers\IndexExpand.cshtml" />
     <Content Include="Views\JobOrder\jobStatus.cshtml" />
     <Content Include="Views\JobOrder\PartialViewServiceList_Status.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewSrvActionItems_Status.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

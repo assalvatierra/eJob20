@@ -156,8 +156,10 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('NO110','Accounts','Accounting','A','../Images/Erp/icons/icons-accounting.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (10,10);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('SMS','',10,'JobServices','NotificationList','',21,101),
-	('Paypal','',10,'PaypalTransactions','Index','',21,102);
+	('Main Accounts','',10,'Accounting/AccntMains','Index','',21,101),
+	('Ledgers','',10,'Accounting/AccntMains','Index','',21,102),
+	('Transactions','',10,'Accounting/AccntMains','Index','',21,103),
+	('Account Category','',10,'Accounting/AccntMains','Index','',21,103);
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (10,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
