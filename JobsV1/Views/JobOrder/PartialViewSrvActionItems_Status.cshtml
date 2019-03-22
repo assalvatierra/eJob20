@@ -1,28 +1,16 @@
 ﻿@model IEnumerable<JobsV1.Models.SrvActionItem>
 @{ int SvcId = Convert.ToInt32(ViewData["svcId1"]);  }
-@{ IEnumerable<JobsV1.Models.SrvActionItem> dones = (IEnumerable<JobsV1.Models.SrvActionItem>)ViewData["SvcActionsDones"];}
-<div >
-          @foreach(var item in dones)
-          {
-
-            <span>&#187;</span>
-            <span class="btn btn-warning btn-arrow-right">
-                <a style="color:white;font-size:9px;" id="@item.Id" data_svcid="@SvcId" name="@item.Desc" href="?serviceId=@(SvcId)&sortid=@((int)Session["FilterID"])" class="clickitem">@item.Desc</a>
-            </span>
-          }
 
           @foreach (var item in Model)
           {
               
-            <span>&#187;</span>
-            <span  class="btn btn-primary btn-arrow-right" >
-                <a style="color:white;font-size:9px;" id="@item.Id" data_svcid="@SvcId" name="@item.Desc" href="?serviceId=@(SvcId)&sortid=@((int)Session["FilterID"])" class="clickitem">@item.Desc</a>
-            </span>
+                <span>&#187;</span>
+                <a  id="@item.Id" data_svcid="@SvcId" name="@item.Desc" href="?serviceId=@(SvcId)&sortid=@((int)Session["FilterID"])" class="clickitem">
+
+                    <span class="btn btn-primary btn-arrow-right">
+                        <span style="color:white;font-size:9px;" > @item.Desc </span>
+                    </span>
+                </a>
           }
-
-
-
-</div>
-
 
 @Html.Partial("PartialViewJS", null, null)
