@@ -301,9 +301,9 @@
 .btn-arrow-right,
 .btn-arrow-left {
     position: relative;
-    padding-left: 15px;
+    padding-left: 12px;
     padding-right: 15px;
-    margin-left:-8px;
+    margin-left:-13px;
 }
 .btn-arrow-right {
     padding-left: 20px;
