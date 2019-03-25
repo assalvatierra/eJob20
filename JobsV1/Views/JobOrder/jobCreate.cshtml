@@ -155,7 +155,7 @@
 
     $(document).ready(function () {
         $("#CompanyId2").val(2);
-    }
+    });
 
     //Change job desription bsed on the cutomer name
     $("#customerList").change(function () {
@@ -198,7 +198,7 @@
             id: $("#customerList option:selected").val()
         },
         function (data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
+            //alert("Data: " + data + "\nStatus: " + status);
             $("#CompanyId").val(data);
         });
     }
