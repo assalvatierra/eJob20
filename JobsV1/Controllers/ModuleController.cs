@@ -29,6 +29,10 @@ namespace JobsV1.Controllers
         {
             System.Diagnostics.Trace.WriteLine("Module (" + System.DateTime.Now.ToString() + ")" + "Menu:" + id.ToString());
 
+            string UserName = HttpContext.User.Identity.Name;
+            Session["USERNAME"] = (string)UserName;
+
+
             ModRoute mr = dal.getMenuRoute(id);
             Session["CURRENTMENUID"] = (int)mr.RootMenuId;
 
@@ -42,6 +46,9 @@ namespace JobsV1.Controllers
         public ActionResult Service(int id)
         {
             System.Diagnostics.Trace.WriteLine("Module (" + System.DateTime.Now.ToString() + ")" + "Service:" + id.ToString());
+
+            string UserName = HttpContext.User.Identity.Name;
+            Session["USERNAME"] = (string)UserName;
 
             ModRoute mr = dal.getModRoute(id);
             Session["ROOTMENUID"] = (int)mr.RootMenuId;

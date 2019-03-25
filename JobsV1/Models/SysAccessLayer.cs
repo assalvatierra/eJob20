@@ -9,7 +9,7 @@ namespace JobsV1
     public class SysAccessLayer
     {
         Models.SysDBContainer db = new Models.SysDBContainer();
-
+        
         public string getSysSetting(string sKey)
         {
             string sValue = "";
@@ -45,9 +45,45 @@ namespace JobsV1
 
             return Services;
         }
-
+        
         public ModRoute getMenuRoute(int id)
         {
+            string sArea = "";
+            Models.SysMenu menu = db.SysMenus.Find(id);
+            string sParamStr = menu.Params;
+            if (sParamStr != null && sParamStr.Trim() != "")
+            {
+                string[] sParams = sParamStr.Split(',');
+                foreach (string s in sParams)
+                {
+                    if (s.Split(':').Count() > 1)
+                    {
+                        string sParamName = s.Split(':')[0];
+                        string sParamvalue = s.Split(':')[1];
+                        if (sParamName.ToUpper() == "AREA")
+                            sArea = sParamvalue;
+                    }
+                }
+            }
+
+            if (menu == null)
+                return new ModRoute { Controller = "Module", Action = "notFound", RootMenuId = 0 };
+            else
+
+                return new ModRoute
+                {
+                    Controller = menu.Controller,
+                    Action = menu.Action,
+                    RootMenuId = menu.Id,
+                    Area = sArea
+                };
+
+            //       return new ModRoute { Controller = "Module", Action = "notProcessed" };
+        }
+
+        public ModRoute getMenuRoute2(int id, string username)
+        {
+            var user = db.SysAccessUsers.Where(s => s.UserId == username).FirstOrDefault();
             string sArea = "";
             Models.SysMenu menu = db.SysMenus.Find(id);
             string sParamStr = menu.Params;
@@ -116,8 +152,7 @@ namespace JobsV1
 
             //       return new ModRoute { Controller = "Module", Action = "notProcessed" };
         }
-
-
+        
 
         #region getMenu
         public IList<Models.SysMenu> getModMenu(int id)
@@ -126,6 +161,14 @@ namespace JobsV1
             return sMenu;
         }
 
+        //with username
+        public IList<Models.SysMenu> getModMenu2(int id, string username)
+        {
+            var sMenu = this.getSubMenu2(id, username).OrderBy(s => s.Seqno).ToList();
+            return sMenu;
+        }
+
+        //with username
         public IList<Models.SysMenu> getSubMenu(int id)
         {
             List<Models.SysMenu> sMenu = new List<Models.SysMenu>();
@@ -135,6 +178,22 @@ namespace JobsV1
             foreach (Models.SysMenu m in subMenus)
             {
                 var sm = this.getSubMenu(m.Id);
+                sMenu.AddRange(sm);
+            }
+            return sMenu;
+        }
+
+        public IList<Models.SysMenu> getSubMenu2(int id,string username)
+        {
+            List<Models.SysMenu> sMenu = new List<Models.SysMenu>();
+            sMenu.Add(db.SysMenus.Find(id));
+
+            var userlist = db.SysAccessUsers.Where(s => s.UserId == username && s.SysMenu.ParentId == id).Select(s=>s.SysMenuId);
+
+            var subMenus = db.SysMenus.Where(d => d.ParentId == id && userlist.Contains(d.Id));
+            foreach (Models.SysMenu m in subMenus)
+            {
+                var sm = this.getSubMenu2(m.Id, username);
                 sMenu.AddRange(sm);
             }
             return sMenu;

@@ -108,7 +108,7 @@ namespace JobsV1.Controllers
                     company.CustomerId = (int)id;
                     db.CustEntities.Add(company);
                     db.SaveChanges();
-                    return RedirectToAction("Details", "Customers", new { id = id });
+                    return RedirectToAction("Index", "CustEntMains", null);
                 }
                  return RedirectToAction("Index", "CustEntities", null);
             }

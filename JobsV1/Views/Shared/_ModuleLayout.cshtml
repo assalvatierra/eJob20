@@ -96,7 +96,8 @@
                     <div>
                         <div class="row" style="vertical-align:top;min-width:300px;">
                             <div class="CustomBox" style="float:left;width:100%;">
-                                @Html.Menu(Url.Content("~/"), "" , "", (int)Session["ROOTMENUID"])
+                                @Html.Menu(Url.Content("~/"), "" , "", (int)Session["ROOTMENUID"], (string)Session["USERNAME"])
+
                             </div>
                             <div class="PanelContainer">
                                 @RenderSection("LeftInfo", required: false)

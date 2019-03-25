@@ -10,11 +10,12 @@ namespace JobsV1.CustomHelper
     public static class ErpHelper
     {
         #region HTML custom helpers
-        public static IHtmlString Menu(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId)
+        public static IHtmlString Menu(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId, string username)
         {
-
+            
             SysAccessLayer dal = new SysAccessLayer();
-            var menu = dal.getModMenu(MenuId);
+            string Username = "jahdielvillosa@gmail.com";
+            var menu = dal.getModMenu2(MenuId, username);
 
             string htmlString = "<table>";
 
