@@ -10,9 +10,9 @@
 
 <p>
     Filters:
-    @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing" }) |
-    @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous"}) |
-    @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed" }) 
+    @Html.ActionLink("OnGoing" , "jobStatus", new { sortid = 1 }, new { @id = "ongoing" }) |
+    @Html.ActionLink("Previous", "jobStatus", new { sortid = 2 }, new { @id = "previous"}) |
+    @Html.ActionLink("Closed"  , "jobStatus", new { sortid = 3 }, new { @id = "closed" }) 
 </p>
 
 <p>
@@ -179,9 +179,9 @@
 
 <p>
     Filters:
-    @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing-bot" }) |
+    @Html.ActionLink("OnGoing" , "Index", new { sortid = 1 }, new { @id = "ongoing-bot" }) |
     @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous-bot" }) |
-    @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed-bot" })
+    @Html.ActionLink("Closed"  , "Index", new { sortid = 3 }, new { @id = "closed-bot" })
 </p>
 
 <!-- Modal -->

@@ -146,12 +146,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/Job/Main.js"></script>
 
+    <script type="text/javascript" src="~/Scripts/Job/Main.js"></script>
 }
 <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
-
 <script>
+    /* Input validation */
 
     $(document).ready(function () {
         $("#CompanyId2").val(2);
@@ -192,17 +192,46 @@
 
     //get number using ajax post
     function getCompany() {
-
+        //alert($("#customerList option:selected").val());
         $.post("/JobOrder/getCustomerCompany",
         {
             id: $("#customerList option:selected").val()
         },
         function (data, status) {
-            //alert("Data: " + data + "\nStatus: " + status);
-            $("#CompanyId").val(data);
+            $('[name=CompanyId]').val(data);//To select Blue
+            //alert("\nData: " + data + "\nStatus: " + status);
         });
     }
 
+
+    function searchCustomer() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("SearchBarCustomer");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("SearchListCustomer");
+        li = ul.getElementsByTagName("li");
+
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+
+
+    function setValue(value) {
+        var customer = $("#customerList option:selected").text();
+        $('#customerList').val(value);
+        $('#CustomersModal').modal('toggle');
+        $("#jobdesc").val(customer);
+        getEmail();
+        getNumber();
+        getCompany();
+
+    }
 </script>
 
 
@@ -236,28 +265,3 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<script>
-    function searchCustomer() {
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("SearchBarCustomer");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("SearchListCustomer");
-        li = ul.getElementsByTagName("li");
-
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-    }
-
-
-function setValue(value){
-    $('#customerList').val(value);
-    $('#CustomersModal').modal('toggle');
-}
-</script>

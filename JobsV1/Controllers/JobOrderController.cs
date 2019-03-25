@@ -392,8 +392,8 @@ namespace JobsV1.Controllers
         public string getCustomerCompany(int id)
         {
             //int companyNum = db.CustEntities.Where(s=>s.CustomerId == id).LastOrDefault() != null ? db.CustEntities.Where(s => s.CustomerId == id).LastOrDefault().CustEntMain.Id : 1;
-
-            return "2";
+            string companyNum = db.CustEntities.Where(s => s.CustomerId == id).FirstOrDefault().CustEntMainId.ToString();
+            return companyNum;
         }
 
         public DateTime TempJobDate(int mainId)
