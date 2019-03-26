@@ -22,17 +22,17 @@ namespace JobsV1.CustomHelper
             int parentId = -1;
             int preId = -1;
 
-            htmlString += "<tr>";
+            htmlString += "<tr >";
             foreach (var item in menu)
             {
-                htmlString += "<td>";
+                htmlString += "<td >";
                 if (item.ParentId == parentId || item.ParentId == preId)
                 {
                     htmlString += "<td></td>";
-                    htmlString += "<td>";
+                    htmlString += "<td><p>";
                     //        htmlString += "<a href='" + rootUrl + item.Controller + "/" + item.Action + "/'>" + item.Menu + "</a>";
                     htmlString += "<a href='" + rootUrl + "Module/Menu/" + item.Id + "/' >" + item.Menu + "</a>  | ";
-                    htmlString += "</td>";
+                    htmlString += "</p></td>";
                 }
                 else
                 {

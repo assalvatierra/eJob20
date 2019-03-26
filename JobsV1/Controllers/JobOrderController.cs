@@ -1094,10 +1094,9 @@ order by x.jobid
             js.DtStart = dtTmp;
             js.DtEnd = dtTmp.AddDays(job.NoOfDays - 1).AddHours(10);
             js.Remarks = "10hrs use per day P300/hr in excess, Driver and Fuel Included";
-
-
-             //modify SupplierItem
-             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
+            
+            //modify SupplierItem
+            var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
             var SuppliersActive = db.Suppliers.Where(s => s.Status != "INC").ToList();
             
             ViewBag.id = JobMainId;
@@ -1761,7 +1760,6 @@ order by x.jobid
         }
         
         #endregion
-
 
         #region supplier
         public ActionResult PoDetails(int? hdrId) {

@@ -7,40 +7,37 @@
     DateTime dtend = (DateTime)item.Service.DtEnd;
 
     <div class="row" >
-        <div class="row jobservice" style="padding:0.5em;cursor:pointer;margin-left:16px;padding-bottom:-20px;margin:0px;" 
+        <div class="row jobservice" style="padding:0.5em;cursor:pointer;margin-left:16px;padding-bottom:0px;margin:0px;" 
              onMouseOver="$(this).css('background-color', '#bfbfbf')"
              onMouseOut="$(this).css('background-color', 'lightgray')"
              data-toggle="collapse" 
              data-target="#col@(item.Service.Id)"
              >
 
-            <div class="pull-left col-lg-2" style="font:bold 8px;color:darkblue;width:23%;padding:0px;margin:0px;">
-                <table class="table" style="background:inherit;border-bottom:-10px;padding:0px;margin:0px;">
-                    <tr>
-                        <td style="font-size:12px;margin:0px;margin-right:20px;">
-                            @dtstart.ToString("MMM-dd")<br />
-                            @dtend.ToString("MMM-dd")
-                        </td>
-                        <td  style="font-size:12px;margin:0px;margin-left:10px;">                            
-                            &nbsp;<span style="font-weight:600;color:darkblue;padding:0px;margin:0px;">@item.Service.Particulars</span><br />
-                            &nbsp;<span style="font:bold 11px;color:darkblue;padding:0px;margin:0px;">&nbsp;[item: @item.Service.SupplierItem.Description]</span>
-                        </td>
-                    </tr>
+            <table class="table" style="background:inherit;border-bottom:0px;padding:0px;margin:0px;">
+                <tr>
+                    <td style="font-size:12px;margin:0px;margin-right:20px;width:5%;">
+                        @dtstart.ToString("MMM-dd")<br />
+                        @dtend.ToString("MMM-dd")
+                    </td>
+                    <td style="font-size:12px;margin:0px;margin-left:10px;width:15%;">
+                        &nbsp;<span style="font-weight:600;color:darkblue;padding:0px;margin:0px;">@item.Service.Particulars</span><br />
+                        &nbsp;<span style="font:bold 11px;color:darkblue;padding:0px;margin:0px;">&nbsp;[item: @item.Service.SupplierItem.Description]</span>
+                    </td>
 
-                </table>
-            </div> 
-            <div class="pull-left col-lg-10" style="width:75%;margin-left:15px;">
+                    <td style="width:80%;">
+                        @foreach (var done in item.SvcActionsDone)
+                        {
+                            <span>&#187;</span>
+                            <span class="btn btn-success btn-arrow-right">
+                                <span style="color:white;font-size:9px;">@done.Desc</span>
+                            </span>
+                        }
 
-                @foreach (var done in item.SvcActionsDone)
-                {
-                    <span>&#187;</span>
-                    <span class="btn btn-success btn-arrow-right">
-                        <span style="color:white;font-size:9px;"  >@done.Desc</span>
-                    </span>
-                }
-
-                @Html.Partial("PartialViewSrvActionItems_Status", item.SvcActions, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id }, { "SvcActionsDones", ViewBag.SvcActionsDone } })
-            </div>
+                        @Html.Partial("PartialViewSrvActionItems_Status", item.SvcActions, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id }, { "SvcActionsDones", ViewBag.SvcActionsDone } })
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div id="col@(item.Service.Id)" class="panel-collapse collapse "   style="border:1px solid lightgray; padding : 8px;">

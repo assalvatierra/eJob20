@@ -33,7 +33,7 @@
         </td>
 
         <td >
-            <div>
+            <div style="min-width:500px;"> 
                 <span style="color:darkgreen;font:bold 16px arial, verdana;" >
                     @item.Main.Customer.Name 
                 </span>
@@ -68,9 +68,9 @@
                    [ @item.Main.JobStatus.Status ]
                 </span>
 
-                <span class="pull-right" style="margin-top:-25px;">
+                <div class="pull-right" style="margin-top:-25px;">
                     @Html.ActionLink("[ EDIT ]", "JobServices", new { JobMainId = item.Main.Id }, null)
-                </span>
+                </div>
             </div>
          </td>
     </tr>

@@ -796,7 +796,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\Call.png" />
     <Content Include="Images\CarRental\4x4.101.png" />
+    <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.jpg" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.png" />
+    <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner3.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner2.png" />
     <Content Include="Images\CarRental\car101.png" />
     <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Everest.png" />
