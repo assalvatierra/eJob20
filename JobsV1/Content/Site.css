@@ -195,7 +195,10 @@ textarea {
     border: 1px solid lightgray;
     text-align:center;
 }
-
+.carrental-car-img{
+    width:170px;
+    height:160px;
+}
 .dtls-gallery > a > img {
     width:32%;
 }
@@ -223,7 +226,7 @@ rental-type-wdriver {
 
 
     .rental-banner {
-        background-image: url('/Images/CarRental/Banner/RealwheelsDavaoBanner.png');
+        background-image: url('/Images/CarRental/Banner/RealwheelsDavaoBanner.jpg');
         background-position: center;
         background-repeat: no-repeat;
         background-size: 100%;

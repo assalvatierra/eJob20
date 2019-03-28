@@ -36,6 +36,30 @@
 
     </dl>
 </div>
+
+<div>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Account Ledger Name</th>
+            <th>Cr Amount</th>
+            <th>Db Amount</th>
+            <th>Remarks</th>
+        </tr>
+        @foreach (var trx in ViewBag.TrxDtls as IEnumerable<JobsV1.Areas.Accounting.Models.AccntTrxDtl>)
+        {
+            <tr>
+                <td>@trx.AccntLedger.Name</td>
+                <td>@trx.CrAmt  </td>
+                <td>@trx.DbAmt </td>
+                <td>@trx.Remarks </td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

@@ -1,4 +1,4 @@
-﻿<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+﻿
 <script type="text/javascript">
 
     function initialize() {
@@ -10,11 +10,14 @@
         var actionid = $(this).attr("id");
 
         //alert(".clickitem - svcid : " + svcid + " : actionid : " + actionid);
-        var r = confirm("Mark '" + $(this).attr("Name") + "' as done?");
+       // var r = confirm("Mark '" + $(this).attr("Name") + "' as done?");
 
-        if (r) {
+       // if (r) {
             fAjax_updateAction(svcid, actionid);
-        }
+        //  }
+
+            $(this).children("span").removeClass("btn-primary");
+            $(this).children("span").addClass("btn-success");
 
         event.preventDefault();
     }
@@ -30,18 +33,23 @@
             data: { SvcId: svcid, ActionId: actionid },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: successFunc(actionid),
+            success: successFunc(svcid,actionid),
             error: errorFunc()
         });
-
+        
     }
 
-    function successFunc(actionid) {
+    function successFunc(svcid,actionid) {
         //alert("Successfully Done!");
-        $("#" + actionid).hide();
-        $("#" + actionid).css("color", "gray");
+       // $("#" + actionid).hide();
+        $("#" + actionid).css("color", "green");
         $("#" + actionid).css("background-color", "gray");
-       // location.reload();
+
+       // $("#" + svcid ).removeClass("btn-primary");
+      //  $("#" + svcid ).addClass("btn-success");
+
+        //location.reload();
+       // window.top.location = window.top.location;
     }
 
     function errorFunc() {

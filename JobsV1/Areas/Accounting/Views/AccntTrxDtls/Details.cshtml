@@ -1,0 +1,58 @@
+﻿@model JobsV1.Areas.Accounting.Models.AccntTrxDtl
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AccntTrxDtl</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DbAmt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DbAmt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CrAmt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CrAmt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccntTrxHdr.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccntTrxHdr.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccntLedger.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccntLedger.Code)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -7,11 +7,8 @@
     DateTime dtend = (DateTime)item.Service.DtEnd;
 
     <div class="row" >
-        <div class="row jobservice" style="padding:0.5em;cursor:pointer;margin-left:16px;padding-bottom:0px;margin:0px;" 
-             onMouseOver="$(this).css('background-color', '#bfbfbf')"
-             onMouseOut="$(this).css('background-color', 'lightgray')"
-             data-toggle="collapse" 
-             data-target="#col@(item.Service.Id)"
+        <div class="row" style="padding:0.5em;cursor:pointer;margin-left:16px;padding-bottom:0px;margin:0px;background-color:lightgray;" 
+
              >
 
             <table class="table" style="background:inherit;border-bottom:0px;padding:0px;margin:0px;">
@@ -26,12 +23,22 @@
                     </td>
 
                     <td style="width:80%;">
+                        <!-- Display status list and  add red line below -->
                         @foreach (var done in item.SvcActionsDone)
                         {
                             <span>&#187;</span>
-                            <span class="btn btn-success btn-arrow-right">
-                                <span style="color:white;font-size:9px;">@done.Desc</span>
-                            </span>
+                            if (done.Desc == "On Progress" || done.Desc == "On progress" )
+                            {
+                                <span class="btn btn-success btn-arrow-right on-progress">
+                                    <span style="color:white;font-size:9px;"> @done.Desc </span>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="btn btn-success btn-arrow-right">
+                                    <span style="color:white;font-size:9px;"> @done.Desc </span>
+                                </span>
+                            }
                         }
 
                         @Html.Partial("PartialViewSrvActionItems_Status", item.SvcActions, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id }, { "SvcActionsDones", ViewBag.SvcActionsDone } })
@@ -40,11 +47,6 @@
             </table>
         </div>
 
-        <div id="col@(item.Service.Id)" class="panel-collapse collapse "   style="border:1px solid lightgray; padding : 8px;">
-           
-            @Html.Partial("PartialViewJobServiceItems", item.SvcItems, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
-            @Html.Partial("PartialViewServiceSupPo", item.SupplierPos, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
-        </div>
     </div>
         
 }

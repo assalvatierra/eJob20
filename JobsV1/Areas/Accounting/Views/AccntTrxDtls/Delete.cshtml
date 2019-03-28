@@ -1,0 +1,64 @@
+﻿@model JobsV1.Areas.Accounting.Models.AccntTrxDtl
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AccntTrxDtl</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DbAmt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DbAmt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CrAmt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CrAmt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccntTrxHdr.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccntTrxHdr.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccntLedger.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccntLedger.Code)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

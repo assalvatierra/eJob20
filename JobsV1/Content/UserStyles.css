@@ -292,7 +292,7 @@
 }
 
 /**
-    Boostrap CSS
+    Boostrap ARROW BUTTON CSS
 */
 
 .btn { /* just for this demo. */
@@ -305,6 +305,13 @@
     padding-right: 15px;
     margin-left:-13px;
 }
+
+
+.on-progress {
+    border-bottom-color : orangered;
+    border-bottom-width: 2px;
+}
+
 .btn-arrow-right {
     padding-left: 20px;
 }

@@ -241,6 +241,7 @@
     <Compile Include="Areas\Accounting\Controllers\AccntCategoriesController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AccntLedgersController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AccntMainsController.cs" />
+    <Compile Include="Areas\Accounting\Controllers\AccntTrxDtlsController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AccntTrxHdrsController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsExpensesController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsMainController.cs" />
@@ -1091,6 +1092,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\Job\CompanyReport.js" />
+    <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\ssl.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />
@@ -1154,6 +1157,11 @@
     <Content Include="Areas\Accounting\Views\AccntCategories\Details.cshtml" />
     <Content Include="Areas\Accounting\Views\AccntCategories\Edit.cshtml" />
     <Content Include="Areas\Accounting\Views\AccntCategories\Index.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntTrxDtls\Create.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntTrxDtls\Delete.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntTrxDtls\Details.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntTrxDtls\Edit.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntTrxDtls\Index.cshtml" />
     <None Include="Properties\PublishProfiles\ftp.myasp.net.pubxml" />
     <None Include="Properties\PublishProfiles\ftp.Somee.com.pubxml" />
     <Content Include="Scripts\CarRental\FormCarSummary.js" />

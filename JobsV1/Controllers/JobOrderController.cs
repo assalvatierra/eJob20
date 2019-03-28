@@ -302,8 +302,7 @@ namespace JobsV1.Controllers
                     joTmp.Main.AgreedAmt += svc.ActualAmt;
 
                     joTmp.Services.Add(cjoTmp);
-
-                    ViewBag.SvcActionsDone = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode).ToList();
+                    
                 }
 
                 joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
