@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/14/2019 13:53:38
+-- Date Created: 03/29/2019 14:35:12
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -257,6 +257,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_EmailBlasterTemplateBlasterLog]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[BlasterLogs] DROP CONSTRAINT [FK_EmailBlasterTemplateBlasterLog];
 GO
+IF OBJECT_ID(N'[dbo].[FK_JobEntMainJobMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobEntMains] DROP CONSTRAINT [FK_JobEntMainJobMain];
+GO
+IF OBJECT_ID(N'[dbo].[FK_JobEntMainCustEntMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobEntMains] DROP CONSTRAINT [FK_JobEntMainCustEntMain];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -504,6 +510,9 @@ IF OBJECT_ID(N'[dbo].[BlasterLogs]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[EmailBlasterLogs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[EmailBlasterLogs];
+GO
+IF OBJECT_ID(N'[dbo].[JobEntMains]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobEntMains];
 GO
 
 -- --------------------------------------------------

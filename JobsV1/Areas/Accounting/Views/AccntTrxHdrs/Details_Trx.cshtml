@@ -1,0 +1,12 @@
+﻿@model IEnumerable<JobsV1.Areas.Accounting.Models.AccntTrxDtl >
+
+@foreach (var trx in Model)
+{
+    <tr>
+        <td>@trx.AccntLedger.Name</td>
+        <td>@trx.CrAmt  </td>
+        <td>@trx.DbAmt </td>
+        <td>@trx.Remarks </td>
+        <td>@Html.ActionLink("Edit", "Edit", "AccntTrxDtls", new { id = trx.Id },null) </td>
+    </tr>
+}

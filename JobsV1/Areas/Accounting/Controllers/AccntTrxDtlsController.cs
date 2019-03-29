@@ -37,10 +37,15 @@ namespace JobsV1.Areas.Accounting.Controllers
         }
 
         // GET: Accounting/AccntTrxDtls/Create
-        public ActionResult Create()
+        public ActionResult Create(int? hdrId)
         {
-            ViewBag.AccntTrxHdrId = new SelectList(db.AccntTrxHdrs, "Id", "Remarks");
-            ViewBag.AccntLedgerId = new SelectList(db.AccntLedgers, "Id", "Code");
+            if (hdrId == null)
+            {
+                hdrId = 1;
+            }
+
+            ViewBag.AccntTrxHdrId = new SelectList(db.AccntTrxHdrs, "Id", "Remarks", hdrId);
+            ViewBag.AccntLedgerId = new SelectList(db.AccntLedgers, "Id", "Name");
             return View();
         }
 
@@ -55,11 +60,13 @@ namespace JobsV1.Areas.Accounting.Controllers
             {
                 db.AccntTrxDtls.Add(accntTrxDtl);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                //return RedirectToAction("Index");
+                return RedirectToAction("Details","AccntTrxHdrs", new { Id = accntTrxDtl.AccntTrxHdrId });
             }
 
             ViewBag.AccntTrxHdrId = new SelectList(db.AccntTrxHdrs, "Id", "Remarks", accntTrxDtl.AccntTrxHdrId);
-            ViewBag.AccntLedgerId = new SelectList(db.AccntLedgers, "Id", "Code", accntTrxDtl.AccntLedgerId);
+            ViewBag.AccntLedgerId = new SelectList(db.AccntLedgers, "Id", "Name", accntTrxDtl.AccntLedgerId);
             return View(accntTrxDtl);
         }
 
@@ -76,7 +83,7 @@ namespace JobsV1.Areas.Accounting.Controllers
                 return HttpNotFound();
             }
             ViewBag.AccntTrxHdrId = new SelectList(db.AccntTrxHdrs, "Id", "Remarks", accntTrxDtl.AccntTrxHdrId);
-            ViewBag.AccntLedgerId = new SelectList(db.AccntLedgers, "Id", "Code", accntTrxDtl.AccntLedgerId);
+            ViewBag.AccntLedgerId = new SelectList(db.AccntLedgers, "Id", "Name", accntTrxDtl.AccntLedgerId);
             return View(accntTrxDtl);
         }
 
@@ -91,10 +98,11 @@ namespace JobsV1.Areas.Accounting.Controllers
             {
                 db.Entry(accntTrxDtl).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+               // return RedirectToAction("Index")
+                return RedirectToAction("Details", "AccntTrxHdrs", new { Id = accntTrxDtl.AccntTrxHdrId });
             }
             ViewBag.AccntTrxHdrId = new SelectList(db.AccntTrxHdrs, "Id", "Remarks", accntTrxDtl.AccntTrxHdrId);
-            ViewBag.AccntLedgerId = new SelectList(db.AccntLedgers, "Id", "Code", accntTrxDtl.AccntLedgerId);
+            ViewBag.AccntLedgerId = new SelectList(db.AccntLedgers, "Id", "Name", accntTrxDtl.AccntLedgerId);
             return View(accntTrxDtl);
         }
 

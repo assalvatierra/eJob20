@@ -4,23 +4,45 @@
  * Reload and displays the jobs in the table with 
  * the applied filter or previous filters.
  */
+//GLOBALS
+var STATUS = "";
+var SDATE = "";
+var EDATE = "";
+var TOP = 30;
 
-$(document).load(function () {
+//loads previous 30 jobs on load of the page
+$(document).ready(function () {
+    TOP = 30;
     Update();
-    getLastJobs(30);
+    updateStatusCSS();
+
 });
+
 
 //Updates the date filter values
 function Update() {
     var url_string = window.location.href;
     var url = new URL(url_string);
-    var date1 = url.searchParams.get("sDate") != null ? url.searchParams.get("sDate") : getToday();
-    var date2 = url.searchParams.get("eDate") != null ? url.searchParams.get("eDate") : getToday();
-    var top = url.searchParams.get("top");
-    var status = url.searchParams.get("status");
 
-    $('#startDate').val(date1);
-    $('#endDate').val(date2);
+    sDateVal = url.searchParams.get("sDate") != null ? url.searchParams.get("sDate") : getToday();
+    eDateVal = url.searchParams.get("eDate") != null ? url.searchParams.get("eDate") : getToday();
+    TOP = url.searchParams.get("top") != null ? url.searchParams.get("top") : 30;
+    STATUS = url.searchParams.get("status") != null ? url.searchParams.get("status") : "ALL";
+
+    //convert to format (YYYY-MM-DD)
+    sDateVal = moment(sDateVal).format('YYYY-MM-DD');
+    eDateVal = moment(eDateVal).format('YYYY-MM-DD');
+
+    //console.log(sDateVal + " - " + eDateVal);
+
+    $('#startDate').val(sDateVal);
+    $('#endDate').val(eDateVal);
+}
+
+
+function updateStatusCSS() {
+    $('#' + STATUS + '').css("color", "Black");
+    $('#' + STATUS + '').siblings().css("color", "#3366BB");
 }
 
 //get the date today
@@ -49,85 +71,59 @@ function getToday() {
 //        custId = customer Id
 function statusUpdate(status, custId) {
 
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var top = url.searchParams.get("top");
-
-    var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
-    var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
-    var topVal = top;
-
-    var requestString = "/CustEntMains/Details/" + custId + "?";
-
-    requestString += "top=" + topVal + "&";
-
-    if (eDateVal != null && sDateVal != null) {
-        requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
-    }
-
-    requestString += "&status=" + status
-
-    //delay 2 sec
-    wait(2000);
-
-    window.location.href = requestString;
-
+    STATUS = status
+    updateStatusCSS();
 }
 
-
+//|FILTER BUTTON
 //reloads the page by building the url string with 
 //previously selected filters are applied
 //param : status = job status
 //        custId = customer Id
-function detailsUpdate(top, custId) {
+function detailsUpdate(custId) {
     var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
     var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
-    var topVal = top;
 
-
+    //build request url string
     var requestString = "/CustEntMains/Details/" + custId + "?";
-
-    requestString += "top=" + topVal + "&";
-
+    requestString += "top=" + TOP + "&";
     if (eDateVal != null && sDateVal != null) {
         requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
     }
-    requestString += "&status=ALL"
+    requestString += "&status=" + STATUS
 
     //delay 2 sec
-    wait(2000);
+    //wait(2000);
+
+    //load screen
     window.location.href = requestString;
 
 }
 
 //get jobs from today to 30 previous days
-function getLastJobs(days, custId) {
+function getLastJobs(days) {
     var eDateVal = getToday();//end date = today
     var sDateVal = new Date();
 
     sDateVal.setDate(sDateVal.getDate() - days);
-
-    // console.log(eDateVal);
-
     sDateVal = sDateVal.toLocaleString();
 
-    console.log(sDateVal);
+    //convert to format (YYYY-MM-DD)
+    sDateVal = moment(sDateVal).format('YYYY-MM-DD');
+    eDateVal = moment(eDateVal).format('YYYY-MM-DD');
 
-    var topVal = 10; //10 items
+    console.log(sDateVal + " - " + eDateVal);
 
-    var requestString = "/CustEntMains/Details/" + custId + "?";
+    $('#startDate').val(sDateVal);
+    $('#endDate').val(eDateVal);
+}
 
-    requestString += "top=" + topVal + "&";
+function filterdate(date) {
 
-    if (eDateVal != null && sDateVal != null) {
-        requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
-    }
-    requestString += "&status=" + status
-    
-    //delay 2 sec
-    wait(2000);
+    var day = ("0" + date.getDate()).slice(-2);
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
 
-    window.location.href = requestString;
+    return today = date.getFullYear() + "-" + (month) + "-" + (day);
 
 }
 

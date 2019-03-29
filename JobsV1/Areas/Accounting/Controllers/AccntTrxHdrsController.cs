@@ -40,13 +40,20 @@ namespace JobsV1.Areas.Accounting.Controllers
             return View(accntTrxHdr);
         }
 
+        public ActionResult Details_Jobs(int id)
+        {
+            var TrxDtls = db.AccntTrxDtls.Where(c => c.AccntTrxHdrId == id).OrderByDescending(s=>s.Id).ToList();
+
+            return View(TrxDtls);
+        }
+
         // GET: Accounting/AccntTrxHdrs/Create
         public ActionResult Create()
         {
             AccntTrxHdr trxHdr = new AccntTrxHdr();
             trxHdr.DtTrx = getDateTimeToday();
 
-            ViewBag.AccntTrxTypeId = new SelectList(db.AccntTrxTypes, "Id", "Code");
+            ViewBag.AccntTrxTypeId = new SelectList(db.AccntTrxTypes, "Id", "Remarks");
             return View(trxHdr);
         }
 
@@ -64,7 +71,7 @@ namespace JobsV1.Areas.Accounting.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AccntTrxTypeId = new SelectList(db.AccntTrxTypes, "Id", "Code", accntTrxHdr.AccntTrxTypeId);
+            ViewBag.AccntTrxTypeId = new SelectList(db.AccntTrxTypes, "Id", "Remarks", accntTrxHdr.AccntTrxTypeId);
             return View(accntTrxHdr);
         }
 
@@ -80,7 +87,7 @@ namespace JobsV1.Areas.Accounting.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AccntTrxTypeId = new SelectList(db.AccntTrxTypes, "Id", "Code", accntTrxHdr.AccntTrxTypeId);
+            ViewBag.AccntTrxTypeId = new SelectList(db.AccntTrxTypes, "Id", "Remarks", accntTrxHdr.AccntTrxTypeId);
             return View(accntTrxHdr);
         }
 
@@ -95,9 +102,9 @@ namespace JobsV1.Areas.Accounting.Controllers
             {
                 db.Entry(accntTrxHdr).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = accntTrxHdr.Id });
             }
-            ViewBag.AccntTrxTypeId = new SelectList(db.AccntTrxTypes, "Id", "Code", accntTrxHdr.AccntTrxTypeId);
+            ViewBag.AccntTrxTypeId = new SelectList(db.AccntTrxTypes, "Id", "Remarks", accntTrxHdr.AccntTrxTypeId);
             return View(accntTrxHdr);
         }
 

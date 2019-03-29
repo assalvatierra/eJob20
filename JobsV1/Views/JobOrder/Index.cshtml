@@ -8,21 +8,15 @@
 <h2>Job Orders</h2>
 
 <p>
-    @Html.ActionLink("Create New", "jobCreate", "JobOrder", null,null)  | 
-    @Html.ActionLink("Status", "jobStatus", "JobOrder",null,null)
-    <!--
-    | Work In Progress     
-    | @Html.ActionLink("Listing", "JobListing", "JobOrder", new { span = 30 }, null)
-    | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null) 
-    | @Html.ActionLink("Availability", "Availability", "InvItems")
-        -->
+    @Html.ActionLink("Create New", "jobCreate", "JobOrder", null,null)  
+   
 </p>
 
 <p>
     Filters:
-    @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing" }) |
+    @Html.ActionLink("OnGoing" , "Index", new { sortid = 1 }, new { @id = "ongoing" }) |
     @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous"}) |
-    @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed" }) 
+    @Html.ActionLink("Closed"  , "Index", new { sortid = 3 }, new { @id = "closed"  }) 
 </p>
 
 <p>
@@ -97,8 +91,8 @@
 
             <p>
                 @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
-                @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
-                @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
+                @Html.ActionLink("[ Booking ]"    , "BookingDetails", new { id = item.Main.Id }, null)
+                @Html.ActionLink("[ Invoice ]"    , "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
                 <a href="#" id="acctbtn" data-toggle="modal" data-target="#Payment@(item.Main.Id)" style="margin-bottom:10px;" onclick="updateval()" >[ Payment ]</a>
                 <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(item.Main.Id))">[ Send Invoice ]</a>
                 @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
@@ -239,6 +233,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
 @section scripts
 {
     <script type="text/javascript">
@@ -283,7 +278,7 @@
         }
 
         function updateval(){
-            var iDiv = document.getElementbyId('categorylist');
+            var iDiv = $('#categorylist').val();
 
             // Now create and append to iDiv
             var innerDiv = document.createElement('p');

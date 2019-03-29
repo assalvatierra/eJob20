@@ -961,7 +961,7 @@
     <Content Include="Images\Erp\icons-key.png" />
     <Content Include="Images\Erp\icons\icons-box.png" />
     <Content Include="Images\Erp\icons\icons-business.png" />
-    <Content Include="Images\Erp\icons\icons-chart.png" />
+    <Content Include="Images\Erp\icons\icons-report.png" />
     <Content Include="Images\Erp\icons\icons-exchange.png" />
     <Content Include="Images\Erp\icons\icons-flag.png" />
     <Content Include="Images\Erp\icons\icons-invoice.png" />
@@ -970,7 +970,6 @@
     <Content Include="Images\Erp\icons\icons-move.png" />
     <Content Include="Images\Erp\icons\icons-notification.png" />
     <Content Include="Images\Erp\icons\icons-package.png" />
-    <Content Include="Images\Erp\icons\icons-report.png" />
     <Content Include="Images\Erp\icons\icons-technical.png" />
     <Content Include="Images\Erp\icons\icons-trolley.png" />
     <Content Include="Images\Erp\icons\icons-accounting.png" />
@@ -1162,6 +1161,7 @@
     <Content Include="Areas\Accounting\Views\AccntTrxDtls\Details.cshtml" />
     <Content Include="Areas\Accounting\Views\AccntTrxDtls\Edit.cshtml" />
     <Content Include="Areas\Accounting\Views\AccntTrxDtls\Index.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccntTrxHdrs\Details_Trx.cshtml" />
     <None Include="Properties\PublishProfiles\ftp.myasp.net.pubxml" />
     <None Include="Properties\PublishProfiles\ftp.Somee.com.pubxml" />
     <Content Include="Scripts\CarRental\FormCarSummary.js" />

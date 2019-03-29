@@ -29,20 +29,20 @@
         <b>Date: </b>
         <input id="startDate" type="date" /> -
         <input id="endDate" type="date" />
-
-        <input type="button" value="Filter" class="btn btn-default" style="margin-top:-10px;padding:5px;" onclick="detailsUpdate(30, @customerid)" />
         &nbsp;&nbsp;&nbsp;
-        <a onclick="getLastJobs(30,@customerid)">Last 30 Days</a> |
-        <a onclick="getLastJobs(60,@customerid)">Last 60 Days</a>
+        <a onclick="getLastJobs(30)">Last 30 Days</a> 
+        <a onclick="getLastJobs(60)">Last 60 Days</a>
+        &nbsp;&nbsp;&nbsp;
+        <input type="button" value="Filter" class="btn btn-default" style="margin-top:-10px;padding:5px;" onclick="detailsUpdate(@customerid)" />
     </p>
-    <p>
+    <p id="StatusOp">
         <b>Status: </b>
-        <a onclick="statusUpdate('ALL',@customerid)">ALL</a> |
-        <a onclick="statusUpdate('INQUIRY',@customerid)">INQUIRY</a> |
-        <a onclick="statusUpdate('RESERVATION',@customerid)">RESERVATION</a> |
-        <a onclick="statusUpdate('CONFIRMED',@customerid)">CONFIRMED</a> |
-        <a onclick="statusUpdate('CLOSED',@customerid)">CLOSED</a> |
-        <a onclick="statusUpdate('CANCELLED',@customerid)">CANCELLED</a>
+        <a onclick="statusUpdate('ALL')"            id="ALL">         ALL</a> |
+        <a onclick="statusUpdate('INQUIRY')"        id="INQUIRY">     INQUIRY</a> |
+        <a onclick="statusUpdate('RESERVATION')"    id="RESERVATION"> RESERVATION</a> |
+        <a onclick="statusUpdate('CONFIRMED')"      id="CONFIRMED">   CONFIRMED</a> |
+        <a onclick="statusUpdate('CLOSED')"         id="CLOSED">      CLOSED</a> |
+        <a onclick="statusUpdate('CANCELLED')"      id="CANCELLED">   CANCELLED</a>
     </p>
 
     <table class="table table-striped">
@@ -71,5 +71,6 @@
 </div>
 
 <script src="~/Scripts/jquery-1.12.4.min.js"> </script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script src="~/Scripts/Job/CompanyReport.js"> </script>
 
