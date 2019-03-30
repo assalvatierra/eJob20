@@ -31,7 +31,7 @@ namespace JobsV1.Controllers
         // GET: CarRental
         public ActionResult Index()
         {
-            ViewBag.Title = "Davao Car Rental | Van, SUV/AUV/MPV, Sedan Rentals | Real Wheels Rent A Car Davao | Start Your Journey With Us! ";
+            ViewBag.Title = "Davao Car Rental | Van, Sedan, AUV/MPV/SUV Rentals | Real Wheels Rent A Car Davao | Start Your Journey With Us! ";
             ViewBag.Description = @"Rent a Car company offering affordable selfdrive or with driver car rental service in Davao City, Philippines.
                  We offer -Grandia/Super/Premium, MPV / AUV and SUV for rent, Innova rentals, sedan rentals, 4x4 rentals, pickup rentals and van rentals in the City.
                  We offer daily, weekly, monthly rental and affordable rates for long term rentals.
