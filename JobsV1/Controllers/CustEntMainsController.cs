@@ -65,7 +65,7 @@ namespace JobsV1.Controllers
             var customers = db.Customers.Where(c => company.Contains(c.Id)).Select(c => c.Id);
 
             //get company 
-            var jobRecord = db.JobMains.Where(j => customers.Contains(j.CustomerId)).Take(topFilter).OrderByDescending(j => j.JobDate).ToList();
+            var jobRecord = db.JobMains.Where(j => customers.Contains(j.CustomerId)).OrderByDescending(j => j.JobDate).ToList();
             
             //handle empty status
             if (status == null || status == "" || status == "ALL")
@@ -77,7 +77,7 @@ namespace JobsV1.Controllers
                 jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status).ToList();
             }
           
-            return jobRecord;
+            return jobRecord.Take(topFilter).ToList();
         }
 
         // GET: CustEntMains/Create

@@ -138,7 +138,8 @@ namespace JobsV1.Controllers
             CustEntity custEntity = db.CustEntities.Find(id);
             db.CustEntities.Remove(custEntity);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return RedirectToAction("Details","Customers",new { id= custEntity.CustomerId, top = 30 });
         }
 
         protected override void Dispose(bool disposing)

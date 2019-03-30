@@ -16,9 +16,10 @@
             fAjax_updateAction(svcid, actionid);
         //  }
 
-            $(this).children("span").removeClass("btn-primary");
-            $(this).children("span").addClass("btn-success");
+        $(this).children("span").removeClass("btn-primary");
+        $(this).children("span").addClass("btn-success");
 
+        $(this).css("color", "green");
         event.preventDefault();
     }
 
@@ -40,16 +41,12 @@
     }
 
     function successFunc(svcid,actionid) {
-        //alert("Successfully Done!");
+       // alert("Successfully Done!");
        // $("#" + actionid).hide();
         $("#" + actionid).css("color", "green");
-        $("#" + actionid).css("background-color", "gray");
-
-       // $("#" + svcid ).removeClass("btn-primary");
-      //  $("#" + svcid ).addClass("btn-success");
+       // $("#" + actionid).css("background-color", "gray");
 
         //location.reload();
-       // window.top.location = window.top.location;
     }
 
     function errorFunc() {

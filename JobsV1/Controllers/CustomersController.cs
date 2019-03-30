@@ -387,7 +387,7 @@ namespace JobsV1.Controllers
             //PartialView for Details of the Customer
             List<CustEntMain> CompanyList = new List<CustEntMain>();
             //error
-            var CompanyRecord = db.CustEntities.Where(c => c.CustomerId == id).ToList();
+            var CompanyRecord = db.CustEntities.Where(c => c.CustomerId == id).OrderByDescending(s=>s.Id).ToList();
 
             if (CompanyRecord == null)
             {
@@ -421,8 +421,12 @@ namespace JobsV1.Controllers
             List<CustEntMain> List = new List<CustEntMain>();
             List = db.CustEntMains.ToList();
             ViewBag.companies = List;
-            
+
+            var Companies = db.CustEntities.Where(s => s.CustomerId == id).ToList();
+           // var topLatestCompany = CompanyList.Where(s=> Companies.Contains(s.Id) || s.Id == 1).Select(s => s.Id).ToList();
+          
             ViewBag.companyList = CompanyList;
+            ViewBag.companiesPrev = Companies;
             ViewBag.CustomerID = id;
 
         }
@@ -446,7 +450,7 @@ namespace JobsV1.Controllers
             }
 
             //error
-            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).Take(topFilter).OrderByDescending(j => j.JobDate).ToList();
+            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).OrderByDescending(j => j.JobDate).ToList();
             
             //handle empty status
             if (status == null || status == "" || status == "ALL")
@@ -495,7 +499,7 @@ namespace JobsV1.Controllers
 
             }
 
-            ViewBag.jobList = jobList;
+            ViewBag.jobList = jobList.Take(topFilter).ToList();
 
         }
 
