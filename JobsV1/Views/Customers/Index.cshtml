@@ -8,7 +8,14 @@
 <h2>Customer List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Active", "Index", new { status = "ACTIVE" }, new { @id = "ACTIVE" }) |
+    @Html.ActionLink("Inactive", "Index", new { status = "INACTIVE" }, new { @id = "INACTIVE" }) |
+    @Html.ActionLink("Bad", "Index", new { status = "BAD" }, new { @id = "BAD" }) |
+    @Html.ActionLink("All", "Index", new { status = "ALL" }, new { @id = "ALL" })
+</p>
+<p>
+    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Deactive Old Users", "DiActivateOldCustomer")
 </p>
 <table class="table">
     <tr>
@@ -63,7 +70,7 @@
                 <p>
                     @foreach (var cat in @item.categories)
                     {
-                        <img src="~/@Html.DisplayFor(modelItem => cat.iconPath)" width="25" height="25" />
+                        <img src="~/@Html.DisplayFor(modelItem => cat.iconPath)" width="25" height="25" alt="@cat.Name" contextmenu="@cat.Name" title="@cat.Name" />
                     }
                 </p>
             </td>
@@ -101,4 +108,7 @@
     Customers 
     @Html.ActionLink("Companies", "Index", "CustEntMains", null, null) 
 </p>
-
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    $('#@ViewBag.status').css('color', 'black');
+</script>

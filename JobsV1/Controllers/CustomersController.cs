@@ -20,12 +20,29 @@ namespace JobsV1.Controllers
                 };
 
         // GET: Customers
-        public ActionResult Index()
+        public ActionResult Index(string status)
         {
 
-            var customerList = db.Customers.ToList();
-            string category;
-            string companyName;
+            var customerList = new List<Customer>();
+
+            switch (status)
+            {
+                case "ACTIVE":
+                    customerList = db.Customers.Where(s => s.Status == "ACT").ToList();
+                     break;
+                case "INACTIVE":
+                    customerList = db.Customers.Where(s => s.Status == "INC").ToList();
+                    break;
+                case "BAD":
+                    customerList = db.Customers.Where(s => s.Status == "BAD").ToList();
+                    break;
+                case "ALL":
+                    customerList = db.Customers.ToList();
+                    break;
+                default:
+                    customerList = db.Customers.Where(s => s.Status == "ACT").ToList();
+                    break;
+            }
 
 
             List<CustomerDetails> customerDetailList = new List<CustomerDetails>();
@@ -89,9 +106,7 @@ namespace JobsV1.Controllers
                     CustEntIconPath = "~/Images/Customers/Company/organization-40.png",
                     categories = getCategoriesList(customer.Id),
                     companies = getCompanyList(customer.Id)
-
-                    // JobID = db.JobMains.Where(jm => jm.CustomerId.Equals(customer.Id)).FirstOrDefault() == null ? 0 : db.JobMains.Where(jm => jm.CustomerId.Equals(customer.Id)).FirstOrDefault().Id,
-
+                    
                     //end
                 });
 
@@ -99,6 +114,8 @@ namespace JobsV1.Controllers
 
 
             //return View(db.Customers.ToList());
+            ViewBag.status = status;
+
             return View(customerDetailList);
 
 
@@ -425,7 +442,7 @@ namespace JobsV1.Controllers
             var Companies = db.CustEntities.Where(s => s.CustomerId == id).ToList();
            // var topLatestCompany = CompanyList.Where(s=> Companies.Contains(s.Id) || s.Id == 1).Select(s => s.Id).ToList();
           
-            ViewBag.companyList = CompanyList;
+            ViewBag.companyList = CompanyList.ToList();
             ViewBag.companiesPrev = Companies;
             ViewBag.CustomerID = id;
 
@@ -572,6 +589,59 @@ namespace JobsV1.Controllers
                 return RedirectToAction("CompanyCreate", "Customers", new { id = userid });
             }
         }
-        
+
+
+        public ActionResult DiActivateOldCustomer()
+        {
+            var datetoday = GetCurrentTime().Date.AddDays(-360);
+            //get customer id with jobs before 360 days from today
+            var latestJobs = db.JobMains.Where(j => j.JobDate.CompareTo(datetoday) < 0).Select(s=>s.CustomerId);
+            //get customers with status NO STATUS or ACTIVE from prev list
+            var allCustomers = db.Customers.Where(s=> (s.Status == "" || s.Status == "ACT" ) && latestJobs.Contains(s.Id)).ToList();
+
+            //get customers with jobs 
+            var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
+            //get customers  not in the list of customers with jobs
+            List<Customer> noJobCustomer = db.Customers.Where(s => (s.Status == "" || s.Status == "ACT") && s.Id != 1 && !customersWithJobs.Contains(s.Id)).ToList();
+
+            //merge two list
+            allCustomers.AddRange(noJobCustomer);
+
+            return View(allCustomers);
+        }
+
+
+        public ActionResult DiActivateAll()
+        {
+            var datetoday = GetCurrentTime().Date.AddDays(-360);
+            //get customers with jobs before 360 days from today
+            var latestJobs = db.JobMains.Where(j => j.JobDate.CompareTo(datetoday) < 0 ).Select(s => s.CustomerId);
+
+            var allCustomers = db.Customers.Where(s => (s.Status == "" || s.Status == "ACT") && latestJobs.Contains(s.Id)).ToList();
+
+            //get customers with no jobs
+            List<Customer> noJobCustomer = db.Customers.Where(s => s.JobMains == null).ToList();
+
+            //merge two list
+            allCustomers.AddRange(noJobCustomer);
+
+            foreach (var customer in allCustomers)
+            {
+                customer.Status = "INC";    //diactivate customer
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("DiActivateOldCustomer", "Customers");
+        }
+
+        protected DateTime GetCurrentTime()
+        {
+            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+            _localTime = _localTime.Date;
+
+            return _localTime;
+        }
+
     }
 }

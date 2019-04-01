@@ -46,7 +46,6 @@
         </dd>
     </dl>
 
-
 <!-- Modal -->
 <div class="modal fade" id="companyPrevListModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -59,9 +58,16 @@
 
                 <dl class="dl-horizontal" >
 
-                    @foreach (var item in ViewBag.companiesPrev as IEnumerable<JobsV1.Models.CustEntity>)
+                    @foreach (var item in ViewData["companiesPrev"] as IEnumerable<JobsV1.Models.CustEntity>)
                     {
-
+                        /*
+                        if (ViewBag.companies.Id == item.CustEntMainId)
+                        {
+                            <label class="label label-success">
+                                CURRENT 
+                            </label>
+                        }
+                        */
                         <dt>
                             Company
                         </dt>

@@ -1697,6 +1697,7 @@
     <Content Include="Views\JobOrder\jobStatus.cshtml" />
     <Content Include="Views\JobOrder\PartialViewServiceList_Status.cshtml" />
     <Content Include="Views\JobOrder\PartialViewSrvActionItems_Status.cshtml" />
+    <Content Include="Views\Customers\DiactivateOldCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
