@@ -593,16 +593,34 @@ namespace JobsV1.Controllers
 
         public ActionResult DiActivateOldCustomer()
         {
+            List<int> latestJobs = new List<int>();
             var datetoday = GetCurrentTime().Date.AddDays(-360);
-            //get customer id with jobs before 360 days from today
-            var latestJobs = db.JobMains.Where(j => j.JobDate.CompareTo(datetoday) < 0).Select(s=>s.CustomerId);
-            //get customers with status NO STATUS or ACTIVE from prev list
-            var allCustomers = db.Customers.Where(s=> (s.Status == "" || s.Status == "ACT" ) && latestJobs.Contains(s.Id)).ToList();
 
             //get customers with jobs 
             var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
+
+            var customers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && customersWithJobs.Contains(s.Id)).ToList().Select(s=>s.Id);
+
+            foreach (var cust in customers)
+            {
+                JobMain tempjob = db.JobMains.Where(j => j.Customer.Id == cust).OrderByDescending(j=>j.JobDate).FirstOrDefault();
+                if (tempjob.JobDate.CompareTo(datetoday) < 0)
+                {
+                    latestJobs.Add(cust);
+                }
+            }
+            
+            //get customer id with jobs before 360 days from today
+           // var latestJobs = db.JobMains.Where(j => j.JobDate.CompareTo(datetoday) < 0).Select(s=>s.CustomerId);
+            
+
+            //get customers with status NO STATUS or ACTIVE from prev list
+            var allCustomers = db.Customers.Where(s=> (string.IsNullOrEmpty(s.Status) || s.Status == "ACT" ) && latestJobs.Contains(s.Id)).ToList();
+
+            //get customers with jobs 
+           // var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
             //get customers  not in the list of customers with jobs
-            List<Customer> noJobCustomer = db.Customers.Where(s => (s.Status == "" || s.Status == "ACT") && s.Id != 1 && !customersWithJobs.Contains(s.Id)).ToList();
+            List<Customer> noJobCustomer = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && s.Id != 1 && !customersWithJobs.Contains(s.Id)).ToList();
 
             //merge two list
             allCustomers.AddRange(noJobCustomer);
@@ -613,14 +631,16 @@ namespace JobsV1.Controllers
 
         public ActionResult DiActivateAll()
         {
-            var datetoday = GetCurrentTime().Date.AddDays(-360);
+            var datetoday = GetCurrentTime().AddDays(-360);
             //get customers with jobs before 360 days from today
             var latestJobs = db.JobMains.Where(j => j.JobDate.CompareTo(datetoday) < 0 ).Select(s => s.CustomerId);
 
-            var allCustomers = db.Customers.Where(s => (s.Status == "" || s.Status == "ACT") && latestJobs.Contains(s.Id)).ToList();
+            var allCustomers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && latestJobs.Contains(s.Id)).ToList();
 
-            //get customers with no jobs
-            List<Customer> noJobCustomer = db.Customers.Where(s => s.JobMains == null).ToList();
+            //get customers with jobs 
+            var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
+            //get customers  not in the list of customers with jobs
+            List<Customer> noJobCustomer = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && s.Id != 1 && !customersWithJobs.Contains(s.Id)).ToList();
 
             //merge two list
             allCustomers.AddRange(noJobCustomer);
