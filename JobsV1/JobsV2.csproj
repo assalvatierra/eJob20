@@ -441,6 +441,7 @@
     <Compile Include="Models\Customer.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerClass.cs" />
     <Compile Include="Models\CustSalesCategory.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>

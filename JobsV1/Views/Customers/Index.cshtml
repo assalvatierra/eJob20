@@ -13,10 +13,16 @@
     @Html.ActionLink("Bad", "Index", new { status = "BAD" }, new { @id = "BAD" }) |
     @Html.ActionLink("All", "Index", new { status = "ALL" }, new { @id = "ALL" })
 </p>
+
 <p>
     @Html.ActionLink("Create New", "Create") |
     @Html.ActionLink("Deactive Old Users", "DiActivateOldCustomer")
 </p>
+<p>
+    <input class="input-sm" id="searchName" type="search"/>
+    <button class="btn btn-default" onclick="Ajax_searchCustomer()">Search</button>
+</p>
+
 <table class="table">
     <tr>
         <th>
@@ -111,4 +117,32 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
     $('#@ViewBag.status').css('color', 'black');
+
+        //AJAX CALLS
+        function Ajax_searchCustomer() {
+            var serviceURL = '/Customers/Index';
+
+            var search = $('#searchName').val();
+
+            window.location.href = "Customers?status=@ViewBag.status&search="+search;
+
+            //alert(search);
+            //$.ajax({
+            //    type: "GET",
+            //    url: serviceURL,
+            //    data: { status: "ALL", search: search },
+            //    contentType: "application/json; charset=utf-8",
+            //    dataType: "json",
+            //    async: true,
+            //    success: function (data) {
+            //        alert("pass");
+            //    },
+            //    error: function (data) {
+            //        alert("failed"); //always failed
+            //    }
+            //});
+
+        }
+    
+
 </script>

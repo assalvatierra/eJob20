@@ -7,12 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using System.Threading.Tasks;
 
 namespace JobsV1.Controllers
 {
     public class CustomersController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private CustomerClass custdb = new CustomerClass();
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "ACT", Text = "Active" },
                 new SelectListItem { Value = "INC", Text = "Inactive" },
@@ -20,100 +22,13 @@ namespace JobsV1.Controllers
                 };
 
         // GET: Customers
-        public ActionResult Index(string status)
+        public async Task<ActionResult> Index(string status, string search)
         {
 
-            var customerList = new List<Customer>();
-
-            switch (status)
-            {
-                case "ACTIVE":
-                    customerList = db.Customers.Where(s => s.Status == "ACT").ToList();
-                     break;
-                case "INACTIVE":
-                    customerList = db.Customers.Where(s => s.Status == "INC").ToList();
-                    break;
-                case "BAD":
-                    customerList = db.Customers.Where(s => s.Status == "BAD").ToList();
-                    break;
-                case "ALL":
-                    customerList = db.Customers.ToList();
-                    break;
-                default:
-                    customerList = db.Customers.Where(s => s.Status == "ACT").ToList();
-                    break;
-            }
-
-
             List<CustomerDetails> customerDetailList = new List<CustomerDetails>();
-            foreach (var customer in customerList)
-            {
-                CustCategory custcategory = new CustCategory();
-                CustCat custcat = new CustCat();
-                CustEntity companyEntity = new CustEntity();
-                CustEntMain company = new CustEntMain();
 
-                try
-                {
-                    custcat = db.CustCats.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
-                    custcategory = db.CustCategories.Where(cat => cat.Id == custcat.CustCategoryId).FirstOrDefault();
+            customerDetailList = await custdb.getCustomerList(status,search);
 
-                }
-                catch (Exception ex)
-                {
-                    custcategory = new CustCategory
-                    {
-                        Id = 0,
-                        Name = "Not Assigned",
-                        iconPath = "Images/Customers/Category/unavailable-40.png"
-                    };
-                }
-
-                try
-                {
-                    companyEntity = db.CustEntities.Where(ce => ce.CustomerId == customer.Id).FirstOrDefault();
-                    company = db.CustEntMains.Where(co => co.Id == companyEntity.CustEntMainId).FirstOrDefault();
-
-                }
-                catch (Exception ex)
-                {
-                    company = new CustEntMain
-                    {
-                        Id = 0,
-                        Name = "Not Assigned",
-                        Address = "none",
-                        Contact1 = "0",
-                        Contact2 = "0",
-                        iconPath = "Images/Customers/Category/unavailable-40.png"
-                    };
-                }
-
-
-                customerDetailList.Add(new CustomerDetails
-                {
-                    Id = customer.Id,
-                    Name = customer.Name,
-                    Email = customer.Email,
-                    Contact1 = customer.Contact1,
-                    Contact2 = customer.Contact2,
-                    Remarks = customer.Remarks,
-                    Status = customer.Status,
-                    JobID = customer.JobMains.Count(),
-                    CustCategoryID = custcategory.Id,
-                    CustCategoryIcon = custcategory.iconPath,
-                    CustEntID = company.Id,
-                    CustEntName = company.Name,
-                    CustEntIconPath = "~/Images/Customers/Company/organization-40.png",
-                    categories = getCategoriesList(customer.Id),
-                    companies = getCompanyList(customer.Id)
-                    
-                    //end
-                });
-
-            }
-
-
-            //return View(db.Customers.ToList());
             ViewBag.status = status;
 
             return View(customerDetailList);
