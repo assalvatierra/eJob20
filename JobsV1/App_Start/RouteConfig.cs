@@ -24,7 +24,14 @@ namespace JobsV1
                 url: "sitemap",
                 defaults: new { controller = "Home", action = "SitemapXml", id = UrlParameter.Optional }
                 );
-            
+
+            routes.MapRoute(
+                name: "Home",
+                url: "Home/",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
             #region wordpress links
             routes.MapRoute(
                 name: "van-for-rent",

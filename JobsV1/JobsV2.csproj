@@ -246,6 +246,7 @@
     <Compile Include="Areas\Accounting\Controllers\AsExpensesController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsMainController.cs" />
     <Compile Include="Areas\Accounting\Controllers\AsSalesController.cs" />
+    <Compile Include="Areas\Accounting\Controllers\HomeController.cs" />
     <Compile Include="Areas\Accounting\Models\AccntCategory.cs">
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
@@ -1715,6 +1716,7 @@
     <Content Include="Areas\Accounting\Scripts\Accounting.js" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Accounting\Views\Home\" />
     <Folder Include="Scripts\Reporting\" />
     <Folder Include="Views\CustomHelper\" />
     <Folder Include="Views\Paypal\" />

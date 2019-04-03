@@ -18,13 +18,13 @@ namespace JobsV1.Models
                 new SelectListItem { Value = "BAD", Text = "Bad Account" }
                 };
 
-        public async Task<List<CustomerDetails>> getCustomerList(string status,string search)
+        public List<CustomerDetails> getCustomerList(string status,string search)
         {
 
             var customerList = new List<Customer>();
 
             //filter customer list with status
-            customerList = await filterCustomerStatus(status);
+            customerList = filterCustomerStatus(status);
 
             if(!String.IsNullOrEmpty(search) && !String.IsNullOrWhiteSpace(search)) { 
                 //filter customer list with search string
@@ -41,8 +41,8 @@ namespace JobsV1.Models
 
                 try
                 {
-                    custcat = await db.CustCats.Where(c => c.CustomerId == customer.Id).FirstOrDefaultAsync();
-                    custcategory = await db.CustCategories.Where(cat => cat.Id == custcat.CustCategoryId).FirstOrDefaultAsync();
+                    custcat =  db.CustCats.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                    custcategory =  db.CustCategories.Where(cat => cat.Id == custcat.CustCategoryId).FirstOrDefault();
 
                 }
                 catch (Exception ex)
@@ -57,8 +57,8 @@ namespace JobsV1.Models
 
                 try
                 {
-                    companyEntity = await db.CustEntities.Where(ce => ce.CustomerId == customer.Id).FirstOrDefaultAsync();
-                    company = await db.CustEntMains.Where(co => co.Id == companyEntity.CustEntMainId).FirstOrDefaultAsync();
+                    companyEntity =  db.CustEntities.Where(ce => ce.CustomerId == customer.Id).FirstOrDefault();
+                    company =  db.CustEntMains.Where(co => co.Id == companyEntity.CustEntMainId).FirstOrDefault();
 
                 }
                 catch (Exception ex)
@@ -90,8 +90,8 @@ namespace JobsV1.Models
                     CustEntID = company.Id,
                     CustEntName = company.Name,
                     CustEntIconPath = "~/Images/Customers/Company/organization-40.png",
-                    categories = await getCategoriesList(customer.Id),
-                    companies = await getCompanyList(customer.Id)
+                    categories =  getCategoriesList(customer.Id),
+                    companies =  getCompanyList(customer.Id)
 
                     //end
                 });
@@ -101,7 +101,7 @@ namespace JobsV1.Models
             return customerDetailList;
         }
 
-        private async Task<List<Customer>> filterCustomerStatus(string status)
+        private  List<Customer> filterCustomerStatus(string status)
         {
 
             var customerList = new List<Customer>();
@@ -109,19 +109,19 @@ namespace JobsV1.Models
             switch (status)
             {
                 case "ACTIVE":
-                    customerList = await db.Customers.Where(s => s.Status == "ACT").ToListAsync();
+                    customerList =  db.Customers.Where(s => s.Status == "ACT").ToList();
                     break;
                 case "INACTIVE":
-                    customerList = await db.Customers.Where(s => s.Status == "INC").ToListAsync();
+                    customerList =  db.Customers.Where(s => s.Status == "INC").ToList();
                     break;
                 case "BAD":
-                    customerList = await db.Customers.Where(s => s.Status == "BAD").ToListAsync();
+                    customerList =  db.Customers.Where(s => s.Status == "BAD").ToList();
                     break;
                 case "ALL":
-                    customerList = await db.Customers.ToListAsync();
+                    customerList =  db.Customers.ToList();
                     break;
                 default:
-                    customerList = await db.Customers.Where(s => s.Status == "ACT").ToListAsync();
+                    customerList =  db.Customers.Where(s => s.Status == "ACT").ToList();
                     break;
             }
 
@@ -137,14 +137,14 @@ namespace JobsV1.Models
         }
 
 
-        private async Task<List<CustCategory>> getCategoriesList(int id)
+        public  List<CustCategory> getCategoriesList(int id)
         {
 
             //PartialView for Details of the Customer
             List<CustCategory> categoryDetails = new List<CustCategory>();
 
             //error
-            var categoryList = await db.CustCats.Where(c => c.CustomerId == id).ToListAsync();
+            var categoryList =  db.CustCats.Where(c => c.CustomerId == id).ToList();
 
             if (categoryList == null)
             {
@@ -206,13 +206,13 @@ namespace JobsV1.Models
         }
 
 
-        private async Task<List<CustEntMain>> getCompanyList(int id)
+        private  List<CustEntMain> getCompanyList(int id)
         {
 
             //PartialView for Details of the Customer
             List<CustEntMain> CompanyList = new List<CustEntMain>();
             //error
-            var CompanyRecord = await db.CustEntities.Where(c => c.CustomerId == id).ToListAsync();
+            var CompanyRecord =  db.CustEntities.Where(c => c.CustomerId == id).ToList();
 
             if (CompanyRecord == null)
             {

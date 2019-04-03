@@ -22,12 +22,12 @@ namespace JobsV1.Controllers
                 };
 
         // GET: Customers
-        public async Task<ActionResult> Index(string status, string search)
+        public  ActionResult Index(string status, string search)
         {
 
             List<CustomerDetails> customerDetailList = new List<CustomerDetails>();
-
-            customerDetailList = await custdb.getCustomerList(status,search);
+            //get customer list async
+            customerDetailList = custdb.getCustomerList(status,search);
 
             ViewBag.status = status;
 
@@ -35,122 +35,7 @@ namespace JobsV1.Controllers
 
 
         }
-
-        private List<CustCategory> getCategoriesList(int id) {
-
-            //PartialView for Details of the Customer
-            List<CustCategory> categoryDetails = new List<CustCategory>();
-
-            //error
-            var categoryList = db.CustCats.Where(c => c.CustomerId == id).ToList();
-
-            if (categoryList == null)
-            {
-
-                categoryDetails.Add(new CustCategory
-                {
-                    Id = 0,
-                    iconPath = "Images/Customers/Category/unavailable-40.png",
-                    Name = "not assigned"
-                });
-
-            }
-            else
-            {
-
-                foreach (var cat in categoryList)
-                {
-                    switch (cat.CustCategory.Name) {
-                        case "PRIORITY":
-                            cat.CustCategory.iconPath = "Images/Customers/Category/star-filled-40.png";
-                            break;
-                        case "ACTIVE":
-                            cat.CustCategory.iconPath = "Images/Customers/Category/Active-30.png";
-                            break;
-                        case "SUSPENDED":
-                            cat.CustCategory.iconPath = "Images/Customers/Category/suspended-64.png";
-                            break;
-                        case "BAD ACCOUNT":
-                            cat.CustCategory.iconPath = "Images/Customers/Category/cancel-40.png";
-                            break;
-                        case "CAR-RENTAL":
-                            cat.CustCategory.iconPath = "Images/Customers/Category/car-40.png";
-                            break;
-                        case "TOUR":
-                            cat.CustCategory.iconPath = "Images/Customers/Category/tour-40.png";
-                            break;
-                        case "CLIENT":
-                            cat.CustCategory.iconPath = "Images/Customers/Category/client-40.png";
-                            break;
-                        case "COMPANY":
-                            cat.CustCategory.iconPath = "Images/Customers/Company/organization-40.png";
-                            break;
-                    }
-
-
-
-                    categoryDetails.Add(new CustCategory
-                    {
-                        Id = cat.CustCategory.Id,
-                        iconPath = cat.CustCategory.iconPath,
-                        Name = cat.CustCategory.Name
-
-                    });
-                }
-            }
-
-            return categoryDetails;
-        }
-
-
-        private List<CustEntMain> getCompanyList(int id)
-        {
-
-            //PartialView for Details of the Customer
-            List<CustEntMain> CompanyList = new List<CustEntMain>();
-            //error
-            var CompanyRecord = db.CustEntities.Where(c => c.CustomerId == id).ToList();
-
-            if (CompanyRecord == null)
-            {
-
-                CompanyList.Add(new CustEntMain
-                {
-                    Id = 0,
-                    Name = "None",
-                    Address = "None",
-                    Contact1 = "None",
-                    Contact2 = "None",
-                    iconPath = "None"
-                });
-
-            }
-            else
-            {
-
-                foreach (var record in CompanyRecord)
-                {
-                    CompanyList.Add(new CustEntMain
-                    {
-                        Id = record.CustEntMain.Id,
-                        Name = record.CustEntMain.Name,
-                        Address = record.CustEntMain.Address,
-                        Contact1 = record.CustEntMain.Contact1,
-                        Contact2 = record.CustEntMain.Contact2,
-                        iconPath = "Images/Customers/Company/organization-40.png"
-                    });
-
-                }
-
-            }
-
-            ViewBag.companyList = CompanyList;
-            ViewBag.CustomerID = id;
-
-
-            return CompanyList;
-        }
-
+        
         // GET: Customers/Details/5
         public ActionResult Details(int? id, int? top, string sdate, string edate, string status)
         {
@@ -439,7 +324,7 @@ namespace JobsV1.Controllers
         private void PartialView_Categories(int? id)
         {
 
-            ViewBag.categoryDetails = getCategoriesList((int)id);
+            ViewBag.categoryDetails = custdb.getCategoriesList((int)id);
 
             ViewBag.categoryList = db.CustCategories.ToList();
         }
@@ -524,16 +409,10 @@ namespace JobsV1.Controllers
                     latestJobs.Add(cust);
                 }
             }
-            
-            //get customer id with jobs before 360 days from today
-           // var latestJobs = db.JobMains.Where(j => j.JobDate.CompareTo(datetoday) < 0).Select(s=>s.CustomerId);
-            
 
             //get customers with status NO STATUS or ACTIVE from prev list
             var allCustomers = db.Customers.Where(s=> (string.IsNullOrEmpty(s.Status) || s.Status == "ACT" ) && latestJobs.Contains(s.Id)).ToList();
-
-            //get customers with jobs 
-           // var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
+            
             //get customers  not in the list of customers with jobs
             List<Customer> noJobCustomer = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && s.Id != 1 && !customersWithJobs.Contains(s.Id)).ToList();
 
@@ -546,14 +425,26 @@ namespace JobsV1.Controllers
 
         public ActionResult DiActivateAll()
         {
-            var datetoday = GetCurrentTime().AddDays(-360);
-            //get customers with jobs before 360 days from today
-            var latestJobs = db.JobMains.Where(j => j.JobDate.CompareTo(datetoday) < 0 ).Select(s => s.CustomerId);
-
-            var allCustomers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && latestJobs.Contains(s.Id)).ToList();
+            List<int> latestJobs = new List<int>();
+            var datetoday = GetCurrentTime().Date.AddDays(-360);
 
             //get customers with jobs 
             var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
+
+            var customers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && customersWithJobs.Contains(s.Id)).ToList().Select(s => s.Id);
+
+            foreach (var cust in customers)
+            {
+                JobMain tempjob = db.JobMains.Where(j => j.Customer.Id == cust).OrderByDescending(j => j.JobDate).FirstOrDefault();
+                if (tempjob.JobDate.CompareTo(datetoday) < 0)
+                {
+                    latestJobs.Add(cust);
+                }
+            }
+
+            //get customers with status NO STATUS or ACTIVE from prev list
+            var allCustomers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && latestJobs.Contains(s.Id)).ToList();
+
             //get customers  not in the list of customers with jobs
             List<Customer> noJobCustomer = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && s.Id != 1 && !customersWithJobs.Contains(s.Id)).ToList();
 
