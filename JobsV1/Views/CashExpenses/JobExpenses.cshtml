@@ -1,0 +1,63 @@
+﻿@model IEnumerable<JobsV1.Models.CashExpense>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Cash Expenses of @ViewBag.JobName</h2>
+
+<p>
+    @Html.ActionLink("Back to JobServices", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobId },null )
+</p>
+<p>
+    @Html.ActionLink("Create New", "Create", new { jobid = ViewBag.JobId })
+</p>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtExpense)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RecievedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReleasedBy)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtExpense)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecievedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReleasedBy)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

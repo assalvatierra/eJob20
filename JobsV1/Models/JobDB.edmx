@@ -88,6 +88,7 @@
     <EntitySet Name="BlasterLogs" EntityType="JobDB.Store.BlasterLogs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EmailBlasterLogs" EntityType="JobDB.Store.EmailBlasterLogs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobEntMains" EntityType="JobDB.Store.JobEntMains" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CashExpenses" EntityType="JobDB.Store.CashExpenses" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -415,6 +416,10 @@
     <AssociationSet Name="JobEntMainCustEntMain" Association="JobDB.Store.JobEntMainCustEntMain">
       <End Role="JobEntMain" EntitySet="JobEntMains" />
       <End Role="CustEntMain" EntitySet="CustEntMains" />
+    </AssociationSet>
+    <AssociationSet Name="CashExpenseJobMain" Association="JobDB.Store.CashExpenseJobMain">
+      <End Role="CashExpense" EntitySet="CashExpenses" />
+      <End Role="JobMain" EntitySet="JobMains" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1283,6 +1288,18 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="JobMainId" Type="int" Nullable="false" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CashExpenses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JobMainId" Type="int" Nullable="false" />
+    <Property Name="DtExpense" Type="datetime" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="RecievedBy" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="ReleasedBy" Type="nvarchar" Nullable="true" MaxLength="30" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2268,6 +2285,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CashExpenseJobMain">
+    <End Role="CashExpense" Type="JobDB.Store.CashExpenses" Multiplicity="*" />
+    <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="JobMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CashExpense">
+        <PropertyRef Name="JobMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2683,6 +2712,11 @@
             <End Role="JobEntMain" EntitySet="JobEntMains" />
             <End Role="CustEntMain" EntitySet="CustEntMains" />
           </AssociationSet>
+          <EntitySet Name="CashExpenses" EntityType="JobDB.CashExpense" />
+          <AssociationSet Name="CashExpenseJobMain" Association="JobDB.CashExpenseJobMain">
+            <End Role="CashExpense" EntitySet="CashExpenses" />
+            <End Role="JobMain" EntitySet="JobMains" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -2714,6 +2748,7 @@
           <NavigationProperty Name="JobNotes" Relationship="JobDB.JobMainJobNote" FromRole="JobMain" ToRole="JobNote" />
           <NavigationProperty Name="SalesLeadLinks" Relationship="JobDB.JobMainSalesLeadLink" FromRole="JobMain" ToRole="SalesLeadLink" />
           <NavigationProperty Name="JobEntMains" Relationship="JobDB.JobEntMainJobMain" FromRole="JobMain" ToRole="JobEntMain" />
+          <NavigationProperty Name="CashExpenses" Relationship="JobDB.CashExpenseJobMain" FromRole="JobMain" ToRole="CashExpense" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -4699,6 +4734,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CashExpense">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="JobMain" Relationship="JobDB.CashExpenseJobMain" FromRole="CashExpense" ToRole="JobMain" />
+          <Property Name="JobMainId" Type="Int32" Nullable="false" />
+          <Property Name="DtExpense" Type="DateTime" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="80" Nullable="true" />
+          <Property Name="RecievedBy" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="ReleasedBy" Type="String" Nullable="true" MaxLength="30" />
+        </EntityType>
+        <Association Name="CashExpenseJobMain">
+          <End Type="JobDB.CashExpense" Role="CashExpense" Multiplicity="*" />
+          <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="JobMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CashExpense">
+              <PropertyRef Name="JobMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5651,6 +5711,19 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CashExpenses">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CashExpense)">
+        <MappingFragment StoreEntitySet="CashExpenses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+          <ScalarProperty Name="DtExpense" ColumnName="DtExpense" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="RecievedBy" ColumnName="RecievedBy" />
+          <ScalarProperty Name="ReleasedBy" ColumnName="ReleasedBy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

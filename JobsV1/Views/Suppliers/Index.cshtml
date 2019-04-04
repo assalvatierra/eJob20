@@ -7,8 +7,15 @@
 
 <h2>Suppliers</h2>
 
+<p >
+    <span id="ACTIVE"   style="color:black;cursor:pointer;">    Active   </span> |
+    <span id="INACTIVE" style="color:steelblue;cursor:pointer;">Inactive </span> |
+    <span id="BAD"      style="color:steelblue;cursor:pointer;">Bad      </span> |
+    <span id="ALL"      style="color:steelblue;cursor:pointer;">All      </span> 
+</p>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Diactivate List", "DiActivateSupplierList")
 </p>
 <p>
     <input type="search" id="srch-field"/>
@@ -26,124 +33,5 @@
 </table>
 
 
-
-@*<table class="table">
-    <tr>
-        <th>
-            Supplier Info
-        </th>
-        <th></th>
-    </tr>
-
-@if (Model.Count() > 0)
-{
-    foreach (var item in Model)
-    {
-        <tr>
-            <td style="white-space:nowrap">
-                <span style="font-weight:800"> @Html.DisplayFor(modelItem => item.Name) </span> /
-                @Html.DisplayFor(modelItem => item.City.Name)
-                <p>
-                    <img src="~/Images/Phone001.png" width="20" />
-                    <a href="tel:@item.Contact1">@Html.DisplayFor(modelItem => item.Contact1)</a>
-                    &nbsp; <a href="tel:@item.Contact2">@Html.DisplayFor(modelItem => item.Contact2)</a>
-                    &nbsp; <a href="tel:@item.Contact3">@Html.DisplayFor(modelItem => item.Contact3)</a>
-                </p>
-                <p>
-                    <img src="~/Images/Envelop001.png" width="20" />
-                    <a href="mailto:@item.Email">@Html.DisplayFor(modelItem => item.Email)</a>
-                </p>
-                <p>
-                    @Html.DisplayFor(modelItem => item.Details)
-                </p>
-                <p>
-                    <b>Status:</b>  @Html.DisplayFor(modelItem => item.Status)
-                </p>
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                <br />
-                @Html.ActionLink("Items", "Index", "SupplierItems")
-                <br />
-                @Html.ActionLink("InvItems", "InvItems", "Suppliers", new { id = item.Id },null)
-
-            </td>
-        </tr>
-    }
-}
-else
-{
-    <tr>
-        <td colspan="7">
-            No Supplier Found!
-            @Html.ActionLink("Create New >>", "Create") 
-        </td>             
-    </tr>
-}
-
-
-</table>
-<p>
-    List |
-    @Html.ActionLink("PO List", "Index", "SupplierPoHdrs") |
-    @Html.ActionLink("Coop Members", "Index", "CoopMembers") ]
-</p>*@ 
-
 <script src="~/Scripts/jquery-3.3.1.js"></script>
-<script>
-
-    //load initial on page ready
-    $(document).ready(ajax_loadContent());
-
-    //load table content on search btn click
-    //$('#srch-btn').click(ajax_loadContent());
-
-    function ajax_loadContent() {
-        var query = $('#srch-field').val();
-
-        //build json object
-        var data = {
-            search: query
-        };
-
-        console.log(query);
-
-        //request data from server using ajax call
-        $.ajax({
-            url: '/Suppliers/TableResult?search=' + query,
-            type: "GET",
-            data: JSON.stringify(data),
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                console.log("SUCCESS");
-
-            },
-            error: function (data) {
-                console.log("ERROR");
-                //parse data response to json object
-                var temp = jQuery.parseJSON(data["responseText"]);
-
-                //clear table contents except header
-                $("#sup-Table").find("tr:gt(0)").remove();
-
-                //populate table content
-                for (var x = 0; x < temp.length; x++) {
-                    content = "<tr>";
-                    content += "<td>" + temp[x]["Name"] + "</td>";
-                    content += "<td>" + temp[x]["Contact1"] + "<br>"
-                        + temp[x]["Contact2"] + "<br>"
-                        + temp[x]["Contact3"] + "</td>";
-                    content += "<td>" + temp[x]["Email"] + "</td>";
-                    content += "<td>" +
-                        "<a href='Suppliers/Edit/" + temp[x]["Id"] + "'>Edit</a> |" +
-                        "<a href='SupplierItems/'>Items</a>  |" +
-                        "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
-                        "</td>";
-                    content += "<tr>";
-
-                    $(content).appendTo("#sup-Table");
-                }
-            }
-        });
-    }
-</script>
+<script src="~/Scripts/Job/SupplierList.js"></script>

@@ -107,5 +107,6 @@ namespace JobsV1.Models
         public virtual DbSet<BlasterLog> BlasterLogs { get; set; }
         public virtual DbSet<EmailBlasterLogs> EmailBlasterLogs { get; set; }
         public virtual DbSet<JobEntMain> JobEntMains { get; set; }
+        public virtual DbSet<CashExpense> CashExpenses { get; set; }
     }
 }

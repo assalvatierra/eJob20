@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/29/2019 14:35:12
+-- Date Created: 04/04/2019 16:26:58
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -263,6 +263,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_JobEntMainCustEntMain]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[JobEntMains] DROP CONSTRAINT [FK_JobEntMainCustEntMain];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CashExpenseJobMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CashExpenses] DROP CONSTRAINT [FK_CashExpenseJobMain];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -513,6 +516,9 @@ IF OBJECT_ID(N'[dbo].[EmailBlasterLogs]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[JobEntMains]', 'U') IS NOT NULL
     DROP TABLE [dbo].[JobEntMains];
+GO
+IF OBJECT_ID(N'[dbo].[CashExpenses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CashExpenses];
 GO
 
 -- --------------------------------------------------
@@ -1386,6 +1392,18 @@ CREATE TABLE [dbo].[JobEntMains] (
 );
 GO
 
+-- Creating table 'CashExpenses'
+CREATE TABLE [dbo].[CashExpenses] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [JobMainId] int  NOT NULL,
+    [DtExpense] datetime  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
+    [Remarks] nvarchar(80)  NULL,
+    [RecievedBy] nvarchar(30)  NULL,
+    [ReleasedBy] nvarchar(30)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -1879,6 +1897,12 @@ GO
 -- Creating primary key on [Id] in table 'JobEntMains'
 ALTER TABLE [dbo].[JobEntMains]
 ADD CONSTRAINT [PK_JobEntMains]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CashExpenses'
+ALTER TABLE [dbo].[CashExpenses]
+ADD CONSTRAINT [PK_CashExpenses]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3114,6 +3138,21 @@ GO
 CREATE INDEX [IX_FK_JobEntMainCustEntMain]
 ON [dbo].[JobEntMains]
     ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [JobMainId] in table 'CashExpenses'
+ALTER TABLE [dbo].[CashExpenses]
+ADD CONSTRAINT [FK_CashExpenseJobMain]
+    FOREIGN KEY ([JobMainId])
+    REFERENCES [dbo].[JobMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CashExpenseJobMain'
+CREATE INDEX [IX_FK_CashExpenseJobMain]
+ON [dbo].[CashExpenses]
+    ([JobMainId]);
 GO
 
 -- --------------------------------------------------

@@ -320,7 +320,8 @@ namespace JobsV1.Controllers
 
         }
 
-
+        //display list of categories assigned 
+        //to the customer 
         private void PartialView_Categories(int? id)
         {
 
@@ -329,6 +330,10 @@ namespace JobsV1.Controllers
             ViewBag.categoryList = db.CustCategories.ToList();
         }
 
+        //display list of customer files 
+        //uploaded on the system
+        //Note: not working due to the 
+        //problem adding files to online database
         private void PartialView_CustomerFiles(int? id)
         {
             
@@ -371,6 +376,8 @@ namespace JobsV1.Controllers
             ViewBag.fileList = FilesList;
         }
 
+        // /Customers/Details
+        // assign company Category to the user
         public ActionResult addCompanyCat(int companyId, int userid)
         {
             if (companyId > 1)
@@ -390,7 +397,8 @@ namespace JobsV1.Controllers
             }
         }
 
-
+        //get list of customers with
+        //a year past jobs and no recent jobs 
         public ActionResult DiActivateOldCustomer()
         {
             List<int> latestJobs = new List<int>();
@@ -399,8 +407,11 @@ namespace JobsV1.Controllers
             //get customers with jobs 
             var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
 
+            //get customers with null or ACT status and have jobs
             var customers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && customersWithJobs.Contains(s.Id)).ToList().Select(s=>s.Id);
 
+            //check group of customers and its recent job 
+            //if the job is more than a year old
             foreach (var cust in customers)
             {
                 JobMain tempjob = db.JobMains.Where(j => j.Customer.Id == cust).OrderByDescending(j=>j.JobDate).FirstOrDefault();
@@ -423,16 +434,25 @@ namespace JobsV1.Controllers
         }
 
 
+        //Diactive a multiple customer by changing its 
+        //status from ACT to INC. 
+        //Customers on the list are customers with
+        //a year past jobs and no recent jobs 
         public ActionResult DiActivateAll()
         {
             List<int> latestJobs = new List<int>();
+            
+            //adjust date by subtracting 360 days (a year)
             var datetoday = GetCurrentTime().Date.AddDays(-360);
 
             //get customers with jobs 
             var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
-
+            
+            //get customers with null or ACT status and have jobs 
             var customers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && customersWithJobs.Contains(s.Id)).ToList().Select(s => s.Id);
-
+            
+            //check group of customers and its recent job 
+            //if the job is more than a year old
             foreach (var cust in customers)
             {
                 JobMain tempjob = db.JobMains.Where(j => j.Customer.Id == cust).OrderByDescending(j => j.JobDate).FirstOrDefault();
@@ -451,6 +471,8 @@ namespace JobsV1.Controllers
             //merge two list
             allCustomers.AddRange(noJobCustomer);
 
+            //diactivate customers by changing its 
+            //status from ACT to INC
             foreach (var customer in allCustomers)
             {
                 customer.Status = "INC";    //diactivate customer
@@ -461,6 +483,23 @@ namespace JobsV1.Controllers
             return RedirectToAction("DiActivateOldCustomer", "Customers");
         }
 
+        //Diactive a single customer by changing its 
+        //status from ACT to INC
+        public ActionResult DiactivateSingle(int id)
+        {
+            var customer = db.Customers.Find(id);
+            if (customer != null)
+            {
+                customer.Status = "INC";    //diactivate customer
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("DiActivateOldCustomer", "Customers");
+        }
+
+        //get current time based on Singapore Standard Time 
+        //SGT - UTC +8
         protected DateTime GetCurrentTime()
         {
             DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));

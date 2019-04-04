@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
 {
@@ -21,10 +22,67 @@ namespace JobsV1.Controllers
                 };
 
         // GET: Suppliers
+
+        class SupplierList
+        {
+            public int    Id       { get; set; }
+            public string Name     { get; set; }
+            public string Contact1 { get; set; }
+            public string Contact2 { get; set; }
+            public string Contact3 { get; set; }
+            public string Email    { get; set; }
+            public string Status   { get; set; }
+        }
+
         public ActionResult Index()
         {
-            var suppliers = db.Suppliers.Include(s => s.City);
-            return View(suppliers.ToList());
+            
+            return View(db.Suppliers.ToList());
+        }
+
+        //Ajax - Table Result 
+        //Get the list of suppliers
+        //containing the search string,
+        //if search is empty, return all actve items
+        public string TableResult(string search, string status)
+        {
+            List<Supplier> suppliers = new List<Supplier>();
+            List<SupplierList> supList = new List<SupplierList>();
+            suppliers = db.Suppliers.ToList();
+
+            //Search string filter
+            if (status == "ALL")
+            {
+                suppliers = suppliers.ToList();
+            }
+            else
+            {
+                suppliers = suppliers.Where(s => s.Status == status).ToList();
+            }
+            
+            //Search string filter
+            if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
+            {
+                suppliers = db.Suppliers.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
+            }
+
+            //build temp supplier list
+            foreach (var item in suppliers)
+            {
+                supList.Add(new SupplierList
+                {
+                    Id       = item.Id,
+                    Name     = item.Name,
+                    Contact1 = String.IsNullOrEmpty(item.Contact1) ? "--" : item.Contact1,
+                    Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
+                    Contact3 = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Contact3,
+                    Email    = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Email,
+                    Status   = item.Status
+                });
+            }
+            
+            //convert list to json object
+            return JsonConvert.SerializeObject(supList, Formatting.Indented);
         }
 
         // GET: Suppliers/Details/5
@@ -147,6 +205,8 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
+        #region InvItems
+
         public ActionResult InvItems(int id)
         {
             ViewBag.SupplierId = id;
@@ -175,5 +235,98 @@ namespace JobsV1.Controllers
 
             return RedirectToAction("InvItems", "Suppliers", new { id = item.SupplierId });
         }
+
+        #endregion
+
+        #region DiactivateList
+
+        //get list of customers with
+        //a year past jobs and no recent jobs 
+        public ActionResult DiActivateSupplierList()
+        {
+            //get supplier list
+            List<Supplier> suppliers = getDiactivatedList();
+            
+            return View(suppliers);
+        }
+        
+        //Diactive a multiple customer by changing its 
+        //status from ACT to INC. 
+        public ActionResult DiActivateAll()
+        {
+            //get supplier list
+            List<Supplier> suppliers = getDiactivatedList();
+
+            foreach (var sup in suppliers)
+            {
+                sup.Status = "INC";    //diactivate customer
+                db.Entry(sup).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+
+            return RedirectToAction("DiActivateSupplierList", "Suppliers");
+        }
+
+        //Customers on the list are customers with
+        //a year past jobs and no recent jobs 
+        private List<Supplier> getDiactivatedList()
+        {
+            List<int> oldJobs = new List<int>();
+            var datetoday = GetCurrentTime().Date.AddDays(-360).Date;
+
+            //get all active suppliers
+            var actSuppliers = db.Suppliers.Where(s => s.Status == "ACT").ToList();
+
+            foreach (var sup in actSuppliers)
+            {
+                //get recent jobservice of supplier
+                var jobserviceTemp = db.JobServices.Where(j => j.SupplierId == sup.Id).OrderByDescending(s => s.DtStart).FirstOrDefault();
+                if (jobserviceTemp != null)
+                {
+                    DateTime jobdate = (DateTime)jobserviceTemp.DtStart;
+                    //check if job is old o more than a year
+                    if (jobdate.Date.CompareTo(datetoday.Date) < 0)
+                    {
+                        oldJobs.Add(jobserviceTemp.Id);
+                    }
+
+                }
+            }
+
+            //get recent of jobservices 360 days
+            var services = db.JobServices.Where(j => oldJobs.Contains(j.Id)).ToList().Select(s => s.SupplierId);
+
+            //get list of suppliers with jobs
+            var suppliers = db.Suppliers.Where(s => services.Contains(s.Id)).ToList();
+
+            return suppliers;
+        }
+
+        //Diactive a single customer by changing its 
+        //status from ACT to INC
+        public ActionResult DiactivateSingle(int id)
+        {
+            var supplier = db.Suppliers.Find(id);
+            if (supplier != null)
+            {
+                supplier.Status = "INC";    //diactivate customer
+                db.Entry(supplier).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("DiActivateSupplierList", "Suppliers");
+        }
+
+        //get current time based on Singapore Standard Time 
+        //SGT - UTC +8
+        protected DateTime GetCurrentTime()
+        {
+            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+            _localTime = _localTime.Date;
+
+            return _localTime;
+        }
+        #endregion
     }
 }

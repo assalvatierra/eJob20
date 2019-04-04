@@ -42,7 +42,8 @@
         {
          <tr style="border:1px solid lightgray">
             <td>
-                @Html.DisplayFor(modelItem => item.JobDate)
+                @item.JobDate.AsDateTime().Month/@item.JobDate.AsDateTime().Day/@item.JobDate.AsDateTime().Year
+                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -57,7 +58,8 @@
                 @Html.DisplayFor(modelItem => item.StatusRemarks)
             </td>
             <td>
-                @Html.ActionLink("Details", "BookingDetails", "JobOrder", new { id = item.Id }, null)
+                @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = item.Id }, null) |
+                @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = item.Id }, null)
             </td>
         </tr>
         }
