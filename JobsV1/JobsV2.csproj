@@ -720,7 +720,6 @@
       <DependentUpon>AccountingDB.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Accounting\Models\AccountingDB.edmx.sql" />
-    <Content Include="Areas\Accounting\Models\AccountingDB.edmx2.sql" />
     <Content Include="Areas\Accounting\Models\AccountingDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AccountingDB.cs</LastGenOutput>

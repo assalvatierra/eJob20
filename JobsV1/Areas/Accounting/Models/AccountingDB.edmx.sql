@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/22/2019 16:11:56
+-- Date Created: 04/06/2019 11:43:03
 -- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Areas\Accounting\Models\AccountingDB.edmx
 -- --------------------------------------------------
 
@@ -41,23 +41,20 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AccntTrxHdrAccntTrxDtl]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccntTrxDtls] DROP CONSTRAINT [FK_AccntTrxHdrAccntTrxDtl];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AccntTrxDtlAccntTrxHist]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccntTrxHists] DROP CONSTRAINT [FK_AccntTrxDtlAccntTrxHist];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntChart]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccntCategories] DROP CONSTRAINT [FK_AccntTypeAccntChart];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntMain]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntTypeAccntMain];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AccntCategoryAccntMain]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntCategoryAccntMain];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AccntMainAccntLedger]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccntLedgers] DROP CONSTRAINT [FK_AccntMainAccntLedger];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AccntLedgerAccntTrxDtl]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AccntTrxDtls] DROP CONSTRAINT [FK_AccntLedgerAccntTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntCategoryAccntMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntCategoryAccntMain];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntMains] DROP CONSTRAINT [FK_AccntTypeAccntMain];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AccntTypeAccntCategory]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AccntCategories] DROP CONSTRAINT [FK_AccntTypeAccntCategory];
 GO
 
 -- --------------------------------------------------
