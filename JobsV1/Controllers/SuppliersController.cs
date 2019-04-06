@@ -67,7 +67,7 @@ namespace JobsV1.Controllers
             //Search string filter
             if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
             {
-                suppliers = db.Suppliers.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
+                suppliers = suppliers.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
             }
 
             //build temp supplier list
@@ -150,7 +150,7 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
-            ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
+            ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description", supplier.SupplierTypeId);
 
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
 

@@ -1054,6 +1054,7 @@
     <Content Include="Models\SQL.Job\CarRentalInitial_meta.sql" />
     <Content Include="Models\SQL.Job\CustomerInitial.sql" />
     <Content Include="Models\SQL.Job\DailyStatusUpdate.sql" />
+    <Content Include="Models\SQL.Job\InitialAll.sql" />
     <Content Include="Models\SQL.Job\InitialData.sql" />
     <Content Include="Models\SQL.Job\JobDB.Car.sql" />
     <Content Include="Models\JobDB.Context.tt">

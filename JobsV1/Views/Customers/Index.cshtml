@@ -19,7 +19,7 @@
     @Html.ActionLink("Deactive Old Users", "DiActivateOldCustomer")
 </p>
 <p>
-    <input class="input-sm" id="searchName" type="search"/>
+    <input class="input-sm" id="searchName" type="search" />
     <button class="btn btn-default" onclick="Ajax_searchCustomer()">Search</button>
 </p>
 
@@ -116,33 +116,21 @@
 </p>
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
+    $(document).ready(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+
+        var search = url.searchParams.get("search") != null ? url.searchParams.get("search") : "";
+        $("#searchName").val(search);
+    });
+
     $('#@ViewBag.status').css('color', 'black');
 
-        //AJAX CALLS
-        function Ajax_searchCustomer() {
-            var serviceURL = '/Customers/Index';
+    //http CALLS
+    function Ajax_searchCustomer() {
+        var serviceURL = '/Customers/Index';
+        var search = $('#searchName').val();
 
-            var search = $('#searchName').val();
-
-            window.location.href = "Customers?status=@ViewBag.status&search="+search;
-
-            //alert(search);
-            //$.ajax({
-            //    type: "GET",
-            //    url: serviceURL,
-            //    data: { status: "ALL", search: search },
-            //    contentType: "application/json; charset=utf-8",
-            //    dataType: "json",
-            //    async: true,
-            //    success: function (data) {
-            //        alert("pass");
-            //    },
-            //    error: function (data) {
-            //        alert("failed"); //always failed
-            //    }
-            //});
-
-        }
-    
-
+        window.location.href = "Customers?status=@ViewBag.status&search="+search;
+    }
 </script>

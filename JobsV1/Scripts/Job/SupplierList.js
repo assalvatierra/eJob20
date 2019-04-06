@@ -122,6 +122,8 @@ function SimpleTable(data) {
         content += "<tr>";
 
         $(content).appendTo("#sup-Table");
+        $("#sup-header-2").text("Contact2");
+        $("#sup-header-3").text("Contact3");
     }
 }
 
@@ -134,8 +136,6 @@ function ExpandedTable(data) {
 
     //clear table contents except header
     $("#sup-Table").find("tr:gt(0)").remove();
-
-
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
@@ -157,5 +157,7 @@ function ExpandedTable(data) {
         content += "<tr>";
 
         $(content).appendTo("#sup-Table");
+        $("#sup-header-2").text("Email");
+        $("#sup-header-3").text("Status");
     }
 }
