@@ -1,4 +1,10 @@
-﻿var status = "ACT";
+﻿
+
+
+//global variables
+var status = "ACT";
+var viewType = "SIMPLE";
+
 //load initial on page ready
 $(document).ready(ajax_loadContent());
 
@@ -28,6 +34,17 @@ $('#ALL').click(function () {
     $('#ALL').siblings().css("color", "steelblue");
 });
 
+$('#simple-Table').click(function () {
+    viewType = "SIMPLE";
+    $('#simple-Table').css("color", "black");
+    $('#simple-Table').siblings().css("color", "steelblue");
+});
+
+$('#expanded-Table').click(function () {
+    viewType = "EXPAND";
+    $('#expanded-Table').css("color", "black");
+    $('#expanded-Table').siblings().css("color", "steelblue");
+});
 
 
 //load table content on search btn click
@@ -53,34 +70,92 @@ function ajax_loadContent() {
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
             console.log("SUCCESS");
-
+            
         },
         error: function (data) {
             console.log("ERROR");
-            //parse data response to json object
-            var temp = jQuery.parseJSON(data["responseText"]);
-
-            //clear table contents except header
-            $("#sup-Table").find("tr:gt(0)").remove();
-
-            //populate table content
-            for (var x = 0; x < temp.length; x++) {
-                content = "<tr>";
-                content += "<td>" + temp[x]["Name"] + "</td>";
-                content += "<td>" + temp[x]["Contact1"] + "<br>"
-                    + temp[x]["Contact2"] + "<br>"
-                    + temp[x]["Contact3"] + "</td>";
-                content += "<td>" + temp[x]["Email"] + "</td>";
-                content += "<td>" + temp[x]["Status"] + "</td>";
-                content += "<td>" +
-                    "<a href='Suppliers/Edit/" + temp[x]["Id"] + "'>Edit</a> |" +
-                    "<a href='SupplierItems/'>Items</a>  |" +
-                    "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
-                    "</td>";
-                content += "<tr>";
-
-                $(content).appendTo("#sup-Table");
-            }
+            switchViews(data)
         }
     });
+}
+
+
+//param : data - json object containing 
+//
+function switchViews(data) {
+    switch(viewType){
+        case "SIMPLE":
+            SimpleTable(data);
+            break;
+        case "EXPAND":
+            ExpandedTable(data);
+            break;
+        default:
+            SimpleTable(data);
+    }
+
+}
+
+//display simple/limited information 
+//of suppliers
+function SimpleTable(data) {
+    console.log("SimpleTable");
+    //parse data response to json object
+    var temp = jQuery.parseJSON(data["responseText"]);
+    console.log(temp);
+    //clear table contents except header
+    $("#sup-Table").find("tr:gt(0)").remove();
+
+
+    //populate table content
+    for (var x = 0; x < temp.length; x++) {
+        content = "<tr>";
+        content += "<td>" + temp[x]["Name"] + "</td>";
+        content += "<td>" + temp[x]["Contact1"] + "</td>";
+        content += "<td>" + temp[x]["Contact2"] + "</td>";
+        content += "<td>" + temp[x]["Contact3"] + "</td>";
+        content += "<td>" +
+            "<a href='Suppliers/Edit/" + temp[x]["Id"] + "'>Edit</a> |" +
+            "<a href='SupplierItems/'>Items</a>  |" +
+            "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
+            "</td>";
+        content += "<tr>";
+
+        $(content).appendTo("#sup-Table");
+    }
+}
+
+//display expanded information 
+//of suppliers
+function ExpandedTable(data) {
+    console.log("ExpandedTable");
+    //parse data response to json object
+    var temp = jQuery.parseJSON(data["responseText"]);
+
+    //clear table contents except header
+    $("#sup-Table").find("tr:gt(0)").remove();
+
+
+
+    //populate table content
+    for (var x = 0; x < temp.length; x++) {
+        content = "<tr>";
+        content += "<td>" + temp[x]["Name"] + "</td>";
+        content += "<td>" + temp[x]["Contact1"] + "<br>"
+            + temp[x]["Contact2"] + "<br>"
+            + temp[x]["Contact3"] + "</td>";
+        content += "<td>" + temp[x]["Email"] + "</td>";
+        content += "<td>" + temp[x]["Status"] + "</td>";
+        content += "<td>" + temp[x]["City"] + "</td>";
+        content += "<td>" + temp[x]["SupType"] + "</td>";
+        content += "<td>" + temp[x]["Dtls"] + "</td>";
+        content += "<td>" +
+            "<a href='Suppliers/Edit/" + temp[x]["Id"] + "'>Edit</a> |" +
+            "<a href='SupplierItems/'>Items</a>  |" +
+            "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
+            "</td>";
+        content += "<tr>";
+
+        $(content).appendTo("#sup-Table");
+    }
 }

@@ -37,7 +37,7 @@ namespace JobsV1.Controllers
         }
         
         // GET: Customers/Details/5
-        public ActionResult Details(int? id, int? top, string sdate, string edate, string status)
+        public ActionResult Details(int? id, int? top, int? last,string sdate, string edate, string status, string sortdate)
         {
             if (id == null)
             {
@@ -56,7 +56,7 @@ namespace JobsV1.Controllers
 
             //generate partial view list for companies
             PartialView_Companies(id);
-            PartialView_Jobs(id,(int)top,sdate,edate,status);
+            PartialView_Jobs((int)id,(int)top, sdate,edate,status, sortdate);
             PartialView_Categories(id);
             PartialView_CustomerFiles(id);
             ViewBag.categoryList = db.CustCategories.ToList();
@@ -249,7 +249,7 @@ namespace JobsV1.Controllers
         }
 
 
-        private void PartialView_Jobs(int? id, int? top, string sdate, string edate, string status)
+        private void PartialView_Jobs(int? id, int? top, string sdate, string edate, string status, string sortdate)
         {
 
             int topFilter = (int)top;
@@ -267,17 +267,29 @@ namespace JobsV1.Controllers
             }
 
             //error
-            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).OrderByDescending(j => j.JobDate).ToList();
+            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).ToList();
+            if (jobRecord != null) { 
+                if (!(String.IsNullOrEmpty(sortdate)))
+                { 
+                    if (sortdate == "1")
+                    {
+                        jobRecord = jobRecord.OrderByDescending(j => j.JobDate).ToList();
+                    }else
+                    {
+                        jobRecord = jobRecord.OrderBy(j => j.JobDate).ToList();
+                    }
+                }
+
             
-            //handle empty status
-            if (status == null || status == "" || status == "ALL")
-            {
-                jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0).ToList();
-            } else {
+                //handle empty status
+                if (status == null || status == "" || status == "ALL")
+                {
+                    jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0).ToList();
+                } else {
 
-                jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status).ToList();
+                    jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status).ToList();
+                }
             }
-
 
             if (jobRecord == null)
             {
@@ -299,25 +311,31 @@ namespace JobsV1.Controllers
 
                 foreach (var record in jobRecord)
                 {
+                    var svcs = db.JobServices.Where(s => s.JobMainId == record.Id).ToList();
+                    decimal totalAmount = 0;
+               
+                    foreach (var services in svcs)
+                    {
+                        totalAmount += services.ActualAmt != null ? (decimal)services.ActualAmt : 0;
+                    }
+
                     jobList.Add(new CustomerJobDetails
                     {
 
-                        Id = record.Id,
-                        JobDate = record.JobDate.ToString(),
+                        Id          = record.Id,
+                        JobDate     = record.JobDate.ToString(),
                         Description = record.Description,
-                        AgreedAmt = record.AgreedAmt.ToString(),
-                        NoOfDays = record.NoOfDays.ToString(),
-                        NoOfPax = record.NoOfPax.ToString(),
-                        StatusRemarks = record.JobStatus.Status
-
+                        AgreedAmt   = record.AgreedAmt.ToString(),
+                        NoOfDays    = record.NoOfDays.ToString(),
+                        NoOfPax     = record.NoOfPax.ToString(),
+                        StatusRemarks = record.JobStatus.Status,
+                        Amount      = totalAmount
                     });
 
                 }
 
             }
-
             ViewBag.jobList = jobList.Take(topFilter).ToList();
-
         }
 
         //display list of categories assigned 

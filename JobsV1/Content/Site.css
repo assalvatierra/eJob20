@@ -505,3 +505,14 @@ rental-type-wdriver {
     }
 
 
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .cursor-pointer :hover {
+        color: lightblue;
+    }
+
+    .option-selected{
+        color: black;
+    }

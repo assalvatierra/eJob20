@@ -32,6 +32,9 @@ namespace JobsV1.Controllers
             public string Contact3 { get; set; }
             public string Email    { get; set; }
             public string Status   { get; set; }
+            public string SupType  { get; set; }
+            public string City     { get; set; }
+            public string Dtls     { get; set; }
         }
 
         public ActionResult Index()
@@ -39,6 +42,7 @@ namespace JobsV1.Controllers
             
             return View(db.Suppliers.ToList());
         }
+        
 
         //Ajax - Table Result 
         //Get the list of suppliers
@@ -77,7 +81,10 @@ namespace JobsV1.Controllers
                     Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
                     Contact3 = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Contact3,
                     Email    = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Email,
-                    Status   = item.Status
+                    Status   = item.Status,
+                    City     = item.City.Name,
+                    SupType  = item.SupplierType.Description,
+                    Dtls     = item.Details 
                 });
             }
             

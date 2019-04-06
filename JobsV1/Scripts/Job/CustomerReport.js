@@ -10,10 +10,10 @@ var STATUS = "";
 var SDATE = "";
 var EDATE = "";
 var TOP = 30;
+var SORTDATE = 1;
  
 //loads previous 30 jobs on load of the page
 $(document).ready(function () {
-    TOP = 30;
     Update();
     updateStatusCSS();
 
@@ -29,12 +29,14 @@ function Update() {
      eDateVal = url.searchParams.get("eDate") != null ? url.searchParams.get("eDate") : getToday();
      TOP = url.searchParams.get("top") != null ? url.searchParams.get("top") : 30;
      STATUS = url.searchParams.get("status") != null ? url.searchParams.get("status") : "ALL";
+     SORTDATE = url.searchParams.get("sortdate") != null ? url.searchParams.get("sortdate") : 1;
 
     //convert to format (YYYY-MM-DD)
      sDateVal = moment(sDateVal).format('YYYY-MM-DD');
      eDateVal = moment(eDateVal).format('YYYY-MM-DD');
 
-     //console.log(sDateVal + " - " + eDateVal);
+     updateJobDateArrow();
+     topUpdate(TOP);
 
      $('#startDate').val(sDateVal);
      $('#endDate').val(eDateVal);
@@ -91,7 +93,8 @@ function detailsUpdate(custId) {
     if (eDateVal != null && sDateVal != null) {
         requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
     }
-    requestString += "&status="+STATUS
+    requestString += "&status=" + STATUS;
+    requestString += "&sortdate=" + SORTDATE;
 
     //delay 2 sec
     //wait(2000);
@@ -135,4 +138,75 @@ function wait(ms) {
     while (end < start + ms) {
         end = new Date().getTime();
     }
+}
+
+
+//update status value on click
+//change color of the text
+$('#last30').click(function () {
+    $('#last30').css("color", "black");
+    $('#last30').siblings().css("color", "steelblue");
+});
+
+
+//update status value on click
+//change color of the text
+$('#last60').click(function () {
+    $('#last60').css("color", "black");
+    $('#last60').siblings().css("color", "steelblue");
+});
+
+//update status value on click
+//change color of the text
+$('#take30').click(function () {
+    TOP = 30;
+    $('#take30').css("color", "black");
+    $('#take30').siblings().css("color", "steelblue");
+});
+
+//update status value on click
+//change color of the text
+$('#take60').click(function () {
+    TOP = 60;
+    $('#take60').css("color", "black");
+    $('#take60').siblings().css("color", "steelblue");
+});
+
+//update status value on click
+//change color of the text
+$('#take100').click(function () {
+    TOP = 100;
+    $('#take100').css("color", "black");
+    $('#take100').siblings().css("color", "steelblue");
+});
+
+function topUpdate(top){
+    TOP = top;
+
+    $('#take' + top).css("color", "black");
+    $('#take' + top).siblings().css("color", "steelblue");
+}
+
+
+function updateJobDateArrow(){
+    
+    if (SORTDATE == 1) { //descending order - top : newest - bottom : oldest
+        $('#jobdate-arrowDown').hide();
+        $('#jobdate-arrowUp').show();
+    } else { //ascending
+        $('#jobdate-arrowUp').hide();
+        $('#jobdate-arrowDown').show();
+    }
+}
+
+function sortbyJobDate(custId) {
+
+    if (SORTDATE == 1) { //descending
+        //change to ascending
+        SORTDATE = 0;
+    } else { //ascending
+        //change to descending
+        SORTDATE = 1;
+    }
+    updateJobDateArrow();
 }

@@ -7,15 +7,24 @@
 
 <h2>Suppliers</h2>
 
-<p >
-    <span id="ACTIVE"   style="color:black;cursor:pointer;">    Active   </span> |
-    <span id="INACTIVE" style="color:steelblue;cursor:pointer;">Inactive </span> |
-    <span id="BAD"      style="color:steelblue;cursor:pointer;">Bad      </span> |
-    <span id="ALL"      style="color:steelblue;cursor:pointer;">All      </span> 
+<p> Status:
+    <span>
+       
+        <span id="ACTIVE" style="color:black;cursor:pointer;">    Active   </span> |
+        <span id="INACTIVE" style="color:steelblue;cursor:pointer;">Inactive </span> |
+        <span id="BAD" style="color:steelblue;cursor:pointer;">Bad      </span> |
+        <span id="ALL" style="color:steelblue;cursor:pointer;">All      </span>
+    </span>
 </p>
 <p>
     @Html.ActionLink("Create New", "Create") |
     @Html.ActionLink("Diactivate List", "DiActivateSupplierList")
+</p>
+<p>Table View: 
+    <span>
+        <span id="simple-Table" style="color:black;cursor:pointer;">Simple</span> |
+        <span id="expanded-Table" style="color:steelblue;cursor:pointer;">Expanded</span>
+    </span>
 </p>
 <p>
     <input type="search" id="srch-field"/>
@@ -24,9 +33,9 @@
 <table class="table " id="sup-Table">
     <tr>
         <th>Supplier</th>
-        <th>Contact Num</th>
-        <th>Email</th>
-        <th>Status</th>
+        <th>Contact 1 </th>
+        <th id="sup-header-1">Contact 2</th>
+        <th id="sup-header-1">Contact 3</th>
         <th></th>
     </tr>
     

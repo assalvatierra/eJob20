@@ -1099,6 +1099,7 @@
     <Content Include="Scripts\Job\CompanyReport.js" />
     <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\Job\CashExpenses.js" />
+    <Content Include="Scripts\Job\SupplierListExpand.js" />
     <Content Include="Scripts\Job\SupplierList.js" />
     <Content Include="Scripts\ssl.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
@@ -1700,7 +1701,6 @@
     <Content Include="Views\SysAccessUsers\UserSubModuleAdd.cshtml" />
     <Content Include="Views\SysAccessUsers\UserSubModuleDelete.cshtml" />
     <Content Include="Views\SysAccessUsers\ModuleMenuUserDelete.cshtml" />
-    <Content Include="Views\Suppliers\IndexExpand.cshtml" />
     <Content Include="Views\JobOrder\jobStatus.cshtml" />
     <Content Include="Views\JobOrder\PartialViewServiceList_Status.cshtml" />
     <Content Include="Views\JobOrder\PartialViewSrvActionItems_Status.cshtml" />
