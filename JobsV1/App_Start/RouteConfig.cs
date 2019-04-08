@@ -32,7 +32,8 @@ namespace JobsV1
                 namespaces: new[] { "JobsV1.Controllers" }
             );
 
-            #region wordpress links
+            #region CarRental links
+
             routes.MapRoute(
                 name: "van-for-rent",
                 url: "CarRental/van-for-rent",
@@ -63,8 +64,201 @@ namespace JobsV1
                 url: "carrental/pickup-rental",
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 6 }
             );
+
             #endregion
 
+
+            #region From Error List
+            //From Error List
+            //carrental/toyota-hiace-van-for-rent/
+            routes.MapRoute(
+                name: "toyota-hiace-van-for-rent",
+                url: "carrental/toyota-hiace-van-for-rent/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+
+            //carrental/tag/davao-city-car-rentals/
+            routes.MapRoute(
+                name: "davao-city-car-rentals",
+                url: "carrental/tag/davao-city-car-rentals/",
+                defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing" }
+            );
+
+            //carrental/honda-city/hondacitybr1/
+            routes.MapRoute(
+                name: "honda-city/hondacitybr1/",
+                url: "carrental/honda-city/hondacitybr1/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
+            );
+
+            //carrental/honda-city/
+            routes.MapRoute(
+                name: "honda-city",
+                url: "carrental/honda-city/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
+            );
+
+            //carrental/toyota-vios-for-rent/toyota-vios-2012/
+            routes.MapRoute(
+                name: "toyota-vios-for-rent/toyota-vios-2012/",
+                url: "carrental/toyota-vios-for-rent/toyota-vios-2012/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
+            );
+
+            //carrental/ford-everest-suv-car-for-rent-davao-car-rental/ford-everest-rear01/
+            routes.MapRoute(
+                name: "ford-everest-suv-car-for-rent-davao-car-rental/ford-everest-rear01/",
+                url: "carrental/ford-everest-suv-car-for-rent-davao-car-rental/ford-everest-rear01/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 3 }
+            );
+
+            //carrental/category/suvauvmpv/
+            routes.MapRoute(
+                name: "suvauvmpv",
+                url: "carrental/category/suvauvmpv/",
+                defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing-mpv" }
+            );
+            
+            //carrental/toyota-avanza-for-rent/
+            routes.MapRoute(
+                name: "toyota-avanza-for-rent",
+                url: "carrental/toyota-avanza-for-rent/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 4 }
+            );
+
+            //carrental/category/rates/
+            routes.MapRoute(
+                name: "category/rates",
+                url: "category/rates/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+
+            //carrental/category/realwheels/
+            routes.MapRoute(
+                name: "category/realwheels",
+                url: "category/realwheels/",
+                defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing" }
+            );
+
+            //carrental/van-rental-rates/
+            routes.MapRoute(
+                name: "van-rental-rates/",
+                url: "carrental/van-rental-rates/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing-vans" }
+            );
+
+            //carrental/ford-everest-suv-car-for-rent-davao-car-rental/
+            routes.MapRoute(
+                name: "ford-everest-suv-car-for-rent-davao-car-rental/",
+                url: "carrental/ford-everest-suv-car-for-rent-davao-car-rental/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 3 }
+            );
+
+            //carrental/author/abel/
+            routes.MapRoute(
+                name: "author/abel/",
+                url: "carrental/author/abel/",
+                defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing" }
+            );
+
+            //carrental/carrental/category/4x4/
+            routes.MapRoute(
+                name: "category/4x4/",
+                url: "carrental/category/4x4/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 6 }
+            );
+
+            //carrental/tag/rent-a-car/
+            routes.MapRoute(
+                name: "tag/rent-a-car/",
+                url: "carrental/tag/rent-a-car/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "tag-davao-rent-a-car" }
+            );
+
+            //carrental/category/sedan/
+            routes.MapRoute(
+                name: "category/sedan/",
+                url: "carrental/category/sedan/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "sedan-listing" }
+            );
+
+            //davao-rent-a-car/
+            routes.MapRoute(
+                name: "davao-rent-a-car/",
+                url: "carrental/davao-rent-a-car/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "tag-davao-rent-a-car" }
+            );
+
+            //carrental/toyota-vios-for-rent/
+            routes.MapRoute(
+                name: "carrental/toyota-vios-for-rent/",
+                url: "carrental/toyota-vios-for-rent/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 4 }
+            );
+
+            //page/2/
+            routes.MapRoute(
+                name: "page/2/",
+                url: "page/2/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing-page-2" }
+            );
+
+            //carrental/toyota-fortuner-4x4/
+            routes.MapRoute(
+                name: "toyota-fortuner-4x4/",
+                url: "carrental/toyota-fortuner-4x4/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 3 }
+            );
+
+            //carrental/mpvauvminivan-rental-rates/",
+            routes.MapRoute(
+                name: "mpvauvminivan-rental-rates/",
+                url: "carrental/mpvauvminivan-rental-rates/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 4 }
+            );
+
+            //carrental/toyota-fortuner-4x4/
+            routes.MapRoute(
+                name: "tag/auv-rentals/",
+                url: "carrental/tag/auv-rentals/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing-mpv" }
+            );
+
+            //carrental/chevrolet-trailblazer/
+            routes.MapRoute(
+                name: "chevrolet-trailblazer/",
+                url: "carrental/chevrolet-trailblazer/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 3 }
+            );
+
+            //category/van/
+            routes.MapRoute(
+                name: "category/van/",
+                url: "carrental/category/van/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing-vans" }
+            );
+
+            //toyota-fortuner-for-rent/
+            routes.MapRoute(
+                name: "toyota-fortuner-for-rent/",
+                url: "carrental/toyota-fortuner-for-rent/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 3 }
+            );
+
+            //toyota-fortuner-for-rent/
+            routes.MapRoute(
+                name: "category/featured/",
+                url: "carrental/category/featured/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing" }
+            );
+
+            //van-for-rent
+            routes.MapRoute(
+                name: "carrental/van-for-rent",
+                url: "carrental/van-for-rent",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+            #endregion
             #region POTTMPC
             routes.MapRoute(
                 name: "Van-Starex-for-rent",
