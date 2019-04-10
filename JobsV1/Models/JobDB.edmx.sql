@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/06/2019 11:40:45
--- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 04/06/2019 16:49:59
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -519,6 +519,9 @@ IF OBJECT_ID(N'[dbo].[JobEntMains]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CashExpenses]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CashExpenses];
+GO
+IF OBJECT_ID(N'[dbo].[PortalCustomers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PortalCustomers];
 GO
 
 -- --------------------------------------------------
@@ -1404,6 +1407,16 @@ CREATE TABLE [dbo].[CashExpenses] (
 );
 GO
 
+-- Creating table 'PortalCustomers'
+CREATE TABLE [dbo].[PortalCustomers] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ContactNum] nvarchar(15)  NOT NULL,
+    [Password] nvarchar(max)  NOT NULL,
+    [ExpiryDt] datetime  NOT NULL,
+    [CustomerID] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -1903,6 +1916,12 @@ GO
 -- Creating primary key on [Id] in table 'CashExpenses'
 ALTER TABLE [dbo].[CashExpenses]
 ADD CONSTRAINT [PK_CashExpenses]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PortalCustomers'
+ALTER TABLE [dbo].[PortalCustomers]
+ADD CONSTRAINT [PK_PortalCustomers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

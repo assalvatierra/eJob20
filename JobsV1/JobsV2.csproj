@@ -348,6 +348,7 @@
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\PaypalController.cs" />
     <Compile Include="Controllers\PaypalTransactionsController.cs" />
+    <Compile Include="Controllers\PortalCustomersController.cs" />
     <Compile Include="Controllers\PreDefinedNotesController.cs" />
     <Compile Include="Controllers\ProductCategoriesController.cs" />
     <Compile Include="Controllers\ProductPricesController.cs" />
@@ -571,6 +572,9 @@
     </Compile>
     <Compile Include="Models\PayPalHandler.cs" />
     <Compile Include="Models\PaypalTransaction.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PortalCustomer.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PreDefinedNote.cs">
@@ -1713,6 +1717,11 @@
     <Content Include="Views\CashExpenses\Edit.cshtml" />
     <Content Include="Views\CashExpenses\Index.cshtml" />
     <Content Include="Views\CashExpenses\JobExpenses.cshtml" />
+    <Content Include="Views\PortalCustomers\Create.cshtml" />
+    <Content Include="Views\PortalCustomers\Delete.cshtml" />
+    <Content Include="Views\PortalCustomers\Details.cshtml" />
+    <Content Include="Views\PortalCustomers\Edit.cshtml" />
+    <Content Include="Views\PortalCustomers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

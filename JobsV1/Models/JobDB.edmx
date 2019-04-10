@@ -89,6 +89,7 @@
     <EntitySet Name="EmailBlasterLogs" EntityType="JobDB.Store.EmailBlasterLogs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobEntMains" EntityType="JobDB.Store.JobEntMains" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CashExpenses" EntityType="JobDB.Store.CashExpenses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PortalCustomers" EntityType="JobDB.Store.PortalCustomers" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -1300,6 +1301,16 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="RecievedBy" Type="nvarchar" Nullable="true" MaxLength="30" />
     <Property Name="ReleasedBy" Type="nvarchar" Nullable="true" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="PortalCustomers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContactNum" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ExpiryDt" Type="datetime" Nullable="false" />
+    <Property Name="CustomerID" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2717,6 +2728,7 @@
             <End Role="CashExpense" EntitySet="CashExpenses" />
             <End Role="JobMain" EntitySet="JobMains" />
           </AssociationSet>
+          <EntitySet Name="PortalCustomers" EntityType="JobDB.PortalCustomer" />
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -4759,6 +4771,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PortalCustomer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContactNum" Type="String" Nullable="false" MaxLength="15" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="ExpiryDt" Type="DateTime" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5724,6 +5746,17 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="RecievedBy" ColumnName="RecievedBy" />
           <ScalarProperty Name="ReleasedBy" ColumnName="ReleasedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PortalCustomers">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.PortalCustomer)">
+        <MappingFragment StoreEntitySet="PortalCustomers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ContactNum" ColumnName="ContactNum" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ExpiryDt" ColumnName="ExpiryDt" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
