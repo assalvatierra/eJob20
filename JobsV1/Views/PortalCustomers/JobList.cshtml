@@ -1,0 +1,71 @@
+﻿@model IEnumerable<JobsV1.Controllers.cJobOrder>
+
+@{
+    ViewBag.Title = "Customer Panel";
+}
+
+<h2>Jobs for @ViewBag.CustomerName</h2>
+
+<table class="table">
+
+@foreach (var item in Model) {
+    <tr >
+        <td id="main@(item.Main.Id)">
+            <div style="background-color:lightgray;text-align:center;">
+                <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Main.JobDate.ToString("MMM-yyyy")</span>
+                <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Main.JobDate.ToString("dd")</span>
+                <span style="color:blue; font: bold 12px arial, verdana;">(@item.Main.JobDate.ToString("ddd"))</span>
+                <br /><br /><span style="color:red; font: normal 18px arial, verdana;">&nbsp;</span>
+                
+                @if (@item.Main.AgreedAmt != 0)
+                {
+                    <span style="color:blue; font: bold 12px arial, verdana;">
+                        @string.Format("{0:N}", @item.Main.AgreedAmt)
+                    </span>
+                    <br />
+
+                }
+
+                @if (@item.Payment != 0)
+                {
+                    <span style="color:green; font: bold 10px arial, verdana;">
+                        @string.Format("{0:N}", @item.Payment)
+                    </span>
+                    if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
+                    {
+                        <br />
+                        <span>
+                            Paid in
+                            <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
+                        </span>
+                    }
+                }
+            </div>
+        </td>
+
+        <td>
+            <div>
+                <span style="color:darkgreen;font:bold 16px arial, verdana;">
+                    @item.Main.Customer.Name
+                </span>
+                <br />
+                <span style="font:500 10px;color:darkblue;">
+                 
+                    @item.Main.Description 
+                   
+                </span>
+                <span>
+                   [ @item.Main.JobStatus.Status ]
+                </span>
+            </div>
+
+            <div>
+                    @Html.Partial("JobServiceList", item.Services)
+            </div>
+
+         </td>
+    </tr>
+       
+    
+}
+</table>

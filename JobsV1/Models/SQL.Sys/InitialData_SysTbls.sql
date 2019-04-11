@@ -94,7 +94,8 @@ insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (5,5);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 	('Customers','',5,'Customers','Index','',21,51),			-- id: 27
 	('Companies','',5,'CustEntMains','Index','',21,52),			-- id: 28
-	('Email Blaster','',5,'EmailBlaster','Index','',21,53);		-- id: 29
+	('Email Blaster','',5,'EmailBlaster','Index','',21,53),  	-- id: 29
+	('Customer Portal','',5,'PortalCustomers','Index','',21,54); -- id: 30
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (5,1,'2019/1/1');
 
@@ -103,11 +104,11 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('EQ106','Equipments','List of Equipments','A','../Images/Erp/icons/icons-trolley.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (6,6);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('List','',6,'SupplierItems','Index','',21,61),				-- id: 30
-	('Items','',6,'InvItems','Index','',21,62),					-- id: 31
-	('Availability','',6,'InvItems','Availability','',21,63),	-- id: 32
-	('Gate Control','',6,'InvCarGateControls','Index','',21,64),-- id: 33
-	('Maintenance','',6,'InvCarRecords','Index','',21,65);		-- id: 34
+	('List','',6,'SupplierItems','Index','',21,61),				-- id: 31
+	('Items','',6,'InvItems','Index','',21,62),					-- id: 32
+	('Availability','',6,'InvItems','Availability','',21,63),	-- id: 33
+	('Gate Control','',6,'InvCarGateControls','Index','',21,64),-- id: 34
+	('Maintenance','',6,'InvCarRecords','Index','',21,65);		-- id: 35
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (6,1,'2019/1/1');
 
@@ -116,10 +117,10 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('PK107','Packages','Reports','A','../Images/Erp/icons/icons-box.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (7,7);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('Package Unit','',7,'CarRatePackages','Index','',21,71),	-- id: 35
-	('Package List','',7,'CarRateUnitPackages','Index','',21,72),-- id: 36
-	('Unit Rates','',7,'CarRates','Index','',21,73),			-- id: 37
-	('Groups','',7,'RateGroups','Index','',21,73);				-- id: 38
+	('Package Unit','',7,'CarRatePackages','Index','',21,71),	 -- id: 36
+	('Package List','',7,'CarRateUnitPackages','Index','',21,72),-- id: 37
+	('Unit Rates','',7,'CarRates','Index','',21,73),			 -- id: 38
+	('Groups','',7,'RateGroups','Index','',21,73);				 -- id: 39
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (7,1,'2019/1/1');
@@ -131,9 +132,9 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('RP108','Reporting','Reports','A','../Images/Erp/icons/icons-report.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (8,8);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('Job Listing','',8,'Reporting','Index','',21,81),			-- id: 39
-	('Payment','',8,'Reporting','Index','',21,82),				-- id: 40
-	('Package Rates','',8,'Reporting','Index','',21,83);		-- id: 41
+	('Job Listing','',8,'Reporting','Index','',21,81),			-- id: 40
+	('Payment','',8,'Reporting','Index','',21,82),				-- id: 41
+	('Package Rates','',8,'Reporting','Index','',21,83);		-- id: 42
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (8,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
@@ -144,8 +145,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('NO109','Notifications','Reports','A','../Images/Erp/icons/icons-notification.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (9,9);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('SMS','',9,'JobServices','NotificationList','',21,91),		-- id: 42
-	('Paypal','',9,'PaypalTransactions','Index','',21,92);		-- id: 43
+	('SMS','',9,'JobServices','NotificationList','',21,91),		-- id: 43
+	('Paypal','',9,'PaypalTransactions','Index','',21,92);		-- id: 44
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values	
 (9,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
@@ -156,10 +157,10 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('NO110','Accounts','Accounting','A','../Images/Erp/icons/icons-accounting.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (10,10);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Main Accounts','',10,'Accounting/AccntMains','Index','',21,101),			-- id: 44
-		('Ledgers','',10,'Accounting/Accntledgers','Index','',21,102),				-- id: 45
-		('Account Category','',10,'Accounting/AccntCategories','Index','',21,103),	-- id: 46
-		('Transactions','',10,'Accounting/AccntTrxHdrs','Index','',21,103);			-- id: 47
+values 	('Main Accounts','',10,'Accounting/AccntMains','Index','',21,101),			-- id: 45
+		('Ledgers','',10,'Accounting/Accntledgers','Index','',21,102),				-- id: 46
+		('Account Category','',10,'Accounting/AccntCategories','Index','',21,103),	-- id: 47
+		('Transactions','',10,'Accounting/AccntTrxHdrs','Index','',21,103);			-- id: 48
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (10,1,'2019/1/1');
@@ -229,6 +230,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 45, 45),
 ('assalvatierra@gmail.com', 46, 46),
 ('assalvatierra@gmail.com', 47, 47),
+('assalvatierra@gmail.com', 48, 48),
 
 ('jahdielvillosa@gmail.com', 11, 11),
 ('jahdielvillosa@gmail.com', 12, 12),
@@ -266,4 +268,5 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 44, 44),
 ('jahdielvillosa@gmail.com', 45, 45),
 ('jahdielvillosa@gmail.com', 46, 46),
-('jahdielvillosa@gmail.com', 47, 47); 
+('jahdielvillosa@gmail.com', 47, 47),
+('jahdielvillosa@gmail.com', 48, 48); 

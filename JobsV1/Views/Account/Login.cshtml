@@ -4,9 +4,6 @@
     ViewBag.Title = "Authentication";
 }
 
-<!--
-<h2>ViewBag.Title</h2>
-    -->
 <section id="loginForm">
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {

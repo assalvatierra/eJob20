@@ -1,0 +1,53 @@
+﻿@model IEnumerable<JobsV1.Controllers.cJobService>
+
+<div style="padding-left:1.5em;">
+
+@foreach (var item in Model) {
+    DateTime dtstart = (DateTime) item.Service.DtStart;
+    DateTime dtend = (DateTime)item.Service.DtEnd;
+
+    <div >
+        <div style="padding:0.5em;cursor:pointer" class="jobservice" 
+             onMouseOver="$(this).css('background-color', '#bfbfbf')"
+             onMouseOut="$(this).css('background-color', 'lightgray')"
+             data-toggle="collapse" 
+             data-target="#col@(item.Service.Id)"
+             >
+          
+            <span style="font:bold 11px;color:darkblue;">
+                @dtstart.ToString("MMM-dd") to
+                @dtend.ToString("MMM-dd") 
+            </span> 
+       
+            <span style="font-weight:600;color:darkblue;">@item.Service.Particulars</span>
+            <span style="font:bold 11px;color:darkblue;">&nbsp;[item: @item.Service.SupplierItem.Description]</span>
+           
+        </div>
+
+        <div id="col@(item.Service.Id)" class="panel-collapse collapse in"   style="border:1px solid lightgray; padding : 8px;">
+           
+            @Html.Partial("JobServiceItems", item.SvcItems, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
+            @Html.Partial("JobServiceSupPo", item.SupplierPos, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
+        </div>
+    </div>
+        
+    <!-- Add Pickup Details -->
+    JobsV1.Models.JobServicePickup pickup = item.Service.JobServicePickups.FirstOrDefault();
+        
+    <p style="background-color:lightgray;padding:0.5em;font:normal 11px arial, verdana;">
+        @if (pickup != null)
+                {
+            <span >
+                :
+                [ Time: @pickup.JsTime @pickup.JsLocation ]  &nbsp; &nbsp;
+                [ Contact: @pickup.ClientName / <a href="tel:@pickup.ClientContact">@pickup.ClientContact</a> ] &nbsp; &nbsp;
+                [ InCharge: @pickup.ProviderName / <a href="tel:@pickup.ProviderContact">@pickup.ProviderContact</a> ]
+                -
+            </span>
+        }
+        
+    </p>
+
+    
+}
+</div>

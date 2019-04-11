@@ -419,6 +419,7 @@
     <Compile Include="Models\City.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\CoopMember.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1104,6 +1105,7 @@
     <Content Include="Scripts\Job\CompanyReport.js" />
     <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\Job\CashExpenses.js" />
+    <Content Include="Scripts\Job\PortalCustomer.js" />
     <Content Include="Scripts\Job\SupplierListExpand.js" />
     <Content Include="Scripts\Job\SupplierList.js" />
     <Content Include="Scripts\ssl.js" />
@@ -1722,6 +1724,13 @@
     <Content Include="Views\PortalCustomers\Details.cshtml" />
     <Content Include="Views\PortalCustomers\Edit.cshtml" />
     <Content Include="Views\PortalCustomers\Index.cshtml" />
+    <Content Include="Views\PortalCustomers\Login.cshtml" />
+    <Content Include="Views\Home\Index-Original.cshtml" />
+    <Content Include="Views\PortalCustomers\JobList.cshtml" />
+    <Content Include="Views\PortalCustomers\JobServiceList.cshtml" />
+    <Content Include="Views\PortalCustomers\JobServiceItems.cshtml" />
+    <Content Include="Views\PortalCustomers\JobServiceSupPo.cshtml" />
+    <Content Include="Views\PortalCustomers\JobList - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

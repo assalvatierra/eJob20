@@ -2,12 +2,14 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create") | 
+    @Html.ActionLink("Login", "Login")
 </p>
 <table class="table">
     <tr>
@@ -21,7 +23,7 @@
             @Html.DisplayNameFor(model => model.ExpiryDt)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerID)
+            Customer
         </th>
         <th></th>
     </tr>

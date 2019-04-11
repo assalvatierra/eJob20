@@ -7,12 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 
 namespace JobsV1.Controllers
 {
     public class PortalCustomersController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private PortalCustomersClass Pcust = new PortalCustomersClass();
 
         // GET: PortalCustomers
         public ActionResult Index()
@@ -38,7 +40,11 @@ namespace JobsV1.Controllers
         // GET: PortalCustomers/Create
         public ActionResult Create()
         {
-            return View();
+            PortalCustomer custTemp = new PortalCustomer();
+            custTemp.ExpiryDt = GetCurrentTime().AddDays(2);
+
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name");
+            return View(custTemp);
         }
 
         // POST: PortalCustomers/Create
@@ -54,6 +60,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", portalCustomer.CustomerID);
 
             return View(portalCustomer);
         }
@@ -70,6 +77,7 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", portalCustomer.CustomerID);
             return View(portalCustomer);
         }
 
@@ -86,6 +94,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name",portalCustomer.CustomerID);
             return View(portalCustomer);
         }
 
@@ -122,6 +131,147 @@ namespace JobsV1.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.errorMsg = "";
+            return View();
+        }
+
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(PortalCustomer model, string returnUrl)
+        {
+            PortalCustomersClass pCustomer = new PortalCustomersClass();
+            string msg = "";
+            var custId = 0;
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            //check customer login information
+            custId = pCustomer.checklogin(model.ContactNum, model.Password);
+            if ( custId == 0 )
+            {
+                //add to customer to session
+
+                PortalCustomer cust = pCustomer.getCustomer(model.ContactNum, model.Password);
+                return RedirectToAction("JobList", "PortalCustomers", new { custId = cust.CustomerID });
+            }
+
+            //login expire
+            if ( custId == 1) 
+            {
+                msg = "Login information is expired";
+            }
+
+
+            //login invalid
+            if (custId == 2)
+            {
+                msg = "Invalid number/password";
+            }
+
+            ViewBag.errorMsg = msg;
+            return View(model);
+        }
+
+        private void addSession(string custNum , string pass)
+        {
+            Session["PortalCust_Num"]  = custNum;
+            Session["PortalCust_Pass"] = pass;
+        }
+        
+        //get current time based on Singapore Standard Time 
+        //SGT - UTC +8
+        protected DateTime GetCurrentTime()
+        {
+            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+            _localTime = _localTime.Date;
+
+            return _localTime;
+        }
+
+        //get generate password using the customer ID and date
+        public string getPassword(int? custId)
+        {
+            return custId != null ? Pcust.generatePass((int)custId) : "";
+        }
+
+        public string getCustomerNum(int? custId)
+        {
+            //"your string".Any(char.IsDigit)
+            if (custId != null)
+            {
+                var custContact = db.Customers.Find(custId);
+                //check if contact number 1 is a number / contains a number
+                if (custContact.Contact1.Any(Char.IsDigit))
+                {
+                    return custContact.Contact1;
+                }
+                else
+                {
+                    return custContact.Contact2;
+                }
+
+            }
+            return ""; // return null if customer Id is null    
+        }
+
+        public ActionResult JobList(int? custId)
+        {
+            PortalCustomersClass pCustomer = new PortalCustomersClass();
+
+            if (custId != null)
+            {
+                 var joblist = pCustomer.getJobList(5, (int)custId);
+                ViewBag.CustomerName = db.Customers.Find((int)custId).Name;
+
+                return View(joblist);
+            }
+
+            return RedirectToAction("Login","PortalCustomers",null);
+        }
+
+        public bool validateCustomer()
+        {
+            var returnFlag = true;
+            //check sessions if empty
+            //if not empty, validate login
+            //PortalCust_Num, PortalCust_Pass
+            if (Session["PortalCust_Num"] != null)
+            {
+                var sessionNum = Session["PortalCust_Num"].ToString();
+                var sessionPass = Session["PortalCust_Pass"].ToString();
+
+                //verify
+                var verify = Pcust.checklogin(sessionNum, sessionPass);
+
+                switch (verify)
+                {
+                    case 0: //login ok
+                        returnFlag = false;
+                        break;
+                    case 1: //login expired
+                    case 2: //invalid login
+                        returnFlag = true;
+                        break;
+                    default:
+                        returnFlag = true;
+                        break;
+                }
+            }
+           
+
+            return returnFlag;
         }
     }
 }
