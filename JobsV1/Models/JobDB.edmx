@@ -422,6 +422,10 @@
       <End Role="CashExpense" EntitySet="CashExpenses" />
       <End Role="JobMain" EntitySet="JobMains" />
     </AssociationSet>
+    <AssociationSet Name="CustomerPortalCustomer" Association="JobDB.Store.CustomerPortalCustomer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="PortalCustomer" EntitySet="PortalCustomers" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -1310,7 +1314,7 @@
     <Property Name="ContactNum" Type="nvarchar" Nullable="false" MaxLength="15" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ExpiryDt" Type="datetime" Nullable="false" />
-    <Property Name="CustomerID" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2308,6 +2312,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustomerPortalCustomer">
+    <End Role="Customer" Type="JobDB.Store.Customers" Multiplicity="1" />
+    <End Role="PortalCustomer" Type="JobDB.Store.PortalCustomers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PortalCustomer">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2729,6 +2745,10 @@
             <End Role="JobMain" EntitySet="JobMains" />
           </AssociationSet>
           <EntitySet Name="PortalCustomers" EntityType="JobDB.PortalCustomer" />
+          <AssociationSet Name="CustomerPortalCustomer" Association="JobDB.CustomerPortalCustomer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="PortalCustomer" EntitySet="PortalCustomers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -2800,6 +2820,7 @@
           <NavigationProperty Name="CustEntities" Relationship="JobDB.CustomerCustEntity" FromRole="Customer" ToRole="CustEntity" />
           <NavigationProperty Name="CustSalesCategories" Relationship="JobDB.CustomerCustSalesCategory" FromRole="Customer" ToRole="CustSalesCategory" />
           <NavigationProperty Name="CustFiles" Relationship="JobDB.CustomerCustFiles" FromRole="Customer" ToRole="CustFiles" />
+          <NavigationProperty Name="PortalCustomers" Relationship="JobDB.CustomerPortalCustomer" FromRole="Customer" ToRole="PortalCustomer" />
         </EntityType>
         <EntityType Name="JobType">
           <Key>
@@ -4779,8 +4800,21 @@
           <Property Name="ContactNum" Type="String" Nullable="false" MaxLength="15" />
           <Property Name="Password" Type="String" Nullable="false" />
           <Property Name="ExpiryDt" Type="DateTime" Nullable="false" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="JobDB.CustomerPortalCustomer" FromRole="PortalCustomer" ToRole="Customer" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
         </EntityType>
+        <Association Name="CustomerPortalCustomer">
+          <End Type="JobDB.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="JobDB.PortalCustomer" Role="PortalCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PortalCustomer">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5756,7 +5790,7 @@
           <ScalarProperty Name="ContactNum" ColumnName="ContactNum" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="ExpiryDt" ColumnName="ExpiryDt" />
-          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

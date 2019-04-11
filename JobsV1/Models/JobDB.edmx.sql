@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/06/2019 16:49:59
+-- Date Created: 04/11/2019 16:10:03
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -265,6 +265,9 @@ IF OBJECT_ID(N'[dbo].[FK_JobEntMainCustEntMain]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_CashExpenseJobMain]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CashExpenses] DROP CONSTRAINT [FK_CashExpenseJobMain];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerPortalCustomer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PortalCustomers] DROP CONSTRAINT [FK_CustomerPortalCustomer];
 GO
 
 -- --------------------------------------------------
@@ -1413,7 +1416,7 @@ CREATE TABLE [dbo].[PortalCustomers] (
     [ContactNum] nvarchar(15)  NOT NULL,
     [Password] nvarchar(max)  NOT NULL,
     [ExpiryDt] datetime  NOT NULL,
-    [CustomerID] int  NOT NULL
+    [CustomerId] int  NOT NULL
 );
 GO
 
@@ -3172,6 +3175,21 @@ GO
 CREATE INDEX [IX_FK_CashExpenseJobMain]
 ON [dbo].[CashExpenses]
     ([JobMainId]);
+GO
+
+-- Creating foreign key on [CustomerId] in table 'PortalCustomers'
+ALTER TABLE [dbo].[PortalCustomers]
+ADD CONSTRAINT [FK_CustomerPortalCustomer]
+    FOREIGN KEY ([CustomerId])
+    REFERENCES [dbo].[Customers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomerPortalCustomer'
+CREATE INDEX [IX_FK_CustomerPortalCustomer]
+ON [dbo].[PortalCustomers]
+    ([CustomerId]);
 GO
 
 -- --------------------------------------------------

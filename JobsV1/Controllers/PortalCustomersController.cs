@@ -60,7 +60,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", portalCustomer.CustomerID);
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", portalCustomer.CustomerId);
 
             return View(portalCustomer);
         }
@@ -77,7 +77,7 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", portalCustomer.CustomerID);
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", portalCustomer.CustomerId);
             return View(portalCustomer);
         }
 
@@ -94,7 +94,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name",portalCustomer.CustomerID);
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name",portalCustomer.CustomerId);
             return View(portalCustomer);
         }
 
@@ -164,7 +164,7 @@ namespace JobsV1.Controllers
                 //add to customer to session
 
                 PortalCustomer cust = pCustomer.getCustomer(model.ContactNum, model.Password);
-                return RedirectToAction("JobList", "PortalCustomers", new { custId = cust.CustomerID });
+                return RedirectToAction("JobList", "PortalCustomers", new { custId = cust.CustomerId });
             }
 
             //login expire
@@ -272,6 +272,11 @@ namespace JobsV1.Controllers
            
 
             return returnFlag;
+        }
+
+        public string getCustomerName(int custId)
+        {
+            return db.Customers.Find(custId) != null ? db.Customers.Find(custId).Name : "";
         }
     }
 }

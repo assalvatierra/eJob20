@@ -39,8 +39,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.ExpiryDt)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerID)
+        <td >
+            @Html.DisplayFor(modelItem => item.Customer.Name)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

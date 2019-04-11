@@ -730,7 +730,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 	('Customers','',5,'Customers','Index','',21,51),			-- id: 27
 	('Companies','',5,'CustEntMains','Index','',21,52),			-- id: 28
 	('Email Blaster','',5,'EmailBlaster','Index','',21,53),  	-- id: 29
-	('Customer Portal','',5,'PortalCustomer','Index','',21,54); -- id: 30
+	('Customer Portal','',5,'PortalCustomers','Index','',21,54); -- id: 30
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (5,1,'2019/1/1');
 

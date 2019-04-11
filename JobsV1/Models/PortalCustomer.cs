@@ -18,6 +18,8 @@ namespace JobsV1.Models
         public string ContactNum { get; set; }
         public string Password { get; set; }
         public System.DateTime ExpiryDt { get; set; }
-        public int CustomerID { get; set; }
+        public int CustomerId { get; set; }
+    
+        public virtual Customer Customer { get; set; }
     }
 }
