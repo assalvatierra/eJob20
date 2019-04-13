@@ -1731,6 +1731,7 @@
     <Content Include="Views\PortalCustomers\JobServiceItems.cshtml" />
     <Content Include="Views\PortalCustomers\JobServiceSupPo.cshtml" />
     <Content Include="Views\PortalCustomers\JobList - Copy.cshtml" />
+    <Content Include="Views\CarRental\Index1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

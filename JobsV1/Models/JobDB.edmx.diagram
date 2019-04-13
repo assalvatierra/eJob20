@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="JobDB.Supplier" Width="1.5" PointX="18.875" PointY="4.125" />
         <EntityTypeShape EntityType="JobDB.Customer" Width="1.5" PointX="5" PointY="5.5" />
         <EntityTypeShape EntityType="JobDB.JobType" Width="1.5" PointX="13.5" PointY="5.375" />
-        <EntityTypeShape EntityType="JobDB.Services" Width="1.5" PointX="17.875" PointY="24.25" />
+        <EntityTypeShape EntityType="JobDB.Services" Width="1.5" PointX="17.875" PointY="23.875" />
         <AssociationConnector Association="JobDB.JobMainJobType" />
         <EntityTypeShape EntityType="JobDB.JobServices" Width="1.5" PointX="15.75" PointY="9.75" />
         <AssociationConnector Association="JobDB.JobMainJobSupplier" />

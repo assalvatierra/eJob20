@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/11/2019 16:10:03
+-- Date Created: 04/12/2019 11:01:23
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -594,7 +594,8 @@ GO
 CREATE TABLE [dbo].[Services] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(80)  NOT NULL,
-    [Description] nvarchar(150)  NULL
+    [Description] nvarchar(150)  NULL,
+    [Status] nvarchar(5)  NOT NULL
 );
 GO
 

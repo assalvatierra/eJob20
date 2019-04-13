@@ -1102,7 +1102,7 @@ order by x.jobid
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description",job.Description);
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name");
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description");
-            ViewBag.ServicesId = new SelectList(db.Services, "Id", "Name");
+            ViewBag.ServicesId = new SelectList(db.Services.Where(s=>s.Status == "1").ToList(), "Id", "Name");
             //ViewBag.SupplierItemId = new SelectList(db.SupplierItems, "Id", "Description");
             return View(js);
         }
@@ -1131,7 +1131,7 @@ order by x.jobid
 
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobServices.JobMainId);
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name", jobServices.SupplierId);
-            ViewBag.ServicesId = new SelectList(db.Services, "Id", "Name", jobServices.ServicesId);
+            ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name", jobServices.ServicesId);
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description", jobServices.SupplierItemId);
 
             dbc.addEncoderRecord("jobservice", jobServices.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job Service");
@@ -1159,7 +1159,7 @@ order by x.jobid
 
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobServices.JobMainId);
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name", jobServices.SupplierId);
-            ViewBag.ServicesId = new SelectList(db.Services, "Id", "Name", jobServices.ServicesId);
+            ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name", jobServices.ServicesId);
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description", jobServices.SupplierItemId);
             return View(jobServices);
         }
@@ -1203,7 +1203,7 @@ order by x.jobid
 
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobServices.JobMainId);
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name", jobServices.SupplierId);
-            ViewBag.ServicesId = new SelectList(db.Services, "Id", "Name", jobServices.ServicesId);
+            ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name", jobServices.ServicesId);
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description", jobServices.SupplierItemId);
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobServices.JobMainId });

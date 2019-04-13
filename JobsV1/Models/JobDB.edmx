@@ -493,6 +493,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="5" />
   </EntityType>
   <EntityType Name="JobServices">
     <Key>
@@ -2845,6 +2846,7 @@
           <Property Name="Description" Type="String" Nullable="true" MaxLength="150" />
           <NavigationProperty Name="JobServices" Relationship="JobDB.ServicesJobServices" FromRole="Services" ToRole="JobServices" />
           <NavigationProperty Name="SrvActionItems" Relationship="JobDB.ServicesSrvActionItem" FromRole="Services" ToRole="SrvActionItem" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="5" />
         </EntityType>
         <Association Name="JobMainJobType">
           <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
@@ -4890,6 +4892,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
