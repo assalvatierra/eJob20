@@ -7,23 +7,48 @@
 
 <h2>Customer List</h2>
 
-<p>
-    @Html.ActionLink("Active", "Index", new { status = "ACTIVE" }, new { @id = "ACTIVE" }) |
-    @Html.ActionLink("Inactive", "Index", new { status = "INACTIVE" }, new { @id = "INACTIVE" }) |
-    @Html.ActionLink("Bad", "Index", new { status = "BAD" }, new { @id = "BAD" }) |
-    @Html.ActionLink("All", "Index", new { status = "ALL" }, new { @id = "ALL" })
-</p>
-
+@*<p>
+        @Html.ActionLink("Active", "Index", new { status = "ACTIVE" }, new { @id = "ACTIVE" }) |
+        @Html.ActionLink("Inactive", "Index", new { status = "INACTIVE" }, new { @id = "INACTIVE" }) |
+        @Html.ActionLink("Bad", "Index", new { status = "BAD" }, new { @id = "BAD" }) |
+        @Html.ActionLink("All", "Index", new { status = "ALL" }, new { @id = "ALL" })
+    </p>
+*@
 <p>
     @Html.ActionLink("Create New", "Create") |
-    @Html.ActionLink("Deactive Old Users", "DiActivateOldCustomer")
+    @Html.ActionLink("Deactivate Old Users", "DeactivateOldCustomer")
 </p>
 <p>
-    <input class="input-sm" id="searchName" type="search" />
-    <button class="btn btn-default" onclick="Ajax_searchCustomer()">Search</button>
+    Status:
+    <span>
+        <span id="ACTIVE"   class="status-link status-active"> Active   </span> |
+        <span id="INACTIVE" class="status-link"> Inactive </span> |
+        <span id="BAD"      class="status-link"> Bad      </span> |
+        <span id="ALL"      class="status-link"> All      </span>
+    </span>
 </p>
 
-<table class="table">
+
+<p>
+    <input class="input-sm" id="srch-field" type="search" />
+    <button class="btn btn-default" onclick="ajax_loadContent()">Search</button>
+</p>
+
+
+<table class="table " id="sup-Table">
+    <tr>
+        <th>Customer</th>
+        <th>Contact 1 </th>
+        <th id="sup-header-2">Contact 2</th>
+        <th id="sup-header-3">Company</th>
+        <th id="sup-header-3">Jobs </th>
+        <th id="sup-header-4">Status</th>
+        <th></th>
+    </tr>
+
+</table>
+
+@*<table class="table">
     <tr>
         <th>
            Customer
@@ -108,29 +133,11 @@
             </td>
         </tr>
     }
-</table>
+</table>*@
 
 <p>
     Customers 
     @Html.ActionLink("Companies", "Index", "CustEntMains", null, null) 
 </p>
 <script src="~/Scripts/jquery-3.3.1.js"></script>
-<script>
-    $(document).ready(function () {
-        var url_string = window.location.href;
-        var url = new URL(url_string);
-
-        var search = url.searchParams.get("search") != null ? url.searchParams.get("search") : "";
-        $("#searchName").val(search);
-    });
-
-    $('#@ViewBag.status').css('color', 'black');
-
-    //http CALLS
-    function Ajax_searchCustomer() {
-        var serviceURL = '/Customers/Index';
-        var search = $('#searchName').val();
-
-        window.location.href = "Customers?status=@ViewBag.status&search="+search;
-    }
-</script>
+<script src="~/Scripts/Job/CustomerList.js"></script>

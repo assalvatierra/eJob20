@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<JobsV1.Models.Customer>
 
 @{
-    ViewBag.Title = "DiactivateOldCustomer";
+    ViewBag.Title = "Deactivate Old Customer";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>DiactivateOldCustomer</h2>
+<h2>Deactivate Old Customer</h2>
 
 <p>
-    @Html.ActionLink("Diactive All", "DiActivateAll")
+    @Html.ActionLink("Deactivate All", "DeActivateAll")
 </p>
 <p>
     @Html.ActionLink("Back to List", "Index", new { status = "ACT" })
@@ -57,7 +57,7 @@
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
-            @Html.ActionLink("Diactivate", "DiactivateSingle", new { id = item.Id })
+            @Html.ActionLink("Deactivate", "DeactivateSingle", new { id = item.Id })
         </td>
     </tr>
 }

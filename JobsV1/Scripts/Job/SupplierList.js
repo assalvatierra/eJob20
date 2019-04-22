@@ -14,24 +14,28 @@ $('#ACTIVE').click(function () {
     status = "ACT";
     $('#ACTIVE').css("color", "black");
     $('#ACTIVE').siblings().css("color", "steelblue");
+    StatusRefresh(); //load active suppliers
 });
 
 $('#INACTIVE').click(function () {
     status = "INC";
     $('#INACTIVE').css("color", "black");
     $('#INACTIVE').siblings().css("color", "steelblue");
+    StatusRefresh() // load inactive suppliers
 });
 
 $('#BAD').click(function () {
     status = "BAD";
     $('#BAD').css("color", "black");
     $('#BAD').siblings().css("color", "steelblue");
+    StatusRefresh() // load inactive suppliers
 });
 
 $('#ALL').click(function () {
     status = "ALL";
     $('#ALL').css("color", "black");
     $('#ALL').siblings().css("color", "steelblue");
+    StatusRefresh() // load inactive suppliers
 });
 
 $('#simple-Table').click(function () {
@@ -52,16 +56,14 @@ $('#expanded-Table').click(function () {
 //then clear and add contents to the table
 function ajax_loadContent() {
     var query = $('#srch-field').val();
-
-    console.log("status: " + status);
+    //console.log("status: " + status);
 
     //build json object
     var data = {
         search: query
     };
 
-    console.log(query);
-
+    //console.log(query);
     //request data from server using ajax call
     $.ajax({
         url: '/Suppliers/TableResult?search=' + query + '&status=' + status,
@@ -69,11 +71,11 @@ function ajax_loadContent() {
         data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
-            console.log("SUCCESS");
+            //console.log("SUCCESS");
             
         },
         error: function (data) {
-            console.log("ERROR");
+           // console.log("ERROR");
             switchViews(data)
         }
     });
@@ -160,4 +162,13 @@ function ExpandedTable(data) {
         $("#sup-header-2").text("Email");
         $("#sup-header-3").text("Status");
     }
+}
+
+//load table with ACTIVE suppliers
+function StatusRefresh() {
+    //clear search field
+    $('#srch-field').val('');
+
+    //load table content
+    ajax_loadContent();
 }

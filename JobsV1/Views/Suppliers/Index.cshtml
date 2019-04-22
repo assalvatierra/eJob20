@@ -7,23 +7,25 @@
 
 <h2>Suppliers</h2>
 
-<p> Status:
-    <span>
-       
-        <span id="ACTIVE" style="color:black;cursor:pointer;">    Active   </span> |
-        <span id="INACTIVE" style="color:steelblue;cursor:pointer;">Inactive </span> |
-        <span id="BAD" style="color:steelblue;cursor:pointer;">Bad      </span> |
-        <span id="ALL" style="color:steelblue;cursor:pointer;">All      </span>
-    </span>
-</p>
 <p>
     @Html.ActionLink("Create New", "Create") |
-    @Html.ActionLink("Diactivate List", "DiActivateSupplierList")
+    @Html.ActionLink("Deactivate List", "DeactivateSupplierList")
 </p>
+
+<p>
+    Status:
+    <span>
+        <span id="ACTIVE" class="status-link"> Active   </span> |
+        <span id="INACTIVE" class="status-link"> Inactive </span> |
+        <span id="BAD" class="status-link"> Bad      </span> |
+        <span id="ALL" class="status-link"> All      </span>
+    </span>
+</p>
+
 <p>Table View: 
     <span>
-        <span id="simple-Table" style="color:black;cursor:pointer;"    onclick="ajax_loadContent()" >Simple</span> |
-        <span id="expanded-Table" style="color:steelblue;cursor:pointer;" onclick="ajax_loadContent()"> Expanded</span>
+        <span id="simple-Table" class="status-link" onclick="ajax_loadContent()" >Simple</span> |
+        <span id="expanded-Table" class="status-link" onclick="ajax_loadContent()"> Expanded</span>
     </span>
 </p>
 <p>

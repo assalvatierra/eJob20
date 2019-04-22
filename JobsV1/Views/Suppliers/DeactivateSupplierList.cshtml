@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<JobsV1.Models.Supplier>
 
 @{
-    ViewBag.Title = "DiActivateSupplierList";
+    ViewBag.Title = "Deactivate Supplier List";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>DiActivateSupplierList</h2>
+<h2>Deactivate Supplier List</h2>
 
 <p>
-    @Html.ActionLink("Diactive All", "DiActivateAll")
+    @Html.ActionLink("Deactivate All", "DeactivateAll")
 </p>
 <p>
     @Html.ActionLink("Back to List", "Index")
@@ -83,7 +83,7 @@
             }*@
         </td>
         <td>
-            @Html.ActionLink("Diactivate", "DiactivateSingle", new { id=item.Id }) 
+            @Html.ActionLink("Deactivate", "DaectivateSingle", new { id=item.Id }) 
         </td>
     </tr>
 }

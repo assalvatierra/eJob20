@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
 {
@@ -43,6 +44,7 @@ namespace JobsV1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Customer customer = db.Customers.Find(id);
             if (customer == null)
             {
@@ -198,153 +200,43 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
+        //---------------------------------------------//
+
+        //returns the companies of the customers
+        //using Viewbags
         private void PartialView_Companies(int? id)
         {
-
-            //PartialView for Details of the Customer
-            List<CustEntMain> CompanyList = new List<CustEntMain>();
-            //error
-            var CompanyRecord = db.CustEntities.Where(c => c.CustomerId == id).OrderByDescending(s=>s.Id).ToList();
-
-            if (CompanyRecord == null)
+            if(id != null)
             {
-                CompanyList.Add(new CustEntMain
-                {
-                    Id = 0,
-                    Name = "None",
-                    Address = "None",
-                    Contact1 = "None",
-                    Contact2 = "None",
-                    iconPath = "None"
-                });
-            }
-            else
-            {
-                foreach (var record in CompanyRecord)
-                {
-                    CompanyList.Add(new CustEntMain
-                    {
-                        Id = record.CustEntMain.Id,
-                        Name = record.CustEntMain.Name,
-                        Address = record.CustEntMain.Address,
-                        Contact1 = record.CustEntMain.Contact1,
-                        Contact2 = record.CustEntMain.Contact2,
-                        iconPath = record.CustEntMain.iconPath
-                    });
+                //PartialView for Details of the Customer
+                List<CustEntMain> CompanyList = custdb.getCustCompanies((int)id);
 
-                }
+                //get all companies
+                List<CustEntMain> List = db.CustEntMains.ToList();
+                ViewBag.companies = List;
+
+                var Companies = db.CustEntities.Where(s => s.CustomerId == id).ToList();
+
+                ViewBag.companyList = CompanyList.ToList();
+                ViewBag.companiesPrev = Companies;
+                ViewBag.CustomerID = id;
 
             }
-            List<CustEntMain> List = new List<CustEntMain>();
-            List = db.CustEntMains.ToList();
-            ViewBag.companies = List;
-
-            var Companies = db.CustEntities.Where(s => s.CustomerId == id).ToList();
-           // var topLatestCompany = CompanyList.Where(s=> Companies.Contains(s.Id) || s.Id == 1).Select(s => s.Id).ToList();
-          
-            ViewBag.companyList = CompanyList.ToList();
-            ViewBag.companiesPrev = Companies;
-            ViewBag.CustomerID = id;
-
         }
 
-
-        private void PartialView_Jobs(int? id, int? top, string sdate, string edate, string status, string sortdate)
+        //customer jobs list
+        private void PartialView_Jobs(int id, int top, string sdate, string edate, string status, string sortdate)
         {
-
-            int topFilter = (int)top;
-            //PartialView for Details of the Customer
-            List<CustomerJobDetails> jobList = new List<CustomerJobDetails>();
-
-            DateTime StartDate = DateTime.Today;
-            DateTime EndDate = DateTime.Today;
-
-            //handle empty dates
-            if (sdate != null && edate != null)
-            {
-                StartDate = DateTime.Parse(sdate).Date;
-                EndDate = DateTime.Parse(edate).Date;
-            }
-
-            //error
-            var jobRecord = db.JobMains.Where(j => j.CustomerId == id).ToList();
-            if (jobRecord != null) { 
-                if (!(String.IsNullOrEmpty(sortdate)))
-                { 
-                    if (sortdate == "1")
-                    {
-                        jobRecord = jobRecord.OrderByDescending(j => j.JobDate).ToList();
-                    }else
-                    {
-                        jobRecord = jobRecord.OrderBy(j => j.JobDate).ToList();
-                    }
-                }
-
-            
-                //handle empty status
-                if (status == null || status == "" || status == "ALL")
-                {
-                    jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0).ToList();
-                } else {
-
-                    jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status).ToList();
-                }
-            }
-
-            if (jobRecord == null)
-            {
-
-                jobList.Add(new CustomerJobDetails
-                {
-                    Id = 0,
-                    JobDate = "7/24/2018",
-                    Description = "none",
-                    AgreedAmt = "0",
-                    NoOfDays = "0",
-                    NoOfPax = "0",
-                    StatusRemarks = "none"
-                });
-
-            }
-            else
-            {
-
-                foreach (var record in jobRecord)
-                {
-                    var svcs = db.JobServices.Where(s => s.JobMainId == record.Id).ToList();
-                    decimal totalAmount = 0;
-               
-                    foreach (var services in svcs)
-                    {
-                        totalAmount += services.ActualAmt != null ? (decimal)services.ActualAmt : 0;
-                    }
-
-                    jobList.Add(new CustomerJobDetails
-                    {
-
-                        Id          = record.Id,
-                        JobDate     = record.JobDate.ToString(),
-                        Description = record.Description,
-                        AgreedAmt   = record.AgreedAmt.ToString(),
-                        NoOfDays    = record.NoOfDays.ToString(),
-                        NoOfPax     = record.NoOfPax.ToString(),
-                        StatusRemarks = record.JobStatus.Status,
-                        Amount      = totalAmount
-                    });
-
-                }
-
-            }
-            ViewBag.jobList = jobList.Take(topFilter).ToList();
+            //get customer jobs and display to job list table
+            ViewBag.jobList = custdb.getCustomerJobList(id,top,sdate,edate,status,sortdate);
         }
 
         //display list of categories assigned 
         //to the customer 
         private void PartialView_Categories(int? id)
         {
-
+            //get list of categories
             ViewBag.categoryDetails = custdb.getCategoriesList((int)id);
-
             ViewBag.categoryList = db.CustCategories.ToList();
         }
 
@@ -354,44 +246,10 @@ namespace JobsV1.Controllers
         //problem adding files to online database
         private void PartialView_CustomerFiles(int? id)
         {
+           //PartialView for Details of the Customer
+           List<CustFiles> FilesList = custdb.getCustFiles((int)id);
             
-            //PartialView for Details of the Customer
-           List<CustFiles> FilesList = new List<CustFiles>();
-
-            //error
-            var customerFiles = db.CustFiles.Where(c => c.CustomerId == id).ToList();
-
-            if (customerFiles == null)
-            {
-                FilesList.Add(new CustFiles
-                {
-                    Id = 0,
-                    CustomerId = 0,
-                    Path = "none",
-                    Desc = "none",
-                    Folder = "none",
-                    Remarks = "",
-
-                });
-
-            }
-            else
-            {
-                foreach (var file in customerFiles)
-                {
-                    FilesList.Add(new CustFiles
-                    {
-                        Id = file.Id,
-                        CustomerId = file.CustomerId,
-                        Path = file.Path,
-                        Desc = file.Desc,
-                        Folder = file.Folder,
-                        Remarks = file.Remarks,
-
-                    });
-                }
-            }
-            ViewBag.fileList = FilesList;
+           ViewBag.fileList = FilesList;
         }
 
         // /Customers/Details
@@ -405,8 +263,8 @@ namespace JobsV1.Controllers
                     CustEntMainId = companyId,
                     CustomerId = userid
                 });
-
                 db.SaveChanges();
+
                 return RedirectToAction("Details", "Customers", new { id = userid });
             }
             else
@@ -417,103 +275,49 @@ namespace JobsV1.Controllers
 
         //get list of customers with
         //a year past jobs and no recent jobs 
-        public ActionResult DiActivateOldCustomer()
+        public ActionResult DeactivateOldCustomer()
         {
-            List<int> latestJobs = new List<int>();
-            var datetoday = GetCurrentTime().Date.AddDays(-360);
 
-            //get customers with jobs 
-            var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
+            //get list of customers which are candidate for deactivation
+            List<Customer> allCustomers =  custdb.getDeactivateCustomers();
 
-            //get customers with null or ACT status and have jobs
-            var customers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && customersWithJobs.Contains(s.Id)).ToList().Select(s=>s.Id);
-
-            //check group of customers and its recent job 
-            //if the job is more than a year old
-            foreach (var cust in customers)
-            {
-                JobMain tempjob = db.JobMains.Where(j => j.Customer.Id == cust).OrderByDescending(j=>j.JobDate).FirstOrDefault();
-                if (tempjob.JobDate.CompareTo(datetoday) < 0)
-                {
-                    latestJobs.Add(cust);
-                }
-            }
-
-            //get customers with status NO STATUS or ACTIVE from prev list
-            var allCustomers = db.Customers.Where(s=> (string.IsNullOrEmpty(s.Status) || s.Status == "ACT" ) && latestJobs.Contains(s.Id)).ToList();
-            
-            //get customers  not in the list of customers with jobs
-            List<Customer> noJobCustomer = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && s.Id != 1 && !customersWithJobs.Contains(s.Id)).ToList();
-
-            //merge two list
-            allCustomers.AddRange(noJobCustomer);
-
+            //Display to view customers
             return View(allCustomers);
         }
 
 
-        //Diactive a multiple customer by changing its 
+        //Deactive a multiple customer by changing its 
         //status from ACT to INC. 
-        //Customers on the list are customers with
-        //a year past jobs and no recent jobs 
-        public ActionResult DiActivateAll()
+        public ActionResult DeActivateAll()
         {
-            List<int> latestJobs = new List<int>();
-            
-            //adjust date by subtracting 360 days (a year)
-            var datetoday = GetCurrentTime().Date.AddDays(-360);
+            //get list of customers which are candidate for deactivation
+            List<Customer> dCustList = custdb.getDeactivateCustomers();
 
-            //get customers with jobs 
-            var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
-            
-            //get customers with null or ACT status and have jobs 
-            var customers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && customersWithJobs.Contains(s.Id)).ToList().Select(s => s.Id);
-            
-            //check group of customers and its recent job 
-            //if the job is more than a year old
-            foreach (var cust in customers)
-            {
-                JobMain tempjob = db.JobMains.Where(j => j.Customer.Id == cust).OrderByDescending(j => j.JobDate).FirstOrDefault();
-                if (tempjob.JobDate.CompareTo(datetoday) < 0)
-                {
-                    latestJobs.Add(cust);
-                }
-            }
-
-            //get customers with status NO STATUS or ACTIVE from prev list
-            var allCustomers = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && latestJobs.Contains(s.Id)).ToList();
-
-            //get customers  not in the list of customers with jobs
-            List<Customer> noJobCustomer = db.Customers.Where(s => (string.IsNullOrEmpty(s.Status) || s.Status == "ACT") && s.Id != 1 && !customersWithJobs.Contains(s.Id)).ToList();
-
-            //merge two list
-            allCustomers.AddRange(noJobCustomer);
-
-            //diactivate customers by changing its 
+            //deactivate customers by changing its 
             //status from ACT to INC
-            foreach (var customer in allCustomers)
+            foreach (var customer in dCustList)
             {
-                customer.Status = "INC";    //diactivate customer
+                customer.Status = "INC";    //deactivate customer
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
             }
 
-            return RedirectToAction("DiActivateOldCustomer", "Customers");
+            return RedirectToAction("DeactivateOldCustomer", "Customers");
         }
 
-        //Diactive a single customer by changing its 
+        //Deactivate a single customer by changing its 
         //status from ACT to INC
-        public ActionResult DiactivateSingle(int id)
+        public ActionResult DeactivateSingle(int id)
         {
             var customer = db.Customers.Find(id);
             if (customer != null)
             {
-                customer.Status = "INC";    //diactivate customer
+                customer.Status = "INC";    //deactivate customer
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
             }
 
-            return RedirectToAction("DiActivateOldCustomer", "Customers");
+            return RedirectToAction("DeactivateOldCustomer", "Customers");
         }
 
         //get current time based on Singapore Standard Time 
@@ -524,6 +328,20 @@ namespace JobsV1.Controllers
             _localTime = _localTime.Date;
 
             return _localTime;
+        }
+        
+        //Ajax - Table Result 
+        //Get the list of suppliers containing the search string,
+        //if search is empty, return all actve items
+        //Param : search = search string
+        //        status = customer list string
+        public string TableResult(string search, string status)
+        {
+            //get lit of customers
+            List<CustomerList> custList = custdb.generateCustomerList(search,status);
+            
+            //convert list to json object
+            return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }
 
     }

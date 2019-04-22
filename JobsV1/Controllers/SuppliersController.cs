@@ -14,7 +14,8 @@ namespace JobsV1.Controllers
     public class SuppliersController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
-        
+        private DateClass dt = new DateClass();
+        private SupplierClass supdb = new SupplierClass();
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "ACT", Text = "Active" },
                 new SelectListItem { Value = "INC", Text = "Inactive" },
@@ -22,20 +23,6 @@ namespace JobsV1.Controllers
                 };
 
         // GET: Suppliers
-
-        class SupplierList
-        {
-            public int    Id       { get; set; }
-            public string Name     { get; set; }
-            public string Contact1 { get; set; }
-            public string Contact2 { get; set; }
-            public string Contact3 { get; set; }
-            public string Email    { get; set; }
-            public string Status   { get; set; }
-            public string SupType  { get; set; }
-            public string City     { get; set; }
-            public string Dtls     { get; set; }
-        }
 
         public ActionResult Index()
         {
@@ -46,47 +33,10 @@ namespace JobsV1.Controllers
 
         //Ajax - Table Result 
         //Get the list of suppliers
-        //containing the search string,
-        //if search is empty, return all actve items
         public string TableResult(string search, string status)
         {
-            List<Supplier> suppliers = new List<Supplier>();
-            List<SupplierList> supList = new List<SupplierList>();
-            suppliers = db.Suppliers.ToList();
-
-            //Search string filter
-            if (status == "ALL")
-            {
-                suppliers = suppliers.ToList();
-            }
-            else
-            {
-                suppliers = suppliers.Where(s => s.Status == status).ToList();
-            }
-            
-            //Search string filter
-            if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
-            {
-                suppliers = suppliers.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
-            }
-
-            //build temp supplier list
-            foreach (var item in suppliers)
-            {
-                supList.Add(new SupplierList
-                {
-                    Id       = item.Id,
-                    Name     = item.Name,
-                    Contact1 = String.IsNullOrEmpty(item.Contact1) ? "--" : item.Contact1,
-                    Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
-                    Contact3 = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Contact3,
-                    Email    = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Email,
-                    Status   = item.Status,
-                    City     = item.City.Name,
-                    SupType  = item.SupplierType.Description,
-                    Dtls     = item.Details 
-                });
-            }
+            //get supplier list
+            List<SupplierList> supList = supdb.getSupplierList(search, status);
             
             //convert list to json object
             return JsonConvert.SerializeObject(supList, Formatting.Indented);
@@ -213,7 +163,7 @@ namespace JobsV1.Controllers
         }
 
         #region InvItems
-
+        //items of suppliers View
         public ActionResult InvItems(int id)
         {
             ViewBag.SupplierId = id;
@@ -222,6 +172,8 @@ namespace JobsV1.Controllers
             return View(db.SupplierInvItems.Where(s=>s.SupplierId == id).ToList());
         }
 
+        //POST: /Suppliers/AddInvItems
+        //add new items to the supplier
         public ActionResult AddInvItems(int InvID, int supID) {
             db.SupplierInvItems.Add(new SupplierInvItem {
                 InvItemId = InvID,
@@ -232,7 +184,8 @@ namespace JobsV1.Controllers
             return RedirectToAction("InvItems", "Suppliers", new { id = supID });
         }
 
-
+        //POST: /Suppliers/AddInvItems
+        //remove item(s) from the supplier
         public ActionResult RemoveInvItems(int id)
         {
             SupplierInvItem item = db.SupplierInvItems.Find(id);
@@ -245,95 +198,49 @@ namespace JobsV1.Controllers
 
         #endregion
 
-        #region DiactivateList
+        #region DeactivateList
 
         //get list of customers with
         //a year past jobs and no recent jobs 
-        public ActionResult DiActivateSupplierList()
+        public ActionResult DeActivateSupplierList()
         {
             //get supplier list
-            List<Supplier> suppliers = getDiactivatedList();
+            List<Supplier> suppliers = supdb.getDeactivatedList();
             
             return View(suppliers);
         }
         
-        //Diactive a multiple customer by changing its 
+        //Deactive a multiple customer by changing its 
         //status from ACT to INC. 
-        public ActionResult DiActivateAll()
+        public ActionResult DeactivateAll()
         {
             //get supplier list
-            List<Supplier> suppliers = getDiactivatedList();
+            List<Supplier> suppliers = supdb.getDeactivatedList();
 
             foreach (var sup in suppliers)
             {
-                sup.Status = "INC";    //diactivate customer
+                sup.Status = "INC";    //deactivate customer
                 db.Entry(sup).State = EntityState.Modified;
                 db.SaveChanges();
             }
 
-
-            return RedirectToAction("DiActivateSupplierList", "Suppliers");
+            return RedirectToAction("DeActivateSupplierList", "Suppliers");
         }
-
-        //Customers on the list are customers with
-        //a year past jobs and no recent jobs 
-        private List<Supplier> getDiactivatedList()
-        {
-            List<int> oldJobs = new List<int>();
-            var datetoday = GetCurrentTime().Date.AddDays(-360).Date;
-
-            //get all active suppliers
-            var actSuppliers = db.Suppliers.Where(s => s.Status == "ACT").ToList();
-
-            foreach (var sup in actSuppliers)
-            {
-                //get recent jobservice of supplier
-                var jobserviceTemp = db.JobServices.Where(j => j.SupplierId == sup.Id).OrderByDescending(s => s.DtStart).FirstOrDefault();
-                if (jobserviceTemp != null)
-                {
-                    DateTime jobdate = (DateTime)jobserviceTemp.DtStart;
-                    //check if job is old o more than a year
-                    if (jobdate.Date.CompareTo(datetoday.Date) < 0)
-                    {
-                        oldJobs.Add(jobserviceTemp.Id);
-                    }
-
-                }
-            }
-
-            //get recent of jobservices 360 days
-            var services = db.JobServices.Where(j => oldJobs.Contains(j.Id)).ToList().Select(s => s.SupplierId);
-
-            //get list of suppliers with jobs
-            var suppliers = db.Suppliers.Where(s => services.Contains(s.Id)).ToList();
-
-            return suppliers;
-        }
-
-        //Diactive a single customer by changing its 
+        
+        //Deactive a single customer by changing its 
         //status from ACT to INC
-        public ActionResult DiactivateSingle(int id)
+        public ActionResult DeactivateSingle(int id)
         {
             var supplier = db.Suppliers.Find(id);
             if (supplier != null)
             {
-                supplier.Status = "INC";    //diactivate customer
+                supplier.Status = "INC";    //deactivate customer
                 db.Entry(supplier).State = EntityState.Modified;
                 db.SaveChanges();
             }
-
-            return RedirectToAction("DiActivateSupplierList", "Suppliers");
+            return RedirectToAction("DeactivateSupplierList", "Suppliers");
         }
-
-        //get current time based on Singapore Standard Time 
-        //SGT - UTC +8
-        protected DateTime GetCurrentTime()
-        {
-            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
-            _localTime = _localTime.Date;
-
-            return _localTime;
-        }
+        
         #endregion
     }
 }

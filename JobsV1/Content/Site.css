@@ -516,3 +516,12 @@ rental-type-wdriver {
     .option-selected{
         color: black;
     }
+
+    .status-link{
+        color:steelblue;
+        cursor:pointer;
+    }
+
+    .status-link .status-active{
+        color:black;
+    }
