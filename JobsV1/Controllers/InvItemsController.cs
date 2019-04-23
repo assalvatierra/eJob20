@@ -51,6 +51,8 @@ namespace JobsV1.Controllers
             
             //include latest odo, coopMembers list
             ViewBag.SupplierList = suppliers;
+
+            //inventory items
             var itemList = db.InvItems.Include(s => s.SupplierInvItems)
                 .Include(s => s.InvCarRecords)
                 .Include(s => s.InvCarGateControls)

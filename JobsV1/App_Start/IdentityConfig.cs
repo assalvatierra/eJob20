@@ -11,16 +11,73 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using JobsV1.Models;
+using System.Net;
+using System.Configuration;
+
+using System.Net.Mail;
+using System.Web.UI.WebControls;
+using System.Collections.Specialized;
 
 namespace JobsV1
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
+            await configSendGridasync(message);
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            //return Task.FromResult(0);
         }
+
+        // Use NuGet to install SendGrid (Basic C# client lib) 
+        private async Task configSendGridasync(IdentityMessage Imessage)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("mail.realwheelsdavao.com"); //smtp server
+
+                MailDefinition md = new MailDefinition();
+                md.From = "Realwheels.Reservation@RealWheelsDavao.com";      //sender mail
+                md.IsBodyHtml = true;                                        //set true to enable use of html tags 
+                md.Subject = "Password Recovery " + Imessage.Subject;        //mail title
+
+                ListDictionary replacements = new ListDictionary();
+                replacements.Add("<%To%>", Imessage.Destination);
+                replacements.Add("<%From%>", md.From);
+                
+                md.Subject = Imessage.Subject;
+                string body = Imessage.Body;
+
+                MailMessage msg = md.CreateMailMessage(Imessage.Destination, replacements, body, new System.Web.UI.Control());
+
+                SmtpServer.Port = 587;          //default smtp port
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
+
+                SmtpServer.EnableSsl = false;   //enable for gmail smtp server
+                System.Net.ServicePointManager.Expect100Continue = false;
+                SmtpServer.Send(msg);           //send message
+                
+            }
+            catch (Exception ex)
+            {
+                await Task.FromResult(0);
+            }
+
+            //// Send the email.
+            //if (transportWeb != null)
+            //{
+            //    await transportWeb.DeliverAsync(myMessage);
+            //}
+            //else
+            //{
+            //    //Trace.TraceError("Failed to create Web transport.");
+            //    await Task.FromResult(0);
+            //}
+        }
+        
     }
 
     public class SmsService : IIdentityMessageService

@@ -33,8 +33,6 @@ namespace JobsV1.Controllers
             ViewBag.status = status;
 
             return View(customerDetailList);
-
-
         }
         
         // GET: Customers/Details/5
@@ -70,8 +68,6 @@ namespace JobsV1.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-
-
             ViewBag.Status = new SelectList(StatusList, "value", "text");
 
             return View();

@@ -70,6 +70,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -970,7 +971,7 @@
           <ScalarProperty Name="ContactNum" ColumnName="ContactNum" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="ExpiryDt" ColumnName="ExpiryDt" />
-          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

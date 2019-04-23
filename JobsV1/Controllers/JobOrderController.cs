@@ -80,7 +80,7 @@ namespace JobsV1.Controllers
             }
 
 
-                IEnumerable<Models.JobMain> jobMains = db.JobMains
+            IEnumerable<Models.JobMain> jobMains = db.JobMains
                 .Include(j => j.Customer)
                 .Include(j => j.Branch)
                 .Include(j => j.JobStatus)
@@ -94,31 +94,26 @@ namespace JobsV1.Controllers
             ViewBag.today = getDateTimeToday();
             today = getDateTimeToday().Date;
 
+            //filter jobs based on statusId and date
             switch (sortid)
             {
                 case 1: //OnGoing
                     jobMains = jobMains
                         .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED))
                         .Where(p => DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-132)) >= 0).ToList();   //get 1 month before all entries
-
                     break;
                 case 2: //prev
                     jobMains = jobMains
                         .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
                         .Where(p => DateTime.Compare(p.JobDate.Date, today.Date) < 0 && DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-132)) > 0).ToList(); //get 1 month before all entries
-
                     break;
                 case 3: //close
                     jobMains = jobMains
                         .Where(d => (d.JobStatusId == JOBCLOSED || d.JobStatusId == JOBCANCELLED)).ToList()
                         .Where(p => p.JobDate.Date > today.Date.AddDays(-60)).ToList();
-
                     break;
-
                 default:
-
                     jobMains = jobMains.ToList();
-
                     break;
             }
            

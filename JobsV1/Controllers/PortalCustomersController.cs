@@ -172,8 +172,7 @@ namespace JobsV1.Controllers
             {
                 msg = "Login information is expired";
             }
-
-
+            
             //login invalid
             if (custId == 2)
             {
@@ -269,8 +268,6 @@ namespace JobsV1.Controllers
                         break;
                 }
             }
-           
-
             return returnFlag;
         }
 

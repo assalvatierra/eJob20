@@ -191,7 +191,9 @@ namespace JobsV1.Models
                 MailMessage msg = md.CreateMailMessage(renterMail, replacements, body, new System.Web.UI.Control());
 
                 SmtpServer.Port = 587;          //default smtp port
-                SmtpServer.Credentials = new System.Net.NetworkCredential("admin@realwheelsdavao.com", "Real123!");
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message
@@ -203,7 +205,6 @@ namespace JobsV1.Models
             }
 
         }
-
         
         public string SendMail2(int jobId, string renterMail, string mailType, string renterName, string site, string errorText)
         {
@@ -259,7 +260,9 @@ namespace JobsV1.Models
                 MailMessage msg = md.CreateMailMessage(renterMail, replacements, body, new System.Web.UI.Control());
 
                 SmtpServer.Port = 587;          //default smtp port
-                SmtpServer.Credentials = new System.Net.NetworkCredential("admin@realwheelsdavao.com", "Real123!");
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message
@@ -270,8 +273,7 @@ namespace JobsV1.Models
                 return "error: " + ex;
             }
         }
-
-
+        
         /**
          * ADMIN -  SEND INVOICE SUCCESSFUL
          * Send email to client on payment success
@@ -324,7 +326,9 @@ namespace JobsV1.Models
                 MailMessage msg = md.CreateMailMessage(renterMail, replacements, body, new System.Web.UI.Control());
 
                 SmtpServer.Port = 587;          //default smtp port
-                SmtpServer.Credentials = new System.Net.NetworkCredential("admin@realwheelsdavao.com", "Real123!");
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message
@@ -335,8 +339,7 @@ namespace JobsV1.Models
                 return "error: " + ex;
             }
         }
-
-
+        
         /**
          * ADMIN -  PAYMENT SUCCESSFUL
          * Send email to client on payment success
@@ -389,7 +392,9 @@ namespace JobsV1.Models
                 MailMessage msg = md.CreateMailMessage(renterMail, replacements, body, new System.Web.UI.Control());
 
                 SmtpServer.Port = 587;          //default smtp port
-                SmtpServer.Credentials = new System.Net.NetworkCredential("admin@realwheelsdavao.com", "Real123!");
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message
@@ -455,7 +460,9 @@ namespace JobsV1.Models
                 MailMessage msg = md.CreateMailMessage(renterMail, replacements, body, new System.Web.UI.Control());
 
                 SmtpServer.Port = 587;          //default smtp port
-                SmtpServer.Credentials = new System.Net.NetworkCredential("admin@realwheelsdavao.com", "Real123!");
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message
@@ -519,7 +526,9 @@ namespace JobsV1.Models
                 MailMessage msg = md.CreateMailMessage(renterMail, replacements, body, new System.Web.UI.Control());
 
                 SmtpServer.Port = 587;          //default smtp port
-                SmtpServer.Credentials = new System.Net.NetworkCredential("admin@realwheelsdavao.com", "Real123!");
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message
@@ -530,5 +539,6 @@ namespace JobsV1.Models
                 return "error: " + ex;
             }
         }
+        
     }
 }

@@ -21,33 +21,35 @@ $('#INACTIVE').click(function () {
     status = "INC";
     $('#INACTIVE').css("color", "black");
     $('#INACTIVE').siblings().css("color", "steelblue");
-    StatusRefresh() // load inactive suppliers
+    StatusRefresh(); // load inactive suppliers
 });
 
 $('#BAD').click(function () {
     status = "BAD";
     $('#BAD').css("color", "black");
     $('#BAD').siblings().css("color", "steelblue");
-    StatusRefresh() // load inactive suppliers
+    StatusRefresh(); // load bad suppliers
 });
 
 $('#ALL').click(function () {
     status = "ALL";
     $('#ALL').css("color", "black");
     $('#ALL').siblings().css("color", "steelblue");
-    StatusRefresh() // load inactive suppliers
+    StatusRefresh(); // load all suppliers
 });
 
 $('#simple-Table').click(function () {
     viewType = "SIMPLE";
     $('#simple-Table').css("color", "black");
     $('#simple-Table').siblings().css("color", "steelblue");
+    StatusRefresh();
 });
 
 $('#expanded-Table').click(function () {
     viewType = "EXPAND";
     $('#expanded-Table').css("color", "black");
     $('#expanded-Table').siblings().css("color", "steelblue");
+    StatusRefresh();
 });
 
 

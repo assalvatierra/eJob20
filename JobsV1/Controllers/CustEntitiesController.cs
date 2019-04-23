@@ -168,8 +168,6 @@ namespace JobsV1.Controllers
         {
             if (companyId > 1)
             {
-
-
                 db.CustEntities.Add(new CustEntity
                 {
                     CustEntMainId = companyId,

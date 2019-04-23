@@ -63,7 +63,9 @@ namespace JobsV1.Models
                 //msg.Attachments.Add(new Attachment(emailPicture));
 
                 SmtpServer.Port = 587;          //default smtp port
-                SmtpServer.Credentials = new System.Net.NetworkCredential("admin@realwheelsdavao.com", "Real123!");
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message

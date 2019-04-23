@@ -90,7 +90,7 @@ function LoadTable(data) {
         content += "<td>" + temp[x]["JobsCount"] + "</td>";
         content += "<td>" + temp[x]["Status"] + "</td>";
         content += "<td>" +
-            "<a href='Customers/Details/" + temp[x]["Id"] + "'>Details</a> |"
+            "<a href='Customers/Details/" + temp[x]["Id"] + "'>Details</a> "
         "</td>";
         content += "<tr>";
 

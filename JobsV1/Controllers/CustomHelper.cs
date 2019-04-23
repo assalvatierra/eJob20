@@ -14,7 +14,6 @@ namespace JobsV1.CustomHelper
         {
             
             SysAccessLayer dal = new SysAccessLayer();
-            string Username = "jahdielvillosa@gmail.com";
             var menu = dal.getModMenu2(MenuId, username);
 
             string htmlString = "<table>";

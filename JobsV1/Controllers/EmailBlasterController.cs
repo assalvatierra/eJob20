@@ -170,11 +170,9 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
-
-
+        //send email to customers / clients
         public ActionResult SendEmailBlast(int id)
         {
-
             //get email parameters using id
             var emailTemplate = db.EmailBlasterTemplates.Find(id);
             string recipientFilter = emailTemplate.RecipientsCategory;
@@ -239,7 +237,7 @@ namespace JobsV1.Controllers
             
         }
 
-
+        //Save log of blast in the server
         public int LogEmailBlastResult(int recipientId,string email,string EmailStatus)
         {
             EmailBlasterLogs logs = new EmailBlasterLogs();
@@ -288,6 +286,7 @@ namespace JobsV1.Controllers
             return prevRecordId;
         }
 
+        //show blast result
         public ActionResult BlastResult(int reportId, string sDate, string eDate)
         {
             if (reportId != 0)
