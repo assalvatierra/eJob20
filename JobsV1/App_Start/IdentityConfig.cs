@@ -29,7 +29,8 @@ namespace JobsV1
             //return Task.FromResult(0);
         }
 
-        // Use NuGet to install SendGrid (Basic C# client lib) 
+        //(Option) Use NuGet to install SendGrid (Basic C# client lib) 
+        //Send Email Verification using smtp server
         private async Task configSendGridasync(IdentityMessage Imessage)
         {
             try
@@ -65,17 +66,6 @@ namespace JobsV1
             {
                 await Task.FromResult(0);
             }
-
-            //// Send the email.
-            //if (transportWeb != null)
-            //{
-            //    await transportWeb.DeliverAsync(myMessage);
-            //}
-            //else
-            //{
-            //    //Trace.TraceError("Failed to create Web transport.");
-            //    await Task.FromResult(0);
-            //}
         }
         
     }

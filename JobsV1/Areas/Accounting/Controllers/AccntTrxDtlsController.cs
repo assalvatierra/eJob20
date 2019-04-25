@@ -46,8 +46,8 @@ namespace JobsV1.Areas.Accounting.Controllers
             var product = db.AccntLedgers.Select(x => new
              {
                  Id = x.Id,
-                 Name = x.Name + " - " + x.Code
-             });
+                 Name = x.Code  + " - " +   x.Name
+            });
             
             ViewBag.AccntTrxHdrId = new SelectList(db.AccntTrxHdrs, "Id", "Remarks", hdrId);
             ViewBag.AccntLedgerId = new SelectList(product, "Id", "Name");
