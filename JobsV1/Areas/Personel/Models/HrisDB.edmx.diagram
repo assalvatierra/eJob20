@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="896124a67e594d1fb47ac1b10c87db97" Name="Diagram1" >
+        <EntityTypeShape EntityType="HrisDB.HrPersonel" Width="1.5" PointX="6.25" PointY="2.625" />
+        <EntityTypeShape EntityType="HrisDB.HrPerPosition" Width="1.5" PointX="2.75" PointY="1.625" />
+        <EntityTypeShape EntityType="HrisDB.HrPerDoc" Width="1.5" PointX="8.875" PointY="3" />
+        <AssociationConnector Association="HrisDB.HrPersonelHrPerDoc" />
+        <EntityTypeShape EntityType="HrisDB.HrPosition" Width="1.5" PointX="0.5" PointY="2" />
+        <AssociationConnector Association="HrisDB.HrPersonelHrPerPosition" />
+        <AssociationConnector Association="HrisDB.HrPositionHrPerPosition" />
+        <EntityTypeShape EntityType="HrisDB.HrTraining" Width="1.5" PointX="0.5" PointY="4.375" />
+        <EntityTypeShape EntityType="HrisDB.HrPerTraining" Width="1.5" PointX="4.25" PointY="5.75" />
+        <AssociationConnector Association="HrisDB.HrTrainingHrPerTraining" />
+        <AssociationConnector Association="HrisDB.HrPersonelHrPerTraining" />
+        <EntityTypeShape EntityType="HrisDB.HrSkill" Width="1.5" PointX="2.375" PointY="8" />
+        <EntityTypeShape EntityType="HrisDB.HrPerSkill" Width="1.5" PointX="5.25" PointY="8.5" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

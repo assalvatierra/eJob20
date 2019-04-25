@@ -307,6 +307,12 @@
     <Compile Include="Areas\Accounting\Models\AsSales.cs">
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\HrisDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HrisDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CarCoopController.cs" />
     <Compile Include="Controllers\CarDestinationsController.cs" />
@@ -1180,6 +1186,14 @@
     <Content Include="Areas\Accounting\Views\AccntTrxDtls\Edit.cshtml" />
     <Content Include="Areas\Accounting\Views\AccntTrxDtls\Index.cshtml" />
     <Content Include="Areas\Accounting\Views\AccntTrxHdrs\Details_Trx.cshtml" />
+    <Content Include="Areas\Personel\Views\web.config" />
+    <EntityDeploy Include="Areas\Personel\Models\HrisDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HrisDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Areas\Personel\Models\HrisDB.edmx.diagram">
+      <DependentUpon>HrisDB.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\ftp.myasp.net.pubxml" />
     <None Include="Properties\PublishProfiles\ftp.Somee.com.pubxml" />
     <Content Include="Scripts\CarRental\FormCarSummary.js" />
@@ -1752,6 +1766,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
+    <Folder Include="Areas\Personel\Controllers\" />
+    <Folder Include="Areas\Personel\Views\Shared\" />
     <Folder Include="Scripts\Reporting\" />
     <Folder Include="Views\CustomHelper\" />
     <Folder Include="Views\Paypal\" />

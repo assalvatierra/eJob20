@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="HrisDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="HrisDBTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="HrisDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="HrisDBContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HrPersonels" EntityType="HrisDB.HrPersonel" />
+          <EntitySet Name="HrPerPositions" EntityType="HrisDB.HrPerPosition" />
+          <EntitySet Name="HrPerDocs" EntityType="HrisDB.HrPerDoc" />
+          <AssociationSet Name="HrPersonelHrPerDoc" Association="HrisDB.HrPersonelHrPerDoc">
+            <End Role="HrPersonel" EntitySet="HrPersonels" />
+            <End Role="HrPerDoc" EntitySet="HrPerDocs" />
+          </AssociationSet>
+          <EntitySet Name="HrPositions" EntityType="HrisDB.HrPosition" />
+          <AssociationSet Name="HrPersonelHrPerPosition" Association="HrisDB.HrPersonelHrPerPosition">
+            <End Role="HrPersonel" EntitySet="HrPersonels" />
+            <End Role="HrPerPosition" EntitySet="HrPerPositions" />
+          </AssociationSet>
+          <AssociationSet Name="HrPositionHrPerPosition" Association="HrisDB.HrPositionHrPerPosition">
+            <End Role="HrPosition" EntitySet="HrPositions" />
+            <End Role="HrPerPosition" EntitySet="HrPerPositions" />
+          </AssociationSet>
+          <EntitySet Name="HrTrainings" EntityType="HrisDB.HrTraining" />
+          <EntitySet Name="HrPerTrainings" EntityType="HrisDB.HrPerTraining" />
+          <AssociationSet Name="HrTrainingHrPerTraining" Association="HrisDB.HrTrainingHrPerTraining">
+            <End Role="HrTraining" EntitySet="HrTrainings" />
+            <End Role="HrPerTraining" EntitySet="HrPerTrainings" />
+          </AssociationSet>
+          <AssociationSet Name="HrPersonelHrPerTraining" Association="HrisDB.HrPersonelHrPerTraining">
+            <End Role="HrPersonel" EntitySet="HrPersonels" />
+            <End Role="HrPerTraining" EntitySet="HrPerTrainings" />
+          </AssociationSet>
+          <EntitySet Name="HrSkills" EntityType="HrisDB.HrSkill" />
+          <EntitySet Name="HrPerSkills" EntityType="HrisDB.HrPerSkill" />
+        </EntityContainer>
+        <EntityType Name="HrPersonel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="HrPerDocs" Relationship="HrisDB.HrPersonelHrPerDoc" FromRole="HrPersonel" ToRole="HrPerDoc" />
+          <NavigationProperty Name="HrPerPositions" Relationship="HrisDB.HrPersonelHrPerPosition" FromRole="HrPersonel" ToRole="HrPerPosition" />
+          <NavigationProperty Name="HrPerTrainings" Relationship="HrisDB.HrPersonelHrPerTraining" FromRole="HrPersonel" ToRole="HrPerTraining" />
+        </EntityType>
+        <EntityType Name="HrPerPosition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="HrPersonel" Relationship="HrisDB.HrPersonelHrPerPosition" FromRole="HrPerPosition" ToRole="HrPersonel" />
+          <Property Name="HrPersonelId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HrPosition" Relationship="HrisDB.HrPositionHrPerPosition" FromRole="HrPerPosition" ToRole="HrPosition" />
+          <Property Name="HrPositionId" Type="Int32" Nullable="false" />
+          <Property Name="DtStart" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HrPerDoc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="HrPersonel" Relationship="HrisDB.HrPersonelHrPerDoc" FromRole="HrPerDoc" ToRole="HrPersonel" />
+          <Property Name="HrPersonelId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="HrPersonelHrPerDoc">
+          <End Type="HrisDB.HrPersonel" Role="HrPersonel" Multiplicity="1" />
+          <End Type="HrisDB.HrPerDoc" Role="HrPerDoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HrPersonel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HrPerDoc">
+              <PropertyRef Name="HrPersonelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HrPosition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Desc" Type="String" Nullable="false" />
+          <NavigationProperty Name="HrPerPositions" Relationship="HrisDB.HrPositionHrPerPosition" FromRole="HrPosition" ToRole="HrPerPosition" />
+          <Property Name="Remarks" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="HrPersonelHrPerPosition">
+          <End Type="HrisDB.HrPersonel" Role="HrPersonel" Multiplicity="1" />
+          <End Type="HrisDB.HrPerPosition" Role="HrPerPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HrPersonel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HrPerPosition">
+              <PropertyRef Name="HrPersonelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HrPositionHrPerPosition">
+          <End Type="HrisDB.HrPosition" Role="HrPosition" Multiplicity="1" />
+          <End Type="HrisDB.HrPerPosition" Role="HrPerPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HrPosition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HrPerPosition">
+              <PropertyRef Name="HrPositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HrTraining">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Desc" Type="String" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" />
+          <NavigationProperty Name="HrPerTrainings" Relationship="HrisDB.HrTrainingHrPerTraining" FromRole="HrTraining" ToRole="HrPerTraining" />
+        </EntityType>
+        <EntityType Name="HrPerTraining">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="HrTraining" Relationship="HrisDB.HrTrainingHrPerTraining" FromRole="HrPerTraining" ToRole="HrTraining" />
+          <Property Name="HrTrainingId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HrPersonel" Relationship="HrisDB.HrPersonelHrPerTraining" FromRole="HrPerTraining" ToRole="HrPersonel" />
+          <Property Name="HrPersonelId" Type="Int32" Nullable="false" />
+          <Property Name="DtCompleted" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="HrTrainingHrPerTraining">
+          <End Type="HrisDB.HrTraining" Role="HrTraining" Multiplicity="1" />
+          <End Type="HrisDB.HrPerTraining" Role="HrPerTraining" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HrTraining">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HrPerTraining">
+              <PropertyRef Name="HrTrainingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HrPersonelHrPerTraining">
+          <End Type="HrisDB.HrPersonel" Role="HrPersonel" Multiplicity="1" />
+          <End Type="HrisDB.HrPerTraining" Role="HrPerTraining" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HrPersonel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HrPerTraining">
+              <PropertyRef Name="HrPersonelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HrSkill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Desc" Type="String" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HrPerSkill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="HrisDB" />
+        <Alias Key="Target" Value="HrisDB.Store" />
+        <EntityContainerMapping CdmEntityContainer="HrisDBContainer" StorageEntityContainer="HrisDBTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
