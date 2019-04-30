@@ -1,0 +1,68 @@
+﻿@model JobsV1.Areas.Personel.Models.HrPersonel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>
+    @Html.DisplayFor(model => model.Name)
+</h2>
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3>
+            Personnel Details
+        </h3>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        </p>
+        <p>
+         Status:  
+            <span style="font-weight:bold"> 
+                @Html.DisplayFor(model => model.HrPersonelStatu.Desc) 
+            </span>
+        </p>
+        <p>
+         Passport No: 
+            <span style="font-weight:bold">
+               @Html.DisplayFor(model => model.PassportNo)
+            </span> 
+        </p>
+
+        <p>
+        SSS No: 
+            <span style="font-weight:bold">
+                @Html.DisplayFor(model => model.SSSid)
+            </span>  
+        </p>
+
+        <p>
+          TIN: 
+            <span style="font-weight:bold">
+                @Html.DisplayFor(model => model.Tin)
+            </span>
+            
+        </p>
+        <p>
+          Driver's ID:  
+            <span style="font-weight:bold">
+                 @Html.DisplayFor(model => model.DriverId) 
+             </span>
+        </p>
+        <p>
+          Remarks: 
+             <span style="font-weight:bold">
+                 @Html.DisplayFor(model => model.Remarks)
+            </span>
+        </p>
+    </div>
+
+    @{Html.RenderPartial("PartialView_Profile", (JobsV1.Areas.Personel.Models.HrProfile)ViewBag.profile, new ViewDataDictionary { { "PersonnelId", Model.Id } });}
+    @{Html.RenderPartial("PartialView_Position", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerPosition>)ViewBag.perPosition, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "PositionList", ViewBag.PositionList } });}
+    @{Html.RenderPartial("PartialView_Skills", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerSkill>)ViewBag.perSkills, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "SkillsList", ViewBag.SkillsList }, { "Proficiency", ViewBag.Proficiency } });}
+   
+</div>

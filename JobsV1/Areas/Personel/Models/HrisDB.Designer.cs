@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Data\ABEL\Projects\GitHubApps\eJob20\JobsV1\Areas\Personel\Models\HrisDB.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Personel\Models\HrisDB.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

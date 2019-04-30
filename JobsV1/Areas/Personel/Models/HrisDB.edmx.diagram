@@ -38,7 +38,7 @@
         <AssociationConnector Association="HrisDB.HrPayrollHrDtr" />
         <EntityTypeShape EntityType="HrisDB.HrProfile" Width="1.5" PointX="7.875" PointY="0.5" />
         <AssociationConnector Association="HrisDB.HrPersonelHrProfile" />
-        <EntityTypeShape EntityType="HrisDB.HrPersonelStatus" Width="1.5" PointX="5.75" PointY="0.5" />
+        <EntityTypeShape EntityType="HrisDB.HrPersonelStatus" Width="1.875" PointX="5.75" PointY="0.5" />
         <AssociationConnector Association="HrisDB.HrPersonelStatusHrPersonel" />
       </Diagram>
     </edmx:Diagrams>

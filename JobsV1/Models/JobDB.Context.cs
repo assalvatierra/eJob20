@@ -109,5 +109,9 @@ namespace JobsV1.Models
         public virtual DbSet<JobEntMain> JobEntMains { get; set; }
         public virtual DbSet<CashExpense> CashExpenses { get; set; }
         public virtual DbSet<PortalCustomer> PortalCustomers { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Personel.Models.HrPersonel> HrPersonels { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Personel.Models.HrPersonelStatus> HrPersonelStatus { get; set; }
     }
 }

@@ -307,10 +307,70 @@
     <Compile Include="Areas\Accounting\Models\AsSales.cs">
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Controllers\HrPersonelsController.cs" />
+    <Compile Include="Areas\Personel\Controllers\HrProfilesController.cs" />
+    <Compile Include="Areas\Personel\Models\HrDtr.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrDtrStatus.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrisDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HrisDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrisDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\HrisDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HrisDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPayroll.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPerDoc.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPerPosition.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPerSkill.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPersonel.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPersonelStatus.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPerTraining.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrPosition.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrProficiency.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrProfile.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrSalary.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrSkill.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrTraining.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\HrTrainingSkill.cs">
+      <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -741,6 +801,18 @@
     <Content Include="Areas\Accounting\Models\InitAccountData.sql" />
     <Content Include="Areas\Accounting\Models\InitData.sql" />
     <Content Include="Areas\Accounting\Scripts\Sales.js" />
+    <Content Include="Areas\Personel\Models\HrisDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>HrisDB.Context.cs</LastGenOutput>
+      <DependentUpon>HrisDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Personel\Models\HrisDB.edmx.sql" />
+    <Content Include="Areas\Personel\Models\HrisDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>HrisDB.cs</LastGenOutput>
+      <DependentUpon>HrisDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Personel\Models\InitData.sql" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\bootstrap-directional-buttons.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1117,6 +1189,17 @@
     <Content Include="Scripts\Job\PortalCustomer.js" />
     <Content Include="Scripts\Job\SupplierListExpand.js" />
     <Content Include="Scripts\Job\SupplierList.js" />
+    <Content Include="Areas\Personel\Views\HrProfiles\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\HrProfiles\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\HrProfiles\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\HrProfiles\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\HrProfiles\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_Profile.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_Position.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_Skills.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\ssl.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />
@@ -1194,6 +1277,13 @@
     <Content Include="Areas\Personel\Models\HrisDB.edmx.diagram">
       <DependentUpon>HrisDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Personel\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Personel\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\Index.cshtml" />
     <None Include="Properties\PublishProfiles\ftp.myasp.net.pubxml" />
     <None Include="Properties\PublishProfiles\ftp.Somee.com.pubxml" />
     <Content Include="Scripts\CarRental\FormCarSummary.js" />
@@ -1210,6 +1300,7 @@
     <Content Include="Scripts\DateRangePicker\package.js" />
     <None Include="Properties\PublishProfiles\LocalPath.C.pubxml" />
     <None Include="Properties\PublishProfiles\LocalPath.D.pubxml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\Job\CarGateControl.js" />
     <Content Include="Scripts\Job\CarMaintenance.js" />
@@ -1766,8 +1857,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
-    <Folder Include="Areas\Personel\Controllers\" />
-    <Folder Include="Areas\Personel\Views\Shared\" />
     <Folder Include="Scripts\Reporting\" />
     <Folder Include="Views\CustomHelper\" />
     <Folder Include="Views\Paypal\" />
