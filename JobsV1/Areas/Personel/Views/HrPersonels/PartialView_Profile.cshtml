@@ -1,0 +1,93 @@
+﻿@model JobsV1.Areas.Personel.Models.HrProfile
+
+@{
+    int personnelId = Convert.ToInt32(ViewData["personnelId"]);
+}
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <h3>
+            Profile
+        </h3>
+        <p>
+            @Html.ActionLink("Edit", "Edit_Profile", "HrProfiles", new { personnelId = personnelId }, null)
+        </p>
+        <div class="col-md-3">
+
+            <p>
+                FirstName : 
+                <b>
+                    @Html.DisplayFor(model => model.FirstName)
+                </b>
+            </p>
+
+            <p>
+                @Html.DisplayNameFor(model => model.LastName) : 
+                <b>
+                    @Html.DisplayFor(model => model.LastName)
+                </b>
+            </p>
+
+            <p>
+                @Html.DisplayNameFor(model => model.MiddleName) :
+                <b>
+                    @Html.DisplayFor(model => model.MiddleName)
+                </b>
+            </p>
+
+            <p>
+                @Html.DisplayNameFor(model => model.Mobile1) :
+                <b>
+                    @Html.DisplayFor(model => model.Mobile1)
+                </b>
+            </p>
+
+            <p>
+                @Html.DisplayNameFor(model => model.Mobile2) :
+                <b>
+                    @Html.DisplayFor(model => model.Mobile2)
+                </b>
+            </p>
+        </div>
+        <div class="col-md-3">
+
+            <p>
+                @Html.DisplayNameFor(model => model.Email)  :
+                <b>
+                    @Html.DisplayFor(model => model.Email)
+                </b>
+            </p>
+
+            <p>
+                @Html.DisplayNameFor(model => model.fbAccount) :
+                <b>
+                    @Html.DisplayFor(model => model.fbAccount)
+                </b>
+            </p>
+
+            <p>
+                @Html.DisplayNameFor(model => model.PresentAddress) :
+                <b>
+                    @Html.DisplayFor(model => model.PresentAddress)
+                </b>
+            </p>
+
+            <p>
+                @Html.DisplayNameFor(model => model.ProvincialAddress) :
+                <b>
+                    @Html.DisplayFor(model => model.ProvincialAddress)
+                </b>
+            </p>
+
+            <p>
+                @Html.DisplayNameFor(model => model.Spouse) :
+                <b>
+                    @Html.DisplayFor(model => model.Spouse)
+                </b>
+            </p>
+        </div>
+
+    </div>
+</div>

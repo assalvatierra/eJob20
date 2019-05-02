@@ -1,0 +1,55 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.HrPerPosition>
+
+@{
+    int personnelId = Convert.ToInt32(ViewData["personnelId"]);
+}
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+
+    <div class="col-lg-12">
+        <h3>
+            Position
+        </h3>
+
+        <a href="" id="catbtn" data-toggle="modal" data-target="#perPositionModal" style="margin-bottom:10px;">Add Item</a>
+        @foreach (var perPos in Model)
+        {
+            <p>
+                @perPos.HrPosition.Desc.ToString() -
+                @perPos.DtStart.ToShortDateString()
+                 @Html.ActionLink("[x]", "RemovePosition", new { id = perPos.Id })
+            </p>
+        }
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="perPositionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Item List</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+
+                    <div class="list-group" id="categorylist">
+
+                        @foreach (var position in ViewBag.PositionList as IEnumerable<JobsV1.Areas.Personel.Models.HrPosition>)
+                        {
+                            <a href="@Url.Action("AddPosition", "HrPersonels", new {id = position.Id, pId = personnelId },null)" class="list-group-item">
+                                @position.Desc
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+</div>

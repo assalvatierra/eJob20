@@ -1,0 +1,106 @@
+﻿@model JobsV1.Areas.Personel.Models.HrProfile
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HrProfile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mobile1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mobile2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fbAccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fbAccount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PresentAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PresentAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProvincialAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProvincialAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Spouse)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Spouse)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrPersonel.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrPersonel.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

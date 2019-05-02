@@ -1,0 +1,93 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.HrProfile>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mobile1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mobile2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fbAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PresentAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProvincialAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Spouse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HrPersonel.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiddleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mobile1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mobile2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fbAccount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PresentAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProvincialAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Spouse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HrPersonel.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

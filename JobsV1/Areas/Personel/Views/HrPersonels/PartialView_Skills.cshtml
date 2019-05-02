@@ -1,0 +1,145 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.HrPerSkill>
+
+@{
+    int personnelId = Convert.ToInt32(ViewData["personnelId"]);
+}
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+
+    <div class="col-lg-12">
+        <h3>
+            Skills
+        </h3>
+
+        <a href="" id="catbtn" data-toggle="modal" data-target="#perSkillsModal" style="margin-bottom:10px;">Add Item</a>
+        @foreach (var perPos in Model)
+        {
+            <p>
+                @perPos.HrSkill.Desc.ToString() -
+                @perPos.DtAcquired.ToShortDateString()
+                 @Html.ActionLink("[x]", "RemovePosition", new { id = perPos.Id })
+            </p>
+        }
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="perSkillsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Item List</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+
+                    <div class="list-group" id="categorylist_Skills">
+
+                        @foreach (var skill in ViewBag.SkillsList as IEnumerable<JobsV1.Areas.Personel.Models.HrSkill>)
+                        { 
+                            <a  class="list-group-item skills" onclick="selectSkill(@skill.Id)"> 
+                                @skill.Desc
+                            </a>
+                            @*<a href="@Url.Action("AddSkills", "HrPersonels", new {id = position.Id, pId = personnelId },null)" class="list-group-item">
+                                @position.Desc
+                            </a>*@
+                        }
+
+                    </div>
+
+                    <div class="list-group" id="categorylist_Prof" style="display:none;">
+
+                        @foreach (var skillsProf in ViewBag.Proficiency as IEnumerable<JobsV1.Areas.Personel.Models.HrProficiency>)
+                        {
+                            <a class="list-group-item proficiency" onclick="selectProf(@skillsProf.Id)"> 
+                                @skillsProf.Level
+                            </a>
+                            @*<a href="@Url.Action("AddSkills", "HrPersonels", new {id = position.Id, pId = personnelId },null)" class="list-group-item">
+                                @position.Desc
+                            </a>*@
+                        }
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+
+    var personnelID;
+    var profID;
+    var skillsID;
+    
+    $(document).ready(function(){
+        personnelID = @personnelId;
+    });
+
+    function selectSkill(value) {
+        skillsID = value;
+        hideSkills();
+        showProficiency();
+    }
+
+    function showProficiency(){
+        $('#categorylist_Prof').css('display','block')
+    }
+
+    function hideProficiency(){
+        $('#categorylist_Prof').css('display','none')
+    }
+
+    function showSkills(){
+        $('#categorylist_Skills').css('display','block')
+    }
+
+    function hideSkills(){
+        $('#categorylist_Skills').css('display','none')
+    }
+
+    function selectProf(value) {
+        profID = value;
+
+        alert("personnelID: " + personnelID);
+        alert("skillsID: "    + skillsID);
+        alert("profID: "      + profID);
+
+    }
+
+    //set skills and proficieny for the user
+    function generatePassword() {
+        var customerId = $('#customerId').val();
+
+        console.log("customer ID: " + customerId);
+
+        //build json object
+        var data = {
+            custId: customerId
+        };
+
+        //request data from server using ajax call
+        $.ajax({
+            url: '/PortalCustomers/getPassword?custId=' + customerId,
+            type: "GET",
+            data: JSON.stringify(data),
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+                $('input[name="Password"]').val(data["responseText"]);
+
+            },
+            error: function (data) {
+                console.log("ERROR");
+                console.log(data);
+                $('input[name="Password"]').val(data["responseText"]);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,112 @@
+﻿@model JobsV1.Areas.Personel.Models.HrProfile
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>HrProfile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mobile1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mobile2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fbAccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fbAccount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PresentAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PresentAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProvincialAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProvincialAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Spouse)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Spouse)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrPersonel.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrPersonel.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
