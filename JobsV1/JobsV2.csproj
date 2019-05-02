@@ -309,6 +309,7 @@
     </Compile>
     <Compile Include="Areas\Personel\Controllers\HrPersonelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrProfilesController.cs" />
+    <Compile Include="Areas\Personel\Controllers\HrSalariesController.cs" />
     <Compile Include="Areas\Personel\Models\HrDtr.cs">
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
@@ -1194,9 +1195,17 @@
     <Content Include="Areas\Personel\Views\HrProfiles\Details.cshtml" />
     <Content Include="Areas\Personel\Views\HrProfiles\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\HrProfiles\Index.cshtml" />
-    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_Profile.cshtml" />
-    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_Position.cshtml" />
-    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_Skills.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_DProfile.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_DPosition.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_DSkills.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_DTrainings.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\Salary.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_SSalary.cshtml" />
+    <Content Include="Areas\Personel\Views\HrSalaries\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\HrSalaries\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\HrSalaries\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\HrSalaries\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\HrSalaries\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

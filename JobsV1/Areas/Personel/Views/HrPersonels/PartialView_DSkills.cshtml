@@ -3,25 +3,28 @@
 @{
     int personnelId = Convert.ToInt32(ViewData["personnelId"]);
 }
-@{
-    ViewBag.Title = "Details";
-}
+
 <div class="row">
 
     <div class="col-lg-12">
-        <h3>
-            Skills
-        </h3>
+        <div class="col-lg-12">
 
-        <a href="" id="catbtn" data-toggle="modal" data-target="#perSkillsModal" style="margin-bottom:10px;">Add Item</a>
-        @foreach (var perPos in Model)
-        {
-            <p>
-                @perPos.HrSkill.Desc.ToString() -
-                @perPos.DtAcquired.ToShortDateString()
-                 @Html.ActionLink("[x]", "RemovePosition", new { id = perPos.Id })
-            </p>
-        }
+            <h3>
+                Skills
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <a href="" id="catbtn" data-toggle="modal" data-target="#perSkillsModal" onclick="resetSkillsPrompt()">Add Skill</a>
+            @foreach (var perSkill in Model)
+            {
+                <p>
+                    @perSkill.HrSkill.Desc.ToString() -
+                    @perSkill.HrProficiency.Level -
+                    @perSkill.DtAcquired.ToShortDateString()
+                    @Html.ActionLink("[x]", "RemoveSkill", new { id = perSkill.Id })
+                </p>
+            }
+        </div>
     </div>
 
     <!-- Modal -->
@@ -30,7 +33,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Item List</h4>
+                    <h4 class="modal-title">Skills List</h4>
                 </div>
 
                 <div class="modal-body" id="modal2-content">
@@ -39,7 +42,7 @@
 
                         @foreach (var skill in ViewBag.SkillsList as IEnumerable<JobsV1.Areas.Personel.Models.HrSkill>)
                         { 
-                            <a  class="list-group-item skills" onclick="selectSkill(@skill.Id)"> 
+                            <a  class="list-group-item skills" onclick="selectSkill(@skill.Id,@personnelId)"> 
                                 @skill.Desc
                             </a>
                             @*<a href="@Url.Action("AddSkills", "HrPersonels", new {id = position.Id, pId = personnelId },null)" class="list-group-item">
@@ -78,12 +81,14 @@
     var profID;
     var skillsID;
     
-    $(document).ready(function(){
-        personnelID = @personnelId;
-    });
+    function selectSkill(skID, perID) {
+        
+        personnelID = perID;
+        skillsID = skID;
 
-    function selectSkill(value) {
-        skillsID = value;
+        //alert("personnelID: " + personnelID);
+        //alert("skillsID: " + skillsID);
+
         hideSkills();
         showProficiency();
     }
@@ -107,38 +112,54 @@
     function selectProf(value) {
         profID = value;
 
-        alert("personnelID: " + personnelID);
-        alert("skillsID: "    + skillsID);
-        alert("profID: "      + profID);
+        //alert("personnelID: " + personnelID);
+        //alert("skillsID: "    + skillsID);
+        //alert("profID: " + profID);
 
+        //submit data to server using ajax, 
+        //refresh page
+        addPerSkills();
+
+        //hidel skills modal
+        $('#perSkillsModal').modal('hide'); 
+    }
+
+    //reset skills selection modal
+    //by showing skills list and 
+    //hiding proficiency list
+    function resetSkillsPrompt(){
+        showSkills();
+        hideProficiency();
+    }
+
+    function refreshPage() {
+        location.reload();
     }
 
     //set skills and proficieny for the user
-    function generatePassword() {
-        var customerId = $('#customerId').val();
-
-        console.log("customer ID: " + customerId);
-
+    function addPerSkills() {
+       
         //build json object
         var data = {
-            custId: customerId
+            custId: 0
         };
 
         //request data from server using ajax call
         $.ajax({
-            url: '/PortalCustomers/getPassword?custId=' + customerId,
-            type: "GET",
+            url: '/Personel/HrPersonels/AddSkills?perID=' + personnelID + '&sID=' + skillsID + '&pID=' + profID,
+            type: "POST",
             data: JSON.stringify(data),
             dataType: 'application/json; charset=utf-8',
             success: function (data) {
                 console.log("SUCCESS");
-                $('input[name="Password"]').val(data["responseText"]);
+                //$('input[name="Password"]').val(data["responseText"]);
 
             },
             error: function (data) {
-                console.log("ERROR");
-                console.log(data);
-                $('input[name="Password"]').val(data["responseText"]);
+                //console.log("ERROR");
+                //console.log(data);
+                refreshPage()
+                //$('input[name="Password"]').val(data["responseText"]);
             }
         });
     }

@@ -1,0 +1,42 @@
+﻿@model JobsV1.Areas.Personel.Models.HrSalary
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HrSalary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DtStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatePerHr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatePerHr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrPersonel.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrPersonel.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -14,12 +14,11 @@ namespace JobsV1.Areas.Personel.Controllers
     public class HrPersonelsController : Controller
     {
         private HrisDBContainer db = new HrisDBContainer();
-
+        private PersonnelClass pc = new PersonnelClass();
         // GET: Personel/HrPersonels
         public ActionResult Index()
         {
-            var hrPersonels = db.HrPersonels.Include(h => h.HrPersonelStatu);
-            return View(hrPersonels.ToList());
+            return View(pc.getPersonnelList().ToList());
         }
 
         // GET: Personel/HrPersonels/Details/5
@@ -38,11 +37,11 @@ namespace JobsV1.Areas.Personel.Controllers
             PartialView_Profile((int)id);
             PartialView_Position((int)id);
             PartialView_Skills((int)id);
+            PartialView_Trainings((int)id);
 
             return View(hrPersonel);
         }
-
-
+        
         //display list of categories assigned 
         //to the customer 
         private void PartialView_Profile(int id)
@@ -55,19 +54,50 @@ namespace JobsV1.Areas.Personel.Controllers
         //to the customer 
         private void PartialView_Position(int id)
         {
-            //get list of categories
+            //get list of position
             ViewBag.perPosition = db.HrPerPositions.Where(h => h.HrPersonelId == id).ToList().OrderByDescending(h=>h.DtStart);
             ViewBag.PositionList = db.HrPositions.ToList();
+
+            //get latest position (string)
+            ViewBag.latestPosition = db.HrPerPositions.Where(h => h.HrPersonelId == id).OrderByDescending(h => h.Id).FirstOrDefault().HrPosition.Desc;
         }
 
-        //display list of categories assigned 
+        //display list of Skills and Proficiency assigned 
         //to the customer 
         private void PartialView_Skills(int id)
         {
+            //get list of acquired skills linked to the personnel by its Id
+            List<HrPerSkill> perSkillsList = db.HrPerSkills.Where(h => h.HrPersonelId == id).ToList();
+
+            //get list of IDs of acquired skill 
+            var acquiredskillsID = perSkillsList.Select(s => s.HrSkillId).ToList();
+
+            //get list of available skills not acquired by the personnel
+            List<HrSkill> availableSkills = db.HrSkills.Where(h=> !acquiredskillsID.Contains(h.Id)).ToList();
+
             //get list of categories
-            ViewBag.perSkills = db.HrPerSkills.Where(h => h.HrPersonelId == id).ToList().OrderByDescending(h => h.DtAcquired);
-            ViewBag.SkillsList = db.HrSkills.ToList();
+            ViewBag.perSkills = perSkillsList.OrderByDescending(h => h.DtAcquired);
+            ViewBag.SkillsList = availableSkills;
             ViewBag.Proficiency = db.HrProficiencies.ToList();
+        }
+
+        //display list of trainings assigned 
+        //to the customer 
+        private void PartialView_Trainings(int id)
+        {
+            //get list of trainings linked to personnel by its Id
+            List <HrPerTraining> perTrainingsList = db.HrPerTrainings.Where(h => h.HrPersonelId == id).ToList();
+            
+            //get list IDs of acquired trainings
+            var acquiredTrainings = perTrainingsList.Select(s => s.HrTrainingId).ToList();
+            
+            //get list of available trainings not linked to the acquired trainings of the personnel
+            List<HrTraining> availableTrainings = db.HrTrainings.Where(h => !acquiredTrainings.Contains(h.Id)).ToList();
+
+            //get list of categories
+            ViewBag.perTrainings = perTrainingsList.OrderByDescending(h => h.DtCompleted);
+            ViewBag.TrainingsList = availableTrainings;
+            
         }
 
         // GET: Personel/HrPersonels/Create
@@ -194,22 +224,20 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
         #region Skills
-        public ActionResult AddSkills(int? id, int profId, int pId)
+        [HttpPost]
+        public string AddSkills(int perID, int sID, int pID)
         {
-            if (id != null)
-            {
-                HrPerSkill perSkills = new HrPerSkill();
-                perSkills.HrPersonelId = pId;
-                perSkills.HrSkillId = (int)id;
-                perSkills.HrProficiencyId = profId;
-                perSkills.DtAcquired = GetCurrentTime();
+           HrPerSkill perSkills = new HrPerSkill();
+           perSkills.HrPersonelId = perID;
+           perSkills.HrSkillId = sID;
+           perSkills.HrProficiencyId = pID;
+           perSkills.DtAcquired = GetCurrentTime();
+           
+           db.HrPerSkills.Add(perSkills);
+           db.SaveChanges();
 
-                db.HrPerSkills.Add(perSkills);
-                db.SaveChanges();
-
-                return RedirectToAction("Details", new { id = pId }); //view in personnel details
-            }
-            return RedirectToAction("Index");
+           return "OK"; //view in personnel details
+         
         }
 
         public ActionResult RemoveSkill(int id)
@@ -224,6 +252,83 @@ namespace JobsV1.Areas.Personel.Controllers
 
         #endregion
 
+        #region Trainings
+        public ActionResult AddTraining(int id, int pId)
+        {
+            HrPerTraining perTraining = new HrPerTraining();
+            perTraining.HrPersonelId = pId;
+            perTraining.HrTrainingId = id;
+            perTraining.DtCompleted = GetCurrentTime();
+
+            db.HrPerTrainings.Add(perTraining);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = pId }); //view in personnel details
+        }
+
+        public ActionResult RemoveTraining(int id)
+        {
+            HrPerSkill hrSkill = db.HrPerSkills.Find(id);
+            int perId = hrSkill.HrPersonelId;
+            db.HrPerSkills.Remove(hrSkill);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = perId }); //view in personnel details
+        }
+
+        #endregion
+
+        #region Salary
+
+        public ActionResult Salary(int? id)
+        {
+          
+           if (id == null)
+           {
+             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+           }
+           HrPersonel hrPersonel = db.HrPersonels.Find(id);
+           if (hrPersonel == null)
+           {
+               return HttpNotFound();
+           }
+
+            //get latest position (string)
+            ViewBag.latestPosition = db.HrPerPositions.Where(h => h.HrPersonelId == id).OrderByDescending(h => h.Id).FirstOrDefault().HrPosition.Desc;
+            
+            PartialView_SSalary((int)id);
+
+            return View(hrPersonel);
+        }
+
+        public void PartialView_SSalary(int id)
+        {
+            ViewBag.salaryDetails = db.HrSalaries.Where(s=>s.HrPersonelId == id).ToList().OrderByDescending(s=>s.DtStart);
+        }
+
+        public ActionResult AddSalary(int id, decimal Rate)
+        {
+            HrSalary perSalary = new HrSalary();
+            perSalary.HrPersonelId = id;
+            perSalary.RatePerHr = Rate;
+            perSalary.DtStart = GetCurrentTime();
+
+            db.HrSalaries.Add(perSalary);
+            db.SaveChanges();
+
+            return RedirectToAction("Salary", new { id = id }); //view in personnel details
+        }
+
+        public ActionResult RemoveSalary(int id)
+        {
+            HrSalary hrSalary = db.HrSalaries.Find(id);
+            var perId = hrSalary.HrPersonelId;
+            db.HrSalaries.Remove(hrSalary);
+            db.SaveChanges();
+
+            return RedirectToAction("Salary", new { id = perId }); //view in personnel details
+        }
+        #endregion
 
         //get current time based on Singapore Standard Time 
         //SGT - UTC +8

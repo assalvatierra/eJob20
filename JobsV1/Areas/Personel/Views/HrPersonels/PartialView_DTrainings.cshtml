@@ -1,0 +1,151 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.HrPerTraining >
+
+@{
+    int personnelId = Convert.ToInt32(ViewData["personnelId"]);
+}
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+
+            <h3>
+                Trainings
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <a href="" id="catbtn" data-toggle="modal" data-target="#perTrainingsModal" onclick="resetSkillsPrompt()">Add Training</a>
+            @foreach (var perTraining in Model)
+            {
+                <p>
+                    @perTraining.HrTraining.Desc.ToString() -
+                    @perTraining.DtCompleted.ToShortDateString()
+                    @Html.ActionLink("[x]", "RemoveTraining", new { id = perTraining.Id })
+                </p>
+            }
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="perTrainingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Training List</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+
+                    <div class="list-group" id="categorylist_Skills">
+
+                        @foreach (var training in ViewBag.TrainingsList as IEnumerable<JobsV1.Areas.Personel.Models.HrTraining>)
+                        { 
+                            @*<a  class="list-group-item skills" onclick="addTraining(@training.Id,@personnelId)"> 
+                                @training.Desc
+                            </a>*@
+                        <a href="@Url.Action("AddTraining", "HrPersonels", new {id = training.Id, pId = personnelId },null)" class="list-group-item">
+                            @training.Desc
+                        </a>
+                        }
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+@*<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+
+    var personnelID;
+    var profID;
+    var skillsID;
+    
+    function selectSkill(skID, perID) {
+        
+        personnelID = perID;
+        skillsID = skID;
+
+        //alert("personnelID: " + personnelID);
+        //alert("skillsID: " + skillsID);
+
+        hideSkills();
+        showProficiency();
+    }
+
+    function showProficiency(){
+        $('#categorylist_Prof').css('display','block')
+    }
+
+    function hideProficiency(){
+        $('#categorylist_Prof').css('display','none')
+    }
+
+    function showSkills(){
+        $('#categorylist_Skills').css('display','block')
+    }
+
+    function hideSkills(){
+        $('#categorylist_Skills').css('display','none')
+    }
+
+    function selectProf(value) {
+        profID = value;
+
+        //alert("personnelID: " + personnelID);
+        //alert("skillsID: "    + skillsID);
+        //alert("profID: " + profID);
+
+        //submit data to server using ajax, 
+        //refresh page
+        addPerSkills();
+
+        //hidel skills modal
+        $('#perSkillsModal').modal('hide'); 
+    }
+
+    //reset skills selection modal
+    //by showing skills list and 
+    //hiding proficiency list
+    function resetSkillsPrompt(){
+        showSkills();
+        hideProficiency();
+    }
+
+    function refreshPage() {
+        location.reload();
+    }
+
+    //set skills and proficieny for the user
+    function addPerSkills() {
+       
+        //build json object
+        var data = {
+            custId: 0
+        };
+
+        //request data from server using ajax call
+        $.ajax({
+            url: '/Personel/HrPersonels/AddSkills?perID=' + personnelID + '&sID=' + skillsID + '&pID=' + profID,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+                //$('input[name="Password"]').val(data["responseText"]);
+
+            },
+            error: function (data) {
+                //console.log("ERROR");
+                //console.log(data);
+                refreshPage()
+                //$('input[name="Password"]').val(data["responseText"]);
+            }
+        });
+    }
+</script>*@

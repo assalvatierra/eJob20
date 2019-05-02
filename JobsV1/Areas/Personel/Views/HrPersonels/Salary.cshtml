@@ -1,0 +1,19 @@
+﻿@model JobsV1.Areas.Personel.Models.HrPersonel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>
+    @Html.DisplayFor(model => model.Name)
+    
+</h2>
+<h4>
+    @ViewBag.latestPosition
+</h4>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@{Html.RenderPartial("PartialView_SSalary", (IEnumerable<JobsV1.Areas.Personel.Models.HrSalary>)ViewBag.salaryDetails, new ViewDataDictionary { { "PersonnelId", Model.Id } });}

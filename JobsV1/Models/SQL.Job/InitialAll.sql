@@ -16,8 +16,8 @@ insert Into Destinations([Description],[Remarks],[CityId])
 values 
 ('Eden Nature Park','','1 '),
 ('Philippine Eagle','','1 '),
-('Malagos Garden','','1 '),
-('Japanese Tunnel','','1 ');
+('Malagos Garden'  ,'','1 '),
+('Japanese Tunnel' ,'','1 ');
 
 -- ------------------------------------------------------------
 -- Sales Lead Configuration

@@ -1,0 +1,96 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.HrSalary>
+
+@{
+    int personnelId = Convert.ToInt32(ViewData["personnelId"]);
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <h3>
+                Salary
+            </h3>
+        </div>
+        <div class="col-lg-12">
+
+            <a href="" id="catbtn" data-toggle="modal" data-target="#perSalaryModal" style="margin-bottom:10px;">Add Salary</a>
+            @foreach (var salary in Model)
+            {
+                <p>
+                    @salary.RatePerHr /hr - 
+                    @salary.DtStart.ToShortDateString()
+                    @Html.ActionLink("[x]", "RemoveSalary", new { id = salary.Id })
+                </p>
+            }
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="perSalaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Enter Rate per Hour</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+                    <b>Rate</b> : &nbsp; 
+                    <input type="text" id="rateTxt" /> 
+                    <span>/ hr</span>
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" onclick="addPerSkills(@personnelId)">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+
+    //handle numbers only on input
+    $('#rateTxt').on('input',function(){
+        //backspace
+        if( isNaN( $('#rateTxt').val())){
+            var txt = $('#rateTxt');
+            txt.val(txt.val().slice(0, -1));
+        }
+    });
+
+    //set skills and proficieny for the user
+    function addPerSkills(PersonnelId) {
+        var rate = $('#rateTxt').val();
+
+        //build json object
+        var data = {
+            custId: 0
+        };
+
+        //request data from server using ajax call
+        $.ajax({
+            url: '/Personel/HrPersonels/AddSalary?id=' + PersonnelId + '&Rate=' + rate ,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+                //$('input[name="Password"]').val(data["responseText"]);
+            },
+            error: function (data) {
+                //console.log("ERROR");
+                //console.log(data);
+
+                refreshPage()
+                //$('input[name="Password"]').val(data["responseText"]);
+            }
+        });
+    }
+
+    
+    function refreshPage() {
+        location.reload();
+    }
+</script>

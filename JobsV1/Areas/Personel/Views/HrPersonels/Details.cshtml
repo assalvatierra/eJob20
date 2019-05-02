@@ -6,8 +6,11 @@
 
 <h2>
     @Html.DisplayFor(model => model.Name)
+    
 </h2>
-
+<h4>
+    @ViewBag.latestPosition
+</h4>
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>
@@ -61,8 +64,9 @@
         </p>
     </div>
 
-    @{Html.RenderPartial("PartialView_Profile", (JobsV1.Areas.Personel.Models.HrProfile)ViewBag.profile, new ViewDataDictionary { { "PersonnelId", Model.Id } });}
-    @{Html.RenderPartial("PartialView_Position", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerPosition>)ViewBag.perPosition, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "PositionList", ViewBag.PositionList } });}
-    @{Html.RenderPartial("PartialView_Skills", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerSkill>)ViewBag.perSkills, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "SkillsList", ViewBag.SkillsList }, { "Proficiency", ViewBag.Proficiency } });}
-   
+    @{Html.RenderPartial("PartialView_DProfile", (JobsV1.Areas.Personel.Models.HrProfile)ViewBag.profile, new ViewDataDictionary { { "PersonnelId", Model.Id } });}
+    @{Html.RenderPartial("PartialView_DPosition", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerPosition>)ViewBag.perPosition, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "PositionList", ViewBag.PositionList } });}
+    @{Html.RenderPartial("PartialView_DSkills", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerSkill>)ViewBag.perSkills, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "SkillsList", ViewBag.SkillsList }, { "Proficiency", ViewBag.Proficiency } });}
+    @{Html.RenderPartial("PartialView_DTrainings", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerTraining>)ViewBag.perTrainings, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "TrainingsList", ViewBag.TrainingsList } });}
+
 </div>

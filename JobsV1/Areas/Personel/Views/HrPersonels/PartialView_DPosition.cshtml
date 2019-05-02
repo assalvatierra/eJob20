@@ -9,19 +9,23 @@
 <div class="row">
 
     <div class="col-lg-12">
-        <h3>
-            Position
-        </h3>
+        <div class="col-lg-12">
+            <h3>
+                Position
+            </h3>
+        </div>
+        <div class="col-lg-12">
 
-        <a href="" id="catbtn" data-toggle="modal" data-target="#perPositionModal" style="margin-bottom:10px;">Add Item</a>
-        @foreach (var perPos in Model)
-        {
-            <p>
-                @perPos.HrPosition.Desc.ToString() -
-                @perPos.DtStart.ToShortDateString()
-                 @Html.ActionLink("[x]", "RemovePosition", new { id = perPos.Id })
-            </p>
-        }
+            <a href="" id="catbtn" data-toggle="modal" data-target="#perPositionModal" style="margin-bottom:10px;">Add Position</a>
+            @foreach (var perPos in Model)
+            {
+                <p>
+                    @perPos.HrPosition.Desc.ToString() -
+                    @perPos.DtStart.ToShortDateString()
+                    @Html.ActionLink("[x]", "RemovePosition", new { id = perPos.Id })
+                </p>
+            }
+        </div>
     </div>
 
     <!-- Modal -->
@@ -30,7 +34,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Item List</h4>
+                    <h4 class="modal-title">Position List</h4>
                 </div>
 
                 <div class="modal-body" id="modal2-content">
