@@ -472,7 +472,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="HrPayrollHrDtr">
-          <End Type="HrisDB.HrPayroll" Role="HrPayroll" Multiplicity="1" />
+          <End Type="HrisDB.HrPayroll" Role="HrPayroll" Multiplicity="0..1" />
           <End Type="HrisDB.HrDtr" Role="HrDtr" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="HrPayroll">
