@@ -1,0 +1,90 @@
+﻿@model JobsV1.Areas.Personel.Models.HrDtr
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HrDtr</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DtrDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtrDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeIn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeIn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeOut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeOut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualHrs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualHrs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoundHrs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoundHrs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrPayrollId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrPayrollId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrDtrStatu.Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrDtrStatu.Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrPersonel.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrPersonel.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrSalary.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrSalary.Id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

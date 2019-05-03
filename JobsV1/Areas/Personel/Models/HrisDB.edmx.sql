@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/03/2019 16:33:11
+-- Date Created: 05/03/2019 17:49:14
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Personel\Models\HrisDB.edmx
 -- --------------------------------------------------
 
@@ -65,14 +65,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_HrPersonelHrPayroll]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[HrPayrolls] DROP CONSTRAINT [FK_HrPersonelHrPayroll];
 GO
-IF OBJECT_ID(N'[dbo].[FK_HrPayrollHrDtr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[HrDtrs] DROP CONSTRAINT [FK_HrPayrollHrDtr];
-GO
 IF OBJECT_ID(N'[dbo].[FK_HrPersonelHrProfile]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[HrProfiles] DROP CONSTRAINT [FK_HrPersonelHrProfile];
 GO
 IF OBJECT_ID(N'[dbo].[FK_HrPersonelStatusHrPersonel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[HrPersonels] DROP CONSTRAINT [FK_HrPersonelStatusHrPersonel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_HrPayrollHrDtr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[HrDtrs] DROP CONSTRAINT [FK_HrPayrollHrDtr];
 GO
 
 -- --------------------------------------------------
@@ -233,8 +233,7 @@ CREATE TABLE [dbo].[HrDtrs] (
     [TimeOut] time  NOT NULL,
     [ActualHrs] decimal(18,0)  NOT NULL,
     [RoundHrs] int  NOT NULL,
-    [HrPayrollId] int  NOT NULL,
-    [HrPayroll_Id] int  NOT NULL
+    [HrPayrollId] int  NOT NULL
 );
 GO
 
@@ -638,21 +637,6 @@ ON [dbo].[HrPayrolls]
     ([HrPersonelId]);
 GO
 
--- Creating foreign key on [HrPayroll_Id] in table 'HrDtrs'
-ALTER TABLE [dbo].[HrDtrs]
-ADD CONSTRAINT [FK_HrPayrollHrDtr]
-    FOREIGN KEY ([HrPayroll_Id])
-    REFERENCES [dbo].[HrPayrolls]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_HrPayrollHrDtr'
-CREATE INDEX [IX_FK_HrPayrollHrDtr]
-ON [dbo].[HrDtrs]
-    ([HrPayroll_Id]);
-GO
-
 -- Creating foreign key on [HrPersonelId] in table 'HrProfiles'
 ALTER TABLE [dbo].[HrProfiles]
 ADD CONSTRAINT [FK_HrPersonelHrProfile]
@@ -681,6 +665,21 @@ GO
 CREATE INDEX [IX_FK_HrPersonelStatusHrPersonel]
 ON [dbo].[HrPersonels]
     ([HrPersonelStatusId]);
+GO
+
+-- Creating foreign key on [HrPayrollId] in table 'HrDtrs'
+ALTER TABLE [dbo].[HrDtrs]
+ADD CONSTRAINT [FK_HrPayrollHrDtr]
+    FOREIGN KEY ([HrPayrollId])
+    REFERENCES [dbo].[HrPayrolls]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_HrPayrollHrDtr'
+CREATE INDEX [IX_FK_HrPayrollHrDtr]
+ON [dbo].[HrDtrs]
+    ([HrPayrollId]);
 GO
 
 -- --------------------------------------------------

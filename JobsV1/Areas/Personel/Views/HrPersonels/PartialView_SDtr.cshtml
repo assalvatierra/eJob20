@@ -165,7 +165,7 @@
         var actualHrs = $('#dtrActualHrs').val();
         var roundHrs = $('#dtrRoundHrs').val();
         var payrollID = $('#dtrPayrollID').val();
-        alert(payrollID);
+        //alert(payrollID);
         //build json object
         var data = {
             custId: 0
@@ -188,7 +188,7 @@
             error: function (data) {
                 console.log("ERROR");
                 console.log(data);
-                //refreshPage()
+                refreshPage()
                 //$('input[name="Password"]').val(data["responseText"]);
             }
         });

@@ -1,0 +1,96 @@
+﻿@model JobsV1.Areas.Personel.Models.HrDtr
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>HrDtr</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DtrDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtrDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeIn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeIn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeOut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeOut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualHrs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualHrs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoundHrs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoundHrs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrPayrollId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrPayrollId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrDtrStatu.Desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrDtrStatu.Desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrPersonel.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrPersonel.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HrSalary.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HrSalary.Id)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

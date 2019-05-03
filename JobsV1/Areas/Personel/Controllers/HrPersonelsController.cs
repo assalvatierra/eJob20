@@ -397,7 +397,6 @@ namespace JobsV1.Areas.Personel.Controllers
             dtr.ActualHrs = int.Parse(actualHrs);
             dtr.RoundHrs = int.Parse(roundHrs);
             dtr.HrPayrollId = int.Parse(payrollID);
-
             db.HrDtrs.Add(dtr);
             db.SaveChanges();
 

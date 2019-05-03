@@ -307,6 +307,7 @@
     <Compile Include="Areas\Accounting\Models\AsSales.cs">
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Controllers\HrDtrsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPayrollsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPersonelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrProfilesController.cs" />
@@ -1222,6 +1223,11 @@
     <Content Include="Areas\Personel\Views\HrPayrolls\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\HrPayrolls\Index.cshtml" />
     <Content Include="Areas\Personel\Views\HrPersonels\PartialView_SDTR.cshtml" />
+    <Content Include="Areas\Personel\Views\HrDtrs\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\HrDtrs\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\HrDtrs\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\HrDtrs\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\HrDtrs\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
