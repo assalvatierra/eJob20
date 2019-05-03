@@ -1,0 +1,200 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.HrDtr >
+
+@{
+    int personnelId = Convert.ToInt32(ViewData["personnelId"]);
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <h3>
+                DTR
+            </h3>
+        </div>
+        <div class="col-lg-12">
+
+            <a href="" id="catbtn" data-toggle="modal" data-target="#perDTRModal" style="margin-bottom:10px;">Add Payroll Record</a>
+            @foreach (var dtr in Model)
+            {
+                <p>
+                    @dtr.DtrDate.ToShortDateString() :
+                    @dtr.TimeIn -
+                    @dtr.TimeOut
+                    @Html.ActionLink("[x]", "RemoveSalary", new { id = dtr.Id })
+                </p>
+            }
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="perDTRModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Payroll Record</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+                    
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <span class="control-label col-md-3"> Date </span>
+                                <div class="col-md-9">
+                                    <input type="date" class="form-control" id="dtrDate" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3"> DtrStatus </span>
+                                <div class="col-md-9">
+                                    <select name="Status" class="form-control" id="dtrStatus">
+                                        @foreach (var status in ViewBag.dtrStatus as IEnumerable<JobsV1.Areas.Personel.Models.HrDtrStatus> )
+                                        {
+                                            <option value="@status.Id"> @status.Desc</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3"> Time In </span>
+                                <div class="col-md-9">
+                                    <input type="time" class="form-control" id="dtrTimeIn" value="08:00" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3"> Time Out </span>
+                                <div class="col-md-9">
+                                    <input type="time" class="form-control" id="dtrTimeOut" value="17:00" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3"> Actual Hours </span>
+                                <div class="col-md-9">
+                                    <input type="number" class="form-control" id="dtrActualHrs" onkeypress='validate(event)' value="0" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3"> Round Hours </span>
+                                <div class="col-md-9">
+                                    <input type="number" class="form-control" id="dtrRoundHrs" onkeypress='validate(event)' value="4" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3"> Payroll ID </span>
+                                <div class="col-md-9">
+                                    <select name="Status" class="form-control" id="dtrPayrollID">
+
+                                        @foreach (var status in ViewBag.dtrList as IEnumerable<JobsV1.Areas.Personel.Models.HrPayroll>)
+                                        {
+                                            <option value="@status.Id"> @status.DtStart.ToShortDateString() - @status.DtEnd.ToShortDateString() </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>   
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" onclick="addDTR(@personnelId)">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+@*<script src="~/Scripts/Personnel/Payroll.js"></script>*@
+<script>
+    //--- Handle Number Validations ---//
+
+    //prevent invalid inputs 
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+
+    //handle numbers only on Payroll Salary
+    $('#dtrActualHrs').on('input', function () {
+        //backspace
+        if (isNaN($('#dtrActualHrs').val())) {
+            var txt = $('#dtrActualHrs');
+            txt.val(txt.val().slice(0, -1));
+        } else {
+            //handle negative number
+            if ($('#dtrActualHrs').val() < 0) {
+                $('#dtrActualHrs').val(0);
+            }
+        }
+    });
+
+    //handle numbers only on Payroll Allowance
+    $('#dtrRoundHrs').on('input', function () {
+        //backspace
+        if (isNaN($('#dtrRoundHrs').val())) {
+            var txt = $('#dtrRoundHrs');
+            txt.val(txt.val().slice(0, -1));
+        } else {
+            //handle negative number
+            if ($('#dtrRoundHrs').val() < 0) {
+                $('#dtrRoundHrs').val(0);
+            }
+        }
+    });
+
+    //--- End of Number Validations ---//
+
+    //set skills and proficieny for the user
+    function addDTR(PersonnelId) {
+        var date = $('#dtrDate').val();
+
+        var status = $('#dtrStatus').val();
+        var timeIn = $('#dtrTimeIn').val();
+        var timeOut = $('#dtrTimeOut').val();
+        var actualHrs = $('#dtrActualHrs').val();
+        var roundHrs = $('#dtrRoundHrs').val();
+        var payrollID = $('#dtrPayrollID').val();
+        alert(payrollID);
+        //build json object
+        var data = {
+            custId: 0
+        };
+        
+        //public string AddDTRecord(int id, string date, string status,
+        //    string timeIn, string timeOut, string actualHrs, string roundHrs, string payrollID)
+        //request data from server using ajax call
+        $.ajax({
+            url: '/Personel/HrPersonels/AddDTRecord?id=' + PersonnelId + '&date=' + date +
+                '&status=' + status + '&timeIn=' + timeIn + '&timeOut=' + timeOut +
+                '&actualHrs=' + actualHrs + '&roundHrs=' + roundHrs + '&payrollID=' + payrollID,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+                //$('input[name="Password"]').val(data["responseText"]);
+            },
+            error: function (data) {
+                console.log("ERROR");
+                console.log(data);
+                //refreshPage()
+                //$('input[name="Password"]').val(data["responseText"]);
+            }
+        });
+    }
+    //reload page
+    function refreshPage() {
+        location.reload();
+    }
+</script>

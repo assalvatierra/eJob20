@@ -37,10 +37,19 @@ namespace JobsV1.Areas.Personel.Models
             return personnels;
         }
 
-        private string getPositionbyId(int personId)
+        public string getPositionbyId(int personId)
         {
-          return db.HrPerPositions.Where(s => s.HrPersonelId == personId)
-                .OrderByDescending(s => s.Id).FirstOrDefault().HrPosition.Desc;
+          if(db.HrPerPositions.Where(s => s.HrPersonelId == personId)
+                .OrderByDescending(s => s.Id).FirstOrDefault() != null)
+            {
+                return db.HrPerPositions.Where(s => s.HrPersonelId == personId)
+                      .OrderByDescending(s => s.Id).FirstOrDefault().HrPosition.Desc;
+            }
+            else
+            {
+                return "NA";
+            }
+
         }
     }
 }

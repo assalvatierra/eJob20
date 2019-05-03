@@ -12,7 +12,6 @@
             </h3>
         </div>
         <div class="col-lg-12">
-
             <a href="" id="catbtn" data-toggle="modal" data-target="#perSalaryModal" style="margin-bottom:10px;">Add Salary</a>
             @foreach (var salary in Model)
             {
@@ -33,12 +32,13 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">Enter Rate per Hour</h4>
                 </div>
-
                 <div class="modal-body" id="modal2-content">
-                    <b>Rate</b> : &nbsp; 
-                    <input type="text" id="rateTxt" /> 
-                    <span>/ hr</span>
-                    <br />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <span class="control-label col-md-2"> Rate </span>
+                            <input class="form-control" type="number" id="rateTxt" onkeypress='validate(event)' />
+                        </div>
+                    </div>    
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-default" onclick="addPerSkills(@personnelId)">Submit</button>
@@ -50,13 +50,36 @@
 </div>
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
+    
+    //prevent invalid inputs 
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
 
     //handle numbers only on input
     $('#rateTxt').on('input',function(){
         //backspace
-        if( isNaN( $('#rateTxt').val())){
+        if( isNaN($('#rateTxt').val())){
             var txt = $('#rateTxt');
             txt.val(txt.val().slice(0, -1));
+        }
+
+        if($('#rateTxt').val() < 0){
+            $('#rateTxt').val(0);
         }
     });
 

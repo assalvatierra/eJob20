@@ -15,6 +15,12 @@ namespace JobsV1.Areas.Personel.Controllers
     {
         private HrisDBContainer db = new HrisDBContainer();
         private PersonnelClass pc = new PersonnelClass();
+        private List<SelectListItem> StatusList = new List<SelectListItem> {
+                new SelectListItem { Value = "ACT", Text = "Active" },
+                new SelectListItem { Value = "INC", Text = "Inactive" },
+                new SelectListItem { Value = "BAD", Text = "Bad Account" }
+                };
+
         // GET: Personel/HrPersonels
         public ActionResult Index()
         {
@@ -59,7 +65,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.PositionList = db.HrPositions.ToList();
 
             //get latest position (string)
-            ViewBag.latestPosition = db.HrPerPositions.Where(h => h.HrPersonelId == id).OrderByDescending(h => h.Id).FirstOrDefault().HrPosition.Desc;
+            ViewBag.latestPosition = pc.getPositionbyId(id);
         }
 
         //display list of Skills and Proficiency assigned 
@@ -221,8 +227,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         #endregion
-
-
+        
         #region Skills
         [HttpPost]
         public string AddSkills(int perID, int sID, int pID)
@@ -266,11 +271,11 @@ namespace JobsV1.Areas.Personel.Controllers
             return RedirectToAction("Details", new { id = pId }); //view in personnel details
         }
 
-        public ActionResult RemoveTraining(int id)
+        public ActionResult RemoveTraining(int id, int pId)
         {
-            HrPerSkill hrSkill = db.HrPerSkills.Find(id);
-            int perId = hrSkill.HrPersonelId;
-            db.HrPerSkills.Remove(hrSkill);
+            HrPerTraining hrTraining = db.HrPerTrainings.Find(id);
+            int perId = pId;
+            db.HrPerTrainings.Remove(hrTraining);
             db.SaveChanges();
 
             return RedirectToAction("Details", new { id = perId }); //view in personnel details
@@ -282,11 +287,11 @@ namespace JobsV1.Areas.Personel.Controllers
 
         public ActionResult Salary(int? id)
         {
-          
            if (id == null)
            {
              return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
            }
+
            HrPersonel hrPersonel = db.HrPersonels.Find(id);
            if (hrPersonel == null)
            {
@@ -294,9 +299,11 @@ namespace JobsV1.Areas.Personel.Controllers
            }
 
             //get latest position (string)
-            ViewBag.latestPosition = db.HrPerPositions.Where(h => h.HrPersonelId == id).OrderByDescending(h => h.Id).FirstOrDefault().HrPosition.Desc;
+            ViewBag.latestPosition = pc.getPositionbyId((int)id);
             
             PartialView_SSalary((int)id);
+            PartialView_SPayroll((int)id);
+            PartialView_SDTR((int)id);
 
             return View(hrPersonel);
         }
@@ -304,6 +311,18 @@ namespace JobsV1.Areas.Personel.Controllers
         public void PartialView_SSalary(int id)
         {
             ViewBag.salaryDetails = db.HrSalaries.Where(s=>s.HrPersonelId == id).ToList().OrderByDescending(s=>s.DtStart);
+        }
+        
+        public void PartialView_SPayroll(int id)
+        {
+            ViewBag.payrollDetails = db.HrPayrolls.Where(s => s.HrPersonelId == id).ToList().OrderByDescending(s => s.DtStart);
+        }
+
+        public void PartialView_SDTR(int id)
+        {
+            ViewBag.dtrStatus = db.HrDtrStatus.ToList();
+            ViewBag.dtrList = db.HrPayrolls.Where(s => s.HrPersonelId == id).OrderByDescending(s => s.DtStart).ToList();
+            ViewBag.dtrDetails = db.HrDtrs.Where(s => s.HrPersonelId == id).ToList().OrderByDescending(s => s.DtrDate);
         }
 
         public ActionResult AddSalary(int id, decimal Rate)
@@ -330,6 +349,73 @@ namespace JobsV1.Areas.Personel.Controllers
         }
         #endregion
 
+        #region Payroll
+        public string AddPayroll(int id,string DtStart, string DtEnd, decimal salary, decimal allw, decimal ded, int year, int mon, string status)
+        {
+            
+
+            HrPayroll payroll = new HrPayroll();
+            payroll.DtStart = DateTime.Parse(DtStart);
+            payroll.DtEnd = DateTime.Parse(DtEnd);
+            payroll.HrPersonelId = id;
+            payroll.Salary = salary;
+            payroll.Allowance = allw;
+            payroll.Deduction = ded;
+            payroll.Yearno = year.ToString();
+            payroll.Monthno = mon.ToString();
+            payroll.Status = status;
+
+            db.HrPayrolls.Add(payroll);
+            db.SaveChanges();
+            return "500";
+            //return RedirectToAction("Details", new { id = id }); //view in personnel details
+        }
+
+        public ActionResult RemovePayroll(int id)
+        {
+            HrPerTraining hrTraining = db.HrPerTrainings.Find(id);
+            int perId = hrTraining.HrPersonelId;
+            db.HrPerTrainings.Remove(hrTraining);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = perId }); //view in personnel details
+        }
+
+        #endregion
+
+        #region DTR
+        public string AddDTRecord(int id, string date, string status,
+            string timeIn, string timeOut, string actualHrs, string roundHrs, string payrollID)
+        {
+            HrDtr dtr = new HrDtr();
+            dtr.HrSalaryId = db.HrSalaries.Where(s=>s.HrPersonelId == id).OrderByDescending(s=>s.DtStart).FirstOrDefault().Id;
+            dtr.DtrDate = DateTime.Parse(date);
+            dtr.HrDtrStatusId = int.Parse(status);
+            dtr.HrPersonelId = id;
+            dtr.TimeIn = TimeSpan.Parse(timeIn);
+            dtr.TimeOut = TimeSpan.Parse(timeOut);
+            dtr.ActualHrs = int.Parse(actualHrs);
+            dtr.RoundHrs = int.Parse(roundHrs);
+            dtr.HrPayrollId = int.Parse(payrollID);
+
+            db.HrDtrs.Add(dtr);
+            db.SaveChanges();
+
+            return "500";
+            //return RedirectToAction("Details", new { id = id }); //view in personnel details
+        }
+
+        public ActionResult RemoveDTR(int id)
+        {
+            HrPerTraining hrTraining = db.HrPerTrainings.Find(id);
+            int perId = hrTraining.HrPersonelId;
+            db.HrPerTrainings.Remove(hrTraining);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = perId }); //view in personnel details
+        }
+
+        #endregion
         //get current time based on Singapore Standard Time 
         //SGT - UTC +8
         public DateTime GetCurrentTime()

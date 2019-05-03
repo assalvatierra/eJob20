@@ -203,6 +203,7 @@
     <Property Name="ActualHrs" Type="decimal" Nullable="false" />
     <Property Name="RoundHrs" Type="int" Nullable="false" />
     <Property Name="HrPayrollId" Type="int" Nullable="false" />
+    <Property Name="HrPayroll_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="HrDtrStatus">
     <Key>
@@ -460,7 +461,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="HrDtr">
-        <PropertyRef Name="HrPayrollId" />
+        <PropertyRef Name="HrPayroll_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -952,16 +953,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="HrPayrollHrDtr">
-          <End Type="HrisDB.HrPayroll" Role="HrPayroll" Multiplicity="0..1" />
+          <End Type="HrisDB.HrPayroll" Role="HrPayroll" Multiplicity="1" />
           <End Type="HrisDB.HrDtr" Role="HrDtr" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HrPayroll">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="HrDtr">
-              <PropertyRef Name="HrPayrollId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <EntityType Name="HrProfile">
           <Key>
@@ -1196,6 +1189,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <AssociationSetMapping Name="HrPayrollHrDtr" TypeName="HrisDB.HrPayrollHrDtr" StoreEntitySet="HrDtrs">
+      <EndProperty Name="HrPayroll">
+        <ScalarProperty Name="Id" ColumnName="HrPayroll_Id" />
+      </EndProperty>
+      <EndProperty Name="HrDtr">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

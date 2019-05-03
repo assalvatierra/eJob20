@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/30/2019 10:44:09
+-- Date Created: 05/03/2019 16:33:11
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Personel\Models\HrisDB.edmx
 -- --------------------------------------------------
 
@@ -233,7 +233,8 @@ CREATE TABLE [dbo].[HrDtrs] (
     [TimeOut] time  NOT NULL,
     [ActualHrs] decimal(18,0)  NOT NULL,
     [RoundHrs] int  NOT NULL,
-    [HrPayrollId] int  NOT NULL
+    [HrPayrollId] int  NOT NULL,
+    [HrPayroll_Id] int  NOT NULL
 );
 GO
 
@@ -637,10 +638,10 @@ ON [dbo].[HrPayrolls]
     ([HrPersonelId]);
 GO
 
--- Creating foreign key on [HrPayrollId] in table 'HrDtrs'
+-- Creating foreign key on [HrPayroll_Id] in table 'HrDtrs'
 ALTER TABLE [dbo].[HrDtrs]
 ADD CONSTRAINT [FK_HrPayrollHrDtr]
-    FOREIGN KEY ([HrPayrollId])
+    FOREIGN KEY ([HrPayroll_Id])
     REFERENCES [dbo].[HrPayrolls]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -649,7 +650,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_HrPayrollHrDtr'
 CREATE INDEX [IX_FK_HrPayrollHrDtr]
 ON [dbo].[HrDtrs]
-    ([HrPayrollId]);
+    ([HrPayroll_Id]);
 GO
 
 -- Creating foreign key on [HrPersonelId] in table 'HrProfiles'

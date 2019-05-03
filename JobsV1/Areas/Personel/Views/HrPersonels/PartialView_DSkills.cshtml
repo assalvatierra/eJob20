@@ -39,7 +39,7 @@
                 <div class="modal-body" id="modal2-content">
 
                     <div class="list-group" id="categorylist_Skills">
-
+                        <h4>Select Skill</h4>
                         @foreach (var skill in ViewBag.SkillsList as IEnumerable<JobsV1.Areas.Personel.Models.HrSkill>)
                         { 
                             <a  class="list-group-item skills" onclick="selectSkill(@skill.Id,@personnelId)"> 
@@ -54,6 +54,7 @@
 
                     <div class="list-group" id="categorylist_Prof" style="display:none;">
 
+                        <h4>Select Skill Proficiency</h4>
                         @foreach (var skillsProf in ViewBag.Proficiency as IEnumerable<JobsV1.Areas.Personel.Models.HrProficiency>)
                         {
                             <a class="list-group-item proficiency" onclick="selectProf(@skillsProf.Id)"> 

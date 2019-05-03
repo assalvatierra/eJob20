@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HrisDBStoreContainer" CdmEntityContainer="HrisDBContainer">
+    <EntitySetMapping Name="HrPersonels">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPersonel)">
+        <MappingFragment StoreEntitySet="HrPersonels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PassportNo" ColumnName="PassportNo" />
+          <ScalarProperty Name="SSSid" ColumnName="SSSid" />
+          <ScalarProperty Name="Tin" ColumnName="Tin" />
+          <ScalarProperty Name="DriverId" ColumnName="DriverId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="HrPersonelStatusId" ColumnName="HrPersonelStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrPerPositions">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPerPosition)">
+        <MappingFragment StoreEntitySet="HrPerPositions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
+          <ScalarProperty Name="HrPositionId" ColumnName="HrPositionId" />
+          <ScalarProperty Name="DtStart" ColumnName="DtStart" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrPerDocs">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPerDoc)">
+        <MappingFragment StoreEntitySet="HrPerDocs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrPositions">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPosition)">
+        <MappingFragment StoreEntitySet="HrPositions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrTrainings">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrTraining)">
+        <MappingFragment StoreEntitySet="HrTrainings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrPerTrainings">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPerTraining)">
+        <MappingFragment StoreEntitySet="HrPerTrainings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HrTrainingId" ColumnName="HrTrainingId" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
+          <ScalarProperty Name="DtCompleted" ColumnName="DtCompleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrSkills">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrSkill)">
+        <MappingFragment StoreEntitySet="HrSkills">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrPerSkills">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPerSkill)">
+        <MappingFragment StoreEntitySet="HrPerSkills">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HrSkillId" ColumnName="HrSkillId" />
+          <ScalarProperty Name="DtAcquired" ColumnName="DtAcquired" />
+          <ScalarProperty Name="HrProficiencyId" ColumnName="HrProficiencyId" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrProficiencies">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrProficiency)">
+        <MappingFragment StoreEntitySet="HrProficiencies">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrTrainingSkills">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrTrainingSkill)">
+        <MappingFragment StoreEntitySet="HrTrainingSkills">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HrTrainingId" ColumnName="HrTrainingId" />
+          <ScalarProperty Name="HrSkillId" ColumnName="HrSkillId" />
+          <ScalarProperty Name="HrProficiencyId" ColumnName="HrProficiencyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrDtrs">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrDtr)">
+        <MappingFragment StoreEntitySet="HrDtrs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HrSalaryId" ColumnName="HrSalaryId" />
+          <ScalarProperty Name="DtrDate" ColumnName="DtrDate" />
+          <ScalarProperty Name="HrDtrStatusId" ColumnName="HrDtrStatusId" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
+          <ScalarProperty Name="TimeIn" ColumnName="TimeIn" />
+          <ScalarProperty Name="TimeOut" ColumnName="TimeOut" />
+          <ScalarProperty Name="ActualHrs" ColumnName="ActualHrs" />
+          <ScalarProperty Name="RoundHrs" ColumnName="RoundHrs" />
+          <ScalarProperty Name="HrPayrollId" ColumnName="HrPayrollId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrDtrStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrDtrStatus)">
+        <MappingFragment StoreEntitySet="HrDtrStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="Factor" ColumnName="Factor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrSalaries">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrSalary)">
+        <MappingFragment StoreEntitySet="HrSalaries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
+          <ScalarProperty Name="DtStart" ColumnName="DtStart" />
+          <ScalarProperty Name="RatePerHr" ColumnName="RatePerHr" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrPayrolls">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPayroll)">
+        <MappingFragment StoreEntitySet="HrPayrolls">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
+          <ScalarProperty Name="DtStart" ColumnName="DtStart" />
+          <ScalarProperty Name="DtEnd" ColumnName="DtEnd" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+          <ScalarProperty Name="Allowance" ColumnName="Allowance" />
+          <ScalarProperty Name="Deduction" ColumnName="Deduction" />
+          <ScalarProperty Name="Yearno" ColumnName="Yearno" />
+          <ScalarProperty Name="Monthno" ColumnName="Monthno" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrProfiles">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrProfile)">
+        <MappingFragment StoreEntitySet="HrProfiles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="Mobile1" ColumnName="Mobile1" />
+          <ScalarProperty Name="Mobile2" ColumnName="Mobile2" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="fbAccount" ColumnName="fbAccount" />
+          <ScalarProperty Name="PresentAddress" ColumnName="PresentAddress" />
+          <ScalarProperty Name="ProvincialAddress" ColumnName="ProvincialAddress" />
+          <ScalarProperty Name="Spouse" ColumnName="Spouse" />
+          <ScalarProperty Name="HrPersonelId" ColumnName="HrPersonelId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HrPersonelStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(HrisDB.HrPersonelStatus)">
+        <MappingFragment StoreEntitySet="HrPersonelStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="HrPayrollHrDtr" TypeName="HrisDB.HrPayrollHrDtr" StoreEntitySet="HrDtrs">
+      <EndProperty Name="HrPayroll">
+        <ScalarProperty Name="Id" ColumnName="HrPayroll_Id" />
+      </EndProperty>
+      <EndProperty Name="HrDtr">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

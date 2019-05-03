@@ -307,9 +307,11 @@
     <Compile Include="Areas\Accounting\Models\AsSales.cs">
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Controllers\HrPayrollsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPersonelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrProfilesController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrSalariesController.cs" />
+    <Compile Include="Areas\Personel\Controllers\HrTrainingsController.cs" />
     <Compile Include="Areas\Personel\Models\HrDtr.cs">
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
@@ -373,6 +375,7 @@
     <Compile Include="Areas\Personel\Models\HrTrainingSkill.cs">
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CarCoopController.cs" />
@@ -813,6 +816,7 @@
       <LastGenOutput>HrisDB.cs</LastGenOutput>
       <DependentUpon>HrisDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Personel\Models\InitHRData.sql" />
     <Content Include="Areas\Personel\Models\InitData.sql" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\bootstrap-directional-buttons.min.css" />
@@ -1206,9 +1210,22 @@
     <Content Include="Areas\Personel\Views\HrSalaries\Details.cshtml" />
     <Content Include="Areas\Personel\Views\HrSalaries\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\HrSalaries\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_SPayroll.cshtml" />
+    <Content Include="Areas\Personel\Views\HrTrainings\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\HrTrainings\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\HrTrainings\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\HrTrainings\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\HrTrainings\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPayrolls\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPayrolls\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPayrolls\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPayrolls\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPayrolls\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\HrPersonels\PartialView_SDTR.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\Personnel\Payroll.js" />
     <Content Include="Scripts\ssl.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />
