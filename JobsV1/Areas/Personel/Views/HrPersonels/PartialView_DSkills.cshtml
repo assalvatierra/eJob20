@@ -20,7 +20,7 @@
                 <p>
                     @perSkill.HrSkill.Desc.ToString() -
                     @perSkill.HrProficiency.Level -
-                    @perSkill.DtAcquired.ToShortDateString()
+                    @perSkill.DtAcquired.ToString("MMM dd yyyy")
                     @Html.ActionLink("[x]", "RemoveSkill", new { id = perSkill.Id })
                 </p>
             }

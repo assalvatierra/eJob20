@@ -17,7 +17,7 @@
             {
                 <p>
                     @salary.RatePerHr /hr - 
-                    @salary.DtStart.ToShortDateString()
+                    @salary.DtStart.ToString("MMM dd yyyy")
                     @Html.ActionLink("[x]", "RemoveSalary", new { id = salary.Id })
                 </p>
             }

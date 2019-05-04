@@ -12,17 +12,36 @@
             </h3>
         </div>
         <div class="col-lg-12">
-
             <a href="" id="catbtn" data-toggle="modal" data-target="#perDTRModal" style="margin-bottom:10px;">Add Payroll Record</a>
-            @foreach (var dtr in Model)
-            {
-                <p>
-                    @dtr.DtrDate.ToShortDateString() :
-                    @dtr.TimeIn -
-                    @dtr.TimeOut
-                    @Html.ActionLink("[x]", "RemoveSalary", new { id = dtr.Id })
-                </p>
-            }
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Time In</th>
+                    <th>Time Out</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                @foreach (var dtr in Model)
+                {
+                    <tr>
+                        <td>
+                            @dtr.DtrDate.ToString("MMM dd yyyy")
+                        </td>
+                        <td>
+                            @dtr.TimeIn
+                        </td>
+                        <td>
+                            @dtr.TimeOut
+                        </td>
+                        <td>
+                            @dtr.HrDtrStatu.Desc
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "RemoveDTR", new { id = dtr.Id })
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
     </div>
 

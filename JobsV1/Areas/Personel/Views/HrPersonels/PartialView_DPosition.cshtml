@@ -21,7 +21,7 @@
             {
                 <p>
                     @perPos.HrPosition.Desc.ToString() -
-                    @perPos.DtStart.ToShortDateString()
+                    @perPos.DtStart.ToString("MMM dd yyyy")
                     @Html.ActionLink("[x]", "RemovePosition", new { id = perPos.Id })
                 </p>
             }

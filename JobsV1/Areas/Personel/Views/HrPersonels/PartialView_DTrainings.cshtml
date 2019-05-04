@@ -19,8 +19,9 @@
             {
                 <p>
                     @perTraining.HrTraining.Desc.ToString() -
-                    @perTraining.DtCompleted.ToShortDateString()
-                    @Html.ActionLink("[x]", "RemoveTraining", new { id = perTraining.Id , pId = personnelId })
+                    @perTraining.DtCompleted.ToString("MMM dd yyyy")
+                  
+                   @Html.ActionLink("[x]", "RemoveTraining", new { id = perTraining.Id , pId = personnelId })
                 </p>
             }
         </div>

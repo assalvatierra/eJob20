@@ -47,7 +47,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return View(hrPersonel);
         }
-        
+
         //display list of categories assigned 
         //to the customer 
         private void PartialView_Profile(int id)
@@ -61,7 +61,7 @@ namespace JobsV1.Areas.Personel.Controllers
         private void PartialView_Position(int id)
         {
             //get list of position
-            ViewBag.perPosition = db.HrPerPositions.Where(h => h.HrPersonelId == id).ToList().OrderByDescending(h=>h.DtStart);
+            ViewBag.perPosition = db.HrPerPositions.Where(h => h.HrPersonelId == id).ToList().OrderByDescending(h => h.DtStart);
             ViewBag.PositionList = db.HrPositions.ToList();
 
             //get latest position (string)
@@ -79,7 +79,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var acquiredskillsID = perSkillsList.Select(s => s.HrSkillId).ToList();
 
             //get list of available skills not acquired by the personnel
-            List<HrSkill> availableSkills = db.HrSkills.Where(h=> !acquiredskillsID.Contains(h.Id)).ToList();
+            List<HrSkill> availableSkills = db.HrSkills.Where(h => !acquiredskillsID.Contains(h.Id)).ToList();
 
             //get list of categories
             ViewBag.perSkills = perSkillsList.OrderByDescending(h => h.DtAcquired);
@@ -92,18 +92,18 @@ namespace JobsV1.Areas.Personel.Controllers
         private void PartialView_Trainings(int id)
         {
             //get list of trainings linked to personnel by its Id
-            List <HrPerTraining> perTrainingsList = db.HrPerTrainings.Where(h => h.HrPersonelId == id).ToList();
-            
+            List<HrPerTraining> perTrainingsList = db.HrPerTrainings.Where(h => h.HrPersonelId == id).ToList();
+
             //get list IDs of acquired trainings
             var acquiredTrainings = perTrainingsList.Select(s => s.HrTrainingId).ToList();
-            
+
             //get list of available trainings not linked to the acquired trainings of the personnel
             List<HrTraining> availableTrainings = db.HrTrainings.Where(h => !acquiredTrainings.Contains(h.Id)).ToList();
 
             //get list of categories
             ViewBag.perTrainings = perTrainingsList.OrderByDescending(h => h.DtCompleted);
             ViewBag.TrainingsList = availableTrainings;
-            
+
         }
 
         // GET: Personel/HrPersonels/Create
@@ -200,9 +200,9 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         #region Position
-        public ActionResult AddPosition(int? id,int pId)
+        public ActionResult AddPosition(int? id, int pId)
         {
-            if(id != null)
+            if (id != null)
             {
                 HrPerPosition perPosition = new HrPerPosition();
                 perPosition.HrPersonelId = pId;
@@ -227,22 +227,22 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         #endregion
-        
+
         #region Skills
         [HttpPost]
         public string AddSkills(int perID, int sID, int pID)
         {
-           HrPerSkill perSkills = new HrPerSkill();
-           perSkills.HrPersonelId = perID;
-           perSkills.HrSkillId = sID;
-           perSkills.HrProficiencyId = pID;
-           perSkills.DtAcquired = GetCurrentTime();
-           
-           db.HrPerSkills.Add(perSkills);
-           db.SaveChanges();
+            HrPerSkill perSkills = new HrPerSkill();
+            perSkills.HrPersonelId = perID;
+            perSkills.HrSkillId = sID;
+            perSkills.HrProficiencyId = pID;
+            perSkills.DtAcquired = GetCurrentTime();
 
-           return "OK"; //view in personnel details
-         
+            db.HrPerSkills.Add(perSkills);
+            db.SaveChanges();
+
+            return "OK"; //view in personnel details
+
         }
 
         public ActionResult RemoveSkill(int id)
@@ -287,20 +287,20 @@ namespace JobsV1.Areas.Personel.Controllers
 
         public ActionResult Salary(int? id)
         {
-           if (id == null)
-           {
-             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-           }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-           HrPersonel hrPersonel = db.HrPersonels.Find(id);
-           if (hrPersonel == null)
-           {
-               return HttpNotFound();
-           }
+            HrPersonel hrPersonel = db.HrPersonels.Find(id);
+            if (hrPersonel == null)
+            {
+                return HttpNotFound();
+            }
 
             //get latest position (string)
             ViewBag.latestPosition = pc.getPositionbyId((int)id);
-            
+
             PartialView_SSalary((int)id);
             PartialView_SPayroll((int)id);
             PartialView_SDTR((int)id);
@@ -310,18 +310,18 @@ namespace JobsV1.Areas.Personel.Controllers
 
         public void PartialView_SSalary(int id)
         {
-            ViewBag.salaryDetails = db.HrSalaries.Where(s=>s.HrPersonelId == id).ToList().OrderByDescending(s=>s.DtStart);
+            ViewBag.salaryDetails = db.HrSalaries.Where(s => s.HrPersonelId == id).ToList().OrderByDescending(s => s.DtStart);
         }
-        
+
         public void PartialView_SPayroll(int id)
         {
-            ViewBag.payrollDetails = db.HrPayrolls.Where(s => s.HrPersonelId == id).ToList().OrderByDescending(s => s.DtStart);
+            ViewBag.payrollDetails = db.HrPayrolls.Where(s => s.HrPersonelId == id && s.Status == "ACT").ToList().OrderByDescending(s => s.DtStart);
         }
 
         public void PartialView_SDTR(int id)
         {
-            ViewBag.dtrStatus = db.HrDtrStatus.ToList();
-            ViewBag.dtrList = db.HrPayrolls.Where(s => s.HrPersonelId == id).OrderByDescending(s => s.DtStart).ToList();
+            ViewBag.dtrStatus  = db.HrDtrStatus.ToList();
+            ViewBag.dtrList    = db.HrPayrolls.Where(s => s.HrPersonelId == id && s.Status == "ACT").OrderByDescending(s => s.DtStart).ToList();
             ViewBag.dtrDetails = db.HrDtrs.Where(s => s.HrPersonelId == id).ToList().OrderByDescending(s => s.DtrDate);
         }
 
@@ -350,10 +350,8 @@ namespace JobsV1.Areas.Personel.Controllers
         #endregion
 
         #region Payroll
-        public string AddPayroll(int id,string DtStart, string DtEnd, decimal salary, decimal allw, decimal ded, int year, int mon, string status)
+        public string AddPayroll(int id, string DtStart, string DtEnd, decimal salary, decimal allw, decimal ded, int year, int mon, string status)
         {
-            
-
             HrPayroll payroll = new HrPayroll();
             payroll.DtStart = DateTime.Parse(DtStart);
             payroll.DtEnd = DateTime.Parse(DtEnd);
@@ -373,13 +371,52 @@ namespace JobsV1.Areas.Personel.Controllers
 
         public ActionResult RemovePayroll(int id)
         {
-            HrPerTraining hrTraining = db.HrPerTrainings.Find(id);
-            int perId = hrTraining.HrPersonelId;
-            db.HrPerTrainings.Remove(hrTraining);
+            HrPayroll hrPayroll = db.HrPayrolls.Find(id);
+            hrPayroll.Status = "INC";
+
+            int perId = hrPayroll.HrPersonelId;
+
+            db.Entry(hrPayroll).State = EntityState.Modified;
+
+            //db.HrPerTrainings.Remove(hrTraining);
             db.SaveChanges();
 
-            return RedirectToAction("Details", new { id = perId }); //view in personnel details
+            return RedirectToAction("Salary", new { id = perId }); //view in personnel details
         }
+
+        public decimal PayrollCalculate(int id)
+        {
+            HrPayroll payroll = db.HrPayrolls.Find(id);
+            decimal totalSalary = 0;
+            decimal totalAllowance = 0;
+            decimal totalDeductions = 0;
+
+            //get list of dtr with the payroll id
+            var dtrList = db.HrDtrs.Where(d => d.HrPayrollId == payroll.Id).ToList();
+            foreach (var dtr in dtrList)
+            {
+                decimal salaryToday = 0;
+                salaryToday = dtr.HrSalary.RatePerHr * dtr.ActualHrs;
+
+                //add to total salary
+                totalSalary += salaryToday;
+            }
+            return totalSalary;
+            //update payrollSalary
+
+        }
+
+        public ActionResult UpdatePayrollSalary(int payrollId) {
+            decimal newSalary =  PayrollCalculate(payrollId);
+
+            HrPayroll payroll = db.HrPayrolls.Find(payrollId);
+            payroll.Salary = newSalary;
+            db.Entry(payroll).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Salary", new { id = payroll.HrPersonelId }); //view in personnel details
+        }
+
 
         #endregion
 
@@ -400,18 +437,26 @@ namespace JobsV1.Areas.Personel.Controllers
             db.HrDtrs.Add(dtr);
             db.SaveChanges();
 
+            //update salary
+            UpdatePayrollSalary(int.Parse(payrollID));
+
             return "500";
             //return RedirectToAction("Details", new { id = id }); //view in personnel details
         }
 
         public ActionResult RemoveDTR(int id)
         {
-            HrPerTraining hrTraining = db.HrPerTrainings.Find(id);
-            int perId = hrTraining.HrPersonelId;
-            db.HrPerTrainings.Remove(hrTraining);
-            db.SaveChanges();
+            HrDtr dtr = db.HrDtrs.Find(id);
+            int perId = dtr.HrPersonelId;
+            int payrollID = dtr.HrPayrollId;
 
-            return RedirectToAction("Details", new { id = perId }); //view in personnel details
+            db.HrDtrs.Remove(dtr);
+            db.SaveChanges();
+            
+            //update salary
+            UpdatePayrollSalary(payrollID);
+
+            return RedirectToAction("Salary", new { id = perId }); //view in personnel details
         }
 
         #endregion
