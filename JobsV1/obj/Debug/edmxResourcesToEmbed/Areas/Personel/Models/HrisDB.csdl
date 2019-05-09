@@ -79,10 +79,6 @@
       <End Role="HrPersonel" EntitySet="HrPersonels" />
       <End Role="HrPayroll" EntitySet="HrPayrolls" />
     </AssociationSet>
-    <AssociationSet Name="HrPayrollHrDtr" Association="HrisDB.HrPayrollHrDtr">
-      <End Role="HrPayroll" EntitySet="HrPayrolls" />
-      <End Role="HrDtr" EntitySet="HrDtrs" />
-    </AssociationSet>
     <EntitySet Name="HrProfiles" EntityType="HrisDB.HrProfile" />
     <AssociationSet Name="HrPersonelHrProfile" Association="HrisDB.HrPersonelHrProfile">
       <End Role="HrPersonel" EntitySet="HrPersonels" />
@@ -92,6 +88,10 @@
     <AssociationSet Name="HrPersonelStatusHrPersonel" Association="HrisDB.HrPersonelStatusHrPersonel">
       <End Role="HrPersonelStatus" EntitySet="HrPersonelStatus" />
       <End Role="HrPersonel" EntitySet="HrPersonels" />
+    </AssociationSet>
+    <AssociationSet Name="HrPayrollHrDtr" Association="HrisDB.HrPayrollHrDtr">
+      <End Role="HrPayroll" EntitySet="HrPayrolls" />
+      <End Role="HrDtr" EntitySet="HrDtrs" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="HrPersonel">
@@ -442,10 +442,10 @@
     <Property Name="Salary" Type="Decimal" Nullable="false" />
     <Property Name="Allowance" Type="Decimal" Nullable="false" />
     <Property Name="Deduction" Type="Decimal" Nullable="false" />
-    <NavigationProperty Name="HrDtrs" Relationship="HrisDB.HrPayrollHrDtr" FromRole="HrPayroll" ToRole="HrDtr" />
     <Property Name="Yearno" Type="String" Nullable="false" MaxLength="4" />
     <Property Name="Monthno" Type="String" Nullable="false" MaxLength="2" />
     <Property Name="Status" Type="String" Nullable="false" MaxLength="3" />
+    <NavigationProperty Name="HrDtrs" Relationship="HrisDB.HrPayrollHrDtr" FromRole="HrPayroll" ToRole="HrDtr" />
   </EntityType>
   <Association Name="HrPersonelHrPayroll">
     <End Type="HrisDB.HrPersonel" Role="HrPersonel" Multiplicity="1" />
@@ -458,10 +458,6 @@
         <PropertyRef Name="HrPersonelId" />
       </Dependent>
     </ReferentialConstraint>
-  </Association>
-  <Association Name="HrPayrollHrDtr">
-    <End Type="HrisDB.HrPayroll" Role="HrPayroll" Multiplicity="1" />
-    <End Type="HrisDB.HrDtr" Role="HrDtr" Multiplicity="*" />
   </Association>
   <EntityType Name="HrProfile">
     <Key>
@@ -510,6 +506,18 @@
       </Principal>
       <Dependent Role="HrPersonel">
         <PropertyRef Name="HrPersonelStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="HrPayrollHrDtr">
+    <End Type="HrisDB.HrPayroll" Role="HrPayroll" Multiplicity="1" />
+    <End Type="HrisDB.HrDtr" Role="HrDtr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HrPayroll">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HrDtr">
+        <PropertyRef Name="HrPayrollId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

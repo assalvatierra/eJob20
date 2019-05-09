@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="80c9d7cdd570418388700e8e6fc6adb3" Name="Diagram1" >
+        <EntityTypeShape EntityType="ProdDB.Product" Width="1.5" PointX="4.75" PointY="1.375" />
+        <EntityTypeShape EntityType="ProdDB.ProdDesc" Width="1.5" PointX="0.5" PointY="4.5" />
+        <AssociationConnector Association="ProdDB.ProductProdDesc" />
+        <EntityTypeShape EntityType="ProdDB.ProdStatus" Width="1.5" PointX="0.5" PointY="2.625" />
+        <AssociationConnector Association="ProdDB.ProdStatusProduct" />
+        <EntityTypeShape EntityType="ProdDB.Branch" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="ProdDB.BranchProduct" />
+        <EntityTypeShape EntityType="ProdDB.Supplier" Width="1.5" PointX="11" PointY="0.5" />
+        <EntityTypeShape EntityType="ProdDB.ProdSupplier" Width="1.5" PointX="9" PointY="0.5" />
+        <AssociationConnector Association="ProdDB.SupplierProdSupplier" />
+        <AssociationConnector Association="ProdDB.ProductProdSupplier" />
+        <EntityTypeShape EntityType="ProdDB.SupplierInfo" Width="1.5" PointX="13" PointY="0.5" />
+        <AssociationConnector Association="ProdDB.SupplierSupplierInfo" />
+        <EntityTypeShape EntityType="ProdDB.ProdInfo" Width="1.5" PointX="4.875" PointY="6.125" />
+        <AssociationConnector Association="ProdDB.ProductProdInfo" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

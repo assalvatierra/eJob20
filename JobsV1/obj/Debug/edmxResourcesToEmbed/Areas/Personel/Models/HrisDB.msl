@@ -178,13 +178,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="HrPayrollHrDtr" TypeName="HrisDB.HrPayrollHrDtr" StoreEntitySet="HrDtrs">
-      <EndProperty Name="HrPayroll">
-        <ScalarProperty Name="Id" ColumnName="HrPayroll_Id" />
-      </EndProperty>
-      <EndProperty Name="HrDtr">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

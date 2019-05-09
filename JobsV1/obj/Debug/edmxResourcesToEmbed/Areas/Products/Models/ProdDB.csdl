@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ProdDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="ProdDBContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Products" EntityType="ProdDB.Product" />
+    <EntitySet Name="ProdDescs" EntityType="ProdDB.ProdDesc" />
+    <AssociationSet Name="ProductProdDesc" Association="ProdDB.ProductProdDesc">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ProdDesc" EntitySet="ProdDescs" />
+    </AssociationSet>
+    <EntitySet Name="ProdStatus" EntityType="ProdDB.ProdStatus" />
+    <AssociationSet Name="ProdStatusProduct" Association="ProdDB.ProdStatusProduct">
+      <End Role="ProdStatus" EntitySet="ProdStatus" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="Branches" EntityType="ProdDB.Branch" />
+    <AssociationSet Name="BranchProduct" Association="ProdDB.BranchProduct">
+      <End Role="Branch" EntitySet="Branches" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="Suppliers" EntityType="ProdDB.Supplier" />
+    <EntitySet Name="ProdSuppliers" EntityType="ProdDB.ProdSupplier" />
+    <AssociationSet Name="SupplierProdSupplier" Association="ProdDB.SupplierProdSupplier">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="ProdSupplier" EntitySet="ProdSuppliers" />
+    </AssociationSet>
+    <AssociationSet Name="ProductProdSupplier" Association="ProdDB.ProductProdSupplier">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ProdSupplier" EntitySet="ProdSuppliers" />
+    </AssociationSet>
+    <EntitySet Name="SupplierInfoes" EntityType="ProdDB.SupplierInfo" />
+    <AssociationSet Name="SupplierSupplierInfo" Association="ProdDB.SupplierSupplierInfo">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="SupplierInfo" EntitySet="SupplierInfoes" />
+    </AssociationSet>
+    <EntitySet Name="ProdInfoes" EntityType="ProdDB.ProdInfo" />
+    <AssociationSet Name="ProductProdInfo" Association="ProdDB.ProductProdInfo">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ProdInfo" EntitySet="ProdInfoes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" Nullable="true" MaxLength="10" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
+    <Property Name="BranchId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ProdDescs" Relationship="ProdDB.ProductProdDesc" FromRole="Product" ToRole="ProdDesc" />
+    <NavigationProperty Name="ProdStatu" Relationship="ProdDB.ProdStatusProduct" FromRole="Product" ToRole="ProdStatus" />
+    <Property Name="ProdStatusId" Type="Int32" Nullable="false" />
+    <Property Name="ValidStart" Type="DateTime" Nullable="false" />
+    <Property Name="ValidEnd" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="Branch" Relationship="ProdDB.BranchProduct" FromRole="Product" ToRole="Branch" />
+    <Property Name="Price" Type="Decimal" Nullable="false" />
+    <NavigationProperty Name="ProdSuppliers" Relationship="ProdDB.ProductProdSupplier" FromRole="Product" ToRole="ProdSupplier" />
+    <Property Name="Contracted" Type="Decimal" Nullable="false" />
+    <NavigationProperty Name="ProdInfoes" Relationship="ProdDB.ProductProdInfo" FromRole="Product" ToRole="ProdInfo" />
+  </EntityType>
+  <EntityType Name="ProdDesc">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="SortNo" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" Nullable="true" MaxLength="180" />
+    <NavigationProperty Name="Product" Relationship="ProdDB.ProductProdDesc" FromRole="ProdDesc" ToRole="Product" />
+  </EntityType>
+  <Association Name="ProductProdDesc">
+    <End Type="ProdDB.Product" Role="Product" Multiplicity="1" />
+    <End Type="ProdDB.ProdDesc" Role="ProdDesc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProdDesc">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ProdStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="10" />
+    <NavigationProperty Name="Products" Relationship="ProdDB.ProdStatusProduct" FromRole="ProdStatus" ToRole="Product" />
+  </EntityType>
+  <Association Name="ProdStatusProduct">
+    <End Type="ProdDB.ProdStatus" Role="ProdStatus" Multiplicity="1" />
+    <End Type="ProdDB.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProdStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ProdStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Branch">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="30" />
+    <NavigationProperty Name="Products" Relationship="ProdDB.BranchProduct" FromRole="Branch" ToRole="Product" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+  </EntityType>
+  <Association Name="BranchProduct">
+    <End Type="ProdDB.Branch" Role="Branch" Multiplicity="1" />
+    <End Type="ProdDB.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branch">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="BranchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="ProdSuppliers" Relationship="ProdDB.SupplierProdSupplier" FromRole="Supplier" ToRole="ProdSupplier" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+    <NavigationProperty Name="SupplierInfoes" Relationship="ProdDB.SupplierSupplierInfo" FromRole="Supplier" ToRole="SupplierInfo" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="150" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="ProdSupplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Supplier" Relationship="ProdDB.SupplierProdSupplier" FromRole="ProdSupplier" ToRole="Supplier" />
+    <Property Name="SupplierId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="ProdDB.ProductProdSupplier" FromRole="ProdSupplier" ToRole="Product" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="ValidStart" Type="DateTime" Nullable="false" />
+    <Property Name="ValidEnd" Type="DateTime" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" />
+    <Property Name="Contracted" Type="Decimal" Nullable="false" />
+  </EntityType>
+  <Association Name="SupplierProdSupplier">
+    <End Type="ProdDB.Supplier" Role="Supplier" Multiplicity="1" />
+    <End Type="ProdDB.ProdSupplier" Role="ProdSupplier" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProdSupplier">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductProdSupplier">
+    <End Type="ProdDB.Product" Role="Product" Multiplicity="1" />
+    <End Type="ProdDB.ProdSupplier" Role="ProdSupplier" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProdSupplier">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SupplierInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SupplierId" Type="Int32" Nullable="false" />
+    <Property Name="Label" Type="String" Nullable="false" MaxLength="10" />
+    <Property Name="Value" Type="String" Nullable="true" MaxLength="80" />
+    <NavigationProperty Name="Supplier" Relationship="ProdDB.SupplierSupplierInfo" FromRole="SupplierInfo" ToRole="Supplier" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+  </EntityType>
+  <Association Name="SupplierSupplierInfo">
+    <End Type="ProdDB.Supplier" Role="Supplier" Multiplicity="1" />
+    <End Type="ProdDB.SupplierInfo" Role="SupplierInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierInfo">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ProdInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Label" Type="String" Nullable="false" MaxLength="10" />
+    <Property Name="Value" Type="String" Nullable="true" MaxLength="80" />
+    <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+    <NavigationProperty Name="Product" Relationship="ProdDB.ProductProdInfo" FromRole="ProdInfo" ToRole="Product" />
+  </EntityType>
+  <Association Name="ProductProdInfo">
+    <End Type="ProdDB.Product" Role="Product" Multiplicity="1" />
+    <End Type="ProdDB.ProdInfo" Role="ProdInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProdInfo">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

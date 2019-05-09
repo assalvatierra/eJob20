@@ -378,6 +378,46 @@
     </Compile>
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
+    <Compile Include="Areas\Products\Models\Branch.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\ProdDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProdDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\ProdDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\ProdDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProdDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\ProdDesc.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\ProdInfo.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\ProdStatus.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\ProdSupplier.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\Product.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\Supplier.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\SupplierInfo.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CarCoopController.cs" />
     <Compile Include="Controllers\CarDestinationsController.cs" />
@@ -819,6 +859,17 @@
     </Content>
     <Content Include="Areas\Personel\Models\InitHRData.sql" />
     <Content Include="Areas\Personel\Models\InitData.sql" />
+    <Content Include="Areas\Products\Models\ProdDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ProdDB.Context.cs</LastGenOutput>
+      <DependentUpon>ProdDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Products\Models\ProdDB.edmx.sql" />
+    <Content Include="Areas\Products\Models\ProdDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ProdDB.cs</LastGenOutput>
+      <DependentUpon>ProdDB.edmx</DependentUpon>
+    </Content>
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\bootstrap-directional-buttons.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1228,6 +1279,14 @@
     <Content Include="Areas\Personel\Views\HrDtrs\Details.cshtml" />
     <Content Include="Areas\Personel\Views\HrDtrs\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\HrDtrs\Index.cshtml" />
+    <Content Include="Areas\Products\Views\web.config" />
+    <EntityDeploy Include="Areas\Products\Models\ProdDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ProdDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Areas\Products\Models\ProdDB.edmx.diagram">
+      <DependentUpon>ProdDB.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1889,6 +1948,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
+    <Folder Include="Areas\Products\Controllers\" />
+    <Folder Include="Areas\Products\Views\Shared\" />
     <Folder Include="Scripts\Reporting\" />
     <Folder Include="Views\CustomHelper\" />
     <Folder Include="Views\Paypal\" />
