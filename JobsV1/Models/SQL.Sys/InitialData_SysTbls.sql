@@ -14,26 +14,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Reporting','Job Orders',0,'Reporting','Index','',20,8),
 ('Notifications','Job Orders',0,'JobServices','NotificationList','',20,9),
 ('Accounts','Accounts',0,'Accounting/AccntMains','Index','',20,10),
-('HR','HRIS',0,'Personel/HrPersonels','Index','',20,11);
-
---('Account','Account',0,'','','',20,102),
---('Customer','Customer',0,'Customer','Index','',20,103),
---('Supplier','Supplier',0,'Supplier','Index','',20,104);
-
---insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values 
---('HD110','HelpDesk Beta 1.0','IT support system','A','../Images/Erp/HelpDeskIcon.jpg');
---insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (1,1);
---insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
---	('Main','',1,'','','',21,1),
---	('Staffs','',1,'','','',21,2);
-
---insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
---('FD110','Invoice Dispatch Beta 1.0','Invoice Dispatching System','A','../Images/Erp/FdaDispatchingIcon.jpg');
---insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (2,2);
---insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
---	('FDA Dispatches','',2,'FdaDispatch','Index','',21,1),
---	('Registered Mail','',2,'FdaRegMail','Index','',21,2),
---	('Addresses','',2,'FdaAddress','Index','',21,3);
+('HR','HRIS',0,'Personel/HrPersonels','Index','',20,11),
+('Products','Products',0,'Product/Products','Index','',20,12);
 
 
 insert into EntBusinesses([Name],[ShortName],[BussRegNo],[User]) values
@@ -162,18 +144,36 @@ values 	('Main Accounts','',10,'Accounting/AccntMains','Index','',21,101),			-- 
 		('Ledgers','',10,'Accounting/Accntledgers','Index','',21,102),				-- id: 46
 		('Account Category','',10,'Accounting/AccntCategories','Index','',21,103),	-- id: 47
 		('Transactions','',10,'Accounting/AccntTrxHdrs','Index','',21,103);			-- id: 48
-		
+insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values	
+(10,1,'2019/1/1');
+insert into SysSettings([SysKey],[SysValue],[Remarks]) values
+('DatabaseState','Dev.DB','Development DB');
+
 --HRIS
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
 ('NO111','HR','Human Resources','A','../Images/Erp/icons/icons-accounting.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (11,11);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Personnel Lists','',11,'Personels/HrPersonels','Index','',21,111);		-- id: 49
+values 	('Personnel Lists','',11,'Personel/HrPersonels','Index','',21,111);		-- id: 50
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
-(10,1,'2019/1/1');
+(11,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
 ('DatabaseState','Dev.DB','Development DB');
+
+--Products
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('NO112','Products','Products','A','../Images/Erp/icons/icons-accounting.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (12,12);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Personnel Lists','',12,'Personel/HrPersonels','Index','',21,491);		-- id: 52
+
+insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
+(12,1,'2019/1/1');
+insert into SysSettings([SysKey],[SysValue],[Remarks]) values
+('DatabaseState','Dev.DB','Development DB');
+
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',1,1), 
@@ -187,6 +187,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',9,9), 
 ('assalvatierra@gmail.com',10,10), 
 ('assalvatierra@gmail.com',11,11), 
+('assalvatierra@gmail.com',12,12), 
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 
@@ -198,12 +199,12 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',8,8),
 ('jahdielvillosa@gmail.com',9,9),
 ('jahdielvillosa@gmail.com',10,10),
-('jahdielvillosa@gmail.com',11,11); 
+('jahdielvillosa@gmail.com',11,11),
+('jahdielvillosa@gmail.com',12,12); 
 
 
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
-('assalvatierra@gmail.com', 12, 12),
 ('assalvatierra@gmail.com', 13, 13),
 ('assalvatierra@gmail.com', 14, 14),
 ('assalvatierra@gmail.com', 15, 15),
@@ -242,8 +243,9 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 48, 48),
 ('assalvatierra@gmail.com', 49, 49),
 ('assalvatierra@gmail.com', 50, 50),
+('assalvatierra@gmail.com', 51, 51),
+('assalvatierra@gmail.com', 52, 52),
 
-('jahdielvillosa@gmail.com', 12, 12),
 ('jahdielvillosa@gmail.com', 13, 13),
 ('jahdielvillosa@gmail.com', 14, 14),
 ('jahdielvillosa@gmail.com', 15, 15),
@@ -281,4 +283,52 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 47, 47),
 ('jahdielvillosa@gmail.com', 48, 48),
 ('jahdielvillosa@gmail.com', 49, 49),
-('jahdielvillosa@gmail.com', 50, 50); 
+('jahdielvillosa@gmail.com', 50, 50),
+('jahdielvillosa@gmail.com', 51, 51),
+('jahdielvillosa@gmail.com', 52, 52); 
+
+------ HRIS ------
+--insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
+--('HR','HRIS',0,'Personel/HrPersonels','Index','',20,11); -- 11
+		
+--insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+--('NO111','HR','Human Resources','A','../Images/Erp/icons/icons-accounting.png');
+--insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (49,11);
+--insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+--values 	('Personnel Lists','',49,'Personel/HrPersonels','Index','',21,491);		-- id: 50
+
+--insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
+--(49,1,'2019/1/1');
+--insert into SysSettings([SysKey],[SysValue],[Remarks]) values
+--('DatabaseState','Dev.DB','Development DB');
+
+--insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
+--('assalvatierra@gmail.com',49,49),
+--('assalvatierra@gmail.com',50,50),
+
+--('jahdielvillosa@gmail.com',49,49),
+--('jahdielvillosa@gmail.com',50,50); 
+
+
+-------- Products ------
+--insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
+--('Products','Products',0,'Product/Products','Index','',20,12); -- 51
+		
+--insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+--('NO112','Products','Products','A','../Images/Erp/icons/icons-accounting.png');
+
+--insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (51,12);
+--insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+--values 	('Personnel Lists','',51,'Personel/HrPersonels','Index','',21,491);		-- id: 52
+
+--insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
+--(51,1,'2019/1/1');
+--insert into SysSettings([SysKey],[SysValue],[Remarks]) values
+--('DatabaseState','Dev.DB','Development DB');
+
+--insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
+--('assalvatierra@gmail.com',51,51),
+--('assalvatierra@gmail.com',52,52),
+
+--('jahdielvillosa@gmail.com',51,51),
+--('jahdielvillosa@gmail.com',52,52); 

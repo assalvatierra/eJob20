@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/09/2019 14:52:44
--- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx
+-- Date Created: 05/09/2019 17:49:27
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,11 +17,56 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_ProductProdDesc]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProdDescs] DROP CONSTRAINT [FK_ProductProdDesc];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProdStatusProduct]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Products] DROP CONSTRAINT [FK_ProdStatusProduct];
+GO
+IF OBJECT_ID(N'[dbo].[FK_BranchProduct]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Products] DROP CONSTRAINT [FK_BranchProduct];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierProdSupplier]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProdSuppliers] DROP CONSTRAINT [FK_SupplierProdSupplier];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductProdSupplier]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProdSuppliers] DROP CONSTRAINT [FK_ProductProdSupplier];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierSupplierInfo]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierInfoes] DROP CONSTRAINT [FK_SupplierSupplierInfo];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductProdInfo]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProdInfoes] DROP CONSTRAINT [FK_ProductProdInfo];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Products]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Products];
+GO
+IF OBJECT_ID(N'[dbo].[ProdDescs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProdDescs];
+GO
+IF OBJECT_ID(N'[dbo].[ProdStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProdStatus];
+GO
+IF OBJECT_ID(N'[dbo].[Branches]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Branches];
+GO
+IF OBJECT_ID(N'[dbo].[Suppliers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Suppliers];
+GO
+IF OBJECT_ID(N'[dbo].[ProdSuppliers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProdSuppliers];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierInfoes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierInfoes];
+GO
+IF OBJECT_ID(N'[dbo].[ProdInfoes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProdInfoes];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables

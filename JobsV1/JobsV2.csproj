@@ -307,6 +307,7 @@
     <Compile Include="Areas\Accounting\Models\AsSales.cs">
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Controllers\HomeController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrDtrsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPayrollsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPersonelsController.cs" />
