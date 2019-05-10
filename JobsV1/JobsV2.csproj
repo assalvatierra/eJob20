@@ -378,9 +378,6 @@
     </Compile>
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
-    <Compile Include="Areas\Products\Models\Branch.cs">
-      <DependentUpon>ProdDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Areas\Products\Models\ProdDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -396,25 +393,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ProdDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Products\Models\ProdDesc.cs">
+    <Compile Include="Areas\Products\Models\SmBranch.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Products\Models\ProdInfo.cs">
+    <Compile Include="Areas\Products\Models\SmCategory.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Products\Models\ProdStatus.cs">
+    <Compile Include="Areas\Products\Models\SmProdCat.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Products\Models\ProdSupplier.cs">
+    <Compile Include="Areas\Products\Models\SmProdDesc.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Products\Models\Product.cs">
+    <Compile Include="Areas\Products\Models\SmProdInfo.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Products\Models\Supplier.cs">
+    <Compile Include="Areas\Products\Models\SmProdStatus.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Products\Models\SupplierInfo.cs">
+    <Compile Include="Areas\Products\Models\SmProdSupplier.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\SmProduct.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\SmSupplier.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\SmSupplierInfo.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />

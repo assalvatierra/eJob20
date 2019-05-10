@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/09/2019 14:52:44
+-- Date Created: 05/10/2019 12:00:00
 -- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx
 -- --------------------------------------------------
 
@@ -17,19 +17,77 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_SmProdStatusSmProduct]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProducts] DROP CONSTRAINT [FK_SmProdStatusSmProduct];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmProductSmProdDesc]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProdDescs] DROP CONSTRAINT [FK_SmProductSmProdDesc];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmProductSmProdInfo]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProdInfoes] DROP CONSTRAINT [FK_SmProductSmProdInfo];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmBranchSmProduct]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProducts] DROP CONSTRAINT [FK_SmBranchSmProduct];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmSupplierSmProdSupplier]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProdSuppliers] DROP CONSTRAINT [FK_SmSupplierSmProdSupplier];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmProductSmProdSupplier]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProdSuppliers] DROP CONSTRAINT [FK_SmProductSmProdSupplier];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmSupplierSmSupplierInfo]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmSupplierInfoes] DROP CONSTRAINT [FK_SmSupplierSmSupplierInfo];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmCategorySmProdCat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProdCats] DROP CONSTRAINT [FK_SmCategorySmProdCat];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmProductSmProdCat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProdCats] DROP CONSTRAINT [FK_SmProductSmProdCat];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[SmProducts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmProducts];
+GO
+IF OBJECT_ID(N'[dbo].[SmProdDescs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmProdDescs];
+GO
+IF OBJECT_ID(N'[dbo].[SmProdStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmProdStatus];
+GO
+IF OBJECT_ID(N'[dbo].[SmBranches]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmBranches];
+GO
+IF OBJECT_ID(N'[dbo].[SmSuppliers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmSuppliers];
+GO
+IF OBJECT_ID(N'[dbo].[SmProdSuppliers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmProdSuppliers];
+GO
+IF OBJECT_ID(N'[dbo].[SmSupplierInfoes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmSupplierInfoes];
+GO
+IF OBJECT_ID(N'[dbo].[SmProdInfoes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmProdInfoes];
+GO
+IF OBJECT_ID(N'[dbo].[SmCategories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmCategories];
+GO
+IF OBJECT_ID(N'[dbo].[SmProdCats]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmProdCats];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
 
--- Creating table 'Products'
-CREATE TABLE [dbo].[Products] (
+-- Creating table 'SmProducts'
+CREATE TABLE [dbo].[SmProducts] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [SmBranchId] int  NOT NULL,
     [Code] nvarchar(10)  NULL,
     [Name] nvarchar(80)  NOT NULL,
     [Remarks] nvarchar(250)  NULL,
@@ -38,36 +96,37 @@ CREATE TABLE [dbo].[Products] (
     [ValidStart] datetime  NOT NULL,
     [ValidEnd] datetime  NOT NULL,
     [Price] decimal(18,0)  NOT NULL,
-    [Contracted] decimal(18,0)  NOT NULL
+    [Contracted] decimal(18,0)  NOT NULL,
+    [SmProdStatusId] int  NOT NULL
 );
 GO
 
--- Creating table 'ProdDescs'
-CREATE TABLE [dbo].[ProdDescs] (
+-- Creating table 'SmProdDescs'
+CREATE TABLE [dbo].[SmProdDescs] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ProductId] int  NOT NULL,
+    [SmProductId] int  NOT NULL,
     [SortNo] int  NOT NULL,
     [Description] nvarchar(180)  NULL
 );
 GO
 
--- Creating table 'ProdStatus'
-CREATE TABLE [dbo].[ProdStatus] (
+-- Creating table 'SmProdStatus'
+CREATE TABLE [dbo].[SmProdStatus] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Status] nvarchar(10)  NOT NULL
 );
 GO
 
--- Creating table 'Branches'
-CREATE TABLE [dbo].[Branches] (
+-- Creating table 'SmBranches'
+CREATE TABLE [dbo].[SmBranches] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(30)  NOT NULL,
     [Remarks] nvarchar(80)  NULL
 );
 GO
 
--- Creating table 'Suppliers'
-CREATE TABLE [dbo].[Suppliers] (
+-- Creating table 'SmSuppliers'
+CREATE TABLE [dbo].[SmSuppliers] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(80)  NOT NULL,
     [Description] nvarchar(150)  NOT NULL,
@@ -75,35 +134,50 @@ CREATE TABLE [dbo].[Suppliers] (
 );
 GO
 
--- Creating table 'ProdSuppliers'
-CREATE TABLE [dbo].[ProdSuppliers] (
+-- Creating table 'SmProdSuppliers'
+CREATE TABLE [dbo].[SmProdSuppliers] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [SupplierId] int  NOT NULL,
-    [ProductId] int  NOT NULL,
     [ValidStart] datetime  NOT NULL,
     [ValidEnd] datetime  NOT NULL,
     [Price] decimal(18,0)  NOT NULL,
-    [Contracted] decimal(18,0)  NOT NULL
+    [Contracted] decimal(18,0)  NOT NULL,
+    [SmSupplierId] int  NOT NULL,
+    [SmProductId] int  NOT NULL
 );
 GO
 
--- Creating table 'SupplierInfoes'
-CREATE TABLE [dbo].[SupplierInfoes] (
+-- Creating table 'SmSupplierInfoes'
+CREATE TABLE [dbo].[SmSupplierInfoes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [SupplierId] int  NOT NULL,
+    [SmSupplierId] int  NOT NULL,
     [Label] nvarchar(10)  NOT NULL,
     [Value] nvarchar(80)  NULL,
     [Remarks] nvarchar(80)  NULL
 );
 GO
 
--- Creating table 'ProdInfoes'
-CREATE TABLE [dbo].[ProdInfoes] (
+-- Creating table 'SmProdInfoes'
+CREATE TABLE [dbo].[SmProdInfoes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ProductId] int  NOT NULL,
+    [SmProductId] int  NOT NULL,
     [Label] nvarchar(10)  NOT NULL,
     [Value] nvarchar(80)  NULL,
     [Remarks] nvarchar(80)  NULL
+);
+GO
+
+-- Creating table 'SmCategories'
+CREATE TABLE [dbo].[SmCategories] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(20)  NOT NULL
+);
+GO
+
+-- Creating table 'SmProdCats'
+CREATE TABLE [dbo].[SmProdCats] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SmCategoryId] int  NOT NULL,
+    [SmProductId] int  NOT NULL
 );
 GO
 
@@ -111,51 +185,63 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [Id] in table 'Products'
-ALTER TABLE [dbo].[Products]
-ADD CONSTRAINT [PK_Products]
+-- Creating primary key on [Id] in table 'SmProducts'
+ALTER TABLE [dbo].[SmProducts]
+ADD CONSTRAINT [PK_SmProducts]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'ProdDescs'
-ALTER TABLE [dbo].[ProdDescs]
-ADD CONSTRAINT [PK_ProdDescs]
+-- Creating primary key on [Id] in table 'SmProdDescs'
+ALTER TABLE [dbo].[SmProdDescs]
+ADD CONSTRAINT [PK_SmProdDescs]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'ProdStatus'
-ALTER TABLE [dbo].[ProdStatus]
-ADD CONSTRAINT [PK_ProdStatus]
+-- Creating primary key on [Id] in table 'SmProdStatus'
+ALTER TABLE [dbo].[SmProdStatus]
+ADD CONSTRAINT [PK_SmProdStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Branches'
-ALTER TABLE [dbo].[Branches]
-ADD CONSTRAINT [PK_Branches]
+-- Creating primary key on [Id] in table 'SmBranches'
+ALTER TABLE [dbo].[SmBranches]
+ADD CONSTRAINT [PK_SmBranches]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Suppliers'
-ALTER TABLE [dbo].[Suppliers]
-ADD CONSTRAINT [PK_Suppliers]
+-- Creating primary key on [Id] in table 'SmSuppliers'
+ALTER TABLE [dbo].[SmSuppliers]
+ADD CONSTRAINT [PK_SmSuppliers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'ProdSuppliers'
-ALTER TABLE [dbo].[ProdSuppliers]
-ADD CONSTRAINT [PK_ProdSuppliers]
+-- Creating primary key on [Id] in table 'SmProdSuppliers'
+ALTER TABLE [dbo].[SmProdSuppliers]
+ADD CONSTRAINT [PK_SmProdSuppliers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'SupplierInfoes'
-ALTER TABLE [dbo].[SupplierInfoes]
-ADD CONSTRAINT [PK_SupplierInfoes]
+-- Creating primary key on [Id] in table 'SmSupplierInfoes'
+ALTER TABLE [dbo].[SmSupplierInfoes]
+ADD CONSTRAINT [PK_SmSupplierInfoes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'ProdInfoes'
-ALTER TABLE [dbo].[ProdInfoes]
-ADD CONSTRAINT [PK_ProdInfoes]
+-- Creating primary key on [Id] in table 'SmProdInfoes'
+ALTER TABLE [dbo].[SmProdInfoes]
+ADD CONSTRAINT [PK_SmProdInfoes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SmCategories'
+ALTER TABLE [dbo].[SmCategories]
+ADD CONSTRAINT [PK_SmCategories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SmProdCats'
+ALTER TABLE [dbo].[SmProdCats]
+ADD CONSTRAINT [PK_SmProdCats]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -163,109 +249,139 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [ProductId] in table 'ProdDescs'
-ALTER TABLE [dbo].[ProdDescs]
-ADD CONSTRAINT [FK_ProductProdDesc]
-    FOREIGN KEY ([ProductId])
-    REFERENCES [dbo].[Products]
+-- Creating foreign key on [SmProdStatusId] in table 'SmProducts'
+ALTER TABLE [dbo].[SmProducts]
+ADD CONSTRAINT [FK_SmProdStatusSmProduct]
+    FOREIGN KEY ([SmProdStatusId])
+    REFERENCES [dbo].[SmProdStatus]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_ProductProdDesc'
-CREATE INDEX [IX_FK_ProductProdDesc]
-ON [dbo].[ProdDescs]
-    ([ProductId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmProdStatusSmProduct'
+CREATE INDEX [IX_FK_SmProdStatusSmProduct]
+ON [dbo].[SmProducts]
+    ([SmProdStatusId]);
 GO
 
--- Creating foreign key on [ProdStatusId] in table 'Products'
-ALTER TABLE [dbo].[Products]
-ADD CONSTRAINT [FK_ProdStatusProduct]
-    FOREIGN KEY ([ProdStatusId])
-    REFERENCES [dbo].[ProdStatus]
+-- Creating foreign key on [SmProductId] in table 'SmProdDescs'
+ALTER TABLE [dbo].[SmProdDescs]
+ADD CONSTRAINT [FK_SmProductSmProdDesc]
+    FOREIGN KEY ([SmProductId])
+    REFERENCES [dbo].[SmProducts]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_ProdStatusProduct'
-CREATE INDEX [IX_FK_ProdStatusProduct]
-ON [dbo].[Products]
-    ([ProdStatusId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmProdDesc'
+CREATE INDEX [IX_FK_SmProductSmProdDesc]
+ON [dbo].[SmProdDescs]
+    ([SmProductId]);
 GO
 
--- Creating foreign key on [BranchId] in table 'Products'
-ALTER TABLE [dbo].[Products]
-ADD CONSTRAINT [FK_BranchProduct]
-    FOREIGN KEY ([BranchId])
-    REFERENCES [dbo].[Branches]
+-- Creating foreign key on [SmProductId] in table 'SmProdInfoes'
+ALTER TABLE [dbo].[SmProdInfoes]
+ADD CONSTRAINT [FK_SmProductSmProdInfo]
+    FOREIGN KEY ([SmProductId])
+    REFERENCES [dbo].[SmProducts]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_BranchProduct'
-CREATE INDEX [IX_FK_BranchProduct]
-ON [dbo].[Products]
-    ([BranchId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmProdInfo'
+CREATE INDEX [IX_FK_SmProductSmProdInfo]
+ON [dbo].[SmProdInfoes]
+    ([SmProductId]);
 GO
 
--- Creating foreign key on [SupplierId] in table 'ProdSuppliers'
-ALTER TABLE [dbo].[ProdSuppliers]
-ADD CONSTRAINT [FK_SupplierProdSupplier]
-    FOREIGN KEY ([SupplierId])
-    REFERENCES [dbo].[Suppliers]
+-- Creating foreign key on [SmBranchId] in table 'SmProducts'
+ALTER TABLE [dbo].[SmProducts]
+ADD CONSTRAINT [FK_SmBranchSmProduct]
+    FOREIGN KEY ([SmBranchId])
+    REFERENCES [dbo].[SmBranches]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_SupplierProdSupplier'
-CREATE INDEX [IX_FK_SupplierProdSupplier]
-ON [dbo].[ProdSuppliers]
-    ([SupplierId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmBranchSmProduct'
+CREATE INDEX [IX_FK_SmBranchSmProduct]
+ON [dbo].[SmProducts]
+    ([SmBranchId]);
 GO
 
--- Creating foreign key on [ProductId] in table 'ProdSuppliers'
-ALTER TABLE [dbo].[ProdSuppliers]
-ADD CONSTRAINT [FK_ProductProdSupplier]
-    FOREIGN KEY ([ProductId])
-    REFERENCES [dbo].[Products]
+-- Creating foreign key on [SmSupplierId] in table 'SmProdSuppliers'
+ALTER TABLE [dbo].[SmProdSuppliers]
+ADD CONSTRAINT [FK_SmSupplierSmProdSupplier]
+    FOREIGN KEY ([SmSupplierId])
+    REFERENCES [dbo].[SmSuppliers]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_ProductProdSupplier'
-CREATE INDEX [IX_FK_ProductProdSupplier]
-ON [dbo].[ProdSuppliers]
-    ([ProductId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmSupplierSmProdSupplier'
+CREATE INDEX [IX_FK_SmSupplierSmProdSupplier]
+ON [dbo].[SmProdSuppliers]
+    ([SmSupplierId]);
 GO
 
--- Creating foreign key on [SupplierId] in table 'SupplierInfoes'
-ALTER TABLE [dbo].[SupplierInfoes]
-ADD CONSTRAINT [FK_SupplierSupplierInfo]
-    FOREIGN KEY ([SupplierId])
-    REFERENCES [dbo].[Suppliers]
+-- Creating foreign key on [SmProductId] in table 'SmProdSuppliers'
+ALTER TABLE [dbo].[SmProdSuppliers]
+ADD CONSTRAINT [FK_SmProductSmProdSupplier]
+    FOREIGN KEY ([SmProductId])
+    REFERENCES [dbo].[SmProducts]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_SupplierSupplierInfo'
-CREATE INDEX [IX_FK_SupplierSupplierInfo]
-ON [dbo].[SupplierInfoes]
-    ([SupplierId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmProdSupplier'
+CREATE INDEX [IX_FK_SmProductSmProdSupplier]
+ON [dbo].[SmProdSuppliers]
+    ([SmProductId]);
 GO
 
--- Creating foreign key on [ProductId] in table 'ProdInfoes'
-ALTER TABLE [dbo].[ProdInfoes]
-ADD CONSTRAINT [FK_ProductProdInfo]
-    FOREIGN KEY ([ProductId])
-    REFERENCES [dbo].[Products]
+-- Creating foreign key on [SmSupplierId] in table 'SmSupplierInfoes'
+ALTER TABLE [dbo].[SmSupplierInfoes]
+ADD CONSTRAINT [FK_SmSupplierSmSupplierInfo]
+    FOREIGN KEY ([SmSupplierId])
+    REFERENCES [dbo].[SmSuppliers]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_ProductProdInfo'
-CREATE INDEX [IX_FK_ProductProdInfo]
-ON [dbo].[ProdInfoes]
-    ([ProductId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmSupplierSmSupplierInfo'
+CREATE INDEX [IX_FK_SmSupplierSmSupplierInfo]
+ON [dbo].[SmSupplierInfoes]
+    ([SmSupplierId]);
+GO
+
+-- Creating foreign key on [SmCategoryId] in table 'SmProdCats'
+ALTER TABLE [dbo].[SmProdCats]
+ADD CONSTRAINT [FK_SmCategorySmProdCat]
+    FOREIGN KEY ([SmCategoryId])
+    REFERENCES [dbo].[SmCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmCategorySmProdCat'
+CREATE INDEX [IX_FK_SmCategorySmProdCat]
+ON [dbo].[SmProdCats]
+    ([SmCategoryId]);
+GO
+
+-- Creating foreign key on [SmProductId] in table 'SmProdCats'
+ALTER TABLE [dbo].[SmProdCats]
+ADD CONSTRAINT [FK_SmProductSmProdCat]
+    FOREIGN KEY ([SmProductId])
+    REFERENCES [dbo].[SmProducts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmProdCat'
+CREATE INDEX [IX_FK_SmProductSmProdCat]
+ON [dbo].[SmProdCats]
+    ([SmProductId]);
 GO
 
 -- --------------------------------------------------

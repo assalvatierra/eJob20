@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ProdDBStoreContainer" CdmEntityContainer="ProdDBContainer">
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.Product)">
-        <MappingFragment StoreEntitySet="Products">
+    <EntitySetMapping Name="SmProducts">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmProduct)">
+        <MappingFragment StoreEntitySet="SmProducts">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SmBranchId" ColumnName="SmBranchId" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
@@ -14,39 +15,40 @@
           <ScalarProperty Name="ValidEnd" ColumnName="ValidEnd" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Contracted" ColumnName="Contracted" />
+          <ScalarProperty Name="SmProdStatusId" ColumnName="SmProdStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProdDescs">
-      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.ProdDesc)">
-        <MappingFragment StoreEntitySet="ProdDescs">
+    <EntitySetMapping Name="SmProdDescs">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmProdDesc)">
+        <MappingFragment StoreEntitySet="SmProdDescs">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
           <ScalarProperty Name="SortNo" ColumnName="SortNo" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProdStatus">
-      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.ProdStatus)">
-        <MappingFragment StoreEntitySet="ProdStatus">
+    <EntitySetMapping Name="SmProdStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmProdStatus)">
+        <MappingFragment StoreEntitySet="SmProdStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Branches">
-      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.Branch)">
-        <MappingFragment StoreEntitySet="Branches">
+    <EntitySetMapping Name="SmBranches">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmBranch)">
+        <MappingFragment StoreEntitySet="SmBranches">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Suppliers">
-      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.Supplier)">
-        <MappingFragment StoreEntitySet="Suppliers">
+    <EntitySetMapping Name="SmSuppliers">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmSupplier)">
+        <MappingFragment StoreEntitySet="SmSuppliers">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
@@ -54,38 +56,55 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProdSuppliers">
-      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.ProdSupplier)">
-        <MappingFragment StoreEntitySet="ProdSuppliers">
+    <EntitySetMapping Name="SmProdSuppliers">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmProdSupplier)">
+        <MappingFragment StoreEntitySet="SmProdSuppliers">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="ValidStart" ColumnName="ValidStart" />
           <ScalarProperty Name="ValidEnd" ColumnName="ValidEnd" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Contracted" ColumnName="Contracted" />
+          <ScalarProperty Name="SmSupplierId" ColumnName="SmSupplierId" />
+          <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SupplierInfoes">
-      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SupplierInfo)">
-        <MappingFragment StoreEntitySet="SupplierInfoes">
+    <EntitySetMapping Name="SmSupplierInfoes">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmSupplierInfo)">
+        <MappingFragment StoreEntitySet="SmSupplierInfoes">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="SmSupplierId" ColumnName="SmSupplierId" />
           <ScalarProperty Name="Label" ColumnName="Label" />
           <ScalarProperty Name="Value" ColumnName="Value" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProdInfoes">
-      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.ProdInfo)">
-        <MappingFragment StoreEntitySet="ProdInfoes">
+    <EntitySetMapping Name="SmProdInfoes">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmProdInfo)">
+        <MappingFragment StoreEntitySet="SmProdInfoes">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
           <ScalarProperty Name="Label" ColumnName="Label" />
           <ScalarProperty Name="Value" ColumnName="Value" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SmCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmCategory)">
+        <MappingFragment StoreEntitySet="SmCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SmProdCats">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmProdCat)">
+        <MappingFragment StoreEntitySet="SmProdCats">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SmCategoryId" ColumnName="SmCategoryId" />
+          <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -25,13 +25,15 @@ namespace JobsV1.Areas.Products.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<ProdDesc> ProdDescs { get; set; }
-        public virtual DbSet<ProdStatus> ProdStatus { get; set; }
-        public virtual DbSet<Branch> Branches { get; set; }
-        public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<ProdSupplier> ProdSuppliers { get; set; }
-        public virtual DbSet<SupplierInfo> SupplierInfoes { get; set; }
-        public virtual DbSet<ProdInfo> ProdInfoes { get; set; }
+        public virtual DbSet<SmProduct> SmProducts { get; set; }
+        public virtual DbSet<SmProdDesc> SmProdDescs { get; set; }
+        public virtual DbSet<SmProdStatus> SmProdStatus { get; set; }
+        public virtual DbSet<SmBranch> SmBranches { get; set; }
+        public virtual DbSet<SmSupplier> SmSuppliers { get; set; }
+        public virtual DbSet<SmProdSupplier> SmProdSuppliers { get; set; }
+        public virtual DbSet<SmSupplierInfo> SmSupplierInfoes { get; set; }
+        public virtual DbSet<SmProdInfo> SmProdInfoes { get; set; }
+        public virtual DbSet<SmCategory> SmCategories { get; set; }
+        public virtual DbSet<SmProdCat> SmProdCats { get; set; }
     }
 }
