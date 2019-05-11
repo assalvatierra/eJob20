@@ -1,0 +1,118 @@
+﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmProdInfo >
+
+@{
+    int prodId = Convert.ToInt32(ViewData["prodId"]);
+}
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <h3>
+                Product Info
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            @foreach (var prodInfo in Model)
+            {
+                <p>
+                    <b>@prodInfo.Label </b> : @prodInfo.Value <br />
+                    <b>Remarks</b> : @prodInfo.Remarks <br />
+                    @*@Html.ActionLink("[Edit]", "EditInfo", new { id = prodInfo.Id })*@
+                    @Html.ActionLink("[Remove]", "RemoveInfo", new { id = prodInfo.Id })
+                </p>
+            } 
+            <a href="" id="catbtn" data-toggle="modal" data-target="#prodInfoModal" style="margin-bottom:10px;">Add Info</a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="prodInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Product Description</h4>
+                </div>
+                <div class="modal-body row" id="modal2-content">
+
+                    <div class="form-group">
+                        <b class="col-md-2 "> Label: </b>
+                        <div class="col-md-10">
+                            <input  type="text" maxlength="10" class="form-control" id="prod-Infolabel" />
+                        </div><span style="font-size:8px">&nbsp;</span>
+                    </div>
+
+                    <div class="form-group">
+                        <b class="col-md-2"> Value: </b>
+                        <div class="col-md-10">
+                            <textarea id="prod-InfoValue"  maxlength="80" class="form-control" cols="80" rows="2"></textarea>
+                            <span style="font-size:8px">80 characters only.</span>
+                        </div><p></p>
+                    </div>
+
+                    <div class="form-group">
+                        <b class="col-md-2"> Remarks: </b>
+                        <div class="col-md-10">
+                            <textarea id="prod-InfoRemarks" maxlength="80" class="form-control" cols="80" rows="2"></textarea>
+                            <span style="font-size:8px">80 characters only.</span>
+                        </div><p></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="ajax_PostInfo(@prodId)"    >Submit</button>
+                    @*<button type="button" class="btn btn-default" onclick="ajax_EditPostInfo(@prodId)">Submit</button>*@
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script>
+
+    //load table content on search btn click  
+    //request data from server using ajax call
+    //then clear and add contents to the table 
+    function ajax_PostInfo(prodId) {
+        var infolabel = $("#prod-Infolabel").val();
+        var infoValue = $("#prod-InfoValue").val();
+        var infoRemarks = $("#prod-InfoRemarks").val();
+
+        var query = "";
+        //build json object // no use
+        var data = {
+            prodId: prodId,
+            infolabel : infolabel,
+            infoValue : infoValue,
+            infoRemarks : infoRemarks
+        };
+        
+        url = "/Products/SMProducts/AddInfo";
+
+        //Submit data to server using ajax 
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                //// console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    
+    function refreshPage() {
+        location.reload();
+    }
+</script>

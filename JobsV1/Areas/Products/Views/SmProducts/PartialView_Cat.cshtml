@@ -1,0 +1,90 @@
+﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmProdCat >
+
+@{
+    int prodId = Convert.ToInt32(ViewData["prodId"]);
+}
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <h3>
+                Product Category
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            @foreach (var prodCat in Model)
+            {
+                <p>
+                    @prodCat.SmCategory.Name
+                    @Html.ActionLink("[x]", "RemoveCat", new { id = prodCat.Id })
+                </p>
+            }
+            <a href="" id="catbtn" data-toggle="modal" data-target="#prodCatModal" style="margin-bottom:10px;">Add Category</a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="prodCatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Category</h4>
+                </div>
+
+                <div class="modal-body row" id="modal2-content">
+                    @foreach (var cat in ViewBag.prodCatList as IEnumerable<JobsV1.Areas.Products.Models.SmCategory>)
+                    {
+                        <a href="" class="list-group-item skills" onclick="selectCat(@cat.Id ,@prodId)">
+                            @cat.Name
+                        </a>
+                    }
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+
+<script>
+    function selectCat(catId,prodId){
+        
+        //build json object
+        var data = {
+            catId: catId,
+            prodId : prodId,
+        };
+
+        var url = '/Products/SMProducts/AddCat';
+
+        //request data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                // console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    function refreshPage() {
+        location.reload();
+    }
+</script>

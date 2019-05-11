@@ -1,0 +1,32 @@
+﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmSupplier>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Suppliers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<p>
+    <span> Search </span>
+    <input type="search" id="srch-field" />
+    <button class="btn btn-default" id="srch-btn" onclick="ajax_loadContent()">Search</button>
+</p>
+
+
+<table class="table " id="sup-Table">
+    <tr>
+        <th>Name </th>
+        <th>Description </th>
+        <th>Remarks</th>
+        <th></th>
+    </tr>
+
+</table>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Areas/Products/Script/SupList.js"></script>

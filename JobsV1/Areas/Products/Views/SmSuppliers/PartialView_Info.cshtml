@@ -1,0 +1,125 @@
+﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmSupplierInfo >
+
+@{
+    int supId = Convert.ToInt32(ViewData["supId"]);
+}
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <h3>
+                Supplier Info
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            @foreach (var supInfo in Model)
+            {
+                <p>
+                    <b>@supInfo.Label </b> : @supInfo.Value <br />
+                    <b>Remarks</b> : @supInfo.Remarks <br />
+                    @*@Html.ActionLink("[Edit]", "EditInfo", new { id = prodInfo.Id })*@
+                    @Html.ActionLink("[Remove]", "RemoveInfo", new { id = supInfo.Id })
+                </p>
+            } 
+            <a href="" id="catbtn" data-toggle="modal" data-target="#supInfoModal" style="margin-bottom:10px;">Add Info</a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="supInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Info</h4>
+                </div>
+
+                <div class="modal-body row" id="modal2-content">
+
+                    <div class="form-group">
+                        <b class="col-md-2 "> Label: </b>
+                        <div class="col-md-12">
+                            <input  type="text" maxlength="10" class="form-control" id="sup-Infolabel" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <b class="col-md-2"> Value: </b>
+                        <div class="col-md-12">
+                            <textarea id="sup-InfoValue"  maxlength="80" class="form-control" cols="80" rows="2"></textarea>
+                            <span class="col-md-2">  </span>
+                            <span style="font-size:9px">80 characters only.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <b class="col-md-2"> Remarks: </b>
+                        <div class="col-md-12">
+                            <textarea id="sup-InfoRemarks" maxlength="80" class="form-control" cols="80" rows="2"></textarea>
+                            <span class="col-md-2">  </span>
+                            <span style="font-size:8px">80 characters only.</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="ajax_PostInfo(@supId)" >Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script>
+
+    //load table content on search btn click
+    //request data from server using ajax call
+    //then clear and add contents to the table
+    function ajax_PostInfo(supId) {
+        var infolabel = $("#sup-Infolabel").val();
+        var infoValue = $("#sup-InfoValue").val();
+        var infoRemarks = $("#sup-InfoRemarks").val();
+
+        //alert("supId:"+supId);
+        //alert("infolabel:"+infolabel);
+        //alert("infoValue:"+infoValue);
+        //alert("infoRemarks:"+infoRemarks);
+
+        //build json object // no use
+        var data = {
+            supId: supId,
+            infolabel : infolabel,
+            infoValue : infoValue,
+            infoRemarks : infoRemarks
+        };
+        
+        url = "/Products/SmSuppliers/AddSupInfo";
+
+        //Submit data to server using ajax 
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                //// console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    function refreshPage() {
+        location.reload();
+    }
+</script>

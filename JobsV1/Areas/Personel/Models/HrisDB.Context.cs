@@ -41,5 +41,11 @@ namespace JobsV1.Areas.Personel.Models
         public virtual DbSet<HrPayroll> HrPayrolls { get; set; }
         public virtual DbSet<HrProfile> HrProfiles { get; set; }
         public virtual DbSet<HrPersonelStatus> HrPersonelStatus { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Products.Models.SmProduct> SmProducts { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Products.Models.SmBranch> SmBranches { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Products.Models.SmProdStatus> SmProdStatus { get; set; }
     }
 }

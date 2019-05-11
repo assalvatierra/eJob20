@@ -1,0 +1,35 @@
+﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmProduct>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Products </h2>
+
+<p>
+    @Html.ActionLink("Add New Product", "Create")
+</p>
+<p>
+    <span> Search </span>
+    <input type="search" id="srch-field" />
+    <button class="btn btn-default" id="srch-btn" onclick="ajax_loadContent()">Search</button>
+</p>
+
+
+<table class="table " id="prodTable">
+    <tr>
+        <th>Code</th>
+        <th>Name </th>
+        <th>Price</th>
+        <th>Validity Start</th>
+        <th>Validity End </th>
+        <th>Remarks</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+
+</table>
+
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Areas/Products/Script/ProdList.js"></script>

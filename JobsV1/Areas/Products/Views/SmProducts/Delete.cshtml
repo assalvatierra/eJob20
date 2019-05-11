@@ -1,0 +1,112 @@
+﻿@model JobsV1.Areas.Products.Models.SmProduct
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>SmProduct</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProdStatusId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProdStatusId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValidStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValidStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValidEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValidEnd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contracted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contracted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SmProdStatu.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SmProdStatu.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SmBranch.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SmBranch.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

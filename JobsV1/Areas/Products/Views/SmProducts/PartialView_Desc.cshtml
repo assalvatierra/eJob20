@@ -1,0 +1,209 @@
+﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmProdDesc>
+
+@{
+    int prodId = Convert.ToInt32(ViewData["prodId"]);
+}
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <h3>
+                Product Description
+            </h3>
+        </div>
+        <div class="col-lg-12">
+
+            @foreach (var prodDesc in Model)
+            {
+                <p>
+                    @prodDesc.Description 
+                    <a href="" id="catbtn" data-toggle="modal" data-target="#prodDescModal" onclick="EditDescModal(@prodDesc.Id)"> Edit  </a> |
+                    @Html.ActionLink(" Remove", "RemoveDesc", new { id = prodDesc.Id })
+                </p>
+            }
+            <a href="" id="catbtn" data-toggle="modal" data-target="#prodDescModal" onclick="AddDescModal()">Add Description</a>
+        </div>
+    </div>
+
+<!-- Add Modal -->
+    <div class="modal fade" id="prodDescModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Product Description</h4>
+                </div>
+
+                <div class="modal-body row" id="modal2-content"> 
+                    <div class="form-group" style="display:none;">
+                        <b class="col-md-2"> Id: </b>
+                        <div class="col-md-10">
+                            <input id="prod-Id" class="form-control" type="number" value="1">
+                        </div><p></p>
+                    </div>
+                    <div class="form-group">
+                        <b class="col-md-2"> Description: </b>
+                        <div class="col-md-10">
+                            <textarea id="prod-desc" maxlength="180" class="form-control" cols="80" rows="5"></textarea>
+                            <span style="font-size:10px">180 characters only.</span>
+                        </div><p></p>
+                    </div>
+                    <div class="form-group">
+                        <b class="col-md-2 "> Sort: </b>
+                        <div class="col-md-10">
+                            <input id="prod-sort" class="form-control" type="number" value="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addDescBtn" onclick="ajax_PostDesc(@prodId)" >Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_EditPostDesc(@prodId)">Save</button>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+
+<script>
+    //CREATE
+    //load table content on search btn click
+    //request data from server using ajax call
+    //then clear and add contents to the table
+    function ajax_PostDesc(prodId) {
+        var prodDesc = $("#prod-desc").val();
+        var sort = $("#prod-sort").val();
+
+        // build json object
+        var data = {
+            prodId: prodId,
+            sort : sort,
+            text : prodDesc
+        };
+
+        var url = '/Products/SMProducts/AddDesc';
+
+        // request data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                // console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    //EDIT Desciption- 
+    //load table content on search btn click
+    //request data from server using ajax call
+    //then update product description
+    function ajax_EditPostDesc(prodId) {
+        var descId = $("#prod-Id").val();
+        var prodDesc = $("#prod-desc").val();
+        var sort = $("#prod-sort").val();
+
+        // build json object
+        var data = {
+            prodId: prodId,
+            descId: descId,
+            sort : sort,
+            text : prodDesc
+        };
+
+        var url = '/Products/SMProducts/EditDesc';
+
+        // request data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                // console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+
+    function AddDescModal() {
+        //hide button
+        $("#addDescBtn").css('display', 'block');
+        $("#editDescBtn").css('display', 'none');
+    }
+
+    function EditDescModal(descId) {
+        //hide button
+        $("#addDescBtn").css('display', 'none');
+        $("#editDescBtn").css('display', 'block');
+
+        ajax_getDesc(descId);
+    }
+    
+    //get description content
+    function ajax_getDesc(descId) {
+        var prodDesc = $("#prod-desc").val();
+        var sort = $("#prod-sort").val();
+        
+        // build json object
+        var data = {
+            Id: descId,
+        };
+
+        var url = '/Products/SmProducts/getDesc';
+
+        // request data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                 console.log("SUCCESS");
+            },
+            error: function (data) {
+                console.log("ERROR");
+                console.log(data);
+                DescLoadTable(data);
+                //location.reload();
+            }
+        });
+    }
+
+    //display simple/limited information 
+    //of suppliers
+    function DescLoadTable(data) {
+        console.log("SimpleTable");
+
+        //parse data response to json object
+        var data = jQuery.parseJSON(data["responseText"]);
+        
+        console.log("Description: " + data["Desc"]);
+        $("#prod-Id").val(data["Id"]);
+        $("#prod-desc").val(data["Desc"]);
+        $("#prod-sort").val(data["Sort"]);
+
+    }
+
+
+    function refreshPage() {
+        location.reload();
+    }
+</script>
