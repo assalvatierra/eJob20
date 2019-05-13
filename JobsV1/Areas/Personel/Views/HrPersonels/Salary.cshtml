@@ -19,4 +19,4 @@
 
 @{Html.RenderPartial("PartialView_SSalary", (IEnumerable<JobsV1.Areas.Personel.Models.HrSalary>)ViewBag.salaryDetails, new ViewDataDictionary { { "PersonnelId", Model.Id } });}
 @{Html.RenderPartial("PartialView_SPayroll", (IEnumerable<JobsV1.Areas.Personel.Models.HrPayroll>)ViewBag.payrollDetails, new ViewDataDictionary { { "PersonnelId", Model.Id } });}
-@{Html.RenderPartial("PartialView_SDTR", (IEnumerable<JobsV1.Areas.Personel.Models.HrDtr>)ViewBag.dtrDetails, new ViewDataDictionary { { "PersonnelId", Model.Id } , { "dtrList", ViewBag.dtrList }, { "dtrStatus", ViewBag.dtrStatus } });}
+@{Html.RenderPartial("PartialView_SDTR", (IEnumerable<JobsV1.Areas.Personel.Models.HrDtr>)ViewBag.dtrDetails, new ViewDataDictionary { { "PersonnelId", Model.Id } , { "dtrList", ViewBag.dtrList }, { "dtrStatus", ViewBag.dtrStatus }, { "rateList", ViewBag.rateList } });}

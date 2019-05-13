@@ -344,8 +344,9 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.dtrStatus  = db.HrDtrStatus.ToList();
             ViewBag.dtrList    = db.HrPayrolls.Where(s => s.HrPersonelId == id && s.Status == "ACT").OrderByDescending(s => s.DtStart).ToList();
             ViewBag.dtrDetails = db.HrDtrs.Where(s => s.HrPersonelId == id).ToList().OrderByDescending(s => s.DtrDate);
+            ViewBag.rateList   = db.HrSalaries.Where(s => s.HrPersonelId == id).ToList();
         }
-
+          
         public ActionResult AddSalary(int id, decimal Rate)
         {
             HrSalary perSalary = new HrSalary();
@@ -371,12 +372,13 @@ namespace JobsV1.Areas.Personel.Controllers
         #endregion
 
         #region Payroll
-        public string AddPayroll(int id, string DtStart, string DtEnd, decimal salary, decimal allw, decimal ded, int year, int mon, string status)
+        public ActionResult AddPayroll(int perId, string DtStart, string DtEnd, decimal salary, decimal allw,
+            decimal ded, int year, int mon, string status)
         {
             HrPayroll payroll = new HrPayroll();
             payroll.DtStart = DateTime.Parse(DtStart);
             payroll.DtEnd = DateTime.Parse(DtEnd);
-            payroll.HrPersonelId = id;
+            payroll.HrPersonelId = perId;
             payroll.Salary = salary;
             payroll.Allowance = allw;
             payroll.Deduction = ded;
@@ -386,8 +388,28 @@ namespace JobsV1.Areas.Personel.Controllers
 
             db.HrPayrolls.Add(payroll);
             db.SaveChanges();
-            return "500";
-            //return RedirectToAction("Details", new { id = id }); //view in personnel details
+            //return "500";
+            return RedirectToAction("Salary", new { id = perId }); //view in personnel details
+        }
+        
+        public ActionResult EditPayroll(int pId, int perId, string DtStart, string DtEnd, decimal salary, decimal allw,
+            decimal ded, int year, int mon, string status)
+        {
+            HrPayroll payroll = db.HrPayrolls.Find(pId);
+            payroll.DtStart = DateTime.Parse(DtStart);
+            payroll.DtEnd = DateTime.Parse(DtEnd);
+            payroll.HrPersonelId = perId;
+            payroll.Salary = salary;
+            payroll.Allowance = allw;
+            payroll.Deduction = ded;
+            payroll.Yearno = year.ToString();
+            payroll.Monthno = mon.ToString();
+            payroll.Status = status;
+
+            db.Entry(payroll).State = EntityState.Modified;
+            db.SaveChanges();
+            //return "500";
+            return RedirectToAction("Salary", new { id = perId }); //view in personnel details
         }
 
         public ActionResult RemovePayroll(int id)
@@ -418,7 +440,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 decimal salaryToday = 0;
                 salaryToday = dtr.HrSalary.RatePerHr * dtr.ActualHrs;
-
+                salaryToday -= totalDeductions;
                 //add to total salary
                 totalSalary += salaryToday;
             }
@@ -443,10 +465,10 @@ namespace JobsV1.Areas.Personel.Controllers
 
         #region DTR
         public string AddDTRecord(int id, string date, string status,
-            string timeIn, string timeOut, string actualHrs, string roundHrs, string payrollID)
+            string timeIn, string timeOut, string actualHrs, string roundHrs, int salaryId ,string payrollID)
         {
             HrDtr dtr = new HrDtr();
-            dtr.HrSalaryId = db.HrSalaries.Where(s=>s.HrPersonelId == id).OrderByDescending(s=>s.DtStart).FirstOrDefault().Id;
+            dtr.HrSalaryId = salaryId;
             dtr.DtrDate = DateTime.Parse(date);
             dtr.HrDtrStatusId = int.Parse(status);
             dtr.HrPersonelId = id;
@@ -463,6 +485,31 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return "500";
             //return RedirectToAction("Details", new { id = id }); //view in personnel details
+        }
+
+        public ActionResult EditDTRecord(int Id, int PersonnelId, string date, string status,
+            string timeIn, string timeOut, string actualHrs, string roundHrs , int salaryId, string payrollID)
+        {
+            HrDtr dtr =db.HrDtrs.Find(Id);
+            dtr.HrSalaryId = salaryId;
+            dtr.DtrDate = DateTime.Parse(date);
+            dtr.HrDtrStatusId = int.Parse(status);
+            dtr.HrPersonelId = PersonnelId;
+            dtr.TimeIn = TimeSpan.Parse(timeIn);
+            dtr.TimeOut = TimeSpan.Parse(timeOut);
+            dtr.ActualHrs = int.Parse(actualHrs);
+            dtr.RoundHrs = int.Parse(roundHrs);
+            dtr.HrPayrollId = int.Parse(payrollID);
+
+            //db.HrDtrs.Add(dtr);
+            db.Entry(dtr).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //update salary
+            UpdatePayrollSalary(int.Parse(payrollID));
+
+            //return "500";
+            return RedirectToAction("Salary", new { id = PersonnelId }); //view in personnel details
         }
 
         public ActionResult RemoveDTR(int id)

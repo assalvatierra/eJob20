@@ -364,6 +364,7 @@ namespace JobsV1.Areas.Products.Controllers
             prodSup.Price = Decimal.Parse(price);
             prodSup.Contracted = decimal.Parse(contracted);
 
+
             db.Entry(prodSup).State = EntityState.Modified;
             db.SaveChanges();
             

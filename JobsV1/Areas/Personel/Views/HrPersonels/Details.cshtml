@@ -23,6 +23,7 @@
         </h3>
         <p>
             @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+
         </p>
         <p>
          Status:  
@@ -69,5 +70,6 @@
     @{Html.RenderPartial("PartialView_DPosition", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerPosition>)ViewBag.perPosition, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "PositionList", ViewBag.PositionList } });}
     @{Html.RenderPartial("PartialView_DSkills", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerSkill>)ViewBag.perSkills, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "SkillsList", ViewBag.SkillsList }, { "Proficiency", ViewBag.Proficiency } });}
     @{Html.RenderPartial("PartialView_DTrainings", (IEnumerable<JobsV1.Areas.Personel.Models.HrPerTraining>)ViewBag.perTrainings, new ViewDataDictionary { { "PersonnelId", Model.Id }, { "TrainingsList", ViewBag.TrainingsList } });}
+
 
 </div>

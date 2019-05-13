@@ -42,6 +42,10 @@
                         </td>
                         <td>
                             @Html.ActionLink("Calculate", "UpdatePayrollSalary", new { payrollId = payroll.Id }) |
+                            <a href="" id="catbtn" data-toggle="modal" data-target="#editPayrollModal" 
+                               onclick="EditPayroll('@payroll.Id','@payroll.DtStart','@payroll.DtEnd','@payroll.Salary',
+                               '@payroll.Allowance','@payroll.Deduction','@payroll.Yearno','@payroll.Monthno',
+                               '@payroll.Status')" >Edit</a> |
                             @Html.ActionLink("Remove", "RemovePayroll", new { id = payroll.Id })
                         </td>
                     </tr>
@@ -125,8 +129,91 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="editPayrollModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Payroll Record</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Id </span>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="edit-PayrollId" value="1" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> DtStart </span>
+                            <div class="col-md-9">
+                                <input type="date" class="form-control" id="edit-PayrollDtStart" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> DtEnd </span>
+                            <div class="col-md-9">
+                                <input type="date" class="form-control" id="edit-PayrollDtEnd" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Salary </span>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="edit-PayrollSalary" onkeypress='validate(event)' value="0" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Allowance </span>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="edit-PayrollAllowance" onkeypress='validate(event)' value="0" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Deduction </span>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="edit-PayrollDeduction" onkeypress='validate(event)' value="0" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Yearno </span>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="edit-PayrollYearNo" onkeypress='validate(event)' value="2019" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> MonthNo </span>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="edit-PayrollMonthNo" onkeypress='validate(event)' value="1" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Status </span>
+                            <div class="col-md-9">
+
+                                <select name="Status" class="form-control" id="edit-PayrollStatus">
+                                    <option value="ACT">ACT</option>
+                                    <option value="INC">INC</option>
+                                    <option value="BAD">BAD</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" onclick="ajax_EditPayroll(@personnelId)">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
 <script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 @*<script src="~/Scripts/Personnel/Payroll.js"></script>*@
 <script>
     //--- Handle Number Validations ---//
@@ -224,8 +311,7 @@
         }
     });
     //--- End of Number Validations ---//
-
-    //set skills and proficieny for the user
+    //Add Payorll
     function addPayroll(PersonnelId) {
         var DtStart = $('#PayrollDtStart').val();
         var DtEnd = $('#PayrollDtEnd').val();
@@ -236,19 +322,25 @@
         var yearno = $('#PayrollYearNo').val();
         var monthno = $('#PayrollMonthNo').val();
         var status = $('#PayrollStatus').val();
-
+        
         //build json object
         var data = {
-            custId: 0
+            perId : PersonnelId,
+            DtStart : DtStart,
+            DtEnd : DtEnd,
+            salary: salary,
+            allw : allowance,
+            ded : deduction,
+            year : yearno,
+            mon : monthno,
+            status : status
         };
 
         //request data from server using ajax call
         $.ajax({
-            url: '/Personel/HrPersonels/AddPayroll?id=' + PersonnelId + '&DtStart=' + DtStart + '&DtEnd=' + DtEnd +
-                '&salary=' + salary + '&allw=' + allowance + '&ded=' + deduction +
-                '&year=' + yearno + '&mon=' + monthno + '&status=' + status,
+            url: '/Personel/HrPersonels/AddPayroll',
             type: "POST",
-            data: JSON.stringify(data),
+            data: data,
             dataType: 'application/json; charset=utf-8',
             success: function (data) {
                 console.log("SUCCESS");
@@ -262,6 +354,64 @@
             }
         });
     }
+    
+    //Edit - Payroll Range
+    function ajax_EditPayroll(PersonnelId) {
+        var pId = $('#edit-PayrollId').val();
+        var DtStart   = $('#edit-PayrollDtStart').val();
+        var DtEnd     = $('#edit-PayrollDtEnd').val();
+        var salary    = $('#edit-PayrollSalary').val();
+        var allowance = $('#edit-PayrollAllowance').val();
+        var deduction = $('#edit-PayrollDeduction').val();
+        var yearno    = $('#edit-PayrollYearNo').val();
+        var monthno   = $('#edit-PayrollMonthNo').val();
+        var status    = $('#edit-PayrollStatus').val();
+
+        alert(pId);
+        //build json object
+        var data = {
+            pId: pId,
+            perId : PersonnelId,
+            DtStart : DtStart,
+            DtEnd : DtEnd,
+            salary: salary,
+            allw : allowance,
+            ded : deduction,
+            year : yearno,
+            mon : monthno,
+            status : status
+        };
+
+        //request data from server using ajax call
+        $.ajax({
+            url: '/Personel/HrPersonels/EditPayroll',
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                console.log("ERROR");
+                console.log(data);
+                refreshPage();
+            }
+        });
+    }
+
+    function EditPayroll(Id, start, end, salary, allw, dedc, year, month,status ){
+        $('#edit-PayrollId').val(Id);
+        $('#edit-PayrollDtStart').val(moment(start).format('YYYY-MM-DD'));
+        $('#edit-PayrollDtEnd').val(moment(end).format('YYYY-MM-DD'));
+        $('#edit-PayrollSalary').val(salary);
+        $('#edit-PayrollAllowance').val(allw);
+        $('#edit-PayrollDeduction').val(dedc);
+        $('#edit-PayrollYearNo').val(year);
+        $('#edit-PayrollMonthNo').val(month);
+        $('#edit-PayrollStatus').val(status);
+
+    }
+
     //reload page
     function refreshPage() {
         location.reload();

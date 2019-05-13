@@ -12,13 +12,15 @@
             </h3>
         </div>
         <div class="col-lg-12">
-            <a href="" id="catbtn" data-toggle="modal" data-target="#perDTRModal" style="margin-bottom:10px;">Add Payroll Record</a>
+            <a href="" id="catbtn" data-toggle="modal" data-target="#perDTRModal" style="margin-bottom:10px;">Add Record</a>
             <table class="table">
                 <tr>
                     <th>Date</th>
                     <th>Time In</th>
                     <th>Time Out</th>
                     <th>Status</th>
+                    <th>Rate/hr</th>
+                    <th>Hours</th>
                     <th></th>
                 </tr>
                 @foreach (var dtr in Model)
@@ -37,6 +39,16 @@
                             @dtr.HrDtrStatu.Desc
                         </td>
                         <td>
+                            @dtr.HrSalary.RatePerHr
+                        </td>
+                        <td>
+                            @dtr.ActualHrs
+                        </td>
+                        <td>
+                            <a href="" id="catbtn" data-toggle="modal" data-target="#EditperDTRModal" 
+                               onclick="EditDTR('@dtr.Id','@dtr.DtrDate','@dtr.HrDtrStatusId','@dtr.TimeIn','@dtr.TimeOut',
+                               '@dtr.ActualHrs','@dtr.RoundHrs','@dtr.HrSalaryId', '@dtr.HrPayrollId')"
+                                > Edit </a> |
                             @Html.ActionLink("Delete", "RemoveDTR", new { id = dtr.Id })
                         </td>
                     </tr>
@@ -89,17 +101,31 @@
                             <div class="form-group">
                                 <span class="control-label col-md-3"> Actual Hours </span>
                                 <div class="col-md-9">
-                                    <input type="number" class="form-control" id="dtrActualHrs" onkeypress='validate(event)' value="0" />
+                                    <input type="number" class="form-control" id="dtrActualHrs" onkeypress='validate(event)' value="8" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <span class="control-label col-md-3"> Round Hours </span>
                                 <div class="col-md-9">
-                                    <input type="number" class="form-control" id="dtrRoundHrs" onkeypress='validate(event)' value="4" />
+                                    <input type="number" class="form-control" id="dtrRoundHrs" onkeypress='validate(event)' value="8" />
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <span class="control-label col-md-3"> Payroll ID </span>
+                                <span class="control-label col-md-3"> Payroll Rate </span>
+                                <div class="col-md-9">
+                                    <select name="Status" class="form-control" id="dtrSalaryID">
+
+                                        @foreach (var rate in ViewBag.rateList as IEnumerable<JobsV1.Areas.Personel.Models.HrSalary>)
+                                        {
+                                            <option value="@rate.Id"> @rate.RatePerHr.ToString() </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <span class="control-label col-md-3"> Payroll Range </span>
                                 <div class="col-md-9">
                                     <select name="Status" class="form-control" id="dtrPayrollID">
 
@@ -113,14 +139,112 @@
                         </div>   
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" onclick="addDTR(@personnelId)">Submit</button>
+                    <button class="btn btn-default" onclick="AddDTR(@personnelId)">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="EditperDTRModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Edit DTR Record</h4>
+                </div>
+
+                <div class="modal-body" id="modal2-content">
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Id </span>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="edit-dtrId" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Date </span>
+                            <div class="col-md-9">
+                                <input type="date" class="form-control" id="edit-dtrDate" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> DtrStatus </span>
+                            <div class="col-md-9">
+                                <select name="Status" class="form-control" id="edit-dtrStatus">
+                                    @foreach (var status in ViewBag.dtrStatus as IEnumerable<JobsV1.Areas.Personel.Models.HrDtrStatus>)
+                                    {
+                                        <option value="@status.Id"> @status.Desc</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Time In </span>
+                            <div class="col-md-9">
+                                <input type="time" class="form-control" id="edit-dtrTimeIn" value="08:00" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Time Out </span>
+                            <div class="col-md-9">
+                                <input type="time" class="form-control" id="edit-dtrTimeOut" value="17:00" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Actual Hours </span>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="edit-dtrActualHrs" onkeypress='validate(event)' value="8" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Round Hours </span>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" id="edit-dtrRoundHrs" onkeypress='validate(event)' value="8" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Payroll Rate </span>
+                            <div class="col-md-9">
+                                <select name="Status" class="form-control" id="edit-dtrSalaryID">
+
+                                    @foreach (var rate in ViewBag.rateList as IEnumerable<JobsV1.Areas.Personel.Models.HrSalary>)
+                                    {
+                                        <option value="@rate.Id"> @rate.RatePerHr.ToString() </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="control-label col-md-3"> Payroll Range </span>
+                            <div class="col-md-9">
+                                <select name="Status" class="form-control" id="edit-dtrPayrollID">
+
+                                    @foreach (var status in ViewBag.dtrList as IEnumerable<JobsV1.Areas.Personel.Models.HrPayroll>)
+                                    {
+                                        <option value="@status.Id"> @status.DtStart.ToShortDateString() - @status.DtEnd.ToShortDateString() </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" onclick="Ajax_EditDTR(@personnelId)">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
 </div>
 <script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 @*<script src="~/Scripts/Personnel/Payroll.js"></script>*@
 <script>
     //--- Handle Number Validations ---//
@@ -172,33 +296,36 @@
         }
     });
 
-    //--- End of Number Validations ---//
-
-    //set skills and proficieny for the user
-    function addDTR(PersonnelId) {
+    //add DTR entry
+    function AddDTR(PersonnelId) {
         var date = $('#dtrDate').val();
-
         var status = $('#dtrStatus').val();
         var timeIn = $('#dtrTimeIn').val();
         var timeOut = $('#dtrTimeOut').val();
         var actualHrs = $('#dtrActualHrs').val();
         var roundHrs = $('#dtrRoundHrs').val();
+        var salaryId = $('#dtrSalaryId').val();
         var payrollID = $('#dtrPayrollID').val();
-        //alert(payrollID);
+
         //build json object
         var data = {
-            custId: 0
+            Id: Id,
+            PersonnelId: PersonnelId,
+            date: date,
+            status: status,
+            timeIn: timeIn,
+            timeOut: timeOut,
+            actualHrs: actualHrs,
+            roundHrs: roundHrs,
+            salaryId: salaryId,
+            payrollID: payrollID
         };
         
-        //public string AddDTRecord(int id, string date, string status,
-        //    string timeIn, string timeOut, string actualHrs, string roundHrs, string payrollID)
         //request data from server using ajax call
         $.ajax({
-            url: '/Personel/HrPersonels/AddDTRecord?id=' + PersonnelId + '&date=' + date +
-                '&status=' + status + '&timeIn=' + timeIn + '&timeOut=' + timeOut +
-                '&actualHrs=' + actualHrs + '&roundHrs=' + roundHrs + '&payrollID=' + payrollID,
+            url: '/Personel/HrPersonels/AddDTRecord',
             type: "POST",
-            data: JSON.stringify(data),
+            data: data,
             dataType: 'application/json; charset=utf-8',
             success: function (data) {
                 console.log("SUCCESS");
@@ -212,6 +339,66 @@
             }
         });
     }
+
+    //EDIT
+    //update DTR entry
+    function Ajax_EditDTR(PersonnelId) {
+        var Id        = $('#edit-dtrId').val();
+        var date      = $('#edit-dtrDate').val();
+        var status    = $('#edit-dtrStatus').val();
+        var timeIn    = $('#edit-dtrTimeIn').val();
+        var timeOut   = $('#edit-dtrTimeOut').val();
+        var actualHrs = $('#edit-dtrActualHrs').val();
+        var roundHrs  = $('#edit-dtrRoundHrs').val();
+        var salaryId  = $('#edit-dtrSalaryID').val();
+        var payrollID = $('#edit-dtrPayrollID').val();
+
+        //alert(salaryId);
+
+        //build json object
+        var data = {
+            Id: Id,
+            PersonnelId : PersonnelId,
+            date : date,
+            status : status,
+            timeIn : timeIn ,
+            timeOut: timeOut,
+            actualHrs : actualHrs,
+            roundHrs: roundHrs,
+            salaryId: salaryId,
+            payrollID : payrollID
+        };
+
+        //request data from server using ajax call
+        $.ajax({
+            url: '/Personel/HrPersonels/EditDTRecord',
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                console.log("ERROR");
+                console.log(data);
+                refreshPage();
+            }
+        });
+    }
+
+    function EditDTR(Id, date, status, timeIn, timeout, actHrs, rndHrs, salaryId, PayrollId) {
+        $('#edit-dtrId').val(Id);
+        $('#edit-dtrDate').val(moment(date).format('YYYY-MM-DD'));
+        $('#edit-dtrStatus').val(status);
+        $('#edit-dtrTimeIn').val(timeIn);
+        $('#edit-dtrTimeOut').val(timeout);
+        $('#edit-dtrActualHrs').val(actHrs);
+        $('#edit-dtrRoundHrs').val(rndHrs);
+        $('#edit-dtrSalaryId').val(salaryId);
+        $('#edit-dtrPayrollID').val(PayrollId);
+        //alert(salaryId);
+    }
+
     //reload page
     function refreshPage() {
         location.reload();
