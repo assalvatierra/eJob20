@@ -165,8 +165,25 @@ namespace JobsV1.Areas.Products.Controllers
             return RedirectToAction("Details", new { id = supId });
         }
 
-        //Remove product Info
         [HttpPost]
+        public ActionResult EditSupInfo(int Id, int supId, string infolabel, string infoValue, string infoRemarks)
+        {
+            //Search string filter
+            if (!string.IsNullOrWhiteSpace(infolabel) || !string.IsNullOrEmpty(infolabel))
+            {
+                SmSupplierInfo info = db.SmSupplierInfoes.Find(Id);
+                info.Label = infolabel;
+                info.Value = infoValue;
+                info.Remarks = infoRemarks;
+                info.SmSupplierId = supId;
+
+                db.Entry(info).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Details", new { id = supId });
+        }
+
+        //Remove product Info
         public ActionResult RemoveSupInfo(int id)
         {
             SmSupplierInfo supInfo = db.SmSupplierInfoes.Find(id);
@@ -174,7 +191,7 @@ namespace JobsV1.Areas.Products.Controllers
             db.SmSupplierInfoes.Remove(supInfo);
             db.SaveChanges();
 
-            return RedirectToAction("Details", new { id = supInfo }); //view in personnel details
+            return RedirectToAction("Details", new { id = supId }); //view in personnel details
         }
         #endregion
     }

@@ -233,9 +233,7 @@ namespace JobsV1.Areas.Products.Controllers
             return RedirectToAction("Details", new { id = prodId }); //view in personnel details
         }
         #endregion
-
-
-
+        
         #region Product Info
         public void PartialView_Info(int id)
         {
@@ -258,6 +256,24 @@ namespace JobsV1.Areas.Products.Controllers
                 db.SmProdInfoes.Add(info);
                 db.SaveChanges();
             }
+            return RedirectToAction("Details", new { id = prodId });
+        }
+
+        //Edit product description
+        [HttpPost]
+        public ActionResult EditDesc(int prodId, string infolabel, string infoValue, string infoRemarks)
+        {
+            if (!string.IsNullOrWhiteSpace(infolabel) || !string.IsNullOrEmpty(infolabel))
+            {
+                SmProdInfo info = new SmProdInfo();
+                info.Label = infolabel;
+                info.Value = infoValue;
+                info.Remarks = infoRemarks;
+                info.SmProductId = prodId;
+                db.Entry(info).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            
             return RedirectToAction("Details", new { id = prodId });
         }
 
@@ -332,6 +348,25 @@ namespace JobsV1.Areas.Products.Controllers
             db.SmProdSuppliers.Add(prodSup);
             db.SaveChanges();
 
+            return RedirectToAction("Details", new { id = prodId });
+        }
+
+        //add product supplier
+        [HttpPost]
+        public ActionResult EditProdSup(int Id,int prodId, int supId, string startdate, string enddate,
+            string price, string contracted)
+        {
+            SmProdSupplier prodSup = db.SmProdSuppliers.Find(Id);
+            prodSup.SmProductId = prodId;
+            prodSup.SmSupplierId = supId;
+            prodSup.ValidStart = DateTime.Parse(startdate);
+            prodSup.ValidEnd = DateTime.Parse(enddate);
+            prodSup.Price = Decimal.Parse(price);
+            prodSup.Contracted = decimal.Parse(contracted);
+
+            db.Entry(prodSup).State = EntityState.Modified;
+            db.SaveChanges();
+            
             return RedirectToAction("Details", new { id = prodId });
         }
 

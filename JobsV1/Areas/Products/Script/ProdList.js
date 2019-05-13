@@ -78,7 +78,7 @@ function ajax_loadContent() {
         },
         error: function (data) {
             // console.log("ERROR");
-            console.log(data);
+            //console.log(data);
             switchViews(data)
         }
     });

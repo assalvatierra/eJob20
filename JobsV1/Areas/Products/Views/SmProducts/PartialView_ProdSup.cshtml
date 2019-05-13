@@ -19,16 +19,20 @@
                 <p>
                     @prodSup.SmSupplier.Name - @prodSup.Price.ToString("#,###.00") php <br />
                     <span>Validity : </span> @prodSup.ValidStart.ToShortDateString() - @prodSup.ValidEnd.ToShortDateString() <br />
+
+                    <a href="" data-toggle="modal" data-target="#editSupModal" 
+                       onclick="editProdSup('@prodSup.Id','@prodSup.SmSupplierId','@prodSup.ValidStart','@prodSup.ValidEnd','@prodSup.Price','@prodSup.Contracted')" > 
+                       Edit </a> |
                     @Html.ActionLink("Details", "Details","SmSuppliers", new { id = prodSup.Id }, null  ) |
                     @Html.ActionLink("Remove", "RemoveProdSup", new { id = prodSup.Id })
                 </p>
             }
-            <a href="" id="catbtn" data-toggle="modal" data-target="#prodSupModal" style="margin-bottom:10px;">Add Supplier</a>
+            <a href="" id="catbtn" data-toggle="modal" data-target="#prodSupModal" >Add Supplier</a>
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="prodSupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="prodSupModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -71,7 +75,7 @@
                         </div>
 
                         <div class="form-group">
-                            <b class="col-md-2"> Contracted: </b>
+                            <b class="col-md-2"> Contracted </b>
                             <div class="col-md-12">
                                 <input id="prodsup-contracted" class="form-control" type="text" value="0">
                             </div>
@@ -84,12 +88,79 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->    
+    
+    <!-- Edit Supplier Modal -->
+    <div class="modal fade" id="editSupModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Product Supplier</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+
+                        <div class="form-group hidden">
+                            <b class="col-md-2"> Id: </b>
+                            <div class="col-md-12">
+                                <input id="editsup-Id" class="form-control" type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <b class="col-md-2"> Supplier: </b>
+                            <div class="col-md-12">
+                                <select name="Suppliers" class="form-control" id="editsup-suppliers">
+                                    @foreach (var supplier in ViewBag.supList as IEnumerable<JobsV1.Areas.Products.Models.SmSupplier>)
+                                    {
+                                        <option value="@supplier.Id"> @supplier.Name </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <b class="col-md-2"> Valid_Start: </b>
+                            <div class="col-md-12">
+                                <input id="editsup-validstart" class="form-control" type="date">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <b class="col-md-2"> Valid_End: </b>
+                            <div class="col-md-12">
+                                <input id="editsup-validend" class="form-control" type="date">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <b class="col-md-2"> Price: </b>
+                            <div class="col-md-12">
+                                <input id="editsup-price" class="form-control" type="text" value="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <b class="col-md-2"> Contracted </b>
+                            <div class="col-md-12">
+                                <input id="editsup-contracted" class="form-control" type="text" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_EditSupplier(@prodId)">Add Supplier</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
 </div>
 
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
-
+<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
 <script>
 
     //Add Product Category
@@ -129,6 +200,63 @@
                 location.reload();
             }
         });
+    }
+
+    //Edit Product Category
+    function ajax_EditSupplier(prodId) {
+        
+        var Id = $("#editsup-Id").val();
+        var supplier = $("#editsup-suppliers").val();
+        var validstart = $("#editsup-validstart").val();
+        var validend = $("#editsup-validend").val();
+        var price = $("#editsup-price").val();
+        var contracted = $("#editsup-contracted").val();
+
+        alert(Id);
+
+        //build json object
+        var data = {
+            Id: Id,
+            prodId: prodId,
+            supId: supplier,
+            startdate: validstart,
+            enddate: validend,
+            price: price,
+            contracted: contracted
+        };
+
+        var url = '/Products/SMProducts/EditProdSup';
+
+        //request data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                //console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    //edit on click
+    function editProdSup(Id,SupplierId,Start,End,Price,Cont) {
+        //convert string date to date obj
+        var startdate = moment(Start).format('YYYY-MM-DD');;
+        var enddate = moment(End).format('YYYY-MM-DD');;
+
+        $("#editsup-Id").val(Id);
+        $("#editsup-suppliers").val(SupplierId);
+        $("#editsup-validstart").val(startdate);
+        $("#editsup-validend").val(enddate);
+        $("#editsup-price").val(Price);
+        $("#editsup-contracted").val(Cont);
+
     }
 
     function refreshPage() {

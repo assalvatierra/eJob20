@@ -8,7 +8,6 @@
     ViewBag.Title = "Details";
 }
 <div class="row">
-
     <div class="col-lg-12">
         <div class="col-lg-12">
             <h3>
@@ -19,10 +18,11 @@
             @foreach (var prodInfo in Model)
             {
                 <p>
-                    <b>@prodInfo.Label </b> : @prodInfo.Value <br />
-                    <b>Remarks</b> : @prodInfo.Remarks <br />
-                    @*@Html.ActionLink("[Edit]", "EditInfo", new { id = prodInfo.Id })*@
-                    @Html.ActionLink("[Remove]", "RemoveInfo", new { id = prodInfo.Id })
+                    <b> @prodInfo.Label</b> : @prodInfo.Value <br />
+                    <b>Remarks</b> : @prodInfo.Remarks<br />
+                   
+                    <a href="" id="catbtn" data-toggle="modal" data-target="#edit-prodInfoModal" onclick="EditInfo('@prodInfo.Id', '@prodInfo.Label', '@prodInfo.Value', '@prodInfo.Remarks' )" >Edit</a> |
+                    @Html.ActionLink("Remove", "RemoveInfo", new { id = prodInfo.Id })
                 </p>
             } 
             <a href="" id="catbtn" data-toggle="modal" data-target="#prodInfoModal" style="margin-bottom:10px;">Add Info</a>
@@ -35,9 +35,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Product Description</h4>
+                    <h4 class="modal-title">Product Info</h4>
                 </div>
-                <div class="modal-body row" id="modal2-content">
+                <div class="modal-body row">
 
                     <div class="form-group">
                         <b class="col-md-2 "> Label: </b>
@@ -64,7 +64,57 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" onclick="ajax_PostInfo(@prodId)"    >Submit</button>
-                    @*<button type="button" class="btn btn-default" onclick="ajax_EditPostInfo(@prodId)">Submit</button>*@
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="edit-prodInfoModal" tabindex="-1" role="dialog" aria-labelledby="Edit Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Edit info</h4>
+                </div>
+                
+                <div class="modal-body row" >
+
+                    <div class="form-group hidden">
+                        <b class="col-md-2 "> Id: </b>
+                        <div class="col-md-10">
+                            <input id="edit-InfoId" type="text" maxlength="10" class="form-control" />
+                        </div><span style="font-size:8px">&nbsp;</span>
+                    </div>
+
+                    <div class="form-group">
+                        <b class="col-md-2 "> Label: </b>
+                        <div class="col-md-10">
+                            <input id="edit-Infolabel"  type="text" maxlength="10" class="form-control" />
+                        </div><span style="font-size:8px">&nbsp;</span>
+                    </div>
+
+                    <div class="form-group">
+                        <b class="col-md-2"> Value: </b>
+                        <div class="col-md-10">
+                            <textarea id="edit-InfoValue" maxlength="80" class="form-control" cols="80" rows="2"></textarea>
+                            <span style="font-size:8px">80 characters only.</span>
+                        </div><p></p>
+                    </div>
+
+                    <div class="form-group">
+                        <b class="col-md-2"> Remarks: </b>
+                        <div class="col-md-10">
+                            <textarea id="edit-InfoRemarks" maxlength="80" class="form-control" cols="80" rows="2"></textarea>
+                            <span style="font-size:8px">80 characters only.</span>
+                        </div><p></p>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="ajax_EditInfo(@prodId)">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -110,7 +160,52 @@
             }
         });
     }
+    
+    //Edit - POST
+    //Submit changes to the product
+    //using ajax, then reload page
+    function ajax_EditInfo(prodId) {
+        var infolabel = $("#edit-Infolabel").val();
+        var infoValue = $("#edit-InfoValue").val();
+        var infoRemarks = $("#edit-InfoRemarks").val();
 
+        var query = "";
+        //build json object // no use
+        var data = {
+            prodId: prodId,
+            infolabel : infolabel,
+            infoValue : infoValue,
+            infoRemarks : infoRemarks
+        };
+        
+        url = "/Products/SMProducts/EditInfo";
+
+        //Submit data to server using ajax 
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                //// console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    //Edit
+    //transfer values of selected product
+    //to the edit form
+    function EditInfo(Id,label,value,remarks){
+        $("#edit-InfoId").val(Id);
+        $("#edit-Infolabel").val(label);
+        $("#edit-InfoValue").val(value);
+        $("#edit-InfoRemarks").val(remarks);
+    }
     
     function refreshPage() {
         location.reload();

@@ -199,6 +199,28 @@ namespace JobsV1.Areas.Personel.Controllers
             base.Dispose(disposing);
         }
 
+        #region Profile
+        public ActionResult EditProfile(int Id, string fname, string lname, string midname, string mobile1, string mobile2,
+            string presAddress, string provAddress, string spouse)
+        {
+            HrProfile profile = db.HrProfiles.Find(Id);
+            profile.FirstName = fname;
+            profile.LastName = lname;
+            profile.MiddleName = midname;
+            profile.Mobile1 = mobile1;
+            profile.Mobile2 = mobile2;
+            profile.PresentAddress = presAddress;
+            profile.ProvincialAddress = provAddress;
+            profile.Spouse = spouse;
+            
+            db.Entry(profile).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Details",  new { id = profile.HrPersonelId });
+
+        }
+        #endregion
+
         #region Position
         public ActionResult AddPosition(int? id, int pId)
         {
@@ -225,7 +247,6 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return RedirectToAction("Details", new { id = perId }); //view in personnel details
         }
-
         #endregion
 
         #region Skills
