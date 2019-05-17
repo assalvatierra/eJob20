@@ -1,5 +1,10 @@
 ﻿@using JobsV1.CustomHelper
 
+@{ 
+    var ROOTMENUID = Session["ROOTMENUID"] != null ? (int)Session["ROOTMENUID"] : 1;
+    var USERNAME = (string)Session["USERNAME"] != null ? (string)Session["USERNAME"] : null;
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,7 +92,7 @@
                        
                         <div  class="row" style="min-width:600px;">
                             <div class="CustomBox" style="height:110px;width:100%;">
-                                @Html.Module(Url.Content("~/"), "", "", (int)Session["ROOTMENUID"])
+                                @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)
                             </div>
                         </div>
 
@@ -95,7 +100,7 @@
                     <div>
                         <div class="row" style="vertical-align:top;min-width:600px;">
                             <div class="CustomBox" style="float:left;width:100%;">
-                                @Html.Menu(Url.Content("~/"), "" , "", (int)Session["ROOTMENUID"], (string)Session["USERNAME"])
+                                @Html.Menu(Url.Content("~/"), "" , "", ROOTMENUID, USERNAME)
 
                             </div>
                             <div class="PanelContainer">

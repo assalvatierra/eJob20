@@ -52,8 +52,38 @@ namespace JobsV1.Areas.Personel.Controllers
         //to the customer 
         private void PartialView_Profile(int id)
         {
+            HrProfile profile = new HrProfile();
+            
+            //check if profile record exist
+            if (db.HrProfiles.Where(h => h.HrPersonelId == id).FirstOrDefault() != null)
+            {
+                //if exists
+                profile =  db.HrProfiles.Where(h => h.HrPersonelId == id).FirstOrDefault();
+            }
+            else
+            {
+                //if exists, add profile
+
+                profile.LastName = "NA";
+                profile.MiddleName = "NA";
+                profile.FirstName = "NA";
+                profile.Email = "NA";
+                profile.HrPersonelId = id;
+                //profile.PresentAddress = "";
+                //profile.ProvincialAddress = "";
+                //profile.Spouse = "";
+                //profile.Mobile1 = "";
+                //profile.Mobile2 = "";
+                //profile.fbAccount = "";
+
+                db.HrProfiles.Add(profile);
+                db.SaveChanges();
+
+                //if personnel have NO existing record proceed to CREATE
+                //RedirectToAction("Create", new { pId = id });
+            }
             //get list of categories
-            ViewBag.profile = db.HrProfiles.Where(h => h.HrPersonelId == id).FirstOrDefault();
+            ViewBag.profile = profile;
         }
 
         //display list of categories assigned 
@@ -158,7 +188,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 db.Entry(hrPersonel).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details" , new { id = hrPersonel.Id });
             }
             ViewBag.HrPersonelStatusId = new SelectList(db.HrPersonelStatus, "Id", "Desc", hrPersonel.HrPersonelStatusId);
             return View(hrPersonel);
@@ -200,42 +230,54 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         #region Profile
-        public ActionResult EditProfile(int Id, string fname, string lname, string midname, string mobile1, string mobile2,
-            string presAddress, string provAddress, string spouse)
+        public string EditProfile(int? id, string fname, string lname, string midname, string mobile1, string mobile2,
+            string email, string fbaccount, string presAddress, string provAddress, string spouse)
         {
-            HrProfile profile = db.HrProfiles.Find(Id);
-            profile.FirstName = fname;
-            profile.LastName = lname;
-            profile.MiddleName = midname;
-            profile.Mobile1 = mobile1;
-            profile.Mobile2 = mobile2;
-            profile.PresentAddress = presAddress;
-            profile.ProvincialAddress = provAddress;
-            profile.Spouse = spouse;
-            
-            db.Entry(profile).State = EntityState.Modified;
-            db.SaveChanges();
+            if (id != null)
+            {
 
-            return RedirectToAction("Details",  new { id = profile.HrPersonelId });
+                HrProfile profile = db.HrProfiles.Where(s => s.HrPersonelId == id).FirstOrDefault();
+                profile.FirstName = fname;
+                profile.LastName = lname;
+                profile.MiddleName = midname;
+                profile.Mobile1 = mobile1;
+                profile.Mobile2 = mobile2;
+                profile.Email = email;
+                profile.fbAccount = fbaccount;
+                profile.PresentAddress = presAddress;
+                profile.ProvincialAddress = provAddress;
+                profile.Spouse = spouse;
+
+                db.Entry(profile).State = EntityState.Modified;
+                db.SaveChanges();
+                // return RedirectToAction("Details", new { id = profile.HrPersonelId });
+                //return "ok";
+
+                return "id :" + id;
+            }
+
+            return "error";
 
         }
         #endregion
 
         #region Position
-        public ActionResult AddPosition(int? id, int pId)
+        public string AddPosition(int? id, int pId, string date)
         {
             if (id != null)
             {
                 HrPerPosition perPosition = new HrPerPosition();
                 perPosition.HrPersonelId = pId;
                 perPosition.HrPositionId = (int)id;
-                perPosition.DtStart = GetCurrentTime();
+                perPosition.DtStart = DateTime.Parse(date);
 
                 db.HrPerPositions.Add(perPosition);
                 db.SaveChanges();
-                return RedirectToAction("Details", new { id = pId }); //view in personnel details
+                return "ok";
+                //return RedirectToAction("Details", new { id = pId }); //view in personnel details
             }
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return "ok";
         }
 
         public ActionResult RemovePosition(int id)
@@ -251,13 +293,13 @@ namespace JobsV1.Areas.Personel.Controllers
 
         #region Skills
         [HttpPost]
-        public string AddSkills(int perID, int sID, int pID)
+        public string AddSkills(int perID, int sID, int pID, string date)
         {
             HrPerSkill perSkills = new HrPerSkill();
             perSkills.HrPersonelId = perID;
             perSkills.HrSkillId = sID;
             perSkills.HrProficiencyId = pID;
-            perSkills.DtAcquired = GetCurrentTime();
+            perSkills.DtAcquired = DateTime.Parse(date);
 
             db.HrPerSkills.Add(perSkills);
             db.SaveChanges();
@@ -279,12 +321,12 @@ namespace JobsV1.Areas.Personel.Controllers
         #endregion
 
         #region Trainings
-        public ActionResult AddTraining(int id, int pId)
+        public ActionResult AddTraining(int id, int pId, string date)
         {
             HrPerTraining perTraining = new HrPerTraining();
-            perTraining.HrPersonelId = pId;
-            perTraining.HrTrainingId = id;
-            perTraining.DtCompleted = GetCurrentTime();
+            perTraining.HrPersonelId  = pId;
+            perTraining.HrTrainingId  = id;
+            perTraining.DtCompleted   = DateTime.Parse(date);
 
             db.HrPerTrainings.Add(perTraining);
             db.SaveChanges();
@@ -528,6 +570,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         #endregion
+
         //get current time based on Singapore Standard Time 
         //SGT - UTC +8
         public DateTime GetCurrentTime()

@@ -39,17 +39,25 @@
                 <div class="modal-body" id="modal2-content">
 
                     <div class="list-group" id="categorylist_Skills">
-                        <h4>Select Skill</h4>
-                        @foreach (var skill in ViewBag.SkillsList as IEnumerable<JobsV1.Areas.Personel.Models.HrSkill>)
-                        { 
-                            <a  class="list-group-item skills" onclick="selectSkill(@skill.Id,@personnelId)"> 
-                                @skill.Desc
-                            </a>
-                            @*<a href="@Url.Action("AddSkills", "HrPersonels", new {id = position.Id, pId = personnelId },null)" class="list-group-item">
+
+                        <div class="row form-group">
+                            <b class="col-md-2 modal-label"> Date: </b>
+                            <div class="col-md-10">
+                                <input type="date" class="form-control" id="skill-dateStart" />  &nbsp;
+                            </div><p></p>
+                        </div>
+                        <div class="row">
+                            <h4>Select Skill</h4>
+                            @foreach (var skill in ViewBag.SkillsList as IEnumerable<JobsV1.Areas.Personel.Models.HrSkill>)
+                            {
+                                <a class="list-group-item skills" onclick="selectSkill(@skill.Id,@personnelId)">
+                                    @skill.Desc
+                                </a>
+                                @*<a href="@Url.Action("AddSkills", "HrPersonels", new {id = position.Id, pId = personnelId },null)" class="list-group-item">
                                 @position.Desc
                             </a>*@
-                        }
-
+                            }
+                        </div>
                     </div>
 
                     <div class="list-group" id="categorylist_Prof" style="display:none;">
@@ -76,6 +84,7 @@
 </div>
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script>
 
     var personnelID;
@@ -86,9 +95,6 @@
         
         personnelID = perID;
         skillsID = skID;
-
-        //alert("personnelID: " + personnelID);
-        //alert("skillsID: " + skillsID);
 
         hideSkills();
         showProficiency();
@@ -137,19 +143,34 @@
         location.reload();
     }
 
+    $(document).ready(
+      function () {
+          var parsedTime = moment().format('YYYY-MM-DD');
+          $("#skill-dateStart").val(parsedTime);
+          }
+      );
+
+    
+    function getDate() {
+        return $("#skill-dateStart").val();
+    }
+
     //set skills and proficieny for the user
     function addPerSkills() {
        
         //build json object
         var data = {
-            custId: 0
+            perID: personnelID,
+            sID: skillsID,
+            pID: profID,
+            date: getDate()
         };
-
         //request data from server using ajax call
         $.ajax({
-            url: '/Personel/HrPersonels/AddSkills?perID=' + personnelID + '&sID=' + skillsID + '&pID=' + profID,
+            //url: '/Personel/HrPersonels/AddSkills?perID=' + personnelID + '&sID=' + skillsID + '&pID=' + profID,
+            url: '/Personel/HrPersonels/AddSkills',
             type: "POST",
-            data: JSON.stringify(data),
+            data: data,
             dataType: 'application/json; charset=utf-8',
             success: function (data) {
                 console.log("SUCCESS");

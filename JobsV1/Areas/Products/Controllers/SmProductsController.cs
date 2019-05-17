@@ -7,7 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.Products.Models;
+using JobsV1.Models;
 using Newtonsoft.Json;
+
 
 namespace JobsV1.Areas.Products.Controllers
 {
@@ -49,9 +51,8 @@ namespace JobsV1.Areas.Products.Controllers
         public string TableResult(string search, string status)
         {
             ProductClass prod = new ProductClass();
-
-
-           var tableContent = prod.getProductList(search, status);
+            
+            var tableContent = prod.getProductList(search, status);
 
             //convert list to json object
             return JsonConvert.SerializeObject(tableContent, Formatting.Indented);
@@ -60,9 +61,14 @@ namespace JobsV1.Areas.Products.Controllers
         // GET: Products/SmProducts/Create
         public ActionResult Create()
         {
+            //new date
+            DateClass dateNow = new DateClass();
+
             SmProduct prod = new SmProduct();
             prod.BranchId = 1;
             prod.ProdStatusId = 1;
+            prod.ValidStart = dateNow.GetCurrentTime();
+            prod.ValidEnd = dateNow.GetCurrentTime().AddYears(1);
 
             ViewBag.SmProdStatusId = new SelectList(db.SmProdStatus, "Id", "Status");
             ViewBag.SmBranchId = new SelectList(db.SmBranches, "Id", "Name");
@@ -144,7 +150,9 @@ namespace JobsV1.Areas.Products.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             SmProduct smProduct = db.SmProducts.Find(id);
-            db.SmProducts.Remove(smProduct);
+            smProduct.SmProdStatusId = 2;
+            db.Entry(smProduct).State = EntityState.Modified;
+            
             db.SaveChanges();
             return RedirectToAction("Index");
         }

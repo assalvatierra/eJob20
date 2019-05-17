@@ -78,6 +78,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewBag.HrPersonelId = new SelectList(db.HrPersonels, "Id", "Name", hrProfile.HrPersonelId);
             return View(hrProfile);
         }

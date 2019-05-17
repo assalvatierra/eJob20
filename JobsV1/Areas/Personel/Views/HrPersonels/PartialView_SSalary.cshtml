@@ -36,7 +36,7 @@
                     <div class="form-horizontal">
                         <div class="form-group">
                             <span class="control-label col-md-2"> Rate </span>
-                            <input class="form-control" type="number" id="rateTxt" onkeypress='validate(event)' />
+                            <input class="form-control" type="number" id="rateTxt" onkeypress='validate(event)' value="50" />
                         </div>
                     </div>    
                 </div>
@@ -49,6 +49,7 @@
     </div><!-- /.modal -->
 </div>
 <script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script>
     
     //prevent invalid inputs 
@@ -100,14 +101,11 @@
             dataType: 'application/json; charset=utf-8',
             success: function (data) {
                 console.log("SUCCESS");
-                //$('input[name="Password"]').val(data["responseText"]);
             },
             error: function (data) {
                 //console.log("ERROR");
                 //console.log(data);
-
                 refreshPage()
-                //$('input[name="Password"]').val(data["responseText"]);
             }
         });
     }

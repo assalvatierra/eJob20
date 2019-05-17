@@ -247,6 +247,15 @@
 <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 @*<script src="~/Scripts/Personnel/Payroll.js"></script>*@
 <script>
+    //handle date
+    //on page load
+    $(document).ready(function () {
+        var date = moment().format('YYYY-MM-DD');
+        $("#dtrDate").val(date);
+    });
+
+
+
     //--- Handle Number Validations ---//
 
     //prevent invalid inputs 

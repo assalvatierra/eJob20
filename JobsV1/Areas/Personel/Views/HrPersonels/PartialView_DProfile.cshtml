@@ -3,9 +3,8 @@
 @{
     int personnelId = Convert.ToInt32(ViewData["personnelId"]);
 }
-@{
-    ViewBag.Title = "Details";
-}
+
+
 <div class="row">
     <div class="col-lg-12">
         <div class="col-lg-12">
@@ -13,13 +12,13 @@
                 Profile
             </h3>
             <p>
-                @*@Html.ActionLink("Edit", "Edit_Profile", "HrProfiles", new { personnelId = personnelId }, null)*@
+                @Html.ActionLink("Edit", "Edit_Profile", "HrProfiles", new { personnelId = personnelId }, null)
 
-                <a href="" id="catbtn" data-toggle="modal" data-target="#edit-ProfileModal" 
+                @*@*<a href="" id="catbtn" data-toggle="modal" data-target="#edit-ProfileModal" 
                    onclick="EditProfile('@Model.Id ', '@Model.FirstName', '@Model.LastName', '@Model.MiddleName', '@Model.Mobile1',
                    '@Model.Mobile2','@Model.Email','@Model.fbAccount','@Model.PresentAddress','@Model.ProvincialAddress',
                    '@Model.Spouse' )">
-                Edit</a> |
+                Edit</a> |*@
             </p>
         </div>
 
@@ -228,10 +227,20 @@
         var provAddress = $("#prof-provAddress").val();
         var spouse = $("#prof-spouse").val();
 
-        var query = "";
-        //build json object // no use
+        console.log("Id:" + Id);
+        console.log("fname:"+fname);
+        console.log("lname:"+lname);
+        console.log("midname:"+midname);
+        console.log("mobile1:"+mobile1);
+        console.log("mobile2:"+mobile2);
+        console.log("email:"+email);
+        console.log("fbaccount:"+fbaccount);
+        console.log("presAddress:"+presAddress);
+        console.log("provAddress:"+provAddress);
+        console.log("spouse:"+spouse);
+
         var data = {
-            Id: Id,
+            id: Id,
             fname : fname,
             lname : lname,
             midname: midname,
@@ -244,13 +253,21 @@
             spouse : spouse
         };
 
-        url = "/Personel/HrPersonels/EditProfile";
+        console.log("data:" + data["id"]);
+        //public ActionResult EditProfile(int Id, string fname, string lname, string midname, string mobile1, string mobile2,
+        //    string email, string fbaccount, string presAddress, string provAddress, string spouse)
+
+        //url = "/Personel/HrPersonels/EditProfile/";
+
+        url = "/Personel/HrPersonels/EditProfile?"+Id + "&fname="+fname + "&lname="+lname + "&midname="+midname + "&mobile1="+mobile1
+         + "&mobile2="+mobile2 + "&email="+email + "&fbaccount="+fbaccount + "&presAddress="+presAddress + "&provAddress="+provAddress
+        + "&spouse="+spouse ;
 
         //Submit data to server using ajax
         $.ajax({
             url: url,
             type: "POST",
-            data: data,
+            //data: data,
             dataType: 'application/json; charset=utf-8',
             success: function (data) {
                 console.log("SUCCESS");
@@ -258,7 +275,15 @@
             error: function (data) {
                 //// console.log("ERROR");
                 console.log(data);
-                location.reload();
+                console.log(data["status"]);
+                if(data["status"] == "200"){
+                    //location.reload();
+                    //console.log(data["status"]);
+                }
+                if(data["status"] == "500"){
+                    //location.reload();
+                    alert("Unable to perform action.");
+                }
             }
         });
     }
@@ -280,6 +305,7 @@
         $("#prof-presAddress").val(presAddress);
         $("#prof-provAddress").val(provAddress);
         $("#prof-spouse").val(spouse);
+
 
     }
 

@@ -41,16 +41,18 @@
                 </div>
                 <div class="modal-body" >
                     <div class="row" >
-                        <div class="form-group " >
-                            <b class="col-md-2"> Supplier: </b>
-                            <div class="col-md-12">
-                                <select name="Suppliers" class="form-control" id="prodsup-suppliers">
+                        <div class="form-group container row" >
+                            <div class="col-md-2"><b> Supplier: </b></div>
+                            <div class="col-md-6">
+                                <select name="Suppliers" class="form-control col-md-4" id="prodsup-suppliers">
                                     @foreach (var supplier in ViewBag.supList as IEnumerable<JobsV1.Areas.Products.Models.SmSupplier>)
                                     {
                                         <option value="@supplier.Id"> @supplier.Name </option>
                                     }
                                 </select>
                             </div>
+                          @Html.ActionLink("Create New", "Create", "SmSuppliers", null, new { @class = "btn btn-default col-md-2" })
+
                         </div>
 
                         <div class="form-group" >
@@ -83,7 +85,6 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    @Html.ActionLink("Create Supplier", "Create", "SmSuppliers", null, new { @class = "btn btn-default" })
                     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_PostSupplier(@prodId)" >Add Supplier</button>
                 </div>
             </div><!-- /.modal-content -->

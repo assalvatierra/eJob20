@@ -96,19 +96,19 @@
                                     <input type="number" class="form-control" id="PayrollDeduction" onkeypress='validate(event)' value="0" />
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <span class="control-label col-md-3"> Yearno </span>
                                 <div class="col-md-9">
                                     <input type="number" class="form-control" id="PayrollYearNo" onkeypress='validate(event)' value="2019" />
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <span class="control-label col-md-3"> MonthNo </span>
                                 <div class="col-md-9">
                                     <input type="number" class="form-control" id="PayrollMonthNo" onkeypress='validate(event)' value="1" />
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <span class="control-label col-md-3"> Status </span>
                                 <div class="col-md-9">
                                    
@@ -130,7 +130,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- Modal -->
+    <!-- EDIT Modal -->
     <div class="modal fade" id="editPayrollModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -216,6 +216,40 @@
 <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 @*<script src="~/Scripts/Personnel/Payroll.js"></script>*@
 <script>
+
+    //on page load
+
+    $(document).ready(new function () {
+        //get date today
+        var date = moment().format('YYYY-MM-DD');
+        $("#PayrollDtStart").val(date);
+
+        //get future date +15
+        var fdate = moment(date).add(15, 'days').format('YYYY-MM-DD');
+        $("#PayrollDtEnd").val(fdate);
+
+        update_yearMonth();
+    });
+
+    //onchange of payroll date start
+    $('#PayrollDtStart').blur(function () {
+        update_yearMonth();
+    });
+
+
+    function update_yearMonth(){
+
+        var pr = $("#PayrollDtStart").val();
+        console.log(pr);
+        //change year 
+        var year = moment(pr).format('Y');
+        $("#PayrollYearNo").val(year);
+
+        //change month
+        var month = moment(pr).format('M');
+        $("#PayrollMonthNo").val(month);
+    }
+
     //--- Handle Number Validations ---//
 
     //prevent invalid inputs 
@@ -323,7 +357,7 @@
         var monthno = $('#PayrollMonthNo').val();
         var status = $('#PayrollStatus').val();
         
-        //build json object
+        //build parameters
         var data = {
             perId : PersonnelId,
             DtStart : DtStart,
@@ -344,13 +378,11 @@
             dataType: 'application/json; charset=utf-8',
             success: function (data) {
                 console.log("SUCCESS");
-                //$('input[name="Password"]').val(data["responseText"]);
             },
             error: function (data) {
                 console.log("ERROR");
                 console.log(data);
                 refreshPage();
-                //$('input[name="Password"]').val(data["responseText"]);
             }
         });
     }

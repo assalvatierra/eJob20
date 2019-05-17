@@ -101,10 +101,10 @@ function switchViews(data) {
 //display simple/limited information 
 //of suppliers
 function SimpleTable(data) {
-    console.log("SimpleTable");
+    //console.log("SimpleTable");
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
-    console.log(temp);
+    //console.log(temp);
     //clear table contents except header
     $("#prodTable").find("tr:gt(0)").remove();
 

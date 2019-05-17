@@ -38,16 +38,22 @@
 
                 <div class="modal-body" id="modal2-content">
 
-                    <div class="list-group" id="categorylist_Skills">
+                    <div class="row form-group">
+                        <b class="col-md-2 modal-label"> Date: </b>
+                        <div class="col-md-10">
+                            <input type="date" class="form-control" id="trn-dateStart" />  &nbsp;
+                        </div><p></p>
+                    </div>  
+                    <div class="list-group row" id="categorylist_Skills">
 
                         @foreach (var training in ViewBag.TrainingsList as IEnumerable<JobsV1.Areas.Personel.Models.HrTraining>)
                         { 
-                            @*<a  class="list-group-item skills" onclick="addTraining(@training.Id,@personnelId)"> 
+                            <a  class="list-group-item skills" onclick="addPerTraining(@training.Id,@personnelId)"> 
                                 @training.Desc
-                            </a>*@
-                        <a href="@Url.Action("AddTraining", "HrPersonels", new {id = training.Id, pId = personnelId },null)" class="list-group-item">
+                            </a>
+                        @*<a href="@Url.Action("AddTraining", "HrPersonels", new {id = training.Id, pId = personnelId },null)" class="list-group-item">
                             @training.Desc
-                        </a>
+                        </a>*@
                         }
 
                     </div>
@@ -60,93 +66,52 @@
     </div><!-- /.modal -->
 </div>
 
-@*<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script>
+    $(document).ready(
+        function () {
+            var parsedTime = moment().format('YYYY-MM-DD');
+            $("#trn-dateStart").val(parsedTime);
+        }
+    );
 
-    var personnelID;
-    var profID;
-    var skillsID;
-    
-    function selectSkill(skID, perID) {
-        
-        personnelID = perID;
-        skillsID = skID;
-
-        //alert("personnelID: " + personnelID);
-        //alert("skillsID: " + skillsID);
-
-        hideSkills();
-        showProficiency();
+    function getDate() {
+        return $("#trn-dateStart").val();
     }
 
-    function showProficiency(){
-        $('#categorylist_Prof').css('display','block')
-    }
+    //set skills and proficieny for the user
+    function addPerTraining(id, pId) {
+        //build json object
+        var data = {
+            id: id,      //traning id
+            pId: pId,    //personel id
+            date: getDate(),
+        };
 
-    function hideProficiency(){
-        $('#categorylist_Prof').css('display','none')
-    }
 
-    function showSkills(){
-        $('#categorylist_Skills').css('display','block')
-    }
+        //request data from server using ajax call
+        $.ajax({
+            url: '/Personel/HrPersonels/AddTraining',
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                //console.log("ERROR");
+                console.log(data);
+                refreshPage();
+            }
+        });
 
-    function hideSkills(){
-        $('#categorylist_Skills').css('display','none')
-    }
-
-    function selectProf(value) {
-        profID = value;
-
-        //alert("personnelID: " + personnelID);
-        //alert("skillsID: "    + skillsID);
-        //alert("profID: " + profID);
-
-        //submit data to server using ajax, 
-        //refresh page
-        addPerSkills();
 
         //hidel skills modal
-        $('#perSkillsModal').modal('hide'); 
-    }
-
-    //reset skills selection modal
-    //by showing skills list and 
-    //hiding proficiency list
-    function resetSkillsPrompt(){
-        showSkills();
-        hideProficiency();
+        $('#perTrainingsModal').modal('hide');
     }
 
     function refreshPage() {
         location.reload();
     }
-
-    //set skills and proficieny for the user
-    function addPerSkills() {
-       
-        //build json object
-        var data = {
-            custId: 0
-        };
-
-        //request data from server using ajax call
-        $.ajax({
-            url: '/Personel/HrPersonels/AddSkills?perID=' + personnelID + '&sID=' + skillsID + '&pID=' + profID,
-            type: "POST",
-            data: JSON.stringify(data),
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                console.log("SUCCESS");
-                //$('input[name="Password"]').val(data["responseText"]);
-
-            },
-            error: function (data) {
-                //console.log("ERROR");
-                //console.log(data);
-                refreshPage()
-                //$('input[name="Password"]').val(data["responseText"]);
-            }
-        });
-    }
-</script>*@
+</script>

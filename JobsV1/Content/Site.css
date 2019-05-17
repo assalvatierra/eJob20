@@ -525,3 +525,7 @@ rental-type-wdriver {
     .status-link .status-active{
         color:black;
     }
+
+    .modal-label{
+        margin-top:5px;
+    }

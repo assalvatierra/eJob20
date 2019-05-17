@@ -3,9 +3,8 @@
 @{
     int personnelId = Convert.ToInt32(ViewData["personnelId"]);
 }
-@{
-    ViewBag.Title = "Details";
-}
+
+
 <div class="row">
 
     <div class="col-lg-12">
@@ -39,14 +38,26 @@
 
                 <div class="modal-body" id="modal2-content">
 
-                    <div class="list-group" id="categorylist">
+                    <div class="row form-group">
+                        <b class="col-md-2 modal-label"> Date: </b>
+                        <div class="col-md-10">
+                            <input type="date"  class="form-control" id="pos-dateStart" />  &nbsp;
+                        </div><p></p>
+                    </div>
+                    <div class="row">
+                        <div class="list-group" id="categorylist">
 
-                        @foreach (var position in ViewBag.PositionList as IEnumerable<JobsV1.Areas.Personel.Models.HrPosition>)
-                        {
-                            <a href="@Url.Action("AddPosition", "HrPersonels", new {id = position.Id, pId = personnelId },null)" class="list-group-item">
-                                @position.Desc
-                            </a>
-                        }
+                            @foreach (var position in ViewBag.PositionList as IEnumerable<JobsV1.Areas.Personel.Models.HrPosition>)
+                            {
+                                @*<a href="@Url.Action("AddPosition", "HrPersonels", new {id = position.Id, pId = personnelId },null)" class="list-group-item">
+                                      @position.Desc
+                                 </a>*@
+
+                                <a class="list-group-item" onclick="addPerPosition(@position.Id, @personnelId)">
+                                    @position.Desc
+                                </a>
+                            }
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -57,3 +68,52 @@
     </div><!-- /.modal -->
 
 </div>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script>
+    $(document).ready(
+        function () {
+            var parsedTime = moment().format('YYYY-MM-DD');
+            $("#pos-dateStart").val(parsedTime);
+        }
+    );
+
+    function getDate() {
+        return $("#pos-dateStart").val();
+    }
+
+    //set skills and proficieny for the user
+    function addPerPosition(id, pId) {
+        //build json object
+        var data = {
+            id: id, //position id
+            pId: pId,
+            date: getDate(),
+        };
+
+
+        //request data from server using ajax call
+        $.ajax({
+            url: '/Personel/HrPersonels/AddPosition',
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                //console.log("ERROR");
+                //console.log(data);
+                refreshPage();
+            }
+        });
+
+
+        //hidel skills modal
+        $('#perPositionModal').modal('hide');
+    }
+
+    function refreshPage() {
+        location.reload();
+    }
+</script>

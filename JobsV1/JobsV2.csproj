@@ -882,6 +882,10 @@
       <LastGenOutput>ProdDB.cs</LastGenOutput>
       <DependentUpon>ProdDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Products\Script\DateRangePicker\daterangepicker.js" />
+    <Content Include="Areas\Products\Script\DateRangePicker\moment.js" />
+    <Content Include="Areas\Products\Script\DateRangePicker\moment.min.js" />
+    <Content Include="Areas\Products\Script\DateRangePicker\package.js" />
     <Content Include="Areas\Products\Script\ProdCreate.js" />
     <Content Include="Areas\Products\Script\SupList.js" />
     <Content Include="Areas\Products\Script\ProdList.js" />
@@ -1123,6 +1127,8 @@
     <Content Include="Images\Erp\icons-key.png" />
     <Content Include="Images\Erp\icons\icons-box.png" />
     <Content Include="Images\Erp\icons\icons-business.png" />
+    <Content Include="Images\Erp\icons\icons-employee.png" />
+    <Content Include="Images\Erp\icons\icons-products.png" />
     <Content Include="Images\Erp\icons\icons-report.png" />
     <Content Include="Images\Erp\icons\icons-exchange.png" />
     <Content Include="Images\Erp\icons\icons-flag.png" />
@@ -1320,6 +1326,8 @@
     <Content Include="Areas\Products\Views\SmSuppliers\Index.cshtml" />
     <Content Include="Areas\Products\Views\SmProducts\PartialView_ProdSup.cshtml" />
     <Content Include="Areas\Products\Views\SmSuppliers\PartialView_Info.cshtml" />
+    <Content Include="Areas\Products\Script\DateRangePicker\bower.json" />
+    <Content Include="Areas\Products\Script\DateRangePicker\package.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
