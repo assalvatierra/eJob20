@@ -21,6 +21,7 @@ namespace JobsV1.Areas.Products.Models
             this.SmProdInfoes = new HashSet<SmProdInfo>();
             this.SmProdSuppliers = new HashSet<SmProdSupplier>();
             this.SmProdCats = new HashSet<SmProdCat>();
+            this.SmRates = new HashSet<SmRate>();
         }
     
         public int Id { get; set; }
@@ -46,5 +47,7 @@ namespace JobsV1.Areas.Products.Models
         public virtual ICollection<SmProdSupplier> SmProdSuppliers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SmProdCat> SmProdCats { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SmRate> SmRates { get; set; }
     }
 }

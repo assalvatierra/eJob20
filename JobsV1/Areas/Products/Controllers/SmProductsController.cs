@@ -175,7 +175,6 @@ namespace JobsV1.Areas.Products.Controllers
         }
 
         //add product description
-        [HttpPost]
         public ActionResult AddDesc(int prodId,int sort,string text)
         {
             //Search string filter
@@ -195,7 +194,6 @@ namespace JobsV1.Areas.Products.Controllers
         }
 
         //edit product description
-        [HttpPost]
         public ActionResult EditDesc(int prodId, int descId, int sort, string text)
         {
             //Search string filter
@@ -230,7 +228,6 @@ namespace JobsV1.Areas.Products.Controllers
         }
 
         //remove product description
-        [HttpPost]
         public ActionResult RemoveDesc(int id)
         {
             SmProdDesc prodDesc = db.SmProdDescs.Find(id);
@@ -248,8 +245,7 @@ namespace JobsV1.Areas.Products.Controllers
             ViewBag.prodInfo = db.SmProdInfoes.Where(s => s.SmProductId == id).ToList();
 
         }
-
-        [HttpPost]
+        
         public ActionResult AddInfo(int prodId, string infolabel, string infoValue, string infoRemarks)
         {
             //Search string filter
@@ -268,32 +264,38 @@ namespace JobsV1.Areas.Products.Controllers
         }
 
         //Edit product description
-        [HttpPost]
-        public ActionResult EditDesc(int prodId, string infolabel, string infoValue, string infoRemarks)
+        public ActionResult EditInfo(int? id,int prodId, string infolabel, string infoValue, string infoRemarks)
         {
             if (!string.IsNullOrWhiteSpace(infolabel) || !string.IsNullOrEmpty(infolabel))
             {
-                SmProdInfo info = new SmProdInfo();
+                if (id != null)
+                {
+
+                SmProdInfo info = db.SmProdInfoes.Find(id);
                 info.Label = infolabel;
                 info.Value = infoValue;
                 info.Remarks = infoRemarks;
-                info.SmProductId = prodId;
+                //info.SmProductId = prodId;
+
                 db.Entry(info).State = EntityState.Modified;
                 db.SaveChanges();
+                }
             }
             
             return RedirectToAction("Details", new { id = prodId });
         }
 
         //Remove product Info
-        [HttpPost]
-        public ActionResult RemoveInfo(int id)
+        public ActionResult RemoveInfo(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             SmProdInfo prodInfo = db.SmProdInfoes.Find(id);
-            int prodId = prodInfo.SmProductId;
-            db.SmProdInfoes.Remove(prodInfo);
-            db.SaveChanges();
-
+                int prodId = prodInfo.SmProductId;
+                db.SmProdInfoes.Remove(prodInfo);
+                db.SaveChanges();
             return RedirectToAction("Details", new { id = prodId }); //view in personnel details
         }
         #endregion
@@ -307,7 +309,6 @@ namespace JobsV1.Areas.Products.Controllers
         }
 
         //add product category
-        [HttpPost]
         public ActionResult AddCat(int prodId, int catId)
         {
             SmProdCat cat = new SmProdCat();
@@ -340,7 +341,6 @@ namespace JobsV1.Areas.Products.Controllers
         }
 
         //add product supplier
-        [HttpPost]
         public ActionResult AddProdSup(int prodId, int supId, string startdate, string enddate,
             string price,string contracted)
         {
@@ -360,7 +360,6 @@ namespace JobsV1.Areas.Products.Controllers
         }
 
         //add product supplier
-        [HttpPost]
         public ActionResult EditProdSup(int Id,int prodId, int supId, string startdate, string enddate,
             string price, string contracted)
         {
@@ -376,6 +375,60 @@ namespace JobsV1.Areas.Products.Controllers
             db.Entry(prodSup).State = EntityState.Modified;
             db.SaveChanges();
             
+            return RedirectToAction("Details", new { id = prodId });
+        }
+
+        //Remove product category
+        public ActionResult RemoveProdSup(int id)
+        {
+            SmProdSupplier prodSup = db.SmProdSuppliers.Find(id);
+            int prodId = prodSup.SmProductId;
+            db.SmProdSuppliers.Remove(prodSup);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = prodId }); //view in personnel details
+        }
+        #endregion
+
+
+        #region Product Rates
+        public void PartialView_Rates(int id)
+        {
+            ViewBag.rates = db.SmRates.Where(s => s.SmProductId == id).ToList();
+            ViewBag.rateUOM = db.SmRateUoMs.ToList();
+        }
+
+        //add product supplier
+        public ActionResult AddProdRates(int qty, int rate, ,string startdate, string enddate,
+            string price, string contracted)
+        {
+
+            SmRate prodRate = new SmRate();
+            prodRate.Qty = prodId;
+            prodSup.SmSupplierId = supId;
+
+            db.SmProdSuppliers.Add(prodSup);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = prodId });
+        }
+
+        //add product supplier
+        public ActionResult EditProdRates(int Id, int prodId, int supId, string startdate, string enddate,
+            string price, string contracted)
+        {
+            SmProdSupplier prodSup = db.SmProdSuppliers.Find(Id);
+            prodSup.SmProductId = prodId;
+            prodSup.SmSupplierId = supId;
+            prodSup.ValidStart = DateTime.Parse(startdate);
+            prodSup.ValidEnd = DateTime.Parse(enddate);
+            prodSup.Price = Decimal.Parse(price);
+            prodSup.Contracted = decimal.Parse(contracted);
+
+
+            db.Entry(prodSup).State = EntityState.Modified;
+            db.SaveChanges();
+
             return RedirectToAction("Details", new { id = prodId });
         }
 

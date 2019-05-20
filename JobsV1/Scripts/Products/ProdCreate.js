@@ -23,6 +23,7 @@ function InitDatePicker()
             format: 'MM/DD/YYYY  hh:mm A'
         }
     },
+
     function (start, end, label) {
         //check if date is greater than or equal to today
         

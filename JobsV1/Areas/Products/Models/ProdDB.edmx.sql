@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/14/2019 13:52:22
--- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx
+-- Date Created: 05/20/2019 17:15:08
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -44,6 +44,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SmProductSmProdCat]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SmProdCats] DROP CONSTRAINT [FK_SmProductSmProdCat];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SmRateSmRateUoM]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmRates] DROP CONSTRAINT [FK_SmRateSmRateUoM];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmProductSmRate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmRates] DROP CONSTRAINT [FK_SmProductSmRate];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -79,6 +85,12 @@ GO
 IF OBJECT_ID(N'[dbo].[SmProdCats]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SmProdCats];
 GO
+IF OBJECT_ID(N'[dbo].[SmRates]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmRates];
+GO
+IF OBJECT_ID(N'[dbo].[SmRateUoMs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmRateUoMs];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -106,7 +118,8 @@ CREATE TABLE [dbo].[SmProdDescs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [SmProductId] int  NOT NULL,
     [SortNo] int  NOT NULL,
-    [Description] nvarchar(180)  NULL
+    [Description] nvarchar(180)  NULL,
+    [SmProductId1] int  NOT NULL
 );
 GO
 
@@ -181,6 +194,24 @@ CREATE TABLE [dbo].[SmProdCats] (
 );
 GO
 
+-- Creating table 'SmRates'
+CREATE TABLE [dbo].[SmRates] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Qty] smallint  NOT NULL,
+    [Rate] decimal(18,0)  NOT NULL,
+    [DRate] decimal(18,0)  NOT NULL,
+    [SmProductId] int  NOT NULL,
+    [SmRateUoM_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'SmRateUoMs'
+CREATE TABLE [dbo].[SmRateUoMs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(20)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -242,6 +273,18 @@ GO
 -- Creating primary key on [Id] in table 'SmProdCats'
 ALTER TABLE [dbo].[SmProdCats]
 ADD CONSTRAINT [PK_SmProdCats]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SmRates'
+ALTER TABLE [dbo].[SmRates]
+ADD CONSTRAINT [PK_SmRates]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SmRateUoMs'
+ALTER TABLE [dbo].[SmRateUoMs]
+ADD CONSTRAINT [PK_SmRateUoMs]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -381,6 +424,36 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmProdCat'
 CREATE INDEX [IX_FK_SmProductSmProdCat]
 ON [dbo].[SmProdCats]
+    ([SmProductId]);
+GO
+
+-- Creating foreign key on [SmRateUoM_Id] in table 'SmRates'
+ALTER TABLE [dbo].[SmRates]
+ADD CONSTRAINT [FK_SmRateSmRateUoM]
+    FOREIGN KEY ([SmRateUoM_Id])
+    REFERENCES [dbo].[SmRateUoMs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmRateSmRateUoM'
+CREATE INDEX [IX_FK_SmRateSmRateUoM]
+ON [dbo].[SmRates]
+    ([SmRateUoM_Id]);
+GO
+
+-- Creating foreign key on [SmProductId] in table 'SmRates'
+ALTER TABLE [dbo].[SmRates]
+ADD CONSTRAINT [FK_SmProductSmRate]
+    FOREIGN KEY ([SmProductId])
+    REFERENCES [dbo].[SmProducts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmRate'
+CREATE INDEX [IX_FK_SmProductSmRate]
+ON [dbo].[SmRates]
     ([SmProductId]);
 GO
 

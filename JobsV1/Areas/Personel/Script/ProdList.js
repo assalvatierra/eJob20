@@ -78,7 +78,7 @@ function ajax_loadContent() {
         },
         error: function (data) {
             // console.log("ERROR");
-            console.log(data);
+            //console.log(data);
             switchViews(data)
         }
     });
@@ -104,7 +104,7 @@ function SimpleTable(data) {
     //console.log("SimpleTable");
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
-
+    //console.log(temp);
     //clear table contents except header
     $("#prodTable").find("tr:gt(0)").remove();
 
@@ -139,4 +139,3 @@ function StatusRefresh() {
     //load table content
     ajax_loadContent();
 }
-

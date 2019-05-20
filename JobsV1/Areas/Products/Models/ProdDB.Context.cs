@@ -35,5 +35,7 @@ namespace JobsV1.Areas.Products.Models
         public virtual DbSet<SmProdInfo> SmProdInfoes { get; set; }
         public virtual DbSet<SmCategory> SmCategories { get; set; }
         public virtual DbSet<SmProdCat> SmProdCats { get; set; }
+        public virtual DbSet<SmRate> SmRates { get; set; }
+        public virtual DbSet<SmRateUoM> SmRateUoMs { get; set; }
     }
 }

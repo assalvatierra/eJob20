@@ -26,6 +26,7 @@
           <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
           <ScalarProperty Name="SortNo" ColumnName="SortNo" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="SmProductId1" ColumnName="SmProductId1" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -108,5 +109,32 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SmRates">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmRate)">
+        <MappingFragment StoreEntitySet="SmRates">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="DRate" ColumnName="DRate" />
+          <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SmRateUoMs">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmRateUoM)">
+        <MappingFragment StoreEntitySet="SmRateUoMs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="SmRateSmRateUoM" TypeName="ProdDB.SmRateSmRateUoM" StoreEntitySet="SmRates">
+      <EndProperty Name="SmRateUoM">
+        <ScalarProperty Name="Id" ColumnName="SmRateUoM_Id" />
+      </EndProperty>
+      <EndProperty Name="SmRate">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -18,10 +18,12 @@
 
             @foreach (var prodDesc in Model)
             {
-                <p>
+                <p  class="prod-desc">
                     @prodDesc.Description 
-                    <a href="" id="catbtn" data-toggle="modal" data-target="#prodDescModal" onclick="EditDescModal(@prodDesc.Id)"> Edit  </a> |
-                    @Html.ActionLink(" Remove", "RemoveDesc", new { id = prodDesc.Id })
+                    <span class="prod-desc-act" style="display:none;">
+                        <a href="" id="catbtn" data-toggle="modal" data-target="#prodDescModal" onclick="EditDescModal(@prodDesc.Id)"> Edit  </a> |
+                        @Html.ActionLink(" Remove", "RemoveDesc", new { id = prodDesc.Id })
+                    </span>
                 </p>
             }
             <a href="" id="catbtn" data-toggle="modal" data-target="#prodDescModal" onclick="AddDescModal()">Add Description</a>
@@ -136,7 +138,7 @@
             },
             error: function (data) {
                 // console.log("ERROR");
-                // console.log(data);
+                 //console.log(data);
                 location.reload();
             }
         });
@@ -206,4 +208,22 @@
     function refreshPage() {
         location.reload();
     }
+
+    
+    //Show hide edit | delete of description
+    $(document).ready(function () {
+        $("p.prod-desc").hover(
+          function () { //on hover
+              //console.log("hover");
+              //$(this).siblings(".prod-desc-act").show();
+              $(this).children(".prod-desc-act").show();
+          },
+          function () { //on leave
+              //console.log("leave");
+              //$(this).siblings(".prod-desc-act").hide();
+              $(this).children(".prod-desc-act").hide();
+          }
+        );
+    });
+
 </script>

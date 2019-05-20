@@ -15,6 +15,7 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
     <!--
@@ -128,9 +129,11 @@
         </div>
     </footer>
 
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/DateRangePicker")
     @RenderSection("scripts", required: false)
 </body>
 </html>

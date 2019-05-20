@@ -20,10 +20,14 @@
         <AssociationConnector Association="ProdDB.SmSupplierSmProdSupplier" />
         <AssociationConnector Association="ProdDB.SmProductSmProdSupplier" />
         <AssociationConnector Association="ProdDB.SmSupplierSmSupplierInfo" />
-        <EntityTypeShape EntityType="ProdDB.SmCategory" Width="1.5" PointX="11" PointY="4.25" />
-        <EntityTypeShape EntityType="ProdDB.SmProdCat" Width="1.5" PointX="9" PointY="4.25" />
+        <EntityTypeShape EntityType="ProdDB.SmCategory" Width="1.5" PointX="11.125" PointY="3.5" />
+        <EntityTypeShape EntityType="ProdDB.SmProdCat" Width="1.5" PointX="9" PointY="3.375" />
         <AssociationConnector Association="ProdDB.SmCategorySmProdCat" />
         <AssociationConnector Association="ProdDB.SmProductSmProdCat" />
+        <EntityTypeShape EntityType="ProdDB.SmRate" Width="1.5" PointX="9" PointY="5.5" />
+        <EntityTypeShape EntityType="ProdDB.SmRateUoM" Width="1.5" PointX="11.25" PointY="5.625" />
+        <AssociationConnector Association="ProdDB.SmRateSmRateUoM" />
+        <AssociationConnector Association="ProdDB.SmProductSmRate" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

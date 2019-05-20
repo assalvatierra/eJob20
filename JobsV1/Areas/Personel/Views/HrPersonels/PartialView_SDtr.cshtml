@@ -72,7 +72,7 @@
                             <div class="form-group">
                                 <span class="control-label col-md-3"> Date </span>
                                 <div class="col-md-9">
-                                    <input type="date" class="form-control" id="dtrDate" />
+                                    <input type="text" class="form-control" id="dtrDate" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -240,21 +240,26 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
-
 </div>
+
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
-@*<script src="~/Scripts/Personnel/Payroll.js"></script>*@
+<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
+<script src="~/Areas/Personel/Script/ProdCreatsse.js"></script>
+
+@*<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>*@
 <script>
     //handle date
     //on page load
     $(document).ready(function () {
         var date = moment().format('YYYY-MM-DD');
         $("#dtrDate").val(date);
+
     });
-
-
 
     //--- Handle Number Validations ---//
 
@@ -412,4 +417,6 @@
     function refreshPage() {
         location.reload();
     }
+
+
 </script>

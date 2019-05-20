@@ -379,6 +379,7 @@
     </Compile>
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
+    <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\Controllers\SmProductsController.cs" />
     <Compile Include="Areas\Products\Controllers\SmSuppliersController.cs" />
     <Compile Include="Areas\Products\Models\ProdDB.Context.cs">
@@ -419,6 +420,12 @@
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Products\Models\SmProduct.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\SmRate.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Products\Models\SmRateUoM.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Products\Models\SmSupplier.cs">
@@ -870,6 +877,13 @@
     </Content>
     <Content Include="Areas\Personel\Models\InitHRData.sql" />
     <Content Include="Areas\Personel\Models\InitData.sql" />
+    <Content Include="Areas\Personel\Script\DateRangePicker\daterangepicker.js" />
+    <Content Include="Areas\Personel\Script\DateRangePicker\moment.js" />
+    <Content Include="Areas\Personel\Script\DateRangePicker\moment.min.js" />
+    <Content Include="Areas\Personel\Script\DateRangePicker\package.js" />
+    <Content Include="Areas\Personel\Script\ProdCreate.js" />
+    <Content Include="Areas\Personel\Script\ProdList.js" />
+    <Content Include="Areas\Personel\Script\SupList.js" />
     <Content Include="Areas\Products\Models\InitData.sql" />
     <Content Include="Areas\Products\Models\ProdDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -898,6 +912,7 @@
     <Content Include="Content\Login.css" />
     <Content Include="Content\ModalUser.css" />
     <Content Include="Content\Erp.css" />
+    <Content Include="Content\ProductStyle.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -1328,6 +1343,9 @@
     <Content Include="Areas\Products\Views\SmSuppliers\PartialView_Info.cshtml" />
     <Content Include="Areas\Products\Script\DateRangePicker\bower.json" />
     <Content Include="Areas\Products\Script\DateRangePicker\package.json" />
+    <Content Include="Areas\Personel\Script\DateRangePicker\bower.json" />
+    <Content Include="Areas\Personel\Script\DateRangePicker\package.json" />
+    <Content Include="Areas\Products\Views\SmProducts\PartialView_Rates.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1990,6 +2008,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
+    <Folder Include="Areas\Products\Views\Home\" />
     <Folder Include="Scripts\Reporting\" />
     <Folder Include="Views\CustomHelper\" />
     <Folder Include="Views\Paypal\" />
