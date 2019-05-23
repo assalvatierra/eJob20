@@ -141,9 +141,7 @@ namespace JobsV1.Controllers
             ViewBag.today = GetCurrentTime();
             return View(data);
         }
-
         
-
         protected DateTime GetCurrentTime()
         {
             DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
@@ -151,9 +149,7 @@ namespace JobsV1.Controllers
 
             return _localTime;
         }
-
-
-
+        
         // GET: JobMains/Details/5
         public ActionResult Details(int? id, int? iType)
         {
@@ -296,8 +292,7 @@ namespace JobsV1.Controllers
 
             return View(jobMain);
         }
-
-
+        
         // GET: JobMains/Create
         public ActionResult Create(int? id)
         {
@@ -318,8 +313,7 @@ namespace JobsV1.Controllers
 
             return View(job);
         }
-
-
+        
         // GET: JobMains/Create
         public ActionResult Create2(int? custid)
         {
@@ -376,9 +370,7 @@ namespace JobsV1.Controllers
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             return View(jobMain);
         }
-
-
-
+        
         // GET: JobMains/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -813,6 +805,16 @@ namespace JobsV1.Controllers
 
             var jobnotes = db.JobNotes.Where(d => d.JobMainId == id).OrderBy(s=>s.Sort);
             return View(jobnotes);
+        }
+
+        public ActionResult ConfirmJobStatus(int? id)
+        {
+            var Job = db.JobMains.Find(id);
+            Job.JobStatusId = 3;
+            db.Entry(Job).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
 
         #region Job Notes

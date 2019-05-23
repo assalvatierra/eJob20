@@ -380,7 +380,9 @@
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Products\Controllers\SmCategoriesController.cs" />
     <Compile Include="Areas\Products\Controllers\SmProductsController.cs" />
+    <Compile Include="Areas\Products\Controllers\SmRateUoMsController.cs" />
     <Compile Include="Areas\Products\Controllers\SmSuppliersController.cs" />
     <Compile Include="Areas\Products\Models\ProdDB.Context.cs">
       <AutoGen>True</AutoGen>
@@ -901,6 +903,10 @@
     <Content Include="Areas\Products\Script\DateRangePicker\moment.min.js" />
     <Content Include="Areas\Products\Script\DateRangePicker\package.js" />
     <Content Include="Areas\Products\Script\ProdCreate.js" />
+    <Content Include="Areas\Products\Script\ProductSup.js" />
+    <Content Include="Areas\Products\Script\ProductInfo.js" />
+    <Content Include="Areas\Products\Script\ProductDesc.js" />
+    <Content Include="Areas\Products\Script\ProductRate.js" />
     <Content Include="Areas\Products\Script\SupList.js" />
     <Content Include="Areas\Products\Script\ProdList.js" />
     <Content Include="BingSiteAuth.xml" />
@@ -1346,6 +1352,17 @@
     <Content Include="Areas\Personel\Script\DateRangePicker\bower.json" />
     <Content Include="Areas\Personel\Script\DateRangePicker\package.json" />
     <Content Include="Areas\Products\Views\SmProducts\PartialView_Rates.cshtml" />
+    <Content Include="Areas\Products\Views\SmRateUoMs\Create.cshtml" />
+    <Content Include="Areas\Products\Views\SmRateUoMs\Delete.cshtml" />
+    <Content Include="Areas\Products\Views\SmRateUoMs\Details.cshtml" />
+    <Content Include="Areas\Products\Views\SmRateUoMs\Edit.cshtml" />
+    <Content Include="Areas\Products\Views\SmRateUoMs\Index.cshtml" />
+    <Content Include="Areas\Products\Views\SmCategories\Create.cshtml" />
+    <Content Include="Areas\Products\Views\SmCategories\Delete.cshtml" />
+    <Content Include="Areas\Products\Views\SmCategories\Details.cshtml" />
+    <Content Include="Areas\Products\Views\SmCategories\Edit.cshtml" />
+    <Content Include="Areas\Products\Views\SmCategories\Index.cshtml" />
+    <Content Include="Areas\Products\Views\SmProducts\TermsAndCondition.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

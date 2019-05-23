@@ -1,13 +1,18 @@
 ﻿insert into Cities(Name) values('Davao');
-insert into Branches(Name, CityId, Remarks, Address, Landline, Mobile) values('Davao-01',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831','');
+insert into Branches(Name, CityId, Remarks, Address, Landline, Mobile) 
+values ('AJ88',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
+	   ('Realbreeze',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831','');
+
 insert into JobStatus([Status]) values('INQUIRY'),('RESERVATION'),('CONFIRMED'),('CLOSED'),('CANCELLED'),('TEMPLATE');
 insert into JobThrus([Desc]) values('PHONE'),('EMAIL'),('WALKIN');
 
 
-insert into Banks([BankName],[BankBranch],[AccntName],[AccntNo]) values ('Cash','Davao','Cash','0'),('BDO','SM-Ecoland Davao','AJ88 Car Rental Services','00 086 072 9575'),
-('BPI','SM-Ecoland Davao','Abel S. Salvatierra','870 303 5125')
-,('Personal Guarantee','Realbreeze-Davao','Personal Guarantee','0')
-,('Paypal','RealWheels-Paypal','Paypal','0');
+insert into Banks([BankName],[BankBranch],[AccntName],[AccntNo])
+ values ('Cash','Davao','Cash','0'),
+		('BDO','SM-Ecoland Davao','AJ88 Car Rental Services','00 086 072 9575'),
+		('BPI','SM-Ecoland Davao','Abel S. Salvatierra','870 303 5125'),
+		('Personal Guarantee','Realbreeze-Davao','Personal Guarantee','0'),
+		('Paypal','RealWheels-Paypal','Paypal','0');
 
 insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('<< New Customer >>','--','--',' ',' ','ACT');
 insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('RealBreeze-Davao','realbreezedavao@gmail.com','Elvie/0916-755-8473','','','ACT');
@@ -52,11 +57,11 @@ insert into SalesActStatus([Name])
 values ('REQUEST'),('DONE'),('SUSPEND');
 
 insert into SalesLeadCatCodes([CatName],[SysCode],[iconPath])
-values ('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'), 
-('HighMargin','HIGHMARGIN','~/Images/SalesLead/GreenArrow.png'),
-('LongTerm','LONGTERM','~/Images/SalesLead/Longterm.png'), 
-('Corporate','CORPORATE ACCOUNT','~/Images/SalesLead/ShakeHands.png'), 
-('HardOne', 'HARDONE','~/Images/SalesLead/unhappy.jpg');
+values	('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'), 
+		('HighMargin','HIGHMARGIN','~/Images/SalesLead/GreenArrow.png'),
+		('LongTerm','LONGTERM','~/Images/SalesLead/Longterm.png'), 
+		('Corporate','CORPORATE ACCOUNT','~/Images/SalesLead/ShakeHands.png'), 
+		('HardOne', 'HARDONE','~/Images/SalesLead/unhappy.jpg');
 
 -- ----------------------------------------
 -- Services Configuration

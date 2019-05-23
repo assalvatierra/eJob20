@@ -903,16 +903,21 @@ order by x.jobid
         public ActionResult JobDetails(int jobid)
         {
             var jobMain = db.JobMains.Find(jobid);
+            var companyId = db.JobEntMains.Where(s=>s.JobMainId == jobMain.Id).FirstOrDefault() != null ?
+                db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().JobMainId : 1 ;
+
             ViewBag.mainid = jobid;
-            ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
-            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
+            ViewBag.CustomerId  = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
+            ViewBag.BranchId    = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
             return View(jobMain);
+            
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain)
+        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId)
         {
             if (ModelState.IsValid)
             {
@@ -926,15 +931,30 @@ order by x.jobid
                 db.Entry(jobMain).State = EntityState.Modified;
                 db.SaveChanges();
                 
-                return RedirectToAction("Index", new { mainid = jobMain.Id });
+                return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
+            }
 
+            if (CompanyId != null)
+            {
+                AddjobCompany(jobMain.Id, (int)CompanyId);
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
             return View(jobMain);
+        }
+
+        public void EditjobCompany(int jobId, int companyId)
+        {
+            JobEntMain jobCompany = new JobEntMain();
+            jobCompany.JobMainId = jobId;
+            jobCompany.CustEntMainId = companyId;
+
+            db.Entry(jobCompany).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         // GET: JobMains/jobCreate
@@ -974,7 +994,7 @@ order by x.jobid
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain)
+        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId)
         {
             if (ModelState.IsValid)
             {
@@ -988,8 +1008,12 @@ order by x.jobid
                 db.JobMains.Add(jobMain);
                 db.SaveChanges();
 
-                dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
+                if (CompanyId != null)
+                {
+                    AddjobCompany(jobMain.Id, (int)CompanyId);
+                }
 
+                dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
                 return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobMain.Id });
 
             }
@@ -1000,6 +1024,16 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             return View(jobMain);
+        }
+
+        public void AddjobCompany(int jobId, int companyId)
+        {
+            JobEntMain jobCompany = new JobEntMain();
+            jobCompany.JobMainId = jobId;
+            jobCompany.CustEntMainId = companyId;
+
+            db.JobEntMains.Add(jobCompany);
+            db.SaveChanges();
         }
         
 
@@ -1752,7 +1786,30 @@ order by x.jobid
             SMSWebService ws = new SMSWebService();
             ws.AddNotification(id);
         }
-        
+
+
+
+        public ActionResult ConfirmJobStatus(int? id)
+        {
+            var Job = db.JobMains.Find(id);
+            Job.JobStatusId = 3;
+            db.Entry(Job).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
+        }
+
+
+        public ActionResult ReserveJobStatus(int? id)
+        {
+            var Job = db.JobMains.Find(id);
+            Job.JobStatusId = 2;
+            db.Entry(Job).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
+        }
+
         #endregion
 
         #region supplier
@@ -2164,8 +2221,35 @@ order by x.jobid
 
             //client
             mailResult = mail.SendMail(jobId, jobOrder.CustContactEmail, mailType, clientName, siteRedirect);
+            
+            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
+            return mailResult;
+        }
 
 
+        public string SendEmailBooking(int? jobId, string doctype)
+        {
+            JobMain jobOrder = db.JobMains.Find(jobId);
+            EMailHandler mail = new EMailHandler();
+            
+            List<JobServices> jobServices = db.JobServices.Include(j => j.JobMain).Include(j => j.Supplier)
+                .Include(j => j.Service).Include(j => j.SupplierItem).Include(j => j.JobServicePickups)
+                .Where(d => d.JobMainId == jobId).ToList();
+            
+            string clientName = jobOrder.Description;
+            string mailResult = "";
+
+            switch (doctype)
+            {
+                case "QUOTATION":
+                    mailResult = mail.SendMailQuotation((int)jobId, "realbreezemark@gmail.com", jobServices);
+                    break;
+                case "RESERVATION":
+                    mailResult = mail.SendMailReservation((int)jobId, "realbreezemark@gmail.com", jobServices);
+                    break;
+            }
+     
+            
             mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
             return mailResult;
         }
@@ -2213,6 +2297,7 @@ order by x.jobid
             mail.SendMailPaymentAdvice(jobId, "reservation.realwheels@gmail.com", mailType, clientName, siteRedirect);                    //reservation gmail
             mail.SendMailPaymentAdvice(jobId, "AJDavao88@gmail.com", mailType, clientName, siteRedirect);      //customer email
         }
+
 
         #endregion
     }

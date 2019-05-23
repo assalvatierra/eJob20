@@ -42,7 +42,7 @@ $('#ALL').click(function () {
 //then clear and add contents to the table
 function ajax_loadContent() {
     var query = $('#srch-field').val();
-
+    status = "ACT";
     //console.log("status: " + status);
     //console.log("q: " + query);
 
@@ -79,16 +79,15 @@ function LoadTable(data) {
     //clear table contents except header
     $("#sup-Table").find("tr:gt(0)").remove();
 
-
     //populate table content
     for (var x = 0; x < temp.length; x++) {
-        content = "<tr>";
-        content += "<td>" + temp[x]["Name"] + "</td>";
-        content += "<td>" + temp[x]["Contact1"] + "</td>";
-        content += "<td>" + temp[x]["Contact2"] + "</td>";
-        content += "<td>" + temp[x]["Company"] + "</td>";
+        content  = "<tr>";
+        content += "<td>" + temp[x]["Name"]      + "</td>";
+        content += "<td>" + temp[x]["Contact1"]  + "</td>";
+        content += "<td>" + temp[x]["Contact2"]  + "</td>";
+        content += "<td>" + temp[x]["Company"]   + "</td>";
         content += "<td>" + temp[x]["JobsCount"] + "</td>";
-        content += "<td>" + temp[x]["Status"] + "</td>";
+        content += "<td>" + temp[x]["Status"]    + "</td>";
         content += "<td>" +
             "<a href='Customers/Details/" + temp[x]["Id"] + "'>Details</a> "
         "</td>";

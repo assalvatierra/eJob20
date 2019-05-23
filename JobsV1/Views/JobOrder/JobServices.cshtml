@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Services";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     System.Collections.ArrayList providers = ViewBag.Providers;
     var iti = ViewBag.Itineraries;
 }
@@ -17,17 +18,13 @@
                     { <p>@item</p> }
                     else
                     {
-                    @Html.ActionLink("[ " + @item + " ]", "SubDetails", "JobMains", new { id = ViewBag.JobOrder.Id, sProvider = @item }, null)
+                    @Html.ActionLink("[" + @item + "]", "SubDetails", "JobMains", new { id = ViewBag.JobOrder.Id, sProvider = @item }, null)
                     }
                 </td>
             </tr>
         }
     </table>
 </div>
-
-
-
-
 
 <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
 <div>
@@ -36,19 +33,46 @@
         <br />Description: @ViewBag.JobOrder.Description
         <br />Encoder: @ViewBag.JobEncoder.user - @ViewBag.JobEncoder.dtTrail 
         <br />Status: @ViewBag.JobStatus
-        <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+
+         <!-- Change Status -->
+        @if(ViewBag.JobStatus == "INQUIRY") { 
+            @Html.ActionLink("(Reserve Job) | ", "ReserveJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null) 
+            @Html.ActionLink("(Confirm Job)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null) 
+        }
+
+        @if (ViewBag.JobStatus == "RESERVATION")
+        {
+            @Html.ActionLink("(CONFIRM JOB)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+        }
+
+        <br />@Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
         | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null) 
         | <a href="" id="aContractorLink">Contractors</a>
         | @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 1 }, null)
         | @Html.ActionLink("Cash Expenses", "JobExpenses", "CashExpenses", new { id = ViewBag.JobOrder.Id }, null)
-    </p>
+
+        @if (ViewBag.JobStatus == "INQUIRY")
+        {
+            <text>
+            | <a onclick = "ajaxSendQuotation(@ViewBag.JobOrder.Id)" > Send Quotation </a>
+            </text>
+        }
+
+        @if (ViewBag.JobStatus == "RESERVATION")
+        {
+            <text>
+            | <a onclick="ajaxSendReservation(@ViewBag.JobOrder.Id)"> Send Reservation </a>
+            </text>
+        }
+
+        @*| @Html.ActionLink("Send Quotation", "SendEmailQuotation", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)*@
+    </p>  
     <p>
         Services | 
         @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
         @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
         @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
     </p>
-
 </div>
 
 <h2>Services</h2>
@@ -160,8 +184,6 @@
 }
 
 </table>
-
-
 <p>
     @Html.ActionLink("Create New", "JobServiceAdd", new { JobMainId = ViewBag.JobMainId })
     <br />@Html.ActionLink("Add Template", "BrowseTemplate", new { JobMainId = ViewBag.JobMainId })
@@ -172,11 +194,9 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
-
     <script>
-            var dlg;
 
+            var dlg;
             $(function () {
                 // Initialize Dialog
                 dlg = $("#dialog").dialog({
@@ -197,7 +217,92 @@
                 });
             });
     </script>
-
-
-
 }
+
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script>
+    $(document).ready(function () {
+        //LoadOverlay();
+    });
+
+    //SEND Quotation to client in email
+    function ajaxSendQuotation(jobId) {
+        var data = {
+            jobId: jobId,
+            docType : "QUOTATION"
+        }
+
+        console.log(jobId);
+        var serviceURL = '/JobOrder/SendEmailBooking';
+        console.log("sending email");
+
+        //loading screen
+        LoadOverlay();
+
+        //send email using ajax
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                console.log('success');
+                disableLoadOverlay();
+                console.log("email sent");
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+                 alert(jqXHR.responseText);
+                $("#overlay2-text").text(jqXHR.responseText);
+                disableLoadOverlay();
+                console.log("Email Sent");
+            }
+        });
+    }
+
+    //SEND RESERVATION DETAILS IN EMAIL TO CLIENT 
+    function ajaxSendReservation(jobId) {
+        var data = {
+            jobId: jobId,
+            docType: "RESERVATION"
+        }
+
+        console.log(jobId);
+        var serviceURL = '/JobOrder/SendEmailBooking';
+        console.log("sending email");
+
+        //loading screen
+        LoadOverlay();
+
+        //send email using ajax
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                console.log('success');
+                disableLoadOverlay();
+                console.log("email sent");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+                $("#overlay2-text").text(jqXHR.responseText);
+                disableLoadOverlay();
+                console.log("Email Sent");
+            }
+        });
+    }
+
+    function LoadOverlay() {
+        console.log("load overlay");
+        $("#overlay2").css("display", "flex");
+    }
+
+    function disableLoadOverlay() {
+        console.log("disable overlay");
+        $("#overlay2").css("display", "none");
+    }
+</script>

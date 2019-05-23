@@ -1,5 +1,8 @@
 ﻿insert into Cities(Name) values('Davao');
-insert into Branches(Name, CityId, Remarks, Address, Landline, Mobile) values('Davao-01',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831','');
+insert into Branches(Name, CityId, Remarks, Address, Landline, Mobile) 
+values ('AJ88',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
+	   ('Realbreeze',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831','');
+
 insert into JobStatus([Status]) values('INQUIRY'),('RESERVATION'),('CONFIRMED'),('CLOSED'),('CANCELLED'),('TEMPLATE');
 insert into JobThrus([Desc]) values('PHONE'),('EMAIL'),('WALKIN');
 
