@@ -15,12 +15,13 @@ namespace JobsV1.Areas.Products.Models
     public partial class SmRate
     {
         public int Id { get; set; }
-        public string Qty { get; set; }
-        public string Rate { get; set; }
-        public string DRate { get; set; }
+        public int Qty { get; set; }
+        public decimal Rate { get; set; }
+        public decimal DRate { get; set; }
         public int SmProductId { get; set; }
+        public int SmRateUoMId { get; set; }
     
-        public virtual SmRateUoM SmRateUoM { get; set; }
         public virtual SmProduct SmProduct { get; set; }
+        public virtual SmRateUoM SmRateUoM { get; set; }
     }
 }

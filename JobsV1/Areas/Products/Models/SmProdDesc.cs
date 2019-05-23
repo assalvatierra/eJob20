@@ -18,6 +18,7 @@ namespace JobsV1.Areas.Products.Models
         public int SmProductId { get; set; }
         public int SortNo { get; set; }
         public string Description { get; set; }
+        public int SmProductId1 { get; set; }
     
         public virtual SmProduct SmProduct { get; set; }
     }

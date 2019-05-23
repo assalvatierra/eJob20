@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmProdInfo >
+﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmRate >
 
 @{
     int prodId = Convert.ToInt32(ViewData["prodId"]);
@@ -11,205 +11,170 @@
     <div class="col-lg-12">
         <div class="col-lg-12">
             <h3>
-                Product Info
+                Rates
             </h3>
         </div>
-        <div class="col-lg-12">
-            @foreach (var prodInfo in Model)
-            {
-                <p>
-                    <b> @prodInfo.Label</b> : @prodInfo.Value <br />
-                    <b>Remarks</b> : @prodInfo.Remarks<br />
-                   
-                    <a href="" id="catbtn" data-toggle="modal" data-target="#edit-prodInfoModal" onclick="EditInfo('@prodInfo.Id', '@prodInfo.Label', '@prodInfo.Value', '@prodInfo.Remarks' )" >Edit</a> |
-                    @Html.ActionLink("Remove", "RemoveInfo", new { id = prodInfo.Id })
-                </p>
-            } 
-            <a href="" id="catbtn" data-toggle="modal" data-target="#prodInfoModal" style="margin-bottom:10px;">Add Info</a>
+        <div class="col-lg-6">
+            <table class="table" id="section-rates">
+                <tr>
+                    <th>Qty</th>
+                    <th>Published</th>
+                    <th>Contracted</th>
+                    <th></th>
+                </tr>
+                @foreach (var prodRate in Model)
+                {
+                    <tr>
+                        <td>
+                            @prodRate.Qty @prodRate.SmRateUoM.Name
+                        </td>
+                        <td>
+                            @prodRate.Rate
+                        </td>
+                        <td>
+                            @prodRate.DRate
+                        </td>
+                        <td>
+                            <a href="" id="catbtn" data-toggle="modal" data-target="#edit-prodRateModal"
+                               onclick="EditRate('@prodRate.Id', '@prodRate.Qty', '@prodRate.SmRateUoM.Id', 
+                               '@prodRate.Rate', '@prodRate.DRate' )">
+                                Edit
+                            </a> |
+                            @Html.ActionLink("Remove", "RemoveProdRate", new { id = prodRate.Id })
+                        </td>
+                    </tr>
+                }
+            </table>
+            <!--Add Rate Link -->
+            <a href="" id="catbtn" data-toggle="modal" data-target="#prodRateModal" style="margin-bottom:10px;">Add Rate</a>
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="prodInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="prodRateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Product Info</h4>
+                    <h4 class="modal-title">Add Rate</h4>
                 </div>
-                <div class="modal-body row">
-
-                    <div class="form-group">
-                        <b class="col-md-2 "> Label: </b>
+                <div class="modal-body row">                    
+                    <!--Start of Modal Body-->
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Qty: </b>
                         <div class="col-md-10">
-                            <input  type="text" maxlength="10" class="form-control" id="prod-Infolabel" />
-                        </div><span style="font-size:8px">&nbsp;</span>
+                            <input type="number" maxlength="5" class="form-control" id="prod-rateQty" />
+                        </div>
+                    </div>
+                    <br /><br />
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2"> Unit: </b>
+                        <div class="col-md-7">
+                            <select name="Suppliers" class="form-control" id="prod-rateUom">
+                                @foreach (var unit in ViewBag.rateUOMList as IEnumerable<JobsV1.Areas.Products.Models.SmRateUoM>)
+                                {
+                                    <option value="@unit.Id"> @unit.Name </option>
+                                }
+                            </select>
+                        </div>
+                        <div style="padding-top:10px;">
+                            @Html.ActionLink("Create New", "Create", "SmRateUoMs", null, new { @class = " col-md-3" })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Published_Rate: </b>
+                        <div class="col-md-10">
+                            <input type="number" maxlength="20" class="form-control" id="prod-ratePub" />
+                        </div>
+                    </div>
+                    <br /><br />
+
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Contracted_Rate: </b>
+                        <div class="col-md-10">
+                            <input type="number" maxlength="20" class="form-control" id="prod-rateCon" />
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <b class="col-md-2"> Value: </b>
-                        <div class="col-md-10">
-                            <textarea id="prod-InfoValue"  maxlength="80" class="form-control" cols="80" rows="2"></textarea>
-                            <span style="font-size:8px">80 characters only.</span>
-                        </div><p></p>
-                    </div>
-
-                    <div class="form-group">
-                        <b class="col-md-2"> Remarks: </b>
-                        <div class="col-md-10">
-                            <textarea id="prod-InfoRemarks" maxlength="80" class="form-control" cols="80" rows="2"></textarea>
-                            <span style="font-size:8px">80 characters only.</span>
-                        </div><p></p>
-                    </div>
+                    <!--End of Modal Body-->
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="ajax_PostInfo(@prodId)"    >Submit</button>
+                    <button type="button" class="btn btn-default" onclick="ajax_PostRate(@prodId)"    >Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div>
+    <!-- /.modal -->
 
     <!-- Edit Modal -->
-    <div class="modal fade" id="edit-prodInfoModal" tabindex="-1" role="dialog" aria-labelledby="Edit Modal" aria-hidden="true">
+    <div class="modal fade" id="edit-prodRateModal" tabindex="-1" role="dialog" aria-labelledby="Edit Modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Edit info</h4>
+                    <h4 class="modal-title">Edit Rate</h4>
                 </div>
                 
-                <div class="modal-body row" >
-
-                    <div class="form-group hidden">
+                <div class="modal-body row" >                    <!--Start of Modal Body-->
+                    <div class="form-group col-md-12" style="display:none;">
                         <b class="col-md-2 "> Id: </b>
                         <div class="col-md-10">
-                            <input id="edit-InfoId" type="text" maxlength="10" class="form-control" />
-                        </div><span style="font-size:8px">&nbsp;</span>
+                            <input type="text" maxlength="5" class="form-control" id="edit-rateId" />
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <b class="col-md-2 "> Label: </b>
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Qty: </b>
                         <div class="col-md-10">
-                            <input id="edit-Infolabel"  type="text" maxlength="10" class="form-control" />
-                        </div><span style="font-size:8px">&nbsp;</span>
+                            <input type="number" maxlength="5" class="form-control" id="edit-rateQty" />
+                        </div>
                     </div>
+                    <br /><br />
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2"> Unit: </b>
+                        <div class="col-md-7">
+                            <select name="Suppliers" class="form-control" id="edit-rateUom">
+                                @foreach (var unit in ViewBag.rateUOMList as IEnumerable<JobsV1.Areas.Products.Models.SmRateUoM>)
+                                {
+                                    <option value="@unit.Id"> @unit.Name </option>
+                                }
+                            </select>
+                        </div>
+                        <div style="padding-top:10px;">
+                            @Html.ActionLink("Create New", "Create", "SmRateUoMs", null, new { @class = " col-md-3" })
+                        </div>
+                    </div><br />
 
-                    <div class="form-group">
-                        <b class="col-md-2"> Value: </b>
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Pub_Rate: </b>
                         <div class="col-md-10">
-                            <textarea id="edit-InfoValue" maxlength="80" class="form-control" cols="80" rows="2"></textarea>
-                            <span style="font-size:8px">80 characters only.</span>
-                        </div><p></p>
+                            <input type="number" maxlength="20" class="form-control" id="edit-ratePub" />
+                        </div>
                     </div>
+                    <br /><br />
 
-                    <div class="form-group">
-                        <b class="col-md-2"> Remarks: </b>
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Con_Rate: </b>
                         <div class="col-md-10">
-                            <textarea id="edit-InfoRemarks" maxlength="80" class="form-control" cols="80" rows="2"></textarea>
-                            <span style="font-size:8px">80 characters only.</span>
-                        </div><p></p>
+                            <input type="number" maxlength="20" class="form-control" id="edit-rateCon" />
+                        </div>
                     </div>
+                    <!--End of Modal Body-->
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="ajax_EditInfo(@prodId)">Submit</button>
+                    <button type="button" class="btn btn-default" onclick="ajax_EditRate(@prodId)">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div>
+    <!-- /.modal -->
 </div>
 
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
-<script>
-
-    //load table content on search btn click  
-    //request data from server using ajax call
-    //then clear and add contents to the table 
-    function ajax_PostInfo(prodId) {
-        var infolabel = $("#prod-Infolabel").val();
-        var infoValue = $("#prod-InfoValue").val();
-        var infoRemarks = $("#prod-InfoRemarks").val();
-
-        var query = "";
-        //build json object // no use
-        var data = {
-            prodId: prodId,
-            infolabel : infolabel,
-            infoValue : infoValue,
-            infoRemarks : infoRemarks
-        };
-        
-        url = "/Products/SMProducts/AddInfo";
-
-        //Submit data to server using ajax 
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                console.log("SUCCESS");
-            },
-            error: function (data) {
-                //// console.log("ERROR");
-                console.log(data);
-                location.reload();
-            }
-        });
-    }
-    
-    //Edit - POST
-    //Submit changes to the product
-    //using ajax, then reload page
-    function ajax_EditInfo(prodId) {
-        var infoId = $("#edit-InfoId").val();
-        var infolabel = $("#edit-Infolabel").val();
-        var infoValue = $("#edit-InfoValue").val();
-        var infoRemarks = $("#edit-InfoRemarks").val();
-
-        var query = "";
-        //build json object // no use
-        var data = {
-            id : infoId,
-            prodId: prodId,
-            infolabel : infolabel,
-            infoValue : infoValue,
-            infoRemarks : infoRemarks
-        };
-        
-        url = "/Products/SMProducts/EditInfo";
-
-        //Submit data to server using ajax 
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                console.log("SUCCESS");
-            },
-            error: function (data) {
-                //// console.log("ERROR");
-                console.log(data);
-                location.reload();
-            }
-        });
-    }
-
-    //Edit
-    //transfer values of selected product
-    //to the edit form
-    function EditInfo(Id,label,value,remarks){
-        $("#edit-InfoId").val(Id);
-        $("#edit-Infolabel").val(label);
-        $("#edit-InfoValue").val(value);
-        $("#edit-InfoRemarks").val(remarks);
-    }
-    
-    function refreshPage() {
-        location.reload();
-    }
-</script>
+<script src="~/Areas/Products/Script/ProductRate.js"></script>

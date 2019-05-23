@@ -54,13 +54,13 @@
       <End Role="SmProduct" EntitySet="SmProducts" />
       <End Role="SmProdCat" EntitySet="SmProdCats" />
     </AssociationSet>
-    <AssociationSet Name="SmRateSmRateUoM" Association="ProdDB.Store.SmRateSmRateUoM">
-      <End Role="SmRate" EntitySet="SmRates" />
-      <End Role="SmRateUoM" EntitySet="SmRateUoMs" />
-    </AssociationSet>
     <AssociationSet Name="SmProductSmRate" Association="ProdDB.Store.SmProductSmRate">
       <End Role="SmProduct" EntitySet="SmProducts" />
       <End Role="SmRate" EntitySet="SmRates" />
+    </AssociationSet>
+    <AssociationSet Name="SmRateSmRateUoM" Association="ProdDB.Store.SmRateSmRateUoM">
+      <End Role="SmRate" EntitySet="SmRates" />
+      <End Role="SmRateUoM" EntitySet="SmRateUoMs" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="SmProducts">
@@ -166,18 +166,18 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Qty" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Rate" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DRate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Qty" Type="int" Nullable="false" />
+    <Property Name="Rate" Type="decimal" Nullable="false" />
+    <Property Name="DRate" Type="decimal" Nullable="false" />
     <Property Name="SmProductId" Type="int" Nullable="false" />
-    <Property Name="SmRateUoM_Id" Type="int" Nullable="false" />
+    <Property Name="SmRateUoMId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SmRateUoMs">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <Association Name="SmProdStatusSmProduct">
     <End Role="SmProdStatus" Type="ProdDB.Store.SmProdStatus" Multiplicity="1" />
@@ -287,18 +287,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="SmRateSmRateUoM">
-    <End Role="SmRate" Type="ProdDB.Store.SmRates" Multiplicity="*" />
-    <End Role="SmRateUoM" Type="ProdDB.Store.SmRateUoMs" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="SmRateUoM">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="SmRate">
-        <PropertyRef Name="SmRateUoM_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="SmProductSmRate">
     <End Role="SmProduct" Type="ProdDB.Store.SmProducts" Multiplicity="1" />
     <End Role="SmRate" Type="ProdDB.Store.SmRates" Multiplicity="*" />
@@ -308,6 +296,18 @@
       </Principal>
       <Dependent Role="SmRate">
         <PropertyRef Name="SmProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SmRateSmRateUoM">
+    <End Role="SmRate" Type="ProdDB.Store.SmRates" Multiplicity="*" />
+    <End Role="SmRateUoM" Type="ProdDB.Store.SmRateUoMs" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SmRateUoM">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SmRate">
+        <PropertyRef Name="SmRateUoMId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -364,13 +364,13 @@
           </AssociationSet>
           <EntitySet Name="SmRates" EntityType="ProdDB.SmRate" />
           <EntitySet Name="SmRateUoMs" EntityType="ProdDB.SmRateUoM" />
-          <AssociationSet Name="SmRateSmRateUoM" Association="ProdDB.SmRateSmRateUoM">
-            <End Role="SmRate" EntitySet="SmRates" />
-            <End Role="SmRateUoM" EntitySet="SmRateUoMs" />
-          </AssociationSet>
           <AssociationSet Name="SmProductSmRate" Association="ProdDB.SmProductSmRate">
             <End Role="SmProduct" EntitySet="SmProducts" />
             <End Role="SmRate" EntitySet="SmRates" />
+          </AssociationSet>
+          <AssociationSet Name="SmRateSmRateUoM" Association="ProdDB.SmRateSmRateUoM">
+            <End Role="SmRate" EntitySet="SmRates" />
+            <End Role="SmRateUoM" EntitySet="SmRateUoMs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="SmProduct">
@@ -603,25 +603,22 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Qty" Type="String" Nullable="false" />
-          <Property Name="Rate" Type="String" Nullable="false" />
-          <Property Name="DRate" Type="String" Nullable="false" />
-          <NavigationProperty Name="SmRateUoM" Relationship="ProdDB.SmRateSmRateUoM" FromRole="SmRate" ToRole="SmRateUoM" />
+          <Property Name="Qty" Type="Int32" Nullable="false" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" />
+          <Property Name="DRate" Type="Decimal" Nullable="false" />
           <NavigationProperty Name="SmProduct" Relationship="ProdDB.SmProductSmRate" FromRole="SmRate" ToRole="SmProduct" />
           <Property Name="SmProductId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SmRateUoM" Relationship="ProdDB.SmRateSmRateUoM" FromRole="SmRate" ToRole="SmRateUoM" />
+          <Property Name="SmRateUoMId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="SmRateUoM">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
           <NavigationProperty Name="SmRates" Relationship="ProdDB.SmRateSmRateUoM" FromRole="SmRateUoM" ToRole="SmRate" />
         </EntityType>
-        <Association Name="SmRateSmRateUoM">
-          <End Type="ProdDB.SmRate" Role="SmRate" Multiplicity="*" />
-          <End Type="ProdDB.SmRateUoM" Role="SmRateUoM" Multiplicity="1" />
-        </Association>
         <Association Name="SmProductSmRate">
           <End Type="ProdDB.SmProduct" Role="SmProduct" Multiplicity="1" />
           <End Type="ProdDB.SmRate" Role="SmRate" Multiplicity="*" />
@@ -631,6 +628,18 @@
             </Principal>
             <Dependent Role="SmRate">
               <PropertyRef Name="SmProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmRateSmRateUoM">
+          <End Type="ProdDB.SmRate" Role="SmRate" Multiplicity="*" />
+          <End Type="ProdDB.SmRateUoM" Role="SmRateUoM" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="SmRateUoM">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SmRate">
+              <PropertyRef Name="SmRateUoMId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -756,6 +765,7 @@
           <ScalarProperty Name="Rate" ColumnName="Rate" />
           <ScalarProperty Name="DRate" ColumnName="DRate" />
           <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
+          <ScalarProperty Name="SmRateUoMId" ColumnName="SmRateUoMId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -767,14 +777,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="SmRateSmRateUoM" TypeName="ProdDB.SmRateSmRateUoM" StoreEntitySet="SmRates">
-      <EndProperty Name="SmRateUoM">
-        <ScalarProperty Name="Id" ColumnName="SmRateUoM_Id" />
-      </EndProperty>
-      <EndProperty Name="SmRate">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

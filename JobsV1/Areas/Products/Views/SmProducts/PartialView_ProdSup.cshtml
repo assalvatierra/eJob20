@@ -17,7 +17,9 @@
             @foreach (var prodSup in Model)
             {
                 <p>
-                    @prodSup.SmSupplier.Name - @prodSup.Price.ToString("#,###.00") php <br />
+                    @prodSup.SmSupplier.Name <br />
+                     Published: @prodSup.Price.ToString("#,###.00") php <br />
+                     Contracted:  @prodSup.Contracted.ToString("#,###.00") php <br />
                     <span>Validity : </span> @prodSup.ValidStart.ToShortDateString() - @prodSup.ValidEnd.ToShortDateString() <br />
 
                     <a href="" data-toggle="modal" data-target="#editSupModal" 
@@ -85,7 +87,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_PostSupplier(@prodId)" >Add Supplier</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_PostSupplier(@prodId)" >Submit</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -162,105 +164,4 @@
 
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
 <script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
-<script>
-
-    //Add Product Category
-    function ajax_PostSupplier(prodId) {
-
-        var supplier = $("#prodsup-suppliers").val();
-        var validstart = $("#prodsup-validstart").val();
-        var validend = $("#prodsup-validend").val();
-        var price = $("#prodsup-price").val();
-        var contracted = $("#prodsup-contracted").val();
-
-        var query = "";
-        //build json object
-        var data = {
-            prodId: prodId,
-            supId: supplier,
-            startdate : validstart,
-            enddate: validend,
-            price: price,
-            contracted: contracted
-        };
-
-        var url = '/Products/SMProducts/AddProdSup';
-
-        //request data from server using ajax call
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                // console.log("SUCCESS");
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                //console.log(data);
-                location.reload();
-            }
-        });
-    }
-
-    //Edit Product Category
-    function ajax_EditSupplier(prodId) {
-        
-        var Id = $("#editsup-Id").val();
-        var supplier = $("#editsup-suppliers").val();
-        var validstart = $("#editsup-validstart").val();
-        var validend = $("#editsup-validend").val();
-        var price = $("#editsup-price").val();
-        var contracted = $("#editsup-contracted").val();
-
-        alert(Id);
-
-        //build json object
-        var data = {
-            Id: Id,
-            prodId: prodId,
-            supId: supplier,
-            startdate: validstart,
-            enddate: validend,
-            price: price,
-            contracted: contracted
-        };
-
-        var url = '/Products/SMProducts/EditProdSup';
-
-        //request data from server using ajax call
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                // console.log("SUCCESS");
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                //console.log(data);
-                location.reload();
-            }
-        });
-    }
-
-    //edit on click
-    function editProdSup(Id,SupplierId,Start,End,Price,Cont) {
-        //convert string date to date obj
-        var startdate = moment(Start).format('YYYY-MM-DD');;
-        var enddate = moment(End).format('YYYY-MM-DD');;
-
-        $("#editsup-Id").val(Id);
-        $("#editsup-suppliers").val(SupplierId);
-        $("#editsup-validstart").val(startdate);
-        $("#editsup-validend").val(enddate);
-        $("#editsup-price").val(Price);
-        $("#editsup-contracted").val(Cont);
-
-    }
-
-    function refreshPage() {
-        location.reload();
-    }
-</script>
+<script src="~/Areas/Products/Script/ProductSup.js"> </script>

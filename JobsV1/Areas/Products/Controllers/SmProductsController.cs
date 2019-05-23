@@ -42,6 +42,8 @@ namespace JobsV1.Areas.Products.Controllers
             PartialView_Info((int)id);
             PartialView_Cat((int)id);
             PartialView_ProdSup((int)id);
+            PartialView_Rates((int)id);
+
             return View(smProduct);
         }
 
@@ -394,50 +396,50 @@ namespace JobsV1.Areas.Products.Controllers
         #region Product Rates
         public void PartialView_Rates(int id)
         {
-            ViewBag.rates = db.SmRates.Where(s => s.SmProductId == id).ToList();
-            ViewBag.rateUOM = db.SmRateUoMs.ToList();
+            ViewBag.prodrates = db.SmRates.Where(s => s.SmProductId == id).ToList();
+            ViewBag.rateUOMList = db.SmRateUoMs.ToList();
         }
 
-        //add product supplier
-        public ActionResult AddProdRates(int qty, int rate, ,string startdate, string enddate,
-            string price, string contracted)
+        //add new product rate
+        public ActionResult AddProdRate(int prodId, int qty, int? uomId, decimal rate, decimal  drate )
         {
-
-            SmRate prodRate = new SmRate();
-            prodRate.Qty = prodId;
-            prodSup.SmSupplierId = supId;
-
-            db.SmProdSuppliers.Add(prodSup);
+            SmRate prodRate      = new SmRate();
+            prodRate.SmProductId = prodId;
+            prodRate.Qty         = qty;
+            prodRate.SmRateUoMId = (int)uomId;
+            prodRate.Rate        = rate;
+            prodRate.DRate       = drate;
+            
+            db.SmRates.Add(prodRate);
             db.SaveChanges();
 
             return RedirectToAction("Details", new { id = prodId });
         }
 
-        //add product supplier
-        public ActionResult EditProdRates(int Id, int prodId, int supId, string startdate, string enddate,
-            string price, string contracted)
+        //edit product rate
+        public ActionResult EditProdRate(int? id, int prodId, int qty, int? uomId, decimal rate, decimal drate)
         {
-            SmProdSupplier prodSup = db.SmProdSuppliers.Find(Id);
-            prodSup.SmProductId = prodId;
-            prodSup.SmSupplierId = supId;
-            prodSup.ValidStart = DateTime.Parse(startdate);
-            prodSup.ValidEnd = DateTime.Parse(enddate);
-            prodSup.Price = Decimal.Parse(price);
-            prodSup.Contracted = decimal.Parse(contracted);
-
-
-            db.Entry(prodSup).State = EntityState.Modified;
-            db.SaveChanges();
+            if (id != null)
+            {
+                SmRate prodRate = db.SmRates.Find(id);
+                prodRate.Qty = qty;
+                prodRate.SmRateUoMId = (int)uomId;
+                prodRate.Rate = rate;
+                prodRate.DRate = drate;
+            
+                db.Entry(prodRate).State = EntityState.Modified;
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Details", new { id = prodId });
         }
 
-        //Remove product category
-        public ActionResult RemoveProdSup(int id)
+        //Remove product rate
+        public ActionResult RemoveProdRate(int id)
         {
-            SmProdSupplier prodSup = db.SmProdSuppliers.Find(id);
-            int prodId = prodSup.SmProductId;
-            db.SmProdSuppliers.Remove(prodSup);
+            SmRate prodRate = db.SmRates.Find(id);
+            int prodId = prodRate.SmProductId;
+            db.SmRates.Remove(prodRate);
             db.SaveChanges();
 
             return RedirectToAction("Details", new { id = prodId }); //view in personnel details

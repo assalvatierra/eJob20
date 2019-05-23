@@ -26,8 +26,8 @@
         <AssociationConnector Association="ProdDB.SmProductSmProdCat" />
         <EntityTypeShape EntityType="ProdDB.SmRate" Width="1.5" PointX="9" PointY="5.5" />
         <EntityTypeShape EntityType="ProdDB.SmRateUoM" Width="1.5" PointX="11.25" PointY="5.625" />
-        <AssociationConnector Association="ProdDB.SmRateSmRateUoM" />
         <AssociationConnector Association="ProdDB.SmProductSmRate" />
+        <AssociationConnector Association="ProdDB.SmRateSmRateUoM" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

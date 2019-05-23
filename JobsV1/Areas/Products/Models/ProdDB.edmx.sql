@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/20/2019 17:15:08
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx
+-- Date Created: 05/21/2019 09:50:14
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx 
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -197,11 +197,11 @@ GO
 -- Creating table 'SmRates'
 CREATE TABLE [dbo].[SmRates] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Qty] smallint  NOT NULL,
+    [Qty] int  NOT NULL,
     [Rate] decimal(18,0)  NOT NULL,
     [DRate] decimal(18,0)  NOT NULL,
     [SmProductId] int  NOT NULL,
-    [SmRateUoM_Id] int  NOT NULL
+    [SmRateUoMId] int  NOT NULL
 );
 GO
 
@@ -427,21 +427,6 @@ ON [dbo].[SmProdCats]
     ([SmProductId]);
 GO
 
--- Creating foreign key on [SmRateUoM_Id] in table 'SmRates'
-ALTER TABLE [dbo].[SmRates]
-ADD CONSTRAINT [FK_SmRateSmRateUoM]
-    FOREIGN KEY ([SmRateUoM_Id])
-    REFERENCES [dbo].[SmRateUoMs]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SmRateSmRateUoM'
-CREATE INDEX [IX_FK_SmRateSmRateUoM]
-ON [dbo].[SmRates]
-    ([SmRateUoM_Id]);
-GO
-
 -- Creating foreign key on [SmProductId] in table 'SmRates'
 ALTER TABLE [dbo].[SmRates]
 ADD CONSTRAINT [FK_SmProductSmRate]
@@ -455,6 +440,21 @@ GO
 CREATE INDEX [IX_FK_SmProductSmRate]
 ON [dbo].[SmRates]
     ([SmProductId]);
+GO
+
+-- Creating foreign key on [SmRateUoMId] in table 'SmRates'
+ALTER TABLE [dbo].[SmRates]
+ADD CONSTRAINT [FK_SmRateSmRateUoM]
+    FOREIGN KEY ([SmRateUoMId])
+    REFERENCES [dbo].[SmRateUoMs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmRateSmRateUoM'
+CREATE INDEX [IX_FK_SmRateSmRateUoM]
+ON [dbo].[SmRates]
+    ([SmRateUoMId]);
 GO
 
 -- --------------------------------------------------

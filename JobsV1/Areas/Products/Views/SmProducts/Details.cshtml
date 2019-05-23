@@ -11,6 +11,11 @@
     <h4>SmProduct</h4>
     <hr />
 
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
 
     <dl class="dl-horizontal">
         <dt>
@@ -38,19 +43,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BranchId)
+            Branch
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.BranchId)
+            @Html.DisplayFor(model => model.SmBranch.Name )
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ProdStatusId)
+            Status
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ProdStatusId)
+            @Html.DisplayFor(model => model.SmProdStatu.Status)
         </dd>
 
         <dt>
@@ -103,14 +108,12 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
 
 @{Html.RenderPartial("PartialView_Desc", (IEnumerable<JobsV1.Areas.Products.Models.SmProdDesc>)ViewBag.prodDesc, new ViewDataDictionary { { "prodId", Model.Id } });}
 @{Html.RenderPartial("PartialView_Info", (IEnumerable<JobsV1.Areas.Products.Models.SmProdInfo>)ViewBag.prodInfo, new ViewDataDictionary { { "prodId", Model.Id } });}
 @{Html.RenderPartial("PartialView_Cat" ,  (IEnumerable<JobsV1.Areas.Products.Models.SmProdCat>)ViewBag.prodCat,  new ViewDataDictionary { { "prodId", Model.Id }, { "prodCatList", ViewBag.prodCatList } });}
 @{Html.RenderPartial("PartialView_ProdSup", (IEnumerable<JobsV1.Areas.Products.Models.SmProdSupplier>)ViewBag.prodSup,   new ViewDataDictionary { { "prodId", Model.Id }, { "supList", ViewBag.supList} });}
+@{Html.RenderPartial("PartialView_Rates", (IEnumerable<JobsV1.Areas.Products.Models.SmRate>)ViewBag.prodrates, new ViewDataDictionary { { "prodId", Model.Id }, { "rateUOMList", ViewBag.rateUOMList } });}
+
+@{Html.RenderPartial("TermsAndCondition");}
 
