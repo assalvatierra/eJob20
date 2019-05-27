@@ -567,7 +567,7 @@ namespace JobsV1.Models
                 JobMain job = db.JobMains.Find(jobId);
 
                 //mail title
-                md.Subject = "Quotation";
+                md.Subject = job.Description +  " Quotation";
 
                 //encode white space
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
@@ -696,7 +696,7 @@ namespace JobsV1.Models
                 JobMain job = db.JobMains.Find(jobId);
 
                 //mail title
-                md.Subject = "Reservation Details";
+                md.Subject = job.Description + " Reservation Details";
 
                 //encode white space
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
@@ -842,7 +842,7 @@ namespace JobsV1.Models
         {
             switch (staffLogin)
             {
-                case "josette.realbreeze@gmail.com ":
+                case "josette.realbreeze@gmail.com":
                     return "Josette Villaser";
                 case "mae.realbreeze@gmail.com":
                     return "Mae Verano";

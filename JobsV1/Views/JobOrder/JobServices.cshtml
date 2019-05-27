@@ -42,7 +42,7 @@
 
         @if (ViewBag.JobStatus == "RESERVATION")
         {
-            @Html.ActionLink("(CONFIRM JOB)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+            @Html.ActionLink("(Confirm Job)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
         }
 
         <br />@Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)

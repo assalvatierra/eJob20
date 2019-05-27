@@ -124,7 +124,7 @@ namespace JobsV1.Areas.Products.Controllers
             {
                 db.Entry(smProduct).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = smProduct.Id});
             }
             ViewBag.SmProdStatusId = new SelectList(db.SmProdStatus, "Id", "Status", smProduct.SmProdStatusId);
             ViewBag.SmBranchId = new SelectList(db.SmBranches, "Id", "Name", smProduct.SmBranchId);

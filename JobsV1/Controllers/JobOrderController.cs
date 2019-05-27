@@ -2242,10 +2242,10 @@ order by x.jobid
             switch (doctype)
             {
                 case "QUOTATION":
-                    mailResult = mail.SendMailQuotation((int)jobId, "realbreezemark@gmail.com", jobServices);
+                    mailResult = mail.SendMailQuotation((int)jobId, jobOrder.CustContactEmail, jobServices);
                     break;
                 case "RESERVATION":
-                    mailResult = mail.SendMailReservation((int)jobId, "realbreezemark@gmail.com", jobServices);
+                    mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices);
                     break;
             }
      

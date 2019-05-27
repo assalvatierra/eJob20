@@ -6,6 +6,11 @@
   * details.
   */
 
+function getDatetoday() {
+    const now = new Date();
+    var today = moment(now).format('YYYY-MM-DD');
+    return today;
+}
 
 //Add Product Category
 function ajax_PostSupplier(prodId) {
@@ -91,8 +96,8 @@ function ajax_EditSupplier(prodId) {
 //edit on click
 function editProdSup(Id, SupplierId, Start, End, Price, Cont) {
     //convert string date to date obj
-    var startdate = moment(Start).format('YYYY-MM-DD');;
-    var enddate = moment(End).format('YYYY-MM-DD');;
+    var startdate = moment(Start).format('YYYY-MM-DD');
+    var enddate = moment(End).format('YYYY-MM-DD');
 
     $("#editsup-Id").val(Id);
     $("#editsup-suppliers").val(SupplierId);

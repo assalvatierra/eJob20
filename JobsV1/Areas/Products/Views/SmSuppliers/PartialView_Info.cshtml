@@ -136,9 +136,9 @@
     //Add new Info on Suppliers
     //supID : Suppliers Id
     function ajax_PostInfo(supId) {
-        var infolabel   = $("#edit-Infolabel").val();
-        var infoValue   = $("#edit-InfoValue").val();
-        var infoRemarks = $("#edit-InfoRemarks").val();
+        var infolabel   = $("#sup-Infolabel").val();
+        var infoValue   = $("#sup-InfoValue").val();
+        var infoRemarks = $("#sup-InfoRemarks").val();
 
 
         //build json object // no use
@@ -162,7 +162,7 @@
             },
             error: function (data) {
                 // console.log("ERROR");
-                //console.log(data);
+                console.log(data);
                 location.reload();
             }
         });
@@ -199,7 +199,7 @@
             },
             error: function (data) {
                 //// console.log("ERROR");
-                //console.log(data);
+                console.log(data);
                 location.reload();
             }
         });

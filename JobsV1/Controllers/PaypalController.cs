@@ -173,7 +173,6 @@ namespace JobsV1.Controllers
               
                 // jahdiel test paypal
                 // sandbox
-
                 return new Dictionary<string, string>() {
                     { "clientId",     "AeKvfmAZjDaTJ4bH4PFGurLMvFZOl9OeHaK6xUlSCB0Ny8RU2WEeijZLTeRGvz0GjQXrX1SuaYvf53-H" },
                     { "clientSecret", "EASK4ghccZuqU3VDsEwA9WzEbNWqqtWPJQWXkd1UAcKflTQ1CX1dAvj2ZyKcE_nILs2ewK0rQkJ85hAX" }
