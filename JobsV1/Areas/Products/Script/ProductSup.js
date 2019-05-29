@@ -61,7 +61,7 @@ function ajax_EditSupplier(prodId) {
     var price = $("#editsup-price").val();
     var contracted = $("#editsup-contracted").val();
 
-    alert(Id);
+    //alert(Id);
 
     //build json object
     var data = {
@@ -111,3 +111,40 @@ function editProdSup(Id, SupplierId, Start, End, Price, Cont) {
 function refreshPage() {
     location.reload();
 }
+
+
+function removeSup(Id, desc) {
+    if (confirm('Are you sure you want to remove "' + desc + '"?')) {
+        ajax_RemoveSup(Id);
+    } else {
+        // Do nothing!
+    }
+}
+
+function ajax_RemoveSup(Id) {
+    //build json object
+
+    var data = {
+        id: Id
+    };
+
+    var url = '/Products/SMProducts/RemoveProdSup';
+
+    //Post data from server using ajax call
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            // console.log("SUCCESS");
+        },
+        error: function (data) {
+            // console.log("ERROR");
+            console.log(data);
+            location.reload();
+        }
+    });
+}
+
+

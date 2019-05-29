@@ -29,10 +29,10 @@
                             @prodRate.Qty @prodRate.SmRateUoM.Name
                         </td>
                         <td>
-                            @prodRate.Rate
+                            @prodRate.Rate.ToString("#,###.00")
                         </td>
                         <td>
-                            @prodRate.DRate
+                            @prodRate.DRate.ToString("#,###.00")
                         </td>
                         <td>
                             <a href="" id="catbtn" data-toggle="modal" data-target="#edit-prodRateModal"
@@ -40,7 +40,8 @@
                                '@prodRate.Rate', '@prodRate.DRate' )">
                                 Edit
                             </a> |
-                            @Html.ActionLink("Remove", "RemoveProdRate", new { id = prodRate.Id })
+                            <a onclick="removeRate('@prodRate.Id',' @prodRate.Qty  @prodRate.SmRateUoM.Name - @prodRate.Rate')">Remove</a>
+                            @*@Html.ActionLink("Remove", "RemoveProdRate", new { id = prodRate.Id })*@
                         </td>
                     </tr>
                 }

@@ -43,6 +43,7 @@ namespace JobsV1.Areas.Products.Controllers
             PartialView_Cat((int)id);
             PartialView_ProdSup((int)id);
             PartialView_Rates((int)id);
+            PartialView_File((int)id);
 
             return View(smProduct);
         }
@@ -88,7 +89,8 @@ namespace JobsV1.Areas.Products.Controllers
             {
                 db.SmProducts.Add(smProduct);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = smProduct.Id });
             }
 
             ViewBag.SmProdStatusId = new SelectList(db.SmProdStatus, "Id", "Status", smProduct.SmProdStatusId);
@@ -167,7 +169,27 @@ namespace JobsV1.Areas.Products.Controllers
             }
             base.Dispose(disposing);
         }
-        
+
+        public ActionResult Deactivate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SmProduct smProduct = db.SmProducts.Find(id);
+            if (smProduct == null)
+            {
+                return HttpNotFound();
+            }
+
+            //change status
+            smProduct.SmProdStatusId = 2;
+            db.Entry(smProduct).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         #region Product Description
 
         public void PartialView_Desc(int id)
@@ -190,8 +212,6 @@ namespace JobsV1.Areas.Products.Controllers
                 db.SmProdDescs.Add(desc);
                 db.SaveChanges();
             }
-
-
             return RedirectToAction("Details", new { id = prodId });
         }
 
@@ -217,14 +237,12 @@ namespace JobsV1.Areas.Products.Controllers
         [HttpGet]
         public string getDesc(int Id)
         {
-
             SmProdDesc prodDesc = db.SmProdDescs.Find(Id);
 
             productDesc desc = new productDesc();
             desc.Id   = prodDesc.Id;
             desc.Desc = prodDesc.Description;
             desc.Sort = prodDesc.SortNo;
-
 
             return JsonConvert.SerializeObject(desc, Formatting.Indented);
         }
@@ -245,7 +263,6 @@ namespace JobsV1.Areas.Products.Controllers
         public void PartialView_Info(int id)
         {
             ViewBag.prodInfo = db.SmProdInfoes.Where(s => s.SmProductId == id).ToList();
-
         }
         
         public ActionResult AddInfo(int prodId, string infolabel, string infoValue, string infoRemarks)
@@ -303,6 +320,7 @@ namespace JobsV1.Areas.Products.Controllers
         #endregion
 
         #region Product Category
+
         public void PartialView_Cat(int id)
         {
             ViewBag.prodCat = db.SmProdCats.Where(s => s.SmProductId == id).Include(s=>s.SmCategory).ToList();
@@ -373,7 +391,6 @@ namespace JobsV1.Areas.Products.Controllers
             prodSup.Price = Decimal.Parse(price);
             prodSup.Contracted = decimal.Parse(contracted);
 
-
             db.Entry(prodSup).State = EntityState.Modified;
             db.SaveChanges();
             
@@ -391,8 +408,7 @@ namespace JobsV1.Areas.Products.Controllers
             return RedirectToAction("Details", new { id = prodId }); //view in personnel details
         }
         #endregion
-
-
+        
         #region Product Rates
         public void PartialView_Rates(int id)
         {
@@ -440,6 +456,39 @@ namespace JobsV1.Areas.Products.Controllers
             SmRate prodRate = db.SmRates.Find(id);
             int prodId = prodRate.SmProductId;
             db.SmRates.Remove(prodRate);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = prodId }); //view in personnel details
+        }
+        #endregion
+
+
+        #region Product Category
+        public void PartialView_File(int id)
+        {
+            ViewBag.files = db.SmFiles.Where(s => s.SmProductId == id).ToList();
+        }
+
+        //add product category
+        public ActionResult AddFile(int prodId, string desc,string filePath)
+        {
+            SmFile file = new SmFile();
+            file.Desc = desc;
+            file.Link = filePath;
+            file.SmProductId = prodId;
+
+            db.SmFiles.Add(file);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = prodId });
+        }
+
+        //Remove product category
+        public ActionResult RemoveFile(int id)
+        {
+            SmFile file = db.SmFiles.Find(id);
+            int prodId = file.SmProductId;
+            db.SmFiles.Remove(file);
             db.SaveChanges();
 
             return RedirectToAction("Details", new { id = prodId }); //view in personnel details

@@ -35,12 +35,13 @@ namespace JobsV1.Areas.Products.Models
             var prodcat = db.SmProdCats.Where(s => search.Contains(s.SmCategory.Name)).Select(s=>s.SmProductId).ToList();
             List<SmProduct> prodList = new List<SmProduct>();
 
-            prodList = db.SmProducts.ToList();
-
+            prodList = db.SmProducts.Where(s=>s.SmProdStatu.Status == status).ToList();
+            
             //Search string filter
             if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
             {
-                prodList = prodList.Where(s => s.Name.ToLower().Contains(search.ToLower()) || prodcat.Contains(s.Id)).ToList();
+                prodList = prodList.Where(s => (s.Name.ToLower().Contains(search.ToLower()) || prodcat.Contains(s.Id) )).ToList();
+
             }
           
             //get products search name,remarks, product category

@@ -59,10 +59,12 @@ $(document).ready(ajax_loadContent());
 function ajax_loadContent() {
     var query = $('#srch-field').val();
     //console.log("status: " + status);
+    console.log('load:'+status);
 
     //build json object
     var data = {
-        search: query
+        search: query,
+        status: status
     };
 
     //console.log(query);
@@ -111,7 +113,9 @@ function SimpleTable(data) {
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
-        content = "<tr>";
+        if (moment().diff(temp[x]["ValidityEnd"], 'days') > 0 ) {
+
+        content = "<tr style='color:orangered;'>";
         content += "<td>" + temp[x]["Code"] + "</td>";
         content += "<td>" + temp[x]["Name"] + "</td>";
         content += "<td>" + temp[x]["Price"] + "</td>";
@@ -121,9 +125,28 @@ function SimpleTable(data) {
         content += "<td>" + temp[x]["Status"] + "</td>";
         content += "<td>" +
             "<a href='SMProducts/Details/" + temp[x]["Id"] + "'>Details</a> |" +
-            "<a href='SMProducts/Delete/" + temp[x]["Id"] + "'>Delete</a> " +
+            "<a href='SMProducts/Delete/" + temp[x]["Id"] + "'>Delete</a> |" +
+            "<a href='SmProducts/Deactivate/" + temp[x]["Id"] + "'>Deactivate</a> " +
             "</td>";
         content += "<tr>";
+
+        } else {
+
+            content = "<tr>";
+            content += "<td>" + temp[x]["Code"] + "</td>";
+            content += "<td>" + temp[x]["Name"] + "</td>";
+            content += "<td>" + temp[x]["Price"] + "</td>";
+            content += "<td>" + temp[x]["ValidityStart"] + "</td>";
+            content += "<td>" + temp[x]["ValidityEnd"] + "</td>";
+            content += "<td>" + temp[x]["Remarks"] + "</td>";
+            content += "<td>" + temp[x]["Status"] + "</td>";
+            content += "<td>" +
+                "<a href='SMProducts/Details/" + temp[x]["Id"] + "'>Details</a> " +
+                "</td>";
+            content += "<tr>";
+
+        }
+
 
         $(content).appendTo("#prodTable");
 
@@ -140,3 +163,16 @@ function StatusRefresh() {
     ajax_loadContent();
 }
 
+function setActiveTrue() {
+    status = "ACT";
+    $("#status-act").css('color', 'black');
+    $("#status-inc").css('color', 'dodgerblue');
+    console.log("select"+status);
+}
+
+function setInactiveTrue() {
+    status = "INC";
+    $("#status-act").css('color', 'dodgerblue');
+    $("#status-inc").css('color', 'black');
+    console.log("select" + status);
+}

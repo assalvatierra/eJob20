@@ -529,3 +529,8 @@ rental-type-wdriver {
     .modal-label{
         margin-top:5px;
     }
+
+
+    .list-group-item {
+        cursor: pointer;
+    }

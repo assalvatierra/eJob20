@@ -94,3 +94,40 @@ function EditInfo(Id, label, value, remarks) {
 function refreshPage() {
     location.reload();
 }
+
+
+function removeInfo(Id, desc) {
+    if (confirm('Are you sure you want to remove "' + desc + '"?')) {
+        ajax_RemoveInfo(Id);
+    } else {
+        // Do nothing!
+    }
+}
+
+function ajax_RemoveInfo(Id) {
+    //build json object
+
+    var data = {
+        id: Id
+    };
+
+    var url = '/Products/SMProducts/RemoveInfo';
+
+    //Post data from server using ajax call
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            // console.log("SUCCESS");
+        },
+        error: function (data) {
+            // console.log("ERROR");
+            console.log(data);
+            location.reload();
+        }
+    });
+}
+
+

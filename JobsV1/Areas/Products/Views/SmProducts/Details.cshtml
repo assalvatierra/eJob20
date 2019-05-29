@@ -109,11 +109,20 @@
     </dl>
 </div>
 
-@{Html.RenderPartial("PartialView_Desc", (IEnumerable<JobsV1.Areas.Products.Models.SmProdDesc>)ViewBag.prodDesc, new ViewDataDictionary { { "prodId", Model.Id } });}
-@{Html.RenderPartial("PartialView_Info", (IEnumerable<JobsV1.Areas.Products.Models.SmProdInfo>)ViewBag.prodInfo, new ViewDataDictionary { { "prodId", Model.Id } });}
-@{Html.RenderPartial("PartialView_Cat" ,  (IEnumerable<JobsV1.Areas.Products.Models.SmProdCat>)ViewBag.prodCat,  new ViewDataDictionary { { "prodId", Model.Id }, { "prodCatList", ViewBag.prodCatList } });}
+@{Html.RenderPartial("PartialView_Desc",    (IEnumerable<JobsV1.Areas.Products.Models.SmProdDesc>)ViewBag.prodDesc, new ViewDataDictionary { { "prodId", Model.Id } });}
+@{Html.RenderPartial("PartialView_Info",    (IEnumerable<JobsV1.Areas.Products.Models.SmProdInfo>)ViewBag.prodInfo, new ViewDataDictionary { { "prodId", Model.Id } });}
+@{Html.RenderPartial("PartialView_Cat" ,    (IEnumerable<JobsV1.Areas.Products.Models.SmProdCat>)ViewBag.prodCat,  new ViewDataDictionary { { "prodId", Model.Id }, { "prodCatList", ViewBag.prodCatList } });}
 @{Html.RenderPartial("PartialView_ProdSup", (IEnumerable<JobsV1.Areas.Products.Models.SmProdSupplier>)ViewBag.prodSup,   new ViewDataDictionary { { "prodId", Model.Id }, { "supList", ViewBag.supList} });}
-@{Html.RenderPartial("PartialView_Rates", (IEnumerable<JobsV1.Areas.Products.Models.SmRate>)ViewBag.prodrates, new ViewDataDictionary { { "prodId", Model.Id }, { "rateUOMList", ViewBag.rateUOMList } });}
+@{Html.RenderPartial("PartialView_Rates",   (IEnumerable<JobsV1.Areas.Products.Models.SmRate>)ViewBag.prodrates, new ViewDataDictionary { { "prodId", Model.Id }, { "rateUOMList", ViewBag.rateUOMList } });}
+@{Html.RenderPartial("PartialView_Files",   (IEnumerable<JobsV1.Areas.Products.Models.SmFile>)ViewBag.files, new ViewDataDictionary { { "prodId", Model.Id } });}
 
-@{Html.RenderPartial("TermsAndCondition");}
+@{
+    if(Model.Code.Contains("SIN")) {
+        Html.RenderPartial("TermsAndCondition-SIN");
+    }else if(Model.Code.Contains("KL")){
+        Html.RenderPartial("TermsAndCondition-KL");
+    } else {
+        Html.RenderPartial("TermsAndCondition");
+    }
+}
 

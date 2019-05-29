@@ -22,7 +22,8 @@
                     <b>Remarks</b> : @prodInfo.Remarks<br />
                    
                     <a href="" id="catbtn" data-toggle="modal" data-target="#edit-prodInfoModal" onclick="EditInfo('@prodInfo.Id', '@prodInfo.Label', '@prodInfo.Value', '@prodInfo.Remarks' )" >Edit</a> |
-                    @Html.ActionLink("Remove", "RemoveInfo", new { id = prodInfo.Id })
+                    <a onclick="removeInfo('@prodInfo.Id','@prodInfo.Label : @prodInfo.Value')">Remove</a>
+                    @*@Html.ActionLink("Remove", "RemoveInfo", new { id = prodInfo.Id })*@
                 </p>
             } 
             <a href="" id="catbtn" data-toggle="modal" data-target="#prodInfoModal" style="margin-bottom:10px;">Add Info</a>

@@ -11,6 +11,10 @@
     @Html.ActionLink("Add New Product", "Create")
 </p>
 <p>
+    <a onclick="setActiveTrue()" id="status-act" style="cursor:pointer;color:black;">Active</a> |
+    <a onclick="setInactiveTrue()" id="status-inc" style="cursor:pointer;color:dodgerblue;">Inactive</a>
+</p>
+<p>
     <span> Search </span>
     <input type="search" id="srch-field" />
     <button class="btn btn-default" id="srch-btn" onclick="ajax_loadContent()">Search</button>
@@ -28,9 +32,9 @@
         <th>Status</th>
         <th></th>
     </tr>
-
 </table>
 
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script src="~/Areas/Products/Script/ProdList.js"></script>

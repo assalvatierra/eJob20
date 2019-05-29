@@ -26,7 +26,9 @@
                        onclick="editProdSup('@prodSup.Id','@prodSup.SmSupplierId','@prodSup.ValidStart','@prodSup.ValidEnd','@prodSup.Price','@prodSup.Contracted')" > 
                        Edit </a> |
                     @Html.ActionLink("Details", "Details","SmSuppliers", new { id = prodSup.Id }, null  ) |
-                    @Html.ActionLink("Remove", "RemoveProdSup", new { id = prodSup.Id })
+
+                    <a onclick="removeSup('@prodSup.Id','@prodSup.SmSupplier.Name')">Remove</a>
+                    @*@Html.ActionLink("Remove", "RemoveProdSup", new { id = prodSup.Id })*@
                 </p>
             }
             <a href="" id="catbtn" data-toggle="modal" data-target="#prodSupModal" >Add Supplier</a>
@@ -87,7 +89,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_PostSupplier(@prodId)" >Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_PostSupplier('@prodId')" >Submit</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -152,11 +154,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_EditSupplier(@prodId)">Add Supplier</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_EditSupplier(@prodId)">Save</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    </div>
+    <!-- /.modal -->
 </div>
 
 <script src="~/Scripts/jquery-3.3.1.js"> </script>

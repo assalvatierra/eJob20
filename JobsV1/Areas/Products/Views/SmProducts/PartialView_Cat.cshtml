@@ -19,7 +19,8 @@
             {
                 <p>
                     @prodCat.SmCategory.Name
-                    @Html.ActionLink("[x]", "RemoveCat", new { id = prodCat.Id })
+                    <a onclick="removeCat('@prodCat.Id','@prodCat.SmCategory.Name')">[x]</a>
+                  @*  @Html.ActionLink("[x]", "RemoveCat", new { id = prodCat.Id })*@
                 </p>
             }
             <a href="" id="catbtn" data-toggle="modal" data-target="#prodCatModal" style="margin-bottom:10px;">Add Category</a>
@@ -38,7 +39,7 @@
                 <div class="modal-body row" id="modal2-content">
                     @foreach (var cat in ViewBag.prodCatList as IEnumerable<JobsV1.Areas.Products.Models.SmCategory>)
                     {
-                        <a href="" class="list-group-item skills" onclick="selectCat(@cat.Id ,@prodId)">
+                        <a class="list-group-item skills" onclick="selectCat(@cat.Id ,@prodId)">
                             @cat.Name
                         </a>
                     }
@@ -88,4 +89,42 @@
     function refreshPage() {
         location.reload();
     }
+
+    
+
+    function removeCat(Id, desc) {
+        if (confirm('Are you sure you want to remove "' + desc + '"?')) {
+            ajax_RemoveCat(Id);
+        } else {
+            // Do nothing!
+        }
+    }
+
+    function ajax_RemoveCat(Id) {
+        //build json object
+
+        var data = {
+            id: Id
+        };
+
+        var url = '/Products/SMProducts/RemoveCat';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+
 </script>

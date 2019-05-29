@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/21/2019 09:50:14
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx 
+-- Date Created: 05/27/2019 16:37:25
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -44,11 +44,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SmProductSmProdCat]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SmProdCats] DROP CONSTRAINT [FK_SmProductSmProdCat];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SmProductSmRate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmRates] DROP CONSTRAINT [FK_SmProductSmRate];
+GO
 IF OBJECT_ID(N'[dbo].[FK_SmRateSmRateUoM]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SmRates] DROP CONSTRAINT [FK_SmRateSmRateUoM];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SmProductSmRate]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SmRates] DROP CONSTRAINT [FK_SmProductSmRate];
+IF OBJECT_ID(N'[dbo].[FK_SmProductSmFile]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmFiles] DROP CONSTRAINT [FK_SmProductSmFile];
 GO
 
 -- --------------------------------------------------
@@ -90,6 +93,9 @@ IF OBJECT_ID(N'[dbo].[SmRates]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SmRateUoMs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SmRateUoMs];
+GO
+IF OBJECT_ID(N'[dbo].[SmFiles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmFiles];
 GO
 
 -- --------------------------------------------------
@@ -212,6 +218,15 @@ CREATE TABLE [dbo].[SmRateUoMs] (
 );
 GO
 
+-- Creating table 'SmFiles'
+CREATE TABLE [dbo].[SmFiles] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Desc] nvarchar(80)  NOT NULL,
+    [Link] nvarchar(200)  NOT NULL,
+    [SmProductId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -285,6 +300,12 @@ GO
 -- Creating primary key on [Id] in table 'SmRateUoMs'
 ALTER TABLE [dbo].[SmRateUoMs]
 ADD CONSTRAINT [PK_SmRateUoMs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SmFiles'
+ALTER TABLE [dbo].[SmFiles]
+ADD CONSTRAINT [PK_SmFiles]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -455,6 +476,21 @@ GO
 CREATE INDEX [IX_FK_SmRateSmRateUoM]
 ON [dbo].[SmRates]
     ([SmRateUoMId]);
+GO
+
+-- Creating foreign key on [SmProductId] in table 'SmFiles'
+ALTER TABLE [dbo].[SmFiles]
+ADD CONSTRAINT [FK_SmProductSmFile]
+    FOREIGN KEY ([SmProductId])
+    REFERENCES [dbo].[SmProducts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmFile'
+CREATE INDEX [IX_FK_SmProductSmFile]
+ON [dbo].[SmFiles]
+    ([SmProductId]);
 GO
 
 -- --------------------------------------------------

@@ -170,3 +170,40 @@ function addDescToDisplay(desc) {
 
 }
 
+
+function removeDesc(Id, desc) {
+    if (confirm('Are you sure you want to remove "' + desc + '"?')) {
+        ajax_RemoveDesc(Id);
+    } else {
+        // Do nothing!
+    }
+}
+
+function ajax_RemoveDesc(Id) {
+    //build json object
+
+    var data = {
+        id: Id
+    };
+
+    var url = '/Products/SMProducts/RemoveDesc';
+
+    //Post data from server using ajax call
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            // console.log("SUCCESS");
+        },
+        error: function (data) {
+            // console.log("ERROR");
+            console.log(data);
+            location.reload();
+        }
+    });
+}
+
+
+

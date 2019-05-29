@@ -322,10 +322,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/20/2019 17:08:26</publishTime>
     </File>
     <File Include="Areas/Products/Models/ProdDB.edmx.diagram">
-      <publishTime>05/21/2019 09:50:52</publishTime>
+      <publishTime>05/27/2019 18:09:26</publishTime>
     </File>
     <File Include="Areas/Products/Models/ProdDB.edmx.sql">
-      <publishTime>05/21/2019 10:12:05</publishTime>
+      <publishTime>05/27/2019 16:37:31</publishTime>
     </File>
     <File Include="Areas/Products/Script/DateRangePicker/bower.json">
       <publishTime>05/15/2019 10:31:34</publishTime>
@@ -349,19 +349,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/15/2019 10:43:43</publishTime>
     </File>
     <File Include="Areas/Products/Script/ProdList.js">
-      <publishTime>05/20/2019 11:40:54</publishTime>
+      <publishTime>05/29/2019 14:40:51</publishTime>
     </File>
     <File Include="Areas/Products/Script/ProductDesc.js">
-      <publishTime>05/21/2019 15:18:25</publishTime>
+      <publishTime>05/28/2019 13:36:36</publishTime>
     </File>
     <File Include="Areas/Products/Script/ProductInfo.js">
-      <publishTime>05/21/2019 13:53:24</publishTime>
+      <publishTime>05/28/2019 13:43:34</publishTime>
     </File>
     <File Include="Areas/Products/Script/ProductRate.js">
-      <publishTime>05/21/2019 17:00:59</publishTime>
+      <publishTime>05/28/2019 13:55:54</publishTime>
     </File>
     <File Include="Areas/Products/Script/ProductSup.js">
-      <publishTime>05/25/2019 09:33:53</publishTime>
+      <publishTime>05/29/2019 14:43:25</publishTime>
     </File>
     <File Include="Areas/Products/Script/SupList.js">
       <publishTime>05/15/2019 10:51:02</publishTime>
@@ -391,28 +391,37 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/13/2019 11:49:01</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/Details.cshtml">
-      <publishTime>05/22/2019 13:56:36</publishTime>
+      <publishTime>05/27/2019 15:38:06</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/Edit.cshtml">
       <publishTime>05/21/2019 16:22:34</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/Index.cshtml">
-      <publishTime>05/13/2019 11:48:54</publishTime>
+      <publishTime>05/29/2019 14:21:32</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/PartialView_Cat.cshtml">
-      <publishTime>05/21/2019 17:25:35</publishTime>
+      <publishTime>05/28/2019 13:47:22</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/PartialView_Desc.cshtml">
-      <publishTime>05/21/2019 15:25:20</publishTime>
+      <publishTime>05/28/2019 13:30:02</publishTime>
+    </File>
+    <File Include="Areas/Products/Views/SmProducts/PartialView_Files.cshtml">
+      <publishTime>05/28/2019 13:16:09</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/PartialView_Info.cshtml">
-      <publishTime>05/21/2019 13:55:23</publishTime>
+      <publishTime>05/28/2019 13:41:40</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/PartialView_ProdSup.cshtml">
-      <publishTime>05/25/2019 09:35:58</publishTime>
+      <publishTime>05/29/2019 14:43:42</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/PartialView_Rates.cshtml">
-      <publishTime>05/25/2019 09:29:14</publishTime>
+      <publishTime>05/28/2019 16:30:15</publishTime>
+    </File>
+    <File Include="Areas/Products/Views/SmProducts/TermsAndCondition-KL.cshtml">
+      <publishTime>05/27/2019 14:53:29</publishTime>
+    </File>
+    <File Include="Areas/Products/Views/SmProducts/TermsAndCondition-SIN.cshtml">
+      <publishTime>05/27/2019 14:02:14</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/TermsAndCondition.cshtml">
       <publishTime>05/22/2019 10:58:25</publishTime>
@@ -445,10 +454,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/11/2019 12:53:31</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmSuppliers/Index.cshtml">
-      <publishTime>05/13/2019 11:49:11</publishTime>
+      <publishTime>05/28/2019 13:59:16</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmSuppliers/PartialView_Info.cshtml">
-      <publishTime>05/25/2019 09:53:15</publishTime>
+      <publishTime>05/25/2019 10:31:03</publishTime>
     </File>
     <File Include="Areas/Products/Views/web.config">
       <publishTime>05/09/2019 15:45:31</publishTime>
@@ -463,10 +472,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>05/25/2019 09:57:54</publishTime>
+      <publishTime>05/29/2019 14:47:50</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>05/25/2019 09:57:54</publishTime>
+      <publishTime>05/29/2019 14:47:50</publishTime>
     </File>
     <File Include="bin/de/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>02/21/2014 21:26:06</publishTime>
@@ -490,7 +499,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/21/2014 21:25:22</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>05/25/2019 09:31:19</publishTime>
+      <publishTime>05/29/2019 14:45:12</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>02/21/2014 21:27:16</publishTime>
@@ -667,7 +676,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/20/2019 11:35:51</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>05/15/2019 17:13:53</publishTime>
+      <publishTime>05/28/2019 13:48:39</publishTime>
     </File>
     <File Include="Content/themes/base/accordion.css">
       <publishTime>03/05/2019 09:53:30</publishTime>
@@ -1717,7 +1726,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/30/2019 10:22:48</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>05/25/2019 09:57:22</publishTime>
+      <publishTime>05/29/2019 14:47:38</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -1726,7 +1735,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:32</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>05/24/2019 16:02:53</publishTime>
+      <publishTime>05/28/2019 14:45:10</publishTime>
     </File>
     <File Include="Scripts/ai.0.15.0-build58334.js">
       <publishTime>03/05/2019 09:53:33</publishTime>

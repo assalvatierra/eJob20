@@ -406,6 +406,9 @@
     <Compile Include="Areas\Products\Models\SmCategory.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Products\Models\SmFile.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Products\Models\SmProdCat.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
@@ -1363,6 +1366,9 @@
     <Content Include="Areas\Products\Views\SmCategories\Edit.cshtml" />
     <Content Include="Areas\Products\Views\SmCategories\Index.cshtml" />
     <Content Include="Areas\Products\Views\SmProducts\TermsAndCondition.cshtml" />
+    <Content Include="Areas\Products\Views\SmProducts\TermsAndCondition-SIN.cshtml" />
+    <Content Include="Areas\Products\Views\SmProducts\TermsAndCondition-KL.cshtml" />
+    <Content Include="Areas\Products\Views\SmProducts\PartialView_Files.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
