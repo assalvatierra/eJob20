@@ -502,16 +502,23 @@ namespace JobsV1
                 url: "CarCoop/Index/{id}",
                 defaults: new { controller = "CarCoop", action = "Index", id = UrlParameter.Optional }
             );
-            
+
             routes.MapRoute(
                 name: "POTTMPC/Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "CarCoop", action = "Index", id = UrlParameter.Optional }
             );
+            ********************************/
+
+            /********************************
+            * Davaocarrentalhub.com landing/home page
+            routes.MapRoute(
+                name: "CarRentalHub/Home",
+                url: "{controller}/{action}/{id}",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing", id = UrlParameter.Optional }
+            );
             
             ********************************/
-            
-
 
             /********************************
             * landing/home page
@@ -521,6 +528,7 @@ namespace JobsV1
                 url: "CarRental/Index/{id}",
                 defaults: new { controller = "CarRental", action = "Index", id = UrlParameter.Optional }
             );
+
             /********************************
             * AJ88 car rental default
             ********************************/
