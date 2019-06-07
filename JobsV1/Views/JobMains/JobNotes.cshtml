@@ -28,7 +28,8 @@
 <h2>JobNotes</h2>
 
 <p>
-    @Html.ActionLink("Add New", "CreateJobNote", new { id = ViewBag.JobOrder.Id })
+    @Html.ActionLink("Add New", "CreateJobNote", new { id = ViewBag.JobOrder.Id }) |
+    @Html.ActionLink("Notes List", "Index","PredefinedNotes",null,null)
 </p>
 <table class="table">
     <tr>
@@ -57,7 +58,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "EditJobNote", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Delete", "DeleteNote", new { id=item.Id, ViewBag.JobId })
         </td>
     </tr>
 }

@@ -798,15 +798,6 @@ namespace JobsV1.Controllers
             return View(templates);
         }
 
-        public ActionResult JobNotes(int? id)
-        {
-            var Job = db.JobMains.Where(d => d.Id == id).FirstOrDefault();
-            ViewBag.JobOrder = Job;
-
-            var jobnotes = db.JobNotes.Where(d => d.JobMainId == id).OrderBy(s=>s.Sort);
-            return View(jobnotes);
-        }
-
         public ActionResult ConfirmJobStatus(int? id)
         {
             var Job = db.JobMains.Find(id);
@@ -818,6 +809,28 @@ namespace JobsV1.Controllers
         }
 
         #region Job Notes
+
+
+        public ActionResult JobNotes(int? id)
+        {
+            var Job = db.JobMains.Where(d => d.Id == id).FirstOrDefault();
+            ViewBag.JobOrder = Job;
+            ViewBag.JobId = id;
+
+            var jobnotes = db.JobNotes.Where(d => d.JobMainId == id).OrderBy(s => s.Sort);
+            return View(jobnotes);
+        }
+
+        public ActionResult DeleteNote(int? id, int jobId)
+        {
+            JobNote notes = db.JobNotes.Find(id);
+            db.JobNotes.Remove(notes);
+            db.SaveChanges();
+
+            return RedirectToAction("JobNotes", "JobMains", new { id = jobId });
+        }
+
+
         public ActionResult CreateJobNote(int? id)
         {
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", id);
@@ -825,7 +838,7 @@ namespace JobsV1.Controllers
             jn.Sort = 10 * ( 1 + db.JobNotes.Where(d => d.JobMainId == id).ToList().Count() );
 
             ViewBag.templateNotes = db.PreDefinedNotes.ToList();
-
+            ViewBag.JobId = id;
             return View(jn);
         }
         [HttpPost]
