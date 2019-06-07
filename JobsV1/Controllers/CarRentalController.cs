@@ -51,6 +51,11 @@ namespace JobsV1.Controllers
 
         }
 
+        public ActionResult Ads()
+        {
+            return View("Index");
+        }
+
         public ActionResult Contact()
         {
             return View();
