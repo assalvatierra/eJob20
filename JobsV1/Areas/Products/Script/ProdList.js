@@ -125,7 +125,6 @@ function SimpleTable(data) {
         content += "<td>" + temp[x]["Status"] + "</td>";
         content += "<td>" +
             "<a href='SMProducts/Details/" + temp[x]["Id"] + "'>Details</a> |" +
-            "<a href='SMProducts/Delete/" + temp[x]["Id"] + "'>Delete</a> |" +
             "<a href='SmProducts/Deactivate/" + temp[x]["Id"] + "'>Deactivate</a> " +
             "</td>";
         content += "<tr>";
@@ -141,7 +140,8 @@ function SimpleTable(data) {
             content += "<td>" + temp[x]["Remarks"] + "</td>";
             content += "<td>" + temp[x]["Status"] + "</td>";
             content += "<td>" +
-                "<a href='SMProducts/Details/" + temp[x]["Id"] + "'>Details</a> " +
+                "<a href='SMProducts/Details/" + temp[x]["Id"] + "'>Details</a> |" +
+                "<a href='SmProducts/Deactivate/" + temp[x]["Id"] + "'>Deactivate</a> " +
                 "</td>";
             content += "<tr>";
 
@@ -167,12 +167,14 @@ function setActiveTrue() {
     status = "ACT";
     $("#status-act").css('color', 'black');
     $("#status-inc").css('color', 'dodgerblue');
-    console.log("select"+status);
+    //console.log("select" + status);
+    ajax_loadContent();
 }
 
 function setInactiveTrue() {
     status = "INC";
     $("#status-act").css('color', 'dodgerblue');
     $("#status-inc").css('color', 'black');
-    console.log("select" + status);
+    //console.log("select" + status);
+    ajax_loadContent();
 }
