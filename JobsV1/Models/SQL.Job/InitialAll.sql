@@ -124,6 +124,47 @@ values
 ('Closing',''            ,7,7,3);
 
 
+insert into SrvActionItems([Desc],[Remarks],[SortNo],[SrvActionCodeId],[ServicesId])
+values
+
+-- Air Ticket --
+('Special Request','',1,1,4),
+('Partial Payment','',2,2,4),
+('Notify Operator','',3,3,4),
+('Notify Guest',''   ,4,3,4),
+('On Progress',''    ,5,4,4),
+('Full Payment',''   ,6,6,4),
+('Closing',''        ,7,7,4),
+
+-- Accommodation --
+('Special Request','',1,1,5),
+('Partial Payment','',2,2,5),
+('Notify Operator','',3,3,5),
+('Notify Guest',''   ,4,3,5),
+('On Progress',''    ,5,4,5),
+('Full Payment',''   ,6,6,5),
+('Closing',''        ,7,7,5),
+
+-- Activity --
+('Special Request','',1,1,6),
+('Partial Payment','',2,2,6),
+('Notify Operator','',3,3,6),
+('Notify Guest',''   ,4,3,6),
+('On Progress',''    ,5,4,6),
+('Full Payment',''   ,6,6,6),
+('Closing',''        ,7,7,6),
+
+
+-- Others --
+('Special Request','',1,1,7),
+('Partial Payment','',2,2,7),
+('Notify Operator','',3,3,7),
+('Notify Guest',''   ,4,3,7),
+('On Progress',''    ,5,4,7),
+('Full Payment',''   ,6,6,7),
+('Closing',''        ,7,7,7);
+
+
 -- ----------------------------------------------
 -- Inventory Configuration 
 -- ----------------------------------------------

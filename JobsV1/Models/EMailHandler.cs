@@ -25,7 +25,7 @@ namespace JobsV1.Models
                 // md.From = "admin@realwheelsdavao.com";      //sender mail
                 md.From = "Realwheels.Reservation@RealWheelsDavao.com";      //sender mail
                 md.IsBodyHtml = true;                       //set true to enable use of html tags 
-                md.Subject = "RealWheels Reservation";      //mail title
+                md.Subject = " Reservation";      //mail title
 
                 ListDictionary replacements = new ListDictionary();
                 replacements.Add("{name}", "Reservation");
@@ -35,10 +35,13 @@ namespace JobsV1.Models
 
                 //get job details
                 JobMain job = db.JobMains.Find(jobId);
-                //encode white space
+
+                string company = getCompany(jobId);
+
+                    //encode white space
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
 
-                md.Subject = renterName + ": NEW RealWheels Reservation";   //mail title
+                md.Subject = renterName + ": NEW "+ job.Branch.Name  + " Reservation";   //mail title
 
                 switch (mailType)
                 {
@@ -300,6 +303,9 @@ namespace JobsV1.Models
                 
                 //send email in /joborder
                 JobMain job = db.JobMains.Find(jobId);
+
+                string company = getCompany(jobId);
+
                 //mail title
                 md.Subject = job.Description + " Invoice Sent";
 
@@ -341,8 +347,8 @@ namespace JobsV1.Models
         }
         
         /**
-         * ADMIN -  PAYMENT SUCCESSFUL
-         * Send email to client on payment success
+         * ADMIN -  PAYMENT SUCCESSFUL ADVICE
+         * Send email to admin on payment success
          */
         public string SendMailPaymentAdvice(int jobId, string renterMail, string mailType, string renterName, string site)
         {
@@ -366,6 +372,9 @@ namespace JobsV1.Models
 
                 //send email in /joborder
                 JobMain job = db.JobMains.Find(jobId);
+
+
+
                 //mail title
                 md.Subject = "Payment Success";
 
@@ -407,8 +416,7 @@ namespace JobsV1.Models
         }
 
         /**
-         * CLIENT -  SEND INVOICE SUCCESSFUL
-         * Send email to client on payment success
+         * CLIENT -  SEND INVOICE to client
          */
         public string SendMailClientInvoice(int jobId, string renterMail, string mailType, string renterName, string site)
         {
@@ -420,7 +428,7 @@ namespace JobsV1.Models
                 MailDefinition md = new MailDefinition();
                 md.From = "Realwheels.Reservation@RealWheelsDavao.com";      //sender mail
                 md.IsBodyHtml = true;                       //set true to enable use of html tags 
-                md.Subject = "RealWheels Reservation";      //mail title
+                md.Subject = "Invoice for Payment";      //mail title
 
                 ListDictionary replacements = new ListDictionary();
                 replacements.Add("{name}", "Martin");
@@ -436,8 +444,11 @@ namespace JobsV1.Models
 
                 //send email in /joborder
                 JobMain job = db.JobMains.Find(jobId);
+                
+                string company = getCompany(jobId);
+
                 //mail title
-                md.Subject = "Realwheels Payment";
+                md.Subject = company +  " Payment";
 
                 //mail content for client inquiries
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
@@ -695,8 +706,10 @@ namespace JobsV1.Models
                 //send email in /joborder
                 JobMain job = db.JobMains.Find(jobId);
 
+                string company = getCompany(jobId);
+
                 //mail title
-                md.Subject = job.Description + " Reservation Details";
+                md.Subject = job.Description + " : " + company + " Reservation Details";
 
                 //encode white space
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
@@ -843,11 +856,11 @@ namespace JobsV1.Models
             switch (staffLogin)
             {
                 case "josette.realbreeze@gmail.com":
-                    return "Josette Villaser";
+                    return "Josette Valleser";
                 case "mae.realbreeze@gmail.com":
-                    return "Mae Verano";
+                    return "Cristel Mae Verano";
                 case "ramil.realbreeze@gmail.com":
-                    return "Ramil Salvatierra";
+                    return "Ramil Villahermosa";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
                 default:
@@ -878,6 +891,39 @@ namespace JobsV1.Models
                 default:
                     return "http://realbreezedavaotours.com/wp-content/uploads/2019/05/AJDavao.jpg";
             }
+        }
+
+        public string getCompany(int jobId)
+        {
+
+            JobMain job = db.JobMains.Find(jobId);
+
+            string company = "RealBreeze";
+
+            if (job.Branch.Name == "RealBreeze")
+            {
+                company = "RealBreeze";
+            }
+
+            switch (job.Branch.Name)
+            {
+                case "Realbreeze":
+                    company = "RealBreeze";
+                    break;
+
+                case "Realwheels":
+                    company = "Realwheels";
+                    break;
+                case "AJ88":
+                    company = "AJ88";
+                    break;
+                default:
+                    company = "RealBreeze";
+                    break;
+
+            }
+
+            return company;
         }
     }
 }
