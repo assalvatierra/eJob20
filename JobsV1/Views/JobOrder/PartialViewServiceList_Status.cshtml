@@ -23,24 +23,28 @@
                     </td>
 
                     <td style="width:80%;">
-                        <!-- Display status list and  add red line below -->
-                        @foreach (var done in item.SvcActionsDone)
-                        {
-                            <span>&#187;</span>
-                            if (done.Desc == "On Progress" || done.Desc == "On progress" )
-                            {
-                                <span class="btn btn-success btn-arrow-right on-progress">
-                                    <span style="color:white;font-size:9px;"> @done.Desc </span>
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="btn btn-success btn-arrow-right">
-                                    <span style="color:white;font-size:9px;"> @done.Desc </span>
-                                </span>
-                            }
-                        }
+                        <!-- Display status list and add red line below -->
+                      
 
+                            @foreach (var done in item.SvcActionsDone)
+                            {
+                                <span>&#187;</span>
+                                if (done.Desc == "On Progress" || done.Desc == "On progress" )
+                                {
+                                    <span class="btn btn-success btn-arrow-right on-progress">
+                                        <span style="color:white;font-size:9px;"> @done.Desc </span>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="btn btn-success btn-arrow-right">
+                                        <span style="color:white;font-size:9px;"> @done.Desc </span>
+                                    </span>
+                                }
+                            }
+
+                       
+                        <!--Actions not done-->
                         @Html.Partial("PartialViewSrvActionItems_Status", item.SvcActions, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id }, { "SvcActionsDones", ViewBag.SvcActionsDone } })
                     </td>
                 </tr>
