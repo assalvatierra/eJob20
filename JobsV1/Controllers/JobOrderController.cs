@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Data.Entity.Core.Objects;
+using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
 {
@@ -44,6 +45,17 @@ namespace JobsV1.Controllers
         public int CntItem { get; set; }
         public int CntDone { get; set; }
     }
+
+    public class cjobItems
+    {
+        public int Id { get; set; }
+        public string itemCode { get; set; }
+        public string Name { get; set; }
+        public string icon { get; set; }
+        public string remarks { get; set; }
+        public int orderNo { get; set; }
+    }
+
     #endregion
 
     public class JobOrderController : Controller
@@ -619,8 +631,34 @@ order by x.jobid
             ViewBag.serviceId = JobServiceId;
             return View(gret.ItemSched);
         }
+        
+        //GET : Ajax - getMoreItems()
+        //Get the list of InvItems of Order No greater than 110
+        [HttpGet]
+        public string getMoreItems()
+        {
+            //get items list of order number greater than 110
+            var InvItems = db.InvItems.Where(s => s.OrderNo > 110).Include(s=>s.InvItemCategories).ToList().OrderBy(s => s.OrderNo);
+            List<cjobItems> items = new List<cjobItems>();
 
-
+            foreach ( var inv in InvItems)
+            {
+                var invIcon = db.InvItemCategories.Where(s => s.InvItemId == inv.Id).FirstOrDefault();
+                var imglength = invIcon.InvItemCat.ImgPath.Length;
+                items.Add(new cjobItems {
+                    Id = inv.Id,
+                    itemCode = inv.ItemCode,
+                    Name = inv.Description,
+                    remarks = inv.Remarks,
+                    orderNo = (int)inv.OrderNo,
+                    icon = invIcon.InvItemCat.ImgPath.Remove(0,1)
+                });
+            }
+            
+            //convert list to json object
+            return JsonConvert.SerializeObject(items, Formatting.Indented);
+        }
+        
         public ActionResult BrowseInvItem_withScheduleJS(int JobServiceId)
         {
             DBClasses dbclass = new DBClasses();
@@ -789,7 +827,6 @@ order by x.jobid
         #endregion
 
         #region jobMain
-
         public ActionResult JobDetails(int jobid)
         {
             var jobMain = db.JobMains.Find(jobid);
@@ -805,9 +842,10 @@ order by x.jobid
             return View(jobMain);
             
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId)
+        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId)
         {
             if (ModelState.IsValid)
             {
@@ -1432,6 +1470,16 @@ order by x.jobid
             ViewBag.ReservationType = "Rental";
             ViewBag.Amount = 1000;
 
+
+            string custCompany = "";
+            //check customer if assigned to a company
+            if (jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault() != null)
+            {
+                custCompany = jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault().CustEntMain.Name;
+            }
+
+            ViewBag.custCompany = custCompany;
+
             //get paypal keys at db
             PaypalAccount paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();
             ViewBag.key = paypal.Key;
@@ -1463,7 +1511,6 @@ order by x.jobid
             {
                 custCompany = jobMain.Customer.CustEntities.Where(c=>c.CustomerId==jobMain.CustomerId).FirstOrDefault().CustEntMain.Name;
             }
-
             
             ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).OrderBy(s => s.DtStart);
             ViewBag.Itinerary = db.JobItineraries.Include(j => j.Destination).Where(j => j.JobMainId == jobMain.Id);
@@ -2117,7 +2164,41 @@ order by x.jobid
 
 
         #endregion
+        
+        #region JobExpenses
 
+        public ActionResult JobExpenses(int id)
+        {
+            var expenses = db.JobExpenses.Where(e => e.JobMainId == id).ToList();
+
+            ViewBag.JobName = db.JobMains.Find(id).Description;
+            ViewBag.expenseList = db.Expenses.ToList();
+            
+            return View(expenses);
+        }
+
+        public ActionResult JobExpensesAdd(int id)
+        {
+            JobExpenses expenses = db.JobExpenses.Find(id);
+            
+            return View(expenses);
+        }
+
+        public ActionResult JobExpensesEdit(int id)
+        {
+            JobExpenses expenses = db.JobExpenses.Find(id);
+            
+            return View(expenses);
+        }
+
+        public ActionResult JobExpensesRemove(int id)
+        {
+            JobExpenses expenses = db.JobExpenses.Find(id);
+            
+            return View(expenses);
+        }
+
+        #endregion
 
         #region SendMails
 
