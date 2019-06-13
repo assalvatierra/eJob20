@@ -141,7 +141,6 @@ function SimpleTable(data) {
             content += "<td>" + temp[x]["Status"] + "</td>";
             content += "<td>" +
                 "<a href='SMProducts/Details/" + temp[x]["Id"] + "'>Details</a> |" +
-                "<a href='SmProducts/Deactivate/" + temp[x]["Id"] + "'>Deactivate</a> " +
                 "</td>";
             content += "<tr>";
 

@@ -12,7 +12,7 @@
             </h3>
         </div>
         <div class="col-lg-12">
-            <a href="" id="catbtn" data-toggle="modal" data-target="#perDTRModal" style="margin-bottom:10px;">Add Record</a>
+            <a href="" id="catbtn" data-toggle="modal" data-target="#perDTRModal" style="margin-bottom:10px;" onclick="checkSalaryId()">Add Record</a>
             <table class="table">
                 <tr>
                     <th>Date</th>
@@ -72,7 +72,7 @@
                             <div class="form-group">
                                 <span class="control-label col-md-3"> Date </span>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" id="dtrDate" />
+                                    <input type="datetime" class="form-control" id="dtrDate" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -111,10 +111,11 @@
                                 </div>
                             </div>
 
+
                             <div class="form-group">
-                                <span class="control-label col-md-3"> Payroll Rate </span>
+                                <span class="control-label col-md-3"> SalaryID </span>
                                 <div class="col-md-9">
-                                    <select name="Status" class="form-control" id="dtrSalaryID">
+                                    <select name="salarytest" class="form-control" id="salaryid">
 
                                         @foreach (var rate in ViewBag.rateList as IEnumerable<JobsV1.Areas.Personel.Models.HrSalary>)
                                         {
@@ -127,7 +128,7 @@
                             <div class="form-group">
                                 <span class="control-label col-md-3"> Payroll Range </span>
                                 <div class="col-md-9">
-                                    <select name="Status" class="form-control" id="dtrPayrollID">
+                                    <select name="dtrPayrollID" class="form-control" id="dtrPayrollID">
 
                                         @foreach (var status in ViewBag.dtrList as IEnumerable<JobsV1.Areas.Personel.Models.HrPayroll>)
                                         {
@@ -146,7 +147,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- Modal -->
+    <!-- Edit Modal -->
     <div class="modal fade" id="EditperDTRModal" tabindex="-1" role="dialog" >
         <div class="modal-dialog">
             <div class="modal-content">
@@ -248,7 +249,7 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
 <script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
-<script src="~/Areas/Personel/Script/ProdCreatsse.js"></script>
+<script src="~/Areas/Personel/Script/ProdCreate.js"></script>
 
 @*<script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/DateRangePicker/moment.min.js"></script>*@
@@ -310,6 +311,11 @@
         }
     });
 
+    function checkSalaryId() {
+        var salaryId = $('#salaryid').find('option:selected').val();
+        console.log("salaryid:" + salaryId);
+    }
+
     //add DTR entry
     function AddDTR(PersonnelId) {
         var date = $('#dtrDate').val();
@@ -318,13 +324,16 @@
         var timeOut = $('#dtrTimeOut').val();
         var actualHrs = $('#dtrActualHrs').val();
         var roundHrs = $('#dtrRoundHrs').val();
-        var salaryId = $('#dtrSalaryId').val();
-        var payrollID = $('#dtrPayrollID').val();
+
+        var salaryId = $('#salaryid').find('option:selected').val();
+        var payrollID = $('#dtrPayrollID option:selected').val();
+
+        console.log("salaryId:" + salaryId);
+        console.log("payrollID:" + payrollID);
 
         //build json object
         var data = {
-            Id: Id,
-            PersonnelId: PersonnelId,
+            pId: PersonnelId,
             date: date,
             status: status,
             timeIn: timeIn,
@@ -348,7 +357,8 @@
             error: function (data) {
                 console.log("ERROR");
                 console.log(data);
-                refreshPage()
+                console.log(data["responseText"]);
+                //refreshPage();
                 //$('input[name="Password"]').val(data["responseText"]);
             }
         });
@@ -364,10 +374,8 @@
         var timeOut   = $('#edit-dtrTimeOut').val();
         var actualHrs = $('#edit-dtrActualHrs').val();
         var roundHrs  = $('#edit-dtrRoundHrs').val();
-        var salaryId  = $('#edit-dtrSalaryID').val();
-        var payrollID = $('#edit-dtrPayrollID').val();
-
-        //alert(salaryId);
+        var salaryId  = $('#edit-dtrSalaryID').find(":selected").val();
+        var payrollID = $('#edit-dtrPayrollID').find(":selected").val();
 
         //build json object
         var data = {
@@ -410,13 +418,11 @@
         $('#edit-dtrRoundHrs').val(rndHrs);
         $('#edit-dtrSalaryId').val(salaryId);
         $('#edit-dtrPayrollID').val(PayrollId);
-        //alert(salaryId);
     }
 
     //reload page
     function refreshPage() {
         location.reload();
     }
-
 
 </script>

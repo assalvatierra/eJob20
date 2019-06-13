@@ -13,7 +13,9 @@ $(document).ready(function () {
 
 function InitDatePicker() {
     var ddd1 = $('#dtrDate').val();
-    alert(ddd1);
+
+    //alert(ddd1);
+
     $('#dtrDate').daterangepicker(
     {
         timePicker: false,
@@ -43,3 +45,4 @@ function InitDatePicker() {
     //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
 
 }
+

@@ -506,19 +506,20 @@ namespace JobsV1.Areas.Personel.Controllers
         #endregion
 
         #region DTR
-        public string AddDTRecord(int id, string date, string status,
+        public string AddDTRecord(int pId, string date, string status,
             string timeIn, string timeOut, string actualHrs, string roundHrs, int salaryId ,string payrollID)
         {
             HrDtr dtr = new HrDtr();
             dtr.HrSalaryId = salaryId;
             dtr.DtrDate = DateTime.Parse(date);
             dtr.HrDtrStatusId = int.Parse(status);
-            dtr.HrPersonelId = id;
+            dtr.HrPersonelId = pId;
             dtr.TimeIn = TimeSpan.Parse(timeIn);
             dtr.TimeOut = TimeSpan.Parse(timeOut);
             dtr.ActualHrs = int.Parse(actualHrs);
             dtr.RoundHrs = int.Parse(roundHrs);
             dtr.HrPayrollId = int.Parse(payrollID);
+
             db.HrDtrs.Add(dtr);
             db.SaveChanges();
 

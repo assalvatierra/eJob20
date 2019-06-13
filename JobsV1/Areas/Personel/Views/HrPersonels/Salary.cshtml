@@ -7,7 +7,6 @@
 
 <h2>
     @Html.DisplayFor(model => model.Name)
-    
 </h2>
 <h4>
     @ViewBag.latestPosition
@@ -18,7 +17,7 @@
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
-@*<script src="~/Areas/Personel/Script/DateRangePicker/daterangepicker.js"> </script>*@
+<script src="~/Areas/Personel/Script/DateRangePicker/daterangepicker.js"> </script>
 
 @{Html.RenderPartial("PartialView_SSalary", (IEnumerable<JobsV1.Areas.Personel.Models.HrSalary>)ViewBag.salaryDetails, new ViewDataDictionary { { "PersonnelId", Model.Id } });}
 @{Html.RenderPartial("PartialView_SPayroll", (IEnumerable<JobsV1.Areas.Personel.Models.HrPayroll>)ViewBag.payrollDetails, new ViewDataDictionary { { "PersonnelId", Model.Id } });}

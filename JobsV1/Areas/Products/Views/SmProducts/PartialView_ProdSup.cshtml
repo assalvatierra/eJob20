@@ -20,12 +20,12 @@
                     @prodSup.SmSupplier.Name <br />
                      Published: @prodSup.Price.ToString("#,###.00") php <br />
                      Contracted:  @prodSup.Contracted.ToString("#,###.00") php <br />
-                    <span>Validity : </span> @prodSup.ValidStart.ToShortDateString() - @prodSup.ValidEnd.ToShortDateString() <br />
-
+                     Validity : @prodSup.ValidStart.ToShortDateString() - @prodSup.ValidEnd.ToShortDateString() <br />
+                   
                     <a href="" data-toggle="modal" data-target="#editSupModal" 
                        onclick="editProdSup('@prodSup.Id','@prodSup.SmSupplierId','@prodSup.ValidStart','@prodSup.ValidEnd','@prodSup.Price','@prodSup.Contracted')" > 
-                       Edit </a> |
-                    @Html.ActionLink("Details", "Details","SmSuppliers", new { id = prodSup.Id }, null  ) |
+                       Edit </a>|
+                    @Html.ActionLink("Details", "Details","SmSuppliers", new { id = prodSup.SmSupplierId }, null  ) |
 
                     <a onclick="removeSup('@prodSup.Id','@prodSup.SmSupplier.Name')">Remove</a>
                     @*@Html.ActionLink("Remove", "RemoveProdSup", new { id = prodSup.Id })*@
