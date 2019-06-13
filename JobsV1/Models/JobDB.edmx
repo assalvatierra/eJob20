@@ -90,6 +90,8 @@
     <EntitySet Name="JobEntMains" EntityType="JobDB.Store.JobEntMains" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CashExpenses" EntityType="JobDB.Store.CashExpenses" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PortalCustomers" EntityType="JobDB.Store.PortalCustomers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Expenses" EntityType="JobDB.Store.Expenses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobExpenses" EntityType="JobDB.Store.JobExpenses" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -425,6 +427,14 @@
     <AssociationSet Name="CustomerPortalCustomer" Association="JobDB.Store.CustomerPortalCustomer">
       <End Role="Customer" EntitySet="Customers" />
       <End Role="PortalCustomer" EntitySet="PortalCustomers" />
+    </AssociationSet>
+    <AssociationSet Name="ExpensesJobExpenses" Association="JobDB.Store.ExpensesJobExpenses">
+      <End Role="Expenses" EntitySet="Expenses" />
+      <End Role="JobExpenses" EntitySet="JobExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="JobServicesJobExpenses" Association="JobDB.Store.JobServicesJobExpenses">
+      <End Role="JobServices" EntitySet="JobServices" />
+      <End Role="JobExpenses" EntitySet="JobExpenses" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1316,6 +1326,27 @@
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ExpiryDt" Type="datetime" Nullable="false" />
     <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Expenses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="SeqNo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobExpenses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Amount" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="JobMainId" Type="int" Nullable="false" />
+    <Property Name="ExpensesId" Type="int" Nullable="false" />
+    <Property Name="CashExpenseId" Type="int" Nullable="false" />
+    <Property Name="JobServicesId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2325,6 +2356,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ExpensesJobExpenses">
+    <End Role="Expenses" Type="JobDB.Store.Expenses" Multiplicity="1" />
+    <End Role="JobExpenses" Type="JobDB.Store.JobExpenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Expenses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobExpenses">
+        <PropertyRef Name="ExpensesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="JobServicesJobExpenses">
+    <End Role="JobServices" Type="JobDB.Store.JobServices" Multiplicity="1" />
+    <End Role="JobExpenses" Type="JobDB.Store.JobExpenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobServices">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobExpenses">
+        <PropertyRef Name="JobServicesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2750,6 +2805,16 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="PortalCustomer" EntitySet="PortalCustomers" />
           </AssociationSet>
+          <EntitySet Name="Expenses" EntityType="JobDB.Expenses" />
+          <EntitySet Name="JobExpenses" EntityType="JobDB.JobExpenses" />
+          <AssociationSet Name="ExpensesJobExpenses" Association="JobDB.ExpensesJobExpenses">
+            <End Role="Expenses" EntitySet="Expenses" />
+            <End Role="JobExpenses" EntitySet="JobExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="JobServicesJobExpenses" Association="JobDB.JobServicesJobExpenses">
+            <End Role="JobServices" EntitySet="JobServices" />
+            <End Role="JobExpenses" EntitySet="JobExpenses" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -2884,6 +2949,7 @@
           <NavigationProperty Name="JobActions" Relationship="JobDB.JobServicesJobAction" FromRole="JobServices" ToRole="JobAction" />
           <NavigationProperty Name="JobServiceItems" Relationship="JobDB.JobServicesJobServiceItem" FromRole="JobServices" ToRole="JobServiceItem" />
           <NavigationProperty Name="SupplierPoDtls" Relationship="JobDB.JobServicesSupplierPoDtl" FromRole="JobServices" ToRole="SupplierPoDtl" />
+          <NavigationProperty Name="JobExpenses" Relationship="JobDB.JobServicesJobExpenses" FromRole="JobServices" ToRole="JobExpenses" />
         </EntityType>
         <Association Name="JobMainJobSupplier">
           <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
@@ -4817,6 +4883,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Expenses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="SeqNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobExpenses" Relationship="JobDB.ExpensesJobExpenses" FromRole="Expenses" ToRole="JobExpenses" />
+        </EntityType>
+        <EntityType Name="JobExpenses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="JobMainId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Expens" Relationship="JobDB.ExpensesJobExpenses" FromRole="JobExpenses" ToRole="Expenses" />
+          <Property Name="ExpensesId" Type="Int32" Nullable="false" />
+          <Property Name="CashExpenseId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobService" Relationship="JobDB.JobServicesJobExpenses" FromRole="JobExpenses" ToRole="JobServices" />
+          <Property Name="JobServicesId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="ExpensesJobExpenses">
+          <End Type="JobDB.Expenses" Role="Expenses" Multiplicity="1" />
+          <End Type="JobDB.JobExpenses" Role="JobExpenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expenses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobExpenses">
+              <PropertyRef Name="ExpensesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JobServicesJobExpenses">
+          <End Type="JobDB.JobServices" Role="JobServices" Multiplicity="1" />
+          <End Type="JobDB.JobExpenses" Role="JobExpenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobExpenses">
+              <PropertyRef Name="JobServicesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5794,6 +5908,29 @@
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="ExpiryDt" ColumnName="ExpiryDt" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Expenses">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.Expenses)">
+        <MappingFragment StoreEntitySet="Expenses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobExpenses">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.JobExpenses)">
+        <MappingFragment StoreEntitySet="JobExpenses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+          <ScalarProperty Name="ExpensesId" ColumnName="ExpensesId" />
+          <ScalarProperty Name="CashExpenseId" ColumnName="CashExpenseId" />
+          <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/10/2019 09:41:03
+-- Date Created: 06/13/2019 14:55:31
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -11,7 +11,7 @@ GO
 USE [aspnet-JobsV1-20160528101923];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO
+GOe
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -263,11 +263,19 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_JobEntMainCustEntMain]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[JobEntMains] DROP CONSTRAINT [FK_JobEntMainCustEntMain];
 GO
+
+IF OBJECT_ID(N'[dbo].[FK_CustomerPortalCustomer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PortalCustomers] DROP CONSTRAINT [FK_CustomerPortalCustomer];
+GO
+
 IF OBJECT_ID(N'[dbo].[FK_CashExpenseJobMain]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CashExpenses] DROP CONSTRAINT [FK_CashExpenseJobMain];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CustomerPortalCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PortalCustomers] DROP CONSTRAINT [FK_CustomerPortalCustomer];
+IF OBJECT_ID(N'[dbo].[FK_JobMainJobExpenses]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobExpenses] DROP CONSTRAINT [FK_JobMainJobExpenses];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ExpensesJobExpenses]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobExpenses] DROP CONSTRAINT [FK_ExpensesJobExpenses];
 GO
 
 -- --------------------------------------------------
@@ -520,11 +528,18 @@ GO
 IF OBJECT_ID(N'[dbo].[JobEntMains]', 'U') IS NOT NULL
     DROP TABLE [dbo].[JobEntMains];
 GO
+IF OBJECT_ID(N'[dbo].[PortalCustomers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PortalCustomers];
+GO
+
 IF OBJECT_ID(N'[dbo].[CashExpenses]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CashExpenses];
 GO
-IF OBJECT_ID(N'[dbo].[PortalCustomers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PortalCustomers];
+IF OBJECT_ID(N'[dbo].[Expenses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Expenses];
+GO
+IF OBJECT_ID(N'[dbo].[JobExpenses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobExpenses];
 GO
 
 -- --------------------------------------------------
@@ -1399,6 +1414,16 @@ CREATE TABLE [dbo].[JobEntMains] (
 );
 GO
 
+-- Creating table 'PortalCustomers'
+CREATE TABLE [dbo].[PortalCustomers] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ContactNum] nvarchar(15)  NOT NULL,
+    [Password] nvarchar(max)  NOT NULL,
+    [ExpiryDt] datetime  NOT NULL,
+    [CustomerId] int  NOT NULL
+);
+GO
+
 -- Creating table 'CashExpenses'
 CREATE TABLE [dbo].[CashExpenses] (
     [Id] int IDENTITY(1,1) NOT NULL,
@@ -1411,13 +1436,24 @@ CREATE TABLE [dbo].[CashExpenses] (
 );
 GO
 
--- Creating table 'PortalCustomers'
-CREATE TABLE [dbo].[PortalCustomers] (
+-- Creating table 'Expenses'
+CREATE TABLE [dbo].[Expenses] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ContactNum] nvarchar(15)  NOT NULL,
-    [Password] nvarchar(max)  NOT NULL,
-    [ExpiryDt] datetime  NOT NULL,
-    [CustomerId] int  NOT NULL
+    [Name] nvarchar(80)  NOT NULL,
+    [Remarks] nvarchar(80)  NOT NULL,
+    [SeqNo] int  NOT NULL
+);
+GO
+
+-- Creating table 'JobExpenses'
+CREATE TABLE [dbo].[JobExpenses] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Amount] int  NOT NULL,
+    [Remarks] nvarchar(80)  NOT NULL,
+    [JobMainId] int  NOT NULL,
+    [ExpensesId] int  NOT NULL,
+    [CashExpenseId] int  NOT NULL,
+    [JobServicesId] int  NOT NULL
 );
 GO
 
@@ -1917,15 +1953,27 @@ ADD CONSTRAINT [PK_JobEntMains]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'PortalCustomers'
+ALTER TABLE [dbo].[PortalCustomers]
+ADD CONSTRAINT [PK_PortalCustomers]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Id] in table 'CashExpenses'
 ALTER TABLE [dbo].[CashExpenses]
 ADD CONSTRAINT [PK_CashExpenses]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'PortalCustomers'
-ALTER TABLE [dbo].[PortalCustomers]
-ADD CONSTRAINT [PK_PortalCustomers]
+-- Creating primary key on [Id] in table 'Expenses'
+ALTER TABLE [dbo].[Expenses]
+ADD CONSTRAINT [PK_Expenses]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'JobExpenses'
+ALTER TABLE [dbo].[JobExpenses]
+ADD CONSTRAINT [PK_JobExpenses]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3163,6 +3211,21 @@ ON [dbo].[JobEntMains]
     ([CustEntMainId]);
 GO
 
+-- Creating foreign key on [CustomerId] in table 'PortalCustomers'
+ALTER TABLE [dbo].[PortalCustomers]
+ADD CONSTRAINT [FK_CustomerPortalCustomer]
+    FOREIGN KEY ([CustomerId])
+    REFERENCES [dbo].[Customers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomerPortalCustomer'
+CREATE INDEX [IX_FK_CustomerPortalCustomer]
+ON [dbo].[PortalCustomers]
+    ([CustomerId]);
+GO
+
 -- Creating foreign key on [JobMainId] in table 'CashExpenses'
 ALTER TABLE [dbo].[CashExpenses]
 ADD CONSTRAINT [FK_CashExpenseJobMain]
@@ -3178,19 +3241,35 @@ ON [dbo].[CashExpenses]
     ([JobMainId]);
 GO
 
--- Creating foreign key on [CustomerId] in table 'PortalCustomers'
-ALTER TABLE [dbo].[PortalCustomers]
-ADD CONSTRAINT [FK_CustomerPortalCustomer]
-    FOREIGN KEY ([CustomerId])
-    REFERENCES [dbo].[Customers]
+
+-- Creating foreign key on [ExpensesId] in table 'JobExpenses'
+ALTER TABLE [dbo].[JobExpenses]
+ADD CONSTRAINT [FK_ExpensesJobExpenses]
+    FOREIGN KEY ([ExpensesId])
+    REFERENCES [dbo].[Expenses]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_CustomerPortalCustomer'
-CREATE INDEX [IX_FK_CustomerPortalCustomer]
-ON [dbo].[PortalCustomers]
-    ([CustomerId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_ExpensesJobExpenses'
+CREATE INDEX [IX_FK_ExpensesJobExpenses]
+ON [dbo].[JobExpenses]
+    ([ExpensesId]);
+GO
+
+-- Creating foreign key on [JobServicesId] in table 'JobExpenses'
+ALTER TABLE [dbo].[JobExpenses]
+ADD CONSTRAINT [FK_JobServicesJobExpenses]
+    FOREIGN KEY ([JobServicesId])
+    REFERENCES [dbo].[JobServices]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobServicesJobExpenses'
+CREATE INDEX [IX_FK_JobServicesJobExpenses]
+ON [dbo].[JobExpenses]
+    ([JobServicesId]);
 GO
 
 -- --------------------------------------------------
