@@ -1,0 +1,87 @@
+﻿@model IEnumerable<JobsV1.Models.JobExpenses >
+
+@{
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h3>Job Expenses </h3>
+<h4>@ViewBag.JobOrderName </h4>
+
+<p>
+    Date: @ViewBag.jobDate.ToString("dd/MMM/yyyy")
+    <br />Description: @ViewBag.jobDesc
+    <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobMainId }, null)
+    | @Html.ActionLink("Details", "Details", "JobMains", new { id = ViewBag.JobMainId }, null)
+
+</p>
+
+<p>
+    @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobMainId }, null) |
+    @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobMainId }, null) |
+    @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobMainId }, null) |
+    @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobMainId }, null) |
+    Expenses
+</p>
+
+
+
+<table class="table" id="jobExpenseTbl">
+    <tr>
+        <th>
+            Job Service
+        </th>
+        <th>
+            Expense Category
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Remarks
+        </th>
+    </tr>
+    @{ 
+        foreach (var services in ViewBag.jobservices as IEnumerable<JobsV1.Models.JobServices>)
+        {
+            <tr>
+                <td colspan="4">
+                  <b>  @services.Particulars </b>
+                   | @Html.ActionLink("Add Expense", "JobExpenses", "JobExpenses", new { id = services.Id }, null)
+                </td>
+            </tr>
+            foreach (var item in Model)
+            {
+                if (item.JobServicesId == services.Id)
+                {
+
+                <tr>
+                    <td>
+                       
+                    </td>
+                    <td>
+                        @item.Expens.Name
+                    </td>
+                    <td>
+                        @item.Amount.ToString("#,###.00")
+                    </td>
+                    <td>
+                        @item.Remarks
+                    </td>
+                </tr>
+
+                }
+            }
+        }
+    }
+
+    <tr>
+        <td colspan="2">
+            <b>Total Expenses:</b>
+         </td>
+        <td colspan="2">
+            <b> @ViewBag.totalExpenses.ToString("#,###.00") </b>
+        </td>
+    </tr>
+</table>
+
+

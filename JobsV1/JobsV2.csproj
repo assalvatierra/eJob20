@@ -462,6 +462,7 @@
     <Compile Include="Controllers\DestinationsController.cs" />
     <Compile Include="Controllers\EmailBlasterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvCarGateControlsController.cs" />
     <Compile Include="Controllers\InvCarRecordsController.cs" />
@@ -469,6 +470,7 @@
     <Compile Include="Controllers\InvItemsController.cs" />
     <Compile Include="Controllers\JobChecklistsController.cs" />
     <Compile Include="Controllers\JobContactsController.cs" />
+    <Compile Include="Controllers\JobExpensesController.cs" />
     <Compile Include="Controllers\JobItinerariesController.cs" />
     <Compile Include="Controllers\JobMainsController.cs" />
     <Compile Include="Controllers\JobOrderController.cs" />
@@ -617,6 +619,12 @@
     <Compile Include="Models\EntSupportFile.cs">
       <DependentUpon>SysDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Expenses.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpensesCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvCarGateControl.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
@@ -661,6 +669,9 @@
       <DependentUpon>JobDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\JobEntMain.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobExpenses.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobItinerary.cs">
@@ -1178,6 +1189,7 @@
     <Content Include="Images\Erp\WorkOrder.jpg" />
     <Content Include="Images\GIF\gif-sending-mail.gif" />
     <Content Include="Images\GIF\loading.gif" />
+    <Content Include="Images\GIF\loading_spinner.gif" />
     <Content Include="Images\googleMaps_office.png" />
     <Content Include="Images\paypal.png" />
     <Content Include="Images\LOGO_AJRENTACAR.jpg" />
@@ -2017,6 +2029,18 @@
     <Content Include="Views\PortalCustomers\JobServiceSupPo.cshtml" />
     <Content Include="Views\PortalCustomers\JobList - Copy.cshtml" />
     <Content Include="Views\CarRental\Index1.cshtml" />
+    <Content Include="Views\Expenses\Create.cshtml" />
+    <Content Include="Views\Expenses\Delete.cshtml" />
+    <Content Include="Views\Expenses\Details.cshtml" />
+    <Content Include="Views\Expenses\Edit.cshtml" />
+    <Content Include="Views\Expenses\Index.cshtml" />
+    <Content Include="Views\JobExpenses\JobExpenses.cshtml" />
+    <Content Include="Views\JobExpenses\Create.cshtml" />
+    <Content Include="Views\JobExpenses\Delete.cshtml" />
+    <Content Include="Views\JobExpenses\Details.cshtml" />
+    <Content Include="Views\JobExpenses\Edit.cshtml" />
+    <Content Include="Views\JobExpenses\Index.cshtml" />
+    <Content Include="Views\JobExpenses\CashExpenses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -6,7 +6,6 @@ values ('AJ88',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','08
 insert into JobStatus([Status]) values('INQUIRY'),('RESERVATION'),('CONFIRMED'),('CLOSED'),('CANCELLED'),('TEMPLATE');
 insert into JobThrus([Desc]) values('PHONE'),('EMAIL'),('WALKIN');
 
-
 insert into Banks([BankName],[BankBranch],[AccntName],[AccntNo])
  values ('Cash','Davao','Cash','0'),
 		('BDO','SM-Ecoland Davao','AJ88 Car Rental Services','00 086 072 9575'),
@@ -16,7 +15,7 @@ insert into Banks([BankName],[BankBranch],[AccntName],[AccntNo])
 
 insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('<< New Customer >>','--','--',' ',' ','ACT');
 insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('RealBreeze-Davao','realbreezedavao@gmail.com','Elvie/0916-755-8473','','','ACT');
-
+	
 insert Into Destinations([Description],[Remarks],[CityId]) 
 values 
 ('Eden Nature Park','','1 '),
@@ -679,4 +678,26 @@ values	(2,1),(2,2),(2,3),(2,4),
 		(3,5),(3,6),(3,7),(3,8);
 
 -------------------- SQL.SYS --------------------------------
+
+
+-------------------- Jobs Expenses --------------------------
+
+insert into ExpensesCategories(Description, Remarks)
+values	('Fuel',''),
+		('Car Wash' ,''),
+		('Driver',''),
+		('Allowance',''),
+		('Others','')
+;
+
+insert into Expenses ( Name, Remarks, SeqNo, ExpensesCategoryId )
+values	('Fuel'		 ,'',10,1),
+		('Car Wash'  ,'',10,2),
+		('Driver'	 ,'',10,3),
+		('Allowance' ,'',10,4),
+		('CA','Cash Advance',11,5),
+		('Others'	 ,'',12,5);
+
+
+
 		

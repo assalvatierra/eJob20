@@ -1,0 +1,383 @@
+﻿@model IEnumerable<JobsV1.Models.JobExpenses >
+
+@{
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h3>Job Expenses </h3>
+<h4>@ViewBag.JobServiceName </h4>
+
+<p>
+    @Html.ActionLink("Back to JobService", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobMainId }, null) |
+    @Html.ActionLink("Go to Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobMainId }, null)
+</p>
+<p>
+   @* @Html.ActionLink("Add Expense ", "JobExpensesAdd", "JobOrder", null, null)*@
+    <a href="" id="catbtn" data-toggle="modal" data-target="#addExpenseModal" style="margin-bottom:10px;">Add Expenses</a>
+</p>
+
+<table class="table" id="jobExpenseTbl">
+    <tr>
+        <th>
+            Expenses
+        </th>
+        <th>
+            Expense Category
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Expens.Name
+            </td>
+            <td>
+                @item.Expens.ExpensesCategory.Description
+            </td>
+            <td>
+                @item.Amount
+            </td>
+            <td>
+                @item.Remarks
+            </td>
+            <td>
+                <a href="" id="catbtn" data-toggle="modal" data-target="#editExpenseModal" 
+                   onclick="editExpense(@item.Id, @item.ExpensesId, @item.Amount, @item.Remarks)">Edit</a> |
+                <a href="" onclick="removeExpense(@item.Id, '@item.Expens.Name', @item.Amount)"> Delete </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<!-- Add Expenses Modal -->
+<div class="modal fade" id="addExpenseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Expenses</h4>
+            </div>
+            <div class="modal-body row">
+                <!--Start of Modal Body-->
+                <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Expenses: </b>
+                    <div class="col-md-10">
+                        <select name="Suppliers" class="form-control" id="expenseList">
+                            @foreach (var expense in ViewBag.expenseList as IEnumerable<JobsV1.Models.Expenses>)
+                            {
+                                <option value="@expense.Id"> @expense.Name </option>
+                            } 
+                        </select>
+                    </div>
+
+                </div>
+                <br /><br />
+
+                <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Amount: </b>
+                    <div class="col-md-10">
+                        <input type="number" maxlength="12" class="form-control" id="expenseAmt" onkeypress='validate(event)'  value="0" />
+                    </div>
+                </div>
+                <br /><br />
+
+                <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Remarks: </b>
+                    <div class="col-md-10">
+                        <input type="text" maxlength="20" class="form-control" id="expenseRmk" />
+                    </div>
+                </div>
+
+                <!--End of Modal Body-->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="ajax_addExpense(@ViewBag.JobServiceId)">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Edit Expenses Modal -->
+<div class="modal fade" id="editExpenseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Expenses</h4>
+            </div>
+            <div class="modal-body row">
+                <!--Start of Modal Body-->
+
+
+                <div class="form-group col-md-12 hidden">
+                    <b class="col-md-2 "> Id: </b>
+                    <div class="col-md-10">
+                        <input type="number" maxlength="12" class="form-control" id="edit-expenseId" value="1" />
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Expenses: </b>
+                    <div class="col-md-10">
+                        <select name="Suppliers" class="form-control" id="edit-expenseList">
+                            @foreach (var expense in ViewBag.expenseList as IEnumerable<JobsV1.Models.Expenses>)
+                            {
+                                <option value="@expense.Id"> @expense.Name </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <br /><br />
+
+                <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Amount: </b>
+                    <div class="col-md-10">
+                        <input type="number" maxlength="12" class="form-control" id="edit-expenseAmt" onkeypress='validate(event)'  value="0" />
+                    </div>
+                </div>
+                <br /><br />
+
+                <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Remarks: </b>
+                    <div class="col-md-10">
+                        <input type="text" maxlength="20" class="form-control" id="edit-expenseRmk" />
+                    </div>
+                </div>
+
+                <!--End of Modal Body-->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="ajax_editExpense()">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<script src="~/Scripts/jquery-3.3.1.js"s></script>
+<script>
+
+    /**
+      * Expense.js
+      * Perform Add, Edit and Remove functions 
+      * using modal.
+      */
+    //Add Expense
+    function ajax_addExpense(jsId) {
+        var expId = $("#expenseList").find(":selected").val(); 
+        var expense = $("#expenseList").find(":selected").text();
+        var expAmt = $("#expenseAmt").val();
+        var expRmk = $("#expenseRmk").val();
+        console.log("expId: " + expense);
+        //build json object
+
+        var data = {
+            id : jsId,
+            expenseId : expId,
+            amount : expAmt,
+            remarks : expRmk
+        };
+
+        url = "/JobExpenses/JobExpensesAdd";
+
+        //Submit data to server using ajax
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                //location.reload();
+                addRateToView(expAmt, expense, expRmk);
+                $('#addExpenseModal').modal('toggle');
+            }
+        });
+    }
+    
+    //add rate to view 
+    function addRateToView(amount, expense, remarks) {
+        content  = "<tr>";
+        content += "<td>" + expense + " </td>";
+        content += "<td>" + expense + "</td>";
+        content += "<td>" + amount  +  "</td>";
+        content += "<td>" + remarks + "</td>";
+        content += "<td> Edit | Delete </td>";
+        content += "  ";
+        content += "</tr>";
+        $(content).appendTo("#jobExpenseTbl");
+
+        //close modal
+        $('#prodRateModal').modal('toggle');
+    }
+
+    //Edit - POST
+    //Submit changes to the product
+    //using ajax, then reload page
+    function ajax_editExpense() {
+
+        var jobexpId = $("#edit-expenseId").val();
+        var expId = $("#edit-expenseList").find(":selected").val(); 
+        var expense = $("#edit-expenseList").find(":selected").text();
+        var expAmt = $("#edit-expenseAmt").val();
+        var expRmk = $("#edit-expenseRmk").val();
+
+        console.log("jobexpId: " + jobexpId);
+        //build json object
+
+        var data = {
+            id: jobexpId,
+            expenseId : expId,
+            amount : expAmt,
+            remarks : expRmk
+        };
+        
+        url = "/JobExpenses/JobExpensesEdit";
+
+        //Submit data to server using ajax
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                //// console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    //Edit
+    //transfer values of selected product
+    //to the edit form
+    function editExpense(id,expId,amount, remarks) {
+        console.log("edit");
+        $("#edit-expenseId").val(id);
+        $("#edit-expenseList").val(expId); 
+        $("#edit-expenseAmt").val(amount);
+        $("#edit-expenseRmk").val(remarks);
+    }
+
+    function refreshPage() {
+        location.reload();
+    }
+    
+    function removeExpense(Id, desc, amount) {
+        console.log("remove");
+        if (confirm('Are you sure you want to remove "' + desc + '" ("' + amount+ '") ?')) {
+            ajax_RemoveRate(Id);
+        } else {
+            // Do nothing!
+            console.log("remove error");
+        }
+    }
+
+    //Remove 
+    function ajax_RemoveRate(id) {
+      
+        console.log("remove");
+        var data = {
+            id: id
+        };
+
+        url = "/JobExpenses/JobExpensesRemove";
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    //handle numbers only
+    $('#expenseAmt').on('input', function () {
+        //backspace
+        if (isNaN($('#expenseAmt').val())) {
+            var txt = $('#expenseAmt');
+            txt.val(txt.val().slice(0, -1));
+        } else {
+            //handle negative number
+            if ($('#expenseAmt').val() < 0) {
+                $('#expenseAmt').val(0);
+            }
+        }
+        //handle negative number
+        if ($('#expenseAmt').val() < 0) {
+            $('#expenseAmt').val(0);
+        }
+
+    });
+
+
+    //handle numbers only
+    $('#edit-expenseAmt').on('input', function () {
+        //backspace
+        if (isNaN($(this).val())) {
+            var txt = $(this);
+            txt.val(txt.val().slice(0, -1));
+        } else {
+            //handle negative number
+            if ($(this).val() < 0) {
+                $(this).val(0);
+            }
+        }
+        //handle negative number
+        if ($(this).val() < 0) {
+            $(this).val(0);
+        }
+
+    });
+    
+    //prevent invalid inputs 
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+
+</script>
