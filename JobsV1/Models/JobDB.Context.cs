@@ -111,5 +111,6 @@ namespace JobsV1.Models
         public virtual DbSet<PortalCustomer> PortalCustomers { get; set; }
         public virtual DbSet<Expenses> Expenses { get; set; }
         public virtual DbSet<JobExpenses> JobExpenses { get; set; }
+        public virtual DbSet<ExpensesCategory> ExpensesCategories { get; set; }
     }
 }

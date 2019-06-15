@@ -92,6 +92,7 @@
     <EntitySet Name="PortalCustomers" EntityType="JobDB.Store.PortalCustomers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Expenses" EntityType="JobDB.Store.Expenses" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobExpenses" EntityType="JobDB.Store.JobExpenses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ExpensesCategories" EntityType="JobDB.Store.ExpensesCategories" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -435,6 +436,10 @@
     <AssociationSet Name="JobServicesJobExpenses" Association="JobDB.Store.JobServicesJobExpenses">
       <End Role="JobServices" EntitySet="JobServices" />
       <End Role="JobExpenses" EntitySet="JobExpenses" />
+    </AssociationSet>
+    <AssociationSet Name="ExpensesCategoryExpenses" Association="JobDB.Store.ExpensesCategoryExpenses">
+      <End Role="ExpensesCategory" EntitySet="ExpensesCategories" />
+      <End Role="Expenses" EntitySet="Expenses" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1335,18 +1340,26 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="SeqNo" Type="int" Nullable="false" />
+    <Property Name="ExpensesCategoryId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="JobExpenses">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Amount" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="JobMainId" Type="int" Nullable="false" />
     <Property Name="ExpensesId" Type="int" Nullable="false" />
-    <Property Name="CashExpenseId" Type="int" Nullable="false" />
     <Property Name="JobServicesId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExpensesCategories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2380,6 +2393,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ExpensesCategoryExpenses">
+    <End Role="ExpensesCategory" Type="JobDB.Store.ExpensesCategories" Multiplicity="1" />
+    <End Role="Expenses" Type="JobDB.Store.Expenses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExpensesCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Expenses">
+        <PropertyRef Name="ExpensesCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2814,6 +2839,11 @@
           <AssociationSet Name="JobServicesJobExpenses" Association="JobDB.JobServicesJobExpenses">
             <End Role="JobServices" EntitySet="JobServices" />
             <End Role="JobExpenses" EntitySet="JobExpenses" />
+          </AssociationSet>
+          <EntitySet Name="ExpensesCategories" EntityType="JobDB.ExpensesCategory" />
+          <AssociationSet Name="ExpensesCategoryExpenses" Association="JobDB.ExpensesCategoryExpenses">
+            <End Role="ExpensesCategory" EntitySet="ExpensesCategories" />
+            <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
@@ -4892,18 +4922,19 @@
           <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="SeqNo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="JobExpenses" Relationship="JobDB.ExpensesJobExpenses" FromRole="Expenses" ToRole="JobExpenses" />
+          <NavigationProperty Name="ExpensesCategory" Relationship="JobDB.ExpensesCategoryExpenses" FromRole="Expenses" ToRole="ExpensesCategory" />
+          <Property Name="ExpensesCategoryId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="JobExpenses">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="JobMainId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Expens" Relationship="JobDB.ExpensesJobExpenses" FromRole="JobExpenses" ToRole="Expenses" />
           <Property Name="ExpensesId" Type="Int32" Nullable="false" />
-          <Property Name="CashExpenseId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="JobService" Relationship="JobDB.JobServicesJobExpenses" FromRole="JobExpenses" ToRole="JobServices" />
           <Property Name="JobServicesId" Type="Int32" Nullable="false" />
         </EntityType>
@@ -4928,6 +4959,27 @@
             </Principal>
             <Dependent Role="JobExpenses">
               <PropertyRef Name="JobServicesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExpensesCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="Expenses" Relationship="JobDB.ExpensesCategoryExpenses" FromRole="ExpensesCategory" ToRole="Expenses" />
+        </EntityType>
+        <Association Name="ExpensesCategoryExpenses">
+          <End Type="JobDB.ExpensesCategory" Role="ExpensesCategory" Multiplicity="1" />
+          <End Type="JobDB.Expenses" Role="Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpensesCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="ExpensesCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5918,6 +5970,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+          <ScalarProperty Name="ExpensesCategoryId" ColumnName="ExpensesCategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -5929,8 +5982,16 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
           <ScalarProperty Name="ExpensesId" ColumnName="ExpensesId" />
-          <ScalarProperty Name="CashExpenseId" ColumnName="CashExpenseId" />
           <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExpensesCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.ExpensesCategory)">
+        <MappingFragment StoreEntitySet="ExpensesCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
