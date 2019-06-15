@@ -830,9 +830,9 @@ order by x.jobid
         public ActionResult JobDetails(int jobid)
         {
             var jobMain = db.JobMains.Find(jobid);
-            var companyId = db.JobEntMains.Where(s=>s.JobMainId == jobMain.Id).FirstOrDefault() != null ?
-                db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().JobMainId : 1 ;
-
+            var companyId = db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault() != null ?
+                db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().CustEntMainId : 1;
+            //var companyId = db.JobEntMains.Where(s => s.JobMainId == jobid).FirstOrDefault().Id;
             ViewBag.mainid = jobid;
             ViewBag.CustomerId  = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId    = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
@@ -847,6 +847,9 @@ order by x.jobid
         [ValidateAntiForgeryToken]
         public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId)
         {
+
+            Console.WriteLine("Company ID: " + CompanyId);
+
             if (ModelState.IsValid)
             {
                 if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
@@ -858,14 +861,15 @@ order by x.jobid
 
                 db.Entry(jobMain).State = EntityState.Modified;
                 db.SaveChanges();
-                
+
+                //if (CompanyId != null)
+                //{
+                    EditjobCompany(jobMain.Id, (int)CompanyId);
+                //}
+
                 return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
             }
 
-            if (CompanyId != null)
-            {
-                EditjobCompany(jobMain.Id, (int)CompanyId);
-            }
 
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
@@ -877,12 +881,23 @@ order by x.jobid
 
         public void EditjobCompany(int jobId, int companyId)
         {
-            JobEntMain jobCompany = new JobEntMain();
-            jobCompany.JobMainId = jobId;
-            jobCompany.CustEntMainId = companyId;
+            //AddjobCompany(jobId, companyId);
+            if (db.JobEntMains.Where(j => j.JobMainId == jobId).FirstOrDefault() == null )
+            {
+                //add if entry does not exist
+                AddjobCompany(jobId,companyId);
+            }
+            else
+            {
+                //save changes if entry does not exist
+                JobEntMain jobCompany = db.JobEntMains.Where(j => j.JobMainId == jobId).FirstOrDefault();
+                jobCompany.JobMainId = jobId;
+                jobCompany.CustEntMainId = companyId;
 
-            db.Entry(jobCompany).State = EntityState.Modified;
-            db.SaveChanges();
+                db.Entry(jobCompany).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
         }
 
         // GET: JobMains/jobCreate
@@ -1506,9 +1521,19 @@ order by x.jobid
 
             string custCompany = "";
             //check customer if assigned to a company
-            if (jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault() != null)
+            if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
             {
-                custCompany = jobMain.Customer.CustEntities.Where(c=>c.CustomerId==jobMain.CustomerId).FirstOrDefault().CustEntMain.Name;
+                var company = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain;
+
+                //hide company name if company is 1 = New (not defined)
+                if (company.Id == 1)
+                {
+                    custCompany = " ";
+                }
+                else
+                {
+                    custCompany = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain.Name;
+                }
             }
             
             ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).OrderBy(s => s.DtStart);

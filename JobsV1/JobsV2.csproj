@@ -1189,7 +1189,6 @@
     <Content Include="Images\Erp\WorkOrder.jpg" />
     <Content Include="Images\GIF\gif-sending-mail.gif" />
     <Content Include="Images\GIF\loading.gif" />
-    <Content Include="Images\GIF\loading_spinner.gif" />
     <Content Include="Images\googleMaps_office.png" />
     <Content Include="Images\paypal.png" />
     <Content Include="Images\LOGO_AJRENTACAR.jpg" />
