@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<JobsV1.Models.JobItinerary>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Job Itineraries";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
@@ -18,7 +19,8 @@
         @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) |
         Itinerary | 
         @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
-        @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
+        @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)
     </p>
 </div>
 @if (ViewBag.SvcParticular != "")

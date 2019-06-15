@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
@@ -16,10 +17,11 @@
 
     </p>
     <p>
-        @Html.ActionLink("Services", "Services", "JobServices", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) |
         @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) | 
         @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
-        Payments
+        Payments |
+        @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)
     </p>
 
 </div>

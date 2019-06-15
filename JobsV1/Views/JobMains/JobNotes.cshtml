@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Jo bNotes";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 
@@ -16,7 +17,7 @@
 
     </p>
     <p>
-        @Html.ActionLink("Services", "Services", "JobServices", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Services", "JobServices", "JobOrders", new { id = ViewBag.JobOrder.Id }, null) |
         @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
         Notes | 
         @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
