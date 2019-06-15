@@ -864,7 +864,7 @@ order by x.jobid
 
             if (CompanyId != null)
             {
-                AddjobCompany(jobMain.Id, (int)CompanyId);
+                EditjobCompany(jobMain.Id, (int)CompanyId);
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
@@ -896,7 +896,6 @@ order by x.jobid
             job.NoOfDays = 1;
             job.NoOfPax = 1;
             
-
             if (id == null)
             {
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", NewCustSysId);
@@ -2165,40 +2164,6 @@ order by x.jobid
 
         #endregion
         
-        #region JobExpenses
-
-        public ActionResult JobExpenses(int id)
-        {
-            var expenses = db.JobExpenses.Where(e => e.JobMainId == id).ToList();
-
-            ViewBag.JobName = db.JobMains.Find(id).Description;
-            ViewBag.expenseList = db.Expenses.ToList();
-            
-            return View(expenses);
-        }
-
-        public ActionResult JobExpensesAdd(int id)
-        {
-            JobExpenses expenses = db.JobExpenses.Find(id);
-            
-            return View(expenses);
-        }
-
-        public ActionResult JobExpensesEdit(int id)
-        {
-            JobExpenses expenses = db.JobExpenses.Find(id);
-            
-            return View(expenses);
-        }
-
-        public ActionResult JobExpensesRemove(int id)
-        {
-            JobExpenses expenses = db.JobExpenses.Find(id);
-            
-            return View(expenses);
-        }
-
-        #endregion
 
         #region SendMails
 

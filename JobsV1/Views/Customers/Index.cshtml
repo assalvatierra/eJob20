@@ -45,95 +45,15 @@
         <th id="sup-header-4">Status</th>
         <th></th>
     </tr>
-
-</table>
-
-@*<table class="table">
     <tr>
-        <th>
-           Customer
-        </th>
-        <th>
-            Contact
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-           Category
-        </th>
-        <th>
-           Company
-        </th>
-        <th>
-            Jobs
-        </th>
-        <th>
-            Status
-        </th>
-        <th></th>
+        <td colspan="2"> </td>
+        <td colspan="5"> 
+            <br />
+            <img src="~/Images/GIF/loading.gif" height="25"/>
+            Loading customers, please wait...
+        </td>
     </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td >
-                <h4 style="margin-top:0px;">@Html.DisplayFor(modelItem => item.Name)</h4>
-                <p>
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </p>
-            </td>
-            <td>
-                <p>
-                    @if (item.Contact1 != null && item.Contact1.Trim().Length > 0)
-                    { <a href="tel:@item.Contact1">@Html.DisplayFor(modelItem => item.Contact1)</a> }
-                    <br />
-                    @if (item.Contact2 != null && item.Contact2.Trim().Length > 0)
-                    { <a href="tel:@item.Contact2">@Html.DisplayFor(modelItem => item.Contact2)</a> }
-                </p>
-            </td>
-            <td>
-                <p>
-                    <a href="mailto:@item.Email">@Html.DisplayFor(modelItem => item.Email)</a>
-                </p>
-            </td>
-            <td>
-                <p>
-                    @foreach (var cat in @item.categories)
-                    {
-                        <img src="~/@Html.DisplayFor(modelItem => cat.iconPath)" width="25" height="25" alt="@cat.Name" contextmenu="@cat.Name" title="@cat.Name" />
-                    }
-                </p>
-            </td>
-            <td>
-                <span>
-                    @{
-                        var comp = item.companies.LastOrDefault();
-                        if (comp != null) { 
-                        <p>
-                            <img src="~/@Html.DisplayFor(modelItem => comp.iconPath)" width="25" height="25" />
-
-                            @Html.DisplayFor(modelItem => comp.Name)
-                        </p>
-                        }
-                    }
-                </span>
-            </td>
-            <td>
-                <p>
-                    @Html.DisplayFor(modelItem => item.JobID)
-                </p>
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id , top = 30}) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
-</table>*@
+</table>
 
 <p>
     Customers 
