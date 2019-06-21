@@ -16,7 +16,7 @@ namespace JobsV1.Models
         public string Contact1  { get; set; }
         public string Contact2  { get; set; }
         public string Company   { get; set; }
-        public string JobsCount { get; set; }
+        public int    JobCount  { get; set; }
         public string Status    { get; set; }
     } 
 
@@ -416,40 +416,76 @@ namespace JobsV1.Models
         {
             List<Customer> customers = new List<Customer>();
             List<CustomerList> custList = new List<CustomerList>();
+            string sql = "select Id,Name, Contact1, Contact2 , Status,"
+                        + " JobCount = (Select Count(x.Id) from[JobMains] x where x.CustomerId = c.Id ) ,"
+                        + " Company = (Select Top(1)  CompanyName = (Select Top(1) cem.Name from[CustEntMains] cem where ce.CustEntMainId = cem.Id)"
+                         + " from[CustEntities] ce where ce.CustomerId = c.Id) from Customers c";
 
-            customers = db.Customers.Include(c => c.CustEntities).ToList();
+            //handle status filter
+            if (status != "ALL")
+            {
+                sql += " where c.Status = '" + status + "' ";
+            }
 
-            //Search string filter
+            //handle status filter
             if (status == "ALL")
             {
-                customers = customers.ToList();
-            }
-            else
-            {
-                customers = customers.Where(s => s.Status == status).ToList();
-            }
-            
-            //Search string filter
-            if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
-            {
-                customers = customers.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
+                sql += " ";
             }
 
-            //build temp supplier list
-            foreach (var item in customers)
+            //handle search by name filter
+            if (search != null || search != "")
             {
-                //get latest company
-                custList.Add(new CustomerList
+                //handle status filter
+                if (status != "ALL")
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Contact1 = String.IsNullOrEmpty(item.Contact1) ? "--" : item.Contact1,
-                    Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
-                    Company = getCustCompanyName(item.Id),
-                    JobsCount = getjobCount(item.Id),
-                    Status = item.Status
-                });
+                    sql += " and  c.Name Like '%" + search + "%' ";
+                }
+                else
+                {
+                    sql += "where  c.Name Like '%" + search + "%' ";
+                }
             }
+
+            //terminator
+            sql += ";";
+
+            custList = db.Database.SqlQuery<CustomerList>(sql).ToList();
+
+
+            //customers = db.Customers.Include(c => c.CustEntities).ToList();
+
+            ////Search string filter
+            //if (status == "ALL")
+            //{
+            //    customers = customers.ToList();
+            //}
+            //else
+            //{
+            //    customers = customers.Where(s => s.Status == status).ToList();
+            //}
+
+            ////Search string filter
+            //if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
+            //{
+            //    customers = customers.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
+            //}
+
+            ////build temp supplier list
+            //foreach (var item in customers)
+            //{
+            //    //get latest company
+            //    custList.Add(new CustomerList
+            //    {
+            //        Id = item.Id,
+            //        Name = item.Name,
+            //        Contact1 = String.IsNullOrEmpty(item.Contact1) ? "--" : item.Contact1,
+            //        Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
+            //        Company = getCustCompanyName(item.Id),
+            //        JobsCount = getjobCount(item.Id),
+            //        Status = item.Status
+            //    });
+            //}
             return custList;
         }
 

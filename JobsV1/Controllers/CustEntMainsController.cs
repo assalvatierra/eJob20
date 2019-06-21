@@ -110,7 +110,7 @@ namespace JobsV1.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index", "CustEntMains", null);
                 }
-                 return RedirectToAction("Index", "CustEntities", null);
+                 return RedirectToAction("Index", "CustEntMains", null);
             }
 
             return View(custEntMain);

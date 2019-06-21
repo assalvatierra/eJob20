@@ -923,7 +923,7 @@ order by x.jobid
 
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
-            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name");
+            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name",2);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
             

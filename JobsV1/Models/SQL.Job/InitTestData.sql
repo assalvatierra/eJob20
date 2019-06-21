@@ -52,3 +52,17 @@ update CustCategories set iconPath = 'Images/Customers/Category/star-filled-40.p
 update CustCategories set iconPath = 'Images/Customers/Category/Active-30.png' where Id = 2; 
 update CustCategories set iconPath = 'Images/Customers/Category//suspended-64.png' where Id = 3; 
 update CustCategories set iconPath = 'Images/Customers/Category/cancel-40.png' where Id = 4;  
+
+--- sql query get customers with job count
+Select Name, Contact1, Contact2 , Status,
+	JobCount = (Select Count(x.Id) from [JobMains] x where x.CustomerId = c.Id ),
+	Company  = (Select top(1) CompanyName = (Select top(1) cem.Name from [CustEntMains] cem where ce.CustEntMainId = cem.Id  ORDER BY cem.Id DESC)
+			   	from [CustEntities] ce where ce.CustomerId = c.Id) 
+From Customers c;
+
+
+Select Name, Contact1, Contact2 , Status,
+	JobCount = (Select Count(x.Id) from [JobMains] x where x.CustomerId = c.Id ),
+	Company  = (Select CompanyName = (Select cem.Name from [CustEntMains] cem where ce.CustEntMainId = cem.Id)
+			   	from [CustEntities] ce where ce.CustomerId = c.Id) 
+From Customers c where c.Status = '*' and c.Name LIKE '%*%';

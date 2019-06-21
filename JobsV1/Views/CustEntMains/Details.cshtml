@@ -16,13 +16,24 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1> @Html.DisplayFor(model => model.Name) </h1>
-        <h5>@Html.DisplayFor(model => model.Contact1) / @Html.DisplayFor(model => model.Contact2) </h5>
-        <h5>@Html.DisplayFor(model => model.Address) </h5>
+        <h3> @Html.DisplayFor(model => model.Name) </h3>
+        <h5>Contact: @Html.DisplayFor(model => model.Contact1) / @Html.DisplayFor(model => model.Contact2) </h5>
+        <h5>Address: @Html.DisplayFor(model => model.Address) </h5>
     </div>
 </div>
-<hr />
 
+<div>
+    <h3>Customers </h3>
+    @foreach (var customers in Model.CustEntities as IEnumerable<JobsV1.Models.CustEntity>)
+    {
+        <p> 
+            <h4>
+                @Html.ActionLink(customers.Customer.Name, "Edit", "Customers", new { id = Model.Id }, null)
+            </h4>
+        </p>
+    }
+</div>
+<hr />
 <div class="row">
 
     <p>

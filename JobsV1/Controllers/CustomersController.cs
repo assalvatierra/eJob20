@@ -293,8 +293,9 @@ namespace JobsV1.Controllers
             //status from ACT to INC
             foreach (var customer in dCustList)
             {
-                customer.Status = "INC";    //deactivate customer
-                db.Entry(customer).State = EntityState.Modified;
+                var deleteCust = db.Customers.Find(customer.Id);
+                deleteCust.Status = "INC";    //deactivate customer
+                db.Entry(deleteCust).State = EntityState.Modified;
                 db.SaveChanges();
             }
 
@@ -327,15 +328,17 @@ namespace JobsV1.Controllers
         }
         
         //Ajax - Table Result 
-        //Get the list of suppliers containing the search string,
+        //Get the list of customers containing the search string,
         //if search is empty, return all actve items
         //Param : search = search string
         //        status = customer list string
         public string TableResult(string search, string status)
         {
             //get lit of customers
-            List<CustomerList> custList = custdb.generateCustomerList(search,status);
+            List<CustomerList> custList = new List<CustomerList>();
             
+            custList = custdb.generateCustomerList(search,status);
+           
             //convert list to json object
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }
