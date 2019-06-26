@@ -104,88 +104,94 @@
          </td>
     </tr>
        
-<div class="modal fade" id="@item.Main.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Company List</h4>
-                </div>
-
-                <div class="modal-body" id="modal2-content">
-
-                    <div class="list-group" id="categorylist">
-
-                        @foreach (var list in ViewBag.companyList as IEnumerable<JobsV1.Models.Customer>)
-                        {
-                            <a href="@Url.Action("ChangeCompany", "JobOrder", new { id = @item.Main.Id, newId = @list.Id },null)" class="list-group-item"> @list.Name</a>
-                        }
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
-    <!-- Modal Payment -->
-    <div class="modal fade" id="Payment@(item.Main.Id)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Payment Methods</h4>
-                </div>
-
-                <div class="modal-body" id="modal2-content">
-                    <h4>
-                        Payment History
-                    </h4>
-
-                    @if (item.Main.JobPayments.Count() != 0)
-                    {
-
-                        foreach (var payments in item.Main.JobPayments)
-                        {
-                            string pDate = ((DateTime)payments.DtPayment).ToString("MMM dd,yyyy (ddd)");
-                                        
-                            <p>
-                                @string.Format("{0:N}", payments.PaymentAmt)
-                                <span>-</span>
-                                @pDate
-                             </p>
-                        }
-                        
-                        <span style="color:green;">
-                            @string.Format("{0:N}", @item.Payment)
-                            <span>-</span>
-                            <span>Total</span>
-                        </span>
-                    }
-                    else
-                    {
-                        <p>No previous payment</p>
-                    }
-
-                    <hr /><h4> Create New Payment </h4>
-                    <div class="list-group" id="categorylist">
-                        <a href="@Url.Action("Payments", "JobOrder", new { id = item.Main.Id}, null)" class="list-group-item">  Payment Transaction</a>
-                        <a href="@Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Partial Payment" }, null)" class="list-group-item"> Partial Payment</a>
-                        <a href="@Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Full Payment" }, null)" class="list-group-item"> Full Payment</a>
-                        <a href="@Url.Action("PaymentCreatePG", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Personal Guarentee" }, null)" class="list-group-item"> Personal Guarantee</a>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
 }
 </table>
+
+
+<div class="modal fade" id="mainid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Company List</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+
+                <div class="list-group" id="categorylist">
+
+                    @foreach (var list in ViewBag.companyList as IEnumerable<JobsV1.Models.Customer>)
+                    {
+                        <!--
+                        <a href="Url.Action("ChangeCompany", "JobOrder", new { id = item.Main.Id, newId = list.Id },null)" class="list-group-item"> list.Name</a>
+                        -->
+                    }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal Payment -->
+<div class="modal fade" id="Payment-item-Main-Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Payment Methods</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+                <h4>
+                    Payment History
+                </h4>
+                <!--
+                if (item.Main.JobPayments.Count() != 0)
+                {
+
+                    foreach (var payments in item.Main.JobPayments)
+                    {
+                        string pDate = ((DateTime)payments.DtPayment).ToString("MMM dd,yyyy (ddd)");
+
+                        <p>
+                            string.Format("{0:N}", payments.PaymentAmt)
+                            <span>-</span>
+                            pDate
+                        </p>
+                    }
+
+                    <span style="color:green;">
+                        string.Format("{0:N}", item.Payment)
+                        <span>-</span>
+                        <span>Total</span>
+                    </span>
+                }
+                else
+                {
+                    <p>No previous payment</p>
+                }
+
+                <hr /><h4> Create New Payment </h4>
+                <div class="list-group" id="categorylist">
+                    <a href="Url.Action("Payments", "JobOrder", new { id = item.Main.Id}, null)" class="list-group-item">  Payment Transaction</a>
+                    <a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Partial Payment" }, null)" class="list-group-item"> Partial Payment</a>
+                    <a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Full Payment" }, null)" class="list-group-item"> Full Payment</a>
+                    <a href="Url.Action("PaymentCreatePG", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Personal Guarentee" }, null)" class="list-group-item"> Personal Guarantee</a>
+                </div>
+
+                -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 
 @Html.Partial("PartialViewJS")
 

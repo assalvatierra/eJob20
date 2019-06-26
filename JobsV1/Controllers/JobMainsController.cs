@@ -107,7 +107,7 @@ namespace JobsV1.Controllers
             DateTime after2Days = today.AddDays(2);
             switch (FilterId) {
                 case 1:
-                    data = db.JobServices.Where(w => p.Contains(w.JobMainId)).OrderBy(s => s.DtStart).ToList();
+                    data = db.JobServices.Where(w => p.Contains(w.JobMainId)).Where(w=> DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0 ).OrderBy(s => s.DtStart).ToList();
                     break;
                 case 2:
                     //get jobs from today

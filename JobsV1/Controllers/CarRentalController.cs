@@ -65,6 +65,11 @@ namespace JobsV1.Controllers
             return View();
         }
 
+        public ActionResult About_Rental()
+        {
+            return View();
+        }
+
         public ActionResult MainImage(int? id)
         {
             var dir = Server.MapPath("~/Images/CarRental");

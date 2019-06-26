@@ -778,6 +778,7 @@
     <Compile Include="Models\Services.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sitemap_carhub.cs" />
     <Compile Include="Models\sitemap.cs" />
     <Compile Include="Models\SrvActionCode.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
@@ -2040,6 +2041,7 @@
     <Content Include="Views\JobExpenses\Edit.cshtml" />
     <Content Include="Views\JobExpenses\Index.cshtml" />
     <Content Include="Views\JobExpenses\CashExpenses.cshtml" />
+    <Content Include="Views\CarRental\About_Rental.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

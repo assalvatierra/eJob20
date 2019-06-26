@@ -9,12 +9,12 @@ namespace JobsV1
 {
     public class RouteConfig
     {
+        //Realwheels
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.IgnoreRoute("{*x}", new { x = @".*\.asmx(/.*)?" });
-
 
             /********************************
             * sitemap
@@ -29,6 +29,181 @@ namespace JobsV1
                 name: "Home",
                 url: "Home/",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+            
+            #region CarRental links
+            /********************************
+            * Car Rental w/ Articles
+            ********************************/
+
+            routes.MapRoute(
+                name: "van-for-rent",
+                url: "CarRental/van-for-rent",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+            routes.MapRoute(
+                name: "NissanUrvanPremium-for-rent",
+                url: "CarRental/NissanUrvanPremium-for-rent",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 2 }
+            );
+            routes.MapRoute(
+                name: "suvpickup4x4-rental-rates",
+                url: "CarRental/suvpickup4x4-rental-rates",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 3 }
+            );
+            routes.MapRoute(
+                name: "toyota-innova-for-rent",
+                url: "{controller}/toyota-innova-for-rent",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 4 }
+            );
+            routes.MapRoute(
+                name: "Sedan-rental",
+                url: "carrental/sedan-rental",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
+            );
+            routes.MapRoute(
+                name: "Pickup-rental",
+                url: "carrental/pickup-rental",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 6 }
+            );
+
+            #endregion
+
+
+            /********************************
+            * invoice
+            ********************************/
+            routes.MapRoute(
+                name: "JobOrderInvoice",
+                url: "invoice/{id}/{month}/{day}/{year}/{rName}",
+                defaults: new { controller = "JobOrder", action = "BookingRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
+            );
+
+            /********************************
+            * Car Rental Reservation
+            ********************************/
+            routes.MapRoute(
+                name: "Reservation",
+                url: "reservation/{id}/{month}/{day}/{year}/{rName}",
+                defaults: new { controller = "CarReservations", action = "ReservationRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
+            );
+
+            /********************************
+            * landing/home page
+            ********************************/
+            routes.MapRoute(
+                name: "myHome",
+                url: "CarRental/Index/{id}",
+                defaults: new { controller = "CarRental", action = "Index", id = UrlParameter.Optional }
+            );
+
+            /********************************
+            * AJ88 car rental default
+            ********************************/
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "CarRental", action = "Index", id = UrlParameter.Optional }
+            );
+
+        }
+      
+        //POTTMPC
+        public static void RegisterRoutes_POTTMPC(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.IgnoreRoute("{*x}", new { x = @".*\.asmx(/.*)?" });
+
+            /********************************
+            * sitemap
+            ********************************/
+            routes.MapRoute(
+                name: "sitemap",
+                url: "sitemap",
+                defaults: new { controller = "Home", action = "SitemapXml", id = UrlParameter.Optional }
+                );
+
+            routes.MapRoute(
+                name: "Home",
+                url: "Home/",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+
+            #region POTTMPC
+            routes.MapRoute(
+                name: "Van-Starex-for-rent",
+                url: "CarCoop/Van-Starex-for-rent",
+                defaults: new { controller = "CarCoop", action = "CarDetail", unitid = 1 }
+            );
+            routes.MapRoute(
+                name: "Nissan-Urvan-Premium-for-rent",
+                url: "CarCoop/Nissan-Urvan-Premium-for-rent",
+                defaults: new { controller = "CarCoop", action = "CarDetail", unitid = 2 }
+            );
+            routes.MapRoute(
+                name: "Nissan-Urvan-for-rent",
+                url: "CarCoop/Nissan-Urvan-for-rent",
+                defaults: new { controller = "CarCoop", action = "CarDetail", unitid = 3 }
+            );
+            #endregion
+
+
+            /********************************
+            * CarCoop landing/home page
+            ********************************/
+            routes.MapRoute(
+                name: "POTTMPC/Home",
+                url: "CarCoop/Index/{id}",
+                defaults: new { controller = "CarCoop", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "POTTMPC/Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "CarCoop", action = "Index", id = UrlParameter.Optional }
+            );
+        }
+
+        
+        // AJcarrental Davao / Davao Carrental hub
+        public static void RegisterRoutes_CarRentalHub(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.IgnoreRoute("{*x}", new { x = @".*\.asmx(/.*)?" });
+            
+            /********************************
+            * sitemap
+            ********************************/
+            routes.MapRoute(
+                name: "sitemap",
+                url: "sitemap",
+                defaults: new { controller = "Home", action = "SitemapXml_CarHub", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+                );
+
+            routes.MapRoute(
+                name: "sitemap.xml",
+                url: "sitemap.xml",
+                defaults: new { controller = "Home", action = "SitemapXml_CarHub", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+                );
+
+            routes.MapRoute(
+                name: "Home",
+                url: "Home/",
+                defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "About",
+                url: "CarRental/About",
+                defaults: new { controller = "CarRental", action = "About_Rental", id = UrlParameter.Optional },
                 namespaces: new[] { "JobsV1.Controllers" }
             );
 
@@ -66,8 +241,7 @@ namespace JobsV1
             );
 
             #endregion
-
-
+            
             #region From Error List
             //From Error List
             //carrental/toyota-hiace-van-for-rent/
@@ -260,42 +434,7 @@ namespace JobsV1
             );
             #endregion
 
-            #region POTTMPC
-            routes.MapRoute(
-                name: "Van-Starex-for-rent",
-                url: "CarCoop/Van-Starex-for-rent",
-                defaults: new { controller = "CarCoop", action = "CarDetail", unitid = 1 }
-            );
-            routes.MapRoute(
-                name: "Nissan-Urvan-Premium-for-rent",
-                url: "CarCoop/Nissan-Urvan-Premium-for-rent",
-                defaults: new { controller = "CarCoop", action = "CarDetail", unitid = 2 }
-            );
-            routes.MapRoute(
-                name: "Nissan-Urvan-for-rent",
-                url: "CarCoop/Nissan-Urvan-for-rent",
-                defaults: new { controller = "CarCoop", action = "CarDetail", unitid = 3 }
-            );
-            #endregion
-
-            /********************************
-            * landing/home page
-            ********************************/
-            //routes.MapRoute(
-            //    name: "myHome",
-            //    url: "MainGeneric/Index/{id}",
-            //    defaults: new { controller = "MainGeneric", action = "Index", id = UrlParameter.Optional }
-            //);
-
-            /********************************
-            * Generic Default page
-            ********************************/
-            //routes.MapRoute(
-            //    name: "Default",
-            //    url: "{controller}/{action}/{id}",
-            //    defaults: new { controller = "MainGeneric", action = "Index", id = UrlParameter.Optional }
-            //);
-            
+            #region Ajcarrental links
             /*******************************
              * Custom from ajdavaocarrental
              ********************************/
@@ -474,7 +613,7 @@ namespace JobsV1
               url: "ad-tag/van-for-rent-davao-city/",
               defaults: new { controller = "CarRental", action = "CarView", carDesc = "van-for-rent-davao-city" }
             );
-
+            #endregion
 
             /********************************
             * invoice
@@ -493,49 +632,14 @@ namespace JobsV1
                 url: "reservation/{id}/{month}/{day}/{year}/{rName}",
                 defaults: new { controller = "CarReservations", action = "ReservationRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
             );
-
-            /********************************
-            * CarCoop landing/home page
             
-            routes.MapRoute(
-                name: "POTTMPC/Home",
-                url: "CarCoop/Index/{id}",
-                defaults: new { controller = "CarCoop", action = "Index", id = UrlParameter.Optional }
-            );
-
-            routes.MapRoute(
-                name: "POTTMPC/Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "CarCoop", action = "Index", id = UrlParameter.Optional }
-            );
-            ********************************/
-
             /********************************
             * Davaocarrentalhub.com landing/home page
+            ********************************/
             routes.MapRoute(
                 name: "CarRentalHub/Home",
                 url: "{controller}/{action}/{id}",
               defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing", id = UrlParameter.Optional }
-            );
-            
-            ********************************/
-
-            /********************************
-            * landing/home page
-            ********************************/
-            routes.MapRoute(
-                name: "myHome",
-                url: "CarRental/Index/{id}",
-                defaults: new { controller = "CarRental", action = "Index", id = UrlParameter.Optional }
-            );
-
-            /********************************
-            * AJ88 car rental default
-            ********************************/
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "CarRental", action = "Index", id = UrlParameter.Optional }
             );
 
         }

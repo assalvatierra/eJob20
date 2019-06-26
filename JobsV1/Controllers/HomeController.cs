@@ -82,6 +82,19 @@ namespace JobsV1.Controllers
 
         }
 
+        public ActionResult SitemapXml_CarHub()
+        {
+            string currentUrl = Request.Url.AbsoluteUri;
+            int iTmp = currentUrl.IndexOf('/', 7);
+            string newurl = currentUrl.Substring(0, iTmp + 1);
+
+            Models.SiteMap_carhub sm = new Models.SiteMap_carhub();
+            var sitemapNodes = sm.GetSitemapNodes(newurl);
+            string xml = sm.GetSitemapDocument(sitemapNodes);
+            return this.Content(xml, "text/xml", System.Text.Encoding.UTF8);
+
+        }
+
         #endregion
     }
 }

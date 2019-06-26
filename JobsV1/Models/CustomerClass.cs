@@ -416,10 +416,13 @@ namespace JobsV1.Models
         {
             List<Customer> customers = new List<Customer>();
             List<CustomerList> custList = new List<CustomerList>();
-            string sql = "select Id,Name, Contact1, Contact2 , Status,"
-                        + " JobCount = (Select Count(x.Id) from[JobMains] x where x.CustomerId = c.Id ) ,"
-                        + " Company = (Select Top(1)  CompanyName = (Select Top(1) cem.Name from[CustEntMains] cem where ce.CustEntMainId = cem.Id)"
-                         + " from[CustEntities] ce where ce.CustomerId = c.Id) from Customers c";
+
+            string sql = "SELECT Id,Name, Contact1, Contact2 , Status,"
+                        + " JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,"
+                        + " Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id)"
+                        + " FROM [CustEntities] ce WHERE ce.CustomerId = c.Id) FROM Customers c"
+                        + " ORDER BY JobCount DESC , Id DESC"
+                         ;
 
             //handle status filter
             if (status != "ALL")

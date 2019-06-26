@@ -57,7 +57,7 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public string StatusCategory { get; set; }
         public DateTime dtTaken { get; set; }
-        public int refId { get; set; }          
+        public int refId { get; set; }
         public string Details { get; set; }
     }
 
@@ -103,6 +103,11 @@ namespace JobsV1.Models
 
     #endregion
 
+
+    public class cJobConfirmed
+    {
+        public int Id { get; set; }
+    }
 
     //CarRateUnitPackage Table Class
     public class PackageperUnit
@@ -213,7 +218,7 @@ InvItems a
 left outer join JobServiceItems b on b.InvItemId = a.Id 
 left outer join JobServices c on b.JobServicesId = c.Id
 left outer join JobMains d on c.JobMainId = d.Id
-where d.JobStatusId < 4
+where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
 ;";
             List<cItemSchedule> itemJobs = db.Database.SqlQuery<cItemSchedule>(SqlStr).ToList();
 
@@ -405,5 +410,51 @@ where d.JobStatusId < 4
 
             return UnitPkgList;
         }
+
+
+        public List<cJobConfirmed> getJobConfirmedList(int sortid)
+        {
+            List<cJobConfirmed> joblist = new List<cJobConfirmed>();
+
+            string sql = "";
+
+            //filter jobs based on statusId and date
+            switch (sortid)
+            {
+                case 1: //OnGoing
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -5, GETDATE());";
+
+                    break;
+                case 2: //prev
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate < GETDATE() AND j.JobDate >= DATEADD(DAY, -15, GETDATE()) ;";
+
+                    //jobMains = jobMains
+                    //    .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
+                    //    .Where(p => DateTime.Compare(p.JobDate.Date, today.Date) < 0 && DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-15)) > 0).ToList(); //get 2 weeks before all entries
+                    break;
+                case 3: //close
+
+                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -15, GETDATE());";
+
+                    //jobMains = jobMains
+                    //    .Where(d => (d.JobStatusId == JOBCLOSED || d.JobStatusId == JOBCANCELLED)).ToList()
+                    //    .Where(p => p.JobDate.Date > today.Date.AddDays(-15)).ToList();
+                    break;
+                default:
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -10, GETDATE());";
+                    //jobMains = jobMains.ToList();
+                    break;
+            }
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobConfirmed>(sql).ToList();
+
+            return joblist;
+
+        }
+
+      
     }
 }

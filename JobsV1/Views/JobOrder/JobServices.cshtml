@@ -8,7 +8,40 @@
 }
 
 
-<div id="dialog" title="Service Provider">
+
+
+<div class="modal fade" id="aContractorLink" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Contractor / PO</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+                
+                    @foreach (var item in providers)
+                    {
+                       
+                                if ((string)item == "Provider not defined.")
+                                { <p>@item</p> }
+                                else
+                                {
+                                    @Html.ActionLink("[" + @item + "]", "SubDetails", "JobMains", new { id = ViewBag.JobOrder.Id, sProvider = @item }, new { @class = "list-group-item" })
+                                }
+                          
+                    }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+@*<div id="dialog" title="Service Provider">
     <table>
         @foreach (var item in providers)
             {
@@ -24,7 +57,7 @@
             </tr>
         }
     </table>
-</div>
+</div>*@
 
 <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
 <div>
@@ -47,7 +80,7 @@
 
         <br />@Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
         | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null) 
-        | <a href="" id="aContractorLink">Contractors</a>
+        | <a id="aContractorLink"  data-toggle="modal" data-target="#aContractorLink" >Contractors</a>
         | @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 1 }, null)
        @* | @Html.ActionLink("Cash Expenses", "JobExpenses", "CashExpenses", new { id = ViewBag.JobOrder.Id }, null)*@
 
@@ -201,112 +234,110 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
 
-            var dlg;
-            $(function () {
-                // Initialize Dialog
-                dlg = $("#dialog").dialog({
-                    autoOpen: false,
-                    modal: true,
-                    buttons:
-                        {
-                            Close: function () {
-                                dlg.dialog("close");
-                            }
-                        }
-                });
+            //var dlg;
+            //$(function () {
+            //    // Initialize Dialog
+            //    dlg = $("#dialog").dialog({
+            //        autoOpen: false,
+            //        modal: true,
+            //        buttons:
+            //            {
+            //                Close: function () {
+            //                    dlg.dialog("close");
+            //                }
+            //            }
+            //    });
 
-                // Initialize Controls
-                $("#aContractorLink").click(function (event) {
-                    dlg.dialog("open");
-                    event.preventDefault();
-                });
+            //    // Initialize Controls
+            //    $("#aContractorLink").click(function (event) {
+            //        dlg.dialog("open");
+            //        event.preventDefault();
+            //    });
+            //});
+
+
+            $(document).ready(function () {
+                //LoadOverlay();
             });
+
+            //SEND Quotation to client in email
+            function ajaxSendQuotation(jobId) {
+                var data = {
+                    jobId: jobId,
+                    docType: "QUOTATION"
+                }
+
+                console.log(jobId);
+                var serviceURL = '/JobOrder/SendEmailBooking';
+                console.log("sending email");
+
+                //loading screen
+                LoadOverlay();
+
+                //send email using ajax
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function () {
+                        console.log('success');
+                        disableLoadOverlay();
+                        console.log("email sent");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                        $("#overlay2-text").text(jqXHR.responseText);
+                        disableLoadOverlay();
+                        console.log("Email Sent");
+                    }
+                });
+            }
+
+            //SEND RESERVATION DETAILS IN EMAIL TO CLIENT 
+            function ajaxSendReservation(jobId) {
+                var data = {
+                    jobId: jobId,
+                    docType: "RESERVATION"
+                }
+
+                console.log(jobId);
+                var serviceURL = '/JobOrder/SendEmailBooking';
+                console.log("sending email");
+
+                //loading screen
+                LoadOverlay();
+
+                //send email using ajax
+                $.ajax({
+                    type: "POST",
+                    url: serviceURL,
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function () {
+                        console.log('success');
+                        disableLoadOverlay();
+                        console.log("email sent");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                        $("#overlay2-text").text(jqXHR.responseText);
+                        disableLoadOverlay();
+                        console.log("Email Sent");
+                    }
+                });
+            }
+
+            function LoadOverlay() {
+                console.log("load overlay");
+                $("#overlay2").css("display", "flex");
+            }
+
+            function disableLoadOverlay() {
+                console.log("disable overlay");
+                $("#overlay2").css("display", "none");
+            }
     </script>
 }
-
-<script src="~/Scripts/jquery-3.3.1.js"> </script>
-<script>
-    $(document).ready(function () {
-        //LoadOverlay();
-    });
-
-    //SEND Quotation to client in email
-    function ajaxSendQuotation(jobId) {
-        var data = {
-            jobId: jobId,
-            docType : "QUOTATION"
-        }
-
-        console.log(jobId);
-        var serviceURL = '/JobOrder/SendEmailBooking';
-        console.log("sending email");
-
-        //loading screen
-        LoadOverlay();
-
-        //send email using ajax
-        $.ajax({
-            type: "POST",
-            url: serviceURL,
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function () {
-                console.log('success');
-                disableLoadOverlay();
-                console.log("email sent");
-            },
-            error: function (jqXHR, textStatus, errorThrown){
-                 alert(jqXHR.responseText);
-                $("#overlay2-text").text(jqXHR.responseText);
-                disableLoadOverlay();
-                console.log("Email Sent");
-            }
-        });
-    }
-
-    //SEND RESERVATION DETAILS IN EMAIL TO CLIENT 
-    function ajaxSendReservation(jobId) {
-        var data = {
-            jobId: jobId,
-            docType: "RESERVATION"
-        }
-
-        console.log(jobId);
-        var serviceURL = '/JobOrder/SendEmailBooking';
-        console.log("sending email");
-
-        //loading screen
-        LoadOverlay();
-
-        //send email using ajax
-        $.ajax({
-            type: "POST",
-            url: serviceURL,
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function () {
-                console.log('success');
-                disableLoadOverlay();
-                console.log("email sent");
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
-                $("#overlay2-text").text(jqXHR.responseText);
-                disableLoadOverlay();
-                console.log("Email Sent");
-            }
-        });
-    }
-
-    function LoadOverlay() {
-        console.log("load overlay");
-        $("#overlay2").css("display", "flex");
-    }
-
-    function disableLoadOverlay() {
-        console.log("disable overlay");
-        $("#overlay2").css("display", "none");
-    }
-</script>

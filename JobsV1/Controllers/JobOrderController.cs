@@ -113,7 +113,16 @@ namespace JobsV1.Controllers
         public List<cJobOrder> getJobData(int sortid)
         {
 
-            IEnumerable<Models.JobMain> jobMains = db.JobMains
+            //IEnumerable<Models.JobMain> jobMains = db.JobMains
+            //    .Include(j => j.Customer)
+            //    .Include(j => j.Branch)
+            //    .Include(j => j.JobStatus)
+            //    .Include(j => j.JobThru)
+            //    ;
+
+            var confirmed = dbc.getJobConfirmedList(sortid).Select(s=>s.Id);
+
+            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j=> confirmed.Contains(j.Id))
                 .Include(j => j.Customer)
                 .Include(j => j.Branch)
                 .Include(j => j.JobStatus)
@@ -126,30 +135,7 @@ namespace JobsV1.Controllers
             DateTime today = new DateTime();
             ViewBag.today = getDateTimeToday();
             today = getDateTimeToday().Date;
-
-            //filter jobs based on statusId and date
-            switch (sortid)
-            {
-                case 1: //OnGoing
-                    jobMains = jobMains
-                        .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED))
-                        .Where(p => DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-60)) >= 0).ToList();   //get 1 month before all entries
-                    break;
-                case 2: //prev
-                    jobMains = jobMains
-                        .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
-                        .Where(p => DateTime.Compare(p.JobDate.Date, today.Date) < 0 && DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-60)) > 0).ToList(); //get 1 month before all entries
-                    break;
-                case 3: //close
-                    jobMains = jobMains
-                        .Where(d => (d.JobStatusId == JOBCLOSED || d.JobStatusId == JOBCANCELLED)).ToList()
-                        .Where(p => p.JobDate.Date > today.Date.AddDays(-60)).ToList();
-                    break;
-                default:
-                    jobMains = jobMains.ToList();
-                    break;
-            }
-
+            
             foreach (var main in jobMains)
             {
                 cJobOrder joTmp = new cJobOrder();
@@ -480,13 +466,14 @@ order by x.jobid
             }
 
 
-            IEnumerable<Models.JobMain> jobMains = db.JobMains
+            var confirmed = dbc.getJobConfirmedList((int)sortid).Select(s => s.Id);
+
+            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => confirmed.Contains(j.Id))
                 .Include(j => j.Customer)
                 .Include(j => j.Branch)
                 .Include(j => j.JobStatus)
                 .Include(j => j.JobThru)
                 ;
-
             List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
             var data = new List<cJobOrder>();
 
@@ -494,33 +481,33 @@ order by x.jobid
             ViewBag.today = today;
             today = getDateTimeToday().Date;
 
-            switch (sortid)
-            {
-                case 1: //OnGoing
-                    jobMains = jobMains
-                        .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
-                        .Where(p => DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-60)) >= 0).ToList();   //get 1 month before all entries
+            //switch (sortid)
+            //{
+            //    case 1: //OnGoing
+            //        jobMains = jobMains
+            //            .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
+            //            .Where(p => DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-60)) >= 0).ToList();   //get 1 month before all entries
 
-                    break;
-                case 2: //prev
-                    jobMains = jobMains
-                        .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
-                        .Where(p => DateTime.Compare(p.JobDate.Date, today.Date) < 0).ToList(); //get 1 month before all entries
+            //        break;
+            //    case 2: //prev
+            //        jobMains = jobMains
+            //            .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
+            //            .Where(p => DateTime.Compare(p.JobDate.Date, today.Date) < 0).ToList(); //get 1 month before all entries
 
-                    break;
-                case 3: //close
-                    jobMains = jobMains
-                        .Where(d => (d.JobStatusId == JOBCLOSED || d.JobStatusId == JOBCANCELLED)).ToList()
-                        .Where(p => p.JobDate.Date.AddDays(60) > today.Date).ToList();
+            //        break;
+            //    case 3: //close
+            //        jobMains = jobMains
+            //            .Where(d => (d.JobStatusId == JOBCLOSED || d.JobStatusId == JOBCANCELLED)).ToList()
+            //            .Where(p => p.JobDate.Date.AddDays(60) > today.Date).ToList();
 
-                    break;
+            //        break;
 
-                default:
+            //    default:
 
-                    jobMains = jobMains.ToList();
+            //        jobMains = jobMains.ToList();
 
-                    break;
-            }
+            //        break;
+            //}
 
             foreach (var main in jobMains)
             {
@@ -917,7 +904,6 @@ order by x.jobid
             }
             else
             {
-
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", id);
             }
 

@@ -94,7 +94,10 @@ namespace JobsV1.Controllers
         // GET: InvItems/Create
         public ActionResult Create()
         {
-            return View();
+            InvItem item = new InvItem();
+            item.OrderNo = 999;
+
+            return View(item);
         }
 
         // POST: InvItems/Create
@@ -108,10 +111,26 @@ namespace JobsV1.Controllers
             {
                 db.InvItems.Add(invItem);
                 db.SaveChanges();
+
+                addDefaultCategory(invItem.Id);
+
                 return RedirectToAction("Index");
             }
 
             return View(invItem);
+        }
+
+        public void addDefaultCategory(int id)
+        {
+            db.InvItemCategories.Add(
+               new InvItemCategory
+               {
+                   InvItemCatId = 1,
+                   InvItemId = id
+               }
+           );
+
+            db.SaveChanges();
         }
 
         // GET: InvItems/Edit/5

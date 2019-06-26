@@ -81,9 +81,12 @@
             &nbsp;
         </th>
         <td>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Description) / @Html.DisplayFor(model => model.Customer.Name)
+            <!--Company-->
+            <br />@ViewBag.custCompany
             <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
-            | Remarks: @Html.DisplayFor(model => model.JobRemarks)
+
+
         </td>
     </tr>
 </table>
