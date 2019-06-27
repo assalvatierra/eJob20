@@ -4,8 +4,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h3>Job Expenses </h3>
-<h4>@ViewBag.JobOrderName </h4>
+<h3>@ViewBag.JobOrderName </h3>
 
 <p>
     Date: @ViewBag.jobDate.ToString("dd/MMM/yyyy")
@@ -14,7 +13,7 @@
     | @Html.ActionLink("Details", "Details", "JobMains", new { id = ViewBag.JobMainId }, null)
 
 </p>
-
+         
 <p>
     @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobMainId }, null) |
     @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobMainId }, null) |
@@ -25,27 +24,62 @@
 
 
 
+<h3> Agreed Amount : Php @ViewBag.jobAmount.ToString("#,###.00")  </h3>
 <table class="table" id="jobExpenseTbl">
     <tr>
         <th>
-            Job Service
-        </th>
-        <th>
-            Expense Category
+            Description
         </th>
         <th>
             Amount
         </th>
+        <th></th>
         <th>
             Remarks
         </th>
     </tr>
-    @{ 
-        foreach (var services in ViewBag.jobservices as IEnumerable<JobsV1.Models.JobServices>)
+
+
+    <tr>
+        <td>
+            <b> Payment </b>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    @foreach(var payments in ViewBag.PaymentRecord as IEnumerable<JobsV1.Models.JobPayment>)
+    {
+
+            <tr>
+                <td>
+                    &nbsp; &nbsp;
+                    @payments.Bank.BankName
+                </td>
+                <td>
+                    @payments.PaymentAmt.ToString("#,###.00")
+                </td>
+                <td></td>
+                <td>
+                    @payments.Remarks
+                </td>
+            </tr>
+        
+    }
+     <tr>
+         <td><b>
+                Payments
+            </b>
+         </td>
+         <td colspan="3">
+
+         </td>
+     </tr>
+        @foreach (var services in ViewBag.jobservices as IEnumerable<JobsV1.Models.JobServices>)
         {
             <tr>
-                <td colspan="4">
-                  <b>  @services.Particulars </b>
+                <td colspan="4"> &nbsp; &nbsp;
+                   @services.Particulars ( @services.ActualAmt )
                    | @Html.ActionLink("Add Expense", "JobExpenses", "JobExpenses", new { id = services.Id }, null)
                 </td>
             </tr>
@@ -55,12 +89,10 @@
                 {
 
                 <tr>
-                    <td>
-                       
-                    </td>
-                    <td>
+                    <td>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
                         @item.Expens.Name
                     </td>
+                    <td></td>
                     <td>
                         @item.Amount.ToString("#,###.00")
                     </td>
@@ -72,15 +104,11 @@
                 }
             }
         }
-    }
-
     <tr>
-        <td colspan="2">
-            <b>Total Expenses:</b>
-         </td>
-        <td colspan="2">
-            <b> @ViewBag.totalExpenses.ToString("#,###.00") </b>
-        </td>
+        <td><b>Balance</b></td>
+        <td>@ViewBag.totalBalance.ToString("#,###.00")</td>
+        <td></td>
+        <td></td>
     </tr>
 </table>
 

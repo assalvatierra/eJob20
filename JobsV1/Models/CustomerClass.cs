@@ -421,13 +421,13 @@ namespace JobsV1.Models
                         + " JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,"
                         + " Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id)"
                         + " FROM [CustEntities] ce WHERE ce.CustomerId = c.Id) FROM Customers c"
-                        + " ORDER BY JobCount DESC , Id DESC"
+                       
                          ;
 
             //handle status filter
             if (status != "ALL")
             {
-                sql += " where c.Status = '" + status + "' ";
+                sql += " WHERE c.Status = '" + status + "' ";
             }
 
             //handle status filter
@@ -442,16 +442,16 @@ namespace JobsV1.Models
                 //handle status filter
                 if (status != "ALL")
                 {
-                    sql += " and  c.Name Like '%" + search + "%' ";
+                    sql += " AND  c.Name Like '%" + search + "%' ";
                 }
                 else
                 {
-                    sql += "where  c.Name Like '%" + search + "%' ";
+                    sql += " WHERE  c.Name Like '%" + search + "%' ";
                 }
             }
 
             //terminator
-            sql += ";";
+            sql += "ORDER BY JobCount DESC , Id DESC;";
 
             custList = db.Database.SqlQuery<CustomerList>(sql).ToList();
 

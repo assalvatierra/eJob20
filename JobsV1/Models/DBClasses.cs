@@ -127,7 +127,14 @@ namespace JobsV1.Models
         public string Status { get; set; }
     }
 
-
+    //payments table class
+    public class cJobPayment
+    {
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime DtPayment { get; set; }
+    }
 
     public class DBClasses
     {
@@ -306,7 +313,6 @@ where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
             db.JobNotificationRequests.Add(new JobNotificationRequest {
                 ReqDt = DateTime.Parse(DateTime.Now.ToString("MMM dd yyyy HH:mm:ss")),
                 ServiceId = 4   //SMS service Id
-            
             });
             db.SaveChanges();
 
@@ -321,8 +327,7 @@ where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
             });
             db.SaveChanges();
         }
-
-
+        
         public void addTestNotification(int transId,string webhookId)
         {
 
@@ -341,8 +346,7 @@ where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
 
             DateTime today = DateTime.Now;
             today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
-
-
+            
             db.JobTrails.Add(new JobTrail {
                 RefTable = reftable,
                 RefId = refid,
@@ -385,8 +389,7 @@ where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
             }
 
             UnitPkgList = UnitPkgList.ToList();
-
-
+            
             if (status != "all")
             {
                 UnitPkgList = UnitPkgList.Where(p => p.Status.ToLower().Contains(status.ToLower())).ToList();
@@ -406,8 +409,7 @@ where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
             {
                 UnitPkgList = UnitPkgList.Where(p => p.Group.ToLower().Contains(group.ToLower())).ToList();
             }
-
-
+            
             return UnitPkgList;
         }
 

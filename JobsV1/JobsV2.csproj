@@ -2042,6 +2042,7 @@
     <Content Include="Views\JobExpenses\Index.cshtml" />
     <Content Include="Views\JobExpenses\CashExpenses.cshtml" />
     <Content Include="Views\CarRental\About_Rental.cshtml" />
+    <Content Include="Views\JobExpenses\CashPayments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

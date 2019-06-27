@@ -65,15 +65,15 @@
                 <span style="color:darkgreen;font:bold 16px arial, verdana;">
                     @item.Main.Customer.Name
                 </span>
+
                 [
                 @Html.ActionLink("Customer Details", "CompanyDetail", new { jobid = item.Main.Id, custid = item.Main.CustomerId}) |
                 @Html.ActionLink("Edit Job", "JobDetails", new { jobid = item.Main.Id }) |     
-
                 <a href="#" id="catbtn" data-toggle="modal" data-target="#@item.Main.Id" style="margin-bottom:10px;">Change Company</a>
                 ]
+
                 <br />
                 <span style="font:500 10px;color:darkblue;">
-                 
                     @item.Main.Description 
                    
                 </span>

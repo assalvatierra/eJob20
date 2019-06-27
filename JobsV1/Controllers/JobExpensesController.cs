@@ -218,7 +218,32 @@ namespace JobsV1.Controllers
             ViewBag.jobDesc = db.JobMains.Find(jobId).Description;
             ViewBag.jobDate = db.JobMains.Find(jobId).JobDate;
             ViewBag.JobOrderName = db.JobMains.Find(jobId).Customer.Name;
+
+            var jobpayment = db.JobPayments.Where(s => s.JobMainId == jobId).ToList();
+
+            //expenses
+            PartialView_CashPayments(jobId);
+
+            getTotalBalance(jobExps, jobpayment);
+
+            ViewBag.jobAmount = db.JobMains.Find(jobId).AgreedAmt != null ? db.JobMains.Find(jobId).AgreedAmt : 0 ;
+
             return View(jobExps);
+        }
+
+        public void PartialView_CashPayments(int jobId)
+        {
+            //cJobPayment
+            var payment = db.JobPayments.Where(s => s.JobMainId == jobId).ToList();
+
+            ViewBag.PaymentRecord = payment;
+            ViewBag.totalPayment = getTotalPayment(payment);
+            
+        } 
+        
+        public void getTotalBalance(IEnumerable<JobExpenses> expenses, IEnumerable<JobPayment> payments)
+        {
+            ViewBag.totalBalance = getTotalPayment(payments) - getTotalExpenses(expenses);
         }
 
         public decimal getTotalExpenses(IEnumerable<JobExpenses> expenses)
@@ -227,6 +252,17 @@ namespace JobsV1.Controllers
             foreach (var exp in expenses)
             {
                 total += exp.Amount;
+            }
+            return total;
+        }
+
+
+        public decimal getTotalPayment(IEnumerable<JobPayment> payments)
+        {
+            decimal total = 0;
+            foreach (var exp in payments)
+            {
+                total += exp.PaymentAmt;
             }
             return total;
         }

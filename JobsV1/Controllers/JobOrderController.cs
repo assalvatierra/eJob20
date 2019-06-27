@@ -23,6 +23,7 @@ namespace JobsV1.Controllers
         public List<cJobService> Services { get; set; }
         public List<cjobCounter> ActionCounter { get; set; }
         public decimal Payment { get; set; }
+        public string  Company { get; set; }
     }
 
     public class cJobService
@@ -473,6 +474,7 @@ order by x.jobid
                 .Include(j => j.Branch)
                 .Include(j => j.JobStatus)
                 .Include(j => j.JobThru)
+                .Include(j => j.JobEntMains)
                 ;
             List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
             var data = new List<cJobOrder>();
@@ -480,35 +482,7 @@ order by x.jobid
             DateTime today = new DateTime();
             ViewBag.today = today;
             today = getDateTimeToday().Date;
-
-            //switch (sortid)
-            //{
-            //    case 1: //OnGoing
-            //        jobMains = jobMains
-            //            .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
-            //            .Where(p => DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-60)) >= 0).ToList();   //get 1 month before all entries
-
-            //        break;
-            //    case 2: //prev
-            //        jobMains = jobMains
-            //            .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
-            //            .Where(p => DateTime.Compare(p.JobDate.Date, today.Date) < 0).ToList(); //get 1 month before all entries
-
-            //        break;
-            //    case 3: //close
-            //        jobMains = jobMains
-            //            .Where(d => (d.JobStatusId == JOBCLOSED || d.JobStatusId == JOBCANCELLED)).ToList()
-            //            .Where(p => p.JobDate.Date.AddDays(60) > today.Date).ToList();
-
-            //        break;
-
-            //    default:
-
-            //        jobMains = jobMains.ToList();
-
-            //        break;
-            //}
-
+            
             foreach (var main in jobMains)
             {
                 cJobOrder joTmp = new cJobOrder();
@@ -516,20 +490,22 @@ order by x.jobid
                 joTmp.Services = new List<cJobService>();
                 joTmp.Main.AgreedAmt = 0;
                 joTmp.Payment = 0;
-
+               
                 List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
                 foreach (var svc in joSvc)
                 {
                     cJobService cjoTmp = new cJobService();
                     cjoTmp.Service = svc;
+                    
+                    //var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
 
-                    var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
+                    //cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
+                    //cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
+                    //cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
+                    //cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
 
-                    cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
-                    cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
-                    cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
-                    cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
                     joTmp.Main.AgreedAmt += svc.ActualAmt;
+                    joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j=>j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name: "";
 
                     joTmp.Services.Add(cjoTmp);
                 }

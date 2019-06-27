@@ -126,7 +126,7 @@
 <table class="table" id="moreItemsTable">
     <tr>
         <td>
-            <a onclick="ajax_loadUnits();">More Items</a> |
+            <a onclick="ajax_loadUnits(@ViewBag.serviceId);">More Items</a> |
             <a onclick="hideUnits();">Hide Items</a>
         </td>
     </tr>
@@ -142,7 +142,7 @@
     //load table content on search btn click
     //request data from server using ajax call
     //then clear and add contents to the table
-    function ajax_loadUnits() {
+    function ajax_loadUnits(svcId) {
        
         //build json object
         var data = {
@@ -164,7 +164,7 @@
                 // console.log("ERROR");
                 console.log(data);
                 //console.log(data['responseText']);
-                SimpleTable(data);
+                SimpleTable(data,svcId);
             }
         });
     }
@@ -172,7 +172,7 @@
     //display simple/limited information 
     //of inventory items of sort order more
     //than 110.
-    function SimpleTable(data) {
+    function SimpleTable(data,svcId) {
         //console.log("SimpleTable");
         //parse data response to json object
         var temp = jQuery.parseJSON(data["responseText"]);
@@ -193,7 +193,7 @@
                 content = "<tr>";
                 content += "<td>"
                     + " <img src='" + temp[x]["icon"] + "' height='21'> "
-                    + "<a href='/JobOrder/AddItems/' >"
+                    + " <a href='/JobOrder/AddItem?itemId=" + temp[x]['Id'] + "&serviceId="+ svcId +"' >"
                     + " " + temp[x]["itemCode"] + " - "
                     + " " + temp[x]["Name"] + "</a> "
                     + " " + remarks + " "

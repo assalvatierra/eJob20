@@ -170,7 +170,7 @@ namespace JobsV1
 
         
         // AJcarrental Davao / Davao Carrental hub
-        public static void RegisterRoutes_CarRentalHub(RouteCollection routes)
+        public static void RegisterRoutes_Carrental(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 

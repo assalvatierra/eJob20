@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Job Orders</h2>
+<h2>Job Listing</h2>
 
 <p>
     @Html.ActionLink("Create New", "jobCreate", null, null)
@@ -55,7 +55,7 @@
                }
                else
                {
-                   string s1 = ((DateTime)item.Main.JobDate).ToString("MMM-dd (ddd)");
+                   string s1 = (item.Main.JobDate).ToString("MMM-dd (ddd)");
                    @s1
                   
                }
@@ -69,14 +69,46 @@
                 }
             </td>
             <td>
-                <span style="font-weight:bold;">
-                    @item.Main.Customer.Name
-                </span>
-                <span>/</span>
-                @item.Main.Description
-                <span>
-                   [ @item.Main.JobStatus.Status ]
-                </span>
+                @if (item.Main.JobStatus.Status == "CONFIRMED")
+                {
+                    <span style="color:#056912">
+                        <span style="font-weight:bold;">
+                            @item.Company
+                         
+                        </span>
+
+                        <span>/</span>
+                        <span>@item.Main.Customer.Name</span>
+
+                        <span>-</span>
+                        <span>
+                            @item.Main.Description
+                        </span>
+                        <span>
+                            [ @item.Main.JobStatus.Status ]
+                        </span>
+                    </span>
+                }
+                else
+                {
+                    <span style="color:black">
+                        <span style="font-weight:bold;">
+                            @item.Company
+                        </span>
+
+                        <span>/</span>
+                        <span>@item.Main.Customer.Name</span>
+
+                        <span>-</span>
+                        <span>
+                            @item.Main.Description
+                        </span>
+                        <span>
+                            [ @item.Main.JobStatus.Status ]
+                        </span>
+                    </span>
+                }
+
             </td>
             <td>
 
@@ -105,7 +137,6 @@
                 }
             </td>
             <td>
-
                 @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
                 @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
                 @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)

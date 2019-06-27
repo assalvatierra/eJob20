@@ -191,7 +191,6 @@ namespace JobsV1.Areas.Products.Controllers
         }
 
         #region Product Description
-
         public void PartialView_Desc(int id)
         {
             ViewBag.prodDesc = db.SmProdDescs.Where(s=>s.SmProductId == id).OrderBy(s=>s.SortNo).ToList();
