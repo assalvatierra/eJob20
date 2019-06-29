@@ -412,7 +412,7 @@ namespace JobsV1.Models
         //-----AJAX Functions for generating table list---------//
 
 
-        public List<CustomerList> generateCustomerList(string search, string status)
+        public List<CustomerList> generateCustomerList(string search, string status, string sort)
         {
             List<Customer> customers = new List<Customer>();
             List<CustomerList> custList = new List<CustomerList>();
@@ -450,45 +450,33 @@ namespace JobsV1.Models
                 }
             }
 
-            //terminator
-            sql += "ORDER BY JobCount DESC , Id DESC;";
+            if (sort != null)
+            {
+                switch (sort)
+                {
+                    case "DATE":
+                        sql += "ORDER BY Id ASC;";
+                        break;
+                    case "NAME":
+                        sql += "ORDER BY Name ASC;";
+                        break;
+                    case "JOBSCOUNT":
+                        sql += "ORDER BY JobCount DESC;";
+                        break;
+                    default:
+                        sql += "ORDER BY JobCount DESC , Name ASC;";
+                        break;
+                }
+            }
+            else
+            {
+                //terminator
+                sql += "ORDER BY JobCount ASC , Name ASC;";
+
+            }
 
             custList = db.Database.SqlQuery<CustomerList>(sql).ToList();
-
-
-            //customers = db.Customers.Include(c => c.CustEntities).ToList();
-
-            ////Search string filter
-            //if (status == "ALL")
-            //{
-            //    customers = customers.ToList();
-            //}
-            //else
-            //{
-            //    customers = customers.Where(s => s.Status == status).ToList();
-            //}
-
-            ////Search string filter
-            //if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
-            //{
-            //    customers = customers.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
-            //}
-
-            ////build temp supplier list
-            //foreach (var item in customers)
-            //{
-            //    //get latest company
-            //    custList.Add(new CustomerList
-            //    {
-            //        Id = item.Id,
-            //        Name = item.Name,
-            //        Contact1 = String.IsNullOrEmpty(item.Contact1) ? "--" : item.Contact1,
-            //        Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
-            //        Company = getCustCompanyName(item.Id),
-            //        JobsCount = getjobCount(item.Id),
-            //        Status = item.Status
-            //    });
-            //}
+            
             return custList;
         }
 

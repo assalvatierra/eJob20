@@ -1,6 +1,7 @@
 ﻿
 //global variables
 var status = "ACT";
+var sort = "DATE";
 var viewType = "SIMPLE";
 
 //load initial on page ready
@@ -36,6 +37,31 @@ $('#ALL').click(function () {
     StatusRefresh() // load inactive suppliers
 });
 
+//
+$('#DATE').click(function () {
+    sort = "DATE";
+    setActiveSort(this);
+});
+
+//
+$('#NAME').click(function () {
+    sort = "NAME";
+    setActiveSort(this);
+});
+
+//
+$('#JOBSCOUNT').click(function () {
+    sort = "JOBSCOUNT";
+    setActiveSort(this);
+});
+
+function setActiveSort(element){
+    $(element).css("color", "black");
+    $(element).siblings().css("color", "steelblue");
+    //StatusRefresh() // load inactive suppliers
+    //load table content
+    ajax_loadContent();
+}
 
 //load table content on search btn click
 //request data from server using ajax call
@@ -44,16 +70,19 @@ function ajax_loadContent() {
     var query = $('#srch-field').val();
    
     console.log("status: " + status);
+    console.log("sort: " + sort);
     //console.log("q: " + query);
 
     //build json object
     var data = {
-        search: query
+        search: query,
+        status : status,
+        sort : sort
     };
 
     //request data from server using ajax call
     $.ajax({
-        url: '/Customers/TableResult?search=' + query + '&status=' + status,
+        url: 'Customers/TableResult?search='+query+'&status='+status+'&sort='+sort,
         type: "GET",
         data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
