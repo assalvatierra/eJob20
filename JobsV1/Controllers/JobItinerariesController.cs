@@ -7,12 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Areas.Products.Models;
 
 namespace JobsV1.Controllers
 {
     public class JobItinerariesController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private ProdDBContainer dbp = new ProdDBContainer();
 
         // GET: JobItineraries
         public ActionResult Index(int? SvcId)
@@ -166,6 +168,22 @@ namespace JobsV1.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult JobDestination(int jobId) {
+
+            IEnumerable<PkgDestination> pkgdest = db.PkgDestinations.ToList();
+            ViewBag.JobOrderId = jobId;
+            return View(pkgdest);
+        }
+        
+        public ActionResult JobDestination_Add(int jobId)
+        {
+            PkgDestination pkg = new PkgDestination();
+            ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobId);
+            ViewBag.PackageId = new SelectList(dbp.SmProducts, "Id", "Name", jobId);
+
+            return View(pkg);
         }
     }
 }

@@ -332,12 +332,12 @@ namespace JobsV1.Controllers
         //if search is empty, return all actve items
         //Param : search = search string
         //        status = customer list string
-        public string TableResult(string search, string status)
+        public string TableResult(string search, string status, string sort)
         {
             //get lit of customers
             List<CustomerList> custList = new List<CustomerList>();
             
-            custList = custdb.generateCustomerList(search,status);
+            custList = custdb.generateCustomerList(search,status,sort);
            
             //convert list to json object
             return JsonConvert.SerializeObject(custList, Formatting.Indented);

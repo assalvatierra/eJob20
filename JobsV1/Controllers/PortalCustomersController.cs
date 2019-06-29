@@ -42,7 +42,6 @@ namespace JobsV1.Controllers
         {
             PortalCustomer custTemp = new PortalCustomer();
             custTemp.ExpiryDt = GetCurrentTime().AddDays(2);
-
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name");
             return View(custTemp);
         }
@@ -56,6 +55,8 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                portalCustomer.ContactNum = removeWhiteSpaces(portalCustomer.ContactNum);
                 db.PortalCustomers.Add(portalCustomer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -274,6 +275,11 @@ namespace JobsV1.Controllers
         public string getCustomerName(int custId)
         {
             return db.Customers.Find(custId) != null ? db.Customers.Find(custId).Name : "";
+        }
+
+        public string removeWhiteSpaces(string username)
+        {
+            return username.Replace(" ", String.Empty);
         }
     }
 }

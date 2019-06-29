@@ -1680,6 +1680,7 @@ order by x.jobid
             Models.JobMain jobmain = db.JobMains.Find(id);
             var svc = db.JobServices.Where(j=>j.JobMainId == id).ToList();
             string custName = jobmain.Customer.Name;
+            int pickupCount = 0;
 
             switch (custName)
             {
@@ -1705,27 +1706,43 @@ order by x.jobid
             {
                 Decimal quote = (jobmain.AgreedAmt == null ? 0 : (decimal)jobmain.AgreedAmt);
                 sData += "\n" + custName;
-                sData += "\n\nGuest:" + jobmain.Description;
+                sData += "\n\nGuest:" + jobmain.Description + " " + getCustomerCompany(jobmain.Id);
                 sData += "\nContact:" + jobmain.CustContactNumber;
 
                 foreach (var svi in svc)
                 {
 
-                    var quoted = (decimal)svi.QuotedAmt;
+                    decimal quoted = svi.QuotedAmt != null ? (decimal)svi.QuotedAmt : 0 ;
                     sData += "\n\nDate:" + ((DateTime)svi.DtStart).ToString("dd MMM yyyy (ddd)") + " - " + ((DateTime)svi.DtEnd).ToString("dd MMM yyyy (ddd)");
                     sData += "\nDescription:" + svi.Particulars;
                     sData += "\nVehicle:" + svi.SupplierItem.Description;
                     sData += "\nRate:P" + quoted.ToString("##,###.00");
-                    totalAmount += (decimal)svi.QuotedAmt;
+                    //totalAmount += (decimal)svi.QuotedAmt;
+                    totalAmount += quoted;
 
+
+                    //check pickup details
+                    if (svi.JobServicePickups.Count != 0)
+                    {
+                        foreach (var jobPickup in svi.JobServicePickups)
+                        {
+                            //Pickup Details
+                            sData += "\n\nPickup Details: " ;
+                            sData += "\nDate: " + jobPickup.JsDate;
+                            sData += "\nTime: " + jobPickup.JsTime;
+                            sData += "\nLocation: " + jobPickup.JsLocation;
+                            pickupCount++;
+                        }
+                    }
                 }
 
-                //Pickup Details
-                sData += "\n\nPickup Details: TBA";
-                sData += "\nDate: TBA" ;
-                sData += "\nTime: TBA" ;
-                sData += "\nLocation: TBA" ;
-
+                if(pickupCount == 0) { 
+                    //Pickup Details
+                    sData += "\n\nPickup Details: TBA";
+                    sData += "\nDate: TBA" ;
+                    sData += "\nTime: TBA" ;
+                    sData += "\nLocation: TBA" ;
+                }
 
                 //Summary Details
                 sData += "\n  ";
@@ -1740,17 +1757,14 @@ order by x.jobid
 
             return View();
         }
-
-
+        
         //web service call to send notification
         public void Notification(int id)
         {
             SMSWebService ws = new SMSWebService();
             ws.AddNotification(id);
         }
-
-
-
+        
         public ActionResult ConfirmJobStatus(int? id)
         {
             var Job = db.JobMains.Find(id);
@@ -1760,8 +1774,7 @@ order by x.jobid
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
-
-
+        
         public ActionResult ReserveJobStatus(int? id)
         {
             var Job = db.JobMains.Find(id);
@@ -2132,6 +2145,31 @@ order by x.jobid
             }
             base.Dispose(disposing);
         }
+
+
+        //GET : payment transction history
+        //[HttpGet]
+        public string GetPaymentHistory(int? jobId)
+        {
+
+            List<cJobPayment> paymentList = new List<cJobPayment>();
+
+            //get transactions
+                List<JobPayment> jobTrans = db.JobPayments.Where(j => j.JobMainId == jobId).ToList();
+                foreach (var payment in jobTrans ) {
+                    paymentList.Add(new cJobPayment {
+                        Id = payment.Id,
+                        DtPayment = payment.DtPayment,
+                        Amount = payment.PaymentAmt,
+                        Type = payment.Bank.BankName
+                    });
+
+                }
+
+            
+
+            return JsonConvert.SerializeObject(paymentList, Formatting.Indented);
+        }
         #endregion
 
         #region jobTrails
@@ -2147,11 +2185,9 @@ order by x.jobid
 
             return RedirectToAction("JobTrails");
         }
-
-
+        
         #endregion
         
-
         #region SendMails
 
         public String SendEmail(int jobId, string mailType)

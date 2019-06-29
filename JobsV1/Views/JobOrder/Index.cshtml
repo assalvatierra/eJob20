@@ -93,20 +93,21 @@
                 @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
                 @Html.ActionLink("[ Booking ]"    , "BookingDetails", new { id = item.Main.Id }, null)
                 @Html.ActionLink("[ Invoice ]"    , "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
-                <a href="#" id="acctbtn" data-toggle="modal" data-target="#Payment@(item.Main.Id)" style="margin-bottom:10px;" onclick="updateval()" >[ Payment ]</a>
+                <a href="#" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))" >[ Payment ]</a>
                 <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(item.Main.Id))">[ Send Invoice ]</a>
                 @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
 
                 <!--
                  Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
-                   -->
+                   --> 
+                 
+
             </p>
          </td>
     </tr>
        
 }
 </table>
-
 
 <div class="modal fade" id="mainid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -135,8 +136,9 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <!-- Modal Payment -->
-<div class="modal fade" id="Payment-item-Main-Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="jobPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -148,6 +150,17 @@
                 <h4>
                     Payment History
                 </h4>
+                <table class="table" id="paymentList">
+                    <tr>
+                        <th>Transaction Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                    </tr>
+                    
+                </table>
+                <div id="paymentActions">
+
+                </div>
                 <!--
                 if (item.Main.JobPayments.Count() != 0)
                 {
@@ -181,7 +194,6 @@
                     <a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Full Payment" }, null)" class="list-group-item"> Full Payment</a>
                     <a href="Url.Action("PaymentCreatePG", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Personal Guarentee" }, null)" class="list-group-item"> Personal Guarantee</a>
                 </div>
-
                 -->
             </div>
             <div class="modal-footer">
@@ -321,6 +333,91 @@
                 }
             });
         }
+
+        /*Payments modal
+         *Show Payment modal and retrieve the job payments history
+         *and show actions with payments.
+         */
+        function showPaymentModal(jobId){
+            $('#jobPayment').modal('show');
+            getPaymentData(jobId);
+        }
+
+        /**
+        * Payment_Ajax
+        * Get Payments transactions of the job
+        * using the jobId 
+        */
+        function getPaymentData(jobId){
+            var data = {
+                jobId: jobId,
+            }
+
+            var serviceURL = '/JobOrder/GetPaymentHistory';
+
+
+            //send email using ajax
+            $.ajax({
+                type: "POST",
+                url: serviceURL,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    console.log('success');
+                    console.log(data);
+                    jobPayments(data,jobId)
+                    //disableLoadOverlay();
+                },
+                error: function(jqXHR) {
+
+                    alert(jqXHR.responseText);
+                    //disableLoadOverlay();
+                }
+            });
+        }
+
+        
+
+        function jobPayments(data,jobId){
+
+            if(data["length"] != 0){
+                
+                console.log(data["0"]["Amount"]);
+            //parse data response to json object
+            var temp = data;
+
+            //clear table contents except header
+            $("#paymentList").find("tr:gt(0)").remove();
+
+            //remove all link from div actions 
+            $("#paymentActions").empty();
+
+                //populate table content
+                for (var x = 0; x < temp.length; x++) {
+                    var content ="<tr>";
+                    content += "<td>" + temp[x]["DtPayment"] + "</td>";
+                    content += "<td>" + temp[x]["Type"] + "</td>";
+                    content += "<td>" + temp[x]["Amount"] + "</td>";
+
+                    content +="</tr>";
+                    
+                    console.log();
+                    $(content).appendTo("#paymentList");
+                }
+            }
+
+            var contentAction  = "<a href='/JobOrder/Payments/"+ jobId +"' class='list-group-item'>  Payment Transaction</a>" ;
+            contentAction += "<a href='/JobOrder/PaymentCreate?JobMainId="+ jobId +"&remarks=Partial Payment' class='list-group-item'> Partial Payment </a>" ;
+            contentAction += "<a href='/JobOrder/PaymentCreate?JobMainId="+ jobId +"&remarks=Full Payment' class='list-group-item'> Full Payment </a>" ;
+            contentAction += "<a href='/JobOrder/PaymentCreatePG?JobMainId="+ jobId +"&remarks=Personal Guarentee' class='list-group-item'> Personal Guarantee </a>" ;
+
+             //<a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Partial Payment" }, null)" class="list-group-item"> Partial Payment</a>
+             //<a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Full Payment" }, null)" class="list-group-item"> Full Payment</a>
+             //<a href="Url.Action("PaymentCreatePG", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Personal Guarentee" }, null)" class="list-group-item"> Personal Guarantee</a>
+             $(contentAction).appendTo("#paymentActions");
+        }
+
     </script>
 
 }

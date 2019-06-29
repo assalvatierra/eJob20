@@ -70,15 +70,15 @@ insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierType
 insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status]) values('AJ Davao Car Rental','Abel / 0995-085-0158',' ', 'AJDavao88@gmail.com','1','1','ACT');
 insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values ('Default','1','Item by supplier','Supplier','ACT');
 
-insert into Services([Name],[Description]) 
+insert into Services([Name],[Description],[Status]) 
 values
-('Car Rental','Bus, Car, Van and other Transportation arrangements'),
-('Boat Rental','Boat Arrangement, Island Hopping'),
-('Tour Package','Tour Package, Land arrangements'),
-('AirTicket','Airline Ticket'),
-('Accommodation','Hotels, Rooms, Houses, etc'),
-('Activity','Water Rafting, Scuba Diving, Caving'),
-('Other','Other types of services');
+('Car Rental','Bus, Car, Van and other Transportation arrangements',1),
+('Boat Rental','Boat Arrangement, Island Hopping',1),
+('Tour Package','Tour Package, Land arrangements',1),
+('AirTicket','Airline Ticket',1),
+('Accommodation','Hotels, Rooms, Houses, etc',1),
+('Activity','Water Rafting, Scuba Diving, Caving',1),
+('Other','Other types of services',1);
 
 insert into SrvActionCodes([CatCode],[SortNo])
 values
