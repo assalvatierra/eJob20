@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
-
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <h3>Job Expenses </h3>
 <h4>@ViewBag.JobServiceName </h4>
 
@@ -50,7 +50,7 @@
             </td>
             <td>
                 <a href="" id="catbtn" data-toggle="modal" data-target="#editExpenseModal" 
-                   onclick="editExpense(@item.Id, @item.ExpensesId, @item.Amount, @item.Remarks)">Edit</a> |
+                   onclick="editExpense(@item.Id, @item.ExpensesId, @item.Amount, '@item.Remarks')">Edit</a> |
                 <a href="" onclick="removeExpense(@item.Id, '@item.Expens.Name', @item.Amount)"> Delete </a>
             </td>
         </tr>
@@ -60,7 +60,7 @@
 
 
 <!-- Add Expenses Modal -->
-<div class="modal fade" id="addExpenseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="addExpenseModal" tabindex="-1" style="z-index:500" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false"> 
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -69,6 +69,16 @@
             </div>
             <div class="modal-body row">
                 <!--Start of Modal Body-->
+
+                <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Date: </b>
+                    <div class="col-md-10">
+                        <input id="DtExpense" class="form-control" />
+                    </div>
+                </div>
+                <br /><br />
+
+
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> Expenses: </b>
                     <div class="col-md-10">
@@ -161,7 +171,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" onclick="ajax_editExpense()">Submit</button>
+                <button type="button" class="btn btn-default" onclick="ajax_editExpense()">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
@@ -169,7 +179,14 @@
 </div>
 <!-- /.modal -->
 
-<script src="~/Scripts/jquery-3.3.1.js"s></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
+    
+    <script type="text/javascript" src="~/Scripts/Job/JobExpense.js"></script>
+    }
+<script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
 <script>
 
     /**
@@ -219,10 +236,11 @@
         content  = "<tr>";
         content += "<td>" + expense + " </td>";
         content += "<td>" + expense + "</td>";
-        content += "<td>" + amount  +  "</td>";
+        content += "<td>" + amount  + "</td>";
         content += "<td>" + remarks + "</td>";
-        content += "<td> Edit | Delete </td>";
-        content += "  ";
+        content += "<td>"
+
+        content += " <td> ";
         content += "</tr>";
         $(content).appendTo("#jobExpenseTbl");
 

@@ -20,6 +20,7 @@ namespace JobsV1.Models
         public int JobMainId { get; set; }
         public int ExpensesId { get; set; }
         public int JobServicesId { get; set; }
+        public Nullable<System.DateTime> DtExpense { get; set; }
     
         public virtual Expenses Expens { get; set; }
         public virtual JobServices JobService { get; set; }

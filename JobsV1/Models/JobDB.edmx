@@ -93,6 +93,7 @@
     <EntitySet Name="Expenses" EntityType="JobDB.Store.Expenses" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobExpenses" EntityType="JobDB.Store.JobExpenses" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ExpensesCategories" EntityType="JobDB.Store.ExpensesCategories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PkgDestinations" EntityType="JobDB.Store.PkgDestinations" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -1352,6 +1353,7 @@
     <Property Name="JobMainId" Type="int" Nullable="false" />
     <Property Name="ExpensesId" Type="int" Nullable="false" />
     <Property Name="JobServicesId" Type="int" Nullable="false" />
+    <Property Name="DtExpense" Type="datetime" Nullable="true" />
   </EntityType>
   <EntityType Name="ExpensesCategories">
     <Key>
@@ -1360,6 +1362,15 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="PkgDestinations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SmProductId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="JobId" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2845,6 +2856,7 @@
             <End Role="ExpensesCategory" EntitySet="ExpensesCategories" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
+          <EntitySet Name="PkgDestinations" EntityType="JobDB.PkgDestination" />
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -4937,6 +4949,7 @@
           <Property Name="ExpensesId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="JobService" Relationship="JobDB.JobServicesJobExpenses" FromRole="JobExpenses" ToRole="JobServices" />
           <Property Name="JobServicesId" Type="Int32" Nullable="false" />
+          <Property Name="DtExpense" Type="DateTime" Nullable="true" />
         </EntityType>
         <Association Name="ExpensesJobExpenses">
           <End Type="JobDB.Expenses" Role="Expenses" Multiplicity="1" />
@@ -4983,6 +4996,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PkgDestination">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="SmProductId" Type="String" Nullable="false" />
+          <Property Name="JobId" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5983,6 +6005,7 @@
           <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
           <ScalarProperty Name="ExpensesId" ColumnName="ExpensesId" />
           <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
+          <ScalarProperty Name="DtExpense" ColumnName="DtExpense" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -5992,6 +6015,16 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PkgDestinations">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.PkgDestination)">
+        <MappingFragment StoreEntitySet="PkgDestinations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
+          <ScalarProperty Name="JobId" ColumnName="JobId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

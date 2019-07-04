@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<JobsV1.Models.JobExpenses >
 
 @{
+    ViewBag.Title = "Expenses";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
@@ -25,7 +26,7 @@
 
 
 <h3> Agreed Amount : Php @ViewBag.jobAmount.ToString("#,###.00")  </h3>
-<table class="table" id="jobExpenseTbl">
+<table class="table table-borderless" id="jobExpenseTbl">
     <tr>
         <th>
             Description
@@ -33,7 +34,6 @@
         <th>
             Amount
         </th>
-        <th></th>
         <th>
             Remarks
         </th>
@@ -44,7 +44,6 @@
         <td>
             <b> Payment </b>
         </td>
-        <td></td>
         <td></td>
         <td></td>
     </tr>
@@ -59,13 +58,19 @@
                 <td>
                     @payments.PaymentAmt.ToString("#,###.00")
                 </td>
-                <td></td>
                 <td>
                     @payments.Remarks
                 </td>
             </tr>
         
     }
+
+    <tr style="font-weight:bold;">
+        <td>Total: </td>
+        <td colspan="2">@ViewBag.totalPayment.ToString("#,###.00") </td>
+    </tr>
+
+    <tr><td colspan="3"></td></tr>
      <tr>
          <td><b>
                 Expenses
@@ -88,11 +93,10 @@
                 if (item.JobServicesId == services.Id)
                 {
 
-                <tr>
+                <tr style="color:#28598f">
                     <td>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
                         @item.Expens.Name
                     </td>
-                    <td></td>
                     <td>
                         @item.Amount.ToString("#,###.00")
                     </td>
@@ -104,12 +108,38 @@
                 }
             }
         }
-    <tr>
-        <td><b>Balance</b></td>
-        <td>@ViewBag.totalBalance.ToString("#,###.00")</td>
-        <td></td>
-        <td></td>
+
+    <tr style="font-weight:bold;">
+        <td>Total: </td>
+        <td colspan="2">@ViewBag.totalExpenses.ToString("#,###.00") </td>
     </tr>
 </table>
 
+<hr />
+<h3>Income</h3>
+<table class="table table-borderless">
+    <tr>
+        <th>Car Rental</th>
+        <th>Tour</th>
+        <th>Others</th>
+    </tr>
+    <tr>
+        <td>@ViewBag.carRentalIncome.ToString("#,###.00")</td>
+        <td>@ViewBag.tourIncome.ToString("#,###.00")</td>
+        <td>@ViewBag.othersIncome.ToString("#,###.00")</td>
+    </tr>
+</table>
+
+<div class="jumbotron">
+    <div class="container">
+        
+            <h3>Summary</h3>
+            <h3> Payments:  @ViewBag.totalPayment.ToString("#,###.00") </h3>
+            <h3> Expenses:  @ViewBag.totalExpenses.ToString("#,###.00") </h3>
+            <h3> Total: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; @ViewBag.totalBalance.ToString("#,###.00") </h3>
+         
+                <button class="btn btn-primary"><b> Post and Close Job </b></button>
+           
+    </div>
+</div>
 

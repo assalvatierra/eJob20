@@ -113,7 +113,6 @@ namespace JobsV1.Controllers
         
         public List<cJobOrder> getJobData(int sortid)
         {
-
             //IEnumerable<Models.JobMain> jobMains = db.JobMains
             //    .Include(j => j.Customer)
             //    .Include(j => j.Branch)
@@ -184,9 +183,7 @@ namespace JobsV1.Controllers
 
                 data.Add(joTmp);
             }
-
-
-
+            
             switch (sortid)
             {
                 case 1: //OnGoing

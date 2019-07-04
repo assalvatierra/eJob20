@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ef40c35eef7a48f9afcf5346ba52fb5c" Name="Diagram1" ZoomLevel="71" >
+      <Diagram DiagramId="ef40c35eef7a48f9afcf5346ba52fb5c" Name="Diagram1" ZoomLevel="78" >
         <EntityTypeShape EntityType="JobDB.JobMain" Width="1.5" PointX="11.25" PointY="4.75" />
         <EntityTypeShape EntityType="JobDB.Supplier" Width="1.5" PointX="18.875" PointY="4.125" />
         <EntityTypeShape EntityType="JobDB.Customer" Width="1.5" PointX="5" PointY="5.5" />
@@ -182,6 +182,7 @@
         <AssociationConnector Association="JobDB.JobServicesJobExpenses" />
         <EntityTypeShape EntityType="JobDB.ExpensesCategory" Width="1.5" PointX="12.5" PointY="19.25" />
         <AssociationConnector Association="JobDB.ExpensesCategoryExpenses" />
+        <EntityTypeShape EntityType="JobDB.PkgDestination" Width="1.5" PointX="2.375" PointY="20.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

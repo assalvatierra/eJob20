@@ -225,7 +225,7 @@ InvItems a
 left outer join JobServiceItems b on b.InvItemId = a.Id 
 left outer join JobServices c on b.JobServicesId = c.Id
 left outer join JobMains d on c.JobMainId = d.Id
-where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
+where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 ;";
             List<cItemSchedule> itemJobs = db.Database.SqlQuery<cItemSchedule>(SqlStr).ToList();
 
@@ -424,7 +424,7 @@ where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
             switch (sortid)
             {
                 case 1: //OnGoing
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -5, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -21, GETDATE());";
 
                     break;
                 case 2: //prev
@@ -443,7 +443,7 @@ where d.JobStatusId < 4 AND c.DtStart >= GETDATE()
                     //    .Where(p => p.JobDate.Date > today.Date.AddDays(-15)).ToList();
                     break;
                 default:
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -10, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -15, GETDATE());";
                     //jobMains = jobMains.ToList();
                     break;
             }

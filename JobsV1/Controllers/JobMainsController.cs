@@ -293,9 +293,48 @@ namespace JobsV1.Controllers
             ViewBag.sLine3 = sLine3;
             ViewBag.sLogo = sLogo;
 
+            //handle prepared by
+            var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
+            ViewBag.StaffName = getStaffName(encoder.user);
+            ViewBag.Sign = getStaffSign(encoder.user);
+            
             return View(jobMain);
         }
-        
+
+        public string getStaffName(string staffLogin)
+        {
+            switch (staffLogin)
+            {
+                case "josette.realbreeze@gmail.com":
+                    return "Josette Valleser";
+                case "mae.realbreeze@gmail.com":
+                    return "Cristel Mae Verano";
+                case "ramil.realbreeze@gmail.com":
+                    return "Ramil Villahermosa";
+                case "assalvatierra@gmail.com":
+                    return "Elvie S. Salvatierra ";
+                default:
+                    return "Elvie S. Salvatierra ";
+            }
+        }
+
+        public string getStaffSign(string staffLogin)
+        {
+            switch (staffLogin)
+            {
+                case "josette.realbreeze@gmail.com":
+                    return "/Images/Signature/JoSign.jpg";
+                case "mae.realbreeze@gmail.com":
+                    return "/Images/Signature/MaeSign.jpg";
+                case "ramil.realbreeze@gmail.com":
+                    return "/Images/Signature/RamSign.jpg";
+                case "assalvatierra@gmail.com":
+                    return "/Images/Signature-1.png";
+                default:
+                    return "/Images/Signature-1.png";
+            }
+        }
+
         // GET: JobMains/Create
         public ActionResult Create(int? id)
         {

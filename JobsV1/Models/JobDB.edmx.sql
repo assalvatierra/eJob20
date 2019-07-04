@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/14/2019 13:00:18
+-- Date Created: 07/04/2019 15:39:10
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -543,6 +543,9 @@ IF OBJECT_ID(N'[dbo].[JobExpenses]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[ExpensesCategories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ExpensesCategories];
+GO
+IF OBJECT_ID(N'[dbo].[PkgDestinations]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PkgDestinations];
 GO
 
 -- --------------------------------------------------
@@ -1456,7 +1459,8 @@ CREATE TABLE [dbo].[JobExpenses] (
     [Remarks] nvarchar(80)  NOT NULL,
     [JobMainId] int  NOT NULL,
     [ExpensesId] int  NOT NULL,
-    [JobServicesId] int  NOT NULL
+    [JobServicesId] int  NOT NULL,
+    [DtExpense] datetime  NULL
 );
 GO
 
@@ -1465,6 +1469,15 @@ CREATE TABLE [dbo].[ExpensesCategories] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Description] nvarchar(80)  NOT NULL,
     [Remarks] nvarchar(80)  NOT NULL
+);
+GO
+
+-- Creating table 'PkgDestinations'
+CREATE TABLE [dbo].[PkgDestinations] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(max)  NOT NULL,
+    [SmProductId] nvarchar(max)  NOT NULL,
+    [JobId] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -1991,6 +2004,12 @@ GO
 -- Creating primary key on [Id] in table 'ExpensesCategories'
 ALTER TABLE [dbo].[ExpensesCategories]
 ADD CONSTRAINT [PK_ExpensesCategories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PkgDestinations'
+ALTER TABLE [dbo].[PkgDestinations]
+ADD CONSTRAINT [PK_PkgDestinations]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

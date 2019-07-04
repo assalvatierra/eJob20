@@ -148,7 +148,7 @@ namespace JobsV1.Controllers
             return View(expenses);
         }
 
-        public string JobExpensesAdd(int? id, int expenseId, decimal amount, string remarks)
+        public string JobExpensesAdd(int? id, int expenseId, decimal amount, string remarks, string Date)
         {
             if (id != null)
             {
@@ -158,6 +158,7 @@ namespace JobsV1.Controllers
                 jobExpense.ExpensesId = expenseId;
                 jobExpense.JobServicesId = (int)id;
                 jobExpense.Remarks = remarks;
+                jobExpense.DtExpense = DateTime.Parse(Date);
 
                 db.JobExpenses.Add(jobExpense);
                 db.SaveChanges();
@@ -171,7 +172,7 @@ namespace JobsV1.Controllers
             return JsonConvert.SerializeObject("500", Formatting.Indented);
         }
 
-        public string JobExpensesEdit(int? id, int expenseId, decimal amount, string remarks)
+        public string JobExpensesEdit(int? id, int expenseId, decimal amount, string remarks, string Date)
         {
             if (id != null)
             {
@@ -180,6 +181,7 @@ namespace JobsV1.Controllers
                 jobExpense.Amount = amount;
                 jobExpense.ExpensesId = expenseId;
                 jobExpense.Remarks = remarks;
+                jobExpense.DtExpense = DateTime.Parse(Date);
 
                 db.Entry(jobExpense).State = EntityState.Modified;
                 db.SaveChanges();
@@ -226,8 +228,15 @@ namespace JobsV1.Controllers
 
             getTotalBalance(jobExps, jobpayment);
 
-            ViewBag.jobAmount = db.JobMains.Find(jobId).AgreedAmt != null ? db.JobMains.Find(jobId).AgreedAmt : 0 ;
+            ViewBag.jobAmount = getTotalQuotedAmount(db.JobServices.Where(s=>s.JobMainId == jobId).ToList());
+            //ViewBag.jobAmount = db.JobMains.Find(jobId).AgreedAmt != null ? db.JobMains.Find(jobId).AgreedAmt : 0 ;
+            ViewBag.totalPayment = getTotalPayment(jobpayment);
+            ViewBag.totalExpenses = getTotalExpenses(jobExps);
 
+            //income
+            ViewBag.carRentalIncome = getServiceIncome(jobId,"Car Rental");
+            ViewBag.tourIncome = getServiceIncome(jobId, "Tour Package");
+            ViewBag.othersIncome = getServiceIncome(jobId, "Others");
             return View(jobExps);
         }
 
@@ -266,6 +275,78 @@ namespace JobsV1.Controllers
             }
             return total;
         }
+
+
+        public decimal getTotalQuotedAmount(IEnumerable<JobServices> services)
+        {
+            decimal total = 0;
+            foreach (var svc in services)
+            {
+                total += (decimal)svc.QuotedAmt;
+            }
+            return total;
+        }
+
+
+        public decimal getTotalQuotedAmount(int jobid)
+        {
+            decimal total = 0;
+            
+            return total;
+        }
+
+        public decimal getServiceIncome(int jobid, string serviceType)
+        {
+            decimal total = 0;
+            int count = 0;
+
+            var carRentalServices = db.JobServices.Where(s => s.JobMainId == jobid).ToList();
+            List<int> svcIds = new List<int>();
+
+            //get total quoted amount
+            foreach (var csvc in carRentalServices)
+            {
+                if (serviceType == "Car Rental")
+                {
+                    if (csvc.Service.Id == 1) { //Car Rental
+                        total += getIncome(csvc);
+                    }
+                }else if (serviceType == "Tour Package")
+                {
+                    if (csvc.Service.Id == 3) { //Car Rental
+                        total += getIncome(csvc);
+                    }
+                }else
+                {
+                    if (csvc.Service.Id == 2 || csvc.Service.Id == 4  
+                     || csvc.Service.Id == 5 || csvc.Service.Id == 6
+                     || csvc.Service.Id == 7)
+                    { //Car Rental
+                        total += getIncome(csvc);
+                    }
+                }
+            }
+
+            //get total expenses 
+
+            return total;
+        }
+
+        private decimal getIncome(JobServices csvc)
+        {
+            decimal income = 0;
+            income += (decimal)csvc.ActualAmt;
+
+            //get expenses based on service id
+            var expenses = db.JobExpenses.Where(e => e.JobServicesId == csvc.Id).ToList();
+
+            foreach (var exp in expenses)
+            {
+                income -= exp.Amount;
+            }
+            return income;
+        }
+
         #endregion
 
     }

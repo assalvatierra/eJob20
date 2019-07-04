@@ -1306,6 +1306,7 @@
     <Content Include="Scripts\Job\CustomerList.js" />
     <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\Job\CashExpenses.js" />
+    <Content Include="Scripts\Job\JobExpense.js" />
     <Content Include="Scripts\Job\PortalCustomer.js" />
     <Content Include="Scripts\Job\ProdCreate.js" />
     <Content Include="Scripts\Job\SupplierListExpand.js" />

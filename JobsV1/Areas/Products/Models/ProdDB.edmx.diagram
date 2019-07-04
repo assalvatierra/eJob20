@@ -12,7 +12,7 @@
         <EntityTypeShape EntityType="ProdDB.SmSupplier" Width="1.5" PointX="11" PointY="0.5" />
         <EntityTypeShape EntityType="ProdDB.SmProdSupplier" Width="1.5" PointX="9" PointY="0.5" />
         <EntityTypeShape EntityType="ProdDB.SmSupplierInfo" Width="1.5" PointX="13" PointY="0.5" />
-        <EntityTypeShape EntityType="ProdDB.SmProdInfo" Width="1.5" PointX="4.75" PointY="6.5" />
+        <EntityTypeShape EntityType="ProdDB.SmProdInfo" Width="1.5" PointX="4.75" PointY="7.25" />
         <AssociationConnector Association="ProdDB.SmProdStatusSmProduct" />
         <AssociationConnector Association="ProdDB.SmProductSmProdDesc" />
         <AssociationConnector Association="ProdDB.SmProductSmProdInfo" />
