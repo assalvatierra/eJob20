@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/04/2019 15:39:10
+-- Date Created: 07/05/2019 17:18:03
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1481,6 +1481,20 @@ CREATE TABLE [dbo].[PkgDestinations] (
 );
 GO
 
+-- Creating table 'JobPosts'
+CREATE TABLE [dbo].[JobPosts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtPost] datetime  NOT NULL,
+    [PaymentAmt] decimal(18,0)  NOT NULL,
+    [ExpensesAmt] decimal(18,0)  NOT NULL,
+    [CarRentalInc] decimal(18,0)  NOT NULL,
+    [TourInc] decimal(18,0)  NOT NULL,
+    [OthersInc] decimal(18,0)  NOT NULL,
+    [Remarks] nvarchar(80)  NOT NULL,
+    [JobMainId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2010,6 +2024,12 @@ GO
 -- Creating primary key on [Id] in table 'PkgDestinations'
 ALTER TABLE [dbo].[PkgDestinations]
 ADD CONSTRAINT [PK_PkgDestinations]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'JobPosts'
+ALTER TABLE [dbo].[JobPosts]
+ADD CONSTRAINT [PK_JobPosts]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3320,6 +3340,21 @@ GO
 CREATE INDEX [IX_FK_ExpensesCategoryExpenses]
 ON [dbo].[Expenses]
     ([ExpensesCategoryId]);
+GO
+
+-- Creating foreign key on [JobMainId] in table 'JobPosts'
+ALTER TABLE [dbo].[JobPosts]
+ADD CONSTRAINT [FK_JobMainJobPost]
+    FOREIGN KEY ([JobMainId])
+    REFERENCES [dbo].[JobMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobMainJobPost'
+CREATE INDEX [IX_FK_JobMainJobPost]
+ON [dbo].[JobPosts]
+    ([JobMainId]);
 GO
 
 -- --------------------------------------------------

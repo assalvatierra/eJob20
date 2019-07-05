@@ -26,6 +26,7 @@ namespace JobsV1.Models
             this.SalesLeadLinks = new HashSet<SalesLeadLink>();
             this.JobEntMains = new HashSet<JobEntMain>();
             this.CashExpenses = new HashSet<CashExpense>();
+            this.JobPosts = new HashSet<JobPost>();
         }
     
         public int Id { get; set; }
@@ -65,5 +66,7 @@ namespace JobsV1.Models
         public virtual ICollection<JobEntMain> JobEntMains { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CashExpense> CashExpenses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobPost> JobPosts { get; set; }
     }
 }

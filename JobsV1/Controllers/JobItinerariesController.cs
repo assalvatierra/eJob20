@@ -169,21 +169,7 @@ namespace JobsV1.Controllers
             }
             base.Dispose(disposing);
         }
-
-        public ActionResult JobDestination(int jobId) {
-
-            IEnumerable<PkgDestination> pkgdest = db.PkgDestinations.ToList();
-            ViewBag.JobOrderId = jobId;
-            return View(pkgdest);
-        }
         
-        public ActionResult JobDestination_Add(int jobId)
-        {
-            PkgDestination pkg = new PkgDestination();
-            ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobId);
-            ViewBag.PackageId = new SelectList(dbp.SmProducts, "Id", "Name", jobId);
-
-            return View(pkg);
-        }
+        
     }
 }

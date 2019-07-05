@@ -476,6 +476,7 @@
     <Compile Include="Controllers\JobOrderController.cs" />
     <Compile Include="Controllers\JobPaymentsController.cs" />
     <Compile Include="Controllers\JobPickupsController.cs" />
+    <Compile Include="Controllers\JobPostsController.cs" />
     <Compile Include="Controllers\JobServicePickupsController.cs" />
     <Compile Include="Controllers\JobServicesController.cs" />
     <Compile Include="Controllers\MainGenericController.cs" />
@@ -690,6 +691,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobPickup.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobPost.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobServiceItem.cs">
@@ -2049,6 +2053,11 @@
     <Content Include="Views\JobExpenses\CashPayments.cshtml" />
     <Content Include="Views\JobItineraries\JobDestination.cshtml" />
     <Content Include="Views\JobItineraries\JobDestination_Add.cshtml" />
+    <Content Include="Views\JobPosts\Create.cshtml" />
+    <Content Include="Views\JobPosts\Delete.cshtml" />
+    <Content Include="Views\JobPosts\Details.cshtml" />
+    <Content Include="Views\JobPosts\Edit.cshtml" />
+    <Content Include="Views\JobPosts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

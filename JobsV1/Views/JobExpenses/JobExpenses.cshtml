@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<JobsV1.Models.JobExpenses >
 
 @{
+    ViewBag.Title = "Expenses";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
@@ -18,6 +19,9 @@
 
 <table class="table" id="jobExpenseTbl">
     <tr>
+        <th>
+            Date
+        </th>
         <th>
             Expenses
         </th>
@@ -37,6 +41,9 @@
     {
         <tr>
             <td>
+              @item.DtExpense
+            </td>
+            <td>
                 @item.Expens.Name
             </td>
             <td>
@@ -50,7 +57,7 @@
             </td>
             <td>
                 <a href="" id="catbtn" data-toggle="modal" data-target="#editExpenseModal" 
-                   onclick="editExpense(@item.Id, @item.ExpensesId, @item.Amount, '@item.Remarks')">Edit</a> |
+                   onclick="editExpense(@item.Id, @item.ExpensesId, @item.Amount, '@item.Remarks', '@item.DtExpense')">Edit</a> |
                 <a href="" onclick="removeExpense(@item.Id, '@item.Expens.Name', @item.Amount)"> Delete </a>
             </td>
         </tr>
@@ -131,6 +138,13 @@
             <div class="modal-body row">
                 <!--Start of Modal Body-->
 
+                <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Date: </b>
+                    <div class="col-md-10">
+                        <input id="edit-DtExpense" class="form-control" />
+                    </div>
+                </div>
+                <br /><br />
 
                 <div class="form-group col-md-12 hidden">
                     <b class="col-md-2 "> Id: </b>
@@ -182,9 +196,9 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
-<script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
-    
+    <script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Job/JobExpense.js"></script>
+
     }
 <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
 <script>
@@ -200,14 +214,17 @@
         var expense = $("#expenseList").find(":selected").text();
         var expAmt = $("#expenseAmt").val();
         var expRmk = $("#expenseRmk").val();
-        console.log("expId: " + expense);
+        var expdate = $("#DtExpense").val();
+
+        console.log("expdate: " + expdate);
         //build json object
 
         var data = {
             id : jsId,
             expenseId : expId,
             amount : expAmt,
-            remarks : expRmk
+            remarks: expRmk,
+            date: expdate
         };
 
         url = "/JobExpenses/JobExpensesAdd";
@@ -225,15 +242,16 @@
                 // console.log("ERROR");
                 console.log(data);
                 //location.reload();
-                addRateToView(expAmt, expense, expRmk);
+                addRateToView(expAmt, expense, expRmk,expdate);
                 $('#addExpenseModal').modal('toggle');
             }
         });
     }
     
     //add rate to view 
-    function addRateToView(amount, expense, remarks) {
-        content  = "<tr>";
+    function addRateToView(amount, expense, remarks, date) {
+        content = "<tr>";
+        content += "<td>" + date + " </td>";
         content += "<td>" + expense + " </td>";
         content += "<td>" + expense + "</td>";
         content += "<td>" + amount  + "</td>";
@@ -254,10 +272,11 @@
     function ajax_editExpense() {
 
         var jobexpId = $("#edit-expenseId").val();
-        var expId = $("#edit-expenseList").find(":selected").val(); 
-        var expense = $("#edit-expenseList").find(":selected").text();
-        var expAmt = $("#edit-expenseAmt").val();
-        var expRmk = $("#edit-expenseRmk").val();
+        var expId    = $("#edit-expenseList").find(":selected").val(); 
+        var expense  = $("#edit-expenseList").find(":selected").text();
+        var expAmt   = $("#edit-expenseAmt").val();
+        var expRmk   = $("#edit-expenseRmk").val();
+        var expdate  = $("#edit-DtExpense").val();
 
         console.log("jobexpId: " + jobexpId);
         //build json object
@@ -266,7 +285,8 @@
             id: jobexpId,
             expenseId : expId,
             amount : expAmt,
-            remarks : expRmk
+            remarks: expRmk,
+            date: expdate
         };
         
         url = "/JobExpenses/JobExpensesEdit";
@@ -282,6 +302,7 @@
             },
             error: function (data) {
                 //// console.log("ERROR");
+                //alert(data["responseText"]);
                 console.log(data);
                 location.reload();
             }
@@ -291,12 +312,13 @@
     //Edit
     //transfer values of selected product
     //to the edit form
-    function editExpense(id,expId,amount, remarks) {
+    function editExpense(id,expId,amount, remarks,date) {
         console.log("edit");
         $("#edit-expenseId").val(id);
         $("#edit-expenseList").val(expId); 
         $("#edit-expenseAmt").val(amount);
         $("#edit-expenseRmk").val(remarks);
+        $("#edit-DtExpense").val(date);
     }
 
     function refreshPage() {

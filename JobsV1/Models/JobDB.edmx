@@ -94,6 +94,7 @@
     <EntitySet Name="JobExpenses" EntityType="JobDB.Store.JobExpenses" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ExpensesCategories" EntityType="JobDB.Store.ExpensesCategories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PkgDestinations" EntityType="JobDB.Store.PkgDestinations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobPosts" EntityType="JobDB.Store.JobPosts" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -441,6 +442,10 @@
     <AssociationSet Name="ExpensesCategoryExpenses" Association="JobDB.Store.ExpensesCategoryExpenses">
       <End Role="ExpensesCategory" EntitySet="ExpensesCategories" />
       <End Role="Expenses" EntitySet="Expenses" />
+    </AssociationSet>
+    <AssociationSet Name="JobMainJobPost" Association="JobDB.Store.JobMainJobPost">
+      <End Role="JobMain" EntitySet="JobMains" />
+      <End Role="JobPost" EntitySet="JobPosts" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1371,6 +1376,20 @@
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="SmProductId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="JobId" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobPosts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtPost" Type="datetime" Nullable="false" />
+    <Property Name="PaymentAmt" Type="decimal" Nullable="false" />
+    <Property Name="ExpensesAmt" Type="decimal" Nullable="false" />
+    <Property Name="CarRentalInc" Type="decimal" Nullable="false" />
+    <Property Name="TourInc" Type="decimal" Nullable="false" />
+    <Property Name="OthersInc" Type="decimal" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="JobMainId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2416,6 +2435,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="JobMainJobPost">
+    <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
+    <End Role="JobPost" Type="JobDB.Store.JobPosts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobPost">
+        <PropertyRef Name="JobMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2857,6 +2888,11 @@
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
           <EntitySet Name="PkgDestinations" EntityType="JobDB.PkgDestination" />
+          <EntitySet Name="JobPosts" EntityType="JobDB.JobPost" />
+          <AssociationSet Name="JobMainJobPost" Association="JobDB.JobMainJobPost">
+            <End Role="JobMain" EntitySet="JobMains" />
+            <End Role="JobPost" EntitySet="JobPosts" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -2889,6 +2925,7 @@
           <NavigationProperty Name="SalesLeadLinks" Relationship="JobDB.JobMainSalesLeadLink" FromRole="JobMain" ToRole="SalesLeadLink" />
           <NavigationProperty Name="JobEntMains" Relationship="JobDB.JobEntMainJobMain" FromRole="JobMain" ToRole="JobEntMain" />
           <NavigationProperty Name="CashExpenses" Relationship="JobDB.CashExpenseJobMain" FromRole="JobMain" ToRole="CashExpense" />
+          <NavigationProperty Name="JobPosts" Relationship="JobDB.JobMainJobPost" FromRole="JobMain" ToRole="JobPost" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -5005,6 +5042,33 @@
           <Property Name="SmProductId" Type="String" Nullable="false" />
           <Property Name="JobId" Type="String" Nullable="false" />
         </EntityType>
+        <EntityType Name="JobPost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtPost" Type="DateTime" Nullable="false" />
+          <Property Name="PaymentAmt" Type="Decimal" Nullable="false" />
+          <Property Name="ExpensesAmt" Type="Decimal" Nullable="false" />
+          <Property Name="CarRentalInc" Type="Decimal" Nullable="false" />
+          <Property Name="TourInc" Type="Decimal" Nullable="false" />
+          <Property Name="OthersInc" Type="Decimal" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="JobMain" Relationship="JobDB.JobMainJobPost" FromRole="JobPost" ToRole="JobMain" />
+          <Property Name="JobMainId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="JobMainJobPost">
+          <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
+          <End Type="JobDB.JobPost" Role="JobPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobPost">
+              <PropertyRef Name="JobMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6025,6 +6089,21 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
           <ScalarProperty Name="JobId" ColumnName="JobId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobPosts">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.JobPost)">
+        <MappingFragment StoreEntitySet="JobPosts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtPost" ColumnName="DtPost" />
+          <ScalarProperty Name="PaymentAmt" ColumnName="PaymentAmt" />
+          <ScalarProperty Name="ExpensesAmt" ColumnName="ExpensesAmt" />
+          <ScalarProperty Name="CarRentalInc" ColumnName="CarRentalInc" />
+          <ScalarProperty Name="TourInc" ColumnName="TourInc" />
+          <ScalarProperty Name="OthersInc" ColumnName="OthersInc" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

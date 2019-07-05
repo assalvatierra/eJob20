@@ -47,22 +47,22 @@
         <td></td>
         <td></td>
     </tr>
-    @foreach(var payments in ViewBag.PaymentRecord as IEnumerable<JobsV1.Models.JobPayment>)
+    @foreach (var payments in ViewBag.PaymentRecord as IEnumerable<JobsV1.Models.JobPayment>)
     {
 
-            <tr>
-                <td>
-                    &nbsp; &nbsp;
-                    @payments.Bank.BankName
-                </td>
-                <td>
-                    @payments.PaymentAmt.ToString("#,###.00")
-                </td>
-                <td>
-                    @payments.Remarks
-                </td>
-            </tr>
-        
+        <tr style="color:#28598f">
+            <td>
+                &nbsp; &nbsp;
+                @payments.Bank.BankName
+            </td>
+            <td>
+                @payments.PaymentAmt.ToString("#,###.00")
+            </td>
+            <td>
+                @payments.Remarks
+            </td>
+        </tr>
+
     }
 
     <tr style="font-weight:bold;">
@@ -95,6 +95,7 @@
 
                 <tr style="color:#28598f">
                     <td>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+                        @item.DtExpense.Value.ToString("dd MMM yyyy") - 
                         @item.Expens.Name
                     </td>
                     <td>
@@ -137,8 +138,13 @@
             <h3> Payments:  @ViewBag.totalPayment.ToString("#,###.00") </h3>
             <h3> Expenses:  @ViewBag.totalExpenses.ToString("#,###.00") </h3>
             <h3> Total: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; @ViewBag.totalBalance.ToString("#,###.00") </h3>
-         
-                <button class="btn btn-primary"><b> Post and Close Job </b></button>
+
+            @Html.ActionLink("Post and Close Job", "PostJobAccount", "JobExpenses",
+               new { jobId = ViewBag.JobMainId, paymentAmount = ViewBag.totalPayment, expensesAmount = ViewBag.totalExpenses,
+                   incomeAmount = ViewBag.totalBalance, carRentalIncome = ViewBag.carRentalIncome, tourIncome = ViewBag.tourIncome,
+                   otherIncome = ViewBag.othersIncome, remarks = ""}
+            , new { @class = "btn btn-primary" }) 
+               @* <button class="btn btn-primary"><b> Post and Close Job </b></button>*@
            
     </div>
 </div>
