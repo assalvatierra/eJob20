@@ -258,7 +258,13 @@
 
             $(document).ready(function () {
                 //LoadOverlay();
+                jobActionDisplay(@ViewBag.jobAction);
             });
+            
+
+            function jobActionDisplay(action){
+                alert(action);
+            }
 
             //SEND Quotation to client in email
             function ajaxSendQuotation(jobId) {

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace JobsV1.Controllers
 {
@@ -148,17 +149,19 @@ namespace JobsV1.Controllers
             return View(expenses);
         }
 
-        public string JobExpensesAdd(int? id, int expenseId, decimal amount, string remarks, string Date)
+        public string JobExpensesAdd(int? id, int expenseId, decimal amount, string remarks, string date)
         {
             if (id != null)
             {
-
+                string stringDate = date;
+                date = "05/07/2017 09:10 AM";
                 JobExpenses jobExpense = new JobExpenses();
                 jobExpense.Amount = amount;
                 jobExpense.ExpensesId = expenseId;
                 jobExpense.JobServicesId = (int)id;
                 jobExpense.Remarks = remarks;
-                jobExpense.DtExpense = DateTime.Parse(Date);
+                //jobExpense.DtExpense = DateTime.ParseExact(date, "MM/DD/YYYY  hh:mm A", CultureInfo.InvariantCulture);
+                jobExpense.DtExpense = DateTime.Parse(stringDate);
 
                 db.JobExpenses.Add(jobExpense);
                 db.SaveChanges();
@@ -181,7 +184,7 @@ namespace JobsV1.Controllers
                 jobExpense.Amount = amount;
                 jobExpense.ExpensesId = expenseId;
                 jobExpense.Remarks = remarks;
-                jobExpense.DtExpense = DateTime.Parse(Date);
+                jobExpense.DtExpense = DateTime.Parse(Date); 
 
                 db.Entry(jobExpense).State = EntityState.Modified;
                 db.SaveChanges();
@@ -214,12 +217,15 @@ namespace JobsV1.Controllers
         {
             IEnumerable<JobExpenses> jobExps = db.JobExpenses.Where(e => e.JobService.JobMainId == jobId).Include(e=>e.JobService).ToList();
 
+            JobMain job = db.JobMains.Find(jobId);
+
             ViewBag.JobMainId = jobId;
             ViewBag.jobservices = db.JobServices.Where(s => s.JobMainId == jobId).ToList();
             ViewBag.totalExpenses = getTotalExpenses(jobExps);
-            ViewBag.jobDesc = db.JobMains.Find(jobId).Description;
-            ViewBag.jobDate = db.JobMains.Find(jobId).JobDate;
-            ViewBag.JobOrderName = db.JobMains.Find(jobId).Customer.Name;
+            ViewBag.jobDesc = job.Description;
+            ViewBag.jobDate = job.JobDate;
+            ViewBag.JobOrderName = job.Customer.Name;
+            ViewBag.jobStatus = job.JobStatus.Status;
 
             var jobpayment = db.JobPayments.Where(s => s.JobMainId == jobId).ToList();
 
@@ -228,8 +234,8 @@ namespace JobsV1.Controllers
 
             getTotalBalance(jobExps, jobpayment);
 
-            ViewBag.jobAmount = getTotalQuotedAmount(db.JobServices.Where(s=>s.JobMainId == jobId).ToList());
             //ViewBag.jobAmount = db.JobMains.Find(jobId).AgreedAmt != null ? db.JobMains.Find(jobId).AgreedAmt : 0 ;
+            ViewBag.jobAmount = getTotalQuotedAmount(db.JobServices.Where(s=>s.JobMainId == jobId).ToList());
             ViewBag.totalPayment = getTotalPayment(jobpayment);
             ViewBag.totalExpenses = getTotalExpenses(jobExps);
 
@@ -264,8 +270,7 @@ namespace JobsV1.Controllers
             }
             return total;
         }
-
-
+        
         public decimal getTotalPayment(IEnumerable<JobPayment> payments)
         {
             decimal total = 0;
@@ -275,8 +280,7 @@ namespace JobsV1.Controllers
             }
             return total;
         }
-
-
+        
         public decimal getTotalQuotedAmount(IEnumerable<JobServices> services)
         {
             decimal total = 0;
@@ -286,8 +290,7 @@ namespace JobsV1.Controllers
             }
             return total;
         }
-
-
+        
         public decimal getTotalQuotedAmount(int jobid)
         {
             decimal total = 0;
@@ -345,6 +348,58 @@ namespace JobsV1.Controllers
                 income -= exp.Amount;
             }
             return income;
+        }
+
+        //Post and close job payments, expenses and income
+        //table : jobPosting
+        public ActionResult PostJobAccount(int jobId, decimal paymentAmount, decimal expensesAmount
+            ,decimal incomeAmount, decimal carRentalIncome, decimal tourIncome, decimal otherIncome
+            ,string remarks)
+        {
+            DateClass date = new DateClass();
+
+            if (jobId != 0)
+            {
+                JobPost posting = new JobPost();
+                posting.DtPost = date.GetCurrentTime();
+                posting.JobMainId = jobId;
+                posting.PaymentAmt = paymentAmount;
+                posting.ExpensesAmt = expensesAmount;
+                posting.CarRentalInc = carRentalIncome;
+                posting.TourInc = tourIncome;
+                posting.OthersInc = otherIncome;
+                posting.Remarks = " ";
+
+                db.JobPosts.Add(posting);
+                db.SaveChanges();
+
+                //change job status to close
+                closeJob(jobId);
+
+                return RedirectToAction("JobServices","JobOrder",new { JobMainId = jobId , action  = "JOBPOST"});
+
+            }
+            return RedirectToAction("Index","JobPosts",null);
+        }
+        
+        private bool closeJob(int jobId)
+        {
+            try
+            {
+                if (jobId != 0)
+                {
+                    JobMain job = db.JobMains.Find(jobId);
+                    job.JobStatusId = 4;
+                    
+                    db.Entry(job).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            { return false; }
         }
 
         #endregion

@@ -1299,7 +1299,7 @@ order by x.jobid
         }
 
 
-        public ActionResult JobServices(int? JobMainId, int? serviceId, int? sortid)
+        public ActionResult JobServices(int? JobMainId, int? serviceId, int? sortid, string action)
         {
 
             if (sortid != null)
@@ -1358,6 +1358,8 @@ order by x.jobid
             ViewBag.Itineraries = db.JobItineraries.Where(d => d.JobMainId == JobMainId).ToList();
 
             ViewBag.sortid = sortid;
+
+            ViewBag.jobAction = action;
 
             return View(jobServices.OrderBy(d => d.DtStart).ToList());
 

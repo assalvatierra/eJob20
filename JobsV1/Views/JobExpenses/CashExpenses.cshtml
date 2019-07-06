@@ -27,7 +27,7 @@
 
 <h3> Agreed Amount : Php @ViewBag.jobAmount.ToString("#,###.00")  </h3>
 <table class="table table-borderless" id="jobExpenseTbl">
-    <tr>
+    <tr style="color:#808080">
         <th>
             Description
         </th>
@@ -84,7 +84,7 @@
         {
             <tr>
                 <td colspan="4"> &nbsp; &nbsp;
-                   @services.Particulars ( @services.ActualAmt )
+                   @services.Particulars ( @services.ActualAmt.Value.ToString("#,###.00") )
                    | @Html.ActionLink("Add Expense", "JobExpenses", "JobExpenses", new { id = services.Id }, null)
                 </td>
             </tr>
@@ -95,7 +95,15 @@
 
                 <tr style="color:#28598f">
                     <td>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-                        @item.DtExpense.Value.ToString("dd MMM yyyy") - 
+                        @if (item.DtExpense == null)
+                        {
+                           <text> - </text>
+                        }
+                        else
+                        {
+                            @item.DtExpense.Value.ToString("dd MMM yyyy")                         
+                               <text> - </text>
+                        }
                         @item.Expens.Name
                     </td>
                     <td>
@@ -138,14 +146,29 @@
             <h3> Payments:  @ViewBag.totalPayment.ToString("#,###.00") </h3>
             <h3> Expenses:  @ViewBag.totalExpenses.ToString("#,###.00") </h3>
             <h3> Total: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; @ViewBag.totalBalance.ToString("#,###.00") </h3>
+            @if (ViewBag.jobStatus != "CLOSED")
+            {
 
-            @Html.ActionLink("Post and Close Job", "PostJobAccount", "JobExpenses",
-               new { jobId = ViewBag.JobMainId, paymentAmount = ViewBag.totalPayment, expensesAmount = ViewBag.totalExpenses,
-                   incomeAmount = ViewBag.totalBalance, carRentalIncome = ViewBag.carRentalIncome, tourIncome = ViewBag.tourIncome,
-                   otherIncome = ViewBag.othersIncome, remarks = ""}
-            , new { @class = "btn btn-primary" }) 
-               @* <button class="btn btn-primary"><b> Post and Close Job </b></button>*@
-           
+                @Html.ActionLink("Post and Close Job", "PostJobAccount", "JobExpenses",
+                   new
+                   {
+                       jobId = ViewBag.JobMainId,
+                       paymentAmount = ViewBag.totalPayment,
+                       expensesAmount = ViewBag.totalExpenses,
+                       incomeAmount = ViewBag.totalBalance,
+                       carRentalIncome = ViewBag.carRentalIncome,
+                       tourIncome = ViewBag.tourIncome,
+                       otherIncome = ViewBag.othersIncome,
+                       remarks = ""
+                   }
+                 , new { @class = "btn btn-primary" })
+                @* <button class="btn btn-primary"><b> Post and Close Job </b></button>*@
+            }
+            else
+            {
+                <p style="color:#2582e6">Job account posted</p>
+            }
+
     </div>
 </div>
 
