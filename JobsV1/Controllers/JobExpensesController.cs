@@ -140,12 +140,16 @@ namespace JobsV1.Controllers
 
         public ActionResult JobExpenses(int id)
         {
+            DateClass today = new DateClass();
+
             var expenses = db.JobExpenses.Where(e => e.JobServicesId == id).ToList();
 
             ViewBag.JobServiceName = db.JobServices.Find(id).Particulars;
             ViewBag.expenseList = db.Expenses.Include(s => s.ExpensesCategory).ToList();
             ViewBag.JobMainId = db.JobServices.Find(id).JobMainId;
             ViewBag.JobServiceId = id;
+            ViewBag.DateToday = today.GetCurrentTime();
+
             return View(expenses);
         }
 
@@ -218,6 +222,7 @@ namespace JobsV1.Controllers
             IEnumerable<JobExpenses> jobExps = db.JobExpenses.Where(e => e.JobService.JobMainId == jobId).Include(e=>e.JobService).ToList();
 
             JobMain job = db.JobMains.Find(jobId);
+            var jobCount = db.JobPosts.Where(s => s.JobMainId == jobId).Count();
 
             ViewBag.JobMainId = jobId;
             ViewBag.jobservices = db.JobServices.Where(s => s.JobMainId == jobId).ToList();
@@ -225,9 +230,11 @@ namespace JobsV1.Controllers
             ViewBag.jobDesc = job.Description;
             ViewBag.jobDate = job.JobDate;
             ViewBag.JobOrderName = job.Customer.Name;
-            ViewBag.jobStatus = job.JobStatus.Status;
+            ViewBag.isPosted = job.JobStatus.Status == "CLOSED" && jobCount > 0 ? true : false ;
 
             var jobpayment = db.JobPayments.Where(s => s.JobMainId == jobId).ToList();
+
+            ViewBag.jobPosted = db.JobPosts.Where(s => s.JobMainId == jobId).ToList();
 
             //expenses
             PartialView_CashPayments(jobId);
@@ -352,7 +359,7 @@ namespace JobsV1.Controllers
 
         //Post and close job payments, expenses and income
         //table : jobPosting
-        public ActionResult PostJobAccount(int jobId, decimal paymentAmount, decimal expensesAmount
+        public string PostJobAccount(int jobId, decimal paymentAmount, decimal expensesAmount
             ,decimal incomeAmount, decimal carRentalIncome, decimal tourIncome, decimal otherIncome
             ,string remarks)
         {
@@ -368,7 +375,7 @@ namespace JobsV1.Controllers
                 posting.CarRentalInc = carRentalIncome;
                 posting.TourInc = tourIncome;
                 posting.OthersInc = otherIncome;
-                posting.Remarks = " ";
+                posting.Remarks = remarks;
 
                 db.JobPosts.Add(posting);
                 db.SaveChanges();
@@ -376,10 +383,11 @@ namespace JobsV1.Controllers
                 //change job status to close
                 closeJob(jobId);
 
-                return RedirectToAction("JobServices","JobOrder",new { JobMainId = jobId , action  = "JOBPOST"});
-
+                //return RedirectToAction("JobServices","JobOrder",new { JobMainId = jobId , action  = "JOBPOST"});
+                return JsonConvert.SerializeObject("200", Formatting.Indented);
             }
-            return RedirectToAction("Index","JobPosts",null);
+            //return RedirectToAction("Index","JobPosts",null);
+            return JsonConvert.SerializeObject("200", Formatting.Indented);
         }
         
         private bool closeJob(int jobId)
@@ -404,5 +412,34 @@ namespace JobsV1.Controllers
 
         #endregion
 
+        #region Posted Account
+        public ActionResult PostedDelete(int? id)
+        {
+            if(id != null)
+            {
+
+                JobPost posted = db.JobPosts.Find(id);
+                var jobid = posted.JobMainId;
+                db.JobPosts.Remove(posted);
+                db.SaveChanges();
+                return RedirectToAction("CashExpenses", new { jobId = jobid });
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult EditPost(int id, decimal carRentalIncome, decimal tourIncome, decimal otherIncome, string remarks) {
+
+            JobPost posted = db.JobPosts.Find(id);
+            posted.CarRentalInc = carRentalIncome;
+            posted.TourInc = tourIncome;
+            posted.OthersInc = otherIncome;
+            posted.Remarks = remarks;
+
+            db.Entry(posted).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("CashExpenses", new { jobId = posted.JobMainId });
+        }
+        #endregion
     }
 }
