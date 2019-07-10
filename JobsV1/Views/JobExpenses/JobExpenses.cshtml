@@ -16,7 +16,7 @@
    @* @Html.ActionLink("Add Expense ", "JobExpensesAdd", "JobOrder", null, null)*@
     <a href="" id="catbtn" data-toggle="modal" data-target="#addExpenseModal" style="margin-bottom:10px;">Add Expenses</a>
 </p>
-
+<p>@ViewBag.DateToday</p>
 <table class="table" id="jobExpenseTbl">
     <tr>
         <th>
@@ -62,9 +62,7 @@
             </td>
         </tr>
     }
-
 </table>
-
 
 <!-- Add Expenses Modal -->
 <div class="modal fade" id="addExpenseModal" tabindex="-1" style="z-index:500" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false"> 
@@ -96,14 +94,13 @@
                             } 
                         </select>
                     </div>
-
                 </div>
                 <br /><br />
 
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> Amount: </b>
                     <div class="col-md-10">
-                        <input type="number" maxlength="12" class="form-control" id="expenseAmt" onkeypress='validate(event)'  value="0" />
+                        <input type="number" maxlength="12" class="form-control" id="expenseAmt" onkeypress="validate(event)"  value="0" />
                     </div>
                 </div>
                 <br /><br />
@@ -201,9 +198,8 @@
     }
 <script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
 <script>
-
     /**
-      * Expense.js
+      * JobExpense.js
       * Perform Add, Edit and Remove functions 
       * using modal.
       */
@@ -324,8 +320,9 @@
         location.reload();
     }
     
+    //remove confirmation
     function removeExpense(Id, desc, amount) {
-        console.log("remove");
+        //console.log("remove");
         if (confirm('Are you sure you want to remove "' + desc + '" ("' + amount+ '") ?')) {
             ajax_RemoveRate(Id);
         } else {
@@ -334,10 +331,10 @@
         }
     }
 
-    //Remove 
+    //Remove ajax
     function ajax_RemoveRate(id) {
       
-        console.log("remove");
+        //console.log("remove");
         var data = {
             id: id
         };

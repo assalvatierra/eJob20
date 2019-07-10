@@ -12,7 +12,6 @@
     <br />Description: @ViewBag.jobDesc
     <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobMainId }, null)
     | @Html.ActionLink("Details", "Details", "JobMains", new { id = ViewBag.JobMainId }, null)
-
 </p>
          
 <p>
@@ -23,12 +22,9 @@
     Expenses
 </p>
 
-
-
 <h3> Agreed Amount : Php @ViewBag.jobAmount.ToString("#,###.00")  </h3>
+
 <table class="table table-borderless" id="jobExpenseTbl" style="border:1px solid lightgray;">
-
-
     <tr>
         <td width="700">
             <b> Payment </b>
@@ -63,7 +59,7 @@
 </table>
 
 <table class="table table-borderless" id="jobExpenseTbl" style="border:1px solid lightgray;">
-    <tr><td colspan="3"></td></tr>
+    
     <tr>
         <td width="700">
             <b>
@@ -77,7 +73,15 @@
         <tr>
             <td colspan="4">
                 &nbsp; &nbsp;
-                @services.Particulars ( @services.ActualAmt.Value.ToString("#,###.00") )
+                @if (services.ActualAmt != null)
+                {
+                    <text>
+                    @services.Particulars (@services.ActualAmt.Value.ToString("#,###.00"))
+                    </text>
+                }else
+                {
+                    <text> @services.Particulars (0)</text>
+                }
                 | @Html.ActionLink("Add Expense", "JobExpenses", "JobExpenses", new { id = services.Id }, null)
             </td>
         </tr>
@@ -157,31 +161,6 @@
             <h3> Expenses:  @ViewBag.totalExpenses.ToString("#,###.00") </h3>
             <h3> Revenue: &nbsp;@ViewBag.totalBalance.ToString("#,###.00") </h3>
 
-            @*@if (ViewBag.totalPayment != 0 && ViewBag.totalExpenses != 0)
-            {
-                if (ViewBag.isPosted)
-                {
-                    <p style="color:#2582e6">Job account posted</p>
-                }
-                else
-                {
-                    @Html.ActionLink("Post and Close Job", "PostJobAccount", "JobExpenses",
-                       new
-                       {
-                           jobId = ViewBag.JobMainId,
-                           paymentAmount = ViewBag.totalPayment,
-                           expensesAmount = ViewBag.totalExpenses,
-                           incomeAmount = ViewBag.totalBalance,
-                           carRentalIncome = ViewBag.carRentalIncome,
-                           tourIncome = ViewBag.tourIncome,
-                           otherIncome = ViewBag.othersIncome,
-                           remarks = ""
-                       }
-                     , new { @class = "btn btn-primary" })
-                    @* <button class="btn btn-primary"><b> Post and Close Job </b></button>
-                }
-
-            }*@
     </div>
 </div>
 
@@ -190,15 +169,15 @@
     <div class="container">
         <div class="col-lg-3">
             <h4> Car Rental </h4>
-            <input id="carRentalIncome" type="number" class="form-control" style="width:150px;" value="0" onkeypress='validatePosted()' onchange="validatePosted()"/>
+            <input id="carRentalIncome" type="number" class="form-control" style="width:150px;" value="0"  oninput="validatePosted();" onkeypress="validate(event)" />
         </div>
         <div class="col-lg-3">
             <h4> Tour </h4>
-            <input id="tourIncome" type="number" class="form-control" style="width:150px;" value="0"  onkeypress='validatePosted()' onchange="validatePosted()"/>
+            <input id="tourIncome" type="number" class="form-control" style="width:150px;" value="0" oninput="validatePosted();" onkeypress="validate(event)" />
         </div>
         <div class="col-lg-3">
             <h4> Others </h4>
-            <input id="othersIncome" type="number" class="form-control" style="width:150px;"  value="0" onkeypress='validatePosted()' onchange="validatePosted()"/>
+            <input id="othersIncome" type="number" class="form-control" style="width:150px;"  value="0"  oninput="validatePosted();" onkeypress="validate(event)" />
         </div>
         <div class="col-lg-8">
             <h4>Remarks</h4>
@@ -238,9 +217,18 @@
 
 
                 <div class="form-group col-md-12">
+                    <b class="col-md-2 "> Revenue: </b>
+                    <div class="col-md-10">
+                        <b> @ViewBag.totalBalance.ToString("#,###.00")  </b>
+                    </div>
+                </div>
+                <br />
+
+
+                <div class="form-group col-md-12">
                     <b class="col-md-2 "> Car Rental: </b>
                     <div class="col-md-10">
-                        <input type="number" maxlength="12" class="form-control" id="edit-carRentalInc" value="0"  onkeypress='validatePosted_edit()' onchange="validatePosted_edit()" />
+                        <input type="number" maxlength="12" class="form-control" id="edit-carRentalInc" value="0" oninput="validatePosted_edit();" onkeypress="validate(event)" />
                     </div>
                 </div>
                 <br /><br />
@@ -248,7 +236,7 @@
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> Tour: </b>
                     <div class="col-md-10">
-                        <input type="number" maxlength="12" class="form-control" id="edit-tourInc" value="0" onkeypress='validatePosted_edit()' onchange="validatePosted_edit()" />
+                        <input type="number" maxlength="12" class="form-control" id="edit-tourInc" value="0" oninput="validatePosted_edit();" onkeypress="validate(event)"  />
                     </div>
                 </div>
                 <br /><br />
@@ -256,7 +244,7 @@
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> others: </b>
                     <div class="col-md-10">
-                        <input type="number" maxlength="12" class="form-control" id="edit-otherInc" value="0" onkeypress='validatePosted_edit()' onchange="validatePosted_edit()" />
+                        <input type="number" maxlength="12" class="form-control" id="edit-otherInc" value="0" oninput="validatePosted_edit();" onkeypress="validate(event)"  />
                     </div>
                 </div>
                 <br /><br />
@@ -266,6 +254,11 @@
                     <div class="col-md-10">
                         <input type="text" maxlength="80" class="form-control" id="edit-postedRemarks" />
                     </div>
+                </div>
+                <br /><br />
+
+                <div class="form-group col-md-12">
+                    <span  id="edit-warning-msg" class="col-lg-8 text-danger"  >The Revenue and Total Income does not match</span>
                 </div>
 
                 <!--End of Modal Body-->
@@ -343,7 +336,7 @@
     //Add Expense
     function PostSave() {
 
-        console.log("remarks: " + remarks);
+        //console.log("remarks: " + remarks);
         //build json object
 
         var data = {
@@ -411,9 +404,11 @@
         if(total == net){
             //console.log("equal");
             $("#edit-save").attr("disabled", false);
+            $("#edit-warning-msg").hide();
         }else{
             //console.log("not equal");
             $("#edit-save").attr("disabled", true);
+            $("#edit-warning-msg").show();
         }
 
         if(@ViewBag.totalPayment == 0){
@@ -428,8 +423,52 @@
         $("#edit-tourInc").val(tour);
         $("#edit-otherInc").val(others);
         $("#edit-postedRemarks").val(remarks);
+
+        validatePosted_edit();
     }
 
+    
+
+    //handle numbers only
+    $('#carRentalIncome,#tourIncome,#othersIncome,#edit-carRentalInc,#edit-tourInc,#edit-otherInc,#edit-postedRemarks').on('input', function () {
+       
+        //backspace
+        if (isNaN($(this).val())) {
+            var txt = $(this);
+            txt.val(txt.val().slice(0, -1));
+        } else {
+            //handle negative number
+            if ($(this).val() < 0) {
+                $(this).val(0);
+            }
+        }
+        //handle negative number
+        if ($(this).val() < 0) {
+            $(this).val(0);
+        }
+
+    });
+    
+    //prevent invalid inputs 
+  
+    function validate(evt) {
+        var theEvent = evt || window.event;
+        console.log("validate");
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
 
 
 </script>
