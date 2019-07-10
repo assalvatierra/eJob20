@@ -70,8 +70,8 @@ namespace JobsV1.Areas.Products.Controllers
             SmProduct prod = new SmProduct();
             prod.BranchId = 1;
             prod.ProdStatusId = 1;
-            prod.ValidStart = dateNow.GetCurrentTime();
-            prod.ValidEnd = dateNow.GetCurrentTime().AddYears(1);
+            prod.ValidStart = dateNow.GetCurrentDate();
+            prod.ValidEnd = dateNow.GetCurrentDate().AddYears(1);
 
             ViewBag.SmProdStatusId = new SelectList(db.SmProdStatus, "Id", "Status");
             ViewBag.SmBranchId = new SelectList(db.SmBranches, "Id", "Name");

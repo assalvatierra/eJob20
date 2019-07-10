@@ -143,12 +143,13 @@ namespace JobsV1.Controllers
             DateClass today = new DateClass();
 
             var expenses = db.JobExpenses.Where(e => e.JobServicesId == id).ToList();
+            var svcDate = db.JobServices.Find(id).DtEnd;
 
             ViewBag.JobServiceName = db.JobServices.Find(id).Particulars;
             ViewBag.expenseList = db.Expenses.Include(s => s.ExpensesCategory).ToList();
             ViewBag.JobMainId = db.JobServices.Find(id).JobMainId;
             ViewBag.JobServiceId = id;
-            ViewBag.DateToday = today.GetCurrentTime();
+            ViewBag.DateToday = svcDate != null ? svcDate : today.GetCurrentDateTime();
 
             return View(expenses);
         }
@@ -158,7 +159,7 @@ namespace JobsV1.Controllers
             if (id != null)
             {
                 string stringDate = date;
-                date = "05/07/2017 09:10 AM";
+                //date = "05/07/2017 09:10 AM";
                 JobExpenses jobExpense = new JobExpenses();
                 jobExpense.Amount = amount;
                 jobExpense.ExpensesId = expenseId;
@@ -293,7 +294,7 @@ namespace JobsV1.Controllers
             decimal total = 0;
             foreach (var svc in services)
             {
-                total += (decimal)svc.QuotedAmt;
+                total += svc.QuotedAmt != null ? (decimal)svc.QuotedAmt : 0;
             }
             return total;
         }
@@ -345,7 +346,7 @@ namespace JobsV1.Controllers
         private decimal getIncome(JobServices csvc)
         {
             decimal income = 0;
-            income += (decimal)csvc.ActualAmt;
+            income += csvc.ActualAmt != null ? (decimal)csvc.ActualAmt: 0;
 
             //get expenses based on service id
             var expenses = db.JobExpenses.Where(e => e.JobServicesId == csvc.Id).ToList();
@@ -368,7 +369,7 @@ namespace JobsV1.Controllers
             if (jobId != 0)
             {
                 JobPost posting = new JobPost();
-                posting.DtPost = date.GetCurrentTime();
+                posting.DtPost = date.GetCurrentDateTime();
                 posting.JobMainId = jobId;
                 posting.PaymentAmt = paymentAmount;
                 posting.ExpensesAmt = expensesAmount;

@@ -78,7 +78,7 @@ namespace JobsV1.Models
         {
 
             List<int> oldJobs = new List<int>();
-            var datetoday = dt.GetCurrentTime().Date.AddDays(-360).Date;
+            var datetoday = dt.GetCurrentDate().Date.AddDays(-360).Date;
 
             //get all active suppliers
             var actSuppliers = db.Suppliers.Where(s => s.Status == "ACT").ToList();

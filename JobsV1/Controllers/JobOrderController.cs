@@ -569,6 +569,7 @@ order by x.jobid
         public DateTime getDateTimeToday()
         {
             DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+
             return today;
         }
 
@@ -864,10 +865,10 @@ order by x.jobid
         public ActionResult jobCreate(int? id)
         {
 
-            DateTime today = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
-            
+            DateClass today = new DateClass();
+
             JobMain job = new JobMain();
-            job.JobDate = today.AddDays(1);
+            job.JobDate = today.GetCurrentDateTime().AddDays(1);
             job.NoOfDays = 1;
             job.NoOfPax = 1;
             
@@ -1444,14 +1445,21 @@ order by x.jobid
             ViewBag.CarDesc = "Test Unit";
             ViewBag.ReservationType = "Rental";
             ViewBag.Amount = 1000;
-
-
+            
             string custCompany = "";
             //check customer if assigned to a company
             if (jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault() != null)
             {
                 custCompany = jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault().CustEntMain.Name;
+
+                if (custCompany == "NEW (not yet defined)")
+                {
+                    custCompany = " ";
+                }
+
             }
+
+             
 
             ViewBag.custCompany = custCompany;
 
@@ -2184,11 +2192,12 @@ order by x.jobid
 
             return RedirectToAction("JobTrails");
         }
-        
+
         #endregion
-        
+
         #region SendMails
 
+        //Handle email sending for Invoice
         public String SendEmail(int jobId, string mailType)
         {
             JobMain jobOrder = db.JobMains.Find(jobId);
@@ -2198,19 +2207,10 @@ order by x.jobid
 
             string clientName = jobOrder.Description;
             string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
-            string ajdavaoEmail = "ajdavao88@gmail.com"; //testing
-            string mailResult = "";
+            string ajdavaoEmail = "ajdavao88@gmail.com"; //
             string adminEmail = "travel.realbreeze@gmail.com";
-
-            //admin
-            //mailResult = mail.SendMailInvoiceAdvice(jobId, ajdavaoEmail, mailType, clientName, siteRedirect);    
-            //mailResult = mail.SendMailInvoiceAdvice(jobId, companyEmail, mailType, clientName, siteRedirect);           
-            //mailResult = mail.SendMailInvoiceAdvice(jobId, adminEmail, mailType, clientName, siteRedirect);     
-
-            //client
-            //mailResult = mail.SendMailClientInvoice(jobId, jobOrder.CustContactEmail, mailType, clientName, siteRedirect);  //customer email
-            //mailResult = mail.SendMailClientPayment(jobId, jobOrder.Customer.Email, mailType, clientName, siteRedirect);  //booking job customer email
-
+            string mailResult = "";
+            
             //Send invoice 
             mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
             mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
@@ -2223,30 +2223,41 @@ order by x.jobid
             return mailResult;
         }
 
-
+        //Handle email sending for Reservation and inquiry Quotations
         public string SendEmailBooking(int? jobId, string doctype)
         {
-            JobMain jobOrder = db.JobMains.Find(jobId);
-            EMailHandler mail = new EMailHandler();
-            
-            List<JobServices> jobServices = db.JobServices.Include(j => j.JobMain).Include(j => j.Supplier)
-                .Include(j => j.Service).Include(j => j.SupplierItem).Include(j => j.JobServicePickups)
-                .Where(d => d.JobMainId == jobId).ToList();
-            
-            string clientName = jobOrder.Description;
             string mailResult = "";
+            string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
+            string ajdavaoEmail = "ajdavao88@gmail.com"; //
+            string adminEmail = "travel.realbreeze@gmail.com";
 
-            switch (doctype)
-            {
-                case "QUOTATION":
-                    mailResult = mail.SendMailQuotation((int)jobId, jobOrder.CustContactEmail, jobServices);
-                    break;
-                case "RESERVATION":
-                    mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices);
-                    break;
-            }
-     
+            if (jobId != null) { 
+                JobMain jobOrder = db.JobMains.Find(jobId);
+                EMailHandler mail = new EMailHandler();
             
+                List<JobServices> jobServices = db.JobServices.Include(j => j.JobMain).Include(j => j.Supplier)
+                    .Include(j => j.Service).Include(j => j.SupplierItem).Include(j => j.JobServicePickups)
+                    .Where(d => d.JobMainId == jobId).ToList();
+            
+                string clientName = jobOrder.Description;
+
+                switch (doctype)
+                {
+                    case "QUOTATION":
+                        mailResult = mail.SendMailQuotation((int)jobId, jobOrder.CustContactEmail, jobServices); //client email
+                        mailResult = mail.SendMailQuotation((int)jobId, companyEmail, jobServices); //realwheels
+                        mailResult = mail.SendMailQuotation((int)jobId, adminEmail, jobServices);   //travel
+                        mailResult = mail.SendMailQuotation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        break;
+                    case "RESERVATION":
+                        mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices); // client email
+                        mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
+                        mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
+                        mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        break;
+                }
+
+            }
             mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
             return mailResult;
         }
@@ -2263,13 +2274,7 @@ order by x.jobid
             string ajdavaoEmail = "ajdavao88@gmail.com"; //testing
             string mailResult = "";
             string adminEmail = "travel.realbreeze@gmail.com";
-
-            //mailResult = mail.SendMailPaymentAdvice(jobId, ajdavaoEmail, mailType, clientName, siteRedirect);
-            //mailResult = mail.SendMailPaymentAdvice(jobId, companyEmail, mailType, clientName, siteRedirect);
-            //mailResult = mail.SendMailPaymentAdvice(jobId, adminEmail, mailType, clientName, siteRedirect);
-
-            //mailResult = mail.SendMailClientPayment(jobId, jobOrder.CustContactEmail, mailType, clientName, siteRedirect);  //customer email
-
+            
             //Send invoice 
             mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
             mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);

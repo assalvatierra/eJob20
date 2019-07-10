@@ -517,7 +517,7 @@ namespace JobsV1.Models
             List<int> latestJobs = new List<int>();
 
             //adjust date by subtracting 360 days (a year)
-            var datetoday = dt.GetCurrentTime().Date.AddDays(-360);
+            var datetoday = dt.GetCurrentDate().Date.AddDays(-360);
 
             //get customers with jobs 
             var customersWithJobs = db.JobMains.Where(j => j.CustomerId > 0).Select(s => s.CustomerId);
