@@ -90,13 +90,13 @@ function InitDatePicker()
 
 function initFieldEvents()
 {
-    $('#QuotedAmt').on('change', function () {
+    $('#QuotedAmt').on('input', function () {
         var sTmp = $('#QuotedAmt').val();
         $('#SupplierAmt').val(sTmp);
         $('#ActualAmt').val(sTmp);
     });
 
-    $('#SupplierAmt').on('change', function () {
+    $('#SupplierAmt').on('input', function () {
         var sTmp = $('#SupplierAmt').val();
         $('#ActualAmt').val(sTmp);
     });

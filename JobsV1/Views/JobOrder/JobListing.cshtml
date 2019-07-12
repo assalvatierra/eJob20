@@ -24,26 +24,30 @@
     @Html.ActionLink("Closed", "JobListing", "JobOrder", new { sortid = 3 }, new { @id = "closed" })
 </p>
 
-<table class="table">
-
+<table class="table table-condensed">
     <tr>
-        <th>
+        <th width="7%">
             From
         </th>
-        <th>
+        <th width="7%">
             To
         </th>
-        <th>
+        <th width="40%">
             Company
         </th>
-        <th>
+        <th width="15%">
             Rate/Payment
         </th>
-        <th>
+        <th width="30%">
          
         </th>
     </tr>
+    @{ 
+        decimal total_rate = 0;
+        decimal total_payment = 0;
+        decimal total_collectible = 0;
 
+    }
     @foreach (var item in Model)
     {
         <tr>
@@ -57,7 +61,7 @@
                {
                    string s1 = (item.Main.JobDate).ToString("MMM-dd (ddd)");
                    @s1
-                  
+
                }
             </td>
             <td>
@@ -110,22 +114,29 @@
 
             </td>
             <td>
+                @{ 
 
-                @if (@item.Main.AgreedAmt != 0)
-                {
-                    <span style="color:blue; font: bold 12px arial, verdana;">
-                        @string.Format("{0:N0}", @item.Main.AgreedAmt) 
-                    </span>
+                    total_rate += item.Main.AgreedAmt != null ? (decimal)item.Main.AgreedAmt: 0;
+                    total_payment += item.Payment;
+                    total_collectible = total_rate - total_payment;
 
                 }
-                 
 
-                @if (@item.Payment != 0)
+                @if (item.Main.AgreedAmt != 0)
+                {
+                    <span style="color:blue; font: bold 12px arial, verdana;">
+                        @string.Format("{0:N0}", item.Main.AgreedAmt) 
+                    </span>
+                }
+                 
+                @if (item.Payment != 0)
                 {
                     <span>/ </span>
                     <span style="color:green; font: bold 12px arial, verdana;">
-                      @string.Format("{0:N0}", @item.Payment)
+                      @string.Format("{0:N0}", item.Payment)
                     </span>
+
+                    //if Paid in Paypal
                     if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
                     {
                         <span>
@@ -139,75 +150,280 @@
                 @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
                 @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
                 @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
-                <a href="#" id="acctbtn" data-toggle="modal" data-target="#Payment@(item.Main.Id)" style="margin-bottom:10px;" onclick="updateval()">[ Payment ]</a>
+                @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id}, null)
                 @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
                 @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
             </td>
         </tr>
-        
-
-
-    <!-- Modal -->
-        <div class="modal fade" id="Payment@(item.Main.Id)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Payment Methods</h4>
-                    </div>
-
-                    <div class="modal-body" id="modal2-content">
-
-                        <h4>
-                            Payment History
-                        </h4>
-
-                        @if (item.Main.JobPayments.Count() != 0)
-                        {
-
-                            foreach (var payments in item.Main.JobPayments)
-                            {
-                                string pDate = ((DateTime)payments.DtPayment).ToString("MMM-dd-yyyy (ddd)");
-
-                                <p>
-                                    @string.Format("{0:N}", payments.PaymentAmt)
-                                    <span>-</span>
-                                    @pDate
-                                </p>
-                            }
-
-                            <span style="color:green;">
-                                @string.Format("{0:N}", @item.Payment)
-                                <span>-</span>
-                                <span>Total</span>
-                            </span>
-                        }
-                        else
-                        {
-                            <p>No previous payment</p>
-                        }
-
-                        <hr /><h4> Create New Payment </h4>
-
-                        <div class="list-group" id="categorylist">
-
-                            <a href="@Url.Action("Payments", "JobOrder", new { id = item.Main.Id}, null)" class="list-group-item">  Payment Transaction</a>
-                            <a href="@Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Partial Payment" }, null)" class="list-group-item"> Partial Payment</a>
-                            <a href="@Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Full Payment" }, null)" class="list-group-item"> Full Payment</a>
-                            <a href="@Url.Action("PaymentCreatePG", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Personal Guarentee" }, null)" class="list-group-item"> Personal Guarantee</a>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
     }
+
+    <tr style="font-weight:bold;background-color:#dddddd">
+        <td colspan="3"></td>
+        <td> @string.Format("{0:N0}", total_rate)  / @string.Format("{0:N0}", total_payment)  </td>
+        <td> Total Collectible: @string.Format("{0:N0}", total_collectible)  </td>
+    </tr>
+
 </table>
 
-@Html.Partial("PartialViewJS")
+@if (ViewBag.CurrentMonth != null)
+{
+    <br />
+    <h4>Closed Jobs for current month</h4>
+    <table class="table table-condensed">
+        <tr>
+            <th width="7%"> From </th>
+            <th width="7%"> To </th>
+            <th width="40%"> Description</th>
+            <th width="15%">Payment / Expenses </th>
+            <th width="30%"> </th>
+        </tr>
+            @{
+                decimal current_totalPayment = 0;
+                decimal current_totalExpenses = 0;
+                decimal current_total = 0;
+            }
+            @foreach (var item in ViewBag.CurrentMonth as IEnumerable<JobsV1.Controllers.cJobOrder>)
+            {
 
+            <tr>
+                <td>
+                    @if (@item.Services.FirstOrDefault() != null)
+                    {
+                        string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd (ddd)");
+                        @s1
+                    }
+                    else
+                    {
+                        string s1 = (item.Main.JobDate).ToString("MMM-dd (ddd)");
+                        @s1
+
+                    }
+                </td>
+                <td>
+                    @if (@item.Services.FirstOrDefault() != null)
+                    {
+
+                        string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd (ddd)");
+                        @s2
+                    }
+                </td>
+                <td>
+                    @if (item.Main.JobStatus.Status == "INQUIRY")
+                    {
+                        <span style="color:#056912">
+                            <span style="font-weight:bold;">
+                                @item.Company
+                            </span>
+                            <span>/</span>
+                            <span>@item.Main.Customer.Name</span>
+
+                            <span>-</span>
+                            <span>
+                                @item.Main.Description
+                            </span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:black">
+                            <span style="font-weight:bold;">
+                                @item.Company
+                            </span>
+                            <span>/</span>
+                            <span>@item.Main.Customer.Name</span>
+                            <span>-</span>
+                            <span>
+                                @item.Main.Description
+                            </span>
+                            <span>
+                            </span>
+                        </span>
+                    }
+                </td>
+                <td>
+                    <!--Payment-->
+                    @{
+                        current_totalPayment += item.Payment;
+                    }
+                    @if (item.Payment != 0)
+                    {
+                        <span style="color:green; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", @item.Payment)
+                        </span>
+                        if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
+                        {
+                            <span>
+                                Paid in
+                                <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
+                            </span>
+                        }
+                    }
+
+                    <!--Expenses-->                    
+                    @{current_totalExpenses += item.Expenses;}
+                    @if (item.Expenses != 0)
+                    {
+                        <span>/ </span>
+                        <span style="color:orangered ; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", item.Expenses)
+                        </span>
+                    }
+                    
+                    <!--Calculate Payment - Expenses -->
+                    @{current_total += current_totalPayment - current_totalExpenses;}
+                </td>
+                <td>
+                    @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
+                    @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
+                    @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
+                    @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id }, null)
+                    @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
+                    @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+                </td>
+            </tr>
+            }
+
+        <tr style="font-weight:bold;background-color:#dddddd">
+            <td colspan="3"></td>
+            <td> @string.Format("{0:N0}", current_totalPayment)  / @string.Format("{0:N0}", current_totalExpenses)  </td>
+            <td> Total Income: @string.Format("{0:N0}", current_total)  </td>
+        </tr>
+    </table>
+    
+}
+
+
+@if (ViewBag.olderOpenJobs != null)
+{
+    <br />
+    <h4>Older Open Jobs</h4>
+    <table class="table table-condensed">
+        <tr>
+            <th width="7%"> From </th>
+            <th width="8%"> To </th>
+            <th width="40%"> Description</th>
+            <th width="15%">Rate / Payment </th>
+            <th width="30%"> </th>
+        </tr>
+        @{ 
+            decimal old_totalRate = 0;
+            decimal old_totalPayment = 0;
+            decimal old_total = 0;
+        }
+        @foreach (var item in ViewBag.olderOpenJobs as IEnumerable<JobsV1.Controllers.cJobOrder>)
+        {
+            <tr>
+                <td>
+                    @if (@item.Services.FirstOrDefault() != null)
+                    {
+                        string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd (ddd)");
+                        @s1
+                    }
+                    else
+                    {
+                        string s1 = (item.Main.JobDate).ToString("MMM-dd (ddd)");
+                        @s1
+
+                    }
+                </td>
+                <td>
+                    @if (@item.Services.FirstOrDefault() != null)
+                    {
+
+                        string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd (ddd)");
+                        @s2
+                    }
+                </td>
+                <td>
+                    @if (item.Main.JobStatus.Status == "INQUIRY")
+                    {
+                        <span style="color:#056912">
+                            <span style="font-weight:bold;">
+                                @item.Company
+                            </span>
+
+                            <span>/</span>
+                            <span>@item.Main.Customer.Name</span>
+
+                            <span>-</span>
+                            <span>
+                                @item.Main.Description
+                            </span>
+                            <span>
+                                [ @item.Main.JobStatus.Status ]
+                            </span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:black">
+                            <span style="font-weight:bold;">
+                                @item.Company
+                            </span>
+
+                            <span>/</span>
+                            <span>@item.Main.Customer.Name</span>
+
+                            <span>-</span>
+                            <span>
+                                @item.Main.Description
+                            </span>
+                            <span>
+                                [ @item.Main.JobStatus.Status ]
+                            </span>
+                        </span>
+                    }
+
+                </td>
+                <td>
+                    @{ old_totalRate += item.Main.AgreedAmt != null ? (decimal)item.Main.AgreedAmt: 0; }
+                    @if (item.Main.AgreedAmt != 0)
+                    {
+                        <span style="color:blue; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", item.Main.AgreedAmt)
+                        </span>
+
+                    }
+                    <span>/ </span>
+
+                    @{ old_totalPayment += item.Payment; }
+                    @if (item.Payment != 0)
+                    {
+                        <span style="color:green; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", item.Payment)
+                        </span>
+                        if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
+                        {
+                            <span>
+                                Paid in
+                                <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
+                            </span>
+                        }
+                    }
+
+                    @{ old_total = old_totalRate - old_totalPayment; }
+                </td>
+                <td>
+                    @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
+                    @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
+                    @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
+                    @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id }, null)
+                    @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
+                    @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+                </td>
+            </tr>
+        }
+
+        <tr style="font-weight:bold;background-color:#dddddd">
+            <td colspan="3"></td>
+            <td> @string.Format("{0:N0}", old_totalRate) / @string.Format("{0:N0}", old_totalPayment)   </td>
+            <td> Total Collectible:  @string.Format("{0:N0}", old_total) </td>
+        </tr>
+    </table>
+
+}
+
+@Html.Partial("PartialViewJS")
 
 <p>
       @Html.ActionLink("Create New", "jobCreate", null, null)
@@ -223,7 +439,6 @@
     @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous-bot" }) |
     @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed-bot" })
 </p>
-
 
 @section scripts
 {

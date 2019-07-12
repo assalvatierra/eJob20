@@ -23,6 +23,7 @@ namespace JobsV1.Controllers
         public List<cJobService> Services { get; set; }
         public List<cjobCounter> ActionCounter { get; set; }
         public decimal Payment { get; set; }
+        public decimal Expenses { get; set; }
         public string  Company { get; set; }
     }
 
@@ -462,8 +463,8 @@ order by x.jobid
                 else
                     sortid = 1;
             }
-
-
+            
+            //get date fom SQL query
             var confirmed = dbc.getJobConfirmedList((int)sortid).Select(s => s.Id);
 
             IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => confirmed.Contains(j.Id))
@@ -479,7 +480,10 @@ order by x.jobid
             DateTime today = new DateTime();
             ViewBag.today = today;
             today = getDateTimeToday().Date;
-            
+
+            decimal totalRate = 0;
+            decimal totalPayment = 0;
+
             foreach (var main in jobMains)
             {
                 cJobOrder joTmp = new cJobOrder();
@@ -487,13 +491,14 @@ order by x.jobid
                 joTmp.Services = new List<cJobService>();
                 joTmp.Main.AgreedAmt = 0;
                 joTmp.Payment = 0;
-               
+                joTmp.Expenses = 100;
+                
                 List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
                 foreach (var svc in joSvc)
                 {
                     cJobService cjoTmp = new cJobService();
                     cjoTmp.Service = svc;
-                    
+
                     //var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
 
                     //cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
@@ -501,38 +506,55 @@ order by x.jobid
                     //cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
                     //cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
 
-                    joTmp.Main.AgreedAmt += svc.ActualAmt;
+                    joTmp.Main.AgreedAmt += svc.ActualAmt != null ? svc.ActualAmt : 0;
                     joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j=>j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name: "";
+                    joTmp.Expenses += getJobExpensesBySVC(svc.Id);
 
                     joTmp.Services.Add(cjoTmp);
+
+                    //calculate total rate and payment
                 }
 
-                joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
+                //joTmp.Expenses = getJobExpense(joTmp);
 
+                joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
+                
                 joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
 
-                data.Add(joTmp);
-
+                joTmp.Payment = 0;
                 List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
                 foreach (var payment in jobPayment)
                 {
                     joTmp.Payment += payment.PaymentAmt;
                 }
+
+                data.Add(joTmp);
+
             }
-
-
+            
             switch (sortid)
             {
                 case 1: //OnGoing
                     data = (List<cJobOrder>)data
                         .Where(d => (d.Main.JobStatusId == JOBINQUIRY || d.Main.JobStatusId == JOBRESERVATION || d.Main.JobStatusId == JOBCONFIRMED)).ToList()
-                       .Where(d => d.Main.JobDate.CompareTo(today.Date) >= 0).ToList();
-
+                        .Where(d => d.Main.JobDate.CompareTo(today.Date) >= 0).ToList();
                     break;
                 case 2: //prev
                     data = (List<cJobOrder>)data
                         .Where(d => (d.Main.JobStatusId == JOBINQUIRY || d.Main.JobStatusId == JOBRESERVATION || d.Main.JobStatusId == JOBCONFIRMED)).ToList()
                         .Where(p => DateTime.Compare(p.Main.JobDate.Date, today.Date) < 0).ToList();
+
+                    //Closed and Current Month List
+                    var currentMonthIds  = dbc.currentJobsMonth().Select(s => s.Id);   //get list if job ids of current month fom SQL query
+                    var currentMonthJobs = getJobListing(currentMonthIds);
+                    ViewBag.CurrentMonth = currentMonthJobs;
+                    
+
+                    //Old Open jobs
+                    var olderJobsIds = dbc.olderOpenJobs().Select(s => s.Id);  //get list of older jobs that are not closed
+                    var OldJobs = getJobListing(olderJobsIds);
+                    ViewBag.olderOpenJobs    = OldJobs;
+                    
 
                     break;
                 case 3: //close
@@ -552,7 +574,7 @@ order by x.jobid
             var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
             jobmainId = mainid != null ? (int)mainid : jobmainId;
             ViewBag.mainId = jobmainId;
-
+            
             if (sortid == 1)
             {
 
@@ -563,6 +585,140 @@ order by x.jobid
                 return View(data.OrderByDescending(d => d.Main.JobDate));
 
             }
+        }
+
+        private decimal getTotalRate(IEnumerable<cJobOrder> filteredJob)
+        {
+            decimal totalRate = 0;
+            foreach (var job in filteredJob as IEnumerable<cJobOrder>) {
+                    totalRate += job.Main.AgreedAmt != null ? (decimal)job.Main.AgreedAmt : 0 ;
+            }
+            
+            return totalRate;
+        }
+
+        private decimal getTotalPayment(IEnumerable<cJobOrder> filteredJob)
+        {
+            decimal totalPayment = 0;
+            foreach (var job in filteredJob as IEnumerable<cJobOrder>)
+            {
+                totalPayment += job.Payment;
+            }
+
+            return totalPayment;
+        }
+
+        private decimal getTotalExpenses(IEnumerable<cJobOrder> filteredJob)
+        {
+            decimal totalExpense = 0;
+            List<int> SvcID = new List<int>();
+
+            foreach (var job in filteredJob as IEnumerable<cJobOrder>)
+            {
+                if (job.Services.Contains(null)) { 
+                    foreach (var svc in job as IEnumerable<cJobService>)
+                    {
+                        SvcID.Add(svc.Id);
+                    }
+                }
+            }
+
+            var expensesList = db.JobExpenses.Where(s=> SvcID.Contains(s.JobServicesId)).ToList();
+
+            foreach (var expense in expensesList as IEnumerable<JobExpenses>)
+            {
+                totalExpense += expense.Amount;
+            }
+            
+            return totalExpense;
+        }
+
+        private decimal getJobExpense(cJobOrder cjob)
+        {
+            List<int> SvcID = new List<int>();
+            var svc = db.JobServices.Where(s => s.JobMainId == cjob.Main.Id).ToList();
+            decimal totalExpenses = 0;
+
+            //get service id
+            foreach (var svcItems in svc as IEnumerable<JobServices>)
+            {
+                SvcID.Add(svcItems.Id);
+            }
+
+            var expensesList = db.JobExpenses.Where(s=> SvcID.Contains(s.JobServicesId)).ToList();
+
+            foreach (var exp in expensesList as IEnumerable<JobExpenses>)
+            {
+                totalExpenses += exp.Amount;
+            }
+            
+            return totalExpenses;
+        }
+
+        private decimal getJobExpensesBySVC(int svcId)
+        {
+            decimal total = 0;
+            var expense = db.JobExpenses.Where(s => s.JobServicesId == svcId).ToList();
+            foreach (var items in expense as IEnumerable<JobExpenses>)
+            {
+                total += items.Amount;
+            }
+            return total;
+        }
+
+        private IEnumerable<cJobOrder> getJobListing(IEnumerable<int> joblist)
+        {
+            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => joblist.Contains(j.Id))
+                .Include(j => j.Customer)
+                .Include(j => j.Branch)
+                .Include(j => j.JobStatus)
+                .Include(j => j.JobThru)
+                .Include(j => j.JobEntMains)
+                ;
+
+            List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
+            var data = new List<cJobOrder>();
+
+            DateTime today = new DateTime();
+            ViewBag.today = today;
+            today = getDateTimeToday().Date;
+
+            foreach (var main in jobMains)
+            {
+                cJobOrder joTmp = new cJobOrder();
+                joTmp.Main = main;
+                joTmp.Services = new List<cJobService>();
+                joTmp.Main.AgreedAmt = 0;
+                joTmp.Payment = 0;
+
+                List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
+                foreach (var svc in joSvc)
+                {
+                    cJobService cjoTmp = new cJobService();
+                    cjoTmp.Service = svc;
+                    
+                    joTmp.Main.AgreedAmt += svc.ActualAmt != null ? svc.ActualAmt : 0 ;
+                    joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name : "";
+
+                    joTmp.Expenses = getJobExpensesBySVC(svc.Id);
+
+                    joTmp.Services.Add(cjoTmp);
+                }
+
+                joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
+
+                joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
+
+                List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
+                foreach (var payment in jobPayment)
+                {
+                    joTmp.Payment += payment.PaymentAmt;
+                }
+
+                data.Add(joTmp);
+
+            }
+            return data.OrderBy(d => d.Main.JobDate).OrderByDescending(d => d.Main.JobDate);
         }
 
         //get utc date time today (singapore standard time) gmt + 8
@@ -1024,6 +1180,9 @@ order by x.jobid
             js.DtStart = dtTmp;
             js.DtEnd = dtTmp.AddDays(job.NoOfDays - 1).AddHours(10);
             js.Remarks = "10hrs use per day P300/hr in excess, Driver and Fuel Included";
+            js.ActualAmt = 0;
+            js.QuotedAmt = 0;
+            js.SupplierAmt = 0;
             
             //modify SupplierItem
             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
@@ -2212,9 +2371,9 @@ order by x.jobid
             string mailResult = "";
             
             //Send invoice 
-            mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
-            mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
-            mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+            //mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+            //mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+            //mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
 
             //client
             mailResult = mail.SendMail(jobId, jobOrder.CustContactEmail, mailType, clientName, siteRedirect);

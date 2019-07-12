@@ -42,16 +42,15 @@ namespace JobsV1.Models
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
 
                 md.Subject = renterName + ": NEW "+ job.Branch.Name  + " Reservation";   //mail title
+                                                                                        
+                CarReservation reserve = db.CarReservations.Find(jobId); //find reservation
 
                 switch (mailType)
                 {
                     case "ADMIN":
                         //mail title
                         md.Subject = renterName + ": Reservation ";
-
-                        //find reservation
-                        CarReservation reserve = db.CarReservations.Find(jobId);
-
+                        
                         //email content
                         message = "A NEW Reservation Inquiry has been made. Please follow the link for the reservation details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
                         "> View Reservation Details  </a> ";
@@ -60,10 +59,7 @@ namespace JobsV1.Models
                         //mail content for successful payment
                         //mail title
                         md.Subject = renterName + ": Reservation ";
-
-                        //find reservation
-                         reserve = db.CarReservations.Find(jobId);
-
+                        
                         //email content
                         message = "Paypal Payment is successful. Please follow the link for the invoice details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
                         "> View Invoice Details  </a> ";
@@ -72,10 +68,7 @@ namespace JobsV1.Models
                         //mail content for denied payment
                         //mail title
                         md.Subject = renterName + ": Reservation ";
-
-                        //find reservation 
-                        reserve = db.CarReservations.Find(jobId);
-
+                        
                         //email content
                         message = "Paypal Payment have been DENIED. Please follow the link for the invoice details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
                         "> View Invoice Details  </a> ";
@@ -84,10 +77,7 @@ namespace JobsV1.Models
                         //mail content for pending payment
                         //mail title
                         md.Subject = renterName + ": Reservation ";
-
-                        //find reservation
-                        reserve = db.CarReservations.Find(jobId);
-
+                        
                         //email content
                         message = "Paypal Payment has been sent. Please follow the link for the invoice details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
                         "> View Invoice  </a> ";
@@ -95,10 +85,8 @@ namespace JobsV1.Models
                     case "CLIENT-PENDING":
                         //mail title
                         md.Subject = "Realwheels Reservation";
-
-                        reserve = db.CarReservations.Find(jobId);
-
-                        //mail content for pending payment
+                        
+                        //mail content for new inquiry recieved
                         message = "We are happy to recieved your inquiry. We will contact you after we have processed your reservation. Please click the link below for your reservation details, Thank you. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
                         "> View Booking Details  </a> ";
                         break;
@@ -106,11 +94,8 @@ namespace JobsV1.Models
                         //Client Inquiry
                         //mail title
                         md.Subject = "Realwheels Reservation";
-
-                        //find reservation
-                        reserve = db.CarReservations.Find(jobId);
-
-                        //mail content for pending payment
+                        
+                        //mail content for Client Inquiry
                         message = "We are happy to recieved your inquiry. We will contact you after we have"+
                             " processed your reservation. Please click the link below for your reservation details,"+
                             " Thank you.<br> <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + 
@@ -124,20 +109,19 @@ namespace JobsV1.Models
                         //find reservation
                         reserve = db.CarReservations.Find(jobId);
 
-                        //mail content for pending payment
+                        //mail content for Invoice link
                         message = "Good day, please follow the link for the invoice and payment of your reservation."+
                             "<br> <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + 
                             "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
-                            "> View Invoice </a> ";
+                            "> View Invoice </a> " +
+                            " <p>For PAYPAL Payment, please click the blue paypal button at the lower right of the invoice. </p><br />"
+                            ;
                         break;
                     case "CLIENT-PAYMENT-SUCCESS":
                         //mail title
                         md.Subject = "Realwheels Payment";
-
-                        //find reservation
-                        reserve = db.CarReservations.Find(jobId);
-
-                        //mail content for pending payment
+                        
+                        //mail content for payment successful
                         message = "Thank you for your payment. Please follow the link for the invoice and payment."+
                             "<br> <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + 
                             "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
@@ -148,7 +132,7 @@ namespace JobsV1.Models
                         //mail title
                         md.Subject = job.Description + " Invoice Sent";
                         
-                        //mail content for client inquiries
+                        //mail content for admin when a new invoice is sent 
                         message = " An invoice link has been sent to " + job.Description + ". Please follow the link"+
                             " for the invoice and payment.<br> <a href='" + siteName + "" + jobId + "/" + 
                             job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
@@ -159,7 +143,7 @@ namespace JobsV1.Models
                         //mail title
                         md.Subject = job.Description + " Payment Success";
 
-                        //mail content for client inquiries
+                        //mail content for admin 
                         message = "A New Payment has been made. Please follow the link for the invoice and payment.<br>"+
                             " <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" +
                             job.JobDate.Year + "/" + jobDesc + "/' " +
@@ -176,8 +160,7 @@ namespace JobsV1.Models
                             "for the invoice and payment. <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + 
                             "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                             "> View Booking Details  </a> ";
-                        //" style='display:block;background-color:dodgerblue;margin:20px;padding:20px;text-decoration:none;font-weight:bolder;font-size:300;color:white;border-radius:3px;min-width:100px;'> View Booking Details </a> ";
-
+                        
                         break;
                 }
                 
@@ -244,14 +227,10 @@ namespace JobsV1.Models
                     string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
 
                     //mail content for client inquiries
-
                     message = errorText + " Your inquiry have been processed to confirm your reservation, please follow the link for the invoice and payment. <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                         "> View Booking Details  </a> ";
-                        //" style='display:block;background-color:dodgerblue;margin:20px;padding:20px;text-decoration:none;font-weight:bolder;font-size:300;color:white;border-radius:3px;min-width:100px;'> View Booking Details </a> ";
-
-                body =
-                    "" +
-                    // " <p>Hello {name}, You have booked a {tour} and  {unit} {type} for {days} day(s). The total cost of the package is {total}. </p>" +
+                       
+                body = "" +
                     " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
                     " <div style='background-color:white;min-width:250px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> RealWheels Car Reservation </h1>" +
                     message +
@@ -279,7 +258,7 @@ namespace JobsV1.Models
         
         /**
          * ADMIN -  SEND INVOICE SUCCESSFUL
-         * Send email to client on payment success
+         * Send email to admin on payment success
          */
         public string SendMailInvoiceAdvice(int jobId, string renterMail, string mailType, string renterName, string site)
         {
@@ -316,11 +295,9 @@ namespace JobsV1.Models
 
                 message = " An invoice link has been sent to "+ job.Description +". Please follow the link for the invoice and payment. <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                 "> View Invoice </a> ";
-                //" style='display:block;background-color:dodgerblue;margin:20px;padding:20px;text-decoration:none;font-weight:bolder;font-size:300;color:white;border-radius:3px;min-width:100px;'> View Invoice </a> ";
-
+               
                 body =
                     "" +
-                    // " <p>Hello {name}, You have booked a {tour} and  {unit} {type} for {days} day(s). The total cost of the package is {total}. </p>" +
                     " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
                     " <div style='background-color:white;min-width:250px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> Invoice Link Sent </h1>" +
                     message +
@@ -373,8 +350,6 @@ namespace JobsV1.Models
                 //send email in /joborder
                 JobMain job = db.JobMains.Find(jobId);
 
-
-
                 //mail title
                 md.Subject = "Payment Success";
 
@@ -382,14 +357,11 @@ namespace JobsV1.Models
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
 
                 //mail content for client inquiries
-
                 message = "A New Payment has been made. Please follow the link for the invoice and payment. <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                 "> View Invoice </a> ";
-                //" style='display:block;background-color:dodgerblue;margin:20px;padding:20px;text-decoration:none;font-weight:bolder;font-size:300;color:white;border-radius:3px;min-width:100px;'> View Invoice </a> ";
-
+               
                 body =
                     "" +
-                    // " <p>Hello {name}, You have booked a {tour} and  {unit} {type} for {days} day(s). The total cost of the package is {total}. </p>" +
                     " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
                     " <div style='background-color:white;min-width:200px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> Payment Successful </h1>" +
                     message +
@@ -455,11 +427,9 @@ namespace JobsV1.Models
 
                 message = "Good day, please follow the link for the invoice and payment of your reservation. <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                 "> View Invoice </a> ";
-                //" style='display:block;background-color:dodgerblue;margin:20px;padding:20px;text-decoration:none;font-weight:bolder;font-size:300;color:white;border-radius:3px;min-width:100px;'> View Invoice </a> ";
-
+               
                 body =
                     "" +
-                    // " <p>Hello {name}, You have booked a {tour} and  {unit} {type} for {days} day(s). The total cost of the package is {total}. </p>" +
                     " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
                     " <div style='background-color:white;min-width:200px;margin:20px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> Reservation Invoice </h1>" +
                     message +
@@ -518,14 +488,11 @@ namespace JobsV1.Models
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
 
                 //mail content for client inquiries
-
                 message = "Thank you for your payment. Please follow the link for the invoice and payment. <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                 "> View Invoice </a> ";
-                //" style='display:block;background-color:dodgerblue;margin:20px;padding:20px;text-decoration:none;font-weight:bolder;font-size:300;color:white;border-radius:3px;min-width:100px;'> View Invoice </a> ";
-
+               
                 body =
                     "" +
-                    // " <p>Hello {name}, You have booked a {tour} and  {unit} {type} for {days} day(s). The total cost of the package is {total}. </p>" +
                     " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
                     " <div style='background-color:white;min-width:200px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> Payment Successful </h1>" +
                     message +
@@ -593,7 +560,7 @@ namespace JobsV1.Models
 
                 //get date today
                 DateClass dt = new DateClass();
-                DateTime today =  dt.GetCurrentTime();
+                DateTime today =  dt.GetCurrentDate();
                 string dateValid = today.AddMonths(1).ToString("MMM dd yyyy");
                 decimal totalAmount = 0;
 
@@ -625,7 +592,6 @@ namespace JobsV1.Models
                 
                 body =
                     "" +
-                    // " <p>Hello {name}, You have booked a {tour} and  {unit} {type} for {days} day(s). The total cost of the package is {total}. </p>" +
                     " <div style='background-color:#f4f4f4;padding:30px' >" +
 
                      "<img src='"+getHeader(job.Branch.Name) +"' width='100%' />"
@@ -682,7 +648,7 @@ namespace JobsV1.Models
 
         /**
          * CLIENT -  SEND EMAIL RESERVATION DETAILS
-         * Send email to client on payment success
+         * Send email to client of Reservation Details
          */
         public string SendMailReservation(int jobId, string clientMail, List<JobServices> js)
         {
@@ -720,7 +686,7 @@ namespace JobsV1.Models
                 
                 //get date today
                 DateClass dt = new DateClass();
-                DateTime today = dt.GetCurrentTime();
+                DateTime today = dt.GetCurrentDate();
                 string dateValid = today.AddMonths(1).ToString("MMM dd yyyy");
                 decimal totalAmount = 0;
 
@@ -895,7 +861,6 @@ namespace JobsV1.Models
 
         public string getCompany(int jobId)
         {
-
             JobMain job = db.JobMains.Find(jobId);
 
             string company = "RealBreeze";

@@ -543,3 +543,7 @@ rental-type-wdriver {
     .list-group-item {
         cursor: pointer;
     }
+
+    table.table.table-condensed {
+    border: 1px solid lightgray;
+}

@@ -101,3 +101,5 @@ SELECT Id,Name, Contact1, Contact2 , Status,
  FROM [CustEntities] ce WHERE ce.CustomerId = c.Id) FROM Customers c
  ORDER BY JobCount DESC , Id DESC
 
+
+ SELECT j.Id FROM JobMains j WHERE j.JobStatusId < 4 AND j.JobDate < GETDATE();

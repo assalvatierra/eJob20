@@ -99,8 +99,8 @@ namespace JobsV1.Controllers
             var p = jobMains.Select(s => s.Id);
             
             DateTime today = GetCurrentTime();
-
-            List<JobServices> data = db.JobServices.Where(w => p.Contains(w.JobMainId)).ToList().Where(w => DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0).OrderBy(s => s.DtStart).ToList();
+            //.Where(w => DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0)
+            List<JobServices> data = db.JobServices.Where(w => p.Contains(w.JobMainId)).ToList().OrderBy(s => s.DtStart).ToList();
 
             //today = today.AddHours(-12).Date;
             //today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
@@ -126,7 +126,10 @@ namespace JobsV1.Controllers
                         .ToList();
                     break;
                 default:
-                    data = data.OrderBy(s => s.DtStart).ToList();
+                    //get jobs from today to 2 days after
+                    data = data
+                        .Where(w => DateTime.Compare(w.DtStart.Value.Date, after2Days.Date) <= 0 && DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0).OrderBy(s => s.DtStart)
+                        .ToList();
                     break;
             }
 
@@ -564,6 +567,21 @@ namespace JobsV1.Controllers
             return Redirect(Request.UrlReferrer.ToString());
         }
 
+
+        public string CloseOldJob()
+        {
+            
+            //var job = db.JobMains.Where(s=> DateTime.Compare(s.JobDate, DateTime.Now ) < 60).ToList();
+
+            //foreach (var item in job)
+            //{
+            //    item.JobStatusId = JOBCLOSED;
+            //    db.Entry(item).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //}
+
+            return "300";
+        }
 
         public ActionResult CloseJob(int? id)
         {

@@ -11,7 +11,9 @@
     @Html.ActionLink("Today", "ActiveJobs", new { FilterId = 2 }) |
     @Html.ActionLink("Tomorrow", "ActiveJobs", new { FilterId = 3 }) |
     @Html.ActionLink("After 2 Days", "ActiveJobs", new { FilterId = 4 })
+    @*@Html.ActionLink("Close Old Jobs", "CloseOldJob")*@
 </div><br />
+
 <div class="col-lg-12" style="margin-bottom:10px;">
     <!-- service Search Filter -->
     <h5 class="pull-left">Service :&nbsp; </h5>
@@ -49,6 +51,7 @@
   
         <tr style="@sStyle1" >
             <td>
+                @DateTime.Compare((DateTime)item.DtEnd,DateTime.Now)
                 @Html.DisplayFor(modelItem => item.Service.Name)
             </td>
             <td>
@@ -178,4 +181,37 @@
         //window.location.href = "/Reporting/Index/" + idVal + "&sDate=" + sDateVal + "&sDate=" + eDateVal;
     }
 
+
+    /**
+      * Expense.js
+      * Perform Add, Edit and Remove functions
+      * using modal.
+      */
+    //Add Expense
+    function CloseJob(jobId) {
+
+        var data = {
+            jobId: jobId
+        };
+
+        url = "/JobMains/CloseJobActive";
+
+        //Submit data to server using ajax
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+                //addRateToView(expAmt, expense, expRmk, expdate);
+                //$('#addExpenseModal').modal('toggle');
+            }
+        });
+    }
 </script>

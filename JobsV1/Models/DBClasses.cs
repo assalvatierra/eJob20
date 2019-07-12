@@ -413,6 +413,45 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             return UnitPkgList;
         }
 
+        //For JobListing
+        //Get Jobs at the current month with status as CLOSED
+        public List<cJobConfirmed> currentJobsMonth()
+        {
+            List<cJobConfirmed> joblist = new List<cJobConfirmed>();
+
+            string sql = "";
+
+            sql = "SELECT j.Id FROM JobMains j WHERE j.JobStatusId = 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE())";
+           
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobConfirmed>(sql).ToList();
+
+            return joblist;
+
+        }
+
+
+        //For JobListing 
+        //Get old Jobs with status as RESERVATION AND CONFIRMED NOT current month
+        public List<cJobConfirmed> olderOpenJobs()
+        {
+            List<cJobConfirmed> joblist = new List<cJobConfirmed>();
+
+            string sql = "";
+
+            sql = "SELECT j.Id FROM JobMains j WHERE j.JobStatusId < 4 AND j.JobDate < GETDATE() AND MONTH(j.JobDate) != MONTH(GETDATE())";
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobConfirmed>(sql).ToList();
+
+            return joblist;
+
+        }
+
 
         public List<cJobConfirmed> getJobConfirmedList(int sortid)
         {
@@ -425,22 +464,12 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             {
                 case 1: //OnGoing
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -21, GETDATE());";
-
                     break;
                 case 2: //prev
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate < GETDATE() AND j.JobDate >= DATEADD(DAY, -15, GETDATE()) ;";
-
-                    //jobMains = jobMains
-                    //    .Where(d => (d.JobStatusId != JOBCLOSED || d.JobStatusId != JOBCANCELLED)).ToList()
-                    //    .Where(p => DateTime.Compare(p.JobDate.Date, today.Date) < 0 && DateTime.Compare(p.JobDate.Date, today.Date.AddDays(-15)) > 0).ToList(); //get 2 weeks before all entries
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE()) ;";
                     break;
                 case 3: //close
-
                     sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -15, GETDATE());";
-
-                    //jobMains = jobMains
-                    //    .Where(d => (d.JobStatusId == JOBCLOSED || d.JobStatusId == JOBCANCELLED)).ToList()
-                    //    .Where(p => p.JobDate.Date > today.Date.AddDays(-15)).ToList();
                     break;
                 default:
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -15, GETDATE());";
@@ -457,6 +486,5 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 
         }
 
-      
     }
 }

@@ -2050,7 +2050,6 @@
     <Content Include="Views\JobExpenses\Index.cshtml" />
     <Content Include="Views\JobExpenses\CashExpenses.cshtml" />
     <Content Include="Views\CarRental\About_Rental.cshtml" />
-    <Content Include="Views\JobExpenses\CashPayments.cshtml" />
     <Content Include="Views\JobItineraries\JobDestination.cshtml" />
     <Content Include="Views\JobItineraries\JobDestination_Add.cshtml" />
     <Content Include="Views\JobPosts\Create.cshtml" />

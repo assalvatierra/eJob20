@@ -41,7 +41,7 @@ namespace JobsV1.Controllers
         // GET: JobExpenses/Create
         public ActionResult Create()
         {
-            ViewBag.ExpensesId = new SelectList(db.Expenses, "Id", "Name");
+            ViewBag.ExpensesId = new SelectList(db.Expenses.OrderBy(s=>s.SeqNo) , "Id", "Name");
             ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars");
             return View();
         }
@@ -382,7 +382,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
 
                 //change job status to close
-                closeJob(jobId);
+                //closeJob(jobId);
 
                 //return RedirectToAction("JobServices","JobOrder",new { JobMainId = jobId , action  = "JOBPOST"});
                 return JsonConvert.SerializeObject("200", Formatting.Indented);
@@ -391,7 +391,7 @@ namespace JobsV1.Controllers
             return JsonConvert.SerializeObject("200", Formatting.Indented);
         }
         
-        private bool closeJob(int jobId)
+        private string closeJob(int jobId)
         {
             try
             {
@@ -403,12 +403,12 @@ namespace JobsV1.Controllers
                     db.Entry(job).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    return true;
+                    return JsonConvert.SerializeObject("200", Formatting.Indented);
                 }
-                return false;
+                return JsonConvert.SerializeObject("500", Formatting.Indented);
             }
             catch (Exception ex)
-            { return false; }
+            { return JsonConvert.SerializeObject(ex, Formatting.Indented); }
         }
 
         #endregion

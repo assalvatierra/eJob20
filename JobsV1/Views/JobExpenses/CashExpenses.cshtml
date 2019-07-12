@@ -184,7 +184,10 @@
             <input id="remarksIncome" type="text" width="25" class="form-control" maxlength="80" />
         </div>
         <div class="col-lg-8">
-            <button class="btn btn-primary" id="PostBtn" onclick="PostClose(@ViewBag.JobMainId, @ViewBag.totalPayment, @ViewBag.totalExpenses, @ViewBag.totalBalance )"> Post and Close Job </button>
+            <button class="btn btn-primary" id="PostBtn" onclick="PostJob(@ViewBag.JobMainId, @ViewBag.totalPayment, @ViewBag.totalExpenses, @ViewBag.totalBalance )"> Post </button>
+            <button class="btn btn-primary" id="PostBtn" onclick="CloseJob(@ViewBag.JobMainId )"> Close Job </button>
+            <br />
+            <p id="posting-warning-msg" class="text-danger" > Revenue and Total Income does not match </p>
         </div>
     </div>
 </div>
@@ -286,7 +289,7 @@
       * using modal.
       */
     //Add Expense
-    function PostClose(jobId,payment,expenses,income) {
+    function PostJob(jobId,payment,expenses,income) {
         var carRental = $("#carRentalIncome").val();
         var tour = $("#tourIncome").val();
         var others = $("#othersIncome").val() ;
@@ -307,6 +310,40 @@
         };
 
         url = "/JobExpenses/PostJobAccount";
+
+        //Submit data to server using ajax
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+                //addRateToView(expAmt, expense, expRmk, expdate);
+                //$('#addExpenseModal').modal('toggle');
+            }
+        });
+    }
+
+    
+    /**
+      * Expense.js
+      * Perform Add, Edit and Remove functions
+      * using modal.
+      */
+    //Add Expense
+    function CloseJob(jobId) {
+
+        var data = {
+            jobId: jobId
+        };
+
+        url = "/JobExpenses/closeJob";
 
         //Submit data to server using ajax
         $.ajax({
@@ -381,13 +418,16 @@
         if(total == net){
             //console.log("equal");
             $("#PostBtn").attr("disabled", false);
+            $("#posting-warning-msg").hide();
         }else{
             //console.log("not equal");
             $("#PostBtn").attr("disabled", true);
+            $("#posting-warning-msg").show();
         }
 
         if(@ViewBag.totalPayment == 0){
             $("#PostBtn").attr("disabled", true);
+            $("#posting-warning-msg").show();
         }
     }
 
