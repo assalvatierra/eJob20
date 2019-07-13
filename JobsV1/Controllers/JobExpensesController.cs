@@ -163,6 +163,7 @@ namespace JobsV1.Controllers
                 JobExpenses jobExpense = new JobExpenses();
                 jobExpense.Amount = amount;
                 jobExpense.ExpensesId = expenseId;
+                jobExpense.JobMainId  = db.JobServices.Find(id).JobMainId;
                 jobExpense.JobServicesId = (int)id;
                 jobExpense.Remarks = remarks;
                 //jobExpense.DtExpense = DateTime.ParseExact(date, "MM/DD/YYYY  hh:mm A", CultureInfo.InvariantCulture);

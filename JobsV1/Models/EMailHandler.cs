@@ -852,7 +852,7 @@ namespace JobsV1.Models
             {
                 case "AJ88":
                     return "http://realbreezedavaotours.com/wp-content/uploads/2019/05/AJDavao.jpg";
-                case "Realbreeze":
+                case "RealBreeze":
                     return "http://realbreezedavaotours.com/wp-content/uploads/2019/05/Header.jpg";
                 default:
                     return "http://realbreezedavaotours.com/wp-content/uploads/2019/05/AJDavao.jpg";

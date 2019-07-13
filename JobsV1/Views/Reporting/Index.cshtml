@@ -14,10 +14,11 @@
                 @Html.ActionLink("Job Listing", "Index", new { reportkey = "job", company = "all", unitDriver = "all" }, new { @class="btn btn-default" })
                 @Html.ActionLink("Payments", "Index", new { reportkey = "payments" }, new { @class = "btn btn-default" })
                 @Html.ActionLink("Packages", "Index", new { reportkey = "packages" , status = "all", unit = "all", package = "all", group = "all" }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Job Income", "Index", new { reportkey = "income", unit = "all", group = "all"}, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>
-    <div class="col-lg-9"  >
+    <div class="col-lg-10"  >
         <!-- filter -->
         @{
                 if (ViewBag.reportkey == "job")
@@ -31,6 +32,10 @@
                 else if(ViewBag.reportkey == "packages")
                 {
                     @Html.Partial("PackageRatesReport");
+                }
+                else if(ViewBag.reportkey == "income")
+                {
+                    @Html.Partial("JobIncomeReport");
                 }
          }
     </div>

@@ -22,9 +22,11 @@ namespace JobsV1.Controllers
         public Models.JobMain Main { get; set; }
         public List<cJobService> Services { get; set; }
         public List<cjobCounter> ActionCounter { get; set; }
+        public cjobIncome PostedIncome { get; set; }
         public decimal Payment { get; set; }
         public decimal Expenses { get; set; }
         public string  Company { get; set; }
+        public bool isPosted { get; set; }
     }
 
     public class cJobService
@@ -58,6 +60,13 @@ namespace JobsV1.Controllers
         public int orderNo { get; set; }
     }
 
+    public class cjobIncome
+    {
+        public int Id { get; set; }
+        public decimal Tour { get; set; }
+        public decimal Car { get; set; }
+        public decimal Others {get;set;}
+    }
     #endregion
 
     public class JobOrderController : Controller
@@ -553,7 +562,7 @@ order by x.jobid
                     //Old Open jobs
                     var olderJobsIds = dbc.olderOpenJobs().Select(s => s.Id);  //get list of older jobs that are not closed
                     var OldJobs = getJobListing(olderJobsIds);
-                    ViewBag.olderOpenJobs    = OldJobs;
+                    ViewBag.olderOpenJobs = OldJobs;
                     
 
                     break;
@@ -655,7 +664,7 @@ order by x.jobid
             return totalExpenses;
         }
 
-        private decimal getJobExpensesBySVC(int svcId)
+        public decimal getJobExpensesBySVC(int svcId)
         {
             decimal total = 0;
             var expense = db.JobExpenses.Where(s => s.JobServicesId == svcId).ToList();
@@ -700,7 +709,7 @@ order by x.jobid
                     joTmp.Main.AgreedAmt += svc.ActualAmt != null ? svc.ActualAmt : 0 ;
                     joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name : "";
 
-                    joTmp.Expenses = getJobExpensesBySVC(svc.Id);
+                    joTmp.Expenses += getJobExpensesBySVC(svc.Id);
 
                     joTmp.Services.Add(cjoTmp);
                 }

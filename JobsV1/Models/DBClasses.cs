@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using JobsV1.Controllers;
+using System.Data.Entity;
 
 namespace JobsV1.Models
 {
@@ -177,17 +179,17 @@ namespace JobsV1.Models
         public IEnumerable<AppUser> getUsersModulesTest(int moduleId)
         {
             //all users
-            List<AppUser> users =  getUsers().ToList();
+            List<AppUser> users = getUsers().ToList();
 
             //active users in the module
             List<AppUser> actUsers = new List<AppUser>();
 
             //get list of users from sys access
-            var modules = sdb.SysAccessUsers.Where(s=>s.SysMenuId == moduleId).ToList();
+            var modules = sdb.SysAccessUsers.Where(s => s.SysMenuId == moduleId).ToList();
 
-            foreach (var mod in modules )
+            foreach (var mod in modules)
             {
-                  actUsers.Add(new AppUser() { UserName = mod.UserId });
+                actUsers.Add(new AppUser() { UserName = mod.UserId });
                 //actUsers.Add(new AppUser() { UserName = mod.UserId + " - " + mod.SysMenuId });
             }
 
@@ -236,7 +238,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             List<ItemSchedule> ItemSched = new List<ItemSchedule>();
 
-            var InvItems = db.InvItems.Where(s => s.OrderNo <= 110).ToList().OrderBy(s=>s.OrderNo);
+            var InvItems = db.InvItems.Where(s => s.OrderNo <= 110).ToList().OrderBy(s => s.OrderNo);
             var ItemId = db.InvItems.Select(s => s.Id).ToList();
 
 
@@ -275,9 +277,9 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
                         {
                             dsTmp.status += 1;
                             JobServices js = db.JobServices.Where(j => j.Id == jsTmp.ServiceId).FirstOrDefault();
-                            dsTmp.svc.Add( js );  
+                            dsTmp.svc.Add(js);
                         }
-                        
+
                     }
 
                     ItemTmp.dayStatus.Add(dsTmp);
@@ -300,7 +302,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 
                 dLabel.Add(dsTmp);
             }
-            
+
             getItemSchedReturn dReturn = new getItemSchedReturn();
             dReturn.dLabel = dLabel;
             dReturn.ItemSched = ItemSched;
@@ -308,27 +310,30 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             return dReturn;
         }
 
-        public void addNotification(string Module, string Desc) {
+        public void addNotification(string Module, string Desc)
+        {
 
-            db.JobNotificationRequests.Add(new JobNotificationRequest {
+            db.JobNotificationRequests.Add(new JobNotificationRequest
+            {
                 ReqDt = DateTime.Parse(DateTime.Now.ToString("MMM dd yyyy HH:mm:ss")),
                 ServiceId = 4   //SMS service Id
             });
             db.SaveChanges();
 
 
-            db.JobServices.Add(new JobServices {
+            db.JobServices.Add(new JobServices
+            {
                 Id = 0,
                 SupplierId = 1,
-                SupplierItemId= 1,
+                SupplierItemId = 1,
                 JobMainId = 4,
                 ServicesId = 1,
                 Remarks = Module + " - " + Desc
             });
             db.SaveChanges();
         }
-        
-        public void addTestNotification(int transId,string webhookId)
+
+        public void addTestNotification(int transId, string webhookId)
         {
 
             db.JobNotificationRequests.Add(new JobNotificationRequest
@@ -338,16 +343,18 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
                 RefId = webhookId.ToString()
             });
             db.SaveChanges();
-            
+
         }
 
         //record encoder info 
-        public void addEncoderRecord(string reftable, string refid, string user, string action) {
+        public void addEncoderRecord(string reftable, string refid, string user, string action)
+        {
 
             DateTime today = DateTime.Now;
             today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
-            
-            db.JobTrails.Add(new JobTrail {
+
+            db.JobTrails.Add(new JobTrail
+            {
                 RefTable = reftable,
                 RefId = refid,
                 user = user,
@@ -389,7 +396,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             }
 
             UnitPkgList = UnitPkgList.ToList();
-            
+
             if (status != "all")
             {
                 UnitPkgList = UnitPkgList.Where(p => p.Status.ToLower().Contains(status.ToLower())).ToList();
@@ -409,7 +416,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             {
                 UnitPkgList = UnitPkgList.Where(p => p.Group.ToLower().Contains(group.ToLower())).ToList();
             }
-            
+
             return UnitPkgList;
         }
 
@@ -422,7 +429,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             string sql = "";
 
             sql = "SELECT j.Id FROM JobMains j WHERE j.JobStatusId = 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE())";
-           
+
             //terminator
             sql += ";";
 
@@ -486,5 +493,44 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 
         }
 
+
+        //For Job Income Reporting 
+        //Get all previous CLOSED jobs
+        public List<cJobConfirmed> getAllClosedJobs(string sDate, string eDate)
+        {
+            List<cJobConfirmed> joblist = new List<cJobConfirmed>();
+
+            string sql = "";
+
+            sql = "SELECT j.Id FROM JobMains j WHERE j.JobStatusId = 4 AND j.JobDate < GETDATE()";
+
+            if (sDate != "") {
+                sql += "AND j.JobDate >= '" + sDate +"'";
+            }
+
+            if (eDate != "")
+            {
+                sql += "AND j.JobDate <= '" + eDate + "'";
+            }
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobConfirmed>(sql).ToList();
+
+            return joblist;
+
+        }
+
+        public decimal getJobExpensesBySVC(int svcId)
+        {
+            decimal total = 0;
+            var expense = db.JobExpenses.Where(s => s.JobServicesId == svcId).ToList();
+            foreach (var items in expense as IEnumerable<JobExpenses>)
+            {
+                total += items.Amount;
+            }
+            return total;
+        }
     }
 }
