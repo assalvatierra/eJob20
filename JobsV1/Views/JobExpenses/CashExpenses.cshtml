@@ -175,19 +175,28 @@
         </div>
         <div class="col-lg-3">
             <h4> Others </h4>
-            <input id="othersIncome" type="number" class="form-control" style="width:150px;"  value="0"  oninput="validatePosted();" onkeypress="validate(event)" />
+            <input id="othersIncome" type="number" class="form-control" style="width:150px;"  value="0"  oninput="validatePosted();" onkeypress='validate(event)' />
         </div>
         <div class="col-lg-8">
             <h4>Remarks</h4>
             <input id="remarksIncome" type="text" width="25" class="form-control" maxlength="80" />
         </div>
         <div class="col-lg-8">
-            <button class="btn btn-primary" id="PostBtn" onclick="checkInput(@ViewBag.JobMainId, @ViewBag.totalPayment, @ViewBag.totalExpenses, @ViewBag.totalBalance )"> Post </button>
+            <!-- Post and Close Buttons -->
+            <p style="font-size:12px;margin-top:5px;" >
+                <input type="checkbox" id="postClose-checkbox" /> Post and Close
+            </p>
+            <div id="Post-or-close">
+                <button class="btn btn-primary" id="PostBtn" onclick="checkInput(@ViewBag.JobMainId, @ViewBag.totalPayment, @ViewBag.totalExpenses, @ViewBag.totalBalance,'PostOrClose')"> Post </button>
 
-            @if (ViewBag.jobstatus != "CLOSED")
-            {
-                <button class="btn btn-primary" id="PostBtn" onclick="CloseJob(@ViewBag.JobMainId )"> Close Job </button>
-            }
+                @if (ViewBag.jobstatus != "CLOSED")
+                {
+                    <button class="btn btn-primary" id="PostBtn" onclick="CloseJob(@ViewBag.JobMainId )"> Close Job </button>
+                }
+            </div>
+            <div id="Post-and-close">
+                <button class="btn btn-primary" id="PostBtn" onclick="checkInput(@ViewBag.JobMainId, @ViewBag.totalPayment, @ViewBag.totalExpenses, @ViewBag.totalBalance,'PostAndClose')"> Post and Close </button>
+            </div>
             <br />
             <p id="posting-warning-msg" class="text-danger" > Revenue and Total Income does not match </p>
         </div>
@@ -203,16 +212,7 @@
                 <h4 class="modal-title">Edit Expenses</h4>
             </div>
             <div class="modal-body row">
-                <!--Start of Modal Body-->
-
-                @*<div class="form-group col-md-12">
-                    <b class="col-md-2 "> Date: </b>
-                    <div class="col-md-10">
-                        <input id="edit-DtPosted" class="form-control" />
-                    </div>
-                </div>
-                <br /><br />*@
-
+               
                 <div class="form-group col-md-12 hidden">
                     <b class="col-md-2 "> Id: </b>
                     <div class="col-md-10">
@@ -284,6 +284,7 @@
     $(document).ready(new function(){
         validatePosted();
         $("#posting-warning-msg").hide();
+        $("#Post-and-close").hide();
     });
 
     /**
@@ -324,11 +325,7 @@
                 console.log("SUCCESS");
             },
             error: function (data) {
-                // console.log("ERROR");
                 console.log(data);
-                location.reload();
-                //addRateToView(expAmt, expense, expRmk, expdate);
-                //$('#addExpenseModal').modal('toggle');
             }
         });
     }
@@ -358,15 +355,40 @@
                 console.log("SUCCESS");
             },
             error: function (data) {
-                // console.log("ERROR");
                 console.log(data);
-                location.reload();
-                //addRateToView(expAmt, expense, expRmk, expdate);
-                //$('#addExpenseModal').modal('toggle');
             }
         });
     }
+    
+    /**
+      * Expense.js
+      * Perform Add, Edit and Remove functions
+      * using modal.
+      */
+    //Add Expense
+    function CloseJob(jobId) {
 
+        var data = {
+            jobId: jobId
+        };
+
+        url = "/JobExpenses/closeJob";
+
+        //Submit data to server using ajax
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+            },
+            error: function (data) {
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
 
     /**
       * Expense.js
@@ -375,9 +397,6 @@
       */
     //Add Expense
     function PostSave() {
-
-        //console.log("remarks: " + remarks);
-        //build json object
 
         var data = {
             id:            $("#edit-postedId").val(),
@@ -399,16 +418,13 @@
                 console.log("SUCCESS");
             },
             error: function (data) {
-                // console.log("ERROR");
                 console.log(data);
                 location.reload();
-                //addRateToView(expAmt, expense, expRmk, expdate);
-                //$('#addExpenseModal').modal('toggle');
             }
         });
     }
 
-
+    //check the input amount of expenses and revenue if equal
     function validatePosted() {
         var carRental = $("#carRentalIncome").val();
         var tour = $("#tourIncome").val();
@@ -419,19 +435,14 @@
         console.log("check: "+ net+ " = " + total  );
 
         if(total == net){
-            //console.log("equal");
-            //$("#PostBtn").attr("disabled", false);
             $("#posting-warning-msg").hide();
             isValid = true;
         }else{
-            //console.log("not equal");
-            //$("#PostBtn").attr("disabled", true);
             $("#posting-warning-msg").hide();
             isValid = false;
         }
 
-        if(@ViewBag.totalPayment == 0){
-            //$("#PostBtn").attr("disabled", true);
+        if(@ViewBag.totalPayment == 0){;
             $("#posting-warning-msg").hide();
             isValid = false;
         }
@@ -439,7 +450,7 @@
         return isValid;
     }
 
-
+    //validate inputs in the edit modal of expenses
     function validatePosted_edit() {
         var carRental = $("#edit-carRentalInc").val();
         var tour = $("#edit-tourInc").val();
@@ -447,14 +458,11 @@
         var total = Number(carRental) + Number(tour) + Number(others);
         var net = @ViewBag.totalBalance;
 
-        //console.log("check: "+ net+ " = " + total  );
-
         if(total == net){
-            //console.log("equal");
+            //valid input - revenue is equal to income
             $("#edit-save").attr("disabled", false);
             $("#edit-warning-msg").hide();
         }else{
-            //console.log("not equal");
             $("#edit-save").attr("disabled", true);
             $("#edit-warning-msg").show();
         }
@@ -464,7 +472,7 @@
         }
     }
 
-
+    //transfer values to the edit modal
     function editPosted(id,carRental, tour, others, remarks){
         $("#edit-postedId").val(id);
         $("#edit-carRentalInc").val(carRental);
@@ -474,8 +482,6 @@
 
         validatePosted_edit();
     }
-
-    
 
     //handle numbers only
     $('#carRentalIncome,#tourIncome,#othersIncome,#edit-carRentalInc,#edit-tourInc,#edit-otherInc,#edit-postedRemarks').on('input', function () {
@@ -497,35 +503,59 @@
 
     });
     
-    //prevent invalid inputs 
-  
-    function validate(evt) {
-        var theEvent = evt || window.event;
-        console.log("validate");
+        //prevent invalid inputs 
+        function validate(evt) {
+            var theEvent = evt || window.event;
+            console.log("validate");
 
-        // Handle paste
-        if (theEvent.type === 'paste') {
-            key = event.clipboardData.getData('text/plain');
-        } else {
-            // Handle key press
-            var key = theEvent.keyCode || theEvent.which;
-            key = String.fromCharCode(key);
-        }
-        var regex = /[0-9]|\./;
-        if (!regex.test(key)) {
-            theEvent.returnValue = false;
-            if (theEvent.preventDefault) theEvent.preventDefault();
-        }
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+                // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
     }
 
-    function checkInput(jobId,payment,expenses,income){
+    // CheckInput
+    // validate and check if the input from the job income section
+    // are numbers and the total are equal to the revenue. Also 
+    // handles actions with the Post and close buttons
+    function checkInput(jobId,payment,expenses,income,postType){
         if(validatePosted()){
             console.log("Check posted ok");
-            PostJob(jobId,payment,expenses,income);
+            if(postType == 'PostOrClose'){
+                PostJob(jobId,payment,expenses,income);
+                location.reload();
+            }else if(postType == 'PostAndClose'){
+                PostJob(jobId,payment,expenses,income);
+                CloseJob(jobId);
+                location.reload();
+            }
         }else{
             console.log("Check posted not valid");
             $("#posting-warning-msg").show();
         }
     }
+
+    // Post and Close Check Box 
+    $('#postClose-checkbox').on('click', function(){
+        if ($(this).is(":checked"))
+        {
+            // it is checked
+            $("#Post-or-close").hide();
+            $("#Post-and-close").show();
+        }else{
+            
+            $("#Post-or-close").show();
+            $("#Post-and-close").hide();
+        }
+    });
 
 </script>
