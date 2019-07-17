@@ -252,6 +252,9 @@ namespace JobsV1.Controllers
             ViewBag.carRentalIncome = getServiceIncome(jobId,"Car Rental");
             ViewBag.tourIncome = getServiceIncome(jobId, "Tour Package");
             ViewBag.othersIncome = getServiceIncome(jobId, "Others");
+
+            //status
+            ViewBag.jobstatus = job.JobStatus.Status;
             return View(jobExps);
         }
 
@@ -392,7 +395,7 @@ namespace JobsV1.Controllers
             return JsonConvert.SerializeObject("200", Formatting.Indented);
         }
         
-        private string closeJob(int jobId)
+        public string closeJob(int jobId)
         {
             try
             {

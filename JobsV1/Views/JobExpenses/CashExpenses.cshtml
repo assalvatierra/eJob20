@@ -34,7 +34,6 @@
     </tr>
     @foreach (var payments in ViewBag.PaymentRecord as IEnumerable<JobsV1.Models.JobPayment>)
     {
-
         <tr style="color:#28598f">
             <td>
                 &nbsp; &nbsp;
@@ -47,7 +46,6 @@
                 @payments.Remarks
             </td>
         </tr>
-
     }
 
 
@@ -184,8 +182,12 @@
             <input id="remarksIncome" type="text" width="25" class="form-control" maxlength="80" />
         </div>
         <div class="col-lg-8">
-            <button class="btn btn-primary" id="PostBtn" onclick="PostJob(@ViewBag.JobMainId, @ViewBag.totalPayment, @ViewBag.totalExpenses, @ViewBag.totalBalance )"> Post </button>
-            <button class="btn btn-primary" id="PostBtn" onclick="CloseJob(@ViewBag.JobMainId )"> Close Job </button>
+            <button class="btn btn-primary" id="PostBtn" onclick="checkInput(@ViewBag.JobMainId, @ViewBag.totalPayment, @ViewBag.totalExpenses, @ViewBag.totalBalance )"> Post </button>
+
+            @if (ViewBag.jobstatus != "CLOSED")
+            {
+                <button class="btn btn-primary" id="PostBtn" onclick="CloseJob(@ViewBag.JobMainId )"> Close Job </button>
+            }
             <br />
             <p id="posting-warning-msg" class="text-danger" > Revenue and Total Income does not match </p>
         </div>
@@ -281,6 +283,7 @@
 
     $(document).ready(new function(){
         validatePosted();
+        $("#posting-warning-msg").hide();
     });
 
     /**
@@ -412,23 +415,28 @@
         var others = $("#othersIncome").val() != null ? $("#othersIncome").val() : 0;
         var total = Number(carRental) + Number(tour) + Number(others);
         var net = @ViewBag.totalBalance;
-
-        //console.log("check: "+ net+ " = " + total  );
+        var isValid = false;
+        console.log("check: "+ net+ " = " + total  );
 
         if(total == net){
             //console.log("equal");
-            $("#PostBtn").attr("disabled", false);
+            //$("#PostBtn").attr("disabled", false);
             $("#posting-warning-msg").hide();
+            isValid = true;
         }else{
             //console.log("not equal");
-            $("#PostBtn").attr("disabled", true);
-            $("#posting-warning-msg").show();
+            //$("#PostBtn").attr("disabled", true);
+            $("#posting-warning-msg").hide();
+            isValid = false;
         }
 
         if(@ViewBag.totalPayment == 0){
-            $("#PostBtn").attr("disabled", true);
-            $("#posting-warning-msg").show();
+            //$("#PostBtn").attr("disabled", true);
+            $("#posting-warning-msg").hide();
+            isValid = false;
         }
+
+        return isValid;
     }
 
 
@@ -510,5 +518,14 @@
         }
     }
 
+    function checkInput(jobId,payment,expenses,income){
+        if(validatePosted()){
+            console.log("Check posted ok");
+            PostJob(jobId,payment,expenses,income);
+        }else{
+            console.log("Check posted not valid");
+            $("#posting-warning-msg").show();
+        }
+    }
 
 </script>
