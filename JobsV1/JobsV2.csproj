@@ -1184,6 +1184,7 @@
     <Content Include="Images\Erp\icons\icons-technical.png" />
     <Content Include="Images\Erp\icons\icons-trolley.png" />
     <Content Include="Images\Erp\icons\icons-accounting.png" />
+    <Content Include="Images\Erp\icons\icons-error.png" />
     <Content Include="Images\Erp\icons\icons8-lease-64.png" />
     <Content Include="Images\Erp\icons\inprogress.png" />
     <Content Include="Images\Erp\inprogress.png" />
@@ -1736,7 +1737,7 @@
     <Content Include="Views\JobOrder\BrowseInvItem_withSchedule.cshtml" />
     <Content Include="Views\JobOrder\CompanyDetail.cshtml" />
     <Content Include="Views\JobOrder\CreateCustomer.cshtml" />
-    <Content Include="Views\JobOrder\JobDetails.cshtml" />
+    <Content Include="Views\JobOrder\JobDetails_bk.cshtml" />
     <Content Include="Views\CustCategories\Create.cshtml" />
     <Content Include="Views\CustCategories\Delete.cshtml" />
     <Content Include="Views\CustCategories\Details.cshtml" />
@@ -2057,6 +2058,9 @@
     <Content Include="Views\JobPosts\Details.cshtml" />
     <Content Include="Views\JobPosts\Edit.cshtml" />
     <Content Include="Views\JobPosts\Index.cshtml" />
+    <Content Include="Views\Reporting\JobIncome.cshtml" />
+    <Content Include="Views\Reporting\JobIncomeReport.cshtml" />
+    <Content Include="Views\JobOrder\JobDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

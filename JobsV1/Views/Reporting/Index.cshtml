@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="col-lg-2" style="margin-bottom:10px;" >
-        <h3>Reports</h3>
+        <h3>Reports </h3>
         <div class="row col-lg-12">
             <div class="btn-group-vertical" style="width:150px;">
                 @Html.ActionLink("Job Listing", "Index", new { reportkey = "job", company = "all", unitDriver = "all" }, new { @class="btn btn-default" })
@@ -35,7 +35,7 @@
                 }
                 else if(ViewBag.reportkey == "income")
                 {
-                    @Html.Partial("JobIncomeReport");
+                    @Html.Partial("JobIncomeReport", new ViewDataDictionary { { "UnitList", ViewBag.UnitList } } );
                 }
          }
     </div>

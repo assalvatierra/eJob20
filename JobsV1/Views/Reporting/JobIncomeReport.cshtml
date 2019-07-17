@@ -1,38 +1,87 @@
 ﻿@{ 
   
 }
-<div id="joblisting-filter" class="row" style="background-color:#f3f3f3;padding:15px; box-shadow:0px 0px 5px 2px lightgray;min-width:700px; ">
+<div id="joblisting-filter" class="row" style="background-color:#f3f3f3;padding:15px; box-shadow:0px 0px 5px 2px lightgray;min-width:700px; ">    
+    
+    <!--Date-->
     <div class="row col-lg-12">
+        <div class="col-lg-1">
+            <h4>Date</h4>
+        </div>
         <div class="col-lg-3">
             <h5>Start Date</h5>
             <input type="date" class="form-control" value="@ViewBag.sDate" id="startDate" />
         </div>
-
         <div class="col-lg-3">
             <h5>End Date</h5>
             <input type="date" class="form-control" value="@ViewBag.eDate" id="endDate" />
         </div>
 
-        <div class="col-lg-6" style="margin-top:-5px;">
+        <div class="col-lg-5" style="margin-top:-5px;">
             <h5>&nbsp;</h5>
             <button class="btn btn-default" id="datePrev30" onclick="setPrev30();"> 30 Days </button>
             <button class="btn btn-default" id="datePrev60" onclick="setPrev60();"> 60 Days </button>
         </div>
     </div>
 
+    <!--Period-->
     <div class="row col-lg-12">
-        <div class="col-lg-3">
-            <h5>Company</h5>
-            <input type="text" value="@ViewBag.Id" id="company-input" class="form-control" />
+        <div class="col-lg-1">
+            <h4>Period</h4>
         </div>
 
         <div class="col-lg-3">
-            <h5>Unit/Driver</h5>
-            <input type="text" value="@ViewBag.Id" id="unitDriverInput"  class="form-control"/>
+            <h5>Month</h5>
+            <select name="monthlist" class="form-control" id="monthlist">
+            </select>
         </div>
 
-        <div class="col-lg-3" style="margin-top:10px;">
-            <br />
+        <div class="col-lg-3">
+            <h5>Year</h5>
+            <select name="monthlist" class="form-control" id="yearlist"></select>
+        </div>
+
+        <div class="col-lg-5" style="margin-top:-5px;">
+            <h5>&nbsp;</h5>
+            <button class="btn btn-default" id="datePrev30" onclick="setCurrentMonthYear();"> Current Month </button>
+            <button class="btn btn-primary" id="datePrev60" onclick="setMonthYear();"> Set </button>
+        </div>
+    </div>
+
+    <!--Summarry / Unit-->
+    @*<div class="row col-lg-12">
+        <div class="col-lg-1">
+            <h4>Report</h4>
+        </div>
+        <div class="col-lg-3">
+            <h5>Type:</h5>
+            <select name="monthlist" class="form-control" id="reportBy">
+                <option value='SUMMARY'>Summary</option>
+                <option value='UNIT'>Unit</option>
+            </select>
+        </div>
+        <div class="col-lg-3" id="unitblock">
+            <h5>Unit:</h5>
+            <select name="monthlist" class="form-control" id="unitFilter">
+                @foreach (var item in ViewBag.UnitList as IEnumerable<JobsV1.Models.InvItem>)
+                {
+                    <text>
+                    <option value='@item.Id'>@item.Description - @item.ItemCode</option>
+                    </text>
+                }
+                <option value='SUMMARY'>VAN</option>
+                <option value='UNIT'>SUV</option>
+            </select>
+        </div>
+    </div>*@
+
+
+    <div class="row col-lg-12">
+        <div class="col-lg-1">
+            <h4>&nbsp;</h4>
+        </div>
+        <br />
+        <div class="col-lg-10">
             <button class="btn btn-primary" onclick="reportUpdate();">
                 <span class="glyphicon glyphicon-search"></span> Filter
             </button>
@@ -53,6 +102,13 @@
 <script src="~/Scripts/jquery-1.12.4.min.js"> </script>
 
 <script>
+
+    $(document).ready(function(){
+        generateMonthList();
+        generateYearList();
+        $("#unitblock").css("display", "none");
+        $("#reportBy").val("SUMMARY");
+    });
     
     function Update() {
         var url_string = window.location.href;
@@ -93,11 +149,6 @@
         $("#endDate").val(today);
     }
 
-    $(function () {
-        Update();
-    });
-
-    Update();
 
     function getToday() {
 
@@ -106,10 +157,8 @@
     }
 
     function reportUpdate() {
-        var CompanyVal = document.getElementById("company-input").value;
         var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
         var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
-        var unitDriverVal = document.getElementById("unitDriverInput").value;
 
         var requestString = "/Reporting?";
 
@@ -119,25 +168,13 @@
             requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
         }
         
-        if(CompanyVal == "" ){
-            CompanyVal = "all";
-        } 
-        requestString += "&company=" + CompanyVal;
-
-        if (unitDriverVal == "") {
-            unitDriverVal = "all";
-        }
-        requestString += "&unitDriver=" + unitDriverVal;
-
         window.location.href = requestString;
         //window.location.href = "/Reporting/Index/" + idVal + "&sDate=" + sDateVal + "&sDate=" + eDateVal;
     }
 
-    function reportPrint() {
-        var CompanyVal = document.getElementById("company-input").value;
+    function reportPrint(){
         var sDateVal = document.getElementById("startDate").value != "" ? document.getElementById("startDate").value : getToday();
         var eDateVal = document.getElementById("endDate").value != "" ? document.getElementById("endDate").value : getToday();
-        var unitDriverVal = document.getElementById("unitDriverInput").value;
 
         var requestString = "/Reporting/JobListingPrint?";
 
@@ -145,18 +182,105 @@
             requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
         }
 
-        if (CompanyVal == "") {
-            CompanyVal = "all";
-        }
-        requestString += "&company=" + CompanyVal;
-
-        if (unitDriverVal == "") {
-            unitDriverVal = "all";
-        }
-        requestString += "&unitDriver=" + unitDriverVal;
 
         window.location.href = requestString;
         //window.location.href = "/Reporting/Index/" + idVal + "&sDate=" + sDateVal + "&sDate=" + eDateVal;
     }
 
+    function generateMonthList(){
+        var months = moment.months();
+        //console.log(months);
+        var ddl = $("#monthlist");
+        for (k = 0; k < months.length; k++) 
+            ddl.append("<option value='" + moment().month(months[k]).format("M") + "'>" + months[k] + "</option>");
+    }
+
+    function generateYearList(){
+        var year = moment().year();
+        var yearArr = [];
+
+        //add prev years to array
+        for (var i = 0; i < 5; i++) {
+
+            var yearTemp = year - i;
+
+            yearArr.push(yearTemp);
+        }
+
+        //get list of years 5 years before
+        //console.log(yearArr);
+
+        var ddl = $("#yearlist");
+
+        for (k = 0; k < yearArr.length; k++)
+            ddl.append("<option value='" + yearArr[k] + "'>" + yearArr[k] + "</option>");
+    }
+
+    function setCurrentMonthYear() {
+        setCurrentMonth();
+    }
+
+    function setCurrentMonth() {
+        var getYear = moment().format("YYYY");
+        var getMonth = moment().format("M");
+        console.log(getMonth);
+
+        $("#monthlist").val(getMonth);
+        $("#yearlist").val(getYear);
+
+
+    }
+
+    function setCurrentEndDate() {
+        var getYear = moment().format("YYYY");
+        var getMonth = moment().format("M");
+
+        //set Year
+        var curStartDate = moment($("#enddate").val()).format("YYYY-MM-DD"); //get stardate value
+        var tempDate = moment(curStartDate).year(getYear).format("YYYY-MM-DD");
+
+        //console.log(moment(curStartDate).month(getMonth));
+
+        //set month
+        var tempDate = moment(curStartDate).month(getMonth - 1).format("YYYY-MM-DD");
+
+        document.getElementById("enddate").value = tempDate;
+    }
+
+    function setMonthYear() {
+
+        var getYear = $("#yearlist").val();
+        var getMonth = $("#monthlist").val();
+
+        //console.log(getYear);
+
+        //set Year
+        var curStartDate = moment($("#startDate").val()).format("YYYY-MM-DD"); //get stardate value
+        var tempDate = moment(curStartDate).year(getYear).format("YYYY-MM-DD");
+
+        console.log(tempDate);
+        //console.log(moment(curStartDate).month(getMonth));
+
+        //set month
+        var tempDate = moment(tempDate).month(getMonth - 1).format("YYYY-MM-DD");
+        console.log(tempDate);
+
+        document.getElementById("startDate").value = tempDate;
+        document.getElementById("endDate").value = tempDate;
+    }
+
+    $("#reportBy").on('change', function () {
+
+        console.log("reportBy:" + $("#reportBy").val());
+
+        if ($("#reportBy").val() == "UNIT") {
+            console.log("UNIT");
+            $("#unitblock").css("display", "block");
+            $("#unitblock").css("display", "block");
+        } else {
+            console.log("SUMMARY");
+            $("#unitblock").css("display", "none");
+            $("#unitblock").css("display", "none");
+        }
+    });
 </script>

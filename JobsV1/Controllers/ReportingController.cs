@@ -37,6 +37,8 @@ namespace JobsV1.Controllers
             ViewBag.Group = db.RateGroups.ToList();
             ViewBag.Units = db.CarUnits.ToList();
 
+            ViewBag.UnitList = db.InvItems.Where(s=>s.OrderNo <= 100).ToList();
+
             return View();
         }
 
@@ -301,7 +303,6 @@ order by x.jobid
                 return View("JobListingPrint", data.Where(c => c.Main.Id == id));
             }
             return View("JobListingPrint", data.OrderByDescending(d => d.Main.JobDate));
-
         }
 
         #endregion 
@@ -429,21 +430,32 @@ order by x.jobid
 
 
         #region Income
-        public PartialViewResult JobIncome(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string company, string unitDriver)
+        public PartialViewResult JobIncome(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string type, string unit)
         {
-
             //Old Open jobs
-            var closedJobsIds = dbc.getAllClosedJobs(sDate,eDate).Select(s => s.Id);  //get list of older jobs that are not closed
+            var closedJobsIds = dbc.getAllClosedJobs(sDate,eDate,type,unit).Select(s => s.Id);  //get list of older jobs that are not closed
             var closedJobsList = getJobListing(closedJobsIds);
-
-
+            
             DateClass localTime = new DateClass();
             ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1);
             ViewBag.eDate = localTime.GetCurrentDate();
 
+            ViewBag.unitList = db.InvItems.ToList();
+
             return PartialView(closedJobsList);
         }
 
+        public PartialViewResult JobIncomeReport()
+        {
+            
+            DateClass localTime = new DateClass();
+            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1);
+            ViewBag.eDate = localTime.GetCurrentDate();
+
+            ViewBag.unitList = db.InvItems.ToList();
+
+            return PartialView();
+        }
         private IEnumerable<cJobOrder> getJobListing(IEnumerable<int> joblist)
         {
             IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => joblist.Contains(j.Id))
@@ -504,10 +516,9 @@ order by x.jobid
                 }
 
                 joTmp.PostedIncome = cIncome;
-
                 //joTmp.Payment = latestPosted != null ? latestPosted.PaymentAmt : 0;
 
-                joTmp.PostedIncome = cIncome;
+                //joTmp.PostedIncome = cIncome;
                 //joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
 
                 //joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
