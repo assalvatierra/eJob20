@@ -20,6 +20,18 @@ namespace JobsV1.Models
         public string Status    { get; set; }
     } 
 
+
+    public class CompanyJobsList
+    {
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public string Description { get; set; }
+        public string Customer { get; set; }
+        public Decimal Amount { get; set; }
+        public string Status { get; set; }
+
+    }
+
     public class CustomerClass
     {
 
@@ -222,8 +234,7 @@ namespace JobsV1.Models
                     jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status).ToList();
                 }
             }
-
-
+            
             //get customised jobList
             jobList = getJobList(jobRecord);
 

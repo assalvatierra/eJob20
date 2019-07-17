@@ -35,14 +35,14 @@ namespace JobsV1.Controllers
             if (top == null)
             {
                 top = 30;
-            }
+            } 
             
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
 
             return View(custEntMain);
         }
 
-        public IEnumerable<JobMain> getJobList(int? id, int? top, string sdate, string edate, string status) {
+        public List<CompanyJobsList> getJobList(int? id, int? top, string sdate, string edate, string status) {
 
             int topFilter = (int)top;
             //PartialView for Details of the Customer
@@ -76,8 +76,36 @@ namespace JobsV1.Controllers
             {
                 jobRecord = jobRecord.Where(j => j.JobDate.Date.CompareTo(StartDate) >= 0 && j.JobDate.Date.CompareTo(EndDate) <= 0 && j.JobStatus.Status == status).ToList();
             }
-          
-            return jobRecord.Take(topFilter).ToList();
+            
+            var filteredRecords =  jobRecord.Take(topFilter).ToList();
+            List<CompanyJobsList> companyJobs = new List<CompanyJobsList>();
+
+            foreach (var items in filteredRecords)
+            {
+                companyJobs.Add(new CompanyJobsList {
+                    Date = items.JobDate,
+                    Description = items.Description,
+                    Customer = items.Customer.Name,
+                    Status = items.JobStatus.Status,
+                    Id = items.Id,
+                    Amount = getJobTotal(items.Id)
+                });
+            }
+
+            return companyJobs;
+        }
+
+        private decimal getJobTotal(int jobId)
+        {
+            decimal totalAmt = 0;
+            var jobsvc = db.JobServices.Where(s => s.JobMainId == jobId).ToList();
+
+            foreach (var item in jobsvc)
+            {
+                totalAmt += item.ActualAmt != null ? (decimal)item.ActualAmt : 0;
+            }
+
+            return totalAmt;
         }
 
         // GET: CustEntMains/Create

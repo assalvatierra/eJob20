@@ -65,14 +65,14 @@
             <th>Status</th>
             <th>Details</th>
         </tr>
-        @foreach (var job in ViewBag.CompanyJobs as IEnumerable<JobsV1.Models.JobMain>)
+        @foreach (var job in ViewBag.CompanyJobs as IEnumerable<JobsV1.Models.CompanyJobsList>)
         {
             <tr>
-                <td>@job.JobDate</td>
+                <td>@job.Date</td>
                 <td>@job.Description</td>
-                <td>@job.Customer.Name</td>
-                <td>@job.AgreedAmt</td>
-                <td>@job.JobStatus.Status</td>
+                <td>@job.Customer</td>
+                <td>@job.Amount</td>
+                <td>@job.Status</td>
                 <td>
                     @Html.ActionLink("Details", "BookingDetails", "JobOrder", new { id = job.Id }, null)
                 </td>
