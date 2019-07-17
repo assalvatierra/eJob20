@@ -169,7 +169,7 @@
 </table>
 }
 
-
+<!--Total Amount, Bank Details and Paypal Button-->
 <div class="jumbotron" >
        
     <table style="width: 100%; table-layout: auto; ">
@@ -207,11 +207,11 @@
                         @ViewBag.BankName
                         ( @ViewBag.BankBranch )
                     </p>
-                    <p>Account: @ViewBag.AccName</p>
+                    <p>Account: @ViewBag.AccName</p>                        
                     <p style="font-weight:bold;">Account No.: @ViewBag.AccNum</p>
 
                     <p style="margin:20px;text-align:center;"> </p>
-
+                    <p>Follow this link for credit card payment</p>
                     <div id="paypal-button" ></div>
                 </div>
             </td>
@@ -220,7 +220,7 @@
     </table>
 </div>
 
-
+<!--Signature -->
 <div class="col-lg-12">
     <p>
         @*Expenses: @dContractAmt*@
@@ -270,6 +270,8 @@
             // Customize button (optional)
             locale: 'en_US',
             style: {
+                layout: 'horizontal',
+                fundingicons: 'true',
                 label: 'pay',
                 size: 'medium',
                 color: 'blue',

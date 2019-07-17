@@ -9,7 +9,6 @@
 
 <p>
     @Html.ActionLink("Create New", "jobCreate", "JobOrder", null,null)  
-   
 </p>
 
 <p>
@@ -100,12 +99,9 @@
                 <!--
                  Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
                    --> 
-                 
-
             </p>
          </td>
     </tr>
-       
 }
 </table>
 
@@ -125,7 +121,7 @@
                     {
                         <!--
                         <a href="Url.Action("ChangeCompany", "JobOrder", new { id = item.Main.Id, newId = list.Id },null)" class="list-group-item"> list.Name</a>
-                        -->
+                        -->  
                     }
                 </div>
 
@@ -161,40 +157,7 @@
                 <div id="paymentActions">
 
                 </div>
-                <!--
-                if (item.Main.JobPayments.Count() != 0)
-                {
 
-                    foreach (var payments in item.Main.JobPayments)
-                    {
-                        string pDate = ((DateTime)payments.DtPayment).ToString("MMM dd,yyyy (ddd)");
-
-                        <p>
-                            string.Format("{0:N}", payments.PaymentAmt)
-                            <span>-</span>
-                            pDate
-                        </p>
-                    }
-
-                    <span style="color:green;">
-                        string.Format("{0:N}", item.Payment)
-                        <span>-</span>
-                        <span>Total</span>
-                    </span>
-                }
-                else
-                {
-                    <p>No previous payment</p>
-                }
-
-                <hr /><h4> Create New Payment </h4>
-                <div class="list-group" id="categorylist">
-                    <a href="Url.Action("Payments", "JobOrder", new { id = item.Main.Id}, null)" class="list-group-item">  Payment Transaction</a>
-                    <a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Partial Payment" }, null)" class="list-group-item"> Partial Payment</a>
-                    <a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Full Payment" }, null)" class="list-group-item"> Full Payment</a>
-                    <a href="Url.Action("PaymentCreatePG", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Personal Guarentee" }, null)" class="list-group-item"> Personal Guarantee</a>
-                </div>
-                -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
