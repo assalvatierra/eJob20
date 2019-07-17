@@ -167,7 +167,7 @@ namespace JobsV1.Models
                 body =
                     "" +
                     " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
-                    " <div style='background-color:white;min-width:200px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> RealWheels Car Reservation </h1>" +
+                    " <div style='background-color:white;min-width:200px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> "+ job.Branch.Name + " Reservation </h1>" +
                     message +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
                     " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
