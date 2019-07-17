@@ -57,8 +57,9 @@
     @Html.ActionLink("Back to List", "JobNotes", "JobMains",new { id = ViewBag.JobId },null)
 </div>
 
+@*id="dialog"*@
 
-<div id="dialog" title="Pre Defined Notes">
+<div  title="Pre Defined Notes">
     <table>
         @foreach (var item in pNotes)
             {
