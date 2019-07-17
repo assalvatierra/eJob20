@@ -500,7 +500,7 @@ order by x.jobid
                 joTmp.Services = new List<cJobService>();
                 joTmp.Main.AgreedAmt = 0;
                 joTmp.Payment = 0;
-                joTmp.Expenses = 100;
+                joTmp.Expenses = 0;
                 
                 List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
                 foreach (var svc in joSvc)
@@ -523,6 +523,26 @@ order by x.jobid
 
                     //calculate total rate and payment
                 }
+                cjobIncome cIncome = new cjobIncome();
+                cIncome.Car = 0;
+                cIncome.Tour = 0;
+                cIncome.Others = 0;
+
+                var latestPosted = db.JobPosts.Where(j => j.JobMainId == main.Id).OrderByDescending(s => s.Id).FirstOrDefault();
+
+                if (latestPosted == null)
+                {
+                    joTmp.isPosted = false;
+                }
+                else
+                {
+                    cIncome.Car = latestPosted.CarRentalInc;
+                    cIncome.Tour = latestPosted.TourInc;
+                    cIncome.Others = latestPosted.OthersInc;
+                    joTmp.isPosted = true;
+                }
+
+                joTmp.PostedIncome = cIncome;
 
                 //joTmp.Expenses = getJobExpense(joTmp);
 
@@ -713,6 +733,28 @@ order by x.jobid
 
                     joTmp.Services.Add(cjoTmp);
                 }
+
+                cjobIncome cIncome = new cjobIncome();
+                cIncome.Car = 0;
+                cIncome.Tour = 0;
+                cIncome.Others = 0;
+
+                var latestPosted = db.JobPosts.Where(j => j.JobMainId == main.Id).OrderByDescending(s => s.Id).FirstOrDefault();
+
+                if (latestPosted == null)
+                {
+                    joTmp.isPosted = false;
+                }
+                else
+                {
+                    cIncome.Car = latestPosted.CarRentalInc;
+                    cIncome.Tour = latestPosted.TourInc;
+                    cIncome.Others = latestPosted.OthersInc;
+                    joTmp.isPosted = true;
+                }
+
+                joTmp.PostedIncome = cIncome;
+
 
                 joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
 
@@ -965,17 +1007,15 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
+            //jobMain.AgreedAmt = 2000;
             return View(jobMain);
             
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId)
+        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId, decimal? AgreedAmt)
         {
-
-            Console.WriteLine("Company ID: " + CompanyId);
-
             if (ModelState.IsValid)
             {
                 if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
@@ -985,18 +1025,23 @@ order by x.jobid
                     jobMain.CustContactNumber = cust.Contact1;
                 }
 
+                //Console.WriteLine("AgreedAmt: "+AgreedAmt);
+                System.Diagnostics.Debug.WriteLine("AgreedAmt job: " + jobMain.AgreedAmt);
+                System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
+
+                jobMain.AgreedAmt = AgreedAmt;
                 db.Entry(jobMain).State = EntityState.Modified;
                 db.SaveChanges();
 
-                //if (CompanyId != null)
-                //{
-                    EditjobCompany(jobMain.Id, (int)CompanyId);
-                //}
-
+                System.Diagnostics.Debug.WriteLine("----" );
+                System.Diagnostics.Debug.WriteLine("AgreedAmt job: " + jobMain.AgreedAmt);
+                System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
+                EditjobCompany(jobMain.Id, (int)CompanyId);
+               
                 return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
             }
-
-
+            
+          
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
@@ -2378,11 +2423,11 @@ order by x.jobid
             string ajdavaoEmail = "ajdavao88@gmail.com"; //
             string adminEmail = "travel.realbreeze@gmail.com";
             string mailResult = "";
-            
-            //Send invoice 
-            //mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
-            //mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
-            //mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+
+            //Send invoice
+            mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+            mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+            mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
 
             //client
             mailResult = mail.SendMail(jobId, jobOrder.CustContactEmail, mailType, clientName, siteRedirect);
@@ -2439,7 +2484,7 @@ order by x.jobid
 
             string clientName = jobOrder.Description;
             string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
-            string ajdavaoEmail = "ajdavao88@gmail.com"; //testing
+            string ajdavaoEmail = "ajdavao88@gmail.com";
             string mailResult = "";
             string adminEmail = "travel.realbreeze@gmail.com";
             

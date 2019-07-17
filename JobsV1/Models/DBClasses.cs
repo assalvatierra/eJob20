@@ -436,7 +436,6 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             joblist = db.Database.SqlQuery<cJobConfirmed>(sql).ToList();
 
             return joblist;
-
         }
 
 
@@ -470,13 +469,13 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             switch (sortid)
             {
                 case 1: //OnGoing
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -21, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -30, GETDATE());";
                     break;
                 case 2: //prev
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE()) ;";
                     break;
                 case 3: //close
-                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -15, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -35, GETDATE());";
                     break;
                 default:
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -15, GETDATE());";
@@ -496,13 +495,13 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 
         //For Job Income Reporting 
         //Get all previous CLOSED jobs
-        public List<cJobConfirmed> getAllClosedJobs(string sDate, string eDate)
+        public List<cJobConfirmed> getAllClosedJobs(string sDate, string eDate, string type ,string unit)
         {
             List<cJobConfirmed> joblist = new List<cJobConfirmed>();
 
             string sql = "";
 
-            sql = "SELECT j.Id FROM JobMains j WHERE j.JobStatusId = 4 AND j.JobDate < GETDATE()";
+            sql = "SELECT j.Id FROM JobMains j WHERE j.JobStatusId = 4 AND j.JobDate < GETDATE() OR j.JobDate >= DATEADD(DAY, -30, GETDATE()) AND j.JobStatusId = 4;";
 
             if (sDate != "") {
                 sql += "AND j.JobDate >= '" + sDate +"'";
@@ -512,7 +511,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             {
                 sql += "AND j.JobDate <= '" + eDate + "'";
             }
-
+            
             //terminator
             sql += ";";
 

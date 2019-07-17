@@ -32,11 +32,11 @@
         <th width="7%">
             To
         </th>
-        <th width="40%">
+        <th width="37%">
             Company
         </th>
-        <th width="15%">
-            Rate/Payment
+        <th width="18%">
+            Rate/Payment/Expenses
         </th>
         <th width="30%">
          
@@ -45,7 +45,9 @@
     @{ 
         decimal total_rate = 0;
         decimal total_payment = 0;
+        decimal total_expenses = 0;
         decimal total_collectible = 0;
+        decimal total_projIncome = 0;
 
     }
     @foreach (var item in Model)
@@ -94,6 +96,8 @@
                 }
                 else
                 {
+
+                    <!-- RESERVATION / CONFIRM -->
                     <span style="color:black">
                         <span style="font-weight:bold;">
                             @item.Company
@@ -118,7 +122,6 @@
 
                     total_rate += item.Main.AgreedAmt != null ? (decimal)item.Main.AgreedAmt: 0;
                     total_payment += item.Payment;
-                    total_collectible = total_rate - total_payment;
 
                 }
 
@@ -128,10 +131,10 @@
                         @string.Format("{0:N0}", item.Main.AgreedAmt) 
                     </span>
                 }
-                 
+
+                <span>/ </span>
                 @if (item.Payment != 0)
                 {
-                    <span>/ </span>
                     <span style="color:green; font: bold 12px arial, verdana;">
                       @string.Format("{0:N0}", item.Payment)
                     </span>
@@ -145,6 +148,23 @@
                         </span>
                     }
                 }
+                else
+                {
+                    <span>---</span>
+                }
+
+                <span>/ </span>
+                @if (item.Expenses != 0)
+                {
+                    <span style="color:orangered; font: bold 12px arial, verdana;">
+                        @string.Format("{0:N0}", item.Expenses)
+                    </span>
+                    total_expenses += item.Expenses;
+                }
+                else
+                {
+                    <span>---</span>
+                }
             </td>
             <td>
                 @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
@@ -156,10 +176,19 @@
             </td>
         </tr>
     }
-
+    @{ 
+        total_collectible = total_rate - total_payment;
+        total_projIncome = total_rate - total_expenses;
+     }
     <tr style="font-weight:bold;background-color:#dddddd">
-        <td colspan="3"></td>
-        <td> @string.Format("{0:N0}", total_rate)  / @string.Format("{0:N0}", total_payment)  </td>
+        <td colspan="2"></td>
+        <td style="text-align:right">
+            Total:
+            <br /> Projected Income: 
+        </td>
+        <td> @string.Format("{0:N0}", total_rate)  / @string.Format("{0:N0}", total_payment) / @string.Format("{0:N0}", total_expenses)
+        <br />@string.Format("{0:N0}", total_projIncome) 
+        </td>
         <td> Total Collectible: @string.Format("{0:N0}", total_collectible)  </td>
     </tr>
 
@@ -173,18 +202,25 @@
         <tr>
             <th width="7%"> From </th>
             <th width="7%"> To </th>
-            <th width="40%"> Description</th>
-            <th width="15%">Payment / Expenses </th>
+            <th width="37%"> Description</th>
+            <th width="20%">
+                Payment / Expenses / Income
+                <br /> [ Tour / Car / Others ]
+             </th>
             <th width="30%"> </th>
         </tr>
             @{
                 decimal current_totalPayment = 0;
                 decimal current_totalExpenses = 0;
                 decimal current_total = 0;
+                decimal current_totalTourInc = 0;
+                decimal current_totalCarInc = 0;
+                decimal current_totalOthersInc = 0;
+                decimal temp_income = 0;
             }
             @foreach (var item in ViewBag.CurrentMonth as IEnumerable<JobsV1.Controllers.cJobOrder>)
             {
-
+                temp_income = 0;
             <tr>
                 <td>
                     @if (@item.Services.FirstOrDefault() != null)
@@ -258,6 +294,12 @@
                             </span>
                         }
                     }
+                    else
+                    {
+                        <span>
+                            / --- 
+                        </span>
+                    }
 
                     <!--Expenses-->                    
                     @{current_totalExpenses += item.Expenses;}
@@ -268,9 +310,61 @@
                             @string.Format("{0:N0}", item.Expenses)
                         </span>
                     }
+                    else
+                    {
+                        <span>
+                            / ---
+                        </span>
+                    }
+
+
+
                     
-                    <!--Calculate Payment - Expenses -->
-                    @{current_total += current_totalPayment - current_totalExpenses;}
+
+                    <!--Income-->
+                    @{ temp_income = item.Payment - item.Expenses;  }
+                    <span>
+                        / 
+                    </span>
+                    <span style="color:black ; font: bold 12px arial, verdana;">
+                        @string.Format("{0:N0}", temp_income)
+                    </span>
+                    <br />
+                    @if (item.PostedIncome != null)
+                    {
+                        <span> </span>
+                        <span style="color:gray ; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", item.PostedIncome.Tour)
+                        </span>
+
+
+                        <span> / </span>
+                        <span style="color:gray ; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", item.PostedIncome.Car)
+                        </span>
+
+
+                        <span> / </span>
+                        <span style="color:gray ; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", item.PostedIncome.Others)
+                        </span>
+
+                        current_totalTourInc += item.PostedIncome.Tour;
+                        current_totalCarInc += item.PostedIncome.Car;
+                        current_totalOthersInc += item.PostedIncome.Others;
+                    }
+                    else
+                    {
+                        <span>
+                            --- / --- / ---
+                        </span>
+                    }
+
+                    
+                    @if (item.isPosted == false)
+                    {
+                        <img src="~/Images/Erp/icons/icons-error.png" width="25" alt="not posted" title="not posted"/>
+                    }
                 </td>
                 <td>
                     @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
@@ -283,10 +377,18 @@
             </tr>
             }
 
+        <!--Calculate Payment - Expenses -->
+        @{current_total = current_totalPayment - current_totalExpenses;}
+
         <tr style="font-weight:bold;background-color:#dddddd">
-            <td colspan="3"></td>
-            <td> @string.Format("{0:N0}", current_totalPayment)  / @string.Format("{0:N0}", current_totalExpenses)  </td>
-            <td> Total Income: @string.Format("{0:N0}", current_total)  </td>
+             <td colspan="2"></td>
+            <td style="text-align:right">
+                Total:
+            </td>
+             <td> @string.Format("{0:N0}", current_totalPayment)  / @string.Format("{0:N0}", current_totalExpenses) 
+             <br />@string.Format("{0:N0}", current_totalTourInc)  / @string.Format("{0:N0}", current_totalCarInc) / @string.Format("{0:N0}", current_totalOthersInc)
+             </td>
+             <td> Total Income: @string.Format("{0:N0}", current_total)  </td>
         </tr>
     </table>
     
@@ -301,14 +403,16 @@
         <tr>
             <th width="7%"> From </th>
             <th width="8%"> To </th>
-            <th width="40%"> Description</th>
-            <th width="15%">Rate / Payment </th>
+            <th width="37%"> Description</th>
+            <th width="18%">Rate / Payment / Expenses</th>
             <th width="30%"> </th>
         </tr>
         @{ 
             decimal old_totalRate = 0;
             decimal old_totalPayment = 0;
             decimal old_total = 0;
+            decimal old_totalExpenses = 0;
+            decimal old_totalprojIncome = 0;
         }
         @foreach (var item in ViewBag.olderOpenJobs as IEnumerable<JobsV1.Controllers.cJobOrder>)
         {
@@ -384,6 +488,10 @@
                         </span>
 
                     }
+                    else
+                    {
+                        <span>---</span>
+                    }
                     <span>/ </span>
 
                     @{ old_totalPayment += item.Payment; }
@@ -400,8 +508,24 @@
                             </span>
                         }
                     }
+                    else
+                    {
+                        <span>---</span>
+                    }
 
-                    @{ old_total = old_totalRate - old_totalPayment; }
+                    <span>/ </span>
+                    @if (item.Expenses != 0)
+                    {
+                        <span style="color:orangered; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", item.Expenses)
+                        </span>
+                        old_totalExpenses += item.Expenses;
+                    }
+                    else
+                    {
+                        <span>---</span>
+                    }
+
                 </td>
                 <td>
                     @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
@@ -414,9 +538,18 @@
             </tr>
         }
 
+        @{ old_total = old_totalRate - old_totalPayment;
+            old_totalprojIncome = old_totalRate - old_totalExpenses;
+             }
         <tr style="font-weight:bold;background-color:#dddddd">
-            <td colspan="3"></td>
-            <td> @string.Format("{0:N0}", old_totalRate) / @string.Format("{0:N0}", old_totalPayment)   </td>
+            <td colspan="2"></td>
+            <td style="text-align:right">
+                Total:
+                <br /> Projected Income: 
+            </td>
+            <td> @string.Format("{0:N0}", old_totalRate) / @string.Format("{0:N0}", old_totalPayment)    / @string.Format("{0:N0}", old_totalExpenses)
+                
+            <br />@string.Format("{0:N0}", old_totalprojIncome)   </td>
             <td> Total Collectible:  @string.Format("{0:N0}", old_total) </td>
         </tr>
     </table>
