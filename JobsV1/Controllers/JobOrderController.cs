@@ -67,6 +67,31 @@ namespace JobsV1.Controllers
         public decimal Car { get; set; }
         public decimal Others {get;set;}
     }
+    
+        public class cjobUnitIncome
+        {
+            public int Id { get; set; }
+            public DateTime JobDate { get; set; }
+            public List<cUnitList>  Unit { get; set; }
+            public string Description { get; set; }
+            public decimal Quoted { get; set; }
+            public decimal Collected { get; set; }
+            public decimal Payment { get; set; }
+            public decimal Expenses { get; set; }
+            public decimal Tour { get; set; }
+            public decimal Car { get; set; }
+            public decimal Others { get; set; }
+            public bool isPosted { get; set; }
+
+        }
+
+        public class cUnitList
+        {
+            public int Id { get; set; }
+            public string Unit { get; set; }
+            public string Code { get; set; }
+            public string ViewInfo { get; set; }
+        }
     #endregion
 
     public class JobOrderController : Controller
@@ -282,7 +307,8 @@ namespace JobsV1.Controllers
         public string getCustomerCompany(int id)
         {
             //int companyNum = db.CustEntities.Where(s=>s.CustomerId == id).LastOrDefault() != null ? db.CustEntities.Where(s => s.CustomerId == id).LastOrDefault().CustEntMain.Id : 1;
-            string companyNum = db.CustEntities.Where(s => s.CustomerId == id).FirstOrDefault().CustEntMainId.ToString();
+            var company = db.CustEntities.Where(s => s.CustomerId == id).FirstOrDefault();
+            string companyNum = company != null ?  company.CustEntMainId.ToString() : " ";
             return companyNum;
         }
 
@@ -990,8 +1016,6 @@ order by x.jobid
             ViewBag.Status = new SelectList(StatusList, "value", "text", customer.Status);
             return View(customer);
         }
-
-        
         #endregion
 
         #region jobMain
@@ -999,7 +1023,7 @@ order by x.jobid
         {
             var jobMain = db.JobMains.Find(jobid);
             var companyId = db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault() != null ?
-                db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().CustEntMainId : 1;
+                db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().CustEntMainId : 1 ;
             //var companyId = db.JobEntMains.Where(s => s.JobMainId == jobid).FirstOrDefault().Id;
             ViewBag.mainid = jobid;
             ViewBag.CustomerId  = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
@@ -1009,7 +1033,6 @@ order by x.jobid
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
             //jobMain.AgreedAmt = 2000;
             return View(jobMain);
-            
         }
 
         [HttpPost]
@@ -1948,9 +1971,10 @@ order by x.jobid
                         {
                             //Pickup Details
                             sData += "\n\nPickup Details: " ;
-                            sData += "\nDate: " + jobPickup.JsDate;
+                            sData += "\nDate: " + jobPickup.JsDate.ToShortDateString();
                             sData += "\nTime: " + jobPickup.JsTime;
                             sData += "\nLocation: " + jobPickup.JsLocation;
+                            sData += "\nDriver: " + getDriverDetails(svi.Id);
                             pickupCount++;
                         }
                     }
@@ -1975,9 +1999,123 @@ order by x.jobid
 
             ViewBag.StrData = sData;
 
+            if (id != null)
+            {
+              ViewBag.forDriver = textDetailsForDriver((int)id);
+            }
+
             return View();
         }
-        
+
+
+
+        private string textDetailsForDriver(int id)
+        {
+            string sData = "Booking Details";
+            decimal totalAmount = 0;
+            Models.JobServiceItem svcpu;
+            Models.JobMain jobmain = db.JobMains.Find(id);
+            var svc = db.JobServices.Where(j => j.JobMainId == id).ToList();
+            string custName = jobmain.Branch.Name;
+            int pickupCount = 0;
+
+            switch (custName)
+            {
+                case "RealBreeze":
+                    custName = "Real Breeze Travel & Tours";
+                    break;
+                case "AJ88":
+                    custName = "AJ88 Car Rental";
+                    break;
+                case "RealWheels":
+                    custName = "RealWheels Car Rental Davao";
+                    break;
+                default:
+                    custName = "Real Breeze Travel & Tours";
+                    break;
+            }
+
+            if (svc.FirstOrDefault() == null)
+            {
+                sData += "\nServices: undefined ";
+            }
+            else
+            {
+                Decimal quote = (jobmain.AgreedAmt == null ? 0 : (decimal)jobmain.AgreedAmt);
+                sData += "\n" + custName;
+                sData += "\n\nGuest:" + jobmain.Description + " " + getCustomerCompany(jobmain.Id);
+                sData += "\nContact:" + jobmain.CustContactNumber;
+
+                foreach (var svi in svc)
+                {
+
+                    decimal quoted = svi.QuotedAmt != null ? (decimal)svi.QuotedAmt : 0;
+                    sData += "\n\nDate:" + ((DateTime)svi.DtStart).ToString("dd MMM yyyy (ddd)") + " - " + ((DateTime)svi.DtEnd).ToString("dd MMM yyyy (ddd)");
+                    sData += "\nDescription:" + svi.Particulars;
+                    sData += "\nVehicle:" + svi.SupplierItem.Description;
+
+                    //sData += "\nRate:P" + quoted.ToString("##,###.00");
+                    //totalAmount += (decimal)svi.QuotedAmt;
+
+                    totalAmount += quoted;
+                    
+                    //check pickup details
+                    if (svi.JobServicePickups.Count != 0)
+                    {
+                        foreach (var jobPickup in svi.JobServicePickups)
+                        {
+                            if (jobPickup != null) { 
+                                //Pickup Details
+                                sData += "\n\nPickup Details: ";
+                                sData += "\nDate: " + jobPickup.JsDate.ToShortDateString();
+                                sData += "\nTime: " + jobPickup.JsTime;
+                                sData += "\nLocation: " + jobPickup.JsLocation;
+                                sData += "\nClient: " + jobPickup.ClientName + " / " + jobPickup.ClientContact;
+                                sData += "\nDriver: " + getDriverDetails(svi.Id);
+
+                            }
+                            pickupCount++;
+                        }//end of foreach
+                    }
+                }
+
+                if (pickupCount == 0)
+                {
+                    //Pickup Details
+                    sData += "\n\nPickup Details: TBA";
+                    sData += "\nDate: TBA";
+                    sData += "\nTime: TBA";
+                    sData += "\nLocation: TBA";
+                }
+
+                //Summary Details
+                sData += "\n  ";
+                sData += "\nCollectible:P" +  dbc.getJobCollectible(id).ToString("##,###.00");
+                sData += "\nRemarks:";
+                sData += "  " + jobmain.JobRemarks;
+                sData += "\nNo.Pax:  " + jobmain.NoOfPax;
+                sData += "\n\n Thank you and have a nice day.\n";
+            }
+
+           return sData;
+
+        }
+
+        private string getDriverDetails(int svcId)
+        {
+            var driverDetails = "TBA";
+            var jobsvc = db.JobServiceItems.Where(s => s.JobServicesId == svcId).ToList();
+            
+            foreach (var svc in jobsvc)
+            {
+                if (svc.InvItem.ViewLabel == "Driver" || svc.InvItem.ViewLabel == "DRIVER" )
+                {
+                    driverDetails = svc.InvItem.Description + " / " + svc.InvItem.ContactInfo;
+                }
+            }
+            return driverDetails;
+        }
+
         //web service call to send notification
         public void Notification(int id)
         {

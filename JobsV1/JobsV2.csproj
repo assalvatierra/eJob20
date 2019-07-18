@@ -1398,6 +1398,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\Personnel\Payroll.js" />
     <Content Include="Scripts\Products\ProdCreate.js" />
+    <Content Include="Scripts\Reporting\UnitIncome.js" />
+    <Content Include="Scripts\Reporting\JobIncome.js" />
+    <Content Include="Scripts\Reporting\JobDate.js" />
+    <Content Include="Scripts\Reporting\JobListing.js" />
     <Content Include="Scripts\ssl.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />
@@ -2061,6 +2065,11 @@
     <Content Include="Views\Reporting\JobIncome.cshtml" />
     <Content Include="Views\Reporting\JobIncomeReport.cshtml" />
     <Content Include="Views\JobOrder\JobDetails.cshtml" />
+    <Content Include="Views\EmailBlaster\EmailBlastList.cshtml" />
+    <Content Include="Views\Reporting\UnitIncomeReport.cshtml" />
+    <Content Include="Views\Reporting\UnitIncome.cshtml" />
+    <Content Include="Views\Reporting\JobIncomePrint.cshtml" />
+    <Content Include="Views\Reporting\UnitIncomePrint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2079,7 +2088,6 @@
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
     <Folder Include="Areas\Products\Views\Home\" />
-    <Folder Include="Scripts\Reporting\" />
     <Folder Include="Views\CustomHelper\" />
     <Folder Include="Views\Paypal\" />
   </ItemGroup>

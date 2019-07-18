@@ -501,7 +501,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 
             string sql = "";
 
-            sql = "SELECT j.Id FROM JobMains j WHERE j.JobStatusId = 4 AND j.JobDate < GETDATE() OR j.JobDate >= DATEADD(DAY, -30, GETDATE()) AND j.JobStatusId = 4;";
+            sql = "SELECT j.Id FROM JobMains j WHERE j.JobStatusId = 4 ";
 
             if (sDate != "") {
                 sql += "AND j.JobDate >= '" + sDate +"'";
@@ -510,6 +510,11 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             if (eDate != "")
             {
                 sql += "AND j.JobDate <= '" + eDate + "'";
+            }
+
+            if(sDate == "" && eDate == "")
+            {
+                sql += " AND j.JobDate < GETDATE() AND j.JobDate >= DATEADD(DAY, -30, GETDATE())";
             }
             
             //terminator
@@ -529,6 +534,35 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             {
                 total += items.Amount;
             }
+            return total;
+        }
+
+
+        public decimal getJobCollectible(int jobid)
+        {
+            decimal total = 0;
+            decimal totalAmount = 0;
+            decimal totalPayment = 0;
+
+            var jobsvc = db.JobServices.Where(s => s.JobMainId == jobid).ToList();
+
+            foreach ( var svc in jobsvc)
+            {
+
+                totalAmount += svc.QuotedAmt != null ? (decimal)svc.QuotedAmt : 0;
+                
+            }
+            var payments = db.JobPayments.Where(s => s.JobMainId == jobid).ToList();
+            if (payments != null)
+            {
+                foreach (var pay in payments)
+                {
+                    totalPayment += pay.PaymentAmt;
+                }
+            }
+
+            total = totalAmount - totalPayment;
+
             return total;
         }
     }
