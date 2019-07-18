@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<JobsV1.Controllers.cJobOrder>
 
+@{
+    ViewBag.Title = "Job Income Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <table>
 
@@ -165,7 +169,7 @@
     </tr>
 
     <tr style="font-weight:bold;background-color:#d8d8d8">
-        <td colspan="2" style="text-align:right;"><b>Total</b></td>
+        <td colspan="2"><b>Total</b></td>
 
         <td>@string.Format("{0:N0}", totalQuoted)</td>
         <td>@string.Format("{0:N0}", totalCollected)</td>

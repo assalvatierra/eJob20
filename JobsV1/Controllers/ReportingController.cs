@@ -23,10 +23,13 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
 
+
         // GET: Reporting
         public ActionResult Index(int? id, string reportkey)
         {
-            if(id != null)
+            DateClass localTime = new DateClass();
+
+            if (id != null)
             {
                 ViewBag.Id = id;
             }
@@ -38,6 +41,8 @@ namespace JobsV1.Controllers
             ViewBag.Units = db.CarUnits.ToList();
 
             ViewBag.UnitList = db.InvItems.Where(s=>s.OrderNo <= 100).ToList();
+            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1);
+            ViewBag.eDate = localTime.GetCurrentDate();
 
             return View();
         }
@@ -437,13 +442,30 @@ order by x.jobid
             var closedJobsList = getJobListing(closedJobsIds);
             
             DateClass localTime = new DateClass();
-            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1);
-            ViewBag.eDate = localTime.GetCurrentDate();
+            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1).ToShortDateString();
+            ViewBag.eDate = localTime.GetCurrentDate().ToShortDateString();
 
             ViewBag.unitList = db.InvItems.ToList();
 
             return PartialView(closedJobsList);
         }
+
+
+        public PartialViewResult JobIncomePrint(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string type, string unit)
+        {
+            //Old Open jobs
+            var closedJobsIds = dbc.getAllClosedJobs(sDate, eDate, type, unit).Select(s => s.Id);  //get list of older jobs that are not closed
+            var closedJobsList = getJobListing(closedJobsIds);
+
+            DateClass localTime = new DateClass();
+            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1).ToShortDateString();
+            ViewBag.eDate = localTime.GetCurrentDate().ToShortDateString();
+
+            ViewBag.unitList = db.InvItems.ToList();
+
+            return PartialView(closedJobsList);
+        }
+
 
         public PartialViewResult JobIncomeReport()
         {
@@ -534,6 +556,157 @@ order by x.jobid
             }
             return data.OrderBy(d => d.Main.JobDate).OrderByDescending(d => d.Main.JobDate);
         }
+
+        #endregion
+
+        #region Unit Income
+        public PartialViewResult UnitIncome(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string type, int unit)
+        {
+            //Old Open jobs
+            var closedJobsIds = dbc.getAllClosedJobs(sDate, eDate, type, unit.ToString()).Select(s => s.Id);  //get list of older jobs that are not closed
+            var closedJobsList = getUnitListing(closedJobsIds, unit);
+
+            DateClass localTime = new DateClass();
+            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1).ToShortDateString();
+            ViewBag.eDate = localTime.GetCurrentDate().ToShortDateString();
+
+            ViewBag.unitList = db.InvItems.ToList();
+
+            return PartialView(closedJobsList);
+        }
+
+        public PartialViewResult UnitIncomePrint(int? id, string sDate, string eDate, int? sortid, int? serviceId, int? mainid, string type, int unit)
+        {
+            //Old Open jobs
+            var closedJobsIds = dbc.getAllClosedJobs(sDate, eDate, type, unit.ToString()).Select(s => s.Id);  //get list of older jobs that are not closed
+            var closedJobsList = getUnitListing(closedJobsIds, unit);
+
+            DateClass localTime = new DateClass();
+            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1).ToShortDateString();
+            ViewBag.eDate = localTime.GetCurrentDate().ToShortDateString();
+
+            ViewBag.unitList = db.InvItems.ToList();
+
+            return PartialView(closedJobsList);
+        }
+
+        public PartialViewResult UnitIncomeReport()
+        {
+
+            DateClass localTime = new DateClass();
+            ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1);
+            ViewBag.eDate = localTime.GetCurrentDate();
+
+            ViewBag.unitList = db.InvItems.ToList();
+
+            return PartialView();
+        }
+
+        private IEnumerable<cjobUnitIncome> getUnitListing(IEnumerable<int> joblist, int unit)
+        {
+            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => joblist.Contains(j.Id))
+                .Include(j => j.Customer)
+                .Include(j => j.Branch)
+                .Include(j => j.JobStatus)
+                .Include(j => j.JobThru)
+                .Include(j => j.JobEntMains)
+                ;
+
+            List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
+            var data = new List<cjobUnitIncome>();
+
+            DateClass localTime = new DateClass();
+            DateTime today = new DateTime();
+            ViewBag.today = today;
+            today = localTime.GetCurrentDate();
+
+            cUnitList unitSearch = new cUnitList();
+            unitSearch.Id = unit;
+            unitSearch.Unit = db.InvItems.Find(unit).Description;
+
+            foreach (var main in jobMains)
+            {
+                cjobUnitIncome joTmp = new cjobUnitIncome();
+                joTmp.Unit = new List<cUnitList>();
+                joTmp.Description = "";
+                joTmp.Quoted = 0;
+                joTmp.Collected = 0;
+                joTmp.Expenses = 0;
+                joTmp.Payment = 0;
+                joTmp.Tour = 0;
+                joTmp.Car = 0;
+                joTmp.Others = 0;
+                joTmp.Id = main.Id;
+                joTmp.JobDate = main.JobDate;
+                
+                List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
+
+                List<cUnitList> unitlist = new List<cUnitList>();
+
+                foreach (var svc in joSvc)
+                {
+                    if(svc.JobServiceItems.Where(s => s.JobServicesId == svc.Id).ToList() != null)
+                    {
+                        var svcUnit = svc.JobServiceItems.Where(s => s.JobServicesId == svc.Id).ToList();
+                        foreach (var svcUnitList in svcUnit)
+                        {
+                            unitlist.Add(new cUnitList
+                            {
+                                Id = svcUnitList.InvItem.Id,
+                                Unit = svcUnitList.InvItem.Description,
+                                Code = svcUnitList.InvItem.ItemCode,
+                                ViewInfo = svcUnitList.InvItem.ViewLabel
+                            });
+                        }
+                    }
+
+                    joTmp.Quoted += svc.ActualAmt != null ? (decimal)svc.ActualAmt : 0;
+                    joTmp.Expenses += dbc.getJobExpensesBySVC(svc.Id);
+                }
+
+                //unit list
+                joTmp.Unit = unitlist;
+
+                //get customer company
+                var jobCompany = db.JobEntMains.Where(j => j.JobMainId == main.Id).FirstOrDefault();
+                joTmp.Description += jobCompany != null ? jobCompany.CustEntMain.Name + " / " : "";
+                joTmp.Description += main.Customer.Name +" / " + main.Description; 
+                
+                //get lastest posted income
+                var latestPosted = db.JobPosts.Where(j => j.JobMainId == main.Id).OrderByDescending(s => s.Id).FirstOrDefault();
+                if (latestPosted == null)
+                {
+                    joTmp.isPosted = false;
+                }
+                else
+                {
+                    joTmp.Car = latestPosted.CarRentalInc;
+                    joTmp.Tour = latestPosted.TourInc;
+                    joTmp.Others = latestPosted.OthersInc;
+                    joTmp.isPosted = true;
+                }
+                
+                //get job payment
+                List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
+                foreach (var payment in jobPayment)
+                {
+                    joTmp.Payment += payment.PaymentAmt;
+                }
+
+                data.Add(joTmp);
+            }
+
+            //check unit
+            if (unit != 1)
+            {
+                return data.Where(d => d.Unit.Where(s=>s.Id == unit).FirstOrDefault() != null ).OrderBy(d => d.JobDate).OrderByDescending(d => d.JobDate);
+            }
+            else
+            {
+                return data.OrderBy(d => d.JobDate).OrderByDescending(d => d.JobDate);
+            }
+        }
+        
 
         #endregion
     }

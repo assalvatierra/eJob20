@@ -21,16 +21,10 @@
     </h3>
     <p>Date: <b>@ViewBag.sDate</b> to <b>@ViewBag.eDate</b></p> 
 </h3>
-<table class="table">
+<table class="table table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.DtPayment)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaymentAmt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.JobMain.Description)
@@ -38,27 +32,52 @@
         <th>
             @Html.DisplayNameFor(model => model.Bank.BankName)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentAmt)
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DtPayment)
-        </td>
-        <td>
-            @string.Format("{0:N}", @item.PaymentAmt )
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobMain.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bank.BankName)
-        </td>
-    </tr>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="10" style="text-align:center;">
+                <span>No Results Found</span>
+            </td>
+        </tr>
+
+       
+    }
+@{  decimal totalAmount = 0;
+    foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtPayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobMain.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bank.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @string.Format("{0:N}", item.PaymentAmt)
+            </td>
+
+        </tr>
+
+            totalAmount += item.PaymentAmt;
+
+        }
 }
+    <tr>
+        <td colspan="4" style="text-align:right;font-weight:bold;">Total Amount </td>
+        <td style="font-weight:bold;">@string.Format("{0:N}", totalAmount)</td>
+    </tr>
 
 </table>

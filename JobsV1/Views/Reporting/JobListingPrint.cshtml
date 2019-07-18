@@ -1,10 +1,7 @@
-﻿
-@model IEnumerable<JobsV1.Controllers.cJobOrder>
-@{
-    ViewBag.Title = "JobListingPrint";
-}
-<table>
+﻿@model IEnumerable<JobsV1.Controllers.cJobOrder>
 
+
+<table>
     <tr>
         <td valign="top">
             <img src="~/Images/LOGO_AJRENTACAR.jpg" width="135" />
@@ -24,14 +21,15 @@
     <div class="row">
 
         <h3>
-            Job Listing
-        </h3>
+            Job Listing Report :
 
+        </h3>
+        <p>Date: <b>@ViewBag.sDate</b> to <b>@ViewBag.eDate</b></p>
         <table class="table table-bordered">
 
             <tr>
                 <th>
-                    From
+                    From2
                 </th>
                 <th>
                     To
@@ -40,12 +38,26 @@
                     Company
                 </th>
                 <th>
-                    Unit/Driver 
+                    Unit/Driver
                 </th>
                 <th>
                     Rate/Payment
                 </th>
             </tr>
+
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="10" style="text-align:center;">
+                        <span>No Results Found</span>
+                    </td>
+                </tr>
+            }
+
+            @{
+                decimal totalAmount = 0;
+                decimal totalPayment = 0;
+            }
 
             @foreach (var item in Model)
             {
@@ -67,7 +79,7 @@
                         @if (@item.Services.FirstOrDefault() != null)
                 {
 
-                            string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd (ddd)");
+                    string s2 = ((DateTime)item.Services.LastOrDefault().Service.DtEnd).ToString("MMM-dd (ddd)");
                             @s2
                         }
                     </td>
@@ -78,10 +90,9 @@
                         <span>/</span>
                         @item.Main.Description
                     </td>
-
                     <td>
                         <span style="font-weight:bold;">
-                            <!-- Job Service List : Display Unit Driver -->
+                            <!-- Job Service List : Display unit and Driver-->
                             @{
                                 var services = item.Services.Where(d => d.Service.JobMainId == item.Main.Id).ToList();
                                 foreach (var service in services)
@@ -97,7 +108,7 @@
                                         {
                                             <text>
                                                 <span style="font-size:13px;">
-                                                    @serviceItem.InvItem.Description.ToString()
+                                                    Unit: @serviceItem.InvItem.ItemCode.ToString() @serviceItem.InvItem.Description.ToString()
                                                 </span>
                                             </text>
                                         }
@@ -105,9 +116,9 @@
                                         if (serviceItem.InvItem.ViewLabel == "DRIVER" || serviceItem.InvItem.ViewLabel == "GUIDE")
                                         {
                                             <text>
-                                                <span>/</span>
-                                                <span>
-                                                    @serviceItem.InvItem.Description.ToString()
+
+                                                <span style="font-size:13px;">
+                                                    Driver: @serviceItem.InvItem.Description.ToString()
                                                 </span>
                                             </text>
                                         }
@@ -116,25 +127,29 @@
                                             <br />
                                         </text>
                                     }
+                                    <text>
+                                        <br />
+                                    </text>
+
                                 }
+
                             }
                         </span>
                     </td>
                     <td>
-
                         @if (@item.Main.AgreedAmt != 0)
-                        {
-                            <span style="color:blue; font: bold 12px arial, verdana;">
+                {
+                            <span class="amount-rate">
                                 @string.Format("{0:N0}", @item.Main.AgreedAmt)
                             </span>
-
+                            totalAmount += item.Main.AgreedAmt != null ? (decimal)item.Main.AgreedAmt : 0;
                         }
 
 
                         @if (@item.Payment != 0)
-                        {
+                {
                             <span>/ </span>
-                            <span style="color:green; font: bold 12px arial, verdana;">
+                            <span class="amount-payment">
                                 @string.Format("{0:N0}", @item.Payment)
                             </span>
                             if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
@@ -144,10 +159,28 @@
                                     <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
                                 </span>
                             }
+
+                            totalPayment += item.Payment;
                         }
                     </td>
                 </tr>
+
+                                }
+            @{
+                var totalCollectible = totalAmount - totalPayment;
+
             }
+            <tr>
+                <td colspan="4" style="text-align:right;"> <b>Total (Rate / Payment): </b> </td>
+                <td>
+                    <span class="amount-rate">@string.Format("{0:N0}", totalAmount)</span> /
+                    <span class="amount-payment"> @string.Format("{0:N0}", totalPayment) </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align:right;"> <b>Total Collectible: </b> </td>
+                <td> <b> @string.Format("{0:N0}", totalCollectible) </b></td>
+            </tr>
         </table>
 
     </div>

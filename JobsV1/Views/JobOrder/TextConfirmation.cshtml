@@ -3,8 +3,19 @@
     ViewBag.Title = "TextConfirmation";
 }
 
-<h2>Text Confirmation</h2>
+<div class="row">
+    <h2>Text Confirmation</h2>
+    <div class="col-lg-4">
+        <h4>For Client</h4>
+        <textarea cols="50" rows="15">
+            @ViewBag.StrData
+        </textarea>
+    </div>
 
-<textarea cols="50" rows="15">
-    @ViewBag.StrData
-</textarea>
+    <div class="col-lg-4">
+        <h4>For Driver</h4>
+        <textarea cols="50" rows="15">
+            @ViewBag.forDriver
+        </textarea>
+    </div>
+</div>

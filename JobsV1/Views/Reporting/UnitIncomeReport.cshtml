@@ -1,5 +1,5 @@
-﻿@{ 
-  
+﻿@{
+    ViewBag.Title = "Unit Income Report";
 }
 
 <div id="joblisting-filter" class="row" style="background-color:#f3f3f3;padding:15px; box-shadow:0px 0px 5px 2px lightgray;min-width:700px; ">    
@@ -15,7 +15,7 @@
         </div>
         <div class="col-lg-3">
             <h5>End Date</h5>
-            <input type="text" class="form-control" value="@ViewBag.eDate" name="endDate" id="endDate" />
+            <input type="text" class="form-control" value="@ViewBag.eDate" name="startDate" id="endDate" />
         </div>
 
         <div class="col-lg-5" style="margin-top:-5px;">
@@ -49,6 +49,25 @@
         </div>
     </div>
 
+    <!-- Unit -->
+    <div class="row col-lg-12">
+        <div class="col-lg-1">
+            <h4>Unit</h4>
+        </div>
+
+        <div class="col-lg-3">
+            <h5>Unit</h5>
+            <select name="unitList" class="form-control" id="unitList" onchange="checkUnitList();">
+                @foreach (var unit in ViewBag.unitList as IEnumerable<JobsV1.Models.InvItem>)
+                {
+                    <option value="@unit.Id">@unit.Description</option>
+                }
+            </select>
+        </div>
+
+    </div>
+
+
     <div class="row col-lg-12">
         <div class="col-lg-1">
             <h4>&nbsp;</h4>
@@ -67,15 +86,17 @@
 </div>
 
 <div class="row" style="border: 1px solid lightgray; padding:20px;margin-top:15px; box-shadow:0px 0px 5px 2px lightgray;min-width:700px; ">
-    @{Html.RenderAction("JobIncome");}
+
+    @{Html.RenderAction("UnitIncome");}
+
 </div>
 
 <!--Required for using datepicker-->
-    <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
-    <script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
 <!--Required for using datepicker-->
 
 <script type="text/javascript" src="~/Scripts/Reporting/JobDate.js"></script>
-<script type="text/javascript" src="~/Scripts/Reporting/JobIncome.js"></script>
+<script type="text/javascript" src="~/Scripts/Reporting/UnitIncome.js"></script>

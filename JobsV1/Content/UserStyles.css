@@ -380,3 +380,12 @@
 }
 
 #DtExpense { z-index:1240;}
+
+
+.amount-payment{
+    color:green; font: bold 12px arial, verdana;
+}
+
+.amount-rate{
+    color:blue; font: bold 12px arial, verdana;
+}

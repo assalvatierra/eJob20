@@ -3,7 +3,7 @@
    <div class="col-lg-3">
        <!-- Package Status Search Filter -->
        <h5>&nbsp; Status</h5>
-       <select class="dropdown" id="status-input" style="font-size:15px;padding:7px;">
+       <select class="dropdown form-control" id="status-input" style="font-size:15px;padding:7px;">
            <option value="all">All</option>
            <option value="ACT">Active</option>
            <option value="INC">Inactive</option>
@@ -13,7 +13,7 @@
     <div class="col-lg-3">
         <!-- Package Search Filter-->
         <h5>&nbsp; Package</h5>
-        <select class="dropdown" id="package-input" style="font-size:15px;padding:7px;">
+        <select class="dropdown form-control" id="package-input" style="font-size:15px;padding:7px;">
             <text>
                 <option value="all">All</option>
             </text>
@@ -30,7 +30,7 @@
     <div class="col-lg-3">
         <!-- Vehicle Search Filter  -->
         <h5>&nbsp; Unit</h5>
-        <select class="dropdown" id="unit-input" style="font-size:15px;padding:7px;">
+        <select class="dropdown form-control" id="unit-input" style="font-size:15px;padding:7px;">
             <text>
                 <option value="all">All</option>
             </text>
@@ -45,7 +45,7 @@
         
     <div class="col-lg-3">        <!-- Group Search Filter -->
         <h5>&nbsp; Group Package : </h5>
-        <select class="dropdown" id="group-input" style="font-size:15px;padding:7px;">
+        <select class="dropdown form-control" id="group-input" style="font-size:15px;padding:7px;">
             <text>
                 <option value="all">All</option>
             </text>
@@ -81,44 +81,7 @@
 
 <script src="~/Scripts/jquery-1.12.4.min.js"> </script>
 <script>
-    /*
-    function Update() {
-        var url_string = window.location.href;
-        var url = new URL(url_string);
-        var unit = url.searchParams.get("unit");
-        $('#unit-input').val(unit);
-        var unit = url.searchParams.get("package");
-        $('#package-input').val(unit);
-    }
 
-
-    $(function () {
-        Update();
-    });
-
-
-    function packageUpdate() {
-        var unitVal = document.getElementById("unit-input").value;
-        var packageVal = document.getElementById("package-input").value;
-
-        var requestString = "/Reporting?";
-        requestString += "reportkey=packages";
-
-        if (unitVal == "") {
-            unitVal = "all";
-        }
-        requestString += "&unit=" + unitVal;
-
-        if (packageVal == "") {
-            packageVal = "all";
-        }
-        requestString += "&package=" + packageVal;
-
-
-        window.location.href = requestString;
-    }
-    
-    */
     function packagePrint() {
         var statusVal = document.getElementById("status-input").value;
         var packageVal = document.getElementById("package-input").value;
