@@ -9,7 +9,7 @@
 
 <p>
     Date: @ViewBag.jobDate.ToString("dd/MMM/yyyy")
-    <br />Description: @ViewBag.jobDesc
+    <br />Description: @ViewBag.jobDesc - @ViewBag.jobstatus
     <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobMainId }, null)
     | @Html.ActionLink("Details", "Details", "JobMains", new { id = ViewBag.JobMainId }, null)
 </p>
@@ -191,7 +191,7 @@
 
                 @if (ViewBag.jobstatus != "CLOSED")
                 {
-                    <button class="btn btn-primary" id="PostBtn" onclick="CloseJob(@ViewBag.JobMainId )"> Close Job </button>
+                    <button class="btn btn-primary" id="PostBtn" onclick="CloseReloadJob(@ViewBag.JobMainId )"> Close Job </button>
                 }
             </div>
             <div id="Post-and-close">
@@ -299,7 +299,7 @@
         var others = $("#othersIncome").val() ;
         var remarks = $("#remarksIncome").val();
 
-        console.log("remarks: " + remarks);
+        //console.log("remarks: " + remarks);
         //build json object
 
         var data = {
@@ -331,12 +331,7 @@
     }
 
     
-    /**
-      * Expense.js
-      * Perform Add, Edit and Remove functions
-      * using modal.
-      */
-    //Add Expense
+    //Close Job
     function CloseJob(jobId) {
 
         var data = {
@@ -360,13 +355,8 @@
         });
     }
     
-    /**
-      * Expense.js
-      * Perform Add, Edit and Remove functions
-      * using modal.
-      */
     //Add Expense
-    function CloseJob(jobId) {
+    function CloseReloadJob(jobId) {
 
         var data = {
             jobId: jobId
@@ -531,12 +521,14 @@
         if(validatePosted()){
             console.log("Check posted ok");
             if(postType == 'PostOrClose'){
+                console.log(postType);
                 PostJob(jobId,payment,expenses,income);
                 location.reload();
             }else if(postType == 'PostAndClose'){
+                console.log(postType);
                 PostJob(jobId,payment,expenses,income);
-                CloseJob(jobId);
-                location.reload();
+                CloseReloadJob(jobId);
+                //location.reload();
             }
         }else{
             console.log("Check posted not valid");
