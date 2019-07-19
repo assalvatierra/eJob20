@@ -52,7 +52,7 @@ function InitDatePicker()
         timePickerIncrement: 1,
         singleDatePicker: true,
         showDropdowns: true,
-        locale: {
+        locale: { 
             format: 'MM / DD / YYYY'
         }
 

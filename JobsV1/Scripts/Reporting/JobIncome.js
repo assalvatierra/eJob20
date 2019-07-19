@@ -17,13 +17,9 @@ function Update() {
     //url param
     var date1 = url.searchParams.get("sDate") != null ? url.searchParams.get("sDate") : getToday();
     var date2 = url.searchParams.get("eDate") != null ? url.searchParams.get("eDate") : getToday();
-    var unit = url.searchParams.get("unit");
-    var unitDriver = url.searchParams.get("group");
 
-    $('#startDate').val(date1);
-    $('#endDate').val(date2);
-    //$('#company-input').val(company);
-    //$('#unitDriverInput').val(unitDriver);
+    $('#startDate').val(moment(date1).format("MM / DD / YYYY"));
+    $('#endDate').val(moment(date2).format("MM / DD / YYYY"));
 }
 
 function setPrev30() {
@@ -35,7 +31,6 @@ function setPrev30() {
 
     $("#startDate").val(pastDate);
     $("#endDate").val(today);
-
 
 }
 
@@ -73,7 +68,6 @@ function reportUpdate() {
     }
 
     window.location.href = requestString;
-    //window.location.href = "/Reporting/Index/" + idVal + "&sDate=" + sDateVal + "&sDate=" + eDateVal;
 }
 
 function reportPrint() {
@@ -89,9 +83,7 @@ function reportPrint() {
         requestString = requestString + "sDate=" + sDateVal + "&eDate=" + eDateVal;
     }
 
-
     window.location.href = requestString;
-    //window.location.href = "/Reporting/Index/" + idVal + "&sDate=" + sDateVal + "&sDate=" + eDateVal;
 }
 
 function generateMonthList() {
@@ -114,9 +106,6 @@ function generateYearList() {
         yearArr.push(yearTemp);
     }
 
-    //get list of years 5 years before
-    //console.log(yearArr);
-
     var ddl = $("#yearlist");
 
     for (k = 0; k < yearArr.length; k++)
@@ -124,19 +113,17 @@ function generateYearList() {
 }
 
 function setCurrentMonthYear() {
-    setCurrentMonth();
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    var startDate = moment(firstDay).format("MM / DD / YYYY");
+    var endDate = moment(lastDay).format("MM / DD / YYYY");
+
+    $("#startDate").val(startDate);
+    $("#endDate").val(endDate);
 }
 
-function setCurrentMonth() {
-    var getYear = moment().format("YYYY");
-    var getMonth = moment().format("M");
-    console.log(getMonth);
-
-    $("#monthlist").val(getMonth);
-    $("#yearlist").val(getYear);
-
-
-}
 
 function setCurrentEndDate() {
     var getYear = moment().format("YYYY");
@@ -145,8 +132,6 @@ function setCurrentEndDate() {
     //set Year
     var curStartDate = moment($("#enddate").val()).format("YYYY-MM-DD"); //get stardate value
     var tempDate = moment(curStartDate).year(getYear).format("YYYY-MM-DD");
-
-    //console.log(moment(curStartDate).month(getMonth));
 
     //set month
     var tempDate = moment(curStartDate).month(getMonth - 1).format("MM / DD / YYYY");
@@ -159,14 +144,11 @@ function setMonthYear() {
     var getYear = $("#yearlist").val();
     var getMonth = $("#monthlist").val();
 
-    //console.log(getYear);
-
     //set Year
     var curStartDate = moment($("#startDate").val()).format("YYYY-MM-DD"); //get stardate value
     var tempDate = moment(curStartDate).year(getYear).format("YYYY-MM-DD");
 
     console.log(tempDate);
-    //console.log(moment(curStartDate).month(getMonth));
 
     //set month
     var tempDate = moment(tempDate).month(getMonth - 1).format("YYYY-MM-DD");

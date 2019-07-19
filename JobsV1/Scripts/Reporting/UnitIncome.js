@@ -17,10 +17,13 @@ function Update() {
     //url param
     var date1 = url.searchParams.get("sDate") != null ? url.searchParams.get("sDate") : getToday();
     var date2 = url.searchParams.get("eDate") != null ? url.searchParams.get("eDate") : getToday();
-    var unit  = url.searchParams.get("unit")  != null ? url.searchParams.get("unit")  : 1  ;
+    var unit  = url.searchParams.get("unit")  != null ? url.searchParams.get("unit")  : 0  ;
 
-    $('#startDate').val(date1);
-    $('#endDate').val(date2);
+    var startDate = moment(date1).format("MM / DD / YYYY");
+    var endDate = moment(date2).format("MM / DD / YYYY");
+
+    $('#startDate').val(startDate);
+    $('#endDate').val(endDate);
     $('#unitList').val(unit);
 }
 
@@ -102,7 +105,7 @@ function reportPrint() {
     if (unit != "") {
         requestString = requestString + "&unit=" + unit;
     } else {
-        requestString = requestString + "&unit=1" ;
+        requestString = requestString + "&unit=0" ;
 
     }
 
@@ -139,8 +142,18 @@ function generateYearList() {
         ddl.append("<option value='" + yearArr[k] + "'>" + yearArr[k] + "</option>");
 }
 
+//set the start date and end date 1-30/31
 function setCurrentMonthYear() {
-    setCurrentMonth();
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    var startDate = moment(firstDay).format("MM / DD / YYYY");
+    var endDate = moment(lastDay).format("MM / DD / YYYY");
+
+    $("#startDate").val(startDate);
+    $("#endDate").val(endDate);
+
 }
 
 function setCurrentMonth() {
