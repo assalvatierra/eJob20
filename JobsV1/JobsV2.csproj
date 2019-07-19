@@ -2070,6 +2070,7 @@
     <Content Include="Views\Reporting\UnitIncome.cshtml" />
     <Content Include="Views\Reporting\JobIncomePrint.cshtml" />
     <Content Include="Views\Reporting\UnitIncomePrint.cshtml" />
+    <Content Include="Views\JobOrder\BrowseTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

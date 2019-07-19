@@ -1,0 +1,55 @@
+﻿@model IEnumerable<JobsV1.Models.JobMain>
+
+@{
+    ViewBag.Title = "BrowseTemplate";
+}
+
+<h2>BrowseTemplate</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JobDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoOfPax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoOfDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobRemarks)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoOfPax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoOfDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobRemarks)
+        </td>
+        <td>
+            @Html.ActionLink("SELECT", "SelectTemplate", new { JobMainId = ViewBag.JobMainId , TemplateId = item.Id }, new { @class="btn btn-default" })
+        </td>
+    </tr>
+}
+
+</table>

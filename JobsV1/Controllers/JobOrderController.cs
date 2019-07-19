@@ -2653,5 +2653,45 @@ order by x.jobid
 
 
         #endregion
+
+        #region Templates
+        
+
+        public ActionResult BrowseTemplate(int? JobMainId)
+        {
+            //get list of jobs with status TEMPLATE
+            var jobTemplates = db.JobMains.Where(j => j.JobStatus.Status == "TEMPLATE").ToList();
+
+            ViewBag.JobMainId = JobMainId != null ? (int)JobMainId : 0;
+            
+            return View(jobTemplates);
+        }
+
+
+        public ActionResult SelectTemplate(int JobMainId, int TemplateId)
+        {
+            //get template services
+            var templateSvc = db.JobServices.Where(s=>s.JobMainId == TemplateId).ToList();
+
+            //get current job
+            var currentJob = db.JobMains.Find(JobMainId);
+
+            //copy services from template to current job
+            foreach (var svc in templateSvc)
+            {
+                JobServices tempsvc = new JobServices();
+                tempsvc = svc;
+                tempsvc.JobMainId = JobMainId;
+
+                //save new service
+                db.JobServices.Add(tempsvc);
+                db.SaveChanges();
+
+            }
+
+            return RedirectToAction("JobServices" , "JobOrder", new { JobMainId = JobMainId } );
+        }
+
+        #endregion
     }
 }
