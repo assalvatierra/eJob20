@@ -92,7 +92,7 @@
                 <!--Desription-->
                 <span style="color:black">
                     <span >
-                        @item.Main.JobDate.ToShortDateString() -
+                        @item.Main.JobDate.ToShortDateString("MMM DD YYYY")  -
                     </span>
                     <span >
                         @item.Company
@@ -140,7 +140,10 @@
                 else
                 {
                     <text>
-                        Unposted
+                <span class="list-inline">
+                    <img src="~/Images/Erp/icons/icons-error.png" width="20" />
+                    <span>Unposted</span>
+                </span>
                     </text>
                 }
             </td>

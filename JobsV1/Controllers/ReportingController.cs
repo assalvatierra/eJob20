@@ -538,12 +538,6 @@ order by x.jobid
                 }
 
                 joTmp.PostedIncome = cIncome;
-                //joTmp.Payment = latestPosted != null ? latestPosted.PaymentAmt : 0;
-
-                //joTmp.PostedIncome = cIncome;
-                //joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
-
-                //joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
 
                 List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
                 foreach (var payment in jobPayment)
@@ -554,7 +548,7 @@ order by x.jobid
                 data.Add(joTmp);
 
             }
-            return data.OrderBy(d => d.Main.JobDate).OrderByDescending(d => d.Main.JobDate);
+            return data.OrderBy(d => d.Main.JobDate).OrderBy(d => d.Main.JobDate);
         }
 
         #endregion
@@ -592,12 +586,12 @@ order by x.jobid
 
         public PartialViewResult UnitIncomeReport()
         {
-
+                                            
             DateClass localTime = new DateClass();
             ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1);
             ViewBag.eDate = localTime.GetCurrentDate();
 
-            ViewBag.unitList = db.InvItems.ToList();
+            ViewBag.unitList = db.InvItems.ToList().OrderBy(u=>u.OrderNo);
 
             return PartialView();
         }
@@ -621,9 +615,10 @@ order by x.jobid
             today = localTime.GetCurrentDate();
 
             cUnitList unitSearch = new cUnitList();
-            unitSearch.Id = unit;
-            unitSearch.Unit = db.InvItems.Find(unit).Description;
-
+            if (unit != 0) { 
+                unitSearch.Id = unit;
+                unitSearch.Unit = db.InvItems.Find(unit).Description;
+            }
             foreach (var main in jobMains)
             {
                 cjobUnitIncome joTmp = new cjobUnitIncome();
@@ -697,13 +692,13 @@ order by x.jobid
             }
 
             //check unit
-            if (unit != 1)
+            if (unit != 0)
             {
-                return data.Where(d => d.Unit.Where(s=>s.Id == unit).FirstOrDefault() != null ).OrderBy(d => d.JobDate).OrderByDescending(d => d.JobDate);
+                return data.Where(d => d.Unit.Where(s=>s.Id == unit).FirstOrDefault() != null ).OrderBy(d => d.JobDate).OrderBy(d => d.JobDate);
             }
             else
             {
-                return data.OrderBy(d => d.JobDate).OrderByDescending(d => d.JobDate);
+                return data.OrderBy(d => d.JobDate).OrderBy(d => d.JobDate);
             }
         }
         
