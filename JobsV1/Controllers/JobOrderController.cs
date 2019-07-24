@@ -1104,7 +1104,8 @@ order by x.jobid
             job.JobDate = today.GetCurrentDateTime().AddDays(1);
             job.NoOfDays = 1;
             job.NoOfPax = 1;
-            
+            job.AgreedAmt = 0;
+
             if (id == null)
             {
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", NewCustSysId);
@@ -1454,12 +1455,11 @@ order by x.jobid
                 db.JobServiceItems.RemoveRange(jobitems);
                 db.SaveChanges();
             }
-
-
+            
             db.JobServices.Remove(jobServices);
             db.SaveChanges();
 
-            return RedirectToAction("Index", "JobOrder", new { mainid = jobServices.JobMainId});
+            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobServices.JobMainId});
         }
 
         public ActionResult notify() {
@@ -1830,6 +1830,8 @@ order by x.jobid
                     return "Cristel Mae Verano";
                 case "ramil.realbreeze@gmail.com":
                     return "Ramil Villahermosa";
+                case "grace.realbreeze@gmail.com":
+                    return "Grace-chell V. Capandac";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
                 default:
@@ -1847,6 +1849,8 @@ order by x.jobid
                     return "/Images/Signature/MaeSign.jpg";
                 case "ramil.realbreeze@gmail.com":
                     return "/Images/Signature/RamSign.jpg";
+                case "grace.realbreeze@gmail.com":
+                    return "/Images/Signature/GraceSign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 default:
@@ -1922,18 +1926,18 @@ order by x.jobid
             Models.JobServiceItem svcpu;
             Models.JobMain jobmain = db.JobMains.Find(id);
             var svc = db.JobServices.Where(j=>j.JobMainId == id).ToList();
-            string custName = jobmain.Customer.Name;
+            string custName = jobmain.Branch.Name;
             int pickupCount = 0;
 
             switch (custName)
             {
-                case "Real Breeze Davao":
+                case "Realbreeze":
                     custName = "Real Breeze Travel & Tours";
                     break;
-                case "AJ88 Car Rental":
+                case "AJ88":
                     custName = "AJ88 Car Rental";
                     break;
-                case "RealWheels Car Rental Davao":
+                case "RealWheels":
                     custName = "RealWheels Car Rental Davao";
                     break;
                 default:
@@ -1948,9 +1952,9 @@ order by x.jobid
             else
             {
                 Decimal quote = (jobmain.AgreedAmt == null ? 0 : (decimal)jobmain.AgreedAmt);
-                sData += "\n" + custName;
                 sData += "\n\nGuest:" + jobmain.Description + " " + getCustomerCompany(jobmain.Id);
                 sData += "\nContact:" + jobmain.CustContactNumber;
+                sData += "\n---------------";
 
                 foreach (var svi in svc)
                 {
@@ -1962,22 +1966,23 @@ order by x.jobid
                     sData += "\nRate:P" + quoted.ToString("##,###.00");
                     //totalAmount += (decimal)svi.QuotedAmt;
                     totalAmount += quoted;
-
-
+                    
                     //check pickup details
                     if (svi.JobServicePickups.Count != 0)
                     {
                         foreach (var jobPickup in svi.JobServicePickups)
                         {
                             //Pickup Details
-                            sData += "\n\nPickup Details: " ;
-                            sData += "\nDate: " + jobPickup.JsDate.ToShortDateString();
-                            sData += "\nTime: " + jobPickup.JsTime;
+                            sData += "\nPickup: ";
+                            sData += " " + jobPickup.JsTime ;
+                            sData += " " + jobPickup.JsDate.ToString("MMM dd yyyy");
                             sData += "\nLocation: " + jobPickup.JsLocation;
                             sData += "\nDriver: " + getDriverDetails(svi.Id);
                             pickupCount++;
                         }
                     }
+
+                    sData += "\n---------------";
                 }
 
                 if(pickupCount == 0) { 
@@ -1994,7 +1999,8 @@ order by x.jobid
                 sData += "\nRemarks:" ;
                 sData += "  " + jobmain.JobRemarks;
                 sData += "\nNo.Pax:  " + jobmain.NoOfPax;
-                sData += "\n\n Thank you and have a nice day.\n" ;
+                sData += "\n\n Thank you and have a nice day.\n";
+                sData += "\n" + custName;
             }
 
             ViewBag.StrData = sData;
@@ -2042,15 +2048,15 @@ order by x.jobid
             else
             {
                 Decimal quote = (jobmain.AgreedAmt == null ? 0 : (decimal)jobmain.AgreedAmt);
-                sData += "\n" + custName;
                 sData += "\n\nGuest:" + jobmain.Description + " " + getCustomerCompany(jobmain.Id);
                 sData += "\nContact:" + jobmain.CustContactNumber;
+                sData += "\n---------------";
 
                 foreach (var svi in svc)
                 {
 
                     decimal quoted = svi.QuotedAmt != null ? (decimal)svi.QuotedAmt : 0;
-                    sData += "\n\nDate:" + ((DateTime)svi.DtStart).ToString("dd MMM yyyy (ddd)") + " - " + ((DateTime)svi.DtEnd).ToString("dd MMM yyyy (ddd)");
+                    sData += "\n\nDate:" + ((DateTime)svi.DtStart).ToString("MMM dd yyyy (ddd)") + " - " + ((DateTime)svi.DtEnd).ToString("MMM dd yyyy (ddd)");
                     sData += "\nDescription:" + svi.Particulars;
                     sData += "\nVehicle:" + svi.SupplierItem.Description;
 
@@ -2066,9 +2072,9 @@ order by x.jobid
                         {
                             if (jobPickup != null) { 
                                 //Pickup Details
-                                sData += "\n\nPickup Details: ";
-                                sData += "\nDate: " + jobPickup.JsDate.ToShortDateString();
-                                sData += "\nTime: " + jobPickup.JsTime;
+                                sData += "\nPickup: ";
+                                sData += " " + jobPickup.JsTime;
+                                sData += " " + jobPickup.JsDate.ToString(" MMM dd yyyy");
                                 sData += "\nLocation: " + jobPickup.JsLocation;
                                 sData += "\nClient: " + jobPickup.ClientName + " / " + jobPickup.ClientContact;
                                 sData += "\nDriver: " + getDriverDetails(svi.Id);
@@ -2077,6 +2083,7 @@ order by x.jobid
                             pickupCount++;
                         }//end of foreach
                     }
+                    sData += "\n---------------";
                 }
 
                 if (pickupCount == 0)
@@ -2095,9 +2102,10 @@ order by x.jobid
                 sData += "  " + jobmain.JobRemarks;
                 sData += "\nNo.Pax:  " + jobmain.NoOfPax;
                 sData += "\n\n Thank you and have a nice day.\n";
+                sData += "\n" + custName;
             }
 
-           return sData;
+            return sData;
 
         }
 
@@ -2656,7 +2664,6 @@ order by x.jobid
 
         #region Templates
         
-
         public ActionResult BrowseTemplate(int? JobMainId)
         {
             //get list of jobs with status TEMPLATE
@@ -2679,6 +2686,7 @@ order by x.jobid
             //copy services from template to current job
             foreach (var svc in templateSvc)
             {
+                //copy job service
                 JobServices tempsvc = new JobServices();
                 tempsvc = svc;
                 tempsvc.JobMainId = JobMainId;
@@ -2687,8 +2695,41 @@ order by x.jobid
                 db.JobServices.Add(tempsvc);
                 db.SaveChanges();
 
+                //get last job service
+                var lastsvcId = db.JobServices.LastOrDefault().Id;
+
+                //copy job itineraries
+                var itineraries = db.JobItineraries.Where(s => s.SvcId == svc.Id).ToList();
+                foreach (var items in itineraries)
+                {
+                    //copy job service
+                    JobItinerary itinerary = new JobItinerary();
+                    itinerary = items;
+                    itinerary.JobMainId = JobMainId;
+                    itinerary.SvcId = lastsvcId; //?
+
+                    //save new service
+                    db.JobItineraries.Add(itinerary);
+                    db.SaveChanges();
+                }
             }
 
+
+            //copy job notes
+            var jobnotes = db.JobNotes.Where(s => s.JobMainId == TemplateId).ToList();
+            foreach (var items in jobnotes)
+            {
+                //copy job service
+                JobNote tempNote = new JobNote();
+                tempNote = items;
+                tempNote.JobMainId = JobMainId;
+
+
+                //save new service
+                db.JobNotes.Add(tempNote);
+                db.SaveChanges();
+
+            }
             return RedirectToAction("JobServices" , "JobOrder", new { JobMainId = JobMainId } );
         }
 
