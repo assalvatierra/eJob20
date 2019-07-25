@@ -228,13 +228,99 @@ namespace JobsV1.Controllers
             foreach (var recipient in FinalRecipients)
             {
                 string status = eb.SendMailBlaster(recipient.Email, emailTitle, emailBody, emailPicture, emailAttachmentLink,company);
-                logId = LogEmailBlastResult(recipient.id, recipient.Email, status);
+                logId         = LogEmailBlastResult(recipient.id, recipient.Email, status);
                 blastReportId = BlastRecord(logId, id, blastReportId);
             }
 
             //display result
             return RedirectToAction("BlastResult", new { reportId = blastReportId , sDate = "today", eDate = "today"});
             
+        }
+
+        public string EmailBlastSingle(int custId, int templateId ) {
+
+            int blastReportId = getPrevBlastRecord();
+            var customer = db.Customers.Find(custId);
+            var blasterTemp = db.EmailBlasterTemplates.Find(templateId);
+            
+            string status = eb.SendMailBlaster(customer.Email, blasterTemp.EmailTitle,
+                blasterTemp.EmailBody, blasterTemp.ContentPicture, blasterTemp.AttachmentLink, blasterTemp.Company);
+            var logId = LogEmailBlastResult(customer.Id, customer.Email, status);
+            blastReportId = BlastRecord(logId, templateId, blastReportId);
+
+            return "200";
+        }
+
+
+        //get list of cutomers
+        public ActionResult EmailBlastList(int id)
+        {
+            //get email parameters using id
+            var emailTemplate = db.EmailBlasterTemplates.Find(id);
+            string recipientFilter = emailTemplate.RecipientsCategory;
+            string emailFilter = emailTemplate.EmailCategory;
+
+            //create Email Content
+            string emailTitle = emailTemplate.EmailTitle;
+            string emailBody = emailTemplate.EmailBody;
+            string emailPicture = emailTemplate.ContentPicture;
+            string emailAttachmentLink = emailTemplate.AttachmentLink;
+            string company = emailTemplate.Company;
+
+            //get recipients list from customer's table then filter
+            var recipients = db.Customers.Where(c => c.Status == "ACT").ToList();
+
+            List<BlasterRecipients> blasterRecipients = new List<BlasterRecipients>();
+            int count = 0;
+            foreach (var recipient in recipients)
+            {
+                //get categories of recipients
+                if (recipient.CustCats != null)
+                {
+
+                    var recipientCategories = recipient.CustCats.Where(r => r.CustomerId == recipient.Id).ToList();
+
+
+                    //get categories
+                    List<String> categoryList = new List<String>();
+                    foreach (var category in recipientCategories)
+                    {
+                        categoryList.Add(category.CustCategory.Name);
+                    }
+
+                    //build recipient list for filter
+                    blasterRecipients.Add(new BlasterRecipients
+                    {
+                        id = recipient.Id,
+                        Name = recipient.Name,
+                        Email = recipient.Email,
+                        Category = categoryList
+                    });
+
+                }//end if
+            }
+
+            //Filter out recipients with matching the user categories
+            var FinalRecipients = blasterRecipients.Where(b => b.Category.Contains(emailFilter) || b.Category.Contains(recipientFilter)).ToList();
+
+            ////send one by one, get status of each email and log
+            //int logId = 1;
+            //int blastReportId = getPrevBlastRecord();
+
+            //foreach (var recipient in FinalRecipients)
+            //{
+            //    string status = eb.SendMailBlaster(recipient.Email, emailTitle, emailBody, emailPicture, emailAttachmentLink, company);
+            //    logId = LogEmailBlastResult(recipient.id, recipient.Email, status);
+            //    blastReportId = BlastRecord(logId, id, blastReportId);
+            //}
+
+            //display result
+            //return RedirectToAction("BlastResult", new { reportId = blastReportId, sDate = "today", eDate = "today" });
+
+
+            ViewBag.templateId = id;
+            return View(FinalRecipients);
+
         }
 
         //Save log of blast in the server
