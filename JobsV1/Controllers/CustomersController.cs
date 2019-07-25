@@ -32,7 +32,7 @@ namespace JobsV1.Controllers
 
             ViewBag.status = status;
 
-            return View(customerDetailList);
+            return View(customerDetailList.OrderBy(s=>s.JobID));
         }
         
         // GET: Customers/Details/5

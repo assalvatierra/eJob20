@@ -1,0 +1,124 @@
+﻿@model IEnumerable<JobsV1.Controllers.BlasterRecipients>
+
+@{
+    ViewBag.Title = "EmailBlastList";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>EmailBlastList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Send All", "SendEmailBlast", new { id = ViewBag.templateId })
+    <buton class="btn btn-default" onclick="createcodes();"> Check </buton>
+</p>
+<table class="table" id="table-emailList">
+    <tr>
+        <th> Send </th>
+        <th> Id </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reportId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr class="emailList">
+        <td>
+            <input type="checkbox" checked>
+        </td>
+        <td class="emailId">
+            @item.id
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.reportId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+</table>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+  
+    //Create email sending which loops through the list of emails,
+    //user can delete email from the list
+    //display status of email on one column (loading and check mark / icon)
+    $(document).ready(function () {
+
+    });
+
+    function checkedCustomer() {
+
+        //console.log("check top");
+        //$("#table-emailList tr").each(function () {
+        //    var q1 = $(row).find("td.emailId").val();
+        //    console.log(q1);
+        //});
+
+        $("#table-emailList tr").each(function () {
+            var currentRow = $(this);
+
+            var col2_value = currentRow.find("td.emailId").text();
+
+            console.log(col2_value);
+        });
+    }
+
+    function createcodes() {
+
+        //run through each row
+        $('#table-emailList tr').each(function (i, row) {
+
+            // reference all the stuff you need first
+            var row = $(row);
+            var emailid = row.find('.emailId').text();
+
+            console.log(emailid);
+        });
+    }
+
+
+    function sendSingleBlast(Id,TempId) {
+        //build json object 
+        var data = {
+            custId: Id,
+            TemplateId : TempId
+        };
+
+        var url = '/EmailBlaster/EmailBlastSingle?';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+</script>

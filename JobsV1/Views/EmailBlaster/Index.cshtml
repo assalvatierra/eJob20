@@ -49,9 +49,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ContentPicture)
+
+            <img src="@item.ContentPicture" width="50px" />
         </td>
         <td>
-            @Html.ActionLink("Send", "SendEmailBlast", new { id = item.Id }, new { @class="btn btn-default", @onclick= "LoadOverlay()" }) 
+            @*@Html.ActionLink("Send", "SendEmailBlast", new { id = item.Id }, new { @class="btn btn-default", @onclick= "LoadOverlay()" })*@ 
+            @Html.ActionLink("Recipient List", "EmailBlastList", new { id = item.Id }, new { @class = "btn btn-default"})
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
@@ -60,13 +63,10 @@
         </td>
     </tr>
 }
-
 </table>
 
 <script>
-
     function LoadOverlay() {
         $("#overlay2").css("display", "flex");
     }
-
 </script>

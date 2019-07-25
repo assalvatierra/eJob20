@@ -314,6 +314,8 @@ namespace JobsV1.Controllers
                     return "Cristel Mae Verano";
                 case "ramil.realbreeze@gmail.com":
                     return "Ramil Villahermosa";
+                case "grace.realbreeze@gmail.com":
+                    return "Grace-chell V. Capandac";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
                 default:
@@ -331,6 +333,8 @@ namespace JobsV1.Controllers
                     return "/Images/Signature/MaeSign.jpg";
                 case "ramil.realbreeze@gmail.com":
                     return "/Images/Signature/RamSign.jpg";
+                case "grace.realbreeze@gmail.com":
+                    return "/Images/Signature/GraceSign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 default:
@@ -869,8 +873,6 @@ namespace JobsV1.Controllers
         }
 
         #region Job Notes
-
-
         public ActionResult JobNotes(int? id)
         {
             var Job = db.JobMains.Where(d => d.Id == id).FirstOrDefault();
@@ -889,7 +891,6 @@ namespace JobsV1.Controllers
 
             return RedirectToAction("JobNotes", "JobMains", new { id = jobId });
         }
-
 
         public ActionResult CreateJobNote(int? id)
         {
