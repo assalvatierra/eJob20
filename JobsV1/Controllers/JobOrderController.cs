@@ -1905,8 +1905,7 @@ order by x.jobid
                 foreach (var svi in svc.JobServiceItems ) {
                    sData += "\n" + svi.InvItem.Description + " (" + svi.InvItem.ItemCode + ") / " + svi.InvItem.ContactInfo;
                 }
-
-
+                
                 sData += "\n  ";
                 sData += "\nRate:P" + quote.ToString("##,###.00");
                 sData += "\nParticulars:" + svc.Particulars;
@@ -1944,7 +1943,6 @@ order by x.jobid
                     custName = "Real Breeze Travel & Tours";
                     break;
             }
-
             if (svc.FirstOrDefault() == null)
             {
                 sData += "\nServices: undefined ";
@@ -2663,7 +2661,6 @@ order by x.jobid
         #endregion
 
         #region Templates
-        
         public ActionResult BrowseTemplate(int? JobMainId)
         {
             //get list of jobs with status TEMPLATE
@@ -2673,15 +2670,12 @@ order by x.jobid
             
             return View(jobTemplates);
         }
-
-
+        
         public ActionResult SelectTemplate(int JobMainId, int TemplateId)
         {
             //get template services
             var templateSvc = db.JobServices.Where(s=>s.JobMainId == TemplateId).ToList();
 
-            //get current job
-            var currentJob = db.JobMains.Find(JobMainId);
 
             //copy services from template to current job
             foreach (var svc in templateSvc)
@@ -2694,26 +2688,29 @@ order by x.jobid
                 //save new service
                 db.JobServices.Add(tempsvc);
                 db.SaveChanges();
-
-                //get last job service
-                var lastsvcId = db.JobServices.LastOrDefault().Id;
-
-                //copy job itineraries
-                var itineraries = db.JobItineraries.Where(s => s.SvcId == svc.Id).ToList();
-                foreach (var items in itineraries)
-                {
-                    //copy job service
-                    JobItinerary itinerary = new JobItinerary();
-                    itinerary = items;
-                    itinerary.JobMainId = JobMainId;
-                    itinerary.SvcId = lastsvcId; //?
-
-                    //save new service
-                    db.JobItineraries.Add(itinerary);
-                    db.SaveChanges();
-                }
             }
 
+            //get last job service
+            int tempId = db.JobServices.Where(s=>s.JobMainId == JobMainId).FirstOrDefault().Id;
+                foreach (var svc in templateSvc)
+                {
+                    //copy job itineraries
+                    var itineraries = db.JobItineraries.Where(s => s.SvcId == svc.Id).ToList();
+                
+                    foreach (var items in itineraries)
+                    {
+                        //copy job service
+                        JobItinerary itinerary = new JobItinerary();
+                        itinerary = items;
+                        itinerary.JobMainId = JobMainId;
+                        itinerary.SvcId = tempId; //? 
+                    
+                        //save new service
+                        db.JobItineraries.Add(itinerary);
+                    }
+                }
+            
+            //db.SaveChanges();
 
             //copy job notes
             var jobnotes = db.JobNotes.Where(s => s.JobMainId == TemplateId).ToList();
@@ -2723,15 +2720,54 @@ order by x.jobid
                 JobNote tempNote = new JobNote();
                 tempNote = items;
                 tempNote.JobMainId = JobMainId;
-
-
+                tempNote.Note += " - " + tempId;
                 //save new service
                 db.JobNotes.Add(tempNote);
-                db.SaveChanges();
 
             }
-            return RedirectToAction("JobServices" , "JobOrder", new { JobMainId = JobMainId } );
+            db.SaveChanges();
+
+            //setItineraries();
+
+            return RedirectToAction("setItineraries", "JobOrder", new { JobMainId = JobMainId , TemplateId = TemplateId } );
         }
+
+        public ActionResult setItineraries(int JobMainId, int TemplateId)
+        {
+            //get template services
+            var templateSvc = db.JobServices.Where(s => s.JobMainId == TemplateId).ToList();
+
+            //get last job service
+            int tempId = db.JobServices.Where(s => s.JobMainId == JobMainId).FirstOrDefault().Id;
+            foreach (var svc in templateSvc)
+            {
+                //copy job itineraries
+                var itineraries = db.JobItineraries.Where(s => s.SvcId == svc.Id).ToList();
+
+                foreach (var items in itineraries)
+                {
+                    //copy job service
+                    JobItinerary itinerary = new JobItinerary();
+                    itinerary = items;
+                    itinerary.JobMainId = JobMainId;
+                    itinerary.SvcId = tempId; //? 
+
+                    //save new service
+                    db.JobItineraries.Add(itinerary);
+                    db.SaveChanges();
+                }
+                tempId++;
+            }
+
+            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = JobMainId });
+            //return RedirectToAction("JobServices", "JobOrder", new { JobMainId = JobMainId });
+        }
+
+        public void setUnassignedUnit(int svcId)
+        {
+
+        }
+        
 
         #endregion
     }

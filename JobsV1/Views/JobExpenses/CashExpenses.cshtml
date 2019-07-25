@@ -157,8 +157,8 @@
             <h3>Summary</h3>
             <h3> Payments:  @ViewBag.totalPayment.ToString("#,###.00") </h3>
             <h3> Expenses:  @ViewBag.totalExpenses.ToString("#,###.00") </h3>
-            <h3> Revenue: &nbsp;@ViewBag.totalBalance.ToString("#,###.00") </h3>
-
+            <h3> Revenue: &nbsp;@ViewBag.totalBalance.ToString("#,###.00")  </h3>
+           <span class="hidden" id="RevenueAmt">@ViewBag.totalBalance</span>
     </div>
 </div>
 
@@ -167,11 +167,11 @@
     <div class="container">
         <div class="col-lg-3">
             <h4> Car Rental </h4>
-            <input id="carRentalIncome" type="number" class="form-control" style="width:150px;" value="0"  oninput="validatePosted();" onkeypress="validate(event)" />
+            <input id="carRentalIncome" type="number" class="form-control" style="width:150px;" value="0"  oninput="validatePosted();calcCarIncome();" onkeypress="validate(event)" />
         </div>
         <div class="col-lg-3">
             <h4> Tour </h4>
-            <input id="tourIncome" type="number" class="form-control" style="width:150px;" value="0" oninput="validatePosted();" onkeypress="validate(event)" />
+            <input id="tourIncome" type="number" class="form-control" style="width:150px;" value="0" oninput="validatePosted();calcTour();" onkeypress="validate(event)" />
         </div>
         <div class="col-lg-3">
             <h4> Others </h4>
@@ -283,6 +283,19 @@
 
     $(document).ready(new function(){
         validatePosted();
+
+        var totalIncome;
+        var revenue = $("#RevenueAmt").text();  
+        //console.log("revenue: "+revenue);
+        
+        var revenue = $("#RevenueAmt").text();  
+
+        if( $("#carRentalIncome").val() == 0){
+            $("#carRentalIncome").val(revenue);
+        }
+
+        calcCarIncome();
+        calcTour();
         $("#posting-warning-msg").hide();
         $("#Post-and-close").hide();
     });
@@ -437,6 +450,7 @@
             isValid = false;
         }
 
+
         return isValid;
     }
 
@@ -550,4 +564,42 @@
         }
     });
 
+
+    function calcCarIncome(){
+        console.log("--- Calculate ---");
+
+        var totalIncome;
+        var revenue = $("#RevenueAmt").text();  
+
+        //if( $("#carRentalIncome").val() == 0){
+        //    $("#carRentalIncome").val(revenue);
+        //}
+
+        var carIncome = $("#carRentalIncome").val();
+        //console.log("carRentalIncome: "+carIncome);
+        totalIncome = carIncome;
+        
+        //console.log(totalIncome + " != " + revenue);
+
+        if( totalIncome != revenue ){
+            var tempTour = revenue - carIncome;
+            //console.log("tempTour:" + tempTour);
+            $("#tourIncome").val(tempTour);
+        }else{
+            $("#tourIncome").val(0);
+        }
+
+    }
+
+    function calcTour(){
+        var totalIncome;
+        var revenue = $("#RevenueAmt").text();  
+        var carIncome = $("#carRentalIncome").val();
+        var tourIncome = $("#tourIncome").val();
+
+        totalIncome = parseInt(revenue)- (parseInt(carIncome)+parseInt(tourIncome));
+        //console.log("totalIncome:"+totalIncome);
+
+        $("#othersIncome").val(totalIncome);
+    }
 </script>

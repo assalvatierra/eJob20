@@ -1252,6 +1252,7 @@
     <Content Include="Images\SalesLead\ShakeHands.png" />
     <Content Include="Images\SalesLead\unhappy.jpg" />
     <Content Include="Images\Signature-1.png" />
+    <Content Include="Images\Signature\GraceSign.jpg" />
     <Content Include="Images\Signature\JoSign.JPG" />
     <Content Include="Images\Signature\MaeSign.JPG" />
     <Content Include="Images\Signature\RamSign.JPG" />

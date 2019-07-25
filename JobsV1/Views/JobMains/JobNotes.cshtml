@@ -17,7 +17,7 @@
 
     </p>
     <p>
-        @Html.ActionLink("Services", "JobServices", "JobOrders", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) |
         @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
         Notes | 
         @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
