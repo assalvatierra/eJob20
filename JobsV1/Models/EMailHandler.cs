@@ -700,21 +700,33 @@ namespace JobsV1.Models
                     {
                         jobitems += " ("+ item.InvItem.ItemCode +")" 
                             + item.InvItem.Description + "<br/>";
+
+                        if (item.InvItem.ContactInfo != "")
+                        {
+                            jobitems += item.InvItem.ContactInfo;
+                        }
                     }
+
+                    var pickup = service.JobServicePickups.Where(s => s.JobServicesId == service.Id).FirstOrDefault();
 
                     services +=
                     //date time
                      "<tr style='border:1px solid black;'><td><b>" + service.Service.Name + "</b><br/>"
                     + "Start: " + service.DtStart.Value.ToString("MMM dd yyyy (ddd)") + " <br/>"
                     + "End: " + service.DtEnd.Value.ToString("MMM dd yyyy (ddd)") + " </td>"
-
+                               
                     //particulars
                     + "<td><b> P " + Convert.ToDecimal(service.ActualAmt).ToString("#,##0.00") + " - " + service.Particulars + "</b><br/>"
                     + "Remarks: " + service.Remarks + " <br/> "
-                    + "Item: " + service.SupplierItem.Description + " </td>"
+                    + "Item: " + service.SupplierItem.Description + "<br/>";
+                               
+                    if (pickup != null) { 
+                        services += "<b> Pickup " + pickup.JsTime + " " + pickup.JsLocation.ToString() + "<br/>"
+                        + "Contact " + pickup.ClientName + " " + pickup.ClientContact + "</b>  </td>";
+                    }
 
                     // Assigned items
-                    + "<td> " + jobitems + " </td></tr>";
+                    services += "<td> " + jobitems + " </td></tr>";
 
                     totalAmount += (decimal)service.ActualAmt;
                 }
@@ -746,6 +758,19 @@ namespace JobsV1.Models
                     }
                 }
 
+                var jNotes = db.JobNotes.Where(s => s.JobMainId == jobId).ToList();
+                //get job notes
+                string sNotes = "";
+                foreach (var notetmp in jNotes)
+                {
+                    string s = notetmp.Note;
+
+                    if (sNotes.Trim() != "") { sNotes += "<br>"; }
+
+                    else { sNotes += "Terms & Conditions:<br>"; }
+
+                    sNotes += " " + notetmp.Note;
+                }
 
                 //get balance
                 decimal balance =  totalAmount - partial ;
@@ -761,9 +786,13 @@ namespace JobsV1.Models
                     + "<h1> Reservation Details </h1><div>"
                     + " Job Ref # : " + job.Id + " <br/>"
                     + " Date : " + job.JobDate.ToString("MMM dd yyyy (ddd)") + " <br/>"
-                    + " Account : " + job.Description + "<br/>"
-                    + " Pax : " + job.NoOfPax + " | "
-                    + " Days : " + job.NoOfDays + " <br/>"
+                    + " Account : " + job.Description + "<br/>";
+
+                    if (job.NoOfPax != 0) {
+                       body += " Pax : " + job.NoOfPax + " | ";
+                    }
+
+                body += " Days : " + job.NoOfDays + " <br/>"
                     + " Remarks : " + job.JobRemarks + " <br/>"
                     + " Status : " + job.JobStatus.Status + " <br/>"
                     + "</div>"
@@ -791,11 +820,14 @@ namespace JobsV1.Models
                     + "<h3> Partial: "+ Convert.ToDecimal(partial).ToString("#,##0.00")  + "</h3>"
                     + "<h3> Balance: " + Convert.ToDecimal(balance).ToString("#,##0.00")  + "</h3></div>"
                     + "<br><br><br>"
-                    + "<p></p><div><p> Prepared by: <b>" + getStaffName(JobEncoder.user) + "</b> </p>"
-                    + "<p> Validity: <b>" + dateValid + "</b></p></div><br><br><br><hr>" +
+                    + "<p></p><div>"
+                    + "<p>" + sNotes + " <p><br>"
+                    + "<p> Prepared by: <b>" + getStaffName(JobEncoder.user) + "</b> </p>"
+                    + "<p> Validity: <b>" + dateValid + "</b></p></div>"
 
+                    + "<br><br><br><hr>"
                     //Footer
-                    " <p style='text-align:center;'> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE. </p> " +
+                    + " <p style='text-align:center;'> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE. </p> " +
                     " <p style='text-align:center;'> For further inquiries kindly email us through " + getcallBackEmail(job.Branch.Name) + " or dial(+63) 82 297 1831. </p> " +
                     "</div></div>" +
                     "";

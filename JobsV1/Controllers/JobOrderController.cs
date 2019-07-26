@@ -2608,9 +2608,9 @@ order by x.jobid
                         break;
                     case "RESERVATION":
                         mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices); // client email
-                        mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
-                        mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
-                        mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        //mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
+                        //mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
+                        //mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                 }
 
@@ -2755,20 +2755,17 @@ order by x.jobid
                     //save new service
                     db.JobItineraries.Add(itinerary);
                     db.SaveChanges();
+
                 }
+                int UnassignedId = db.InvItems.Where(u => u.Description == "UnAssigned").FirstOrDefault().Id;
+                AddUnassignedItem(UnassignedId, tempId);
                 tempId++;
             }
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = JobMainId });
             //return RedirectToAction("JobServices", "JobOrder", new { JobMainId = JobMainId });
         }
-
-        public void setUnassignedUnit(int svcId)
-        {
-
-        }
         
-
         #endregion
     }
 }

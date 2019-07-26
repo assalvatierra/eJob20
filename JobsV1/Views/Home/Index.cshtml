@@ -34,11 +34,10 @@
     </span>
 </div>
 
-<div class="row">
+<div class="container">
     @foreach (var t in ViewBag.EntServices)
     {
         <div class="col-md-4">
- 
             <a href="@Url.Action("Service","Module", new { id=@t.Id })">
                 <img src="@Url.Content("~/")@t.IconPath" style="height:90px;margin:20px" alt="Edit" />
             </a>

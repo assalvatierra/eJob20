@@ -95,6 +95,7 @@
     <EntitySet Name="ExpensesCategories" EntityType="JobDB.Store.ExpensesCategories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PkgDestinations" EntityType="JobDB.Store.PkgDestinations" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobPosts" EntityType="JobDB.Store.JobPosts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OnlineReservations" EntityType="JobDB.Store.OnlineReservations" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -1390,6 +1391,23 @@
     <Property Name="OthersInc" Type="decimal" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="JobMainId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OnlineReservations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtPosted" Type="datetime" Nullable="false" />
+    <Property Name="ProductCode" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="DtStart" Type="datetime" Nullable="false" />
+    <Property Name="DtEnd" Type="datetime" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="120" />
+    <Property Name="ContactNum" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="PaymentAmt" Type="decimal" Nullable="true" />
+    <Property Name="PaymentStatus" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="DtPayment" Type="datetime" Nullable="true" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2893,6 +2911,7 @@
             <End Role="JobMain" EntitySet="JobMains" />
             <End Role="JobPost" EntitySet="JobPosts" />
           </AssociationSet>
+          <EntitySet Name="OnlineReservations" EntityType="JobDB.OnlineReservation" />
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -5069,6 +5088,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OnlineReservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtPosted" Type="DateTime" Nullable="false" />
+          <Property Name="ProductCode" Type="String" Nullable="false" MaxLength="15" />
+          <Property Name="DtStart" Type="DateTime" Nullable="false" />
+          <Property Name="DtEnd" Type="DateTime" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="120" />
+          <Property Name="ContactNum" Type="String" Nullable="false" MaxLength="15" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="PaymentAmt" Type="Decimal" Nullable="true" />
+          <Property Name="PaymentStatus" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="DtPayment" Type="DateTime" Nullable="true" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6104,6 +6140,24 @@
           <ScalarProperty Name="OthersInc" ColumnName="OthersInc" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OnlineReservations">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.OnlineReservation)">
+        <MappingFragment StoreEntitySet="OnlineReservations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtPosted" ColumnName="DtPosted" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="DtStart" ColumnName="DtStart" />
+          <ScalarProperty Name="DtEnd" ColumnName="DtEnd" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ContactNum" ColumnName="ContactNum" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PaymentAmt" ColumnName="PaymentAmt" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+          <ScalarProperty Name="DtPayment" ColumnName="DtPayment" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

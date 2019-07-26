@@ -114,5 +114,6 @@ namespace JobsV1.Models
         public virtual DbSet<ExpensesCategory> ExpensesCategories { get; set; }
         public virtual DbSet<PkgDestination> PkgDestinations { get; set; }
         public virtual DbSet<JobPost> JobPosts { get; set; }
+        public virtual DbSet<OnlineReservation> OnlineReservations { get; set; }
     }
 }

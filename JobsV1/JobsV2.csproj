@@ -483,6 +483,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MepuMainController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
+    <Compile Include="Controllers\OnlineReservationsController.cs" />
     <Compile Include="Controllers\PaypalController.cs" />
     <Compile Include="Controllers\PaypalTransactionsController.cs" />
     <Compile Include="Controllers\PortalCustomersController.cs" />
@@ -718,6 +719,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OnlineReservation.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PaypalAccount.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1313,6 +1317,7 @@
     <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\Job\CashExpenses.js" />
     <Content Include="Scripts\Job\JobExpense.js" />
+    <Content Include="Scripts\Job\OnlineReservation.js" />
     <Content Include="Scripts\Job\PortalCustomer.js" />
     <Content Include="Scripts\Job\ProdCreate.js" />
     <Content Include="Scripts\Job\SupplierListExpand.js" />
@@ -2072,6 +2077,12 @@
     <Content Include="Views\Reporting\JobIncomePrint.cshtml" />
     <Content Include="Views\Reporting\UnitIncomePrint.cshtml" />
     <Content Include="Views\JobOrder\BrowseTemplate.cshtml" />
+    <Content Include="Views\OnlineReservations\Create.cshtml" />
+    <Content Include="Views\OnlineReservations\Delete.cshtml" />
+    <Content Include="Views\OnlineReservations\Details.cshtml" />
+    <Content Include="Views\OnlineReservations\Edit.cshtml" />
+    <Content Include="Views\OnlineReservations\Index.cshtml" />
+    <Content Include="Views\OnlineReservations\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2091,7 +2102,6 @@
     <Folder Include="Areas\Accounting\Views\Home\" />
     <Folder Include="Areas\Products\Views\Home\" />
     <Folder Include="Views\CustomHelper\" />
-    <Folder Include="Views\Paypal\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

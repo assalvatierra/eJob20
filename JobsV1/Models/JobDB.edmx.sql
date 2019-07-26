@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/05/2019 17:18:03
+-- Date Created: 07/26/2019 11:56:39
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -278,6 +278,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ExpensesCategoryExpenses]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Expenses] DROP CONSTRAINT [FK_ExpensesCategoryExpenses];
 GO
+IF OBJECT_ID(N'[dbo].[FK_JobMainJobPost]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobPosts] DROP CONSTRAINT [FK_JobMainJobPost];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -546,6 +549,12 @@ IF OBJECT_ID(N'[dbo].[ExpensesCategories]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[PkgDestinations]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PkgDestinations];
+GO
+IF OBJECT_ID(N'[dbo].[JobPosts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobPosts];
+GO
+IF OBJECT_ID(N'[dbo].[OnlineReservations]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OnlineReservations];
 GO
 
 -- --------------------------------------------------
@@ -1495,6 +1504,23 @@ CREATE TABLE [dbo].[JobPosts] (
 );
 GO
 
+-- Creating table 'OnlineReservations'
+CREATE TABLE [dbo].[OnlineReservations] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtPosted] datetime  NOT NULL,
+    [ProductCode] nvarchar(15)  NOT NULL,
+    [DtStart] datetime  NOT NULL,
+    [DtEnd] datetime  NOT NULL,
+    [Name] nvarchar(120)  NOT NULL,
+    [ContactNum] nvarchar(15)  NOT NULL,
+    [Email] nvarchar(50)  NOT NULL,
+    [PaymentAmt] decimal(18,0)  NULL,
+    [PaymentStatus] nvarchar(20)  NULL,
+    [DtPayment] datetime  NULL,
+    [Remarks] nvarchar(80)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2030,6 +2056,12 @@ GO
 -- Creating primary key on [Id] in table 'JobPosts'
 ALTER TABLE [dbo].[JobPosts]
 ADD CONSTRAINT [PK_JobPosts]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'OnlineReservations'
+ALTER TABLE [dbo].[OnlineReservations]
+ADD CONSTRAINT [PK_OnlineReservations]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

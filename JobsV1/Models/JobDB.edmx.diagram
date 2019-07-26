@@ -185,6 +185,7 @@
         <EntityTypeShape EntityType="JobDB.PkgDestination" Width="1.5" PointX="2.375" PointY="20.875" />
         <EntityTypeShape EntityType="JobDB.JobPost" Width="1.5" PointX="11.875" PointY="21.625" />
         <AssociationConnector Association="JobDB.JobMainJobPost" />
+        <EntityTypeShape EntityType="JobDB.OnlineReservation" Width="1.5" PointX="2.375" PointY="23.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
