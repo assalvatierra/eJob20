@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/26/2019 11:56:39
+-- Date Created: 07/27/2019 15:54:11
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1517,7 +1517,8 @@ CREATE TABLE [dbo].[OnlineReservations] (
     [PaymentAmt] decimal(18,0)  NULL,
     [PaymentStatus] nvarchar(20)  NULL,
     [DtPayment] datetime  NULL,
-    [Remarks] nvarchar(80)  NULL
+    [Remarks] nvarchar(80)  NULL,
+    [PaymentId] nvarchar(80)  NULL
 );
 GO
 

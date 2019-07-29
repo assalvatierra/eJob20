@@ -1,7 +1,8 @@
 ﻿insert into Cities(Name) values('Davao');
 insert into Branches(Name, CityId, Remarks, Address, Landline, Mobile) 
 values ('AJ88',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
-	   ('Realbreeze',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831','');
+	   ('RealBreeze',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
+	   ('RealWheels',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831','');
 
 insert into JobStatus([Status]) values('INQUIRY'),('RESERVATION'),('CONFIRMED'),('CLOSED'),('CANCELLED'),('TEMPLATE');
 insert into JobThrus([Desc]) values('PHONE'),('EMAIL'),('WALKIN');
@@ -15,13 +16,18 @@ insert into Banks([BankName],[BankBranch],[AccntName],[AccntNo])
 
 insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('<< New Customer >>','--','--',' ',' ','ACT');
 insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('RealBreeze-Davao','realbreezedavao@gmail.com','Elvie/0916-755-8473','','','ACT');
+insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('John Doe','jahdielsvillosa@gmail.com','09123456789','','','ACT');
 	
 insert Into Destinations([Description],[Remarks],[CityId]) 
 values 
 ('Eden Nature Park','','1 '),
 ('Philippine Eagle','','1 '),
 ('Malagos Garden'  ,'','1 '),
-('Japanese Tunnel' ,'','1 ');
+('Japanese Tunnel' ,'','1 '),
+('Peoples Park' ,'','1 '),
+('Jacks Ridge' ,'','1 '),
+('Apo ni Lola' ,'','1 '),
+('Aldivenco Shopping Center' ,'','1 ');
 
 -- ------------------------------------------------------------
 -- Sales Lead Configuration
@@ -206,8 +212,6 @@ values
 -- ----------------------------------------------
 insert into SupplierPoStatus ([Status],[OrderNo]) values ('REQUEST',1),('APPROVED',2),('CANCELLED',2),('CONFIRMED',3),('DELIVERED',4),('CLOSE',5);
 
-
-
 -- ----------------------------------------------
 -- Paypal Accounts
 -- ----------------------------------------------
@@ -217,16 +221,26 @@ values
 
 insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt])
 values
-('4-25-2019',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
-('4-28-2019',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000);
+('8-15-2019',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
+('8-27-2019',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000),
+('8-27-2019',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500);
 
 
 insert into JobServices([JobMainId],[ServicesId],[SupplierId],[Particulars],[QuotedAmt],[SupplierAmt],[ActualAmt],[Remarks],[SupplierItemId],[DtStart],[DtEnd])
 values
-(1,1,2,'Car Rental sample data R1',5000,5000,5000,'Sample only. Disregard once seen on production',1,'4-15-2019','4-22-2019'),
-(1,1,2,'Car Rental sample data R2',3000,3000,3000,'Sample only. Disregard once seen on production',1,'4-26-2019','4-29-2019'),
-(2,1,2,'SUV Rental R1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'4-27-2019','4-28-2019'),
-(2,1,2,'SUV Rental R2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'4-29-2019','4-30-2019');
+(1,1,2,'Car Rental sample data R1',5000,5000,5000,'Sample only. Disregard once seen on production',1,'8-15-2019','8-22-2019'),
+(1,1,2,'Car Rental sample data R2',3000,3000,3000,'Sample only. Disregard once seen on production',1,'8-24-2019','8-28-2019'),
+(2,1,2,'SUV Rental R1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'8-27-2019','8-28-2019'),
+(2,1,2,'SUV Rental R2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'8-29-2019','8-30-2019'),
+(3,1,2,'Day 1: Country Side Tour',2000,2000,2000,'Sample only. Disregard once seen on production',1,'8-27-2019','8-27-2019'),
+(3,1,2,'Day 1: Country Side Tour',1500,1500,1000,'Sample only. Disregard once seen on production',1,'8-28-2019','8-28-2019');
+
+insert into JobItineraries([JobMainId],[DestinationId],[ActualRate],[Remarks],[ItiDate],[SvcId])
+values
+(3,1,0,'','8-27-2019',5),
+(3,2,0,'','8-27-2019',5),
+(3,5,0,'','8-28-2019',6),
+(3,6,0,'','8-28-2019',6);
 
 --insert into InvItems([ItemCode],[Description],[Remarks])
 --values ('RNY301','Toyota Innova E M/T 2013 Dsl',''),
@@ -234,10 +248,8 @@ values
 --('ADP2264','Ford Everest A/T 2016 2.2',''),
 --('AbelS','Abel Salvatierra','');
 
-
 insert into InvItemCategories([InvItemId],[InvItemCatId])
 values (1,1), (2,1), (3,1), (4,2);
-
 
 Insert into JobServiceItems([JobServicesId],[InvItemId])
 values(1,2),(1,3),

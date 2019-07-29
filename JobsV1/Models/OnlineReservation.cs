@@ -26,5 +26,6 @@ namespace JobsV1.Models
         public string PaymentStatus { get; set; }
         public Nullable<System.DateTime> DtPayment { get; set; }
         public string Remarks { get; set; }
+        public string PaymentId { get; set; }
     }
 }

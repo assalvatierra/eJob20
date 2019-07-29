@@ -41,7 +41,8 @@ insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (2,2);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 	('Sales Leads','',2,'SalesLeads','Index','',21,21),		  -- id: 17
 	('Quotations','',2,'JobMains','JobLeads','',21,22),		  -- id: 18
-	('Reservations','',2,'CarReservations','Index','',21,23); -- id: 19
+	('Reservations','',2,'CarReservations','Index','',21,23), -- id: 19
+	('Online Reservations', '', 2, 'OnlineReservations','Index','',21,24);
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (2,1,'2019/1/1');
 
@@ -247,6 +248,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 51, 51),
 ('assalvatierra@gmail.com', 52, 52),
 ('assalvatierra@gmail.com', 53, 53),
+('assalvatierra@gmail.com', 54, 54),
 
 ('jahdielvillosa@gmail.com', 13, 13),
 ('jahdielvillosa@gmail.com', 14, 14),
@@ -288,4 +290,5 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 50, 50),
 ('jahdielvillosa@gmail.com', 51, 51),
 ('jahdielvillosa@gmail.com', 52, 52),
-('jahdielvillosa@gmail.com', 53, 53); 
+('jahdielvillosa@gmail.com', 53, 53),
+('jahdielvillosa@gmail.com', 54, 54); 

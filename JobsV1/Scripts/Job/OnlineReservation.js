@@ -27,13 +27,13 @@ function InitDatePicker()
     function (start, end, label) {
         //check if date is greater than or equal to today
         
-        var today = moment().format('YYYY-MM-DD');
+        var today = moment().add(4, 'days').format('YYYY-MM-DD');
         var datepicker = start.format('YYYY-MM-DD');
         //alert(today > datepicker);
 
-            if (today > datepicker) {
-                alert("Job date is past the date today. Do you want to continue?");
-
+        if (today > datepicker) {
+            var validDate = moment().add(4, 'days').format('MM/DD/YYYY');
+            alert("Start date is past the valid date. The Date will be set to " + validDate);
             }
 
         //alert(start.format('YYYY-MM-DD'));
@@ -61,13 +61,13 @@ function InitDatePicker()
     function (start, end, label) {
         //check if date is greater than or equal to today
 
-        var today = moment().format('YYYY-MM-DD');
+        var today = moment().add(4, 'days').format('YYYY-MM-DD');
         var datepicker = start.format('YYYY-MM-DD');
         //alert(today > datepicker);
 
         if (today > datepicker) {
-            alert("Job date is past the date today. Do you want to continue?");
-
+            var validDate = moment().add(4, 'days').format('MM/DD/YYYY');
+            alert("End date is past the valid date. The Date will be set to " + validDate);
         }
 
         //alert(start.format('YYYY-MM-DD'));
@@ -77,4 +77,46 @@ function InitDatePicker()
 
     $('#DtEnd').val(ddd2);
     //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
+
+
+
+    //handle numbers only
+    $('#Number').on('input', function () {
+
+        //backspace
+        if (isNaN($(this).val())) {
+            var txt = $(this);
+            txt.val(txt.val().slice(0, -1));
+        } else {
+            //handle negative number
+            if ($(this).val() < 0) {
+                $(this).val(0);
+            }
+        }
+        //handle negative number
+        if ($(this).val() < 0) {
+            $(this).val(0);
+        }
+
+    });
+
+    //prevent invalid inputs 
+    function validate(evt) {
+        var theEvent = evt || window.event;
+        console.log("validate");
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
 }

@@ -1408,6 +1408,7 @@
     <Property Name="PaymentStatus" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="DtPayment" Type="datetime" Nullable="true" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="PaymentId" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -5104,6 +5105,7 @@
           <Property Name="PaymentStatus" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="DtPayment" Type="DateTime" Nullable="true" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="PaymentId" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -6158,6 +6160,7 @@
           <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
           <ScalarProperty Name="DtPayment" ColumnName="DtPayment" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

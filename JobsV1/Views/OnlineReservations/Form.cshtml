@@ -9,26 +9,31 @@
     <div class="row">
         <div class="col-lg-12">
             <h4>Start Date</h4>
-            <input type="text" class="form-control" id="DtStart" />
+            <input type="text" class="form-control" id="DtStart" onchange="checkdate1()"/>
         </div>
         <div class="col-lg-12">
             <h4>End Date</h4>
-            <input type="text" class="form-control" id="DtEnd" />
+            <input type="text" class="form-control" id="DtEnd" onchange="checkdate2()" />
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <h4>Name</h4>
-            <input type="text" class="form-control" id="Name" />
+            <input type="text" class="form-control" id="Name" maxlength="80" oninput="validate();" onchange="validate(event)"  />
         </div>
         <div class="col-lg-12">
             <h4>Contact Number</h4>
-            <input type="text" class="form-control" id="Number" />
+            <input type="text" class="form-control" id="Number" maxlength="15" oninput="validate();" />
         </div>
         <div class="col-lg-12">
             <h4>Email</h4>
-            <input type="text" class="form-control" id="Email" />
+            <input type="text" class="form-control" id="Email" maxlength="80" oninput="validate();"  />
         </div>
+        <div class="col-lg-12">
+            <h4>Remarks</h4>
+            <input type="text" class="form-control" id="Remarks" maxlength="80" >
+        </div>
+
         <hr />
         <div class="col-lg-12">
             <h4 > Product </h4>
@@ -40,7 +45,10 @@
         </div>
         <hr />
         <div class="col-lg-12">
-            <h4>For online payment: </h4>
+            <h4 id="input-warning">For online payment: </h4>
+            <h5 class="text-danger" id="name-warning">Name not valid </h5>
+            <h5 class="text-danger" id="number-warning">Number not valid </h5>
+            <h5 class="text-danger" id="email-warning">Email not valid </h5>
             <div id="paypal-button" onclick="addRecord()"></div>
         </div>
     </div>
@@ -56,88 +64,143 @@
 <script>
 
     $(document).ready(function(){
-        $('#DtStart').val(moment().add(2,'days').format('MM/DD/YYYY hh:mm A'));
-        $('#DtEnd').val(moment().add(2,'days').format('MM/DD/YYYY hh:mm A'));
+        $('#DtStart').val(moment().add(4,'days').format('MM/DD/YYYY hh:mm A'));
+        $('#DtEnd').val(moment().add(4,'days').format('MM/DD/YYYY hh:mm A'));
+        getcalcAddOn();
+        paypalPayment();
+        //$("#paypal-button").hide();
+        validate();
     });
 
     var TransId = 0;
     var today = new Date().toLocaleString();
 
-    //if("ViewBag.*/" == "True" ) {
-    //alert("Notice, online payment has been disable. For Payment transactions, please call (+63)9330895358  or (+63)9167558473");
-    //}else{
 
-    var count = 0;
-    paypal.Button.render({
-        // Configure environment
-        //env: 'production',
-        env: 'sandbox',
-        client: {
-            //paypal live
-            sandbox: 'AQx9QuKflAiELK-iXsyxy6sINZ9NxJ9DQUWZnW0Tp4LcxGbBN2HyOg0C3K0-qmrGwLSXnzL-xHRrko3q',
-            production: '@ViewBag.key'
-        },
-        //Customize button (optional)
-        locale: 'en_US',
-        style: {
-            layout: 'horizontal',
-            fundingicons: 'true',
-            label: 'pay',
-            size: 'medium',
-            color: 'blue',
-            shape: 'pill',
-        },
+    function validate(){
 
-        // Set up a payment
-        payment: function (data, actions) {
-            addRecord();
-            return actions.payment.create({
-                transactions: [{
-                    amount: {
-                        total: '@dQuotedAmt.ToString("##,###.00")', //'dQuotedAmt.ToString("##,###.00")'
-                        currency: 'PHP',
-                        details: {
-                            subtotal: '@dQuotedAmt.ToString("##,###.00")', //
-                            tax: '0.00'
-                            //shipping: '0.01',
-                            //handling_fee: '1.00',
-                            //shipping_discount: '0.00',
-                            //insurance: '0.00'
-                        }
-                    },
-                    description: 'RealBreeze Online Reservation.',
-                    custom: '@ViewBag.tourCode',// Insert a unique invoice number
-                    invoice_number: 0,// Insert a unique invoice number
-                    payment_options: {
-                        allowed_payment_method: 'INSTANT_FUNDING_SOURCE'
-                    },
-                    soft_descriptor: 'Reservation Job Id: @ViewBag.tourCode',
-                    item_list: {
-                        //item list
-                        items: [{
-                            name: '@ViewBag.ProductName',
-                            description: '@ViewBag.ProductName reservation thru online payment.',
-                            quantity: '1',
-                            price: '@dQuotedAmt.ToString("##,###.00")',
-                            tax: '0.00',
-                            currency: 'PHP'
-                        }]
-                    }
-                }]
-            });
-        },
-        // Execute the payment
-        onAuthorize: function (data, actions){
-            return actions.payment.execute()
-            .then(function (response) {
-                // Show a confirmation message to the buyer
-                console.log(data);
-                console.log(response);
-                //ajaxSendMail(0);
-                //window.location.href = 'Url.Action("onPaymentSuccess", "JobOrder", new{ jobId = Model.Id, mailType = "PAYMENT-PENDING" })'
-            });
+        var inputValid = true;
+
+        //check name if not null
+        var name = $("#Name").val();
+        if(name == ""){
+            inputValid = false;
+            $("#name-warning").show();
+        }else{
+            $("#name-warning").hide();
         }
-    }, '#paypal-button');
+
+        
+        //check name if not null
+        var contactNum = $("#Number").val();
+        if(contactNum == ""){
+            inputValid = false;
+            $("#number-warning").show();
+        }else{
+            $("#number-warning").hide();
+        }
+        
+        //check email if not null
+        var email = $("#Email").val();
+        if(email == ''){
+            inputValid = false;
+            $("#email-warning").show();
+        }else{
+            $("#email-warning").hide();
+
+        }
+        
+        //console.log("email=='' : " + " '"+ email +"' " +  (email == ""));
+
+        if(inputValid){ // true
+            $("#paypal-button").show();
+            $("#input-warning").show();
+
+        }else{
+            $("#paypal-button").hide();
+            $("#input-warning").hide();
+        }
+
+    }
+
+
+    function paypalPayment(){
+
+            var count = 0;
+            paypal.Button.render({
+                // Configure environment
+                //env: 'production',
+                env: 'sandbox',
+                client: {
+                    //paypal live
+                    sandbox: 'AQx9QuKflAiELK-iXsyxy6sINZ9NxJ9DQUWZnW0Tp4LcxGbBN2HyOg0C3K0-qmrGwLSXnzL-xHRrko3q',
+                    production: '@ViewBag.key'
+                },
+                //Customize button (optional)
+                locale: 'en_US',
+                style: {
+                    layout: 'horizontal',
+                    fundingicons: 'true',
+                    label: 'pay',
+                    size: 'medium',
+                    color: 'blue',
+                    shape: 'pill',
+                },
+
+                // Set up a payment
+                payment: function (data, actions) {
+                    addRecord();
+                    return actions.payment.create({
+                        transactions: [{
+                            amount: {
+                                total: '@dQuotedAmt.ToString("##,###.00")', //'dQuotedAmt.ToString("##,###.00")'
+                                currency: 'PHP',
+                                details: {
+                                    subtotal: '@dQuotedAmt.ToString("##,###.00")', //
+                                    tax: '0.00'
+                                    //shipping: '0.01',
+                                    //handling_fee: '1.00',
+                                    //shipping_discount: '0.00',
+                                    //insurance: '0.00'
+                                }
+                            },
+                            description: 'RealBreeze Online Reservation.',
+                            custom: '@ViewBag.tourCode',// Insert a unique invoice number
+                            //invoice_number: 0,// Insert a unique invoice number
+                            payment_options: {
+                                allowed_payment_method: 'INSTANT_FUNDING_SOURCE'
+                            },
+                            soft_descriptor: 'Reservation Job Id: @ViewBag.tourCode',
+                            item_list: {
+                                //item list
+                                items: [{
+                                    name: '@ViewBag.ProductName',
+                                    description: '@ViewBag.ProductName reservation thru online payment.',
+                                    quantity: '1',
+                                    price: '@dQuotedAmt.ToString("##,###.00")',
+                                    tax: '0.00',
+                                    currency: 'PHP'
+                                }]
+                            }
+                        }]
+                    });
+                },
+                // Execute the payment
+                onAuthorize: function (data, actions){
+                    return actions.payment.execute()
+                    .then(function (response) {
+                        // Show a confirmation message to the buyer
+                        console.log("Paypal Payment: ");
+                        //console.log(data);
+                        //console.log(response);
+                        PaymentSuccess(response);
+                        //ajaxSendMail(0);
+                        //window.location.href = 'Url.Action("onPaymentSuccess", "JobOrder", new{ jobId = Model.Id, mailType = "PAYMENT-PENDING" })'
+                    });
+                }
+            }, '#paypal-button');
+        
+    }
+
 
     function ajaxSendMail(jobid){
         var data = {
@@ -162,7 +225,7 @@
                 disableLoadOverlay();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                console.log(jqXHR.responseText);
+                //console.log(jqXHR.responseText);
                 disableLoadOverlay();
             }
         });
@@ -177,7 +240,8 @@
             number: $("#Number").val(),
             email: $("#Email").val(),
             dtstart:  $("#DtStart").val(),
-            dtend: $("#DtEnd").val()
+            dtend: $("#DtEnd").val(),
+            remarks: $("#Remarks").val()
         }
 
         var serviceURL = '/OnlineReservations/AddRecord';
@@ -193,12 +257,12 @@
             dataType: "json",
             success: function(jqXHR, textStatus, errorThrown){
                 console.log('success');
-                console.log(jqXHR);
+                //console.log(jqXHR);
                 TransId = jqXHR;
                 //disableLoadOverlay();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                console.log(jqXHR);
+                //console.log(jqXHR);
             }
         });
     }
@@ -206,19 +270,23 @@
 
     //Update record by transactionId
     //after payment success
-    function PaymentSuccess(){
-
-        console.log("Update Record");
+    function PaymentSuccess(response){
+        //(int TransId, decimal PaymentAmt, string PaymentStatus, string DtPayment)
+        //console.log("paypal response : " + response.id);
+        var today =  moment().format("MM/DD/YYYY hh:mm A");
         var amount = @dQuotedAmt;
         var data = {
             TransId : TransId,
             PaymentAmt : amount,
-            PaymentStatus : "Success",
-            DtPayment : moment().format("MM/DD/YYYY hh:mm A")
+            PaymentStatus : "Success : " ,
+            DtPayment : today,
+            PaymentId : response.id
         }
 
         var serviceURL = '/OnlineReservations/UpdateRecord';
-
+        
+        //console.log("Update Record : " + TransId);
+        //console.log("JSON: "+ JSON.stringify(data));
         //loading screen
 
         //send email using ajax
@@ -230,12 +298,13 @@
             dataType: "json",
             success: function(jqXHR, textStatus, errorThrown){
                 console.log('success');
-                console.log(jqXHR);
-                TransId = jqXHR;
+                //console.log(jqXHR);
+                //TransId = jqXHR;
                 //disableLoadOverlay();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                console.log(jqXHR);
+                console.log("jqXHR:"+jqXHR);
+                console.log("textStatus:"+textStatus);
             }
         });
     }
@@ -256,7 +325,7 @@
 
         var fee  = Amount * 0.05;
 
-        console.log("Paypal fee: " + fee);
+        //console.log("Paypal fee: " + fee);
 
         return fee;
     }
@@ -267,9 +336,37 @@
 
         var total = Amount + getPaypalFee();
 
-        console.log("total: " + total );
+        //console.log("total: " + total );
         return total;
     }
 
-    getcalcAddOn();
+
+    function checkdate1(){
+        var today = moment().add(4, 'days').format('YYYY-MM-DD');
+        var datepicker = moment( $('#DtStart').val()).format('YYYY-MM-DD');
+        console.log("today > datepicker: "+today > datepicker);
+        
+        if (today > datepicker) {
+            //alert("Job date is past the valid date.");
+            var validDate = moment().add(4, 'days').format('MM/DD/YYYY hh:mm A');
+            console.log(validDate)
+            $('#DtStart').val(validDate);
+        }
+    }
+    
+    function checkdate2(){
+        var today = moment().add(4, 'days').format('YYYY-MM-DD');
+        var datepicker = moment( $('#DtEnd').val()).format('YYYY-MM-DD');
+        //console.log(today > datepicker);
+
+        if (today > datepicker) {
+            //alert("Job date is past the valid date.");
+            var validDate = moment().add(4, 'days').format('MM/DD/YYYY hh:mm A');
+            console.log(validDate)
+            $('#DtEnd').val(validDate);
+        }
+    }
+
+
+
 </script>

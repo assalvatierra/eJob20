@@ -141,7 +141,7 @@ namespace JobsV1.Controllers
             return View();
         }
 
-        public String AddRecord(string tourCode, string name, string number, string email, string dtstart, string dtend)
+        public String AddRecord(string tourCode, string name, string number, string email, string dtstart, string dtend,string remarks)
         {
             DateClass today = new DateClass();
             
@@ -153,6 +153,7 @@ namespace JobsV1.Controllers
             reserve.Email = email;
             reserve.ContactNum = number;
             reserve.ProductCode = tourCode;
+            reserve.Remarks = remarks;
 
             db.OnlineReservations.Add(reserve);
             db.SaveChanges();
@@ -161,9 +162,8 @@ namespace JobsV1.Controllers
 
             return lastId.ToString();
         }
-
-
-        public String UpdateRecord(int TransId, decimal PaymentAmt, string PaymentStatus, string DtPayment)
+        
+        public String UpdateRecord(int TransId, decimal PaymentAmt, string PaymentStatus, string DtPayment, string PaymentId)
         {
             DateClass today = new DateClass();
 
@@ -171,6 +171,7 @@ namespace JobsV1.Controllers
             reserve.PaymentAmt = PaymentAmt;
             reserve.PaymentStatus = PaymentStatus;
             reserve.DtPayment = DateTime.Parse(DtPayment);
+            reserve.PaymentId = PaymentId;
 
             db.Entry(reserve).State = EntityState.Modified;
             db.SaveChanges();
