@@ -73,17 +73,16 @@
             Details
         </th>
         <td>
-            @Html.DisplayFor(model => model.Customer.Name)
+             @ViewBag.custCompany
         </td>
     </tr>
     <tr>
         <th valign="top">
             &nbsp;
         </th>
-        <td>
+        <td><!--Company-->
             @Html.DisplayFor(model => model.Description) / @Html.DisplayFor(model => model.Customer.Name)
-            <!--Company-->
-            <br />@ViewBag.custCompany
+            
             <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
             <br />Remarks: @Html.DisplayFor(model => model.JobRemarks)
 

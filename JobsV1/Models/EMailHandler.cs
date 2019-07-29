@@ -601,7 +601,8 @@ namespace JobsV1.Models
                     //details
                     + " Job Ref # : " + job.Id + " <br/>"
                     + " Date : "+ job.JobDate.ToString("MMM dd yyyy (ddd)") + " <br/>"
-                    + " Details : "+ job.Description + "<br/>"
+                    + " Details : "+ getCustCompany(jobId) + "<br/>"
+                    + "           "+ job.Description + " / " + job.Customer.Name  +"<br/>"
                     + " Pax : "+ job.NoOfPax + " <br/>"
                     + " Days : "+ job.NoOfDays + " <br/>"
                     + " Remarks : "+ job.JobRemarks + " <br/>"
@@ -711,37 +712,43 @@ namespace JobsV1.Models
 
                     services +=
                     //date time
-                     "<tr style='border:1px solid black;'><td><b>" + service.Service.Name + "</b><br/>"
+                     "<tr style='border-bottom:1px solid black;margin-bottom:15px;vertical-align:text-top;'><td style='padding-left:10px;'><b>" + service.Service.Name + "</b><br/>"
                     + "Start: " + service.DtStart.Value.ToString("MMM dd yyyy (ddd)") + " <br/>"
                     + "End: " + service.DtEnd.Value.ToString("MMM dd yyyy (ddd)") + " </td>"
                                
                     //particulars
-                    + "<td><b> P " + Convert.ToDecimal(service.ActualAmt).ToString("#,##0.00") + " - " + service.Particulars + "</b><br/>"
+                    + "<td style='padding-left:10px;'><b> P " + Convert.ToDecimal(service.ActualAmt).ToString("#,##0.00") + " - " + service.Particulars + "</b><br/>"
                     + "Remarks: " + service.Remarks + " <br/> "
                     + "Item: " + service.SupplierItem.Description + "<br/>";
                                
                     if (pickup != null) { 
                         services += "<b> Pickup " + pickup.JsTime + " " + pickup.JsLocation.ToString() + "<br/>"
-                        + "Contact " + pickup.ClientName + " " + pickup.ClientContact + "</b>  </td>";
+                        + "Contact " + pickup.ClientName + " " + pickup.ClientContact + "</b> ";
                     }
 
+
+                    services += " </td>";
                     // Assigned items
-                    services += "<td> " + jobitems + " </td></tr>";
+                    services += "<td style='padding-left:10px;'> " + jobitems + " </td></tr>";
 
                     totalAmount += (decimal)service.ActualAmt;
+
+                    services += "<tr><td style='border-bottom:1px solid black;padding:10px;' colspan='3'>";
+                    //get job destinations
+                    var Itineraries = db.JobItineraries.Where(d => d.SvcId == service.Id).ToList();
+                    if (Itineraries != null)
+                    {
+                        services += "Destinations: ";
+                    }
+
+                    foreach (var dest in Itineraries)
+                    {
+                        services += dest.Destination.Description + ", ";
+                    }
+                    services += "</td></tr>";
+
                 }
 
-                //get job destinations
-                var Itineraries = db.JobItineraries.Where(d => d.JobMainId == jobId).ToList();
-                if (Itineraries != null)
-                {
-                    destinations = "Destinations: ";
-                }
-
-                foreach (var dest in Itineraries)
-                {
-                    destinations += dest.Destination.Description + ", ";
-                }
 
                 //get job payments
                 var payments = db.JobPayments.Where(p => p.JobMainId == jobId).ToList();
@@ -786,8 +793,8 @@ namespace JobsV1.Models
                     + "<h1> Reservation Details </h1><div>"
                     + " Job Ref # : " + job.Id + " <br/>"
                     + " Date : " + job.JobDate.ToString("MMM dd yyyy (ddd)") + " <br/>"
-                    + " Account : " + job.Description + "<br/>";
-
+                    + " Account : " + getCustCompany(jobId) + "<br/>"
+                    + "           " + job.Description + " / " + job.Customer.Name + "<br/>";
                     if (job.NoOfPax != 0) {
                        body += " Pax : " + job.NoOfPax + " | ";
                     }
@@ -799,13 +806,13 @@ namespace JobsV1.Models
 
                     //Services
                     + "<div><h2> Services </h2>"
-                    + "<table width='100%' style='text-alight:left;'><tbody><tr><th>Type</th>"
-                    + "<th> Pacticulars </th><th> Assigned </th></tr>"
+                    + "<table class='table' width='100%' style='text-alight:left;vertical-align:text-top;'><tbody><tr><th style='text-alight:left;'>Type</th>"
+                    + "<th style='text-alight:left;'> Pacticulars </th><th style='text-alight:left;'> Assigned </th></tr>"
                     + services
                     + "</tbody></table>"
 
                     //destinations
-                    + "<br/><p><b>" + destinations + "</b></p></div>"
+                    //+ "<br/><p><b>" + destinations + "</b></p></div>"
 
                     //Payments
                     + "<h2>Payments</h2>"
@@ -923,6 +930,29 @@ namespace JobsV1.Models
             }
 
             return company;
+        }
+
+        public string getCustCompany(int id)
+        {
+            var jobMain = db.JobMains.Find(id);
+            string custCompany = "";
+            //check customer if assigned to a company
+            if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
+            {
+                var company = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain;
+
+                //hide company name if company is 1 = New (not defined)
+                if (company.Id == 1)
+                {
+                    custCompany = " ";
+                }
+                else
+                {
+                    custCompany = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain.Name;
+                }
+            }
+
+            return custCompany;
         }
     }
 }

@@ -1688,10 +1688,10 @@ order by x.jobid
             {
                 custCompany = jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault().CustEntMain.Name;
 
-                if (custCompany == "NEW (not yet defined)")
-                {
-                    custCompany = " ";
-                }
+                //if (custCompany == "NEW (not yet defined)")
+                //{
+                //    custCompany = " ";
+                //}
 
             }
 
@@ -2602,9 +2602,9 @@ order by x.jobid
                 {
                     case "QUOTATION":
                         mailResult = mail.SendMailQuotation((int)jobId, jobOrder.CustContactEmail, jobServices); //client email
-                        mailResult = mail.SendMailQuotation((int)jobId, companyEmail, jobServices); //realwheels
-                        mailResult = mail.SendMailQuotation((int)jobId, adminEmail, jobServices);   //travel
-                        mailResult = mail.SendMailQuotation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        //mailResult = mail.SendMailQuotation((int)jobId, companyEmail, jobServices); //realwheels
+                        //mailResult = mail.SendMailQuotation((int)jobId, adminEmail, jobServices);   //travel
+                        //mailResult = mail.SendMailQuotation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                     case "RESERVATION":
                         mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices); // client email
