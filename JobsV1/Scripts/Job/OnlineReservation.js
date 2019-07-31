@@ -79,6 +79,9 @@ function InitDatePicker()
     //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
 
 
+}
+
+
 
     //handle numbers only
     $('#Number').on('input', function () {
@@ -118,5 +121,13 @@ function InitDatePicker()
             theEvent.returnValue = false;
             if (theEvent.preventDefault) theEvent.preventDefault();
         }
+    }
+
+function validateEmail(email) {
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    if (!emailReg.test(email)) {
+        return false;
+    } else {
+        return true;
     }
 }

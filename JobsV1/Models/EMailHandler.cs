@@ -5,13 +5,19 @@ using System.Web;
 using System.Net.Mail;
 using System.Web.UI.WebControls;
 using System.Collections.Specialized;
+using JobsV1.Areas.Products.Models;
 
 namespace JobsV1.Models
 {
     public class EMailHandler
     {
         private JobDBContainer db = new JobDBContainer();
+        private ProdDBContainer pdb = new ProdDBContainer();
 
+        /**
+         *  EMAIL SENDER
+         *  Send email to client and admin emails based on the mail type.
+         **/
         public string SendMail(int jobId, string renterMail, string mailType, string renterName, string site)
         {
             try
@@ -189,9 +195,9 @@ namespace JobsV1.Models
             {
                 return "error: " + ex;
             }
-
         }
         
+        //EMAIL TEMPLATE FOR CUSTOM EMAIL BODY
         public string SendMail2(int jobId, string renterMail, string mailType, string renterName, string site, string errorText)
         {
             try
@@ -388,7 +394,7 @@ namespace JobsV1.Models
         }
 
         /**
-         * CLIENT -  SEND INVOICE to client
+         * CLIENT -  SEND INVOICE TO CLIENT
          */
         public string SendMailClientInvoice(int jobId, string renterMail, string mailType, string renterName, string site)
         {
@@ -855,7 +861,109 @@ namespace JobsV1.Models
                 return "error: " + ex;
             }
         }
+        
+        /**
+         * CLIENT - SEND EMAIL FOR ONLINE RESERVATION PAYMENT SUCCESS
+         * Send email to client after payment reservation success
+         **/ 
+        public string SendMailOnlineReserve(int reservationId, string email , string emailType)
+        {
+            var reservation = db.OnlineReservations.Find(reservationId);
+            var product = pdb.SmProducts.Where(s => s.Code == reservation.ProductCode).FirstOrDefault();
 
+            //buld email subject / title
+            string subject = " Online Reservation For " + product.Name;
+
+            if (emailType == "ADMIN")
+            {
+                subject = reservation.Name + " : Online Reservation Payment For " + reservation.ProductCode;
+            }
+
+            //decimal amount = (decimal) reservation.PaymentAmt;
+            //string finalAmount = String.Format("{0:n}", amount);
+            //build email body
+
+            string title = " <h1> Thank you for availing our " + product.Name + "</h1> ";
+
+            string message = "<p> Your reservation is being processed, please wait for our agents to contact you via call or email.</p>";
+            message += "<div style='margin:10px auto;text-align:left;padding-left:200px;background-color:white;width:400px;min-width:160px;'> " +
+                        "<h2> Reservation Details </h2><span style='font-size:15px;'>" +
+                        "<b> Reservation ID : </b> " + reservation.Id + "<br />" +
+                        "<b> Tour : </b> " + product.Name + "<br />" +
+                        "<b> Tour Code: </b> " + reservation.ProductCode + "<br />" +
+                        "<b> Tour Date: </b> " + reservation.DtStart + "<br />" +
+                        "<b> Client Name: </b> " + reservation.Name + "<br />" +
+                        "<b> Client Number: </b> " + reservation.ContactNum + "<br />" +
+                        "<b> Client Email: </b> " + reservation.Email + "<br />" +
+                        "<b> Amount: </b> P " + product.Price + "<br />" +
+                        "<b> Payment method: </b> Paypal <br />" +
+                        "</span></div>";
+
+            if (emailType == "ADMIN")
+            {
+                message += "<div style='text-align:center;padding-left:220px;'><a href='https://realwheelsdavao.com/OnlineReservations/Details/" + reservationId +"' >" +
+                    "<div style='background-color: dodgerblue; width: 120px; padding: 10px; color: white;text-align:center;'> " +
+                    " View Details "+
+                    "</div></a></div>";
+                title = " <h1> Online Reservation : Payment Success </h1> ";
+            }
+            
+
+            string body = "" +
+                " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
+                " <div style='background-color:white;min-width:200px;width:600px;;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>"+
+                " <img src='http://realbreezedavaotours.com/wp-content/uploads/2019/07/Realbreeze_logo.png' width='170px' >" +
+                title +
+                message +
+                " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
+                " <p> For further inquiries kindly email us through realbreezedavao@gmail.com or dial(+63) 82 297 1831. </p> " +
+                " </div></div>" +
+                "";
+
+            return Email(body, email, subject);
+        }
+        
+        private string Email(string emailBody, string recipientEmail, string emailSubject )
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("mail.realwheelsdavao.com"); //smtp server
+
+                MailDefinition md = new MailDefinition();
+                md.From = "Realwheels.Reservation@RealWheelsDavao.com";      //sender mail
+                md.IsBodyHtml = true;                       //set true to enable use of html tags 
+                md.Subject = "RealWheels Reservation";      //initial mail title
+
+                ListDictionary replacements = new ListDictionary();
+                replacements.Add("{name}", "Reservation");
+
+                //change mail title
+                md.Subject = emailSubject;
+
+                //encode white space
+                //string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
+                
+                MailMessage msg = md.CreateMailMessage(recipientEmail, replacements, emailBody, new System.Web.UI.Control());
+
+                SmtpServer.Port = 587;          //default smtp port
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
+                SmtpServer.EnableSsl = false;   //enable for gmail smtp server
+                System.Net.ServicePointManager.Expect100Continue = false;
+                SmtpServer.Send(msg);           //send message
+                return "success";
+            }
+            catch (Exception ex)
+            {
+                return "error: " + ex;
+            }
+        }
+        
+        /**
+         * FILTER AND RETURN STAFF NAME BY EMAIL
+         */
         public string getStaffName(string staffLogin)
         {
             switch (staffLogin)
@@ -875,6 +983,9 @@ namespace JobsV1.Models
             }
         }
 
+        /**
+         *  RETURN EMAIL BASED ON JOB BRANCH NAME
+         **/ 
         public string getcallBackEmail(string branch)
         {
             switch (branch)
@@ -887,6 +998,9 @@ namespace JobsV1.Models
             }
         }
 
+        /**
+         *  RETURN EMAIL HEADER IMAGE LINK BASED ON JOB BRANCH NAME
+         **/ 
         public string getHeader(string branch)
         {
             switch (branch)
@@ -899,7 +1013,10 @@ namespace JobsV1.Models
                     return "http://realbreezedavaotours.com/wp-content/uploads/2019/05/AJDavao.jpg";
             }
         }
-
+        
+        /**
+         *  RETURN COMPANY NAME BASED ON JOB ID
+         **/
         public string getCompany(int jobId)
         {
             JobMain job = db.JobMains.Find(jobId);
@@ -932,6 +1049,9 @@ namespace JobsV1.Models
             return company;
         }
 
+        /**
+         *  RETURN COMPANY NAME OF THE JOB 
+         **/
         public string getCustCompany(int id)
         {
             var jobMain = db.JobMains.Find(id);
@@ -951,7 +1071,6 @@ namespace JobsV1.Models
                     custCompany = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain.Name;
                 }
             }
-
             return custCompany;
         }
     }

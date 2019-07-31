@@ -2583,10 +2583,10 @@ order by x.jobid
         //Handle email sending for Reservation and inquiry Quotations
         public string SendEmailBooking(int? jobId, string doctype)
         {
-            string mailResult = "";
+            string mailResult   = "";
             string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
             string ajdavaoEmail = "ajdavao88@gmail.com"; //
-            string adminEmail = "travel.realbreeze@gmail.com";
+            string adminEmail   = "travel.realbreeze@gmail.com";
 
             if (jobId != null) { 
                 JobMain jobOrder = db.JobMains.Find(jobId);
@@ -2602,15 +2602,15 @@ order by x.jobid
                 {
                     case "QUOTATION":
                         mailResult = mail.SendMailQuotation((int)jobId, jobOrder.CustContactEmail, jobServices); //client email
-                        //mailResult = mail.SendMailQuotation((int)jobId, companyEmail, jobServices); //realwheels
-                        //mailResult = mail.SendMailQuotation((int)jobId, adminEmail, jobServices);   //travel
-                        //mailResult = mail.SendMailQuotation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        mailResult = mail.SendMailQuotation((int)jobId, companyEmail, jobServices); //realwheels
+                        mailResult = mail.SendMailQuotation((int)jobId, adminEmail, jobServices);   //travel
+                        mailResult = mail.SendMailQuotation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                     case "RESERVATION":
                         mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices); // client email
-                        //mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
-                        //mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
-                        //mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
+                        mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
+                        mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                 }
 
@@ -2639,10 +2639,34 @@ order by x.jobid
 
             //client
             mailResult = mail.SendMail(jobId, jobOrder.CustContactEmail, "CLIENT-PAYMENT-SUCCESS", clientName, siteRedirect);
-
-
+            
             mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
 
+        }
+        
+        //After Payment Success, send email to client, admin and company emails
+        public void PaymentReserveSuccess(int reservationId)
+        {
+            OnlineReservation reservation = db.OnlineReservations.Find(reservationId);
+            EMailHandler mail = new EMailHandler();
+
+            string siteRedirect = "https://realwheelsdavao.com/OnlineReservations/Form";
+
+            string clientName   = reservation.Name;
+            string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
+            string ajdavaoEmail = "ajdavao88@gmail.com";
+            string adminEmail   = "travel.realbreeze@gmail.com";
+            string mailResult   = "";
+
+            //Send invoice 
+            //mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            //mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            //mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+
+            //client
+            mailResult = mail.SendMail(reservationId, reservation.Email, "CLIENT-PAYMENT-SUCCESS", clientName, siteRedirect);
+
+            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
         }
 
         public void SendEmailAdmin(int jobId, string mailType)
@@ -2656,8 +2680,6 @@ order by x.jobid
             mail.SendMailPaymentAdvice(jobId, "reservation.realwheels@gmail.com", mailType, clientName, siteRedirect);                    //reservation gmail
             mail.SendMailPaymentAdvice(jobId, "AJDavao88@gmail.com", mailType, clientName, siteRedirect);      //customer email
         }
-
-
         #endregion
 
         #region Templates

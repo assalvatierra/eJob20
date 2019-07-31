@@ -176,8 +176,28 @@ namespace JobsV1.Controllers
             db.Entry(reserve).State = EntityState.Modified;
             db.SaveChanges();
             
-
             return "300";
+        }
+
+        public string SendEmailPayment(int id)
+        {
+            EMailHandler email = new EMailHandler();
+            OnlineReservation reservation = db.OnlineReservations.Find(id);
+            
+            string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
+            string ajdavaoEmail = "ajdavao88@gmail.com";
+            string adminEmail = "travel.realbreeze@gmail.com";
+            string testadminEmail = "realbreezemark@gmail.com";
+            string mailResult;
+
+            mailResult = email.SendMailOnlineReserve(id, reservation.Email, "CLIENT"); //send email to client first
+            mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN"); //send email to client first
+
+            mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN"); 
+            mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN"); 
+            mailResult = email.SendMailOnlineReserve(id, adminEmail  , "ADMIN");
+
+            return mailResult;
         }
     }
 }
