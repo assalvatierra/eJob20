@@ -866,7 +866,7 @@ namespace JobsV1.Models
          * CLIENT - SEND EMAIL FOR ONLINE RESERVATION PAYMENT SUCCESS
          * Send email to client after payment reservation success
          **/ 
-        public string SendMailOnlineReserve(int reservationId, string email , string emailType)
+        public string SendMailOnlineReserve(int reservationId, string email , string emailType, string svcType)
         {
             var reservation = db.OnlineReservations.Find(reservationId);
             var product = pdb.SmProducts.Where(s => s.Code == reservation.ProductCode).FirstOrDefault();
@@ -878,27 +878,47 @@ namespace JobsV1.Models
             {
                 subject = reservation.Name + " : Online Reservation Payment For " + reservation.ProductCode;
             }
-
-            //decimal amount = (decimal) reservation.PaymentAmt;
-            //string finalAmount = String.Format("{0:n}", amount);
+            
             //build email body
-
+            string message = "<p> Your reservation is being processed, please wait for our agents to contact you via call or email.</p>";
             string title = " <h1> Thank you for availing our " + product.Name + "</h1> ";
 
-            string message = "<p> Your reservation is being processed, please wait for our agents to contact you via call or email.</p>";
-            message += "<div style='margin:10px auto;text-align:left;padding-left:200px;background-color:white;width:400px;min-width:160px;'> " +
-                        "<h2> Reservation Details </h2><span style='font-size:15px;'>" +
-                        "<b> Reservation ID : </b> " + reservation.Id + "<br />" +
-                        "<b> Tour : </b> " + product.Name + "<br />" +
-                        "<b> Tour Code: </b> " + reservation.ProductCode + "<br />" +
-                        "<b> Tour Date: </b> " + reservation.DtStart + "<br />" +
-                        "<b> Client Name: </b> " + reservation.Name + "<br />" +
-                        "<b> Client Number: </b> " + reservation.ContactNum + "<br />" +
-                        "<b> Client Email: </b> " + reservation.Email + "<br />" +
-                        "<b> Amount: </b> P " + product.Price + "<br />" +
-                        "<b> Payment method: </b> Paypal <br />" +
-                        "</span></div>";
+            if (svcType == "CAR")
+            {
+                message += "<div style='margin:10px auto;text-align:left;padding-left:200px;background-color:white;width:400px;min-width:160px;'> " +
+                            "<h2> Reservation Details </h2><span style='font-size:15px;'>" +
+                            "<b> Reservation ID : </b> " + reservation.Id + "<br />" +
+                            "<b> Rental : </b> " + product.Name + "<br />" +
+                            "<b> Rental Code: </b> " + reservation.ProductCode + "<br />" +
+                            "<b> Rental Date: </b> " + reservation.DtStart.ToString("MMM dd yyyy") + "<br />" +
+                            "<b> Client Name: </b> " + reservation.Name + "<br />" +
+                            "<b> Client Number: </b> " + reservation.ContactNum + "<br />" +
+                            "<b> Client Email: </b> " + reservation.Email + "<br />" +
+                            "<b> Pickup: </b>  " + reservation.PickupDtls + "<br />" +
+                            "<b> No. Pax: </b>  " + reservation.Qty + "<br />" +
+                            "<b> Amount: </b> P " + reservation.PaymentAmt + "<br />" +
+                            "<b> Payment method: </b> Paypal <br />" +
+                            "</span></div>";
+            }
+            else
+            {   //TOUR DEFAULT
+                message += "<div style='margin:10px auto;text-align:left;padding-left:200px;background-color:white;width:400px;min-width:160px;'> " +
+                            "<h2> Reservation Details </h2><span style='font-size:15px;'>" +
+                            "<b> Reservation ID : </b> " + reservation.Id + "<br />" +
+                            "<b> Tour : </b> " + product.Name + "<br />" +
+                            "<b> Tour Code: </b> " + reservation.ProductCode + "<br />" +
+                            "<b> Tour Date: </b> " + reservation.DtStart.ToString("MMM dd yyyy") + "<br />" +
+                            "<b> Client Name: </b> " + reservation.Name + "<br />" +
+                            "<b> Client Number: </b> " + reservation.ContactNum + "<br />" +
+                            "<b> Client Email: </b> " + reservation.Email + "<br />" +
+                            "<b> Pickup: </b>  " + reservation.PickupDtls + "<br />" +
+                            "<b> No. Pax: </b>  " + reservation.Qty + "<br />" +
+                            "<b> Amount: </b> P " + reservation.PaymentAmt + "<br />" +
+                            "<b> Payment method: </b> Paypal <br />" +
+                            "</span></div>";
+            }
 
+            //FOR ADMIN , Add button to view details
             if (emailType == "ADMIN")
             {
                 message += "<div style='text-align:center;padding-left:220px;'><a href='https://realwheelsdavao.com/OnlineReservations/Details/" + reservationId +"' >" +
@@ -908,7 +928,6 @@ namespace JobsV1.Models
                 title = " <h1> Online Reservation : Payment Success </h1> ";
             }
             
-
             string body = "" +
                 " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
                 " <div style='background-color:white;min-width:200px;width:600px;;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>"+
@@ -917,8 +936,7 @@ namespace JobsV1.Models
                 message +
                 " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
                 " <p> For further inquiries kindly email us through realbreezedavao@gmail.com or dial(+63) 82 297 1831. </p> " +
-                " </div></div>" +
-                "";
+                " </div></div>" ;
 
             return Email(body, email, subject);
         }

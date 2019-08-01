@@ -759,6 +759,9 @@
     <Compile Include="Models\RateGroup.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RsvPayment.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SalesActCode.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>

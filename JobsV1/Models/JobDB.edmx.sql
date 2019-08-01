@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/27/2019 15:54:11
+-- Date Created: 07/31/2019 14:40:32
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1510,15 +1510,23 @@ CREATE TABLE [dbo].[OnlineReservations] (
     [DtPosted] datetime  NOT NULL,
     [ProductCode] nvarchar(15)  NOT NULL,
     [DtStart] datetime  NOT NULL,
-    [DtEnd] datetime  NOT NULL,
     [Name] nvarchar(120)  NOT NULL,
     [ContactNum] nvarchar(15)  NOT NULL,
     [Email] nvarchar(50)  NOT NULL,
-    [PaymentAmt] decimal(18,0)  NULL,
-    [PaymentStatus] nvarchar(20)  NULL,
-    [DtPayment] datetime  NULL,
-    [Remarks] nvarchar(80)  NULL,
-    [PaymentId] nvarchar(80)  NULL
+    [Qty] int  NOT NULL,
+    [PickupDtls] nvarchar(80)  NOT NULL,
+    [PaymentAmt] decimal(18,0)  NULL
+);
+GO
+
+-- Creating table 'RsvPayments'
+CREATE TABLE [dbo].[RsvPayments] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtPayment] datetime  NOT NULL,
+    [Status] nvarchar(20)  NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
+    [PaypaPaymentId] nvarchar(max)  NOT NULL,
+    [OnlineReservationId] int  NOT NULL
 );
 GO
 
@@ -2063,6 +2071,12 @@ GO
 -- Creating primary key on [Id] in table 'OnlineReservations'
 ALTER TABLE [dbo].[OnlineReservations]
 ADD CONSTRAINT [PK_OnlineReservations]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RsvPayments'
+ALTER TABLE [dbo].[RsvPayments]
+ADD CONSTRAINT [PK_RsvPayments]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3388,6 +3402,21 @@ GO
 CREATE INDEX [IX_FK_JobMainJobPost]
 ON [dbo].[JobPosts]
     ([JobMainId]);
+GO
+
+-- Creating foreign key on [OnlineReservationId] in table 'RsvPayments'
+ALTER TABLE [dbo].[RsvPayments]
+ADD CONSTRAINT [FK_OnlineReservationRsvPayment]
+    FOREIGN KEY ([OnlineReservationId])
+    REFERENCES [dbo].[OnlineReservations]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OnlineReservationRsvPayment'
+CREATE INDEX [IX_FK_OnlineReservationRsvPayment]
+ON [dbo].[RsvPayments]
+    ([OnlineReservationId]);
 GO
 
 -- --------------------------------------------------

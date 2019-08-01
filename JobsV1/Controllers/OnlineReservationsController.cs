@@ -126,13 +126,14 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Form(string tourCode)
+        public ActionResult Form(string tourCode, string svcType)
         {
             var product = pdb.SmProducts.Where(s=>s.Code == tourCode).FirstOrDefault();
 
             ViewBag.Amount = product.Price;
             ViewBag.ProductName = product.Name;
             ViewBag.tourCode = tourCode;
+            ViewBag.svcType = svcType;
 
             //get paypal keys at db
             PaypalAccount paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();
@@ -141,19 +142,20 @@ namespace JobsV1.Controllers
             return View();
         }
 
-        public String AddRecord(string tourCode, string name, string number, string email, string dtstart, string dtend,string remarks)
+        public String AddRecord(string tourCode, string name, string number, string email, string dtstart, int qty, string pickup, int amount)
         {
             DateClass today = new DateClass();
             
             OnlineReservation reserve = new OnlineReservation();
             reserve.DtPosted = today.GetCurrentDateTime();
             reserve.DtStart = DateTime.Parse(dtstart);
-            reserve.DtEnd = DateTime.Parse(dtend);
             reserve.Name = name;
             reserve.Email = email;
             reserve.ContactNum = number;
             reserve.ProductCode = tourCode;
-            reserve.Remarks = remarks;
+            reserve.Qty = qty;
+            reserve.PickupDtls = pickup;
+            reserve.PaymentAmt = amount;
 
             db.OnlineReservations.Add(reserve);
             db.SaveChanges();
@@ -167,35 +169,48 @@ namespace JobsV1.Controllers
         {
             DateClass today = new DateClass();
 
-            OnlineReservation reserve = db.OnlineReservations.Find(TransId);
-            reserve.PaymentAmt = PaymentAmt;
-            reserve.PaymentStatus = PaymentStatus;
-            reserve.DtPayment = DateTime.Parse(DtPayment);
-            reserve.PaymentId = PaymentId;
+            try
+            {
+                OnlineReservation reserve = db.OnlineReservations.Find(TransId);
+                RsvPayment payment = new RsvPayment();
+                payment.OnlineReservationId = reserve.Id;
+                payment.Amount = PaymentAmt;
+                payment.Status = PaymentStatus;
+                payment.DtPayment = DateTime.Parse(DtPayment);
+                payment.PaypaPaymentId = PaymentId;
+                
+                db.RsvPayments.Add(payment);
+                db.SaveChanges();
 
-            db.Entry(reserve).State = EntityState.Modified;
-            db.SaveChanges();
-            
-            return "300";
+                return "300";
+            }
+            catch (Exception ex)
+            {
+                return "error";
+            }
+
         }
 
-        public string SendEmailPayment(int id)
+        public string SendEmailPayment(int id, string svcType)
         {
+            string mailResult = "error";
             EMailHandler email = new EMailHandler();
             OnlineReservation reservation = db.OnlineReservations.Find(id);
-            
-            string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
-            string ajdavaoEmail = "ajdavao88@gmail.com";
-            string adminEmail = "travel.realbreeze@gmail.com";
-            string testadminEmail = "realbreezemark@gmail.com";
-            string mailResult;
+            if (reservation != null)
+            {
 
-            mailResult = email.SendMailOnlineReserve(id, reservation.Email, "CLIENT"); //send email to client first
-            mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN"); //send email to client first
+                string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
+                string ajdavaoEmail = "ajdavao88@gmail.com";
+                string adminEmail = "travel.realbreeze@gmail.com";
+                string testadminEmail = "realbreezemark@gmail.com";
 
-            mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN"); 
-            mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN"); 
-            mailResult = email.SendMailOnlineReserve(id, adminEmail  , "ADMIN");
+                mailResult = email.SendMailOnlineReserve(id, reservation.Email, "CLIENT", svcType); //send email to client first
+                mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN", svcType); //send email to client first
+
+            }
+            //mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN"); 
+            //mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN"); 
+            //mailResult = email.SendMailOnlineReserve(id, adminEmail  , "ADMIN");
 
             return mailResult;
         }

@@ -96,6 +96,7 @@
     <EntitySet Name="PkgDestinations" EntityType="JobDB.Store.PkgDestinations" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobPosts" EntityType="JobDB.Store.JobPosts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OnlineReservations" EntityType="JobDB.Store.OnlineReservations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RsvPayments" EntityType="JobDB.Store.RsvPayments" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -447,6 +448,10 @@
     <AssociationSet Name="JobMainJobPost" Association="JobDB.Store.JobMainJobPost">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobPost" EntitySet="JobPosts" />
+    </AssociationSet>
+    <AssociationSet Name="OnlineReservationRsvPayment" Association="JobDB.Store.OnlineReservationRsvPayment">
+      <End Role="OnlineReservation" EntitySet="OnlineReservations" />
+      <End Role="RsvPayment" EntitySet="RsvPayments" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1400,15 +1405,23 @@
     <Property Name="DtPosted" Type="datetime" Nullable="false" />
     <Property Name="ProductCode" Type="nvarchar" Nullable="false" MaxLength="15" />
     <Property Name="DtStart" Type="datetime" Nullable="false" />
-    <Property Name="DtEnd" Type="datetime" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="120" />
     <Property Name="ContactNum" Type="nvarchar" Nullable="false" MaxLength="15" />
     <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Qty" Type="int" Nullable="false" />
+    <Property Name="PickupDtls" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="PaymentAmt" Type="decimal" Nullable="true" />
-    <Property Name="PaymentStatus" Type="nvarchar" Nullable="true" MaxLength="20" />
-    <Property Name="DtPayment" Type="datetime" Nullable="true" />
-    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
-    <Property Name="PaymentId" Type="nvarchar" Nullable="true" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="RsvPayments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtPayment" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="PaypaPaymentId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OnlineReservationId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2466,6 +2479,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="OnlineReservationRsvPayment">
+    <End Role="OnlineReservation" Type="JobDB.Store.OnlineReservations" Multiplicity="1" />
+    <End Role="RsvPayment" Type="JobDB.Store.RsvPayments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OnlineReservation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RsvPayment">
+        <PropertyRef Name="OnlineReservationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2913,6 +2938,11 @@
             <End Role="JobPost" EntitySet="JobPosts" />
           </AssociationSet>
           <EntitySet Name="OnlineReservations" EntityType="JobDB.OnlineReservation" />
+          <EntitySet Name="RsvPayments" EntityType="JobDB.RsvPayment" />
+          <AssociationSet Name="OnlineReservationRsvPayment" Association="JobDB.OnlineReservationRsvPayment">
+            <End Role="OnlineReservation" EntitySet="OnlineReservations" />
+            <End Role="RsvPayment" EntitySet="RsvPayments" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -5097,16 +5127,38 @@
           <Property Name="DtPosted" Type="DateTime" Nullable="false" />
           <Property Name="ProductCode" Type="String" Nullable="false" MaxLength="15" />
           <Property Name="DtStart" Type="DateTime" Nullable="false" />
-          <Property Name="DtEnd" Type="DateTime" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="120" />
           <Property Name="ContactNum" Type="String" Nullable="false" MaxLength="15" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Qty" Type="Int32" Nullable="false" />
+          <Property Name="PickupDtls" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="PaymentAmt" Type="Decimal" Nullable="true" />
-          <Property Name="PaymentStatus" Type="String" Nullable="true" MaxLength="20" />
-          <Property Name="DtPayment" Type="DateTime" Nullable="true" />
-          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
-          <Property Name="PaymentId" Type="String" Nullable="true" MaxLength="80" />
+          <NavigationProperty Name="RsvPayments" Relationship="JobDB.OnlineReservationRsvPayment" FromRole="OnlineReservation" ToRole="RsvPayment" />
         </EntityType>
+        <EntityType Name="RsvPayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtPayment" Type="DateTime" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="PaypaPaymentId" Type="String" Nullable="false" />
+          <NavigationProperty Name="OnlineReservation" Relationship="JobDB.OnlineReservationRsvPayment" FromRole="RsvPayment" ToRole="OnlineReservation" />
+          <Property Name="OnlineReservationId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="OnlineReservationRsvPayment">
+          <End Type="JobDB.OnlineReservation" Role="OnlineReservation" Multiplicity="1" />
+          <End Type="JobDB.RsvPayment" Role="RsvPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OnlineReservation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RsvPayment">
+              <PropertyRef Name="OnlineReservationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6152,15 +6204,24 @@
           <ScalarProperty Name="DtPosted" ColumnName="DtPosted" />
           <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
           <ScalarProperty Name="DtStart" ColumnName="DtStart" />
-          <ScalarProperty Name="DtEnd" ColumnName="DtEnd" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ContactNum" ColumnName="ContactNum" />
           <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="PickupDtls" ColumnName="PickupDtls" />
           <ScalarProperty Name="PaymentAmt" ColumnName="PaymentAmt" />
-          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RsvPayments">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.RsvPayment)">
+        <MappingFragment StoreEntitySet="RsvPayments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DtPayment" ColumnName="DtPayment" />
-          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-          <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="PaypaPaymentId" ColumnName="PaypaPaymentId" />
+          <ScalarProperty Name="OnlineReservationId" ColumnName="OnlineReservationId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

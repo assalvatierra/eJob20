@@ -14,18 +14,24 @@ namespace JobsV1.Models
     
     public partial class OnlineReservation
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OnlineReservation()
+        {
+            this.RsvPayments = new HashSet<RsvPayment>();
+        }
+    
         public int Id { get; set; }
         public System.DateTime DtPosted { get; set; }
         public string ProductCode { get; set; }
         public System.DateTime DtStart { get; set; }
-        public System.DateTime DtEnd { get; set; }
         public string Name { get; set; }
         public string ContactNum { get; set; }
         public string Email { get; set; }
+        public int Qty { get; set; }
+        public string PickupDtls { get; set; }
         public Nullable<decimal> PaymentAmt { get; set; }
-        public string PaymentStatus { get; set; }
-        public Nullable<System.DateTime> DtPayment { get; set; }
-        public string Remarks { get; set; }
-        public string PaymentId { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RsvPayment> RsvPayments { get; set; }
     }
 }

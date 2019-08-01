@@ -141,7 +141,8 @@ function SimpleTable(data) {
             content += "<td>" + temp[x]["Status"] + "</td>";
             content += "<td>" +
                 "<a href='SMProducts/Details/" + temp[x]["Id"] + "'>Details</a> |" +
-                "</td>";
+            " <a href='../OnlineReservations/Form?tourCode=" + temp[x]["Code"] + "'>Reservations</a> " +
+            "</td>";
             content += "<tr>";
 
         }

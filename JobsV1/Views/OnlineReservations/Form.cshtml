@@ -14,12 +14,12 @@
             <h4>Start Date</h4>
             <input type="text" class="form-control" id="DtStart" onchange="checkdate1()"/>
         </div>
-        <div class="col-lg-12 hidden">
-            <h4>End Date</h4>
-            <input type="text" class="form-control" id="DtEnd" onchange="checkdate2()" />
-        </div>
     </div>
     <div class="row">
+        <div class="col-lg-12 hidden">
+            <h4> Tour Type </h4>
+            <input type="text" class="form-control" id="svcType" maxlength="20" />
+        </div>
         <div class="col-lg-12">
             <h4>Name</h4>
             <input type="text" class="form-control" id="Name" maxlength="80" oninput="validate();" onchange="validate(event)"  />
@@ -32,9 +32,30 @@
             <h4>Email</h4>
             <input type="text" class="form-control" id="Email" maxlength="80" oninput="validate();"  />
         </div>
-        <div class="col-lg-12 hidden">
-            <h4>Remarks</h4>
-            <input type="text" class="form-control" id="Remarks" maxlength="80" >
+        <div class="col-lg-12">
+            <h4>Pick-up</h4>
+            <input type="text" class="form-control" id="Pickup" maxlength="80" oninput="validate();" />
+        </div>
+        <div class="row col-lg-12">
+            <div class="col-lg-8">
+                @if (ViewBag.svcType == "CAR")
+                {
+                    <h4>Number of Days</h4>
+                }
+                else
+                {
+                    <h4>Number of Pax</h4>
+
+                }
+
+                 <span id="Qty" class="text-primary" style="font-size:25px;margin:10px 25px;padding-top:-20px;padding-top:20px;"> 1 </span>
+            </div>
+            <div class="col-lg-4" style="margin-top:40px;">
+          
+                    <buton class="btn btn-default" onclick="addQty()">+</buton>
+                    <buton class="btn btn-default" onclick="subQty()">-</buton>
+            
+            </div>
         </div>
 
         <hr />
@@ -44,7 +65,7 @@
         </div><br />
         <div class="col-lg-12">
             <h4> Amount </h4>
-            <h3> Php @ViewBag.Amount.ToString("##,###.00") </h3>
+            <h3 id="AmountText"> Php @ViewBag.Amount.ToString("##,###.00") </h3>
         </div>
         <hr />
         <div class="col-lg-12">
@@ -65,19 +86,38 @@
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
+    
+    var TransId = 0;
+    var today = new Date().toLocaleString();
+    var TotalAmount = 0;
+    var AmountPerPax = 0;
+    var QtyCount = 0;
 
     $(document).ready(function(){
-        $('#DtStart').val(moment().add(4,'days').format('MM/DD/YYYY hh:mm A'));
-        $('#DtEnd').val(moment().add(4,'days').format('MM/DD/YYYY hh:mm A'));
+        $('#DtStart').val(moment().add(4,'days').format('MM/DD/YYYY'));
+
         getcalcAddOn();
         paypalPayment();
         //$("#paypal-button").hide();
         validate();
+
+        AmountPerPax = @ViewBag.Amount;
+        UpdateAmount();
+
+        //set tourType
+        $("#svcType").val('@ViewBag.svcType');
     });
 
-    var TransId = 0;
-    var today = new Date().toLocaleString();
+    function UpdateAmount(){
+        QtyCount = parseInt($("#Qty").text());
+        TotalAmount = AmountPerPax * QtyCount;
 
+        console.log("pax: " +QtyCount);
+        console.log("TotalAmount: " +TotalAmount);
+        var tempAmt = TotalAmount.toLocaleString('en-US', {minimumFractionDigits: 2});
+        $("#AmountText").text("Php "+ tempAmt);
+
+    }
 
     function validate(){
 
@@ -111,6 +151,7 @@
             $("#email-warning").hide();
         }
 
+
         if(inputValid){ // true
             $("#paypal-button").show();
             $("#input-warning").show();
@@ -124,8 +165,9 @@
 
 
     function paypalPayment(){
-
-            var count = 0;
+        console.log("TotalAmount: " +TotalAmount);
+        var count = 0;
+        var qty = $("#Qty").text();
             paypal.Button.render({
                 // Configure environment
                 //env: 'production',
@@ -152,10 +194,10 @@
                     return actions.payment.create({
                         transactions: [{
                             amount: {
-                                total: '@dQuotedAmt.ToString("##,###.00")', //'dQuotedAmt.ToString("##,###.00")'
+                                total: TotalAmount, //'dQuotedAmt.ToString("##,###.00")'
                                 currency: 'PHP',
                                 details: {
-                                    subtotal: '@dQuotedAmt.ToString("##,###.00")', //
+                                    subtotal: TotalAmount, //
                                     tax: '0.00'
                                     //shipping: '0.01',
                                     //handling_fee: '1.00',
@@ -174,9 +216,9 @@
                                 //item list
                                 items: [{
                                     name: '@ViewBag.ProductName',
-                                    description: '@ViewBag.ProductName reservation thru online payment.',
+                                    description: '@ViewBag.ProductName reservation for '+ QtyCount +' pax thru online payment.',
                                     quantity: '1',
-                                    price: '@dQuotedAmt.ToString("##,###.00")',
+                                    price: TotalAmount,
                                     tax: '0.00',
                                     currency: 'PHP'
                                 }]
@@ -190,44 +232,17 @@
                     .then(function (response) {
                         // Show a confirmation message to the buyer
                         console.log("Paypal Payment : " );
-                        updateRecord(response);
-                        ajaxPaymentSuccess(TransId);
+                        addPaymentRecord(response);
+                        ajaxSendEmail(TransId);
                     });
                 }
             }, '#paypal-button');
 
     }
 
-
-    function ajaxSendMail(jobid){
-        var data = {
-            jobId: jobid,
-            mailType: "CLIENT-PAYMENT-SUCCESS"
-        }
-
-        var serviceURL = '/JobOrder/onPaymentSuccess';
-
-        //loading screen
-        LoadOverlay()
-
-        //send email using ajax
-        $.ajax({
-            type: "POST",
-            url: serviceURL,
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(){
-                console.log('success');
-                disableLoadOverlay();
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                //console.log(jqXHR.responseText);
-                disableLoadOverlay();
-            }
-        });
-    }
-
+    /* 
+     * Add rescord to db after click on paypal button
+     */
     function addRecord(){
         console.log("Add Record");
 
@@ -237,8 +252,9 @@
             number: $("#Number").val(),
             email: $("#Email").val(),
             dtstart:  $("#DtStart").val(),
-            dtend: $("#DtStart").val(),
-            remarks: $("#Remarks").val()
+            qty : $("#Qty").text(),
+            pickup : $("#Pickup").val(),
+            amount : TotalAmount
         }
 
         var serviceURL = '/OnlineReservations/AddRecord';
@@ -254,12 +270,13 @@
             dataType: "json",
             success: function(jqXHR, textStatus, errorThrown){
                 console.log('success');
-                //console.log(jqXHR);
+                console.log(jqXHR);
                 TransId = jqXHR;
+                console.log("TransId: " + TransId);
                 //disableLoadOverlay();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                //console.log(jqXHR);
+                console.log(jqXHR);
             }
         });
     }
@@ -267,13 +284,13 @@
 
     //Update record by transactionId
     //after payment success
-    function updateRecord(response){
+    function addPaymentRecord(response){
 
-        var today =  moment().format("MM/DD/YYYY hh:mm A");
+        var today =  moment().format("MM/DD/YYYY");
         var amount = @dQuotedAmt;
         var data = {
             TransId : TransId,
-            PaymentAmt : amount,
+            PaymentAmt : TotalAmount,
             PaymentStatus : "Success : " ,
             DtPayment : today,
             PaymentId : response.id
@@ -295,15 +312,24 @@
                 //disableLoadOverlay();
             },
             error: function(jqXHR, textStatus, errorThrown){
-                console.log("jqXHR:"+jqXHR);
-                console.log("textStatus:"+textStatus);
+                console.log(jqXHR);
+                //console.log("textStatus:" + textStatus);
             }
         });
     }
 
-    function ajaxPaymentSuccess(jobid){
+    /* 
+     * Send Email to Client and Admin after payment success
+     */
+    function ajaxSendEmail(jobid){
+
+        console.log("ReservationId: " + jobid);
+        
+        var type = $("#svcType").val();
+
         var data = {
             id: jobid,
+            svcType : type
         }
 
         var serviceURL = '/OnlineReservations/SendEmailPayment';
@@ -370,7 +396,7 @@
 
         if (today > datepicker) {
             //alert("Job date is past the valid date.");
-            var validDate = moment().add(4, 'days').format('MM/DD/YYYY hh:mm A');
+            var validDate = moment().add(4, 'days').format('MM/DD/YYYY');
             console.log(validDate)
             $('#DtStart').val(validDate);
         }
@@ -383,10 +409,28 @@
 
         if (today > datepicker) {
             //alert("Job date is past the valid date.");
-            var validDate = moment().add(4, 'days').format('MM/DD/YYYY hh:mm A');
+            var validDate = moment().add(4, 'days').format('MM/DD/YYYY');
             console.log(validDate)
             $('#DtEnd').val(validDate);
         }
+    }
+
+    function addQty(){
+        var qty = parseInt($("#Qty").text()) + 1;
+        $("#Qty").text(qty);
+        UpdateAmount();
+    }
+
+    function subQty(){
+
+        var qty = parseInt($("#Qty").text());
+
+        if(qty > 1){
+            qty -= 1;
+        }
+
+        $("#Qty").text(qty);
+        UpdateAmount();
     }
 
 </script>
