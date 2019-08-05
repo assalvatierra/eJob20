@@ -186,10 +186,13 @@
             Total:
             <br /> Projected Income: 
         </td>
-        <td> @string.Format("{0:N0}", total_rate)  / @string.Format("{0:N0}", total_payment) / @string.Format("{0:N0}", total_expenses)
-        <br />@string.Format("{0:N0}", total_projIncome) 
+        <td> 
+            <span class="amount-rate">@string.Format("{0:N0}", total_rate)</span> / 
+            <span class="amount-payment">@string.Format("{0:N0}", total_payment)</span> / 
+            <span class="amount-expense">@string.Format("{0:N0}", total_expenses)</span>
+        <br /> <span class="amount-rate">@string.Format("{0:N0}", total_projIncome)</span> 
         </td>
-        <td> Total Collectible: @string.Format("{0:N0}", total_collectible)  </td>
+        <td> Total Collectible: <span class="amount-rate"> @string.Format("{0:N0}", total_collectible) </span> </td>
     </tr>
 
 </table>
@@ -385,10 +388,10 @@
             <td style="text-align:right">
                 Total:
             </td>
-             <td> @string.Format("{0:N0}", current_totalPayment)  / @string.Format("{0:N0}", current_totalExpenses) 
-             <br />@string.Format("{0:N0}", current_totalTourInc)  / @string.Format("{0:N0}", current_totalCarInc) / @string.Format("{0:N0}", current_totalOthersInc)
+             <td> <span class="amount-rate"> @string.Format("{0:N0}", current_totalPayment) </span> / <span class="amount-payment">@string.Format("{0:N0}", current_totalExpenses)</span> 
+             <br /><span class="amount-rate">@string.Format("{0:N0}", current_totalTourInc)</span> / <span class="amount-payment">@string.Format("{0:N0}", current_totalCarInc)</span> / <span class="amount-expense">@string.Format("{0:N0}", current_totalOthersInc)</span>
              </td>
-             <td> Total Income: @string.Format("{0:N0}", current_total)  </td>
+             <td> Total Income: <span class="amount-rate"> @string.Format("{0:N0}", current_total) </span> </td>
         </tr>
     </table>
     
@@ -547,10 +550,13 @@
                 Total:
                 <br /> Projected Income: 
             </td>
-            <td> @string.Format("{0:N0}", old_totalRate) / @string.Format("{0:N0}", old_totalPayment)    / @string.Format("{0:N0}", old_totalExpenses)
-                
-            <br />@string.Format("{0:N0}", old_totalprojIncome)   </td>
-            <td> Total Collectible:  @string.Format("{0:N0}", old_total) </td>
+            <td> 
+                <span class="amount-rate">@string.Format("{0:N0}", old_totalRate)</span> / 
+                <span class="amount-payment">@string.Format("{0:N0}", old_totalPayment)</span> / 
+                <span class="amount-expense">@string.Format("{0:N0}", old_totalExpenses)</span><br />
+                <span class="amount-rate">@string.Format("{0:N0}", old_totalprojIncome)</span>
+            </td>
+            <td> Total Collectible:  <span class="amount-rate">@string.Format("{0:N0}", old_total)</span> </td>
         </tr>
     </table>
 

@@ -2608,14 +2608,14 @@ order by x.jobid
                         break;
                     case "RESERVATION":
                         mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices); // client email
-                        mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
-                        mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
-                        mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        //mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
+                        //mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
+                        //mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                 }
 
             }
-            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
+            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again later. " + mailResult;
             return mailResult;
         }
 

@@ -17,7 +17,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12 hidden">
-            <h4> Tour Type </h4>
+            <h4> Service </h4>
             <input type="text" class="form-control" id="svcType" maxlength="20" />
         </div>
         <div class="col-lg-12">
@@ -99,7 +99,7 @@
         getcalcAddOn();
         paypalPayment();
         //$("#paypal-button").hide();
-        validate();
+        //validate();
 
         AmountPerPax = @ViewBag.Amount;
         UpdateAmount();
@@ -144,7 +144,7 @@
 
         //check email if not null
         var email = $("#Email").val();
-        if(!validateEmail(email) || email == ''){
+        if(!validateEmail(email)){
             inputValid = false;
             $("#email-warning").show();
         }else{
