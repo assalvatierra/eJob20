@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/31/2019 14:40:32
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 08/05/2019 17:23:20
+-- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -281,6 +281,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_JobMainJobPost]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[JobPosts] DROP CONSTRAINT [FK_JobMainJobPost];
 GO
+IF OBJECT_ID(N'[dbo].[FK_OnlineReservationRsvPayment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RsvPayments] DROP CONSTRAINT [FK_OnlineReservationRsvPayment];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -555,6 +558,9 @@ IF OBJECT_ID(N'[dbo].[JobPosts]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[OnlineReservations]', 'U') IS NOT NULL
     DROP TABLE [dbo].[OnlineReservations];
+GO
+IF OBJECT_ID(N'[dbo].[RsvPayments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RsvPayments];
 GO
 
 -- --------------------------------------------------
