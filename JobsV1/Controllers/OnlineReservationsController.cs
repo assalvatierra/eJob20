@@ -201,17 +201,18 @@ namespace JobsV1.Controllers
 
                 string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
                 string ajdavaoEmail = "ajdavao88@gmail.com";
-                string adminEmail = "travel.realbreeze@gmail.com";
+                string adminEmail   = "travel.realbreeze@gmail.com";
                 string testadminEmail = "realbreezemark@gmail.com";
 
                 mailResult = email.SendMailOnlineReserve(id, reservation.Email, "CLIENT", svcType); //send email to client first
                 mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN", svcType); //send email to client first
 
-            }
-            //mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN"); 
-            //mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN"); 
-            //mailResult = email.SendMailOnlineReserve(id, adminEmail  , "ADMIN");
+                mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN", svcType); 
+                mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN", svcType); 
+                mailResult = email.SendMailOnlineReserve(id, adminEmail  , "ADMIN", svcType);
 
+
+            }
             return mailResult;
         }
     }

@@ -138,6 +138,25 @@ namespace JobsV1.Models
         public DateTime DtPayment { get; set; }
     }
 
+    //ActiveJobs / Quicklist
+    public class cActiveJobs
+    {
+        public int Id { get; set; }
+        public int JobMainId { get; set; }
+        public string JobDesc { get; set; }
+        public string Particulars { get; set; }
+        public string Service { get; set; }
+        public string Customer { get; set; }
+        public string Item { get; set; }
+        public string DtStart { get; set; }
+        public string DtEnd { get; set; }
+        public string JsDate { get; set; }
+        public string JsTime { get; set; }
+        public string JsLocation { get; set; }
+        public DateTime SORTDATE { get; set; }
+        public IEnumerable<JobServiceItem> Assigned { get; set; }
+    }
+
     public class DBClasses
     {
         JobDBContainer db = new JobDBContainer();
@@ -524,6 +543,61 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 
             return joblist;
 
+        }
+
+        /*
+         * Sql for getting the active jobs 
+         * with date filter : ALL, TODAY , TOMMORROW and 2 Days after 
+         * Sorted by Job service start date and pickup time 
+         */ 
+        public List<cActiveJobs> getActiveJobs(int FilterId)
+        {
+            List<cActiveJobs> joblist = new List<cActiveJobs>();
+            string sql = "";
+
+            sql =  " SELECT js.Id,  js.JobMainId ,js.Particulars, JobName = j.Description , Service = ( SELECT s.Name FROM Services s WHERE js.ServicesId = s.Id )," +
+                   " Customer = (SELECT c.Name FROM Customers c WHERE j.CustomerId = c.Id) , " +
+                   " Item = (SELECT sup.Description FROM SupplierItems sup WHERE js.SupplierItemId = sup.Id )," +
+                   " CONVERT(varchar, CAST( js.DtStart as DATETIME), 107) as DtStart,"+
+                   " CONVERT(varchar, CAST( js.DtEnd as DATETIME), 107) as DtEnd," +
+                   " CONVERT(varchar, CAST(jp.JsDate as DATETIME),  107) as JsDate, " +
+                   //" CAST( convert(varchar, isnull(jp.JsTime,'00:00:00'), 8) as TIME) as JsTime, jp.JsLocation, " +
+                   " CONVERT(varchar, CAST( isnull(jp.JsTime, '00:00:00') as TIME),8) as JsTime, jp.JsLocation," +
+                   " SORTDATE = CAST( DATEADD(hh, CAST(SUBSTRING( CAST( CAST( CONVERT(varchar, isnull(jp.JsTime,'00:00:00'), 8)  as TIME) as VARCHAR),1,2 ) as INT),DtStart) as DATETIME) " +
+                   " FROM JobServices js" +
+                   " LEFT JOIN JobMains j ON js.JobMainId = j.Id" +
+                   " LEFT JOIN JobServicePickups jp ON jp.JobServicesId = js.Id ";
+
+            switch (FilterId)
+            {
+                case 1: //all
+                    sql += " WHERE j.JobStatusId < 4 ";
+                    break;
+                case 2://today
+                    sql += " WHERE (js.DtStart = CAST(GETDATE()as DATE) ) AND j.JobStatusId < 4 ";
+                    break;
+                case 3://tommorrow
+                    sql += " WHERE (js.DtStart > CAST(GETDATE()as DATE)  AND js.DtStart <=  DATEADD(DAY, 1, GETDATE())) AND j.JobStatusId < 4 ";
+                    break;
+                case 4: //2 days
+                    sql += " WHERE (js.DtStart >= CAST(GETDATE()as DATE)  AND js.DtStart <=  DATEADD(DAY, 2, GETDATE())) AND j.JobStatusId < 4 ";
+                    break;
+                default:
+                    sql += " WHERE (js.DtStart >= CAST(GETDATE()as DATE)  AND js.DtStart <=  DATEADD(DAY, 2, GETDATE())) AND j.JobStatusId < 4 ";
+                    break;
+            }
+
+            sql += "";
+
+            joblist = db.Database.SqlQuery<cActiveJobs>(sql).ToList();
+            
+            //assign item
+            foreach (var item in joblist)
+            {
+                item.Assigned = db.JobServiceItems.Where(s => s.JobServicesId == item.Id).ToList();
+            }
+
+            return joblist;
         }
 
         public decimal getJobExpensesBySVC(int svcId)

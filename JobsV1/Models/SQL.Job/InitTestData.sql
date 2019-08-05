@@ -131,3 +131,37 @@ SELECT * From JobMains j WHERE j.Id = (SELECT * FROM JobEntMains WHERE CustEntMa
 SELECT * FROM JobEntMains WHERE CustEntMainId = 1 GROUP BY JobMainId ORDER BY Id
 
 SELECT * FROM JobServices WHERE JobMainId = 2
+
+/** Active Jobs for QuickList
+ * with date filter and order by date start and time 
+ */
+
+ SELECT TOP 50 js.Id,  js.JobMainId ,js.Particulars, JobName = j.Description , Service = ( SELECT s.Name FROM Services s WHERE js.ServicesId = s.Id ),
+                    Customer = (SELECT c.Name FROM Customers c WHERE j.CustomerId = c.Id) , 
+                    Item = (SELECT sup.Description FROM SupplierItems sup WHERE js.SupplierItemId = sup.Id ),
+                    CONVERT(varchar, CAST( js.DtStart as DATETIME), 107) as DtStart,
+                    CONVERT(varchar, CAST( js.DtEnd as DATETIME), 107) as DtEnd,
+                    CONVERT(varchar, CAST( jp.JsDate as DATETIME), 107) as JsDate ,
+                    CAST( convert(varchar, isnull(jp.JsTime,'00:00:00'), 8) as TIME) as JsTime, 
+			
+                    SORTDATE = DATEADD(hh, CAST(SUBSTRING( CAST( CAST( CONVERT(varchar, isnull(jp.JsTime,'00:00:00'), 8)  as TIME) as VARCHAR),1,2 ) as INT),DtStart)
+					
+                    FROM JobServices js
+                    LEFT JOIN JobMains j ON js.JobMainId = j.Id
+                    LEFT JOIN JobServicePickups jp ON jp.JobServicesId = js.Id
+					WHERE j.JobStatusId < 4 
+					ORDER BY SORTDATE ASC
+					;
+
+
+SELECT js.Id,  js.JobMainId ,js.Particulars, JobName = j.Description , Service = ( SELECT s.Name FROM Services s WHERE js.ServicesId = s.Id ),
+                    Customer = (SELECT c.Name FROM Customers c WHERE j.CustomerId = c.Id) ,  
+                    Item = (SELECT sup.Description FROM SupplierItems sup WHERE js.SupplierItemId = sup.Id ), 
+                    CONVERT(varchar, CAST( js.DtStart as DATETIME), 107) as DtStart,
+                    CONVERT(varchar, CAST( js.DtEnd as DATETIME), 107) as DtEnd, 
+                    CONVERT(varchar, CAST(jp.JsDate as DATETIME),  107) as JsDate,  
+                    CONVERT(TIME, CAST( isnull(jp.JsTime, '00:00:00') as TIME),8) as JsTime, jp.JsLocation, 
+                    SORTDATE = CAST( DATEADD(hh, CAST(SUBSTRING( CAST( CAST( CONVERT(varchar, isnull(jp.JsTime,'00:00:00'), 8)  as TIME) as VARCHAR),1,2 ) as INT),DtStart)  as DATETIME)
+                    FROM JobServices js 
+                    LEFT JOIN JobMains j ON js.JobMainId = j.Id 
+                    LEFT JOIN JobServicePickups jp ON jp.JobServicesId = js.Id ORDER BY SORTDATE;

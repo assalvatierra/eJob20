@@ -594,44 +594,58 @@ namespace JobsV1.Models
                     destinations += dest.Destination.Description +", ";
                 }
 
-                
-                
+
+                var jNotes = db.JobNotes.Where(s => s.JobMainId == jobId).ToList();
+                //get job notes
+                string sNotes = "";
+                foreach (var notetmp in jNotes)
+                {
+                    string s = notetmp.Note;
+
+                    if (sNotes.Trim() != "") { sNotes += "<br>"; }
+
+                    else { sNotes += "Terms & Conditions:<br>"; }
+
+                    sNotes += " " + notetmp.Note;
+                }
+
                 body =
                     "" +
                     " <div style='background-color:#f4f4f4;padding:30px' >" +
 
-                     "<img src='"+getHeader(job.Branch.Name) +"' width='100%' />"
+                     "<img src='" + getHeader(job.Branch.Name) + "' width='100%' />"
                     + "<div style='background-color:white;padding:30px'>"
                     + "<h1> Quotation </h1><div>"
 
                     //details
                     + " Job Ref # : " + job.Id + " <br/>"
-                    + " Date : "+ job.JobDate.ToString("MMM dd yyyy (ddd)") + " <br/>"
-                    + " Details : "+ getCustCompany(jobId) + "<br/>"
-                    + "           "+ job.Description + " / " + job.Customer.Name  +"<br/>"
-                    + " Pax : "+ job.NoOfPax + " <br/>"
-                    + " Days : "+ job.NoOfDays + " <br/>"
-                    + " Remarks : "+ job.JobRemarks + " <br/>"
-                    + "</div>"
+                    + " Date : " + job.JobDate.ToString("MMM dd yyyy (ddd)") + " <br/>"
+                    + " Details : " + getCustCompany(jobId) + "<br/>"
+                    + "           " + job.Description + " / " + job.Customer.Name + "<br/>"
+                    + " Pax : " + job.NoOfPax + " <br/>"
+                    + " Days : " + job.NoOfDays + " <br/>"
+                    + " Remarks : " + job.JobRemarks + " <br/>"
+                    + "</div>";
 
-                    //services
-                    + "<div><h2> Services </h2>"
-                    + "<table width='100%'  style='text-alight:left;'><tbody><tr><th>Type</th>"
-                    + "<th> Pacticulars </th><th> Amount </th></tr>"
-                    + services
-                    + "</tbody></table>"
+                //services
+                body += "<div><h2> Services </h2>"
+                     + "<table width='100%'  style='text-alight:left;'><tbody><tr><th>Type</th>"
+                     + "<th> Pacticulars </th><th> Amount </th></tr>"
+                     + services
+                     + "</tbody></table>";
 
                     //destination
-                    + "<br/><p> "+ destinations + " </p></div>"
+                body += "<br/><p> " + destinations + " </p></div>";
 
-                    //Summary
-                    + "<div width='100%' style='background-color:#f1f1f1;padding:30px;margin-top:30px;margin-botom:20px;'>"
-                    + "<h2> Summary </h2><h2> Total Due: "+ Convert.ToDecimal(totalAmount).ToString("#,##0.00")  + " </h2></div><br/><br/>"
+                //Summary
+                body += "<div width='100%' style='background-color:#f1f1f1;padding:30px;margin-top:30px;margin-botom:20px;'>"
+                     + "<h2> Summary </h2><h2> Total Due: " + Convert.ToDecimal(totalAmount).ToString("#,##0.00") + " </h2></div>"
+                     + "<p>" + sNotes + " <p><br>"
 
-                    + "<p></p><div><p> Prepared by: <b>"+ getStaffName(JobEncoder.user) +"</b> </p>"
-                    + "<p> Validity: <b>"+ dateValid + "</b></p></div><hr>" +
+                     + "<p></p><div><p> Prepared by: <b>" + getStaffName(JobEncoder.user) + "</b> </p>"
+                     + "<p> Validity: <b>" + dateValid + "</b></p></div><hr>";
                     //footer
-                    " <p style='text-align:center;'> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE. </p> " +
+               body += " <p style='text-align:center;'> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE. </p> " +
                     " <p style='text-align:center;'> For further inquiries kindly email us through " + getcallBackEmail(job.Branch.Name) + " or dial(+63) 82 297 1831. </p> " +
                     "</div></div>" +
                     "";
@@ -825,10 +839,10 @@ namespace JobsV1.Models
                     + "<table width='50%'>"
                     + "<tr><td><b>Amount</b></td><td><b>Particulars</b></td></tr>"
                     + paymentTxt
-                    + "</table>"
+                    + "</table>";
 
                     //Summary
-                    + "<div width='100%' style='background-color:#f1f1f1;padding:30px;margin-top:30px;margin-botom:20px;'>"
+                body += "<div width='100%' style='background-color:#f1f1f1;padding:30px;margin-top:30px;margin-botom:20px;'>"
                     + "<h2> Summary </h2><h3> Total Due: " + Convert.ToDecimal(totalAmount).ToString("#,##0.00")  + " </h3>"
                     + "<h3> Partial: "+ Convert.ToDecimal(partial).ToString("#,##0.00")  + "</h3>"
                     + "<h3> Balance: " + Convert.ToDecimal(balance).ToString("#,##0.00")  + "</h3></div>"
@@ -887,13 +901,12 @@ namespace JobsV1.Models
             {
                 message += "<div style='margin:10px auto;text-align:left;padding-left:200px;background-color:white;width:400px;min-width:160px;'> " +
                             "<h2> Reservation Details </h2><span style='font-size:15px;'>" +
-                            "<b> Reservation ID : </b> " + reservation.Id + "<br />" +
-                            "<b> Rental : </b> " + product.Name + "<br />" +
-                            "<b> Rental Code: </b> " + reservation.ProductCode + "<br />" +
-                            "<b> Rental Date: </b> " + reservation.DtStart.ToString("MMM dd yyyy") + "<br />" +
-                            "<b> Client Name: </b> " + reservation.Name + "<br />" +
-                            "<b> Client Number: </b> " + reservation.ContactNum + "<br />" +
-                            "<b> Client Email: </b> " + reservation.Email + "<br />" +
+                            "<b> Product : </b> " + product.Name + "<br />" +
+                            "<b> Product Code: </b> " + reservation.ProductCode + "<br />" +
+                            "<b> Date: </b> " + reservation.DtStart.ToString("MMM dd yyyy (ddd)") + "<br />" +
+                            "<b> Name: </b> " + reservation.Name + "<br />" +
+                            "<b> Contact No.: </b> " + reservation.ContactNum + "<br />" +
+                            "<b> Email: </b> " + reservation.Email + "<br />" +
                             "<b> Pickup: </b>  " + reservation.PickupDtls + "<br />" +
                             "<b> No. Pax: </b>  " + reservation.Qty + "<br />" +
                             "<b> Amount: </b> P " + reservation.PaymentAmt + "<br />" +
@@ -904,13 +917,12 @@ namespace JobsV1.Models
             {   //TOUR DEFAULT
                 message += "<div style='margin:10px auto;text-align:left;padding-left:200px;background-color:white;width:400px;min-width:160px;'> " +
                             "<h2> Reservation Details </h2><span style='font-size:15px;'>" +
-                            "<b> Reservation ID : </b> " + reservation.Id + "<br />" +
-                            "<b> Tour : </b> " + product.Name + "<br />" +
-                            "<b> Tour Code: </b> " + reservation.ProductCode + "<br />" +
-                            "<b> Tour Date: </b> " + reservation.DtStart.ToString("MMM dd yyyy") + "<br />" +
-                            "<b> Client Name: </b> " + reservation.Name + "<br />" +
-                            "<b> Client Number: </b> " + reservation.ContactNum + "<br />" +
-                            "<b> Client Email: </b> " + reservation.Email + "<br />" +
+                            "<b> Product : </b> " + product.Name + "<br />" +
+                            "<b> Code: </b> " + reservation.ProductCode + "<br />" +
+                            "<b> Date: </b> " + reservation.DtStart.ToString("MMM dd yyyy (ddd)") + "<br />" +
+                            "<b> Name: </b> " + reservation.Name + "<br />" +
+                            "<b> Contact No.: </b> " + reservation.ContactNum + "<br />" +
+                            "<b> Email: </b> " + reservation.Email + "<br />" +
                             "<b> Pickup: </b>  " + reservation.PickupDtls + "<br />" +
                             "<b> No. Pax: </b>  " + reservation.Qty + "<br />" +
                             "<b> Amount: </b> P " + reservation.PaymentAmt + "<br />" +

@@ -97,17 +97,15 @@ namespace JobsV1.Controllers
             jobMains = (IQueryable<Models.JobMain>)jobMains.Where(d => d.JobStatusId == JOBRESERVATION || d.JobStatusId == JOBCONFIRMED);
 
             var p = jobMains.Select(s => s.Id);
-            
-            DateTime today = GetCurrentTime();
-            //.Where(w => DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0)
-            List<JobServices> data = db.JobServices.Where(w => p.Contains(w.JobMainId)).ToList().OrderBy(s => s.DtStart).ToList();
 
-            //today = today.AddHours(-12).Date;
-            //today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
+            DateTime today = GetCurrentTime();
+
+            List<JobServices> data = db.JobServices.Where(w => p.Contains(w.JobMainId)).ToList().OrderBy(s => s.DtStart).ToList();
 
             DateTime tomorrow = today.AddDays(1);
             DateTime after2Days = today.AddDays(2);
-            switch (FilterId) {
+            switch (FilterId)
+            {
                 case 1:
                     data = data.OrderBy(s => s.DtStart).ToList();
                     break;
@@ -122,7 +120,7 @@ namespace JobsV1.Controllers
                 case 4:
                     //get jobs from today to 2 days after
                     data = data
-                        .Where(w => DateTime.Compare(w.DtStart.Value.Date, after2Days.Date) <= 0 && DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0 ).OrderBy(s => s.DtStart)
+                        .Where(w => DateTime.Compare(w.DtStart.Value.Date, after2Days.Date) <= 0 && DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0).OrderBy(s => s.DtStart)
                         .ToList();
                     break;
                 default:
@@ -133,21 +131,75 @@ namespace JobsV1.Controllers
                     break;
             }
 
-
             if (service != null)
             {
                 if (service != "all")
                 {
-                    data = data.Where(s=>s.Service.Name.ToLower().Contains(service.ToLower())).ToList();
+                    data = data.Where(s => s.Service.Name.ToLower().Contains(service.ToLower())).ToList();
                 }
             }
+            
+            ////convert to cJobActives
+            //List<cActiveJobs> cdata = new List<cActiveJobs>();
 
+            //foreach (var item in data)
+            //{
+            //    var pickup = item.JobServicePickups.Where(s => s.JobServicesId == item.Id).FirstOrDefault() ;
+            //    TimeSpan timedefault = TimeSpan.Parse("00:00");
+            //    DateTime tempDate = (DateTime)item.DtStart;
+            //    DateTime sortdate = today;
+            //    if (pickup != null)
+            //    {
+            //        string timeValue = pickup.JsTime;
+            //        TimeSpan _time = TimeSpan.Parse(timeValue.Replace(" AM", "").Replace(" PM", ""));
+
+            //        var time = _time;
+            //        sortdate = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, time.Hours, time.Minutes, time.Seconds);
+            //    }
+
+            //    var jobs = new cActiveJobs();
+               
+            //        jobs.Id = item.Id;
+            //        jobs.JobMainId = item.JobMainId;
+            //        jobs.JobDesc = item.JobMain.Description;
+            //        jobs.Particulars = item.Particulars;
+            //        jobs.Service = item.Service.Name;
+            //        jobs.Customer = item.JobMain.Customer.Name;
+            //        jobs.Item = item.SupplierItem.Description;
+            //        jobs.DtStart = ((DateTime)item.DtStart).ToString("MMM dd yyyy (ddd)");
+            //        jobs.DtEnd = ((DateTime)item.DtEnd).ToString("MMM dd yyyy (ddd)");
+            //        jobs.JsDate = pickup != null ? pickup.JsDate.ToString("MMM dd yyyy (ddd)") : "";
+            //        jobs.JsTime = pickup != null ? pickup.JsTime : ""; // TimeSpan.Parse(pickup.JsTime.Substring(1,4))
+            //        jobs.JsLocation = pickup != null ? pickup.JsLocation : "N/A";
+            //        jobs.SORTDATE = sortdate;
+            //        jobs.Assigned = item.JobServiceItems;
+
+            //    cdata.Add(jobs);
+            //}
+            
+            ViewBag.Current = this.GetCurrentTime().ToString("MMM dd yyyy (ddd)");
+            ViewBag.today = GetCurrentTime();
+            
+            return View(data);
+        }
+
+        public ActionResult ActiveJobs2(int? FilterId, string service)
+        {
+
+            int filter = 0;
+            if (FilterId != null)
+            {
+                filter = (int)FilterId; //default
+            }
+
+            List<cActiveJobs> data = dbc.getActiveJobs(filter);
 
             ViewBag.Current = this.GetCurrentTime().ToString("MMM-dd-yyyy (ddd)");
             ViewBag.today = GetCurrentTime();
-            return View(data);
+
+            return View(data.OrderBy(s=>s.SORTDATE));
         }
-        
+
         protected DateTime GetCurrentTime()
         {
             DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));

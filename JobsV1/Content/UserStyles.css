@@ -389,3 +389,9 @@
 .amount-rate{
     color:blue; font: bold 12px arial, verdana;
 }
+
+
+.amount-expense{
+    color:red; font: bold 12px arial, verdana;
+}
+

@@ -2087,6 +2087,7 @@
     <Content Include="Views\OnlineReservations\Edit.cshtml" />
     <Content Include="Views\OnlineReservations\Index.cshtml" />
     <Content Include="Views\OnlineReservations\Form.cshtml" />
+    <Content Include="Views\JobMains\ActiveJobs2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
