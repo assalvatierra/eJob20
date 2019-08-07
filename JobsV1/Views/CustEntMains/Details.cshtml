@@ -13,6 +13,7 @@
     @Html.ActionLink("Back to List", "Index")
 </p>
 
+<hr />
 
 <div class="row">
     <div class="col-lg-12">
@@ -23,7 +24,7 @@
 </div>
 
 <div>
-    <h3>Customers </h3>
+    <h3>Contacts </h3>
     @foreach (var customers in Model.CustEntities as IEnumerable<JobsV1.Models.CustEntity>)
     {
         <p> 
@@ -33,6 +34,12 @@
         </p>
     }
 </div>
+<hr />
+<h3>Sales Leads</h3>
+<div class="row">
+    Active Sales Leads..
+</div>
+
 <hr />
 <div class="row">
 
