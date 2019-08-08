@@ -149,10 +149,13 @@ namespace JobsV1.Controllers
             tmp.DtEntered = DateTime.Now;
             tmp.EnteredBy = HttpContext.User.Identity.Name;
             
-
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name");
+            ViewBag.CustomerId = new SelectList(db.Customers.Where(s=>s.Status == "ACT"), "Id", "Name");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName");
-            ViewBag.CustomerList = db.Customers.ToList();
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
+
+            ViewBag.CustomerList = db.Customers.Where(s=>s.Status == "ACT").ToList();
+            ViewBag.CompanyList = db.CustEntMains.ToList();
+
             return View(tmp);
         }
 
@@ -251,8 +254,7 @@ namespace JobsV1.Controllers
             }
             base.Dispose(disposing);
         }
-
-
+        
         #region Sales Lead Category
         public ActionResult SalesLeadCat(int id)
         {

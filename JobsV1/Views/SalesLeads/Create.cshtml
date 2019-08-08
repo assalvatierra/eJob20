@@ -48,7 +48,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustomerId, "CustomerId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Company </b>
+            <div class="col-sm-4" style="width:320px">
+                @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control", @id = "CompanyId" })
+                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+           <b class="control-label col-md-2"> Contact </b>
             <div class="col-sm-4" style="width:320px" >
                 @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" ,@id= "CustomerId" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
@@ -60,21 +68,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Contact Name</b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CustName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CustName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.CustPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Contact No. </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CustPhone, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CustPhone, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.CustEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> Email </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CustEmail, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CustEmail, "", new { @class = "text-danger" })
@@ -155,23 +163,23 @@
 
 <script>
     function searchCustomer() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("SearchBarCustomer");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("SearchListCustomer");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("SearchBarCustomer");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("SearchListCustomer");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
         }
     }
-}
 
-function setValue(value){
-    $('#CustomerId').val(value);
-    $('#CustomersModal').modal('toggle');
-}
+    function setValue(value){
+        $('#CustomerId').val(value);
+        $('#CustomersModal').modal('toggle');
+    }
 </script>
