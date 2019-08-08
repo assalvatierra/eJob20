@@ -14,7 +14,7 @@ IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
 -- --------------------------------------------------
--- Dropping existing FOREIGN KEY constraints
+-- Dropping existing FOREIGN KEY constraints         
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[FK_SysServiceEntServices]', 'F') IS NOT NULL

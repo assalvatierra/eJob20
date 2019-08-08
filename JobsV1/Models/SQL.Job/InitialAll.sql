@@ -266,7 +266,7 @@ values (1,'10 seater vehicle',3500,1), (1,'14 seater vehicle',4000,1);
 
 -- Customer PO Samples
 insert into Customers(Name, Email, Contact1, Contact2, Remarks, Status) 
-values('John Doe','johndoe@gmail.com','09950753794','09950753794','Test User','ACT');
+values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test User','ACT');
 
 insert into CustCats(CustomerId, CustCategoryId) 
 values(3,2),(3,1);

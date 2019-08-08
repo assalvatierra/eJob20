@@ -97,6 +97,9 @@
     <EntitySet Name="JobPosts" EntityType="JobDB.Store.JobPosts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OnlineReservations" EntityType="JobDB.Store.OnlineReservations" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RsvPayments" EntityType="JobDB.Store.RsvPayments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DriverInstructions" EntityType="JobDB.Store.DriverInstructions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PickupInstructions" EntityType="JobDB.Store.PickupInstructions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesLeadCompanies" EntityType="JobDB.Store.SalesLeadCompanies" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -452,6 +455,22 @@
     <AssociationSet Name="OnlineReservationRsvPayment" Association="JobDB.Store.OnlineReservationRsvPayment">
       <End Role="OnlineReservation" EntitySet="OnlineReservations" />
       <End Role="RsvPayment" EntitySet="RsvPayments" />
+    </AssociationSet>
+    <AssociationSet Name="JobServicePickupPickupInstructions" Association="JobDB.Store.JobServicePickupPickupInstructions">
+      <End Role="JobServicePickup" EntitySet="JobServicePickups" />
+      <End Role="PickupInstructions" EntitySet="PickupInstructions" />
+    </AssociationSet>
+    <AssociationSet Name="PickupInstructionsDriverInstructions" Association="JobDB.Store.PickupInstructionsDriverInstructions">
+      <End Role="PickupInstructions" EntitySet="PickupInstructions" />
+      <End Role="DriverInstructions" EntitySet="DriverInstructions" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadSalesLeadCompany" Association="JobDB.Store.SalesLeadSalesLeadCompany">
+      <End Role="SalesLead" EntitySet="SalesLeads" />
+      <End Role="SalesLeadCompany" EntitySet="SalesLeadCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntMainSalesLeadCompany" Association="JobDB.Store.CustEntMainSalesLeadCompany">
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+      <End Role="SalesLeadCompany" EntitySet="SalesLeadCompanies" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1422,6 +1441,30 @@
     <Property Name="Amount" Type="decimal" Nullable="false" />
     <Property Name="PaypaPaymentId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="OnlineReservationId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DriverInstructions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="120" />
+    <Property Name="OrderNo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PickupInstructions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JobServicePickupId" Type="int" Nullable="false" />
+    <Property Name="DriverInstructionsId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SalesLeadCompanies">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SalesLeadId" Type="int" Nullable="false" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2491,6 +2534,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="JobServicePickupPickupInstructions">
+    <End Role="JobServicePickup" Type="JobDB.Store.JobServicePickups" Multiplicity="1" />
+    <End Role="PickupInstructions" Type="JobDB.Store.PickupInstructions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobServicePickup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PickupInstructions">
+        <PropertyRef Name="JobServicePickupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PickupInstructionsDriverInstructions">
+    <End Role="PickupInstructions" Type="JobDB.Store.PickupInstructions" Multiplicity="*" />
+    <End Role="DriverInstructions" Type="JobDB.Store.DriverInstructions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="DriverInstructions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PickupInstructions">
+        <PropertyRef Name="DriverInstructionsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SalesLeadSalesLeadCompany">
+    <End Role="SalesLead" Type="JobDB.Store.SalesLeads" Multiplicity="1" />
+    <End Role="SalesLeadCompany" Type="JobDB.Store.SalesLeadCompanies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesLead">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadCompany">
+        <PropertyRef Name="SalesLeadId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustEntMainSalesLeadCompany">
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <End Role="SalesLeadCompany" Type="JobDB.Store.SalesLeadCompanies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadCompany">
+        <PropertyRef Name="CustEntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2943,6 +3034,25 @@
             <End Role="OnlineReservation" EntitySet="OnlineReservations" />
             <End Role="RsvPayment" EntitySet="RsvPayments" />
           </AssociationSet>
+          <EntitySet Name="DriverInstructions" EntityType="JobDB.DriverInstructions" />
+          <EntitySet Name="PickupInstructions" EntityType="JobDB.PickupInstructions" />
+          <AssociationSet Name="JobServicePickupPickupInstructions" Association="JobDB.JobServicePickupPickupInstructions">
+            <End Role="JobServicePickup" EntitySet="JobServicePickups" />
+            <End Role="PickupInstructions" EntitySet="PickupInstructions" />
+          </AssociationSet>
+          <AssociationSet Name="PickupInstructionsDriverInstructions" Association="JobDB.PickupInstructionsDriverInstructions">
+            <End Role="PickupInstructions" EntitySet="PickupInstructions" />
+            <End Role="DriverInstructions" EntitySet="DriverInstructions" />
+          </AssociationSet>
+          <EntitySet Name="SalesLeadCompanies" EntityType="JobDB.SalesLeadCompany" />
+          <AssociationSet Name="SalesLeadSalesLeadCompany" Association="JobDB.SalesLeadSalesLeadCompany">
+            <End Role="SalesLead" EntitySet="SalesLeads" />
+            <End Role="SalesLeadCompany" EntitySet="SalesLeadCompanies" />
+          </AssociationSet>
+          <AssociationSet Name="CustEntMainSalesLeadCompany" Association="JobDB.CustEntMainSalesLeadCompany">
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+            <End Role="SalesLeadCompany" EntitySet="SalesLeadCompanies" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3351,6 +3461,7 @@
           <Property Name="ProviderName" Nullable="true" MaxLength="80" Type="String" />
           <Property Name="ProviderContact" Nullable="true" MaxLength="50" Type="String" />
           <NavigationProperty Name="JobService" Relationship="JobDB.JobServicesJobServicePickup" FromRole="JobServicePickup" ToRole="JobServices" />
+          <NavigationProperty Name="PickupInstructions" Relationship="JobDB.JobServicePickupPickupInstructions" FromRole="JobServicePickup" ToRole="PickupInstructions" />
         </EntityType>
         <Association Name="JobServicesJobServicePickup">
           <End Type="JobDB.JobServices" Multiplicity="1" Role="JobServices" />
@@ -3841,6 +3952,7 @@
           <NavigationProperty Name="CustEntities" Relationship="JobDB.CustEntMainCustEntity" FromRole="CustEntMain" ToRole="CustEntity" />
           <Property Name="iconPath" Type="String" Nullable="true" MaxLength="150" />
           <NavigationProperty Name="JobEntMains" Relationship="JobDB.JobEntMainCustEntMain" FromRole="CustEntMain" ToRole="JobEntMain" />
+          <NavigationProperty Name="SalesLeadCompanies" Relationship="JobDB.CustEntMainSalesLeadCompany" FromRole="CustEntMain" ToRole="SalesLeadCompany" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -3863,6 +3975,7 @@
           <Property Name="CustPhone" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="CustEmail" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="SalesLeadLinks" Relationship="JobDB.SalesLeadSalesLeadLink" FromRole="SalesLead" ToRole="SalesLeadLink" />
+          <NavigationProperty Name="SalesLeadCompanies" Relationship="JobDB.SalesLeadSalesLeadCompany" FromRole="SalesLead" ToRole="SalesLeadCompany" />
         </EntityType>
         <EntityType Name="SalesStatusCode">
           <Key>
@@ -5159,6 +5272,83 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DriverInstructions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="120" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PickupInstructions" Relationship="JobDB.PickupInstructionsDriverInstructions" FromRole="DriverInstructions" ToRole="PickupInstructions" />
+        </EntityType>
+        <EntityType Name="PickupInstructions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="JobServicePickup" Relationship="JobDB.JobServicePickupPickupInstructions" FromRole="PickupInstructions" ToRole="JobServicePickup" />
+          <Property Name="JobServicePickupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DriverInstruction" Relationship="JobDB.PickupInstructionsDriverInstructions" FromRole="PickupInstructions" ToRole="DriverInstructions" />
+          <Property Name="DriverInstructionsId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="JobServicePickupPickupInstructions">
+          <End Type="JobDB.JobServicePickup" Role="JobServicePickup" Multiplicity="1" />
+          <End Type="JobDB.PickupInstructions" Role="PickupInstructions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobServicePickup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PickupInstructions">
+              <PropertyRef Name="JobServicePickupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PickupInstructionsDriverInstructions">
+          <End Type="JobDB.PickupInstructions" Role="PickupInstructions" Multiplicity="*" />
+          <End Type="JobDB.DriverInstructions" Role="DriverInstructions" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="DriverInstructions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PickupInstructions">
+              <PropertyRef Name="DriverInstructionsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesLeadCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadSalesLeadCompany" FromRole="SalesLeadCompany" ToRole="SalesLead" />
+          <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainSalesLeadCompany" FromRole="SalesLeadCompany" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="SalesLeadSalesLeadCompany">
+          <End Type="JobDB.SalesLead" Role="SalesLead" Multiplicity="1" />
+          <End Type="JobDB.SalesLeadCompany" Role="SalesLeadCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesLead">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesLeadCompany">
+              <PropertyRef Name="SalesLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CustEntMainSalesLeadCompany">
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <End Type="JobDB.SalesLeadCompany" Role="SalesLeadCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesLeadCompany">
+              <PropertyRef Name="CustEntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6222,6 +6412,33 @@
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="PaypaPaymentId" ColumnName="PaypaPaymentId" />
           <ScalarProperty Name="OnlineReservationId" ColumnName="OnlineReservationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DriverInstructions">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.DriverInstructions)">
+        <MappingFragment StoreEntitySet="DriverInstructions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PickupInstructions">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.PickupInstructions)">
+        <MappingFragment StoreEntitySet="PickupInstructions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="JobServicePickupId" ColumnName="JobServicePickupId" />
+          <ScalarProperty Name="DriverInstructionsId" ColumnName="DriverInstructionsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesLeadCompanies">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadCompany)">
+        <MappingFragment StoreEntitySet="SalesLeadCompanies">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

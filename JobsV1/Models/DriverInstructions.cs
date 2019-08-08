@@ -12,25 +12,18 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class JobServicePickup
+    public partial class DriverInstructions
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public JobServicePickup()
+        public DriverInstructions()
         {
             this.PickupInstructions = new HashSet<PickupInstructions>();
         }
     
         public int Id { get; set; }
-        public int JobServicesId { get; set; }
-        public System.DateTime JsDate { get; set; }
-        public string JsTime { get; set; }
-        public string JsLocation { get; set; }
-        public string ClientName { get; set; }
-        public string ClientContact { get; set; }
-        public string ProviderName { get; set; }
-        public string ProviderContact { get; set; }
+        public string Description { get; set; }
+        public int OrderNo { get; set; }
     
-        public virtual JobServices JobService { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PickupInstructions> PickupInstructions { get; set; }
     }
