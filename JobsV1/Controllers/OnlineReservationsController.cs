@@ -34,6 +34,10 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+            var product = pdb.SmProducts.Where(p => p.Code.Equals(onlineReservation.ProductCode)).FirstOrDefault();
+            ViewBag.ProductName = product.Name;
+            ViewBag.ProductPrice = product.Price;
+            ViewBag.paymentRecord = onlineReservation.RsvPayments.ToList();
             return View(onlineReservation);
         }
 
@@ -176,7 +180,7 @@ namespace JobsV1.Controllers
                 payment.OnlineReservationId = reserve.Id;
                 payment.Amount = PaymentAmt;
                 payment.Status = PaymentStatus;
-                payment.DtPayment = DateTime.Parse(DtPayment);
+                payment.DtPayment = today.GetCurrentDateTime();
                 payment.PaypaPaymentId = PaymentId;
                 
                 db.RsvPayments.Add(payment);
@@ -198,20 +202,18 @@ namespace JobsV1.Controllers
             OnlineReservation reservation = db.OnlineReservations.Find(id);
             if (reservation != null)
             {
-
                 string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
                 string ajdavaoEmail = "ajdavao88@gmail.com";
                 string adminEmail   = "travel.realbreeze@gmail.com";
                 string testadminEmail = "realbreezemark@gmail.com";
 
                 mailResult = email.SendMailOnlineReserve(id, reservation.Email, "CLIENT", svcType); //send email to client first
-                mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN", svcType); //send email to client first
+                mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN", svcType);     //send email to client first
 
                 mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN", svcType); 
                 mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN", svcType); 
                 mailResult = email.SendMailOnlineReserve(id, adminEmail  , "ADMIN", svcType);
-
-
+                
             }
             return mailResult;
         }

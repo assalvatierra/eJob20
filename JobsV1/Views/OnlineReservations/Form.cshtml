@@ -4,11 +4,11 @@
     decimal dQuotedAmt = ViewBag.Amount;
 }
 <div style="text-align:center;">
-    <img src="~/Images/Realbreeze.Header.PNG" width="100%" style="min-width:600px;max-width:700px;">
+    <img src="~/Images/Realbreeze.Header.PNG"  style="min-width:400px;width:100%;">
 </div>
 
 <h2 class="text-center" style="margin-bottom:-80px;margin-top:50px;">Reservation Form</h2>
-<div class="container" style="border:1px solid lightgray;margin:100px auto; padding:50px 150px;width:600px;background-color:white;">
+<div class="container" style="border:1px solid lightgray;margin:100px auto; padding:50px 150px;min-width:300px;width:600px;background-color:white;">
     <div class="row">
         <div class="col-lg-12">
             <h4>Start Date</h4>
@@ -22,19 +22,19 @@
         </div>
         <div class="col-lg-12">
             <h4>Name</h4>
-            <input type="text" class="form-control" id="Name" maxlength="80" oninput="validate();" onchange="validate(event)"  />
+            <input type="text" class="form-control" id="Name" maxlength="80"  onchange="validate(event)"  />
         </div>
         <div class="col-lg-12">
             <h4>Contact Number</h4>
-            <input type="text" class="form-control" id="Number" maxlength="15" oninput="validate();" />
+            <input type="text" class="form-control" id="Number" maxlength="15" onchange="validate(event)" />
         </div>
         <div class="col-lg-12">
             <h4>Email</h4>
-            <input type="text" class="form-control" id="Email" maxlength="80" oninput="validate();"  />
+            <input type="text" class="form-control" id="Email" maxlength="80" onchange="validate(event)"  />
         </div>
         <div class="col-lg-12">
             <h4>Pick-up</h4>
-            <input type="text" class="form-control" id="Pickup" maxlength="80" oninput="validate();" />
+            <input type="text" class="form-control" id="Pickup" maxlength="80" />
         </div>
         <div class="row col-lg-12">
             <div class="col-lg-8">
@@ -69,11 +69,13 @@
         </div>
         <hr />
         <div class="col-lg-12">
-            <h4 id="input-warning">For online payment: </h4>
             <h5 class="text-danger" id="name-warning">Name is not valid </h5>
             <h5 class="text-danger" id="number-warning">Contact Number is not valid </h5>
             <h5 class="text-danger" id="email-warning">Email is not valid </h5>
-            <div id="paypal-button" onclick="addRecord()"></div>
+            <div id="paypal-button">
+                <h4 id="input-warning">For online payment: </h4>
+                <div onclick="addRecord()"> </div>
+            </div>
         </div>
     </div>
 </div>
@@ -98,7 +100,6 @@
 
         getcalcAddOn();
         paypalPayment();
-        //$("#paypal-button").hide();
         //validate();
 
         AmountPerPax = @ViewBag.Amount;
@@ -106,6 +107,11 @@
 
         //set tourType
         $("#svcType").val('@ViewBag.svcType');
+        
+        $("#name-warning").hide();
+        $("#number-warning").hide();
+        $("#email-warning").hide();
+        $("#paypal-button").hide();
     });
 
     function UpdateAmount(){
@@ -121,11 +127,13 @@
 
     function validate(){
 
+        console.log("validate ");
+
         var inputValid = true;
 
         //check name if not null
         var name = $("#Name").val();
-        if(name == ""){
+        if(name.length == 0){
             inputValid = false;
             $("#name-warning").show();
         }else{
@@ -133,9 +141,9 @@
         }
 
 
-        //check name if not null
+        //check number if not null
         var contactNum = $("#Number").val();
-        if(contactNum == ""){
+        if(!checkContactNum()){
             inputValid = false;
             $("#number-warning").show();
         }else{
@@ -144,12 +152,24 @@
 
         //check email if not null
         var email = $("#Email").val();
-        if(!validateEmail(email)){
+        if(!validateEmail(email) || email.length == 0){
             inputValid = false;
             $("#email-warning").show();
         }else{
             $("#email-warning").hide();
         }
+
+        //
+        if(contactNum.length == 0){
+            $("#number-warning").hide();
+           
+        }
+
+        if(email.length == 0){
+            $("#email-warning").hide();
+           
+        }
+
 
 
         if(inputValid){ // true
@@ -431,6 +451,27 @@
 
         $("#Qty").text(qty);
         UpdateAmount();
+    }
+
+    //Check contact number form if input is valid sa contact number
+    //11-12 numbers
+    function checkContactNum(){
+        var numTemp =  $("#Number").val();
+        console.log("num: " + numTemp + " count:" + numTemp.length);
+        if( numTemp.length == 11 ){
+            if(numTemp.charAt(0) == '0' &&  numTemp.charAt(1) == '9' ){
+                return true;
+            }
+        }
+        
+        if( numTemp.length == 12 ){
+            if(numTemp.charAt(0) == '6' &&  numTemp.charAt(1) == '3' &&  numTemp.charAt(2) == '9' ){
+                return true;
+            }
+        }
+
+        //if everything fails
+        return false;
     }
 
 </script>

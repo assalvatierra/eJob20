@@ -4,12 +4,75 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Online Reservation Details</h2>
 
-<div>
-    <h4>OnlineReservation</h4>
+<div class="container reservation-container" style="padding:40px;" >
+    <div class="row">
+        <div class="col-sm-8">
+            <h2 style="margin-bottom:-20px;margin-top:0px">@ViewBag.ProductName</h2>
+            <h3>@Html.DisplayFor(model => model.ProductCode)</h3>
+        </div>
+        <div class="col-sm-4">
+            <b> Date Posted </b> <span style="margin:20px;">@Html.DisplayFor(model => model.DtPosted)</span>
+        </div>
+    </div>
     <hr />
-    <dl class="dl-horizontal">
+
+    <div class="row">
+        <div class="col-sm-3">
+            <span> Date Start</span><br />
+            <b> @DateTime.Parse(Html.DisplayFor(model => model.DtStart).ToString()).ToString("MMM dd yyyy") </b>
+        </div>
+        <div class="col-sm-3">
+            <span>Pickup at</span><br />
+            <b> @Html.DisplayFor(model => model.PickupDtls) </b>
+        </div>
+        <div class="col-sm-6">
+        </div>
+    </div><br />
+
+
+    <div class="row">
+        <div class="col-sm-3">
+            <span>Amount per Pax</span><br />
+            <b>Php @ViewBag.ProductPrice </b>
+        </div>
+        <div class="col-sm-3">
+            <span>No of Pax</span><br />
+            <b> @Html.DisplayFor(model => model.Qty) </b>
+        </div>
+        <div class="col-sm-3">
+            <span>Total Amount</span><br />
+            <b>Php @Html.DisplayFor(model => model.PaymentAmt) </b>
+        </div>
+        <div class="col-sm-3">
+        </div>
+    </div><br />
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>Contact Details</h4>
+        </div>
+        <div class="col-sm-3">
+            <span>Name</span><br />
+            <b> @Html.DisplayFor(model => model.Name ) </b>
+        </div>
+        <div class="col-sm-3">
+            <span>Number</span><br />
+            <b> @Html.DisplayFor(model => model.ContactNum ) </b>
+        </div>
+        <div class="col-sm-3">
+            <span>Number</span><br />
+            <b> @Html.DisplayFor(model => model.Email) </b>
+        </div>
+
+
+        <div class="col-sm-3">
+        </div>
+    </div>
+
+
+    @*<dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.DtPosted)
         </dt>
@@ -82,7 +145,32 @@
             @Html.DisplayFor(model => model.PickupDtls)
         </dd>
 
-    </dl>
+    </dl>*@
+
+    <hr>
+    <h4>Payment Record</h4>
+    <table class="table table-bordered" >
+        <tr>
+            <th> Date   </th>
+            <th> Amount </th>
+            <th> Status </th>
+        </tr>
+        
+        @foreach(var item in ViewBag.paymentRecord as IEnumerable<JobsV1.Models.RsvPayment> )
+        {
+         <tr>
+             <td>
+                 @item.DtPayment
+             </td>
+             <td>
+                @item.Amount
+             </td>
+             <td>
+                 @item.Status
+             </td>
+         </tr>
+        }
+    </table>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
