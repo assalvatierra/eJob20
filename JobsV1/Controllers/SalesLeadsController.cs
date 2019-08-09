@@ -164,7 +164,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail")] SalesLead salesLead)
+        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CompanyId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail")] SalesLead salesLead)
         {
             if (ModelState.IsValid && salesLead.EnteredBy != null)
             {
@@ -180,6 +180,16 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", salesLead.AssignedTo);
 
             return View(salesLead);
+        }
+
+        public void addCompany(int compId, int leadId)
+        {
+            SalesLeadCompany slCompany = new SalesLeadCompany();
+            slCompany.CustEntMainId = compId;
+            slCompany.SalesLeadId = leadId;
+
+            db.SalesLeadCompanies.Add(slCompany);
+            db.SaveChanges();
         }
 
         // GET: SalesLeads/Edit/5
