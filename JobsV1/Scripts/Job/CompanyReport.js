@@ -73,6 +73,7 @@ function statusUpdate(status, custId) {
 
     STATUS = status
     updateStatusCSS();
+    detailsUpdate(customerId);
 }
 
 //|FILTER BUTTON
@@ -116,6 +117,8 @@ function getLastJobs(days) {
 
     $('#startDate').val(sDateVal);
     $('#endDate').val(eDateVal);
+
+    detailsUpdate(customerId)
 }
 
 function filterdate(date) {

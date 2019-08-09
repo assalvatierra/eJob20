@@ -37,7 +37,7 @@
 <div class="container">
     @foreach (var t in ViewBag.EntServices)
     {
-        <div class="col-md-4">
+        <div class="col-sm-4" style="text-align:center;">
             <a href="@Url.Action("Service","Module", new { id=@t.Id })">
                 <img src="@Url.Content("~/")@t.IconPath" style="height:90px;margin:20px" alt="Edit" />
             </a>
@@ -47,4 +47,4 @@
         </div>
     }
 </div>
-<br /><br />
+<br /><br /> 

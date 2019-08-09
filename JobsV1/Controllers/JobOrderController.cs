@@ -2608,9 +2608,9 @@ order by x.jobid
                         break;
                     case "RESERVATION":
                         mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices); // client email
-                        //mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
-                        //mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
-                        //mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
+                        mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
+                        mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                 }
 

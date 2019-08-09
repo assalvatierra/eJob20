@@ -174,7 +174,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
-            @*@Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Id })*@
+            @Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Id })
             <br />
             @Html.ActionLink("Pickup", "InitServicePickup", new { id = item.Id }) |
             @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id, SvcId = item.Id }, null) | 
@@ -196,7 +196,6 @@
                     sIti += " " + ititmp.Destination.Description;
                 }
             }
-
         }
 
         <span style="font:14px arial, verdana;">

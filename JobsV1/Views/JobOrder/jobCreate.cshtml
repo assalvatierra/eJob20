@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            <b class="control-label col-md-2"> Customer </b>
+            <b class="control-label col-md-2"> Contact </b>
             <div class="col-md-4"  style="width:320px">
                 @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" , @id = "customerList"})
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
@@ -67,7 +67,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NoOfPax, htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> No of Pax </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NoOfPax, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NoOfPax, "", new { @class = "text-danger" })
@@ -75,7 +75,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NoOfDays, htmlAttributes: new { @class = "control-label col-md-2" })
+            <b class="control-label col-md-2"> No of Days </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NoOfDays, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NoOfDays, "", new { @class = "text-danger" })
@@ -83,7 +83,7 @@
         </div>
 
         <div class="form-group">
-           <b class="control-label col-md-2"> JobRemarks </b>
+           <b class="control-label col-md-2"> Job Remarks </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.JobRemarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                 @Html.ValidationMessageFor(model => model.JobRemarks, "", new { @class = "text-danger" })

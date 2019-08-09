@@ -44,8 +44,8 @@
 
     @foreach (var item in Model)
     {
-        string s1 = ((DateTime)item.DtStart).ToString("MMM-dd-yyyy (ddd)");
-        string s2 = ((DateTime)item.DtEnd).ToString("MMM-dd-yyyy (ddd)");
+        string s1 = ((DateTime)item.DtStart).ToString("MMM dd yyyy (ddd)");
+        string s2 = ((DateTime)item.DtEnd).ToString("MMM dd yyyy (ddd)");
         string sStyle1 = "";
         if (ViewBag.Current == s1) { sStyle1 = "background-color:lightgray"; }
   

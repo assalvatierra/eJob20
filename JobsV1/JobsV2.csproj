@@ -595,6 +595,9 @@
     <Compile Include="Models\Destination.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DriverInstructions.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EmailBlaster.cs" />
     <Compile Include="Models\EmailBlasterLogs.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
@@ -729,6 +732,9 @@
     <Compile Include="Models\PaypalTransaction.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PickupInstructions.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PkgDestination.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -778,6 +784,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesLeadCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesLeadCompany.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesLeadLink.cs">
