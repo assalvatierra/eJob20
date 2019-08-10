@@ -56,33 +56,40 @@
             <div style="background-color:lightgray;" >
                 @foreach (var salesstat in SalesStatCode)
                 {
-                            if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
-                            {
+                    if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
+                    {
                         <span style="font-weight:800; color: gray">
                             @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
                         </span>
-                            }
-                            else
-                            {
+                    }
+                    else
+                    {
                         <span>
                             @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
                         </span>
-                            }
-                        }
+                    }
+                }
             </div>
             <div >
                 <span style="color:darkgreen;font:bold 16px arial, verdana;">
+                    @{
+                        var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain.Name;
+                        <text>
+                            @company
+                        </text>
+                    }
+                    - 
                     @Html.DisplayFor(modelItem => item.Customer.Name)
                 </span> |
                 <span style="color:maroon;font:bold 12px arial, verdana;">
+                  
                     @Html.DisplayFor(modelItem => item.CustName) /
                     @Html.DisplayFor(modelItem => item.CustPhone) /
                     @Html.DisplayFor(modelItem => item.CustEmail)
                 </span>
                 &nbsp; &nbsp;
-                [ @Html.ActionLink("Edit Company", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |
-                @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
+                [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })  |
                 @Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })
 

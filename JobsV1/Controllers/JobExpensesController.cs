@@ -16,7 +16,7 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
 
-        // GET: JobExpenses
+        // GET: JobExpenses0
         public ActionResult Index()
         {
             var jobExpenses = db.JobExpenses.Include(j => j.Expens).Include(j => j.JobService);

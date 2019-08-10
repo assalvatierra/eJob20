@@ -161,6 +161,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
     function searchCustomer() {
         var input, filter, ul, li, a, i;
@@ -182,4 +183,50 @@
         $('#CustomerId').val(value);
         $('#CustomersModal').modal('toggle');
     }
+
+    function getCompany(){
+        var custId = $('#CustomerId').val();
+        console.log('customerId : ' + custId);
+    }
+
+    //on select of the customer
+    $('#CustomerId').on('change', function () {
+        var custId = $('#CustomerId').val();
+        console.log('customerId: ' + custId);
+        ajax_loadContent(custId);
+    });
+
+    //load table content on search btn click
+    //request data from server using ajax call
+    //then clear and add contents to the table
+    function ajax_loadContent(custId) {
+        //build json object
+        var data = {
+            custId: custId
+        };
+           
+        //request data from server using ajax call
+        $.ajax({
+            url: 'getCompanyId',
+            type: "GET",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log("SUCCESS");
+                console.log(data);
+            },
+            error: function (data) {
+                console.log("ERROR");
+                console.log(data);
+                var comId = parseInt(data['responseText']);
+                console.log(comId);
+                $('#CompanyId').val(comId);
+
+               // LoadTable(data);
+            }
+        });
+    }
+
+    
+
 </script>

@@ -695,11 +695,12 @@ values	(2,1),(2,2),(2,3),(2,4),
 -------------------- Jobs Expenses --------------------------
 
 insert into ExpensesCategories(Description, Remarks)
-values	('Fuel',''),
-		('Car Wash' ,''),
-		('Driver',''),
+values	('Car Rental',''),
+		('Tour' ,''),
+		('Company',''),
 		('Allowance',''),
-		('Others','')
+		('Others',''),
+		('Suppliers','')
 ;
 
 insert into Expenses ( Name, Remarks, SeqNo, ExpensesCategoryId )
@@ -708,7 +709,18 @@ values	('Fuel'		 ,'',10,1),
 		('Driver'	 ,'',10,3),
 		('Allowance' ,'',10,4),
 		('CA','Cash Advance',11,5),
-		('Others'	 ,'',12,5);
+		('Others'	 ,'',15,5),
+
+		('Supplier Expense','',11,6),
+		('Supplier Comi','',11,6),
+		('Agency Fee','',12,4),
+		('Tax','',11),
+		('Entrances',''),
+		('Barge Fee',''),
+		('Car Rental',''),
+		('Security Deposit','')
+		
+		;
 
 
 

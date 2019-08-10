@@ -136,7 +136,7 @@ namespace JobsV1.Controllers
                         .ToList();
             
             ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
-
+            ViewBag.Company = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault().Id;
 
             return View(salesLead);
         }
@@ -164,15 +164,16 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CompanyId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail")] SalesLead salesLead)
+        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail")] SalesLead salesLead, int CompanyId)
         {
             if (ModelState.IsValid && salesLead.EnteredBy != null)
             {
+                //int compId = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault().Id; //get lastest company id
                 db.SalesLeads.Add(salesLead);
                 db.SaveChanges();
 
-                AddSalesStatus(salesLead.Id, 1);    //NEW
-                
+                AddSalesStatus(salesLead.Id, 1);    //NEW Lead Status
+                addCompany(CompanyId, salesLead.Id);
                 return RedirectToAction("Index", new { sortid = 5 , leadid = salesLead.Id});
             }
 
@@ -204,8 +205,10 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+            var company = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", salesLead.AssignedTo);
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", company.CustEntMainId);
             ViewBag.CustomerList = db.Customers.ToList();
             ViewBag.leadId = id;
 
@@ -217,17 +220,29 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail")] SalesLead salesLead)
+        public ActionResult Edit([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail")] SalesLead salesLead, int CompanyId)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(salesLead).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //update salesLead
+                updateCompany(CompanyId, salesLead.Id);
+
                 return RedirectToAction("Index", "SalesLeads", new { leadId = salesLead.Id });
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", salesLead.AssignedTo);
             return View(salesLead);
+        }
+
+        public void updateCompany(int compId, int leadId)
+        {
+            SalesLeadCompany slCompany = db.SalesLeadCompanies.Where(s=>s.SalesLeadId == leadId).FirstOrDefault();
+            slCompany.CustEntMainId = compId;
+            db.Entry(slCompany).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         // GET: SalesLeads/Delete/5
@@ -264,7 +279,23 @@ namespace JobsV1.Controllers
             }
             base.Dispose(disposing);
         }
-        
+
+        //Get Company Id 
+        //Param : id - SalesLead ID
+        [HttpGet]
+        public string getCompanyId(int custId)
+        {
+            var custEnt = db.CustEntities.Where(s => s.CustomerId == custId).OrderByDescending(s => s.Id).FirstOrDefault();
+            try
+            {
+                return custEnt.CustEntMainId.ToString();
+            }
+            catch (Exception ex)
+            {
+                return "1"; //default
+            }
+        }
+
         #region Sales Lead Category
         public ActionResult SalesLeadCat(int id)
         {

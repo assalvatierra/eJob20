@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/05/2019 17:23:20
--- Generated from EDMX file: D:\Data\Real\Apps\GitHub\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 08/10/2019 11:29:18
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -11,7 +11,7 @@ GO
 USE [aspnet-JobsV1-20160528101923];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO
+GO 
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -283,6 +283,18 @@ IF OBJECT_ID(N'[dbo].[FK_JobMainJobPost]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_OnlineReservationRsvPayment]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RsvPayments] DROP CONSTRAINT [FK_OnlineReservationRsvPayment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_JobServicePickupPickupInstructions]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_JobServicePickupPickupInstructions];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PickupInstructionsDriverInstructions]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_PickupInstructionsDriverInstructions];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadSalesLeadCompany]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadCompanies] DROP CONSTRAINT [FK_SalesLeadSalesLeadCompany];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainSalesLeadCompany]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadCompanies] DROP CONSTRAINT [FK_CustEntMainSalesLeadCompany];
 GO
 
 -- --------------------------------------------------
@@ -561,6 +573,15 @@ IF OBJECT_ID(N'[dbo].[OnlineReservations]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[RsvPayments]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RsvPayments];
+GO
+IF OBJECT_ID(N'[dbo].[DriverInstructions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DriverInstructions];
+GO
+IF OBJECT_ID(N'[dbo].[PickupInstructions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PickupInstructions];
+GO
+IF OBJECT_ID(N'[dbo].[SalesLeadCompanies]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesLeadCompanies];
 GO
 
 -- --------------------------------------------------
@@ -1536,6 +1557,30 @@ CREATE TABLE [dbo].[RsvPayments] (
 );
 GO
 
+-- Creating table 'DriverInstructions'
+CREATE TABLE [dbo].[DriverInstructions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(120)  NOT NULL,
+    [OrderNo] int  NOT NULL
+);
+GO
+
+-- Creating table 'PickupInstructions'
+CREATE TABLE [dbo].[PickupInstructions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [JobServicePickupId] int  NOT NULL,
+    [DriverInstructionsId] int  NOT NULL
+);
+GO
+
+-- Creating table 'SalesLeadCompanies'
+CREATE TABLE [dbo].[SalesLeadCompanies] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SalesLeadId] int  NOT NULL,
+    [CustEntMainId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2083,6 +2128,24 @@ GO
 -- Creating primary key on [Id] in table 'RsvPayments'
 ALTER TABLE [dbo].[RsvPayments]
 ADD CONSTRAINT [PK_RsvPayments]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'DriverInstructions'
+ALTER TABLE [dbo].[DriverInstructions]
+ADD CONSTRAINT [PK_DriverInstructions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PickupInstructions'
+ALTER TABLE [dbo].[PickupInstructions]
+ADD CONSTRAINT [PK_PickupInstructions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesLeadCompanies'
+ALTER TABLE [dbo].[SalesLeadCompanies]
+ADD CONSTRAINT [PK_SalesLeadCompanies]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3423,6 +3486,66 @@ GO
 CREATE INDEX [IX_FK_OnlineReservationRsvPayment]
 ON [dbo].[RsvPayments]
     ([OnlineReservationId]);
+GO
+
+-- Creating foreign key on [JobServicePickupId] in table 'PickupInstructions'
+ALTER TABLE [dbo].[PickupInstructions]
+ADD CONSTRAINT [FK_JobServicePickupPickupInstructions]
+    FOREIGN KEY ([JobServicePickupId])
+    REFERENCES [dbo].[JobServicePickups]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobServicePickupPickupInstructions'
+CREATE INDEX [IX_FK_JobServicePickupPickupInstructions]
+ON [dbo].[PickupInstructions]
+    ([JobServicePickupId]);
+GO
+
+-- Creating foreign key on [DriverInstructionsId] in table 'PickupInstructions'
+ALTER TABLE [dbo].[PickupInstructions]
+ADD CONSTRAINT [FK_PickupInstructionsDriverInstructions]
+    FOREIGN KEY ([DriverInstructionsId])
+    REFERENCES [dbo].[DriverInstructions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PickupInstructionsDriverInstructions'
+CREATE INDEX [IX_FK_PickupInstructionsDriverInstructions]
+ON [dbo].[PickupInstructions]
+    ([DriverInstructionsId]);
+GO
+
+-- Creating foreign key on [SalesLeadId] in table 'SalesLeadCompanies'
+ALTER TABLE [dbo].[SalesLeadCompanies]
+ADD CONSTRAINT [FK_SalesLeadSalesLeadCompany]
+    FOREIGN KEY ([SalesLeadId])
+    REFERENCES [dbo].[SalesLeads]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSalesLeadCompany'
+CREATE INDEX [IX_FK_SalesLeadSalesLeadCompany]
+ON [dbo].[SalesLeadCompanies]
+    ([SalesLeadId]);
+GO
+
+-- Creating foreign key on [CustEntMainId] in table 'SalesLeadCompanies'
+ALTER TABLE [dbo].[SalesLeadCompanies]
+ADD CONSTRAINT [FK_CustEntMainSalesLeadCompany]
+    FOREIGN KEY ([CustEntMainId])
+    REFERENCES [dbo].[CustEntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntMainSalesLeadCompany'
+CREATE INDEX [IX_FK_CustEntMainSalesLeadCompany]
+ON [dbo].[SalesLeadCompanies]
+    ([CustEntMainId]);
 GO
 
 -- --------------------------------------------------

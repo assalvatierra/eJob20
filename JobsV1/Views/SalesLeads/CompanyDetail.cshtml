@@ -1,10 +1,12 @@
 ﻿@model JobsV1.Models.Customer
 
 @{
-    ViewBag.Title = "CompanyDetail";
+    ViewBag.Title = "Contact Details";
 }
 
-<h2>CompanyDetail</h2>
+<h2>
+    Contact Details
+</h2>
 
 @using (Html.BeginForm("CompanyDetail","SalesLeads",new { leadId = ViewBag.leadId },FormMethod.Post,null))
 {
