@@ -119,5 +119,6 @@ namespace JobsV1.Models
         public virtual DbSet<DriverInstructions> DriverInstructions { get; set; }
         public virtual DbSet<PickupInstructions> PickupInstructions { get; set; }
         public virtual DbSet<SalesLeadCompany> SalesLeadCompanies { get; set; }
+        public virtual DbSet<CustEntInfo> CustEntInfoes { get; set; }
     }
 }
