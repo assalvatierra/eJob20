@@ -3053,6 +3053,11 @@
             <End Role="CustEntMain" EntitySet="CustEntMains" />
             <End Role="SalesLeadCompany" EntitySet="SalesLeadCompanies" />
           </AssociationSet>
+          <EntitySet Name="CustEntInfoes" EntityType="JobDB.CustEntInfo" />
+          <AssociationSet Name="CustEntMainCustEntInfo" Association="JobDB.CustEntMainCustEntInfo">
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+            <End Role="CustEntInfo" EntitySet="CustEntInfoes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3953,6 +3958,7 @@
           <Property Name="iconPath" Type="String" Nullable="true" MaxLength="150" />
           <NavigationProperty Name="JobEntMains" Relationship="JobDB.JobEntMainCustEntMain" FromRole="CustEntMain" ToRole="JobEntMain" />
           <NavigationProperty Name="SalesLeadCompanies" Relationship="JobDB.CustEntMainSalesLeadCompany" FromRole="CustEntMain" ToRole="SalesLeadCompany" />
+          <NavigationProperty Name="CustEntInfoes" Relationship="JobDB.CustEntMainCustEntInfo" FromRole="CustEntMain" ToRole="CustEntInfo" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -5345,6 +5351,26 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="SalesLeadCompany">
+              <PropertyRef Name="CustEntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustEntInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntInfo" FromRole="CustEntInfo" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CustEntMainCustEntInfo">
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <End Type="JobDB.CustEntInfo" Role="CustEntInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntInfo">
               <PropertyRef Name="CustEntMainId" />
             </Dependent>
           </ReferentialConstraint>

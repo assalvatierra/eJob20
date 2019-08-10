@@ -49,13 +49,18 @@
     </AssociationSet>
     <EntitySet Name="SmRates" EntityType="ProdDB.SmRate" />
     <EntitySet Name="SmRateUoMs" EntityType="ProdDB.SmRateUoM" />
+    <AssociationSet Name="SmProductSmRate" Association="ProdDB.SmProductSmRate">
+      <End Role="SmProduct" EntitySet="SmProducts" />
+      <End Role="SmRate" EntitySet="SmRates" />
+    </AssociationSet>
     <AssociationSet Name="SmRateSmRateUoM" Association="ProdDB.SmRateSmRateUoM">
       <End Role="SmRate" EntitySet="SmRates" />
       <End Role="SmRateUoM" EntitySet="SmRateUoMs" />
     </AssociationSet>
-    <AssociationSet Name="SmProductSmRate" Association="ProdDB.SmProductSmRate">
+    <EntitySet Name="SmFiles" EntityType="ProdDB.SmFile" />
+    <AssociationSet Name="SmProductSmFile" Association="ProdDB.SmProductSmFile">
       <End Role="SmProduct" EntitySet="SmProducts" />
-      <End Role="SmRate" EntitySet="SmRates" />
+      <End Role="SmFile" EntitySet="SmFiles" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="SmProduct">
@@ -81,6 +86,7 @@
     <NavigationProperty Name="SmProdSuppliers" Relationship="ProdDB.SmProductSmProdSupplier" FromRole="SmProduct" ToRole="SmProdSupplier" />
     <NavigationProperty Name="SmProdCats" Relationship="ProdDB.SmProductSmProdCat" FromRole="SmProduct" ToRole="SmProdCat" />
     <NavigationProperty Name="SmRates" Relationship="ProdDB.SmProductSmRate" FromRole="SmProduct" ToRole="SmRate" />
+    <NavigationProperty Name="SmFiles" Relationship="ProdDB.SmProductSmFile" FromRole="SmProduct" ToRole="SmFile" />
   </EntityType>
   <EntityType Name="SmProdDesc">
     <Key>
@@ -288,25 +294,22 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Qty" Type="String" Nullable="false" />
-    <Property Name="Rate" Type="String" Nullable="false" />
-    <Property Name="DRate" Type="String" Nullable="false" />
-    <NavigationProperty Name="SmRateUoM" Relationship="ProdDB.SmRateSmRateUoM" FromRole="SmRate" ToRole="SmRateUoM" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Rate" Type="Decimal" Nullable="false" />
+    <Property Name="DRate" Type="Decimal" Nullable="false" />
     <NavigationProperty Name="SmProduct" Relationship="ProdDB.SmProductSmRate" FromRole="SmRate" ToRole="SmProduct" />
     <Property Name="SmProductId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SmRateUoM" Relationship="ProdDB.SmRateSmRateUoM" FromRole="SmRate" ToRole="SmRateUoM" />
+    <Property Name="SmRateUoMId" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="SmRateUoM">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
     <NavigationProperty Name="SmRates" Relationship="ProdDB.SmRateSmRateUoM" FromRole="SmRateUoM" ToRole="SmRate" />
   </EntityType>
-  <Association Name="SmRateSmRateUoM">
-    <End Type="ProdDB.SmRate" Role="SmRate" Multiplicity="*" />
-    <End Type="ProdDB.SmRateUoM" Role="SmRateUoM" Multiplicity="1" />
-  </Association>
   <Association Name="SmProductSmRate">
     <End Type="ProdDB.SmProduct" Role="SmProduct" Multiplicity="1" />
     <End Type="ProdDB.SmRate" Role="SmRate" Multiplicity="*" />
@@ -315,6 +318,40 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="SmRate">
+        <PropertyRef Name="SmProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SmRateSmRateUoM">
+    <End Type="ProdDB.SmRate" Role="SmRate" Multiplicity="*" />
+    <End Type="ProdDB.SmRateUoM" Role="SmRateUoM" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SmRateUoM">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SmRate">
+        <PropertyRef Name="SmRateUoMId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SmFile">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Desc" Type="String" Nullable="false" MaxLength="80" />
+    <Property Name="Link" Type="String" Nullable="false" MaxLength="200" />
+    <NavigationProperty Name="SmProduct" Relationship="ProdDB.SmProductSmFile" FromRole="SmFile" ToRole="SmProduct" />
+    <Property Name="SmProductId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="SmProductSmFile">
+    <End Type="ProdDB.SmProduct" Role="SmProduct" Multiplicity="1" />
+    <End Type="ProdDB.SmFile" Role="SmFile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SmProduct">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SmFile">
         <PropertyRef Name="SmProductId" />
       </Dependent>
     </ReferentialConstraint>

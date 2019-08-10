@@ -117,6 +117,7 @@
           <ScalarProperty Name="Rate" ColumnName="Rate" />
           <ScalarProperty Name="DRate" ColumnName="DRate" />
           <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
+          <ScalarProperty Name="SmRateUoMId" ColumnName="SmRateUoMId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -128,13 +129,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="SmRateSmRateUoM" TypeName="ProdDB.SmRateSmRateUoM" StoreEntitySet="SmRates">
-      <EndProperty Name="SmRateUoM">
-        <ScalarProperty Name="Id" ColumnName="SmRateUoM_Id" />
-      </EndProperty>
-      <EndProperty Name="SmRate">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
+    <EntitySetMapping Name="SmFiles">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmFile)">
+        <MappingFragment StoreEntitySet="SmFiles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
