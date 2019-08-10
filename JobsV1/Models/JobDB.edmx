@@ -3058,6 +3058,10 @@
             <End Role="CustEntMain" EntitySet="CustEntMains" />
             <End Role="CustEntInfo" EntitySet="CustEntInfoes" />
           </AssociationSet>
+          <AssociationSet Name="CityCustEntInfo" Association="JobDB.CityCustEntInfo">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="CustEntInfo" EntitySet="CustEntInfoes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3343,6 +3347,7 @@
           <NavigationProperty Name="Suppliers" Relationship="JobDB.CitySupplier" FromRole="City" ToRole="Supplier" />
           <NavigationProperty Name="Destinations" Relationship="JobDB.CityDestination" FromRole="City" ToRole="Destination" />
           <NavigationProperty Name="CarDestinations" Relationship="JobDB.CityCarDestination" FromRole="City" ToRole="CarDestination" />
+          <NavigationProperty Name="CustEntInfoes" Relationship="JobDB.CityCustEntInfo" FromRole="City" ToRole="CustEntInfo" />
         </EntityType>
         <Association Name="CityBranch">
           <End Type="JobDB.City" Role="City" Multiplicity="1" />
@@ -5362,6 +5367,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntInfo" FromRole="CustEntInfo" ToRole="CustEntMain" />
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+          <Property Name="Website" Type="String" Nullable="false" />
+          <Property Name="BillingAddress" Type="String" Nullable="false" />
+          <Property Name="PaymentTerm" Type="String" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="JobDB.CityCustEntInfo" FromRole="CustEntInfo" ToRole="City" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="CustEntMainCustEntInfo">
           <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
@@ -5372,6 +5382,18 @@
             </Principal>
             <Dependent Role="CustEntInfo">
               <PropertyRef Name="CustEntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CityCustEntInfo">
+          <End Type="JobDB.City" Role="City" Multiplicity="1" />
+          <End Type="JobDB.CustEntInfo" Role="CustEntInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntInfo">
+              <PropertyRef Name="CityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

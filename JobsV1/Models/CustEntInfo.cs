@@ -16,7 +16,12 @@ namespace JobsV1.Models
     {
         public int Id { get; set; }
         public int CustEntMainId { get; set; }
+        public string Website { get; set; }
+        public string BillingAddress { get; set; }
+        public string PaymentTerm { get; set; }
+        public int CityId { get; set; }
     
         public virtual CustEntMain CustEntMain { get; set; }
+        public virtual City City { get; set; }
     }
 }
