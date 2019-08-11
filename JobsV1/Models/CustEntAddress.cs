@@ -12,16 +12,25 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CustEntInfo
+    public partial class CustEntAddress
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustEntAddress()
+        {
+            this.isBilling = 0;
+            this.isPrimary = 0;
+        }
+    
         public int Id { get; set; }
         public int CustEntMainId { get; set; }
-        public string Website { get; set; }
-        public string BillingAddress { get; set; }
-        public string PaymentTerm { get; set; }
-        public int CityId { get; set; }
+        public string Line1 { get; set; }
+        public string Line2 { get; set; }
+        public string Line3 { get; set; }
+        public string Line4 { get; set; }
+        public string Line5 { get; set; }
+        public int isBilling { get; set; }
+        public int isPrimary { get; set; }
     
         public virtual CustEntMain CustEntMain { get; set; }
-        public virtual City City { get; set; }
     }
 }

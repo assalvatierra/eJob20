@@ -20,7 +20,9 @@ namespace JobsV1.Models
             this.CustEntities = new HashSet<CustEntity>();
             this.JobEntMains = new HashSet<JobEntMain>();
             this.SalesLeadCompanies = new HashSet<SalesLeadCompany>();
-            this.CustEntInfoes = new HashSet<CustEntInfo>();
+            this.CustEntAddresses = new HashSet<CustEntAddress>();
+            this.CustEntCats = new HashSet<CustEntCat>();
+            this.CustEntClauses = new HashSet<CustEntClauses>();
         }
     
         public int Id { get; set; }
@@ -29,6 +31,9 @@ namespace JobsV1.Models
         public string Contact1 { get; set; }
         public string Contact2 { get; set; }
         public string iconPath { get; set; }
+        public string Website { get; set; }
+        public string Remarks { get; set; }
+        public Nullable<int> CityId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntity> CustEntities { get; set; }
@@ -37,6 +42,10 @@ namespace JobsV1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesLeadCompany> SalesLeadCompanies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustEntInfo> CustEntInfoes { get; set; }
+        public virtual ICollection<CustEntAddress> CustEntAddresses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustEntCat> CustEntCats { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustEntClauses> CustEntClauses { get; set; }
     }
 }

@@ -100,6 +100,9 @@
     <EntitySet Name="DriverInstructions" EntityType="JobDB.Store.DriverInstructions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PickupInstructions" EntityType="JobDB.Store.PickupInstructions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesLeadCompanies" EntityType="JobDB.Store.SalesLeadCompanies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntAddresses" EntityType="JobDB.Store.CustEntAddresses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntCats" EntityType="JobDB.Store.CustEntCats" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntClauses" EntityType="JobDB.Store.CustEntClauses" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -471,6 +474,22 @@
     <AssociationSet Name="CustEntMainSalesLeadCompany" Association="JobDB.Store.CustEntMainSalesLeadCompany">
       <End Role="CustEntMain" EntitySet="CustEntMains" />
       <End Role="SalesLeadCompany" EntitySet="SalesLeadCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntMainCustEntAddress" Association="JobDB.Store.CustEntMainCustEntAddress">
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+      <End Role="CustEntAddress" EntitySet="CustEntAddresses" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntMainCustEntCat" Association="JobDB.Store.CustEntMainCustEntCat">
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+      <End Role="CustEntCat" EntitySet="CustEntCats" />
+    </AssociationSet>
+    <AssociationSet Name="CustCategoryCustEntCat" Association="JobDB.Store.CustCategoryCustEntCat">
+      <End Role="CustCategory" EntitySet="CustCategories" />
+      <End Role="CustEntCat" EntitySet="CustEntCats" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntMainCustEntClauses" Association="JobDB.Store.CustEntMainCustEntClauses">
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+      <End Role="CustEntClauses" EntitySet="CustEntClauses" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -886,6 +905,9 @@
     <Property Name="Contact1" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="Contact2" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="iconPath" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="Website" Type="nvarchar" Nullable="true" MaxLength="180" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="CityId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="SalesLeads">
     <Key>
@@ -1465,6 +1487,43 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SalesLeadId" Type="int" Nullable="false" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntAddresses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
+    <Property Name="Line1" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Line2" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Line3" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Line4" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Line5" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="isBilling" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="isPrimary" Type="int" Nullable="false" DefaultValue="0" />
+  </EntityType>
+  <EntityType Name="CustEntCats">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
+    <Property Name="CustCategoryId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntClauses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="ValidStart" Type="datetime" Nullable="false" />
+    <Property Name="ValidEnd" Type="datetime" Nullable="false" />
+    <Property Name="Desc1" Type="nvarchar" Nullable="true" MaxLength="250" />
+    <Property Name="Desc2" Type="nvarchar(max)" Nullable="true" DefaultValue="250" />
+    <Property Name="Desc3" Type="nvarchar" Nullable="true" MaxLength="250" />
+    <Property Name="DtEncoded" Type="datetime" Nullable="false" />
+    <Property Name="EncodedBy" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2582,6 +2641,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustEntMainCustEntAddress">
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <End Role="CustEntAddress" Type="JobDB.Store.CustEntAddresses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntAddress">
+        <PropertyRef Name="CustEntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustEntMainCustEntCat">
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <End Role="CustEntCat" Type="JobDB.Store.CustEntCats" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntCat">
+        <PropertyRef Name="CustEntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustCategoryCustEntCat">
+    <End Role="CustCategory" Type="JobDB.Store.CustCategories" Multiplicity="1" />
+    <End Role="CustEntCat" Type="JobDB.Store.CustEntCats" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntCat">
+        <PropertyRef Name="CustCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustEntMainCustEntClauses">
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <End Role="CustEntClauses" Type="JobDB.Store.CustEntClauses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntClauses">
+        <PropertyRef Name="CustEntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -3053,14 +3160,24 @@
             <End Role="CustEntMain" EntitySet="CustEntMains" />
             <End Role="SalesLeadCompany" EntitySet="SalesLeadCompanies" />
           </AssociationSet>
-          <EntitySet Name="CustEntInfoes" EntityType="JobDB.CustEntInfo" />
-          <AssociationSet Name="CustEntMainCustEntInfo" Association="JobDB.CustEntMainCustEntInfo">
+          <EntitySet Name="CustEntAddresses" EntityType="JobDB.CustEntAddress" />
+          <AssociationSet Name="CustEntMainCustEntAddress" Association="JobDB.CustEntMainCustEntAddress">
             <End Role="CustEntMain" EntitySet="CustEntMains" />
-            <End Role="CustEntInfo" EntitySet="CustEntInfoes" />
+            <End Role="CustEntAddress" EntitySet="CustEntAddresses" />
           </AssociationSet>
-          <AssociationSet Name="CityCustEntInfo" Association="JobDB.CityCustEntInfo">
-            <End Role="City" EntitySet="Cities" />
-            <End Role="CustEntInfo" EntitySet="CustEntInfoes" />
+          <EntitySet Name="CustEntCats" EntityType="JobDB.CustEntCat" />
+          <AssociationSet Name="CustEntMainCustEntCat" Association="JobDB.CustEntMainCustEntCat">
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+            <End Role="CustEntCat" EntitySet="CustEntCats" />
+          </AssociationSet>
+          <AssociationSet Name="CustCategoryCustEntCat" Association="JobDB.CustCategoryCustEntCat">
+            <End Role="CustCategory" EntitySet="CustCategories" />
+            <End Role="CustEntCat" EntitySet="CustEntCats" />
+          </AssociationSet>
+          <EntitySet Name="CustEntClauses" EntityType="JobDB.CustEntClauses" />
+          <AssociationSet Name="CustEntMainCustEntClauses" Association="JobDB.CustEntMainCustEntClauses">
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+            <End Role="CustEntClauses" EntitySet="CustEntClauses" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
@@ -3347,7 +3464,6 @@
           <NavigationProperty Name="Suppliers" Relationship="JobDB.CitySupplier" FromRole="City" ToRole="Supplier" />
           <NavigationProperty Name="Destinations" Relationship="JobDB.CityDestination" FromRole="City" ToRole="Destination" />
           <NavigationProperty Name="CarDestinations" Relationship="JobDB.CityCarDestination" FromRole="City" ToRole="CarDestination" />
-          <NavigationProperty Name="CustEntInfoes" Relationship="JobDB.CityCustEntInfo" FromRole="City" ToRole="CustEntInfo" />
         </EntityType>
         <Association Name="CityBranch">
           <End Type="JobDB.City" Role="City" Multiplicity="1" />
@@ -3915,6 +4031,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
           <NavigationProperty Name="CustCats" Relationship="JobDB.CustCategoryCustCat" FromRole="CustCategory" ToRole="CustCat" />
           <Property Name="iconPath" Type="String" Nullable="true" MaxLength="150" />
+          <NavigationProperty Name="CustEntCats" Relationship="JobDB.CustCategoryCustEntCat" FromRole="CustCategory" ToRole="CustEntCat" />
         </EntityType>
         <EntityType Name="CustCat">
           <Key>
@@ -3963,7 +4080,12 @@
           <Property Name="iconPath" Type="String" Nullable="true" MaxLength="150" />
           <NavigationProperty Name="JobEntMains" Relationship="JobDB.JobEntMainCustEntMain" FromRole="CustEntMain" ToRole="JobEntMain" />
           <NavigationProperty Name="SalesLeadCompanies" Relationship="JobDB.CustEntMainSalesLeadCompany" FromRole="CustEntMain" ToRole="SalesLeadCompany" />
-          <NavigationProperty Name="CustEntInfoes" Relationship="JobDB.CustEntMainCustEntInfo" FromRole="CustEntMain" ToRole="CustEntInfo" />
+          <NavigationProperty Name="CustEntAddresses" Relationship="JobDB.CustEntMainCustEntAddress" FromRole="CustEntMain" ToRole="CustEntAddress" />
+          <NavigationProperty Name="CustEntCats" Relationship="JobDB.CustEntMainCustEntCat" FromRole="CustEntMain" ToRole="CustEntCat" />
+          <Property Name="Website" Type="String" Nullable="true" MaxLength="180" />
+          <NavigationProperty Name="CustEntClauses" Relationship="JobDB.CustEntMainCustEntClauses" FromRole="CustEntMain" ToRole="CustEntClauses" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="CityId" Type="Int32" Nullable="true" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -5360,40 +5482,92 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CustEntInfo">
+        <EntityType Name="CustEntAddress">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntInfo" FromRole="CustEntInfo" ToRole="CustEntMain" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntAddress" FromRole="CustEntAddress" ToRole="CustEntMain" />
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
-          <Property Name="Website" Type="String" Nullable="false" />
-          <Property Name="BillingAddress" Type="String" Nullable="false" />
-          <Property Name="PaymentTerm" Type="String" Nullable="false" />
-          <NavigationProperty Name="City" Relationship="JobDB.CityCustEntInfo" FromRole="CustEntInfo" ToRole="City" />
-          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="Line1" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Line2" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Line3" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Line4" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Line5" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="isBilling" Type="Int32" Nullable="false" DefaultValue="0" />
+          <Property Name="isPrimary" Type="Int32" Nullable="false" DefaultValue="0" />
         </EntityType>
-        <Association Name="CustEntMainCustEntInfo">
+        <Association Name="CustEntMainCustEntAddress">
           <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
-          <End Type="JobDB.CustEntInfo" Role="CustEntInfo" Multiplicity="*" />
+          <End Type="JobDB.CustEntAddress" Role="CustEntAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CustEntMain">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="CustEntInfo">
+            <Dependent Role="CustEntAddress">
               <PropertyRef Name="CustEntMainId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="CityCustEntInfo">
-          <End Type="JobDB.City" Role="City" Multiplicity="1" />
-          <End Type="JobDB.CustEntInfo" Role="CustEntInfo" Multiplicity="*" />
+        <EntityType Name="CustEntCat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntCat" FromRole="CustEntCat" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustCategory" Relationship="JobDB.CustCategoryCustEntCat" FromRole="CustEntCat" ToRole="CustCategory" />
+          <Property Name="CustCategoryId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CustEntMainCustEntCat">
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <End Type="JobDB.CustEntCat" Role="CustEntCat" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="City">
+            <Principal Role="CustEntMain">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="CustEntInfo">
-              <PropertyRef Name="CityId" />
+            <Dependent Role="CustEntCat">
+              <PropertyRef Name="CustEntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CustCategoryCustEntCat">
+          <End Type="JobDB.CustCategory" Role="CustCategory" Multiplicity="1" />
+          <End Type="JobDB.CustEntCat" Role="CustEntCat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntCat">
+              <PropertyRef Name="CustCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustEntClauses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntClauses" FromRole="CustEntClauses" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="ValidStart" Type="DateTime" Nullable="false" />
+          <Property Name="ValidEnd" Type="DateTime" Nullable="false" />
+          <Property Name="Desc1" Type="String" Nullable="true" MaxLength="250" />
+          <Property Name="Desc2" Type="String" Nullable="true" DefaultValue="250" />
+          <Property Name="Desc3" Type="String" Nullable="true" MaxLength="250" />
+          <Property Name="DtEncoded" Type="DateTime" Nullable="false" />
+          <Property Name="EncodedBy" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="CustEntMainCustEntClauses">
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <End Type="JobDB.CustEntClauses" Role="CustEntClauses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntClauses">
+              <PropertyRef Name="CustEntMainId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5851,6 +6025,9 @@
           <ScalarProperty Name="Contact1" ColumnName="Contact1" />
           <ScalarProperty Name="Contact2" ColumnName="Contact2" />
           <ScalarProperty Name="iconPath" ColumnName="iconPath" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CityId" ColumnName="CityId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -6487,6 +6664,46 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntAddresses">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntAddress)">
+        <MappingFragment StoreEntitySet="CustEntAddresses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="Line1" ColumnName="Line1" />
+          <ScalarProperty Name="Line2" ColumnName="Line2" />
+          <ScalarProperty Name="Line3" ColumnName="Line3" />
+          <ScalarProperty Name="Line4" ColumnName="Line4" />
+          <ScalarProperty Name="Line5" ColumnName="Line5" />
+          <ScalarProperty Name="isBilling" ColumnName="isBilling" />
+          <ScalarProperty Name="isPrimary" ColumnName="isPrimary" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntCats">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntCat)">
+        <MappingFragment StoreEntitySet="CustEntCats">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="CustCategoryId" ColumnName="CustCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntClauses">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntClauses)">
+        <MappingFragment StoreEntitySet="CustEntClauses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ValidStart" ColumnName="ValidStart" />
+          <ScalarProperty Name="ValidEnd" ColumnName="ValidEnd" />
+          <ScalarProperty Name="Desc1" ColumnName="Desc1" />
+          <ScalarProperty Name="Desc2" ColumnName="Desc2" />
+          <ScalarProperty Name="Desc3" ColumnName="Desc3" />
+          <ScalarProperty Name="DtEncoded" ColumnName="DtEncoded" />
+          <ScalarProperty Name="EncodedBy" ColumnName="EncodedBy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

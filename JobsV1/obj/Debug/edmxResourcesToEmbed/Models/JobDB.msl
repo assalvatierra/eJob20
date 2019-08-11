@@ -449,6 +449,9 @@
           <ScalarProperty Name="Contact1" ColumnName="Contact1" />
           <ScalarProperty Name="Contact2" ColumnName="Contact2" />
           <ScalarProperty Name="iconPath" ColumnName="iconPath" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CityId" ColumnName="CityId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1085,6 +1088,46 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntAddresses">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntAddress)">
+        <MappingFragment StoreEntitySet="CustEntAddresses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="Line1" ColumnName="Line1" />
+          <ScalarProperty Name="Line2" ColumnName="Line2" />
+          <ScalarProperty Name="Line3" ColumnName="Line3" />
+          <ScalarProperty Name="Line4" ColumnName="Line4" />
+          <ScalarProperty Name="Line5" ColumnName="Line5" />
+          <ScalarProperty Name="isBilling" ColumnName="isBilling" />
+          <ScalarProperty Name="isPrimary" ColumnName="isPrimary" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntCats">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntCat)">
+        <MappingFragment StoreEntitySet="CustEntCats">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="CustCategoryId" ColumnName="CustCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntClauses">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntClauses)">
+        <MappingFragment StoreEntitySet="CustEntClauses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ValidStart" ColumnName="ValidStart" />
+          <ScalarProperty Name="ValidEnd" ColumnName="ValidEnd" />
+          <ScalarProperty Name="Desc1" ColumnName="Desc1" />
+          <ScalarProperty Name="Desc2" ColumnName="Desc2" />
+          <ScalarProperty Name="Desc3" ColumnName="Desc3" />
+          <ScalarProperty Name="DtEncoded" ColumnName="DtEncoded" />
+          <ScalarProperty Name="EncodedBy" ColumnName="EncodedBy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

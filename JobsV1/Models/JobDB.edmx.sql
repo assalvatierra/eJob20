@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/10/2019 22:31:55
+-- Date Created: 08/11/2019 20:41:09
 -- Generated from EDMX file: C:\Data\ABEL\Projects\GitHubApps\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -296,6 +296,18 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntMainSalesLeadCompany]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadCompanies] DROP CONSTRAINT [FK_CustEntMainSalesLeadCompany];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntAddress]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntAddresses] DROP CONSTRAINT [FK_CustEntMainCustEntAddress];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntCat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntCats] DROP CONSTRAINT [FK_CustEntMainCustEntCat];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustCategoryCustEntCat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntCats] DROP CONSTRAINT [FK_CustCategoryCustEntCat];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntClauses]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntClauses] DROP CONSTRAINT [FK_CustEntMainCustEntClauses];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -582,6 +594,15 @@ IF OBJECT_ID(N'[dbo].[PickupInstructions]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SalesLeadCompanies]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SalesLeadCompanies];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntAddresses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntAddresses];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntCats]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntCats];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntClauses]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntClauses];
 GO
 
 -- --------------------------------------------------
@@ -998,7 +1019,10 @@ CREATE TABLE [dbo].[CustEntMains] (
     [Address] nvarchar(180)  NULL,
     [Contact1] nvarchar(80)  NULL,
     [Contact2] nvarchar(80)  NULL,
-    [iconPath] nvarchar(150)  NULL
+    [iconPath] nvarchar(150)  NULL,
+    [Website] nvarchar(180)  NULL,
+    [Remarks] nvarchar(80)  NULL,
+    [CityId] int  NULL
 );
 GO
 
@@ -1581,6 +1605,43 @@ CREATE TABLE [dbo].[SalesLeadCompanies] (
 );
 GO
 
+-- Creating table 'CustEntAddresses'
+CREATE TABLE [dbo].[CustEntAddresses] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CustEntMainId] int  NOT NULL,
+    [Line1] nvarchar(80)  NULL,
+    [Line2] nvarchar(80)  NULL,
+    [Line3] nvarchar(80)  NULL,
+    [Line4] nvarchar(80)  NULL,
+    [Line5] nvarchar(80)  NULL,
+    [isBilling] int  NOT NULL,
+    [isPrimary] int  NOT NULL
+);
+GO
+
+-- Creating table 'CustEntCats'
+CREATE TABLE [dbo].[CustEntCats] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CustEntMainId] int  NOT NULL,
+    [CustCategoryId] int  NOT NULL
+);
+GO
+
+-- Creating table 'CustEntClauses'
+CREATE TABLE [dbo].[CustEntClauses] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CustEntMainId] int  NOT NULL,
+    [Title] nvarchar(50)  NOT NULL,
+    [ValidStart] datetime  NOT NULL,
+    [ValidEnd] datetime  NOT NULL,
+    [Desc1] nvarchar(250)  NULL,
+    [Desc2] nvarchar(max)  NULL,
+    [Desc3] nvarchar(250)  NULL,
+    [DtEncoded] datetime  NOT NULL,
+    [EncodedBy] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2146,6 +2207,24 @@ GO
 -- Creating primary key on [Id] in table 'SalesLeadCompanies'
 ALTER TABLE [dbo].[SalesLeadCompanies]
 ADD CONSTRAINT [PK_SalesLeadCompanies]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntAddresses'
+ALTER TABLE [dbo].[CustEntAddresses]
+ADD CONSTRAINT [PK_CustEntAddresses]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntCats'
+ALTER TABLE [dbo].[CustEntCats]
+ADD CONSTRAINT [PK_CustEntCats]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntClauses'
+ALTER TABLE [dbo].[CustEntClauses]
+ADD CONSTRAINT [PK_CustEntClauses]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3545,6 +3624,66 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_CustEntMainSalesLeadCompany'
 CREATE INDEX [IX_FK_CustEntMainSalesLeadCompany]
 ON [dbo].[SalesLeadCompanies]
+    ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [CustEntMainId] in table 'CustEntAddresses'
+ALTER TABLE [dbo].[CustEntAddresses]
+ADD CONSTRAINT [FK_CustEntMainCustEntAddress]
+    FOREIGN KEY ([CustEntMainId])
+    REFERENCES [dbo].[CustEntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntMainCustEntAddress'
+CREATE INDEX [IX_FK_CustEntMainCustEntAddress]
+ON [dbo].[CustEntAddresses]
+    ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [CustEntMainId] in table 'CustEntCats'
+ALTER TABLE [dbo].[CustEntCats]
+ADD CONSTRAINT [FK_CustEntMainCustEntCat]
+    FOREIGN KEY ([CustEntMainId])
+    REFERENCES [dbo].[CustEntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntMainCustEntCat'
+CREATE INDEX [IX_FK_CustEntMainCustEntCat]
+ON [dbo].[CustEntCats]
+    ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [CustCategoryId] in table 'CustEntCats'
+ALTER TABLE [dbo].[CustEntCats]
+ADD CONSTRAINT [FK_CustCategoryCustEntCat]
+    FOREIGN KEY ([CustCategoryId])
+    REFERENCES [dbo].[CustCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustCategoryCustEntCat'
+CREATE INDEX [IX_FK_CustCategoryCustEntCat]
+ON [dbo].[CustEntCats]
+    ([CustCategoryId]);
+GO
+
+-- Creating foreign key on [CustEntMainId] in table 'CustEntClauses'
+ALTER TABLE [dbo].[CustEntClauses]
+ADD CONSTRAINT [FK_CustEntMainCustEntClauses]
+    FOREIGN KEY ([CustEntMainId])
+    REFERENCES [dbo].[CustEntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntMainCustEntClauses'
+CREATE INDEX [IX_FK_CustEntMainCustEntClauses]
+ON [dbo].[CustEntClauses]
     ([CustEntMainId]);
 GO
 

@@ -21,7 +21,6 @@ namespace JobsV1.Models
             this.Suppliers = new HashSet<Supplier>();
             this.Destinations = new HashSet<Destination>();
             this.CarDestinations = new HashSet<CarDestination>();
-            this.CustEntInfoes = new HashSet<CustEntInfo>();
         }
     
         public int Id { get; set; }
@@ -35,7 +34,5 @@ namespace JobsV1.Models
         public virtual ICollection<Destination> Destinations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CarDestination> CarDestinations { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustEntInfo> CustEntInfoes { get; set; }
     }
 }

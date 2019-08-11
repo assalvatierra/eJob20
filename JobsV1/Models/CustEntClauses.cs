@@ -12,22 +12,25 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CustCategory
+    public partial class CustEntClauses
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CustCategory()
+        public CustEntClauses()
         {
-            this.CustCats = new HashSet<CustCat>();
-            this.CustEntCats = new HashSet<CustEntCat>();
+            this.Desc2 = "250";
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string iconPath { get; set; }
+        public int CustEntMainId { get; set; }
+        public string Title { get; set; }
+        public System.DateTime ValidStart { get; set; }
+        public System.DateTime ValidEnd { get; set; }
+        public string Desc1 { get; set; }
+        public string Desc2 { get; set; }
+        public string Desc3 { get; set; }
+        public System.DateTime DtEncoded { get; set; }
+        public string EncodedBy { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustCat> CustCats { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustEntCat> CustEntCats { get; set; }
+        public virtual CustEntMain CustEntMain { get; set; }
     }
 }
