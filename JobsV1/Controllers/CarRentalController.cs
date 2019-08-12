@@ -476,7 +476,7 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/CarViews/Tags/rent-a-car-davao-city.cshtml");
                 case "van-for-rent-davao-city":
                     return View("~/Views/CarRental/CarViews/Tags/van-for-rent-davao-city.cshtml");
-
+                                    
                 //listing start
                 case "sedan-listing":
                     return View("~/Views/CarRental/CarViews/ListingSedan.cshtml");
