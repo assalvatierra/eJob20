@@ -77,7 +77,7 @@
         {
             @Html.ActionLink("(Confirm Job)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
         }
-
+        del
         <br />@Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
         | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null) 
         | <a id="aContractorLink"  data-toggle="modal" data-target="#aContractorLink" >Contractors</a>
@@ -174,7 +174,9 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Id })
+            @Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Id }) |
+            @Html.ActionLink("Instructions", "DriverInstructions", new { id = item.Id }) |
+
             <br />
             @Html.ActionLink("Pickup", "InitServicePickup", new { id = item.Id }) |
             @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id, SvcId = item.Id }, null) | 
