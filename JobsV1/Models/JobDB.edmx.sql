@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/11/2019 20:41:09
--- Generated from EDMX file: C:\Data\ABEL\Projects\GitHubApps\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 08/14/2019 14:20:01
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -284,9 +284,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_OnlineReservationRsvPayment]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RsvPayments] DROP CONSTRAINT [FK_OnlineReservationRsvPayment];
 GO
-IF OBJECT_ID(N'[dbo].[FK_JobServicePickupPickupInstructions]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_JobServicePickupPickupInstructions];
-GO
 IF OBJECT_ID(N'[dbo].[FK_PickupInstructionsDriverInstructions]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_PickupInstructionsDriverInstructions];
 GO
@@ -307,6 +304,9 @@ IF OBJECT_ID(N'[dbo].[FK_CustCategoryCustEntCat]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntClauses]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntClauses] DROP CONSTRAINT [FK_CustEntMainCustEntClauses];
+GO
+IF OBJECT_ID(N'[dbo].[FK_JobServicesPickupInstructions]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_JobServicesPickupInstructions];
 GO
 
 -- --------------------------------------------------
@@ -1592,8 +1592,8 @@ GO
 -- Creating table 'PickupInstructions'
 CREATE TABLE [dbo].[PickupInstructions] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [JobServicePickupId] int  NOT NULL,
-    [DriverInstructionsId] int  NOT NULL
+    [DriverInstructionsId] int  NOT NULL,
+    [JobServicesId] int  NOT NULL
 );
 GO
 
@@ -1614,8 +1614,8 @@ CREATE TABLE [dbo].[CustEntAddresses] (
     [Line3] nvarchar(80)  NULL,
     [Line4] nvarchar(80)  NULL,
     [Line5] nvarchar(80)  NULL,
-    [isBilling] int  NOT NULL,
-    [isPrimary] int  NOT NULL
+    [isBilling] bit  NOT NULL,
+    [isPrimary] bit  NOT NULL
 );
 GO
 
@@ -3567,21 +3567,6 @@ ON [dbo].[RsvPayments]
     ([OnlineReservationId]);
 GO
 
--- Creating foreign key on [JobServicePickupId] in table 'PickupInstructions'
-ALTER TABLE [dbo].[PickupInstructions]
-ADD CONSTRAINT [FK_JobServicePickupPickupInstructions]
-    FOREIGN KEY ([JobServicePickupId])
-    REFERENCES [dbo].[JobServicePickups]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_JobServicePickupPickupInstructions'
-CREATE INDEX [IX_FK_JobServicePickupPickupInstructions]
-ON [dbo].[PickupInstructions]
-    ([JobServicePickupId]);
-GO
-
 -- Creating foreign key on [DriverInstructionsId] in table 'PickupInstructions'
 ALTER TABLE [dbo].[PickupInstructions]
 ADD CONSTRAINT [FK_PickupInstructionsDriverInstructions]
@@ -3685,6 +3670,21 @@ GO
 CREATE INDEX [IX_FK_CustEntMainCustEntClauses]
 ON [dbo].[CustEntClauses]
     ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [JobServicesId] in table 'PickupInstructions'
+ALTER TABLE [dbo].[PickupInstructions]
+ADD CONSTRAINT [FK_JobServicesPickupInstructions]
+    FOREIGN KEY ([JobServicesId])
+    REFERENCES [dbo].[JobServices]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobServicesPickupInstructions'
+CREATE INDEX [IX_FK_JobServicesPickupInstructions]
+ON [dbo].[PickupInstructions]
+    ([JobServicesId]);
 GO
 
 -- --------------------------------------------------

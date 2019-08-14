@@ -454,12 +454,14 @@
     <Compile Include="Controllers\CoopMembersController.cs" />
     <Compile Include="Controllers\CustCategoriesController.cs" />
     <Compile Include="Controllers\CustCatsController.cs" />
+    <Compile Include="Controllers\CustEntAddressesController.cs" />
     <Compile Include="Controllers\CustEntitiesController.cs" />
     <Compile Include="Controllers\CustEntMainsController.cs" />
     <Compile Include="Controllers\CustFilesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomHelper.cs" />
     <Compile Include="Controllers\DestinationsController.cs" />
+    <Compile Include="Controllers\DriverInstructionsController.cs" />
     <Compile Include="Controllers\EmailBlasterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExpensesController.cs" />
@@ -558,6 +560,7 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
+    <Compile Include="Models\Class\SalesLeadClass.cs" />
     <Compile Include="Models\CoopMember.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1339,6 +1342,7 @@
     <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\Job\CashExpenses.js" />
     <Content Include="Scripts\Job\JobExpense.js" />
+    <Content Include="Scripts\Job\CustEntClause.js" />
     <Content Include="Scripts\Job\OnlineReservation.js" />
     <Content Include="Scripts\Job\PortalCustomer.js" />
     <Content Include="Scripts\Job\ProdCreate.js" />
@@ -2106,6 +2110,19 @@
     <Content Include="Views\OnlineReservations\Index.cshtml" />
     <Content Include="Views\OnlineReservations\Form.cshtml" />
     <Content Include="Views\JobMains\ActiveJobs2.cshtml" />
+    <Content Include="Views\DriverInstructions\Create.cshtml" />
+    <Content Include="Views\DriverInstructions\Delete.cshtml" />
+    <Content Include="Views\DriverInstructions\Details.cshtml" />
+    <Content Include="Views\DriverInstructions\Edit.cshtml" />
+    <Content Include="Views\DriverInstructions\Index.cshtml" />
+    <Content Include="Views\JobOrder\DriverInstructions.cshtml" />
+    <Content Include="Views\CustEntAddresses\Create.cshtml" />
+    <Content Include="Views\CustEntAddresses\Delete.cshtml" />
+    <Content Include="Views\CustEntAddresses\Details.cshtml" />
+    <Content Include="Views\CustEntAddresses\Edit.cshtml" />
+    <Content Include="Views\CustEntAddresses\Index.cshtml" />
+    <Content Include="Views\CustEntAddresses\CreateAddress.cshtml" />
+    <Content Include="Views\CustEntMains\CreateClause.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
