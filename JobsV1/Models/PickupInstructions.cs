@@ -15,10 +15,10 @@ namespace JobsV1.Models
     public partial class PickupInstructions
     {
         public int Id { get; set; }
-        public int JobServicePickupId { get; set; }
         public int DriverInstructionsId { get; set; }
+        public int JobServicesId { get; set; }
     
-        public virtual JobServicePickup JobServicePickup { get; set; }
         public virtual DriverInstructions DriverInstruction { get; set; }
+        public virtual JobServices JobService { get; set; }
     }
 }

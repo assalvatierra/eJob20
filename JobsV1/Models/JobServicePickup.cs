@@ -14,12 +14,6 @@ namespace JobsV1.Models
     
     public partial class JobServicePickup
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public JobServicePickup()
-        {
-            this.PickupInstructions = new HashSet<PickupInstructions>();
-        }
-    
         public int Id { get; set; }
         public int JobServicesId { get; set; }
         public System.DateTime JsDate { get; set; }
@@ -31,7 +25,5 @@ namespace JobsV1.Models
         public string ProviderContact { get; set; }
     
         public virtual JobServices JobService { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PickupInstructions> PickupInstructions { get; set; }
     }
 }

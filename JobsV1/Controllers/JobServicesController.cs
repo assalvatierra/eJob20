@@ -551,5 +551,6 @@ namespace JobsV1.Controllers
             EMailHandler mail = new EMailHandler();
             return mail.SendMail(jobId, email, mailType, jobOrder.Description, siteRedirect);
         }
+        
     }
 }
