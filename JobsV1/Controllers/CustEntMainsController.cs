@@ -7,13 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 
 namespace JobsV1.Controllers
 {
     public class CustEntMainsController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
-
+        private SalesLeadClass slc = new SalesLeadClass(); 
         public ActionResult Index()
         {
             return View(db.CustEntMains.ToList());
@@ -26,6 +27,7 @@ namespace JobsV1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             CustEntMain custEntMain = db.CustEntMains.Find(id);
             if (custEntMain == null)
             {
@@ -35,13 +37,15 @@ namespace JobsV1.Controllers
             if (top == null)
             {
                 top = 30;
-            } 
+            }
             
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
 
+            ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
+
             return View(custEntMain);
         }
-
+        
         public List<CompanyJobsList> getJobList(int? id, int? top, string sdate, string edate, string status) {
 
             int topFilter = (int)top;
@@ -209,5 +213,44 @@ namespace JobsV1.Controllers
             }
             base.Dispose(disposing);
         }
+
+        #region Clauses 
+
+        // GET: CustEntMains/Create
+        public ActionResult CreateClause(int companyId)
+        {
+            DateClass today = new DateClass();
+
+            CustEntClauses clause = new CustEntClauses();
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
+            clause.CustEntMainId = companyId;
+            clause.DtEncoded = today.GetCurrentDateTime();
+            clause.ValidStart = today.GetCurrentDateTime();
+            clause.ValidEnd =  today.GetCurrentDateTime().AddDays(1);
+            clause.Desc1 = "";
+            clause.Desc2 = "";
+            clause.Desc3 = "";
+            clause.EncodedBy = HttpContext.User.Identity.Name;
+            return View(clause);
+        }
+
+        // POST: CustEntMains/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateClause([Bind(Include = "Id,CustEntMainId,Title,ValidStart,ValidEnd,Desc1,Desc2,Desc3,DtEncoded,EncodedBy")] CustEntClauses custEntClauses)
+        {
+            if (ModelState.IsValid)
+            {
+                db.CustEntClauses.Add(custEntClauses);
+                db.SaveChanges();
+
+                return RedirectToAction("Details", "CustEntMains", new { id = custEntClauses.CustEntMainId });
+            }
+            return View(custEntClauses);
+        }
+
+        #endregion
     }
 }

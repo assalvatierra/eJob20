@@ -14,13 +14,6 @@ namespace JobsV1.Models
     
     public partial class CustEntAddress
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CustEntAddress()
-        {
-            this.isBilling = 0;
-            this.isPrimary = 0;
-        }
-    
         public int Id { get; set; }
         public int CustEntMainId { get; set; }
         public string Line1 { get; set; }
@@ -28,8 +21,8 @@ namespace JobsV1.Models
         public string Line3 { get; set; }
         public string Line4 { get; set; }
         public string Line5 { get; set; }
-        public int isBilling { get; set; }
-        public int isPrimary { get; set; }
+        public bool isBilling { get; set; }
+        public bool isPrimary { get; set; }
     
         public virtual CustEntMain CustEntMain { get; set; }
     }

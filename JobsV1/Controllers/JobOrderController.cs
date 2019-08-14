@@ -2787,7 +2787,23 @@ order by x.jobid
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = JobMainId });
             //return RedirectToAction("JobServices", "JobOrder", new { JobMainId = JobMainId });
         }
-        
+
+        #endregion
+
+        #region Driver Instructions
+
+        public ActionResult DriverInstructions()
+        {
+
+            ViewBag.InstructionsList = db.DriverInstructions.ToList();
+
+            return View();
+        }
+
+        public ActionResult DriverIntsAdd()
+        {
+            return RedirectToAction("DriverInstructions");
+        }
         #endregion
     }
 }
