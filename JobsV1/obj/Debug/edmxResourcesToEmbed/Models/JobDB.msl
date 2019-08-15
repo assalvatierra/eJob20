@@ -1077,8 +1077,8 @@
       <EntityTypeMapping TypeName="IsTypeOf(JobDB.PickupInstructions)">
         <MappingFragment StoreEntitySet="PickupInstructions">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="JobServicePickupId" ColumnName="JobServicePickupId" />
           <ScalarProperty Name="DriverInstructionsId" ColumnName="DriverInstructionsId" />
+          <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

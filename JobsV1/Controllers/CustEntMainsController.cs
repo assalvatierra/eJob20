@@ -214,6 +214,46 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
+        #region Delete 
+
+        public string EditAddress( int id, string line1, string line2, string line3, string line4, string line5,  bool isPrimary , bool isBilling)
+        {
+            CustEntAddress editAddress = db.CustEntAddresses.Find(id);
+            editAddress.Line1 = line1;
+            editAddress.Line2 = line2;
+            editAddress.Line3 = line3;
+            editAddress.Line4 = line4;
+            editAddress.Line5 = line5; 
+
+            db.Entry(editAddress).State = EntityState.Modified;
+            db.SaveChanges();
+            
+            return "200";
+        }
+
+
+        // GET: CustEntAddresses/Delete/5
+        public string DeleteAddress(int? id)
+        {
+            if (id == null)
+            {
+                return "500";
+            }
+
+            CustEntAddress custEntAddress = db.CustEntAddresses.Find(id);
+            if (custEntAddress == null)
+            {
+                return "500";
+            }
+
+            db.CustEntAddresses.Remove(custEntAddress);
+            db.SaveChanges();
+
+            return "200";
+        }
+
+        #endregion
+
         #region Clauses 
 
         // GET: CustEntMains/Create
