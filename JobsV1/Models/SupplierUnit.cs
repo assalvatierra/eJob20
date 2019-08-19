@@ -12,20 +12,17 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SupplierInvItem
+    public partial class SupplierUnit
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SupplierInvItem()
+        public SupplierUnit()
         {
             this.SupplierItemRates = new HashSet<SupplierItemRate>();
         }
     
         public int Id { get; set; }
-        public int SupplierId { get; set; }
-        public int InvItemId { get; set; }
+        public string Unit { get; set; }
     
-        public virtual Supplier Supplier { get; set; }
-        public virtual InvItem InvItem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplierItemRate> SupplierItemRates { get; set; }
     }

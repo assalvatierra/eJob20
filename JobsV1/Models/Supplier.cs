@@ -21,6 +21,7 @@ namespace JobsV1.Models
             this.SupplierItems = new HashSet<SupplierItem>();
             this.SupplierInvItems = new HashSet<SupplierInvItem>();
             this.SupplierPoHdrs = new HashSet<SupplierPoHdr>();
+            this.SupplierContacts = new HashSet<SupplierContact>();
         }
     
         public int Id { get; set; }
@@ -44,5 +45,7 @@ namespace JobsV1.Models
         public virtual ICollection<SupplierInvItem> SupplierInvItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplierPoHdr> SupplierPoHdrs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierContact> SupplierContacts { get; set; }
     }
 }

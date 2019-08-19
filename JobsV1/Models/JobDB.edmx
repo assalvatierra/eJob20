@@ -3179,6 +3179,21 @@
             <End Role="CustEntMain" EntitySet="CustEntMains" />
             <End Role="CustEntClauses" EntitySet="CustEntClauses" />
           </AssociationSet>
+          <EntitySet Name="SupplierContacts" EntityType="JobDB.SupplierContact" />
+          <AssociationSet Name="SupplierSupplierContact" Association="JobDB.SupplierSupplierContact">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="SupplierContact" EntitySet="SupplierContacts" />
+          </AssociationSet>
+          <EntitySet Name="SupplierItemRates" EntityType="JobDB.SupplierItemRate" />
+          <AssociationSet Name="SupplierInvItemSupplierItemRate" Association="JobDB.SupplierInvItemSupplierItemRate">
+            <End Role="SupplierInvItem" EntitySet="SupplierInvItems" />
+            <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
+          </AssociationSet>
+          <EntitySet Name="SupplierUnits" EntityType="JobDB.SupplierUnit" />
+          <AssociationSet Name="SupplierUnitSupplierItemRate" Association="JobDB.SupplierUnitSupplierItemRate">
+            <End Role="SupplierUnit" EntitySet="SupplierUnits" />
+            <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3233,6 +3248,7 @@
           <NavigationProperty Name="SupplierInvItems" Relationship="JobDB.SupplierSupplierInvItem" FromRole="Supplier" ToRole="SupplierInvItem" />
           <NavigationProperty Name="SupplierPoHdrs" Relationship="JobDB.SupplierSupplierPoHdr" FromRole="Supplier" ToRole="SupplierPoHdr" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="10" />
+          <NavigationProperty Name="SupplierContacts" Relationship="JobDB.SupplierSupplierContact" FromRole="Supplier" ToRole="SupplierContact" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -4511,6 +4527,7 @@
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvItem" Relationship="JobDB.InvItemSupplierInvItem" FromRole="SupplierInvItem" ToRole="InvItem" />
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SupplierItemRates" Relationship="JobDB.SupplierInvItemSupplierItemRate" FromRole="SupplierInvItem" ToRole="SupplierItemRate" />
         </EntityType>
         <Association Name="SupplierSupplierInvItem">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -5568,6 +5585,78 @@
             </Principal>
             <Dependent Role="CustEntClauses">
               <PropertyRef Name="CustEntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SupplierContact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Mobile" Type="String" Nullable="false" />
+          <Property Name="Landline" Type="String" Nullable="false" />
+          <Property Name="SkypeId" Type="String" Nullable="false" />
+          <Property Name="ViberId" Type="String" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" />
+          <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierContact" FromRole="SupplierContact" ToRole="Supplier" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="SupplierSupplierContact">
+          <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
+          <End Type="JobDB.SupplierContact" Role="SupplierContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierContact">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SupplierItemRate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="SupplierInvItem" Relationship="JobDB.SupplierInvItemSupplierItemRate" FromRole="SupplierItemRate" ToRole="SupplierInvItem" />
+          <Property Name="SupplierInvItemId" Type="Int32" Nullable="false" />
+          <Property Name="ItemRate" Type="String" Nullable="false" />
+          <NavigationProperty Name="SupplierUnit" Relationship="JobDB.SupplierUnitSupplierItemRate" FromRole="SupplierItemRate" ToRole="SupplierUnit" />
+          <Property Name="SupplierUnitId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="DtValidFrom" Type="String" Nullable="false" />
+          <Property Name="DtValidTo" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="SupplierInvItemSupplierItemRate">
+          <End Type="JobDB.SupplierInvItem" Role="SupplierInvItem" Multiplicity="1" />
+          <End Type="JobDB.SupplierItemRate" Role="SupplierItemRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierInvItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierItemRate">
+              <PropertyRef Name="SupplierInvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SupplierUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Unit" Type="String" Nullable="false" />
+          <NavigationProperty Name="SupplierItemRates" Relationship="JobDB.SupplierUnitSupplierItemRate" FromRole="SupplierUnit" ToRole="SupplierItemRate" />
+        </EntityType>
+        <Association Name="SupplierUnitSupplierItemRate">
+          <End Type="JobDB.SupplierUnit" Role="SupplierUnit" Multiplicity="1" />
+          <End Type="JobDB.SupplierItemRate" Role="SupplierItemRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierItemRate">
+              <PropertyRef Name="SupplierUnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

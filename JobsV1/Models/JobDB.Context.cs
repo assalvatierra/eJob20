@@ -122,5 +122,8 @@ namespace JobsV1.Models
         public virtual DbSet<CustEntAddress> CustEntAddresses { get; set; }
         public virtual DbSet<CustEntCat> CustEntCats { get; set; }
         public virtual DbSet<CustEntClauses> CustEntClauses { get; set; }
+        public virtual DbSet<SupplierContact> SupplierContacts { get; set; }
+        public virtual DbSet<SupplierItemRate> SupplierItemRates { get; set; }
+        public virtual DbSet<SupplierUnit> SupplierUnits { get; set; }
     }
 }
