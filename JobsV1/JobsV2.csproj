@@ -1343,6 +1343,7 @@
     <Content Include="Scripts\Job\CashExpenses.js" />
     <Content Include="Scripts\Job\JobExpense.js" />
     <Content Include="Scripts\Job\CustEntClause.js" />
+    <Content Include="Scripts\Job\CompanyDetails.js" />
     <Content Include="Scripts\Job\OnlineReservation.js" />
     <Content Include="Scripts\Job\PortalCustomer.js" />
     <Content Include="Scripts\Job\ProdCreate.js" />

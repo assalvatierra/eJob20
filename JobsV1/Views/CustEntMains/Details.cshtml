@@ -22,9 +22,9 @@
 <div class="row">
     <h3>Address</h3>
     @Html.ActionLink("Add Address", "CreateAddress", "CustEntAddresses", new { companyId = Model.Id }, null)
-    <p> &nbsp;</p>
     @foreach (var address in Model.CustEntAddresses as IEnumerable<JobsV1.Models.CustEntAddress>)
     {
+        
         <p>
             @if (address.isPrimary == true && address.isBilling == true)
             {
@@ -50,10 +50,10 @@
             }
         </p>
         <p class="comp-address"> 
-            <b>  @address.Line1  @address.Line2  @address.Line3  @address.Line4  @address.Line5 </b>
-            <span class="comp-address-actions" style="display:none;">
+            <b> &nbsp;&nbsp; @address.Line1  @address.Line2  @address.Line3  @address.Line4  @address.Line5 </b>
+            <span class="comp-address-actions" style="display:none;"> 
                 <a href="#" id="catbtn" data-toggle="modal" data-target="#comAddressEdit"
-                    onclick="edit_setAddress('@address.Line1','@address.Line2','@address.Line3','@address.Line4','@address.Line5','@address.isPrimary','@address.isBilling')"> Edit  </a> |
+                    onclick="edit_setAddress(@address.Id,'@address.Line1','@address.Line2','@address.Line3','@address.Line4','@address.Line5','@address.isPrimary','@address.isBilling')"> Edit  </a> |
                 <a onclick="ajax_RemoveAddress(@address.Id)">Delete</a>
             </span>
         </p>
@@ -66,15 +66,37 @@
     {
         <p> 
             <h4>
-                @Html.ActionLink(customers.Customer.Name , "Edit", "Customers", new { id = Model.Id }, null)
+                @Html.ActionLink(customers.Customer.Name , "Details", "Customers", new { id = Model.Id }, null)
             </h4>
         </p>
     }
 </div>
 
 <div class="row">
+    <h3>Clauses</h3>
+    @Html.ActionLink("Add Clause", "CreateClause", new { companyId = Model.Id }, null)
+    @foreach (var clause in Model.CustEntClauses as IEnumerable<JobsV1.Models.CustEntClauses>)
+    {
+
+        <div class="comp-clauses">
+            <b> @clause.Title </b> &nbsp; &nbsp;
+            <span class="comp-clauses-actions" style="display:none;">
+                <a href="#" id="catbtn" data-toggle="modal" data-target="#comClauseEdit"
+                   onclick="edit_setClause(@clause.Id,'@clause.Title','@clause.ValidStart','@clause.ValidEnd','@clause.Desc1','@clause.Desc2','@clause.Desc3')">Edit</a> |
+                <a onclick="ajax_RemoveClause(@clause.Id)">Delete</a>
+            </span>
+            <p> @clause.ValidStart - @clause.ValidEnd </p>
+            <p> @clause.Desc1 </p>
+            <p> @clause.Desc2 </p>
+            <p> @clause.Desc3 </p>
+            
+        </div><br />
+    }
+</div>
+
+<div class="row">
   <h3>Sales Leads</h3> 
-  @Html.ActionLink("Add Lead", "Index", "SalesLeads", new { leadId = 1 }, null)
+
   <table class="table table-striped">
       <tr>
           <th>Details</th>
@@ -148,23 +170,7 @@
     </table>
 </div>
 
-<div class="row">
-    <h3>Clauses</h3>
-    @Html.ActionLink("Add Clause", "CreateClause", new { companyId = Model.Id }, null)
-    @foreach (var clause in Model.CustEntClauses as IEnumerable<JobsV1.Models.CustEntClauses>)
-    {
-
-        <div>
-            <b> @clause.Title </b>
-            <p> @clause.ValidEnd - @clause.ValidEnd </p>
-            <p> @clause.Desc1 </p>
-            <p> @clause.Desc2 </p>
-            <p> @clause.Desc3 </p>
-        </div><br />
-    }
-</div>
-
-<!-- Add Modal -->
+<!-- Add Address Edit Modal -->
 <div class="modal fade" id="comAddressEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -174,6 +180,13 @@
             </div>
 
             <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> ID </b>
+                    <div class="col-md-10">
+                        <input id="address-ID" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
 
                 <div class="form-group cform">
                     <b class="col-md-2"> Line 1 </b>
@@ -208,32 +221,98 @@
                 <div class="form-group cform">
                     <b class="col-md-2"> Billing</b>
                     <div class="col-md-10">
-                        <input id="AddBill" type="checkbox">
+                        <input id="EditBill" type="checkbox">
                     </div><p></p>
                 </div>
                 <div class="form-group cform">
                     <b class="col-md-2"> Primary </b>
                     <div class="col-md-10">
-                        <input id="AddPrim" type="checkbox" >
+                        <input id="EditPrim" type="checkbox" >
                     </div><p></p>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="addDescBtn" onclick="ajax_PostDesc()">Submit</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_EditPostDesc()">Save</button>
-
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_EditAddress()">Save</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script src="~/Scripts/jquery-1.12.4.min.js"> </script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<!-- Add Clause Edit Modal -->
+<div class="modal fade" id="comClauseEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Clause</h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform hidden">
+                    <b class="col-md-2"> ID </b>
+                    <div class="col-md-10">
+                        <input id="Clause-ID" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Title </b>
+                    <div class="col-md-10">
+                        <input id="Clause-Title" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Start Date </b>
+                    <div class="col-md-10">
+                        <input id="Clause-StartDate" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> End Date </b>
+                    <div class="col-md-10">
+                        <input id="Clause-EndDate" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Desc 1 </b>
+                    <div class="col-md-10">
+                        <input id="Clause-Desc1" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Desc 2 </b>
+                    <div class="col-md-10">
+                        <input id="Clause-Desc2" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Desc 3 </b>
+                    <div class="col-md-10">
+                        <input id="Clause-Desc3" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_EditClause()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
+<script src="~/Scripts/Job/CompanyDetails.js"> </script>
 <script src="~/Scripts/Job/CompanyReport.js"> </script>
 
 <script>
-    //Show hide edit | delete of description
+    //Show hide edit / delete of address
     $(document).ready(function () {
         $("p.comp-address").hover(
           function () { //on hover
@@ -247,18 +326,129 @@
         );
     });
 
-    function edit_setAddress(line1,line2,line3,line4,line5,isPrimary, isBilling){
+    //Show hide edit / delete of Clauses
+    $(document).ready(function () {
+        $("div.comp-clauses").hover(
+          function () { //on hover
+              //console.log("test hover");
+              $(this).children("span.comp-clauses-actions").show();
+          },
+          function () { //on leave
+              //console.log("test leave");
+              $(this).children("span.comp-clauses-actions").hide();
+          }
+        );
+    });
+
+    //ADDRESS EDIT - SET INPUT
+    function edit_setAddress(id,line1, line2, line3, line4, line5, isPrimary, isBilling) {
+        $("#address-ID").val(id);
         $("#Address-1").val(line1);
         $("#Address-2").val(line2);
         $("#Address-3").val(line3);
         $("#Address-4").val(line4);
         $("#Address-5").val(line5);
-        console.log("primary: " + isPrimary);
-        console.log("billing: " + isBilling);
+        $("#EditPrim").attr("checked", isChecked(isPrimary));
+        $("#EditBill").attr("checked", isChecked(isBilling));
+
+        console.log("primary: " + isChecked(isPrimary));
+        console.log("billing: " + isChecked(isBilling));
     }
 
+    //ADDRESS EDIT - SET INPUT
+    function edit_setClause(id, title,stardate, enddate, desc1, desc2, desc3) {
+        $("#Clause-ID").val(id);
+        $("#Clause-Title").val(title);
+        $("#Clause-StartDate").val(stardate);
+        $("#Clause-EndDate").val(enddate);
+        $("#Clause-Desc1").val(desc1);
+        $("#Clause-Desc2").val(desc2);
+        $("#Clause-Desc3").val(desc3);
+    }
+
+    function isChecked(input) {
+        if (input == "onclick" || input == "on") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //ADDRESS EDIT
+    function ajax_EditAddress() {
+
+        //build json object
+        var data = {
+            id: $("#address-ID").val(),
+            line1: $("#Address-1").val(),
+            line2: $("#Address-2").val(),
+            line3: $("#Address-3").val(),
+            line4: $("#Address-4").val(),
+            line5: $("#Address-5").val(),
+            isPrimary: isChecked($("#EditPrim:checked").val()),
+            isBilling: isChecked($("#EditBill:checked").val())
+        };
+
+        console.log(data);
+
+        var url = '/CustEntMains/EditAddress';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    //ADDRESS EDIT
+    function ajax_EditClause() {
+
+        //build json object
+        var data = {
+            id: $("#Clause-ID").val(),
+            title: $("#Clause-Title").val(),
+            startdate: $("#Clause-StartDate").val(),
+            enddate: $("#Clause-EndDate").val(),
+            desc1: $("#Clause-Desc1").val(),
+            desc2: $("#Clause-Desc2").val(),
+            desc3: $("#Clause-Desc3").val()
+        };
+
+        console.log(data);
+
+        var url = '/CustEntMains/EditClause';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    //ADDRESS DELETE
     function ajax_RemoveAddress(Id) {
         console.log("ID:" + Id);
+
         //build json object
         var data = {
             id: Id
@@ -278,9 +468,39 @@
             error: function (data) {
                 // console.log("ERROR");
                 console.log(data);
-                //location.reload();
+                
+                location.reload();
             }
         });
     }
+    
+    //CLAUSE DELETE
+    function ajax_RemoveClause(Id) {
+
+        //build json object
+        var data = {
+            id: Id
+        };
+
+        var url = '/CustEntMains/DeleteClause';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                
+                location.reload();
+            }
+        });
+    }
+
 
 </script>

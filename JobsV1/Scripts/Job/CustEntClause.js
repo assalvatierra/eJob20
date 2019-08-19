@@ -12,6 +12,7 @@ $(document).ready(function () {
 
 function InitDatePicker()
 {
+    //-------------Date Start------------//
     var ddd1 = $('input[name="ValidStart"]').val();
 
     $('input[name="ValidStart"]').daterangepicker(
@@ -44,7 +45,7 @@ function InitDatePicker()
     $('input[name="ValidStart"]').val(ddd1);
     //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
 
-    //-------------------------
+    //-------------Date End------------//
     var ddd2 = $('input[name="ValidEnd"]').val();
 
     $('input[name="ValidEnd"]').daterangepicker(
@@ -71,8 +72,8 @@ function InitDatePicker()
     );
 
     $('input[name="ValidEnd"]').val(ddd2);
-
-    //-------------------------
+    
+    //-------------Date End------------//
 
     var ddd3 = $('input[name="DtEncoded"]').val();
 

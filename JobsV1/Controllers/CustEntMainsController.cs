@@ -291,6 +291,50 @@ namespace JobsV1.Controllers
             return View(custEntClauses);
         }
 
+        public string EditClause(int id, string title, string startdate, string enddate, string desc1, string desc2, string desc3)
+        {
+            try
+            {
+
+                CustEntClauses editClause = db.CustEntClauses.Find(id);
+                editClause.Title = title;
+                editClause.ValidStart = DateTime.Parse( startdate);
+                editClause.ValidEnd = DateTime.Parse( enddate);
+                editClause.Desc1 = desc1;
+                editClause.Desc2 = desc2;
+                editClause.Desc3 = desc3;
+
+                db.Entry(editClause).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return "200";
+            }
+            catch (Exception ex)
+            {
+                return "500";
+            }
+        }
+
+        // GET: CustEntAddresses/Delete/5
+        public string DeleteClause(int? id)
+        {
+            if (id == null)
+            {
+                return "500"; //error
+            }
+
+            CustEntClauses custEntClause = db.CustEntClauses.Find(id);
+            if (custEntClause == null)
+            {
+                return "500"; //error
+            }
+
+            db.CustEntClauses.Remove(custEntClause);
+            db.SaveChanges();
+
+            return "200"; // ok
+        }
+
         #endregion
     }
 }
