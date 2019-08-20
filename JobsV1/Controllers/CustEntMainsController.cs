@@ -42,7 +42,7 @@ namespace JobsV1.Controllers
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
 
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
-            ViewBag.categories = db.CustCategories.ToList();
+
             return View(custEntMain);
         }
         
@@ -336,25 +336,5 @@ namespace JobsV1.Controllers
         }
 
         #endregion
-
-        #region Category
-
-        // POST: CustCats/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-        public ActionResult addCategory(int catId,int companyId )
-        {
-                CustEntCat companyCategory = new CustEntCat();
-                companyCategory.CustCategoryId = catId;
-                companyCategory.CustEntMainId = companyId;
-
-                db.CustEntCats.Add(companyCategory);
-                db.SaveChanges();
-               return RedirectToAction("Details",new { id = companyId });
-          
-        }
-        #endregion
-
     }
 }
