@@ -103,6 +103,9 @@
     <EntitySet Name="CustEntAddresses" EntityType="JobDB.Store.CustEntAddresses" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntCats" EntityType="JobDB.Store.CustEntCats" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntClauses" EntityType="JobDB.Store.CustEntClauses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierContacts" EntityType="JobDB.Store.SupplierContacts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierItemRates" EntityType="JobDB.Store.SupplierItemRates" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierUnits" EntityType="JobDB.Store.SupplierUnits" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -486,6 +489,18 @@
     <AssociationSet Name="CustEntMainCustEntClauses" Association="JobDB.Store.CustEntMainCustEntClauses">
       <End Role="CustEntMain" EntitySet="CustEntMains" />
       <End Role="CustEntClauses" EntitySet="CustEntClauses" />
+    </AssociationSet>
+    <AssociationSet Name="SupplierSupplierContact" Association="JobDB.Store.SupplierSupplierContact">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="SupplierContact" EntitySet="SupplierContacts" />
+    </AssociationSet>
+    <AssociationSet Name="SupplierInvItemSupplierItemRate" Association="JobDB.Store.SupplierInvItemSupplierItemRate">
+      <End Role="SupplierInvItem" EntitySet="SupplierInvItems" />
+      <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
+    </AssociationSet>
+    <AssociationSet Name="SupplierUnitSupplierItemRate" Association="JobDB.Store.SupplierUnitSupplierItemRate">
+      <End Role="SupplierUnit" EntitySet="SupplierUnits" />
+      <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
     </AssociationSet>
     <AssociationSet Name="JobServicesPickupInstructions" Association="JobDB.Store.JobServicesPickupInstructions">
       <End Role="JobServices" EntitySet="JobServices" />
@@ -1524,6 +1539,38 @@
     <Property Name="Desc3" Type="nvarchar" Nullable="true" MaxLength="250" />
     <Property Name="DtEncoded" Type="datetime" Nullable="false" />
     <Property Name="EncodedBy" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SupplierContacts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Mobile" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Landline" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SkypeId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ViberId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SupplierId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SupplierItemRates">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SupplierInvItemId" Type="int" Nullable="false" />
+    <Property Name="ItemRate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SupplierUnitId" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DtValidFrom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DtValidTo" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SupplierUnits">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Unit" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2677,6 +2724,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SupplierSupplierContact">
+    <End Role="Supplier" Type="JobDB.Store.Suppliers" Multiplicity="1" />
+    <End Role="SupplierContact" Type="JobDB.Store.SupplierContacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierContact">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SupplierInvItemSupplierItemRate">
+    <End Role="SupplierInvItem" Type="JobDB.Store.SupplierInvItems" Multiplicity="1" />
+    <End Role="SupplierItemRate" Type="JobDB.Store.SupplierItemRates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SupplierInvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierItemRate">
+        <PropertyRef Name="SupplierInvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SupplierUnitSupplierItemRate">
+    <End Role="SupplierUnit" Type="JobDB.Store.SupplierUnits" Multiplicity="1" />
+    <End Role="SupplierItemRate" Type="JobDB.Store.SupplierItemRates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SupplierUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierItemRate">
+        <PropertyRef Name="SupplierUnitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="JobServicesPickupInstructions">
     <End Role="JobServices" Type="JobDB.Store.JobServices" Multiplicity="1" />
     <End Role="PickupInstructions" Type="JobDB.Store.PickupInstructions" Multiplicity="*" />
@@ -3175,7 +3258,6 @@
             <End Role="CustEntMain" EntitySet="CustEntMains" />
             <End Role="CustEntClauses" EntitySet="CustEntClauses" />
           </AssociationSet>
-<<<<<<< HEAD
           <EntitySet Name="SupplierContacts" EntityType="JobDB.SupplierContact" />
           <AssociationSet Name="SupplierSupplierContact" Association="JobDB.SupplierSupplierContact">
             <End Role="Supplier" EntitySet="Suppliers" />
@@ -3190,11 +3272,10 @@
           <AssociationSet Name="SupplierUnitSupplierItemRate" Association="JobDB.SupplierUnitSupplierItemRate">
             <End Role="SupplierUnit" EntitySet="SupplierUnits" />
             <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
-=======
+          </AssociationSet>
           <AssociationSet Name="JobServicesPickupInstructions" Association="JobDB.JobServicesPickupInstructions">
             <End Role="JobServices" EntitySet="JobServices" />
             <End Role="PickupInstructions" EntitySet="PickupInstructions" />
->>>>>>> 3e8eee571790aafe9fdca3e761cd33e8e7a15150
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="JobMain">
@@ -5578,7 +5659,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-<<<<<<< HEAD
         <EntityType Name="SupplierContact">
           <Key>
             <PropertyRef Name="Id" />
@@ -5648,7 +5728,10 @@
             </Principal>
             <Dependent Role="SupplierItemRate">
               <PropertyRef Name="SupplierUnitId" />
-=======
+
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="JobServicesPickupInstructions">
           <End Type="JobDB.JobServices" Role="JobServices" Multiplicity="1" />
           <End Type="JobDB.PickupInstructions" Role="PickupInstructions" Multiplicity="*" />
@@ -5658,7 +5741,7 @@
             </Principal>
             <Dependent Role="PickupInstructions">
               <PropertyRef Name="JobServicesId" />
->>>>>>> 3e8eee571790aafe9fdca3e761cd33e8e7a15150
+              
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6795,6 +6878,41 @@
           <ScalarProperty Name="Desc3" ColumnName="Desc3" />
           <ScalarProperty Name="DtEncoded" ColumnName="DtEncoded" />
           <ScalarProperty Name="EncodedBy" ColumnName="EncodedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierContacts">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierContact)">
+        <MappingFragment StoreEntitySet="SupplierContacts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Landline" ColumnName="Landline" />
+          <ScalarProperty Name="SkypeId" ColumnName="SkypeId" />
+          <ScalarProperty Name="ViberId" ColumnName="ViberId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierItemRates">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierItemRate)">
+        <MappingFragment StoreEntitySet="SupplierItemRates">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SupplierInvItemId" ColumnName="SupplierInvItemId" />
+          <ScalarProperty Name="ItemRate" ColumnName="ItemRate" />
+          <ScalarProperty Name="SupplierUnitId" ColumnName="SupplierUnitId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="DtValidFrom" ColumnName="DtValidFrom" />
+          <ScalarProperty Name="DtValidTo" ColumnName="DtValidTo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierUnits">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierUnit)">
+        <MappingFragment StoreEntitySet="SupplierUnits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

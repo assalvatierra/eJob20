@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/14/2019 14:20:01
+-- Date Created: 08/20/2019 12:45:22
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1642,6 +1642,38 @@ CREATE TABLE [dbo].[CustEntClauses] (
 );
 GO
 
+-- Creating table 'SupplierContacts'
+CREATE TABLE [dbo].[SupplierContacts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Mobile] nvarchar(max)  NOT NULL,
+    [Landline] nvarchar(max)  NOT NULL,
+    [SkypeId] nvarchar(max)  NOT NULL,
+    [ViberId] nvarchar(max)  NOT NULL,
+    [Remarks] nvarchar(max)  NOT NULL,
+    [SupplierId] int  NOT NULL
+);
+GO
+
+-- Creating table 'SupplierItemRates'
+CREATE TABLE [dbo].[SupplierItemRates] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SupplierInvItemId] int  NOT NULL,
+    [ItemRate] nvarchar(max)  NOT NULL,
+    [SupplierUnitId] int  NOT NULL,
+    [Remarks] nvarchar(max)  NOT NULL,
+    [DtValidFrom] nvarchar(max)  NOT NULL,
+    [DtValidTo] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SupplierUnits'
+CREATE TABLE [dbo].[SupplierUnits] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Unit] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2225,6 +2257,24 @@ GO
 -- Creating primary key on [Id] in table 'CustEntClauses'
 ALTER TABLE [dbo].[CustEntClauses]
 ADD CONSTRAINT [PK_CustEntClauses]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierContacts'
+ALTER TABLE [dbo].[SupplierContacts]
+ADD CONSTRAINT [PK_SupplierContacts]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierItemRates'
+ALTER TABLE [dbo].[SupplierItemRates]
+ADD CONSTRAINT [PK_SupplierItemRates]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierUnits'
+ALTER TABLE [dbo].[SupplierUnits]
+ADD CONSTRAINT [PK_SupplierUnits]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3670,6 +3720,51 @@ GO
 CREATE INDEX [IX_FK_CustEntMainCustEntClauses]
 ON [dbo].[CustEntClauses]
     ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [SupplierId] in table 'SupplierContacts'
+ALTER TABLE [dbo].[SupplierContacts]
+ADD CONSTRAINT [FK_SupplierSupplierContact]
+    FOREIGN KEY ([SupplierId])
+    REFERENCES [dbo].[Suppliers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierSupplierContact'
+CREATE INDEX [IX_FK_SupplierSupplierContact]
+ON [dbo].[SupplierContacts]
+    ([SupplierId]);
+GO
+
+-- Creating foreign key on [SupplierInvItemId] in table 'SupplierItemRates'
+ALTER TABLE [dbo].[SupplierItemRates]
+ADD CONSTRAINT [FK_SupplierInvItemSupplierItemRate]
+    FOREIGN KEY ([SupplierInvItemId])
+    REFERENCES [dbo].[SupplierInvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierInvItemSupplierItemRate'
+CREATE INDEX [IX_FK_SupplierInvItemSupplierItemRate]
+ON [dbo].[SupplierItemRates]
+    ([SupplierInvItemId]);
+GO
+
+-- Creating foreign key on [SupplierUnitId] in table 'SupplierItemRates'
+ALTER TABLE [dbo].[SupplierItemRates]
+ADD CONSTRAINT [FK_SupplierUnitSupplierItemRate]
+    FOREIGN KEY ([SupplierUnitId])
+    REFERENCES [dbo].[SupplierUnits]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierUnitSupplierItemRate'
+CREATE INDEX [IX_FK_SupplierUnitSupplierItemRate]
+ON [dbo].[SupplierItemRates]
+    ([SupplierUnitId]);
 GO
 
 -- Creating foreign key on [JobServicesId] in table 'PickupInstructions'

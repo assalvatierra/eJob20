@@ -825,10 +825,16 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierClass.cs" />
+    <Compile Include="Models\SupplierContact.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SupplierInvItem.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierItemRate.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierPoDtl.cs">
@@ -844,6 +850,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierUnit.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SysAccessLayer.cs" />
@@ -960,6 +969,18 @@
     <Content Include="Areas\Products\Script\SupList.js" />
     <Content Include="Areas\Products\Script\ProdList.js" />
     <Content Include="BingSiteAuth.xml" />
+    <Content Include="bin\de\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\es\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\fr\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\it\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\ja\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\JobsV1.dll" />
+    <Content Include="bin\JobsV1.pdb" />
+    <Content Include="bin\ko\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\pt\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\ru\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\zh-Hans\Microsoft.SqlServer.Types.resources.dll" />
+    <Content Include="bin\zh-Hant\Microsoft.SqlServer.Types.resources.dll" />
     <Content Include="Content\bootstrap-directional-buttons.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
