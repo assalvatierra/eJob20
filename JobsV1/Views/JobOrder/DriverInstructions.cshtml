@@ -1,0 +1,68 @@
+﻿@model IEnumerable<JobsV1.Models.PickupInstructions>
+
+@{
+    ViewBag.Title = "DriverInstructions";
+}
+
+<h2>DriverInstructions</h2>
+
+<p>
+    @Html.ActionLink("Add New", "Create") |
+    @Html.ActionLink("Instructions List", "Index", "DriverInstructions")
+    
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DriverInstruction.Description)
+        </th>
+        <th></th>
+    </tr>
+        @{ 
+            if (Model != null) { 
+            foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DriverInstruction.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                    </td>
+                </tr>
+               }
+            }
+         }
+</table>
+<a href="" id="editPosted" data-toggle="modal" data-target="#instructions" style="margin-bottom:10px;">Add Instructions</a>
+
+<!-- Instructions -->
+<div class="modal fade" id="instructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Instructions List</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+
+                <div class="list-group" id="categorylist">
+
+                    @foreach (var list in ViewBag.InstructionsList as IEnumerable<JobsV1.Models.DriverInstructions>)
+                    {
+                        <!--
+                        <a href="Url.Action("ChangeCompany", "JobOrder", new { id = item.Main.Id, newId = list.Id },null)" class="list-group-item"> list.Name</a>
+                        -->
+                    }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

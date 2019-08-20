@@ -1,0 +1,82 @@
+﻿@model JobsV1.Models.CustEntAddress
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CustEntAddress</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Line1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Line1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Line2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Line2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Line3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Line3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Line4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Line4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Line5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Line5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isBilling)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isBilling)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isPrimary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isPrimary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustEntMain.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustEntMain.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

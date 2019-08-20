@@ -714,12 +714,11 @@ values	('Fuel'		 ,'',10,1),
 		('Supplier Expense','',11,6),
 		('Supplier Comi','',11,6),
 		('Agency Fee','',12,4),
-		('Tax','',11),
-		('Entrances',''),
-		('Barge Fee',''),
-		('Car Rental',''),
-		('Security Deposit','')
-		
+		('Tax','',11,3),
+		('Entrances','',11,2),
+		('Barge Fee','',11,2),
+		('Car Rental','',11,1),
+		('Security Deposit','',11,1)
 		;
 
 
