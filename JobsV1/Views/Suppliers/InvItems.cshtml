@@ -13,6 +13,9 @@
         <th>
             Item
         </th>
+        <th>
+            Price (Validity)
+        </th>
         <th></th>
     </tr>
 
@@ -26,6 +29,17 @@
             @Html.DisplayFor(modelItem => item.InvItem.Remarks)
         </td>
         <td>
+            @foreach (var rate in item.SupplierItemRates)
+            {
+                <p>
+                    @rate.ItemRate / @rate.SupplierUnit.Unit  (@DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
+                </p>
+                <p>
+                   @rate.Remarks
+                </p>
+            }
+        <td>
+            <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id)">Add Rate</a> 
             @Html.ActionLink("Remove", "RemoveInvItems", new { id=item.Id })
         </td>
     </tr>
@@ -34,7 +48,6 @@
 </table>
 
 <a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>
-
 
 <!-- Modal -->
 <div class="modal fade" id="ItemAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -68,3 +81,124 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<!-- Add Inv Rate Modal -->
+<div class="modal fade" id="createInvRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Rate</h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform hidden">
+                    <b class="col-md-2"> Id </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-ItemId" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Rate </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Rate" class="form-control" type="text" maxlength="80" value="0">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Unit </b>
+                    <div class="col-md-10">
+                        <select id="InvRate-UnitType" class="form-control">
+                            @foreach (var unit in ViewBag.UnitList as IEnumerable<JobsV1.Models.SupplierUnit>)
+                            {
+                                <option value="@unit.Id"> @unit.Unit</option>
+
+                            }
+                        </select>
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Valid From</b>
+                    <div class="col-md-10">
+                        <input id="InvRate-ValidFrom" class="form-control" type="text" maxlength="13">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Valid To </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-ValidTo" class="form-control" type="text" maxlength="20">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Remarks </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Remarks" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_createInvRate()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
+<script src="~/Scripts/Job/SupplierAddRate.js"> </script>
+
+<script>
+    $(document).ready(new function () {
+        var today = moment().format('MM/DD/YYYY');
+        var endDate = moment(today).add(366, 'day').format('MM/DD/YYYY');
+        
+        $("#InvRate-ValidFrom").val(today);
+        $("#InvRate-ValidTo").val(endDate);
+    });
+
+
+    //ADDRESS EDIT
+    function ajax_createInvRate() {
+
+        //build json object
+        var data = {
+            id: $("#InvRate-ItemId").val(),
+            Rate: $("#InvRate-Rate").val(),
+            Unit: $("#InvRate-UnitType").find(":selected").val(),
+            ValidFrom: $("#InvRate-ValidFrom").val(),
+            ValidTo: $("#InvRate-ValidTo").val(),
+            Remarks: $("#InvRate-Remarks").val()
+        };
+
+        console.log(data);
+
+        var url = '/Suppliers/AddRateInvItems';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                //location.reload();
+            }
+        });
+    }
+
+    function AddRateInitial(id) {
+        $("#InvRate-ItemId").val(id);
+    }
+
+</script>

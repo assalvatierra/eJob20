@@ -65,9 +65,10 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('SU104','Suppliers','List of Suppliers','A','../Images/Erp/icons/icons-exchange.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (4,4);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('List','',4,'Suppliers','Index','',21,41),					-- id: 26
-	('PO List','',4,'SupplierPoHdrs','Index','',21,42),			-- id: 27
-	('Coop Members','',4,'CoopMembers','Index','',21,43);		-- id: 28
+	('Master List','',4,'Suppliers','Index','',21,41),					-- id: 26
+	('Items','',4,'InvItems','Index','',21,42),					-- id: 27
+	('PO List','',4,'SupplierPoHdrs','Index','',21,43),			-- id: 28
+	('Coop Members','',4,'CoopMembers','Index','',21,44);		-- id: 29
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (4,1,'2019/1/1');
 
@@ -76,10 +77,10 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('CU105','Customers','List of Customers','A','../Images/Erp/icons/icons-business.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (5,5);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('Contacts','',5,'Customers','Index','',21,51),			-- id: 29
-	('Companies','',5,'CustEntMains','Index','',21,52),			-- id: 30
-	('Email Blaster','',5,'EmailBlaster','Index','',21,53),  	-- id: 31
-	('Customer Portal','',5,'PortalCustomers','Index','',21,54); -- id: 32
+	('Contacts','',5,'Customers','Index','',21,51),			-- id: 30
+	('Companies','',5,'CustEntMains','Index','',21,52),			-- id: 31
+	('Email Blaster','',5,'EmailBlaster','Index','',21,53),  	-- id: 32
+	('Customer Portal','',5,'PortalCustomers','Index','',21,54); -- id: 33
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (5,1,'2019/1/1');
 
@@ -88,11 +89,11 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('EQ106','Equipments','List of Equipments','A','../Images/Erp/icons/icons-trolley.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (6,6);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('List','',6,'SupplierItems','Index','',21,61),				-- id: 33
 	('Items','',6,'InvItems','Index','',21,62),					-- id: 34
 	('Availability','',6,'InvItems','Availability','',21,63),	-- id: 35
 	('Gate Control','',6,'InvCarGateControls','Index','',21,64),-- id: 36
-	('Maintenance','',6,'InvCarRecords','Index','',21,65);		-- id: 37
+	('Maintenance','',6,'InvCarRecords','Index','',21,65),		-- id: 37
+	('Items Master','',6,'SupplierItems','Index','',21,61);		-- id: 38
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (6,1,'2019/1/1');
 
@@ -101,10 +102,10 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('PK107','Packages','Reports','A','../Images/Erp/icons/icons-box.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (7,7);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('Package Unit','',7,'CarRatePackages','Index','',21,71),	 -- id: 38
-	('Package List','',7,'CarRateUnitPackages','Index','',21,72),-- id: 39
-	('Unit Rates','',7,'CarRates','Index','',21,73),			 -- id: 40
-	('Groups','',7,'RateGroups','Index','',21,73);				 -- id: 41
+	('Package Unit','',7,'CarRatePackages','Index','',21,71),	 -- id: 39
+	('Package List','',7,'CarRateUnitPackages','Index','',21,72),-- id: 40
+	('Unit Rates','',7,'CarRates','Index','',21,73),			 -- id: 41
+	('Groups','',7,'RateGroups','Index','',21,73);				 -- id: 42
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (7,1,'2019/1/1');
@@ -116,9 +117,9 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('RP108','Reporting','Reports','A','../Images/Erp/icons/icons-report.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (8,8);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('Job Listing','',8,'Reporting','Index','',21,81),			-- id: 42
-	('Payment','',8,'Reporting','Index','',21,82),				-- id: 43
-	('Package Rates','',8,'Reporting','Index','',21,83);		-- id: 44
+	('Job Listing','',8,'Reporting','Index','',21,81),			-- id: 43
+	('Payment','',8,'Reporting','Index','',21,82),				-- id: 44
+	('Package Rates','',8,'Reporting','Index','',21,83);		-- id: 45
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (8,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
@@ -129,8 +130,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('NO109','Notifications','Reports','A','../Images/Erp/icons/icons-notification.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (9,9);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('SMS','',9,'JobServices','NotificationList','',21,91),		-- id: 45
-	('Paypal','',9,'PaypalTransactions','Index','',21,92);		-- id: 46
+	('SMS','',9,'JobServices','NotificationList','',21,91),		-- id: 46
+	('Paypal','',9,'PaypalTransactions','Index','',21,92);		-- id: 47
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values	
 (9,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
@@ -141,10 +142,10 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('NO110','Accounts','Accounting','A','../Images/Erp/icons/icons-accounting.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (10,10);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Main Accounts','',10,'Accounting/AccntMains','Index','',21,101),			-- id: 47
-		('Ledgers','',10,'Accounting/Accntledgers','Index','',21,102),				-- id: 48
-		('Account Category','',10,'Accounting/AccntCategories','Index','',21,103),	-- id: 49
-		('Transactions','',10,'Accounting/AccntTrxHdrs','Index','',21,103);			-- id: 50
+values 	('Main Accounts','',10,'Accounting/AccntMains','Index','',21,101),			-- id: 48
+		('Ledgers','',10,'Accounting/Accntledgers','Index','',21,102),				-- id: 49
+		('Account Category','',10,'Accounting/AccntCategories','Index','',21,103),	-- id: 50
+		('Transactions','',10,'Accounting/AccntTrxHdrs','Index','',21,103);			-- id: 51
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values	
 (10,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values
@@ -155,7 +156,7 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('NO111','HR','Human Resources','A','../Images/Erp/icons/icons-employee.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (11,11);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Personnel Lists','',11,'Personel/HrPersonels','Index','',21,111);		-- id: 51
+values 	('Personnel Lists','',11,'Personel/HrPersonels','Index','',21,111);		-- id: 52
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (11,1,'2019/1/1');
@@ -168,8 +169,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (12,12);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Products','',12,'Products/SmProducts','Index','',21,121),		-- id: 52
-		('Suppliers' ,'',12,'Products/SmSuppliers','Index','',21,122);		-- id: 53
+values 	('Products','',12,'Products/SmProducts','Index','',21,121),		-- id: 53
+		('Suppliers' ,'',12,'Products/SmSuppliers','Index','',21,122);		-- id: 54
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');
@@ -249,6 +250,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 52, 52),
 ('assalvatierra@gmail.com', 53, 53),
 ('assalvatierra@gmail.com', 54, 54),
+('assalvatierra@gmail.com', 55, 55),
 
 ('jahdielvillosa@gmail.com', 13, 13),
 ('jahdielvillosa@gmail.com', 14, 14),
@@ -291,4 +293,5 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 51, 51),
 ('jahdielvillosa@gmail.com', 52, 52),
 ('jahdielvillosa@gmail.com', 53, 53),
-('jahdielvillosa@gmail.com', 54, 54); 
+('jahdielvillosa@gmail.com', 54, 54),
+('jahdielvillosa@gmail.com', 55, 55); 

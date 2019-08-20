@@ -1358,6 +1358,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\Job\SupplierAddRate.js" />
     <Content Include="Scripts\Job\CompanyReport.js" />
     <Content Include="Scripts\Job\CustomerList.js" />
     <Content Include="Scripts\Job\CustomerReport.js" />
@@ -2145,6 +2146,8 @@
     <Content Include="Views\CustEntAddresses\Index.cshtml" />
     <Content Include="Views\CustEntAddresses\CreateAddress.cshtml" />
     <Content Include="Views\CustEntMains\CreateClause.cshtml" />
+    <Content Include="Views\Suppliers\CreateSupContact.cshtml" />
+    <Content Include="Views\Suppliers\CreateInvRate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

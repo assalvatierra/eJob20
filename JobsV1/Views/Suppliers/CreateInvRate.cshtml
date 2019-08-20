@@ -1,0 +1,96 @@
+﻿<!-- Add Clause Edit Modal -->
+<div class="modal fade" id="createInvRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Rate</h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Rate </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Rate" class="form-control" type="number" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> LandLine </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Landline" class="form-control" type="text" maxlength="15">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Mobile</b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Mobile" class="form-control" type="text" maxlength="13">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Skype ID </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Skype" class="form-control" type="text" maxlength="20">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Viber ID </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Viber" class="form-control" type="text" maxlength="20">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Remarks </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Remarks" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_createSupContact()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+
+    //ADDRESS EDIT
+    function ajax_createInvRate() {
+        //build json object
+        var data = {
+           
+            Name:     $("#SupCon-Name").val(),
+            LandLine: $("#SupCon-Landline").val(),
+            Mobile:   $("#SupCon-Mobile").val(),
+            SkypeId:  $("#SupCon-Skype").val(),
+            ViberId:  $("#SupCon-Viber").val(),
+            Remarks:  $("#SupCon-Remarks").val()
+        };
+
+        console.log(data);
+
+        var url = '/Suppliers/CreateSupContact';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+
+</script>

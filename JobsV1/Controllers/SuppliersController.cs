@@ -54,6 +54,10 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.supContacts = supplier.SupplierContacts.ToList();
+
+
             return View(supplier);
         }
 
@@ -169,6 +173,8 @@ namespace JobsV1.Controllers
             ViewBag.SupplierId = id;
             ViewBag.SupplierName = db.Suppliers.Find(id).Name;
             ViewBag.ItemList = db.InvItems.ToList();
+            ViewBag.UnitList = db.SupplierUnits.ToList();
+
             return View(db.SupplierInvItems.Where(s=>s.SupplierId == id).ToList());
         }
 
@@ -194,6 +200,23 @@ namespace JobsV1.Controllers
             db.SaveChanges();
 
             return RedirectToAction("InvItems", "Suppliers", new { id = item.SupplierId });
+        }
+        
+        public ActionResult AddRateInvItems(int id, string Rate, int Unit, string Remarks, string ValidFrom , string ValidTo  )
+        {
+            db.SupplierItemRates.Add(new SupplierItemRate
+            {
+
+                ItemRate = Rate,
+                SupplierUnitId = Unit,
+                Remarks = Remarks,
+                DtValidFrom = ValidFrom,
+                DtValidTo = ValidTo,
+                SupplierInvItemId = id
+            });
+            db.SaveChanges();
+
+            return RedirectToAction("InvItems", "Suppliers", new { id = id });
         }
 
         #endregion
@@ -240,7 +263,35 @@ namespace JobsV1.Controllers
             }
             return RedirectToAction("DeactivateSupplierList", "Suppliers");
         }
+
+        #endregion
+
+        #region SupplierContact
+
+        //  Create new Supplier contact
+        public ActionResult CreateSupContact(int SupplierId, string  Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks )
+        {
+            SupplierContact supContact = new SupplierContact();
+            supContact.SupplierId = SupplierId;
+            supContact.Name = Name;
+            supContact.Mobile = Mobile;
+            supContact.Landline = Landline;
+            supContact.SkypeId = SkypeId;
+            supContact.ViberId = ViberId;
+            supContact.Remarks = Remarks;
+
+            if (SupplierId != 0)
+            {
+
+               db.SupplierContacts.Add(supContact);
+               db.SaveChanges();
+
+            }
+            return RedirectToAction("Details" , new { id = SupplierId });
+           
+        }
         
+
         #endregion
     }
 }

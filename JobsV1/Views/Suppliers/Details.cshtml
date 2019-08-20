@@ -2,73 +2,46 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Supplier Details</h2>
 
 <div>
     <h4>Supplier</h4>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contact1)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contact1)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contact2)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contact2)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contact3)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contact3)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Details)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Details)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.City.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.City.Name)
-        </dd>
-
-    </dl>
+    <h3>@Model.Name</h3>
+    <p> @Model.Contact1 / @Model.Contact2 / @Model.Contact3  </p>
+    <p> <b>Email:</b>  @Model.Email </p>
+    <p> <b>Details:</b>  @Model.Details </p>
+    <p> <b>City:</b>  @Model.City.Name </p>
+    <p> <b>Type:</b>  @Model.SupplierType.Description </p>
+  
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<br />
+<div >
+    <h4> Supplier Contact </h4>
+
+    <a href="#" id="catbtn" data-toggle="modal" data-target="#createSupContact">Add Contact</a> 
+   
+    @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
+    {
+        <p> <b>Name:</b> @contact.Name  </p>
+        <p> <b>Contact No.:</b> @contact.Landline / @contact.Mobile   </p>
+        <p> <b>Skype:</b> @contact.SkypeId    </p>
+        <p> <b>Viber:</b> @contact.ViberId    </p>
+        <p> <b>Remarks:</b> @contact.Remarks    </p>
+        <hr />
+    }
+
+</div>
+
+<!-- Prereq Scripts -->
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+
+@{ Html.RenderPartial("CreateSupContact"); }

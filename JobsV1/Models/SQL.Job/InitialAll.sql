@@ -264,6 +264,9 @@ values ('07-25-2018','Test Po',1,1,'Abel','07-25-2018');
 insert into SupplierPoDtls([SupplierPoHdrId],[Remarks],[Amount],[JobServicesId])
 values (1,'10 seater vehicle',3500,1), (1,'14 seater vehicle',4000,1);
 
+insert into SupplierUnits([Unit])
+values ('Meter'),('Inch'),('Feet'),('Box'),('Package');
+
 -- Customer PO Samples
 insert into Customers(Name, Email, Contact1, Contact2, Remarks, Status) 
 values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test User','ACT');
