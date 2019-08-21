@@ -194,15 +194,27 @@ namespace JobsV1.Controllers
         //remove item(s) from the supplier
         public ActionResult RemoveInvItems(int id)
         {
+            SupplierInvItem tempitem = db.SupplierInvItems.Find(id);
+            
+            //check and remove existing items
+            foreach (var itemRate in tempitem.SupplierItemRates.ToList())
+            {
+                RemoveRateInvItem(itemRate.Id);
+            }
+            
             SupplierInvItem item = db.SupplierInvItems.Find(id);
-            db.SupplierInvItems.Remove(item);
 
+            db.SupplierInvItems.Remove(item);
             db.SaveChanges();
 
             return RedirectToAction("InvItems", "Suppliers", new { id = item.SupplierId });
         }
-        
-        public ActionResult AddRateInvItems(int id, string Rate, int Unit, string Remarks, string ValidFrom , string ValidTo  )
+
+        #endregion
+
+        #region inv Item Rate
+
+        public ActionResult AddRateInvItems(int id, string Rate, int Unit, string Remarks, string ValidFrom, string ValidTo)
         {
             db.SupplierItemRates.Add(new SupplierItemRate
             {
@@ -217,6 +229,13 @@ namespace JobsV1.Controllers
             db.SaveChanges();
 
             return RedirectToAction("InvItems", "Suppliers", new { id = id });
+        }
+
+        public void RemoveRateInvItem(int id)
+        {
+            SupplierItemRate itemRate = db.SupplierItemRates.Find(id);
+            db.SupplierItemRates.Remove(itemRate);
+            db.SaveChanges();
         }
 
         #endregion
@@ -290,7 +309,43 @@ namespace JobsV1.Controllers
             return RedirectToAction("Details" , new { id = SupplierId });
            
         }
-        
+
+        //  Create new Supplier contact
+        public ActionResult EditSupContact(int id, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks)
+        {
+            SupplierContact supContact = db.SupplierContacts.Find(id);
+            supContact.Name = Name;
+            supContact.Mobile = Mobile;
+            supContact.Landline = Landline;
+            supContact.SkypeId = SkypeId;
+            supContact.ViberId = ViberId;
+            supContact.Remarks = Remarks;
+
+            db.Entry(supContact).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = supContact });
+        }
+
+        public ActionResult deleteSupContact(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SupplierContact supContact = db.SupplierContacts.Find(id);
+            if (supContact == null)
+            {
+                return HttpNotFound();
+            }
+            int tempId = supContact.SupplierId;
+
+            db.SupplierContacts.Remove(supContact);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = tempId });
+
+        }
 
         #endregion
     }

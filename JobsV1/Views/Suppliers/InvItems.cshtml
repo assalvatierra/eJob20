@@ -5,8 +5,11 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>InvItems</h2>
+<h2>Inventory Items</h2>
+
 <h3>@ViewBag.SupplierName</h3>
+<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a> 
+
 
 <table class="table">
     <tr>
@@ -22,34 +25,40 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.InvItem.ItemCode)
-            -
-            @Html.DisplayFor(modelItem => item.InvItem.Description)
-            -
-            @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+            <p>
+                <b>
+                ( @Html.DisplayFor(modelItem => item.InvItem.ItemCode) )
+
+                @Html.DisplayFor(modelItem => item.InvItem.Description)
+                </b>
+            </p>
+            <p>
+                @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+            </p>
         </td>
         <td>
             @foreach (var rate in item.SupplierItemRates)
             {
                 <p>
-                    @rate.ItemRate / @rate.SupplierUnit.Unit  (@DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
+                    Php  @rate.ItemRate / @rate.SupplierUnit.Unit  (@DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
+                    <a href="#" onclick="confirmRateDelete(@rate.Id, 'Php @rate.ItemRate / @rate.SupplierUnit.Unit')"> [ x ] </a>
                 </p>
                 <p>
-                   @rate.Remarks
+                   @rate.Remarks  
                 </p>
             }
         <td>
-            <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id)">Add Rate</a> 
-            @Html.ActionLink("Remove", "RemoveInvItems", new { id=item.Id })
+            <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> | 
+            <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')" > Remove </a>
+            @*@Html.ActionLink("Remove", "RemoveInvItems", new { id=item.Id })*@
         </td>
     </tr>
 }
 
 </table>
+@Html.ActionLink("Back to List", "Index") 
 
-<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>
-
-<!-- Modal -->
+<!-- Add Item Modal -->
 <div class="modal fade" id="ItemAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -88,7 +97,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add Rate</h4>
+                <h4 class="modal-title">Add Rate for <span id="InvRate-ItemName"> Item </span></h4>
             </div>
 
             <div class="modal-body row" id="modal2-content">
@@ -192,13 +201,86 @@
             error: function (data) {
                 // console.log("ERROR");
                 console.log(data);
-                //location.reload();
+                location.reload();
             }
         });
     }
 
-    function AddRateInitial(id) {
+    function conformDelete(Id, desc){
+        var confirmRes = confirm("Do you want to REMOVE " + desc + " ?");
+        if(confirmRes){
+            ajax_deleteInv(Id);
+        }
+    }
+
+    //Item Delete
+    function ajax_deleteInv(Id) {
+
+        //build json object
+        var data = {
+            id: Id,
+        };
+
+        console.log(data);
+
+        var url = '/Suppliers/RemoveInvItems';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    function AddRateInitial(id, itemName) {
         $("#InvRate-ItemId").val(id);
+        $("#InvRate-ItemName").text(itemName)
+    }
+
+    function confirmRateDelete(id ,desc){
+        var res = confirm("Do you want to remove " + desc + "?")
+        if(res){
+            ajax_deleteItemRate(id);
+        }
+    }
+    
+    //Item Delete
+    function ajax_deleteItemRate(Id) {
+
+        //build json object
+        var data = {
+            id: Id,
+        };
+
+        console.log(data);
+
+        var url = '/Suppliers/RemoveRateInvItem';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
     }
 
 </script>

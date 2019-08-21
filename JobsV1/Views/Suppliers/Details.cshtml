@@ -1,14 +1,13 @@
 ﻿@model JobsV1.Models.Supplier
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Supplier Details";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Supplier Details</h2>
 
 <div>
-    <h4>Supplier</h4>
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
         @Html.ActionLink("Back to List", "Index")
@@ -16,7 +15,18 @@
 
     <hr />
     <h3>@Model.Name</h3>
-    <p> @Model.Contact1 / @Model.Contact2 / @Model.Contact3  </p>
+    <p> @Model.Contact1 
+    
+        @if (Model.Contact2 != null)
+        {
+            <span>/ @Model.Contact2</span> 
+        }
+
+        @if (Model.Contact3 != null)
+        {
+            <span>/ @Model.Contact3</span>
+        }
+     </p>
     <p> <b>Email:</b>  @Model.Email </p>
     <p> <b>Details:</b>  @Model.Details </p>
     <p> <b>City:</b>  @Model.City.Name </p>
@@ -25,18 +35,26 @@
 </div>
 <br />
 <div >
-    <h4> Supplier Contact </h4>
-
-    <a href="#" id="catbtn" data-toggle="modal" data-target="#createSupContact">Add Contact</a> 
-   
+    <h3> Supplier Contact </h3>
+    <div class="col-lg-12">
+        <a href="#" id="catbtn" data-toggle="modal" data-target="#createSupContact">Add Contact</a>
+    </div>
     @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
     {
-        <p> <b>Name:</b> @contact.Name  </p>
-        <p> <b>Contact No.:</b> @contact.Landline / @contact.Mobile   </p>
-        <p> <b>Skype:</b> @contact.SkypeId    </p>
-        <p> <b>Viber:</b> @contact.ViberId    </p>
-        <p> <b>Remarks:</b> @contact.Remarks    </p>
-        <hr />
+        <div class="col-sm-3" >
+            <p> <b>Name:</b> @contact.Name  </p>
+            <p> <b>Landline:</b> @contact.Landline </p>
+            <p> <b>Mobile: </b> @contact.Mobile </p>
+            <p> <b>Skype:</b> @contact.SkypeId  </p>
+            <p> <b>Viber:</b> @contact.ViberId  </p>
+            <p> <b>Remarks:</b> @contact.Remarks    </p>
+            <p>
+                <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact" 
+                   onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks') ">Edit</a> | 
+                 <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
+            </p>
+            <hr />
+        </div>
     }
 
 </div>
@@ -45,3 +63,45 @@
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
 
 @{ Html.RenderPartial("CreateSupContact"); }
+@{ Html.RenderPartial("EditSupContact"); }
+
+<script>
+
+    //display confirmation message for removal of contact
+    function ConfirmRemoveContact(id, name) {
+        var res = confirm("Do you want to remove " + name + " ?")
+        if(res){
+            ajax_deleteContactId(id);
+        }
+    }
+
+    
+    //Contact Delete
+    function ajax_deleteContactId(Id) {
+
+        //build json object
+        var data = {
+            id: Id
+        };
+
+        console.log(data);
+
+        var url = '/Suppliers/deleteSupContact';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+</script>

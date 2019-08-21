@@ -119,8 +119,8 @@ function SimpleTable(data) {
         content += "<td>" + temp[x]["Contact2"] + "</td>";
         content += "<td>" + temp[x]["Contact3"] + "</td>";
         content += "<td>" +
-            "<a href='Suppliers/Edit/" + temp[x]["Id"] + "'>Edit</a> |" +
-            "<a href='SupplierItems/'>Items</a>  |" +
+            "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
+            "<a href='SupplierItems/'>Items</a>  | " +
             "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
             "</td>";
         content += "<tr>";
@@ -154,8 +154,8 @@ function ExpandedTable(data) {
         content += "<td>" + temp[x]["SupType"] + "</td>";
         content += "<td>" + temp[x]["Dtls"] + "</td>";
         content += "<td>" +
-            "<a href='Suppliers/Edit/" + temp[x]["Id"] + "'>Edit</a> |" +
-            "<a href='SupplierItems/'>Items</a>  |" +
+            "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
+            "<a href='SupplierItems/'>Items</a>  | " +
             "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
             "</td>";
         content += "<tr>";
