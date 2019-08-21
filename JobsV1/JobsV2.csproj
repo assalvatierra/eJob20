@@ -559,6 +559,7 @@
     <Compile Include="Models\City.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\Class\SalesLeadClass.cs" />
     <Compile Include="Models\CoopMember.cs">
@@ -1358,6 +1359,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\Job\CustEntMainList.js" />
     <Content Include="Scripts\Job\SupplierAddRate.js" />
     <Content Include="Scripts\Job\CompanyReport.js" />
     <Content Include="Scripts\Job\CustomerList.js" />

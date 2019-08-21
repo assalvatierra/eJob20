@@ -10,7 +10,13 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+
+
+<p>
+    <input class="input-sm" id="srch-field" type="search" />
+    <button class="btn btn-default" onclick="ajax_loadContent()">Search</button>
+</p>
+<table class="table" id="company-Table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -24,7 +30,7 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@*@foreach (var item in Model) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -41,12 +47,12 @@
             @Html.ActionLink("Details", "Details", new { id=item.Id }) 
         </td>
     </tr>
-}
+}*@
 
 </table>
 
-<p>
-    @Html.ActionLink("Home", "Index", "Home", null, null) |
-    Companies |
-    @Html.ActionLink("Customers", "Index", "Customers", null, null)
-</p>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/Job/CustEntMainList.js"></script>
+<script> 
+        
+</script>

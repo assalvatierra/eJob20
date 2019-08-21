@@ -1,7 +1,7 @@
 ﻿
 //global variables
 var status = "ACT";
-var sort = "DATE";
+var sort = "NAME";
 var viewType = "SIMPLE";
 
 //load initial on page ready
@@ -82,7 +82,7 @@ function ajax_loadContent() {
 
     //request data from server using ajax call
     $.ajax({
-        url: 'CustEntMains/TableResult?search='+query+'&status='+status+'&sort='+sort,
+        url: 'CustEntMains/TableResult?search=' + query + '&status=' + status + '&sort=' + sort,
         type: "GET",
         data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
@@ -107,7 +107,7 @@ function LoadTable(data) {
     var temp = jQuery.parseJSON(data["responseText"]);
     //console.log(temp);
     //clear table contents except header
-    $("#sup-Table").find("tr:gt(0)").remove();
+    $("#company-Table").find("tr:gt(0)").remove();
     var jobcount = 0;
     var company  = "";
     var contact1 = "";
@@ -116,23 +116,22 @@ function LoadTable(data) {
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
-        jobcount = temp[x]["JobCount"] != null ?temp[x]["JobCount"] : 0 ;
-        company = temp[x]["Company"] != null ? temp[x]["Company"] : "--" ;
+        company = temp[x]["Remarks"] != null ? temp[x]["Company"] : "--";
+        company = temp[x]["Website"] != null ? temp[x]["Company"] : "--" ;
         contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
 
         content  = "<tr>";
-        content += "<td>" + temp[x]["Name"]      + "</td>";
-        content += "<td>" + contact1 + "</td>";
-        content += "<td>" + contact2 + "</td>";
-        content += "<td>" + company              + "</td>";
-        content += "<td>" + jobcount             + "</td>";
-        content += "<td>" + temp[x]["Status"]    + "</td>";
-        content += "<td>" + "<a href='Customers/Details/" + temp[x]["Id"] + "'>Details</a> "
+        content += "<td>" + temp[x]["Name"] + "</td>";
+        content += "<td>" + temp[x]["Address"] + "</td>";
+        content += "<td>" + contact1 + "<br />";
+        content += " " + contact2 + "</td>";
+
+        content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
                 + "</td>";
         content += "<tr>";
 
-        $(content).appendTo("#sup-Table");
+        $(content).appendTo("#company-Table");
     }
 }
 

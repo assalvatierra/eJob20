@@ -8,16 +8,34 @@ using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
 using JobsV1.Models.Class;
+using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
 {
     public class CustEntMainsController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
-        private SalesLeadClass slc = new SalesLeadClass(); 
+        private SalesLeadClass slc = new SalesLeadClass();
+        private CompanyClass comdb = new CompanyClass();
         public ActionResult Index()
         {
             return View(db.CustEntMains.ToList());
+        }
+
+        //Ajax - Table Result 
+        //Get the list of company containing the search string,
+        //if search is empty, return all actve items
+        //Param : search = search string
+        //        status = company list string
+        public string TableResult(string search, string status, string sort)
+        {
+            //get lit of customers
+            List<CompanyList> custList = new List<CompanyList>();
+           
+            custList = comdb.generateCompanyList(search, status, sort);
+
+            //convert list to json object
+            return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }
 
         // GET: CustEntMains/Details/5
