@@ -76,9 +76,23 @@
         </th>
 
         <td><!--Company-->
+
+            @{
+                if (Model.Customer.Name == "Personal Account")
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
+                else if (Model.Customer.Name == Model.Description)
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
+                }
+            }
+
             <br />@ViewBag.custCompany
-            <br />@Html.DisplayFor(model => model.Description) / @Html.DisplayFor(model => model.Customer.Name)
-            
             <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
             <br />Remarks: @Html.DisplayFor(model => model.JobRemarks)
         </td>
