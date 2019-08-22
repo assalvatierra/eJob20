@@ -53,14 +53,14 @@ namespace JobsV1.Models
                 {
                     //add more options for sorting
                     default:
-                        sql += "ORDER BY c.Name DESC;";
+                        sql += "ORDER BY c.Name ASC;";
                         break;
                 }
             }
             else
             {
                 //terminator
-                sql += "ORDER BY c.Name DESC;";
+                sql += "ORDER BY c.Name ASC;";
 
             }
 

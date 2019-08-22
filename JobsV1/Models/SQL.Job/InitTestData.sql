@@ -165,3 +165,9 @@ SELECT js.Id,  js.JobMainId ,js.Particulars, JobName = j.Description , Service =
                     FROM JobServices js 
                     LEFT JOIN JobMains j ON js.JobMainId = j.Id 
                     LEFT JOIN JobServicePickups jp ON jp.JobServicesId = js.Id ORDER BY SORTDATE;
+
+
+-- GET Company List with filtering and sort
+SELECT * FROM CustEntMains com WHERE com.Name LIKE '%NEW%' ORDER BY com.Name DESC
+
+SELECT * FROM CustEntMains c 

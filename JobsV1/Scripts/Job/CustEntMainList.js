@@ -116,14 +116,15 @@ function LoadTable(data) {
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
-        company = temp[x]["Remarks"] != null ? temp[x]["Company"] : "--";
-        company = temp[x]["Website"] != null ? temp[x]["Company"] : "--" ;
+        Address = temp[x]["Address"] != null ? temp[x]["Address"] : "--";
+        company = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
+        company = temp[x]["Website"] != null ? temp[x]["Website"] : "--";
         contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
 
         content  = "<tr>";
         content += "<td>" + temp[x]["Name"] + "</td>";
-        content += "<td>" + temp[x]["Address"] + "</td>";
+        content += "<td>" + Address + "</td>";
         content += "<td>" + contact1 + "<br />";
         content += " " + contact2 + "</td>";
 
