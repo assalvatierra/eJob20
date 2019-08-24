@@ -1,0 +1,109 @@
+﻿
+
+@foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+{
+    foreach (var supplier in item.SupplierInvItems as IEnumerable<JobsV1.Models.SupplierInvItem>)
+    {
+        <!-- Modal of Suppliers -->
+        <div class="modal fade" id="selectSupplierItem-@supplier.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Select rates of @item.Description from @supplier.Supplier.Name</h4>
+                    </div>
+                    <div class="modal-body" id="modal2-content">
+                        @foreach (var itemRates in supplier.SupplierItemRates as IEnumerable<JobsV1.Models.SupplierItemRate>)
+                        {
+                            <a class="list-group-item skills" onclick="addSupItemToView(@supplier.Id,'@item.Description','@supplier.Supplier.Name',' P @itemRates.ItemRate per @itemRates.SupplierUnit.Unit')">
+                                P @itemRates.ItemRate per @itemRates.SupplierUnit.Unit
+                            </a>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    }
+
+}
+
+@foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+{
+    <!-- Modal of Suppliers -->
+    <div class="modal fade" id="selectSupplier-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Select Supplier of @item.Description</h4>
+                </div>
+                <div class="modal-body" id="modal2-content">
+                    @foreach (var supplier in item.SupplierInvItems as IEnumerable<JobsV1.Models.SupplierInvItem>)
+                    {
+
+                        <a class="list-group-item skills" id="catbtn" data-toggle="modal" data-target="#selectSupplierItem-@supplier.Id" data-dismiss="modal">
+                            @supplier.Supplier.Name
+                            
+                        </a>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+}
+
+
+
+<!-- Modal of Items -->
+<div class="modal fade" id="selectInvItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Select Item</h4>
+            </div>
+            <div class="modal-body" id="modal2-content">
+                @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+                {
+                    
+                    <a class="list-group-item skills" id="catbtn" data-toggle="modal" data-target="#selectSupplier-@item.Id" data-dismiss="modal" >
+                        @item.Description 
+                    </a>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script>
+    var SLID = 0;
+    function addSupItemToView(supId,item,supplier,ratePerUnit) {
+        content = "<span>";
+        content += " " + item + " - " + ratePerUnit + " (" +supplier + ")" ;
+        content += "</span><br>";
+        $(content).appendTo("#SalesLeadItems-"+SLID);
+
+        //close modal
+        $('#selectSupplierItem-'+supId).modal('toggle');
+
+        console.log("content:" + content);
+    }
+
+    function addSupItem(salesLeadId) {
+        SLID = salesLeadId;
+        console.log("SLID:" + SLID);
+    }
+
+
+
+</script>

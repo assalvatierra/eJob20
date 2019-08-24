@@ -2151,6 +2151,7 @@
     <Content Include="Views\Suppliers\CreateSupContact.cshtml" />
     <Content Include="Views\Suppliers\CreateInvRate.cshtml" />
     <Content Include="Views\Suppliers\EditSupContact.cshtml" />
+    <Content Include="Views\SalesLeads\AddSupItemPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

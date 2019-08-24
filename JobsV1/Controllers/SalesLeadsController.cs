@@ -112,6 +112,9 @@ namespace JobsV1.Controllers
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
 
+            //for adding new item 
+            AddSupItemPartial();
+
             return View(salesLeads);
         }
 
@@ -836,5 +839,11 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index" , new { leadId = id });
         }
         #endregion
+
+        public void AddSupItemPartial()
+        {
+            var items = db.InvItems.ToList();
+            ViewBag.InvItems = items;
+        }
     }
 }

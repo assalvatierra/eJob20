@@ -87,6 +87,7 @@
                     @Html.DisplayFor(modelItem => item.CustPhone) /
                     @Html.DisplayFor(modelItem => item.CustEmail)
                 </span>
+
                 &nbsp; &nbsp;
                 @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
                 [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
@@ -96,7 +97,7 @@
                 ]
 
                 @foreach (var salescat in item.SalesLeadCategories)
-                    {
+                {
                     <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
                          alt=@salescat.SalesLeadCatCode.CatName height="24"
                          title=@salescat.SalesLeadCatCode.CatName />
@@ -112,7 +113,7 @@
                     @Html.DisplayFor(modelItem => item.Remarks)
                 </span>
                 <br />
-                @if( item.SalesActivities.Count()>0)
+                @if (item.SalesActivities.Count() > 0)
                 {
                     <span style="font:bold 8px, arial, verdana; color:maroon ;">
                         Activities<br />
@@ -120,9 +121,9 @@
 
                     <span style="font:bold 8px, arial, verdana; color: royalblue;">
                         @foreach (var tmpAct in item.SalesActivities)
-                    {
-                        if (tmpAct.SalesActStatusId == 1)
                         {
+                            if (tmpAct.SalesActStatusId == 1)
+                            {
                             <span style="color:red;font-weight:800;">! </span>
                             <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
                                  alt=@tmpAct.SalesActCode.iconPath height="16"
@@ -135,8 +136,8 @@
 
                             <br />
                             }
-                        if (tmpAct.SalesActStatusId == 2)
-                        {
+                            if (tmpAct.SalesActStatusId == 2)
+                            {
                             <span style="color:darkgray;font-weight:800;">&#10004; </span>
                             <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
                                  alt=@tmpAct.SalesActCode.iconPath height="16"
@@ -145,8 +146,8 @@
                             <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
                             <br />
                             }
-                        if (tmpAct.SalesActStatusId == 3)
-                        {
+                            if (tmpAct.SalesActStatusId == 3)
+                            {
                             <span style="color:darkgray;font-weight:800;">&#x2022; </span>
                             <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
                                  alt=@tmpAct.SalesActCode.iconPath height="16"
@@ -155,11 +156,24 @@
                             <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
                             <br />
                             }
-                    }
+                        }
                     </span>
                 }
                 [ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]
-                <br />[ 
+
+                <!-- Items with Prices -->         
+                <br /><br />
+                <span style="font:bold 8px, arial, verdana; color:dodgerblue;">
+                    Supplier Items<br />
+                </span>
+                <span id="SalesLeadItems-@item.Id">
+                  
+                </span>
+                <a id="catbtn" data-toggle="modal" data-target="#selectInvItem" style="margin-bottom:10px;" onclick="addSupItem(@item.Id)" >[ Add Item ]</a>
+
+                <!-- Endof Items with Prices -->
+
+                <br /><br />[ 
                 @{  
                     if (@item.SalesLeadLinks.Count() == 0)
                     {
@@ -218,6 +232,8 @@
 }
 
 </table>
+
+@{Html.RenderPartial("AddSupItemPartial", null, new ViewDataDictionary { { "InvItems", ViewBag.InvItems } });}
 
 <p>
     @Html.ActionLink("Create New", "Create") |
