@@ -213,6 +213,9 @@
         <AssociationConnector Association="JobDB.SupplierUnitSupplierItemRate" />
 
         <AssociationConnector Association="JobDB.JobServicesPickupInstructions" />
+        <EntityTypeShape EntityType="JobDB.SalesLeadItemRates" Width="1.5" PointX="12.125" PointY="18.125" />
+        <AssociationConnector Association="JobDB.SalesLeadSalesLeadItemRates" />
+        <AssociationConnector Association="JobDB.SupplierItemRateSalesLeadItemRates" />
 
       </Diagram>
     </edmx:Diagrams>

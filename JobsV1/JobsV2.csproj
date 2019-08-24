@@ -802,6 +802,9 @@
     <Compile Include="Models\SalesLeadCompany.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SalesLeadItemRates.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SalesLeadLink.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>

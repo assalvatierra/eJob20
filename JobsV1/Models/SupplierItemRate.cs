@@ -14,6 +14,12 @@ namespace JobsV1.Models
     
     public partial class SupplierItemRate
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SupplierItemRate()
+        {
+            this.SalesLeadItemRates = new HashSet<SalesLeadItemRates>();
+        }
+    
         public int Id { get; set; }
         public int SupplierInvItemId { get; set; }
         public string ItemRate { get; set; }
@@ -21,8 +27,11 @@ namespace JobsV1.Models
         public string Remarks { get; set; }
         public string DtValidFrom { get; set; }
         public string DtValidTo { get; set; }
+        public int SalesLeadId { get; set; }
     
         public virtual SupplierInvItem SupplierInvItem { get; set; }
         public virtual SupplierUnit SupplierUnit { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesLeadItemRates> SalesLeadItemRates { get; set; }
     }
 }

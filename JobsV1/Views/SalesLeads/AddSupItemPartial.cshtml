@@ -15,7 +15,7 @@
                     <div class="modal-body" id="modal2-content">
                         @foreach (var itemRates in supplier.SupplierItemRates as IEnumerable<JobsV1.Models.SupplierItemRate>)
                         {
-                            <a class="list-group-item skills" onclick="addSupItemToView(@supplier.Id,'@item.Description','@supplier.Supplier.Name',' P @itemRates.ItemRate per @itemRates.SupplierUnit.Unit')">
+                            <a class="list-group-item skills" onclick="addSupItemToView(@supplier.Id,@itemRates.Id,'@item.Description','@supplier.Supplier.Name',' P @itemRates.ItemRate per @itemRates.SupplierUnit.Unit')">
                                 P @itemRates.ItemRate per @itemRates.SupplierUnit.Unit
                             </a>
                         }
@@ -27,7 +27,6 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     }
-
 }
 
 @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
@@ -87,7 +86,7 @@
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
 <script>
     var SLID = 0;
-    function addSupItemToView(supId,item,supplier,ratePerUnit) {
+    function addSupItemToView(supId,rateId,item,supplier,ratePerUnit) {
         content = "<span>";
         content += " " + item + " - " + ratePerUnit + " (" +supplier + ")" ;
         content += "</span><br>";
@@ -97,6 +96,9 @@
         $('#selectSupplierItem-'+supId).modal('toggle');
 
         console.log("content:" + content);
+
+        //add to db
+        ajax_AddSupRate(SLID, rateId);
     }
 
     function addSupItem(salesLeadId) {
@@ -104,6 +106,32 @@
         console.log("SLID:" + SLID);
     }
 
+    function ajax_AddSupRate(SalesLeadID,RateId) {
+        //build json object
+
+        var data = {
+            SalesLeadId: SalesLeadID,
+            ItemRateId: RateId
+        };
+
+        var url = '/SalesLeads/AddSalesleadItemrate';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                //location.reload();
+            }
+        });
+    }
 
 
 </script>

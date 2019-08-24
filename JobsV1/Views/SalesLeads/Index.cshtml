@@ -164,33 +164,44 @@
                 <!-- Items with Prices -->         
                 <br /><br />
                 <span style="font:bold 8px, arial, verdana; color:dodgerblue;">
-                    Supplier Items<br />
+                    Supplier Items <br />
                 </span>
                 <span id="SalesLeadItems-@item.Id">
-                  
+                     @foreach (var itemrate in item.SalesLeadItemRates  ) {
+                        <text>
+                         @itemrate.SupplierItemRate.SupplierInvItem.InvItem.Description -
+                         P @itemrate.SupplierItemRate.ItemRate per  @itemrate.SupplierItemRate.SupplierUnit.Unit
+                        (@itemrate.SupplierItemRate.SupplierInvItem.Supplier.Name)
+                        @Html.ActionLink("[ x ]", "RemoveSalesleadItemrate", new { id = itemrate.Id })
+                    <br />
+                        </text>
+                     }
+
                 </span>
                 <a id="catbtn" data-toggle="modal" data-target="#selectInvItem" style="margin-bottom:10px;" onclick="addSupItem(@item.Id)" >[ Add Item ]</a>
 
+
                 <!-- Endof Items with Prices -->
 
+
                 <br /><br />[ 
-                @{  
-                    if (@item.SalesLeadLinks.Count() == 0)
-                    {
-                        @Html.ActionLink("New Quotation ", "QuotationCreate", new { id = item.Id, custid = item.CustomerId, amount = item.Price,
-                       cusmail = item.CustEmail, contact = item.CustPhone, desc = item.CustName, remarks = item.Remarks,
-                       leadDT = item.Date }, null)
-                        <span>|</span>
+                @{
+                             if (@item.SalesLeadLinks.Count() == 0)
+                             {
+                                 @Html.ActionLink("New Quotation ", "QuotationCreate", new { id = item.Id, custid = item.CustomerId, amount = item.Price,
+                                     cusmail = item.CustEmail, contact = item.CustPhone, desc = item.CustName, remarks = item.Remarks,
+                                     leadDT = item.Date }, null)
+                                 <span>|</span>
 
-                        @Html.ActionLink("Link Quotation ", "QuotationLink", new { id = item.Id }, null)
+                                 @Html.ActionLink("Link Quotation ", "QuotationLink", new { id = item.Id }, null)
 
-                        <span>|</span>
+                                 <span>|</span>
 
-                        @Html.ActionLink("Link JobOrder ", "QuotationLink", new { id = item.Id , linkid  = 1}, null)
-
+                                 @Html.ActionLink("Link JobOrder ", "QuotationLink", new { id = item.Id , linkid  = 1}, null)
+         
                     }
-                    else if (@item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id).FirstOrDefault().JobMain.JobStatusId == 3)
-                    {
+                             else if (@item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id).FirstOrDefault().JobMain.JobStatusId == 3)
+                             {
                        <img src="~/Images/Customers/Category/Active-30.png" width="15" height="15" alt="quotation approve"/>
 
                         @Html.ActionLink(" - View Quotation", "Services", "JobServices",
@@ -199,22 +210,22 @@
                         <span>|</span>
                         @Html.ActionLink(" Unlink ", "QuotationUnlink", "SalesLeads",
                                         new { id = item.Id }, null)
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Approve Quotation ", "ConfirmJob", "SalesLeads" ,
-                                        new { id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
-                                        .FirstOrDefault().JobMainId }, null) 
-                        <span>|</span>
-                        @Html.ActionLink(" View Quotation ", "Services", "JobServices",
-                                        new { id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
-                                        .FirstOrDefault().JobMainId }, null)
-                        <span>|</span>
-                        @Html.ActionLink(" Unlink ", "QuotationUnlink", "SalesLeads",
-                                        new{ id = item.Id }, null)
-                    }
+                             }
+                             else
+                             {
+                                 @Html.ActionLink("Approve Quotation ", "ConfirmJob", "SalesLeads" ,
+                                                 new { id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
+                                                 .FirstOrDefault().JobMainId }, null)
+                                 <span>|</span>
+                                 @Html.ActionLink(" View Quotation ", "Services", "JobServices",
+                                                 new { id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
+                                                 .FirstOrDefault().JobMainId }, null)
+                                 <span>|</span>
+                                 @Html.ActionLink(" Unlink ", "QuotationUnlink", "SalesLeads",
+                                                 new{ id = item.Id }, null)
+                             }
 
-                } ]
+                         } ]
 
                 <br />
                 <span style="font: status-bar; color:gray;">

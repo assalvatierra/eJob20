@@ -845,5 +845,30 @@ namespace JobsV1.Controllers
             var items = db.InvItems.ToList();
             ViewBag.InvItems = items;
         }
+
+        public string AddSalesleadItemrate(int SalesLeadId, int ItemRateId)
+        {
+            if (SalesLeadId != 0) { 
+                SalesLeadItemRates leaditemRate = new SalesLeadItemRates();
+                leaditemRate.SalesLeadId = SalesLeadId;
+                leaditemRate.SupplierItemRateId = ItemRateId;
+
+                db.SalesLeadItemRates.Add(leaditemRate);
+                db.SaveChanges();
+                return "200";
+            }
+            return "500";
+        }
+
+
+        public ActionResult RemoveSalesleadItemrate(int id)
+        {
+
+            SalesLeadItemRates leaditemRate = db.SalesLeadItemRates.Find(id);
+            db.SalesLeadItemRates.Remove(leaditemRate);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }

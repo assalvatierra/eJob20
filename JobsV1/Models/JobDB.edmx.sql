@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/20/2019 12:45:22
+-- Date Created: 08/24/2019 18:04:04
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -305,6 +305,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntClauses]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntClauses] DROP CONSTRAINT [FK_CustEntMainCustEntClauses];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierSupplierContact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierContacts] DROP CONSTRAINT [FK_SupplierSupplierContact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierInvItemSupplierItemRate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierItemRates] DROP CONSTRAINT [FK_SupplierInvItemSupplierItemRate];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierUnitSupplierItemRate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierItemRates] DROP CONSTRAINT [FK_SupplierUnitSupplierItemRate];
+GO
 IF OBJECT_ID(N'[dbo].[FK_JobServicesPickupInstructions]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_JobServicesPickupInstructions];
 GO
@@ -603,6 +612,15 @@ IF OBJECT_ID(N'[dbo].[CustEntCats]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CustEntClauses]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustEntClauses];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierContacts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierContacts];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierItemRates]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierItemRates];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierUnits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierUnits];
 GO
 
 -- --------------------------------------------------
@@ -1663,7 +1681,8 @@ CREATE TABLE [dbo].[SupplierItemRates] (
     [SupplierUnitId] int  NOT NULL,
     [Remarks] nvarchar(max)  NOT NULL,
     [DtValidFrom] nvarchar(max)  NOT NULL,
-    [DtValidTo] nvarchar(max)  NOT NULL
+    [DtValidTo] nvarchar(max)  NOT NULL,
+    [SalesLeadId] int  NOT NULL
 );
 GO
 
@@ -1671,6 +1690,14 @@ GO
 CREATE TABLE [dbo].[SupplierUnits] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Unit] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SalesLeadItemRates'
+CREATE TABLE [dbo].[SalesLeadItemRates] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SalesLeadId] int  NOT NULL,
+    [SupplierItemRateId] int  NOT NULL
 );
 GO
 
@@ -2275,6 +2302,12 @@ GO
 -- Creating primary key on [Id] in table 'SupplierUnits'
 ALTER TABLE [dbo].[SupplierUnits]
 ADD CONSTRAINT [PK_SupplierUnits]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesLeadItemRates'
+ALTER TABLE [dbo].[SalesLeadItemRates]
+ADD CONSTRAINT [PK_SalesLeadItemRates]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3780,6 +3813,36 @@ GO
 CREATE INDEX [IX_FK_JobServicesPickupInstructions]
 ON [dbo].[PickupInstructions]
     ([JobServicesId]);
+GO
+
+-- Creating foreign key on [SalesLeadId] in table 'SalesLeadItemRates'
+ALTER TABLE [dbo].[SalesLeadItemRates]
+ADD CONSTRAINT [FK_SalesLeadSalesLeadItemRates]
+    FOREIGN KEY ([SalesLeadId])
+    REFERENCES [dbo].[SalesLeads]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSalesLeadItemRates'
+CREATE INDEX [IX_FK_SalesLeadSalesLeadItemRates]
+ON [dbo].[SalesLeadItemRates]
+    ([SalesLeadId]);
+GO
+
+-- Creating foreign key on [SupplierItemRateId] in table 'SalesLeadItemRates'
+ALTER TABLE [dbo].[SalesLeadItemRates]
+ADD CONSTRAINT [FK_SupplierItemRateSalesLeadItemRates]
+    FOREIGN KEY ([SupplierItemRateId])
+    REFERENCES [dbo].[SupplierItemRates]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierItemRateSalesLeadItemRates'
+CREATE INDEX [IX_FK_SupplierItemRateSalesLeadItemRates]
+ON [dbo].[SalesLeadItemRates]
+    ([SupplierItemRateId]);
 GO
 
 -- --------------------------------------------------
