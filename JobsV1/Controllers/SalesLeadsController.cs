@@ -848,15 +848,15 @@ namespace JobsV1.Controllers
 
         public string AddSalesleadItemrate(int SalesLeadId, int ItemRateId)
         {
-            if (SalesLeadId != 0) { 
-                SalesLeadItemRates leaditemRate = new SalesLeadItemRates();
-                leaditemRate.SalesLeadId = SalesLeadId;
-                leaditemRate.SupplierItemRateId = ItemRateId;
+            //if (SalesLeadId != 0) { 
+            //    SalesLeadItemRates leaditemRate = new SalesLeadItemRates();
+            //    leaditemRate.SalesLeadId = SalesLeadId;
+            //    leaditemRate.SupplierItemRateId = ItemRateId;
 
-                db.SalesLeadItemRates.Add(leaditemRate);
-                db.SaveChanges();
-                return "200";
-            }
+            //    db.SalesLeadItemRates.Add(leaditemRate);
+            //    db.SaveChanges();
+            //    return "200";
+            //}
             return "500";
         }
 
@@ -864,9 +864,9 @@ namespace JobsV1.Controllers
         public ActionResult RemoveSalesleadItemrate(int id)
         {
 
-            SalesLeadItemRates leaditemRate = db.SalesLeadItemRates.Find(id);
-            db.SalesLeadItemRates.Remove(leaditemRate);
-            db.SaveChanges();
+            //SalesLeadItemRates leaditemRate = db.SalesLeadItemRates.Find(id);
+            //db.SalesLeadItemRates.Remove(leaditemRate);
+            //db.SaveChanges();
 
             return RedirectToAction("Index");
         }

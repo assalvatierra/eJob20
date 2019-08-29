@@ -167,7 +167,7 @@
                     Supplier Items <br />
                 </span>
                 <span id="SalesLeadItems-@item.Id">
-                     @foreach (var itemrate in item.SalesLeadItemRates  ) {
+                     @*@foreach (var itemrate in item.SalesLeadItemRates  ) {
                         <text>
                          @itemrate.SupplierItemRate.SupplierInvItem.InvItem.Description -
                          P @itemrate.SupplierItemRate.ItemRate per  @itemrate.SupplierItemRate.SupplierUnit.Unit
@@ -175,7 +175,7 @@
                         @Html.ActionLink("[ x ]", "RemoveSalesleadItemrate", new { id = itemrate.Id })
                     <br />
                         </text>
-                     }
+                     }*@
 
                 </span>
                 <a id="catbtn" data-toggle="modal" data-target="#selectInvItem" style="margin-bottom:10px;" onclick="addSupItem(@item.Id)" >[ Add Item ]</a>

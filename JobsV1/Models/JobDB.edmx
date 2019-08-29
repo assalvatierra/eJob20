@@ -106,7 +106,8 @@
     <EntitySet Name="SupplierContacts" EntityType="JobDB.Store.SupplierContacts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierItemRates" EntityType="JobDB.Store.SupplierItemRates" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierUnits" EntityType="JobDB.Store.SupplierUnits" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SalesLeadItemRates" EntityType="JobDB.Store.SalesLeadItemRates" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesLeadItems" EntityType="JobDB.Store.SalesLeadItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesLeadQuotedItems" EntityType="JobDB.Store.SalesLeadQuotedItems" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -507,13 +508,21 @@
       <End Role="JobServices" EntitySet="JobServices" />
       <End Role="PickupInstructions" EntitySet="PickupInstructions" />
     </AssociationSet>
-    <AssociationSet Name="SalesLeadSalesLeadItemRates" Association="JobDB.Store.SalesLeadSalesLeadItemRates">
+    <AssociationSet Name="SalesLeadSalesLeadItems" Association="JobDB.Store.SalesLeadSalesLeadItems">
       <End Role="SalesLead" EntitySet="SalesLeads" />
-      <End Role="SalesLeadItemRates" EntitySet="SalesLeadItemRates" />
+      <End Role="SalesLeadItems" EntitySet="SalesLeadItems" />
     </AssociationSet>
-    <AssociationSet Name="SupplierItemRateSalesLeadItemRates" Association="JobDB.Store.SupplierItemRateSalesLeadItemRates">
+    <AssociationSet Name="InvItemSalesLeadItems" Association="JobDB.Store.InvItemSalesLeadItems">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="SalesLeadItems" EntitySet="SalesLeadItems" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadItemsSalesLeadQuotedItem" Association="JobDB.Store.SalesLeadItemsSalesLeadQuotedItem">
+      <End Role="SalesLeadItems" EntitySet="SalesLeadItems" />
+      <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadQuotedItemSupplierItemRate" Association="JobDB.Store.SalesLeadQuotedItemSupplierItemRate">
+      <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
       <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
-      <End Role="SalesLeadItemRates" EntitySet="SalesLeadItemRates" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1582,13 +1591,27 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Unit" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="SalesLeadItemRates">
+  <EntityType Name="SalesLeadItems">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuotedPrice" Type="decimal" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="SalesLeadId" Type="int" Nullable="false" />
-    <Property Name="SupplierItemRateId" Type="int" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SalesLeadQuotedItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuotedRate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DtValidStart" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DtValidEnd" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SalesLeadItemsId" Type="int" Nullable="false" />
+    <Property Name="SupplierItemRate_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2790,27 +2813,51 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="SalesLeadSalesLeadItemRates">
+  <Association Name="SalesLeadSalesLeadItems">
     <End Role="SalesLead" Type="JobDB.Store.SalesLeads" Multiplicity="1" />
-    <End Role="SalesLeadItemRates" Type="JobDB.Store.SalesLeadItemRates" Multiplicity="*" />
+    <End Role="SalesLeadItems" Type="JobDB.Store.SalesLeadItems" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="SalesLead">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="SalesLeadItemRates">
+      <Dependent Role="SalesLeadItems">
         <PropertyRef Name="SalesLeadId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="SupplierItemRateSalesLeadItemRates">
+  <Association Name="InvItemSalesLeadItems">
+    <End Role="InvItem" Type="JobDB.Store.InvItems" Multiplicity="1" />
+    <End Role="SalesLeadItems" Type="JobDB.Store.SalesLeadItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadItems">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SalesLeadItemsSalesLeadQuotedItem">
+    <End Role="SalesLeadItems" Type="JobDB.Store.SalesLeadItems" Multiplicity="1" />
+    <End Role="SalesLeadQuotedItem" Type="JobDB.Store.SalesLeadQuotedItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesLeadItems">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadQuotedItem">
+        <PropertyRef Name="SalesLeadItemsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SalesLeadQuotedItemSupplierItemRate">
+    <End Role="SalesLeadQuotedItem" Type="JobDB.Store.SalesLeadQuotedItems" Multiplicity="*" />
     <End Role="SupplierItemRate" Type="JobDB.Store.SupplierItemRates" Multiplicity="1" />
-    <End Role="SalesLeadItemRates" Type="JobDB.Store.SalesLeadItemRates" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="SupplierItemRate">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="SalesLeadItemRates">
-        <PropertyRef Name="SupplierItemRateId" />
+      <Dependent Role="SalesLeadQuotedItem">
+        <PropertyRef Name="SupplierItemRate_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3319,16 +3366,25 @@
             <End Role="JobServices" EntitySet="JobServices" />
             <End Role="PickupInstructions" EntitySet="PickupInstructions" />
           </AssociationSet>
-          <EntitySet Name="SalesLeadItemRates" EntityType="JobDB.SalesLeadItemRates" />
-          <AssociationSet Name="SalesLeadSalesLeadItemRates" Association="JobDB.SalesLeadSalesLeadItemRates">
+          <EntitySet Name="SalesLeadItems" EntityType="JobDB.SalesLeadItems" />
+          <AssociationSet Name="SalesLeadSalesLeadItems" Association="JobDB.SalesLeadSalesLeadItems">
             <End Role="SalesLead" EntitySet="SalesLeads" />
-            <End Role="SalesLeadItemRates" EntitySet="SalesLeadItemRates" />
+            <End Role="SalesLeadItems" EntitySet="SalesLeadItems" />
           </AssociationSet>
-          <AssociationSet Name="SupplierItemRateSalesLeadItemRates" Association="JobDB.SupplierItemRateSalesLeadItemRates">
+          <AssociationSet Name="InvItemSalesLeadItems" Association="JobDB.InvItemSalesLeadItems">
+            <End Role="InvItem" EntitySet="InvItems" />
+            <End Role="SalesLeadItems" EntitySet="SalesLeadItems" />
+          </AssociationSet>
+          <EntitySet Name="SalesLeadQuotedItems" EntityType="JobDB.SalesLeadQuotedItem" />
+          <AssociationSet Name="SalesLeadItemsSalesLeadQuotedItem" Association="JobDB.SalesLeadItemsSalesLeadQuotedItem">
+            <End Role="SalesLeadItems" EntitySet="SalesLeadItems" />
+            <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
+          </AssociationSet>
+          <AssociationSet Name="SalesLeadQuotedItemSupplierItemRate" Association="JobDB.SalesLeadQuotedItemSupplierItemRate">
+            <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
             <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
-            <End Role="SalesLeadItemRates" EntitySet="SalesLeadItemRates" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
             <PropertyRef Name="Id" />
@@ -4259,7 +4315,7 @@
           <Property Name="CustEmail" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="SalesLeadLinks" Relationship="JobDB.SalesLeadSalesLeadLink" FromRole="SalesLead" ToRole="SalesLeadLink" />
           <NavigationProperty Name="SalesLeadCompanies" Relationship="JobDB.SalesLeadSalesLeadCompany" FromRole="SalesLead" ToRole="SalesLeadCompany" />
-          <NavigationProperty Name="SalesLeadItemRates" Relationship="JobDB.SalesLeadSalesLeadItemRates" FromRole="SalesLead" ToRole="SalesLeadItemRates" />
+          <NavigationProperty Name="SalesLeadItems" Relationship="JobDB.SalesLeadSalesLeadItems" FromRole="SalesLead" ToRole="SalesLeadItems" />
         </EntityType>
         <EntityType Name="SalesStatusCode">
           <Key>
@@ -4573,6 +4629,7 @@
           <NavigationProperty Name="InvCarRecords" Relationship="JobDB.InvItemInvCarRecord" FromRole="InvItem" ToRole="InvCarRecord" />
           <NavigationProperty Name="InvCarGateControls" Relationship="JobDB.InvItemInvCarGateControl" FromRole="InvItem" ToRole="InvCarGateControl" />
           <NavigationProperty Name="CoopMemberItems" Relationship="JobDB.InvItemCoopMemberItem" FromRole="InvItem" ToRole="CoopMemberItem" />
+          <NavigationProperty Name="SalesLeadItems" Relationship="JobDB.InvItemSalesLeadItems" FromRole="InvItem" ToRole="SalesLeadItems" />
         </EntityType>
         <EntityType Name="InvItemCat">
           <Key>
@@ -5751,7 +5808,7 @@
           <Property Name="DtValidFrom" Type="String" Nullable="false" />
           <Property Name="DtValidTo" Type="String" Nullable="false" />
           <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SalesLeadItemRates" Relationship="JobDB.SupplierItemRateSalesLeadItemRates" FromRole="SupplierItemRate" ToRole="SalesLeadItemRates" />
+          <NavigationProperty Name="SalesLeadQuotedItem" Relationship="JobDB.SalesLeadQuotedItemSupplierItemRate" FromRole="SupplierItemRate" ToRole="SalesLeadQuotedItem" />
         </EntityType>
         <Association Name="SupplierInvItemSupplierItemRate">
           <End Type="JobDB.SupplierInvItem" Role="SupplierInvItem" Multiplicity="1" />
@@ -5799,41 +5856,73 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SalesLeadItemRates">
+        <EntityType Name="SalesLeadItems">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadSalesLeadItemRates" FromRole="SalesLeadItemRates" ToRole="SalesLead" />
+          <Property Name="QuotedPrice" Type="Decimal" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadSalesLeadItems" FromRole="SalesLeadItems" ToRole="SalesLead" />
           <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SupplierItemRate" Relationship="JobDB.SupplierItemRateSalesLeadItemRates" FromRole="SalesLeadItemRates" ToRole="SupplierItemRate" />
-          <Property Name="SupplierItemRateId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvItem" Relationship="JobDB.InvItemSalesLeadItems" FromRole="SalesLeadItems" ToRole="InvItem" />
+          <Property Name="InvItemId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesLeadQuotedItems" Relationship="JobDB.SalesLeadItemsSalesLeadQuotedItem" FromRole="SalesLeadItems" ToRole="SalesLeadQuotedItem" />
         </EntityType>
-        <Association Name="SalesLeadSalesLeadItemRates">
+        <Association Name="SalesLeadSalesLeadItems">
           <End Type="JobDB.SalesLead" Role="SalesLead" Multiplicity="1" />
-          <End Type="JobDB.SalesLeadItemRates" Role="SalesLeadItemRates" Multiplicity="*" />
+          <End Type="JobDB.SalesLeadItems" Role="SalesLeadItems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SalesLead">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="SalesLeadItemRates">
+            <Dependent Role="SalesLeadItems">
               <PropertyRef Name="SalesLeadId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="SupplierItemRateSalesLeadItemRates">
-          <End Type="JobDB.SupplierItemRate" Role="SupplierItemRate" Multiplicity="1" />
-          <End Type="JobDB.SalesLeadItemRates" Role="SalesLeadItemRates" Multiplicity="*" />
+        <Association Name="InvItemSalesLeadItems">
+          <End Type="JobDB.InvItem" Role="InvItem" Multiplicity="1" />
+          <End Type="JobDB.SalesLeadItems" Role="SalesLeadItems" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SupplierItemRate">
+            <Principal Role="InvItem">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="SalesLeadItemRates">
-              <PropertyRef Name="SupplierItemRateId" />
+            <Dependent Role="SalesLeadItems">
+              <PropertyRef Name="InvItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="SalesLeadQuotedItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuotedRate" Type="String" Nullable="false" />
+          <Property Name="DtValidStart" Type="String" Nullable="false" />
+          <Property Name="DtValidEnd" Type="String" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" />
+          <NavigationProperty Name="SalesLeadItem" Relationship="JobDB.SalesLeadItemsSalesLeadQuotedItem" FromRole="SalesLeadQuotedItem" ToRole="SalesLeadItems" />
+          <Property Name="SalesLeadItemsId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SupplierItemRate" Relationship="JobDB.SalesLeadQuotedItemSupplierItemRate" FromRole="SalesLeadQuotedItem" ToRole="SupplierItemRate" />
+        </EntityType>
+        <Association Name="SalesLeadItemsSalesLeadQuotedItem">
+          <End Type="JobDB.SalesLeadItems" Role="SalesLeadItems" Multiplicity="1" />
+          <End Type="JobDB.SalesLeadQuotedItem" Role="SalesLeadQuotedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesLeadItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesLeadQuotedItem">
+              <PropertyRef Name="SalesLeadItemsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SalesLeadQuotedItemSupplierItemRate">
+          <End Type="JobDB.SalesLeadQuotedItem" Role="SalesLeadQuotedItem" Multiplicity="1" />
+          <End Type="JobDB.SupplierItemRate" Role="SupplierItemRate" Multiplicity="1" />
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -7005,15 +7094,37 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SalesLeadItemRates">
-      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadItemRates)">
-        <MappingFragment StoreEntitySet="SalesLeadItemRates">
+    <EntitySetMapping Name="SalesLeadItems">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadItems)">
+        <MappingFragment StoreEntitySet="SalesLeadItems">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="QuotedPrice" ColumnName="QuotedPrice" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
-          <ScalarProperty Name="SupplierItemRateId" ColumnName="SupplierItemRateId" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SalesLeadQuotedItems">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadQuotedItem)">
+        <MappingFragment StoreEntitySet="SalesLeadQuotedItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="QuotedRate" ColumnName="QuotedRate" />
+          <ScalarProperty Name="DtValidStart" ColumnName="DtValidStart" />
+          <ScalarProperty Name="DtValidEnd" ColumnName="DtValidEnd" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SalesLeadItemsId" ColumnName="SalesLeadItemsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="SalesLeadQuotedItemSupplierItemRate" TypeName="JobDB.SalesLeadQuotedItemSupplierItemRate" StoreEntitySet="SalesLeadQuotedItems">
+      <EndProperty Name="SupplierItemRate">
+        <ScalarProperty Name="Id" ColumnName="SupplierItemRate_Id" />
+      </EndProperty>
+      <EndProperty Name="SalesLeadQuotedItem">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

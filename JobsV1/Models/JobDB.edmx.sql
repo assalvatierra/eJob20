@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/24/2019 18:04:04
+-- Date Created: 08/28/2019 17:39:01
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -317,6 +317,18 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_JobServicesPickupInstructions]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_JobServicesPickupInstructions];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadSalesLeadItems]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadItems] DROP CONSTRAINT [FK_SalesLeadSalesLeadItems];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemSalesLeadItems]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadItems] DROP CONSTRAINT [FK_InvItemSalesLeadItems];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadItemsSalesLeadQuotedItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SalesLeadItemsSalesLeadQuotedItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadQuotedItemSupplierItemRate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SalesLeadQuotedItemSupplierItemRate];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -621,6 +633,12 @@ IF OBJECT_ID(N'[dbo].[SupplierItemRates]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SupplierUnits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SupplierUnits];
+GO
+IF OBJECT_ID(N'[dbo].[SalesLeadItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesLeadItems];
+GO
+IF OBJECT_ID(N'[dbo].[SalesLeadQuotedItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesLeadQuotedItems];
 GO
 
 -- --------------------------------------------------
@@ -1693,11 +1711,25 @@ CREATE TABLE [dbo].[SupplierUnits] (
 );
 GO
 
--- Creating table 'SalesLeadItemRates'
-CREATE TABLE [dbo].[SalesLeadItemRates] (
+-- Creating table 'SalesLeadItems'
+CREATE TABLE [dbo].[SalesLeadItems] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [QuotedPrice] decimal(18,0)  NOT NULL,
+    [Remarks] nvarchar(80)  NULL,
     [SalesLeadId] int  NOT NULL,
-    [SupplierItemRateId] int  NOT NULL
+    [InvItemId] int  NOT NULL
+);
+GO
+
+-- Creating table 'SalesLeadQuotedItems'
+CREATE TABLE [dbo].[SalesLeadQuotedItems] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [QuotedRate] nvarchar(max)  NOT NULL,
+    [DtValidStart] nvarchar(max)  NOT NULL,
+    [DtValidEnd] nvarchar(max)  NOT NULL,
+    [Remarks] nvarchar(max)  NOT NULL,
+    [SalesLeadItemsId] int  NOT NULL,
+    [SupplierItemRate_Id] int  NOT NULL
 );
 GO
 
@@ -2305,9 +2337,15 @@ ADD CONSTRAINT [PK_SupplierUnits]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'SalesLeadItemRates'
-ALTER TABLE [dbo].[SalesLeadItemRates]
-ADD CONSTRAINT [PK_SalesLeadItemRates]
+-- Creating primary key on [Id] in table 'SalesLeadItems'
+ALTER TABLE [dbo].[SalesLeadItems]
+ADD CONSTRAINT [PK_SalesLeadItems]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesLeadQuotedItems'
+ALTER TABLE [dbo].[SalesLeadQuotedItems]
+ADD CONSTRAINT [PK_SalesLeadQuotedItems]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3815,34 +3853,64 @@ ON [dbo].[PickupInstructions]
     ([JobServicesId]);
 GO
 
--- Creating foreign key on [SalesLeadId] in table 'SalesLeadItemRates'
-ALTER TABLE [dbo].[SalesLeadItemRates]
-ADD CONSTRAINT [FK_SalesLeadSalesLeadItemRates]
+-- Creating foreign key on [SalesLeadId] in table 'SalesLeadItems'
+ALTER TABLE [dbo].[SalesLeadItems]
+ADD CONSTRAINT [FK_SalesLeadSalesLeadItems]
     FOREIGN KEY ([SalesLeadId])
     REFERENCES [dbo].[SalesLeads]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSalesLeadItemRates'
-CREATE INDEX [IX_FK_SalesLeadSalesLeadItemRates]
-ON [dbo].[SalesLeadItemRates]
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSalesLeadItems'
+CREATE INDEX [IX_FK_SalesLeadSalesLeadItems]
+ON [dbo].[SalesLeadItems]
     ([SalesLeadId]);
 GO
 
--- Creating foreign key on [SupplierItemRateId] in table 'SalesLeadItemRates'
-ALTER TABLE [dbo].[SalesLeadItemRates]
-ADD CONSTRAINT [FK_SupplierItemRateSalesLeadItemRates]
-    FOREIGN KEY ([SupplierItemRateId])
+-- Creating foreign key on [InvItemId] in table 'SalesLeadItems'
+ALTER TABLE [dbo].[SalesLeadItems]
+ADD CONSTRAINT [FK_InvItemSalesLeadItems]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemSalesLeadItems'
+CREATE INDEX [IX_FK_InvItemSalesLeadItems]
+ON [dbo].[SalesLeadItems]
+    ([InvItemId]);
+GO
+
+-- Creating foreign key on [SalesLeadItemsId] in table 'SalesLeadQuotedItems'
+ALTER TABLE [dbo].[SalesLeadQuotedItems]
+ADD CONSTRAINT [FK_SalesLeadItemsSalesLeadQuotedItem]
+    FOREIGN KEY ([SalesLeadItemsId])
+    REFERENCES [dbo].[SalesLeadItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadItemsSalesLeadQuotedItem'
+CREATE INDEX [IX_FK_SalesLeadItemsSalesLeadQuotedItem]
+ON [dbo].[SalesLeadQuotedItems]
+    ([SalesLeadItemsId]);
+GO
+
+-- Creating foreign key on [SupplierItemRate_Id] in table 'SalesLeadQuotedItems'
+ALTER TABLE [dbo].[SalesLeadQuotedItems]
+ADD CONSTRAINT [FK_SalesLeadQuotedItemSupplierItemRate]
+    FOREIGN KEY ([SupplierItemRate_Id])
     REFERENCES [dbo].[SupplierItemRates]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_SupplierItemRateSalesLeadItemRates'
-CREATE INDEX [IX_FK_SupplierItemRateSalesLeadItemRates]
-ON [dbo].[SalesLeadItemRates]
-    ([SupplierItemRateId]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadQuotedItemSupplierItemRate'
+CREATE INDEX [IX_FK_SalesLeadQuotedItemSupplierItemRate]
+ON [dbo].[SalesLeadQuotedItems]
+    ([SupplierItemRate_Id]);
 GO
 
 -- --------------------------------------------------

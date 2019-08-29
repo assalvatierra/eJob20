@@ -22,7 +22,7 @@ namespace JobsV1.Models
             this.SalesStatus = new HashSet<SalesStatus>();
             this.SalesLeadLinks = new HashSet<SalesLeadLink>();
             this.SalesLeadCompanies = new HashSet<SalesLeadCompany>();
-            this.SalesLeadItemRates = new HashSet<SalesLeadItemRates>();
+            this.SalesLeadItems = new HashSet<SalesLeadItems>();
         }
     
         public int Id { get; set; }
@@ -50,6 +50,6 @@ namespace JobsV1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesLeadCompany> SalesLeadCompanies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesLeadItemRates> SalesLeadItemRates { get; set; }
+        public virtual ICollection<SalesLeadItems> SalesLeadItems { get; set; }
     }
 }
