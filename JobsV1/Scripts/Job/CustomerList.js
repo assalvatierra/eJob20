@@ -82,7 +82,7 @@ function ajax_loadContent() {
 
     //request data from server using ajax call
     $.ajax({
-        url: 'CustEntMains/TableResult?search='+query+'&status='+status+'&sort='+sort,
+        url: 'Customers/TableResult?search='+query+'&status='+status+'&sort='+sort,
         type: "GET",
         data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
