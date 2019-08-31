@@ -169,6 +169,17 @@
 
 </table>
 
+<div>
+    <p>Notes:</p>
+    @foreach (var notes in Model.JobNotes as IEnumerable<JobsV1.Models.JobNote>)
+    {
+        <p>
+            @notes.Note
+        </p>
+    }
+
+</div>
+
 
 
 <div class="col-lg-12">

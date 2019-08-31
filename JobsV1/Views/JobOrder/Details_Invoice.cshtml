@@ -72,28 +72,34 @@
     </tr>
     <tr>
         <th valign="top">
-            Account
+            Account : 
         </th>
 
         <td><!--Company-->
 
             @{
-                if (Model.Customer.Name == "Personal Account")
+                if (Model.Customer.Name.Trim() == "Personal Account")
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
-                else if (Model.Customer.Name == Model.Description)
+                else if (Model.Customer.Name.Trim() == Model.Description.Trim())
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
+                    @Html.DisplayFor(model => model.Description) 
                 }
             }
-
+            @*@ViewBag.JobName*@
             <br />@ViewBag.custCompany
-            <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
+            <br />
+             
+            @if (Model.NoOfPax != 0) { 
+                <text>  Pax: @Html.DisplayFor(model => model.NoOfPax) | </text>
+            }
+            
+            Days: @Html.DisplayFor(model => model.NoOfDays)
             <br />Remarks: @Html.DisplayFor(model => model.JobRemarks)
         </td>
 
@@ -426,6 +432,21 @@
 
         console.log("total: " + total );
         return total;
+    }
+
+    function checkName(){
+        var name = "@Model.Customer.Name";
+        var jname = "@Model.Description";
+
+        if(jname == name){
+            console.log("jname == name");
+        }
+
+        if("Personal Account" == name){
+            console.log("Personal Acccount == name");
+        }
+
+        console.log("Useng old pattern");
     }
 
     getcalcAddOn();

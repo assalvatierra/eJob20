@@ -72,15 +72,15 @@
     </tr>
     <tr>
         <th valign="top">
-            Account
+            Account : 
         </th>
         <td>
             @{
-                if (Model.Customer.Name == "Personal Account")
+                if (Model.Customer.Name.Trim() == "Personal Account")
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
-                else if (Model.Customer.Name == Model.Description)
+                else if (Model.Customer.Name.Trim() == Model.Description.Trim())
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
@@ -92,7 +92,13 @@
 
             <!--Company-->
             <br />@ViewBag.custCompany
-            <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
+            <br />
+
+            @if (Model.NoOfPax != 0)
+            {
+                <text>  Pax: @Html.DisplayFor(model => model.NoOfPax) | </text>
+            }
+             Days: @Html.DisplayFor(model => model.NoOfDays)
            
         </td>
     </tr>

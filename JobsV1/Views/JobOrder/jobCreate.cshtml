@@ -162,7 +162,7 @@
     $("#customerList").change(function () {
         var customer = $("#customerList option:selected").text();
         //console.log("customer : " + customer);
-        $("#jobdesc").val(customer);
+        //$("#jobdesc").val(customer);
         getEmail();
         getNumber();
         getCompany();
@@ -193,14 +193,12 @@
 
     //get number using ajax post
     function getCompany() {
-        //alert($("#customerList option:selected").val());
         $.post("/JobOrder/getCustomerCompany",
         {
             id: $("#customerList option:selected").val()
         },
         function (data, status) {
-            $('[name=CompanyId]').val(data);//To select Blue
-            //alert("\nData: " + data + "\nStatus: " + status);
+            $('[name=CompanyId]').val(data);
         });
     }
 
@@ -227,7 +225,7 @@
         var customer = $("#customerList option:selected").text();
         $('#customerList').val(value);
         $('#CustomersModal').modal('toggle');
-        $("#jobdesc").val(customer);
+        //$("#jobdesc").val(customer);
         getEmail();
         getNumber();
         getCompany();

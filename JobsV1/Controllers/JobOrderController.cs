@@ -1698,7 +1698,7 @@ order by x.jobid
              
 
             ViewBag.custCompany = custCompany;
-
+            
             //get paypal keys at db
             PaypalAccount paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();
             ViewBag.key = paypal.Key;
@@ -1809,6 +1809,25 @@ order by x.jobid
             var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
             ViewBag.StaffName = getStaffName(encoder.user);
             ViewBag.Sign = getStaffSign(encoder.user);
+
+
+            //filter name and jobname if the same or personal account
+            var filteredName = "";
+
+            if (jobMain.Description == "Personal Account")
+            {
+                filteredName = jobMain.Description;
+            }
+            else if (jobMain.Description == jobMain.Customer.Name)
+            {
+                filteredName = jobMain.Description;
+            }
+            else
+            {
+                filteredName = jobMain.Description + " / " + jobMain.Customer.Name;
+            }
+
+            ViewBag.JobName = filteredName;
 
             if (jobMain.JobStatusId == 1) //quotation
                 return View("Details_Quote", jobMain);
