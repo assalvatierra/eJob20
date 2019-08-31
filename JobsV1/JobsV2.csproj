@@ -409,6 +409,9 @@
     <Compile Include="Areas\Products\Models\SmFile.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Products\Models\SmProdAds.cs">
+      <DependentUpon>ProdDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Products\Models\SmProdCat.cs">
       <DependentUpon>ProdDB.tt</DependentUpon>
     </Compile>
@@ -1062,6 +1065,13 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\Call.png" />
     <Content Include="Images\CarRental\4x4.101.png" />
+    <Content Include="Images\CarRental\Ads\Ads-mpv-2019.png" />
+    <Content Include="Images\CarRental\Ads\Ads-sedan-2019.png" />
+    <Content Include="Images\CarRental\Ads\Ads-suv-2019.png" />
+    <Content Include="Images\CarRental\Ads\Ads-van-2019.png" />
+    <Content Include="Images\CarRental\Ads\Paypal-disabled.PNG" />
+    <Content Include="Images\CarRental\Ads\placeholder.png" />
+    <Content Include="Images\CarRental\Ads\Realwheelsdava-FB.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.jpg" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner3.png" />
@@ -1317,6 +1327,7 @@
     <Content Include="Models\SQL.Job\AddChecklist.SQL" />
     <Content Include="Models\SQL.Job\AsExpenseDB.sql" />
     <Content Include="Models\SQL.CarCoop\CarRentalInitial.sql" />
+    <Content Include="Models\SQL.Job\CarRental_Products.sql" />
     <Content Include="Models\SQL.Job\CarRentalInitial.sql" />
     <Content Include="Models\SQL.Job\CarRentalInitial_RatePackage.sql" />
     <Content Include="Models\SQL.Job\CarRentalInitial_meta.sql" />
@@ -2158,6 +2169,7 @@
     <Content Include="Views\Suppliers\CreateInvRate.cshtml" />
     <Content Include="Views\Suppliers\EditSupContact.cshtml" />
     <Content Include="Views\SalesLeads\AddSupItemPartial.cshtml" />
+    <Content Include="Views\OnlineReservations\PackageDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

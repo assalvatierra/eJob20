@@ -15,7 +15,9 @@ values  ('ACT'),
 Insert into SmCategories([Name])
 values  ('Davao'),('Bohol'),('Palawan'),('Cebu'),
 		('Tour'),('Island Hopping'),('3d2n'),('4d3n'),
-		('International'),('Free and Easy');
+		('International'),('Free and Easy'),('Car Rental');
+Insert into SmCategories([Name])
+values  ('Car Rental');
 		
 Insert into SmRateUoMs([Name])
-values ('Pax'),('Unit');
+values ('Pax'),('Unit'),('Day');

@@ -218,30 +218,30 @@
         <AssociationConnector Association="JobDB.InvItemSalesLeadItems" ></AssociationConnector>
         <EntityTypeShape EntityType="JobDB.SalesLeadQuotedItem" Width="1.5" PointX="11.375" PointY="20.625" />
         <AssociationConnector Association="JobDB.SalesLeadItemsSalesLeadQuotedItem" />
-        <AssociationConnector Association="JobDB.SalesLeadQuotedItemSupplierItemRate" ManuallyRouted="true" >
-          <ConnectorPoint PointX="12.875" PointY="21.903595377604169" />
-          <ConnectorPoint PointX="18.375" PointY="21.903595377604169" />
-          <ConnectorPoint PointX="18.375" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="22.166666666666668" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="22.333333333333332" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="23.291666666666668" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="23.458333333333332" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="23.697919166666669" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="23.864585833333333" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="25.291666666666668" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="25.458333333333332" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="27.416666666666668" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="27.583333333333332" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="31.935804831224374" PointY="19.754603043699582" />
-          <ConnectorPoint PointX="31.935804831224374" PointY="14.302083597569038" />
-          <ConnectorPoint PointX="34.643226041666665" PointY="14.302083597569038" />
-          <ConnectorPoint PointX="34.809892708333336" PointY="14.302083597569038" />
-          <ConnectorPoint PointX="35.057290416666667" PointY="14.302083597569038" />
-          <ConnectorPoint PointX="35.223957083333339" PointY="14.302083597569038" />
-          <ConnectorPoint PointX="35.486978541666666" PointY="14.302083597569038" />
-          <ConnectorPoint PointX="35.653645208333337" PointY="14.302083597569038" />
-          <ConnectorPoint PointX="37.375" PointY="14.302083597569038" />
+        <AssociationConnector Association="JobDB.SupplierItemRateSalesLeadQuotedItem" ManuallyRouted="true" >
           <ConnectorPoint PointX="37.375" PointY="10.259095052083334" />
+          <ConnectorPoint PointX="37.375" PointY="15.1419578734708" />
+          <ConnectorPoint PointX="35.645833333333336" PointY="15.1419578734708" />
+          <ConnectorPoint PointX="35.479166666666664" PointY="15.1419578734708" />
+          <ConnectorPoint PointX="35.208333333333336" PointY="15.1419578734708" />
+          <ConnectorPoint PointX="35.041666666666664" PointY="15.1419578734708" />
+          <ConnectorPoint PointX="34.802080833333335" PointY="15.1419578734708" />
+          <ConnectorPoint PointX="34.635414166666664" PointY="15.1419578734708" />
+          <ConnectorPoint PointX="29.558987877224045" PointY="15.1419578734708" />
+          <ConnectorPoint PointX="29.558987877224045" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="27.583333333333332" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="27.416666666666668" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="25.458333333333332" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="25.291666666666668" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="23.864585833333333" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="23.697919166666669" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="23.458333333333332" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="23.291666666666668" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="22.333333333333332" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="22.166666666666668" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="13.25" PointY="19.693798784263947" />
+          <ConnectorPoint PointX="13.25" PointY="21.615143229166669" />
+          <ConnectorPoint PointX="12.875" PointY="21.615143229166669" />
         </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>

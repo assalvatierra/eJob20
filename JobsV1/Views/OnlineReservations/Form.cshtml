@@ -7,78 +7,148 @@
     <img src="~/Images/Realbreeze.Header.PNG"  style="min-width:400px;width:100%;">
 </div>
 
-<h2 class="text-center" style="margin-bottom:-80px;margin-top:50px;">Reservation Form</h2>
-<div class="container" style="border:1px solid lightgray;margin:100px auto; padding:50px 150px;min-width:300px;width:600px;background-color:white;">
+
+<div class="container">
     <div class="row">
-        <div class="col-lg-12">
-            <h4>Start Date</h4>
-            <input type="text" class="form-control" id="DtStart" onchange="checkdate1()"/>
+        <!--Reservation Form-->
+        <!--Ads Left Side-->
+        <div class="col-sm-4 online-resevation-product-info" style="margin-top:10px;">
+            <div style="margin:0px auto;">
+                <img src="../Images/CarRental/Ads/@ViewBag.ProdImg" class="online-resevation-main-img" style="margin-left:20px;" height="200" />
+            </div>
+            <div class="col-lg-12">
+                <h4> Amount </h4>
+                <h3 id="AmountText"> Php @ViewBag.Amount.ToString("##,###.00") </h3>
+            </div>
+            <hr />
+
+            <div class="col-lg-12">
+
+                <h4> Product </h4>
+                <h3> @ViewBag.ProductName </h3>
+
+                <!--Hidden-->
+                <div id="product-details">
+                    <hr />
+                    @foreach (var desc in ViewBag.ProdDesc as IEnumerable<JobsV1.Areas.Products.Models.SmProdDesc>)
+                    {
+                    <p>
+                        @desc.Description
+                    </p>
+                    }
+
+                    @foreach (var info in ViewBag.ProdInfo as IEnumerable<JobsV1.Areas.Products.Models.SmProdInfo>)
+                    {
+                    <p>
+                        <b>@info.Label :</b> @info.Value
+                    </p>
+                    }
+                    <hr />
+                </div>
+
+            </div><br />
+
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 hidden">
-            <h4> Service </h4>
-            <input type="text" class="form-control" id="svcType" maxlength="20" />
+
+        <div class="col-sm-4 reservation-content-white">
+
+            <h2 class="text-center" style="margin-bottom:10px;">Reservation Form</h2>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4>Start Date</h4>
+                    <input type="text" class="form-control" id="DtStart" onchange="checkdate1()" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 hidden">
+                    <h4> Service </h4>
+                    <input type="text" class="form-control" id="svcType" maxlength="20" />
+                </div>
+                <div class="col-lg-12">
+                    <h4>Name</h4>
+                    <input type="text" class="form-control" id="Name" maxlength="80" onchange="validate(event)" />
+                </div>
+                <div class="col-lg-12">
+                    <h4>Contact Number</h4>
+                    <input type="text" class="form-control" id="Number" maxlength="15" onchange="validate(event)" />
+                </div>
+                <div class="col-lg-12">
+                    <h4>Email</h4>
+                    <input type="text" class="form-control" id="Email" maxlength="80" onchange="validate(event)" />
+                </div>
+                <div class="col-lg-12">
+                    <h4>Pick-up</h4>
+                    <input type="text" class="form-control" id="Pickup" maxlength="80" />
+                </div>
+                <div class="row col-lg-12">
+                    <div class="col-lg-6">
+                        @if (ViewBag.svcType == "CAR")
+                        {
+                        <h4>Number of Days</h4>
+                        }
+                        else
+                        {
+                        <h4>Number of @ViewBag.Unit</h4>
+
+                        }
+
+                        <span id="Qty" class="text-primary" style="font-size:25px;margin:10px 25px;padding-top:-20px;padding-top:20px;"> 1 </span>
+                    </div>
+                    <div class="col-lg-5" style="margin-top:40px;">
+
+                        <buton class="btn btn-default" onclick="addQty()">+</buton>
+                        <buton class="btn btn-default" onclick="subQty()">-</buton>
+
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="col-lg-12">
+                    <h5 class="text-danger" id="name-warning">Name is not valid </h5>
+                    <h5 class="text-danger" id="number-warning">Contact Number is not valid </h5>
+                    <h5 class="text-danger" id="email-warning">Email is not valid </h5>
+
+                    <div id="paypal-button">
+                        <h4 id="input-warning">For online payment: </h4>
+                        <div onclick="addRecord()"> </div>
+                    </div>
+                    <img src="~/Images/CarRental/Ads/Paypal-disabled.PNG" id="paypal-btn-disabled" />
+                </div>
+            </div>
         </div>
-        <div class="col-lg-12">
-            <h4>Name</h4>
-            <input type="text" class="form-control" id="Name" maxlength="80"  onchange="validate(event)"  />
-        </div>
-        <div class="col-lg-12">
-            <h4>Contact Number</h4>
-            <input type="text" class="form-control" id="Number" maxlength="15" onchange="validate(event)" />
-        </div>
-        <div class="col-lg-12">
-            <h4>Email</h4>
-            <input type="text" class="form-control" id="Email" maxlength="80" onchange="validate(event)"  />
-        </div>
-        <div class="col-lg-12">
-            <h4>Pick-up</h4>
-            <input type="text" class="form-control" id="Pickup" maxlength="80" />
-        </div>
-        <div class="row col-lg-12">
-            <div class="col-lg-8">
-                @if (ViewBag.svcType == "CAR")
+
+        <div class="col-sm-2 online-resevation-ads-sticky" style="padding-top:10px;">
+
+            <p style="color:dimgrey;">Related Products</p>
+                @foreach (var ads in ViewBag.ProdAdslist as IEnumerable<JobsV1.Areas.Products.Models.SmProdAds>)
                 {
-                    <h4>Number of Days</h4>
-                }
-                else
-                {
-                    <h4>Number of Pax</h4>
-
+                    <a href="@ads.Link">
+                        <img src="../Images/CarRental/Ads/@ads.Image" class="online-resevation-ads-img" width="120" />
+                    </a>
                 }
 
-                 <span id="Qty" class="text-primary" style="font-size:25px;margin:10px 25px;padding-top:-20px;padding-top:20px;"> 1 </span>
-            </div>
-            <div class="col-lg-4" style="margin-top:40px;">
-          
-                    <buton class="btn btn-default" onclick="addQty()">+</buton>
-                    <buton class="btn btn-default" onclick="subQty()">-</buton>
-            
-            </div>
+                @*<a href="http://localhost:50382/OnlineReservations/Form?tourCode=DVO-CT">
+                    <img src="~/Images/CarRental/Ads/Ads-sedan-2019.png" class="online-resevation-ads-img" width="120" />
+                </a>
+                <a href="http://localhost:50382/OnlineReservations/Form?tourCode=DVO-CT">
+                    <img src="~/Images/CarRental/Ads/Ads-suv-2019.png" class="online-resevation-ads-img" width="120" />
+                </a>
+                <a href="http://localhost:50382/OnlineReservations/Form?tourCode=DVO-CT">
+                    <img src="~/Images/CarRental/Ads/Ads-mpv-2019.png" class="online-resevation-ads-img" width="120" />
+                </a>
+                <a href="http://localhost:50382/OnlineReservations/Form?tourCode=DVO-CT">
+                    <img src="~/Images/CarRental/Ads/Ads-Van-2019.png" class="online-resevation-ads-img" width="120" />
+                </a>*@
+
+
         </div>
 
-        <hr />
-        <div class="col-lg-12">
-            <h4 > Product </h4>
-            <h3> @ViewBag.ProductName </h3>
-        </div><br />
-        <div class="col-lg-12">
-            <h4> Amount </h4>
-            <h3 id="AmountText"> Php @ViewBag.Amount.ToString("##,###.00") </h3>
-        </div>
-        <hr />
-        <div class="col-lg-12">
-            <h5 class="text-danger" id="name-warning">Name is not valid </h5>
-            <h5 class="text-danger" id="number-warning">Contact Number is not valid </h5>
-            <h5 class="text-danger" id="email-warning">Email is not valid </h5>
-            <div id="paypal-button">
-                <h4 id="input-warning">For online payment: </h4>
-                <div onclick="addRecord()"> </div>
-            </div>
-        </div>
     </div>
+
+
 </div>
+
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -175,10 +245,12 @@
         if(inputValid){ // true
             $("#paypal-button").show();
             $("#input-warning").show();
+            $("#paypal-btn-disabled").hide();
 
         }else{
             $("#paypal-button").hide();
             $("#input-warning").hide();
+            $("#paypal-btn-disabled").show();
         }
 
     }
@@ -190,8 +262,8 @@
         var qty = $("#Qty").text();
             paypal.Button.render({
                 // Configure environment
-                //env: 'production',
-                env: 'sandbox',
+                env: 'production',
+                //env: 'sandbox',
                 client: {
                     //paypal live
                     sandbox: 'AQx9QuKflAiELK-iXsyxy6sINZ9NxJ9DQUWZnW0Tp4LcxGbBN2HyOg0C3K0-qmrGwLSXnzL-xHRrko3q',
@@ -236,7 +308,7 @@
                                 //item list
                                 items: [{
                                     name: '@ViewBag.ProductName',
-                                    description: '@ViewBag.ProductName reservation for '+ QtyCount +' pax thru online payment.',
+                                    description: '@ViewBag.ProductName reservation for '+ QtyCount + ' @ViewBag.Unit ',
                                     quantity: '1',
                                     price: TotalAmount,
                                     tax: '0.00',

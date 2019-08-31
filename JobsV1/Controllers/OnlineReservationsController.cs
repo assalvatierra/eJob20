@@ -138,12 +138,41 @@ namespace JobsV1.Controllers
             ViewBag.ProductName = product.Name;
             ViewBag.tourCode = tourCode;
             ViewBag.svcType = svcType;
+            ViewBag.ProdDesc = product.SmProdDescs.ToList();
+            ViewBag.ProdInfo = product.SmProdInfoes.ToList();
+
+            var adsCat = pdb.SmProdCats.Where(s => s.SmProductId == product.Id).ToList();
+            var adsList = adsCat.Select(s => s.SmCategoryId);
+            ViewBag.adsList = adsCat;
+
+            //Ads
+            ViewBag.ProdImg = getProdImage(product);
+            ViewBag.ProdAdslist = pdb.SmProdAds.Where(s => adsList.Contains(s.SmCategoryId)).ToList().Take(4);
+            ViewBag.Unit = getUoM(product);
 
             //get paypal keys at db
             PaypalAccount paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();
             ViewBag.key = paypal.Key;
 
             return View();
+        }
+
+        public string getProdImage(SmProduct product)
+        {
+            var tempProd = product.SmProdAds.Where(s => s.SmProductId == product.Id).FirstOrDefault();
+            if (tempProd != null)
+                return tempProd.Image;
+            else
+                return "placeholder.png";
+        }
+
+        public string getUoM(SmProduct product)
+        {
+            var tempOum = product.SmRates.FirstOrDefault();
+            if (tempOum != null)
+                return tempOum.SmRateUoM.Name;
+            else
+                return "Pax";
         }
 
         public String AddRecord(string tourCode, string name, string number, string email, string dtstart, int qty, string pickup, int amount)

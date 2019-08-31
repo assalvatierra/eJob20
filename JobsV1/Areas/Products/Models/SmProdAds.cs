@@ -7,18 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace JobsV1.Models
+namespace JobsV1.Areas.Products.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class SalesLeadQuotedItem
+    public partial class SmProdAds
     {
         public int Id { get; set; }
-        public int SalesLeadItemsId { get; set; }
-        public int SupplierItemRateId { get; set; }
+        public string Image { get; set; }
+        public string Link { get; set; }
+        public int SmCategoryId { get; set; }
+        public int SmProductId { get; set; }
     
-        public virtual SalesLeadItems SalesLeadItem { get; set; }
-        public virtual SupplierItemRate SupplierItemRate { get; set; }
+        public virtual SmCategory SmCategory { get; set; }
+        public virtual SmProduct SmProduct { get; set; }
     }
 }

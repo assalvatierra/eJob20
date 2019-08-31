@@ -398,3 +398,82 @@
 .cform {
     padding-bottom:15px;
 }
+
+
+
+.reservation-content-white {
+     border:1px solid lightgray;
+     margin:10px 5px;
+     padding:20px 110px;
+     min-width:250px;
+     width:50%;
+     background-color:white;
+}
+
+.reservation-content-white.row.col-lg-12 {
+    text-align:center;
+}
+
+.reservation-ads {
+    width:200px;
+    height:250px;
+    margin:5px 5px;
+    border:1px solid lightgray;
+    padding:0px;
+}
+
+.online-resevation-ads-img{
+    margin:3px 10px;
+    border:1px solid lightgray;
+}
+
+.online-resevation-main-img{
+    margin:3px 10px;
+    border:1px solid lightgray;
+}
+
+.online-resevation-ads-sticky{
+    top:50px;
+    position: -webkit-sticky;
+    position: sticky;
+}
+
+.online-resevation-product-info{
+    
+     border:1px solid lightgray;
+     margin:10px 5px;
+     padding:20px 20px;
+     min-width:250px;
+     width:30%;
+     background-color:white;
+}
+
+@media screen and (max-width: 1023px) {
+
+    .reservation-content-white {
+         border:1px solid lightgray;
+         margin:10px 10px;
+         padding:50px 20px;
+         width:310px;
+         background-color:white;
+         margin-bottom:50px;
+    }
+
+    
+    .online-resevation-product-info{
+    
+         border:1px solid lightgray;
+         margin:10px 10px;
+         padding:20px 20px;
+         width:310px;
+         background-color:white;
+    }
+
+    
+.online-resevation-ads-img{
+    width:250px;
+    margin:3px 10px;
+    border:1px solid lightgray;
+}
+}
+

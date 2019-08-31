@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/28/2019 17:39:01
+-- Date Created: 08/29/2019 14:01:45
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -326,8 +326,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesLeadItemsSalesLeadQuotedItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SalesLeadItemsSalesLeadQuotedItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SalesLeadQuotedItemSupplierItemRate]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SalesLeadQuotedItemSupplierItemRate];
+IF OBJECT_ID(N'[dbo].[FK_SupplierItemRateSalesLeadQuotedItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem];
 GO
 
 -- --------------------------------------------------
@@ -1724,12 +1724,8 @@ GO
 -- Creating table 'SalesLeadQuotedItems'
 CREATE TABLE [dbo].[SalesLeadQuotedItems] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [QuotedRate] nvarchar(max)  NOT NULL,
-    [DtValidStart] nvarchar(max)  NOT NULL,
-    [DtValidEnd] nvarchar(max)  NOT NULL,
-    [Remarks] nvarchar(max)  NOT NULL,
     [SalesLeadItemsId] int  NOT NULL,
-    [SupplierItemRate_Id] int  NOT NULL
+    [SupplierItemRateId] int  NOT NULL
 );
 GO
 
@@ -3898,19 +3894,19 @@ ON [dbo].[SalesLeadQuotedItems]
     ([SalesLeadItemsId]);
 GO
 
--- Creating foreign key on [SupplierItemRate_Id] in table 'SalesLeadQuotedItems'
+-- Creating foreign key on [SupplierItemRateId] in table 'SalesLeadQuotedItems'
 ALTER TABLE [dbo].[SalesLeadQuotedItems]
-ADD CONSTRAINT [FK_SalesLeadQuotedItemSupplierItemRate]
-    FOREIGN KEY ([SupplierItemRate_Id])
+ADD CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem]
+    FOREIGN KEY ([SupplierItemRateId])
     REFERENCES [dbo].[SupplierItemRates]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadQuotedItemSupplierItemRate'
-CREATE INDEX [IX_FK_SalesLeadQuotedItemSupplierItemRate]
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierItemRateSalesLeadQuotedItem'
+CREATE INDEX [IX_FK_SupplierItemRateSalesLeadQuotedItem]
 ON [dbo].[SalesLeadQuotedItems]
-    ([SupplierItemRate_Id]);
+    ([SupplierItemRateId]);
 GO
 
 -- --------------------------------------------------

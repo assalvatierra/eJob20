@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/27/2019 16:37:25
+-- Date Created: 08/31/2019 11:34:45
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Products\Models\ProdDB.edmx
 -- --------------------------------------------------
 
@@ -53,6 +53,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SmProductSmFile]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SmFiles] DROP CONSTRAINT [FK_SmProductSmFile];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SmCategorySmProdAds]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProdAds] DROP CONSTRAINT [FK_SmCategorySmProdAds];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SmProductSmProdAds]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SmProdAds] DROP CONSTRAINT [FK_SmProductSmProdAds];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -96,6 +102,9 @@ IF OBJECT_ID(N'[dbo].[SmRateUoMs]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SmFiles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SmFiles];
+GO
+IF OBJECT_ID(N'[dbo].[SmProdAds]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SmProdAds];
 GO
 
 -- --------------------------------------------------
@@ -227,6 +236,16 @@ CREATE TABLE [dbo].[SmFiles] (
 );
 GO
 
+-- Creating table 'SmProdAds'
+CREATE TABLE [dbo].[SmProdAds] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Image] nvarchar(max)  NOT NULL,
+    [Link] nvarchar(max)  NOT NULL,
+    [SmCategoryId] int  NOT NULL,
+    [SmProductId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -306,6 +325,12 @@ GO
 -- Creating primary key on [Id] in table 'SmFiles'
 ALTER TABLE [dbo].[SmFiles]
 ADD CONSTRAINT [PK_SmFiles]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SmProdAds'
+ALTER TABLE [dbo].[SmProdAds]
+ADD CONSTRAINT [PK_SmProdAds]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -490,6 +515,36 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmFile'
 CREATE INDEX [IX_FK_SmProductSmFile]
 ON [dbo].[SmFiles]
+    ([SmProductId]);
+GO
+
+-- Creating foreign key on [SmCategoryId] in table 'SmProdAds'
+ALTER TABLE [dbo].[SmProdAds]
+ADD CONSTRAINT [FK_SmCategorySmProdAds]
+    FOREIGN KEY ([SmCategoryId])
+    REFERENCES [dbo].[SmCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmCategorySmProdAds'
+CREATE INDEX [IX_FK_SmCategorySmProdAds]
+ON [dbo].[SmProdAds]
+    ([SmCategoryId]);
+GO
+
+-- Creating foreign key on [SmProductId] in table 'SmProdAds'
+ALTER TABLE [dbo].[SmProdAds]
+ADD CONSTRAINT [FK_SmProductSmProdAds]
+    FOREIGN KEY ([SmProductId])
+    REFERENCES [dbo].[SmProducts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SmProductSmProdAds'
+CREATE INDEX [IX_FK_SmProductSmProdAds]
+ON [dbo].[SmProdAds]
     ([SmProductId]);
 GO
 
