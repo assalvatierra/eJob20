@@ -7,10 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
 {
+
     public class SalesLeadsController : Controller
     {
         // NEW CUSTOMER Reference ID
@@ -846,29 +849,75 @@ namespace JobsV1.Controllers
             ViewBag.InvItems = items;
         }
 
-        public string AddSalesleadItemrate(int SalesLeadId, int ItemRateId)
+        public string addSupItem(int SalesLeadId, int ItemId, decimal price, string remarks)
         {
-            //if (SalesLeadId != 0) { 
-            //    SalesLeadItemRates leaditemRate = new SalesLeadItemRates();
-            //    leaditemRate.SalesLeadId = SalesLeadId;
-            //    leaditemRate.SupplierItemRateId = ItemRateId;
+            SalesLeadItems item = new SalesLeadItems();
+            item.InvItemId = ItemId;
+            item.SalesLeadId = SalesLeadId;
+            item.QuotedPrice = price;
+            item.Remarks = remarks;
 
-            //    db.SalesLeadItemRates.Add(leaditemRate);
-            //    db.SaveChanges();
-            //    return "200";
-            //}
+            db.SalesLeadItems.Add(item);
+            db.SaveChanges();
+
+            return "200";
+        }
+
+        public string getItemSuppliers(int id)
+        {
+            //get list of suppliers of the given item
+            var supplier = db.SupplierInvItems.Where(s => s.InvItemId.Equals(id)).ToList();
+            List<cItemSupplier> itemSupDetails = new List<cItemSupplier>();
+
+            foreach (var sup in supplier)
+            {
+                var itemRates = sup.SupplierItemRates.ToList();
+
+                foreach (var rates in itemRates)
+                {
+                    itemSupDetails.Add(new cItemSupplier
+                    {
+                        Id = rates.Id,
+                        Rate = rates.ItemRate,
+                        SupplierName = sup.Supplier.Name,
+                        Unit = rates.SupplierUnit.Unit,
+                        SupRateId = sup.InvItemId.ToString(),
+                        ValidStart = rates.DtValidFrom,
+                        ValidEnd = rates.DtValidTo
+                    });
+
+                }
+            }
+
+            //convert list to json object
+            return JsonConvert.SerializeObject(itemSupDetails, Formatting.Indented);
+      
+        }
+
+        public string AddSupItemRate(int SalesLeadId, int ItemRateId)
+        {
+            if (SalesLeadId != 0)
+            {
+                SalesLeadQuotedItem leaditemRate = new SalesLeadQuotedItem();
+                leaditemRate.SalesLeadItemsId = SalesLeadId;
+                leaditemRate.SupplierItemRateId = ItemRateId;
+
+                db.SalesLeadQuotedItems.Add(leaditemRate);
+                db.SaveChanges();
+                return "200";
+            }
             return "500";
         }
 
 
-        public ActionResult RemoveSalesleadItemrate(int id)
+        public string RemoveSupItemRate(int id)
         {
 
-            //SalesLeadItemRates leaditemRate = db.SalesLeadItemRates.Find(id);
-            //db.SalesLeadItemRates.Remove(leaditemRate);
-            //db.SaveChanges();
+            SalesLeadQuotedItem leaditemRate = db.SalesLeadQuotedItems.Find(id);
+            db.SalesLeadQuotedItems.Remove(leaditemRate);
+            db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return "200";
         }
     }
 }

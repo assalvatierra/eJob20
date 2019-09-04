@@ -166,23 +166,40 @@
                 <span style="font:bold 8px, arial, verdana; color:dodgerblue;">
                     Supplier Items <br />
                 </span>
-                <span id="SalesLeadItems-@item.Id">
-                     @*@foreach (var itemrate in item.SalesLeadItemRates  ) {
-                        <text>
-                         @itemrate.SupplierItemRate.SupplierInvItem.InvItem.Description -
-                         P @itemrate.SupplierItemRate.ItemRate per  @itemrate.SupplierItemRate.SupplierUnit.Unit
-                        (@itemrate.SupplierItemRate.SupplierInvItem.Supplier.Name)
-                        @Html.ActionLink("[ x ]", "RemoveSalesleadItemrate", new { id = itemrate.Id })
-                    <br />
-                        </text>
-                     }*@
+                <div id="SalesLeadItems-@item.Id">
+                    @foreach (var invItems in item.SalesLeadItems)
+                    {
+                        <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
 
-                </span>
-                <a id="catbtn" data-toggle="modal" data-target="#selectInvItem" style="margin-bottom:10px;" onclick="addSupItem(@item.Id)" >[ Add Item ]</a>
+                            <div style="background-color:lightgray;padding:5px;">
+                                <b>
+                                    @invItems.InvItem.Description -
+                                    <span>P </span>@invItems.QuotedPrice
+                                </b>
+                            </div>
 
+                            <div id="supItem-@invItems.Id">
+                                @foreach (var supItem in invItems.SalesLeadQuotedItems)
+                                {
+                                    <p style="margin:3px 20px;">
+                                        @supItem.SupplierItemRate.SupplierInvItem.Supplier.Name <span>- P</span>
+                                        @supItem.SupplierItemRate.ItemRate <span> / </span>
+                                        @supItem.SupplierItemRate.SupplierUnit.Unit <span> ( </span>
+                                        @supItem.SupplierItemRate.DtValidFrom <span>-</span>
+                                        @supItem.SupplierItemRate.DtValidTo <span> ) </span>
+                                        <a onclick="removeSupItems(@supItem.Id)">[x]</a>
+                                    </p>
+                                }
+                            </div>
 
-                <!-- Endof Items with Prices -->
+                            <a id="catbtn" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Rate ]</a>
+                        </div>
+                    }
+                </div>
+                <br />
+                <a id="catbtn" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)" >[ Add Item ]</a>
 
+                <!-- End of Items with Prices -->  
 
                 <br /><br />[ 
                 @{
@@ -198,10 +215,10 @@
                                  <span>|</span>
 
                                  @Html.ActionLink("Link JobOrder ", "QuotationLink", new { id = item.Id , linkid  = 1}, null)
-         
+
                     }
-                             else if (@item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id).FirstOrDefault().JobMain.JobStatusId == 3)
-                             {
+                    else if (@item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id).FirstOrDefault().JobMain.JobStatusId == 3)
+                    {
                        <img src="~/Images/Customers/Category/Active-30.png" width="15" height="15" alt="quotation approve"/>
 
                         @Html.ActionLink(" - View Quotation", "Services", "JobServices",
@@ -243,7 +260,69 @@
 
 </table>
 
-@{Html.RenderPartial("AddSupItemPartial", null, new ViewDataDictionary { { "InvItems", ViewBag.InvItems } });}
+<!-- Modal of Sales Lead Items -->
+<div class="modal fade" id="selectSupItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Select Item</h4>
+            </div>
+            <div class="modal-body" id="modal2-content">
+                @*@foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+                {
+
+                    <a class="list-group-item skills" id="catbtn" data-toggle="modal" data-target="#selectSupplier-@item.Id" data-dismiss="modal">
+                        @item.Description
+                    </a>
+                }*@
+
+                    <!--Start of Modal Body-->
+                    <div class="form-group col-md-12 hidden">
+                        <b class="col-md-2 "> SupId: </b>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="5" class="form-control" id="supItem-supId" />
+                        </div>
+                    </div>
+                  
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2"> Items: </b>
+                        <div class="col-md-7">
+                            <select name="InvItems" class="form-control" id="supItem-Items">
+                                @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+                                {
+                                    <option value="@item.Id"> @item.Description </option>
+                                }
+                            </select>
+                        </div>
+                    </div><br /><br />
+
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Rate: </b>
+                        <div class="col-md-10">
+                            <input type="number" maxlength="25" class="form-control" id="supItem-Rate" />
+                        </div>
+                    </div>
+                    <br /><br />
+
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Remarks: </b>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" class="form-control" id="supItem-Remarks" />
+                        </div>
+                    </div>
+                    <!--End of Modal Body-->
+
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_AddSalesLeadItem()"> Submit </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@{Html.RenderPartial("AddSupItemPartial", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier } });}
 
 <p>
     @Html.ActionLink("Create New", "Create") |
@@ -258,7 +337,7 @@
     @Html.ActionLink("Closed", "Index", new { sortid = 2 }) |
     @Html.ActionLink("All", "Index", new { sortid = 3 }, null)
 </p>
-
+<script src="~/Scripts/jquery-3.3.1.js"></script>
 @section scripts
 {
     <script type="text/javascript">
@@ -299,6 +378,40 @@
             }
 
         }
+
+        function setLeadId(id){
+            $("#supItem-supId").val(id);
+        }
+
+        function ajax_AddSalesLeadItem() {
+            //build json object
+
+            var data = {
+                SalesLeadId: $("#supItem-supId").val(),
+                ItemId: $("#supItem-Items").val(),
+                price: $("#supItem-Rate").val(),
+                remarks: $("#supItem-Remarks").val()
+            };
+
+            var url = '/SalesLeads/addSupItem';
+
+            //Post data from server using ajax call
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: 'application/json; charset=utf-8',
+                success: function (data) {
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    location.reload();
+                }
+            });
+        }
+
+
     </script>
 
 }
