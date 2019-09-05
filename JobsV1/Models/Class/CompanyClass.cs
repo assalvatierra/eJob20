@@ -20,6 +20,8 @@ namespace JobsV1.Models
         public string Website   { get; set; }
         public string Remarks   { get; set; }
         public string CityId    { get; set; }
+        public string Category  { get; set; }
+        public string ContactPerson { get; set; }
     } 
     
     public class CompanyClass
@@ -36,15 +38,14 @@ namespace JobsV1.Models
         public List<CompanyList> generateCompanyList(string search, string status, string sort)
         {
             List<CompanyList> custList = new List<CompanyList>();
+             
+            string sql = "SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name, ' <br /> ', Contact1, ' / ', Contact2) FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) FROM CustEntMains cem";
 
-            string sql = "SELECT * FROM CustEntMains c "
-                         ;
-            
 
             //handle search by name filter
             if (search != null || search != "")
             {
-                    sql += " WHERE  c.Name Like '%" + search + "%' ";
+                sql += " WHERE  cem.Name Like '%" + search + "%' ";
             }
 
             if (sort != null)
@@ -53,14 +54,14 @@ namespace JobsV1.Models
                 {
                     //add more options for sorting
                     default:
-                        sql += "ORDER BY c.Name ASC;";
+                        sql += " ORDER BY cem.Name ASC;";
                         break;
                 }
             }
             else
             {
                 //terminator
-                sql += "ORDER BY c.Name ASC;";
+                sql += " ORDER BY cem.Name ASC;";
 
             }
 

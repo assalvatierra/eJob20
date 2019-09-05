@@ -97,7 +97,6 @@ function ajax_loadContent() {
     });
 }
 
-
 //display simple/limited information 
 //of suppliers
 function LoadTable(data) {
@@ -105,14 +104,15 @@ function LoadTable(data) {
     console.log(data);
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
-    //console.log(temp);
+
     //clear table contents except header
     $("#company-Table").find("tr:gt(0)").remove();
     var jobcount = 0;
     var company  = "";
     var contact1 = "";
     var contact2 = "";
-
+    var tempDetails = "-";
+    var prevId = 0;
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
@@ -121,18 +121,32 @@ function LoadTable(data) {
         company = temp[x]["Website"] != null ? temp[x]["Website"] : "--";
         contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
+        var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
+        var ContactPerson = temp[x]["ContactPerson"] != null ? temp[x]["ContactPerson"] : "--";
 
-        content  = "<tr>";
-        content += "<td>" + temp[x]["Name"] + "</td>";
-        content += "<td>" + Address + "</td>";
-        content += "<td>" + contact1 + "<br />";
-        content += " " + contact2 + "</td>";
+        if (temp[x]["Id"] == prevId) {
 
-        content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
-                + "</td>";
-        content += "<tr>";
+            content  = "<td></td>";
+            content += "<td> &nbsp;  " + categories + "</td>";
+            content += "<td></td><td></td><td></td><td></td>";
+        
+        } else {
 
+            content = "<tr>";
+            content += "<td>" + temp[x]["Name"] + "<br />";
+            content += " " + categories + "</td>";
+            content += "<td>" + Address + "</td>";
+            content += "<td>" + contact1 + "<br />";
+            content += " " + contact2 + "</td>";
+            content += "<td>" + ContactPerson + "</td>";
+
+            content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
+                    + "</td>";
+            content += "<tr>";
+        }
+        prevId = temp[x]["Id"]
         $(content).appendTo("#company-Table");
+        
     }
 }
 

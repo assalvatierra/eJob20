@@ -122,7 +122,7 @@ function LoadTable(data) {
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
 
         content  = "<tr>";
-        content += "<td>" + temp[x]["Name"]      + "</td>";
+        content += "<td>" + temp[x]["Name"] + "<br />";
         content += "<td>" + contact1 + "</td>";
         content += "<td>" + contact2 + "</td>";
         content += "<td>" + company              + "</td>";
