@@ -28,15 +28,17 @@ namespace JobsV1.Controllers
         {
             
             return View(db.Suppliers.ToList());
+
+
         }
         
 
         //Ajax - Table Result 
         //Get the list of suppliers
-        public string TableResult(string search, string status)
+        public string TableResult(string search, string status, string sort)
         {
             //get supplier list
-            List<SupplierList> supList = supdb.getSupplierList(search, status);
+            List<cSupplierList> supList = supdb.getSupplierList(search, status,sort);
             
             //convert list to json object
             return JsonConvert.SerializeObject(supList, Formatting.Indented);
@@ -56,7 +58,7 @@ namespace JobsV1.Controllers
             }
 
             ViewBag.supContacts = supplier.SupplierContacts.ToList();
-
+            InvItemsPartial((int)id);
 
             return View(supplier);
         }
@@ -177,6 +179,18 @@ namespace JobsV1.Controllers
 
             return View(db.SupplierInvItems.Where(s=>s.SupplierId == id).ToList());
         }
+
+
+        public void InvItemsPartial(int id)
+        {
+            ViewBag.SupplierId = id;
+            ViewBag.SupplierName = db.Suppliers.Find(id).Name;
+            ViewBag.ItemList = db.InvItems.ToList();
+            ViewBag.UnitList = db.SupplierUnits.ToList();
+
+            ViewBag.InvItems = db.SupplierInvItems.Where(s => s.SupplierId == id).ToList();
+        }
+
 
         //POST: /Suppliers/AddInvItems
         //add new items to the supplier

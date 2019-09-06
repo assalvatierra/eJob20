@@ -6,7 +6,7 @@ using System.Web;
 namespace JobsV1.Models
 {
 
-    public class SupplierList
+    public class cSupplierList
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -28,47 +28,110 @@ namespace JobsV1.Models
 
         //get supplier list containing the search string,
         //if search is empty, return all actve items
-        public List<SupplierList> getSupplierList(string search, string status)
+        public List<cSupplierList> getSupplierList(string search, string status, string sort)
         {
-            List<Supplier> suppliers = db.Suppliers.ToList();
-            List<SupplierList> supList = new List<SupplierList>();
+            
+            List<cSupplierList> custList = new List<cSupplierList>();
 
-            //Search string filter
+            string sql = "SELECT * FROM Suppliers sup "
+                        ;
+
+            //handle status filter
+            if (status != "ALL")
+            {
+                sql += " WHERE sup.Status = '" + status + "' ";
+            }
+
+            //handle status filter
             if (status == "ALL")
             {
-                suppliers = suppliers.ToList();
+                sql += " ";
+            }
+
+            //handle search by name filter
+            if (search != null || search != "")
+            {
+                //handle status filter
+                if (status != "ALL")
+                {
+                    sql += " AND  sup.Name Like '%" + search + "%' ";
+                }
+                else
+                {
+                    sql += " WHERE  sup.Name Like '%" + search + "%' ";
+                }
+            }
+
+            if (sort != null)
+            {
+                switch (sort)
+                {
+                    case "DATE":
+                        sql += "ORDER BY Id ASC;";
+                        break;
+                    case "NAME":
+                        sql += "ORDER BY Name ASC;";
+                        break;
+                    case "JOBSCOUNT":
+                        sql += "ORDER BY JobCount DESC;";
+                        break;
+                    default:
+                        sql += "ORDER BY Name ASC;";
+                        break;
+                }
             }
             else
             {
-                suppliers = suppliers.Where(s => s.Status == status).ToList();
+                //terminator
+                sql += "ORDER BY Name ASC;";
+
             }
 
-            //Search string filter
-            if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
-            {
-                suppliers = suppliers.Where(s => s.Name.ToLower().Contains(search.ToLower())).ToList();
-            }
+            custList = db.Database.SqlQuery<cSupplierList>(sql).ToList();
 
-            //build temp supplier list
-            foreach (var item in suppliers)
-            {
-                supList.Add(new SupplierList
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Contact1 = String.IsNullOrEmpty(item.Contact1) ? "--" : item.Contact1,
-                    Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
-                    Contact3 = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Contact3,
-                    Email = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Email,
-                    Status = item.Status,
-                    City = item.City.Name,
-                    SupType = item.SupplierType.Description,
-                    Dtls = item.Details
-                });
-            }
+            return custList;
 
-            //convert list to json object
-            return supList;
+
+
+            //List<Supplier> suppliers = db.Suppliers.ToList();
+            //List<SupplierList> supList = new List<SupplierList>();
+
+            ////Search string filter
+            //if (status == "ALL")
+            //{
+            //    suppliers = suppliers.ToList();
+            //}
+            //else
+            //{
+            //    suppliers = suppliers.Where(s => s.Status == status).ToList();
+            //}
+            //var supInvItems = db.SupplierInvItems.Where(s => s.InvItem.Description.ToLower().Contains(search.ToLower())).Select(s => s.SupplierId).ToList();
+            ////Search string filter
+            //if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
+            //{
+            //    suppliers = suppliers.Where(s => s.Name.ToLower().Contains(search.ToLower()) || supInvItems.Contains(s.Id)).ToList();
+            //}
+
+            ////build temp supplier list
+            //foreach (var item in suppliers)
+            //{
+            //    supList.Add(new SupplierList
+            //    {
+            //        Id = item.Id,
+            //        Name = item.Name,
+            //        Contact1 = String.IsNullOrEmpty(item.Contact1) ? "--" : item.Contact1,
+            //        Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
+            //        Contact3 = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Contact3,
+            //        Email = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Email,
+            //        Status = item.Status,
+            //        City = item.City.Name,
+            //        SupType = item.SupplierType.Description,
+            //        Dtls = item.Details
+            //    });
+            //}
+
+            ////convert list to json object
+            //return supList;
         }
 
 

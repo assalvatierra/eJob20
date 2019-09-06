@@ -39,30 +39,51 @@
     <div class="col-lg-12">
         <a href="#" id="catbtn" data-toggle="modal" data-target="#createSupContact">Add Contact</a>
     </div>
-    @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
-    {
-        <div class="col-sm-3" >
-            <p> <b>Name:</b> @contact.Name  </p>
-            <p> <b>Landline:</b> @contact.Landline </p>
-            <p> <b>Mobile: </b> @contact.Mobile </p>
-            <p> <b>Skype:</b> @contact.SkypeId  </p>
-            <p> <b>Viber:</b> @contact.ViberId  </p>
-            <p> <b>Remarks:</b> @contact.Remarks    </p>
-            <p>
-                <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact" 
-                   onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks') ">Edit</a> | 
-                 <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
-            </p>
-            <hr />
-        </div>
-    }
 
+    <table class="table"> 
+        <tr>
+            <th>Name</th>
+            <th>Landline</th>
+            <th>Mobile</th>
+            <th>Skype</th>
+            <th>Viber</th>
+            <th>Remarks</th>
+            <th></th>
+        </tr>
+
+        @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
+        {
+
+            <tr>
+                <td>@contact.Name</td>
+                <td>@contact.Landline</td>
+                <td>@contact.Mobile</td>
+                <td>@contact.SkypeId</td>
+                <td>@contact.ViberId</td>
+                <td>@contact.Remarks</td>
+                <td>
+                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact"
+                       onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks') ">Edit</a> |
+                    <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
+                </td>
+            </tr>
+        }
+
+    </table>
 </div>
 
+
+@{Html.RenderPartial("InvItemsPartial", (IEnumerable<JobsV1.Models.SupplierInvItem>)ViewBag.InvItems,
+                new ViewDataDictionary { { "SupplierId", Model.Id } , { "Model.Id", Model.Id },
+                { "SupplierName", ViewBag.SupplierName } , { "ItemList", ViewBag.ItemList }, { "UnitList", ViewBag.UnitList } });}
+            @*ViewBag.SupplierId = id;
+            ViewBag.SupplierName = db.Suppliers.Find(id).Name;
+            ViewBag.ItemList = db.InvItems.ToList();
+            ViewBag.UnitList = db.SupplierUnits.ToList();*@
 <!-- Prereq Scripts -->
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
 
-@{ Html.RenderPartial("CreateSupContact"); }
+@{ Html.RenderPartial("CreateSupContact", new { ViewBag.InvItems }); }
 @{ Html.RenderPartial("EditSupContact"); }
 
 <script>

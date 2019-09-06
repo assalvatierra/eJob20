@@ -63,7 +63,7 @@
     function ajax_createSupContact() {
         //build json object
         var data = {
-            SupplierId: @Model.Id,
+            SupplierId: @ViewBag.SupplierId,
             Name:     $("#SupCon-Name").val(),
             LandLine: $("#SupCon-Landline").val(),
             Mobile:   $("#SupCon-Mobile").val(),
