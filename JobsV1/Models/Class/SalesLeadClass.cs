@@ -13,6 +13,17 @@ namespace JobsV1.Models.Class
         public string status { get; set; }
     }
 
+    public class cItemSupplier
+    {
+        public int Id { get; set; }
+        public string SupplierName { get; set; }
+        public string Rate { get; set; }
+        public string Unit { get; set; }
+        public string SupRateId { get; set; }
+        public string ValidStart { get; set; }
+        public string ValidEnd { get; set; }
+    }
+
     public class SalesLeadClass
     {
         private JobDBContainer db = new JobDBContainer();

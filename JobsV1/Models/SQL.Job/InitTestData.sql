@@ -166,8 +166,20 @@ SELECT js.Id,  js.JobMainId ,js.Particulars, JobName = j.Description , Service =
                     LEFT JOIN JobMains j ON js.JobMainId = j.Id 
                     LEFT JOIN JobServicePickups jp ON jp.JobServicesId = js.Id ORDER BY SORTDATE;
 
-
 -- GET Company List with filtering and sort
-SELECT * FROM CustEntMains com WHERE com.Name LIKE '%NEW%' ORDER BY com.Name DESC
+SELECT cem.*,
+Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) 
+FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ),
+ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name,' - ',Contact1,' / ',Contact2) FROM Customers cust  WHERE cust.Id = ce.CustomerId)
+FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId)
+FROM CustEntMains cem
 
-SELECT * FROM CustEntMains c 
+-- Get Sales Lead List
+SELECT *
+
+FROM Suppliers sup 
+
+SELECT counting = (SELECT Id FROM SalesLeadItems sli WHERE sli.SalesLeadId = sl.Id) FROM SalesLeads sl 
+
+
+

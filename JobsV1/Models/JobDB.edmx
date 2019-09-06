@@ -1596,7 +1596,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="QuotedPrice" Type="decimal" Nullable="false" />
+    <Property Name="QuotedPrice" Type="decimal" Nullable="true" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="SalesLeadId" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
@@ -5857,7 +5857,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QuotedPrice" Type="Decimal" Nullable="false" />
+          <Property Name="QuotedPrice" Type="Decimal" Nullable="true" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadSalesLeadItems" FromRole="SalesLeadItems" ToRole="SalesLead" />
           <Property Name="SalesLeadId" Type="Int32" Nullable="false" />

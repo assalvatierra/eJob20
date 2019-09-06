@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/29/2019 14:01:45
+-- Date Created: 09/03/2019 17:06:33
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1714,7 +1714,7 @@ GO
 -- Creating table 'SalesLeadItems'
 CREATE TABLE [dbo].[SalesLeadItems] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [QuotedPrice] decimal(18,0)  NOT NULL,
+    [QuotedPrice] decimal(18,0)  NULL,
     [Remarks] nvarchar(80)  NULL,
     [SalesLeadId] int  NOT NULL,
     [InvItemId] int  NOT NULL

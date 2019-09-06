@@ -21,7 +21,7 @@ namespace JobsV1.Models
         }
     
         public int Id { get; set; }
-        public decimal QuotedPrice { get; set; }
+        public Nullable<decimal> QuotedPrice { get; set; }
         public string Remarks { get; set; }
         public int SalesLeadId { get; set; }
         public int InvItemId { get; set; }

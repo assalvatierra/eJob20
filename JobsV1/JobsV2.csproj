@@ -2170,6 +2170,7 @@
     <Content Include="Views\Suppliers\EditSupContact.cshtml" />
     <Content Include="Views\SalesLeads\AddSupItemPartial.cshtml" />
     <Content Include="Views\OnlineReservations\PackageDetails.cshtml" />
+    <Content Include="Views\Suppliers\InvItemsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
