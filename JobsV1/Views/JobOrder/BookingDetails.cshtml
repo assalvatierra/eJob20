@@ -13,6 +13,9 @@
 
     string sDocTitle = "";
 
+    var customerName = Model.Customer.Name.Trim();
+    var jobName = Model.Description.Trim();
+
     if (Model.JobStatusId == 1)
     {
         sDocTitle = "QUOTATION DETAILS";
@@ -76,6 +79,11 @@
         </th>
         <td>
             @{
+                <script>
+                    console.log("jobname: @jobName");
+                    console.log("customerName: @customerName");
+                </script>
+
                 if (Model.Customer.Name.Trim() == "Personal Account")
                 {
                     @Html.DisplayFor(model => model.Description)

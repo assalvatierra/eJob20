@@ -11,7 +11,12 @@
     decimal dQuotedAmt = 0;
     decimal dPaidAmt = 0;
 
+    var customerName = Model.Customer.Name.Trim();
+    var jobName = Model.Description.Trim();
     string sDocTitle = "";
+
+    var Namexjob = jobName.Equals(customerName);
+    var jobxPA = jobName.Equals("Personal Account");
 
     if (Model.JobStatusId == 1)
     {
@@ -78,17 +83,17 @@
         <td><!--Company-->
 
             @{
-                if (Model.Customer.Name.Trim() == "Personal Account")
+                if (jobName == "Personal Account")
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
-                else if (Model.Customer.Name.Trim() == Model.Description.Trim())
+                else if (jobName.Equals(customerName))
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.Description) 
+                    @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
                 }
             }
             @*@ViewBag.JobName*@
