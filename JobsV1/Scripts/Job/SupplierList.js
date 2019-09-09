@@ -111,14 +111,18 @@ function SimpleTable(data) {
     //clear table contents except header
     $("#sup-Table").find("tr:gt(0)").remove();
 
-
     //populate table content
     for (var x = 0; x < temp.length; x++) {
+
+        var contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
+        var contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
+        var contact3 = temp[x]["Contact3"] != null ? temp[x]["Contact3"] : "--";
+
         content = "<tr>";
         content += "<td>" + temp[x]["Name"] + "</td>";
-        content += "<td>" + temp[x]["Contact1"] + "</td>";
-        content += "<td>" + temp[x]["Contact2"] + "</td>";
-        content += "<td>" + temp[x]["Contact3"] + "</td>";
+        content += "<td>" + contact1 + "</td>";
+        content += "<td>" + contact2 + "</td>";
+        content += "<td>" + contact3 + "</td>";
         content += "<td>" +
             "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
             "<a href='SupplierItems/'>Items</a>  | " +
@@ -144,16 +148,25 @@ function ExpandedTable(data) {
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
+
+        var contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
+        var contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
+        var contact3 = temp[x]["Contact3"] != null ? temp[x]["Contact3"] : "--";
+        var Email = temp[x]["Email"] != null ? temp[x]["Email"] : "--";
+        var City = temp[x]["City"] != null ? temp[x]["City"] : "--";
+        var SupType = temp[x]["SupType"] != null ? temp[x]["SupType"] : "--";
+        var Dtls = temp[x]["Details"] != null ? temp[x]["Details"] : "--";
+
         content = "<tr>";
         content += "<td>" + temp[x]["Name"] + "</td>";
-        content += "<td>" + temp[x]["Contact1"] + "<br>"
-            + temp[x]["Contact2"] + "<br>"
-            + temp[x]["Contact3"] + "</td>";
-        content += "<td>" + temp[x]["Email"] + "</td>";
+        content += "<td>" + contact1 + "<br>"
+            + contact2 + "<br>"
+            + contact3 + "</td>";
+        content += "<td>" + Email + "</td>";
         content += "<td>" + temp[x]["Status"] + "</td>";
-        content += "<td>" + temp[x]["City"] + "</td>";
-        content += "<td>" + temp[x]["SupType"] + "</td>";
-        content += "<td>" + temp[x]["Dtls"] + "</td>";
+        content += "<td>" + City + "</td>";
+        content += "<td>" + SupType + "</td>";
+        content += "<td>" + Dtls + "</td>";
         content += "<td>" +
             "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
             "<a href='SupplierItems/'>Items</a>  | " +

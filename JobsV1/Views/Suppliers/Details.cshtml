@@ -76,10 +76,7 @@
 @{Html.RenderPartial("InvItemsPartial", (IEnumerable<JobsV1.Models.SupplierInvItem>)ViewBag.InvItems,
                 new ViewDataDictionary { { "SupplierId", Model.Id } , { "Model.Id", Model.Id },
                 { "SupplierName", ViewBag.SupplierName } , { "ItemList", ViewBag.ItemList }, { "UnitList", ViewBag.UnitList } });}
-            @*ViewBag.SupplierId = id;
-            ViewBag.SupplierName = db.Suppliers.Find(id).Name;
-            ViewBag.ItemList = db.InvItems.ToList();
-            ViewBag.UnitList = db.SupplierUnits.ToList();*@
+            
 <!-- Prereq Scripts -->
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
 

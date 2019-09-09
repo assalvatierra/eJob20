@@ -52,14 +52,19 @@
             </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div>
-                <br />
+                <br /><br />
                 @{Html.RenderPartial("PartialView_CompanyDetails", (List<JobsV1.Models.CustEntMain>)ViewBag.companyList, new ViewDataDictionary { { "customerId", Model.Id }, { "companies", (List<JobsV1.Models.CustEntMain>)ViewBag.companies },{ "companiesPrev", (List<JobsV1.Models.CustEntity>)ViewBag.companiesPrev } });}
             </div>
             <div>
                 @{Html.RenderPartial("PartialView_Files", (List<JobsV1.Models.CustFiles>)ViewBag.fileList, new ViewDataDictionary { { "customerId", Model.Id } });}
             </div>
+        </div>
+
+        <div class="col-sm-4">
+            <br /><br />
+            @{Html.RenderPartial("PartialView_CustSocial", (List<JobsV1.Models.CustSocialAcc>)ViewBag.CustSocial, new ViewDataDictionary { { "customerId", Model.Id } });}
         </div>
 </div>
 
@@ -67,22 +72,6 @@
 
     <div class="row">
         @{Html.RenderPartial("PartialView_JobDetails", (List<JobsV1.Models.CustomerJobDetails>)ViewBag.jobList, new ViewDataDictionary { { "customerId", Model.Id } });}
-
-
-    </div>
-
-    <div class="row">
-
-        <p>
-            @Html.ActionLink("Back to List", "Index")
-        </p>
-
     </div>
 </div>
-
-<p>
-    Customers |
-    @Html.ActionLink("Companies", "Index", "CustEntMains", null, null)
-</p>
-
-
+<hr />

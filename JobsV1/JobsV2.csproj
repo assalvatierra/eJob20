@@ -606,6 +606,9 @@
     <Compile Include="Models\CustSalesCategory.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustSocialAcc.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DateClass.cs" />
     <Compile Include="Models\DBClasses.cs" />
     <Compile Include="Models\Destination.cs">
@@ -2171,6 +2174,9 @@
     <Content Include="Views\SalesLeads\AddSupItemPartial.cshtml" />
     <Content Include="Views\OnlineReservations\PackageDetails.cshtml" />
     <Content Include="Views\Suppliers\InvItemsPartial.cshtml" />
+    <Content Include="Views\Customers\PartialView_CustSocial.cshtml" />
+    <Content Include="Views\Customers\CreateCustSocial.cshtml" />
+    <Content Include="Views\Customers\EditCustSocial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -127,5 +127,6 @@ namespace JobsV1.Models
         public virtual DbSet<SupplierUnit> SupplierUnits { get; set; }
         public virtual DbSet<SalesLeadItems> SalesLeadItems { get; set; }
         public virtual DbSet<SalesLeadQuotedItem> SalesLeadQuotedItems { get; set; }
+        public virtual DbSet<CustSocialAcc> CustSocialAccs { get; set; }
     }
 }

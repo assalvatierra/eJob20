@@ -108,6 +108,7 @@
     <EntitySet Name="SupplierUnits" EntityType="JobDB.Store.SupplierUnits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesLeadItems" EntityType="JobDB.Store.SalesLeadItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesLeadQuotedItems" EntityType="JobDB.Store.SalesLeadQuotedItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustSocialAccs" EntityType="JobDB.Store.CustSocialAccs" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -523,6 +524,10 @@
     <AssociationSet Name="SupplierItemRateSalesLeadQuotedItem" Association="JobDB.Store.SupplierItemRateSalesLeadQuotedItem">
       <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
       <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
+    </AssociationSet>
+    <AssociationSet Name="CustomerCustSocialAcc" Association="JobDB.Store.CustomerCustSocialAcc">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="CustSocialAcc" EntitySet="CustSocialAccs" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1608,6 +1613,16 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SalesLeadItemsId" Type="int" Nullable="false" />
     <Property Name="SupplierItemRateId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustSocialAccs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Facebook" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Viber" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Skype" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2857,6 +2872,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustomerCustSocialAcc">
+    <End Role="Customer" Type="JobDB.Store.Customers" Multiplicity="1" />
+    <End Role="CustSocialAcc" Type="JobDB.Store.CustSocialAccs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustSocialAcc">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -3380,6 +3407,11 @@
             <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
             <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
           </AssociationSet>
+          <EntitySet Name="CustSocialAccs" EntityType="JobDB.CustSocialAcc" />
+          <AssociationSet Name="CustomerCustSocialAcc" Association="JobDB.CustomerCustSocialAcc">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustSocialAcc" EntitySet="CustSocialAccs" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3454,6 +3486,7 @@
           <NavigationProperty Name="CustSalesCategories" Relationship="JobDB.CustomerCustSalesCategory" FromRole="Customer" ToRole="CustSalesCategory" />
           <NavigationProperty Name="CustFiles" Relationship="JobDB.CustomerCustFiles" FromRole="Customer" ToRole="CustFiles" />
           <NavigationProperty Name="PortalCustomers" Relationship="JobDB.CustomerPortalCustomer" FromRole="Customer" ToRole="PortalCustomer" />
+          <NavigationProperty Name="CustSocialAccs" Relationship="JobDB.CustomerCustSocialAcc" FromRole="Customer" ToRole="CustSocialAcc" />
         </EntityType>
         <EntityType Name="JobType">
           <Key>
@@ -5923,6 +5956,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CustSocialAcc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Facebook" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Viber" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Skype" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="Customer" Relationship="JobDB.CustomerCustSocialAcc" FromRole="CustSocialAcc" ToRole="Customer" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CustomerCustSocialAcc">
+          <End Type="JobDB.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="JobDB.CustSocialAcc" Role="CustSocialAcc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustSocialAcc">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7112,6 +7168,17 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SalesLeadItemsId" ColumnName="SalesLeadItemsId" />
           <ScalarProperty Name="SupplierItemRateId" ColumnName="SupplierItemRateId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustSocialAccs">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustSocialAcc)">
+        <MappingFragment StoreEntitySet="CustSocialAccs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Facebook" ColumnName="Facebook" />
+          <ScalarProperty Name="Viber" ColumnName="Viber" />
+          <ScalarProperty Name="Skype" ColumnName="Skype" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

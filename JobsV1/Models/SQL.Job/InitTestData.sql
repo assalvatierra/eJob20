@@ -175,8 +175,9 @@ FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId)
 FROM CustEntMains cem
 
 -- Get Sales Lead List
-SELECT *
-
+SELECT * ,
+City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
+SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
 FROM Suppliers sup 
 
 SELECT counting = (SELECT Id FROM SalesLeadItems sli WHERE sli.SalesLeadId = sl.Id) FROM SalesLeads sl 

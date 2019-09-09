@@ -61,7 +61,8 @@ namespace JobsV1.Controllers
             PartialView_CustomerFiles(id);
             ViewBag.categoryList = db.CustCategories.ToList();
             ViewBag.custId = (int)id;
-
+            PartialView_CustSocial((int)id);
+            
             return View(customer);
         }
 
@@ -343,5 +344,76 @@ namespace JobsV1.Controllers
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }
 
+
+        #region Customer Social details
+
+        //display list of categories assigned 
+        //to the customer 
+        private void PartialView_CustSocial(int id)
+        {
+            //get list of categories
+            ViewBag.CustSocial = db.CustSocialAccs.Where(s=>s.CustomerId == id).ToList();
+        }
+
+        public string CreateCustSocial(int custId, string facebook, string skypeId, string viberId )
+        {
+            try
+            {
+                
+                db.CustSocialAccs.Add(new CustSocialAcc
+                {
+                    Facebook = facebook,
+                    Skype = skypeId,
+                    Viber = viberId,
+                    CustomerId = custId
+                });
+                db.SaveChanges();
+
+                return "OK : ";
+            }
+            catch (Exception ex)
+            {
+                return "Cannot Process adding new social details.";
+            }
+        }
+        
+        // POST: Customers/Delete/5
+        public ActionResult DeleteCustSocial(int id)
+        {
+            try
+            {
+                CustSocialAcc custSocial = db.CustSocialAccs.Find(id);
+                var customerid = custSocial.CustomerId;
+                db.CustSocialAccs.Remove(custSocial);
+                db.SaveChanges();
+                return RedirectToAction("Details", "Customers" , new { id = customerid });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Details", "Customers");
+            }
+        }
+
+
+        public string EditCustSocial(int id, string facebook, string skypeId, string viberId)
+        {
+            try
+            {
+                CustSocialAcc social = db.CustSocialAccs.Find(id);
+                social.Facebook = facebook;
+                social.Skype = skypeId;
+                social.Viber = viberId;
+
+                db.Entry(social).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return "OK : ";
+            }
+            catch (Exception ex)
+            {
+                return "Cannot Process adding new social details." + ex;
+            }
+        }
+        #endregion
     }
 }

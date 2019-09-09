@@ -17,7 +17,7 @@ namespace JobsV1.Models
         public string Status { get; set; }
         public string SupType { get; set; }
         public string City { get; set; }
-        public string Dtls { get; set; }
+        public string Details { get; set; }
     }
 
     public class SupplierClass
@@ -33,8 +33,10 @@ namespace JobsV1.Models
             
             List<cSupplierList> custList = new List<cSupplierList>();
 
-            string sql = "SELECT * FROM Suppliers sup "
-                        ;
+            string sql ="SELECT * ,"+
+                        "City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),"+
+                        "SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )"+
+                        "FROM Suppliers sup ";
 
             //handle status filter
             if (status != "ALL")

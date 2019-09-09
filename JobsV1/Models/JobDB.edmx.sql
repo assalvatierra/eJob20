@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/03/2019 17:06:33
+-- Date Created: 09/09/2019 13:18:36
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -329,6 +329,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SupplierItemRateSalesLeadQuotedItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerCustSocialAcc]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustSocialAccs] DROP CONSTRAINT [FK_CustomerCustSocialAcc];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -639,6 +642,9 @@ IF OBJECT_ID(N'[dbo].[SalesLeadItems]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SalesLeadQuotedItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SalesLeadQuotedItems];
+GO
+IF OBJECT_ID(N'[dbo].[CustSocialAccs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustSocialAccs];
 GO
 
 -- --------------------------------------------------
@@ -1729,6 +1735,16 @@ CREATE TABLE [dbo].[SalesLeadQuotedItems] (
 );
 GO
 
+-- Creating table 'CustSocialAccs'
+CREATE TABLE [dbo].[CustSocialAccs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Facebook] nvarchar(80)  NOT NULL,
+    [Viber] nvarchar(80)  NOT NULL,
+    [Skype] nvarchar(80)  NOT NULL,
+    [CustomerId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2342,6 +2358,12 @@ GO
 -- Creating primary key on [Id] in table 'SalesLeadQuotedItems'
 ALTER TABLE [dbo].[SalesLeadQuotedItems]
 ADD CONSTRAINT [PK_SalesLeadQuotedItems]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustSocialAccs'
+ALTER TABLE [dbo].[CustSocialAccs]
+ADD CONSTRAINT [PK_CustSocialAccs]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3907,6 +3929,21 @@ GO
 CREATE INDEX [IX_FK_SupplierItemRateSalesLeadQuotedItem]
 ON [dbo].[SalesLeadQuotedItems]
     ([SupplierItemRateId]);
+GO
+
+-- Creating foreign key on [CustomerId] in table 'CustSocialAccs'
+ALTER TABLE [dbo].[CustSocialAccs]
+ADD CONSTRAINT [FK_CustomerCustSocialAcc]
+    FOREIGN KEY ([CustomerId])
+    REFERENCES [dbo].[Customers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomerCustSocialAcc'
+CREATE INDEX [IX_FK_CustomerCustSocialAcc]
+ON [dbo].[CustSocialAccs]
+    ([CustomerId]);
 GO
 
 -- --------------------------------------------------

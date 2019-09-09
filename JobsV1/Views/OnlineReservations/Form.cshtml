@@ -17,8 +17,13 @@
                 <img src="../Images/CarRental/Ads/@ViewBag.ProdImg" class="online-resevation-main-img" style="margin-left:20px;" height="200" />
             </div>
             <div class="col-lg-12">
-                <h4> Amount </h4>
-                <h3 id="AmountText"> Php @ViewBag.Amount.ToString("##,###.00") </h3>
+
+                <div id="paypal-button">
+                    <h4 id="input-warning">For online payment: </h4>
+                    <div onclick="addRecord()"> </div>
+                </div>
+                <img src="~/Images/CarRental/Ads/Paypal-disabled.PNG" id="paypal-btn-disabled" />
+
             </div>
             <hr />
 
@@ -105,15 +110,13 @@
                 <hr />
 
                 <div class="col-lg-12">
+                    <h4> Amount </h4>
+                    <h3 id="AmountText"> Php @ViewBag.Amount.ToString("##,###.00") </h3>
+                    <br /> 
                     <h5 class="text-danger" id="name-warning">Name is not valid </h5>
                     <h5 class="text-danger" id="number-warning">Contact Number is not valid </h5>
                     <h5 class="text-danger" id="email-warning">Email is not valid </h5>
 
-                    <div id="paypal-button">
-                        <h4 id="input-warning">For online payment: </h4>
-                        <div onclick="addRecord()"> </div>
-                    </div>
-                    <img src="~/Images/CarRental/Ads/Paypal-disabled.PNG" id="paypal-btn-disabled" />
                 </div>
             </div>
         </div>
