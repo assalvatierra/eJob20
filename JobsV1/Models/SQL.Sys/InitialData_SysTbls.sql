@@ -170,7 +170,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (12,12);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Products','',12,'Products/SmProducts','Index','',21,121),		-- id: 53
-		('Suppliers' ,'',12,'Products/SmSuppliers','Index','',21,122);		-- id: 54
+		('Suppliers' ,'',12,'Products/SmSuppliers','Index','',21,122), 	-- id: 54
+		('Ads' ,'',12,'Products/SmProdAds','Index','',21,123);	-- id: 55
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');

@@ -27,20 +27,28 @@ function InitDatePicker()
     function (start, end, label) {
         //check if date is greater than or equal to today
         
-        var today = moment().add(4, 'days').format('YYYY-MM-DD');
+        var today = moment().add(2, 'days').format('YYYY-MM-DD');
         var datepicker = start.format('YYYY-MM-DD');
         //alert(today > datepicker);
 
-        if (today > datepicker) {
-            var validDate = moment().add(4, 'days').format('MM/DD/YYYY');
-            alert("Start date is past the valid date. The Date will be set to " + validDate);
-            }
-
-        //alert(start.format('YYYY-MM-DD'));
-        
-        }
-    );
-
+        //if (today > datepicker) {
+        //    //Start Date is valid
+        //    //var validDate = moment().add(2, 'days').format('MM/DD/YYYY');
+        //    console.log("Date OK");
+        //    $("#date-warning").hide();
+        //} else if (moment().format('YYYY-MM-DD') >= datepicker && today <= datepicker) {
+        //    //Start Date is in 48 hours
+        //    console.log("Start Date must be at least 2 days in advance");
+        //    $("#date-warning").text("Date must be at least 2 days before the start date for Online Payment and Reservation.");
+        //    $("#date-warning").show();
+        //} else {
+        //    //Date is not valid
+        //    console.log("Start Date must be at least 2 days in advance");
+        //    $("#date-warning").text("Date must be at least 2 days before the start date for Online Payment and Reservation.");
+        //    $("#date-warning").show();
+        //}
+          
+    });
     $('#DtStart').val(ddd1);
     //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
 

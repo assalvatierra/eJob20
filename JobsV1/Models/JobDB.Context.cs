@@ -128,5 +128,11 @@ namespace JobsV1.Models
         public virtual DbSet<SalesLeadItems> SalesLeadItems { get; set; }
         public virtual DbSet<SalesLeadQuotedItem> SalesLeadQuotedItems { get; set; }
         public virtual DbSet<CustSocialAcc> CustSocialAccs { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Products.Models.SmProdAds> SmProdAds { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Products.Models.SmCategory> SmCategories { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.Products.Models.SmProduct> SmProducts { get; set; }
     }
 }

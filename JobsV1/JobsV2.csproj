@@ -381,6 +381,7 @@
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\Controllers\SmCategoriesController.cs" />
+    <Compile Include="Areas\Products\Controllers\SmProdAdsController.cs" />
     <Compile Include="Areas\Products\Controllers\SmProductsController.cs" />
     <Compile Include="Areas\Products\Controllers\SmRateUoMsController.cs" />
     <Compile Include="Areas\Products\Controllers\SmSuppliersController.cs" />
@@ -1068,7 +1069,11 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\Call.png" />
     <Content Include="Images\CarRental\4x4.101.png" />
+    <Content Include="Images\CarRental\Ads\Ads-Airport-2019.png" />
+    <Content Include="Images\CarRental\Ads\Ads-City-Tour-2019.png" />
+    <Content Include="Images\CarRental\Ads\Ads-countryside-2019.png" />
     <Content Include="Images\CarRental\Ads\Ads-mpv-2019.png" />
+    <Content Include="Images\CarRental\Ads\Ads-samal-inland-2019.png" />
     <Content Include="Images\CarRental\Ads\Ads-sedan-2019.png" />
     <Content Include="Images\CarRental\Ads\Ads-suv-2019.png" />
     <Content Include="Images\CarRental\Ads\Ads-van-2019.png" />
@@ -1470,6 +1475,11 @@
     <Content Include="Areas\Products\Views\SmProducts\TermsAndCondition-SIN.cshtml" />
     <Content Include="Areas\Products\Views\SmProducts\TermsAndCondition-KL.cshtml" />
     <Content Include="Areas\Products\Views\SmProducts\PartialView_Files.cshtml" />
+    <Content Include="Areas\Products\Views\SmProdAds\Create.cshtml" />
+    <Content Include="Areas\Products\Views\SmProdAds\Delete.cshtml" />
+    <Content Include="Areas\Products\Views\SmProdAds\Details.cshtml" />
+    <Content Include="Areas\Products\Views\SmProdAds\Edit.cshtml" />
+    <Content Include="Areas\Products\Views\SmProdAds\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

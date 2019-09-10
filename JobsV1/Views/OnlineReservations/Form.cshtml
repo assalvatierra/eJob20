@@ -3,9 +3,9 @@
     ViewBag.Title = "Online Reservation Form";
     decimal dQuotedAmt = ViewBag.Amount;
 }
-<div style="text-align:center;">
-    <img src="~/Images/Realbreeze.Header.PNG"  style="min-width:400px;width:100%;">
-</div>
+@*<div style="text-align:center;">
+   @* <img src="~/Images/Realbreeze.Header.PNG"  style="min-width:400px;width:100%;">
+</div>*@
 
 
 <div class="container">
@@ -15,15 +15,6 @@
         <div class="col-sm-4 online-resevation-product-info" style="margin-top:10px;">
             <div style="margin:0px auto;">
                 <img src="../Images/CarRental/Ads/@ViewBag.ProdImg" class="online-resevation-main-img" style="margin-left:20px;" height="200" />
-            </div>
-            <div class="col-lg-12">
-
-                <div id="paypal-button">
-                    <h4 id="input-warning">For online payment: </h4>
-                    <div onclick="addRecord()"> </div>
-                </div>
-                <img src="~/Images/CarRental/Ads/Paypal-disabled.PNG" id="paypal-btn-disabled" />
-
             </div>
             <hr />
 
@@ -48,11 +39,9 @@
                         <b>@info.Label :</b> @info.Value
                     </p>
                     }
-                    <hr />
                 </div>
 
             </div><br />
-
         </div>
 
         <div class="col-sm-4 reservation-content-white">
@@ -60,7 +49,7 @@
             <h2 class="text-center" style="margin-bottom:10px;">Reservation Form</h2>
             <div class="row">
                 <div class="col-lg-12">
-                    <h4>Start Date</h4>
+                    <h5>Date ( at least 2 days advance)</h5>
                     <input type="text" class="form-control" id="DtStart" onchange="checkdate1()" />
                 </div>
             </div>
@@ -116,7 +105,17 @@
                     <h5 class="text-danger" id="name-warning">Name is not valid </h5>
                     <h5 class="text-danger" id="number-warning">Contact Number is not valid </h5>
                     <h5 class="text-danger" id="email-warning">Email is not valid </h5>
-
+                    <h5 class="text-danger" id="date-warning"> Date is not valid </h5>
+                    <div id="Paypal-btns-holder">
+                        <div id="paypal-button">
+                            <h4 id="input-warning">For online payment: </h4>
+                            <div onclick="addRecord()"> </div>
+                        </div>
+                        <img src="~/Images/CarRental/Ads/Paypal-disabled.PNG" id="paypal-btn-disabled" />
+                    </div>
+                    <div id="submit-review-button">
+                        <button class="btn btn-primary" style="width:100%;" onclick="submitInquiry()">Submit </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,9 +125,13 @@
             <p style="color:dimgrey;">Related Products</p>
                 @foreach (var ads in ViewBag.ProdAdslist as IEnumerable<JobsV1.Areas.Products.Models.SmProdAds>)
                 {
-                    <a href="@ads.Link">
-                        <img src="../Images/CarRental/Ads/@ads.Image" class="online-resevation-ads-img" width="120" />
-                    </a>
+                    <div style="background-image:url('../Images/CarRental/Ads/@ads.Image');background-size: 150px 160px;heigth:250px;background-repeat: no-repeat;margin-bottom:10px;">
+
+                        <a class="btn btn-danger" href="@ads.Link" style="margin:90px 30px 0px 30px"> Book Now
+                           @* <img src="../Images/CarRental/Ads/@ads.Image" class="online-resevation-ads-img" width="120" />*@
+                        </a>
+                        <a class="btn" style="font-weight:bold;color:red;font-size:12px;position:inherit;margin: 0px auto 0px auto">Price Starts at P @ads.SmProduct.Price </a>
+                    </div>
                 }
 
                 @*<a href="http://localhost:50382/OnlineReservations/Form?tourCode=DVO-CT">
@@ -184,7 +187,10 @@
         $("#name-warning").hide();
         $("#number-warning").hide();
         $("#email-warning").hide();
+        $("#date-warning").hide();
         $("#paypal-button").hide();
+        $("#submit-review-button").hide();
+        $("#Paypal-btns-holder").show();
     });
 
     function UpdateAmount(){
@@ -453,6 +459,47 @@
         });
     }
 
+    
+    /* 
+     * Send Email to Client and Admin after payment success
+     */
+    function ajaxSendNotifyEmail(jobid){
+
+        console.log("ReservationId: " + jobid);
+        
+        var type = $("#svcType").val();
+
+        var data = {
+            id: jobid,
+            svcType : type
+        }
+
+        var serviceURL = '/OnlineReservations/SendEmailNotification';
+
+        //loading screen
+        LoadOverlay();
+
+        console.log("Payment success email sending");
+
+        //send email using ajax
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response){
+                console.log('payment success');
+                console.log('response: '+response);
+                disableLoadOverlayNotify();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(jqXHR);
+                disableLoadOverlayNotify();
+            }
+        });
+    }
+
     function LoadOverlay(){
         $("#overlay2").css("display","flex");
     }
@@ -460,6 +507,14 @@
     function disableLoadOverlay(){
 
         window.alert('Thank you for payment! Please check your email for the confirmation.'  );
+
+        $("#overlay2").css("display","none");
+    }
+
+    
+    function disableLoadOverlayNotify(){
+
+        window.alert('Thank you Inquiry! Please check your email for the inquiry details.'  );
 
         $("#overlay2").css("display","none");
     }
@@ -485,20 +540,58 @@
     }
 
     function checkdate1(){
-        var today = moment().add(4, 'days').format('YYYY-MM-DD');
+        var todayPlus2 = moment().add(2, 'days').format('YYYY-MM-DD');
+        var today = moment().format('YYYY-MM-DD');
         var datepicker = moment( $('#DtStart').val()).format('YYYY-MM-DD');
-        console.log("today > datepicker: "+today > datepicker);
+        
+        console.log("------------ ")
+        console.log("INPUT DATE: " + datepicker)
 
-        if (today > datepicker) {
-            //alert("Job date is past the valid date.");
-            var validDate = moment().add(4, 'days').format('MM/DD/YYYY');
-            console.log(validDate)
+        console.log( (datepicker) + " <= " + today + " - " + (datepicker <= today));
+
+        //console.log("today <= datepicker: " + (todayPlus2 <= datepicker));
+
+        if ( datepicker < today ) {
+            //invalid date
+            var validDate = moment().add(2, 'days').format('MM/DD/YYYY');
+
+            //change date, +2 days
+            console.log("Valid date: " + validDate);
             $('#DtStart').val(validDate);
+
+            console.log("Start Date must be at least 2 days in advance");
+            $("#date-warning").text("Date must be at least 2 days before the start date");
+            $("#date-warning").show();
+            //hide submit for review 
+            $("#submit-review-button").hide();
+
+        }else if(datepicker >= today && datepicker <= todayPlus2){
+            //valid but online booking is disabled
+            //inquiry within 48hrs
+            console.log("Date is within 48 hrs");
+            $("#date-warning").text("Instant confirmation is not available for less than 2 days reservation. Please submit your details and our staff will contact you after checking the availability of the requested item.");
+            $("#date-warning").show();
+
+            //disable paypal button
+            $("#Paypal-btns-holder").hide();
+
+            //show submit for review 
+            $("#submit-review-button").show();
+
+
+        }else{
+            //valid date
+
+            //show paypal button
+            $("#Paypal-btns-holder").show();
+
+            //hide submit for review 
+            $("#submit-review-button").hide();
         }
     }
 
     function checkdate2(){
-        var today = moment().add(4, 'days').format('YYYY-MM-DD');
+        var today = moment().add(2, 'days').format('YYYY-MM-DD');
         var datepicker = moment( $('#DtEnd').val()).format('YYYY-MM-DD');
         //console.log(today > datepicker);
 
@@ -548,5 +641,16 @@
         //if everything fails
         return false;
     }
+
+
+    function submitInquiry(){
+        //add details to the db
+       var transactionID = addRecord(); 
+
+        //send notification to admin
+       ajaxSendNotifyEmail(transactionID);
+    }
+
+
 
 </script>
