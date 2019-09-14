@@ -1,7 +1,7 @@
 ﻿@model JobsV1.Areas.Products.Models.SmProdAds
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -17,9 +17,26 @@
         @Html.AntiForgeryToken()
         
         <div class="form-horizontal">
-            <h4>SmProdAds</h4>
+            <h4>Create Advertisement</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SmCategoryId, "SmCategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("SmCategoryId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SmCategoryId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SmProductId, "SmProductId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("SmProductId", null, htmlAttributes: new { @class = "form-control", @id = "productId", @onchange = "CreateLink()" })
+                    @Html.ValidationMessageFor(model => model.SmProductId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -31,24 +48,8 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Link, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Link, new { htmlAttributes = new { @class = "form-control", @id = "adlink" } })
                     @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.SmCategoryId, "SmCategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("SmCategoryId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.SmCategoryId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.SmProductId, "SmProductId", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("SmProductId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.SmProductId, "", new { @class = "text-danger" })
                 </div>
             </div>
     
@@ -65,3 +66,18 @@
     </div>
 </body>
 </html>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    $('input[name="SmProductId"]').on('click', CreateLink());
+
+    function CreateLink() {
+        //get value from smproductID
+        var productId = $('#productId option:selected').text();
+
+        console.log(productId);
+
+        //create link starting with Form/tourCode=[value]
+        $('#adlink').val('Form/tourCode=' + productId);
+    }
+</script>

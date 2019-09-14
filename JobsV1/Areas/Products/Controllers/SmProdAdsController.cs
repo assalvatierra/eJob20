@@ -13,7 +13,7 @@ namespace JobsV1.Areas.Products.Controllers
 {
     public class SmProdAdsController : Controller
     {
-        private JobDBContainer db = new JobDBContainer();
+        private ProdDBContainer db = new ProdDBContainer();
 
         // GET: Products/SmProdAds
         public ActionResult Index()
@@ -42,6 +42,7 @@ namespace JobsV1.Areas.Products.Controllers
         {
             ViewBag.SmCategoryId = new SelectList(db.SmCategories, "Id", "Name");
             ViewBag.SmProductId = new SelectList(db.SmProducts, "Id", "Code");
+            
             return View();
         }
 
