@@ -142,12 +142,12 @@ namespace JobsV1.Controllers
             ViewBag.ProdInfo = product.SmProdInfoes.ToList();
 
             var adsCat = pdb.SmProdCats.Where(s => s.SmProductId == product.Id).ToList();
-            var adsList = adsCat.Select(s => s.SmCategoryId);
+            var adsList = adsCat.Select(s => s.SmCategoryId).ToList();
             ViewBag.adsList = adsCat;
 
             //Ads
             ViewBag.ProdImg = getProdImage(product);
-            ViewBag.ProdAdslist = pdb.SmProdAds.Where(s => adsList.Contains(s.SmCategoryId)).ToList().Take(4);
+            ViewBag.ProdAdslist = pdb.SmProdAds.Where(s => adsList.Contains(s.SmCategoryId)).ToList().Take(6);
             ViewBag.Unit = getUoM(product);
 
             //get paypal keys at db
@@ -239,10 +239,10 @@ namespace JobsV1.Controllers
                 mailResult = email.SendMailOnlineReserve(id, reservation.Email, "CLIENT", svcType); //send email to client first
                 mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN", svcType);     //send email to client first
 
-                //mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN", svcType); 
-                //mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN", svcType); 
-                //mailResult = email.SendMailOnlineReserve(id, adminEmail  , "ADMIN", svcType);
-                
+                //mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN", svcType);
+                //mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN", svcType);
+                //mailResult = email.SendMailOnlineReserve(id, adminEmail, "ADMIN", svcType);
+
             }
             return mailResult;
         }

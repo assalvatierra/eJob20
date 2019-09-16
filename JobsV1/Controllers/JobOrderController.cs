@@ -1108,11 +1108,11 @@ order by x.jobid
 
             if (id == null)
             {
-                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", NewCustSysId);
+                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT" ), "Id", "Name", NewCustSysId);
             }
             else
             {
-                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", id);
+                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id);
             }
 
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
