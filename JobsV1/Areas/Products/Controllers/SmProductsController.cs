@@ -461,7 +461,6 @@ namespace JobsV1.Areas.Products.Controllers
         }
         #endregion
 
-
         #region Product Category
         public void PartialView_File(int id)
         {
@@ -492,6 +491,10 @@ namespace JobsV1.Areas.Products.Controllers
 
             return RedirectToAction("Details", new { id = prodId }); //view in personnel details
         }
+        #endregion
+
+        #region ads
+
         #endregion
     }
 }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/09/2019 13:18:36
+-- Date Created: 09/14/2019 18:01:44
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1705,8 +1705,7 @@ CREATE TABLE [dbo].[SupplierItemRates] (
     [SupplierUnitId] int  NOT NULL,
     [Remarks] nvarchar(max)  NOT NULL,
     [DtValidFrom] nvarchar(max)  NOT NULL,
-    [DtValidTo] nvarchar(max)  NOT NULL,
-    [SalesLeadId] int  NOT NULL
+    [DtValidTo] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -1742,6 +1741,15 @@ CREATE TABLE [dbo].[CustSocialAccs] (
     [Viber] nvarchar(80)  NOT NULL,
     [Skype] nvarchar(80)  NOT NULL,
     [CustomerId] int  NOT NULL
+);
+GO
+
+-- Creating table 'AdminEmails'
+CREATE TABLE [dbo].[AdminEmails] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Email] nvarchar(80)  NOT NULL,
+    [AccCode] nvarchar(20)  NOT NULL,
+    [Remarks] nvarchar(80)  NOT NULL
 );
 GO
 
@@ -2364,6 +2372,12 @@ GO
 -- Creating primary key on [Id] in table 'CustSocialAccs'
 ALTER TABLE [dbo].[CustSocialAccs]
 ADD CONSTRAINT [PK_CustSocialAccs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AdminEmails'
+ALTER TABLE [dbo].[AdminEmails]
+ADD CONSTRAINT [PK_AdminEmails]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

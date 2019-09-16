@@ -109,6 +109,7 @@
     <EntitySet Name="SalesLeadItems" EntityType="JobDB.Store.SalesLeadItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesLeadQuotedItems" EntityType="JobDB.Store.SalesLeadQuotedItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustSocialAccs" EntityType="JobDB.Store.CustSocialAccs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AdminEmails" EntityType="JobDB.Store.AdminEmails" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -1587,7 +1588,6 @@
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DtValidFrom" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DtValidTo" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="SalesLeadId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SupplierUnits">
     <Key>
@@ -1623,6 +1623,15 @@
     <Property Name="Viber" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Skype" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdminEmails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="AccCode" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3412,6 +3421,7 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="CustSocialAcc" EntitySet="CustSocialAccs" />
           </AssociationSet>
+          <EntitySet Name="AdminEmails" EntityType="JobDB.AdminEmail" />
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -5836,7 +5846,6 @@
           <Property Name="Remarks" Type="String" Nullable="false" />
           <Property Name="DtValidFrom" Type="String" Nullable="false" />
           <Property Name="DtValidTo" Type="String" Nullable="false" />
-          <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SalesLeadQuotedItems" Relationship="JobDB.SupplierItemRateSalesLeadQuotedItem" FromRole="SupplierItemRate" ToRole="SalesLeadQuotedItem" />
         </EntityType>
         <Association Name="SupplierInvItemSupplierItemRate">
@@ -5979,6 +5988,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AdminEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="AccCode" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7139,7 +7157,6 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="DtValidFrom" ColumnName="DtValidFrom" />
           <ScalarProperty Name="DtValidTo" ColumnName="DtValidTo" />
-          <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7179,6 +7196,16 @@
           <ScalarProperty Name="Viber" ColumnName="Viber" />
           <ScalarProperty Name="Skype" ColumnName="Skype" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdminEmails">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.AdminEmail)">
+        <MappingFragment StoreEntitySet="AdminEmails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="AccCode" ColumnName="AccCode" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
