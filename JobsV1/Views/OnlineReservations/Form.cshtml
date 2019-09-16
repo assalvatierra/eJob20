@@ -13,8 +13,8 @@
         <!--Reservation Form-->
         <!--Ads Left Side-->
         <div class="col-sm-4 online-resevation-product-info" style="margin-top:10px;">
-            <div style="margin:0px auto;">
-                <img src="../Images/CarRental/Ads/@ViewBag.ProdImg" class="online-resevation-main-img" style="margin-left:20px;" height="200" />
+            <div style="margin:0px auto;background-image:url('../Images/CarRental/Ads/@ViewBag.ProdImg');width:200px;height:200px;background-size: 200px 250px;">
+                @*<img class="online-resevation-main-img" style="margin-left:20px;" height="200" />*@
             </div>
             <hr />
 
@@ -125,7 +125,7 @@
             <p style="color:dimgrey;">Related Products</p>
                 @foreach (var ads in ViewBag.ProdAdslist as IEnumerable<JobsV1.Areas.Products.Models.SmProdAds>)
                 {
-                    <div style="background-image:url('../Images/CarRental/Ads/@ads.Image');background-size: 150px 160px;heigth:250px;background-repeat: no-repeat;margin-bottom:10px;">
+                    <div style="background-image:url('../Images/CarRental/Ads/@ads.Image');background-size:150px 160px;heigth:200px;background-repeat: no-repeat;margin-bottom:10px;">
 
                         <a class="btn btn-danger" href="@ads.Link" style="margin:90px 30px 0px 30px"> Book Now
                            @* <img src="../Images/CarRental/Ads/@ads.Image" class="online-resevation-ads-img" width="120" />*@
@@ -626,6 +626,13 @@
     function checkContactNum(){
         var numTemp =  $("#Number").val();
         console.log("num: " + numTemp + " count:" + numTemp.length);
+
+        if( numTemp.length == 10 ){
+            if(numTemp.charAt(0) == '0' &&  numTemp.charAt(1) == '9' ){
+                return true;
+            }
+        }
+
         if( numTemp.length == 11 ){
             if(numTemp.charAt(0) == '0' &&  numTemp.charAt(1) == '9' ){
                 return true;
@@ -637,7 +644,7 @@
                 return true;
             }
         }
-
+        x
         //if everything fails
         return false;
     }

@@ -36,8 +36,7 @@
             <a href='tel:@Html.DisplayFor(modelItem => item.Contact1)'> @Html.DisplayFor(modelItem => item.Contact2) </a>
         </dd>
         <dd>
-            @Html.ActionLink("Details", "Details", "CustEntMains",new { id = item.Id }, null) |
-            @Html.ActionLink("Remove", "Delete", "CustEntities", new { id = item.Id }, null) 
+            @Html.ActionLink("Details", "Details", "CustEntMains",new { id = item.Id }, null) 
          </dd>
      }
         <dd>

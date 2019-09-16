@@ -82,21 +82,7 @@
 
         <td><!--Company-->
 
-            @{
-                if (jobName == "Personal Account")
-                {
-                    @Html.DisplayFor(model => model.Description)
-                }
-                else if (jobName.Equals(customerName))
-                {
-                    @Html.DisplayFor(model => model.Description)
-                }
-                else
-                {
-                    @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
-                }
-            }
-            @*@ViewBag.JobName*@
+            @ViewBag.JobName
             <br />@ViewBag.custCompany
             <br />
              
@@ -108,12 +94,6 @@
             <br />Remarks: @Html.DisplayFor(model => model.JobRemarks)
         </td>
 
-        @*<td>
-            @Html.DisplayFor(model => model.Description)
-            <br />@Html.DisplayFor(model => model.Customer.Name)
-            <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
-            | Remarks: @Html.DisplayFor(model => model.JobRemarks)
-        </td>*@
     </tr>
 </table>
 
