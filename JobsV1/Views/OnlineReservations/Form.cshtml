@@ -126,11 +126,12 @@
                 @foreach (var ads in ViewBag.ProdAdslist as IEnumerable<JobsV1.Areas.Products.Models.SmProdAds>)
                 {
                     <div style="background-image:url('../Images/CarRental/Ads/@ads.Image');background-size:150px 160px;heigth:200px;background-repeat: no-repeat;margin-bottom:10px;">
-
                         <a class="btn btn-danger" href="@ads.Link" style="margin:90px 30px 0px 30px"> Book Now
                            @* <img src="../Images/CarRental/Ads/@ads.Image" class="online-resevation-ads-img" width="120" />*@
                         </a>
-                        <a class="btn" style="font-weight:bold;color:red;font-size:12px;position:inherit;margin: 0px auto 0px auto">Price Starts at P @ads.SmProduct.Price </a>
+                        <div style="background-color:white;width:150px;">
+                            <a class="btn" style="font-weight:bold;color:red;font-size:12px;position:inherit;margin: 0px auto 0px auto;">Price Starts at P @ads.SmProduct.Price </a>
+                        </div>
                     </div>
                 }
 

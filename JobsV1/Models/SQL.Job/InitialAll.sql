@@ -1,4 +1,4 @@
-﻿insert into Cities(Name) values('Davao');
+﻿insert into Cities(Name) values('Davao'),('Cebu'),('Makati'),('Manila');
 insert into Branches(Name, CityId, Remarks, Address, Landline, Mobile) 
 values ('AJ88',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
 	   ('RealBreeze',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),

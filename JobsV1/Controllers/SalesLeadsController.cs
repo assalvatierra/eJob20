@@ -843,6 +843,7 @@ namespace JobsV1.Controllers
         }
         #endregion
 
+        #region Items
         public void AddSupItemPartial()
         {
             var items = db.InvItems.ToList();
@@ -912,12 +913,63 @@ namespace JobsV1.Controllers
 
         public string RemoveSupItemRate(int id)
         {
+            try
+            {
+                SalesLeadQuotedItem leaditemRate = db.SalesLeadQuotedItems.Find(id);
+                db.SalesLeadQuotedItems.Remove(leaditemRate);
+                db.SaveChanges();
 
-            SalesLeadQuotedItem leaditemRate = db.SalesLeadQuotedItems.Find(id);
-            db.SalesLeadQuotedItems.Remove(leaditemRate);
-            db.SaveChanges();
-
-            return "200";
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
         }
+
+        public string RemoveItem(int? id)
+        {
+            try
+            {
+                var result = "";
+                if (id != null)
+                {
+                    SalesLeadItems leadItem = db.SalesLeadItems.Find(id);
+
+                    //try to remove children items from the list
+                    result = removeSubItems(leadItem);
+
+                    //remove parent item
+                    db.SalesLeadItems.Remove(leadItem);
+                    db.SaveChanges();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
+        }
+
+        public string removeSubItems(SalesLeadItems items)
+        {
+            try
+            {
+                //remove al items from the list
+                var leaditems = items.SalesLeadQuotedItems.ToList();
+                foreach (var item in leaditems)
+                {
+                    RemoveSupItemRate(item.Id);
+                }
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
+        }
+
+        #endregion
     }
 }

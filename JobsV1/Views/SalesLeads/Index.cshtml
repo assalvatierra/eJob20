@@ -73,19 +73,34 @@
             <div >
                 <span style="color:darkgreen;font:bold 16px arial, verdana;">
                     @{
-                        var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain.Name;
-                        <text>
-                            @company
-                        </text>
+                        try {
+                            var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain.Name;
+                            <text>
+                                @company -
+                            </text>
+                        }
+                        catch (Exception) {
+
+                        }
                     }
-                    - 
+                    
                     @Html.DisplayFor(modelItem => item.Customer.Name)
                 </span> |
                 <span style="color:maroon;font:bold 12px arial, verdana;">
-                  
-                    @Html.DisplayFor(modelItem => item.CustName) /
-                    @Html.DisplayFor(modelItem => item.CustPhone) /
-                    @Html.DisplayFor(modelItem => item.CustEmail)
+                    @Html.DisplayFor(modelItem => item.CustName)
+
+                   @if (item.CustPhone.IsEmpty())
+                    {
+                        <text> / </text>
+                        @Html.DisplayFor(modelItem => item.CustPhone)
+                    }
+
+                   @if (item.CustEmail.IsEmpty())
+                    {
+                        <text> / </text>
+                        @Html.DisplayFor(modelItem => item.CustEmail)
+                    }
+
                 </span>
 
                 &nbsp; &nbsp;
@@ -163,8 +178,8 @@
 
                 <!-- Items with Prices -->         
                 <br /><br />
-                <span style="font:bold 8px, arial, verdana; color:dodgerblue;">
-                    Supplier Items <br />
+                <span style="font:bold 8px, arial, verdana; color:black;">
+                    Items <br />
                 </span>
                 <div id="SalesLeadItems-@item.Id">
                     @foreach (var invItems in item.SalesLeadItems)
@@ -176,6 +191,12 @@
                                     @invItems.InvItem.Description -
                                     <span>P </span>@invItems.QuotedPrice
                                 </b>
+
+                                <span class="pull-right">
+                                    [
+                                    <a onclick="ajax_RemoveItem(@invItems.Id)">x</a>
+                                    ]
+                                </span>
                             </div>
 
                             <div id="supItem-@invItems.Id">
@@ -192,11 +213,14 @@
                                 }
                             </div>
 
+                            <!--Add Item-->
                             <a id="catbtn" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Rate ]</a>
                         </div>
                     }
                 </div>
                 <br />
+
+                <!--Add Item-->
                 <a id="catbtn" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)" >[ Add Item ]</a>
 
                 <!-- End of Items with Prices -->  
@@ -300,7 +324,7 @@
                     <div class="form-group col-md-12">
                         <b class="col-md-2 "> Rate: </b>
                         <div class="col-md-10">
-                            <input type="number" maxlength="25" class="form-control" id="supItem-Rate" />
+                            <input type="number" value="0" maxlength="25" class="form-control" id="supItem-Rate" />
                         </div>
                     </div>
                     <br /><br />
@@ -383,6 +407,7 @@
             $("#supItem-supId").val(id);
         }
 
+        //add item
         function ajax_AddSalesLeadItem() {
             //build json object
 
@@ -411,7 +436,31 @@
             });
         }
 
+        //Remove Item
+        function ajax_RemoveItem(Id) {
+            //build json object
 
+            var data = {
+                id: Id
+            };
+
+            var url = '/SalesLeads/RemoveItem';
+
+            //Post data from server using ajax call
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: 'application/json; charset=utf-8',
+                success: function (data) {
+
+                },
+                error: function (data) {
+                    console.log(data);
+                    location.reload();
+                }
+            });
+        }
     </script>
 
 }
