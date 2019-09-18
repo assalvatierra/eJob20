@@ -19,7 +19,7 @@ namespace JobsV1.Models
         public string iconPath  { get; set; }
         public string Website   { get; set; }
         public string Remarks   { get; set; }
-        public string CityId    { get; set; }
+        public string City    { get; set; }
         public string Category  { get; set; }
         public string ContactPerson { get; set; }
     } 
@@ -39,7 +39,10 @@ namespace JobsV1.Models
         {
             List<CompanyList> custList = new List<CompanyList>();
              
-            string sql = "SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name, ' <br /> ', Contact1, ' / ', Contact2) FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) FROM CustEntMains cem";
+            string sql = "SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), "+
+                " City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), "+
+                " ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name, ' <br /> ', Contact1, ' / ', Contact2) "+
+                " FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) FROM CustEntMains cem ";
 
 
             //handle search by name filter

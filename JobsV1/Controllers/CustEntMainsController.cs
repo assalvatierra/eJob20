@@ -61,6 +61,8 @@ namespace JobsV1.Controllers
 
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
+            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
+
             return View(custEntMain);
         }
         
@@ -135,6 +137,8 @@ namespace JobsV1.Controllers
         {
             CustEntMain main = new CustEntMain();
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
+            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
+
             return View(main);
         }
 
@@ -143,7 +147,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath")] CustEntMain custEntMain, int? id)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId")] CustEntMain custEntMain, int? id)
         {
             if (ModelState.IsValid)
             {
@@ -178,6 +182,8 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId) ;
             return View(custEntMain);
         }
 
@@ -186,7 +192,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath")] CustEntMain custEntMain)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {

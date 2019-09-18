@@ -184,3 +184,11 @@ SELECT counting = (SELECT Id FROM SalesLeadItems sli WHERE sli.SalesLeadId = sl.
 
 
 
+SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId )
+FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId) ,
+ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name, ' <br /> ', Contact1, ' / ', Contact2) 
+FROM Customers cust WHERE cust.Id = ce.CustomerId) 
+FROM CustEntities ce 
+WHERE cem.Id = ce.CustEntMainId) FROM CustEntMains cem
+WHERE  Name Like '%Manila%' 
