@@ -4,8 +4,8 @@
     decimal dQuotedAmt = ViewBag.Amount;
 }
 @*<div style="text-align:center;">
-   @* <img src="~/Images/Realbreeze.Header.PNG"  style="min-width:400px;width:100%;">
-</div>*@
+       @* <img src="~/Images/Realbreeze.Header.PNG"  style="min-width:400px;width:100%;">
+    </div>*@
 
 
 <div class="container">
@@ -28,16 +28,16 @@
                     <hr />
                     @foreach (var desc in ViewBag.ProdDesc as IEnumerable<JobsV1.Areas.Products.Models.SmProdDesc>)
                     {
-                    <p>
-                        @desc.Description
-                    </p>
+                        <p>
+                            @desc.Description
+                        </p>
                     }
 
                     @foreach (var info in ViewBag.ProdInfo as IEnumerable<JobsV1.Areas.Products.Models.SmProdInfo>)
                     {
-                    <p>
-                        <b>@info.Label :</b> @info.Value
-                    </p>
+                        <p>
+                            <b>@info.Label :</b> @info.Value
+                        </p>
                     }
                 </div>
 
@@ -78,11 +78,11 @@
                     <div class="col-lg-6">
                         @if (ViewBag.svcType == "CAR")
                         {
-                        <h4>Number of Days</h4>
+                            <h4>Number of Days</h4>
                         }
                         else
                         {
-                        <h4>Number of @ViewBag.Unit</h4>
+                            <h4>Number of @ViewBag.Unit</h4>
 
                         }
 
@@ -101,7 +101,7 @@
                 <div class="col-lg-12">
                     <h4> Amount </h4>
                     <h3 id="AmountText"> Php @ViewBag.Amount.ToString("##,###.00") </h3>
-                    <br /> 
+                    <br />
                     <h5 class="text-danger" id="name-warning">Name is not valid </h5>
                     <h5 class="text-danger" id="number-warning">Contact Number is not valid </h5>
                     <h5 class="text-danger" id="email-warning">Email is not valid </h5>
@@ -123,19 +123,20 @@
         <div class="col-sm-2 online-resevation-ads-sticky" style="padding-top:10px;">
 
             <p style="color:dimgrey;">Related Products</p>
-                @foreach (var ads in ViewBag.ProdAdslist as IEnumerable<JobsV1.Areas.Products.Models.SmProdAds>)
-                {
-                    <div style="background-image:url('../Images/CarRental/Ads/@ads.Image');background-size:150px 160px;heigth:200px;background-repeat: no-repeat;margin-bottom:10px;">
-                        <a class="btn btn-danger" href="@ads.Link" style="margin:90px 30px 0px 30px"> Book Now
-                           @* <img src="../Images/CarRental/Ads/@ads.Image" class="online-resevation-ads-img" width="120" />*@
-                        </a>
-                        <div style="background-color:white;width:150px;">
-                            <a class="btn" style="font-weight:bold;color:red;font-size:12px;position:inherit;margin: 0px auto 0px auto;">Price Starts at P @ads.SmProduct.Price </a>
-                        </div>
+            @foreach (var ads in ViewBag.ProdAdslist as IEnumerable<JobsV1.Areas.Products.Models.SmProdAds>)
+            {
+                <div style="background-image:url('../Images/CarRental/Ads/@ads.Image');background-size:150px 160px;heigth:200px;background-repeat: no-repeat;margin-bottom:10px;">
+                    <a class="btn btn-danger" href="@ads.Link" style="margin:90px 30px 0px 30px">
+                        Book Now
+                        @* <img src="../Images/CarRental/Ads/@ads.Image" class="online-resevation-ads-img" width="120" />*@
+                    </a>
+                    <div style="background-color:white;width:150px;">
+                        <a class="btn" style="font-weight:bold;color:red;font-size:12px;position:inherit;margin: 0px auto 0px auto;">Price Starts at P @ads.SmProduct.Price </a>
                     </div>
-                }
+                </div>
+            }
 
-                @*<a href="http://localhost:50382/OnlineReservations/Form?tourCode=DVO-CT">
+            @*<a href="http://localhost:50382/OnlineReservations/Form?tourCode=DVO-CT">
                     <img src="~/Images/CarRental/Ads/Ads-sedan-2019.png" class="online-resevation-ads-img" width="120" />
                 </a>
                 <a href="http://localhost:50382/OnlineReservations/Form?tourCode=DVO-CT">
@@ -156,16 +157,45 @@
 
 </div>
 
+<a href="" id="catbtn" data-toggle="modal" data-target="#ModalRedirect" style="margin-bottom:10px;">Redirect</a>
+
+
+<!--Redirect Modal-->
+<!-- Modal -->
+<div class="modal fade" id="ModalRedirect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Choose Where to go</h4>
+            </div>
+
+            <div class="modal-body row" id="modal-content">
+
+                <a href="../" class="list-group-item skills">Home</a>
+
+                <a class="list-group-item skills" data-dismiss="modal">Book Another Product</a>
+
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-default" data-dismiss="modal" onclick="addFile()">Submit</button>*@
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Script/DateRangePicker/moment.min.js"> </script>
-<script src="~/Script/DateRangePicker/daterangepicker.js"> </script>
+<script src="~/Script/DateRangePicker/moment.min.js"></script>
+<script src="~/Script/DateRangePicker/daterangepicker.js"></script>
 <script src="~/Scripts/Job/OnlineReservation.js"></script>
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
-    
+
     var TransId = 0;
     var today = new Date().toLocaleString();
     var TotalAmount = 0;
@@ -184,7 +214,7 @@
 
         //set tourType
         $("#svcType").val('@ViewBag.svcType');
-        
+
         $("#name-warning").hide();
         $("#number-warning").hide();
         $("#email-warning").hide();
@@ -242,12 +272,12 @@
         //
         if(contactNum.length == 0){
             $("#number-warning").hide();
-           
+
         }
 
         if(email.length == 0){
             $("#email-warning").hide();
-           
+
         }
 
 
@@ -272,8 +302,8 @@
         var qty = $("#Qty").text();
             paypal.Button.render({
                 // Configure environment
-                env: 'production',
-                //env: 'sandbox',
+                //env: 'production',
+                env: 'sandbox',
                 client: {
                     //paypal live
                     sandbox: 'AQx9QuKflAiELK-iXsyxy6sINZ9NxJ9DQUWZnW0Tp4LcxGbBN2HyOg0C3K0-qmrGwLSXnzL-xHRrko3q',
@@ -293,6 +323,7 @@
                 // Set up a payment
                 payment: function (data, actions) {
                     addRecord();
+
                     return actions.payment.create({
                         transactions: [{
                             amount: {
@@ -336,13 +367,16 @@
                         console.log("Paypal Payment : " );
                         addPaymentRecord(response);
                         ajaxSendEmail(TransId);
+
+                        //show redirect modal
+                        $('#ModalRedirect').modal('show');
                     });
                 }
             }, '#paypal-button');
 
     }
 
-    /* 
+    /*
      * Add rescord to db after click on paypal button
      */
     function addRecord(){
@@ -356,7 +390,7 @@
             dtstart:  $("#DtStart").val(),
             qty : $("#Qty").text(),
             pickup : $("#Pickup").val(),
-            amount : TotalAmount
+            amount: TotalAmount 
         }
 
         var serviceURL = '/OnlineReservations/AddRecord';
@@ -370,11 +404,13 @@
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            async:false,
             success: function(jqXHR, textStatus, errorThrown){
-                console.log('success');
+                console.log('Add Record Success');
                 console.log(jqXHR);
                 TransId = jqXHR;
                 console.log("TransId: " + TransId);
+
                 //disableLoadOverlay();
             },
             error: function(jqXHR, textStatus, errorThrown){
@@ -420,13 +456,13 @@
         });
     }
 
-    /* 
+    /*
      * Send Email to Client and Admin after payment success
      */
     function ajaxSendEmail(jobid){
 
         console.log("ReservationId: " + jobid);
-        
+
         var type = $("#svcType").val();
 
         var data = {
@@ -460,14 +496,14 @@
         });
     }
 
-    
-    /* 
+
+    /*
      * Send Email to Client and Admin after payment success
      */
     function ajaxSendNotifyEmail(jobid){
 
         console.log("ReservationId: " + jobid);
-        
+
         var type = $("#svcType").val();
 
         var data = {
@@ -512,12 +548,15 @@
         $("#overlay2").css("display","none");
     }
 
-    
+
     function disableLoadOverlayNotify(){
 
-        window.alert('Thank you Inquiry! Please check your email for the inquiry details.'  );
+        alert('Thank you Inquiry! Please check your email for the inquiry details.'  );
 
-        $("#overlay2").css("display","none");
+        $("#overlay2").css("display", "none");
+        
+        //show redirect modal
+        $('#ModalRedirect').modal('show');
     }
 
     function getPaypalFee(){
@@ -544,7 +583,7 @@
         var todayPlus2 = moment().add(2, 'days').format('YYYY-MM-DD');
         var today = moment().format('YYYY-MM-DD');
         var datepicker = moment( $('#DtStart').val()).format('YYYY-MM-DD');
-        
+
         console.log("------------ ")
         console.log("INPUT DATE: " + datepicker)
 
@@ -563,8 +602,12 @@
             console.log("Start Date must be at least 2 days in advance");
             $("#date-warning").text("Date must be at least 2 days before the start date");
             $("#date-warning").show();
-            //hide submit for review 
+
+            //hide submit for review
             $("#submit-review-button").hide();
+
+            //disable paypal button
+            $("#Paypal-btns-holder").hide();
 
         }else if(datepicker >= today && datepicker <= todayPlus2){
             //valid but online booking is disabled
@@ -576,7 +619,7 @@
             //disable paypal button
             $("#Paypal-btns-holder").hide();
 
-            //show submit for review 
+            //show submit for review
             $("#submit-review-button").show();
 
         }else{
@@ -586,7 +629,7 @@
             //show paypal button
             $("#Paypal-btns-holder").show();
 
-            //hide submit for review 
+            //hide submit for review
             $("#submit-review-button").hide();
         }
     }
@@ -639,7 +682,7 @@
                 return true;
             }
         }
-        
+
         if( numTemp.length == 12 ){
             if(numTemp.charAt(0) == '6' &&  numTemp.charAt(1) == '3' &&  numTemp.charAt(2) == '9' ){
                 return true;
@@ -653,10 +696,11 @@
 
     function submitInquiry(){
         //add details to the db
-       var transactionID = addRecord(); 
-
+       var transactionID = addRecord();
+        console.log("transID: " + transactionID );
         //send notification to admin
-       ajaxSendNotifyEmail(transactionID);
+        ajaxSendNotifyEmail(TransId);
+
     }
 
 

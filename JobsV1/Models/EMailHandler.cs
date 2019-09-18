@@ -969,11 +969,11 @@ namespace JobsV1.Models
             var product = pdb.SmProducts.Where(s => s.Code == reservation.ProductCode).FirstOrDefault();
 
             //buld email subject / title
-            string subject = " Online Reservation For " + product.Name;
+            string subject = " Online Inquiry For " + product.Name;
 
             if (emailType == "ADMIN")
             {
-                subject = reservation.Name + " : Online Reservation Payment For " + reservation.ProductCode;
+                subject = reservation.Name + " : Online Inquiry For " + reservation.ProductCode;
             }
 
             //build email body
@@ -1016,7 +1016,7 @@ namespace JobsV1.Models
                     "<div style='background-color: dodgerblue; width: 120px; padding: 10px; color: white;text-align:center;'> " +
                     " View Details " +
                     "</div></a></div>";
-                title = " <h1> Online Reservation : Payment Success </h1> ";
+                title = " <h1> Online Inquiry </h1> ";
             }
 
             string body = "" +
