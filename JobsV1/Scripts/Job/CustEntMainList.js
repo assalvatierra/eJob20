@@ -59,6 +59,7 @@ function setActiveSort(element){
     $(element).css("color", "black");
     $(element).siblings().css("color", "steelblue");
     //StatusRefresh() // load inactive suppliers
+
     //load table content
     ajax_loadContent();
 }
@@ -69,8 +70,8 @@ function setActiveSort(element){
 function ajax_loadContent() {
     var query = $('#srch-field').val();
    
-    console.log("status: " + status);
-    console.log("sort: " + sort);
+    //console.log("status: " + status);
+    //console.log("sort: " + sort);
     //console.log("q: " + query);
 
     //build json object
@@ -101,7 +102,7 @@ function ajax_loadContent() {
 //of suppliers
 function LoadTable(data) {
     
-    console.log(data);
+    //console.log(data);
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
 
@@ -113,6 +114,7 @@ function LoadTable(data) {
     var contact2 = "";
     var tempDetails = "-";
     var prevId = 0;
+    var City = "-";
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
@@ -123,6 +125,7 @@ function LoadTable(data) {
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
         var ContactPerson = temp[x]["ContactPerson"] != null ? temp[x]["ContactPerson"] : "--";
+        City = temp[x]["City"] != null ? temp[x]["City"] : "--";
 
         if (temp[x]["Id"] == prevId) {
 
@@ -139,6 +142,7 @@ function LoadTable(data) {
             content += "<td>" + contact1 + "<br />";
             content += " " + contact2 + "</td>";
             content += "<td>" + ContactPerson + "</td>";
+            content += "<td>" + City + "</td>";
 
             content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
                     + "</td>";
