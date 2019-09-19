@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1276,6 +1277,9 @@
     <Content Include="Images\GIF\gif-sending-mail.gif" />
     <Content Include="Images\GIF\loading.gif" />
     <Content Include="Images\googleMaps_office.png" />
+    <Content Include="Images\CarRental\Ads\Ads-Joined-City-Tour-2019.png" />
+    <Content Include="Images\Icons\car-rental.png" />
+    <Content Include="Images\Icons\home.png" />
     <Content Include="Images\paypal.png" />
     <Content Include="Images\LOGO_AJRENTACAR.jpg" />
     <Content Include="Images\Mail.png" />

@@ -72,7 +72,9 @@
                 </div>
                 <div class="col-lg-12">
                     <h4>Pick-up</h4>
-                    <input type="text" class="form-control" id="Pickup" maxlength="80" />
+                    <input type="text" class="form-control" id="pickupLocField" maxlength="80" style="width:80%;display:inline-block;" />
+
+                    <button class="btn btn-default" data-toggle="modal" data-target="#ModalPickupList" style="margin-bottom:5px;width:15%;display:inline-block;">...</button>
                 </div>
                 <div class="row col-lg-12">
                     <div class="col-lg-6">
@@ -159,27 +161,50 @@
 
 <a href="" id="catbtn" data-toggle="modal" data-target="#ModalRedirect" style="margin-bottom:10px;">Redirect</a>
 
-
 <!--Redirect Modal-->
 <!-- Modal -->
 <div class="modal fade" id="ModalRedirect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Choose Where to go</h4>
-            </div>
 
             <div class="modal-body row" id="modal-content">
+                <h2 style="text-align:center;" id="redirect-Msg">What would you like to do? </h2>
+                <a href="../" class="btn btn-default center-block" style="padding:30px 60px;margin:10px;margin-left:60px;text-align:center;">
+                    <img src="~/Images/Icons/home.png" width="40" />
+                    <h4>Go to Home</h4>
 
-                <a href="../" class="list-group-item skills">Home</a>
+                </a>
 
-                <a class="list-group-item skills" data-dismiss="modal">Book Another Product</a>
+                <a style="padding:30px 20px;margin:10px;text-align:center;" class="btn btn-default center-block" data-dismiss="modal">
+                    <img src="~/Images/Icons/car-rental.png" width="40" />
+                    <h4>Book Another Product</h4>
+                </a>
 
+                <h4  style="text-align:center;" >You will be redirected to HOME after 10 seconds.</h4>
             </div>
-            <div class="modal-footer">
-                @*<button type="button" class="btn btn-default" data-dismiss="modal" onclick="addFile()">Submit</button>*@
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--Pickup List Modal-->
+<!-- Modal -->
+<div class="modal fade" id="ModalPickupList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body row" id="modal-content">
+                <h2 style="text-align:center;" id="redirect-Msg">Pickup Location </h2>
+
+                <a class="list-group-item skills" onclick="setPickup(this)"> Davao International Airport </a>
+                <a class="list-group-item skills" onclick="setPickup(this)"> Marco Polo Hotel </a>
+                <a class="list-group-item skills" onclick="setPickup(this)"> Seda Hotel </a>
+                <a class="list-group-item skills" onclick="setPickup(this)"> The Pinnacle Hotel and Suites </a>
+                <a class="list-group-item skills" onclick="setPickup(this)"> Crown Regency Hotel </a>
+                <a class="list-group-item skills" onclick="setPickup(this)"> Waterfront Insular Hotel </a>
+                <a class="list-group-item skills" onclick="setPickup(this)"> Sta. Ana Warf </a>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -390,7 +415,7 @@
             dtstart:  $("#DtStart").val(),
             qty : $("#Qty").text(),
             pickup : $("#Pickup").val(),
-            amount: TotalAmount 
+            amount: TotalAmount
         }
 
         var serviceURL = '/OnlineReservations/AddRecord';
@@ -543,20 +568,32 @@
 
     function disableLoadOverlay(){
 
-        window.alert('Thank you for payment! Please check your email for the confirmation.'  );
+        RedirectText = 'Thank you for payment! Please check your email for the confirmation.';
 
-        $("#overlay2").css("display","none");
+        $("#overlay2").css("display", "none");
+
+        //show redirect modal
+        $('#redirect-Msg').text(RedirectText);
+        $('#ModalRedirect').modal('show');
     }
 
 
     function disableLoadOverlayNotify(){
 
-        alert('Thank you Inquiry! Please check your email for the inquiry details.'  );
+        RedirectText = 'Thank you Inquiry! Please check your email for the inquiry details.';
 
         $("#overlay2").css("display", "none");
-        
+
         //show redirect modal
+        $('#redirect-Msg').text(RedirectText);
         $('#ModalRedirect').modal('show');
+
+        //wait for 5 secs and 
+        setTimeout(redirectHome, 10000)
+    }
+
+    function redirectHome() {
+        location.href = '../';
     }
 
     function getPaypalFee(){
@@ -703,6 +740,10 @@
 
     }
 
-
+    function setPickup(loc) {
+        //console.log(loc.text);
+        $('#pickupLocField').val(loc.text);
+        $('#ModalPickupList').modal('toggle');
+    }
 
 </script>
