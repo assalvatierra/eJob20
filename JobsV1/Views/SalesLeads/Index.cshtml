@@ -182,7 +182,7 @@
 
                     <!-- Items with Prices -->
                     <br /><br />
-                    <span style="font:bolder 12px, arial, verdana; color:black;">
+                    <span style="font:bolder 12px, arial, verdana; color:black;font-weight:600;">
                         Items
                     </span> <br />
                     <div id="SalesLeadItems-@item.Id">
@@ -194,6 +194,7 @@
                                     <b>
                                         @invItems.InvItem.Description -
                                         <span>P </span>@invItems.QuotedPrice
+                                        <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
                                     </b>
 
                                     <span class="pull-right">
@@ -206,14 +207,17 @@
                                 <div id="supItem-@invItems.Id">
                                     @foreach (var supItem in invItems.SalesLeadQuotedItems)
                                     {
-                                        <p style="margin:3px 20px;">
-                                            @supItem.SupplierItemRate.SupplierInvItem.Supplier.Name <span>- P</span>
-                                            @supItem.SupplierItemRate.ItemRate <span> / </span>
-                                            @supItem.SupplierItemRate.SupplierUnit.Unit <span> ( </span>
-                                            @supItem.SupplierItemRate.DtValidFrom <span>-</span>
-                                            @supItem.SupplierItemRate.DtValidTo <span> ) </span>
-                                            <a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>
-                                        </p>
+                                    <p style="margin:3px 20px;">
+                                        @supItem.SupplierItemRate.SupplierInvItem.Supplier.Name <span>- P</span>
+                                        @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
+                                        @supItem.SupplierItemRate.SupplierUnit.Unit <span> ( </span>
+                                        <span style="font:normal 11px arial,verdana;">
+                                            @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
+                                            @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
+                                        </span>
+                                        <span> ) </span>
+                                        <a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>
+                                    </p>
                                     }
                                 </div>
 
