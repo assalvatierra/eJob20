@@ -1999,8 +1999,9 @@ order by x.jobid
                         }
                     }
 
+
                     sData += "\n---------------";
-                }
+                }// end of job services
 
                 if(pickupCount == 0) { 
                     //Pickup Details
@@ -2100,6 +2101,19 @@ order by x.jobid
                             pickupCount++;
                         }//end of foreach
                     }
+
+
+                    //Driver Instructions
+                    if (svi.PickupInstructions.Count != 0)
+                    {
+                        sData += "\n\nDriver Instructions: ";
+                        foreach (var ins in svi.PickupInstructions)
+                        {
+                            sData += "\n" + ins.DriverInstruction.Description;
+
+                        }
+                    }
+
                     sData += "\n---------------";
                 }
 
@@ -2829,7 +2843,9 @@ order by x.jobid
             db.DriverInsJobServices.Add(ins);
             db.SaveChanges();
 
-            return RedirectToAction("DriverInstructions","JobOrder" , new { id = jsId });
+            var mainId = getparentMainId(jsId);
+
+            return RedirectToAction("DriverInstructions","JobOrder" , new { id = jsId , mainId = mainId });
         }
 
 
@@ -2840,7 +2856,15 @@ order by x.jobid
             db.DriverInsJobServices.Remove(ins);
             db.SaveChanges();
 
-            return RedirectToAction("DriverInstructions", "JobOrder", new { id = jsId });
+            var mainId = getparentMainId(jsId);
+
+            return RedirectToAction("DriverInstructions", "JobOrder", new { id = jsId, mainId = mainId });
+        }
+
+        private int getparentMainId(int jsId)
+        {
+            var js = db.JobServices.Find(jsId);
+            return js.JobMainId;
         }
         #endregion
     }

@@ -2,12 +2,13 @@
 
 @{
     ViewBag.Title = "DriverInstructions";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>DriverInstructions</h2>
+<h2>Driver Instructions</h2>
 
 <p>
-    @Html.ActionLink("Back to List", "JobServices", new { JobMainId = ViewBag.mainId }) |
+    @Html.ActionLink("Back to Job Service", "JobServices", new { JobMainId = ViewBag.mainId }) |
     @Html.ActionLink("Instructions List", "Index", "DriverInstructions")
     
 </p>

@@ -175,14 +175,15 @@
         <td>
             @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
             @Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Id }) |
-            @Html.ActionLink("Instructions", "DriverInstructions", new { id = item.Id , mainId = item.JobMainId}) |
+            @Html.ActionLink("Instructions", "DriverInstructions", new { id = item.Id, mainId = item.JobMainId }) |
 
             <br />
             @Html.ActionLink("Pickup", "InitServicePickup", new { id = item.Id }) |
-            @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id, SvcId = item.Id }, null) | 
+            @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id, SvcId = item.Id }, null) |
             @Html.ActionLink("Text Form", "TextMessage", new { id = item.Id })  |
-            @Html.ActionLink("Send Notification", "Notification", new { id = item.Id }) | 
-            @Html.ActionLink("Expenses", "JobExpenses", "JobExpenses", new { id = item.Id }, null)
+            @Html.ActionLink("Send Notification", "Notification", new { id = item.Id }) |
+            @Html.ActionLink("Expenses", "JobExpenses", "JobExpenses", new { id = item.Id }, null) | 
+            @Html.ActionLink("Text Confirmation", "TextConfirmation", new { id = item.JobMainId }, null)
         </td>
     </tr>
     <tr>
