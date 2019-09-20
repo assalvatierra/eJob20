@@ -104,11 +104,12 @@
         @*| @Html.ActionLink("Send Quotation", "SendEmailQuotation", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)*@
     </p>  
     <p>
-        Services | 
+        Services |
         @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
         @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
-        @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null) | 
-        @Html.ActionLink("Expenses",  "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)
+        @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)|
+        @Html.ActionLink("Text Confirmation", "TextConfirmation", new { id = ViewBag.JobOrder.Id }, null)
     </p>
 </div>
 
@@ -182,8 +183,7 @@
             @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id, SvcId = item.Id }, null) |
             @Html.ActionLink("Text Form", "TextMessage", new { id = item.Id })  |
             @Html.ActionLink("Send Notification", "Notification", new { id = item.Id }) |
-            @Html.ActionLink("Expenses", "JobExpenses", "JobExpenses", new { id = item.Id }, null) | 
-            @Html.ActionLink("Text Confirmation", "TextConfirmation", new { id = item.JobMainId }, null)
+            @Html.ActionLink("Expenses", "JobExpenses", "JobExpenses", new { id = item.Id }, null) 
         </td>
     </tr>
     <tr>

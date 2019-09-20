@@ -2090,7 +2090,7 @@ order by x.jobid
                         {
                             if (jobPickup != null) { 
                                 //Pickup Details
-                                sData += "\nPickup: ";
+                                sData += "\n\nPickup: ";
                                 sData += " " + jobPickup.JsTime;
                                 sData += " " + jobPickup.JsDate.ToString(" MMM dd yyyy");
                                 sData += "\nLocation: " + jobPickup.JsLocation;
@@ -2691,10 +2691,10 @@ order by x.jobid
             string adminEmail   = "travel.realbreeze@gmail.com";
             string mailResult   = "";
 
-            //Send invoice 
-            //mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
-            //mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
-            //mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            //Send invoice
+            mailResult = mail.SendMail(reservationId, ajdavaoEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            mailResult = mail.SendMail(reservationId, companyEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            mailResult = mail.SendMail(reservationId, adminEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
 
             //client
             mailResult = mail.SendMail(reservationId, reservation.Email, "CLIENT-PAYMENT-SUCCESS", clientName, siteRedirect);
