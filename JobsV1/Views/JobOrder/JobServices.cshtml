@@ -175,7 +175,7 @@
         <td>
             @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Id }) |
             @Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Id }) |
-            @Html.ActionLink("Instructions", "DriverInstructions", new { id = item.Id }) |
+            @Html.ActionLink("Instructions", "DriverInstructions", new { id = item.Id , mainId = item.JobMainId}) |
 
             <br />
             @Html.ActionLink("Pickup", "InitServicePickup", new { id = item.Id }) |

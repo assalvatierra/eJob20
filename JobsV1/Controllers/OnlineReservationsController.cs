@@ -145,9 +145,11 @@ namespace JobsV1.Controllers
             var adsList = adsCat.Select(s => s.SmCategoryId).ToList();
             ViewBag.adsList = adsCat;
 
+            var topCategory = adsList.FirstOrDefault();
+
             //Ads
             ViewBag.ProdImg = getProdImage(product);
-            ViewBag.ProdAdslist = pdb.SmProdAds.Where(s => adsList.Contains(s.SmCategoryId)).ToList().Take(6);
+            ViewBag.ProdAdslist = pdb.SmProdAds.Where(s => adsList.Contains(s.SmCategoryId)).ToList().Take(6).OrderBy(s=>s.SmCategoryId == topCategory);
             ViewBag.Unit = getUoM(product);
 
             //get paypal keys at db

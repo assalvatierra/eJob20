@@ -38,7 +38,9 @@ namespace JobsV1.Controllers
         // GET: DriverInstructions/Create
         public ActionResult Create()
         {
-            return View();
+            DriverInstructions instructions = new DriverInstructions();
+            instructions.OrderNo = 10;
+            return View(instructions);
         }
 
         // POST: DriverInstructions/Create

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Models.PickupInstructions>
+﻿@model IEnumerable<JobsV1.Models.DriverInsJobService>
 
 @{
     ViewBag.Title = "DriverInstructions";
@@ -7,7 +7,7 @@
 <h2>DriverInstructions</h2>
 
 <p>
-    @Html.ActionLink("Add New", "Create") |
+    @Html.ActionLink("Back to List", "JobServices", new { JobMainId = ViewBag.mainId }) |
     @Html.ActionLink("Instructions List", "Index", "DriverInstructions")
     
 </p>
@@ -19,22 +19,19 @@
         </th>
         <th></th>
     </tr>
-        @{ 
-            if (Model != null) { 
+            @{ 
             foreach (var item in Model) {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.DriverInstruction.Description)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                        @Html.ActionLink("Delete", "DeleteDriverInst", new { id=item.Id, jsId = ViewBag.JobServiceId }, null)
                     </td>
                 </tr>
                }
             }
-         }
+         
 </table>
 <a href="" id="editPosted" data-toggle="modal" data-target="#instructions" style="margin-bottom:10px;">Add Instructions</a>
 
@@ -53,9 +50,9 @@
 
                     @foreach (var list in ViewBag.InstructionsList as IEnumerable<JobsV1.Models.DriverInstructions>)
                     {
-                        <!--
-                        <a href="Url.Action("ChangeCompany", "JobOrder", new { id = item.Main.Id, newId = list.Id },null)" class="list-group-item"> list.Name</a>
-                        -->
+                        var jsid = ViewBag.JobServiceId;
+                        <a href="~/JobOrder/AddDriverInst/@list.Id?jsId=@jsid" class="list-group-item"> @list.Description </a>
+                       
                     }
                 </div>
 
@@ -66,3 +63,10 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script>
+
+</script>
+
+

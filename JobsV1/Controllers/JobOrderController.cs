@@ -2811,17 +2811,36 @@ order by x.jobid
 
         #region Driver Instructions
 
-        public ActionResult DriverInstructions()
+        public ActionResult DriverInstructions(int id, int mainId)
         {
-
             ViewBag.InstructionsList = db.DriverInstructions.ToList();
-
-            return View();
+            ViewBag.JobServiceId = id;
+            ViewBag.mainId = mainId;
+            var instructionlist = db.DriverInsJobServices.Where(s => s.JobServicesId == id).ToList();
+            return View(instructionlist);
         }
 
-        public ActionResult DriverIntsAdd()
+        public ActionResult AddDriverInst(int id, int jsId)
         {
-            return RedirectToAction("DriverInstructions");
+            DriverInsJobService ins = new DriverInsJobService();
+            ins.DriverInstructionsId = id;
+            ins.JobServicesId = jsId;
+
+            db.DriverInsJobServices.Add(ins);
+            db.SaveChanges();
+
+            return RedirectToAction("DriverInstructions","JobOrder" , new { id = jsId });
+        }
+
+
+        public ActionResult DeleteDriverInst(int id, int jsId)
+        {
+            DriverInsJobService ins = db.DriverInsJobServices.Find(id);
+
+            db.DriverInsJobServices.Remove(ins);
+            db.SaveChanges();
+
+            return RedirectToAction("DriverInstructions", "JobOrder", new { id = jsId });
         }
         #endregion
     }
