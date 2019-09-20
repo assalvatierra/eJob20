@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/14/2019 18:01:44
+-- Date Created: 09/19/2019 17:38:09
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -285,7 +285,7 @@ IF OBJECT_ID(N'[dbo].[FK_OnlineReservationRsvPayment]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RsvPayments] DROP CONSTRAINT [FK_OnlineReservationRsvPayment];
 GO
 IF OBJECT_ID(N'[dbo].[FK_PickupInstructionsDriverInstructions]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_PickupInstructionsDriverInstructions];
+    ALTER TABLE [dbo].[DriverInsJobServices] DROP CONSTRAINT [FK_PickupInstructionsDriverInstructions];
 GO
 IF OBJECT_ID(N'[dbo].[FK_SalesLeadSalesLeadCompany]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadCompanies] DROP CONSTRAINT [FK_SalesLeadSalesLeadCompany];
@@ -315,7 +315,7 @@ IF OBJECT_ID(N'[dbo].[FK_SupplierUnitSupplierItemRate]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SupplierItemRates] DROP CONSTRAINT [FK_SupplierUnitSupplierItemRate];
 GO
 IF OBJECT_ID(N'[dbo].[FK_JobServicesPickupInstructions]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PickupInstructions] DROP CONSTRAINT [FK_JobServicesPickupInstructions];
+    ALTER TABLE [dbo].[DriverInsJobServices] DROP CONSTRAINT [FK_JobServicesPickupInstructions];
 GO
 IF OBJECT_ID(N'[dbo].[FK_SalesLeadSalesLeadItems]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadItems] DROP CONSTRAINT [FK_SalesLeadSalesLeadItems];
@@ -613,8 +613,8 @@ GO
 IF OBJECT_ID(N'[dbo].[DriverInstructions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[DriverInstructions];
 GO
-IF OBJECT_ID(N'[dbo].[PickupInstructions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PickupInstructions];
+IF OBJECT_ID(N'[dbo].[DriverInsJobServices]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DriverInsJobServices];
 GO
 IF OBJECT_ID(N'[dbo].[SalesLeadCompanies]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SalesLeadCompanies];
@@ -645,6 +645,9 @@ IF OBJECT_ID(N'[dbo].[SalesLeadQuotedItems]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CustSocialAccs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustSocialAccs];
+GO
+IF OBJECT_ID(N'[dbo].[AdminEmails]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AdminEmails];
 GO
 
 -- --------------------------------------------------
@@ -1631,8 +1634,8 @@ CREATE TABLE [dbo].[DriverInstructions] (
 );
 GO
 
--- Creating table 'PickupInstructions'
-CREATE TABLE [dbo].[PickupInstructions] (
+-- Creating table 'DriverInsJobServices'
+CREATE TABLE [dbo].[DriverInsJobServices] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DriverInstructionsId] int  NOT NULL,
     [JobServicesId] int  NOT NULL
@@ -2309,9 +2312,9 @@ ADD CONSTRAINT [PK_DriverInstructions]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'PickupInstructions'
-ALTER TABLE [dbo].[PickupInstructions]
-ADD CONSTRAINT [PK_PickupInstructions]
+-- Creating primary key on [Id] in table 'DriverInsJobServices'
+ALTER TABLE [dbo].[DriverInsJobServices]
+ADD CONSTRAINT [PK_DriverInsJobServices]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3720,8 +3723,8 @@ ON [dbo].[RsvPayments]
     ([OnlineReservationId]);
 GO
 
--- Creating foreign key on [DriverInstructionsId] in table 'PickupInstructions'
-ALTER TABLE [dbo].[PickupInstructions]
+-- Creating foreign key on [DriverInstructionsId] in table 'DriverInsJobServices'
+ALTER TABLE [dbo].[DriverInsJobServices]
 ADD CONSTRAINT [FK_PickupInstructionsDriverInstructions]
     FOREIGN KEY ([DriverInstructionsId])
     REFERENCES [dbo].[DriverInstructions]
@@ -3731,7 +3734,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_PickupInstructionsDriverInstructions'
 CREATE INDEX [IX_FK_PickupInstructionsDriverInstructions]
-ON [dbo].[PickupInstructions]
+ON [dbo].[DriverInsJobServices]
     ([DriverInstructionsId]);
 GO
 
@@ -3870,8 +3873,8 @@ ON [dbo].[SupplierItemRates]
     ([SupplierUnitId]);
 GO
 
--- Creating foreign key on [JobServicesId] in table 'PickupInstructions'
-ALTER TABLE [dbo].[PickupInstructions]
+-- Creating foreign key on [JobServicesId] in table 'DriverInsJobServices'
+ALTER TABLE [dbo].[DriverInsJobServices]
 ADD CONSTRAINT [FK_JobServicesPickupInstructions]
     FOREIGN KEY ([JobServicesId])
     REFERENCES [dbo].[JobServices]
@@ -3881,7 +3884,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_JobServicesPickupInstructions'
 CREATE INDEX [IX_FK_JobServicesPickupInstructions]
-ON [dbo].[PickupInstructions]
+ON [dbo].[DriverInsJobServices]
     ([JobServicesId]);
 GO
 

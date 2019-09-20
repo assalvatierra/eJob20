@@ -98,7 +98,7 @@
     <EntitySet Name="OnlineReservations" EntityType="JobDB.Store.OnlineReservations" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RsvPayments" EntityType="JobDB.Store.RsvPayments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DriverInstructions" EntityType="JobDB.Store.DriverInstructions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PickupInstructions" EntityType="JobDB.Store.PickupInstructions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DriverInsJobServices" EntityType="JobDB.Store.DriverInsJobServices" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesLeadCompanies" EntityType="JobDB.Store.SalesLeadCompanies" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntAddresses" EntityType="JobDB.Store.CustEntAddresses" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntCats" EntityType="JobDB.Store.CustEntCats" store:Type="Tables" Schema="dbo" />
@@ -467,7 +467,7 @@
       <End Role="RsvPayment" EntitySet="RsvPayments" />
     </AssociationSet>
     <AssociationSet Name="PickupInstructionsDriverInstructions" Association="JobDB.Store.PickupInstructionsDriverInstructions">
-      <End Role="PickupInstructions" EntitySet="PickupInstructions" />
+      <End Role="PickupInstructions" EntitySet="DriverInsJobServices" />
       <End Role="DriverInstructions" EntitySet="DriverInstructions" />
     </AssociationSet>
     <AssociationSet Name="SalesLeadSalesLeadCompany" Association="JobDB.Store.SalesLeadSalesLeadCompany">
@@ -508,7 +508,7 @@
     </AssociationSet>
     <AssociationSet Name="JobServicesPickupInstructions" Association="JobDB.Store.JobServicesPickupInstructions">
       <End Role="JobServices" EntitySet="JobServices" />
-      <End Role="PickupInstructions" EntitySet="PickupInstructions" />
+      <End Role="PickupInstructions" EntitySet="DriverInsJobServices" />
     </AssociationSet>
     <AssociationSet Name="SalesLeadSalesLeadItems" Association="JobDB.Store.SalesLeadSalesLeadItems">
       <End Role="SalesLead" EntitySet="SalesLeads" />
@@ -1511,7 +1511,7 @@
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="120" />
     <Property Name="OrderNo" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="PickupInstructions">
+  <EntityType Name="DriverInsJobServices">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -2702,7 +2702,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="PickupInstructionsDriverInstructions">
-    <End Role="PickupInstructions" Type="JobDB.Store.PickupInstructions" Multiplicity="*" />
+    <End Role="PickupInstructions" Type="JobDB.Store.DriverInsJobServices" Multiplicity="*" />
     <End Role="DriverInstructions" Type="JobDB.Store.DriverInstructions" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="DriverInstructions">
@@ -2823,7 +2823,7 @@
   </Association>
   <Association Name="JobServicesPickupInstructions">
     <End Role="JobServices" Type="JobDB.Store.JobServices" Multiplicity="1" />
-    <End Role="PickupInstructions" Type="JobDB.Store.PickupInstructions" Multiplicity="*" />
+    <End Role="PickupInstructions" Type="JobDB.Store.DriverInsJobServices" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="JobServices">
         <PropertyRef Name="Id" />
@@ -3346,9 +3346,9 @@
             <End Role="RsvPayment" EntitySet="RsvPayments" />
           </AssociationSet>
           <EntitySet Name="DriverInstructions" EntityType="JobDB.DriverInstructions" />
-          <EntitySet Name="PickupInstructions" EntityType="JobDB.PickupInstructions" />
+          <EntitySet Name="DriverInsJobServices" EntityType="JobDB.DriverInsJobService" />
           <AssociationSet Name="PickupInstructionsDriverInstructions" Association="JobDB.PickupInstructionsDriverInstructions">
-            <End Role="PickupInstructions" EntitySet="PickupInstructions" />
+            <End Role="PickupInstructions" EntitySet="DriverInsJobServices" />
             <End Role="DriverInstructions" EntitySet="DriverInstructions" />
           </AssociationSet>
           <EntitySet Name="SalesLeadCompanies" EntityType="JobDB.SalesLeadCompany" />
@@ -3396,7 +3396,7 @@
           </AssociationSet>
           <AssociationSet Name="JobServicesPickupInstructions" Association="JobDB.JobServicesPickupInstructions">
             <End Role="JobServices" EntitySet="JobServices" />
-            <End Role="PickupInstructions" EntitySet="PickupInstructions" />
+            <End Role="PickupInstructions" EntitySet="DriverInsJobServices" />
           </AssociationSet>
           <EntitySet Name="SalesLeadItems" EntityType="JobDB.SalesLeadItems" />
           <AssociationSet Name="SalesLeadSalesLeadItems" Association="JobDB.SalesLeadSalesLeadItems">
@@ -5662,7 +5662,7 @@
           <Property Name="OrderNo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="PickupInstructions" Relationship="JobDB.PickupInstructionsDriverInstructions" FromRole="DriverInstructions" ToRole="PickupInstructions" />
         </EntityType>
-        <EntityType Name="PickupInstructions">
+        <EntityType Name="DriverInsJobService">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -5673,7 +5673,7 @@
           <Property Name="JobServicesId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="PickupInstructionsDriverInstructions">
-          <End Type="JobDB.PickupInstructions" Role="PickupInstructions" Multiplicity="*" />
+          <End Type="JobDB.DriverInsJobService" Role="PickupInstructions" Multiplicity="*" />
           <End Type="JobDB.DriverInstructions" Role="DriverInstructions" Multiplicity="1" />
           <ReferentialConstraint>
             <Principal Role="DriverInstructions">
@@ -5883,7 +5883,7 @@
         </Association>
         <Association Name="JobServicesPickupInstructions">
           <End Type="JobDB.JobServices" Role="JobServices" Multiplicity="1" />
-          <End Type="JobDB.PickupInstructions" Role="PickupInstructions" Multiplicity="*" />
+          <End Type="JobDB.DriverInsJobService" Role="PickupInstructions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="JobServices">
               <PropertyRef Name="Id" />
@@ -7075,9 +7075,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PickupInstructions">
-      <EntityTypeMapping TypeName="IsTypeOf(JobDB.PickupInstructions)">
-        <MappingFragment StoreEntitySet="PickupInstructions">
+    <EntitySetMapping Name="DriverInsJobServices">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.DriverInsJobService)">
+        <MappingFragment StoreEntitySet="DriverInsJobServices">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DriverInstructionsId" ColumnName="DriverInstructionsId" />
           <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />

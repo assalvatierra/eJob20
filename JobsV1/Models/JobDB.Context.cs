@@ -117,7 +117,7 @@ namespace JobsV1.Models
         public virtual DbSet<OnlineReservation> OnlineReservations { get; set; }
         public virtual DbSet<RsvPayment> RsvPayments { get; set; }
         public virtual DbSet<DriverInstructions> DriverInstructions { get; set; }
-        public virtual DbSet<PickupInstructions> PickupInstructions { get; set; }
+        public virtual DbSet<DriverInsJobService> DriverInsJobServices { get; set; }
         public virtual DbSet<SalesLeadCompany> SalesLeadCompanies { get; set; }
         public virtual DbSet<CustEntAddress> CustEntAddresses { get; set; }
         public virtual DbSet<CustEntCat> CustEntCats { get; set; }

@@ -619,6 +619,9 @@
     <Compile Include="Models\Destination.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DriverInsJobService.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DriverInstructions.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -754,9 +757,6 @@
     </Compile>
     <Compile Include="Models\PayPalHandler.cs" />
     <Compile Include="Models\PaypalTransaction.cs">
-      <DependentUpon>JobDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PickupInstructions.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PkgDestination.cs">
