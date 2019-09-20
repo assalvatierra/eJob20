@@ -193,12 +193,12 @@
                                 <div style="background-color:lightgray;padding:5px;">
                                     <b>
                                         @invItems.InvItem.Description -
-                                        <span>P </span>@invItems.QuotedPrice
+                                        <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
                                         <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
                                     </b>
 
                                     <span class="pull-right">
-                                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks')">[ Edit ]</a>
+                                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
                                         <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
 
                                     </span>
@@ -341,7 +341,7 @@
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> Rate: </b>
                     <div class="col-md-10">
-                        <input type="number" value="0" maxlength="25" class="form-control" id="supItem-Rate" />
+                        <input type="number" value="0" maxlength="25" class="form-control" id="supItem-Rate"  onkeypress='validate(event)'/>
                     </div>
                 </div>
                 <br /><br />
@@ -368,7 +368,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit Item</h4>
+                <h4 class="modal-title">Edit Item <span id="editItemName"> </span></h4>
             </div>
             <div class="modal-body" id="modal2-content">
                 <!--Start of Modal Body-->
@@ -394,7 +394,7 @@
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> Rate: </b>
                     <div class="col-md-10">
-                        <input type="number" value="0" maxlength="25" class="form-control" id="edit-supItem-Rate" />
+                        <input type="number" value="0" maxlength="25" class="form-control" id="edit-supItem-Rate" onkeypress='validate(event)' />
                     </div>
                 </div>
                 <br /><br />
@@ -408,7 +408,7 @@
                 <!--End of Modal Body-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_EditLeadItem()"> Submit </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_EditLeadItem()"> Save Changes </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
@@ -530,13 +530,16 @@
             });
         }
 
-        function EditLeadItem(id, invItemId, QuotedRate, Remarks) {
+        function EditLeadItem(id, invItemId, QuotedRate, Remarks,itemName) {
             $('#edit-supItem-Id').val(id);
             $('#edit-supItem-Items').val(invItemId);
             $('#edit-supItem-Rate').val(QuotedRate);
             $('#edit-supItem-Remarks').val(Remarks);
+
+            $('#editItemName').text(itemName);
         }
 
+        //Edit Item
         function ajax_EditLeadItem() {
              //build json object
             var Id = $('#edit-supItem-Id').val();
@@ -567,6 +570,55 @@
                 }
             });
         }
+
+    //****************************
+    //*** Handle Invalid Input ***
+    //****************************
+        
+    //prevent invalid inputs 
+    function validate(evt) {
+        var theEvent = evt || window.event;
+
+        // Handle paste
+        if (theEvent.type === 'paste') {
+            key = event.clipboardData.getData('text/plain');
+        } else {
+            // Handle key press
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+        }
+        var regex = /[0-9]|\./;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+
+    //handle numbers only on input
+    $('#edit-supItem-Rate').on('input',function(){
+        //backspace
+        if( isNaN($('#edit-supItem-Rate').val())){
+            var txt = $('#edit-supItem-Rate');
+            txt.val(txt.val().slice(0, -1));
+        }
+
+        if($('#edit-supItem-Rate').val() < 0){
+            $('#edit-supItem-Rate').val(0);
+        }
+    });
+        
+    //handle numbers only on input
+    $('#supItem-Rate').on('input',function(){
+        //backspace
+        if( isNaN($('#supItem-Rate').val())){
+            var txt = $('#supItem-Rate');
+            txt.val(txt.val().slice(0, -1));
+        }
+
+        if($('#supItem-Rate').val() < 0){
+            $('#supItem-Rate').val(0);
+        }
+    });
 
     </script>
 
