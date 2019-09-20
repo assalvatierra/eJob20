@@ -545,5 +545,6 @@ rental-type-wdriver {
     }
 
     table.table.table-condensed {
-    border: 1px solid lightgray;
-}
+        border: 1px solid lightgray;
+    }
+

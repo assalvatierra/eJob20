@@ -970,6 +970,26 @@ namespace JobsV1.Controllers
             }
         }
 
+        public string EditItem(int id, int invItemId, decimal rate, string remarks )
+        {
+            try
+            {
+                var leaditems = db.SalesLeadItems.Find(id);
+                leaditems.InvItemId = invItemId;
+                leaditems.QuotedPrice = rate;
+                leaditems.Remarks = remarks;
+
+                db.Entry(leaditems).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
+        }
+
         #endregion
     }
 }
