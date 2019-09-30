@@ -2635,15 +2635,15 @@ order by x.jobid
                 {
                     case "QUOTATION":
                         mailResult = mail.SendMailQuotation((int)jobId, jobOrder.CustContactEmail, jobServices); //client email
-                        mailResult = mail.SendMailQuotation((int)jobId, companyEmail, jobServices); //realwheels
-                        mailResult = mail.SendMailQuotation((int)jobId, adminEmail, jobServices);   //travel
-                        mailResult = mail.SendMailQuotation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        //mailResult = mail.SendMailQuotation((int)jobId, companyEmail, jobServices); //realwheels
+                        //mailResult = mail.SendMailQuotation((int)jobId, adminEmail, jobServices);   //travel
+                        //mailResult = mail.SendMailQuotation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                     case "RESERVATION":
                         mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices); // client email
-                        mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
-                        mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
-                        mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
+                        //mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
+                        //mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel
+                        //mailResult = mail.SendMailReservation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                 }
 
