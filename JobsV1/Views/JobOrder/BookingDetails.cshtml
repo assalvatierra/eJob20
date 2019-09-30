@@ -32,9 +32,7 @@
     {
         sDocTitle = "INVOICE";
     }
-
 }
-
 
 <table>
     <tr>
@@ -119,11 +117,14 @@
         </td>
     </tr>
     <tr>
-        <th>
-          Payment Term &nbsp;
-        </th>
+        @if (Model.JobRemarks != null)
+        {
+            <th>
+                Payment Term &nbsp;
+            </th>
+        }
         <td>
-           @Html.DisplayFor(model => model.JobRemarks)
+            @Html.DisplayFor(model => model.JobRemarks)
         </td>
     </tr>
 </table>
@@ -169,7 +170,12 @@
                 <b>
                   P @string.Format("{0:N}", item.QuotedAmt)  - @Html.DisplayFor(modelItem => item.Particulars) 
                 </b>
+                @if (item.Remarks != null)
+                {
+                      <text>
                 <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+                      </text>
+                }
                 <br /> [ Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
                 @if (pickup != null)
                 {
@@ -331,7 +337,18 @@
                         {
                             <tr>
                                 <td>Partial:</td>
-                                <td align="right">@dPaidAmt.ToString("##,###.00")</td>
+                                <td align="right">
+                                    @if (dPaidAmt != 0)
+                                    {
+                                        <text> @dPaidAmt.ToString("##,###.00") </text>
+                                    }
+                                    else
+                                    {
+                                        <text>0</text>
+                                    }
+
+
+                                </td>
                             </tr>
                             <tr>
                                 <td>Balance:</td>

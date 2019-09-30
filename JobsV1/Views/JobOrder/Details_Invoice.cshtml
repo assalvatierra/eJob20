@@ -91,7 +91,12 @@
             }
             
             Days: @Html.DisplayFor(model => model.NoOfDays)
-            <br />Remarks: @Html.DisplayFor(model => model.JobRemarks)
+            <br />
+            @if (Model.JobRemarks != null)
+            {
+                <text> Remarks: </text>
+            }
+            @Html.DisplayFor(model => model.JobRemarks)
         </td>
 
     </tr>
@@ -133,7 +138,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Particulars)
                 <br />Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description)
-                <br />Remarks: @Html.DisplayFor(modelItem => item.Remarks)
+                <br />
+
+                @if (item.Remarks != null)
+                {
+                    <text> Remarks: </text>
+                }
+
+                @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.QuotedAmt)
@@ -216,7 +228,7 @@
                     <p style="font-weight:bold;">Account No.: @ViewBag.AccNum</p>
 
                     <p style="margin:20px;text-align:center;"> </p>
-                    <p>Follow this link for credit card payment</p>
+                    <p>We also accept payment through: </p>
                     <div id="paypal-button" ></div>
                 </div>
             </td>
@@ -251,7 +263,6 @@
     </p>
 </div>
 <br />
-
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>

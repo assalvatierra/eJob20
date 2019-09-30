@@ -3,8 +3,12 @@
 @{
     ViewBag.Title = "Error";
 }
-
-<h1 class="text-danger">OOPS...</h1>
-<h2 class="text-danger">We cannot process your request. </h2>
-<h2 class="text-info">We are fixing this problem. Code: 404</h2>
-
+    <div class="container" style="margin:10px auto;text-align:center;background-color:white;padding:50px;" >
+        <img src="~/Images/Icons/error.JPG" />
+        <h1 class="text-danger">Something went wrong</h1>
+        <h3 class="text-info">Something must be broken or </h3>
+        <h3 class="text-info">you entered an URL that doesn't exist on this site.</h3>
+        <a href="../">
+            <button class="btn btn-primary"> Go back to Home </button>
+        </a>
+    </div>
