@@ -572,13 +572,16 @@ namespace JobsV1.Models
 
                 foreach (var service in js)
                 {
+                    var remarks = service.Remarks != null ? "Remarks: " + service.Remarks + " </td>" : "";
+                    var item = service.SupplierItem.Description != "Default" ? "Item: " + service.SupplierItem.Description + " <br/>" : "";
+
                     services +=
                      "<tr><td> <b>" + service.Service.Name + "</b> <br/>"
                     + "Start: "+ service.DtStart.Value.ToString("MMM dd yyyy (ddd)") + " <br/>"
                     + "End: " + service.DtEnd.Value.ToString("MMM dd yyyy (ddd)") + " </td>"
                     + "<td> "+ service.Particulars +" <br/>"
-                    + "Item: "+ service.SupplierItem.Description +" <br/>"
-                    + "Remarks: "+ service.Remarks +" </td>"
+                    + item
+                    + remarks
                     + "<td> " + Convert.ToDecimal(service.ActualAmt).ToString("#,##0.00")  +" </td></tr>";
 
                     totalAmount += (decimal)service.ActualAmt;
@@ -610,6 +613,9 @@ namespace JobsV1.Models
                 }
 
                 var jobname = job.Description.Trim() == job.Customer.Name.Trim() ? job.Customer.Name.Trim() : job.Description + " / " + job.Customer.Name;
+                var jobpax = job.NoOfPax != 0 ? " Pax : " + job.NoOfPax.ToString() + " <br/>" : "";
+                var jobdays = job.NoOfDays != 0 ? " Days : " + job.NoOfDays.ToString() + " <br/>" : "";
+                var jobremarks = job.JobRemarks != null ? " Remarks : " + job.JobRemarks + " <br/>" : "";
 
                 body =
                     "" +
@@ -623,11 +629,13 @@ namespace JobsV1.Models
                     + " Job Ref # : " + job.Id + " <br/>"
                     + " Date : " + job.JobDate.ToString("MMM dd yyyy (ddd)") + " <br/>"
                     + " Details : " + getCustCompany(jobId) + "<br/>"
-                    + "           " + jobname + "<br/>"
-                    + " Pax : " + job.NoOfPax + " <br/>"
-                    + " Days : " + job.NoOfDays + " <br/>"
-                    + " Remarks : " + job.JobRemarks + " <br/>"
-                    + "</div>";
+                    + "           " + jobname + "<br/>";
+
+                body += jobpax;
+
+                body += jobdays;
+
+                body += jobremarks + "</div>";
 
                 //services
                 body += "<div><h2> Services </h2>"
@@ -731,6 +739,8 @@ namespace JobsV1.Models
                     }
 
                     var pickup = service.JobServicePickups.Where(s => s.JobServicesId == service.Id).FirstOrDefault();
+                    var remarks = service.Remarks != null ? "Remarks: " + service.Remarks + " <br/>" : "";
+                    var supitem = service.SupplierItem.Description != "Default" ? "Item: " + service.SupplierItem.Description + " " : "";
 
                     services +=
                     //date time
@@ -740,14 +750,13 @@ namespace JobsV1.Models
                                
                     //particulars
                     + "<td style='padding-left:10px;'><b> P " + Convert.ToDecimal(service.ActualAmt).ToString("#,##0.00") + " - " + service.Particulars + "</b><br/>"
-                    + "Remarks: " + service.Remarks + " <br/> "
-                    + "Item: " + service.SupplierItem.Description + "<br/>";
+                    + remarks
+                    + supitem + "</td>";
                                
                     if (pickup != null) { 
                         services += "<b> Pickup " + pickup.JsTime + " " + pickup.JsLocation.ToString() + "<br/>"
                         + "Contact " + pickup.ClientName + " " + pickup.ClientContact + "</b> ";
                     }
-
 
                     services += " </td>";
                     // Assigned items
@@ -805,6 +814,9 @@ namespace JobsV1.Models
                 decimal balance =  totalAmount - partial;
 
                 var jobname = job.Description.Trim() == job.Customer.Name.Trim() ? job.Customer.Name.Trim() : job.Description + " / " + job.Customer.Name;
+                var jobpax = job.NoOfPax != 0 ? " Pax : " + job.NoOfPax.ToString() + " <br/>" : "";
+                var jobdays = job.NoOfDays != 0 ? " Days : " + job.NoOfDays.ToString() + " <br/>" : "";
+                var jobremarks = job.JobRemarks != null ? " Remarks : " + job.JobRemarks + " <br/>" : "";
 
                 //start build email body
                 body =
@@ -818,15 +830,14 @@ namespace JobsV1.Models
                     + " Job Ref # : " + job.Id + " <br/>"
                     + " Date : " + job.JobDate.ToString("MMM dd yyyy (ddd)") + " <br/>"
                     + " Account : " + getCustCompany(jobId) + "<br/>"
-
                     + "           " + jobname + "<br/>";
 
                     if (job.NoOfPax != 0) {
                        body += " Pax : " + job.NoOfPax + " | ";
                     }
 
-                body += " Days : " + job.NoOfDays + " <br/>"
-                    + " Remarks : " + job.JobRemarks + " <br/>"
+                body += jobdays
+                    + jobremarks
                     + " Status : " + job.JobStatus.Status + " <br/>"
                     + "</div>"
 
