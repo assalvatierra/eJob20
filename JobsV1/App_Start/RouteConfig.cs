@@ -9,9 +9,8 @@ namespace JobsV1
 {
     public class RouteConfig
     {
-
         //Realwheels
-        public static void RegisterRoutes_Realwheels(RouteCollection routes)
+        public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
@@ -110,8 +109,8 @@ namespace JobsV1
 
         }
 
-        //Realwheels
-        public static void RegisterRoutes(RouteCollection routes)
+        //Solid Steel
+        public static void RegisterRoutes_SolidSteel(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 

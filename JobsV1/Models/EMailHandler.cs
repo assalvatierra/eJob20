@@ -1126,11 +1126,13 @@ namespace JobsV1.Models
             switch (branch)
             {
                 case "AJ88":
-                    return "http://realbreezedavaotours.com/wp-content/uploads/2019/05/AJDavao.jpg";
+                    return "http://realbreezedavaotours.com/wp-content/uploads/2019/10/AJDavao-Header.jpg";
                 case "RealBreeze":
-                    return "http://realbreezedavaotours.com/wp-content/uploads/2019/05/Header.jpg";
+                    return "http://realbreezedavaotours.com/wp-content/uploads/2019/10/Realbreeze-Header.jpg";
+                case "RealWheels":
+                    return "http://realbreezedavaotours.com/wp-content/uploads/2019/10/RealWheels-Header.jpg";
                 default:
-                    return "http://realbreezedavaotours.com/wp-content/uploads/2019/05/AJDavao.jpg";
+                    return "http://realbreezedavaotours.com/wp-content/uploads/2019/10/AJDavao-Header.jpg";
             }
         }
         
