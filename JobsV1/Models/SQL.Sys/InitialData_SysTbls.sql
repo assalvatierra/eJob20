@@ -15,7 +15,9 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Notifications','Job Orders',0,'JobServices','NotificationList','',20,9),
 ('Accounts','Accounts',0,'Accounting/AccntMains','Index','',20,10),
 ('HR','HRIS',0,'Personel/HrPersonels','Index','',20,11),
-('Products','Products',0,'Products/SMProducts','Index','',20,12);
+('Products','Products',0,'Products/SMProducts','Index','',20,12),
+('Bookkeeping','Bookkeeping',0,'Accounting/AsMain','Index','span=30',20,13)
+;
 
 
 insert into EntBusinesses([Name],[ShortName],[BussRegNo],[User]) values
@@ -172,6 +174,15 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 values 	('Products','',12,'Products/SmProducts','Index','',21,121),		-- id: 53
 		('Suppliers' ,'',12,'Products/SmSuppliers','Index','',21,122), 	-- id: 54
 		('Ads' ,'',12,'Products/SmProdAds','Index','',21,123);	        -- id: 55
+		
+--Bookkeeping
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('NO113','Book keeping','Book Keeping','A','../Images/Erp/icons/icons-bookkeeping.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (13,13);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Expense','',13,'Accounting/AsExpenses','ParamForm','',21,131),		-- id: 53
+		('Sales' ,'',13,'Accounting/AsSales','ParamForm','',21,133);	        -- id: 55
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');
@@ -191,6 +202,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',10,10), 
 ('assalvatierra@gmail.com',11,11), 
 ('assalvatierra@gmail.com',12,12), 
+('assalvatierra@gmail.com',13,13), 
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 
@@ -203,7 +215,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',9,9),
 ('jahdielvillosa@gmail.com',10,10),
 ('jahdielvillosa@gmail.com',11,11),
-('jahdielvillosa@gmail.com',12,12); 
+('jahdielvillosa@gmail.com',12,12),
+('jahdielvillosa@gmail.com',13,13); 
 
 
 
@@ -251,6 +264,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 53, 53),
 ('assalvatierra@gmail.com', 54, 54),
 ('assalvatierra@gmail.com', 55, 55),
+('assalvatierra@gmail.com', 56, 56),
+('assalvatierra@gmail.com', 57, 57),
 
 ('jahdielvillosa@gmail.com', 13, 13),
 ('jahdielvillosa@gmail.com', 14, 14),
@@ -294,4 +309,6 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 52, 52),
 ('jahdielvillosa@gmail.com', 53, 53),
 ('jahdielvillosa@gmail.com', 54, 54),
-('jahdielvillosa@gmail.com', 55, 55); 
+('jahdielvillosa@gmail.com', 55, 55),
+('jahdielvillosa@gmail.com', 56, 56),
+('jahdielvillosa@gmail.com', 57, 57); 

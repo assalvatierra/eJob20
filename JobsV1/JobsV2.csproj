@@ -1263,6 +1263,7 @@
     <Content Include="Images\Erp\icons\icons-trolley.png" />
     <Content Include="Images\Erp\icons\icons-accounting.png" />
     <Content Include="Images\Erp\icons\icons-error.png" />
+    <Content Include="Images\Erp\icons\icons-bookkeeping.png" />
     <Content Include="Images\Erp\icons\icons8-lease-64.png" />
     <Content Include="Images\Erp\icons\inprogress.png" />
     <Content Include="Images\Erp\inprogress.png" />
