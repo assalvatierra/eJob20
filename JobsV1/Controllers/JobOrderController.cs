@@ -1705,9 +1705,15 @@ order by x.jobid
 
             DateTime today = new DateTime();
             today = getDateTimeToday().Date;
-
+            ViewBag.DateNow = today.AddMonths(1);
             ViewBag.isPaymentValid = (jobMain.JobDate.Date == today) || (jobMain.JobDate.Date == today.AddDays(1).Date) ? "True" : "False";
-             
+
+
+            //handle prepared by
+            var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
+            ViewBag.StaffName = getStaffName(encoder.user);
+            ViewBag.Sign = getStaffSign(encoder.user);
+
             return View("Details_Invoice", jobMain);
         }
         
@@ -1829,12 +1835,15 @@ order by x.jobid
 
             ViewBag.JobName = filteredName;
 
-            if (jobMain.JobStatusId == 1) //quotation
+            if (jobMain.JobStatusId == 1)
+            { //quotation
+                ViewBag.DateNow = getDateTimeToday().AddMonths(1).Date.ToString();
                 return View("Details_Quote", jobMain);
-
-            if (iType != null && (int)iType == 1) //Invoice
+            }else if (iType != null && (int)iType == 1)
+            { //Invoice
+                ViewBag.DateNow = getDateTimeToday().Date.ToString();
                 return View("Details_Invoice", jobMain);
-
+            }
 
             return View(jobMain);
         }

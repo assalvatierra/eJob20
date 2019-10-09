@@ -1,4 +1,5 @@
 ﻿insert into Cities(Name) values('Davao'),('Cebu'),('Makati'),('Manila');
+insert into Countries(Name) values('Philippines'),('Singapore'),('Hong Kong'),('Japan');
 insert into Branches(Name, CityId, Remarks, Address, Landline, Mobile) 
 values ('AJ88',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
 	   ('RealBreeze',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
@@ -68,15 +69,42 @@ values	('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'),
 		('LongTerm','LONGTERM','~/Images/SalesLead/Longterm.png'), 
 		('Corporate','CORPORATE ACCOUNT','~/Images/SalesLead/ShakeHands.png'), 
 		('HardOne', 'HARDONE','~/Images/SalesLead/unhappy.jpg');
+		
+-- ----------------------------------------------
+-- Inventory Configuration 
+-- ----------------------------------------------
+insert into InvItemCats([Name],[Remarks],[ImgPath],[SysCode])
+Values
+('Pipe','Pipes','~/Images/CarRental/Repair101.png','PIPE'),
+('Others','Other Types','~/Images/CarRental/Repair101.png','OTHER');
 
--- ----------------------------------------
--- Services Configuration
--- ----------------------------------------
+
+insert into InvItems ([ItemCode],[Description],[Remarks],[ContactInfo],[ViewLabel],[OrderNo] )
+values
+('CSTPP','Carbon Steel Pipe','Carbon Steel Pipe','','',100),
+('CSTPL','Carbon Steel Plate','Carbon Steel Plate','','',100),
+('SSTPP','Stainless Steel Pipe','Stainless Steel Pipe','','',100),
+('SSTPL','Stainless Steel Plate','Stainless Steel Plate','','',100);
+
+insert into InvItemCategories([InvItemId],[InvItemCatId])
+values
+(1,1);
+
+-- ---------------------------------------- 
+-- Suppliers Configuration
+-- ---------------------------------------- 
 insert into SupplierTypes(Description) values
-('Rent-a-car'),('Boat'),('Tour'),('Airline'),('Hotel');
-insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status]) values('<< New Supplier >>','--',' ', '--','1','1','ACT');
-insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status]) values('AJ Davao Car Rental','Abel / 0995-085-0158',' ', 'AJDavao88@gmail.com','1','1','ACT');
-insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values ('Default','1','Item by supplier','Supplier','ACT');
+('Stockiest/Trader'),('Supplier'),('Installer');
+insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT',1);
+insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId] )
+	values('Solid Steel','(82) 085-0158','(82 085-0151)','0912-564-9877','solidsteelserver.com','Davao City', '','AJDavao88@gmail.com','1','1','ACT',1);
+-- ----------------------------
+-- Supplier Items / Products
+insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values 
+('Default','1','Item by supplier','Supplier','ACT');
+
+insert into SupplierInvItems([SupplierId],[InvItemId]) values
+(2,1),(2,2);
 
 insert into Services([Name],[Description],[Status]) 
 values
@@ -171,43 +199,6 @@ values
 ('Closing',''        ,7,7,7);
 
 
--- ----------------------------------------------
--- Inventory Configuration 
--- ----------------------------------------------
-insert into InvItemCats([Name],[Remarks],[ImgPath],[SysCode])
-Values
-('Vehicle','Vehicle','~/Images/CarRental/car101.png','CAR'),
-('Driver','Driver','~/Images/CarRental/Driver102.png','DRIVER'),
-
-('VAN','Any VAN','~/Images/CarRental/car101.png','VAN'),
-('Grandia','Grandia','~/Images/CarRental/Van101.jpg','VAN'),
-('Super Grandia','Super Grandia','~/Images/CarRental/Van102.jpg','VAN'),
-
-('SUV','SUV/Fortuner/Everest/Innova','~/Images/CarRental/suv-101.png','SUV'),
-('MPV','AUV/Innova','~/Images/CarRental/suv-101.png','SUV'),
-('Pickup','Pick-up','~/Images/CarRental/car101.png','Pickup'),
-('4x4','4x4 Vehicles','~/Images/CarRental/4x4.101.png','4x4'),
-('OffRoad','OffRoad Vehicles','~/Images/CarRental/OffRoad101.png','OFFROAD'),
-('Sedan','Sedan','~/Images/CarRental/sedan-101.png','Sedan'),
-
-('Others','Other Types','~/Images/CarRental/Repair101.png','OTHER');
-
-
-insert into InvItems ([ItemCode],[Description],[Remarks],[ContactInfo],[ViewLabel],[OrderNo] )
-values
-('NA','Unassigned','','','',10),
-('RNY301','Toyota Innova','M/T 2.5 Diesel 2013 Brown','','UNIT',100),
-('AAF8980','Toyota Innova','M/T 2.5 Diesel 2013 Silver','','UNIT',100),
-('NEO380','Toyota Fortuner','A/T 3.0 Diesel 2009 Gold','','UNIT',100),
-('ADP22640','Ford Everest','A/T 2.2 Diesel 2016 White','','UNIT',100),
-('EOK873','Honda City','A/T 1.5 Gasoline 2018 White','','UNIT',100),
-('Abel','Abel Salvatierra','','','DRIVER',200),
-('Aeron','Aeron James','','','DRIVER',200),
-('Rhean','Rhean Nicole','','','GUIDE',200);
-
-insert into InvItemCategories([InvItemId],[InvItemCatId])
-values
-(1,7),(2,7),(3,10),(4,6),(5,11),(6,2),(7,2),(8,2);
 -- ----------------------------------------------
 -- Supplier PO Configuration
 -- ----------------------------------------------

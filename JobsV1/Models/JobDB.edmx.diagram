@@ -48,7 +48,7 @@
         <EntityTypeShape EntityType="JobDB.CarCategory" Width="1.5" PointX="45.375" PointY="18" />
         <EntityTypeShape EntityType="JobDB.CarUnit" Width="1.5" PointX="45.375" PointY="20.375" />
         <AssociationConnector Association="JobDB.CarCategoryCarUnit" />
-        <EntityTypeShape EntityType="JobDB.CarDestination" Width="1.5" PointX="47.375" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="JobDB.CarDestination" Width="1.5" PointX="47.375" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="JobDB.CityCarDestination" />
         <EntityTypeShape EntityType="JobDB.CarRate" Width="1.5" PointX="49.375" PointY="18.625" />
         <AssociationConnector Association="JobDB.CarUnitCarRate" />
@@ -206,7 +206,7 @@
         <EntityTypeShape EntityType="JobDB.CustEntClauses" Width="1.5" PointX="15.125" PointY="1.375" />
         <AssociationConnector Association="JobDB.CustEntMainCustEntClauses" />
 
-        <EntityTypeShape EntityType="JobDB.SupplierContact" Width="1.5" PointX="47.375" PointY="5.5" />
+        <EntityTypeShape EntityType="JobDB.SupplierContact" Width="1.5" PointX="47.375" PointY="5.875" />
         <AssociationConnector Association="JobDB.SupplierSupplierContact" />
         <EntityTypeShape EntityType="JobDB.SupplierItemRate" Width="1.5" PointX="36.625" PointY="7.125" />
         <AssociationConnector Association="JobDB.SupplierInvItemSupplierItemRate" />
@@ -245,6 +245,10 @@
         <EntityTypeShape EntityType="JobDB.CustSocialAcc" Width="1.5" PointX="1.125" PointY="5.625" />
         <AssociationConnector Association="JobDB.CustomerCustSocialAcc" />
         <EntityTypeShape EntityType="JobDB.AdminEmail" Width="1.5" PointX="11.5" PointY="29.25" />
+        <EntityTypeShape EntityType="JobDB.Country" Width="1.5" PointX="49.875" PointY="2.5" />
+        <AssociationConnector Association="JobDB.SupplierCountry" />
+        <EntityTypeShape EntityType="JobDB.SupplierContactStatus" Width="1.5" PointX="50.125" PointY="6.625" />
+        <AssociationConnector Association="JobDB.SupplierContactStatusSupplierContact" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

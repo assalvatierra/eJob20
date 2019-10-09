@@ -110,6 +110,8 @@
     <EntitySet Name="SalesLeadQuotedItems" EntityType="JobDB.Store.SalesLeadQuotedItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustSocialAccs" EntityType="JobDB.Store.CustSocialAccs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AdminEmails" EntityType="JobDB.Store.AdminEmails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Countries" EntityType="JobDB.Store.Countries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierContactStatus" EntityType="JobDB.Store.SupplierContactStatus" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -530,6 +532,14 @@
       <End Role="Customer" EntitySet="Customers" />
       <End Role="CustSocialAcc" EntitySet="CustSocialAccs" />
     </AssociationSet>
+    <AssociationSet Name="SupplierCountry" Association="JobDB.Store.SupplierCountry">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Country" EntitySet="Countries" />
+    </AssociationSet>
+    <AssociationSet Name="SupplierContactStatusSupplierContact" Association="JobDB.Store.SupplierContactStatusSupplierContact">
+      <End Role="SupplierContactStatus" EntitySet="SupplierContactStatus" />
+      <End Role="SupplierContact" EntitySet="SupplierContacts" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -564,6 +574,9 @@
     <Property Name="CityId" Type="int" Nullable="false" />
     <Property Name="SupplierTypeId" Type="int" Nullable="false" />
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="10" />
+    <Property Name="Website" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Address" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="CountryId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Customers">
     <Key>
@@ -1576,6 +1589,9 @@
     <Property Name="ViberId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
+    <Property Name="WhatsApp" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SupplierContactStatusId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SupplierItemRates">
     <Key>
@@ -1632,6 +1648,20 @@
     <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="AccCode" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="Countries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SupplierContactStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2893,6 +2923,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SupplierCountry">
+    <End Role="Supplier" Type="JobDB.Store.Suppliers" Multiplicity="*" />
+    <End Role="Country" Type="JobDB.Store.Countries" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Supplier">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SupplierContactStatusSupplierContact">
+    <End Role="SupplierContactStatus" Type="JobDB.Store.SupplierContactStatus" Multiplicity="1" />
+    <End Role="SupplierContact" Type="JobDB.Store.SupplierContacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SupplierContactStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierContact">
+        <PropertyRef Name="SupplierContactStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -3422,6 +3476,16 @@
             <End Role="CustSocialAcc" EntitySet="CustSocialAccs" />
           </AssociationSet>
           <EntitySet Name="AdminEmails" EntityType="JobDB.AdminEmail" />
+          <EntitySet Name="Countries" EntityType="JobDB.Country" />
+          <AssociationSet Name="SupplierCountry" Association="JobDB.SupplierCountry">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Country" EntitySet="Countries" />
+          </AssociationSet>
+          <EntitySet Name="SupplierContactStatus" EntityType="JobDB.SupplierContactStatus" />
+          <AssociationSet Name="SupplierContactStatusSupplierContact" Association="JobDB.SupplierContactStatusSupplierContact">
+            <End Role="SupplierContactStatus" EntitySet="SupplierContactStatus" />
+            <End Role="SupplierContact" EntitySet="SupplierContacts" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3477,6 +3541,10 @@
           <NavigationProperty Name="SupplierPoHdrs" Relationship="JobDB.SupplierSupplierPoHdr" FromRole="Supplier" ToRole="SupplierPoHdr" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="10" />
           <NavigationProperty Name="SupplierContacts" Relationship="JobDB.SupplierSupplierContact" FromRole="Supplier" ToRole="SupplierContact" />
+          <Property Name="Website" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Address" Type="String" Nullable="true" MaxLength="150" />
+          <NavigationProperty Name="Country" Relationship="JobDB.SupplierCountry" FromRole="Supplier" ToRole="Country" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -5820,6 +5888,10 @@
           <Property Name="Remarks" Type="String" Nullable="false" />
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierContact" FromRole="SupplierContact" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
+          <Property Name="WhatsApp" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <NavigationProperty Name="SupplierContactStatu" Relationship="JobDB.SupplierContactStatusSupplierContact" FromRole="SupplierContact" ToRole="SupplierContactStatus" />
+          <Property Name="SupplierContactStatusId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="SupplierSupplierContact">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -5997,6 +6069,46 @@
           <Property Name="AccCode" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
         </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Suppliers" Relationship="JobDB.SupplierCountry" FromRole="Country" ToRole="Supplier" />
+        </EntityType>
+        <Association Name="SupplierCountry">
+          <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="*" />
+          <End Type="JobDB.Country" Role="Country" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SupplierContactStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="SupplierContacts" Relationship="JobDB.SupplierContactStatusSupplierContact" FromRole="SupplierContactStatus" ToRole="SupplierContact" />
+        </EntityType>
+        <Association Name="SupplierContactStatusSupplierContact">
+          <End Type="JobDB.SupplierContactStatus" Role="SupplierContactStatus" Multiplicity="1" />
+          <End Type="JobDB.SupplierContact" Role="SupplierContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierContactStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierContact">
+              <PropertyRef Name="SupplierContactStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6036,6 +6148,9 @@
           <ScalarProperty Name="CityId" ColumnName="CityId" />
           <ScalarProperty Name="SupplierTypeId" ColumnName="SupplierTypeId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7144,6 +7259,9 @@
           <ScalarProperty Name="ViberId" ColumnName="ViberId" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="WhatsApp" ColumnName="WhatsApp" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="SupplierContactStatusId" ColumnName="SupplierContactStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7206,6 +7324,22 @@
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="AccCode" ColumnName="AccCode" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Countries">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.Country)">
+        <MappingFragment StoreEntitySet="Countries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierContactStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierContactStatus)">
+        <MappingFragment StoreEntitySet="SupplierContactStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

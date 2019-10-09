@@ -15,23 +15,52 @@
 
     <hr />
     <h3>@Model.Name</h3>
-    <p> @Model.Contact1 
-    
-        @if (Model.Contact2 != null)
-        {
-            <span>/ @Model.Contact2</span> 
-        }
 
-        @if (Model.Contact3 != null)
-        {
-            <span>/ @Model.Contact3</span>
-        }
-     </p>
-    <p> <b>Email:</b>  @Model.Email </p>
-    <p> <b>Details:</b>  @Model.Details </p>
-    <p> <b>City:</b>  @Model.City.Name </p>
-    <p> <b>Type:</b>  @Model.SupplierType.Description </p>
-  
+
+    <p> <b>Website: </b>@Model.Website </p>
+    <p> <b>Tel: </b>@Model.Contact1 </p>
+
+    @if (Model.Contact2 != null)
+    {
+        <p> <b>Fax: </b> <span> @Model.Contact2</span></p>
+    }
+
+    @if (Model.Contact3 != null)
+    {
+        <p> <b>Mobile: </b><span> @Model.Contact3</span></p>
+    }
+    <p> <b>Email: </b>  @Model.Email </p>
+    <p> <b>Address: </b> @Model.Address </p>
+    <p>
+        <b>Country: </b>
+        @Model.Country.Name
+
+    </p>
+    <p> <b>City: </b>  @Model.City.Name </p>
+    <p> <b>Category: </b> @Model.SupplierType.Description </p>
+
+
+    @*<p> <b>Details: </b> @Model.Details </p>
+        <p> <b>City: </b>  @Model.City.Name </p>
+        <p> <b>Type: </b>  @Model.SupplierType.Description </p>*@
+        <table width="500px">
+            <tr>
+                <td width="120px">
+                    <b> Main Products </b>
+                </td>
+                <td>
+                
+                </td>
+            </tr>
+           @foreach (var item in Model.SupplierInvItems)
+           {
+               <tr  width="120px">
+                    <td></td>
+                    <td>@item.InvItem.Description</td>
+                </tr>
+           }
+        </table>
+
 </div>
 <br />
 <div >
@@ -47,13 +76,15 @@
             <th>Mobile</th>
             <th>Skype</th>
             <th>Viber</th>
+            <th>WhatsApp</th>
+            <th>Email</th>
+            <th>Status</th>
             <th>Remarks</th>
             <th></th>
         </tr>
 
         @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
         {
-
             <tr>
                 <td>@contact.Name</td>
                 <td>@contact.Landline</td>
@@ -63,7 +94,7 @@
                 <td>@contact.Remarks</td>
                 <td>
                     <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact"
-                       onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks') ">Edit</a> |
+                       onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks', '@contact.WhatsApp', '@contact.Email', '@contact.SupplierContactStatusId') ">Edit</a> |
                     <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
                 </td>
             </tr>

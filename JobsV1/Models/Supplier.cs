@@ -34,6 +34,9 @@ namespace JobsV1.Models
         public int CityId { get; set; }
         public int SupplierTypeId { get; set; }
         public string Status { get; set; }
+        public string Website { get; set; }
+        public string Address { get; set; }
+        public int CountryId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobServices> JobSuppliers { get; set; }
@@ -47,5 +50,6 @@ namespace JobsV1.Models
         public virtual ICollection<SupplierPoHdr> SupplierPoHdrs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplierContact> SupplierContacts { get; set; }
+        public virtual Country Country { get; set; }
     }
 }

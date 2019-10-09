@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/19/2019 17:38:09
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 10/09/2019 16:42:56
+-- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -332,6 +332,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerCustSocialAcc]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustSocialAccs] DROP CONSTRAINT [FK_CustomerCustSocialAcc];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierCountry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Suppliers] DROP CONSTRAINT [FK_SupplierCountry];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierNameStatusSupplierContact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierContacts] DROP CONSTRAINT [FK_SupplierNameStatusSupplierContact];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -649,6 +655,12 @@ GO
 IF OBJECT_ID(N'[dbo].[AdminEmails]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AdminEmails];
 GO
+IF OBJECT_ID(N'[dbo].[Countries]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Countries];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierNameStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierNameStatus];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -684,7 +696,10 @@ CREATE TABLE [dbo].[Suppliers] (
     [Details] nvarchar(250)  NULL,
     [CityId] int  NOT NULL,
     [SupplierTypeId] int  NOT NULL,
-    [Status] nvarchar(10)  NULL
+    [Status] nvarchar(10)  NULL,
+    [Website] nvarchar(80)  NULL,
+    [Address] nvarchar(150)  NULL,
+    [CountryId] int  NOT NULL
 );
 GO
 
@@ -1696,7 +1711,10 @@ CREATE TABLE [dbo].[SupplierContacts] (
     [SkypeId] nvarchar(max)  NOT NULL,
     [ViberId] nvarchar(max)  NOT NULL,
     [Remarks] nvarchar(max)  NOT NULL,
-    [SupplierId] int  NOT NULL
+    [SupplierId] int  NOT NULL,
+    [WhatsApp] nvarchar(max)  NOT NULL,
+    [Email] nvarchar(max)  NOT NULL,
+    [SupplierContactStatusId] int  NOT NULL
 );
 GO
 
@@ -1753,6 +1771,20 @@ CREATE TABLE [dbo].[AdminEmails] (
     [Email] nvarchar(80)  NOT NULL,
     [AccCode] nvarchar(20)  NOT NULL,
     [Remarks] nvarchar(80)  NOT NULL
+);
+GO
+
+-- Creating table 'Countries'
+CREATE TABLE [dbo].[Countries] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SupplierContactStatus'
+CREATE TABLE [dbo].[SupplierContactStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -2381,6 +2413,18 @@ GO
 -- Creating primary key on [Id] in table 'AdminEmails'
 ALTER TABLE [dbo].[AdminEmails]
 ADD CONSTRAINT [PK_AdminEmails]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Countries'
+ALTER TABLE [dbo].[Countries]
+ADD CONSTRAINT [PK_Countries]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierContactStatus'
+ALTER TABLE [dbo].[SupplierContactStatus]
+ADD CONSTRAINT [PK_SupplierContactStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3961,6 +4005,36 @@ GO
 CREATE INDEX [IX_FK_CustomerCustSocialAcc]
 ON [dbo].[CustSocialAccs]
     ([CustomerId]);
+GO
+
+-- Creating foreign key on [CountryId] in table 'Suppliers'
+ALTER TABLE [dbo].[Suppliers]
+ADD CONSTRAINT [FK_SupplierCountry]
+    FOREIGN KEY ([CountryId])
+    REFERENCES [dbo].[Countries]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierCountry'
+CREATE INDEX [IX_FK_SupplierCountry]
+ON [dbo].[Suppliers]
+    ([CountryId]);
+GO
+
+-- Creating foreign key on [SupplierContactStatusId] in table 'SupplierContacts'
+ALTER TABLE [dbo].[SupplierContacts]
+ADD CONSTRAINT [FK_SupplierContactStatusSupplierContact]
+    FOREIGN KEY ([SupplierContactStatusId])
+    REFERENCES [dbo].[SupplierContactStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierContactStatusSupplierContact'
+CREATE INDEX [IX_FK_SupplierContactStatusSupplierContact]
+ON [dbo].[SupplierContacts]
+    ([SupplierContactStatusId]);
 GO
 
 -- --------------------------------------------------

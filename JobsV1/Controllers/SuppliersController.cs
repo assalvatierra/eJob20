@@ -69,6 +69,7 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name");
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name");
 
             return View();
         }
@@ -78,7 +79,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -89,6 +90,8 @@ namespace JobsV1.Controllers
 
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
+            ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
 
             return View(supplier);
         }
@@ -107,18 +110,19 @@ namespace JobsV1.Controllers
             }
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description", supplier.SupplierTypeId);
-
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
 
             return View(supplier);
         }
+       
 
-        // POST: Suppliers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+       // POST: Suppliers/Edit/5
+       // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+       // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status")] Supplier supplier)
+        public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -129,6 +133,7 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
 
             return View(supplier);
         }
@@ -302,7 +307,7 @@ namespace JobsV1.Controllers
         #region SupplierContact
 
         //  Create new Supplier contact
-        public ActionResult CreateSupContact(int SupplierId, string  Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks )
+        public ActionResult CreateSupContact(int SupplierId, string  Name, string Mobile, string Landline, string SkypeId, string ViberId , string WhatsApp, string Email, int Status, string Remarks)
         {
             SupplierContact supContact = new SupplierContact();
             supContact.SupplierId = SupplierId;
@@ -312,20 +317,21 @@ namespace JobsV1.Controllers
             supContact.SkypeId = SkypeId;
             supContact.ViberId = ViberId;
             supContact.Remarks = Remarks;
+            supContact.WhatsApp = WhatsApp;
+            supContact.Email = Email;
+            supContact.SupplierContactStatusId = Status;
 
             if (SupplierId != 0)
             {
-
                db.SupplierContacts.Add(supContact);
                db.SaveChanges();
-
             }
             return RedirectToAction("Details" , new { id = SupplierId });
            
         }
 
         //  Create new Supplier contact
-        public ActionResult EditSupContact(int id, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks)
+        public ActionResult EditSupContact(int id, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks, string WhatsApp, string Email, int Status)
         {
             SupplierContact supContact = db.SupplierContacts.Find(id);
             supContact.Name = Name;
@@ -334,6 +340,9 @@ namespace JobsV1.Controllers
             supContact.SkypeId = SkypeId;
             supContact.ViberId = ViberId;
             supContact.Remarks = Remarks;
+            supContact.WhatsApp = WhatsApp;
+            supContact.Email = Email;
+            supContact.SupplierContactStatusId = Status;
 
             db.Entry(supContact).State = EntityState.Modified;
             db.SaveChanges();
