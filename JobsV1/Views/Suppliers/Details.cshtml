@@ -85,19 +85,22 @@
 
         @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
         {
-            <tr>
-                <td>@contact.Name</td>
-                <td>@contact.Landline</td>
-                <td>@contact.Mobile</td>
-                <td>@contact.SkypeId</td>
-                <td>@contact.ViberId</td>
-                <td>@contact.Remarks</td>
-                <td>
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact"
-                       onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks', '@contact.WhatsApp', '@contact.Email', '@contact.SupplierContactStatusId') ">Edit</a> |
-                    <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
-                </td>
-            </tr>
+    <tr>
+        <td>@contact.Name</td>
+        <td>@contact.Landline</td>
+        <td>@contact.Mobile</td>
+        <td>@contact.SkypeId</td>
+        <td>@contact.ViberId</td>
+        <td>@contact.WhatsApp</td>
+        <td>@contact.Email</td>
+        <td>@contact.SupplierContactStatu.Name</td>
+        <td>@contact.Remarks</td>
+        <td>
+            <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact"
+               onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks', '@contact.WhatsApp', '@contact.Email', '@contact.SupplierContactStatusId') ">Edit</a> |
+            <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
+        </td>
+    </tr>
         }
 
     </table>
@@ -111,8 +114,8 @@
 <!-- Prereq Scripts -->
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
 
-@{ Html.RenderPartial("CreateSupContact", new { ViewBag.InvItems }); }
-@{ Html.RenderPartial("EditSupContact"); }
+@{ Html.RenderPartial("CreateSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
+@{ Html.RenderPartial("EditSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
 
 <script>
 

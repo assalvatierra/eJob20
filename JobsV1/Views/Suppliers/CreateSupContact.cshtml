@@ -59,7 +59,16 @@
                 <div class="form-group cform">
                     <b class="col-md-2"> Status </b>
                     <div class="col-md-10">
-                        <input id="SupCon-Status" class="form-control" type="text" maxlength="80">
+
+                        <select name="SupConStatus" class="form-control" id="SupCon-Status">
+                            @foreach (var status in ViewBag.contactStatus as IEnumerable<JobsV1.Models.SupplierContactStatus>)
+                            {
+                                <option value="@status.Id"> @status.Name </option>
+                            }
+
+
+                        </select>
+
                     </div><p></p>
                 </div>
 

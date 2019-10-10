@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/09/2019 16:42:56
+-- Date Created: 10/10/2019 09:33:12
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -335,8 +335,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SupplierCountry]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Suppliers] DROP CONSTRAINT [FK_SupplierCountry];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SupplierNameStatusSupplierContact]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SupplierContacts] DROP CONSTRAINT [FK_SupplierNameStatusSupplierContact];
+IF OBJECT_ID(N'[dbo].[FK_SupplierContactStatusSupplierContact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierContacts] DROP CONSTRAINT [FK_SupplierContactStatusSupplierContact];
 GO
 
 -- --------------------------------------------------
@@ -658,8 +658,8 @@ GO
 IF OBJECT_ID(N'[dbo].[Countries]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Countries];
 GO
-IF OBJECT_ID(N'[dbo].[SupplierNameStatus]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SupplierNameStatus];
+IF OBJECT_ID(N'[dbo].[SupplierContactStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierContactStatus];
 GO
 
 -- --------------------------------------------------
@@ -1712,8 +1712,8 @@ CREATE TABLE [dbo].[SupplierContacts] (
     [ViberId] nvarchar(max)  NOT NULL,
     [Remarks] nvarchar(max)  NOT NULL,
     [SupplierId] int  NOT NULL,
-    [WhatsApp] nvarchar(max)  NOT NULL,
-    [Email] nvarchar(max)  NOT NULL,
+    [WhatsApp] nvarchar(80)  NOT NULL,
+    [Email] nvarchar(80)  NOT NULL,
     [SupplierContactStatusId] int  NOT NULL
 );
 GO
@@ -1726,7 +1726,9 @@ CREATE TABLE [dbo].[SupplierItemRates] (
     [SupplierUnitId] int  NOT NULL,
     [Remarks] nvarchar(max)  NOT NULL,
     [DtValidFrom] nvarchar(max)  NOT NULL,
-    [DtValidTo] nvarchar(max)  NOT NULL
+    [DtValidTo] nvarchar(max)  NOT NULL,
+    [Particulars] nvarchar(80)  NOT NULL,
+    [By] nvarchar(80)  NOT NULL
 );
 GO
 

@@ -27,6 +27,8 @@ namespace JobsV1.Models
         public string Remarks { get; set; }
         public string DtValidFrom { get; set; }
         public string DtValidTo { get; set; }
+        public string Particulars { get; set; }
+        public string By { get; set; }
     
         public virtual SupplierInvItem SupplierInvItem { get; set; }
         public virtual SupplierUnit SupplierUnit { get; set; }

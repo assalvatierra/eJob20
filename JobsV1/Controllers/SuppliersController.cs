@@ -56,8 +56,9 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
-
+            ViewBag.SupplierId = id;
             ViewBag.supContacts = supplier.SupplierContacts.ToList();
+            ViewBag.contactStatus = db.SupplierContactStatus.ToList();
             InvItemsPartial((int)id);
 
             return View(supplier);
@@ -233,17 +234,18 @@ namespace JobsV1.Controllers
 
         #region inv Item Rate
 
-        public ActionResult AddRateInvItems(int id, string Rate, int Unit, string Remarks, string ValidFrom, string ValidTo)
+        public ActionResult AddRateInvItems(int id, string Particulars,string Rate, int Unit, string Remarks, string ValidFrom, string ValidTo, string By )
         {
             db.SupplierItemRates.Add(new SupplierItemRate
             {
-
+                Particulars = Particulars,
                 ItemRate = Rate,
                 SupplierUnitId = Unit,
                 Remarks = Remarks,
                 DtValidFrom = ValidFrom,
                 DtValidTo = ValidTo,
-                SupplierInvItemId = id
+                SupplierInvItemId = id,
+                By = By
             });
             db.SaveChanges();
 

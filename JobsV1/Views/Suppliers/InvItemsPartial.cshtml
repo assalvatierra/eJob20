@@ -3,7 +3,7 @@
 
 <h3>Inventory Items</h3>
 
-<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a> 
+<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>
 
 
 <table class="table">
@@ -12,46 +12,80 @@
             Item
         </th>
         <th>
-            Price (Validity)
+            Particulars
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            By
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <p>
-                <b>
-                ( @Html.DisplayFor(modelItem => item.InvItem.ItemCode) )
+    @foreach (var item in Model)
+    {
+        
 
-                @Html.DisplayFor(modelItem => item.InvItem.Description)
-                </b>
-            </p>
-            <p>
-                @Html.DisplayFor(modelItem => item.InvItem.Remarks)
-            </p>
-        </td>
-        <td>
-            @foreach (var rate in item.SupplierItemRates)
-            {
-                <p>
-                    Php  @rate.ItemRate / @rate.SupplierUnit.Unit  (@DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
+        foreach (var rate in item.SupplierItemRates)
+        {
+            <tr>
+                <td>
+                    <p>
+                        <b>
+                            @Html.DisplayFor(modelItem => item.InvItem.Description)
+                        </b>
+                    </p>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => rate.Particulars)
+                </td>
+                <td>
+                    Php  @rate.ItemRate / @rate.SupplierUnit.Unit
                     <a href="#" onclick="confirmRateDelete(@rate.Id, 'Php @rate.ItemRate / @rate.SupplierUnit.Unit')"> [ x ] </a>
-                </p>
-                <p>
-                   @rate.Remarks  
-                </p>
-            }
-        <td>
-            <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> | 
-            <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')" > Remove </a>
-            @*@Html.ActionLink("Remove", "RemoveInvItems", new { id=item.Id })*@
-        </td>
-    </tr>
-}
+                </td>
+                <td>
+                    @rate.Remarks
+                </td>
+                <td>
+                    (@DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
+                </td>
+                <td>
+                    @rate.By
+                </td>
 
+                <td>
+                    <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a>
+                 @*   <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
+                </td>
+            </tr>
+        }
+        if (item.SupplierItemRates.Count == 0)
+        {
+        <tr>
+            <td><b>@item.InvItem.Description</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+                <td>
+                    <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> |
+                    <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
+                </td>
+        </tr>
+        }
+
+    }
 </table>
-@Html.ActionLink("Back to List", "Index") 
+
+@Html.ActionLink("Back to List", "Index")
 
 <!-- Add Item Modal -->
 <div class="modal fade" id="ItemAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -71,11 +105,11 @@
                         <a href="@Url.Action("AddInvItems", "Suppliers", new { InvID = carList.Id, supID = ViewBag.SupplierId},null)" class="list-group-item">
                             @Html.DisplayFor(modelItem => carList.ItemCode)
                             <span>-</span>
-                             @Html.DisplayFor(modelItem => carList.Description)
+                            @Html.DisplayFor(modelItem => carList.Description)
                             <span>-</span>
                             @Html.DisplayFor(modelItem => carList.Remarks)
                         </a>
-                  }
+                    }
                 </div>
 
             </div>
@@ -104,6 +138,14 @@
                     </div><p></p>
                 </div>
 
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Particulars </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Particulars" class="form-control" type="text" maxlength="80" value="0">
+                    </div><p></p>
+                </div>
+
                 <div class="form-group cform">
                     <b class="col-md-2"> Rate </b>
                     <div class="col-md-10">
@@ -124,11 +166,19 @@
                     </div><p></p>
                 </div>
                 <div class="form-group cform">
+                    <b class="col-md-2"> Remarks </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Remarks" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
                     <b class="col-md-2"> Valid From</b>
                     <div class="col-md-10">
                         <input id="InvRate-ValidFrom" class="form-control" type="text" maxlength="13">
                     </div><p></p>
                 </div>
+
                 <div class="form-group cform">
                     <b class="col-md-2"> Valid To </b>
                     <div class="col-md-10">
@@ -137,9 +187,9 @@
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-2"> Remarks </b>
+                    <b class="col-md-2"> By </b>
                     <div class="col-md-10">
-                        <input id="InvRate-Remarks" class="form-control" type="text" maxlength="80">
+                        <input id="InvRate-By" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
             </div>
@@ -152,16 +202,16 @@
 </div><!-- /.modal -->
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
-<script src="~/Scripts/jquery-3.3.1.js"> </script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
-<script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
-<script src="~/Scripts/Job/SupplierAddRate.js"> </script>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+<script src="~/Scripts/Job/SupplierAddRate.js"></script>
 
 <script>
     $(document).ready(new function () {
         var today = moment().format('MM/DD/YYYY');
         var endDate = moment(today).add(366, 'day').format('MM/DD/YYYY');
-        
+
         $("#InvRate-ValidFrom").val(today);
         $("#InvRate-ValidTo").val(endDate);
     });
@@ -173,11 +223,13 @@
         //build json object
         var data = {
             id: $("#InvRate-ItemId").val(),
+            Particulars: $("#InvRate-Particulars").val(),
             Rate: $("#InvRate-Rate").val(),
             Unit: $("#InvRate-UnitType").find(":selected").val(),
             ValidFrom: $("#InvRate-ValidFrom").val(),
             ValidTo: $("#InvRate-ValidTo").val(),
-            Remarks: $("#InvRate-Remarks").val()
+            Remarks: $("#InvRate-Remarks").val(),
+            By: $("#InvRate-By").val()
         };
 
         console.log(data);
@@ -201,9 +253,9 @@
         });
     }
 
-    function conformDelete(Id, desc){
+    function conformDelete(Id, desc) {
         var confirmRes = confirm("Do you want to REMOVE " + desc + " ?");
-        if(confirmRes){
+        if (confirmRes) {
             ajax_deleteInv(Id);
         }
     }
@@ -242,13 +294,13 @@
         $("#InvRate-ItemName").text(itemName)
     }
 
-    function confirmRateDelete(id ,desc){
+    function confirmRateDelete(id, desc) {
         var res = confirm("Do you want to remove " + desc + "?")
-        if(res){
+        if (res) {
             ajax_deleteItemRate(id);
         }
     }
-    
+
     //Item Delete
     function ajax_deleteItemRate(Id) {
 

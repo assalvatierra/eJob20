@@ -106,6 +106,8 @@ insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Statu
 insert into SupplierInvItems([SupplierId],[InvItemId]) values
 (2,1),(2,2);
 
+insert into SupplierContactStatus([Name]) values ('Active'),('Resigned');
+
 insert into Services([Name],[Description],[Status]) 
 values
 ('Car Rental','Bus, Car, Van and other Transportation arrangements','1'),

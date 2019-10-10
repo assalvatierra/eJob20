@@ -1589,8 +1589,8 @@
     <Property Name="ViberId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
-    <Property Name="WhatsApp" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="WhatsApp" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="SupplierContactStatusId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SupplierItemRates">
@@ -1604,6 +1604,8 @@
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DtValidFrom" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DtValidTo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Particulars" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="By" Type="nvarchar" Nullable="false" MaxLength="80" />
   </EntityType>
   <EntityType Name="SupplierUnits">
     <Key>
@@ -5888,8 +5890,8 @@
           <Property Name="Remarks" Type="String" Nullable="false" />
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierContact" FromRole="SupplierContact" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
-          <Property Name="WhatsApp" Type="String" Nullable="false" />
-          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="WhatsApp" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="80" />
           <NavigationProperty Name="SupplierContactStatu" Relationship="JobDB.SupplierContactStatusSupplierContact" FromRole="SupplierContact" ToRole="SupplierContactStatus" />
           <Property Name="SupplierContactStatusId" Type="Int32" Nullable="false" />
         </EntityType>
@@ -5919,6 +5921,8 @@
           <Property Name="DtValidFrom" Type="String" Nullable="false" />
           <Property Name="DtValidTo" Type="String" Nullable="false" />
           <NavigationProperty Name="SalesLeadQuotedItems" Relationship="JobDB.SupplierItemRateSalesLeadQuotedItem" FromRole="SupplierItemRate" ToRole="SalesLeadQuotedItem" />
+          <Property Name="Particulars" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="By" Type="String" Nullable="false" MaxLength="80" />
         </EntityType>
         <Association Name="SupplierInvItemSupplierItemRate">
           <End Type="JobDB.SupplierInvItem" Role="SupplierInvItem" Multiplicity="1" />
@@ -7275,6 +7279,8 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="DtValidFrom" ColumnName="DtValidFrom" />
           <ScalarProperty Name="DtValidTo" ColumnName="DtValidTo" />
+          <ScalarProperty Name="Particulars" ColumnName="Particulars" />
+          <ScalarProperty Name="By" ColumnName="By" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

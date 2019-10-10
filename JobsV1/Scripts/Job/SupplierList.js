@@ -124,7 +124,7 @@ function SimpleTable(data) {
         content += "<td>" + contact2 + "</td>";
         content += "<td>" + contact3 + "</td>";
         content += "<td>" +
-            "<a href='Details/" + temp[x]["Id"] + "'>Details</a> | " +
+            "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
             "<a href='SupplierItems/'>Items</a>  | " +
             "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
             "</td>";
