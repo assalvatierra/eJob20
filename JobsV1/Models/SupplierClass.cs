@@ -18,6 +18,17 @@ namespace JobsV1.Models
         public string SupType { get; set; }
         public string City { get; set; }
         public string Details { get; set; }
+        public string CountryName { get; set; }
+    }
+
+    public class cSupplierItems
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Country { get; set; }
+        public string Category { get; set; }
+        public IEnumerable<string> Product { get; set; }
+        public IEnumerable<string> ContactPerson { get; set; }
     }
 
     public class SupplierClass
@@ -28,7 +39,7 @@ namespace JobsV1.Models
 
         //get supplier list containing the search string,
         //if search is empty, return all actve items
-        public List<cSupplierList> getSupplierList(string search, string status, string sort)
+        public List<cSupplierItems> getSupplierList(string search, string status, string sort)
         {
             
             List<cSupplierList> custList = new List<cSupplierList>();
@@ -91,49 +102,30 @@ namespace JobsV1.Models
 
             custList = db.Database.SqlQuery<cSupplierList>(sql).ToList();
 
-            return custList;
+            //return custList;
 
+            List<cSupplierItems> supItems = new List<cSupplierItems>();
 
+            foreach (var sup in custList)
+            {
+                //get products of the supplier
+                var products = db.SupplierInvItems.Where(s => s.SupplierId == sup.Id).ToList().Select(s=>s.InvItem.Description);
 
-            //List<Supplier> suppliers = db.Suppliers.ToList();
-            //List<SupplierList> supList = new List<SupplierList>();
+                //get Contact Persons of the supplier
+                var contacts = db.SupplierContacts.Where(s=>s.SupplierId == sup.Id).ToList().Select(s=>s.Name);
 
-            ////Search string filter
-            //if (status == "ALL")
-            //{
-            //    suppliers = suppliers.ToList();
-            //}
-            //else
-            //{
-            //    suppliers = suppliers.Where(s => s.Status == status).ToList();
-            //}
-            //var supInvItems = db.SupplierInvItems.Where(s => s.InvItem.Description.ToLower().Contains(search.ToLower())).Select(s => s.SupplierId).ToList();
-            ////Search string filter
-            //if (!string.IsNullOrWhiteSpace(search) || !string.IsNullOrEmpty(search))
-            //{
-            //    suppliers = suppliers.Where(s => s.Name.ToLower().Contains(search.ToLower()) || supInvItems.Contains(s.Id)).ToList();
-            //}
+                supItems.Add(new cSupplierItems {
+                    Id = sup.Id,
+                    Name = sup.Name,
+                    Country = sup.CountryName,
+                    Category = sup.SupType,
+                    Product = products,
+                    ContactPerson = contacts,
 
-            ////build temp supplier list
-            //foreach (var item in suppliers)
-            //{
-            //    supList.Add(new SupplierList
-            //    {
-            //        Id = item.Id,
-            //        Name = item.Name,
-            //        Contact1 = String.IsNullOrEmpty(item.Contact1) ? "--" : item.Contact1,
-            //        Contact2 = String.IsNullOrEmpty(item.Contact2) ? "--" : item.Contact2,
-            //        Contact3 = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Contact3,
-            //        Email = String.IsNullOrEmpty(item.Contact3) ? "--" : item.Email,
-            //        Status = item.Status,
-            //        City = item.City.Name,
-            //        SupType = item.SupplierType.Description,
-            //        Dtls = item.Details
-            //    });
-            //}
+                });
+            }
 
-            ////convert list to json object
-            //return supList;
+            return supItems;
         }
 
 

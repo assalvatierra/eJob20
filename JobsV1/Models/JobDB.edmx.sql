@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/10/2019 09:33:12
+-- Date Created: 10/11/2019 13:49:50
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -331,9 +331,6 @@ IF OBJECT_ID(N'[dbo].[FK_SupplierItemRateSalesLeadQuotedItem]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerCustSocialAcc]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustSocialAccs] DROP CONSTRAINT [FK_CustomerCustSocialAcc];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SupplierCountry]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Suppliers] DROP CONSTRAINT [FK_SupplierCountry];
 GO
 IF OBJECT_ID(N'[dbo].[FK_SupplierContactStatusSupplierContact]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SupplierContacts] DROP CONSTRAINT [FK_SupplierContactStatusSupplierContact];
@@ -699,7 +696,7 @@ CREATE TABLE [dbo].[Suppliers] (
     [Status] nvarchar(10)  NULL,
     [Website] nvarchar(80)  NULL,
     [Address] nvarchar(150)  NULL,
-    [CountryId] int  NOT NULL
+    [CountryName] nvarchar(80)  NULL
 );
 GO
 
@@ -4007,21 +4004,6 @@ GO
 CREATE INDEX [IX_FK_CustomerCustSocialAcc]
 ON [dbo].[CustSocialAccs]
     ([CustomerId]);
-GO
-
--- Creating foreign key on [CountryId] in table 'Suppliers'
-ALTER TABLE [dbo].[Suppliers]
-ADD CONSTRAINT [FK_SupplierCountry]
-    FOREIGN KEY ([CountryId])
-    REFERENCES [dbo].[Countries]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SupplierCountry'
-CREATE INDEX [IX_FK_SupplierCountry]
-ON [dbo].[Suppliers]
-    ([CountryId]);
 GO
 
 -- Creating foreign key on [SupplierContactStatusId] in table 'SupplierContacts'

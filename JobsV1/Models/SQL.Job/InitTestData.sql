@@ -182,8 +182,6 @@ FROM Suppliers sup
 
 SELECT counting = (SELECT Id FROM SalesLeadItems sli WHERE sli.SalesLeadId = sl.Id) FROM SalesLeads sl 
 
-
-
 SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId )
 FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
 City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId) ,
@@ -192,3 +190,9 @@ FROM Customers cust WHERE cust.Id = ce.CustomerId)
 FROM CustEntities ce 
 WHERE cem.Id = ce.CustEntMainId) FROM CustEntMains cem
 WHERE  Name Like '%Manila%' 
+
+SELECT * , 
+City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
+SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
+FROM Suppliers sup 
+

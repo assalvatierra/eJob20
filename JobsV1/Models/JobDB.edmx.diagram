@@ -255,7 +255,6 @@
         <AssociationConnector Association="JobDB.CustomerCustSocialAcc" />
         <EntityTypeShape EntityType="JobDB.AdminEmail" Width="1.5" PointX="11.5" PointY="29.25" />
         <EntityTypeShape EntityType="JobDB.Country" Width="1.5" PointX="49.875" PointY="2.5" />
-        <AssociationConnector Association="JobDB.SupplierCountry" />
         <EntityTypeShape EntityType="JobDB.SupplierContactStatus" Width="1.5" PointX="50.125" PointY="6.625" />
         <AssociationConnector Association="JobDB.SupplierContactStatusSupplierContact" />
         </Diagram>

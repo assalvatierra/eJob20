@@ -38,7 +38,7 @@ namespace JobsV1.Controllers
         public string TableResult(string search, string status, string sort)
         {
             //get supplier list
-            List<cSupplierList> supList = supdb.getSupplierList(search, status,sort);
+            List<cSupplierItems> supList = supdb.getSupplierList(search, status,sort);
             
             //convert list to json object
             return JsonConvert.SerializeObject(supList, Formatting.Indented);
@@ -80,7 +80,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryName,Website")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace JobsV1.Controllers
 
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
-            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
+            //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryName);
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
 
             return View(supplier);
@@ -111,7 +111,7 @@ namespace JobsV1.Controllers
             }
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description", supplier.SupplierTypeId);
-            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
+            //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryName);
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
 
             return View(supplier);
@@ -123,7 +123,7 @@ namespace JobsV1.Controllers
        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website")] Supplier supplier)
+        public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryName,Website")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -134,7 +134,7 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
-            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
+            //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
 
             return View(supplier);
         }

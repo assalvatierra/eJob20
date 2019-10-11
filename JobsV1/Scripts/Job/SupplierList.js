@@ -114,14 +114,47 @@ function SimpleTable(data) {
     //populate table content
     for (var x = 0; x < temp.length; x++) {
 
-        var contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
-        var contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
+        var country = temp[x]["Country"] != null ? temp[x]["Country"] : "--";
+        var category = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
         var contact3 = temp[x]["Contact3"] != null ? temp[x]["Contact3"] : "--";
+        var contactslength = temp[x]["ContactPerson"];
+        var productslength = temp[x]["Product"];
+       
 
-        content = "<tr>";
+        content =  "<tr>";
         content += "<td>" + temp[x]["Name"] + "</td>";
-        content += "<td>" + contact1 + "</td>";
-        content += "<td>" + contact2 + "</td>";
+        content += "<td>" + country + "</td>";
+        content += "<td>" + category + "</td>";
+
+        content += "<td> ";
+        for (var prods = 0; prods < productslength["length"]; prods++) {
+            if (typeof productslength[prods] === "undefined") {
+                console.log("something is undefined");
+            } else {
+
+                var name = productslength[prods].toString();
+                console.log(productslength);
+                console.log(name);
+                content += " " + name + "</br> ";
+            }
+        }
+        content += "</td> ";
+
+
+        content += "<td> ";
+        for (var prods = 0; prods < contactslength["length"]; prods++) {
+            if (typeof contactslength[prods] === "undefined") {
+                console.log("something is undefined");
+            } else {
+
+                var name = contactslength[prods].toString();
+                console.log(contactslength);
+                console.log(name);
+                content += " " + name + "</br> ";
+            }
+        }
+        content +=  "</td> ";
+
         content += "<td>" + contact3 + "</td>";
         content += "<td>" +
             "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
@@ -131,8 +164,8 @@ function SimpleTable(data) {
         content += "<tr>";
 
         $(content).appendTo("#sup-Table");
-        $("#sup-header-2").text("Contact2");
-        $("#sup-header-3").text("Contact3");
+        $("#sup-header-2").text("Category");
+        $("#sup-header-3").text("Product");
     }
 }
 

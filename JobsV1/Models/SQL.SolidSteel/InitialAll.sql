@@ -95,9 +95,9 @@ values
 -- ---------------------------------------- 
 insert into SupplierTypes(Description) values
 ('Stockiest/Trader'),('Supplier'),('Installer');
-insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT',1);
-insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId] )
-	values('Solid Steel','(82) 085-0158','(82 085-0151)','0912-564-9877','solidsteelserver.com','Davao City', '','AJDavao88@gmail.com','1','1','ACT',1);
+insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryName] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT','Philippines');
+insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryName] )
+	values('Solid Steel','(82) 085-0158','(82 085-0151)','0912-564-9877','solidsteelserver.com','Davao City', '','AJDavao88@gmail.com','1','1','ACT','[CountryName]');
 -- ----------------------------
 -- Supplier Items / Products
 insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values 
