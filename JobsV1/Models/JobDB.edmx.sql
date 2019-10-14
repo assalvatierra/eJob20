@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/11/2019 13:49:50
+-- Date Created: 10/14/2019 17:11:01
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -696,7 +696,7 @@ CREATE TABLE [dbo].[Suppliers] (
     [Status] nvarchar(10)  NULL,
     [Website] nvarchar(80)  NULL,
     [Address] nvarchar(150)  NULL,
-    [CountryName] nvarchar(80)  NULL
+    [CountryId] int  NOT NULL
 );
 GO
 
@@ -1776,7 +1776,8 @@ GO
 -- Creating table 'Countries'
 CREATE TABLE [dbo].[Countries] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NOT NULL
+    [Name] nvarchar(100)  NOT NULL,
+    [Code] nvarchar(4)  NOT NULL
 );
 GO
 
@@ -4019,6 +4020,21 @@ GO
 CREATE INDEX [IX_FK_SupplierContactStatusSupplierContact]
 ON [dbo].[SupplierContacts]
     ([SupplierContactStatusId]);
+GO
+
+-- Creating foreign key on [CountryId] in table 'Suppliers'
+ALTER TABLE [dbo].[Suppliers]
+ADD CONSTRAINT [FK_SupplierCountry]
+    FOREIGN KEY ([CountryId])
+    REFERENCES [dbo].[Countries]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierCountry'
+CREATE INDEX [IX_FK_SupplierCountry]
+ON [dbo].[Suppliers]
+    ([CountryId]);
 GO
 
 -- --------------------------------------------------

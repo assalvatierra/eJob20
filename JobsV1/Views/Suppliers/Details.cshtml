@@ -33,7 +33,7 @@
     <p> <b>Address: </b> @Model.Address </p>
     <p>
         <b>Country: </b>
-        @Model.CountryName
+      
 
     </p>
     <p> <b>City: </b>  @Model.City.Name </p>
@@ -51,14 +51,27 @@
                 <td>
                 
                 </td>
+                <td>
+
+                </td>
             </tr>
            @foreach (var item in Model.SupplierInvItems)
            {
                <tr  width="120px">
                     <td></td>
-                    <td>@item.InvItem.Description</td>
+                    <td>
+                        @item.InvItem.Description -
+                        <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Item </a> |
+                        <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
+                    </td>
                 </tr>
            }
+            <tr>
+                <td></td>
+                <td>
+                    <a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Product</a>
+                </td>
+            </tr>
         </table>
 
 </div>
@@ -118,7 +131,7 @@
 @{ Html.RenderPartial("EditSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
 
 <script>
-
+         
     //display confirmation message for removal of contact
     function ConfirmRemoveContact(id, name) {
         var res = confirm("Do you want to remove " + name + " ?")
@@ -127,7 +140,6 @@
         }
     }
 
-    
     //Contact Delete
     function ajax_deleteContactId(Id) {
 
@@ -156,4 +168,5 @@
             }
         });
     }
+
 </script>

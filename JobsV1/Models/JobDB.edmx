@@ -536,6 +536,10 @@
       <End Role="SupplierContactStatus" EntitySet="SupplierContactStatus" />
       <End Role="SupplierContact" EntitySet="SupplierContacts" />
     </AssociationSet>
+    <AssociationSet Name="SupplierCountry" Association="JobDB.Store.SupplierCountry">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Country" EntitySet="Countries" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -572,7 +576,7 @@
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="10" />
     <Property Name="Website" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="Address" Type="nvarchar" Nullable="true" MaxLength="150" />
-    <Property Name="CountryName" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="CountryId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Customers">
     <Key>
@@ -1652,7 +1656,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="4" />
   </EntityType>
   <EntityType Name="SupplierContactStatus">
     <Key>
@@ -2933,6 +2938,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SupplierCountry">
+    <End Role="Supplier" Type="JobDB.Store.Suppliers" Multiplicity="*" />
+    <End Role="Country" Type="JobDB.Store.Countries" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Supplier">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -3468,6 +3485,10 @@
             <End Role="SupplierContactStatus" EntitySet="SupplierContactStatus" />
             <End Role="SupplierContact" EntitySet="SupplierContacts" />
           </AssociationSet>
+          <AssociationSet Name="SupplierCountry" Association="JobDB.SupplierCountry">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Country" EntitySet="Countries" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3525,7 +3546,8 @@
           <NavigationProperty Name="SupplierContacts" Relationship="JobDB.SupplierSupplierContact" FromRole="Supplier" ToRole="SupplierContact" />
           <Property Name="Website" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="Address" Type="String" Nullable="true" MaxLength="150" />
-          <Property Name="CountryName" Type="String" Nullable="true" MaxLength="80" />
+          <NavigationProperty Name="Country" Relationship="JobDB.SupplierCountry" FromRole="Supplier" ToRole="Country" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -6057,7 +6079,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="4" />
+          <NavigationProperty Name="Suppliers" Relationship="JobDB.SupplierCountry" FromRole="Country" ToRole="Supplier" />
         </EntityType>
         <EntityType Name="SupplierContactStatus">
           <Key>
@@ -6076,6 +6100,18 @@
             </Principal>
             <Dependent Role="SupplierContact">
               <PropertyRef Name="SupplierContactStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SupplierCountry">
+          <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="*" />
+          <End Type="JobDB.Country" Role="Country" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6120,7 +6156,7 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Website" ColumnName="Website" />
           <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7304,6 +7340,7 @@
         <MappingFragment StoreEntitySet="Countries">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

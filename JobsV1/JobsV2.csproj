@@ -1353,6 +1353,7 @@
     <Content Include="Models\SQL.Job\SalesLead.sql" />
     <Content Include="Models\SQL.Job\InitTestData.sql" />
     <Content Include="Models\SQL.SolidSteel\InitialAll.sql" />
+    <Content Include="Models\SQL.SolidSteel\Countries.sql" />
     <Content Include="Models\SQL.Sys\InitialData_SysTbls.sql" />
     <Content Include="Models\SysDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

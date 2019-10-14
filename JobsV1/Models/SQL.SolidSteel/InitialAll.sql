@@ -1,5 +1,4 @@
 ﻿insert into Cities(Name) values('Davao'),('Cebu'),('Makati'),('Manila');
-insert into Countries(Name) values('Philippines'),('Singapore'),('Hong Kong'),('Japan');
 insert into Branches(Name, CityId, Remarks, Address, Landline, Mobile) 
 values ('AJ88',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
 	   ('RealBreeze',1,'Davao Main','2nd Floor Sulit Bldg, Mac Arthur Hwy, Matina','082 297-1831',''),
@@ -95,11 +94,12 @@ values
 -- ---------------------------------------- 
 insert into SupplierTypes(Description) values
 ('Stockiest/Trader'),('Supplier'),('Installer');
-insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryName] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT','Philippines');
-insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryName] )
-	values('Solid Steel','(82) 085-0158','(82 085-0151)','0912-564-9877','solidsteelserver.com','Davao City', '','AJDavao88@gmail.com','1','1','ACT','[CountryName]');
+insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT',175);
+insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId] )
+	values('Solid Steel','(82) 085-0158','(82 085-0151)','0912-564-9877','solidsteelserver.com','Davao City', '','AJDavao88@gmail.com','1','1','ACT',175);
 -- ----------------------------
 -- Supplier Items / Products
+-- ----------------------------
 insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values 
 ('Default','1','Item by supplier','Supplier','ACT');
 

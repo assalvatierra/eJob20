@@ -1,15 +1,14 @@
 ﻿@model IEnumerable<JobsV1.Models.SupplierInvItem>
 
 
-<h3>Inventory Items</h3>
+<h3>Inventory Products</h3>
 
-<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>
-
+@*<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>*@
 
 <table class="table">
     <tr>
         <th>
-            Item
+            Product
         </th>
         <th>
             Particulars
@@ -61,7 +60,7 @@
                 </td>
 
                 <td>
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a>
+                  @*  <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a>*@
                  @*   <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
                 </td>
             </tr>
@@ -76,8 +75,8 @@
             <td></td>
             <td></td>
                 <td>
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> |
-                    <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
+                   @* <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> |*@
+                   @* <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
                 </td>
         </tr>
         }

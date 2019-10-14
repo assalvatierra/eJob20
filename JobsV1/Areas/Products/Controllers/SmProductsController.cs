@@ -461,7 +461,7 @@ namespace JobsV1.Areas.Products.Controllers
         }
         #endregion
 
-        #region Product Category
+        #region Product Files
         public void PartialView_File(int id)
         {
             ViewBag.files = db.SmFiles.Where(s => s.SmProductId == id).ToList();

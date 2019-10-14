@@ -80,7 +80,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryName,Website")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -111,7 +111,7 @@ namespace JobsV1.Controllers
             }
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description", supplier.SupplierTypeId);
-            //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryName);
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
 
             return View(supplier);
@@ -123,7 +123,7 @@ namespace JobsV1.Controllers
        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryName,Website")] Supplier supplier)
+        public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -136,7 +136,8 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
             //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
 
-            return View(supplier);
+            return RedirectToAction("Details", "Suppliers", new { id = supplier.Id });
+            //return View(supplier);
         }
 
         // GET: Suppliers/Delete/5
@@ -197,7 +198,6 @@ namespace JobsV1.Controllers
             ViewBag.InvItems = db.SupplierInvItems.Where(s => s.SupplierId == id).ToList();
         }
 
-
         //POST: /Suppliers/AddInvItems
         //add new items to the supplier
         public ActionResult AddInvItems(int InvID, int supID) {
@@ -207,7 +207,7 @@ namespace JobsV1.Controllers
             });
             db.SaveChanges();
 
-            return RedirectToAction("InvItems", "Suppliers", new { id = supID });
+            return RedirectToAction("DEtails", "Suppliers", new { id = supID });
         }
 
         //POST: /Suppliers/AddInvItems

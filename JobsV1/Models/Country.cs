@@ -14,7 +14,17 @@ namespace JobsV1.Models
     
     public partial class Country
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Country()
+        {
+            this.Suppliers = new HashSet<Supplier>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Code { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supplier> Suppliers { get; set; }
     }
 }

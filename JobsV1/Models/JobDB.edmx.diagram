@@ -241,8 +241,8 @@
           <ConnectorPoint PointX="28.5" PointY="22.162985026041667" />
           <ConnectorPoint PointX="25.458333333333332" PointY="22.162985026041667" />
           <ConnectorPoint PointX="25.291666666666668" PointY="22.162985026041667" />
-          <ConnectorPoint PointX="23.864585833333333" PointY="22.162985026041667" />
-          <ConnectorPoint PointX="23.697919166666669" PointY="22.162985026041667" />
+          <ConnectorPoint PointX="23.869649937574348" PointY="22.162985026041667" />
+          <ConnectorPoint PointX="23.702983270907684" PointY="22.162985026041667" />
           <ConnectorPoint PointX="22.625" PointY="22.162985026041667" />
           <ConnectorPoint PointX="22.625" PointY="20.125" />
           <ConnectorPoint PointX="20.583333333333332" PointY="20.125" />
@@ -257,6 +257,7 @@
         <EntityTypeShape EntityType="JobDB.Country" Width="1.5" PointX="49.875" PointY="2.5" />
         <EntityTypeShape EntityType="JobDB.SupplierContactStatus" Width="1.5" PointX="50.125" PointY="6.625" />
         <AssociationConnector Association="JobDB.SupplierContactStatusSupplierContact" />
+        <AssociationConnector Association="JobDB.SupplierCountry" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
