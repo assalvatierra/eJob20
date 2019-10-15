@@ -30,10 +30,11 @@
 
     @foreach (var item in Model)
     {
-        
+
 
         foreach (var rate in item.SupplierItemRates)
         {
+
             <tr>
                 <td>
                     <p>
@@ -64,9 +65,11 @@
                  @*   <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
                 </td>
             </tr>
+            
         }
         if (item.SupplierItemRates.Count == 0)
         {
+            @*
         <tr>
             <td><b>@item.InvItem.Description</b></td>
             <td></td>
@@ -75,10 +78,11 @@
             <td></td>
             <td></td>
                 <td>
-                   @* <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> |*@
-                   @* <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
+                    <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> |
+                    <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
                 </td>
         </tr>
+                *@
         }
 
     }

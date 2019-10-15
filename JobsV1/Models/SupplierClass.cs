@@ -103,7 +103,6 @@ namespace JobsV1.Models
             custList = db.Database.SqlQuery<cSupplierList>(sql).ToList();
 
             //return custList;
-
             List<cSupplierItems> supItems = new List<cSupplierItems>();
 
             foreach (var sup in custList)
@@ -120,10 +119,11 @@ namespace JobsV1.Models
                     Country = sup.CountryName,
                     Category = sup.SupType,
                     Product = products,
-                    ContactPerson = contacts,
+                    ContactPerson = contacts
 
                 });
             }
+
 
             return supItems;
         }

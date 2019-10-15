@@ -191,8 +191,12 @@ FROM CustEntities ce
 WHERE cem.Id = ce.CustEntMainId) FROM CustEntMains cem
 WHERE  Name Like '%Manila%' 
 
+-------- Search supplier inv items ----------
 SELECT * , 
-City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
-SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
-FROM Suppliers sup 
+ City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
+ SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id ),
+ Items = SUBSTRING( (SELECT
+	ItemName = (SELECT ii.Description as [text()] FROM InvItems ii WHERE sii.InvItemId = ii.Id FOR XML PATH(''))
+	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId FOR XML PATH('')),2,100 ) 
+ FROM Suppliers sup 
 

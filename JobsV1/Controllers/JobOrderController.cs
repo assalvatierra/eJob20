@@ -1687,15 +1687,9 @@ order by x.jobid
             if (jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault() != null)
             {
                 custCompany = jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault().CustEntMain.Name;
-
-                //if (custCompany == "NEW (not yet defined)")
-                //{
-                //    custCompany = " ";
-                //}
-
+                 
             }
 
-             
 
             ViewBag.custCompany = custCompany;
             
@@ -2649,6 +2643,7 @@ order by x.jobid
                         mailResult = mail.SendMailQuotation((int)jobId, ajdavaoEmail, jobServices); //ajdavao
                         break;
                     case "RESERVATION":
+                    case "RESERVED":
                         mailResult = mail.SendMailReservation((int)jobId, jobOrder.CustContactEmail, jobServices); // client email
                         mailResult = mail.SendMailReservation((int)jobId, companyEmail, jobServices); //realwheels
                         mailResult = mail.SendMailReservation((int)jobId, adminEmail, jobServices);   //travel

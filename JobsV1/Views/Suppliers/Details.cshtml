@@ -29,13 +29,9 @@
     {
         <p> <b>Mobile: </b><span> @Model.Contact3</span></p>
     }
-    <p> <b>Email: </b>  @Model.Email </p>
+    <p> <b>Email: </b> @Model.Email </p>
     <p> <b>Address: </b> @Model.Address </p>
-    <p>
-        <b>Country: </b>
-      
-
-    </p>
+    <p> <b>Country: </b> @Model.Country.Name </p>
     <p> <b>City: </b>  @Model.City.Name </p>
     <p> <b>Category: </b> @Model.SupplierType.Description </p>
 
@@ -61,7 +57,7 @@
                     <td></td>
                     <td>
                         @item.InvItem.Description -
-                        <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Item </a> |
+                        <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Price </a> |
                         <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
                     </td>
                 </tr>
@@ -98,22 +94,22 @@
 
         @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
         {
-    <tr>
-        <td>@contact.Name</td>
-        <td>@contact.Landline</td>
-        <td>@contact.Mobile</td>
-        <td>@contact.SkypeId</td>
-        <td>@contact.ViberId</td>
-        <td>@contact.WhatsApp</td>
-        <td>@contact.Email</td>
-        <td>@contact.SupplierContactStatu.Name</td>
-        <td>@contact.Remarks</td>
-        <td>
-            <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact"
-               onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks', '@contact.WhatsApp', '@contact.Email', '@contact.SupplierContactStatusId') ">Edit</a> |
-            <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
-        </td>
-    </tr>
+            <tr>
+                <td>@contact.Name</td>
+                <td>@contact.Landline</td>
+                <td>@contact.Mobile</td>
+                <td>@contact.SkypeId</td>
+                <td>@contact.ViberId</td>
+                <td>@contact.WhatsApp</td>
+                <td>@contact.Email</td>
+                <td>@contact.SupplierContactStatu.Name</td>
+                <td>@contact.Remarks</td>
+                <td>
+                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact"
+                       onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks', '@contact.WhatsApp', '@contact.Email', '@contact.SupplierContactStatusId') ">Edit</a> |
+                    <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
+                </td>
+            </tr>
         }
 
     </table>

@@ -64,25 +64,39 @@
     <p>
         Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
         <br />Description: @ViewBag.JobOrder.Description
-        <br />Encoder: @ViewBag.JobEncoder.user - @ViewBag.JobEncoder.dtTrail 
-        <br />Status: @ViewBag.JobStatus
+        <br />Encoder: @ViewBag.JobEncoder.user - @ViewBag.JobEncoder.dtTrail
+        <br />Status:
 
-         <!-- Change Status -->
-        @if(ViewBag.JobStatus == "INQUIRY") { 
-            @Html.ActionLink("(Reserve Job) | ", "ReserveJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null) 
-            @Html.ActionLink("(Confirm Job)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null) 
+        @if (ViewBag.JobStatus == "RESERVATION")
+        {
+            <text>
+                RESERVED
+            </text>
+        }
+        else
+        {
+            @ViewBag.JobStatus
+        }
+
+
+
+        <!-- Change Status -->
+        @if (ViewBag.JobStatus == "INQUIRY")
+        {
+            @Html.ActionLink("(Reserve Job) | ", "ReserveJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+            @Html.ActionLink("(Confirm Job)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
         }
 
         @if (ViewBag.JobStatus == "RESERVATION")
         {
             @Html.ActionLink("(Confirm Job)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
         }
-      
+
         <br />@Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
-        | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null) 
-        | <a id="aContractorLink"  data-toggle="modal" data-target="#aContractorLink" >Contractors</a>
+        | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+        | <a id="aContractorLink" data-toggle="modal" data-target="#aContractorLink">Contractors</a>
         | @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 1 }, null)
-       @* | @Html.ActionLink("Cash Expenses", "JobExpenses", "CashExpenses", new { id = ViewBag.JobOrder.Id }, null)*@
+        @* | @Html.ActionLink("Cash Expenses", "JobExpenses", "CashExpenses", new { id = ViewBag.JobOrder.Id }, null)*@
 
 
 
@@ -90,16 +104,18 @@
         @if (ViewBag.JobStatus == "INQUIRY")
         {
             <text>
-            | <a onclick = "ajaxSendQuotation(@ViewBag.JobOrder.Id)" > Send Quotation </a>
+                | <a onclick="ajaxSendQuotation(@ViewBag.JobOrder.Id)"> Send Quotation </a>
             </text>
         }
 
         @if (ViewBag.JobStatus == "RESERVATION")
         {
             <text>
-            | <a onclick="ajaxSendReservation(@ViewBag.JobOrder.Id)"> Send Reservation </a>
+                | <a onclick="ajaxSendReservation(@ViewBag.JobOrder.Id)"> Send Reservation </a>
             </text>
         }
+
+           | <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(ViewBag.JobOrder.Id))"> Send Invoice </a>
 
         @*| @Html.ActionLink("Send Quotation", "SendEmailQuotation", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)*@
     </p>  
@@ -346,6 +362,38 @@
             function disableLoadOverlay() {
                 console.log("disable overlay");
                 $("#overlay2").css("display", "none");
+        }
+
+        
+        function ajaxSendMail(jobid) {
+            var data = {
+                jobId: jobid,
+                mailType: "CLIENT-INVOICE-SEND"
             }
+
+            var serviceURL = '/JobOrder/SendEmail';
+
+            //loading screen
+            LoadOverlay()
+
+            //send email using ajax
+            $.ajax({
+                type: "POST",
+                url: serviceURL,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(){
+                    console.log('success');
+                    disableLoadOverlay();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+
+                    alert(jqXHR.responseText);
+                    disableLoadOverlay();
+                }
+            });
+        }
+
     </script>
 }

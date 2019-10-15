@@ -129,12 +129,12 @@ namespace JobsV1.Controllers
             {
                 db.Entry(supplier).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Suppliers", new { id = supplier.Id });
             }
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
-            //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
 
             return RedirectToAction("Details", "Suppliers", new { id = supplier.Id });
             //return View(supplier);
