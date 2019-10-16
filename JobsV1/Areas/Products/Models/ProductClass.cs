@@ -47,7 +47,7 @@ namespace JobsV1.Areas.Products.Models
             //get products search name,remarks, product category
            
             List<ProductList> filteredlist = new List<ProductList>();
-            foreach (var item in prodList)
+            foreach (var item in prodList.OrderByDescending(s=>s.ValidStart) )
             {
                 filteredlist.Add(new ProductList
                 {

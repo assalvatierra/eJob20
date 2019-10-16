@@ -105,7 +105,7 @@ function LoadTable(data) {
     //console.log(data);
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
-
+    console.log(temp);
     //clear table contents except header
     $("#company-Table").find("tr:gt(0)").remove();
     var jobcount = 0;
@@ -120,7 +120,7 @@ function LoadTable(data) {
     for (var x = 0; x < temp.length; x++) {
         Address = temp[x]["Address"] != null ? temp[x]["Address"] : "--";
         company = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
-        company = temp[x]["Website"] != null ? temp[x]["Website"] : "--";
+        website = temp[x]["Website"] != null ? temp[x]["Website"] : "--";
         contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
@@ -136,13 +136,14 @@ function LoadTable(data) {
         } else {
 
             content = "<tr>";
-            content += "<td>" + temp[x]["Name"] + "<br />";
-            content += " " + categories + "</td>";
-            content += "<td>" + Address + "</td>";
-            content += "<td>" + contact1 + "<br />";
-            content += " " + contact2 + "</td>";
-            content += "<td>" + ContactPerson + "</td>";
+            content += "<td>" + temp[x]["Name"] + "</td>";
+            content += "<td>" + website + "</td>";
             content += "<td>" + City + "</td>";
+            content += "<td>" + contact1 + "</td>";
+            content += "<td>" + categories + "</td>";
+            content += "<td>" + categories + "</td>"; // status
+            content += "<td>" + ContactPerson + "</td>";
+            content += "<td>" + categories + "</td>"; // status
 
             content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
                     + "</td>";

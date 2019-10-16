@@ -22,7 +22,7 @@ namespace JobsV1.Areas.Products.Controllers
         public ActionResult Index()
         {
             var smProducts = db.SmProducts.Include(s => s.SmProdStatu).Include(s => s.SmBranch);
-            return View(smProducts.ToList());
+            return View(smProducts.ToList().OrderBy(s=>s.ValidStart));
         }
 
         // GET: Products/SmProducts/Details/5

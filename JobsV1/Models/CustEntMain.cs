@@ -34,6 +34,7 @@ namespace JobsV1.Models
         public string Website { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> CityId { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntity> CustEntities { get; set; }

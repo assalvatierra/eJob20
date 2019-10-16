@@ -181,22 +181,29 @@ SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId =
 FROM Suppliers sup 
 
 SELECT counting = (SELECT Id FROM SalesLeadItems sli WHERE sli.SalesLeadId = sl.Id) FROM SalesLeads sl 
-
+    
 SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId )
-FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
-City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId) ,
-ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name, ' <br /> ', Contact1, ' / ', Contact2) 
-FROM Customers cust WHERE cust.Id = ce.CustomerId) 
-FROM CustEntities ce 
-WHERE cem.Id = ce.CustEntMainId) FROM CustEntMains cem
-WHERE  Name Like '%Manila%' 
+	FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+	City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId) ,
+	ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name, ' <br /> ', Contact1, ' / ', Contact2) 
+	FROM Customers cust WHERE cust.Id = ce.CustomerId) 
+	FROM CustEntities ce 
+	WHERE cem.Id = ce.CustEntMainId) FROM CustEntMains cem
+	WHERE  Name Like '%Manila%' 
 
 -------- Search supplier inv items ----------
-SELECT * , 
+ SELECT * ,  
  City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
  SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id ),
- Items = SUBSTRING( (SELECT
-	ItemName = (SELECT ii.Description as [text()] FROM InvItems ii WHERE sii.InvItemId = ii.Id FOR XML PATH(''))
+ Items = SUBSTRING( (SELECT ItemName = (SELECT ii.Description  as [text()] FROM InvItems ii WHERE sii.InvItemId = ii.Id FOR XML PATH('')) 
 	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId FOR XML PATH('')),2,100 ) 
- FROM Suppliers sup 
+ FROM Suppliers sup WHERE City LIKE '% Davao %'
 
+ SELECT data =
+ ( SELECT * , 
+ City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
+ SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id ),
+ Items = SUBSTRING( (SELECT sii.Id as [text()]
+	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId 
+	FOR XML PATH('')),2,100 ) 
+ FROM Suppliers sup)

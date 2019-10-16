@@ -17,6 +17,7 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public int CustEntMainId { get; set; }
         public int CustomerId { get; set; }
+        public string Position { get; set; }
     
         public virtual CustEntMain CustEntMain { get; set; }
         public virtual Customer Customer { get; set; }
