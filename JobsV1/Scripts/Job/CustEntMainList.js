@@ -125,6 +125,8 @@ function LoadTable(data) {
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
         var ContactPerson = temp[x]["ContactPerson"] != null ? temp[x]["ContactPerson"] : "--";
+        var ContactPersonPos = temp[x]["ContactPersonPos"] != null ? temp[x]["ContactPersonPos"] : "--";
+        var Status = temp[x]["Status"] != null ? temp[x]["Status"] : "--";
         City = temp[x]["City"] != null ? temp[x]["City"] : "--";
 
         if (temp[x]["Id"] == prevId) {
@@ -141,9 +143,9 @@ function LoadTable(data) {
             content += "<td>" + City + "</td>";
             content += "<td>" + contact1 + "</td>";
             content += "<td>" + categories + "</td>";
-            content += "<td>" + categories + "</td>"; // status
+            content += "<td>" + Status + "</td>"; // status
             content += "<td>" + ContactPerson + "</td>";
-            content += "<td>" + categories + "</td>"; // status
+            content += "<td>" + ContactPersonPos + "</td>"; // status
 
             content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
                     + "</td>";

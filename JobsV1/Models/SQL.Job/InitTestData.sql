@@ -207,3 +207,25 @@ SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c
 	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId 
 	FOR XML PATH('')),2,100 ) 
  FROM Suppliers sup)
+
+
+ SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+                City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
+                ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name, ' <br /> ', Contact1, ' / ', Contact2)
+                FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId), 
+				
+				ContactPersonPos = (SELECT TOP 1 Name = (SELECT Name FROM Customers cust WHERE cust.Id = ce.CustomerId) 
+				FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) ,
+				
+				ContactPersonPos = (SELECT TOP 1 Position 
+				FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) 
+
+				FROM CustEntMains cem ;
+
+
+				 SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+                 City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
+                 ContactPerson = (SELECT TOP 1 Name = (SELECT Name 
+                 FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) ,
+                 ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) 
+                 FROM CustEntMains cem

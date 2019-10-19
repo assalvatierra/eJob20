@@ -960,7 +960,7 @@
     <Property Name="Website" Type="nvarchar" Nullable="true" MaxLength="180" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="CityId" Type="int" Nullable="true" />
-    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Status" Type="nvarchar" Nullable="true" DefaultValue="ACT" MaxLength="10" />
   </EntityType>
   <EntityType Name="SalesLeads">
     <Key>
@@ -1028,7 +1028,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
     <Property Name="CustomerId" Type="int" Nullable="false" />
-    <Property Name="Position" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Position" Type="nvarchar" Nullable="true" MaxLength="50" />
   </EntityType>
   <EntityType Name="SalesActStatus">
     <Key>
@@ -4404,7 +4404,7 @@
           <NavigationProperty Name="CustEntClauses" Relationship="JobDB.CustEntMainCustEntClauses" FromRole="CustEntMain" ToRole="CustEntClauses" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="CityId" Type="Int32" Nullable="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="10" />
+          <Property Name="Status" Type="String" Nullable="true" MaxLength="10" DefaultValue="ACT" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -4524,7 +4524,7 @@
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="JobDB.CustomerCustEntity" FromRole="CustEntity" ToRole="Customer" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="Position" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Position" Type="String" Nullable="true" MaxLength="50" />
         </EntityType>
         <Association Name="CustEntMainCustEntity">
           <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />

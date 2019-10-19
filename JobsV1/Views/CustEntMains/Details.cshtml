@@ -14,15 +14,18 @@
     </p>
 </div>
 <div class="row">
-        <h1> @Html.DisplayFor(model => model.Name) </h1>
-        <h5> @Html.DisplayFor(model => model.Contact1) / @Html.DisplayFor(model => model.Contact2) </h5>
-       @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
+    <h1> @Html.DisplayFor(model => model.Name) </h1>
+    <h5> Telephone: @Html.DisplayFor(model => model.Contact1) </h5>
+    <h5> Fax: @Html.DisplayFor(model => model.Contact2) </h5>
+    <h5> <a href="@Html.DisplayFor(model => model.Website)">  @Html.DisplayFor(model => model.Website) </a> </h5>
+    <h5> <b>Status:</b> @Html.DisplayFor(model => model.Status)  </h5>
+    @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
 </div>
 
 <div class="row">
     <h3> Categories </h3>
-    <a href="#" id="catbtn" data-toggle="modal" data-target="#categoryModal">Add Category</a> 
-    @foreach (var cat in Model.CustEntCats as IEnumerable<JobsV1.Models.CustEntCat> )
+    <a href="#" id="catbtn" data-toggle="modal" data-target="#categoryModal">Add Category</a>
+    @foreach (var cat in Model.CustEntCats as IEnumerable<JobsV1.Models.CustEntCat>)
     {
         <p>@cat.CustCategory.Name</p>
     }
@@ -33,7 +36,7 @@
     @Html.ActionLink("Add Address", "CreateAddress", "CustEntAddresses", new { companyId = Model.Id }, null)
     @foreach (var address in Model.CustEntAddresses as IEnumerable<JobsV1.Models.CustEntAddress>)
     {
-        
+
         <p>
             @if (address.isPrimary == true && address.isBilling == true)
             {
@@ -58,11 +61,11 @@
                 <text>Address:</text>
             }
         </p>
-        <p class="comp-address"> 
+        <p class="comp-address">
             <b> &nbsp;&nbsp; @address.Line1  @address.Line2  @address.Line3  @address.Line4  @address.Line5 </b>
-            <span class="comp-address-actions" style="display:none;"> 
+            <span class="comp-address-actions" style="display:none;">
                 <a href="#" id="catbtn" data-toggle="modal" data-target="#comAddressEdit"
-                    onclick="edit_setAddress(@address.Id,'@address.Line1','@address.Line2','@address.Line3','@address.Line4','@address.Line5','@address.isPrimary','@address.isBilling')"> Edit  </a> |
+                   onclick="edit_setAddress(@address.Id,'@address.Line1','@address.Line2','@address.Line3','@address.Line4','@address.Line5','@address.isPrimary','@address.isBilling')"> Edit  </a> |
                 <a onclick="ajax_RemoveAddress(@address.Id)">Delete</a>
             </span>
         </p>
@@ -70,15 +73,55 @@
 </div>
 
 <div class="row">
+
     <h3>Contacts </h3>
-    @foreach (var customers in Model.CustEntities as IEnumerable<JobsV1.Models.CustEntity>)
-    {
-        <p> 
-            <h4>
-                @Html.ActionLink(customers.Customer.Name , "Details", "Customers", new { id = Model.Id }, null)
-            </h4>
-        </p>
-    }
+    <a href="#" id="catbtn" data-toggle="modal" data-target="#comContactAdd" > Add Contact  </a> 
+    
+    <table class="table table-bordered">
+        <tr>
+            <th>  Contact Person </th>
+            <th>  Position </th>
+            <th>  Email </th>
+            <th>  Telephone </th>
+            <th>  Mobile </th>
+            <th>  Social Media </th>
+            <th>  Status </th>
+        </tr>
+        @foreach (var customers in Model.CustEntities.Distinct() as IEnumerable<JobsV1.Models.CustEntity>)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(customers.Customer.Name, "Details", "Customers", new { id = Model.Id }, null)
+                </td>
+                <td>
+                    @customers.Position
+                </td>
+                <td>
+                    @customers.Customer.Email
+                </td>
+                <td>
+                    @customers.Customer.Contact1
+                </td>
+                <td>
+                    @customers.Customer.Contact2
+                </td>
+                <td>
+                    @foreach (var social in customers.Customer.CustSocialAccs.Take(1) as IEnumerable<JobsV1.Models.CustSocialAcc>)
+                    {
+                        @social.Facebook
+                    }
+                </td>
+                <td>
+                    @customers.Customer.Status
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Details", "Customers", new { id = Model.Id }, null) |
+                    @Html.ActionLink("Remove", "DeleteContact", "CustEntMains", new { id = customers.Id }, null)
+
+                </td>
+            </tr>
+        }
+    </table>
 </div>
 
 <div class="row">
@@ -98,38 +141,38 @@
             <p> @clause.Desc1 </p>
             <p> @clause.Desc2 </p>
             <p> @clause.Desc3 </p>
-            
+
         </div><br />
     }
 </div>
 
 <div class="row">
-  <h3>Sales Leads</h3> 
+    <h3>Sales Leads</h3>
 
-  <table class="table table-striped">
-      <tr>
-          <th>Details</th>
-          <th>Remarks</th>
-          <th>Status</th>
-      </tr>
+    <table class="table table-striped">
+        <tr>
+            <th>Details</th>
+            <th>Remarks</th>
+            <th>Status</th>
+        </tr>
 
-      @foreach (var item in ViewBag.SalesLeads as IEnumerable<JobsV1.Models.Class.CompanyLeadsTbl> )
-      {
-          
-      <tr>
-           <td>
-            @item.Desc
-          </td>
-          <td>
-              @item.Remarks
-          </td>
-          <td>
-              @item.status
-          </td>
-      </tr>
-      }
+        @foreach (var item in ViewBag.SalesLeads as IEnumerable<JobsV1.Models.Class.CompanyLeadsTbl>)
+        {
 
-  </table>
+            <tr>
+                <td>
+                    @item.Desc
+                </td>
+                <td>
+                    @item.Remarks
+                </td>
+                <td>
+                    @item.status
+                </td>
+            </tr>
+        }
+
+    </table>
 </div>
 
 <div class="row">
@@ -139,19 +182,19 @@
         <input id="startDate" type="date" /> -
         <input id="endDate" type="date" />
         &nbsp;&nbsp;&nbsp;
-        <a onclick="getLastJobs(30)">Last 30 Days</a> 
+        <a onclick="getLastJobs(30)">Last 30 Days</a>
         <a onclick="getLastJobs(60)">Last 60 Days</a>
         &nbsp;&nbsp;&nbsp;
         <input type="button" value="Filter" class="btn btn-default" style="margin-top:-10px;padding:5px;" onclick="detailsUpdate(@customerid)" />
     </p>
     <p id="StatusOp">
         <b>Status: </b>
-        <a onclick="statusUpdate('ALL')"            id="ALL">         ALL</a> |
-        <a onclick="statusUpdate('INQUIRY')"        id="INQUIRY">     INQUIRY</a> |
-        <a onclick="statusUpdate('RESERVATION')"    id="RESERVATION"> RESERVATION</a> |
-        <a onclick="statusUpdate('CONFIRMED')"      id="CONFIRMED">   CONFIRMED</a> |
-        <a onclick="statusUpdate('CLOSED')"         id="CLOSED">      CLOSED</a> |
-        <a onclick="statusUpdate('CANCELLED')"      id="CANCELLED">   CANCELLED</a>
+        <a onclick="statusUpdate('ALL')" id="ALL">         ALL</a> |
+        <a onclick="statusUpdate('INQUIRY')" id="INQUIRY">     INQUIRY</a> |
+        <a onclick="statusUpdate('RESERVATION')" id="RESERVATION"> RESERVATION</a> |
+        <a onclick="statusUpdate('CONFIRMED')" id="CONFIRMED">   CONFIRMED</a> |
+        <a onclick="statusUpdate('CLOSED')" id="CLOSED">      CLOSED</a> |
+        <a onclick="statusUpdate('CANCELLED')" id="CANCELLED">   CANCELLED</a>
     </p>
 
     <table class="table table-striped">
@@ -178,6 +221,69 @@
         }
     </table>
 </div>
+
+<!-- Add Contact Modal -->
+<div class="modal fade" id="comContactAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add New Contact</h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Name </b>
+                    <div class="col-md-10">
+                        <input id="ac-name" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Position </b>
+                    <div class="col-md-10">
+                        <input id="ac-position" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Email </b>
+                    <div class="col-md-10">
+                        <input id="ac-email" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Telephone </b>
+                    <div class="col-md-10">
+                        <input id="ac-tel" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Mobile </b>
+                    <div class="col-md-10">
+                        <input id="ac-mobile" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform hidden">
+                    <b class="col-md-2"> Social  Media </b>
+                    <div class="col-md-10">
+                        <input id="ac-social" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform hidden">
+                    <b class="col-md-2"> Status </b>
+                    <div class="col-md-10">
+                        <input id="ac-status" class="form-control" type="text" maxlength="80" value="ACT">
+                    </div><p></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_AddContact()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- Add Address Edit Modal -->
 <div class="modal fade" id="comAddressEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -236,7 +342,7 @@
                 <div class="form-group cform">
                     <b class="col-md-2"> Primary </b>
                     <div class="col-md-10">
-                        <input id="EditPrim" type="checkbox" >
+                        <input id="EditPrim" type="checkbox">
                     </div><p></p>
                 </div>
             </div>
@@ -247,7 +353,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- Add Clause Edit Modal -->
 <div class="modal fade" id="comClauseEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -312,8 +417,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
 <!-- Categories Modal  -->
 <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -340,43 +443,43 @@
 </div><!-- /.modal -->
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
-<script src="~/Scripts/jquery-3.3.1.js"> </script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
-<script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
-<script src="~/Scripts/Job/CompanyDetails.js"> </script>
-<script src="~/Scripts/Job/CompanyReport.js"> </script>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+<script src="~/Scripts/Job/CompanyDetails.js"></script>
+<script src="~/Scripts/Job/CompanyReport.js"></script>
 
 <script>
     //Show hide edit / delete of address
     $(document).ready(function () {
         $("p.comp-address").hover(
-          function () { //on hover
-              //console.log("test hover");
-              $(this).children("span.comp-address-actions").show();
-          },
-          function () { //on leave
-              //console.log("test leave");
-              $(this).children("span.comp-address-actions").hide();
-          }
+            function () { //on hover
+                //console.log("test hover");
+                $(this).children("span.comp-address-actions").show();
+            },
+            function () { //on leave
+                //console.log("test leave");
+                $(this).children("span.comp-address-actions").hide();
+            }
         );
     });
 
     //Show hide edit / delete of Clauses
     $(document).ready(function () {
         $("div.comp-clauses").hover(
-          function () { //on hover
-              //console.log("test hover");
-              $(this).children("span.comp-clauses-actions").show();
-          },
-          function () { //on leave
-              //console.log("test leave");
-              $(this).children("span.comp-clauses-actions").hide();
-          }
+            function () { //on hover
+                //console.log("test hover");
+                $(this).children("span.comp-clauses-actions").show();
+            },
+            function () { //on leave
+                //console.log("test leave");
+                $(this).children("span.comp-clauses-actions").hide();
+            }
         );
     });
 
     //ADDRESS EDIT - SET INPUT
-    function edit_setAddress(id,line1, line2, line3, line4, line5, isPrimary, isBilling) {
+    function edit_setAddress(id, line1, line2, line3, line4, line5, isPrimary, isBilling) {
         $("#address-ID").val(id);
         $("#Address-1").val(line1);
         $("#Address-2").val(line2);
@@ -391,7 +494,7 @@
     }
 
     //ADDRESS EDIT - SET INPUT
-    function edit_setClause(id, title,stardate, enddate, desc1, desc2, desc3) {
+    function edit_setClause(id, title, stardate, enddate, desc1, desc2, desc3) {
         $("#Clause-ID").val(id);
         $("#Clause-Title").val(title);
         $("#Clause-StartDate").val(stardate);
@@ -407,6 +510,44 @@
         } else {
             return false;
         }
+    }
+    
+    //ADDRESS EDIT
+    function ajax_AddContact() {
+
+        //build json object
+        var data = {
+            companyId : @Model.Id,
+            name: $("#ac-name").val(),
+            position: $("#ac-position").val(),
+            email: $("#ac-email").val(),
+            tel: $("#ac-tel").val(),
+            mobile: $("#ac-mobile").val(),
+            social: $("#ac-social").val(),
+            status: $("#ac-status").val()
+        };
+
+        console.log("TEST: " + $("#ac-name").val());
+        console.log("Add Data: ");
+        console.log(data);
+
+        var url = '/CustEntMains/AddContact';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                //location.reload();
+            }
+        });
     }
 
     //ADDRESS EDIT
@@ -503,12 +644,12 @@
             error: function (data) {
                 // console.log("ERROR");
                 console.log(data);
-                
+
                 location.reload();
             }
         });
     }
-    
+
     //CLAUSE DELETE
     function ajax_RemoveClause(Id) {
 
@@ -531,7 +672,7 @@
             error: function (data) {
                 // console.log("ERROR");
                 console.log(data);
-                
+
                 location.reload();
             }
         });

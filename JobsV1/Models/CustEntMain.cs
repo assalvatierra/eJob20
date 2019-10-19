@@ -17,6 +17,7 @@ namespace JobsV1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustEntMain()
         {
+            this.Status = "ACT";
             this.CustEntities = new HashSet<CustEntity>();
             this.JobEntMains = new HashSet<JobEntMain>();
             this.SalesLeadCompanies = new HashSet<SalesLeadCompany>();

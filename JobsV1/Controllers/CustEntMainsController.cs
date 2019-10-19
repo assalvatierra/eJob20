@@ -17,6 +17,12 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
         private SalesLeadClass slc = new SalesLeadClass();
         private CompanyClass comdb = new CompanyClass();
+
+        private List<SelectListItem> StatusList = new List<SelectListItem> {
+                new SelectListItem { Value = "ACT", Text = "Active" },
+                new SelectListItem { Value = "INC", Text = "Inactive" },
+                new SelectListItem { Value = "BAD", Text = "Bad Account" }
+                };
         public ActionResult Index()
         {
             return View(db.CustEntMains.ToList());
@@ -138,6 +144,7 @@ namespace JobsV1.Controllers
             CustEntMain main = new CustEntMain();
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
 
             return View(main);
         }
@@ -147,7 +154,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website")] CustEntMain custEntMain, int? id)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website,Status")] CustEntMain custEntMain, int? id)
         {
             if (ModelState.IsValid)
             {
@@ -166,6 +173,8 @@ namespace JobsV1.Controllers
                 }
                  return RedirectToAction("Index", "CustEntMains", null);
             }
+            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
 
             return View(custEntMain);
         }
@@ -183,7 +192,8 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId) ;
+            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
             return View(custEntMain);
         }
 
@@ -192,7 +202,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website")] CustEntMain custEntMain)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website,Status")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {
@@ -200,6 +210,8 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name",custEntMain.CityId);
+            ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
             return View(custEntMain);
         }
 
@@ -379,6 +391,62 @@ namespace JobsV1.Controllers
           
         }
         #endregion
+
+
+        public ActionResult DeleteContact(int id)
+        {
+            CustEntity custEnt = db.CustEntities.Find(id);
+            var companyId = custEnt.CustEntMainId;
+            db.CustEntities.Remove(custEnt);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = companyId });
+        }
+
+
+        public string AddContact(int companyId, string name, string position, string email, string tel, string mobile, string social, string status)
+        {
+            try
+            {
+
+                //create new customer based on company id
+                Customer newCust = new Customer();
+                newCust.Name = name;
+                newCust.Email = email;
+                newCust.Contact1 = tel;
+                newCust.Contact2 = mobile;
+                newCust.Status = status;
+
+                db.Customers.Add(newCust);
+                db.SaveChanges();
+
+                ////create new customer social account
+                //CustSocialAcc socialacc = new CustSocialAcc();
+                //socialacc.CustomerId = newCust.Id;
+                //socialacc.Facebook = social;
+
+                //db.CustSocialAccs.Add(socialacc);
+                //db.SaveChanges();
+
+                //create new connection from customer and company
+                CustEntity custEnt = new CustEntity();
+                custEnt.CustEntMainId = companyId;
+                custEnt.CustomerId = newCust.Id;
+                custEnt.Position = position;
+
+                db.CustEntities.Add(custEnt);
+                db.SaveChanges();
+
+                return "200";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+
 
     }
 }

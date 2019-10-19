@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Github\eJob20\JobsV1\Models\JobDB.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

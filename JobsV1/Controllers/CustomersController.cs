@@ -213,10 +213,12 @@ namespace JobsV1.Controllers
                 ViewBag.companies = List;
 
                 var Companies = db.CustEntities.Where(s => s.CustomerId == id).ToList();
-
+                var RecentCompany = db.CustEntities.Where(s => s.CustomerId == id).OrderByDescending(s=>s.Id).FirstOrDefault();
+                //var position = db.CustEntities.Where(s=>s.CustomerId == id && s.CustEntMainId == RecentCompany.CustEntMainId)
                 ViewBag.companyList = CompanyList.ToList();
                 ViewBag.companiesPrev = Companies;
                 ViewBag.CustomerID = id;
+                ViewBag.custposition = RecentCompany.Position;
 
             }
         }
@@ -251,23 +253,17 @@ namespace JobsV1.Controllers
 
         // /Customers/Details
         // assign company Category to the user
-        public ActionResult addCompanyCat(int companyId, int userid)
+        public string addCompanyCat(int companyId, int userid, string position)
         {
-            if (companyId > 1)
-            {
                 db.CustEntities.Add(new CustEntity
                 {
                     CustEntMainId = companyId,
-                    CustomerId = userid
+                    CustomerId = userid,
+                    Position = position
                 });
                 db.SaveChanges();
 
-                return RedirectToAction("Details", "Customers", new { id = userid });
-            }
-            else
-            {   //create new company
-                return RedirectToAction("CompanyCreate", "Customers", new { id = userid });
-            }
+                return "200";
         }
 
         //get list of customers with

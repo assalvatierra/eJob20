@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/14/2019 17:11:01
--- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 10/18/2019 11:28:04
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -334,6 +334,9 @@ IF OBJECT_ID(N'[dbo].[FK_CustomerCustSocialAcc]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_SupplierContactStatusSupplierContact]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SupplierContacts] DROP CONSTRAINT [FK_SupplierContactStatusSupplierContact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierCountry]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Suppliers] DROP CONSTRAINT [FK_SupplierCountry];
 GO
 
 -- --------------------------------------------------
@@ -1079,7 +1082,8 @@ CREATE TABLE [dbo].[CustEntMains] (
     [iconPath] nvarchar(150)  NULL,
     [Website] nvarchar(180)  NULL,
     [Remarks] nvarchar(80)  NULL,
-    [CityId] int  NULL
+    [CityId] int  NULL,
+    [Status] nvarchar(10)  NULL
 );
 GO
 
@@ -1146,7 +1150,8 @@ GO
 CREATE TABLE [dbo].[CustEntities] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [CustEntMainId] int  NOT NULL,
-    [CustomerId] int  NOT NULL
+    [CustomerId] int  NOT NULL,
+    [Position] nvarchar(50)  NULL
 );
 GO
 

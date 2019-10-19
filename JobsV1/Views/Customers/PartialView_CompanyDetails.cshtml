@@ -6,42 +6,48 @@
 
 }
 
-<dl class="dl-horizontal">
+    <dl class="dl-horizontal">
         <dt>
             <h4>
                 Company
             </h4>
         </dt>
         <dd></dd>
-    @foreach (var item in Model.Take(1))
-    {
+        @foreach (var item in Model.Take(1))
+        {
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(modelItem => item.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd>
-            @Html.DisplayFor(modelItem => item.Address)
-        </dd>
-        <dt>
-            Contact 
-        </dt>
-        <dd>
-            <a href='tel:@Html.DisplayFor(modelItem => item.Contact1)'>  @Html.DisplayFor(modelItem => item.Contact1) </a> |
-            <a href='tel:@Html.DisplayFor(modelItem => item.Contact1)'> @Html.DisplayFor(modelItem => item.Contact2) </a>
-        </dd>
-        <dd>
-            @Html.ActionLink("Details", "Details", "CustEntMains",new { id = item.Id }, null) 
-         </dd>
-     }
+            <dt>
+               Position:
+            </dt>
+            <dd>
+                @ViewBag.custposition
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd>
+                @Html.DisplayFor(modelItem => item.Address)
+            </dd>
+            <dt>
+                Contact
+            </dt>
+            <dd>
+                <a href='tel:@Html.DisplayFor(modelItem => item.Contact1)'>  @Html.DisplayFor(modelItem => item.Contact1) </a> |
+                <a href='tel:@Html.DisplayFor(modelItem => item.Contact1)'> @Html.DisplayFor(modelItem => item.Contact2) </a>
+            </dd>
+            <dd>
+                @Html.ActionLink("Details", "Details", "CustEntMains", new { id = item.Id }, null)
+            </dd>
+        }
         <dd>
             <a id="catbtn" data-toggle="modal" data-target="#companyViewModal" style="margin-bottom:10px;">Add Company</a> |
-            <a id="catbtn" data-toggle="modal" data-target="#companyPrevListModal" style="margin-bottom:10px;">Company History</a> 
+            <a id="catbtn" data-toggle="modal" data-target="#companyPrevListModal" style="margin-bottom:10px;">Company History</a>
         </dd>
     </dl>
 
@@ -103,7 +109,7 @@
 </div><!-- /.modal -->
 
 
-<!-- Modal -->
+<!-- Add Company Modal -->
 <div class="modal fade" id="companyViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -112,17 +118,71 @@
                 <h4 class="modal-title">Company List</h4>
             </div>
             <div class="modal-body" id="modal2-content">
-                <div class="list-group" id="categorylist">
-                    @foreach (var item in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
-                    {
-                        <a href="@Url.Action("addCompanyCat", "Customers", new { companyId = item.Id, userid = @customerid })" class="list-group-item"> @item.Name </a>
-                    }
+
+                <div class="form-group">
+
+
+                    @*@foreach (var item in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
+            {
+                <a href="@Uracl.Action("addCompanyCat", "Customers", new { companyId = item.Id, userid = @customerid })" class="list-group-item"> @item.Name </a>
+            }*@
+                    <span class="control-label col-md-2">Company</span>
+                    <div class="col-md-10">
+                        <select name="CompanyList" class="form-control col-md-4" id="cust-companyList">
+                            @foreach (var company in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
+                            {
+                                <option value="@company.Id"> @company.Name </option>
+                            }
+                        </select>
+                    </div>
                 </div>
+                <br /><br />
+
+                <div class="form-group">
+                    <span class="control-label col-md-2">Position</span>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="cust-position" />
+                    </div>
+                </div>
+                <br /><br />
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="addCustomerCompany()">Submit</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<script>
+    function addCustomerCompany() {
+
+          var custId =  @customerid.ToString();
+          var comId = $('#cust-companyList :selected').val();
+          var pos = $('#cust-position').val();
+
+        //build json object
+        var data = {
+            companyId : 3,
+            userid: 4,
+            position : "test"
+        };
+         console.log(data);
+        //request data from server using ajax call
+        $.ajax({
+            url: '../addCompanyCat?companyId='+comId+'&userid='+custId+'&position='+pos,
+            type: "GET",
+            data: JSON.stringify(data),
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //console.log("SUCCESS");
+                console.log(data);
+            },
+            error: function (data) {
+                //console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+</script>
