@@ -17,6 +17,7 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
         private SalesLeadClass slc = new SalesLeadClass();
         private CompanyClass comdb = new CompanyClass();
+        private DBClasses dbclasses = new DBClasses();
 
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "ACT", Text = "Active" },
@@ -145,6 +146,7 @@ namespace JobsV1.Controllers
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName");
 
             return View(main);
         }
@@ -154,7 +156,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website,Status")] CustEntMain custEntMain, int? id)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website,Status,AssignedTo")] CustEntMain custEntMain, int? id)
         {
             if (ModelState.IsValid)
             {
@@ -175,6 +177,7 @@ namespace JobsV1.Controllers
             }
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName");
 
             return View(custEntMain);
         }
@@ -194,6 +197,7 @@ namespace JobsV1.Controllers
 
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
             return View(custEntMain);
         }
 
@@ -202,7 +206,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website,Status")] CustEntMain custEntMain)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website,Status,AssignedTo")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {
@@ -212,6 +216,7 @@ namespace JobsV1.Controllers
             }
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name",custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
             return View(custEntMain);
         }
 
