@@ -109,7 +109,7 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
         // GET: JobOrder
-        public ActionResult Index(int? sortid, int? serviceId, int? mainid)
+        public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
         {
 
             if (sortid != null)
@@ -135,6 +135,12 @@ namespace JobsV1.Controllers
             var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
             jobmainId = mainid != null ? (int)mainid : jobmainId;
             ViewBag.mainId = jobmainId;
+
+            //SEARCH
+            if (search != null)
+            {
+                data = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) || d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower())).ToList();
+            }
 
             if (sortid == 1)
             {
@@ -1636,8 +1642,8 @@ order by x.jobid
 
             //Default form
             string sCompany = "AJ88 Car Rental Services";
-            string sLine1 = "2nd Floor J. Sulit Bldg. Mac Arthur Highway, Matina Davao City ";
-            string sLine2 = "Tel# (+63)822971831; (+63)9167558473; (+63)9330895358 ";
+            string sLine1 = "Door 1 RedDoorz Travelers Inn, Matina Pangi Rd. Matina Crossing, Davao City ";
+            string sLine2 = "Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358 ";
             string sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
             string sLine4 = "TIN: 414-880-772-001 (non-Vat)";
             string sLogo = "LOGO_AJRENTACAR.jpg";
@@ -1646,8 +1652,8 @@ order by x.jobid
             if (jobMain.Branch.Name == "RealBreeze")
             {
                 sCompany = "Real Breeze Travel & Tours - Davao City";
-                sLine1 = "2nd Floor J. Sulit Bldg. Mac Arthur Highway, Matina Davao City ";
-                sLine2 = "Tel# (+63)822971831; (+63)916-755-8473; (+63)933-089-5358 ";
+                sLine1 = "Door 1 RedDoorz Travelers Inn, Matina Pangi Rd. Matina Crossing, Davao City";
+                sLine2 = "Tel# (+63)82 333-5157; (+63)916-755-8473; (+63)933-089-5358 ";
                 sLine3 = "Email: RealBreezeDavao@gmail.com; Website: http://www.realbreezedavaotours.com//";
                 sLine4 = "TIN: 414-880-772-000 (non-Vat)";
                 sLogo = "RealBreezeLogo01.png";
@@ -1657,8 +1663,8 @@ order by x.jobid
             if (jobMain.Branch.Name == "AJ88")
             {
                 sCompany = "AJ88 Car Rental Services";
-                sLine1 = "2nd Floor J. Sulit Bldg. Mac Arthur Highway, Matina Davao City ";
-                sLine2 = "Tel# (+63)822971831; (+63)9167558473; (+63)9330895358 ";
+                sLine1 = "Door 1 RedDoorz Travelers Inn, Matina Pangi Rd. Matina Crossing, Davao City";
+                sLine2 = "Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358 ";
                 sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
                 sLine4 = "TIN: 414-880-772-001 (non-Vat)";
                 sLogo = "LOGO_AJRENTACAR.jpg";
@@ -1750,7 +1756,7 @@ order by x.jobid
             //Default form
             string sCompany = "AJ88 Car Rental Services";
             string sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000 ";
-            string sLine2 = "Tel# (+63)822971831; (+63)9167558473; (+63)9330895358 ";
+            string sLine2 = "Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358 ";
             string sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
             string sLine4 = "TIN: 414-880-772-001 (non-Vat)";
             string sLogo = "LOGO_AJRENTACAR.jpg";
@@ -1760,7 +1766,7 @@ order by x.jobid
             {
                 sCompany = "Real Breeze Travel & Tours - Davao City";
                 sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
-                sLine2 = "Tel# (+63)822971831; (+63)916-755-8473; (+63)933-089-5358 ";
+                sLine2 = "Tel# (+63)82 333-5157; (+63)916-755-8473; (+63)933-089-5358 ";
                 sLine3 = "Email: RealBreezeDavao@gmail.com; Website: http://www.realbreezedavaotours.com//";
                 sLine4 = "TIN: 414-880-772-000 (non-Vat)";
                 sLogo = "RealBreezeLogo01.png";
@@ -1771,7 +1777,7 @@ order by x.jobid
             {
                 sCompany = "AJ88 Car Rental Services";
                 sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
-                sLine2 = "Tel# (+63)822971831; (+63)9167558473; (+63)9330895358 ";
+                sLine2 = "Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358 ";
                 sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
                 sLine4 = "TIN: 414-880-772-001 (non-Vat)";
                 sLogo = "LOGO_AJRENTACAR.jpg";
@@ -1856,6 +1862,8 @@ order by x.jobid
                     return "Grace-chell V. Capandac";
                 case "assalvatierra@gmail.com":
                     return "Elvie S. Salvatierra ";
+                case "jecca.realbreeze@gmail.com":
+                    return "Jecca Bilason";
                 default:
                     return "Elvie S. Salvatierra ";
             }
@@ -1875,6 +1883,8 @@ order by x.jobid
                     return "/Images/Signature/GraceSign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
+                case "jecca.realbreeze@gmail.com":
+                    return "/Images/Signature/Jecca.Sign.jpg";
                 default:
                     return "/Images/Signature-1.png";
             }
