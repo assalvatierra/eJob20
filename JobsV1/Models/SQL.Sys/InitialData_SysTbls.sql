@@ -79,8 +79,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 ('CU105','Customers','List of Customers','A','../Images/Erp/icons/icons-business.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (5,5);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('Companies','',5,'CustEntMains','Index','',21,52),			-- id: 31
-	('Contacts','',5,'Customers','Index','',21,51),			-- id: 30
+	('Companies','',5,'CustEntMains','Index','',21,51),			-- id: 31
+	('Contacts','',5,'Customers','Index','',21,52),			-- id: 30
 	('Email Blaster','',5,'EmailBlaster','Index','',21,53),  	-- id: 32
 	('Customer Portal','',5,'PortalCustomers','Index','',21,54); -- id: 33
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 

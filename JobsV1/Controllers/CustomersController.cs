@@ -205,20 +205,36 @@ namespace JobsV1.Controllers
         {
             if(id != null)
             {
+                
+
                 //PartialView for Details of the Customer
                 List<CustEntMain> CompanyList = custdb.getCustCompanies((int)id);
 
+                ViewBag.companyList = CompanyList.ToList();
+         
                 //get all companies
                 List<CustEntMain> List = db.CustEntMains.ToList();
+
                 ViewBag.companies = List;
 
                 var Companies = db.CustEntities.Where(s => s.CustomerId == id).ToList();
-                var RecentCompany = db.CustEntities.Where(s => s.CustomerId == id).OrderByDescending(s=>s.Id).FirstOrDefault();
+
+                try
+                {
+                    //check if there is company linked ot customer
+                    var RecentCompany = db.CustEntities.Where(s => s.CustomerId == id).OrderByDescending(s => s.Id).FirstOrDefault();
+                    ViewBag.custposition = RecentCompany.Position;
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.custposition = "N/A";
+                }
+
                 //var position = db.CustEntities.Where(s=>s.CustomerId == id && s.CustEntMainId == RecentCompany.CustEntMainId)
-                ViewBag.companyList = CompanyList.ToList();
+
+
                 ViewBag.companiesPrev = Companies;
                 ViewBag.CustomerID = id;
-                ViewBag.custposition = RecentCompany.Position;
 
             }
         }

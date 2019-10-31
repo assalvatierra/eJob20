@@ -961,6 +961,7 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="CityId" Type="int" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="true" DefaultValue="ACT" MaxLength="10" />
+    <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="SalesLeads">
     <Key>
@@ -4405,6 +4406,7 @@
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="CityId" Type="Int32" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="10" DefaultValue="ACT" />
+          <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -6580,6 +6582,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="CityId" ColumnName="CityId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

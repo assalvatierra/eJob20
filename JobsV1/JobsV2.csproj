@@ -1125,6 +1125,7 @@
     <Content Include="Images\CarRental\Ads\Paypal-disabled.PNG" />
     <Content Include="Images\CarRental\Ads\placeholder.png" />
     <Content Include="Images\CarRental\Ads\Realwheelsdava-FB.png" />
+    <Content Include="Images\CarRental\Banner\RealwheelsDavao-2019.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.jpg" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner3.png" />
@@ -1353,6 +1354,7 @@
     <Content Include="Images\SalesLead\unhappy.jpg" />
     <Content Include="Images\Signature-1.png" />
     <Content Include="Images\Signature\GraceSign.jpg" />
+    <Content Include="Images\Signature\Jecca.Sign.jpg" />
     <Content Include="Images\Signature\JoSign.JPG" />
     <Content Include="Images\Signature\MaeSign.JPG" />
     <Content Include="Images\Signature\RamSign.JPG" />
