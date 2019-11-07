@@ -9,7 +9,7 @@ namespace JobsV1
 {
     public class RouteConfig
     {
-        //Realwheels
+        //Realwheels   
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -22,7 +22,8 @@ namespace JobsV1
             routes.MapRoute(
                 name: "sitemap",
                 url: "sitemap",
-                defaults: new { controller = "Home", action = "SitemapXml", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "SitemapXml", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
                 );
 
             routes.MapRoute(
@@ -109,8 +110,8 @@ namespace JobsV1
 
         }
 
-        //Solid Steel
-        public static void RegisterRoutes_SolidSteel(RouteCollection routes)
+        //Solid Steel  
+        public static void RegisterRoutes_realwheels(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
@@ -210,7 +211,7 @@ namespace JobsV1
             );
         }
       
-        // AJcarrental Davao / Davao Carrental hub
+        // AJcarrental Davao / Davao Carrental hub 
         public static void RegisterRoutes_Carrental(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
