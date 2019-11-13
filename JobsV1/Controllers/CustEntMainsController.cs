@@ -26,7 +26,8 @@ namespace JobsV1.Controllers
                 };
         public ActionResult Index()
         {
-            return View(db.CustEntMains.ToList());
+            var companies = db.CustEntMains.Where(c => c.Status == "ACT").ToList();
+            return View(companies);
         }
 
         //Ajax - Table Result 
@@ -212,7 +213,7 @@ namespace JobsV1.Controllers
             {
                 db.Entry(custEntMain).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = custEntMain.Id });
             }
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name",custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
@@ -396,8 +397,7 @@ namespace JobsV1.Controllers
           
         }
         #endregion
-
-
+        
         public ActionResult DeleteContact(int id)
         {
             CustEntity custEnt = db.CustEntities.Find(id);

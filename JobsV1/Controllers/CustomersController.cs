@@ -267,7 +267,7 @@ namespace JobsV1.Controllers
            ViewBag.fileList = FilesList;
         }
 
-        // /Customers/Details
+        // Customers/Details
         // assign company Category to the user
         public string addCompanyCat(int companyId, int userid, string position)
         {
@@ -280,6 +280,20 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
 
                 return "200";
+        }
+
+        // /Customers/Details
+        // edit company of user
+        public string editCompanyUser(int companyId, int userid, string position)
+        {
+            db.CustEntities.Add(new CustEntity
+            {
+                CustEntMainId = companyId,
+                CustomerId = userid,
+                Position = position
+            });
+            db.SaveChanges();
+            return "OK";
         }
 
         //get list of customers with

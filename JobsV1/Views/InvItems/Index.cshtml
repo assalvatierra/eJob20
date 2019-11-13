@@ -24,7 +24,7 @@
         <th>
             Categories
         </th>
-        <th>
+        @*<th>
             ContactInfo
         </th>
         <th>
@@ -38,7 +38,7 @@
         </th>
         <th>
             Owner
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -65,7 +65,7 @@
                     @Html.DisplayFor(modelItem => cat.InvItemCat.Name)
                     @Html.ActionLink(" [ x ]", "CatRemove", "InvItems", new { id = cat.Id }, null) |
                 </span>
-               
+                <br />
             }
             <a id="catbtn" data-toggle="modal" data-target="#@item.Id" style="margin-bottom:10px;cursor:pointer" >Add Category</a>
             <br />
@@ -74,11 +74,12 @@
             {
                 @Html.DisplayFor(modelItem => supplier.Supplier.Name )
                 @Html.ActionLink(" [ x ]", "removeSupplier", "InvItems", new { id = supplier.Id }, null) 
+                <br />
             }
             <a id="catbtn" data-toggle="modal" data-target="@("#sup"+@item.Id)" style="margin-bottom:10px;cursor:pointer">Add Supplier</a>
         </td>
 
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.ContactInfo)
         </td>
         <td>
@@ -125,7 +126,7 @@
            
         </td>
         <td>
-            <!--List for Inv Item Categories-->
+          
             @foreach (var coop in item.CoopMemberItems as IEnumerable<JobsV1.Models.CoopMemberItem>)
             {
 
@@ -139,9 +140,9 @@
                 <a id="catbtn" data-toggle="modal" data-target="@("#coop"+@item.Id)" style="margin-bottom:10px;cursor:pointer">Add </a>
             </p>
 
-        </td>
+        </td>*@
         <td>
-            @Html.ActionLink("Records", "Index", "InvCarRecords", new { carId = item.Id }, null) |
+            @*@Html.ActionLink("Records", "Index", "InvCarRecords", new { carId = item.Id }, null) |*@
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |         
             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>

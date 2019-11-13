@@ -19,10 +19,11 @@ namespace JobsV1.Models
         public string iconPath  { get; set; }
         public string Website   { get; set; }
         public string Remarks   { get; set; }
-        public string City    { get; set; }
+        public string City      { get; set; }
         public string Category  { get; set; }
         public string ContactPerson { get; set; }
         public string ContactPersonPos { get; set; }
+        public string AssignedTo { get; set; }
         public string Status { get; set; }
     }
     
@@ -46,12 +47,12 @@ namespace JobsV1.Models
                 " ContactPerson = (SELECT TOP 1 Name = (SELECT Name "+
                 " FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId), "+
                 " ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) "+
-                " FROM CustEntMains cem ";
+                " FROM CustEntMains cem WHERE Status = 'ACT'";
 
             //handle search by name filter
             if (search != null || search != "")
             {
-                sql += " WHERE  cem.Name Like '%" + search + "%' ";
+                sql += " AND  cem.Name Like '%" + search + "%' ";
             }
 
             if (sort != null)

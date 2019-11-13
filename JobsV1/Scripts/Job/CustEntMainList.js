@@ -115,6 +115,7 @@ function LoadTable(data) {
     var tempDetails = "-";
     var prevId = 0;
     var City = "-";
+    var Assigned = "-";
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
@@ -128,12 +129,13 @@ function LoadTable(data) {
         var ContactPersonPos = temp[x]["ContactPersonPos"] != null ? temp[x]["ContactPersonPos"] : "--";
         var Status = temp[x]["Status"] != null ? temp[x]["Status"] : "--";
         City = temp[x]["City"] != null ? temp[x]["City"] : "--";
+        Assigned = temp[x]["AssignedTo"] != null ? temp[x]["AssignedTo"] : "--";
 
         if (temp[x]["Id"] == prevId) {
 
             content  = "<td></td>";
             content += "<td> &nbsp;  " + categories + "</td>";
-            content += "<td></td><td></td><td></td><td></td>";
+            content += "<td></td><td></td><td></td><td></td><td></td>";
         
         } else {
 
@@ -146,6 +148,7 @@ function LoadTable(data) {
             content += "<td>" + Status + "</td>"; // status
             content += "<td>" + ContactPerson + "</td>";
             content += "<td>" + ContactPersonPos + "</td>"; // status
+            content += "<td>" + Assigned + "</td>"; // status
 
             content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
                     + "</td>";

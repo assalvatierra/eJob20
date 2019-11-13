@@ -112,7 +112,7 @@ namespace JobsV1.Controllers
                 db.InvItems.Add(invItem);
                 db.SaveChanges();
 
-                addDefaultCategory(invItem.Id);
+                //addDefaultCategory(invItem.Id);
 
                 return RedirectToAction("Index");
             }

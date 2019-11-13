@@ -1671,6 +1671,17 @@ order by x.jobid
                 bank = db.Banks.Find(2);
             }
 
+            if (jobMain.Branch.Name == "RealWheels")
+            {
+                sCompany = "RealWheels Davao ";
+                sLine1 = "Door 1 RedDoorz Travelers Inn, Matina Pangi Rd. Matina Crossing, Davao City";
+                sLine2 = "Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358 ";
+                sLine3 = "Email: inquiries.realwheels@gmail.com; Website: http://www.Realwheelsdavao.com/";
+                sLine4 = "TIN: 414-880-772-001 (non-Vat)";
+                sLogo = "";
+                bank = db.Banks.Find(2);
+            }
+
             ViewBag.sCompany = sCompany;
             ViewBag.sLine1 = sLine1;
             ViewBag.sLine2 = sLine2;

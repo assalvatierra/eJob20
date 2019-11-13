@@ -19,6 +19,8 @@ namespace JobsV1.Models
         public string City { get; set; }
         public string Details { get; set; }
         public string CountryName { get; set; }
+        public string Country { get; set; }
+        public int CountryId { get; set; }
     }
 
     public class cSupplierItems
@@ -45,6 +47,7 @@ namespace JobsV1.Models
             List<cSupplierList> custList = new List<cSupplierList>();
 
             string sql ="SELECT * ,"+
+                        "Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id )," +
                         "City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),"+
                         "SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )"+
                         "FROM Suppliers sup ";

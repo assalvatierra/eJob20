@@ -27,6 +27,10 @@
     {
         sDocTitle = "INVOICE";
     }
+    if (Model.JobStatusId == 5)
+    {
+        sDocTitle = "TRIP VOUCHER";
+    }
 
 }
 
@@ -53,12 +57,12 @@
 
 <table>
     <tr>
-        <th>
+        @*<th>
             Job Ref #
         </th>
         <td>
             @Html.DisplayFor(model => model.Id)
-        </td>
+        </td>*@
     </tr>
     <tr>
         <th>
@@ -169,29 +173,31 @@
 
         </tr>
         <tr>
-            <td colspan="4" style="border-top:none">
-                @{string sIti = "";
-                    foreach (var ititmp in itineraries)
-                    {
-                        if (ititmp.SvcId == item.Id)
+            @if(Model.JobStatusId != 5) { 
+                <td colspan="4" style="border-top:none">
+                    @{string sIti = "";
+                        foreach (var ititmp in itineraries)
                         {
-                            if (sIti.Trim() != "") { sIti += ","; }
-                            else { sIti += "Destinations:"; }
+                            if (ititmp.SvcId == item.Id)
+                            {
+                                if (sIti.Trim() != "") { sIti += ","; }
+                                else { sIti += "Destinations:"; }
 
-                            sIti += " " + ititmp.Destination.Description;
+                                sIti += " " + ititmp.Destination.Description;
+                            }
                         }
+
                     }
 
-                }
+                    <span style="font:14px arial, verdana;">
+                        @sIti
+                    </span>
 
-                <span style="font:14px arial, verdana;">
-                    @sIti
-                </span>
-
-            </td>
+                </td>
+            }
         </tr>
 
-    }
+       }
 
 </table>
 

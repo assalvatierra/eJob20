@@ -172,7 +172,7 @@ Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = 
 FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ),
 ContactPerson = (SELECT TOP 1 Name = (SELECT CONCAT(Name,' - ',Contact1,' / ',Contact2) FROM Customers cust  WHERE cust.Id = ce.CustomerId)
 FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId)
-FROM CustEntMains cem
+FROM CustEntMains cem 
 
 -- Get Sales Lead List
 SELECT * ,
@@ -193,10 +193,11 @@ SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c
 
 -------- Search supplier inv items ----------
  SELECT * ,  
+ Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
  City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
  SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id ),
  Items = SUBSTRING( (SELECT ItemName = (SELECT ii.Description  as [text()] FROM InvItems ii WHERE sii.InvItemId = ii.Id FOR XML PATH('')) 
-	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId FOR XML PATH('')),2,100 ) 
+	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId FOR XML PATH('')),2,100 )
  FROM Suppliers sup WHERE City LIKE '% Davao %'
 
  SELECT data =
@@ -229,3 +230,9 @@ SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c
                  FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) ,
                  ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) 
                  FROM CustEntMains cem
+
+SELECT * ,
+    Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
+    City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
+    SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
+    FROM Suppliers sup 

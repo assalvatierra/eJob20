@@ -64,7 +64,8 @@
             Job Ref #
         </th>
         <td>
-            @Html.DisplayFor(model => model.Id)
+            29646
+            @*@Html.DisplayFor(model => model.Id)*@
         </td>
     </tr>
     <tr>
@@ -81,7 +82,7 @@
         </th>
 
         <td><!--Company-->
-
+            @*@Model.Customer.Name /*@ 
             @ViewBag.JobName
             <br />@ViewBag.custCompany
             <br />
@@ -228,7 +229,7 @@
                     <p style="font-weight:bold;">Account No.: @ViewBag.AccNum</p>
 
                     <p style="margin:20px;text-align:center;"> </p>
-                    <p>We also accept payment through: </p>
+                    <p>Click Here for Paypal Payment: </p>
                     <div id="paypal-button" ></div>
                 </div>
             </td>
