@@ -236,3 +236,8 @@ SELECT * ,
     City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
     SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
     FROM Suppliers sup 
+
+SELECT * ,Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
+          City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
+          SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
+          FROM Suppliers sup 

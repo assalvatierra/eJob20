@@ -18,7 +18,6 @@ namespace JobsV1.Models
         public string SupType { get; set; }
         public string City { get; set; }
         public string Details { get; set; }
-        public string CountryName { get; set; }
         public string Country { get; set; }
         public int CountryId { get; set; }
     }
@@ -46,7 +45,7 @@ namespace JobsV1.Models
             
             List<cSupplierList> custList = new List<cSupplierList>();
 
-            string sql ="SELECT * ,"+
+            string sql ="SELECT * ," +
                         "Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id )," +
                         "City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),"+
                         "SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )"+
@@ -119,7 +118,7 @@ namespace JobsV1.Models
                 supItems.Add(new cSupplierItems {
                     Id = sup.Id,
                     Name = sup.Name,
-                    Country = sup.CountryName,
+                    Country = sup.Country,
                     Category = sup.SupType,
                     Product = products,
                     ContactPerson = contacts
