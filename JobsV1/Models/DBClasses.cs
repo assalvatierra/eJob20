@@ -161,10 +161,17 @@ namespace JobsV1.Models
     {
         JobDBContainer db = new JobDBContainer();
         SysDBContainer sdb = new SysDBContainer();
+        DateClass datetime = new DateClass();
 
         public IList<AppUser> getUsers()
         {
             var data = db.Database.SqlQuery<AppUser>("Select UserName from AspNetUsers");
+            return data.ToList();
+        }
+
+        public IList<AppUser> getUsers_wdException()
+        {
+            var data = db.Database.SqlQuery<AppUser>("Select UserName from AspNetUsers Where UserName NOT IN ('jahdielvillosa@gmail.com','jahdielsvillosa@gmail.com','assalvatierra@gmail.com')"); 
             return data.ToList();
         }
 
@@ -369,16 +376,14 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
         public void addEncoderRecord(string reftable, string refid, string user, string action)
         {
 
-            DateTime today = DateTime.Now;
-            today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
-
+            
             db.JobTrails.Add(new JobTrail
             {
                 RefTable = reftable,
                 RefId = refid,
                 user = user,
                 Action = action,
-                dtTrail = today
+                dtTrail = datetime.GetCurrentDateTime()
             });
 
             db.SaveChanges();
@@ -639,5 +644,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 
             return total;
         }
+
+        
     }
 }
