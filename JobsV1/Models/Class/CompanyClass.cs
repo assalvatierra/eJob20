@@ -36,8 +36,7 @@ namespace JobsV1.Models
         //new table through ajax call
         #region AJAX_Customer_Table
         //-----AJAX Functions for generating table list---------//
-
-
+        
         public List<CompanyList> generateCompanyList(string search, string status, string sort)
         {
             List<CompanyList> custList = new List<CompanyList>();
@@ -46,7 +45,7 @@ namespace JobsV1.Models
                 " City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), "+
                 " ContactPerson = (SELECT TOP 1 Name = (SELECT Name "+
                 " FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId), "+
-                " ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) "+
+                " ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId ORDER BY ce.Id DESC) " +
                 " FROM CustEntMains cem WHERE Status = 'ACT'";
 
             //handle search by name filter
