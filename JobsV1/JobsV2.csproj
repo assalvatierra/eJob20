@@ -1324,6 +1324,7 @@
     <Content Include="Images\Icons\car-rental.png" />
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
+    <Content Include="Images\Logo_Realwheels.png" />
     <Content Include="Images\paypal.png" />
     <Content Include="Images\LOGO_AJRENTACAR.jpg" />
     <Content Include="Images\Mail.png" />
@@ -2155,6 +2156,8 @@
     <Content Include="Views\Customers\PartialView_CustSocial.cshtml" />
     <Content Include="Views\Customers\CreateCustSocial.cshtml" />
     <Content Include="Views\Customers\EditCustSocial.cshtml" />
+    <Content Include="Views\JobOrder\Details_Voucher.cshtml" />
+    <Content Include="Views\SalesLeads\Lead_Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

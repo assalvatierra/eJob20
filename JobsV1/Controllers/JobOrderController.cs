@@ -108,6 +108,7 @@ namespace JobsV1.Controllers
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
+        
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
         {
@@ -153,7 +154,7 @@ namespace JobsV1.Controllers
         }
         
         public List<cJobOrder> getJobData(int sortid)
-        {
+        {  
             //IEnumerable<Models.JobMain> jobMains = db.JobMains
             //    .Include(j => j.Customer)
             //    .Include(j => j.Branch)
@@ -1037,13 +1038,14 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
-            //jobMain.AgreedAmt = 2000;
+            ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            
             return View(jobMain);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId, decimal? AgreedAmt)
+        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId, decimal? AgreedAmt)
         {
             if (ModelState.IsValid)
             {
@@ -1076,6 +1078,8 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
+            ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+
             return View(jobMain);
         }
 
@@ -1126,7 +1130,8 @@ order by x.jobid
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name",2);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
-            
+            ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName");
+
             return View(job);
         }
 
@@ -1136,7 +1141,7 @@ order by x.jobid
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int? CompanyId)
+        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId)
         {
             if (ModelState.IsValid)
             {
@@ -1165,6 +1170,7 @@ order by x.jobid
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
+            ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
             return View(jobMain);
         }
 
@@ -1308,7 +1314,7 @@ order by x.jobid
             ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name", jobServices.ServicesId);
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description", jobServices.SupplierItemId);
 
-            dbc.addEncoderRecord("jobservice", jobServices.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job Service");
+            dbc.addEncoderRecord("jobOrder/jobservice", jobServices.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job Service");
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobServices.JobMainId });
         }
@@ -1379,6 +1385,9 @@ order by x.jobid
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name", jobServices.SupplierId);
             ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name", jobServices.ServicesId);
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description", jobServices.SupplierItemId);
+
+            dbc.addEncoderRecord("jobOrder/jobservice", jobServices.Id.ToString(), HttpContext.User.Identity.Name, "Edit Job Service");
+
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobServices.JobMainId });
 
@@ -1519,6 +1528,7 @@ order by x.jobid
 
             ViewBag.Contact = db.JobContacts.Where(d => d.ContactType == "100").ToList();
             ViewBag.svcId = jobServicePickup.JobServicesId;
+            
             return View(jobServicePickup);
         }
 
@@ -1533,10 +1543,10 @@ order by x.jobid
 
                 int ij = db.JobServices.Find(jobServicePickup.JobServicesId).JobMainId;
 
+                dbc.addEncoderRecord("JobPickup", jobServicePickup.JobService.JobMainId.ToString(), HttpContext.User.Identity.Name, "Add Job Pickup Details, service id " + jobServicePickup.Id);
+                
                 return RedirectToAction("JobServices", new { JobMainId = jobServicePickup.JobService.JobMainId });
             }
-            //ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobServicePickup.JobServicesId);
-
             return View(jobServicePickup);
 
         }
@@ -1622,9 +1632,7 @@ order by x.jobid
                 Where(j => j.JobDate.Year == iyear).
                 Where(j => j.Description == rName).
                 FirstOrDefault();
-
-            //return RedirectToAction("BookingDetails", new { id = job.Id , iType = 1});
-              
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -1795,6 +1803,17 @@ order by x.jobid
                 bank = db.Banks.Find(2);
             }
 
+            if (jobMain.Branch.Name == "RealWheels")
+            {
+                sCompany = "RealWheels Davao Car Rental";
+                sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
+                sLine2 = "Tel# (+63)82 333-5157; (+63)9954508517; (+63)9193812657 ";
+                sLine3 = "Email: inquiries.realwheels@gmail.com; Website: https://realwheelsdavao.com/";
+                sLine4 = " ";
+                sLogo = "Logo_Realwheels.png";
+                bank = db.Banks.Find(2);
+            }
+
             ViewBag.sCompany = sCompany;
             ViewBag.sLine1 = sLine1;
             ViewBag.sLine2 = sLine2;
@@ -1854,6 +1873,11 @@ order by x.jobid
             { //Invoice
                 ViewBag.DateNow = getDateTimeToday().Date.ToString();
                 return View("Details_Invoice", jobMain);
+            }
+            else if (iType != null && (int)iType == 2)
+            { //Trip Voucher
+                ViewBag.DateNow = getDateTimeToday().Date.ToString();
+                return View("Details_Voucher", jobMain);
             }
 
             return View(jobMain);
@@ -1963,13 +1987,15 @@ order by x.jobid
 
         public ActionResult TextConfirmation(int? id)
         {
-            string sData = "Booking Confirmation";
+            string sData = "\n";
             decimal totalAmount = 0;
             Models.JobServiceItem svcpu;
             Models.JobMain jobmain = db.JobMains.Find(id);
             var svc = db.JobServices.Where(j=>j.JobMainId == id).ToList();
             string custName = jobmain.Branch.Name;
             int pickupCount = 0;
+
+            sData += "Booking Confirmation";
 
             switch (custName)
             {
@@ -2014,7 +2040,7 @@ order by x.jobid
                         foreach (var jobPickup in svi.JobServicePickups)
                         {
                             //Pickup Details
-                            sData += "\nPickup: ";
+                            sData += "\n\nPickup: ";
                             sData += " " + jobPickup.JsTime ;
                             sData += " " + jobPickup.JsDate.ToString("MMM dd yyyy");
                             sData += "\nLocation: " + jobPickup.JsLocation;
@@ -2038,10 +2064,14 @@ order by x.jobid
                 //Summary Details
                 sData += "\n  ";
                 sData += "\nTotal Rate:P" + totalAmount.ToString("##,###.00");
-                sData += "\nRemarks:" ;
-                sData += "  " + jobmain.JobRemarks;
+
+                if (jobmain.JobRemarks != null)
+                {
+                    sData += "\nRemarks: " + jobmain.JobRemarks;
+                }
+                
                 sData += "\nNo.Pax:  " + jobmain.NoOfPax;
-                sData += "\n\n Thank you and have a nice day.\n";
+                sData += "\n\nThank you and have a nice day.\n";
                 sData += "\n" + custName;
             }
 
@@ -2059,7 +2089,7 @@ order by x.jobid
 
         private string textDetailsForDriver(int id)
         {
-            string sData = "Booking Details";
+            string sData = "\nBooking Details";
             decimal totalAmount = 0;
             Models.JobServiceItem svcpu;
             Models.JobMain jobmain = db.JobMains.Find(id);
@@ -2153,8 +2183,11 @@ order by x.jobid
                 //Summary Details
                 sData += "\n  ";
                 sData += "\nCollectible:P" +  dbc.getJobCollectible(id).ToString("##,###.00");
-                sData += "\nRemarks:";
-                sData += "  " + jobmain.JobRemarks;
+                if (jobmain.JobRemarks != null)
+                {
+                    sData += "\nRemarks: " + jobmain.JobRemarks;
+                }
+
                 sData += "\nNo.Pax:  " + jobmain.NoOfPax;
                 sData += "\n\n Thank you and have a nice day.\n";
                 sData += "\n" + custName;
