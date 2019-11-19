@@ -30,6 +30,14 @@ namespace JobsV1.Models
         public string Category { get; set; }
         public IEnumerable<string> Product { get; set; }
         public IEnumerable<string> ContactPerson { get; set; }
+        public IEnumerable<string> ContactNumber { get; set; }
+    }
+
+    public class cContactPerson
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Number { get; set; }
     }
 
     public class SupplierClass
@@ -113,7 +121,9 @@ namespace JobsV1.Models
                 var products = db.SupplierInvItems.Where(s => s.SupplierId == sup.Id).ToList().Select(s=>s.InvItem.Description);
 
                 //get Contact Persons of the supplier
-                var contacts = db.SupplierContacts.Where(s=>s.SupplierId == sup.Id).ToList().Select(s=>s.Name);
+                var contactsPerson = db.SupplierContacts.Where(s=>s.SupplierId == sup.Id).ToList().Select(s => s.Name);
+                var contactNumber = db.SupplierContacts.Where(s => s.SupplierId == sup.Id).ToList().Select(s=>s.Mobile);
+             
 
                 supItems.Add(new cSupplierItems {
                     Id = sup.Id,
@@ -121,7 +131,8 @@ namespace JobsV1.Models
                     Country = sup.Country,
                     Category = sup.SupType,
                     Product = products,
-                    ContactPerson = contacts
+                    ContactPerson = contactsPerson,
+                    ContactNumber = contactNumber
 
                 });
             }
