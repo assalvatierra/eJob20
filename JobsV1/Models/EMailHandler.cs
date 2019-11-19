@@ -537,7 +537,7 @@ namespace JobsV1.Models
 
                 MailDefinition md = new MailDefinition();
                 md.From = "Realwheels.Reservation@RealWheelsDavao.com";      //sender mail
-                md.IsBodyHtml = true;                       //set true to enable use of html tags 
+                md.IsBodyHtml = true;          //set true to enable use of html tags 
                 md.Subject = "Quotation";      //mail title
 
                 ListDictionary replacements = new ListDictionary();

@@ -28,6 +28,7 @@ namespace JobsV1.Controllers
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbclasses = new DBClasses();
+
         // GET: SalesLeads
         public ActionResult Index(int? sortid, int? leadId)
         {
@@ -121,6 +122,45 @@ namespace JobsV1.Controllers
             return View(salesLeads);
         }
 
+
+        // GET: SalesLeads
+        public ActionResult Lead_Details(int? sortid, int? leadId)
+        {
+
+            if (sortid != null)
+                Session["SLFilterID"] = (int)sortid;
+            else
+            {
+                if (Session["SLFilterID"] != null)
+                    sortid = (int)Session["SLFilterID"];
+                else
+                {
+                    Session["SLFilterID"] = 3;
+                }
+            }
+
+            if (leadId != null)
+            {
+                var Id = (int)leadId;
+                var salesLeads = db.SalesLeads.Include(s => s.Customer)
+                        .Include(s => s.SalesLeadCategories)
+                        .Include(s => s.SalesStatus).OrderBy(s => s.Date)
+                        .Where(s => s.Id == Id);
+
+
+                ViewBag.LeadId = leadId;
+                ViewBag.CurrentFilter = sortid;
+                ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
+
+                //for adding new item 
+                AddSupItemPartial();
+
+                return View(salesLeads);
+            }
+            return RedirectToAction("Index", new { sortid = 5 });
+            
+        }
+
         // GET: SalesLeads/Details/5
         public ActionResult Details(int? id)
         {
@@ -156,7 +196,7 @@ namespace JobsV1.Controllers
             tmp.EnteredBy = HttpContext.User.Identity.Name;
             
             ViewBag.CustomerId = new SelectList(db.Customers.Where(s=>s.Status == "ACT"), "Id", "Name");
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
 
             ViewBag.CustomerList = db.Customers.Where(s=>s.Status == "ACT").ToList();
@@ -184,7 +224,7 @@ namespace JobsV1.Controllers
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", salesLead.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
 
             return View(salesLead);
         }
@@ -213,7 +253,7 @@ namespace JobsV1.Controllers
             }
             var company = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", salesLead.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", company.CustEntMainId);
             ViewBag.CustomerList = db.Customers.ToList();
             ViewBag.leadId = id;
@@ -239,7 +279,7 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index", "SalesLeads", new { leadId = salesLead.Id });
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", salesLead.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
             return View(salesLead);
         }
 

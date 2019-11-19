@@ -147,7 +147,7 @@ namespace JobsV1.Controllers
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
 
             return View(main);
         }
@@ -178,7 +178,7 @@ namespace JobsV1.Controllers
             }
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
 
             return View(custEntMain);
         }
@@ -198,7 +198,7 @@ namespace JobsV1.Controllers
 
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             return View(custEntMain);
         }
 
@@ -217,7 +217,7 @@ namespace JobsV1.Controllers
             }
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name",custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             return View(custEntMain);
         }
 

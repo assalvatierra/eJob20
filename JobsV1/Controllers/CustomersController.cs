@@ -286,12 +286,24 @@ namespace JobsV1.Controllers
         // edit company of user
         public string editCompanyUser(int companyId, int userid, string position)
         {
-            db.CustEntities.Add(new CustEntity
+            //find latest
+            if (db.CustEntities.Where(c => c.CustEntMainId == companyId && c.CustomerId == userid) != null)
             {
-                CustEntMainId = companyId,
-                CustomerId = userid,
-                Position = position
-            });
+                CustEntity tempEnt = db.CustEntities.Where(c => c.CustEntMainId == companyId && c.CustomerId == userid).OrderByDescending(c=>c.Id).FirstOrDefault();
+                tempEnt.Position = position;
+                db.Entry(tempEnt).State = EntityState.Modified;
+            }
+            else
+            {
+                //if no record, add new 
+                db.CustEntities.Add(new CustEntity
+                {
+                    CustEntMainId = companyId,
+                    CustomerId = userid,
+                    Position = position
+                });
+            }
+
             db.SaveChanges();
             return "OK";
         }

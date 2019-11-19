@@ -241,3 +241,6 @@ SELECT * ,Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id
           City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
           SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
           FROM Suppliers sup 
+
+Select UserName from AspNetUsers Where UserName NOT IN ('jahdielvillosa@gmail.com','jahdielsvillosa@gmail.com','assalvatierra@gmail.com');
+
