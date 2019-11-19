@@ -116,7 +116,7 @@ function SimpleTable(data) {
 
         var country = temp[x]["Country"] != null ? temp[x]["Country"] : "--";
         var category = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
-        var contact3 = temp[x]["Contact3"] != null ? temp[x]["Contact3"] : "--";
+        var contact3 = temp[x]["ContactNumber"] != null ? temp[x]["ContactNumber"] : "--";
         var contactslength = temp[x]["ContactPerson"];
         var productslength = temp[x]["Product"];
        

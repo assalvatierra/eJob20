@@ -264,7 +264,7 @@
        
         //request data from server using ajax call
         $.ajax({
-            url: '../addCompanyCat?companyId='+comId+'&userid='+custId+'&position='+pos,
+            url: '../editCompanyUser?companyId='+comId+'&userid='+custId+'&position='+pos,
             type: "GET",
             data: JSON.stringify(data),
             dataType: 'application/json; charset=utf-8',
