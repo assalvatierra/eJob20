@@ -215,11 +215,10 @@
 
         <AssociationConnector Association="JobDB.JobServicesPickupInstructions" ManuallyRouted="true" >
           <ConnectorPoint PointX="22.625" PointY="15.499410807291667" />
-          <ConnectorPoint PointX="22.625" PointY="15.623160807291667" />
-          <ConnectorPoint PointX="23.067998576552839" PointY="15.623160807291667" />
-          <ConnectorPoint PointX="22.645256416964056" PointY="15.874410807291667" />
-          <ConnectorPoint PointX="22.645256416964056" PointY="19.152479281877518" />
-          <ConnectorPoint PointX="20.5" PointY="19.152479281877518" />
+          <ConnectorPoint PointX="22.25" PointY="15.874410807291667" />
+          <ConnectorPoint PointX="21.466148958333331" PointY="15.874410807291667" />
+          <ConnectorPoint PointX="21.299482291666667" PointY="15.874410807291667" />
+          <ConnectorPoint PointX="20.5" PointY="15.874410807291667" />
           <ConnectorPoint PointX="20.5" PointY="20.25" />
           <ConnectorPoint PointX="20.125" PointY="20.625" />
         </AssociationConnector>
