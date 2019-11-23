@@ -15,23 +15,9 @@
 
     var customerName = Model.Customer.Name.Trim();
     var jobName = Model.Description.Trim();
-
-    if (Model.JobStatusId == 1)
-    {
-        sDocTitle = "QUOTATION DETAILS";
-    }
-    if (Model.JobStatusId == 2)
-    {
-        sDocTitle = "RESERVATION DETAILS";
-    }
-    if (Model.JobStatusId == 3)
-    {
-        sDocTitle = "BOOKING DETAILS";
-    }
-    if (Model.JobStatusId == 4)
-    {
-        sDocTitle = "INVOICE";
-    }
+    
+    sDocTitle = "TRIP VOUCHER";
+     
 }
 
 <table>
