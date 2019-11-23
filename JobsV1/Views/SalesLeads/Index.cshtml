@@ -110,9 +110,9 @@
                     &nbsp; &nbsp;
                     @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
                     [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })  |
-                    @Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })
-
+                      @Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |
+                      @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })  |
+                      @Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })
                     ]
 
                     @foreach (var salescat in item.SalesLeadCategories)

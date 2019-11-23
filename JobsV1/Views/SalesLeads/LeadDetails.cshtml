@@ -6,23 +6,12 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Sales Lead: List</h2>
+<h2>Sales Lead: Details</h2>
 
 
 <p>
-    @Html.ActionLink("Create New", "Create") |
-    Sales Lead |
-    @Html.ActionLink("Quotation", "JobLeads", "JobMains")
+    @Html.ActionLink("Back to List", "SalesLeads", new { sortid = 5 }) 
 </p>
-<p>
-    Filters:
-    @Html.ActionLink("New Lead", "Index", new { sortid = 5 }, new { @id = "newLead" }) |
-    @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }, new { @id = "ongoing" }) |
-    @Html.ActionLink("Accepted", "Index", new { sortid = 1 }, new { @id = "acceptedLead", @onclick = "filter();" }) |
-    @Html.ActionLink("Closed", "Index", new { sortid = 2 }, new { @id = "closedLead" }) |
-    @Html.ActionLink("All", "Index", new { sortid = 3 }, new { @id = "allLead" })
-</p>
-
 <table class="table">
 
     @foreach (var item in Model)
@@ -420,7 +409,7 @@
     @Html.ActionLink("Create New", "Create") |
     Sales Lead |
     @Html.ActionLink("Quotation", "JobLeads", "JobMains")
-</p>
+</p> 
 <p>
     Filters:
     @Html.ActionLink("New Lead", "Index", null, null) |
@@ -428,7 +417,9 @@
     @Html.ActionLink("Accepted", "Index", new { sortid = 1 }) |
     @Html.ActionLink("Closed", "Index", new { sortid = 2 }) |
     @Html.ActionLink("All", "Index", new { sortid = 3 }, null)
-</p>
+</p> 
+
+
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 @section scripts
 {
