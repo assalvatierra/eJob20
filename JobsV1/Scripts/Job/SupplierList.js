@@ -104,10 +104,10 @@ function switchViews(data) {
 //display simple/limited information 
 //of suppliers
 function SimpleTable(data) {
-    console.log("SimpleTable");
+
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
-    console.log(temp);
+    //console.log(temp);
     //clear table contents except header
     $("#sup-Table").find("tr:gt(0)").remove();
 
@@ -115,6 +115,7 @@ function SimpleTable(data) {
     for (var x = 0; x < temp.length; x++) {
 
         var country = temp[x]["Country"] != null ? temp[x]["Country"] : "--";
+        var city = temp[x]["City"] != null ? temp[x]["City"] : "--";
         var category = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
         var contact3 = temp[x]["ContactNumber"] != null ? temp[x]["ContactNumber"] : "--";
         var contactslength = temp[x]["ContactPerson"];
@@ -122,11 +123,14 @@ function SimpleTable(data) {
        
 
         content =  "<tr>";
-        content += "<td>" + temp[x]["Name"] + "</td>";
+        content += "<td>" + temp[x]["Name"].toString() + "</td>";
+
         content += "<td>" + country + "</td>";
+        content += "<td>" + city + "</td>";
         content += "<td>" + category + "</td>";
 
         content += "<td> ";
+
         for (var prods = 0; prods < productslength["length"]; prods++) {
             if (typeof productslength[prods] === "undefined") {
                 console.log("something is undefined");
@@ -139,7 +143,6 @@ function SimpleTable(data) {
             }
         }
         content += "</td> ";
-
 
         content += "<td> ";
         for (var prods = 0; prods < contactslength["length"]; prods++) {
@@ -156,12 +159,12 @@ function SimpleTable(data) {
         content +=  "</td> ";
 
         content += "<td>" + contact3 + "</td>";
+
         content += "<td>" +
             "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
-            "<a href='SupplierItems/'>Items</a>  | " +
-            "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
+            "<a href='SupplierItems/'>Items</a>  " +
             "</td>";
-        content += "<tr>";
+        content += "</tr>";
 
         $(content).appendTo("#sup-Table");
         $("#sup-header-2").text("Category");

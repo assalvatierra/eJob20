@@ -124,6 +124,7 @@ function LoadTable(data) {
         website = temp[x]["Website"] != null ? temp[x]["Website"] : "--";
         contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
+        mobile = temp[x]["Mobile"] != null ? temp[x]["Mobile"] : "--";
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
         var ContactPerson = temp[x]["ContactPerson"] != null ? temp[x]["ContactPerson"] : "--";
         var ContactPersonPos = temp[x]["ContactPersonPos"] != null ? temp[x]["ContactPersonPos"] : "--";
@@ -143,16 +144,16 @@ function LoadTable(data) {
             content += "<td>" + temp[x]["Name"] + "</td>";
             content += "<td>" + website + "</td>";
             content += "<td>" + City + "</td>";
-            content += "<td>" + contact1 + "</td>";
             content += "<td>" + categories + "</td>";
-            content += "<td>" + Status + "</td>"; // status
+            content += "<td>" + parseStatus(Status) + "</td>"; // status
             content += "<td>" + ContactPerson + "</td>";
             content += "<td>" + ContactPersonPos + "</td>"; // status
+            content += "<td>" + mobile + "</td>"; // status
             content += "<td>" + Assigned + "</td>"; // status
 
             content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
                     + "</td>";
-            content += "<tr>";
+            content += "</tr>";
         }
         prevId = temp[x]["Id"]
         $(content).appendTo("#company-Table");
@@ -169,3 +170,25 @@ function StatusRefresh() {
     ajax_loadContent();
 }
 
+function parseStatus(status) {
+    switch (status) {
+        case 'ACT':
+            return 'ACTIVE';
+            break;
+        case 'INC':
+            return 'INACTIVE';
+            break;
+        case 'BAD':
+            return 'BAD ACCOUNT';
+            break;
+        case 'ACC':
+            return 'ACCREDITED';
+            break;
+        case 'PRIO':
+            return 'PRIORITY';
+            break;
+        default:
+            return 'NA'
+            break;
+    }
+}
