@@ -21,6 +21,13 @@ namespace JobsV1.Controllers
             return View(custEntities.ToList());
         }
 
+        // GET: CustEntities
+        public ActionResult CompanyRecords(int companyId)
+        {
+            var custEntities = db.CustEntities.Where(s=>s.CustEntMainId == companyId).Include(c => c.CustEntMain).Include(c => c.Customer);
+            return View(custEntities.ToList());
+        }
+
         // GET: CustEntities/Details/5
         public ActionResult Details(int? id)
         {
@@ -33,8 +40,6 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
-
-
 
             return View(custEntity);
         }

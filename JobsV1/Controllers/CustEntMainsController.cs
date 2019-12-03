@@ -18,6 +18,7 @@ namespace JobsV1.Controllers
         private SalesLeadClass slc = new SalesLeadClass();
         private CompanyClass comdb = new CompanyClass();
         private DBClasses dbclasses = new DBClasses();
+        private DateClass dt = new DateClass();
 
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "ACT", Text = "Active" },
@@ -41,7 +42,8 @@ namespace JobsV1.Controllers
             List<CompanyList> custList = new List<CompanyList>();
            
             custList = comdb.generateCompanyList(search, status, sort);
-
+            
+            
             //convert list to json object
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }
@@ -120,7 +122,8 @@ namespace JobsV1.Controllers
                     Customer = items.Customer.Name,
                     Status = items.JobStatus.Status,
                     Id = items.Id,
-                    Amount = getJobTotal(items.Id)
+                    Amount = getJobTotal(items.Id),
+                    AssignedTo = items.AssignedTo
                 });
             }
 
@@ -157,7 +160,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website,Status,AssignedTo")] CustEntMain custEntMain, int? id)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo")] CustEntMain custEntMain, int? id)
         {
             if (ModelState.IsValid)
             {
@@ -170,11 +173,15 @@ namespace JobsV1.Controllers
                     CustEntity company = new CustEntity();
                     company.CustEntMainId = custEntMain.Id;
                     company.CustomerId = (int)id;
-                    db.CustEntities.Add(company);
+                    db.CustEntities.Add(company); 
                     db.SaveChanges();
+
                     return RedirectToAction("Index", "CustEntMains", null);
                 }
-                 return RedirectToAction("Index", "CustEntMains", null);
+
+                AddAssignedRecords(custEntMain.Id, custEntMain.AssignedTo);
+
+                return RedirectToAction("Index", "CustEntMains", null);
             }
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
@@ -196,8 +203,8 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
-            ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             return View(custEntMain);
         }
@@ -207,7 +214,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,iconPath,CityId,Website,Status,AssignedTo")] CustEntMain custEntMain)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {
@@ -215,7 +222,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = custEntMain.Id });
             }
-            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name",custEntMain.CityId);
+            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             return View(custEntMain);
@@ -396,8 +403,20 @@ namespace JobsV1.Controllers
                return RedirectToAction("Details",new { id = companyId });
           
         }
+
+        public ActionResult DeleteCategory(int id)
+        {
+            CustEntCat companyCat = db.CustEntCats.Find(id);
+            var companyId = companyCat.CustEntMainId;
+            db.CustEntCats.Remove(companyCat);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = companyId });
+        }
         #endregion
-        
+
+        #region company Contact
         public ActionResult DeleteContact(int id)
         {
             CustEntity custEnt = db.CustEntities.Find(id);
@@ -450,8 +469,140 @@ namespace JobsV1.Controllers
                 return ex.ToString();
             }
         }
+        #endregion
 
 
+        #region Assigned Records
+        
+        //List of Records from company
+        public ActionResult AssignedRecords(int companyId)
+        {
+            var assignRecords = db.CustEntAssigns.Where(s => s.CustEntMainId == companyId).ToList();
+            ViewBag.CompanyName = db.CustEntMains.Find(companyId).Name.ToString();
+            ViewBag.companyId = companyId;
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
+            ViewBag.Date = dt.GetCurrentDateTime();
+            return View(assignRecords);
+        }
+        
+        public string AssignedRecordsCreate( string Assigned, string Remarks, int CompanyId, string Date )
+        {
+            try
+            {
+
+                CustEntAssign assign = new CustEntAssign();
+                assign.Assigned = Assigned;
+                assign.Remarks = Remarks;
+                assign.CustEntMainId = CompanyId;
+                assign.Date = DateTime.Parse(Date);
+
+                db.CustEntAssigns.Add(assign);
+                db.SaveChanges();
+
+                //update assigned in company
+                UpdateAssigned(CompanyId, Assigned);
+
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            //return RedirectToAction("AssignedRecords" , new { companyId = CompanyId });
+            
+            
+        }
+
+        //Add Assigned on the Record History after Create Company
+        // Param
+        // companyId = CompanyId
+        public void AddAssignedRecords(int companyId, string Assigned)
+        {
+            //add new assigned 
+            CustEntAssign assigned = new CustEntAssign();
+            assigned.CustEntMainId = companyId;
+            assigned.Assigned = Assigned;
+            assigned.Date = dt.GetCurrentDateTime();
+            db.CustEntAssigns.Add(assigned);
+            db.SaveChanges();
+            
+        }
+
+        public ActionResult DeleteAssigned(int id)
+        {
+            CustEntAssign custComAssign = db.CustEntAssigns.Find(id);
+            var companyId = custComAssign.CustEntMainId;
+            var Assigned = custComAssign.Assigned;
+
+            db.CustEntAssigns.Remove(custComAssign);
+            db.SaveChanges();
+
+            //update assigned in company
+            UpdateAssigned(companyId, Assigned);
+
+            return RedirectToAction("AssignedRecords" ,  new { companyId = companyId });
+        }
+
+        //Update Company Assigned Email after Adding new company record
+        private string UpdateAssigned(int? companyId , string AssignedEmail)
+        {
+            try
+            {
+                if (companyId != null)
+                {
+
+                    if (db.CustEntAssigns.Where(c => c.CustEntMainId == companyId).FirstOrDefault() != null)
+                    {
+                        //get latest record 
+                        CustEntAssign custComAssign = db.CustEntAssigns.Where(c=>c.CustEntMainId == companyId).OrderByDescending(s=>s.Date).FirstOrDefault();
+                      
+                        //assign in company 
+                        CustEntMain custEntMain = db.CustEntMains.Find(companyId);
+                        custEntMain.AssignedTo = custComAssign.Assigned;
+                        db.Entry(custEntMain).State = EntityState.Modified;
+
+                        db.SaveChanges();
+                        return "OK";
+                    }
+                }
+                    return "BAD";
+            }
+            catch(Exception ex){
+                return ex.ToString();
+            }
+        }
+
+
+        public string AssignedRecordsEdit(int? id, int companyId, string AssignedTo, string Date, string Remarks)
+        {
+            try
+            {
+
+                if (id != null)
+                {
+
+                    CustEntAssign custComAssign = db.CustEntAssigns.Find(id);
+                    custComAssign.Assigned = AssignedTo.ToString();
+                    custComAssign.Date = DateTime.Parse(Date);
+                    custComAssign.Remarks = Remarks;
+                    custComAssign.CustEntMainId = companyId;
+
+                    db.Entry(custComAssign).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return "OK";
+
+                }
+                return "ERROR";
+                }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            //return RedirectToAction("AssignedRecords", new { companyId = companyId });
+        }
+        #endregion
 
     }
 }
