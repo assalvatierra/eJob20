@@ -13,10 +13,20 @@
 
 
 <p>
+    Status:
+    <span>
+        <span id="ACTIVE" class="status-link status-active"> Active   </span> |
+        <span id="INACTIVE" class="status-link"> Inactive </span> |
+        <span id="BAD" class="status-link"> Bad      </span> |
+        <span id="ALL" class="status-link"> All      </span>
+    </span>
+</p>
+
+<p>
     <input class="input-sm" id="srch-field" type="search" />
     <button class="btn btn-default" onclick="ajax_loadContent()">Search</button>
 </p>
-<table class="table" id="company-Table">
+<table class="js-sort-table table" id="company-Table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -26,9 +36,6 @@
         </th>
         <th>
             City
-        </th>
-        <th>
-            Landline Nos
         </th>
         <th>
             Category
@@ -43,6 +50,9 @@
             Position
         </th>
         <th>
+            Mobile #
+        </th>
+        <th>
             Assigned To
         </th>
         <th></th>
@@ -52,6 +62,7 @@
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/Job/CustEntMainList.js"></script>
+<script src="~/Scripts/sort-table.js"></script>
 <script> 
         
 </script>

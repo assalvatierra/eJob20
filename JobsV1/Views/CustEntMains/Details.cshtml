@@ -18,9 +18,14 @@
     <h1> @Html.DisplayFor(model => model.Name) </h1>
     <h5> Telephone: @Html.DisplayFor(model => model.Contact1) </h5>
     <h5> Fax: @Html.DisplayFor(model => model.Contact2) </h5>
+    <h5> Mobile: @Html.DisplayFor(model => model.Mobile ) </h5>
     <h5> <a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> </h5>
     <h5> <b>Status:</b> @Html.DisplayFor(model => model.Status)  </h5>
-    <h5> <b>Assigned To:</b> @Html.DisplayFor(model => model.AssignedTo) </h5>
+    <h5> <b>Assigned To:</b> 
+        <span>
+        
+        @Html.ActionLink("  "+ Html.DisplayFor(model => model.AssignedTo) + " ", "AssignedRecords", new { companyId = Model.Id })</span>
+    </h5>
     @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
 </div>
 
@@ -29,7 +34,9 @@
     <a href="#" id="catbtn" data-toggle="modal" data-target="#categoryModal">Add Category</a>
     @foreach (var cat in Model.CustEntCats as IEnumerable<JobsV1.Models.CustEntCat>)
     {
-        <p>@cat.CustCategory.Name</p>
+        <p>@cat.CustCategory.Name
+        <span>@Html.ActionLink("[ x ]", "DeleteCategory",  new { id = cat.Id })</span>
+        </p>
     }
 </div>
 
@@ -46,13 +53,13 @@
                     Primary / Billing Address:
                 </text>
             }
-            else if (address.isPrimary == true)
+            else if (address.isPrimary == true && address.isBilling == true)
             {
                 <text>
                     Billing Address:
                 </text>
             }
-            else if (address.isBilling == true)
+            else if (address.isPrimary == false && address.isBilling == true)
             {
                 <text>
                     Billing Address:
@@ -60,7 +67,7 @@
             }
             else
             {
-                <text>Address:</text>
+                <text>Branch Address:</text>
             }
         </p>
         <p class="comp-address">
@@ -113,7 +120,27 @@
                     }
                 </td>
                 <td>
-                    @custcompany.Customer.Status
+                   @switch (custcompany.Customer.Status)
+                    {
+                       case "ACT" :
+                          <text> ACTIVE </text>;
+                           break;
+                       case "INC":
+                        <text> INACTIVE </text>;
+                           break;
+                       case "BAD":
+                        <text> BAD ACCOUNT </text>;
+                           break;
+                       case "ACC":
+                        <text> ACCREDITED </text>;
+                           break;
+                       case "SUSP":
+                        <text> SUSPENDED </text>;
+                           break;
+                       case "PRIO":
+                        <text> PRIORITY </text>;
+                           break;
+                   }
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Details", "Customers", new { id = custcompany.Customer.Id }, null) |
@@ -129,7 +156,7 @@
     <h3>Clauses</h3>
     @Html.ActionLink("Add Clause", "CreateClause", new { companyId = Model.Id }, null)
     @foreach (var clause in Model.CustEntClauses as IEnumerable<JobsV1.Models.CustEntClauses>)
-    {
+                       {
 
         <div class="comp-clauses">
             <b> @clause.Title </b> &nbsp; &nbsp;
@@ -153,22 +180,27 @@
     <table class="table table-striped">
         <tr>
             <th>Details</th>
-            <th>Remarks</th>
+            <th>Project Name</th>
             <th>Status</th>
+            <th>Remarks</th>
         </tr>
 
         @foreach (var item in ViewBag.SalesLeads as IEnumerable<JobsV1.Models.Class.CompanyLeadsTbl>)
-        {
+                   {
 
             <tr>
                 <td>
-                    @item.Desc
+                    @*<a href="@Url.Action("addCategory", "CustEntMains", new { id = item.Id, companyId = Model.Id })" > @item.Desc </a>*@
+                    @Html.ActionLink(item.Desc, "LeadDetails", "SalesLeads", new { id = item.id }, null)
                 </td>
                 <td>
-                    @item.Remarks
+                   @item.Desc
                 </td>
                 <td>
                     @item.status
+                </td>
+                <td>
+                    @item.Remarks
                 </td>
             </tr>
         }
@@ -200,21 +232,28 @@
 
     <table class="table table-striped">
         <tr>
+            <th>Job #</th>
             <th>Job Date</th>
             <th>Description</th>
-            <th>Customer</th>
+            <th>Contact Person</th>
             <th>Amount</th>
             <th>Status</th>
+            <th>Assigned</th>
             <th>Details</th>
         </tr>
         @foreach (var job in ViewBag.CompanyJobs as IEnumerable<JobsV1.Models.CompanyJobsList>)
         {
             <tr>
+                <td>@job.Id</td>
                 <td>@job.Date</td>
                 <td>@job.Description</td>
                 <td>@job.Customer</td>
                 <td>@job.Amount</td>
-                <td>@job.Status</td>
+                <td>
+                   @job.Status
+                </td>
+                <td>@job.Customer</td>
+                <td>@job.AssignedTo</td>
                 <td>
                     @Html.ActionLink("Details", "BookingDetails", "JobOrder", new { id = job.Id }, null)
                 </td>
@@ -297,7 +336,7 @@
 
             <div class="modal-body row" id="modal2-content">
 
-                <div class="form-group cform">
+                <div class="form-group cform hidden">
                     <b class="col-md-2"> ID </b>
                     <div class="col-md-10">
                         <input id="address-ID" class="form-control" type="text" maxlength="80">
@@ -354,6 +393,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <!-- Add Clause Edit Modal -->
 <div class="modal fade" id="comClauseEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -418,6 +458,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <!-- Categories Modal  -->
 <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -479,7 +520,7 @@
         );
     });
 
-    //ADDRESS EDIT - SET INPUT
+    //ADDRESS EDIT - SET INPUT 
     function edit_setAddress(id, line1, line2, line3, line4, line5, isPrimary, isBilling) {
         $("#address-ID").val(id);
         $("#Address-1").val(line1);
@@ -513,7 +554,7 @@
         }
     }
     
-    //ADDRESS EDIT
+    //Add Company Contact
     function ajax_AddContact() {
 
         //build json object
@@ -587,7 +628,7 @@
         });
     }
 
-    //ADDRESS EDIT
+    //CLAUSE EDIT
     function ajax_EditClause() {
 
         //build json object
@@ -622,7 +663,7 @@
         });
     }
 
-    //ADDRESS DELETE
+    //REMOVE ADDRESS
     function ajax_RemoveAddress(Id) {
         console.log("ID:" + Id);
 
@@ -679,5 +720,39 @@
         });
     }
 
+    
+    function parseStatusText(status) {
+        var data ;
+        switch (status) {
+            case 'ACT':
+                data = 'ACTIVE';
+                break;
+            case 'INC':
+                data = 'INACTIVE';
+                break;
+            case 'BAD':
+                data = 'BAD ACCOUNT';
+                break;
+            case 'ACC':
+                data = 'ACCREDITED';
+                break;
+            case 'PRIO':
+                data = 'PRIORITY';
+                break;
+            default:
+                data = 'NA'
+                break;
+        }
 
+        $(this).val(data);
+        console.log('data: ' + data);
+
+        return data;
+    }
+
+    function clickme(event){
+        var data = $(event).text();
+        console.log('data: ' + data);
+        $(this).text(parseStatusText('ACT'));
+    }
 </script>
