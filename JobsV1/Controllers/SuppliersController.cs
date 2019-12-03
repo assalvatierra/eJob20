@@ -19,7 +19,9 @@ namespace JobsV1.Controllers
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "ACT", Text = "Active" },
                 new SelectListItem { Value = "INC", Text = "Inactive" },
-                new SelectListItem { Value = "BAD", Text = "Bad Account" }
+                new SelectListItem { Value = "BAD", Text = "Bad Account" },
+                new SelectListItem { Value = "ACC", Text = "Accredited" },
+                new SelectListItem { Value = "AOP", Text = "Acc. On Process" }
                 };
 
         // GET: Suppliers
@@ -28,7 +30,6 @@ namespace JobsV1.Controllers
         {
             
             return View(db.Suppliers.ToList());
-
 
         }
         
@@ -234,19 +235,46 @@ namespace JobsV1.Controllers
 
         #region inv Item Rate
 
-        public ActionResult AddRateInvItems(int id, string Particulars,string Rate, int Unit, string Remarks, string ValidFrom, string ValidTo, string By )
+        public ActionResult AddRateInvItems(int id, string Particulars, string Material,string Rate, int Unit, string Remarks, string TradeTerm, string Tolerance, string ValidFrom, string ValidTo, string By ,string ProcBy )
         {
             db.SupplierItemRates.Add(new SupplierItemRate
             {
                 Particulars = Particulars,
+                Material = Material,
                 ItemRate = Rate,
                 SupplierUnitId = Unit,
                 Remarks = Remarks,
+                TradeTerm = TradeTerm,
+                Tolerance = Tolerance,
                 DtValidFrom = ValidFrom,
                 DtValidTo = ValidTo,
                 SupplierInvItemId = id,
-                By = By
+                By = By,
+                ProcBy = ProcBy
             });
+            db.SaveChanges();
+
+            return RedirectToAction("InvItems", "Suppliers", new { id = id });
+        }
+
+        public ActionResult EditRateInvItems(int id, string Particulars, string Material, string Rate, int Unit, string ValidFrom, string ValidTo, string Remarks, string TradeTerm, string Tolerance, int SupInvId, string By, string ProcBy)
+        {
+         
+            SupplierItemRate itemRate = db.SupplierItemRates.Find(id);
+            itemRate.Particulars = Particulars;
+            itemRate.Material = Material;
+            itemRate.ItemRate = Rate;
+            itemRate.SupplierUnitId = Unit;
+            itemRate.TradeTerm = TradeTerm;
+            itemRate.Tolerance = Tolerance;
+            itemRate.Remarks = Remarks;
+            itemRate.DtValidFrom = ValidFrom;
+            itemRate.DtValidTo = ValidTo;
+            itemRate.SupplierInvItemId = SupInvId;
+            itemRate.By = By;
+            itemRate.ProcBy = ProcBy;
+
+            db.Entry(itemRate).State = EntityState.Modified;
             db.SaveChanges();
 
             return RedirectToAction("InvItems", "Suppliers", new { id = id });
@@ -309,7 +337,7 @@ namespace JobsV1.Controllers
         #region SupplierContact
 
         //  Create new Supplier contact
-        public ActionResult CreateSupContact(int SupplierId, string  Name, string Mobile, string Landline, string SkypeId, string ViberId , string WhatsApp, string Email, int Status, string Remarks)
+        public ActionResult CreateSupContact(int SupplierId, string  Name, string Mobile, string Landline, string SkypeId, string ViberId , string WhatsApp, string Email, int Status, string Remarks, string WeChat, string Position, string Department)
         {
             SupplierContact supContact = new SupplierContact();
             supContact.SupplierId = SupplierId;
@@ -322,6 +350,9 @@ namespace JobsV1.Controllers
             supContact.WhatsApp = WhatsApp;
             supContact.Email = Email;
             supContact.SupplierContactStatusId = Status;
+            supContact.WeChat = WeChat;
+            supContact.Position = Position;
+            supContact.Department = Position;
 
             if (SupplierId != 0)
             {
@@ -333,7 +364,7 @@ namespace JobsV1.Controllers
         }
 
         //  Create new Supplier contact
-        public ActionResult EditSupContact(int id, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks, string WhatsApp, string Email, int Status)
+        public ActionResult EditSupContact(int id, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks, string WhatsApp, string Email, int Status, string WeChat, string Position, string Department)
         {
             SupplierContact supContact = db.SupplierContacts.Find(id);
             supContact.Name = Name;
@@ -345,6 +376,9 @@ namespace JobsV1.Controllers
             supContact.WhatsApp = WhatsApp;
             supContact.Email = Email;
             supContact.SupplierContactStatusId = Status;
+            supContact.WeChat = WeChat;
+            supContact.Position = Position;
+            supContact.Department = Department;
 
             db.Entry(supContact).State = EntityState.Modified;
             db.SaveChanges();

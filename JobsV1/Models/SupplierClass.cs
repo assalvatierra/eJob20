@@ -26,6 +26,7 @@ namespace JobsV1.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string City { get; set; }
         public string Country { get; set; }
         public string Category { get; set; }
         public IEnumerable<string> Product { get; set; }
@@ -38,6 +39,14 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Number { get; set; }
+    }
+
+    public class cProduct
+    {
+        public int Id { get; set; }
+        public string ProductName { get; set; }
+        public string Price { get; set; }
+        public string UnitPrice { get; set; }
     }
 
     public class SupplierClass
@@ -53,16 +62,25 @@ namespace JobsV1.Models
             
             List<cSupplierList> custList = new List<cSupplierList>();
 
-            string sql ="SELECT * ," +
-                        "Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id )," +
-                        "City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),"+
-                        "SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )"+
-                        "FROM Suppliers sup ";
+            //string sql ="SELECT * ," +
+            //            "Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id )," +
+            //            "City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),"+
+            //            "SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )"+
+            //            "FROM Suppliers sup ";
+
+            //sql query with comma separated item list
+            string sql = " SELECT * FROM (SELECT * ,  " +
+                         "Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ), " +
+                         "City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ), " +
+                         "SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id ), " +
+                         "Items = SUBSTRING((SELECT(SELECT ii.Description as [text()] FROM InvItems ii WHERE sii.InvItemId = ii.Id FOR XML PATH('')) + ', ' " +
+                         "FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId FOR XML PATH('')),1,100 ) " +
+                         "FROM Suppliers sup ) as ItemList ";
 
             //handle status filter
             if (status != "ALL")
             {
-                sql += " WHERE sup.Status = '" + status + "' ";
+                sql += " WHERE ItemList.Status = '" + status + "' ";
             }
 
             //handle status filter
@@ -77,11 +95,11 @@ namespace JobsV1.Models
                 //handle status filter
                 if (status != "ALL")
                 {
-                    sql += " AND  sup.Name Like '%" + search + "%' ";
+                    sql += " AND  ItemList.Name Like '%" + search + "%' OR ItemList.Items Like '%" + search + "%'  ";
                 }
                 else
                 {
-                    sql += " WHERE  sup.Name Like '%" + search + "%' ";
+                    sql += " WHERE  sup.Name Like '%" + search + "%' OR  ItemList.Items Like '%" + search + "%' ";
                 }
             }
 
@@ -118,19 +136,49 @@ namespace JobsV1.Models
             foreach (var sup in custList)
             {
                 //get products of the supplier
-                var products = db.SupplierInvItems.Where(s => s.SupplierId == sup.Id).ToList().Select(s=>s.InvItem.Description);
+                var products = db.SupplierInvItems.Where(s => s.SupplierId == sup.Id).ToList();
 
                 //get Contact Persons of the supplier
                 var contactsPerson = db.SupplierContacts.Where(s=>s.SupplierId == sup.Id).ToList().Select(s => s.Name);
                 var contactNumber = db.SupplierContacts.Where(s => s.SupplierId == sup.Id).ToList().Select(s=>s.Mobile);
-             
 
+
+                //get product list with price
+                List<cProduct> prods  = new List<cProduct>();
+                List<string> prodUnitPrices = new List<string>();
+
+
+                foreach (var item in products)
+                {
+                    if (item.SupplierItemRates.OrderByDescending(s => s.Id).FirstOrDefault() != null)
+                    {
+                        var price = item.SupplierItemRates.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                        prods.Add(new cProduct
+                        {
+                            Id = item.InvItemId,
+                            ProductName = item.InvItem.Description,
+                            Price = price.ItemRate,
+                            UnitPrice = price.SupplierUnit.Unit
+
+                        });
+
+                        prodUnitPrices.Add(item.InvItem.Description + " <br> ( " + price.ItemRate + " / " + price.SupplierUnit.Unit + " ) ");
+                    }else
+                    {
+
+                        prodUnitPrices.Add(item.InvItem.Description);
+                    }
+                }
+
+                
                 supItems.Add(new cSupplierItems {
                     Id = sup.Id,
                     Name = sup.Name,
                     Country = sup.Country,
+                    City = sup.City,
                     Category = sup.SupType,
-                    Product = products,
+                    Product = prodUnitPrices,
                     ContactPerson = contactsPerson,
                     ContactNumber = contactNumber
 

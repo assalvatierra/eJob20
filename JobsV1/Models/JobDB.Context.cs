@@ -131,5 +131,6 @@ namespace JobsV1.Models
         public virtual DbSet<AdminEmail> AdminEmails { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<SupplierContactStatus> SupplierContactStatus { get; set; }
+        public virtual DbSet<CustEntAssign> CustEntAssigns { get; set; }
     }
 }

@@ -29,6 +29,10 @@ namespace JobsV1.Models
         public string DtValidTo { get; set; }
         public string Particulars { get; set; }
         public string By { get; set; }
+        public string Material { get; set; }
+        public string ProcBy { get; set; }
+        public string TradeTerm { get; set; }
+        public string Tolerance { get; set; }
     
         public virtual SupplierInvItem SupplierInvItem { get; set; }
         public virtual SupplierUnit SupplierUnit { get; set; }

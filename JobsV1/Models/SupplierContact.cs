@@ -25,6 +25,9 @@ namespace JobsV1.Models
         public string WhatsApp { get; set; }
         public string Email { get; set; }
         public int SupplierContactStatusId { get; set; }
+        public string WeChat { get; set; }
+        public string Position { get; set; }
+        public string Department { get; set; }
     
         public virtual Supplier Supplier { get; set; }
         public virtual SupplierContactStatus SupplierContactStatu { get; set; }
