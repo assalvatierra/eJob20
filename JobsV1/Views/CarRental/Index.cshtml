@@ -17,22 +17,30 @@
      "priceRange" : "Php 2,500 - Php 3,500" 
      } ]
 </script>*@
-
 <!-- Banner -->
 <div class="jumbotron row rental-banner">
     <div class="col-md-5">
         <h2>Welcome to Davao!</h2>
         <p class="lead">Start your journey with us.</p>
 
-        <a class="btn btn-primary btn-lg" href="https://goo.gl/maps/Q5QBmS8mEWn">
+        <a class="btn btn-primary btn-lg" href="https://goo.gl/maps/Q5QBmS8mEWn" style="padding:13px 21px;">
             Location
         </a>
+        <a class="btn btn-primary " href="viber://chat?number=639954508517" style="padding:6px 23px;" >
+            <img src="~/Images/Icons/viber-original.png" width="25"/>
+             <p style="font-size:10px;margin-bottom:0px;">Viber</p> 
+        </a>
+        <a class="btn btn-primary " href="https://wa.me/639954508517">
+            <img src="~/Images/Icons/whatsapp-original.png" width="25" /> 
+             <p style="font-size:10px;;margin-bottom:0px;">WhatsApp</p>
+        </a>
+        <br />
 
         @if (ViewBag.isAuthorize == 1)
         {
             @Html.ActionLink("Reservation", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success btn-lg btn-rsv" })
         }
-        <br>
+       
         @*<a class="btn btn-primary rsv-call-btn rsv-call-text" href="tel:+63822971831">
             <strong>LandLine:</strong> (+63) 82 297 1831
         </a><br />*@
@@ -45,10 +53,10 @@
         </a><br />
         <a class="btn btn-primary rsv-call-btn rsv-call-text" href="tel:+639954508517">
             <strong>Globe:</strong> (+63) 995-450-8517
-        </a><br />
-        <a class="btn btn-primary rsv-call-btn rsv-call-text" href="viber://chat?number=09954508517">
-            <strong>Viber:</strong> [0995-450-8517]
-        </a><br />
+        </a><br /> 
+        <a class="btn btn-primary rsv-call-btn rsv-call-text"  href="skype:+639954508517?call">
+            <strong>Skype:</strong> (+63) 995-450-8517
+        </a><br /> 
         <a class="btn btn-primary rsv-call-btn rsv-call-text" href="mailto:inquiries.realwheels@gmail.com">
             <strong>Email:</strong> inquiries.realwheels@gmail.com
         </a><br />
