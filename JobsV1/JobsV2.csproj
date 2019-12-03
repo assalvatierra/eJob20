@@ -458,10 +458,12 @@
     <Compile Include="Controllers\CarReservationsController.cs" />
     <Compile Include="Controllers\CarUnitsController.cs" />
     <Compile Include="Controllers\CashExpensesController.cs" />
+    <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\CoopMembersController.cs" />
     <Compile Include="Controllers\CustCategoriesController.cs" />
     <Compile Include="Controllers\CustCatsController.cs" />
     <Compile Include="Controllers\CustEntAddressesController.cs" />
+    <Compile Include="Controllers\CustEntAssignsController.cs" />
     <Compile Include="Controllers\CustEntitiesController.cs" />
     <Compile Include="Controllers\CustEntMainsController.cs" />
     <Compile Include="Controllers\CustFilesController.cs" />
@@ -589,6 +591,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustEntAddress.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustEntAssign.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustEntCat.cs">
@@ -1044,6 +1049,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.slate.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\ModalUser.css" />
@@ -1324,6 +1330,9 @@
     <Content Include="Images\Icons\car-rental.png" />
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
+    <Content Include="Images\Icons\skype-logo.png" />
+    <Content Include="Images\Icons\viber-original.png" />
+    <Content Include="Images\Icons\whatsapp-original.png" />
     <Content Include="Images\Logo_Realwheels.png" />
     <Content Include="Images\paypal.png" />
     <Content Include="Images\LOGO_AJRENTACAR.jpg" />
@@ -1414,7 +1423,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\dataTables.min.js" />
     <Content Include="Scripts\Job\CustEntMainList.js" />
+    <Content Include="Scripts\Job\CustEntRecords.js" />
     <Content Include="Scripts\Job\SupplierAddRate.js" />
     <Content Include="Scripts\Job\CompanyReport.js" />
     <Content Include="Scripts\Job\CustomerList.js" />
@@ -1520,6 +1531,8 @@
     <Content Include="Scripts\Reporting\JobIncome.js" />
     <Content Include="Scripts\Reporting\JobDate.js" />
     <Content Include="Scripts\Reporting\JobListing.js" />
+    <Content Include="Scripts\sort-table.js" />
+    <Content Include="Scripts\sort-table.min.js" />
     <Content Include="Scripts\ssl.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />
@@ -2157,7 +2170,20 @@
     <Content Include="Views\Customers\CreateCustSocial.cshtml" />
     <Content Include="Views\Customers\EditCustSocial.cshtml" />
     <Content Include="Views\JobOrder\Details_Voucher.cshtml" />
-    <Content Include="Views\SalesLeads\Lead_Details.cshtml" />
+    <Content Include="Views\SalesLeads\LeadDetails.cshtml" />
+    <Content Include="Views\Cities\Create.cshtml" />
+    <Content Include="Views\Cities\Delete.cshtml" />
+    <Content Include="Views\Cities\Details.cshtml" />
+    <Content Include="Views\Cities\Edit.cshtml" />
+    <Content Include="Views\Cities\Index.cshtml" />
+    <Content Include="Views\CustEntMains\AssignedRecords.cshtml" />
+    <Content Include="Views\CustEntAssigns\Create.cshtml" />
+    <Content Include="Views\CustEntAssigns\Delete.cshtml" />
+    <Content Include="Views\CustEntAssigns\Details.cshtml" />
+    <Content Include="Views\CustEntAssigns\Edit.cshtml" />
+    <Content Include="Views\CustEntAssigns\Index.cshtml" />
+    <Content Include="Views\CustEntMains\AssignedRecordsCreate.cshtml" />
+    <Content Include="Views\CustEntMains\AssignedRecordsEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
