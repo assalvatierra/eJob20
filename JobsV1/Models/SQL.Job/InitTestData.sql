@@ -192,22 +192,27 @@ SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c
 	WHERE  Name Like '%Manila%' 
 
 -------- Search supplier inv items ----------
- SELECT * ,  
- Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
- City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
- SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id ),
- Items = SUBSTRING( (SELECT ItemName = (SELECT ii.Description  as [text()] FROM InvItems ii WHERE sii.InvItemId = ii.Id FOR XML PATH('')) 
-	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId FOR XML PATH('')),2,100 )
- FROM Suppliers sup WHERE City LIKE '% Davao %'
 
- SELECT data =
- ( SELECT * , 
+SELECT * FROM
+	( SELECT * ,  
+	 Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
+	 City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
+	 SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id ),
+	 Items = SUBSTRING( (SELECT (SELECT ii.Description  as [text()] FROM InvItems ii WHERE sii.InvItemId = ii.Id FOR XML PATH('')) + ', '
+		FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId FOR XML PATH('')),1,100 )
+	 FROM Suppliers sup ) as ItemList
+
+ WHERE ItemList.Items LIKE '%Honda%'
+
+
+ 
+  SELECT * , 
  City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
  SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id ),
  Items = SUBSTRING( (SELECT sii.Id as [text()]
 	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId 
 	FOR XML PATH('')),2,100 ) 
- FROM Suppliers sup)
+ FROM Suppliers sup
 
 
  SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
@@ -223,13 +228,13 @@ SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c
 
 				FROM CustEntMains cem ;
 
-
-				 SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+--- Company Table Result
+SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
                  City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
                  ContactPerson = (SELECT TOP 1 Name = (SELECT Name 
                  FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) ,
                  ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) 
-                 FROM CustEntMains cem
+                 FROM CustEntMains cem;
 
 SELECT * ,
     Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
@@ -243,4 +248,12 @@ SELECT * ,Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id
           FROM Suppliers sup 
 
 Select UserName from AspNetUsers Where UserName NOT IN ('jahdielvillosa@gmail.com','jahdielsvillosa@gmail.com','assalvatierra@gmail.com');
+
+SELECT * , Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
+		City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
+		SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
+		FROM Suppliers sup
+
+
+		SELECT  ItemName = (SELECT i.Description as[text()]  FROM InvItems i WHERE si.InvItemId=i.Id ) + ', '  FROM SupplierInvItems si WHERE SupplierId = 2  FOR XML PATH('') 
 

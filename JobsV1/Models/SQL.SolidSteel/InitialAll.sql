@@ -35,14 +35,24 @@ values
 -- ------------------------------------------------------------
 
 insert into CustCategories([Name],[iconPath])
-values ('PRIORITY','Images/Customers/Category/star-filled-40.png'),
-	   ('ACTIVE','Images/Customers/Category/Active-30.png'),
-	   ('SUSPENDED','Images/Customers/Category/suspended-64.png'),
-	   ('BAD ACCOUNT','Images/Customers/Category/cancel-40.png'),
-	   ('CAR-RENTAL','Images/Customers/Category/Active-30.png'),
-	   ('TOUR','Images/Customers/Category/star-filled-40.png'),
-	   ('CLIENT','Images/Customers/Category/Active-30.png'),
-	   ('COMPANY','Images/Customers/Category/star-filled-40.png'); 
+values 
+	   ('PRIORITY','Images/Customers/Category/star-filled-40.png'),
+	   ('ACTIVE','Images/Customers/Category/star-filled-40.png'),
+	   ('INACTIVE','Images/Customers/Category/star-filled-40.png'),
+	   ('BAD ACCOUNT','Images/Customers/Category/star-filled-40.png'),
+	   ('SUSPENDED','Images/Customers/Category/star-filled-40.png'),
+	   ('BILLING/TERMS','Images/Customers/Category/star-filled-40.png'),
+	   ('ACCREDITATION ON PROCESS','Images/Customers/Category/star-filled-40.png'),
+	   ('General Engg','Images/Customers/Category/star-filled-40.png'),
+	   ('Electrical','Images/Customers/Category/Active-30.png'),
+	   ('Mechanical','Images/Customers/Category/suspended-64.png'),
+	   ('Civil','Images/Customers/Category/cancel-40.png'),
+	   ('Structural','Images/Customers/Category/Active-30.png'),
+	   ('Plumbing and Sanitary Work','Images/Customers/Category/star-filled-40.png'),
+	   ('Mechanical Piping','Images/Customers/Category/Active-30.png'),
+	   ('Airconditioning and Refrigeration','Images/Customers/Category/star-filled-40.png'),
+	   ('Fire Protection','Images/Customers/Category/star-filled-40.png'),
+	   ('Well Drilling Works','Images/Customers/Category/star-filled-40.png'); 
 
 insert into CustEntMains([Name],[Address],[Contact1],[Contact2])
 values ('NEW (not yet defined)',' ',' ',' ');
@@ -518,9 +528,11 @@ values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test Us
 insert into CustCats(CustomerId, CustCategoryId) 
 values(3,2),(3,1);
 
-insert into CustEntMains(Name, Address, Contact1, Contact2, iconPath) 
-values('NewCompany.Inc','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png');
+insert into CustEntMains(Name, Address, Contact1, Contact2, iconPath, Website, Remarks, CityId, Status, AssignedTo) 
+values('NewCompany.Inc','Davao City','09950753794','09950753794','','company.com','',1,'ACT','demo@gmail.com');
 
+insert into CustEntAssigns(Assigned, Remarks, CustEntMainId, Date)
+values ('demo@gmail.com', '' , 2 , '11-30-2019')
 insert into CustEntities(CustEntMainId, CustomerId) 
 values(2,3);
 

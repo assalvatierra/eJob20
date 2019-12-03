@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/18/2019 14:37:08
+-- Date Created: 11/30/2019 15:39:06
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -338,6 +338,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SupplierCountry]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Suppliers] DROP CONSTRAINT [FK_SupplierCountry];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntAssignCustEntMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntAssigns] DROP CONSTRAINT [FK_CustEntAssignCustEntMain];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -660,6 +663,9 @@ IF OBJECT_ID(N'[dbo].[Countries]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SupplierContactStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SupplierContactStatus];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntAssigns]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntAssigns];
 GO
 
 -- --------------------------------------------------
@@ -1085,7 +1091,8 @@ CREATE TABLE [dbo].[CustEntMains] (
     [Remarks] nvarchar(80)  NULL,
     [CityId] int  NULL,
     [Status] nvarchar(10)  NULL,
-    [AssignedTo] nvarchar(80)  NULL
+    [AssignedTo] nvarchar(80)  NULL,
+    [Mobile] nvarchar(max)  NULL
 );
 GO
 
@@ -1718,7 +1725,10 @@ CREATE TABLE [dbo].[SupplierContacts] (
     [SupplierId] int  NOT NULL,
     [WhatsApp] nvarchar(80)  NOT NULL,
     [Email] nvarchar(80)  NOT NULL,
-    [SupplierContactStatusId] int  NOT NULL
+    [SupplierContactStatusId] int  NOT NULL,
+    [WeChat] nvarchar(40)  NULL,
+    [Position] nvarchar(40)  NULL,
+    [Department] nvarchar(40)  NULL
 );
 GO
 
@@ -1732,7 +1742,11 @@ CREATE TABLE [dbo].[SupplierItemRates] (
     [DtValidFrom] nvarchar(max)  NOT NULL,
     [DtValidTo] nvarchar(max)  NOT NULL,
     [Particulars] nvarchar(80)  NOT NULL,
-    [By] nvarchar(80)  NOT NULL
+    [By] nvarchar(80)  NOT NULL,
+    [Material] nvarchar(40)  NULL,
+    [ProcBy] nvarchar(40)  NULL,
+    [TradeTerm] nvarchar(80)  NULL,
+    [Tolerance] nvarchar(80)  NULL
 );
 GO
 
@@ -1792,6 +1806,16 @@ GO
 CREATE TABLE [dbo].[SupplierContactStatus] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'CustEntAssigns'
+CREATE TABLE [dbo].[CustEntAssigns] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Assigned] nvarchar(80)  NOT NULL,
+    [Remarks] nvarchar(max)  NULL,
+    [Date] datetime  NOT NULL,
+    [CustEntMainId] int  NOT NULL
 );
 GO
 
@@ -2432,6 +2456,12 @@ GO
 -- Creating primary key on [Id] in table 'SupplierContactStatus'
 ALTER TABLE [dbo].[SupplierContactStatus]
 ADD CONSTRAINT [PK_SupplierContactStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntAssigns'
+ALTER TABLE [dbo].[CustEntAssigns]
+ADD CONSTRAINT [PK_CustEntAssigns]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4042,6 +4072,21 @@ GO
 CREATE INDEX [IX_FK_SupplierCountry]
 ON [dbo].[Suppliers]
     ([CountryId]);
+GO
+
+-- Creating foreign key on [CustEntMainId] in table 'CustEntAssigns'
+ALTER TABLE [dbo].[CustEntAssigns]
+ADD CONSTRAINT [FK_CustEntMainCustEntAssign]
+    FOREIGN KEY ([CustEntMainId])
+    REFERENCES [dbo].[CustEntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntMainCustEntAssign'
+CREATE INDEX [IX_FK_CustEntMainCustEntAssign]
+ON [dbo].[CustEntAssigns]
+    ([CustEntMainId]);
 GO
 
 -- --------------------------------------------------

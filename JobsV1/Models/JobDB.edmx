@@ -112,6 +112,7 @@
     <EntitySet Name="AdminEmails" EntityType="JobDB.Store.AdminEmails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Countries" EntityType="JobDB.Store.Countries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierContactStatus" EntityType="JobDB.Store.SupplierContactStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntAssigns" EntityType="JobDB.Store.CustEntAssigns" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -540,6 +541,10 @@
       <End Role="Supplier" EntitySet="Suppliers" />
       <End Role="Country" EntitySet="Countries" />
     </AssociationSet>
+    <AssociationSet Name="CustEntMainCustEntAssign" Association="JobDB.Store.CustEntMainCustEntAssign">
+      <End Role="CustEntAssign" EntitySet="CustEntAssigns" />
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -963,6 +968,7 @@
     <Property Name="CityId" Type="int" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="true" DefaultValue="ACT" MaxLength="10" />
     <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="SalesLeads">
     <Key>
@@ -1596,6 +1602,9 @@
     <Property Name="WhatsApp" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="SupplierContactStatusId" Type="int" Nullable="false" />
+    <Property Name="WeChat" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="Position" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="Department" Type="nvarchar" Nullable="true" MaxLength="40" />
   </EntityType>
   <EntityType Name="SupplierItemRates">
     <Key>
@@ -1610,6 +1619,10 @@
     <Property Name="DtValidTo" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Particulars" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="By" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Material" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="ProcBy" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="TradeTerm" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Tolerance" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="SupplierUnits">
     <Key>
@@ -1669,6 +1682,16 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntAssigns">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Assigned" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2954,6 +2977,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustEntMainCustEntAssign">
+    <End Role="CustEntAssign" Type="JobDB.Store.CustEntAssigns" Multiplicity="*" />
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntAssign">
+        <PropertyRef Name="CustEntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -3492,6 +3527,11 @@
           <AssociationSet Name="SupplierCountry" Association="JobDB.SupplierCountry">
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="Country" EntitySet="Countries" />
+          </AssociationSet>
+          <EntitySet Name="CustEntAssigns" EntityType="JobDB.CustEntAssign" />
+          <AssociationSet Name="CustEntMainCustEntAssign" Association="JobDB.CustEntMainCustEntAssign">
+            <End Role="CustEntAssign" EntitySet="CustEntAssigns" />
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -4409,6 +4449,8 @@
           <Property Name="CityId" Type="Int32" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="10" DefaultValue="ACT" />
           <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Mobile" Type="String" Nullable="true" />
+          <NavigationProperty Name="CustEntAssigns" Relationship="JobDB.CustEntMainCustEntAssign" FromRole="CustEntMain" ToRole="CustEntAssign" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -5903,6 +5945,9 @@
           <Property Name="Email" Type="String" Nullable="false" MaxLength="80" />
           <NavigationProperty Name="SupplierContactStatu" Relationship="JobDB.SupplierContactStatusSupplierContact" FromRole="SupplierContact" ToRole="SupplierContactStatus" />
           <Property Name="SupplierContactStatusId" Type="Int32" Nullable="false" />
+          <Property Name="WeChat" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="Position" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="Department" Type="String" Nullable="true" MaxLength="40" />
         </EntityType>
         <Association Name="SupplierSupplierContact">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -5932,6 +5977,10 @@
           <NavigationProperty Name="SalesLeadQuotedItems" Relationship="JobDB.SupplierItemRateSalesLeadQuotedItem" FromRole="SupplierItemRate" ToRole="SalesLeadQuotedItem" />
           <Property Name="Particulars" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="By" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Material" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="ProcBy" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="TradeTerm" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Tolerance" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <Association Name="SupplierInvItemSupplierItemRate">
           <End Type="JobDB.SupplierInvItem" Role="SupplierInvItem" Multiplicity="1" />
@@ -6120,6 +6169,29 @@
             </Principal>
             <Dependent Role="Supplier">
               <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustEntAssign">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Assigned" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntAssign" FromRole="CustEntAssign" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CustEntMainCustEntAssign">
+          <End Type="JobDB.CustEntAssign" Role="CustEntAssign" Multiplicity="*" />
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntAssign">
+              <PropertyRef Name="CustEntMainId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6586,6 +6658,7 @@
           <ScalarProperty Name="CityId" ColumnName="CityId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7280,6 +7353,9 @@
           <ScalarProperty Name="WhatsApp" ColumnName="WhatsApp" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="SupplierContactStatusId" ColumnName="SupplierContactStatusId" />
+          <ScalarProperty Name="WeChat" ColumnName="WeChat" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7295,6 +7371,10 @@
           <ScalarProperty Name="DtValidTo" ColumnName="DtValidTo" />
           <ScalarProperty Name="Particulars" ColumnName="Particulars" />
           <ScalarProperty Name="By" ColumnName="By" />
+          <ScalarProperty Name="Material" ColumnName="Material" />
+          <ScalarProperty Name="ProcBy" ColumnName="ProcBy" />
+          <ScalarProperty Name="TradeTerm" ColumnName="TradeTerm" />
+          <ScalarProperty Name="Tolerance" ColumnName="Tolerance" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7361,6 +7441,17 @@
         <MappingFragment StoreEntitySet="SupplierContactStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntAssigns">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntAssign)">
+        <MappingFragment StoreEntitySet="CustEntAssigns">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
