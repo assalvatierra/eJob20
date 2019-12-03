@@ -481,3 +481,10 @@
     cursor:pointer;
 }
 
+.sup-Table thead td tr {
+    cursor:pointer;
+}
+
+.js-sort-table tr th {
+     cursor:pointer;
+}
