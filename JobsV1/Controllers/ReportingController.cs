@@ -40,7 +40,7 @@ namespace JobsV1.Controllers
             ViewBag.Group = db.RateGroups.ToList();
             ViewBag.Units = db.CarUnits.ToList();
 
-            ViewBag.UnitList = db.InvItems.Where(s=>s.OrderNo <= 100).ToList();
+            ViewBag.UnitList = db.InvItems.Where(s=>s.OrderNo <= 120).ToList();
             ViewBag.sDate = localTime.GetCurrentDate().AddMonths(-1);
             ViewBag.eDate = localTime.GetCurrentDate();
 

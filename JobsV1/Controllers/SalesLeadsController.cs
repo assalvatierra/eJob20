@@ -119,14 +119,14 @@ namespace JobsV1.Controllers
             //for adding new item 
             AddSupItemPartial();
 
-            return View(salesLeads);
+            return View(salesLeads.OrderByDescending(s=>s.Date));
         }
 
 
         // GET: SalesLeads
-        public ActionResult Lead_Details(int? sortid, int? leadId)
+        public ActionResult LeadDetails(int? sortid, int? id)
         {
-
+            int leadId = (int)id;
             if (sortid != null)
                 Session["SLFilterID"] = (int)sortid;
             else
