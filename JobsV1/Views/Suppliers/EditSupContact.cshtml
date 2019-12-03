@@ -63,6 +63,27 @@
                 </div>
 
                 <div class="form-group cform">
+                    <b class="col-md-2"> WeChat </b>
+                    <div class="col-md-10">
+                        <input id="EditSupCon-WeChat" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Position </b>
+                    <div class="col-md-10">
+                        <input id="EditSupCon-Position" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Department </b>
+                    <div class="col-md-10">
+                        <input id="EditSupCon-Department" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
                     <b class="col-md-2"> Status </b>
                     <div class="col-md-10">
 
@@ -96,7 +117,7 @@
 <script>
 
     //----- Edit Contact --------//
-    function EditContactInitial(id, name, landline, mobile, skypeId, viberId, remarks, whatsApp, email, status) {
+    function EditContactInitial(id, name, landline, mobile, skypeId, viberId, remarks, whatsApp, email, status, wechat, position, dept) {
         $("#EditSupCon-Id").val(id);
         $("#EditSupCon-Name").val(name);
         $("#EditSupCon-Landline").val(landline);
@@ -107,6 +128,9 @@
         $("#EditSupCon-Email").val(email);
         $("#EditSupCon-status").val(status);
         $("#EditSupCon-Remarks").val(remarks);
+        $("#EditSupCon-WeChat").val(wechat);
+        $("#EditSupCon-Position").val(position);
+        $("#EditSupCon-Department").val(dept);
 
     }
 
@@ -123,7 +147,10 @@
             WhatsApp: $("#EditSupCon-WhatsApp").val(),
             Email:    $("#EditSupCon-Email").val(),
             Status:   $("#EditSupCon-Status").val(),
-            Remarks:  $("#EditSupCon-Remarks").val()
+            Remarks:  $("#EditSupCon-Remarks").val(),
+            WeChat:   $("#EditSupCon-WeChat").val(),
+            Position: $("#EditSupCon-Position").val(),
+            Department: $("#EditSupCon-Department").val()
         };
 
         console.log(data);

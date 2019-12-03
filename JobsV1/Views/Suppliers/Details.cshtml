@@ -17,7 +17,7 @@
     <h3>@Model.Name</h3>
 
 
-    <p> <b>Website: </b>@Model.Website </p>
+    <p> <b>Website: </b> @Model.Website </p>
     <p> <b>Tel: </b>@Model.Contact1 </p>
 
     @if (Model.Contact2 != null)
@@ -86,7 +86,9 @@
             <th>Skype</th>
             <th>Viber</th>
             <th>WhatsApp</th>
+            <th>WeChat</th>
             <th>Email</th>
+            <th>Position</th>
             <th>Status</th>
             <th>Remarks</th>
             <th></th>
@@ -101,12 +103,14 @@
                 <td>@contact.SkypeId</td>
                 <td>@contact.ViberId</td>
                 <td>@contact.WhatsApp</td>
+                <td>@contact.WeChat</td>
                 <td>@contact.Email</td>
+                <td>@contact.Position | @contact.Department</td>
                 <td>@contact.SupplierContactStatu.Name</td>
                 <td>@contact.Remarks</td>
                 <td>
                     <a href="#" id="catbtn" data-toggle="modal" data-target="#editSupContact"
-                       onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks', '@contact.WhatsApp', '@contact.Email', '@contact.SupplierContactStatusId') ">Edit</a> |
+                       onclick="EditContactInitial(@contact.Id, '@contact.Name','@contact.Landline', '@contact.Mobile', '@contact.SkypeId' ,'@contact.ViberId', '@contact.Remarks', '@contact.WhatsApp', '@contact.Email', '@contact.SupplierContactStatusId', '@contact.WeChat', '@contact.Position', '@contact.Department') ">Edit</a> |
                     <a href="#" onclick="ConfirmRemoveContact(@contact.Id,'@contact.Name')">Remove</a>
                 </td>
             </tr>

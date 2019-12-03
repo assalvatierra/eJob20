@@ -20,13 +20,13 @@
                 <div class="form-group cform">
                     <b class="col-md-2"> LandLine </b>
                     <div class="col-md-10">
-                        <input id="SupCon-Landline" class="form-control" type="text" maxlength="15">
+                        <input id="SupCon-Landline" class="form-control" type="text" maxlength="20">
                     </div><p></p>
                 </div>
                 <div class="form-group cform">
                     <b class="col-md-2"> Mobile</b>
                     <div class="col-md-10">
-                        <input id="SupCon-Mobile" class="form-control" type="text" maxlength="13">
+                        <input id="SupCon-Mobile" class="form-control" type="text" maxlength="20">
                     </div><p></p>
                 </div>
                 <div class="form-group cform">
@@ -50,9 +50,30 @@
                 </div>
 
                 <div class="form-group cform">
+                    <b class="col-md-2"> WeChat </b>
+                    <div class="col-md-10">
+                        <input id="SupCon-WeChat" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
                     <b class="col-md-2"> Email </b>
                     <div class="col-md-10">
                         <input id="SupCon-Email" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Position </b>
+                    <div class="col-md-10">
+                        <input id="SupCon-Position" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Department </b>
+                    <div class="col-md-10">
+                        <input id="SupCon-Department" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
@@ -65,8 +86,6 @@
                             {
                                 <option value="@status.Id"> @status.Name </option>
                             }
-
-
                         </select>
 
                     </div><p></p>
@@ -102,7 +121,10 @@
             WhatsApp: $("#SupCon-WhatsApp").val(),
             Email:    $("#SupCon-Email").val(),
             Status:   $("#SupCon-Status").val(),
-            Remarks:  $("#SupCon-Remarks").val()
+            Remarks:  $("#SupCon-Remarks").val(),
+            WeChat:   $("#SupCon-WeChat").val(),
+            Position: $("#SupCon-Position").val(),
+            Department:  $("#SupCon-Department").val()
         };
 
         console.log(data);

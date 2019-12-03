@@ -5,13 +5,16 @@
 
 @*<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>*@
 
-<table class="table">
+<table class="js-sort-table table">
     <tr>
         <th>
             Product
         </th>
         <th>
             Particulars
+        </th>
+        <th>
+            Material
         </th>
         <th>
             Price
@@ -23,7 +26,10 @@
             Date
         </th>
         <th>
-            By
+           Offered By
+        </th>
+        <th>
+            Procured By
         </th>
         <th></th>
     </tr>
@@ -47,11 +53,27 @@
                     @Html.DisplayFor(modelItem => rate.Particulars)
                 </td>
                 <td>
-                    Php  @rate.ItemRate / @rate.SupplierUnit.Unit
-                    <a href="#" onclick="confirmRateDelete(@rate.Id, 'Php @rate.ItemRate / @rate.SupplierUnit.Unit')"> [ x ] </a>
+                    @Html.DisplayFor(modelItem => rate.Material)
                 </td>
                 <td>
-                    @rate.Remarks
+                    Php  @rate.ItemRate / @rate.SupplierUnit.Unit
+                </td>
+                <td>
+                    <p>
+                        @if (rate.Remarks != "") { 
+                            <text>Remarks: </text> @rate.Remarks <text><br /></text>
+                        }
+                        @if (rate.TradeTerm != "")
+                        {
+                            <text>Trade Term: </text> @rate.TradeTerm <text><br /></text>
+}  
+                        @if (rate.Tolerance != "")
+                        {
+                            <text>Tolerance: </text> @rate.Tolerance  <text><br /></text>
+}
+                    
+                    </p>
+                    
                 </td>
                 <td>
                     (@DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
@@ -59,9 +81,13 @@
                 <td>
                     @rate.By
                 </td>
+                <td>
+                    @rate.ProcBy
+                </td>
 
                 <td>
-                  @*  <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a>*@
+                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editInvRate" onclick="editInvRate(@rate.Id, '@rate.Particulars', '@rate.Material', @rate.ItemRate , @rate.SupplierUnit.Id, '@rate.DtValidFrom', '@rate.DtValidTo', '@rate.Remarks', @rate.SupplierInvItemId, '@rate.By','@rate.ProcBy' ,'@rate.TradeTerm', '@rate.Tolerance')">Edit</a> |
+                    <a href="#" onclick="confirmRateDelete(@rate.Id, 'Php @rate.ItemRate / @rate.SupplierUnit.Unit')"> Remove </a>
                  @*   <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
                 </td>
             </tr>
@@ -70,19 +96,19 @@
         if (item.SupplierItemRates.Count == 0)
         {
             @*
-        <tr>
-            <td><b>@item.InvItem.Description</b></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-                <td>
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> |
-                    <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
-                </td>
-        </tr>
-                *@
+            <tr>
+                <td><b>@item.InvItem.Description</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                    <td>
+                        <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Rate</a> |
+                        <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
+                    </td>
+            </tr>
+           *@
         }
 
     }
@@ -141,11 +167,17 @@
                     </div><p></p>
                 </div>
 
-
                 <div class="form-group cform">
                     <b class="col-md-2"> Particulars </b>
                     <div class="col-md-10">
-                        <input id="InvRate-Particulars" class="form-control" type="text" maxlength="80" value="0">
+                        <input id="InvRate-Particulars" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Material </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Material" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
@@ -168,6 +200,22 @@
                         </select>
                     </div><p></p>
                 </div>
+
+
+                <div class="form-group cform">
+                    <b class="col-md-2">TradeTerm </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-TradeTerm" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Tolerance </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-Tolerance" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
                 <div class="form-group cform">
                     <b class="col-md-2"> Remarks </b>
                     <div class="col-md-10">
@@ -178,7 +226,7 @@
                 <div class="form-group cform">
                     <b class="col-md-2"> Valid From</b>
                     <div class="col-md-10">
-                        <input id="InvRate-ValidFrom" class="form-control" type="text" maxlength="13">
+                        <input id="InvRate-ValidFrom" class="form-control" type="text" maxlength="20">
                     </div><p></p>
                 </div>
 
@@ -190,9 +238,16 @@
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-2"> By </b>
+                    <b class="col-md-2"> Offered-By </b>
                     <div class="col-md-10">
                         <input id="InvRate-By" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Procured-By </b>
+                    <div class="col-md-10">
+                        <input id="InvRate-ProcBy" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
             </div>
@@ -204,16 +259,132 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<!-- Edit Inv Rate Modal -->
+<div class="modal fade" id="editInvRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Rate for <span id="InvRate-ItemName"> Item </span></h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform hidden">
+                    <b class="col-md-2"> Id </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-ItemId" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform hidden">
+                    <b class="col-md-2"> SupInvId </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-SupInvId" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Particulars </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-Particulars" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Material </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-Material" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Rate </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-Rate" class="form-control" type="text" maxlength="80" value="0">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Unit </b>
+                    <div class="col-md-10">
+                        <select id="EditInvRate-UnitType" class="form-control">
+                            @foreach (var unit in ViewBag.UnitList as IEnumerable<JobsV1.Models.SupplierUnit>)
+                            {
+                                <option value="@unit.Id"> @unit.Unit</option>
+
+                            }
+                        </select>
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2">TradeTerm </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-TradeTerm" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Tolerance </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-Tolerance" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Remarks </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-Remarks" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Valid From</b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-ValidFrom" class="form-control" type="text" maxlength="20">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Valid To </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-ValidTo" class="form-control" type="text" maxlength="20">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Offered-By </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-By" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Procured-By </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-ProcBy" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_editInvRate()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
 <script src="~/Scripts/Job/SupplierAddRate.js"></script>
+<script src="~/Scripts/sort-table.js"></script>
 
 <script>
     $(document).ready(new function () {
         var today = moment().format('MM/DD/YYYY');
-        var endDate = moment(today).add(366, 'day').format('MM/DD/YYYY');
+        var endDate = moment(today).add(1, 'month').format('MM/DD/YYYY');
 
         $("#InvRate-ValidFrom").val(today);
         $("#InvRate-ValidTo").val(endDate);
@@ -226,18 +397,87 @@
         //build json object
         var data = {
             id: $("#InvRate-ItemId").val(),
+            Material: $("#InvRate-Material").val(),
             Particulars: $("#InvRate-Particulars").val(),
             Rate: $("#InvRate-Rate").val(),
             Unit: $("#InvRate-UnitType").find(":selected").val(),
             ValidFrom: $("#InvRate-ValidFrom").val(),
             ValidTo: $("#InvRate-ValidTo").val(),
             Remarks: $("#InvRate-Remarks").val(),
-            By: $("#InvRate-By").val()
+            TradeTerm: $("#InvRate-TradeTerm").val(),
+            Tolerance: $("#InvRate-Tolerance").val(),
+            By: $("#InvRate-By").val(),
+            ProcBy: $("#InvRate-ProcBy").val()
         };
 
         console.log(data);
 
         var url = '/Suppliers/AddRateInvItems';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+
+    function conformDelete(Id, desc) {
+        var confirmRes = confirm("Do you want to REMOVE " + desc + " ?");
+        if (confirmRes) {
+            ajax_deleteInv(Id);
+        }
+    }
+    
+
+    function editInvRate(Id, Particulars, Material, Rate, UnitType, ValidFrom, ValidTo, Remarks, SupInvId, By, ProcBy, TradeTerm, Tolerance) {
+        $("#EditInvRate-ItemId").val(Id);
+        $("#EditInvRate-Particulars").val(Particulars);
+        $("#EditInvRate-Material").val(Material);
+        $("#EditInvRate-Rate").val(Rate);
+        $("#EditInvRate-UnitType").val(UnitType);
+        $("#EditInvRate-ValidFrom").val(ValidFrom);
+        $("#EditInvRate-ValidTo").val(ValidTo);
+        $("#EditInvRate-Remarks").val(Remarks);
+        $("#EditInvRate-SupInvId").val(SupInvId);
+        $("#EditInvRate-TradeTerm").val(TradeTerm);
+        $("#EditInvRate-Tolerance").val(Tolerance);
+        $("#EditInvRate-By").val(By);
+        $("#EditInvRate-ProcBy").val(ProcBy);
+    }
+
+    //EDIT PRODUCT
+    function ajax_editInvRate() {
+
+        //build json object
+        var data = {
+            id:         $("#EditInvRate-ItemId").val(),
+            Particulars:$("#EditInvRate-Particulars").val(),
+            Material:   $("#EditInvRate-Material").val(),
+            Rate:       $("#EditInvRate-Rate").val(),
+            Unit:       $("#EditInvRate-UnitType").find(":selected").val(),
+            ValidFrom:  $("#EditInvRate-ValidFrom").val(),
+            ValidTo:    $("#EditInvRate-ValidTo").val(),
+            Remarks:    $("#EditInvRate-Remarks").val(),
+            TradeTerm:  $("#EditInvRate-TradeTerm").val(),
+            Tolerance:  $("#EditInvRate-Tolerance").val(),
+            SupInvId:   $("#EditInvRate-SupInvId").val(),
+            By:         $("#EditInvRate-By").val(),
+            ProcBy:     $("#EditInvRate-ProcBy").val()
+        };
+
+        console.log(data);
+
+        var url = '/Suppliers/EditRateInvItems';
 
         //Post data from server using ajax call
         $.ajax({
