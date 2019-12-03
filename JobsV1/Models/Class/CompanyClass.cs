@@ -16,6 +16,7 @@ namespace JobsV1.Models
         public string Address { get; set; }
         public string Contact1  { get; set; }
         public string Contact2  { get; set; }
+        public string Mobile    { get; set; }
         public string iconPath  { get; set; }
         public string Website   { get; set; }
         public string Remarks   { get; set; }
@@ -46,13 +47,48 @@ namespace JobsV1.Models
                 " ContactPerson = (SELECT TOP 1 Name = (SELECT Name "+
                 " FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId), "+
                 " ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId ORDER BY ce.Id DESC) " +
-                " FROM CustEntMains cem WHERE Status = 'ACT'";
+                " FROM CustEntMains cem";
 
+
+            if (status != null)
+            {
+                if (status == "ACT")
+                {
+                    sql += " WHERE Status = 'ACT' ";
+                }
+                if (status == "INC")
+                {
+                    sql += " WHERE Status = 'INC' ";
+                }
+                if (status == "BAD")
+                {
+                    sql += " WHERE Status = 'BAD' ";
+                }
+                if (status == "ALL")
+                {
+                    sql += " ";
+                }
+
+            }
+            else
+            {
+                sql += " WHERE Status = 'ACT'";
+
+            }
             //handle search by name filter
             if (search != null || search != "")
             {
-                sql += " AND  cem.Name Like '%" + search + "%' ";
+                if (status == "ALL")
+                {
+                    sql += " WHERE cem.Name Like '%" + search + "%' ";
+                }
+                else
+                {
+                    sql += " AND cem.Name Like '%" + search + "%' ";
+                }
+
             }
+            
 
             if (sort != null)
             {
