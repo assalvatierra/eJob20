@@ -29,6 +29,7 @@ namespace JobsV1.Models
         public string Customer { get; set; }
         public Decimal Amount { get; set; }
         public string Status { get; set; }
+        public string AssignedTo { get; set; }
 
     }
 
@@ -50,7 +51,7 @@ namespace JobsV1.Models
 
             if (categoryList == null)
             {
-
+                 
                 categoryDetails.Add(new CustCategory
                 {
                     Id = 0,
@@ -102,7 +103,7 @@ namespace JobsV1.Models
                 }
             }
 
-            return categoryDetails;
+            return categoryDetails.OrderByDescending(s=>s.Name).ToList();
         }
         
         //get companies associated to the customer using 
