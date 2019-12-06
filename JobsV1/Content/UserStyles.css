@@ -488,3 +488,25 @@
 .js-sort-table tr th {
      cursor:pointer;
 }
+
+/* Companies Search fields Styles */
+   .search-group{
+      display: block;
+      float: left;
+      margin:5px;
+    } 
+    
+    .search-field{
+      width:130px;
+      display: block;
+      float: left;
+      margin:5px;
+    }
+    
+    .search-cat{
+      width:160px;
+      display: block;
+      float: left;
+      margin:0px;
+      margin-top:0px;
+    }

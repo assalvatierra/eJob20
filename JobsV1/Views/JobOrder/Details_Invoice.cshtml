@@ -290,7 +290,7 @@
         var count = 0;
         paypal.Button.render({
             // Configure environment
-            env: 'production',
+            // env: 'production',
             //env: 'sandbox',
             client: {
                 //paypal live
@@ -324,9 +324,9 @@
                                 //insurance: '0.00'
                             }
                         },
-                        description: 'RealWheels Car Rental.',
+                        description: 'Booking Details',
                         custom: '@Model.Id',// Insert a unique invoice number
-                        invoice_number: @Model.Id,// Insert a unique invoice number
+                        //invoice_number: Model.Id,// Insert a unique invoice number
                         payment_options: {
                             allowed_payment_method: 'INSTANT_FUNDING_SOURCE'
                         },

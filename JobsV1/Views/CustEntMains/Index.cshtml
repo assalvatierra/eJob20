@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
+
 <h2>Companies </h2>
 
 <p>
@@ -22,10 +23,24 @@
     </span>
 </p>
 
-<p>
-    <input class="input-sm" id="srch-field" type="search" />
-    <button class="btn btn-default" onclick="ajax_loadContent()">Search</button>
-</p>
+<div class="form-group">
+    <div class="search-group">
+        <input class="form-control search-cat" id="srch-field" type="search"  />
+    </div>
+    <div>
+        <select class="form-control search-field" id="srch-category" >
+            @*<option value="All">All</option>*@
+            <option value="Procurement">Procurement</option>
+            <option value="City">City</option>
+            <option value="Company Name">Company Name</option>
+            <option value="Category">Category</option>
+            <option value="Contact Person">Contact Person</option>
+        </select>
+    </div>
+    <div>
+        <button class="btn btn-default search-group" onclick="ajax_loadContent()" >Search</button>
+    </div>
+</div>
 <table class="js-sort-table table" id="company-Table">
     <tr>
         <th>
@@ -63,6 +78,3 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/Job/CustEntMainList.js"></script>
 <script src="~/Scripts/sort-table.js"></script>
-<script> 
-        
-</script>

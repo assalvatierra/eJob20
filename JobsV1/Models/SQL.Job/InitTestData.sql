@@ -254,6 +254,26 @@ SELECT * , Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.I
 		SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
 		FROM Suppliers sup
 
-
 		SELECT  ItemName = (SELECT i.Description as[text()]  FROM InvItems i WHERE si.InvItemId=i.Id ) + ', '  FROM SupplierInvItems si WHERE SupplierId = 2  FOR XML PATH('') 
 
+SELECT * FROM ( SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ),
+       City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
+       ContactPerson = (SELECT TOP 1 Name = (SELECT Name 
+       FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId), 
+       ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId ORDER BY ce.Id DESC) 
+       FROM CustEntMains cem ) as com 
+	  WHERE  com.Name LIKE '%ABC%'
+
+SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+        City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
+        ContactPerson = (SELECT TOP 1 Name = (SELECT Name FROM Customers cust WHERE cust.Id = ce.CustomerId)
+	    FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId Order By ce.Id DESC), 
+        Mobile = (SELECT TOP 1 Contact = (SELECT cust.Contact2 FROM Customers cust WHERE cust.Id = ce.CustomerId)
+	    FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId Order By ce.Id DESC),
+        ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId ORDER BY ce.Id DESC) 
+        FROM CustEntMains cem ) as com 
+
+SELECT Id,Name, Contact1, Contact2 , Status,
+       JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,
+       Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id )
+       FROM [CustEntities] ce WHERE ce.CustomerId = c.Id ORDER BY ce.Id DESC) FROM Customers c

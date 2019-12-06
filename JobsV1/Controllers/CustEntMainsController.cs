@@ -21,13 +21,18 @@ namespace JobsV1.Controllers
         private DateClass dt = new DateClass();
 
         private List<SelectListItem> StatusList = new List<SelectListItem> {
+                new SelectListItem { Value = "PRI", Text = "Priority" },
+                new SelectListItem { Value = "ACC", Text = "Accredited" },
+                new SelectListItem { Value = "ACP", Text = "Accreditation on Process" },
+                new SelectListItem { Value = "BIL", Text = "Billing/Terms" },
                 new SelectListItem { Value = "ACT", Text = "Active" },
                 new SelectListItem { Value = "INC", Text = "Inactive" },
-                new SelectListItem { Value = "BAD", Text = "Bad Account" }
+                new SelectListItem { Value = "BAD", Text = "Bad Account" },
+                new SelectListItem { Value = "SUS", Text = "Suspended" }
                 };
         public ActionResult Index()
         {
-            var companies = db.CustEntMains.Where(c => c.Status == "ACT").ToList();
+            var companies = db.CustEntMains.ToList();
             return View(companies);
         }
 
@@ -36,13 +41,12 @@ namespace JobsV1.Controllers
         //if search is empty, return all actve items
         //Param : search = search string
         //        status = company list string
-        public string TableResult(string search, string status, string sort)
+        public string TableResult(string search, string searchCat,string status, string sort)
         {
             //get lit of customers
             List<CompanyList> custList = new List<CompanyList>();
            
-            custList = comdb.generateCompanyList(search, status, sort);
-            
+            custList = comdb.generateCompanyList(search, searchCat, status, sort);
             
             //convert list to json object
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
@@ -72,6 +76,8 @@ namespace JobsV1.Controllers
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.City = db.Cities.Find(custEntMain.CityId).Name;
+            ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").ToList(), "Id", "Name");
 
             return View(custEntMain);
         }
@@ -427,41 +433,54 @@ namespace JobsV1.Controllers
 
             return RedirectToAction("Details", new { id = companyId });
         }
-
-
-        public string AddContact(int companyId, string name, string position, string email, string tel, string mobile, string social, string status)
+        
+        public string AddContact(int companyId, int customerId, string name, string position, string email, string tel, string mobile, string social, string status)
         {
             try
             {
+                //NEW CUSTOMER
+                if (customerId == 1)
+                {
+                    //create new customer based on company id
+                    Customer newCust = new Customer();
+                    newCust.Name = name;
+                    newCust.Email = email;
+                    newCust.Contact1 = tel;
+                    newCust.Contact2 = mobile;
+                    newCust.Status = status;
 
-                //create new customer based on company id
-                Customer newCust = new Customer();
-                newCust.Name = name;
-                newCust.Email = email;
-                newCust.Contact1 = tel;
-                newCust.Contact2 = mobile;
-                newCust.Status = status;
+                    db.Customers.Add(newCust);
+                    db.SaveChanges();
 
-                db.Customers.Add(newCust);
-                db.SaveChanges();
+                    customerId = newCust.Id;
+                }
+                else
+                {
+                    //existing customer
+                    Customer cust = db.Customers.Find(customerId);
 
-                ////create new customer social account
-                //CustSocialAcc socialacc = new CustSocialAcc();
-                //socialacc.CustomerId = newCust.Id;
-                //socialacc.Facebook = social;
+                    //update customer
+                    cust.Contact1 = tel;
+                    cust.Contact2 = mobile;
+                    cust.Email = email;
+                    
 
-                //db.CustSocialAccs.Add(socialacc);
-                //db.SaveChanges();
-
+                    db.Entry(cust).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                
                 //create new connection from customer and company
                 CustEntity custEnt = new CustEntity();
                 custEnt.CustEntMainId = companyId;
-                custEnt.CustomerId = newCust.Id;
+                custEnt.CustomerId = customerId;
                 custEnt.Position = position;
 
                 db.CustEntities.Add(custEnt);
                 db.SaveChanges();
 
+                //create customer social account
+                createSocialAccount(customerId, social);
+                
                 return "200";
             }
             catch (Exception ex)
@@ -469,11 +488,77 @@ namespace JobsV1.Controllers
                 return ex.ToString();
             }
         }
+        
+        private void createSocialAccount(int custId, string account)
+        {
+            CustSocialAcc social = new CustSocialAcc();
+            social.CustomerId = custId;
+            social.Facebook = account;
+            social.Skype = "";
+            social.Viber = "";
+            
+            db.CustSocialAccs.Add(social);
+            db.SaveChanges();
+        }
+
+        private void updateStaffSocial(int customerId, int companyId, string socialAcc)
+        {
+            if (db.CustSocialAccs.Where(c => c.CustomerId == customerId).OrderByDescending(c => c.Id).FirstOrDefault() != null)
+            {
+                CustSocialAcc social = db.CustSocialAccs.Where(c => c.CustomerId == customerId).OrderByDescending(c => c.Id).FirstOrDefault();
+                social.Facebook = socialAcc;
+
+                db.Entry(social).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
+        public string getCustomerAccount(int? id)
+        {
+            if (id != 0)
+            { 
+                //get lit of customers
+                Customer customer = db.Customers.Find(id);
+
+                //build for json
+                cCompanyContact contact = new cCompanyContact();
+                contact.CustomerId = customer.Id;
+                contact.Name = customer.Name;
+                contact.Position = "";
+                contact.Email = customer.Email;
+                contact.Telephone = customer.Contact1;
+                contact.Mobile = customer.Contact2;
+                contact.SocialMedia = "";
+
+                //check if customer has company position
+                if (db.CustEntities.Where(c => c.CustomerId == customer.Id).OrderByDescending(s => s.Id).FirstOrDefault() != null)
+                {
+                    var companyContact = db.CustEntities.Where(c => c.CustomerId == customer.Id).OrderByDescending(s => s.Id).FirstOrDefault();
+                    if (companyContact.Position != null)
+                    {
+                        contact.Position = companyContact.Position;
+                    }
+                }
+
+                //check if customer has social media
+                if (db.CustSocialAccs.Where(c => c.CustomerId == customer.Id).OrderByDescending(s => s.Id).FirstOrDefault() != null)
+                {
+                    var socialAcc = db.CustSocialAccs.Where(c => c.CustomerId == customer.Id).OrderByDescending(s => s.Id).FirstOrDefault();
+
+                    contact.SocialMedia = socialAcc.Facebook;
+                }
+
+                
+                //convert list to json object
+                return JsonConvert.SerializeObject(contact, Formatting.Indented);
+            }
+            return "Error";
+           
+        }
         #endregion
 
-
         #region Assigned Records
-        
+
         //List of Records from company
         public ActionResult AssignedRecords(int companyId)
         {

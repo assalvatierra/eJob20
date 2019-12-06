@@ -16,15 +16,50 @@
 
 <div class="row">
     <h1> @Html.DisplayFor(model => model.Name) </h1>
-    <h5> Telephone: @Html.DisplayFor(model => model.Contact1) </h5>
-    <h5> Fax: @Html.DisplayFor(model => model.Contact2) </h5>
-    <h5> Mobile: @Html.DisplayFor(model => model.Mobile ) </h5>
-    <h5> <a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> </h5>
-    <h5> <b>Status:</b> @Html.DisplayFor(model => model.Status)  </h5>
-    <h5> <b>Assigned To:</b> 
+    <h5> <b>Telephone:</b> @Html.DisplayFor(model => model.Contact1) </h5>
+    <h5> <b>Fax:</b> @Html.DisplayFor(model => model.Contact2) </h5>
+    <h5> <b>Mobile:</b> @Html.DisplayFor(model => model.Mobile ) </h5>
+    <h5> <b>Website:</b><a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> </h5>
+    <h5> <b>City:</b> @ViewBag.City </h5>
+    <h5> <b>Status:</b> 
+    
+        @switch (Html.DisplayFor(model => model.Status).ToString())
+        {
+            case "ACC":
+                <text> ACCREDITED </text>;
+                break;
+            case "ACP":
+                <text> ACCREDITATION ON PROCESS </text>;
+                break;
+            case "BIL":
+                <text> BILLING/TERMS </text>;
+                break;
+            case "ACT":
+                <text> ACTIVE </text>;
+                break;
+            case "INC":
+                <text> INACTIVE </text>;
+                break;
+            case "BAD":
+                <text> BAD ACCOUNT </text>;
+                break;
+            case "SUS":
+                <text> SUSPENDED </text>;
+                break;
+            case "PRI":
+                <text> PRIORITY </text>;
+                break;
+        }
+     </h5>
+    <h5>
+        <b>Assigned To:</b>
         <span>
-        
-        @Html.ActionLink("  "+ Html.DisplayFor(model => model.AssignedTo) + " ", "AssignedRecords", new { companyId = Model.Id })</span>
+            @Html.DisplayFor(model => model.AssignedTo)
+        </span>
+        <p>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            @Html.ActionLink("<View History> ", "AssignedRecords", new { companyId = Model.Id })
+        </p>
     </h5>
     @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
 </div>
@@ -50,13 +85,13 @@
             @if (address.isPrimary == true && address.isBilling == true)
             {
                 <text>
-                    Primary / Billing Address:
+                    Branch / Billing Address:
                 </text>
             }
-            else if (address.isPrimary == true && address.isBilling == true)
+            else if (address.isPrimary == true && address.isBilling == false)
             {
                 <text>
-                    Billing Address:
+                    Branch Address:
                 </text>
             }
             else if (address.isPrimary == false && address.isBilling == true)
@@ -67,7 +102,7 @@
             }
             else
             {
-                <text>Branch Address:</text>
+                <text> Address:</text>
             }
         </p>
         <p class="comp-address">
@@ -121,26 +156,32 @@
                 </td>
                 <td>
                    @switch (custcompany.Customer.Status)
-                    {
-                       case "ACT" :
-                          <text> ACTIVE </text>;
-                           break;
-                       case "INC":
-                        <text> INACTIVE </text>;
-                           break;
-                       case "BAD":
-                        <text> BAD ACCOUNT </text>;
-                           break;
+                   {
                        case "ACC":
                         <text> ACCREDITED </text>;
                            break;
-                       case "SUSP":
-                        <text> SUSPENDED </text>;
+                       case "ACP":
+                        <text> ACCREDITATION ON PROCESS </text>;
                            break;
-                       case "PRIO":
-                        <text> PRIORITY </text>;
+                       case "BIL":
+                        <text> BILLING/TERMS </text>;
                            break;
-                   }
+                       case "ACT":
+                          <text> ACTIVE </text>;
+                           break;
+                       case "INC":
+                          <text> INACTIVE </text>;
+                           break;
+                       case "BAD":
+                          <text> BAD ACCOUNT </text>;
+                           break;
+                       case "SUS":
+                          <text> SUSPENDED </text>;
+                           break;
+                       case "PRI":
+                          <text> PRIORITY </text>;
+                           break;
+                    }
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Details", "Customers", new { id = custcompany.Customer.Id }, null) |
@@ -208,7 +249,7 @@
     </table>
 </div>
 
-<div class="row">
+<div class="row hidden">
     <h3>Job List</h3>
     <p>
         <b>Date: </b>
@@ -274,6 +315,15 @@
             <div class="modal-body row" id="modal2-content">
 
                 <div class="form-group cform">
+                    <b class="col-md-2"> Id </b>
+                    <div class="col-md-10">
+
+                        @Html.DropDownList("ContactList", null, htmlAttributes: new { @class = "form-control", @id = "ac-custId" })
+
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
                     <b class="col-md-2"> Name </b>
                     <div class="col-md-10">
                         <input id="ac-name" class="form-control" type="text" maxlength="80">
@@ -304,7 +354,7 @@
                         <input id="ac-mobile" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
-                <div class="form-group cform hidden">
+                <div class="form-group cform">
                     <b class="col-md-2"> Social  Media </b>
                     <div class="col-md-10">
                         <input id="ac-social" class="form-control" type="text" maxlength="80">
@@ -380,7 +430,7 @@
                     </div><p></p>
                 </div>
                 <div class="form-group cform">
-                    <b class="col-md-2"> Primary </b>
+                    <b class="col-md-2"> Is this Branch? </b>
                     <div class="col-md-10">
                         <input id="EditPrim" type="checkbox">
                     </div><p></p>
@@ -560,10 +610,11 @@
         //build json object
         var data = {
             companyId : @Model.Id,
-            name: $("#ac-name").val(),
+            customerId : $("#ac-custId").val(),
+            name:   $("#ac-name").val(),
             position: $("#ac-position").val(),
-            email: $("#ac-email").val(),
-            tel: $("#ac-tel").val(),
+            email:  $("#ac-email").val(),
+            tel:    $("#ac-tel").val(),
             mobile: $("#ac-mobile").val(),
             social: $("#ac-social").val(),
             status: $("#ac-status").val()
@@ -753,6 +804,113 @@
     function clickme(event){
         var data = $(event).text();
         console.log('data: ' + data);
-        $(this).text(parseStatusText('ACT'));
+        $(this).text(parseStatus('ACT'));
     }
+
+    
+    function parseStatus(status) {
+        switch (status) {
+            case 'PRI':
+                return ' PRIORITY';
+                break;
+            case 'ACC':
+                return 'ACCREDITED';
+                break;
+            case 'ACP':
+                return 'ACCREDITATION ON PROCESS';
+                break;
+            case 'BIL':
+                return 'BILLING/TERMS';
+                break;
+            case 'ACT':
+                return 'ACTIVE';
+                break;
+            case 'INC':
+                return 'INACTIVE';
+                break;
+            case 'BAD':
+                return 'BAD ACCOUNT';
+                break;
+            case 'SUS':
+                return 'SUSPENDED';
+                break;
+            default:
+                return 'NA'
+                break;
+        }
+    }
+
+
+    $('#ac-custId').change(function(){
+        ajax_getContactDetails();
+    });
+    
+    //load table content on search btn click
+    //request data from server using ajax call
+    //then clear and add contents to the table
+    function ajax_getContactDetails() {
+        var Id = $('#ac-custId').children("option:selected").val();
+   
+        //build json object
+        var data = {
+            id: Id
+        };
+        //console.log(data);
+        //request data from server using ajax call
+        $.ajax({
+            url: '/CustEntMains/getCustomerAccount',
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //console.log("SUCCESS");
+            },
+            error: function (data) {
+                //console.log("ERROR");
+                //console.log(data);
+                LoadContactFields(data);
+            }
+        });
+    }
+
+
+    //display simple/limited information 
+    //of suppliers
+    function LoadContactFields(data) {
+    
+        //console.log(data);
+        //parse data response to json object
+        var temp = jQuery.parseJSON(data["responseText"]);
+        //console.log(temp);
+        //clear table contents except header
+        $("#sup-Table").find("tr:gt(0)").remove();
+        var jobcount = 0;
+        var company  = "";
+        var contact1 = "";
+        var contact2 = "";
+
+        clearAddContactFields()
+        console.log(temp["Name"]);
+        console.log(temp["Email"]);
+        console.log(temp["Telephone"]);
+        console.log(temp["Mobile"]);
+
+        $('#ac-name').val(temp["Name"]);
+        $('#ac-email').val(temp["Email"]);
+        $('#ac-tel').val(temp["Telephone"]);
+        $('#ac-mobile').val(temp["Mobile"]);
+        $('#ac-social').val(temp["SocialMedia"]);
+        $('#ac-position').val(temp["Position"]);
+    }
+
+    function clearAddContactFields(){
+        $('#ac-name').val("");
+        $('#ac-email').val("");
+        $('#ac-tel').val("");
+        $('#ac-mobile').val("");
+        $('#ac-social').val("");
+        $('#ac-position').val("");
+    }
+
+
 </script>

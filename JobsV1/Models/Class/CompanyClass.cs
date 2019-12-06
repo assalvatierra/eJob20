@@ -27,7 +27,19 @@ namespace JobsV1.Models
         public string AssignedTo { get; set; }
         public string Status { get; set; }
     }
-    
+
+    public class cCompanyContact
+    {
+        public int Id { get; set; }
+        public int CustomerId { get; set; }
+        public string Name { get; set; }
+        public string Position { get; set; }
+        public string Email { get; set; }
+        public string Telephone { get; set; }
+        public string Mobile { get; set; }
+        public string SocialMedia { get; set; }
+
+    }
     public class CompanyClass
     {
 
@@ -38,31 +50,34 @@ namespace JobsV1.Models
         #region AJAX_Customer_Table
         //-----AJAX Functions for generating table list---------//
         
-        public List<CompanyList> generateCompanyList(string search, string status, string sort)
+        public List<CompanyList> generateCompanyList(string search, string searchCat, string status, string sort)
         {
             List<CompanyList> custList = new List<CompanyList>();
              
-            string sql = "SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), "+
+            string sql = "SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), " +
                 " City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), "+
                 " ContactPerson = (SELECT TOP 1 Name = (SELECT Name "+
-                " FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId), "+
+                " FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId  Order By ce.Id DESC ), " +
+                " Mobile1 = (SELECT TOP 1 Contact = (SELECT cust.Contact2 FROM Customers cust WHERE cust.Id = ce.CustomerId) " +
+	            " FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId Order By ce.Id DESC), " +
                 " ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId ORDER BY ce.Id DESC) " +
-                " FROM CustEntMains cem";
+                " FROM CustEntMains cem ) as com ";
 
+            // sql += "WHERE com.Name LIKE '%"+ searchCat + "%' ";
 
             if (status != null)
             {
                 if (status == "ACT")
                 {
-                    sql += " WHERE Status = 'ACT' ";
+                    sql += " WHERE com.Status != 'INC' OR com.Status != 'BAD' ";
                 }
                 if (status == "INC")
                 {
-                    sql += " WHERE Status = 'INC' ";
+                    sql += " WHERE com.Status = 'INC'";
                 }
                 if (status == "BAD")
                 {
-                    sql += " WHERE Status = 'BAD' ";
+                    sql += " WHERE com.Status = 'SUS' OR com.Status = 'BAD'  ";
                 }
                 if (status == "ALL")
                 {
@@ -72,23 +87,45 @@ namespace JobsV1.Models
             }
             else
             {
-                sql += " WHERE Status = 'ACT'";
-
+                sql += " WHERE com.Status != 'INC' OR com.Status != 'BAD' ";
             }
+            
             //handle search by name filter
             if (search != null || search != "")
             {
                 if (status == "ALL")
                 {
-                    sql += " WHERE cem.Name Like '%" + search + "%' ";
-                }
-                else
-                {
-                    sql += " AND cem.Name Like '%" + search + "%' ";
+                    sql += " WHERE com.Name Like '%" + search + "%' ";
                 }
 
+                ////search using the search by category
+                switch (searchCat)
+                {
+                    case "All":
+                        sql += " ";
+                        break;
+                    case "Procurement":
+                        sql += " AND com.Name Like '%" + search + "%' ";
+                        break;
+                    case "Company Name":
+                        sql += " AND com.Name Like '%" + search + "%' ";
+                        break;
+                    case "City":
+                        sql += " AND com.City Like '%" + search + "%' ";
+                        break;
+                    case "Contact Person":
+                        sql += " AND com.ContactPerson Like '%" + search + "%' ";
+                        break;
+                    case "Category":
+                        sql += " AND com.Category Like '%" + search + "%' ";
+                        break;
+                    default:
+                        sql += " ";
+                        break;
+
+                }
             }
-            
+
 
             if (sort != null)
             {
@@ -96,14 +133,14 @@ namespace JobsV1.Models
                 {
                     //add more options for sorting
                     default:
-                        sql += " ORDER BY cem.Name ASC;";
+                        sql += " ORDER BY com.Name ASC;";
                         break;
                 }
             }
             else
             {
                 //terminator
-                sql += " ORDER BY cem.Name ASC;";
+                sql += " ORDER BY com.Name ASC;";
 
             }
 

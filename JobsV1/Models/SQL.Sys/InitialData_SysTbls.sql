@@ -191,7 +191,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (14,14);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Cities' ,'',14,'Cities','Index','',21,141);	        -- id: 57
+values 	('Cities' ,'',14,'Cities','Index','',21,141),
+		('Categories' ,'',14,'CustCategories','Index','',21,141);	        -- id: 57
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');

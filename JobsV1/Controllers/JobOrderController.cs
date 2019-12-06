@@ -1774,7 +1774,7 @@ order by x.jobid
 
             //Default form
             string sCompany = "AJ88 Car Rental Services";
-            string sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000 ";
+            string sLine1 = "Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000 ";
             string sLine2 = "Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358 ";
             string sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
             string sLine4 = "TIN: 414-880-772-001 (non-Vat)";
@@ -1784,7 +1784,7 @@ order by x.jobid
             if (jobMain.Branch.Name == "RealBreeze")
             {
                 sCompany = "Real Breeze Travel & Tours - Davao City";
-                sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
+                sLine1 = "Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
                 sLine2 = "Tel# (+63)82 333-5157; (+63)916-755-8473; (+63)933-089-5358 ";
                 sLine3 = "Email: RealBreezeDavao@gmail.com; Website: http://www.realbreezedavaotours.com//";
                 sLine4 = "TIN: 414-880-772-000 (non-Vat)";
@@ -1795,7 +1795,7 @@ order by x.jobid
             if (jobMain.Branch.Name == "AJ88")
             {
                 sCompany = "AJ88 Car Rental Services";
-                sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
+                sLine1 = "Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
                 sLine2 = "Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358 ";
                 sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
                 sLine4 = "TIN: 414-880-772-001 (non-Vat)";
@@ -1806,7 +1806,7 @@ order by x.jobid
             if (jobMain.Branch.Name == "RealWheels")
             {
                 sCompany = "RealWheels Davao Car Rental";
-                sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
+                sLine1 = "Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
                 sLine2 = "Tel# (+63)82 333-5157; (+63)9954508517; (+63)9193812657 ";
                 sLine3 = "Email: inquiries.realwheels@gmail.com; Website: https://realwheelsdavao.com/";
                 sLine4 = " ";
