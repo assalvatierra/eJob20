@@ -2,6 +2,7 @@
 //global variables
 var status = "ACT";
 var sort = "NAME";
+var srchcategory = "All";
 var viewType = "SIMPLE";
 
 //load initial on page ready
@@ -69,22 +70,28 @@ function setActiveSort(element){
 //then clear and add contents to the table
 function ajax_loadContent() {
     var query = $('#srch-field').val();
-   
-    //console.log("status: " + status);
-    //console.log("sort: " + sort);
-    //console.log("q: " + query);
+    var category = $('#srch-category').val();
+
+    console.log("category: " + category);
+    console.log("status: " + status);
+    console.log("sort: " + sort);
+    console.log("q: " + query);
 
     //build json object
     var data = {
         search: query,
-        status : status,
+        searchCat: category,
+        status: status,
         sort : sort
     };
 
+    console.log(data);
+
     //request data from server using ajax call
     $.ajax({
-        url: 'CustEntMains/TableResult?search=' + query + '&status=' + status + '&sort=' + sort,
-        type: "GET",
+        url: 'CustEntMains/TableResult?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort,
+        //url: 'CustEntMains/TableResult',
+        type: "POST",
         data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
@@ -92,7 +99,7 @@ function ajax_loadContent() {
         },
         error: function (data) {
             //console.log("ERROR");
-            //console.log(data);
+            console.log(data);
             LoadTable(data);
         }
     });
@@ -172,23 +179,33 @@ function StatusRefresh() {
 
 function parseStatus(status) {
     switch (status) {
-        case 'ACT':
-            return 'ACTIVE';
-            break;
-        case 'INC':
-            return 'INACTIVE';
-            break;
-        case 'BAD':
-            return 'BAD ACCOUNT';
+        case 'PRI':
+            return '1-PRIORITY';
             break;
         case 'ACC':
-            return 'ACCREDITED';
+            return '2-ACCREDITED';
             break;
-        case 'PRIO':
-            return 'PRIORITY';
+        case 'ACP':
+            return '3-ACCREDITATION ON PROCESS';
+            break;
+        case 'BIL':
+            return '4-BILLING/TERMS';
+            break;
+        case 'ACT':
+            return '5-ACTIVE';
+            break;
+        case 'INC':
+            return '6-INACTIVE';
+            break;
+        case 'BAD':
+            return '6-BAD ACCOUNT';
+            break;
+        case 'SUS':
+            return '7-SUSPENDED';
             break;
         default:
             return 'NA'
             break;
     }
 }
+

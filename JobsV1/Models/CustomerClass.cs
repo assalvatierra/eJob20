@@ -33,6 +33,7 @@ namespace JobsV1.Models
 
     }
 
+
     public class CustomerClass
     {
 
@@ -431,9 +432,8 @@ namespace JobsV1.Models
 
             string sql = "SELECT Id,Name, Contact1, Contact2 , Status,"
                         + " JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,"
-                        + " Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id)"
-                        + " FROM [CustEntities] ce WHERE ce.CustomerId = c.Id) FROM Customers c"
-                       
+                        + " Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id ORDER BY cem.Id DESC)"
+                        + " FROM [CustEntities] ce WHERE ce.CustomerId = c.Id  ORDER BY ce.Id DESC) FROM Customers c"
                          ;
 
             //handle status filter

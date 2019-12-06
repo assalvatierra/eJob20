@@ -13,22 +13,37 @@ $('#ACTIVE').click(function () {
     status = "ACT";
     $('#ACTIVE').css("color", "black");
     $('#ACTIVE').siblings().css("color", "steelblue");
-    StatusRefresh(); //load active suppliers
+    StatusRefresh(); //load active customers
 });
 
 $('#INACTIVE').click(function () {
     status = "INC";
     $('#INACTIVE').css("color", "black");
     $('#INACTIVE').siblings().css("color", "steelblue");
-    StatusRefresh() // load inactive suppliers
+    StatusRefresh() // load inactive customers
 });
 
 $('#BAD').click(function () {
     status = "BAD";
     $('#BAD').css("color", "black");
     $('#BAD').siblings().css("color", "steelblue");
-    StatusRefresh() // load inactive suppliers
+    StatusRefresh() // load inactive customers
 });
+
+$('#RES').click(function () {
+    status = "RES";
+    $('#RES').css("color", "black");
+    $('#RES').siblings().css("color", "steelblue");
+    StatusRefresh() // load Resigned customers
+});
+
+$('#TRN').click(function () {
+    status = "TRN";
+    $('#TRN').css("color", "black");
+    $('#TRN').siblings().css("color", "steelblue");
+    StatusRefresh() // load Transferred customers
+});
+
 
 $('#ALL').click(function () {
     status = "ALL";
@@ -58,7 +73,7 @@ $('#JOBSCOUNT').click(function () {
 function setActiveSort(element){
     $(element).css("color", "black");
     $(element).siblings().css("color", "steelblue");
-    //StatusRefresh() // load inactive suppliers
+    //StatusRefresh() //load inactive suppliers
     //load table content
     ajax_loadContent();
 }

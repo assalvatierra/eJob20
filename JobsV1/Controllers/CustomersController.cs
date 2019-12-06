@@ -19,7 +19,8 @@ namespace JobsV1.Controllers
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "ACT", Text = "Active" },
                 new SelectListItem { Value = "INC", Text = "Inactive" },
-                new SelectListItem { Value = "BAD", Text = "Bad Account" }
+                new SelectListItem { Value = "RES", Text = "Resigned" },
+                new SelectListItem { Value = "TRN", Text = "Transferred" }
                 };
 
         // GET: Customers
@@ -79,7 +80,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer, string socialAcc)
         {
             if (ModelState.IsValid)
             {
@@ -87,10 +88,28 @@ namespace JobsV1.Controllers
 
                 db.Customers.Add(customer);
                 db.SaveChanges();
+
+                //socialAcc = "fb.com/melissa";
+                //create social account
+                createSocialAccount(customer.Id, socialAcc);
+
                 return RedirectToAction("Details", new { id = customer .Id});
             }
 
             return View(customer);
+        }
+
+        private void createSocialAccount(int custId, string account)
+        {
+            CustSocialAcc social = new CustSocialAcc();
+            social.CustomerId = custId;
+            social.Facebook = account;
+            social.Skype = "";
+            social.Viber = "";
+           
+
+            db.CustSocialAccs.Add(social);
+            db.SaveChanges();
         }
 
         // GET: Customers/CompanyCreate
