@@ -1273,6 +1273,7 @@
     <Property Name="dtTrail" Type="datetime" Nullable="false" />
     <Property Name="user" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Action" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="IPAddress" Type="nvarchar" Nullable="true" MaxLength="40" />
   </EntityType>
   <EntityType Name="CarViewPages">
     <Key>
@@ -5238,6 +5239,7 @@
           <Property Name="dtTrail" Type="DateTime" Nullable="false" />
           <Property Name="user" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="Action" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="IPAddress" Type="String" Nullable="true" MaxLength="40" />
         </EntityType>
         <EntityType Name="CarViewPage">
           <Key>
@@ -6993,6 +6995,7 @@
           <ScalarProperty Name="dtTrail" ColumnName="dtTrail" />
           <ScalarProperty Name="user" ColumnName="user" />
           <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

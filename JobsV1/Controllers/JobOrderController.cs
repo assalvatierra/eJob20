@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data;
 using System.Data.Entity;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -108,6 +109,7 @@ namespace JobsV1.Controllers
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
+        private ActionTrailClass trail = new ActionTrailClass();
         
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
@@ -295,6 +297,7 @@ namespace JobsV1.Controllers
                 return View(data.OrderByDescending(d => d.Main.JobDate));
 
             }
+            
         }
 
         public string getCustomerEmail(int id)
@@ -920,6 +923,12 @@ order by x.jobid
 
             }
 
+            var itemName = db.InvItems.Find(itemId);
+            var service = db.JobServices.Find(serviceId);
+
+            //job trail
+            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Assign "+ itemName.Description + " to jobID "+ service.JobMainId + " ", serviceId.ToString());
+            
             var mainId = db.JobServices.Find(serviceId).JobMainId;
             return RedirectToAction("JobServices", new { JobMainId = mainId });
 
@@ -932,6 +941,12 @@ order by x.jobid
 
             db.Database.ExecuteSqlCommand(sqlstr);
 
+            var item = db.InvItems.Find(itemId);
+            var job = db.JobServices.Find(serviceId).JobMain;
+
+            //job trail
+            trail.recordTrail("Remove Item", HttpContext.User.Identity.Name, "Remove Item " + item.Description +" from " + job.Description, serviceId.ToString());
+
             return RedirectToAction("InventoryItemList", new { serviceId = serviceId });
         }
 
@@ -941,6 +956,12 @@ order by x.jobid
                 + " AND InvItemId = " + itemId.ToString();
 
             db.Database.ExecuteSqlCommand(sqlstr);
+
+            var item = db.InvItems.Find(itemId);
+            var job = db.JobServices.Find(serviceId).JobMain;
+
+            //job trail
+            trail.recordTrail("Remove Item", HttpContext.User.Identity.Name, "Remove Item " + item.Description + " from " + job.Description, serviceId.ToString());
 
             var mainId = db.JobServices.Find(serviceId).JobMainId;
             return RedirectToAction("JobServices", new { JobMainId = mainId });
@@ -1031,7 +1052,7 @@ order by x.jobid
             var jobMain = db.JobMains.Find(jobid);
             var companyId = db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault() != null ?
                 db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().CustEntMainId : 1 ;
-            //var companyId = db.JobEntMains.Where(s => s.JobMainId == jobid).FirstOrDefault().Id;
+
             ViewBag.mainid = jobid;
             ViewBag.CustomerId  = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId    = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
@@ -1068,6 +1089,10 @@ order by x.jobid
                 System.Diagnostics.Debug.WriteLine("AgreedAmt job: " + jobMain.AgreedAmt);
                 System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
                 EditjobCompany(jobMain.Id, (int)CompanyId);
+
+                //job trail
+                trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Edit Saved", jobMain.Id.ToString());
+
                
                 return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
             }
@@ -1374,6 +1399,10 @@ order by x.jobid
                 //db.SaveChanges();
                 updateJobDate(jobServices.JobMainId);
                 db.SaveChanges();
+                
+                //job trail
+                trail.recordTrail("JobOrder/JobServiceEdit", HttpContext.User.Identity.Name, "JobService Edit Saved", jobServices.Id.ToString());
+            
 
             }
 
@@ -2226,6 +2255,9 @@ order by x.jobid
             db.Entry(Job).State = EntityState.Modified;
             db.SaveChanges();
 
+            //job trail
+            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CONFIRMED", id.ToString());
+
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
         
@@ -2235,6 +2267,9 @@ order by x.jobid
             Job.JobStatusId = 2;
             db.Entry(Job).State = EntityState.Modified;
             db.SaveChanges();
+
+            //job trail
+            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to RESERVED", id.ToString());
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
@@ -2630,7 +2665,7 @@ order by x.jobid
 
         public ActionResult jobTrails() {
 
-            return View(db.JobTrails.ToList());
+            return View(db.JobTrails.OrderByDescending(s=>s.dtTrail).ToList());
         }
 
         public ActionResult createTrailTest() {

@@ -369,10 +369,12 @@ namespace JobsV1.Controllers
                     return "Ramil Villahermosa";
                 case "grace.realbreeze@gmail.com":
                     return "Grace-chell V. Capandac";
+                case "jecca.realbreeze@gmail.com":
+                    return "Jecca Bilason";
                 case "assalvatierra@gmail.com":
-                    return "Elvie S. Salvatierra ";
+                    return "Elvie S. Salvatierra";
                 default:
-                    return "Elvie S. Salvatierra ";
+                    return "Elvie S. Salvatierra";
             }
         }
 
@@ -388,6 +390,8 @@ namespace JobsV1.Controllers
                     return "/Images/Signature/RamSign.jpg";
                 case "grace.realbreeze@gmail.com":
                     return "/Images/Signature/GraceSign.jpg";
+                case "jecca.realbreeze@gmail.com":
+                    return "/Images/Signature/Jecca.Sign.jpg";
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 default:

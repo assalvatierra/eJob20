@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/30/2019 15:39:06
+-- Date Created: 12/09/2019 15:25:36
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -338,8 +338,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SupplierCountry]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Suppliers] DROP CONSTRAINT [FK_SupplierCountry];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CustEntAssignCustEntMain]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CustEntAssigns] DROP CONSTRAINT [FK_CustEntAssignCustEntMain];
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntAssign]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntAssigns] DROP CONSTRAINT [FK_CustEntMainCustEntAssign];
 GO
 
 -- --------------------------------------------------
@@ -1396,7 +1396,8 @@ CREATE TABLE [dbo].[JobTrails] (
     [RefId] nvarchar(max)  NOT NULL,
     [dtTrail] datetime  NOT NULL,
     [user] nvarchar(50)  NOT NULL,
-    [Action] nvarchar(80)  NOT NULL
+    [Action] nvarchar(80)  NOT NULL,
+    [IPAddress] nvarchar(40)  NULL
 );
 GO
 

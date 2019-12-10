@@ -20,5 +20,6 @@ namespace JobsV1.Models
         public System.DateTime dtTrail { get; set; }
         public string user { get; set; }
         public string Action { get; set; }
+        public string IPAddress { get; set; }
     }
 }
