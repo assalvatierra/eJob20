@@ -2665,7 +2665,9 @@ order by x.jobid
 
         public ActionResult jobTrails() {
 
-            return View(db.JobTrails.OrderByDescending(s=>s.dtTrail).ToList());
+            DateClass today = new DateClass();
+            DateTime month = today.GetCurrentDate();
+            return View(db.JobTrails.OrderByDescending(s=>s.dtTrail).Where(s=>s.dtTrail.Month == month.Month).ToList());
         }
 
         public ActionResult createTrailTest() {

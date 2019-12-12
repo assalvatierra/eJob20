@@ -58,7 +58,11 @@
         </span>
         <p>
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            @Html.ActionLink("<View History> ", "AssignedRecords", new { companyId = Model.Id })
+            @if (ViewBag.isAllowedHistory)
+            {
+                @Html.ActionLink("<View History> ", "AssignedRecords", new { companyId = Model.Id })
+            }
+
         </p>
     </h5>
     @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@

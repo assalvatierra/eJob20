@@ -55,6 +55,7 @@ namespace JobsV1.Controllers
         // GET: CustEntMains/Details/5
         public ActionResult Details(int? id, int? top, string sdate, string edate, string status)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -78,8 +79,25 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.City = db.Cities.Find(custEntMain.CityId).Name;
             ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").ToList(), "Id", "Name");
+            
+            ViewBag.isAllowedHistory = checkifAdmin();
 
             return View(custEntMain);
+        }
+
+        public Boolean checkifAdmin()
+        {
+            switch (HttpContext.User.Identity.Name)
+            {
+                case "aldrin@solid-steel-supply.com":
+                case "mario@solid-steel-supply.com":
+                case "assalvatierra@gmail.com":
+                case "jahdielvillosa@gmail.com":
+                    return true;
+                default:
+                    return false;
+
+            }
         }
         
         public List<CompanyJobsList> getJobList(int? id, int? top, string sdate, string edate, string status) {

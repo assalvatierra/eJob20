@@ -58,9 +58,9 @@
             <!--List for Inv Item Categories-->
             @foreach (var cat in item.InvItemCategories as IEnumerable<JobsV1.Models.InvItemCategory>)
             {                    
-                <img src=@Url.Content(@cat.InvItemCat.ImgPath)
+                @*<img src=@Url.Content(@cat.InvItemCat.ImgPath)
                                       alt=@cat.InvItemCat.ImgPath height="21"
-                                      title=@cat.InvItemCat.ImgPath />
+                                      title=@cat.InvItemCat.ImgPath />*@
                 <span > 
                     @Html.DisplayFor(modelItem => cat.InvItemCat.Name)
                     @Html.ActionLink(" [ x ]", "CatRemove", "InvItems", new { id = cat.Id }, null) |

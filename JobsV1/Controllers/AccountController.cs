@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 
 namespace JobsV1.Controllers
 {
@@ -17,6 +18,7 @@ namespace JobsV1.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ActionTrailClass trail = new ActionTrailClass();
 
         public AccountController()
         {
@@ -70,15 +72,17 @@ namespace JobsV1.Controllers
         {
             if (!ModelState.IsValid)
             {
+                trail.recordTrail("Login",model.Email,"Login success");
                 return View(model);
             }
-
+            
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
+                    trail.recordTrail("Login", model.Email, "Login success");
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -86,6 +90,7 @@ namespace JobsV1.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
+                    trail.recordTrail("Login", model.Email, "Invalid Login attempt");
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
