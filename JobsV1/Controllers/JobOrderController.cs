@@ -247,7 +247,7 @@ namespace JobsV1.Controllers
                 case 3: //close
                     data = (List<cJobOrder>)data
                         .Where(d => (d.Main.JobStatusId == JOBCLOSED || d.Main.JobStatusId == JOBCANCELLED)).ToList()
-                        .Where(p => p.Main.JobDate.Date > today.Date.AddDays(-60)).ToList();
+                        .Where(p => p.Main.JobDate.Date > today.Date.AddDays(-90)).ToList();
                     break;
 
                 default:
@@ -1731,31 +1731,59 @@ order by x.jobid
             ViewBag.AccName = bank.AccntName;
             ViewBag.AccNum = bank.AccntNo;
 
-            ViewBag.rsvId = id;
+            ViewBag.rsvId = 1;
             ViewBag.CarDesc = "Test Unit";
             ViewBag.ReservationType = "Rental";
             ViewBag.Amount = 1000;
-            
-            string custCompany = "";
-            //check customer if assigned to a company
-            if (jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault() != null)
-            {
-                custCompany = jobMain.Customer.CustEntities.Where(c => c.CustomerId == jobMain.CustomerId).FirstOrDefault().CustEntMain.Name;
-                 
-            }
 
+            DateTime today = new DateTime();
+            today = getDateTimeToday().Date;
 
-            ViewBag.custCompany = custCompany;
-            
             //get paypal keys at db
             PaypalAccount paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();
             ViewBag.key = paypal.Key;
 
-            DateTime today = new DateTime();
-            today = getDateTimeToday().Date;
-            ViewBag.DateNow = today.AddMonths(1);
-            ViewBag.isPaymentValid = (jobMain.JobDate.Date == today) || (jobMain.JobDate.Date == today.AddDays(1).Date) ? "True" : "False";
+            ViewBag.isPaymentValid = jobMain.JobDate.Date == today ? "True" : "False";
 
+
+            string custCompany = "";
+            //check customer if assigned to a company
+            if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
+            {
+                var company = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain;
+
+                //hide company name if company is 1 = New (not defined)
+                if (company.Id == 1)
+                {
+                    custCompany = " ";
+                }
+                else
+                {
+                    custCompany = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain.Name;
+                }
+            }
+
+            ViewBag.custCompany = custCompany;
+
+            ViewBag.DateNow = getDateTimeToday().Date.ToString();
+
+            //filter name and jobname if the same or personal account
+            var filteredName = "";
+
+            if (jobMain.Customer.Name == "Personal Account")
+            {
+                filteredName = jobMain.Description;
+            }
+            else if (jobMain.Description == jobMain.Customer.Name)
+            {
+                filteredName = jobMain.Description;
+            }
+            else
+            {
+                filteredName = jobMain.Description + " / " + jobMain.Customer.Name;
+            }
+
+            ViewBag.JobName = filteredName;
 
             //handle prepared by
             var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
@@ -1879,7 +1907,7 @@ order by x.jobid
             //filter name and jobname if the same or personal account
             var filteredName = "";
 
-            if (jobMain.Description == "Personal Account")
+            if (jobMain.Customer.Name == "Personal Account")
             {
                 filteredName = jobMain.Description;
             }
@@ -2001,12 +2029,15 @@ order by x.jobid
                 foreach (var svi in svc.JobServiceItems ) {
                    sData += "\n" + svi.InvItem.Description + " (" + svi.InvItem.ItemCode + ") / " + svi.InvItem.ContactInfo;
                 }
+
                 
                 sData += "\n  ";
                 sData += "\nRate:P" + quote.ToString("##,###.00");
                 sData += "\nParticulars:" + svc.Particulars;
                 sData += "\n  " + svc.Remarks;
+                if (svc.JobMain.NoOfPax != 0 )
                 sData += "\nNo.Pax:  " + svc.JobMain.NoOfPax;
+
                 sData += "\n\nThank you for Trusting \n" + custName;
             }
 
@@ -2098,8 +2129,9 @@ order by x.jobid
                 {
                     sData += "\nRemarks: " + jobmain.JobRemarks;
                 }
-                
-                sData += "\nNo.Pax:  " + jobmain.NoOfPax;
+
+                if (jobmain.NoOfPax != 0)
+                    sData += "\nNo.Pax:  " + jobmain.NoOfPax;
                 sData += "\n\nThank you and have a nice day.\n";
                 sData += "\n" + custName;
             }
@@ -2217,10 +2249,11 @@ order by x.jobid
                     sData += "\nRemarks: " + jobmain.JobRemarks;
                 }
 
-                sData += "\nNo.Pax:  " + jobmain.NoOfPax;
+                if (jobmain.NoOfPax != 0)
+                    sData += "\nNo.Pax:  " + jobmain.NoOfPax;
                 sData += "\n\n Thank you and have a nice day.\n";
                 sData += "\n" + custName;
-            }
+0            }
 
             return sData;
 
