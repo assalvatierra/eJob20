@@ -1643,6 +1643,8 @@ order by x.jobid
 
             ViewBag.jobAction = action;
 
+            ViewBag.user = HttpContext.User.Identity.Name;
+
             return View(jobServices.OrderBy(d => d.DtStart).ToList());
 
         }
@@ -2253,7 +2255,7 @@ order by x.jobid
                     sData += "\nNo.Pax:  " + jobmain.NoOfPax;
                 sData += "\n\n Thank you and have a nice day.\n";
                 sData += "\n" + custName;
-0            }
+            }
 
             return sData;
 

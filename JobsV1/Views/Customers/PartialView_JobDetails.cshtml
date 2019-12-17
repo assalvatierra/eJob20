@@ -79,6 +79,7 @@
 
                 @item.Amount.ToString("##,###.00")
              </td>
+            
             <td>
                 @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = item.Id }, null) |
                 @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = item.Id }, null)
