@@ -277,3 +277,6 @@ SELECT Id,Name, Contact1, Contact2 , Status,
        JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,
        Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id )
        FROM [CustEntities] ce WHERE ce.CustomerId = c.Id ORDER BY ce.Id DESC) FROM Customers c
+
+select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());;
+

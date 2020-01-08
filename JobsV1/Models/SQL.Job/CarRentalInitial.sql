@@ -17,7 +17,7 @@ values (1,'glgrandia-car-rental.png'     ,'','MAIN'),
        (4,'toyota-innova-car-rental.png' ,'','MAIN'),
        (5,'honda-city-car-rental.png'    ,'','MAIN'),
        (6,'pickup-car-rental.png'        ,'','MAIN');
-	   
+	  
 insert into CarViewPages (CarUnitId, Viewname)
 values (1,'CarDetail_van'),
 	   (2,'CarDetail_van'),
@@ -25,7 +25,7 @@ values (1,'CarDetail_van'),
 	   (4,'CarDetail_mpv'),
 	   (5,'CarDetail_sedan'),
 	   (6,'CarDetail_pickup');
-
+ 
 insert into CarRates (Daily,Weekly,Monthly,KmFree,KmRate,CarUnitId,OtRate)
 values (3000,2500,2250,100,5,1,300), --grandia
 	   (3500,2500,2250,100,5,2,300), --premium
