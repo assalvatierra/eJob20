@@ -68,12 +68,11 @@
         </td>
     </tr>
 }
-
 </table>
 
-
 <p>
-    @Html.ActionLink("Add Destination", "Create", new { JobMainId = ViewBag.JobOrder.Id })
-    <br />@Html.ActionLink("Back to Job List", "Index", "JobMains")
+        @Html.ActionLink("Add Destination", "Create", new { JobMainId = ViewBag.JobOrder.Id })
+        <br />@Html.ActionLink("Destination List", "Index", "Destinations")
+        <br />@Html.ActionLink("Back to Job List", "Index", "JobMains")
 </p>
 
