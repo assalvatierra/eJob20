@@ -233,7 +233,7 @@
 
                     <!-- End of Items with Prices -->
 
-                    <br /><br />[
+                    @*<br /><br />[
                     @{
                         if (@item.SalesLeadLinks.Count() == 0)
                         {
@@ -291,7 +291,7 @@
                                             new { id = item.Id }, null)
                         }
 
-                    } ]
+                    } ]*@
 
                     <br />
                     <span style="font: status-bar; color:gray;">
@@ -329,7 +329,7 @@
                 <div class="form-group col-md-12">
                     <b class="col-md-2"> Items: </b>
                     <div class="col-md-7">
-                        <select name="InvItems" class="form-control" id="SupItem-Items">
+                        <select name="InvItems" class="form-control" id="supItem-Items">
                             @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
                             {
                                 <option value="@item.Id"> @item.Description </option>
@@ -478,14 +478,15 @@
         //add item
         function ajax_AddSalesLeadItem() {
             //build json object
+            console.log("data: " + $("#supItem-Items option:selected").val());
 
             var data = {
                 SalesLeadId: $("#supItem-supId").val(),
-                ItemId: $("#supItem-Items").val(),
+                ItemId: $("#supItem-Items option:selected").val(),
                 price: $("#supItem-Rate").val(),
                 remarks: $("#supItem-Remarks").val()
             };
-
+            console.log(data);
             var url = '/SalesLeads/addSupItem';
 
             //Post data from server using ajax call
