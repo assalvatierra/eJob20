@@ -10,9 +10,8 @@
 <div class="container" style="min-width:500px">
 
     <div class="col-sm-12" style="margin: 30px 20px;">
-
         <div class="col-lg-6">
-            <h2>Van Rental </h2>
+            <h2>Toyota GL Grandia Tourer </h2>
             <br />
             <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Frealwheelsdavao.com%2FCarRental%2Fvan-for-rent&layout=button_count&size=large&mobile_iframe=true&width=85&height=28&appId" width="120" height="28" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
         </div>
@@ -21,15 +20,8 @@
     <div class="col-lg-8" >
 
         <div class="col-lg-12 details-container">
-            @if (ViewBag.Id == 1)
-            {
-                <img src="~/Images/CarRental/glgrandia/glgrandia_frontview.jpg" class="center-block img-responsive" alt="glgrandia-car-rental-davao"  style="width:60%;margin:auto;" />
-            }
-            else if (ViewBag.Id == 2)
-            {
-                <img src="~/Images/CarRental/nissan_premium_primary.png" class="center-block img-responsive" alt="nissan-premium-car-rental-davao" style="width:60%;margin:auto;" />
-
-            }
+                <img src="~/Images/CarRental/CarViews/ToyotaTourer/Toyota-Grandia-Tourer-2019.jpg" class="center-block img-responsive" alt="toyota-gl-grandia-tourer-car-rental-davao" style="width:60%;margin:auto;" />
+                
             <h2 >VAN</h2>
             &nbsp;
 
@@ -65,8 +57,7 @@
 
             makes the van more ventilated and refreshing compared to other regular vans.
 
-
-            <a href="http://RealWheelsDavao.com/CarRental/ToyotaTourer-for-rent">Toyota GL Grandia Tourer 2020</a> is 14 seater executive van with a high room and spacious interior.
+            <a href="http://RealWheelsDavao.com/CarRental/van-for-rent">Toyota GL Grandia Tourer 2020</a> is 14 seater executive van with a high room and spacious interior.
 
             It prioritize comfort and safety to its passengers which seats can recline individually 
             
@@ -77,7 +68,7 @@
             &nbsp;
             <br />
             <h2>VAN rental</h2>
-            <a href="http://RealWheelsDavao.com/CarRental/van-for-rent">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
+            <a href="http://RealWheelsDavao.com/CarRental/ToyotaTourer-for-rent">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
 
             occasions and any kind of business trips. VIP guests are welcome with special
 
@@ -179,18 +170,10 @@
         <div class="col-lg-12 details-container dtls-gallery">
             <h1 class="text-primary">Gallery</h1>
 
-            @if (ViewBag.Id == 1)
-            {
-                <a href="~/Images/CarRental/glgrandia/glgrandia_frontview.jpg" target="_blank"><img class="img-thumbnail dtls-gallery-img" src="~/Images/CarRental/glgrandia/glgrandia_frontview.jpg" alt="glgrandia-car-rental-davao" /></a>
-                <a href="~/Images/CarRental/glgrandia/glgrandia_sideview.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/glgrandia/glgrandia_sideview.jpg" alt="glgrandia-car-rental-davao" /></a>
-                <a href="~/Images/CarRental/glgrandia/glgrandia_interior.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/glgrandia/glgrandia_interior.jpg" alt="glgrandia-car-rental-davao" /></a>
-            }
-            else if (ViewBag.Id == 2)
-            {
-                <a href="~/Images/CarRental/nissanPremium/nissanpremium_frontview.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/nissanpremium_frontview.jpg" alt="nissan-premium-car-rental-davao"  /></a>
-                <a href="~/Images/CarRental/nissanPremium/nissanpremium_sideview.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/nissanpremium_sideview.jpg" alt="nissan-premium-car-rental-davao"   /></a>
-                <a href="~/Images/CarRental/nissanPremium/nissanpremium_interior.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/nissanpremium_interior.jpg"  alt="nissan-premium-car-rental-davao"  /></a>
-            }
+            <a href="~/Images/CarRental/CarViews/ToyotaTourer/Toyota-Grandia-Tourer-2019-side.jpg" target="_blank"><img class="img-thumbnail dtls-gallery-img" src="~/Images/CarRental/CarViews/ToyotaTourer/Toyota-Grandia-Tourer-2019-side.jpg" alt="glgrandia-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/CarViews/ToyotaTourer/Toyota-Grandia-Tourer-2019-seats.jpg" target="_blank"><img class="img-thumbnail dtls-gallery-img" src="~/Images/CarRental/CarViews/ToyotaTourer/Toyota-Grandia-Tourer-2019-seats.jpg" alt="glgrandia-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/CarViews/ToyotaTourer/Toyota-Grandia-Tourer-2019-back.jpg" target="_blank"><img class="img-thumbnail dtls-gallery-img" src="~/Images/CarRental/CarViews/ToyotaTourer/Toyota-Grandia-Tourer-2019-back.jpg" alt="glgrandia-car-rental-davao" /></a>
+           
         </div>
 
         <div class="col-lg-12 details-container" style="display:none;">
@@ -202,22 +185,13 @@
     </div>
 
         <div class="col-lg-3" style="margin:30px;">
-            @if (ViewBag.Id == 1)
-            {
-                <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 }, null)" class="list-group-item  details-container-list active">  Van (10 seater)   </a>
-                <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 }, null)" class="list-group-item  details-container-list">  Van (14 seater)          </a>
-            }
-            else if (ViewBag.Id == 2)
-            {
-                <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 }, null)" class="list-group-item  details-container-list ">  Van (10 seater)         </a>
-                <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 }, null)" class="list-group-item  details-container-list active">  Van (14 seater)   </a>
-            }
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 }, null)" class="list-group-item  details-container-list ">  Van (10 seater)   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 }, null)" class="list-group-item  details-container-list active">  Van (14 seater)          </a>
             <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list">  SUV      </a>
             <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list">  MPV      </a>
             <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list">  Sedan    </a>
             <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list">  Pickup   </a>
         </div>
-
     </div>
 
     <!-- Modal -->

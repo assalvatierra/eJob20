@@ -49,6 +49,11 @@ namespace JobsV1
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 2 }
             );
             routes.MapRoute(
+                name: "ToyotaTourer-for-rent",
+                url: "CarRental/ToyotaTourer-for-rent",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1002 }
+            );
+            routes.MapRoute(
                 name: "suvpickup4x4-rental-rates",
                 url: "CarRental/suvpickup4x4-rental-rates",
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 3 }
@@ -111,7 +116,7 @@ namespace JobsV1
         }
 
         //Solid Steel  
-        public static void RegisterRoutes_realwheels(RouteCollection routes)
+        public static void RegisterRoutes_real(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
@@ -210,7 +215,7 @@ namespace JobsV1
                 namespaces: new[] { "JobsV1.Controllers" }
             );
         }
-      
+  
         // AJcarrental Davao / Davao Carrental hub 
         public static void RegisterRoutes_Carrental(RouteCollection routes)
         {

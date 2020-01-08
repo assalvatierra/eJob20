@@ -1218,6 +1218,7 @@
     <Content Include="Images\CarRental\POTTMPC\Van_Nissan_Urban_premium.png" />
     <Content Include="Images\CarRental\POTTMPC\Van_Starex.png" />
     <Content Include="Images\CarRental\toyota-innova-car-rental.PNG" />
+    <Content Include="Images\CarRental\toyota-tourer-2020-px.jpg" />
     <Content Include="Images\CarRental\toyotagrandia_primary.jpg" />
     <Content Include="Images\CarRental\HondaCity.jpg" />
     <Content Include="Images\CarRental\Driver102.png" />
@@ -1238,6 +1239,10 @@
     <Content Include="Images\CarRental\ToyotaInnova.jpg" />
     <Content Include="Images\CarRental\ToyotaInnovaDetails.jpg" />
     <Content Include="Images\CarRental\toyotainnova_primary.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaTourer\Toyota-Grandia-Tourer-2019-back.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaTourer\Toyota-Grandia-Tourer-2019-seats.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaTourer\Toyota-Grandia-Tourer-2019-side.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaTourer\Toyota-Grandia-Tourer-2019.jpg" />
     <Content Include="Images\CarRental\Van101.jpg" />
     <Content Include="Images\CarRental\Van102.jpg" />
     <Content Include="Images\CarRental\grandiaPrimary.png" />
@@ -1373,6 +1378,7 @@
     <Content Include="Models\SQL.Job\AddChecklist.SQL" />
     <Content Include="Models\SQL.Job\AsExpenseDB.sql" />
     <Content Include="Models\SQL.CarCoop\CarRentalInitial.sql" />
+    <Content Include="Models\SQL.Job\CarRentalInitial_2020.sql" />
     <Content Include="Models\SQL.Job\CarRental_Products.sql" />
     <Content Include="Models\SQL.Job\CarRentalInitial.sql" />
     <Content Include="Models\SQL.Job\CarRentalInitial_RatePackage.sql" />
@@ -2185,6 +2191,8 @@
     <Content Include="Views\CustEntAssigns\Index.cshtml" />
     <Content Include="Views\CustEntMains\AssignedRecordsCreate.cshtml" />
     <Content Include="Views\CustEntMains\AssignedRecordsEdit.cshtml" />
+    <Content Include="Views\CarRental\CarViews\ToyotaGLGrandiaTourer.cshtml" />
+    <Content Include="Views\CarRental\CarDetail_tourer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
