@@ -214,6 +214,11 @@ namespace JobsV1.Controllers
                     joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
                     //joTmp.Main.JobDate = MinJobDate(joTmp.Main.Id);
                 }
+                if (sortid == 2)
+                {
+                    //joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
+                    //joTmp.Main.JobDate = MinJobDate(joTmp.Main.Id);
+                }
                 else
                 {
                     joTmp.Main.JobDate = MinJobDate(joTmp.Main.Id);
@@ -247,7 +252,7 @@ namespace JobsV1.Controllers
                 case 3: //close
                     data = (List<cJobOrder>)data
                         .Where(d => (d.Main.JobStatusId == JOBCLOSED || d.Main.JobStatusId == JOBCANCELLED)).ToList()
-                        .Where(p => p.Main.JobDate.Date > today.Date.AddDays(-90)).ToList();
+                        .Where(p => p.Main.JobDate.Date > today.Date.AddDays(-150)).ToList();
                     break;
 
                 default:
@@ -510,7 +515,7 @@ order by x.jobid
             }
             
             //get date fom SQL query
-            var confirmed = dbc.getJobConfirmedList((int)sortid).Select(s => s.Id);
+            var confirmed = dbc.getJobConfirmedListing((int)sortid).Select(s => s.Id);
 
             IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => confirmed.Contains(j.Id))
                 .Include(j => j.Customer)

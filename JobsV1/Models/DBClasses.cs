@@ -485,7 +485,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
         }
 
 
-        public List<cJobConfirmed> getJobConfirmedList(int sortid)
+        public List<cJobConfirmed> getJobConfirmedListing(int sortid)
         {
             List<cJobConfirmed> joblist = new List<cJobConfirmed>();
 
@@ -495,16 +495,16 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             switch (sortid)
             {
                 case 1: //OnGoing
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -30, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -80, GETDATE());";
                     break;
                 case 2: //prev
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE()) ;";
                     break;
                 case 3: //close
-                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -35, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());";
                     break;
                 default:
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -15, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -350, GETDATE());";
                     //jobMains = jobMains.ToList();
                     break;
             }
@@ -517,6 +517,41 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             return joblist;
 
         }
+
+
+        public List<cJobConfirmed> getJobConfirmedList(int sortid)
+        {
+            List<cJobConfirmed> joblist = new List<cJobConfirmed>();
+
+            string sql = "";
+
+            //filter jobs based on statusId and date
+            switch (sortid)
+            {
+                case 1: //OnGoing
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -80, GETDATE());";
+                    break;
+                case 2: //prev
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -60, GETDATE());";
+                    break;
+                case 3: //close
+                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());";
+                    break;
+                default:
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -350, GETDATE());";
+                    //jobMains = jobMains.ToList();
+                    break;
+            }
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobConfirmed>(sql).ToList();
+
+            return joblist;
+
+        }
+
 
 
         //For Job Income Reporting 
@@ -540,7 +575,7 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
 
             if(sDate == "" && eDate == "")
             {
-                sql += " AND j.JobDate < GETDATE() AND j.JobDate >= DATEADD(DAY, -30, GETDATE())";
+                sql += " AND j.JobDate < GETDATE() AND j.JobDate >= DATEADD(DAY, -120, GETDATE())";
             }
             
             //terminator
