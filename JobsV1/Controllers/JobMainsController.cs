@@ -228,7 +228,7 @@ namespace JobsV1.Controllers
 
             //Default form
             string sCompany = "AJ88 Car Rental Services";
-            string sLine1 = "2nd Floor J. Sulit Bldg. Mac Arthur Highway, Matina Davao City ";
+            string sLine1 = "Door 1, Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000  ";
             string sLine2 = "Tel# (+63)822971831; (+63)9167558473; (+63)9330895358 ";
             string sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
             string sLine4 = "TIN: 414-880-772-001 (non-Vat)";
@@ -237,7 +237,7 @@ namespace JobsV1.Controllers
             if (jobMain.Branch.Name == "RealBreeze")
             {
                 sCompany = "Real Breeze Travel & Tours - Davao City";
-                sLine1 = "2nd Floor J. Sulit Bldg. Mac Arthur Highway, Matina Davao City ";
+                sLine1 = "Door 1, Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000 ";
                 sLine2 = "Tel# (+63)822971831; (+63)916-755-8473; (+63)933-089-5358 ";
                 sLine3 = "Email: RealBreezeDavao@gmail.com; Website: http://www.realbreezedavaotours.com//";
                 sLine4 = "TIN: 414-880-772-000 (non-Vat)";
@@ -246,7 +246,7 @@ namespace JobsV1.Controllers
             if (jobMain.Branch.Name == "AJ88")
             {
                 sCompany = "AJ88 Car Rental Services";
-                sLine1 = "2nd Floor J. Sulit Bldg. Mac Arthur Highway, Matina Davao City ";
+                sLine1 = "Door 1, Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000  ";
                 sLine2 = "Tel# (+63)822971831; (+63)9167558473; (+63)9330895358 ";
                 sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
                 sLine4 = "TIN: 414-880-772-001 (non-Vat)";
@@ -314,14 +314,14 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).Where( j => j.JobServicePickups.FirstOrDefault().ProviderName == sProvider).OrderBy(s=>s.DtStart);
+            ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).Where( j => j.Supplier.Name == sProvider).OrderBy(s=>s.DtStart);
             ViewBag.Itinerary = db.JobItineraries.Include(j => j.Destination).Where(j => j.JobMainId == jobMain.Id);
             ViewBag.Payments = db.JobPayments.Where(j => j.JobMainId == jobMain.Id);
             ViewBag.Notes = db.JobNotes.Where(j => j.JobMainId == jobMain.Id);
 
             //Default form
             string sCompany = "AJ88 Car Rental Services";
-            string sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000";
+            string sLine1 = "Door 1, Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000";
             string sLine2 = "Tel# (082) 333 5157; (+63)916-755-8473; (+63)933-089-5358";
             string sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
             string sLogo = "LOGO_AJRENTACAR.jpg";
@@ -329,7 +329,7 @@ namespace JobsV1.Controllers
             if (jobMain.Branch.Name == "RealBreeze")
             {
                 sCompany = "Real Breeze Travel & Tours - Davao City";
-                sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000";
+                sLine1 = "Door 1, Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000";
                 sLine2 = "Tel# (082) 333 5157; (+63)916-755-8473; (+63)933-089-5358";
                 sLine3 = "Email: RealBreezeDavao@gmail.com; Website: http://www.realbreezedavaotours.com//";
                 sLogo = "RealBreezeLogo01.png";
@@ -337,11 +337,55 @@ namespace JobsV1.Controllers
             if (jobMain.Branch.Name == "AJ88")
             {
                 sCompany = "AJ88 Car Rental Services";
-                sLine1 = "Door 1, RedDoorz Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000";
+                sLine1 = "Door 1, Travelers Inn Bldg., Matina Pangi Rd., Matina Crossing, Davao City, 8000";
                 sLine2 = "Tel# (082) 333 5157; (+63)916-755-8473; (+63)933-089-5358";
                 sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
                 sLogo = "LOGO_AJRENTACAR.jpg";
             }
+
+
+            string custCompany = "";
+            //check customer if assigned to a company
+            if (jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault() != null)
+            {
+                var company = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain;
+
+                //hide company name if company is 1 = New (not defined)
+                if (company.Id == 1)
+                {
+                    custCompany = " ";
+                }
+                else
+                {
+                    custCompany = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain.Name;
+                }
+            }
+
+
+            //filter name and jobname if the same or personal account
+            var filteredName = "";
+
+            if (jobMain.Customer.Name == "Personal Account")
+            {
+                filteredName = jobMain.Description;
+            }
+            else if (jobMain.Description == jobMain.Customer.Name)
+            {
+                filteredName = jobMain.Description;
+            }
+            else
+            {
+                filteredName = jobMain.Description + " / " + jobMain.Customer.Name;
+            }
+
+            ViewBag.JobName = filteredName;
+
+
+            var Supplier = db.Suppliers.Where(s => s.Name.Equals(sProvider)).FirstOrDefault();
+
+            ViewBag.Supplier = Supplier.Name;
+            ViewBag.SupplierAddress = Supplier.Address;
+            ViewBag.custCompany = custCompany;
 
             ViewBag.sCompany = sCompany;
             ViewBag.sLine1 = sLine1;

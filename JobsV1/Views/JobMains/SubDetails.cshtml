@@ -51,20 +51,34 @@
     </tr>
     <tr>
         <th>
-            Details
+           To
         </th>
         <td>
-            @Html.DisplayFor(model => model.Customer.Name)
+            <b> @ViewBag.Supplier</b>
         </td>
     </tr>
     <tr>
-        <th valign="top">
-            &nbsp;
-        </th>
-        <td>
-            @Html.DisplayFor(model => model.Description)
-            <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
-            | Remarks: @Html.DisplayFor(model => model.JobRemarks)
+        <th valign="top">Details</th>
+        <td >
+            <!--Company-->
+            @*@Model.Customer.Name /*@
+             @ViewBag.JobName
+            <br /> @ViewBag.custCompany
+            <br />
+
+                @if (Model.NoOfPax != 0)
+                {
+                    <text>  Pax: @Html.DisplayFor(model => model.NoOfPax) | </text>
+                }
+
+                Days: @Html.DisplayFor(model => model.NoOfDays)
+            
+            <br />
+            @if (Model.JobRemarks != null)
+            {
+                <text> Remarks: </text>
+            }
+            @Html.DisplayFor(model => model.JobRemarks)
         </td>
     </tr>
     <tr>
@@ -119,8 +133,8 @@
 
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Supplier.Name)
-                <br />[ Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
+                @*@Html.DisplayFor(modelItem => item.Supplier.Name)*@
+                Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description) 
                 @*<br /><a href="~/Reports/TripVoucher/Viewer.aspx?SrvId=@item.Id&JobId=@item.JobMainId&file=@item.JobMain.Customer.Name">Trip Voucher</a>*@
             </td>
             <td>
@@ -243,7 +257,3 @@
 </div>
 
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

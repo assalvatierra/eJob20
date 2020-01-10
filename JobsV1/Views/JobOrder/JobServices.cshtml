@@ -27,7 +27,7 @@
                                 { <p>@item</p> }
                                 else
                                 {
-                                    @Html.ActionLink("[" + @item + "]", "SubDetails", "JobMains", new { id = ViewBag.JobOrder.Id, sProvider = @item }, new { @class = "list-group-item" })
+                                    @Html.ActionLink("[" + @item + "]", "SubDetails", "JobMains", new { id = ViewBag.JobOrder.Id, sProvider = @item  }, new { @class = "list-group-item" })
                                 }
                           
                     }
