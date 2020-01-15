@@ -113,6 +113,9 @@
     <EntitySet Name="Countries" EntityType="JobDB.Store.Countries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierContactStatus" EntityType="JobDB.Store.SupplierContactStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntAssigns" EntityType="JobDB.Store.CustEntAssigns" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierActivities" EntityType="JobDB.Store.SupplierActivities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Documents" EntityType="JobDB.Store.Documents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierDocuments" EntityType="JobDB.Store.SupplierDocuments" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -545,6 +548,18 @@
       <End Role="CustEntAssign" EntitySet="CustEntAssigns" />
       <End Role="CustEntMain" EntitySet="CustEntMains" />
     </AssociationSet>
+    <AssociationSet Name="SupplierSupplierActivity" Association="JobDB.Store.SupplierSupplierActivity">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+    </AssociationSet>
+    <AssociationSet Name="DocumentSupplierDocument" Association="JobDB.Store.DocumentSupplierDocument">
+      <End Role="Document" EntitySet="Documents" />
+      <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
+    </AssociationSet>
+    <AssociationSet Name="SupplierSupplierDocument" Association="JobDB.Store.SupplierSupplierDocument">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -583,6 +598,7 @@
     <Property Name="Website" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="Address" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="CountryId" Type="int" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="30" />
   </EntityType>
   <EntityType Name="Customers">
     <Key>
@@ -1624,6 +1640,7 @@
     <Property Name="ProcBy" Type="nvarchar" Nullable="true" MaxLength="40" />
     <Property Name="TradeTerm" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="Tolerance" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="DtEntered" Type="nvarchar" Nullable="true" MaxLength="30" />
   </EntityType>
   <EntityType Name="SupplierUnits">
     <Key>
@@ -1693,6 +1710,33 @@
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SupplierActivities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Activity" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="DtActivity" Type="datetime" Nullable="false" />
+    <Property Name="Assigned" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="SupplierId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="SupplierDocuments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocumentId" Type="int" Nullable="false" />
+    <Property Name="SupplierId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -2990,6 +3034,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SupplierSupplierActivity">
+    <End Role="Supplier" Type="JobDB.Store.Suppliers" Multiplicity="1" />
+    <End Role="SupplierActivity" Type="JobDB.Store.SupplierActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierActivity">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DocumentSupplierDocument">
+    <End Role="Document" Type="JobDB.Store.Documents" Multiplicity="1" />
+    <End Role="SupplierDocument" Type="JobDB.Store.SupplierDocuments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Document">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierDocument">
+        <PropertyRef Name="DocumentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SupplierSupplierDocument">
+    <End Role="Supplier" Type="JobDB.Store.Suppliers" Multiplicity="1" />
+    <End Role="SupplierDocument" Type="JobDB.Store.SupplierDocuments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierDocument">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -3534,6 +3614,21 @@
             <End Role="CustEntAssign" EntitySet="CustEntAssigns" />
             <End Role="CustEntMain" EntitySet="CustEntMains" />
           </AssociationSet>
+          <EntitySet Name="SupplierActivities" EntityType="JobDB.SupplierActivity" />
+          <AssociationSet Name="SupplierSupplierActivity" Association="JobDB.SupplierSupplierActivity">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+          </AssociationSet>
+          <EntitySet Name="Documents" EntityType="JobDB.Document" />
+          <EntitySet Name="SupplierDocuments" EntityType="JobDB.SupplierDocument" />
+          <AssociationSet Name="DocumentSupplierDocument" Association="JobDB.DocumentSupplierDocument">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="SupplierSupplierDocument" Association="JobDB.SupplierSupplierDocument">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3594,6 +3689,9 @@
           <Property Name="Address" Type="String" Nullable="true" MaxLength="150" />
           <NavigationProperty Name="Country" Relationship="JobDB.SupplierCountry" FromRole="Supplier" ToRole="Country" />
           <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="true" MaxLength="30" />
+          <NavigationProperty Name="SupplierActivities" Relationship="JobDB.SupplierSupplierActivity" FromRole="Supplier" ToRole="SupplierActivity" />
+          <NavigationProperty Name="SupplierDocuments" Relationship="JobDB.SupplierSupplierDocument" FromRole="Supplier" ToRole="SupplierDocument" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -5983,6 +6081,7 @@
           <Property Name="ProcBy" Type="String" Nullable="true" MaxLength="40" />
           <Property Name="TradeTerm" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="Tolerance" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="DtEntered" Type="String" Nullable="true" MaxLength="30" />
         </EntityType>
         <Association Name="SupplierInvItemSupplierItemRate">
           <End Type="JobDB.SupplierInvItem" Role="SupplierInvItem" Multiplicity="1" />
@@ -6197,6 +6296,73 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SupplierActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Activity" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="DtActivity" Type="DateTime" Nullable="false" />
+          <Property Name="Assigned" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierActivity" FromRole="SupplierActivity" ToRole="Supplier" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="SupplierSupplierActivity">
+          <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
+          <End Type="JobDB.SupplierActivity" Role="SupplierActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierActivity">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="SupplierDocuments" Relationship="JobDB.DocumentSupplierDocument" FromRole="Document" ToRole="SupplierDocument" />
+        </EntityType>
+        <EntityType Name="SupplierDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Document" Relationship="JobDB.DocumentSupplierDocument" FromRole="SupplierDocument" ToRole="Document" />
+          <Property Name="DocumentId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierDocument" FromRole="SupplierDocument" ToRole="Supplier" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="DocumentSupplierDocument">
+          <End Type="JobDB.Document" Role="Document" Multiplicity="1" />
+          <End Type="JobDB.SupplierDocument" Role="SupplierDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierDocument">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SupplierSupplierDocument">
+          <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
+          <End Type="JobDB.SupplierDocument" Role="SupplierDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierDocument">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6240,6 +6406,7 @@
           <ScalarProperty Name="Website" ColumnName="Website" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7378,6 +7545,7 @@
           <ScalarProperty Name="ProcBy" ColumnName="ProcBy" />
           <ScalarProperty Name="TradeTerm" ColumnName="TradeTerm" />
           <ScalarProperty Name="Tolerance" ColumnName="Tolerance" />
+          <ScalarProperty Name="DtEntered" ColumnName="DtEntered" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7455,6 +7623,36 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierActivity)">
+        <MappingFragment StoreEntitySet="SupplierActivities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Activity" ColumnName="Activity" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="DtActivity" ColumnName="DtActivity" />
+          <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Documents">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.Document)">
+        <MappingFragment StoreEntitySet="Documents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierDocuments">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierDocument)">
+        <MappingFragment StoreEntitySet="SupplierDocuments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -22,7 +22,7 @@ namespace JobsV1.Controllers
                            
             ViewBag.TextClass = "textClass_dark"; // { textClass_dark | textClass_light }
             ViewBag.EntName = "Real Breeze Travel and Tours";
-            ViewBag.EntAddress1 = "2/F Prime-Z Bldg, McArthur Hway, Davao city, Philipines ";
+            ViewBag.EntAddress1 = "Door 1, Travellers Inn, Matina Pangi Rd., Matina Crossing, Davao city, Philipines ";
             ViewBag.EntAddress2 = "M: 0916-755-8473, 0926-733-5449, 0909-076-1575";
             ViewBag.EntAddress3 = "E: RealBreezeDavao@gmail.com, Travel.RealBreeze@gmail.com";
             ViewBag.EntAddress4 = "";

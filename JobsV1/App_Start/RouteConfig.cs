@@ -51,7 +51,7 @@ namespace JobsV1
             routes.MapRoute(
                 name: "ToyotaTourer-for-rent",
                 url: "CarRental/ToyotaTourer-for-rent",
-                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1002 }
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 7 }
             );
             routes.MapRoute(
                 name: "suvpickup4x4-rental-rates",

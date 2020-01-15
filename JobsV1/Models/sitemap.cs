@@ -67,6 +67,7 @@ namespace JobsV1.Models
         public List<string> GetItemRoot()
         {
             List<string> items = new List<string>();
+            items.Add("realwheelsdavao.com/");
             items.Add("realwheelsdavao.com/CarRental/Index");
             items.Add("realwheelsdavao.com/CarRental/About");
             items.Add("realwheelsdavao.com/CarRental/Contact");
@@ -108,7 +109,8 @@ namespace JobsV1.Models
                     items.Add("realwheelsdavao.com/CarRental/toyota-innova-for-rent");
                     items.Add("realwheelsdavao.com/CarRental/sedan-rental");
                     items.Add("realwheelsdavao.com/CarRental/pickup-rental");
-            
+                    items.Add("realwheelsdavao.com/CarRental/ToyotaTourer-for-rent");
+
             return items;
 
         }

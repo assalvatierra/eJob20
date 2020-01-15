@@ -7,53 +7,54 @@
 
 <h2>Supplier Details</h2>
 
-<div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+<div class="row">
 
-    <hr />
-    <h3>@Model.Name</h3>
+    <div class="col-md-6">
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
 
-
-    <p> <b>Website: </b> @Model.Website </p>
-    <p> <b>Tel: </b>@Model.Contact1 </p>
-
-    @if (Model.Contact2 != null)
-    {
-        <p> <b>Fax: </b> <span> @Model.Contact2</span></p>
-    }
-
-    @if (Model.Contact3 != null)
-    {
-        <p> <b>Mobile: </b><span> @Model.Contact3</span></p>
-    }
-    <p> <b>Email: </b> @Model.Email </p>
-    <p> <b>Address: </b> @Model.Address </p>
-    <p> <b>Country: </b> @Model.Country.Name </p>
-    <p> <b>City: </b>  @Model.City.Name </p>
-    <p> <b>Category: </b> @Model.SupplierType.Description </p>
+        <hr />
+        <h3>@Model.Name  <span id="status-companyName"> @Model.Status </span> </h3>
 
 
-    @*<p> <b>Details: </b> @Model.Details </p>
-        <p> <b>City: </b>  @Model.City.Name </p>
-        <p> <b>Type: </b>  @Model.SupplierType.Description </p>*@
+        <p> @Html.ActionLink("< View History >", "Records", "SupplierActivities", new { id = Model.Id }, null) </p>
+        <p> <b>Website: </b> @Model.Website </p>
+        <p> <b>Tel: </b>@Model.Contact1 </p>
+
+        @if (Model.Contact2 != null)
+        {
+            <p> <b>Fax: </b> <span> @Model.Contact2</span></p>
+        }
+
+        @if (Model.Contact3 != null)
+        {
+            <p> <b>Mobile: </b><span> @Model.Contact3</span></p>
+        }
+
+        <p> <b>Email:    </b> @Model.Email </p>
+        <p> <b>Address:  </b> @Model.Address </p>
+        <p> <b>Country:  </b> @Model.Country.Name </p>
+        <p> <b>City:     </b>  @Model.City.Name </p>
+        <p> <b>Category: </b> @Model.SupplierType.Description </p>
+        <p> <b>Status:    </b> <span id="status-Details"> @Model.Status </span></p>
+
+
+        @*<p> <b>Details: </b> @Model.Details </p>
+            <p> <b>City: </b>  @Model.City.Name </p>
+            <p> <b>Type: </b>  @Model.SupplierType.Description </p>*@
         <table width="500px">
             <tr>
                 <td width="120px">
                     <b> Main Products </b>
                 </td>
-                <td>
-                
-                </td>
-                <td>
-
-                </td>
+                <td></td>
+                <td></td>
             </tr>
-           @foreach (var item in Model.SupplierInvItems)
-           {
-               <tr  width="120px">
+            @foreach (var item in Model.SupplierInvItems)
+            {
+                <tr width="120px">
                     <td></td>
                     <td>
                         @item.InvItem.Description -
@@ -61,7 +62,7 @@
                         <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
                     </td>
                 </tr>
-           }
+            }
             <tr>
                 <td></td>
                 <td>
@@ -70,9 +71,25 @@
             </tr>
         </table>
 
+    </div>
+
+    <div class="col-md-6" style="margin-top:100px;" >
+        <h4>Company Documents</h4>
+        <div>
+           @foreach (var doc in ViewBag.supDocuments as IEnumerable<JobsV1.Models.SupplierDocument>)
+           {
+                <p> @doc.Document.Description.ToString() &nbsp; 
+                    @Html.ActionLink("Remove", "RemoveSupDocument", new { id = doc.Id })
+                </p>
+           }
+        </div>
+        <a href="#" id="catbtn" class="btn btn-default" data-toggle="modal" data-target="#createDocuments">Edit</a>
+    </div>
+
 </div>
+
 <br />
-<div >
+<div class="row" >
     <h3> Supplier Contact </h3>
     <div class="col-lg-12">
         <a href="#" id="catbtn" data-toggle="modal" data-target="#createSupContact">Add Contact</a>
@@ -129,6 +146,7 @@
 
 @{ Html.RenderPartial("CreateSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
 @{ Html.RenderPartial("EditSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
+@{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "SupplierId", ViewBag.SupplierId }, { "Documents", ViewBag.Documents } }); }
 
 <script>
          
@@ -169,4 +187,39 @@
         });
     }
 
+
+
+    function filterStatus(status){
+        switch(status){
+            case "ACT":
+                return "Active";
+                break;
+            case "INC":
+                return "Inactive";
+                break;
+            case "BAD":
+                return "Bad Account";
+                break;
+            case "AOP":
+                return "Accreditation on Progress";
+                break;
+            case "ACC":
+                return "Accredited";
+                break;
+            default:
+                return "Active";
+                break;
+        }
+    }
+
+    function initial() {
+        var status = filterStatus($("#status-companyName").text());
+
+        $("#status-companyName").text(" ( " + status + " ) ");
+        $("#status-Details").text(" " + status + " ");
+    }
+
+    $(document).ready(initial());
+
+   
 </script>

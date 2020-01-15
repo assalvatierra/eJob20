@@ -132,5 +132,8 @@ namespace JobsV1.Models
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<SupplierContactStatus> SupplierContactStatus { get; set; }
         public virtual DbSet<CustEntAssign> CustEntAssigns { get; set; }
+        public virtual DbSet<SupplierActivity> SupplierActivities { get; set; }
+        public virtual DbSet<Document> Documents { get; set; }
+        public virtual DbSet<SupplierDocument> SupplierDocuments { get; set; }
     }
 }

@@ -507,6 +507,7 @@
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\SalesActivitiesController.cs" />
     <Compile Include="Controllers\SalesLeadsController.cs" />
+    <Compile Include="Controllers\SupplierActivitiesController.cs" />
     <Compile Include="Controllers\SupplierItemsController.cs" />
     <Compile Include="Controllers\SupplierPoDtlsController.cs" />
     <Compile Include="Controllers\SupplierPoHdrsController.cs" />
@@ -628,6 +629,9 @@
     <Compile Include="Models\DateClass.cs" />
     <Compile Include="Models\DBClasses.cs" />
     <Compile Include="Models\Destination.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Document.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DriverInsJobService.cs">
@@ -853,11 +857,17 @@
     <Compile Include="Models\Supplier.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SupplierActivity.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SupplierClass.cs" />
     <Compile Include="Models\SupplierContact.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierContactStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierDocument.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierInvItem.cs">
@@ -1431,6 +1441,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\dataTables.min.js" />
+    <Content Include="Scripts\Job\SupplierActivities.js" />
     <Content Include="Scripts\Job\CustEntMainList.js" />
     <Content Include="Scripts\Job\CustEntRecords.js" />
     <Content Include="Scripts\Job\SupplierAddRate.js" />
@@ -2193,6 +2204,14 @@
     <Content Include="Views\CustEntMains\AssignedRecordsEdit.cshtml" />
     <Content Include="Views\CarRental\CarViews\ToyotaGLGrandiaTourer.cshtml" />
     <Content Include="Views\CarRental\CarDetail_tourer.cshtml" />
+    <Content Include="Views\SupplierActivities\Create.cshtml" />
+    <Content Include="Views\SupplierActivities\Delete.cshtml" />
+    <Content Include="Views\SupplierActivities\Details.cshtml" />
+    <Content Include="Views\SupplierActivities\Edit.cshtml" />
+    <Content Include="Views\SupplierActivities\Index.cshtml" />
+    <Content Include="Views\SupplierActivities\Records.cshtml" />
+    <Content Include="Views\SupplierActivities\RecordsCreate.cshtml" />
+    <Content Include="Views\Suppliers\CreateDocuments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

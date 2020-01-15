@@ -56,7 +56,7 @@
                     @Html.DisplayFor(modelItem => rate.Material)
                 </td>
                 <td>
-                    Php  @rate.ItemRate / @rate.SupplierUnit.Unit
+                     @rate.ItemRate / @rate.SupplierUnit.Unit
                 </td>
                 <td>
                     <p>
@@ -66,12 +66,11 @@
                         @if (rate.TradeTerm != "")
                         {
                             <text>Trade Term: </text> @rate.TradeTerm <text><br /></text>
-}  
+                        }  
                         @if (rate.Tolerance != "")
                         {
                             <text>Tolerance: </text> @rate.Tolerance  <text><br /></text>
-}
-                    
+                        }
                     </p>
                     
                 </td>

@@ -20,15 +20,18 @@ namespace JobsV1.Models
         public string Details { get; set; }
         public string Country { get; set; }
         public int CountryId { get; set; }
+        public string Code { get; set; }
     }
 
     public class cSupplierItems
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Code { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
         public string Category { get; set; }
+        public string Status { get; set; }
         public IEnumerable<string> Product { get; set; }
         public IEnumerable<string> ContactPerson { get; set; }
         public IEnumerable<string> ContactNumber { get; set; }
@@ -39,6 +42,7 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Number { get; set; }
+        public string Email { get; set; }
     }
 
     public class cProduct
@@ -49,6 +53,20 @@ namespace JobsV1.Models
         public string UnitPrice { get; set; }
     }
 
+    public class cProductList
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int SupplierId { get; set; }
+        public string Supplier { get; set; }
+        public string ItemRate   { get; set; }
+        public string Unit { get; set; }
+        public string DtEntered { get; set; }
+        public string DtValidFrom { get; set; }
+        public string DtValidTo { get; set; }
+        public string Remarks { get; set; }
+    }
+
     public class SupplierClass
     {
 
@@ -57,7 +75,7 @@ namespace JobsV1.Models
 
         //get supplier list containing the search string,
         //if search is empty, return all actve items
-        public List<cSupplierItems> getSupplierList(string search, string status, string sort)
+        public List<cSupplierItems> getSupplierList(string search, string category, string status, string sort)
         {
             
             List<cSupplierList> custList = new List<cSupplierList>();
@@ -95,11 +113,29 @@ namespace JobsV1.Models
                 //handle status filter
                 if (status != "ALL")
                 {
-                    sql += " AND  ItemList.Name Like '%" + search + "%' OR ItemList.Items Like '%" + search + "%'  ";
+                    switch (category)
+                    {
+                        case "COUNTRY":
+                            sql += " AND ItemList.Country Like '%" + search + "%' ";
+                            break;
+                        case "CATEGORY":
+                            sql += " AND ItemList.supType Like '%" + search + "%' ";
+                            break;
+                        case "SUPPLIER":
+                            sql += " AND ItemList.Name Like '%" + search + "%' ";
+                            break;
+                        case "PRODUCT":
+                            sql += " AND ItemList.Items Like '%" + search + "%' ";
+                            break;
+                        default:
+                            sql += " AND ItemList.Name Like '%" + search + "%' OR ItemList.Items Like '%" + search + "%'  ";
+                            break;
+                    }
+
                 }
                 else
                 {
-                    sql += " WHERE  sup.Name Like '%" + search + "%' OR  ItemList.Items Like '%" + search + "%' ";
+                    sql += " WHERE ItemList.Name Like '%" + search + "%' OR  ItemList.Items Like '%" + search + "%' ";
                 }
             }
 
@@ -137,12 +173,10 @@ namespace JobsV1.Models
             {
                 //get products of the supplier
                 var products = db.SupplierInvItems.Where(s => s.SupplierId == sup.Id).ToList();
-
-                //get Contact Persons of the supplier
-                var contactsPerson = db.SupplierContacts.Where(s=>s.SupplierId == sup.Id).ToList().Select(s => s.Name);
-                var contactNumber = db.SupplierContacts.Where(s => s.SupplierId == sup.Id).ToList().Select(s=>s.Mobile);
-
-
+                
+                IEnumerable<string> contactsPerson = GetContactNames(sup.Id);
+                IEnumerable<string> contactsDetails = GetContactDetails(sup.Id);
+                
                 //get product list with price
                 List<cProduct> prods  = new List<cProduct>();
                 List<string> prodUnitPrices = new List<string>();
@@ -175,18 +209,133 @@ namespace JobsV1.Models
                 supItems.Add(new cSupplierItems {
                     Id = sup.Id,
                     Name = sup.Name,
+                    Code = sup.Code,
                     Country = sup.Country,
                     City = sup.City,
                     Category = sup.SupType,
+                    Status = sup.Status,
                     Product = prodUnitPrices,
                     ContactPerson = contactsPerson,
-                    ContactNumber = contactNumber
+                    ContactNumber = contactsDetails
 
                 });
             }
 
 
             return supItems;
+        }
+        
+        //get supplier list containing the search string,
+        //if search is empty, return all actve items
+        public List<cProductList> getProductList(string search, string category, string status, string sort)
+        {
+
+            List<cProductList> prodList = new List<cProductList>();
+            
+            //sql query with comma separated item list
+            string sql =
+                "SELECT * FROM (SELECT sii.Id, ii.Description as Name, sup.Name as Supplier, sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status " +
+                "FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id "+
+                "LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId "+
+                "LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id "+
+                "LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods ";
+
+            //handle status filter
+            if (status != "ALL")
+            {
+                sql += " WHERE prods.Status = '" + status + "' ";
+            }
+
+            //handle status filter
+            if (status == "ALL")
+            {
+                sql += " ";
+            }
+
+            //handle search by name filter
+            if (search != null || search != "")
+            {
+                //handle status filter
+                if (status != "ALL")
+                {
+                    sql += "AND prods.Name Like '%" + search + "%'  ";
+                }
+                else
+                {
+                    sql += " WHERE prods.Name Like '%" + search + "%' ";
+                }
+            }
+
+            if (sort != null)
+            {
+                switch (sort)
+                {
+                    case "LOWEST-PRICE":
+                        sql += " ORDER BY prods.ItemRate ASC;";
+                        break;
+                    default:
+                        sql += " ORDER BY prods.Name ASC;";
+                        break;
+                }
+            }
+            else
+            {
+                //terminator
+                sql += " ORDER BY prods.Name ASC;";
+
+            }
+
+            prodList = db.Database.SqlQuery<cProductList>(sql).ToList();
+            
+            return prodList;
+        }
+
+
+        //GET contact persons of existing suppliers and return as list 
+        private IEnumerable<cContactPerson> GetContactPersons(int supplierId)
+        {
+            List<cContactPerson> contactList = new List<cContactPerson>();
+
+            var contacts = db.SupplierContacts.Where(s => s.SupplierId == supplierId).ToList();
+
+            foreach (var person in contacts)
+            {
+                contactList.Add(new cContactPerson {
+                    Id = person.Id,
+                    Name = person.Name,
+                    Number = person.Mobile,
+                    Email = person.Email
+                });
+            }
+
+            return contactList;
+        }
+
+        private List<String> GetContactNames(int supplierId)
+        {
+            List<String> nameList = new List<string>();
+
+            var contactsPerson = GetContactPersons(supplierId);
+            foreach (var person in contactsPerson)
+            {
+                nameList.Add(person.Name);
+            }
+            
+            return nameList;
+        }
+
+        private List<String> GetContactDetails(int supplierId)
+        {
+            List<String> detailList = new List<string>();
+
+            var contactsPerson = GetContactPersons(supplierId);
+            foreach (var person in contactsPerson)
+            {
+                var contactDetails = person.Number + " / " + person.Email;
+                detailList.Add(contactDetails);
+            }
+
+            return detailList;
         }
 
 

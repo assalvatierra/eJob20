@@ -99,6 +99,8 @@ insert into InvItemCategories([InvItemId],[InvItemCatId])
 values
 (1,1);
 
+
+
 -- 
 -- Dumping data for table Countries( Code, Name)
 -- 
@@ -353,33 +355,54 @@ INSERT INTO Countries( Code, Name) VALUES ( 'ZW', 'Zimbabwe');
 -- Suppliers Configuration
 -- ---------------------------------------- 
 insert into SupplierTypes(Description) values
-('Stockiest/Trader'),('Supplier'),('Installer');
-insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT',175);
-insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId] )
-	values('Solid Steel','(82) 085-0158','(82 085-0151)','0912-564-9877','solidsteelserver.com','Davao City', '','AJDavao88@gmail.com','1','1','ACT',175);
+	('Stockiest /Trader'),('Supplier'),('Installer');
+insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId],[Code] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT',175,'SUP01');
+insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId],[Code] )
+	values('American Steels CO., INC','(082) 223-6659','(082 223-6650)','0912-564-9877','americansteel.com','Manila', '','amsteels.supply@gmail.com','1','1','ACT',175,'SUP02'),
+	      ('Green Steels Industries LTD','(082) 333-8845','(082 333-8840)','0915-654-1125','greensteels.com','Davao City', '','green.steels@gmail.com','1','1','ACT',175,'SUP03'),
+	      ('Asia Metals and Steels INC','(0086) 11236548','(0086 11238840)','-','asia-metals-steels.com','Davao City', '','asia.metals.sales@gmail.com','1','1','ACT',175,'SUP04');
 -- ----------------------------
 -- Supplier Items / Products
 -- ----------------------------
 insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values 
-('Default','1','Item by supplier','Supplier','ACT');
+	('Default','1','Item by supplier','Supplier','ACT');
+
+insert into SupplierUnits([Unit])
+values ('Meter'),('Inch'),('Feet'),('Box'),('Package');
 
 insert into SupplierInvItems([SupplierId],[InvItemId]) values
-(2,1),(2,2);
+(2,1),(2,2),
+(3,1),
+      (4,2),(4,3);
+
+insert into SupplierItemRates([SupplierInvitemId],[ItemRate],[SupplierUnitId],[Remarks],[DtEntered],[DtValidFrom],[DtValidTo],[Particulars],[Material],[By],[ProcBy],[TradeTerm],[Tolerance]) values
+	(1,2500,2,'','01/14/2020','01/16/2020','01/16/2021','Pipe' ,'Carbon Steel','John','Ann','',''),
+	(2,3300,3,'','01/10/2020','01/10/2020','06/30/2020','Plate','Carbon Steel','John','Ann','',''),
+	(3,2500,2,'','01/18/2020','01/20/2020','08/30/2020','Pipe' ,'Carbon Steel','Dalton','Mark','',''),
+	(4,3600,3,'','01/09/2020','01/10/2020','12/30/2020','Plate','Carbon Steel','Mike','Ann','',''),
+	(5,4000,3,'','01/09/2020','01/10/2020','06/30/2020','Pipe' ,'Stainless Steel','Mike','Ann','','');
 
 insert into SupplierContactStatus([Name]) values ('Active'),('Resigned');
 
-insert into Services([Name],[Description],[Status]) 
-values
-('Car Rental','Bus, Car, Van and other Transportation arrangements','1'),
-('Boat Rental','Boat Arrangement, Island Hopping','1'),
-('Tour Package','Tour Package, Land arrangements','1'),
-('AirTicket','Airline Ticket','1'),
-('Accommodation','Hotels, Rooms, Houses, etc','1'),
-('Activity','Water Rafting, Scuba Diving, Caving','1'),
-('Other','Other types of services','1');
+insert into SupplierContacts([SupplierId],[Name],[Mobile],[Landline],[Email],[SkypeId],[ViberId],[WhatsApp],[WeChat],[Remarks],[Position],[Department],[SupplierContactStatusId])
+values (2,'John Doe','0995-987-4561','(082) 333 6588','johndoe@gmail.com','','','','','','Staff','Sales',1),
+	   (3,'Dalton Gray','0912-112-5477','(082) 235 1125','daltongray@gmail.com','','','','','','Sales','Sales',1),
+	   (3,'Elise Rhodes','0909-545-1335','(082) 235 1112','eliserhodes@gmail.com','','','','','','Procurement','Accounting',1),
+	   (4,'Mike De Guzman','0915-587-9512','(082) 545 3212','mike.dg@gmail.com','','','','','','Sales','Sales',1);
 
-insert into SrvActionCodes([CatCode],[SortNo])
-values
+insert into Documents([Description]) values 
+	   ('Business Registration'),('Tax Registration'), ('Import Export Registration');
+
+insert into Services([Name],[Description],[Status]) values
+	('Car Rental','Bus, Car, Van and other Transportation arrangements','1'),
+	('Boat Rental','Boat Arrangement, Island Hopping','1'),
+	('Tour Package','Tour Package, Land arrangements','1'),
+	('AirTicket','Airline Ticket','1'),
+	('Accommodation','Hotels, Rooms, Houses, etc','1'),
+	('Activity','Water Rafting, Scuba Diving, Caving','1'),
+	('Other','Other types of services','1');
+
+insert into SrvActionCodes([CatCode],[SortNo]) values
 ('Arrangement',1),('Partial Payment',2),('Notification',3),('OnGoing',4),('Billing',5),('Full Payment',6),('Closing',7);
 
 insert into SrvActionItems([Desc],[Remarks],[SortNo],[SrvActionCodeId],[ServicesId])
@@ -518,8 +541,6 @@ values ('11-25-2018','Test Po',1,1,'Abel','11-25-2018');
 insert into SupplierPoDtls([SupplierPoHdrId],[Remarks],[Amount],[JobServicesId])
 values (1,'10 seater vehicle',3500,1), (1,'14 seater vehicle',4000,1);
 
-insert into SupplierUnits([Unit])
-values ('Meter'),('Inch'),('Feet'),('Box'),('Package');
 
 -- Customer PO Samples
 insert into Customers(Name, Email, Contact1, Contact2, Remarks, Status) 

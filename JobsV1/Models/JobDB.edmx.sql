@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/09/2019 15:25:36
+-- Date Created: 01/15/2020 16:49:29
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -341,6 +341,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntAssign]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntAssigns] DROP CONSTRAINT [FK_CustEntMainCustEntAssign];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierSupplierActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierActivities] DROP CONSTRAINT [FK_SupplierSupplierActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DocumentSupplierDocument]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierDocuments] DROP CONSTRAINT [FK_DocumentSupplierDocument];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierSupplierDocument]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierDocuments] DROP CONSTRAINT [FK_SupplierSupplierDocument];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -667,6 +676,15 @@ GO
 IF OBJECT_ID(N'[dbo].[CustEntAssigns]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustEntAssigns];
 GO
+IF OBJECT_ID(N'[dbo].[SupplierActivities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierActivities];
+GO
+IF OBJECT_ID(N'[dbo].[Documents]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Documents];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierDocuments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierDocuments];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -706,7 +724,8 @@ CREATE TABLE [dbo].[Suppliers] (
     [Status] nvarchar(10)  NULL,
     [Website] nvarchar(80)  NULL,
     [Address] nvarchar(150)  NULL,
-    [CountryId] int  NOT NULL
+    [CountryId] int  NOT NULL,
+    [Code] nvarchar(30)  NULL
 );
 GO
 
@@ -1747,7 +1766,8 @@ CREATE TABLE [dbo].[SupplierItemRates] (
     [Material] nvarchar(40)  NULL,
     [ProcBy] nvarchar(40)  NULL,
     [TradeTerm] nvarchar(80)  NULL,
-    [Tolerance] nvarchar(80)  NULL
+    [Tolerance] nvarchar(80)  NULL,
+    [DtEntered] nvarchar(30)  NULL
 );
 GO
 
@@ -1817,6 +1837,33 @@ CREATE TABLE [dbo].[CustEntAssigns] (
     [Remarks] nvarchar(max)  NULL,
     [Date] datetime  NOT NULL,
     [CustEntMainId] int  NOT NULL
+);
+GO
+
+-- Creating table 'SupplierActivities'
+CREATE TABLE [dbo].[SupplierActivities] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Activity] nvarchar(80)  NOT NULL,
+    [Code] nvarchar(20)  NULL,
+    [DtActivity] datetime  NOT NULL,
+    [Assigned] nvarchar(40)  NULL,
+    [Remarks] nvarchar(80)  NULL,
+    [SupplierId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Documents'
+CREATE TABLE [dbo].[Documents] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(80)  NOT NULL
+);
+GO
+
+-- Creating table 'SupplierDocuments'
+CREATE TABLE [dbo].[SupplierDocuments] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DocumentId] int  NOT NULL,
+    [SupplierId] int  NOT NULL
 );
 GO
 
@@ -2463,6 +2510,24 @@ GO
 -- Creating primary key on [Id] in table 'CustEntAssigns'
 ALTER TABLE [dbo].[CustEntAssigns]
 ADD CONSTRAINT [PK_CustEntAssigns]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierActivities'
+ALTER TABLE [dbo].[SupplierActivities]
+ADD CONSTRAINT [PK_SupplierActivities]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Documents'
+ALTER TABLE [dbo].[Documents]
+ADD CONSTRAINT [PK_Documents]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierDocuments'
+ALTER TABLE [dbo].[SupplierDocuments]
+ADD CONSTRAINT [PK_SupplierDocuments]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4088,6 +4153,51 @@ GO
 CREATE INDEX [IX_FK_CustEntMainCustEntAssign]
 ON [dbo].[CustEntAssigns]
     ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [SupplierId] in table 'SupplierActivities'
+ALTER TABLE [dbo].[SupplierActivities]
+ADD CONSTRAINT [FK_SupplierSupplierActivity]
+    FOREIGN KEY ([SupplierId])
+    REFERENCES [dbo].[Suppliers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierSupplierActivity'
+CREATE INDEX [IX_FK_SupplierSupplierActivity]
+ON [dbo].[SupplierActivities]
+    ([SupplierId]);
+GO
+
+-- Creating foreign key on [DocumentId] in table 'SupplierDocuments'
+ALTER TABLE [dbo].[SupplierDocuments]
+ADD CONSTRAINT [FK_DocumentSupplierDocument]
+    FOREIGN KEY ([DocumentId])
+    REFERENCES [dbo].[Documents]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DocumentSupplierDocument'
+CREATE INDEX [IX_FK_DocumentSupplierDocument]
+ON [dbo].[SupplierDocuments]
+    ([DocumentId]);
+GO
+
+-- Creating foreign key on [SupplierId] in table 'SupplierDocuments'
+ALTER TABLE [dbo].[SupplierDocuments]
+ADD CONSTRAINT [FK_SupplierSupplierDocument]
+    FOREIGN KEY ([SupplierId])
+    REFERENCES [dbo].[Suppliers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierSupplierDocument'
+CREATE INDEX [IX_FK_SupplierSupplierDocument]
+ON [dbo].[SupplierDocuments]
+    ([SupplierId]);
 GO
 
 -- --------------------------------------------------

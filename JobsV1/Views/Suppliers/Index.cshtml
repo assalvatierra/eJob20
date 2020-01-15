@@ -19,35 +19,57 @@
 <p>
     Status:
     <span>
-        <span id="ACTIVE" class="status-link"> Active   </span> |
-        <span id="INACTIVE" class="status-link"> Inactive </span> |
+        <span id="ACT" class="status-link"> Active   </span> |
+        <span id="INC" class="status-link"> Inactive </span> |
         <span id="BAD" class="status-link"> Bad      </span> |
-        <span id="ALL" class="status-link"> All      </span>
+        <span id="ACC" class="status-link"> Accredited </span> |
+        <span id="AOP" class="status-link"> Acc. on Progress </span> |
+        <span id="ALL" class="status-link"> All </span>
     </span>
 </p>
 
-<p>Table View: 
-    <span>
-        <span id="simple-Table" class="status-link" onclick="ajax_loadContent()" >Simple</span> |
-        <span id="expanded-Table" class="status-link" onclick="ajax_loadContent()"> Expanded</span>
-    </span>
-</p>
-<p >
-    <input type="search" id="srch-field"/>
-    <button class="btn btn-default" id="srch-btn" onclick="ajax_loadContent()">Search</button>
-</p>
 
+<div class="form-group">
+    <div class="search-group">
+        <input class="form-control search-cat" id="srch-field" type="search" />
+    </div>
+    <div>
+        <select class="form-control search-field" id="srch-category">
+            <option value="SUPPLIER"> Supplier </option>
+            <option value="COUNTRY" > Country     </option>
+            <option value="CATEGORY"> Category </option>
+            <option value="PRODUCT" > Product  </option>
+        </select>
+    </div>
+    <div>
+        <button class="btn btn-default search-group" id="srch-btn" onclick="searchSupplier()">Search</button>
+    </div>
+</div>
+
+@*<p>Table View:
+        <span>
+            <span id="simple-Table" class="status-link" onclick="ajax_loadContent()" >Simple</span>
+            <span id="expanded-Table" class="status-link" onclick="ajax_loadContent()"> Expanded</span>
+        </span>
+    </p>
+
+    <p >
+        <input type="search" id="srch-field"/>
+        <button class="btn btn-default" onclick="ajax_loadContent()">Search</button>
+    </p>
+*@
 <table class="js-sort-table table" id="sup-Table" >
     <thead>
-        <tr>
-            <th class="cursor-hand">Supplier</th>
-            <th class="cursor-hand">Country </th>
-            <th class="cursor-hand">City </th>
-            <th class="cursor-hand">Category</th>
-            <th class="js-sort-number" width="200">Product</th>
-            <th class="js-sort-number">Contact Person </th>
-            <th></th>
-            <th></th>
+        <tr id="supplier-header-main">
+            <th class="cursor-hand col-md-2">Supplier</th>
+            <th class="cursor-hand col-md-1">Code    </th>
+            <th class="cursor-hand col-md-1">Country </th>
+            <th class="cursor-hand col-md-1">Category</th>
+            <th class="cursor-hand col-md-1">Status  </th>
+            <th class="js-sort-number col-md-2" style="min-width:150px;">Product</th>
+            <th class="js-sort-number col-md-1" style="min-width:120px;">Contact&nbsp;Person </th>
+            <th class="col-md-2">Mobile/Email</th>
+            <th class="col-md-1" style="min-width:100px;"></th>
         </tr>
     </thead>
     <tbody>
@@ -63,17 +85,27 @@
     </tbody>
 </table>
 
+<table class="js-sort-table table" id="prod-Table" hidden>
+        <tr id="supplier-header-product">
+            <th class="cursor-hand"> Product </th>
+            <th class="cursor-hand"> Supplier </th>
+            <th class="js-sort-number"> Rate </th>
+            <th> Date Encoded </th>
+            <th> Date Validity </th>
+            <th> Remarks </th>
+            <th> </th>
+        </tr>
+        <tr>
+            <td colspan="2"> </td>
+            <td colspan="3">
+                <br />
+                <img src="~/Images/GIF/loading.gif" height="25" />
+                Loading suppliers, please wait...
+            </td>
+            <td></td>
+        </tr>
+</table>
+
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/Job/SupplierList.js"></script>
 <script src="~/Scripts/sort-table.js"></script>
-<script>
-    //var A = "A";
-    //var B = "B";
-    //var C = "C";
-    //var content = "<tr><td> " + A + " </td></trd>";
-    //content += "<tr><td> " + B + "  </td></trd>";
-    //content += "<tr><td>  " + C + "  </td></trd>";
-    //content += "<tr><td> D TEST </td></trd>";
-
-    //$(content).appendTo("#table-test");
-</script>

@@ -25,7 +25,17 @@
 
     <div class="form-group">
         <b class="control-label col-md-2 ">
-            Telepone
+            Code
+        </b>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Contact1, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <b class="control-label col-md-2 ">
+            Telephone
         </b>
         <div class="col-md-10">
             @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control" } })

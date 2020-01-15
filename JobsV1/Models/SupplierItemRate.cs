@@ -33,6 +33,7 @@ namespace JobsV1.Models
         public string ProcBy { get; set; }
         public string TradeTerm { get; set; }
         public string Tolerance { get; set; }
+        public string DtEntered { get; set; }
     
         public virtual SupplierInvItem SupplierInvItem { get; set; }
         public virtual SupplierUnit SupplierUnit { get; set; }

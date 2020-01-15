@@ -22,6 +22,8 @@ namespace JobsV1.Models
             this.SupplierInvItems = new HashSet<SupplierInvItem>();
             this.SupplierPoHdrs = new HashSet<SupplierPoHdr>();
             this.SupplierContacts = new HashSet<SupplierContact>();
+            this.SupplierActivities = new HashSet<SupplierActivity>();
+            this.SupplierDocuments = new HashSet<SupplierDocument>();
         }
     
         public int Id { get; set; }
@@ -37,6 +39,7 @@ namespace JobsV1.Models
         public string Website { get; set; }
         public string Address { get; set; }
         public int CountryId { get; set; }
+        public string Code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobServices> JobSuppliers { get; set; }
@@ -51,5 +54,9 @@ namespace JobsV1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplierContact> SupplierContacts { get; set; }
         public virtual Country Country { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierActivity> SupplierActivities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierDocument> SupplierDocuments { get; set; }
     }
 }

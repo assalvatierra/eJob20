@@ -235,12 +235,14 @@ SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c
                  FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) ,
                  ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) 
                  FROM CustEntMains cem;
-
-SELECT * ,
+SELECT * FROM (
+	SELECT * ,
     Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
     City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
     SupType = (SELECT Description FROM SupplierTypes supt WHERE sup.SupplierTypeId = supt.Id )
-    FROM Suppliers sup 
+    FROM Suppliers sup ) as suplist
+
+	WHERE suplist.supType LIKE '%Supplier%'
 
 SELECT * ,Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
           City = (SELECT Name FROM Cities ct WHERE sup.CityID = ct.Id ),
@@ -279,4 +281,13 @@ SELECT Id,Name, Contact1, Contact2 , Status,
        FROM [CustEntities] ce WHERE ce.CustomerId = c.Id ORDER BY ce.Id DESC) FROM Customers c
 
 select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());;
-
+    
+SELECT * FROM (
+SELECT  sii.Id, ii.Description as Name, sup.Name as Supplier, sii.SupplierId, sir.ItemRate, 
+	su.Unit, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status
+	FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id
+	LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId
+	LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id
+	LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id ) as prods
+	WHERE prods.Name LIKE '%Steel%' 
+	ORDER BY prods.ItemRate ASC

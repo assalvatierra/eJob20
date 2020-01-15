@@ -33,16 +33,26 @@ namespace JobsV1.Controllers
 
         }
         
-
         //Ajax - Table Result 
         //Get the list of suppliers
-        public string TableResult(string search, string status, string sort)
+        public string TableResult(string search, string category, string status, string sort)
         {
             //get supplier list
-            List<cSupplierItems> supList = supdb.getSupplierList(search, status,sort);
+            List<cSupplierItems> supList = supdb.getSupplierList(search, category,status,sort);
             
             //convert list to json object
             return JsonConvert.SerializeObject(supList, Formatting.Indented);
+        }
+
+        //Ajax - Table Result 
+        //Get the list of suppliers
+        public string TableResultProducts(string search, string category, string status, string sort)
+        {
+            //get supplier list
+            List<cProductList> prodList = supdb.getProductList(search, category, status, "LOWEST-PRICE");
+
+            //convert list to json object
+            return JsonConvert.SerializeObject(prodList, Formatting.Indented);
         }
 
         // GET: Suppliers/Details/5
@@ -60,6 +70,9 @@ namespace JobsV1.Controllers
             ViewBag.SupplierId = id;
             ViewBag.supContacts = supplier.SupplierContacts.ToList();
             ViewBag.contactStatus = db.SupplierContactStatus.ToList();
+            ViewBag.Documents = db.Documents.ToList();
+            ViewBag.supDocuments = db.SupplierDocuments.Where(s => s.SupplierId == id).Include(s=>s.Document);
+
             InvItemsPartial((int)id);
 
             return View(supplier);
@@ -81,7 +94,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website,Code")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +108,8 @@ namespace JobsV1.Controllers
             //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryName);
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
 
-            return View(supplier);
+            //return View(supplier);
+            return RedirectToAction("Details", new { id = supplier.Id });
         }
 
         // GET: Suppliers/Edit/5
@@ -124,7 +138,7 @@ namespace JobsV1.Controllers
        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website")] Supplier supplier)
+        public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website,Code")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -208,7 +222,7 @@ namespace JobsV1.Controllers
             });
             db.SaveChanges();
 
-            return RedirectToAction("DEtails", "Suppliers", new { id = supID });
+            return RedirectToAction("Details", "Suppliers", new { id = supID });
         }
 
         //POST: /Suppliers/AddInvItems
@@ -231,9 +245,37 @@ namespace JobsV1.Controllers
             return RedirectToAction("InvItems", "Suppliers", new { id = item.SupplierId });
         }
 
+        public ActionResult AddDocuments(int docId, int supId)
+        {
+            try
+            {
+                db.SupplierDocuments.Add(new SupplierDocument {
+                    DocumentId = docId,
+                    SupplierId = supId
+                });
+                db.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {  }
+
+            return RedirectToAction("Details", "Suppliers", new { id = supId });
+        }
+
+        public ActionResult RemoveSupDocument(int id)
+        {
+
+            SupplierDocument supplierDoc = db.SupplierDocuments.Find(id);
+            db.SupplierDocuments.Remove(supplierDoc);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Suppliers", new { id = id });
+
+        }
+
         #endregion
 
-        #region inv Item Rate
+        #region invItemRate
 
         public ActionResult AddRateInvItems(int id, string Particulars, string Material,string Rate, int Unit, string Remarks, string TradeTerm, string Tolerance, string ValidFrom, string ValidTo, string By ,string ProcBy )
         {
