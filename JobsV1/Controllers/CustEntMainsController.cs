@@ -30,6 +30,15 @@ namespace JobsV1.Controllers
                 new SelectListItem { Value = "BAD", Text = "Bad Account" },
                 new SelectListItem { Value = "SUS", Text = "Suspended" }
                 };
+
+        private List<SelectListItem> ActivityStatus = new List<SelectListItem> {
+                new SelectListItem { Value = "Others", Text = "Others" },
+                new SelectListItem { Value = "Indicated Price", Text = "Indicated Price" },
+                new SelectListItem { Value = "Bidding Only", Text = "Bidding Only" },
+                new SelectListItem { Value = "Firm Inquiry", Text = "Firm Inquiry" },
+                new SelectListItem { Value = "Buying Inquiry", Text = "Buying Inquiry" },
+                new SelectListItem { Value = "Job Order", Text = "Job Order" }
+                };
         public ActionResult Index()
         {
             var companies = db.CustEntMains.ToList();
@@ -184,7 +193,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo")] CustEntMain custEntMain, int? id)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code")] CustEntMain custEntMain, int? id)
         {
             if (ModelState.IsValid)
             {
@@ -238,7 +247,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo")] CustEntMain custEntMain)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {
@@ -585,6 +594,7 @@ namespace JobsV1.Controllers
             ViewBag.companyId = companyId;
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
+            ViewBag.ActivityStatus = new SelectList(ActivityStatus, "value", "text");
             ViewBag.Date = dt.GetCurrentDateTime();
             return View(assignRecords);
         }
@@ -613,8 +623,9 @@ namespace JobsV1.Controllers
                 return ex.ToString();
             }
             //return RedirectToAction("AssignedRecords" , new { companyId = CompanyId });
-            
-            
+            //ViewBag.ActivityStatus = new SelectList(ActivityStatus, "value", "text", Status);
+
+
         }
 
         //Add Assigned on the Record History after Create Company
@@ -690,6 +701,7 @@ namespace JobsV1.Controllers
                     custComAssign.Date = DateTime.Parse(Date);
                     custComAssign.Remarks = Remarks;
                     custComAssign.CustEntMainId = companyId;
+                    ViewBag.Status = new SelectList(ActivityStatus, "value", "text");
 
                     db.Entry(custComAssign).State = EntityState.Modified;
                     db.SaveChanges();
@@ -703,7 +715,7 @@ namespace JobsV1.Controllers
             {
                 return ex.ToString();
             }
-            //return RedirectToAction("AssignedRecords", new { companyId = companyId });
+
         }
         #endregion
 

@@ -25,6 +25,7 @@ namespace JobsV1.Models
             this.CustEntCats = new HashSet<CustEntCat>();
             this.CustEntClauses = new HashSet<CustEntClauses>();
             this.CustEntAssigns = new HashSet<CustEntAssign>();
+            this.CustEntActivities = new HashSet<CustEntActivity>();
         }
     
         public int Id { get; set; }
@@ -39,6 +40,7 @@ namespace JobsV1.Models
         public string Status { get; set; }
         public string AssignedTo { get; set; }
         public string Mobile { get; set; }
+        public string Code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntity> CustEntities { get; set; }
@@ -54,5 +56,7 @@ namespace JobsV1.Models
         public virtual ICollection<CustEntClauses> CustEntClauses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntAssign> CustEntAssigns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustEntActivity> CustEntActivities { get; set; }
     }
 }

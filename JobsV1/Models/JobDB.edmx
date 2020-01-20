@@ -114,8 +114,9 @@
     <EntitySet Name="SupplierContactStatus" EntityType="JobDB.Store.SupplierContactStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntAssigns" EntityType="JobDB.Store.CustEntAssigns" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierActivities" EntityType="JobDB.Store.SupplierActivities" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Documents" EntityType="JobDB.Store.Documents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupDocuments" EntityType="JobDB.Store.SupDocuments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierDocuments" EntityType="JobDB.Store.SupplierDocuments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntActivities" EntityType="JobDB.Store.CustEntActivities" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -552,13 +553,17 @@
       <End Role="Supplier" EntitySet="Suppliers" />
       <End Role="SupplierActivity" EntitySet="SupplierActivities" />
     </AssociationSet>
-    <AssociationSet Name="DocumentSupplierDocument" Association="JobDB.Store.DocumentSupplierDocument">
-      <End Role="Document" EntitySet="Documents" />
-      <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
-    </AssociationSet>
     <AssociationSet Name="SupplierSupplierDocument" Association="JobDB.Store.SupplierSupplierDocument">
       <End Role="Supplier" EntitySet="Suppliers" />
       <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
+    </AssociationSet>
+    <AssociationSet Name="SupDocumentSupplierDocument" Association="JobDB.Store.SupDocumentSupplierDocument">
+      <End Role="SupDocument" EntitySet="SupDocuments" />
+      <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntMainCustEntActivity" Association="JobDB.Store.CustEntMainCustEntActivity">
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+      <End Role="CustEntActivity" EntitySet="CustEntActivities" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -985,6 +990,7 @@
     <Property Name="Status" Type="nvarchar" Nullable="true" DefaultValue="ACT" MaxLength="10" />
     <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
   <EntityType Name="SalesLeads">
     <Key>
@@ -1716,14 +1722,14 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Activity" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="DtActivity" Type="datetime" Nullable="false" />
     <Property Name="Assigned" Type="nvarchar" Nullable="true" MaxLength="40" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="true" />
   </EntityType>
-  <EntityType Name="Documents">
+  <EntityType Name="SupDocuments">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -1735,8 +1741,22 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DocumentId" Type="int" Nullable="false" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
+    <Property Name="SupDocumentId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntActivities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Assigned" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="ProjectName" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="SalesCode" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3046,18 +3066,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="DocumentSupplierDocument">
-    <End Role="Document" Type="JobDB.Store.Documents" Multiplicity="1" />
-    <End Role="SupplierDocument" Type="JobDB.Store.SupplierDocuments" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Document">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="SupplierDocument">
-        <PropertyRef Name="DocumentId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="SupplierSupplierDocument">
     <End Role="Supplier" Type="JobDB.Store.Suppliers" Multiplicity="1" />
     <End Role="SupplierDocument" Type="JobDB.Store.SupplierDocuments" Multiplicity="*" />
@@ -3067,6 +3075,30 @@
       </Principal>
       <Dependent Role="SupplierDocument">
         <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SupDocumentSupplierDocument">
+    <End Role="SupDocument" Type="JobDB.Store.SupDocuments" Multiplicity="1" />
+    <End Role="SupplierDocument" Type="JobDB.Store.SupplierDocuments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SupDocument">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierDocument">
+        <PropertyRef Name="SupDocumentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustEntMainCustEntActivity">
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <End Role="CustEntActivity" Type="JobDB.Store.CustEntActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntActivity">
+        <PropertyRef Name="CustEntMainId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3619,15 +3651,20 @@
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierActivity" EntitySet="SupplierActivities" />
           </AssociationSet>
-          <EntitySet Name="Documents" EntityType="JobDB.Document" />
+          <EntitySet Name="SupDocuments" EntityType="JobDB.SupDocument" />
           <EntitySet Name="SupplierDocuments" EntityType="JobDB.SupplierDocument" />
-          <AssociationSet Name="DocumentSupplierDocument" Association="JobDB.DocumentSupplierDocument">
-            <End Role="Document" EntitySet="Documents" />
-            <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
-          </AssociationSet>
           <AssociationSet Name="SupplierSupplierDocument" Association="JobDB.SupplierSupplierDocument">
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="SupDocumentSupplierDocument" Association="JobDB.SupDocumentSupplierDocument">
+            <End Role="SupDocument" EntitySet="SupDocuments" />
+            <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
+          </AssociationSet>
+          <EntitySet Name="CustEntActivities" EntityType="JobDB.CustEntActivity" />
+          <AssociationSet Name="CustEntMainCustEntActivity" Association="JobDB.CustEntMainCustEntActivity">
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+            <End Role="CustEntActivity" EntitySet="CustEntActivities" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -4550,6 +4587,8 @@
           <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="Mobile" Type="String" Nullable="true" />
           <NavigationProperty Name="CustEntAssigns" Relationship="JobDB.CustEntMainCustEntAssign" FromRole="CustEntMain" ToRole="CustEntAssign" />
+          <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
+          <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntMain" ToRole="CustEntActivity" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -6301,13 +6340,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Activity" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="DtActivity" Type="DateTime" Nullable="false" />
           <Property Name="Assigned" Type="String" Nullable="true" MaxLength="40" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierActivity" FromRole="SupplierActivity" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="true" />
         </EntityType>
         <Association Name="SupplierSupplierActivity">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -6321,36 +6360,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Document">
+        <EntityType Name="SupDocument">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
-          <NavigationProperty Name="SupplierDocuments" Relationship="JobDB.DocumentSupplierDocument" FromRole="Document" ToRole="SupplierDocument" />
+          <NavigationProperty Name="SupplierDocuments" Relationship="JobDB.SupDocumentSupplierDocument" FromRole="SupDocument" ToRole="SupplierDocument" />
         </EntityType>
         <EntityType Name="SupplierDocument">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Document" Relationship="JobDB.DocumentSupplierDocument" FromRole="SupplierDocument" ToRole="Document" />
-          <Property Name="DocumentId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierDocument" FromRole="SupplierDocument" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SupDocument" Relationship="JobDB.SupDocumentSupplierDocument" FromRole="SupplierDocument" ToRole="SupDocument" />
+          <Property Name="SupDocumentId" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="DocumentSupplierDocument">
-          <End Type="JobDB.Document" Role="Document" Multiplicity="1" />
-          <End Type="JobDB.SupplierDocument" Role="SupplierDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Document">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SupplierDocument">
-              <PropertyRef Name="DocumentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="SupplierSupplierDocument">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
           <End Type="JobDB.SupplierDocument" Role="SupplierDocument" Multiplicity="*" />
@@ -6360,6 +6387,45 @@
             </Principal>
             <Dependent Role="SupplierDocument">
               <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SupDocumentSupplierDocument">
+          <End Type="JobDB.SupDocument" Role="SupDocument" Multiplicity="1" />
+          <End Type="JobDB.SupplierDocument" Role="SupplierDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierDocument">
+              <PropertyRef Name="SupDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustEntActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="Assigned" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="SalesCode" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CustEntMainCustEntActivity">
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <End Type="JobDB.CustEntActivity" Role="CustEntActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntActivity">
+              <PropertyRef Name="CustEntMainId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6828,6 +6894,7 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
           <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7630,18 +7697,18 @@
       <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierActivity)">
         <MappingFragment StoreEntitySet="SupplierActivities">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Activity" ColumnName="Activity" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="DtActivity" ColumnName="DtActivity" />
           <ScalarProperty Name="Assigned" ColumnName="Assigned" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Documents">
-      <EntityTypeMapping TypeName="IsTypeOf(JobDB.Document)">
-        <MappingFragment StoreEntitySet="Documents">
+    <EntitySetMapping Name="SupDocuments">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupDocument)">
+        <MappingFragment StoreEntitySet="SupDocuments">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
@@ -7651,8 +7718,23 @@
       <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierDocument)">
         <MappingFragment StoreEntitySet="SupplierDocuments">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
           <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="SupDocumentId" ColumnName="SupDocumentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActivity)">
+        <MappingFragment StoreEntitySet="CustEntActivities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="SalesCode" ColumnName="SalesCode" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

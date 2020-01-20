@@ -270,6 +270,9 @@ namespace JobsV1.Models
             {
                 switch (sort)
                 {
+                    case "LOWEST-DATE":
+                        sql += " ORDER BY prods.DtEntered ASC;";
+                        break;
                     case "LOWEST-PRICE":
                         sql += " ORDER BY prods.ItemRate ASC;";
                         break;

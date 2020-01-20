@@ -13,7 +13,7 @@ namespace JobsV1.Controllers
     public class SupplierActivitiesController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
-        
+        private DBClasses dbclasses = new DBClasses();
 
         // GET: SupplierActivities/{index}
         public ActionResult Index()
@@ -51,6 +51,7 @@ namespace JobsV1.Controllers
         // GET: SupplierActivities/Create
         public ActionResult Create()
         {
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name");
             return View();
         }
@@ -60,7 +61,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Activity,Code,DtActivity,Assigned,Remarks,SupplierId")] SupplierActivity supplierActivity)
+        public ActionResult Create([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {
@@ -69,6 +70,7 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             return View(supplierActivity);
         }
@@ -85,6 +87,7 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             return View(supplierActivity);
         }
@@ -94,7 +97,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Activity,Code,DtActivity,Assigned,Remarks,SupplierId")] SupplierActivity supplierActivity)
+        public ActionResult Edit([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {
@@ -103,6 +106,7 @@ namespace JobsV1.Controllers
                 //return RedirectToAction("Index");
                 return RedirectToAction("Records", new { id = supplierActivity.SupplierId });
             }
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             return View(supplierActivity);
         }
@@ -147,6 +151,7 @@ namespace JobsV1.Controllers
         // GET: SupplierActivities/Create
         public ActionResult RecordsCreate(int id)
         {
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", id);
             return View();
         }
@@ -156,7 +161,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RecordsCreate([Bind(Include = "Id,Activity,Code,DtActivity,Assigned,Remarks,SupplierId")] SupplierActivity supplierActivity)
+        public ActionResult RecordsCreate([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {
@@ -165,6 +170,7 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Records",new { id = supplierActivity.SupplierId });
             }
 
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             return View(supplierActivity);
         }

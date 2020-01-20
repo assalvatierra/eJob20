@@ -291,3 +291,25 @@ SELECT  sii.Id, ii.Description as Name, sup.Name as Supplier, sii.SupplierId, si
 	LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id ) as prods
 	WHERE prods.Name LIKE '%Steel%' 
 	ORDER BY prods.ItemRate ASC
+
+
+SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
+                 City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
+                 
+				 ContactPerson = (SELECT TOP 1 Name = (SELECT Name 
+                 FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId  Order By ce.Id DESC ), 
+                 
+				 Mobile1 = (SELECT TOP 1 Contact = (SELECT cust.Contact2 FROM Customers cust WHERE cust.Id = ce.CustomerId) 
+	             FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId Order By ce.Id DESC), 
+				 
+				 ContactPersonEmail = (SELECT TOP 1 Email = (SELECT cust.Email FROM Customers cust WHERE cust.Id = ce.CustomerId) 
+	             FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId Order By ce.Id DESC), 
+                 
+				 ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId ORDER BY ce.Id DESC)
+                 FROM CustEntMains cem ) as com 
+				 WHERE com.Name like '%Acer%'
+--Sales Lead
+SELECT sl.*, slc.CustEntMainId FROM SalesLeads sl
+	LEFT JOIN SalesLeadCompanies slc ON sl.Id = slc.SalesLeadId
+
+SELECT * FROM SalesLeads

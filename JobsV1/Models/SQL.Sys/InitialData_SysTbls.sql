@@ -192,7 +192,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (14,14);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Cities' ,'',14,'Cities','Index','',21,141),
-		('Categories' ,'',14,'CustCategories','Index','',21,141);	        -- id: 57
+		('Categories' ,'',14,'CustCategories','Index','',21,142),
+		('Documents' ,'',14,'SupDocuments','Index','',21,143);	 -- id: 58
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');
@@ -327,4 +328,5 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 58, 58),
 ('jahdielvillosa@gmail.com', 59, 59),
 ('jahdielvillosa@gmail.com', 60, 60),
-('jahdielvillosa@gmail.com', 61, 61); 
+('jahdielvillosa@gmail.com', 61, 61),
+('jahdielvillosa@gmail.com', 62, 62); 

@@ -15,10 +15,10 @@ namespace JobsV1.Models
     public partial class SupplierDocument
     {
         public int Id { get; set; }
-        public int DocumentId { get; set; }
         public int SupplierId { get; set; }
+        public int SupDocumentId { get; set; }
     
-        public virtual Document Document { get; set; }
         public virtual Supplier Supplier { get; set; }
+        public virtual SupDocument SupDocument { get; set; }
     }
 }

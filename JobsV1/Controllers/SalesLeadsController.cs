@@ -28,9 +28,10 @@ namespace JobsV1.Controllers
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbclasses = new DBClasses();
+        private SalesLeadClass sldb = new SalesLeadClass();
 
         // GET: SalesLeads
-        public ActionResult Index(int? sortid, int? leadId)
+        public ActionResult Index(int? sortid, int? leadId, int? companyId)
         {
 
             if (sortid != null)
@@ -46,10 +47,21 @@ namespace JobsV1.Controllers
                 }
             }
 
-            var salesLeads = db.SalesLeads.Include(s => s.Customer)
+            var leadList = sldb.generateList(null,null,null,null).ToList();
+
+            var companyLeads = db.SalesLeadCompanies.Where(s => s.CustEntMainId == companyId).Select(s => s.SalesLeadId).ToList();
+            var salesLeads = db.SalesLeads.Include(s => s.SalesLeadCompanies)
                         .Include(s => s.SalesLeadCategories)
                         .Include(s => s.SalesStatus).OrderBy(s => s.Date)
                         .ToList();
+
+
+                //var leads = db.SalesLeads.Contains(companyLeads);
+
+                //salesLeads = salesLeads.Where(s => s.SalesLeadCompanies.Except(companyLeads) != null).ToList();
+
+                //salesLeads = salesLeads.Where(s => companyLeads.Contains(s.Id)).ToList();
+          
 
             switch (sortid) {
                 case 1://approved
@@ -118,13 +130,44 @@ namespace JobsV1.Controllers
 
             //for adding new item 
             AddSupItemPartial();
-
+           
             return View(salesLeads.OrderByDescending(s=>s.Date));
         }
 
 
         // GET: SalesLeads
-        public ActionResult LeadDetails(int? sortid, int? id)
+        public ActionResult IndexCompanies(int? sortid, int? leadId, int? companyId)
+        {
+
+            if (sortid != null)
+                Session["SLFilterID"] = (int)sortid;
+            else
+            {
+                if (Session["SLFilterID"] != null)
+                    sortid = (int)Session["SLFilterID"];
+                else
+                {
+                    Session["SLFilterID"] = 3;
+
+                }
+            }
+
+            var leadList = sldb.generateList(null, null, null, null).ToList();
+            
+            
+            ViewBag.LeadId = leadId;
+            ViewBag.CurrentFilter = sortid;
+            ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
+
+            //for adding new item 
+            AddSupItemPartial();
+
+            return View(leadList);
+        }
+
+
+        // GET: SalesLeads
+        public ActionResult LeadDetails2(int? sortid, int? id)
         {
             int leadId = (int)id;
             if (sortid != null)
@@ -158,8 +201,47 @@ namespace JobsV1.Controllers
                 return View(salesLeads);
             }
             return RedirectToAction("Index", new { sortid = 5 });
-            
+
         }
+
+        // GET: SalesLeads
+        public ActionResult LeadDetails(int? sortid, int? companyId)
+        {
+            int leadId = (int)companyId;
+            if (sortid != null)
+                Session["SLFilterID"] = (int)sortid;
+            else
+            {
+                if (Session["SLFilterID"] != null)
+                    sortid = (int)Session["SLFilterID"];
+                else
+                {
+                    Session["SLFilterID"] = 3;
+                }
+            }
+
+            if (leadId != null)
+            {
+                var Id = (int)leadId;
+                var salesLeads = db.SalesLeads.Include(s => s.Customer)
+                        .Include(s => s.SalesLeadCategories)
+                        .Include(s => s.SalesStatus).OrderBy(s => s.Date)
+                        .Where(s => s.Id == Id);
+
+
+                ViewBag.LeadId = leadId;
+                ViewBag.CurrentFilter = sortid;
+                ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
+
+                //for adding new item 
+                AddSupItemPartial();
+
+                return View(salesLeads);
+            }
+            return RedirectToAction("Index", new { sortid = 5 });
+
+        }
+
 
         // GET: SalesLeads/Details/5
         public ActionResult Details(int? id)

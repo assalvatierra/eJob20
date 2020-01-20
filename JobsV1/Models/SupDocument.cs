@@ -12,16 +12,18 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SupplierActivity
+    public partial class SupDocument
     {
-        public int Id { get; set; }
-        public string Code { get; set; }
-        public System.DateTime DtActivity { get; set; }
-        public string Assigned { get; set; }
-        public string Remarks { get; set; }
-        public int SupplierId { get; set; }
-        public Nullable<decimal> Amount { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SupDocument()
+        {
+            this.SupplierDocuments = new HashSet<SupplierDocument>();
+        }
     
-        public virtual Supplier Supplier { get; set; }
+        public int Id { get; set; }
+        public string Description { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierDocument> SupplierDocuments { get; set; }
     }
 }

@@ -66,6 +66,8 @@ namespace JobsV1.Controllers
         public ActionResult CreateAddress(int companyId)
         {
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
+
+            ViewBag.Id = companyId;
             return View();
         }
 

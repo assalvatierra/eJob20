@@ -462,6 +462,7 @@
     <Compile Include="Controllers\CoopMembersController.cs" />
     <Compile Include="Controllers\CustCategoriesController.cs" />
     <Compile Include="Controllers\CustCatsController.cs" />
+    <Compile Include="Controllers\CustEntActivitiesController.cs" />
     <Compile Include="Controllers\CustEntAddressesController.cs" />
     <Compile Include="Controllers\CustEntAssignsController.cs" />
     <Compile Include="Controllers\CustEntitiesController.cs" />
@@ -507,6 +508,7 @@
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\SalesActivitiesController.cs" />
     <Compile Include="Controllers\SalesLeadsController.cs" />
+    <Compile Include="Controllers\SupDocumentsController.cs" />
     <Compile Include="Controllers\SupplierActivitiesController.cs" />
     <Compile Include="Controllers\SupplierItemsController.cs" />
     <Compile Include="Controllers\SupplierPoDtlsController.cs" />
@@ -592,6 +594,9 @@
     <Compile Include="Models\CustCategory.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustEntActivity.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustEntAddress.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -629,9 +634,6 @@
     <Compile Include="Models\DateClass.cs" />
     <Compile Include="Models\DBClasses.cs" />
     <Compile Include="Models\Destination.cs">
-      <DependentUpon>JobDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Document.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DriverInsJobService.cs">
@@ -852,6 +854,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SrvActionItem.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupDocument.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supplier.cs">
@@ -1441,6 +1446,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\dataTables.min.js" />
+    <Content Include="Scripts\Job\CustEntActivities.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />
     <Content Include="Scripts\Job\CustEntMainList.js" />
     <Content Include="Scripts\Job\CustEntRecords.js" />
@@ -2212,6 +2218,18 @@
     <Content Include="Views\SupplierActivities\Records.cshtml" />
     <Content Include="Views\SupplierActivities\RecordsCreate.cshtml" />
     <Content Include="Views\Suppliers\CreateDocuments.cshtml" />
+    <Content Include="Views\SupDocuments\Create.cshtml" />
+    <Content Include="Views\SupDocuments\Delete.cshtml" />
+    <Content Include="Views\SupDocuments\Details.cshtml" />
+    <Content Include="Views\SupDocuments\Edit.cshtml" />
+    <Content Include="Views\SupDocuments\Index.cshtml" />
+    <Content Include="Views\Suppliers\CreateSupContactForm.cshtml" />
+    <Content Include="Views\SalesLeads\IndexCompanies.cshtml" />
+    <Content Include="Views\CustEntActivities\Create.cshtml" />
+    <Content Include="Views\CustEntActivities\Delete.cshtml" />
+    <Content Include="Views\CustEntActivities\Details.cshtml" />
+    <Content Include="Views\CustEntActivities\Edit.cshtml" />
+    <Content Include="Views\CustEntActivities\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

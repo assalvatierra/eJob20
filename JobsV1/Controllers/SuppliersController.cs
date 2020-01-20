@@ -62,16 +62,28 @@ namespace JobsV1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Supplier supplier = db.Suppliers.Find(id);
+
             if (supplier == null)
             {
                 return HttpNotFound();
             }
+
+            var supDocListId = db.SupplierDocuments.Where(s => s.SupplierId == id).Select(s=>s.SupDocumentId).ToList();
+            
+            //current added documents
+            var supDocList = db.SupDocuments.Where(s=> supDocListId.Contains(s.Id)).ToList();
+
+            var completeDocs = db.SupDocuments.ToList();
+
+            //get documents not added
+           IEnumerable<SupDocument> doclist = completeDocs.Except(supDocList);
+            ViewBag.Documents = doclist;
             ViewBag.SupplierId = id;
             ViewBag.supContacts = supplier.SupplierContacts.ToList();
             ViewBag.contactStatus = db.SupplierContactStatus.ToList();
-            ViewBag.Documents = db.Documents.ToList();
-            ViewBag.supDocuments = db.SupplierDocuments.Where(s => s.SupplierId == id).Include(s=>s.Document);
+            ViewBag.supDocuments = db.SupplierDocuments.Where(s => s.SupplierId == id).Include(s=>s.SupDocument);
 
             InvItemsPartial((int)id);
 
@@ -100,7 +112,9 @@ namespace JobsV1.Controllers
             {
                 db.Suppliers.Add(supplier);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("CreateSupContactForm", new { id = supplier.Id });
+                //return RedirectToAction("Index");
             }
 
             ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
@@ -194,10 +208,8 @@ namespace JobsV1.Controllers
         //items of suppliers View
         public ActionResult InvItems(int id)
         {
-            ViewBag.SupplierId = id;
-            ViewBag.SupplierName = db.Suppliers.Find(id).Name;
-            ViewBag.ItemList = db.InvItems.ToList();
-            ViewBag.UnitList = db.SupplierUnits.ToList();
+            InvItemsPartial((int)id);
+            ViewBag.Id = id;
 
             return View(db.SupplierInvItems.Where(s=>s.SupplierId == id).ToList());
         }
@@ -207,8 +219,18 @@ namespace JobsV1.Controllers
         {
             ViewBag.SupplierId = id;
             ViewBag.SupplierName = db.Suppliers.Find(id).Name;
-            ViewBag.ItemList = db.InvItems.ToList();
             ViewBag.UnitList = db.SupplierUnits.ToList();
+
+            //get items not added
+            var allitems = db.InvItems.ToList();
+            //get list of ids of items of supplier
+            var supItemsIds = db.SupplierInvItems.Where(d => d.SupplierId == id).ToList().Select(d => d.InvItemId);
+            //get list of items of supplier
+            var supItems = db.InvItems.Where(d=> supItemsIds.Contains(d.Id)).ToList();
+            //display items except existing 
+            var filteredItems = allitems.Except(supItems).ToList();
+            
+            ViewBag.ItemList = filteredItems;
 
             ViewBag.InvItems = db.SupplierInvItems.Where(s => s.SupplierId == id).ToList();
         }
@@ -243,34 +265,6 @@ namespace JobsV1.Controllers
             db.SaveChanges();
 
             return RedirectToAction("InvItems", "Suppliers", new { id = item.SupplierId });
-        }
-
-        public ActionResult AddDocuments(int docId, int supId)
-        {
-            try
-            {
-                db.SupplierDocuments.Add(new SupplierDocument {
-                    DocumentId = docId,
-                    SupplierId = supId
-                });
-                db.SaveChanges();
-
-            }
-            catch (Exception ex)
-            {  }
-
-            return RedirectToAction("Details", "Suppliers", new { id = supId });
-        }
-
-        public ActionResult RemoveSupDocument(int id)
-        {
-
-            SupplierDocument supplierDoc = db.SupplierDocuments.Find(id);
-            db.SupplierDocuments.Remove(supplierDoc);
-            db.SaveChanges();
-
-            return RedirectToAction("Details", "Suppliers", new { id = id });
-
         }
 
         #endregion
@@ -379,6 +373,15 @@ namespace JobsV1.Controllers
         #region SupplierContact
 
         //  Create new Supplier contact
+        public ActionResult CreateSupContactForm(int id)
+        {
+            ViewBag.SupplierId = id;
+            ViewBag.contactStatus = db.SupplierContactStatus.ToList();
+
+            return View();
+        }
+
+        //  Create new Supplier contact
         public ActionResult CreateSupContact(int SupplierId, string  Name, string Mobile, string Landline, string SkypeId, string ViberId , string WhatsApp, string Email, int Status, string Remarks, string WeChat, string Position, string Department)
         {
             SupplierContact supContact = new SupplierContact();
@@ -445,6 +448,41 @@ namespace JobsV1.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Details", new { id = tempId });
+
+        }
+
+        #endregion
+
+        #region Documents
+
+        //Add Document to the Supplier Document List
+        public ActionResult AddDocuments(int docId, int supId)
+        {
+            try
+            {
+                db.SupplierDocuments.Add(new SupplierDocument
+                {
+                    SupDocumentId = docId,
+                    SupplierId = supId
+                });
+                db.SaveChanges();
+
+            }
+            catch (Exception ex)
+            { }
+
+            return RedirectToAction("Details", "Suppliers", new { id = supId });
+        }
+
+        public ActionResult RemoveSupDocument(int id)
+        {
+
+            SupplierDocument supplierDoc = db.SupplierDocuments.Find(id);
+            var supplierId = supplierDoc.SupplierId;
+            db.SupplierDocuments.Remove(supplierDoc);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Suppliers", new { id = supplierId });
 
         }
 

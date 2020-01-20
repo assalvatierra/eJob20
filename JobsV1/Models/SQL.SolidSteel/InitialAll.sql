@@ -14,9 +14,13 @@ insert into Banks([BankName],[BankBranch],[AccntName],[AccntNo])
 		('Personal Guarantee','Realbreeze-Davao','Personal Guarantee','0'),
 		('Paypal','RealWheels-Paypal','Paypal','0');
 
-insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('<< New Customer >>','--','--',' ',' ','ACT');
-insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('RealBreeze-Davao','realbreezedavao@gmail.com','Elvie/0916-755-8473','','','ACT');
-insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values('John Doe','jahdielsvillosa@gmail.com','09123456789','','','ACT');
+insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) values
+    ('<< New Customer >>','--','--',' ',' ','ACT'),
+	('Mark Dalton','markdalton@gmail.com','0916-755-8473','','','ACT'),
+	('John Doe','johndoe@gmail.com','09123456789','','','ACT'),
+	('Lebron James','lebron.james@gmail.com','09654-987-9898','998-3321','','ACT'),
+	('Stephen Curry','stephen.curry@gmail.com','0915-225-1221','','','ACT'),
+	('Kevin Durant','Kevin.Durant@gmail.com','0954-321-65454','084-9898','','ACT');
 	
 insert Into Destinations([Description],[Remarks],[CityId]) 
 values 
@@ -33,29 +37,6 @@ values
 -- ------------------------------------------------------------
 -- Sales Lead Configuration
 -- ------------------------------------------------------------
-
-insert into CustCategories([Name],[iconPath])
-values 
-	   ('PRIORITY','Images/Customers/Category/star-filled-40.png'),
-	   ('ACTIVE','Images/Customers/Category/star-filled-40.png'),
-	   ('INACTIVE','Images/Customers/Category/star-filled-40.png'),
-	   ('BAD ACCOUNT','Images/Customers/Category/star-filled-40.png'),
-	   ('SUSPENDED','Images/Customers/Category/star-filled-40.png'),
-	   ('BILLING/TERMS','Images/Customers/Category/star-filled-40.png'),
-	   ('ACCREDITATION ON PROCESS','Images/Customers/Category/star-filled-40.png'),
-	   ('General Engg','Images/Customers/Category/star-filled-40.png'),
-	   ('Electrical','Images/Customers/Category/Active-30.png'),
-	   ('Mechanical','Images/Customers/Category/suspended-64.png'),
-	   ('Civil','Images/Customers/Category/cancel-40.png'),
-	   ('Structural','Images/Customers/Category/Active-30.png'),
-	   ('Plumbing and Sanitary Work','Images/Customers/Category/star-filled-40.png'),
-	   ('Mechanical Piping','Images/Customers/Category/Active-30.png'),
-	   ('Airconditioning and Refrigeration','Images/Customers/Category/star-filled-40.png'),
-	   ('Fire Protection','Images/Customers/Category/star-filled-40.png'),
-	   ('Well Drilling Works','Images/Customers/Category/star-filled-40.png'); 
-
-insert into CustEntMains([Name],[Address],[Contact1],[Contact2])
-values ('NEW (not yet defined)',' ',' ',' ');
 
 insert into SalesStatusCodes([SeqNo],[Name])
 values (1,'NEW'), (2,'ASSESMENT'), (3, 'PROPOSAL SENT'), (4, 'NEGOTIATION'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
@@ -390,7 +371,7 @@ values (2,'John Doe','0995-987-4561','(082) 333 6588','johndoe@gmail.com','','',
 	   (3,'Elise Rhodes','0909-545-1335','(082) 235 1112','eliserhodes@gmail.com','','','','','','Procurement','Accounting',1),
 	   (4,'Mike De Guzman','0915-587-9512','(082) 545 3212','mike.dg@gmail.com','','','','','','Sales','Sales',1);
 
-insert into Documents([Description]) values 
+insert into SupDocuments([Description]) values 
 	   ('Business Registration'),('Tax Registration'), ('Import Export Registration');
 
 insert into Services([Name],[Description],[Status]) values
@@ -542,20 +523,55 @@ insert into SupplierPoDtls([SupplierPoHdrId],[Remarks],[Amount],[JobServicesId])
 values (1,'10 seater vehicle',3500,1), (1,'14 seater vehicle',4000,1);
 
 
--- Customer PO Samples
+-- Customer and Companies Initial
+
+insert into CustCategories([Name],[iconPath])
+values 
+	   --('PRIORITY','Images/Customers/Category/star-filled-40.png'),
+	   --('ACTIVE','Images/Customers/Category/star-filled-40.png'),
+	   --('INACTIVE','Images/Customers/Category/star-filled-40.png'),
+	   --('BAD ACCOUNT','Images/Customers/Category/star-filled-40.png'),
+	   --('SUSPENDED','Images/Customers/Category/star-filled-40.png'),
+	   --('BILLING/TERMS','Images/Customers/Category/star-filled-40.png'),
+	   --('ACCREDITATION ON PROCESS','Images/Customers/Category/star-filled-40.png'),
+	   ('General Engg','Images/Customers/Category/star-filled-40.png'),
+	   ('Electrical','Images/Customers/Category/Active-30.png'),
+	   ('Mechanical','Images/Customers/Category/suspended-64.png'),
+	   ('Civil','Images/Customers/Category/cancel-40.png'),
+	   ('Structural','Images/Customers/Category/Active-30.png'),
+	   ('Plumbing and Sanitary Work','Images/Customers/Category/star-filled-40.png'),
+	   ('Mechanical Piping','Images/Customers/Category/Active-30.png'),
+	   ('Airconditioning and Refrigeration','Images/Customers/Category/star-filled-40.png'),
+	   ('Fire Protection','Images/Customers/Category/star-filled-40.png'),
+	   ('Well Drilling Works','Images/Customers/Category/star-filled-40.png'); 
+
+insert into CustEntMains([Name],[Address],[Contact1],[Contact2])
+values ('NEW (not yet defined)',' ',' ',' ');
+
 insert into Customers(Name, Email, Contact1, Contact2, Remarks, Status) 
 values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test User','ACT');
 
-insert into CustCats(CustomerId, CustCategoryId) 
-values(3,2),(3,1);
-
-insert into CustEntMains(Name, Address, Contact1, Contact2, iconPath, Website, Remarks, CityId, Status, AssignedTo) 
-values('NewCompany.Inc','Davao City','09950753794','09950753794','','company.com','',1,'ACT','demo@gmail.com');
+insert into CustEntMains(Name,Code, Address, Contact1, Contact2, iconPath, Website, Remarks, CityId, Status, AssignedTo, Mobile) 
+values ('Google.Inc','COP-001','Davao City','888-9888','888-9881','','google.com','',1,'ACT','sales.google@gmail.com','09126659987'),
+	   ('Acer.Inc.Ph','COP-002','Quezon City','111-9878','','','acer.com.ph','',1,'ACT','support@acer.com','0915-123-6548'),
+	   ('Silicon Valley','COP-003','Makati City','321-6689','888-3215','','siliconvalley.com.ph','',1,'ACT','silicon.valley@gmail.com','0912-654-9879'),
+	   ('HP Davao','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'ACT','sales@hpe.com','0999-987-9858');
 
 insert into CustEntAssigns(Assigned, Remarks, CustEntMainId, Date)
-values ('demo@gmail.com', '' , 2 , '11-30-2019')
-insert into CustEntities(CustEntMainId, CustomerId) 
-values(2,3);
+values ('demo@gmail.com', '' , 2 , '11-30-2019');
+
+insert into CustEntities(CustEntMainId, CustomerId, Position) 
+values  (2,2,'Staff'), (2,3,'Manager'),
+		(3,4,'Procurement'), 
+		(4,5,'Purchaser'),
+		(5,6,'Assistant Procurement');
+		
+insert into CustCats(CustomerId, CustCategoryId) 
+values	(1,3),(2,2),
+		(3,2),(4,2),(5,2);
+
+insert into CustEntCats(CustEntMainId,CustCategoryId)
+values (1,2),(2,3),(3,5),(4,2),(5,1); 
 
 update CustCategories set iconPath = 'Images/Customers/Category/star-filled-40.png' where Id = 1; 
 update CustCategories set iconPath = 'Images/Customers/Category/Active-30.png' where Id = 2; 
@@ -563,7 +579,7 @@ update CustCategories set iconPath = 'Images/Customers/Category//suspended-64.pn
 update CustCategories set iconPath = 'Images/Customers/Category/cancel-40.png' where Id = 4;  
 
 
-
+-- Car Rental Initial
 insert into CarCategories (Description, Remarks)
 values ('Rental','');
 
