@@ -10,17 +10,17 @@ $(document).ready(ajax_loadContent());
 
 //update status value on click
 //change color of the text
-$('#ACTIVE').click(function () {
+$('#ACT').click(function () {
     status = "ACT";
-    $('#ACTIVE').css("color", "black");
-    $('#ACTIVE').siblings().css("color", "steelblue");
+    $('#ACT').css("color", "black");
+    $('#ACT').siblings().css("color", "steelblue");
     StatusRefresh(); //load active suppliers
 });
 
-$('#INACTIVE').click(function () {
+$('#INC').click(function () {
     status = "INC";
-    $('#INACTIVE').css("color", "black");
-    $('#INACTIVE').siblings().css("color", "steelblue");
+    $('#INC').css("color", "black");
+    $('#INC').siblings().css("color", "steelblue");
     StatusRefresh() // load inactive suppliers
 });
 
@@ -38,6 +38,33 @@ $('#ALL').click(function () {
     StatusRefresh() // load inactive suppliers
 });
 
+$('#PRI').click(function () {
+    status = "PRI";
+    $('#PRI').css("color", "black");
+    $('#PRI').siblings().css("color", "steelblue");
+    StatusRefresh(); //load active suppliers
+});
+
+$('#ACC').click(function () {
+    status = "ACC";
+    $('#ACC').css("color", "black");
+    $('#ACC').siblings().css("color", "steelblue");
+    StatusRefresh(); //load active suppliers
+});
+
+$('#AOP').click(function () {
+    status = "AOP";
+    $('#AOP').css("color", "black");
+    $('#AOP').siblings().css("color", "steelblue");
+    StatusRefresh(); //load active suppliers
+});
+
+$('#BOT').click(function () {
+    status = "BOT";
+    $('#BOT').css("color", "black");
+    $('#BOT').siblings().css("color", "steelblue");
+    StatusRefresh(); //load active suppliers
+});
 //
 $('#DATE').click(function () {
     sort = "DATE";
@@ -89,7 +116,7 @@ function ajax_loadContent() {
 
     //request data from server using ajax call
     $.ajax({
-        url: 'CustEntMains/TableResult?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort,
+        url: '/CustEntMains/TableResult?search=' + query + '&searchCat=' + category + '&status=' + status + '&sort=' + sort,
         //url: 'CustEntMains/TableResult',
         type: "POST",
         data: JSON.stringify(data),
@@ -132,12 +159,15 @@ function LoadTable(data) {
         contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
         mobile = temp[x]["Mobile"] != null ? temp[x]["Mobile"] : "--";
+        City = temp[x]["City"] != null ? temp[x]["City"] : "--";
+        Assigned = temp[x]["AssignedTo"] != null ? temp[x]["AssignedTo"] : "--";
+
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
         var ContactPerson = temp[x]["ContactPerson"] != null ? temp[x]["ContactPerson"] : "--";
         var ContactPersonPos = temp[x]["ContactPersonPos"] != null ? temp[x]["ContactPersonPos"] : "--";
         var Status = temp[x]["Status"] != null ? temp[x]["Status"] : "--";
-        City = temp[x]["City"] != null ? temp[x]["City"] : "--";
-        Assigned = temp[x]["AssignedTo"] != null ? temp[x]["AssignedTo"] : "--";
+        var email = temp[x]["ContactPersonEmail"] != null ? temp[x]["ContactPersonEmail"] : "--";
+        var code = temp[x]["Code"] != null ? temp[x]["Code"] : "--";
 
         if (temp[x]["Id"] == prevId) {
 
@@ -149,16 +179,19 @@ function LoadTable(data) {
 
             content = "<tr>";
             content += "<td>" + temp[x]["Name"] + "</td>";
+            content += "<td>" + code + "</td>";
             content += "<td>" + website + "</td>";
             content += "<td>" + City + "</td>";
             content += "<td>" + categories + "</td>";
             content += "<td>" + parseStatus(Status) + "</td>"; // status
             content += "<td>" + ContactPerson + "</td>";
             content += "<td>" + ContactPersonPos + "</td>"; // status
-            content += "<td>" + mobile + "</td>"; // status
+            content += "<td>" + mobile + "<br>" + email + "</td>"; // status
             content += "<td>" + Assigned + "</td>"; // status
 
-            content += "<td>" + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'>Details</a> "
+            content += "<td>"
+                    + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a><br> "
+             
                     + "</td>";
             content += "</tr>";
         }
@@ -170,6 +203,8 @@ function LoadTable(data) {
 
 //load table with ACTIVE suppliers
 function StatusRefresh() {
+    console.log("status refresh");
+
     //clear search field
     $('#srch-field').val('');
 

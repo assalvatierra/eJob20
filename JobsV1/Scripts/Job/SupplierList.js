@@ -10,17 +10,17 @@ $(document).ready(ajax_loadContent());
 
 //update status value on click
 //change color of the text
-$('#ACTIVE').click(function () {
+$('#ACT').click(function () {
     status = "ACT";
-    $('#ACTIVE').css("color", "black");
-    $('#ACTIVE').siblings().css("color", "steelblue");
+    $('#ACT').css("color", "black");
+    $('#ACT').siblings().css("color", "steelblue");
     StatusRefresh(); //load active suppliers
 });
 
-$('#INACTIVE').click(function () {
+$('#INC').click(function () {
     status = "INC";
-    $('#INACTIVE').css("color", "black");
-    $('#INACTIVE').siblings().css("color", "steelblue");
+    $('#INC').css("color", "black");
+    $('#INC').siblings().css("color", "steelblue");
     StatusRefresh(); // load inactive suppliers
 });
 
@@ -35,6 +35,20 @@ $('#ALL').click(function () {
     status = "ALL";
     $('#ALL').css("color", "black");
     $('#ALL').siblings().css("color", "steelblue");
+    StatusRefresh(); // load all suppliers
+});
+
+$('#AOP').click(function () {
+    status = "AOP";
+    $('#AOP').css("color", "black");
+    $('#AOP').siblings().css("color", "steelblue");
+    StatusRefresh(); // load all suppliers
+});
+
+$('#ACC').click(function () {
+    status = "ACC";
+    $('#ACC').css("color", "black");
+    $('#ACC').siblings().css("color", "steelblue");
     StatusRefresh(); // load all suppliers
 });
 
@@ -58,17 +72,18 @@ $('#expanded-Table').click(function () {
 //then clear and add contents to the table
 function ajax_loadContent() {
     var query = $('#srch-field').val();
-    //console.log("status: " + status);
+    var srchCat = $('#srch-category').val();
 
     //build json object
     var data = {
-        search: query
+        search: query,
+        category: srchCat
     };
 
     //console.log(query);
     //request data from server using ajax call
     $.ajax({
-        url: '/Suppliers/TableResult?search=' + query + '&status=' + status,
+        url: '/Suppliers/TableResult?search=' + query + '&category=' + srchCat + '&status=' + status,
         type: "GET",
         data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
@@ -83,6 +98,38 @@ function ajax_loadContent() {
         }
     });
 }
+
+
+//load table content on search btn click
+function ajax_loadProduct() {
+    var query = $('#srch-field').val();
+    var srchCat = $('#srch-category').val();
+
+    //build json object
+    var data = {
+        search: query,
+        category: srchCat
+    };
+
+    //console.log(query);
+    //request data from server using ajax call
+    $.ajax({
+        url: '/Suppliers/TableResultProducts?search=' + query + '&category=' + srchCat + '&status=' + status,
+        type: "GET",
+        data: JSON.stringify(data),
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            //console.log("SUCCESS");
+
+        },
+        error: function (data) {
+            // console.log("ERROR");
+            console.log(data);
+            ProductsTable(data);
+        }
+    });
+}
+
 
 
 //param : data - json object containing 
@@ -120,14 +167,16 @@ function SimpleTable(data) {
         var contact3 = temp[x]["ContactNumber"] != null ? temp[x]["ContactNumber"] : "--";
         var contactslength = temp[x]["ContactPerson"];
         var productslength = temp[x]["Product"];
+        var status = temp[x]["Status"] != null ? temp[x]["Status"] : "--";
+        var code = temp[x]["Code"] != null ? temp[x]["Code"] : "--";
        
-
         content =  "<tr>";
         content += "<td>" + temp[x]["Name"].toString() + "</td>";
+        content += "<td>" + code + "</td>";
 
         content += "<td>" + country + "</td>";
-        content += "<td>" + city + "</td>";
         content += "<td>" + category + "</td>";
+        content += "<td>" + FilteredStatus(status) + "</td>";
 
         content += "<td> ";
 
@@ -137,38 +186,91 @@ function SimpleTable(data) {
             } else {
 
                 var name = productslength[prods].toString();
-                console.log(productslength);
-                console.log(name);
+                //console.log(productslength);
+                //console.log(name);
                 content += " " + name + "</br> ";
             }
         }
         content += "</td> ";
 
         content += "<td> ";
-        for (var prods = 0; prods < contactslength["length"]; prods++) {
-            if (typeof contactslength[prods] === "undefined") {
+        for (var name = 0; name < contactslength["length"]; name++) {
+            if (typeof contactslength[name] === "undefined") {
                 console.log("something is undefined");
             } else {
-
-                var name = contactslength[prods].toString();
-                console.log(contactslength);
-                console.log(name);
-                content += " " + name + "</br> ";
+                var contactName = contactslength[name].toString();
+                //console.log(contactslength);
+                //console.log(contactName);
+                content += " " + contactName + "</br> </br>";
             }
         }
         content +=  "</td> ";
 
-        content += "<td>" + contact3 + "</td>";
+        content += "<td>";
+
+        for (var contact = 0; contact < contact3["length"]; contact++) {
+            if (typeof contact3[contact] === "undefined") {
+                console.log("something is undefined");
+            } else {
+                var name = contact3[contact].toString();
+                //console.log(contact3);
+                //console.log(name);
+                content += " " + name + "</br> ";
+            }
+        }
+
+        content += "</td>";
 
         content += "<td>" +
             "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
-            "<a href='SupplierItems/'>Items</a>  " +
+            "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvProduct</a>  | " +
+            "<a href='SupplierActivities/Records/" + temp[x]["Id"] + "'>History</a>  " +
             "</td>";
         content += "</tr>";
 
         $(content).appendTo("#sup-Table");
         $("#sup-header-2").text("Category");
         $("#sup-header-3").text("Product");
+    }
+}
+
+//display products
+function ProductsTable(data) {
+    //parse data response to json object
+    var temp = jQuery.parseJSON(data["responseText"]);
+    console.log("products view");
+
+    //clear table contents except header
+    $("#prod-Table").find("tr:gt(0)").remove();
+
+    //populate table content
+    for (var x = 0; x < temp.length; x++) {
+        var product = temp[x]["Name"].toString();
+        var supplier = temp[x]["Supplier"] != null ? temp[x]["Supplier"] : "--";
+
+        var rate = temp[x]["ItemRate"] != null ? temp[x]["ItemRate"] : "--";
+        var unit = temp[x]["Unit"] != null ? temp[x]["Unit"] : "--";
+        var dtEntered = temp[x]["DtEntered"] != null ? temp[x]["DtEntered"] : "--";
+        var dtValidFrom = temp[x]["DtValidFrom"] != null ? temp[x]["DtValidFrom"] : "--";
+        var dtValidTo = temp[x]["DtValidTo"] != null ? temp[x]["DtValidTo"] : "--";
+        var remarks = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
+
+        content = "<tr>";
+        content += "<td>" + product + "</td>";
+        content += "<td>" + supplier + "</td>";
+        content += "<td>" + rate + " " + unit + "</td>";
+        content += "<td>" + dtEntered + "</td>";
+        content += "<td>" + dtValidFrom + " - " + dtValidTo + "</td>";
+        content += "<td>" + remarks + "</td>";
+
+        content += "<td>" +
+            "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
+            "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvProduct</a>  | " +
+            "<a href='Suppliers/'>History</a>  " +
+            "</td>";
+        content += "</tr>";
+
+        $(content).appendTo("#prod-Table");
     }
 }
 
@@ -200,7 +302,6 @@ function ExpandedTable(data) {
             + contact3 + "</td>";
         content += "<td>" + Email + "</td>";
         content += "<td>" + temp[x]["Status"] + "</td>";
-        content += "<td>" + City + "</td>";
         content += "<td>" + SupType + "</td>";
         content += "<td>" + Dtls + "</td>";
         content += "<td>" +
@@ -223,4 +324,51 @@ function StatusRefresh() {
 
     //load table content
     ajax_loadContent();
+}
+
+//Filter Status Column 
+function FilteredStatus(status) {
+    switch(status){
+        case "ACT":
+            return "Active";
+        case "INC":
+            return "Inactive";
+        case "BAD":
+            return "Bad";
+        case "ACC":
+            return "Accredited";
+        case "AOC":
+            return "Acc. on Progress";
+        default:
+            return "Not Defined"
+    }
+}
+
+//Search Filter
+function searchSupplier() {
+    console.log("Searching");
+
+    //get search-field
+    var srch = $('#srch-field').val();
+    //get search-category
+    var srchCat = $('#srch-category').val();
+
+
+
+
+    //search and load table
+    switch (srchCat) {
+        case "PRODUCT":
+            console.log("Product");
+            $("#sup-Table").hide();
+            $("#prod-Table").show();
+            ajax_loadProduct();
+            break;
+        default:
+            console.log("Supplier");
+            $("#prod-Table").hide();
+            $("#sup-Table").show();
+            ajax_loadContent();
+            break;
+    }
 }
