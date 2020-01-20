@@ -15,7 +15,8 @@
 </div>
 
 <div class="row">
-    <h1> @Html.DisplayFor(model => model.Name) </h1>
+    <h1> @Html.DisplayFor(model => model.Name) ( <span id="status"> </span> ) </h1>
+    @Html.ActionLink("<View History> ","Index", "CustEntActivities", new { id = Model.Id },null)
     <h5> <b>Telephone:</b> @Html.DisplayFor(model => model.Contact1) </h5>
     <h5> <b>Fax:</b> @Html.DisplayFor(model => model.Contact2) </h5>
     <h5> <b>Mobile:</b> @Html.DisplayFor(model => model.Mobile ) </h5>
@@ -197,6 +198,7 @@
     </table>
 </div>
 
+<!-- Company Clauses -->
 <div class="row">
     <h3>Clauses</h3>
     @Html.ActionLink("Add Clause", "CreateClause", new { companyId = Model.Id }, null)
@@ -219,6 +221,7 @@
     }
 </div>
 
+<!-- Sales Leads -->
 <div class="row">
     <h3>Sales Leads</h3>
 
@@ -253,7 +256,8 @@
     </table>
 </div>
 
-<div class="row">
+<!-- Job List-->
+<div class="row hidden">
     <h3>Job List</h3>
     <p>
         <b>Date: </b>
@@ -307,6 +311,7 @@
     </table>
 </div>
 
+<!-- Start of Modal -->
 <!-- Add Contact Modal -->
 <div class="modal fade" id="comContactAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -537,6 +542,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- End of Modal -->
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -545,6 +551,7 @@
 <script src="~/Scripts/Job/CompanyDetails.js"></script>
 <script src="~/Scripts/Job/CompanyReport.js"></script>
 
+<!-- Start of Scripts -->
 <script>
     //Show hide edit / delete of address
     $(document).ready(function () {
@@ -558,6 +565,8 @@
                 $(this).children("span.comp-address-actions").hide();
             }
         );
+
+        $("#status").text(parseStatusText('@Model.Status'));
     });
 
     //Show hide edit / delete of Clauses

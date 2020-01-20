@@ -1,0 +1,167 @@
+﻿@model JobsV1.Models.Supplier
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Supplier Contact</h4>
+        <hr />
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Name </b>
+            <div class="col-md-10">
+                <input id="SupCon-Name" class="form-control" type="text" maxlength="80">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> LandLine </b>
+            <div class="col-md-10">
+                <input id="SupCon-Landline" class="form-control" type="text" maxlength="20">
+            </div>
+        </div>
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Mobile</b>
+            <div class="col-md-10">
+                <input id="SupCon-Mobile" class="form-control" type="text" maxlength="20">
+            </div>
+        </div>
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Skype ID </b>
+            <div class="col-md-10">
+                <input id="SupCon-Skype" class="form-control" type="text" maxlength="20">
+            </div>
+        </div>
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Viber ID </b>
+            <div class="col-md-10">
+                <input id="SupCon-Viber" class="form-control" type="text" maxlength="20">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> WhatsApp </b>
+            <div class="col-md-10">
+                <input id="SupCon-WhatsApp" class="form-control" type="text" maxlength="80">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> WeChat </b>
+            <div class="col-md-10">
+                <input id="SupCon-WeChat" class="form-control" type="text" maxlength="80">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Email </b>
+            <div class="col-md-10">
+                <input id="SupCon-Email" class="form-control" type="text" maxlength="80">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Position </b>
+            <div class="col-md-10">
+                <input id="SupCon-Position" class="form-control" type="text" maxlength="80">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Department </b>
+            <div class="col-md-10">
+                <input id="SupCon-Department" class="form-control" type="text" maxlength="80">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Status </b>
+            <div class="col-md-10">
+
+                <select name="SupConStatus" class="form-control" id="SupCon-Status">
+                    @foreach (var status in ViewBag.contactStatus as IEnumerable<JobsV1.Models.SupplierContactStatus>)
+                    {
+                        <option value="@status.Id"> @status.Name </option>
+                    }
+                </select>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b class="col-md-2 control-label"> Remarks </b>
+            <div class="col-md-10">
+                <input id="SupCon-Remarks" class="form-control" type="text" maxlength="80">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create"  onclick="ajax_createSupContact()" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    
+}
+
+<div>
+    @Html.ActionLink("Back to Supplier Details", "Details", new {id = ViewBag.id })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+
+    //ADDRESS EDIT
+    function ajax_createSupContact() {
+        //build json object
+        var data = {
+            SupplierId: @ViewBag.SupplierId,
+            Name:     $("#SupCon-Name").val(),
+            LandLine: $("#SupCon-Landline").val(),
+            Mobile:   $("#SupCon-Mobile").val(),
+            SkypeId:  $("#SupCon-Skype").val(),
+            ViberId:  $("#SupCon-Viber").val(),
+            WhatsApp: $("#SupCon-WhatsApp").val(),
+            Email:    $("#SupCon-Email").val(),
+            Status:   $("#SupCon-Status").val(),
+            Remarks:  $("#SupCon-Remarks").val(),
+            WeChat:   $("#SupCon-WeChat").val(),
+            Position: $("#SupCon-Position").val(),
+            Department:  $("#SupCon-Department").val()
+        };
+
+        console.log(data);
+
+        var url = '/Suppliers/CreateSupContact';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                //location.reload();
+                
+                window.location.href = "/Suppliers/Details/@ViewBag.SupplierId";
+            }
+        });
+    }
+
+</script>

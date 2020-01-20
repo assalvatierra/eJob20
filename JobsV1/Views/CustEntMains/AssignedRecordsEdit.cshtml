@@ -1,4 +1,6 @@
-﻿
+﻿@model JobsV1.Models.CustEntAssign
+
+
 <!-- Add Contact Modal -->
 <div class="modal fade" id="recordEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -31,7 +33,6 @@
                         <div class="form-group">
                             <b class = "control-label col-md-2" > Assigned</b> 
                             <div class="col-md-10">
-
                                 @Html.DropDownList("Assigned", null, htmlAttributes: new { @class = "form-control" , @id = "AREdit-Assigned" })
                             </div>
                         </div>
@@ -47,7 +48,6 @@
                         <div class="form-group hidden">
                             <b class="control-label col-md-2"> Company </b> 
                             <div class="col-md-10">
-                               
                                 @Html.DropDownList("CustEntMainId", null, htmlAttributes: new { @class = "form-control", @id = "AREdit-Company" })
                             </div>
                         </div>
@@ -66,26 +66,24 @@
 <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
 @Scripts.Render("~/bundles/jqueryval")
 
-<script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
 <script type="text/javascript" src="~/Scripts/Job/CustEntRecords.js"></script>
 
 <script>
-
-    //console.log(moment(new Date()).format("MM/DD/YYYY hh:mm:ss"));
-    //$('#ARCreate-DateValue').val(moment(new Date()).format("MM/DD/YYYY hh:mm:ss"));
-
-
 
     //Edit Assigned Record
     function ajax_EditRecord() {
         //console.log($("#ARCreate-Company").find(":selected").val());
         //build json object
         var data = {
-            id: 9,
+            id: $("#AREdit-Id").val(),
+            CompanyId: $("#AREdit-Company").find(":selected").val(),
             AssignedTo: $("#AREdit-Assigned").val(),
-            Remarks: $("#AREdit-Remarks").val(),
-            CompanyId: 2,
-            Date: $("#AREdit-DateValue").val()
+            Date: $("#AREdit-DateValue").val(),
+            Remarks: $("#AREdit-Remarks").val()
         };
 
         console.log(data);
@@ -103,7 +101,7 @@
             },
             error: function (data) {
                 // console.log("ERROR");
-                console.log(data);
+                //console.log(data);
                 location.reload();
             }
         });

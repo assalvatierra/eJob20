@@ -42,12 +42,12 @@
                 <a href='tel:@Html.DisplayFor(modelItem => item.Contact1)'> @Html.DisplayFor(modelItem => item.Contact2) </a>
             </dd>
             <dd>
+                <a id="catbtn" data-toggle="modal" data-target="#companyViewModal" style="margin-bottom:10px;">Add </a> |
                 <a id="catbtn" data-toggle="modal" data-target="#companyEditModal" onclick="editFillCompany(@item.Id ,@item.Id, '@ViewBag.custposition')" style="margin-bottom:10px;">Edit</a> |
                  @Html.ActionLink("Details", "Details", "CustEntMains", new { id = item.Id }, null)
             </dd>
         }
         <dd>
-            <a id="catbtn" data-toggle="modal" data-target="#companyViewModal" style="margin-bottom:10px;">Add Company</a> |
             <a id="catbtn" data-toggle="modal" data-target="#companyPrevListModal" style="margin-bottom:10px;">Company History</a>
         </dd>
     </dl>

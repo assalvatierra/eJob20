@@ -16,9 +16,13 @@
 <p>
     Status:
     <span>
-        <span id="ACTIVE" class="status-link status-active"> Active   </span> |
-        <span id="INACTIVE" class="status-link"> Inactive </span> |
-        <span id="BAD" class="status-link"> Bad      </span> |
+        <span id="PRI" class="status-link status-active"> Priority   </span> |
+        <span id="ACC" class="status-link"> Accredited   </span> |
+        <span id="AOP" class="status-link"> Accreditation on Process   </span> |
+        <span id="BOT" class="status-link "> Billing/Terms   </span> |
+        <span id="ACT" class="status-link"> Active </span> |
+        @*<span id="INC" class="status-link"> Inactive </span> |*@
+        @*<span id="BAD" class="status-link"> Bad      </span> |*@
         <span id="ALL" class="status-link"> All      </span>
     </span>
 </p>
@@ -28,13 +32,11 @@
         <input class="form-control search-cat" id="srch-field" type="search"  />
     </div>
     <div>
-        <select class="form-control search-field" id="srch-category" >
-            @*<option value="All">All</option>*@
-            <option value="Procurement">Procurement</option>
+        <select class="form-control search-field" id="srch-category" style="width:150px;" >
+            <option value="Company">Company Name</option>
             <option value="City">City</option>
-            <option value="Company Name">Company Name</option>
             <option value="Category">Category</option>
-            <option value="Contact Person">Contact Person</option>
+            <option value="Contact">Contact Person</option>
         </select>
     </div>
     <div>
@@ -44,10 +46,13 @@
 <table class="js-sort-table table" id="company-Table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Website)
+            Code
+        </th>
+        <th>
+            Website
         </th>
         <th>
             City
@@ -65,7 +70,7 @@
             Position
         </th>
         <th>
-            Mobile #
+            Mobile # <br /> Email
         </th>
         <th>
             Assigned To

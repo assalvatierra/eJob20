@@ -11,7 +11,7 @@
 
                 <div class="list-group" id="categorylist">
 
-                    @foreach (var docs in ViewBag.Documents as IEnumerable<JobsV1.Models.Document>)
+                    @foreach (var docs in ViewBag.Documents as IEnumerable<JobsV1.Models.SupDocument>)
                     {
                         <a href="@Url.Action("AddDocuments", "Suppliers", new { docId = docs.Id, supId = ViewBag.SupplierId},null)" class="list-group-item">
                             @Html.DisplayFor(modelItem => docs.Description)

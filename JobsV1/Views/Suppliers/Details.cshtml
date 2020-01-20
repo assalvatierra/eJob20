@@ -18,7 +18,6 @@
         <hr />
         <h3>@Model.Name  <span id="status-companyName"> @Model.Status </span> </h3>
 
-
         <p> @Html.ActionLink("< View History >", "Records", "SupplierActivities", new { id = Model.Id }, null) </p>
         <p> <b>Website: </b> @Model.Website </p>
         <p> <b>Tel: </b>@Model.Contact1 </p>
@@ -58,7 +57,7 @@
                     <td></td>
                     <td>
                         @item.InvItem.Description -
-                        <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')">Add Price </a> |
+                        <a href="#" id="catbtn" data-toggle="modal" data-target="#createInvRate" onclick="AddRateInitial(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Add Price </a> |
                         <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>
                     </td>
                 </tr>
@@ -78,12 +77,12 @@
         <div>
            @foreach (var doc in ViewBag.supDocuments as IEnumerable<JobsV1.Models.SupplierDocument>)
            {
-                <p> @doc.Document.Description.ToString() &nbsp; 
+                <p> @doc.SupDocument.Description.ToString() &nbsp; 
                     @Html.ActionLink("Remove", "RemoveSupDocument", new { id = doc.Id })
                 </p>
            }
         </div>
-        <a href="#" id="catbtn" class="btn btn-default" data-toggle="modal" data-target="#createDocuments">Edit</a>
+        <a href="#" id="catbtn"  data-toggle="modal" data-target="#createDocuments">Edit</a>
     </div>
 
 </div>
@@ -140,16 +139,16 @@
 @{Html.RenderPartial("InvItemsPartial", (IEnumerable<JobsV1.Models.SupplierInvItem>)ViewBag.InvItems,
                 new ViewDataDictionary { { "SupplierId", Model.Id } , { "Model.Id", Model.Id },
                 { "SupplierName", ViewBag.SupplierName } , { "ItemList", ViewBag.ItemList }, { "UnitList", ViewBag.UnitList } });}
-            
+        
 <!-- Prereq Scripts -->
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
-
+        
 @{ Html.RenderPartial("CreateSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
 @{ Html.RenderPartial("EditSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
 @{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "SupplierId", ViewBag.SupplierId }, { "Documents", ViewBag.Documents } }); }
 
 <script>
-         
+    
     //display confirmation message for removal of contact
     function ConfirmRemoveContact(id, name) {
         var res = confirm("Do you want to remove " + name + " ?")
@@ -187,8 +186,6 @@
         });
     }
 
-
-
     function filterStatus(status){
         switch(status){
             case "ACT":
@@ -217,6 +214,7 @@
 
         $("#status-companyName").text(" ( " + status + " ) ");
         $("#status-Details").text(" " + status + " ");
+
     }
 
     $(document).ready(initial());
