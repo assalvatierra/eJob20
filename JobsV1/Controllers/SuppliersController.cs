@@ -110,10 +110,18 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Suppliers.Add(supplier);
-                db.SaveChanges();
+                if (HaveNameDuplicate(supplier.Name))
+                {
+                    ViewBag.Msg = "Supplier Name already exist.";
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    db.Suppliers.Add(supplier);
+                    db.SaveChanges();
 
-                return RedirectToAction("CreateSupContactForm", new { id = supplier.Id });
+                    return RedirectToAction("CreateSupContactForm", new { id = supplier.Id });
+                }
                 //return RedirectToAction("Index");
             }
 
@@ -125,6 +133,51 @@ namespace JobsV1.Controllers
             //return View(supplier);
             return RedirectToAction("Details", new { id = supplier.Id });
         }
+
+        // AJAX
+        // GET: Suppliers/CreateSupplier
+        public ActionResult CreateSupplier()
+        {
+            ViewBag.CityId = new SelectList(db.Cities, "Id", "Name");
+            ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name",175);
+
+            return View();
+        }
+
+        public string CreateSupplierSubmit( string Name, string Contact1, string Contact2, string Contact3, string Email, string Details,
+            string CityId, string SupplierTypeId, string Status, string Address, string CountryId, string Website, string Code)
+        {
+            try
+            {
+
+                Supplier supplier = new Supplier();
+                supplier.Name = Name;
+                supplier.Contact1 = Contact1;
+                supplier.Contact2 = Contact2;
+                supplier.Contact3 = Contact3;
+                supplier.Email = Email;
+                supplier.Details = Details;
+                supplier.CityId = Int32.Parse(CityId);
+                supplier.SupplierTypeId = Int32.Parse(SupplierTypeId);
+                supplier.Status = Status;
+                supplier.Address = Address;
+                supplier.CountryId = Int32.Parse(CountryId);
+                supplier.Website = Website;
+                supplier.Code = Code;
+
+                db.Suppliers.Add(supplier);
+                db.SaveChanges();
+
+                return supplier.Id.ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
 
         // GET: Suppliers/Edit/5
         public ActionResult Edit(int? id)
@@ -202,6 +255,23 @@ namespace JobsV1.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //check if supplierName have duplicate
+        public bool HaveNameDuplicate(string supName)
+        {
+            var supDuplicate = db.Suppliers.Where(s => supName.Contains(s.Name)).ToList().Select(s=>s.Id);
+
+            if (supDuplicate.Count() != 0)
+            {
+                //has duplicate
+                return true;
+            }
+            else
+            {
+                //no duplicate
+                return false;
+            }
         }
 
         #region InvItems

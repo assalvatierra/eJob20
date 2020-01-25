@@ -14,6 +14,8 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbclasses = new DBClasses();
+        private SupplierClass supdb = new SupplierClass();
+        private DateClass date = new DateClass();
 
         // GET: SupplierActivities/{index}
         public ActionResult Index()
@@ -25,12 +27,17 @@ namespace JobsV1.Controllers
         // GET: SupplierActivities/{index}
         public ActionResult Records(int id)
         {
-            var supplierActivities = db.SupplierActivities.Include(s => s.Supplier);
+            var supplierActivities = db.SupplierActivities.Where(s=>s.SupplierId == id).Include(s => s.Supplier).ToList();
 
             ViewBag.SupplierName = db.Suppliers.Find(id).Name;
             ViewBag.Id = id;
 
-            return View(supplierActivities.ToList());
+            foreach (var act in supplierActivities)
+            {
+                act.Assigned = supdb.removeEmailString(act.Assigned);
+            }
+
+            return View(supplierActivities);
         }
 
         // GET: SupplierActivities/Details/5
@@ -89,6 +96,7 @@ namespace JobsV1.Controllers
             }
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
+            ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
         }
 
@@ -123,6 +131,7 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
         }
 
@@ -153,7 +162,11 @@ namespace JobsV1.Controllers
         {
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", id);
-            return View();
+
+            SupplierActivity supAct = new SupplierActivity();
+            supAct.DtActivity = date.GetCurrentDateTime();
+
+            return View(supAct);
         }
 
         // POST: SupplierActivities/Create

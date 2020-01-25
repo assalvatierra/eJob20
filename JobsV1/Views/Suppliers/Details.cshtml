@@ -16,7 +16,7 @@
         </p>
 
         <hr />
-        <h3>@Model.Name  <span id="status-companyName"> @Model.Status </span> </h3>
+        <h3>@Model.Name  <span id="status-companyName">@Model.Status</span> </h3>
 
         <p> @Html.ActionLink("< View History >", "Records", "SupplierActivities", new { id = Model.Id }, null) </p>
         <p> <b>Website: </b> @Model.Website </p>
@@ -145,7 +145,7 @@
         
 @{ Html.RenderPartial("CreateSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
 @{ Html.RenderPartial("EditSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
-@{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "SupplierId", ViewBag.SupplierId }, { "Documents", ViewBag.Documents } }); }
+@{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "Documents", ViewBag.Documents } }); }
 
 <script>
     
@@ -203,6 +203,9 @@
             case "ACC":
                 return "Accredited";
                 break;
+            case "PRI":
+                return "PRIORITY";
+                break;
             default:
                 return "Active";
                 break;
@@ -211,7 +214,8 @@
 
     function initial() {
         var status = filterStatus($("#status-companyName").text());
-
+        //console.log("status: " + $("#status-companyName").text());
+        //console.log("filtered status: " + status);
         $("#status-companyName").text(" ( " + status + " ) ");
         $("#status-Details").text(" " + status + " ");
 

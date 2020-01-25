@@ -1330,14 +1330,17 @@ order by x.jobid
                 db.JobServices.Add(jobServices);
                 db.SaveChanges();
 
-                //set initial unit as unassigned
-                int UnassignedId = db.InvItems.Where(u => u.Description == "UnAssigned").FirstOrDefault().Id;
-                AddUnassignedItem(UnassignedId, jobServices.Id);
+                try { 
+                    //set initial unit as unassigned
+                    int UnassignedId = db.InvItems.Where(u => u.Description == "UnAssigned").FirstOrDefault().Id;
+                    AddUnassignedItem(UnassignedId, jobServices.Id);
+                }
+                catch (Exception ex)
+                { }
             }
 
             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
             var SuppliersActive = db.Suppliers.Where(s => s.Status != "INC").ToList();
-
 
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobServices.JobMainId);
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name", jobServices.SupplierId);

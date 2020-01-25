@@ -2,11 +2,20 @@
 
 
 //global variables
-var status = "ACT";
+var status = "ALL";
 var viewType = "SIMPLE";
 
 //load initial on page ready
-$(document).ready(ajax_loadContent());
+$(document).ready( 
+    initial()
+    );
+
+function initial() {
+    status = "ALL";
+    $('#ALL').css("color", "black");
+    ajax_loadContent();
+
+}
 
 //update status value on click
 //change color of the text
@@ -76,14 +85,14 @@ function ajax_loadContent() {
 
     //build json object
     var data = {
-        search: query,
+        search: query.trim(),
         category: srchCat
     };
 
     //console.log(query);
     //request data from server using ajax call
     $.ajax({
-        url: '/Suppliers/TableResult?search=' + query + '&category=' + srchCat + '&status=' + status,
+        url: '/Suppliers/TableResult?search=' + query.trim() + '&category=' + srchCat + '&status=' + status,
         type: "GET",
         data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
@@ -94,7 +103,7 @@ function ajax_loadContent() {
         error: function (data) {
            // console.log("ERROR");
            console.log(data);
-            switchViews(data)
+           switchViews(data)
         }
     });
 }
@@ -107,14 +116,14 @@ function ajax_loadProduct() {
 
     //build json object
     var data = {
-        search: query,
+        search: query.trim(),
         category: srchCat
     };
 
     //console.log(query);
     //request data from server using ajax call
     $.ajax({
-        url: '/Suppliers/TableResultProducts?search=' + query + '&category=' + srchCat + '&status=' + status,
+        url: '/Suppliers/TableResultProducts?search=' + query.trim() + '&category=' + srchCat + '&status=' + status,
         type: "GET",
         data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
@@ -191,6 +200,7 @@ function SimpleTable(data) {
                 content += " " + name + "</br> ";
             }
         }
+
         content += "</td> ";
 
         content += "<td> ";
@@ -222,9 +232,9 @@ function SimpleTable(data) {
         content += "</td>";
 
         content += "<td>" +
-            "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
-            "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvProduct</a>  | " +
-            "<a href='SupplierActivities/Records/" + temp[x]["Id"] + "'>History</a>  " +
+            "<a href='/Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
+            "<a href='/Suppliers/InvItems/" + temp[x]["Id"] + "'>InvProduct</a>  | " +
+            "<a href='/SupplierActivities/Records/" + temp[x]["Id"] + "'>History</a>  " +
             "</td>";
         content += "</tr>";
 
@@ -247,6 +257,7 @@ function ProductsTable(data) {
     for (var x = 0; x < temp.length; x++) {
         var product = temp[x]["Name"].toString();
         var supplier = temp[x]["Supplier"] != null ? temp[x]["Supplier"] : "--";
+        var supplierId = temp[x]["SupplierId"] != null ? temp[x]["SupplierId"] : "--";
 
         var rate = temp[x]["ItemRate"] != null ? temp[x]["ItemRate"] : "--";
         var unit = temp[x]["Unit"] != null ? temp[x]["Unit"] : "--";
@@ -254,23 +265,26 @@ function ProductsTable(data) {
         var dtValidFrom = temp[x]["DtValidFrom"] != null ? temp[x]["DtValidFrom"] : "--";
         var dtValidTo = temp[x]["DtValidTo"] != null ? temp[x]["DtValidTo"] : "--";
         var remarks = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
+        
+        //exclude product without rate
+        if (rate != "--") {
+            content = "<tr>";
+            content += "<td>" + product + "</td>";
+            content += "<td>" + supplier + "</td>";
+            content += "<td>" + rate + " " + unit + "</td>";
+            content += "<td>" + dtEntered + "</td>";
+            content += "<td>" + dtValidFrom + " - " + dtValidTo + "</td>";
+            content += "<td>" + remarks + "</td>";
 
-        content = "<tr>";
-        content += "<td>" + product + "</td>";
-        content += "<td>" + supplier + "</td>";
-        content += "<td>" + rate + " " + unit + "</td>";
-        content += "<td>" + dtEntered + "</td>";
-        content += "<td>" + dtValidFrom + " - " + dtValidTo + "</td>";
-        content += "<td>" + remarks + "</td>";
-
-        content += "<td>" +
-            "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
-            "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvProduct</a>  | " +
-            "<a href='Suppliers/'>History</a>  " +
-            "</td>";
-        content += "</tr>";
-
-        $(content).appendTo("#prod-Table");
+            content += "<td>" +
+                "<a href='/Suppliers/Details/" + supplierId + "'>Details</a> | " +
+                "<a href='/Suppliers/InvItems/" + supplierId + "'>InvProduct</a>  | " +
+                "<a href='/SupplierActivities/Records/" + supplierId + "'>History</a>  " +
+                "</td>";
+            content += "</tr>";
+        
+            $(content).appendTo("#prod-Table");
+        }
     }
 }
 

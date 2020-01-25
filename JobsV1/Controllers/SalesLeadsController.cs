@@ -54,14 +54,12 @@ namespace JobsV1.Controllers
                         .Include(s => s.SalesLeadCategories)
                         .Include(s => s.SalesStatus).OrderBy(s => s.Date)
                         .ToList();
-
-
+            
                 //var leads = db.SalesLeads.Contains(companyLeads);
 
                 //salesLeads = salesLeads.Where(s => s.SalesLeadCompanies.Except(companyLeads) != null).ToList();
 
                 //salesLeads = salesLeads.Where(s => companyLeads.Contains(s.Id)).ToList();
-          
 
             switch (sortid) {
                 case 1://approved

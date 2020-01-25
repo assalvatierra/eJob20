@@ -42,6 +42,7 @@ namespace JobsV1.Controllers
             ViewBag.SalesActCodeId = new SelectList(db.SalesActCodes, "Id", "Name");
             ViewBag.SalesLeadId = new SelectList(db.SalesLeads, "Id", "Details");
             ViewBag.SalesActStatusId = new SelectList(db.SalesActStatus, "Id", "Name");
+
             return View();
         }
 
