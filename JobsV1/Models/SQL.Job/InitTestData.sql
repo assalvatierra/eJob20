@@ -201,8 +201,7 @@ SELECT * FROM
 	 Items = SUBSTRING( (SELECT (SELECT ii.Description  as [text()] FROM InvItems ii WHERE sii.InvItemId = ii.Id FOR XML PATH('')) + ', '
 		FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId FOR XML PATH('')),1,100 )
 	 FROM Suppliers sup ) as ItemList
-
- WHERE ItemList.Items LIKE '%Honda%'
+ WHERE (ItemList.Status = 'ACT' OR ItemList.Status = 'ACC') AND ItemList.Name LIKE '%Steels%'
 
 
  
@@ -235,6 +234,7 @@ SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c
                  FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) ,
                  ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId) 
                  FROM CustEntMains cem;
+
 SELECT * FROM (
 	SELECT * ,
     Country = (SELECT Name FROM Countries cty WHERE sup.CountryId = cty.Id ),
@@ -283,31 +283,29 @@ SELECT Id,Name, Contact1, Contact2 , Status,
 select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());;
     
 SELECT * FROM (
-SELECT  sii.Id, ii.Description as Name, sup.Name as Supplier, sii.SupplierId, sir.ItemRate, 
+SELECT  sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id )
+	, sii.SupplierId, sir.ItemRate, 
 	su.Unit, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status
 	FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id
 	LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId
 	LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id
 	LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id ) as prods
-	WHERE prods.Name LIKE '%Steel%' 
+	WHERE prods.Name LIKE '%Steel Pipe%' 
 	ORDER BY prods.ItemRate ASC
 
-
+-- Company 
 SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
                  City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
                  
-				 ContactPerson = (SELECT TOP 1 Name = (SELECT Name 
-                 FROM Customers cust WHERE cust.Id = ce.CustomerId) FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId  Order By ce.Id DESC ), 
-                 
-				 Mobile1 = (SELECT TOP 1 Contact = (SELECT cust.Contact2 FROM Customers cust WHERE cust.Id = ce.CustomerId) 
-	             FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId Order By ce.Id DESC), 
-				 
-				 ContactPersonEmail = (SELECT TOP 1 Email = (SELECT cust.Email FROM Customers cust WHERE cust.Id = ce.CustomerId) 
-	             FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId Order By ce.Id DESC), 
-                 
-				 ContactPersonPos = (SELECT TOP 1 Position FROM CustEntities ce WHERE cem.Id = ce.CustEntMainId ORDER BY ce.Id DESC)
-                 FROM CustEntMains cem ) as com 
-				 WHERE com.Name like '%Acer%'
+				 cust.Name as ContactName, cust.Email as ContactEmail, cust.Contact1 as ContactNumber,
+				 cet.Position 
+
+                 FROM CustEntMains cem 
+				 LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id 
+				 LEFT JOIN Customers cust ON cust.Id = cet.CustomerId 
+				 ) as com 
+
+				 WHERE com.ContactName like '%Lebron%'
 --Sales Lead
 SELECT sl.*, slc.CustEntMainId FROM SalesLeads sl
 	LEFT JOIN SalesLeadCompanies slc ON sl.Id = slc.SalesLeadId

@@ -18,6 +18,7 @@ namespace JobsV1.Models
         public SupDocument()
         {
             this.SupplierDocuments = new HashSet<SupplierDocument>();
+            this.CustEntDocuments = new HashSet<CustEntDocuments>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace JobsV1.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplierDocument> SupplierDocuments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustEntDocuments> CustEntDocuments { get; set; }
     }
 }

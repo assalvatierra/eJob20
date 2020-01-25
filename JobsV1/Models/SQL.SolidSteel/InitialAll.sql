@@ -21,7 +21,7 @@ insert into Customers([Name],[Email],[Contact1],[Contact2],[Remarks],[Status]) v
 	('Lebron James','lebron.james@gmail.com','09654-987-9898','998-3321','','ACT'),
 	('Stephen Curry','stephen.curry@gmail.com','0915-225-1221','','','ACT'),
 	('Kevin Durant','Kevin.Durant@gmail.com','0954-321-65454','084-9898','','ACT');
-	
+		
 insert Into Destinations([Description],[Remarks],[CityId]) 
 values 
 ('Eden Nature Park','','1 '),
@@ -342,9 +342,11 @@ insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address
 	values('American Steels CO., INC','(082) 223-6659','(082 223-6650)','0912-564-9877','americansteel.com','Manila', '','amsteels.supply@gmail.com','1','1','ACT',175,'SUP02'),
 	      ('Green Steels Industries LTD','(082) 333-8845','(082 333-8840)','0915-654-1125','greensteels.com','Davao City', '','green.steels@gmail.com','1','1','ACT',175,'SUP03'),
 	      ('Asia Metals and Steels INC','(0086) 11236548','(0086 11238840)','-','asia-metals-steels.com','Davao City', '','asia.metals.sales@gmail.com','1','1','ACT',175,'SUP04');
+
 -- ----------------------------
 -- Supplier Items / Products
 -- ----------------------------
+
 insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values 
 	('Default','1','Item by supplier','Supplier','ACT');
 
@@ -370,6 +372,12 @@ values (2,'John Doe','0995-987-4561','(082) 333 6588','johndoe@gmail.com','','',
 	   (3,'Dalton Gray','0912-112-5477','(082) 235 1125','daltongray@gmail.com','','','','','','Sales','Sales',1),
 	   (3,'Elise Rhodes','0909-545-1335','(082) 235 1112','eliserhodes@gmail.com','','','','','','Procurement','Accounting',1),
 	   (4,'Mike De Guzman','0915-587-9512','(082) 545 3212','mike.dg@gmail.com','','','','','','Sales','Sales',1);
+
+insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount])
+values ('CO-001','1/25/2020 4:17:58 PM','johndoe@gmail.com','Meeting',2,2000),
+	   ('CO-001','1/26/2020 3:30:00 PM','mark@gmail.com','Sales Meeting',2,2000),
+	   ('CO-001','1/12/2020 1:30:00 PM','mike@gmail.com','Sales Meeting',3,2000),
+	   ('CO-001','1/21/2020 1:00:20 PM','johndoe@gmail.com','Sales Meeting',4,2000);
 
 insert into SupDocuments([Description]) values 
 	   ('Business Registration'),('Tax Registration'), ('Import Export Registration');
@@ -573,6 +581,12 @@ values	(1,3),(2,2),
 insert into CustEntCats(CustEntMainId,CustCategoryId)
 values (1,2),(2,3),(3,5),(4,2),(5,1); 
 
+insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks)
+values	(1,'1/20/2020','mark@gmail.com','building a project', 'SO-002',500000,'Sales','Meeting Lunch - Sales Activity'),
+		(1,'2/05/2020','mark@gmail.com','building a project', 'SO-002',500000,'Sales','Presentation'),
+		(2,'1/28/2020','mike@gmail.com','Supplier Materials', 'SO-005',250000,'Sales','Meeting'),
+		(3,'1/21/2020','john@gmail.com','Davao Bridge', 'SO-009',750000,'Sales','Initial Meeting');
+
 update CustCategories set iconPath = 'Images/Customers/Category/star-filled-40.png' where Id = 1; 
 update CustCategories set iconPath = 'Images/Customers/Category/Active-30.png' where Id = 2; 
 update CustCategories set iconPath = 'Images/Customers/Category//suspended-64.png' where Id = 3; 
@@ -592,11 +606,11 @@ values ('Van (10 seater)','Gl Grandia'    ,1,1,4),
 	   ('Pickup'         ,'Pickups'       ,1,0,6);
 
 insert into CarImages ( CarUnitId, ImgUrl, Remarks, SysCode)
-values (1,'glgrandia-car-rental.png'     ,'','MAIN'),
-       (2,'nissan-premium-car-rental.png','','MAIN'),
-       (3,'ford-everest-car-rental.png'  ,'','MAIN'),
-       (4,'toyota-innova-car-rental.png' ,'','MAIN'),
-       (5,'honda-city-car-rental.png'    ,'','MAIN'),
+values (1,'glgrandia/Toyota-Grandia-side.jpg'     ,'','MAIN'),
+       (2,'nissanPremium/Nissan-Premium-2018.jpg','','MAIN'),
+       (3,'ford/ford-everest-front.jpg'  ,'','MAIN'),
+       (4,'innova/toyota-innova.jpg' ,'','MAIN'),
+       (5,'hondacity/honda-city-front.jpg'    ,'','MAIN'),
        (6,'pickup-car-rental.png'        ,'','MAIN');
 	   
 insert into CarViewPages (CarUnitId, Viewname)

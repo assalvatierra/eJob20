@@ -117,6 +117,7 @@
     <EntitySet Name="SupDocuments" EntityType="JobDB.Store.SupDocuments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierDocuments" EntityType="JobDB.Store.SupplierDocuments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntActivities" EntityType="JobDB.Store.CustEntActivities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntDocuments" EntityType="JobDB.Store.CustEntDocuments" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -561,6 +562,14 @@
       <End Role="SupDocument" EntitySet="SupDocuments" />
       <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
     </AssociationSet>
+    <AssociationSet Name="CustEntDocumentsSupDocument" Association="JobDB.Store.CustEntDocumentsSupDocument">
+      <End Role="CustEntDocuments" EntitySet="CustEntDocuments" />
+      <End Role="SupDocument" EntitySet="SupDocuments" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntMainCustEntDocuments" Association="JobDB.Store.CustEntMainCustEntDocuments">
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+      <End Role="CustEntDocuments" EntitySet="CustEntDocuments" />
+    </AssociationSet>
     <AssociationSet Name="CustEntMainCustEntActivity" Association="JobDB.Store.CustEntMainCustEntActivity">
       <End Role="CustEntMain" EntitySet="CustEntMains" />
       <End Role="CustEntActivity" EntitySet="CustEntActivities" />
@@ -592,9 +601,9 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="Contact1" Type="nvarchar" Nullable="true" MaxLength="20" />
-    <Property Name="Contact2" Type="nvarchar" Nullable="true" MaxLength="20" />
-    <Property Name="Contact3" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Contact1" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="Contact2" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="Contact3" Type="nvarchar" Nullable="true" MaxLength="30" />
     <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="Details" Type="nvarchar" Nullable="true" MaxLength="250" />
     <Property Name="CityId" Type="int" Nullable="false" />
@@ -1616,10 +1625,10 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Mobile" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Landline" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="SkypeId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ViberId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Mobile" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="Landline" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="SkypeId" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="ViberId" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
     <Property Name="WhatsApp" Type="nvarchar" Nullable="false" MaxLength="80" />
@@ -1751,11 +1760,19 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="Assigned" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="ProjectName" Type="nvarchar" Nullable="false" MaxLength="80" />
-    <Property Name="SalesCode" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="ProjectName" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="SalesCode" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Amount" Type="decimal" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntDocuments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SupDocumentId" Type="int" Nullable="false" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
@@ -3090,6 +3107,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustEntDocumentsSupDocument">
+    <End Role="CustEntDocuments" Type="JobDB.Store.CustEntDocuments" Multiplicity="*" />
+    <End Role="SupDocument" Type="JobDB.Store.SupDocuments" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SupDocument">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntDocuments">
+        <PropertyRef Name="SupDocumentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustEntMainCustEntDocuments">
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <End Role="CustEntDocuments" Type="JobDB.Store.CustEntDocuments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntDocuments">
+        <PropertyRef Name="CustEntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="CustEntMainCustEntActivity">
     <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
     <End Role="CustEntActivity" Type="JobDB.Store.CustEntActivities" Multiplicity="*" />
@@ -3662,6 +3703,15 @@
             <End Role="SupplierDocument" EntitySet="SupplierDocuments" />
           </AssociationSet>
           <EntitySet Name="CustEntActivities" EntityType="JobDB.CustEntActivity" />
+          <EntitySet Name="CustEntDocuments" EntityType="JobDB.CustEntDocuments" />
+          <AssociationSet Name="CustEntDocumentsSupDocument" Association="JobDB.CustEntDocumentsSupDocument">
+            <End Role="CustEntDocuments" EntitySet="CustEntDocuments" />
+            <End Role="SupDocument" EntitySet="SupDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="CustEntMainCustEntDocuments" Association="JobDB.CustEntMainCustEntDocuments">
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+            <End Role="CustEntDocuments" EntitySet="CustEntDocuments" />
+          </AssociationSet>
           <AssociationSet Name="CustEntMainCustEntActivity" Association="JobDB.CustEntMainCustEntActivity">
             <End Role="CustEntMain" EntitySet="CustEntMains" />
             <End Role="CustEntActivity" EntitySet="CustEntActivities" />
@@ -3707,9 +3757,9 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" />
-          <Property Name="Contact1" Type="String" Nullable="true" MaxLength="20" />
-          <Property Name="Contact2" Type="String" Nullable="true" MaxLength="20" />
-          <Property Name="Contact3" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="Contact1" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="Contact2" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="Contact3" Type="String" Nullable="true" MaxLength="30" />
           <Property Name="Email" Type="String" Nullable="true" MaxLength="50" />
           <Property Name="Details" Type="String" Nullable="true" MaxLength="250" />
           <NavigationProperty Name="JobSuppliers" Relationship="JobDB.SupplierJobSupplier" FromRole="Supplier" ToRole="JobSupplier" />
@@ -4588,6 +4638,7 @@
           <Property Name="Mobile" Type="String" Nullable="true" />
           <NavigationProperty Name="CustEntAssigns" Relationship="JobDB.CustEntMainCustEntAssign" FromRole="CustEntMain" ToRole="CustEntAssign" />
           <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
+          <NavigationProperty Name="CustEntDocuments" Relationship="JobDB.CustEntMainCustEntDocuments" FromRole="CustEntMain" ToRole="CustEntDocuments" />
           <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntMain" ToRole="CustEntActivity" />
         </EntityType>
         <EntityType Name="SalesLead">
@@ -6073,10 +6124,10 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Mobile" Type="String" Nullable="false" />
-          <Property Name="Landline" Type="String" Nullable="false" />
-          <Property Name="SkypeId" Type="String" Nullable="false" />
-          <Property Name="ViberId" Type="String" Nullable="false" />
+          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="Landline" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="SkypeId" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="ViberId" Type="String" Nullable="false" MaxLength="40" />
           <Property Name="Remarks" Type="String" Nullable="false" />
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierContact" FromRole="SupplierContact" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
@@ -6367,6 +6418,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
           <NavigationProperty Name="SupplierDocuments" Relationship="JobDB.SupDocumentSupplierDocument" FromRole="SupDocument" ToRole="SupplierDocument" />
+          <NavigationProperty Name="CustEntDocuments" Relationship="JobDB.CustEntDocumentsSupDocument" FromRole="SupDocument" ToRole="CustEntDocuments" />
         </EntityType>
         <EntityType Name="SupplierDocument">
           <Key>
@@ -6409,14 +6461,48 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <Property Name="Assigned" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="80" />
-          <Property Name="SalesCode" Type="String" Nullable="false" MaxLength="20" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="ProjectName" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="SalesCode" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="Amount" Type="Decimal" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntMain" />
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="CustEntDocuments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="SupDocument" Relationship="JobDB.CustEntDocumentsSupDocument" FromRole="CustEntDocuments" ToRole="SupDocument" />
+          <Property Name="SupDocumentId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntDocuments" FromRole="CustEntDocuments" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CustEntDocumentsSupDocument">
+          <End Type="JobDB.CustEntDocuments" Role="CustEntDocuments" Multiplicity="*" />
+          <End Type="JobDB.SupDocument" Role="SupDocument" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="SupDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntDocuments">
+              <PropertyRef Name="SupDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CustEntMainCustEntDocuments">
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <End Type="JobDB.CustEntDocuments" Role="CustEntDocuments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntDocuments">
+              <PropertyRef Name="CustEntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CustEntMainCustEntActivity">
           <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
           <End Type="JobDB.CustEntActivity" Role="CustEntActivity" Multiplicity="*" />
@@ -7734,6 +7820,15 @@
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntDocuments">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntDocuments)">
+        <MappingFragment StoreEntitySet="CustEntDocuments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SupDocumentId" ColumnName="SupDocumentId" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
         </MappingFragment>
       </EntityTypeMapping>

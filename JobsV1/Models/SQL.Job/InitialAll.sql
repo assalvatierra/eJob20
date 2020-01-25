@@ -542,20 +542,23 @@ insert into CarCategories (Description, Remarks)
 values ('Rental','');
 
 insert into CarUnits ( Description, Remarks, CarCategoryId , SelfDrive, SortOrder) 
-values ('Van (10 seater)','Gl Grandia'    ,1,1,4),
+values 
 	   ('Van (14 seater)','Nissan Premium',1,1,5),
+	   ('Van (10 seater)','Gl Grandia'    ,1,1,4),
 	   ('SUV'            ,'Ford Everest'  ,1,0,3),
 	   ('MPV/AUV/MiniVan','Toyota Innova' ,1,0,2),
 	   ('Sedan'          ,'Honda City'    ,1,0,1),
-	   ('Pickup'         ,'Pickups'       ,1,0,6);
+	   ('Pickup'         ,'Pickups'       ,1,0,6),
+	   ('Van (14 seater)','GL Grandia Tourer',1,1,7);
 
 insert into CarImages ( CarUnitId, ImgUrl, Remarks, SysCode)
-values (1,'glgrandia-car-rental.png'     ,'','MAIN'),
-       (2,'nissan-premium-car-rental.png','','MAIN'),
-       (3,'ford-everest-car-rental.png'  ,'','MAIN'),
-       (4,'toyota-innova-car-rental.png' ,'','MAIN'),
-       (5,'honda-city-car-rental.png'    ,'','MAIN'),
-       (6,'pickup-car-rental.png'        ,'','MAIN');
+values (1,'glgrandia/Toyota-Grandia-side.jpg'    ,'','MAIN'),
+       (2,'nissanPremium/Nissan-Premium-2018.jpg','','MAIN'),
+       (3,'ford/ford-everest-front.jpg'			 ,'','MAIN'),
+       (4,'innova/toyota-innova.jpg'			 ,'','MAIN'),
+       (5,'hondacity/honda-city-front.jpg'       ,'','MAIN'),
+       (6,'pickup/pickup-default.jpg'            ,'','MAIN'),
+       (7,'tourer/Toyota-Grandia-Tourer-2019-side.jpg' ,'','MAIN');
 	   
 insert into CarViewPages (CarUnitId, Viewname)
 values (1,'CarDetail_van'),
@@ -563,7 +566,8 @@ values (1,'CarDetail_van'),
 	   (3,'CarDetail_suv'),
 	   (4,'CarDetail_mpv'),
 	   (5,'CarDetail_sedan'),
-	   (6,'CarDetail_pickup');
+	   (6,'CarDetail_pickup'),
+	   (7,'CarDetail_tourer');
 
 insert into CarRates (Daily,Weekly,Monthly,KmFree,KmRate,CarUnitId,OtRate)
 values (3000,2500,2250,100,5,1,300), --grandia
@@ -571,7 +575,8 @@ values (3000,2500,2250,100,5,1,300), --grandia
 	   (3000,2500,2250,100,5,3,300), --everest
 	   (2500,1800,1500,100,5,4,300), --innova
 	   (2500,1800,1500,100,5,5,300), --honda
-	   (3500,2500,2250,100,5,6,300); --pickup
+	   (3500,2500,2250,100,5,6,300), --grandia
+	   (3500,2500,2250,100,5,7,300); --tourer
 
 
 
@@ -611,6 +616,12 @@ values
 	(6, 'Pickup for Rent in Davao City, 4x4 rental, rent-a-car',
 	'Pickup 4x4 for rent in Davao City for difficult terrain or bigger luggages. Units: Mitsubishi strada 4x4, Toyota Hilux 4x4',
 	'Pickup 4x4 is best for difficult and unknown terrains. Can also use in hauling huge luggages.'
+	),
+
+	-- Nissan Premium -- 
+	(7, 'Vehicle (Nissan Urvan Tourer) for Rent in Davao City, Reliable van rental company in Davao City',
+	'Nissan Urvan Premium is comfortable 10-14 seater van for business, tour and family travel needs. Very few rent-a-car company in Davao offers this type of vehicle',
+	'Highroof van that can accommodate 14pax with individual reclining seats. No jump seats. Very few rent-a-car company in Davao offers this type of vehicle.'
 	);
 
 	Insert into CarRatePackages (Description,Remarks,DailyMeals,DailyRoom,DaysMin, Status)

@@ -98,7 +98,14 @@ namespace JobsV1.Models
             //handle status filter
             if (status != "ALL")
             {
-                sql += " WHERE ItemList.Status = '" + status + "' ";
+                if (status == "ACT")
+                { 
+                    sql += " WHERE (ItemList.Status = 'ACT' OR ItemList.Status = 'ACC' OR ItemList.Status = 'AOP') ";
+                }
+                else
+                {
+                    sql += " WHERE ItemList.Status = '" + status + "' ";
+                }
             }
 
             //handle status filter
@@ -113,29 +120,30 @@ namespace JobsV1.Models
                 //handle status filter
                 if (status != "ALL")
                 {
-                    switch (category)
-                    {
-                        case "COUNTRY":
-                            sql += " AND ItemList.Country Like '%" + search + "%' ";
-                            break;
-                        case "CATEGORY":
-                            sql += " AND ItemList.supType Like '%" + search + "%' ";
-                            break;
-                        case "SUPPLIER":
-                            sql += " AND ItemList.Name Like '%" + search + "%' ";
-                            break;
-                        case "PRODUCT":
-                            sql += " AND ItemList.Items Like '%" + search + "%' ";
-                            break;
-                        default:
-                            sql += " AND ItemList.Name Like '%" + search + "%' OR ItemList.Items Like '%" + search + "%'  ";
-                            break;
-                    }
-
+                    sql += " AND ";
                 }
                 else
                 {
-                    sql += " WHERE ItemList.Name Like '%" + search + "%' OR  ItemList.Items Like '%" + search + "%' ";
+                    sql += " WHERE ";
+                }
+
+                switch (category)
+                {
+                    case "COUNTRY":
+                        sql += " ItemList.Country Like '%" + search + "%' ";
+                        break;
+                    case "CATEGORY":
+                        sql += " ItemList.supType Like '%" + search + "%' ";
+                        break;
+                    case "SUPPLIER":
+                        sql += " ItemList.Name Like '%" + search + "%' ";
+                        break;
+                    case "PRODUCT":
+                        sql += " ItemList.Items Like '%" + search + "%' ";
+                        break;
+                    default:
+                        sql += " (ItemList.Name Like '%" + search + "%' OR ItemList.Items Like '%" + search + "%')  ";
+                        break;
                 }
             }
 
@@ -234,7 +242,8 @@ namespace JobsV1.Models
             
             //sql query with comma separated item list
             string sql =
-                "SELECT * FROM (SELECT sii.Id, ii.Description as Name, sup.Name as Supplier, sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status " +
+                "SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id )," +
+                "sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status " +
                 "FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id "+
                 "LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId "+
                 "LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id "+
@@ -377,5 +386,14 @@ namespace JobsV1.Models
 
             return suppliers;
         }
+
+
+        public string removeEmailString(string input)
+        {
+            char ch = '@';
+            int idx = input.IndexOf(ch);
+            return input.Substring(0, idx);
+        }
+
     }
 }

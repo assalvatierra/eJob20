@@ -257,7 +257,7 @@
         <EntityTypeShape EntityType="JobDB.SupplierContactStatus" Width="1.5" PointX="50" PointY="8.25" />
         <AssociationConnector Association="JobDB.SupplierContactStatusSupplierContact" />
         <AssociationConnector Association="JobDB.SupplierCountry" />
-        <EntityTypeShape EntityType="JobDB.CustEntAssign" Width="1.5" PointX="9.25" PointY="2.25" />
+        <EntityTypeShape EntityType="JobDB.CustEntAssign" Width="1.5" PointX="9.125" PointY="3.25" />
         <AssociationConnector Association="JobDB.CustEntMainCustEntAssign" />
         <EntityTypeShape EntityType="JobDB.SupplierActivity" Width="1.5" PointX="40.375" PointY="3.125" />
         <AssociationConnector Association="JobDB.SupplierSupplierActivity" />
@@ -266,12 +266,16 @@
         <AssociationConnector Association="JobDB.SupplierSupplierDocument" />
         <AssociationConnector Association="JobDB.SupDocumentSupplierDocument" />
         <EntityTypeShape EntityType="JobDB.CustEntActivity" Width="1.5" PointX="17.125" PointY="1.5" />
+        <EntityTypeShape EntityType="JobDB.CustEntDocuments" Width="1.5" PointX="9.125" PointY="0.5" />
+        <AssociationConnector Association="JobDB.CustEntDocumentsSupDocument" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="JobDB.CustEntMainCustEntDocuments" />
         <AssociationConnector Association="JobDB.CustEntMainCustEntActivity" ManuallyRouted="true" >
-          <ConnectorPoint PointX="13" PointY="6.8624479166666656" />
-          <ConnectorPoint PointX="14.5571875" PointY="6.8624479166666656" />
-          <ConnectorPoint PointX="14.5571875" PointY="6.3844389322050432" />
-          <ConnectorPoint PointX="17.71875" PointY="6.3844389322050432" />
-          <ConnectorPoint PointX="17.71875" PointY="4.4417936197916656" />
+          <ConnectorPoint PointX="13" PointY="6.8865364583333317" />
+          <ConnectorPoint PointX="14.526250000000001" PointY="6.8865364583333317" />
+          <ConnectorPoint PointX="14.526250000000001" PointY="6.3604950658894115" />
+          <ConnectorPoint PointX="17.625" PointY="6.3604950658894115" />
+          <ConnectorPoint PointX="17.625" PointY="4.4417936197916656" />
         </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>
