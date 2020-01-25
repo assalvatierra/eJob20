@@ -14,6 +14,8 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbclasses = new DBClasses();
+        private DateClass date = new DateClass();
+        private CompanyClass comdb = new CompanyClass();
 
         private List<SelectListItem> ActivityStatus = new List<SelectListItem> {
                 new SelectListItem { Value = "Others", Text = "Others" },
@@ -33,11 +35,17 @@ namespace JobsV1.Controllers
                 ViewBag.companyName = db.CustEntMains.Find(id).Name;
                 ViewBag.Id = id;
 
+                foreach (var act in custEntActivities)
+                {
+                    act.Assigned = comdb.removeSpecialChar(act.Assigned);
+                }
+
                 return View(custEntActivities.ToList());
             }
 
-            var custEntActivitiesList = db.CustEntActivities.Include(c => c.CustEntMain);
-            return View(custEntActivitiesList.ToList());
+            var custEntActivitiesList = db.CustEntActivities.Include(c => c.CustEntMain).ToList();
+
+            return View(custEntActivitiesList);
         }
 
         // GET: CustEntActivities/Details/5
@@ -62,7 +70,12 @@ namespace JobsV1.Controllers
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", id);
             ViewBag.Status = new SelectList(ActivityStatus, "value", "text");
 
-            return View();
+            CustEntActivity activity = new CustEntActivity();
+            activity.Amount = 0;
+            activity.Date = date.GetCurrentDateTime();
+            ViewBag.Id = id;
+
+            return View(activity);
         }
 
         // POST: CustEntActivities/Create
@@ -76,7 +89,7 @@ namespace JobsV1.Controllers
             {
                 db.CustEntActivities.Add(custEntActivity);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = custEntActivity.CustEntMainId });
             }
 
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
@@ -100,6 +113,7 @@ namespace JobsV1.Controllers
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
             ViewBag.Status = new SelectList(ActivityStatus, "value", "text");
+            ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }
 
@@ -114,11 +128,12 @@ namespace JobsV1.Controllers
             {
                 db.Entry(custEntActivity).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id =custEntActivity.CustEntMainId });
             }
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
             ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
+            ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }
 
@@ -134,6 +149,11 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+
+            var companyId = custEntActivity.CustEntMainId;
+
+            ViewBag.Id = companyId;
+
             return View(custEntActivity);
         }
 
@@ -143,9 +163,11 @@ namespace JobsV1.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CustEntActivity custEntActivity = db.CustEntActivities.Find(id);
+            var companyId = custEntActivity.CustEntMainId;
             db.CustEntActivities.Remove(custEntActivity);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", new { id = companyId });
         }
 
         protected override void Dispose(bool disposing)

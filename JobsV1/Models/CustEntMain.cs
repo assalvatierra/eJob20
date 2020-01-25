@@ -25,6 +25,7 @@ namespace JobsV1.Models
             this.CustEntCats = new HashSet<CustEntCat>();
             this.CustEntClauses = new HashSet<CustEntClauses>();
             this.CustEntAssigns = new HashSet<CustEntAssign>();
+            this.CustEntDocuments = new HashSet<CustEntDocuments>();
             this.CustEntActivities = new HashSet<CustEntActivity>();
         }
     
@@ -56,6 +57,8 @@ namespace JobsV1.Models
         public virtual ICollection<CustEntClauses> CustEntClauses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntAssign> CustEntAssigns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustEntDocuments> CustEntDocuments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntActivity> CustEntActivities { get; set; }
     }

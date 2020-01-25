@@ -136,7 +136,7 @@ function ajax_loadContent() {
 //of suppliers
 function LoadTable(data) {
     
-    //console.log(data);
+    console.log(data);
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
     console.log(temp);
@@ -163,38 +163,71 @@ function LoadTable(data) {
         Assigned = temp[x]["AssignedTo"] != null ? temp[x]["AssignedTo"] : "--";
 
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
-        var ContactPerson = temp[x]["ContactPerson"] != null ? temp[x]["ContactPerson"] : "--";
-        var ContactPersonPos = temp[x]["ContactPersonPos"] != null ? temp[x]["ContactPersonPos"] : "--";
         var Status = temp[x]["Status"] != null ? temp[x]["Status"] : "--";
-        var email = temp[x]["ContactPersonEmail"] != null ? temp[x]["ContactPersonEmail"] : "--";
+        var email = temp[x]["ContactEmail"] != null ? temp[x]["ContactEmail"] : "--";
         var code = temp[x]["Code"] != null ? temp[x]["Code"] : "--";
+
+        var ContactPersons = temp[x]["ContactName"] != null ? temp[x]["ContactName"] : "--";
+        var ContactPosition = temp[x]["ContactPosition"] != null ? temp[x]["ContactPosition"] : "--";
+        var ContactMobileEmail = temp[x]["ContactMobileEmail"] != null ? temp[x]["ContactMobileEmail"] : "--";
+
+        content = "<tr>";
 
         if (temp[x]["Id"] == prevId) {
 
-            content  = "<td></td>";
-            content += "<td> &nbsp;  " + categories + "</td>";
-            content += "<td></td><td></td><td></td><td></td><td></td>";
-        
         } else {
 
-            content = "<tr>";
             content += "<td>" + temp[x]["Name"] + "</td>";
             content += "<td>" + code + "</td>";
             content += "<td>" + website + "</td>";
             content += "<td>" + City + "</td>";
             content += "<td>" + categories + "</td>";
-            content += "<td>" + parseStatus(Status) + "</td>"; // status
-            content += "<td>" + ContactPerson + "</td>";
-            content += "<td>" + ContactPersonPos + "</td>"; // status
-            content += "<td>" + mobile + "<br>" + email + "</td>"; // status
-            content += "<td>" + Assigned + "</td>"; // status
+            content += "<td>" + parseStatus(Status) + "</td>";
+
+            //Contact Person Names
+            content += "<td>";
+                for (var prods = 0; prods < ContactPersons.length; prods++) {
+                    if (typeof ContactPersons[prods] === "undefined") {
+                        console.log("something is undefined");
+                    } else {
+                        var contact = ContactPersons[prods].toString();
+                        content += " " + contact+ " <br><br>";
+                    }
+                }
+            content += "</td>";
+
+            //Contact Person Positions
+            content += "<td>";
+               for (var pos = 0; pos < ContactPosition.length; pos++) {
+                    if (typeof ContactPosition[pos] === "undefined") {
+                        console.log("something is undefined");
+                    } else {
+                        var positions = ContactPosition[pos].toString();
+                        content += " " + positions + " <br><br>";
+                    }
+                }
+            content += "</td>";
+
+            //Contact Person Positions
+            content += "<td>";
+                for (var contact = 0; contact < ContactMobileEmail.length; contact++) {
+                    if (typeof ContactMobileEmail[contact] === "undefined") {
+                        console.log("something is undefined");
+                    } else {
+                    var contactdetails = ContactMobileEmail[contact].toString();
+                        content += " " + contactdetails + " <br>";
+                    }
+                }
+            content += "</td>";
+
+            content += "<td>" + Assigned + "</td>";
 
             content += "<td>"
-                    + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details </a><br> "
-             
+                    + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|"
+                    + "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> "
                     + "</td>";
-            content += "</tr>";
         }
+        content += "</tr>";
         prevId = temp[x]["Id"]
         $(content).appendTo("#company-Table");
         

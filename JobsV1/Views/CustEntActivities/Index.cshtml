@@ -53,7 +53,15 @@
             @Html.DisplayFor(modelItem => item.SalesCode)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Amount)
+            @if (item.Amount != null)
+            {
+                @Decimal.Parse(item.Amount.ToString()).ToString("N0")
+            }
+            else
+            {
+               <text> 0 </text>
+            }
+
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Status)

@@ -53,7 +53,7 @@ namespace JobsV1.Controllers
         public string TableResult(string search, string searchCat,string status, string sort)
         {
             //get lit of customers
-            List<CompanyList> custList = new List<CompanyList>();
+            List<cCompanyList> custList = new List<cCompanyList>();
            
             custList = comdb.generateCompanyList(search, searchCat, status, sort);
             
@@ -88,8 +88,11 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.City = db.Cities.Find(custEntMain.CityId).Name;
             ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").ToList(), "Id", "Name");
-            
+            ViewBag.Documents = db.SupDocuments.ToList();
+            ViewBag.CompanyId = id;
             ViewBag.isAllowedHistory = checkifAdmin();
+
+            custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
 
             return View(custEntMain);
         }
@@ -197,8 +200,10 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.CustEntMains.Add(custEntMain);
-                db.SaveChanges();
+                
+                    db.CustEntMains.Add(custEntMain);
+                    db.SaveChanges();
+                
 
                 if (id != null)
                 {

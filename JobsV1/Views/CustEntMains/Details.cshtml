@@ -15,59 +15,71 @@
 </div>
 
 <div class="row">
-    <h1> @Html.DisplayFor(model => model.Name) ( <span id="status"> </span> ) </h1>
-    @Html.ActionLink("<View History> ","Index", "CustEntActivities", new { id = Model.Id },null)
-    <h5> <b>Telephone:</b> @Html.DisplayFor(model => model.Contact1) </h5>
-    <h5> <b>Fax:</b> @Html.DisplayFor(model => model.Contact2) </h5>
-    <h5> <b>Mobile:</b> @Html.DisplayFor(model => model.Mobile ) </h5>
-    <h5> <b>Website:</b><a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> </h5>
-    <h5> <b>City:</b> @ViewBag.City </h5>
-    <h5> <b>Status:</b> 
-    
-        @switch (Html.DisplayFor(model => model.Status).ToString())
-        {
-            case "ACC":
-                <text> ACCREDITED </text>;
-                break;
-            case "ACP":
-                <text> ACCREDITATION ON PROCESS </text>;
-                break;
-            case "BIL":
-                <text> BILLING/TERMS </text>;
-                break;
-            case "ACT":
-                <text> ACTIVE </text>;
-                break;
-            case "INC":
-                <text> INACTIVE </text>;
-                break;
-            case "BAD":
-                <text> BAD ACCOUNT </text>;
-                break;
-            case "SUS":
-                <text> SUSPENDED </text>;
-                break;
-            case "PRI":
-                <text> PRIORITY </text>;
-                break;
-        }
-     </h5>
-    <h5>
-        <b>Assigned To:</b>
-        <span>
-            @Html.DisplayFor(model => model.AssignedTo)
-        </span>
-        <p>
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            @if (ViewBag.isAllowedHistory)
-            {
-                @Html.ActionLink("<View History> ", "AssignedRecords", new { companyId = Model.Id })
-            }
+    <div class="col-lg-6">
 
-        </p>
-    </h5>
-    @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
+        <h1> @Html.DisplayFor(model => model.Name) ( <span id="status"> </span> ) </h1>
+        @Html.ActionLink("<View History> ", "Index", "CustEntActivities", new { id = Model.Id }, null)
+        <h5> <b>Telephone:</b> @Html.DisplayFor(model => model.Contact1) </h5>
+        <h5> <b>Fax:</b> @Html.DisplayFor(model => model.Contact2) </h5>
+        <h5> <b>Mobile:</b> @Html.DisplayFor(model => model.Mobile) </h5>
+        <h5> <b>Website:</b><a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> </h5>
+        <h5> <b>City:</b> @ViewBag.City </h5>
+        <h5>
+            <b>Status:</b>
+
+            @switch (Html.DisplayFor(model => model.Status).ToString())
+            {
+                case "ACC":
+                    <text> ACCREDITED </text>;
+                    break;
+                case "ACP":
+                    <text> ACCREDITATION ON PROCESS </text>;
+                    break;
+                case "BIL":
+                    <text> BILLING/TERMS </text>;
+                    break;
+                case "ACT":
+                    <text> ACTIVE </text>;
+                    break;
+                case "INC":
+                    <text> INACTIVE </text>;
+                    break;
+                case "BAD":
+                    <text> BAD ACCOUNT </text>;
+                    break;
+                case "SUS":
+                    <text> SUSPENDED </text>;
+                    break;
+                case "PRI":
+                    <text> PRIORITY </text>;
+                    break;
+            }
+        </h5>
+        <h5>
+            <b>Assigned To:</b>
+            <span>
+                @Html.DisplayFor(model => model.AssignedTo)
+            </span>
+            <p>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                @if (ViewBag.isAllowedHistory)
+            {
+                    @Html.ActionLink("<View History> ", "AssignedRecords", new { companyId = Model.Id })
+                }
+
+            </p>
+        </h5>
+        @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
+
+    </div>
+
+    <div class="col-lg-6">
+        <h3>Documents</h3>
+        <a href="#" id="catbtn" data-toggle="modal" data-target="#createDocuments">Edit</a>
+    </div>
 </div>
+
+
 
 <div class="row">
     <h3> Categories </h3>
@@ -543,6 +555,9 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End of Modal -->
+
+
+@{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "SupplierId", ViewBag.SupplierId }, { "Documents", ViewBag.Documents } }); }
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <script src="~/Scripts/jquery-3.3.1.js"></script>
