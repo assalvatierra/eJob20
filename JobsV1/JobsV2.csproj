@@ -609,6 +609,9 @@
     <Compile Include="Models\CustEntClauses.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustEntDocuments.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustEntity.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1184,6 +1187,9 @@
     <Content Include="Images\CarRental\ford-everest-car-rental.PNG" />
     <Content Include="Images\CarRental\FordEverest.jpg" />
     <Content Include="Images\CarRental\fordeverest_primary.jpg" />
+    <Content Include="Images\CarRental\ford\Ford-Everest-Back.jpg" />
+    <Content Include="Images\CarRental\ford\ford-everest-front.jpg" />
+    <Content Include="Images\CarRental\ford\ford-everst-back.jpg" />
     <Content Include="Images\CarRental\ford\fordeverest_front side view.jpg" />
     <Content Include="Images\CarRental\ford\fordeverest_interior.jpg" />
     <Content Include="Images\CarRental\ford\frod_sideview.jpg" />
@@ -1191,12 +1197,23 @@
     <Content Include="Images\CarRental\fortuner\fortuner_frontview.jpg" />
     <Content Include="Images\CarRental\fortuner\fortuner_interior.jpg" />
     <Content Include="Images\CarRental\fortuner\fortuner_sideview.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-back-seat.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-back.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-front-seat.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner.jpg" />
     <Content Include="Images\CarRental\fortuner\toyotafortuner_rearview.jpg" />
     <Content Include="Images\CarRental\glgrandia-car-rental.PNG" />
     <Content Include="Images\CarRental\glgrandia\glgrandia_frontview.jpg" />
     <Content Include="Images\CarRental\glgrandia\glgrandia_interior.jpg" />
     <Content Include="Images\CarRental\glgrandia\glgrandia_sideview.jpg" />
+    <Content Include="Images\CarRental\glgrandia\Toyota-Grandia-front-seats.jpg" />
+    <Content Include="Images\CarRental\glgrandia\Toyota-Grandia-seats.jpg" />
+    <Content Include="Images\CarRental\glgrandia\Toyota-Grandia-side.jpg" />
+    <Content Include="Images\CarRental\glgrandia\Toyota-Grandia.jpg" />
     <Content Include="Images\CarRental\honda-city-car-rental.PNG" />
+    <Content Include="Images\CarRental\hondacity\Honda-city-2018-back.jpg" />
+    <Content Include="Images\CarRental\hondacity\Honda-city-2018.jpg" />
+    <Content Include="Images\CarRental\hondacity\honda-city-front.jpg" />
     <Content Include="Images\CarRental\hondacity\hondaCity_frontview.jpg" />
     <Content Include="Images\CarRental\hondacity\hondacity_interior.jpg" />
     <Content Include="Images\CarRental\hondacity\hondacity_rearview.jpg" />
@@ -1207,11 +1224,21 @@
     <Content Include="Images\CarRental\icon-meal.png" />
     <Content Include="Images\CarRental\icon-sleep.png" />
     <Content Include="Images\CarRental\InnovaPrimary.png" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2019-BackSeat.png" />
+    <Content Include="Images\CarRental\innova\toyota-innova-back-seat.jpg" />
+    <Content Include="Images\CarRental\innova\toyota-innova-front-seat.jpg" />
+    <Content Include="Images\CarRental\innova\toyota-innova.jpg" />
     <Content Include="Images\CarRental\innova\toyotainnova_front.jpg" />
     <Content Include="Images\CarRental\innova\toyotainnova_interior.jpg" />
     <Content Include="Images\CarRental\innova\ToyotaInnova_SideView.jpg" />
     <Content Include="Images\CarRental\nissan-premium-car-rental.PNG" />
     <Content Include="Images\CarRental\NissanPremiumPrimary.png" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-2018.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-2019-back-seat.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-2019-back.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-2019-front-seat.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-2019.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-seats.jpg" />
     <Content Include="Images\CarRental\nissanPremium\nissanpremium_frontview.jpg" />
     <Content Include="Images\CarRental\nissanPremium\nissanpremium_interior.jpg" />
     <Content Include="Images\CarRental\nissanPremium\nissanpremium_sideview.jpg" />
@@ -1226,12 +1253,17 @@
     <Content Include="Images\CarRental\paymentIcons\paypal.png" />
     <Content Include="Images\CarRental\pickup-car-rental.PNG" />
     <Content Include="Images\CarRental\PickupPrimary.png" />
+    <Content Include="Images\CarRental\pickup\Pickup-default.jpg" />
     <Content Include="Images\CarRental\pickup\pickup_front.jpg" />
     <Content Include="Images\CarRental\pickup\pickup_interior.jpg" />
     <Content Include="Images\CarRental\pickup\pickup_sideview.jpg" />
     <Content Include="Images\CarRental\POTTMPC\Van_Nissan_Urban.png" />
     <Content Include="Images\CarRental\POTTMPC\Van_Nissan_Urban_premium.png" />
     <Content Include="Images\CarRental\POTTMPC\Van_Starex.png" />
+    <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-back.jpg" />
+    <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-seats.jpg" />
+    <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-side.jpg" />
+    <Content Include="Images\CarRental\tourer\Toyota-tourer-seats.jpg" />
     <Content Include="Images\CarRental\toyota-innova-car-rental.PNG" />
     <Content Include="Images\CarRental\toyota-tourer-2020-px.jpg" />
     <Content Include="Images\CarRental\toyotagrandia_primary.jpg" />
@@ -2230,6 +2262,8 @@
     <Content Include="Views\CustEntActivities\Details.cshtml" />
     <Content Include="Views\CustEntActivities\Edit.cshtml" />
     <Content Include="Views\CustEntActivities\Index.cshtml" />
+    <Content Include="Views\CustEntMains\CreateDocuments.cshtml" />
+    <Content Include="Views\Suppliers\CreateSupplier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
