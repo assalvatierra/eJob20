@@ -24,7 +24,7 @@
             @Html.DisplayNameFor(model => model.ProjectName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SalesCode)
+            Quotation #
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Amount)
@@ -77,3 +77,5 @@
 }
 
 </table>
+
+@Html.ActionLink("Back to List", "Index","CustEntMains",null,null) 

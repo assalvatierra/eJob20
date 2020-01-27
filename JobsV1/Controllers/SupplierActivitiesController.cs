@@ -21,7 +21,7 @@ namespace JobsV1.Controllers
         public ActionResult Index()
         {
             var supplierActivities = db.SupplierActivities.Include(s => s.Supplier);
-            return View(supplierActivities.ToList());
+            return View(supplierActivities.OrderByDescending(s=>s.DtActivity).ToList());
         }
 
         // GET: SupplierActivities/{index}

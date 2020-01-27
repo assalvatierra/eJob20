@@ -85,7 +85,7 @@
                 </td>
 
                 <td>
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editInvRate" onclick="editInvRate(@rate.Id, '@rate.Particulars', '@rate.Material', @rate.ItemRate , @rate.SupplierUnit.Id, '@rate.DtValidFrom', '@rate.DtValidTo', '@rate.Remarks', @rate.SupplierInvItemId, '@rate.By','@rate.ProcBy' ,'@rate.TradeTerm', '@rate.Tolerance')">Edit</a> |
+                    <a href="#" id="catbtn" data-toggle="modal" data-target="#editInvRate" onclick="editInvRate(@rate.Id, '@rate.Particulars', '@rate.Material', @rate.ItemRate , @rate.SupplierUnit.Id, '@rate.DtValidFrom', '@rate.DtValidTo', '@rate.Remarks', @rate.SupplierInvItemId, '@rate.By','@rate.ProcBy' ,'@rate.TradeTerm', '@rate.Tolerance','@rate.DtEntered')">Edit</a> |
                     <a href="#" onclick="confirmRateDelete(@rate.Id, 'Php @rate.ItemRate / @rate.SupplierUnit.Unit')"> Remove </a>
                  @*   <a href="#" onclick="conformDelete(@item.Id, '(@item.InvItem.ItemCode) @item.InvItem.Description')"> Remove </a>*@
                 </td>
@@ -159,7 +159,7 @@
 
             <div class="modal-body row" id="modal2-content">
 
-                <div class="form-group cform">
+                <div class="form-group cform hidden">
                     <b class="col-md-2"> Id </b>
                     <div class="col-md-10">
                         <input id="InvRate-ItemId" class="form-control" type="text" maxlength="80">
@@ -364,6 +364,13 @@
                         <input id="EditInvRate-ProcBy" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Dt-Entered </b>
+                    <div class="col-md-10">
+                        <input id="EditInvRate-DtEntered" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -439,7 +446,7 @@
     }
     
 
-    function editInvRate(Id, Particulars, Material, Rate, UnitType, ValidFrom, ValidTo, Remarks, SupInvId, By, ProcBy, TradeTerm, Tolerance) {
+    function editInvRate(Id, Particulars, Material, Rate, UnitType, ValidFrom, ValidTo, Remarks, SupInvId, By, ProcBy, TradeTerm, Tolerance, DtEntered) {
         $("#EditInvRate-ItemId").val(Id);
         $("#EditInvRate-Particulars").val(Particulars);
         $("#EditInvRate-Material").val(Material);
@@ -453,6 +460,7 @@
         $("#EditInvRate-Tolerance").val(Tolerance);
         $("#EditInvRate-By").val(By);
         $("#EditInvRate-ProcBy").val(ProcBy);
+        $("#EditInvRate-DtEntered").val(DtEntered);
     }
 
     //EDIT PRODUCT
@@ -472,7 +480,8 @@
             Tolerance:  $("#EditInvRate-Tolerance").val(),
             SupInvId:   $("#EditInvRate-SupInvId").val(),
             By:         $("#EditInvRate-By").val(),
-            ProcBy:     $("#EditInvRate-ProcBy").val()
+            ProcBy:     $("#EditInvRate-ProcBy").val(),
+            DtEntered:  $("#EditInvRate-DtEntered").val()
         };
 
         console.log(data);

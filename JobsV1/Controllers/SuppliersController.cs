@@ -78,7 +78,7 @@ namespace JobsV1.Controllers
             var completeDocs = db.SupDocuments.ToList();
 
             //get documents not added
-           IEnumerable<SupDocument> doclist = completeDocs.Except(supDocList);
+            IEnumerable<SupDocument> doclist = completeDocs.Except(supDocList);
             ViewBag.Documents = doclist;
             ViewBag.SupplierId = id;
             ViewBag.supContacts = supplier.SupplierContacts.ToList();
@@ -354,6 +354,7 @@ namespace JobsV1.Controllers
                 Tolerance = Tolerance,
                 DtValidFrom = ValidFrom,
                 DtValidTo = ValidTo,
+                DtEntered = dt.GetCurrentDateTime().ToString(),
                 SupplierInvItemId = id,
                 By = By,
                 ProcBy = ProcBy
@@ -363,7 +364,7 @@ namespace JobsV1.Controllers
             return RedirectToAction("InvItems", "Suppliers", new { id = id });
         }
 
-        public ActionResult EditRateInvItems(int id, string Particulars, string Material, string Rate, int Unit, string ValidFrom, string ValidTo, string Remarks, string TradeTerm, string Tolerance, int SupInvId, string By, string ProcBy)
+        public ActionResult EditRateInvItems(int id, string Particulars, string Material, string Rate, int Unit, string ValidFrom, string ValidTo, string Remarks, string TradeTerm, string Tolerance, int SupInvId, string By, string ProcBy, string DtEntered)
         {
          
             SupplierItemRate itemRate = db.SupplierItemRates.Find(id);
@@ -379,6 +380,7 @@ namespace JobsV1.Controllers
             itemRate.SupplierInvItemId = SupInvId;
             itemRate.By = By;
             itemRate.ProcBy = ProcBy;
+            itemRate.DtEntered = DtEntered;
 
             db.Entry(itemRate).State = EntityState.Modified;
             db.SaveChanges();

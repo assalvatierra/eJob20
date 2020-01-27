@@ -189,6 +189,7 @@ function SimpleTable(data) {
 
         content += "<td> ";
 
+        //Products
         for (var prods = 0; prods < productslength["length"]; prods++) {
             if (typeof productslength[prods] === "undefined") {
                 console.log("something is undefined");
@@ -200,9 +201,9 @@ function SimpleTable(data) {
                 content += " " + name + "</br> ";
             }
         }
-
         content += "</td> ";
 
+        // Contact Person
         content += "<td> ";
         for (var name = 0; name < contactslength["length"]; name++) {
             if (typeof contactslength[name] === "undefined") {
@@ -216,8 +217,8 @@ function SimpleTable(data) {
         }
         content +=  "</td> ";
 
+        //
         content += "<td>";
-
         for (var contact = 0; contact < contact3["length"]; contact++) {
             if (typeof contact3[contact] === "undefined") {
                 console.log("something is undefined");

@@ -98,7 +98,7 @@ namespace JobsV1.Models
                 }
                 else
                 {
-                    sql += " WHERE com.Status != ''  ";
+                    sql += " WHERE com.Name != ''  ";
                 }
 
             }
@@ -216,9 +216,19 @@ namespace JobsV1.Models
 
         public string removeSpecialChar(string input)
         {
+            try
+            {
+
             char ch = '@';
             int idx = input.IndexOf(ch);
             return input.Substring(0,idx);
+
+            }
+            catch (Exception ex)
+            {
+                return input;
+            }
+
         }
         
         #endregion

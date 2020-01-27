@@ -43,7 +43,13 @@
             @Html.DisplayFor(modelItem => item.Code)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Amount)
+            @if (item.Amount != null)
+            {
+                <text>  @Decimal.Parse(item.Amount.ToString()).ToString("N0") </text>
+            }else
+            {
+                <text> 0 </text>
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Remarks)

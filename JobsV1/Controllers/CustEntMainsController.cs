@@ -82,19 +82,37 @@ namespace JobsV1.Controllers
             }
             
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
-
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
             ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.City = db.Cities.Find(custEntMain.CityId).Name;
             ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").ToList(), "Id", "Name");
-            ViewBag.Documents = db.SupDocuments.ToList();
+            ViewBag.Documents = GetDocumentList((int)id);
+            ViewBag.CustDocuments = db.CustEntDocuments.Where(c=>c.CustEntMainId == id).ToList();
             ViewBag.CompanyId = id;
             ViewBag.isAllowedHistory = checkifAdmin();
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
 
             return View(custEntMain);
+        }
+
+        private IEnumerable<SupDocument> GetDocumentList(int id)
+        {
+            //get id lis of current documents of the company
+            var custEntDocs = db.CustEntDocuments.Where(c => c.CustEntMainId == id).Select(c => c.SupDocumentId).ToList();
+
+            //current documents
+            var custEntDocList = db.SupDocuments.Where(c => custEntDocs.Contains(c.Id)).ToList();
+
+            //complete list of documents
+            var completeDocs = db.SupDocuments.ToList();
+
+            //get documents not added
+            var doclist = completeDocs.Except(custEntDocList);
+
+            return doclist;
+
         }
 
         public Boolean checkifAdmin()
@@ -722,6 +740,40 @@ namespace JobsV1.Controllers
             }
 
         }
+        #endregion
+        
+        #region Documents
+
+        public ActionResult AddDocuments(int comId, int docId)
+        {
+            if (comId != 0 && docId != 0)
+            {
+                CustEntDocuments companyDocs = new CustEntDocuments();
+                companyDocs.CustEntMainId = comId;
+                companyDocs.SupDocumentId = docId;
+
+                db.CustEntDocuments.Add(companyDocs);
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = comId });
+            }
+            return RedirectToAction("Details", new { id = comId });
+        }
+
+        public string DeleteDocument(int id)
+        {
+            try
+            {
+                CustEntDocuments custEntDocs = db.CustEntDocuments.Find(id);
+                db.CustEntDocuments.Remove(custEntDocs);
+                db.SaveChanges();
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "Error";
+            }
+        }
+
         #endregion
 
     }

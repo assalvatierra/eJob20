@@ -390,9 +390,16 @@ namespace JobsV1.Models
 
         public string removeEmailString(string input)
         {
-            char ch = '@';
-            int idx = input.IndexOf(ch);
-            return input.Substring(0, idx);
+            try
+            {
+                char ch = '@';
+                int idx = input.IndexOf(ch);
+                return input.Substring(0, idx);
+            }
+            catch (Exception ex)
+            {
+                return input;
+            }
         }
 
     }

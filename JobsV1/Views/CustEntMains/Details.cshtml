@@ -73,8 +73,16 @@
 
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-6" style="margin-top:80px;">
         <h3>Documents</h3>
+        @foreach (var doc in ViewBag.CustDocuments as IEnumerable<JobsV1.Models.CustEntDocuments>)
+        {
+          <text> 
+            @doc.SupDocument.Description 
+            <a href="#" onclick="PromptRemoveDocument('@doc.SupDocument.Description', @doc.Id, @Model.Id)" > x </a><br />
+          </text>
+        }
+
         <a href="#" id="catbtn" data-toggle="modal" data-target="#createDocuments">Edit</a>
     </div>
 </div>
@@ -269,7 +277,7 @@
 </div>
 
 <!-- Job List-->
-<div class="row hidden">
+<div class="row">
     <h3>Job List</h3>
     <p>
         <b>Date: </b>
@@ -557,7 +565,7 @@
 <!-- End of Modal -->
 
 
-@{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "SupplierId", ViewBag.SupplierId }, { "Documents", ViewBag.Documents } }); }
+@{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "Documents", ViewBag.Documents } }); }
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -793,7 +801,6 @@
             error: function (data) {
                 // console.log("ERROR");
                 console.log(data);
-
                 location.reload();
             }
         });
@@ -816,6 +823,9 @@
                 data = 'ACCREDITED';
                 break;
             case 'PRIO':
+                data = 'PRIORITY';
+                break;
+            case 'PRI':
                 data = 'PRIORITY';
                 break;
             default:
@@ -940,5 +950,41 @@
         $('#ac-position').val("");
     }
 
+
+    function PromptRemoveDocument(docDesc, Id){
+        
+        var message = "Do you want to remove "+docDesc+" from the list?";
+
+        if(confirm(message)){
+            console.log("YES");
+            RemoveDocument(Id)
+        }else{
+            console.log("NO");
+        }
+    }
+
+    function RemoveDocument(Id){
+   
+        //build json object
+        var data = {
+            id: Id
+        };
+
+        //request data from server using ajax call
+        $.ajax({
+            url: '/CustEntMains/DeleteDocument',
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //console.log("SUCCESS");
+            },
+            error: function (data) {
+                //console.log("ERROR");
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
 
 </script>

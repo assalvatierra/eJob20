@@ -68,4 +68,32 @@ function InitDatePicker()
     $('#InvRate-ValidTo').val(ddd2);
     //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
 
+    //------------- Edit Date ------------------//
+
+    var ddd2 = $('#EditInvRate-DtEntered').val();
+
+    $('#EditInvRate-DtEntered').daterangepicker(
+    {
+        timePicker: false,
+        timePickerIncrement: 1,
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'MM/DD/YYYY'
+        }
+    },
+    function (start, end, label) {
+        //check if date is greater than or equal to today
+
+        var today = moment().format('YYYY-MM-DD');
+        var datepicker = start.format('YYYY-MM-DD');
+
+        if (today > datepicker) {
+            alert("Job date is past the date today. Do you want to continue?");
+        }
+    });
+
+    $('#EditInvRate-DtEntered').val(ddd2);
+    //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
+
 }

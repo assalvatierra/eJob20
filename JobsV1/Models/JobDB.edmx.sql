@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/25/2020 15:38:01
+-- Date Created: 01/27/2020 14:11:13
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -350,14 +350,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SupDocumentSupplierDocument]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SupplierDocuments] DROP CONSTRAINT [FK_SupDocumentSupplierDocument];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntActivity]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CustEntActivities] DROP CONSTRAINT [FK_CustEntMainCustEntActivity];
-GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntDocumentsSupDocument]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntDocuments] DROP CONSTRAINT [FK_CustEntDocumentsSupDocument];
 GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntDocuments]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntDocuments] DROP CONSTRAINT [FK_CustEntMainCustEntDocuments];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntActivities] DROP CONSTRAINT [FK_CustEntMainCustEntActivity];
 GO
 
 -- --------------------------------------------------

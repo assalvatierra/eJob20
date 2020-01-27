@@ -13,7 +13,7 @@
 
                     @foreach (var docs in ViewBag.Documents as IEnumerable<JobsV1.Models.SupDocument>)
                     {
-                        <a href="@Url.Action("AddDocuments", "Suppliers", new { docId = docs.Id, comId = ViewBag.CompanyId},null)" class="list-group-item">
+                        <a href="@Url.Action("AddDocuments", "CustEntMains", new { comId = ViewBag.CompanyId, docId = docs.Id}  ,null)" class="list-group-item">
                             @Html.DisplayFor(modelItem => docs.Description)
                             
                         </a>
@@ -28,3 +28,4 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+

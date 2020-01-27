@@ -12,10 +12,10 @@ namespace JobsV1.Controllers
 {
     public class CustEntActivitiesController : Controller
     {
-        private JobDBContainer db = new JobDBContainer();
+        private JobDBContainer db   = new JobDBContainer();
         private DBClasses dbclasses = new DBClasses();
-        private DateClass date = new DateClass();
-        private CompanyClass comdb = new CompanyClass();
+        private DateClass date      = new DateClass();
+        private CompanyClass comdb  = new CompanyClass();
 
         private List<SelectListItem> ActivityStatus = new List<SelectListItem> {
                 new SelectListItem { Value = "Others", Text = "Others" },
@@ -31,7 +31,7 @@ namespace JobsV1.Controllers
         {
             if (id != null)
             {
-                var custEntActivities = db.CustEntActivities.Where(s=>s.CustEntMainId == id).Include(c => c.CustEntMain);
+                var custEntActivities = db.CustEntActivities.Where(c=>c.CustEntMainId == id).Include(c => c.CustEntMain);
                 ViewBag.companyName = db.CustEntMains.Find(id).Name;
                 ViewBag.Id = id;
 
@@ -40,10 +40,10 @@ namespace JobsV1.Controllers
                     act.Assigned = comdb.removeSpecialChar(act.Assigned);
                 }
 
-                return View(custEntActivities.ToList());
+                return View(custEntActivities.OrderByDescending(c => c.Date).ToList());
             }
 
-            var custEntActivitiesList = db.CustEntActivities.Include(c => c.CustEntMain).ToList();
+            var custEntActivitiesList = db.CustEntActivities.Include(c => c.CustEntMain).OrderByDescending(c=>c.Date).ToList();
 
             return View(custEntActivitiesList);
         }
