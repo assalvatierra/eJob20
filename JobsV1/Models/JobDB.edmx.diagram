@@ -214,7 +214,7 @@
         <AssociationConnector Association="JobDB.SupplierUnitSupplierItemRate" />
 
         <AssociationConnector Association="JobDB.JobServicesPickupInstructions" ManuallyRouted="true" >
-          <ConnectorPoint PointX="22.625" PointY="12.877392783931978" />
+          <ConnectorPoint PointX="22.625" PointY="15.499410807291667" />
           <ConnectorPoint PointX="22.25" PointY="15.874410807291667" />
           <ConnectorPoint PointX="20.864580833333331" PointY="15.874410807291667" />
           <ConnectorPoint PointX="20.697914166666667" PointY="15.874410807291667" />

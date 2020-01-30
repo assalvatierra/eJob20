@@ -1260,6 +1260,12 @@
     <Content Include="Images\CarRental\POTTMPC\Van_Nissan_Urban.png" />
     <Content Include="Images\CarRental\POTTMPC\Van_Nissan_Urban_premium.png" />
     <Content Include="Images\CarRental\POTTMPC\Van_Starex.png" />
+    <Content Include="Images\CarRental\rush\Toyota-Rush-2019-back-seat.jpg" />
+    <Content Include="Images\CarRental\rush\Toyota-Rush-2019-back.jpg" />
+    <Content Include="Images\CarRental\rush\Toyota-Rush-2019-seat.jpg" />
+    <Content Include="Images\CarRental\rush\Toyota-Rush-2019.jpg" />
+    <Content Include="Images\CarRental\rush\Toyota-Rush-2019.png" />
+    <Content Include="Images\CarRental\rush\toyota-rush-interior.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-back.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-seats.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-side.jpg" />
@@ -1589,6 +1595,7 @@
     <Content Include="Scripts\Reporting\JobListing.js" />
     <Content Include="Scripts\sort-table.js" />
     <Content Include="Scripts\sort-table.min.js" />
+    <Content Include="Scripts\sortable.min.js" />
     <Content Include="Scripts\ssl.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />
@@ -2264,6 +2271,7 @@
     <Content Include="Views\CustEntActivities\Index.cshtml" />
     <Content Include="Views\CustEntMains\CreateDocuments.cshtml" />
     <Content Include="Views\Suppliers\CreateSupplier.cshtml" />
+    <Content Include="Views\JobMains\TripListing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

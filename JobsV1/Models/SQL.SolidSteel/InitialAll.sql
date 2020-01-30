@@ -553,8 +553,8 @@ values
 	   ('Fire Protection','Images/Customers/Category/star-filled-40.png'),
 	   ('Well Drilling Works','Images/Customers/Category/star-filled-40.png'); 
 
-insert into CustEntMains([Name],[Address],[Contact1],[Contact2])
-values ('NEW (not yet defined)',' ',' ',' ');
+--insert into CustEntMains([Name],[Address],[Contact1],[Contact2])
+--values ('NEW (not yet defined)',' ',' ',' ');
 
 insert into Customers(Name, Email, Contact1, Contact2, Remarks, Status) 
 values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test User','ACT');
@@ -563,7 +563,14 @@ insert into CustEntMains(Name,Code, Address, Contact1, Contact2, iconPath, Websi
 values ('Google.Inc','COP-001','Davao City','888-9888','888-9881','','google.com','',1,'ACT','sales.google@gmail.com','09126659987'),
 	   ('Acer.Inc.Ph','COP-002','Quezon City','111-9878','','','acer.com.ph','',1,'ACT','support@acer.com','0915-123-6548'),
 	   ('Silicon Valley','COP-003','Makati City','321-6689','888-3215','','siliconvalley.com.ph','',1,'ACT','silicon.valley@gmail.com','0912-654-9879'),
-	   ('HP Davao','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'ACT','sales@hpe.com','0999-987-9858');
+	   ('HP Davao','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'ACT','sales@hpe.com','0999-987-9858'),
+	   
+	   -- Priority
+	   ('AYES Food Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','sales@hpe.com','0999-987-9858'),
+	   ('San Miguel Brewery Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','sales@hpe.com','0999-987-9858'),
+	   ('Coca-cola Corp.','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','sales@hpe.com','0999-987-9858'),
+	   ('SM Megamalls','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','sales@hpe.com','0999-987-9858')
+	   ;
 
 insert into CustEntAssigns(Assigned, Remarks, CustEntMainId, Date)
 values ('demo@gmail.com', '' , 2 , '11-30-2019');
@@ -603,15 +610,19 @@ values ('Van (10 seater)','Gl Grandia'    ,1,1,4),
 	   ('SUV'            ,'Ford Everest'  ,1,0,3),
 	   ('MPV/AUV/MiniVan','Toyota Innova' ,1,0,2),
 	   ('Sedan'          ,'Honda City'    ,1,0,1),
-	   ('Pickup'         ,'Pickups'       ,1,0,6);
+	   ('Pickup'         ,'Pickups'       ,1,0,6),
+	   ('Van (14 Seater)','Nissan Premium',1,0,6),
+	   ('MPV'            ,'Toyota Rush'   ,1,0,6);
 
 insert into CarImages ( CarUnitId, ImgUrl, Remarks, SysCode)
-values (1,'glgrandia/Toyota-Grandia-side.jpg'     ,'','MAIN'),
+values (1,'glgrandia/Toyota-Grandia-side.jpg','','MAIN'),
        (2,'nissanPremium/Nissan-Premium-2018.jpg','','MAIN'),
-       (3,'ford/ford-everest-front.jpg'  ,'','MAIN'),
-       (4,'innova/toyota-innova.jpg' ,'','MAIN'),
-       (5,'hondacity/honda-city-front.jpg'    ,'','MAIN'),
-       (6,'pickup-car-rental.png'        ,'','MAIN');
+       (3,'ford/ford-everest-front.jpg'		 ,'','MAIN'),
+       (4,'innova/toyota-innova.jpg'		 ,'','MAIN'),
+       (5,'hondacity/honda-city-front.jpg'   ,'','MAIN'),
+       (6,'pickup-car-rental.png'		     ,'','MAIN'),
+       (7,'tourer/Toyota-Grandia-Tourer-2019-side.jpg' ,'','MAIN'),
+       (8,'rush/Toyota-Rush-2019.jpg'        ,'','MAIN');
 	   
 insert into CarViewPages (CarUnitId, Viewname)
 values (1,'CarDetail_van'),
@@ -619,7 +630,9 @@ values (1,'CarDetail_van'),
 	   (3,'CarDetail_suv'),
 	   (4,'CarDetail_mpv'),
 	   (5,'CarDetail_sedan'),
-	   (6,'CarDetail_pickup');
+	   (6,'CarDetail_pickup'),
+	   (6,'CarDetail_van'),
+	   (6,'CarDetail_mpv');
 
 insert into CarRates (Daily,Weekly,Monthly,KmFree,KmRate,CarUnitId,OtRate)
 values (3000,2500,2250,100,5,1,300), --grandia
@@ -627,7 +640,9 @@ values (3000,2500,2250,100,5,1,300), --grandia
 	   (3000,2500,2250,100,5,3,300), --everest
 	   (2500,1800,1500,100,5,4,300), --innova
 	   (2500,1800,1500,100,5,5,300), --honda
-	   (3500,2500,2250,100,5,6,300); --pickup
+	   (3500,2500,2250,100,5,6,300), --honda
+	   (3500,2500,2250,100,5,7,300), --honda
+	   (2500,2500,2250,100,5,8,300); --pickup
 
 
 
@@ -665,6 +680,18 @@ values
 
 	-- Pickup -- 
 	(6, 'Pickup for Rent in Davao City, 4x4 rental, rent-a-car',
+	'Pickup 4x4 for rent in Davao City for difficult terrain or bigger luggages. Units: Mitsubishi strada 4x4, Toyota Hilux 4x4',
+	'Pickup 4x4 is best for difficult and unknown terrains. Can also use in hauling huge luggages.'
+	),
+
+	-- Pickup -- 
+	(7, 'Pickup for Rent in Davao City, 4x4 rental, rent-a-car',
+	'Pickup 4x4 for rent in Davao City for difficult terrain or bigger luggages. Units: Mitsubishi strada 4x4, Toyota Hilux 4x4',
+	'Pickup 4x4 is best for difficult and unknown terrains. Can also use in hauling huge luggages.'
+	),
+
+	-- Pickup -- 
+	(8, 'Pickup for Rent in Davao City, 4x4 rental, rent-a-car',
 	'Pickup 4x4 for rent in Davao City for difficult terrain or bigger luggages. Units: Mitsubishi strada 4x4, Toyota Hilux 4x4',
 	'Pickup 4x4 is best for difficult and unknown terrains. Can also use in hauling huge luggages.'
 	);

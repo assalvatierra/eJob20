@@ -84,7 +84,7 @@ namespace JobsV1.Controllers
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
-            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.City = db.Cities.Find(custEntMain.CityId).Name;
             ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").ToList(), "Id", "Name");
             ViewBag.Documents = GetDocumentList((int)id);
@@ -202,7 +202,7 @@ namespace JobsV1.Controllers
         {
             CustEntMain main = new CustEntMain();
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
-            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c=>c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
 
@@ -239,7 +239,7 @@ namespace JobsV1.Controllers
 
                 return RedirectToAction("Index", "CustEntMains", null);
             }
-            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name");
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
 
@@ -259,7 +259,7 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             return View(custEntMain);
@@ -278,7 +278,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = custEntMain.Id });
             }
-            ViewBag.CityId = new SelectList(db.Cities.ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             return View(custEntMain);

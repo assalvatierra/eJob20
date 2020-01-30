@@ -92,18 +92,19 @@ namespace JobsV1.Models
             if (status != null)
             {
 
-                if (status != "ALL")
+                if (status == "ALL")
                 {
-                    sql += " WHERE com.Status = '" + status + "' ";
+
                 }
                 else
                 {
-                    sql += " WHERE com.Name != ''  ";
+                    sql += " WHERE com.Status = '" + status + "' ";
                 }
 
             }
             else
             {
+                //status is null
                 sql += " WHERE com.Status != 'INC' OR com.Status != 'BAD' ";
             }
 
@@ -111,25 +112,33 @@ namespace JobsV1.Models
             //handle search by name filter
             if (search != null || search != "")
             {
-               
+
+                if (status == "ALL")
+                {
+                    sql += " WHERE ";
+                }
+                else
+                {
+                    sql += " AND ";
+                }
 
                 //search using the search by category
                 switch (searchCat)
                     {
                         case "Company":
-                            sql += " AND com.Name Like '%" + search + "%' ";
+                            sql += " com.Name Like '%" + search + "%' ";
                             break;
                         case "City":
-                            sql += " AND com.City Like '%" + search + "%' ";
+                            sql += " com.City Like '%" + search + "%' ";
                             break;
                         case "ContactName":
-                            sql += " AND com.ContactName Like '%" + search + "%' ";
+                            sql += " com.ContactName Like '%" + search + "%' ";
                             break;
                         case "Category":
-                            sql += " AND com.Category Like '%" + search + "%' ";
+                            sql += " com.Category Like '%" + search + "%' ";
                             break;
                         case "AssignedTo":
-                            sql += " AND com.AssignedTo Like '%" + search + "%' ";
+                            sql += " com.AssignedTo Like '%" + search + "%' ";
                             break;
                         default:
                             sql += " ";
@@ -165,10 +174,15 @@ namespace JobsV1.Models
         private List<cCompanyList> getCompanyList(List<CompanyList> list)
         {
             List<cCompanyList> comlist = new List<cCompanyList>();
-           
+
+            var prevId = 0;
             foreach (var com in list)
             {
-               
+                if (prevId == com.Id)
+                {
+                    continue;
+                }
+
                 //build contact list
                 var contacts = db.CustEntities.Where(s => s.CustEntMainId == com.Id).ToList();
                 var custEnts = db.CustEntities.Where(s => s.CustEntMainId == com.Id).ToList();
@@ -209,6 +223,8 @@ namespace JobsV1.Models
                     ContactMobileEmail = contactNumberEmail
 
                 });
+
+                prevId = com.Id;
             }
 
             return comlist;

@@ -1,12 +1,18 @@
 ﻿
 //global variables
-var status = "ACT";
+var status = "ALL";
 var sort = "NAME";
 var srchcategory = "All";
 var viewType = "SIMPLE";
 
 //load initial on page ready
-$(document).ready(ajax_loadContent());
+$(document).ready(intial());
+
+function intial() {
+
+    $('#ALL').css("color", "black");;
+    ajax_loadContent();
+}
 
 //update status value on click
 //change color of the text
@@ -173,9 +179,9 @@ function LoadTable(data) {
 
         content = "<tr>";
 
-        if (temp[x]["Id"] == prevId) {
+        //if (temp[x]["Id"] == prevId) {
 
-        } else {
+        //} else {
 
             content += "<td>" + temp[x]["Name"] + "</td>";
             content += "<td>" + code + "</td>";
@@ -202,8 +208,13 @@ function LoadTable(data) {
                     if (typeof ContactPosition[pos] === "undefined") {
                         console.log("something is undefined");
                     } else {
-                        var positions = ContactPosition[pos].toString();
-                        content += " " + positions + " <br><br>";
+                            if (ContactPosition[pos] != null) {
+
+                                var positions = ContactPosition[pos].toString();
+
+                                content += " " + positions + " <br><br>";
+                            }
+                       
                     }
                 }
             content += "</td>";
@@ -226,8 +237,9 @@ function LoadTable(data) {
                     + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|"
                     + "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> "
                     + "</td>";
-        }
+        //}
         content += "</tr>";
+
         prevId = temp[x]["Id"]
         $(content).appendTo("#company-Table");
         

@@ -472,26 +472,26 @@ values
 
 insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt])
 values
-('11-15-2019',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
-('11-27-2019',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000),
-('11-27-2019',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500);
+('02-15-2020',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
+('03-18-2020',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000),
+('03-27-2020',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500);
 
 
 insert into JobServices([JobMainId],[ServicesId],[SupplierId],[Particulars],[QuotedAmt],[SupplierAmt],[ActualAmt],[Remarks],[SupplierItemId],[DtStart],[DtEnd])
 values
-(1,1,2,'Car Rental sample data R1',5000,5000,5000,'Sample only. Disregard once seen on production',1,'11-15-2019','11-22-2019'),
-(1,1,2,'Car Rental sample data R2',3000,3000,3000,'Sample only. Disregard once seen on production',1,'11-24-2019','11-28-2019'),
-(2,1,2,'SUV Rental R1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'11-27-2019','11-28-2019'),
-(2,1,2,'SUV Rental R2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'11-29-2019','11-30-2019'),
-(3,1,2,'Day 1: Country Side Tour',2000,2000,2000,'Sample only. Disregard once seen on production',1,'11-27-2019','11-27-2019'),
-(3,1,2,'Day 1: Country Side Tour',1500,1500,1000,'Sample only. Disregard once seen on production',1,'11-28-2019','11-28-2019');
+(1,1,2,'Car Rental sample data R1',5000,5000,5000,'Sample only. Disregard once seen on production',1,'02-15-2020','02-22-2020'),
+(1,1,2,'Car Rental sample data R2',3000,3000,3000,'Sample only. Disregard once seen on production',1,'02-24-2020','02-25-2020'),
+(2,1,2,'SUV Rental R1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'03-18-2020','02-20-2020'),
+(2,1,2,'SUV Rental R2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'03-22-2020','03-24-2020'),
+(3,1,2,'Day 1: Country Side Tour',2000,2000,2000,'Sample only. Disregard once seen on production',1,'03-27-2020','03-27-2020'),
+(3,1,2,'Day 1: Country Side Tour',1500,1500,1000,'Sample only. Disregard once seen on production',1,'03-28-2020','03-28-2020');
 
 insert into JobItineraries([JobMainId],[DestinationId],[ActualRate],[Remarks],[ItiDate],[SvcId])
 values
-(3,1,0,'','11-27-2019',5),
-(3,2,0,'','11-27-2019',5),
-(3,5,0,'','11-28-2019',6),
-(3,6,0,'','11-28-2019',6);
+(3,1,0,'','03-27-2019',5),
+(3,2,0,'','03-27-2019',5),
+(3,5,0,'','03-28-2019',6),
+(3,6,0,'','03-28-2019',6);
 
 --insert into InvItems([ItemCode],[Description],[Remarks])
 --values ('RNY301','Toyota Innova E M/T 2013 Dsl',''),
@@ -503,10 +503,10 @@ insert into InvItemCategories([InvItemId],[InvItemCatId])
 values (1,1), (2,1), (3,1), (4,2);
 
 Insert into JobServiceItems([JobServicesId],[InvItemId])
-values(1,2),(1,3),
-(2,3),(2,4),
-(3,3),(3,4),
-(4,3),(4,4);
+values		(1,2),(1,7),
+			(2,3),(2,7),
+			(3,3),(3,8),
+			(4,3),(4,8);
 
 -- Supplier PO Samples
 insert into SupplierPoHdrs([PoDate],[Remarks],[SupplierId],[SupplierPoStatusId],[RequestBy],[DtRequest])
@@ -543,13 +543,14 @@ values ('Rental','');
 
 insert into CarUnits ( Description, Remarks, CarCategoryId , SelfDrive, SortOrder) 
 values 
-	   ('Van (14 seater)','Nissan Premium',1,1,5),
-	   ('Van (10 seater)','Gl Grandia'    ,1,1,4),
-	   ('SUV'            ,'Ford Everest'  ,1,0,3),
-	   ('MPV/AUV/MiniVan','Toyota Innova' ,1,0,2),
-	   ('Sedan'          ,'Honda City'    ,1,0,1),
-	   ('Pickup'         ,'Pickups'       ,1,0,6),
-	   ('Van (14 seater)','GL Grandia Tourer',1,1,7);
+	   ('Van (14 seater)','Nissan Premium'		,1,1,1),
+	   ('Van (10 seater)','Gl Grandia'			,1,1,2),
+	   ('SUV'            ,'Ford Everest'		,1,0,3),
+	   ('MPV/AUV/MiniVan','Toyota Innova'		,1,0,4),
+	   ('Sedan'          ,'Honda City'			,1,0,5),
+	   ('Pickup'         ,'Pickups'				,1,0,6),
+	   ('Van (14 seater)','GL Grandia Tourer'	,1,1,1),
+	   ('MPV'			 ,'Toyota Rush'			,1,0,3);
 
 insert into CarImages ( CarUnitId, ImgUrl, Remarks, SysCode)
 values (1,'glgrandia/Toyota-Grandia-side.jpg'    ,'','MAIN'),
@@ -558,7 +559,8 @@ values (1,'glgrandia/Toyota-Grandia-side.jpg'    ,'','MAIN'),
        (4,'innova/toyota-innova.jpg'			 ,'','MAIN'),
        (5,'hondacity/honda-city-front.jpg'       ,'','MAIN'),
        (6,'pickup/pickup-default.jpg'            ,'','MAIN'),
-       (7,'tourer/Toyota-Grandia-Tourer-2019-side.jpg' ,'','MAIN');
+       (7,'tourer/Toyota-Grandia-Tourer-2019-side.jpg' ,'','MAIN'),
+       (8,'rush/Toyota-Rush-2019.jpg' ,'','MAIN');
 	   
 insert into CarViewPages (CarUnitId, Viewname)
 values (1,'CarDetail_van'),
@@ -567,7 +569,8 @@ values (1,'CarDetail_van'),
 	   (4,'CarDetail_mpv'),
 	   (5,'CarDetail_sedan'),
 	   (6,'CarDetail_pickup'),
-	   (7,'CarDetail_tourer');
+	   (7,'CarDetail_tourer'),
+	   (8,'CarDetail_mpv');
 
 insert into CarRates (Daily,Weekly,Monthly,KmFree,KmRate,CarUnitId,OtRate)
 values (3000,2500,2250,100,5,1,300), --grandia
@@ -576,7 +579,8 @@ values (3000,2500,2250,100,5,1,300), --grandia
 	   (2500,1800,1500,100,5,4,300), --innova
 	   (2500,1800,1500,100,5,5,300), --honda
 	   (3500,2500,2250,100,5,6,300), --grandia
-	   (3500,2500,2250,100,5,7,300); --tourer
+	   (3500,2500,2250,100,5,7,300), --grandia
+	   (2500,2500,2250,100,5,8,300); --rush
 
 
 
@@ -618,8 +622,14 @@ values
 	'Pickup 4x4 is best for difficult and unknown terrains. Can also use in hauling huge luggages.'
 	),
 
-	-- Nissan Premium -- 
+	-- Toyota Touer -- 
 	(7, 'Vehicle (Nissan Urvan Tourer) for Rent in Davao City, Reliable van rental company in Davao City',
+	'Nissan Urvan Premium is comfortable 10-14 seater van for business, tour and family travel needs. Very few rent-a-car company in Davao offers this type of vehicle',
+	'Highroof van that can accommodate 14pax with individual reclining seats. No jump seats. Very few rent-a-car company in Davao offers this type of vehicle.'
+	),
+
+	-- Toyota Rush -- 
+	(8, 'Toyota Rush for Rent in Davao City, Reliable rental company in Davao City',
 	'Nissan Urvan Premium is comfortable 10-14 seater van for business, tour and family travel needs. Very few rent-a-car company in Davao offers this type of vehicle',
 	'Highroof van that can accommodate 14pax with individual reclining seats. No jump seats. Very few rent-a-car company in Davao offers this type of vehicle.'
 	);

@@ -93,7 +93,7 @@ namespace JobsV1.Controllers
         // GET: Suppliers/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(db.Cities, "Id", "Name");
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name");
@@ -125,7 +125,7 @@ namespace JobsV1.Controllers
                 //return RedirectToAction("Index");
             }
 
-            ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
             //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryName);
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
@@ -138,7 +138,7 @@ namespace JobsV1.Controllers
         // GET: Suppliers/CreateSupplier
         public ActionResult CreateSupplier()
         {
-            ViewBag.CityId = new SelectList(db.Cities, "Id", "Name");
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name",175);
@@ -191,7 +191,7 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description", supplier.SupplierTypeId);
             ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
@@ -213,7 +213,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Suppliers", new { id = supplier.Id });
             }
-            ViewBag.CityId = new SelectList(db.Cities, "Id", "Name", supplier.CityId);
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
             ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);

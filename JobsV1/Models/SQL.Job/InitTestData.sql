@@ -311,3 +311,26 @@ SELECT sl.*, slc.CustEntMainId FROM SalesLeads sl
 	LEFT JOIN SalesLeadCompanies slc ON sl.Id = slc.SalesLeadId
 
 SELECT * FROM SalesLeads
+
+
+-- Trip Listing
+--SELECT * FROM JobServices  js
+   
+  SELECT js.JobMainId, js.Id as JobServicesId, js.DtStart, js.DtEnd, js.Particulars, jm.Description, jm.JobStatusId, js.ActualAmt
+	            FROM JobServices  js
+	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
+	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
+
+ SELECT * FROM 
+
+
+
+select  a.Id ItemId, c.JobMainId, c.Id ServiceId, c.Particulars, c.DtStart, c.DtEnd from 
+InvItems a
+left outer join JobServiceItems b on b.InvItemId = a.Id 
+left outer join JobServices c on b.JobServicesId = c.Id
+left outer join JobMains d on c.JobMainId = d.Id
+where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
+
+
+

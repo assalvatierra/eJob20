@@ -157,6 +157,47 @@ namespace JobsV1.Models
         public IEnumerable<JobServiceItem> Assigned { get; set; }
     }
 
+    //Trip Listing
+    public class TripListing
+    {
+        public int Id { get; set; }
+        public int JobMainId { get; set; }
+        public int JobServicesId { get; set; }
+        public DateTime DtStart { get; set; }
+        public DateTime DtEnd { get; set; }
+        public DateTime DtService { get; set; }
+        public List<string> Unit { get; set; }
+        public List<string> Driver { get; set; }
+        public string ItemCode { get; set; }
+        public string ViewLabel { get; set; }
+        public string Particulars { get; set; }
+        public string Description { get; set; }
+        public string JobStatus { get; set; }
+        public Nullable<Decimal> ActualAmt { get; set; }
+        public Decimal Fuel { get; set; }
+        public Decimal DriverComi { get; set; }
+        public Decimal OperatorComi { get; set; }
+
+    }
+
+    public class cTripList
+    {
+        public int Id { get; set; }
+        public int JobMainId { get; set; }
+        public int JobServicesId { get; set; }
+        public DateTime DtStart { get; set; }
+        public DateTime DtEnd { get; set; }
+        public string Unit { get; set; }
+        public string Driver { get; set; }
+        public string ItemCode { get; set; }
+        public string ViewLabel { get; set; }
+        public string Particulars { get; set; }
+        public string Description { get; set; }
+        public int JobStatusId { get; set; }
+        public Nullable<Decimal> ActualAmt { get; set; }
+
+    }
+
     public class DBClasses
     {
         JobDBContainer db = new JobDBContainer();
@@ -248,13 +289,13 @@ namespace JobsV1.Models
         {
             #region get itemJobs
             string SqlStr = @"
-select  a.Id ItemId, c.JobMainId, c.Id ServiceId, c.Particulars, c.DtStart, c.DtEnd from 
-InvItems a
-left outer join JobServiceItems b on b.InvItemId = a.Id 
-left outer join JobServices c on b.JobServicesId = c.Id
-left outer join JobMains d on c.JobMainId = d.Id
-where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
-;";
+                select  a.Id ItemId, c.JobMainId, c.Id ServiceId, c.Particulars, c.DtStart, c.DtEnd from 
+                InvItems a
+                left outer join JobServiceItems b on b.InvItemId = a.Id 
+                left outer join JobServices c on b.JobServicesId = c.Id
+                left outer join JobMains d on c.JobMainId = d.Id
+                where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
+                ;";
             List<cItemSchedule> itemJobs = db.Database.SqlQuery<cItemSchedule>(SqlStr).ToList();
 
             //cItemSchedule
@@ -700,5 +741,136 @@ where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
+        public List<TripListing> GetTripList(int? DateRange)
+        {
+            if (DateRange == null)
+            {
+                DateRange = 7; 
+            }
+
+            string SqlStr = @"
+                SELECT js.JobMainId, js.Id as JobServicesId, js.DtStart, js.DtEnd, js.Particulars, jm.Description, jm.JobStatusId, js.ActualAmt
+	            FROM JobServices  js
+	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
+	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
+            ;";
+
+            List<cTripList> JobList = db.Database.SqlQuery<cTripList>(SqlStr).ToList();
+
+            List<TripListing> tripList = new List<TripListing>();
+
+            //get jobs 5 days
+            //get today
+            var range = DateRange;
+            var today = datetime.GetCurrentDate();
+            var tempDate = today.AddDays(-(int)range);
+            var prevId = 0;
+
+            for (var i = 0; i <= range; i++)
+            {
+                var prevDate = tempDate;
+                foreach (var trip in JobList)
+                {
+                   
+                    if (tempDate.CompareTo(trip.DtStart) >= 0 && tempDate.CompareTo(trip.DtEnd) <= 0 && CheckCarlist(trip.JobServicesId))
+                    {
+                        tripList.Add(new TripListing
+                        {
+                            Id = trip.Id,
+                            JobMainId = trip.JobMainId,
+                            JobServicesId = trip.JobServicesId,
+                            DtService = tempDate,
+                            DtStart = trip.DtStart,
+                            DtEnd   = trip.DtEnd,
+                            Unit = getCar(trip.JobServicesId),
+                            Driver = getDriver(trip.JobServicesId),
+                            Particulars = trip.Particulars,
+                            Description = trip.Description,
+                            ActualAmt = trip.ActualAmt != null ? trip.ActualAmt : 0,
+                            ItemCode = trip.ItemCode,
+                            JobStatus = trip.JobStatusId.ToString(),
+                            ViewLabel = trip.ViewLabel,
+                            Fuel = GetJobExpenseByCategory(trip.JobServicesId, 1),
+                            DriverComi = GetJobExpenseByCategory(trip.JobServicesId, 3),
+                            OperatorComi = GetJobExpenseByCategory(trip.JobServicesId, 8)
+                        });
+
+                        prevId = trip.JobServicesId;
+
+                    }
+
+                }
+
+                tempDate = tempDate.AddDays(1);
+            }
+
+            return tripList.OrderBy(s=>s.Unit.FirstOrDefault()).OrderByDescending(s=>s.DtService).ToList();
+        }
+
+        // get unit list of string of the job 
+        // PARAM : id = jobserviceId 
+        private List<string> getCar(int id)
+        {
+            var carList = db.JobServiceItems.Where(s => s.JobServicesId == id && s.InvItem.ViewLabel.ToUpper() == "UNIT").ToList();
+
+            List<string> units = new List<string>();
+
+            foreach (var car in carList)
+            {
+                string item = car.InvItem.Description + " ("+car.InvItem.ItemCode+")";
+                units.Add(item);
+            }
+
+            return units;
+        }
+
+        private bool CheckCarlist(int id)
+        {
+            var carList = db.JobServiceItems.Where(s => s.JobServicesId == id && s.InvItem.ViewLabel.ToUpper() == "UNIT").ToList();
+
+            if(carList.Count() != 0)
+            {
+               return true;
+            }else
+            {
+                return false;
+            }
+            return false;
+        }
+
+
+        // get driver list of string of the job 
+        // PARAM : id = jobserviceId
+        private List<string> getDriver(int id)
+        {
+            var driverList = db.JobServiceItems.Where(s => s.JobServicesId == id && s.InvItem.ViewLabel.ToUpper() == "DRIVER").ToList();
+
+            List<string> driverString =new List<string>();
+
+            foreach (var driver in driverList)
+            {
+                driverString.Add( driver.InvItem.ItemCode );
+            }
+
+            return driverString;
+        }
+        
+
+        // Get the total driver comi expenses of the job 
+        // PARAM : id = jobserviceId
+        private decimal GetJobExpenseByCategory(int id, int category)
+        {
+            var Expenses = db.JobExpenses.Where(s => s.JobServicesId == id && s.ExpensesId == category).Select(s => s.Amount).ToList();
+            decimal total = 0;
+
+            foreach (var expense in Expenses)
+
+            {
+                total += expense;
+            }
+
+            return total;
+        }
+        
     }
 }

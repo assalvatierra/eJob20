@@ -972,7 +972,7 @@ namespace JobsV1.Controllers
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
-
+        
         #region Job Notes
         public ActionResult JobNotes(int? id)
         {
@@ -1052,8 +1052,7 @@ namespace JobsV1.Controllers
         }
 
         #endregion
-
-
+        
         #region  JobQuickList
         public ActionResult JobQuickList()
         {
@@ -1074,6 +1073,18 @@ namespace JobsV1.Controllers
             return View(data);
         }
         #endregion
+
+        #region Trip Listing
+
+        public ActionResult TripListing(int? daterange)
+        {
+            var tripList = dbc.GetTripList(daterange);
+
+            return View(tripList);
+        }
+
+        #endregion
+
     }
 
 

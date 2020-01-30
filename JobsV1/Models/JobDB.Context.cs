@@ -137,5 +137,9 @@ namespace JobsV1.Models
         public virtual DbSet<SupplierDocument> SupplierDocuments { get; set; }
         public virtual DbSet<CustEntActivity> CustEntActivities { get; set; }
         public virtual DbSet<CustEntDocuments> CustEntDocuments { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Models.TripListing> TripListings { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Models.cTripList> cTripLists { get; set; }
     }
 }
