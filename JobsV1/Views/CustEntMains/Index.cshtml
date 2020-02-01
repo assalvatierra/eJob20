@@ -23,7 +23,7 @@
         <span id="ACT" class="status-link"> Active </span> |
         @*<span id="INC" class="status-link"> Inactive </span> |*@
         @*<span id="BAD" class="status-link"> Bad      </span> |*@
-        <span id="ALL" class="status-link"> All      </span>
+        <span id="ALL" class="status-link "> All      </span>
     </span>
 </p>
 
@@ -44,43 +44,84 @@
         <button class="btn btn-default search-group" onclick="ajax_loadContent()" >Search</button>
     </div>
 </div>
-<table class="js-sort-table table" id="company-Table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Code
-        </th>
-        <th>
-            Website
-        </th>
-        <th>
-            City
-        </th>
-        <th>
-            Category
-        </th>
-        <th>
-            Status
-        </th>
-        <th style="min-width:150px">
-            Contact Person
-        </th>
-        <th>
-            Position
-        </th>
-        <th style="min-width:230px">
-            Mobile # <br /> Email
-        </th>
-        <th>
-            Assigned To
-        </th>
-        <th></th>
-    </tr>
 
+<table class="js-sort-table table"  id="company-Table" data-sortable>
+    <thead>
+        <tr>
+            <th class="col-md-1">
+                Name
+            </th>
+            <th class="col-md-1">
+                Code
+            </th>
+            <th class="col-md-1">
+                Website
+            </th>
+            <th class="col-md-1">
+                City
+            </th>
+            <th class="col-md-1">
+                Category
+            </th>
+            <th class="col-md-1">
+                Status
+            </th>
+            <th  class="col-md-1" style="min-width:150px">
+                Contact Person
+            </th>
+            <th class="col-md-1">
+                Position
+            </th>
+            <th class="col-md-1" style="min-width:230px">
+                Mobile
+            </th>
+            <th class="col-md-1">
+                Assigned To
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td> John </td> 
+            <td> COP-002 </td> 
+            <td> acer.com.ph </td> 
+            <td> Davao </td> 
+            <td> Mechanical </td>
+            <td> 5-ACTIVE </td>
+            <td> Mark Dalton  </td>
+            <td> Staff  </td> 
+            <td> 0916-755-8473  </td> 
+            <td> support  </td> 
+        </tr>
+        <tr>
+            <td> AYES Food Corp </td>
+            <td> COP-001 </td>
+            <td> ayes.com.ph </td>
+            <td> Manila </td>
+            <td> Mechanical </td>
+            <td> 5-ACTIVE </td>
+            <td> Mark Dalton  </td>
+            <td> Staff  </td>
+            <td> 0916-755-8473  </td>
+            <td> support  </td>
+        </tr>
+        <tr>
+            <td> Google.Inc </td>
+            <td> COP-005 </td>
+            <td> google.com.ph </td>
+            <td> Manila </td>
+            <td> Admin </td>
+            <td> 1-PRIORITY </td>
+            <td> Arsd adlim  </td>
+            <td> admin  </td>
+            <td> 0916-755-8473 <br />0916-755-8473 </td>
+            <td> support  </td>
+        </tr>
+    </tbody>
 </table>
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/Job/CustEntMainList.js"></script>
 <script src="~/Scripts/sort-table.js"></script>
+<script src="~/Scripts/sorttable.min.js"></script>

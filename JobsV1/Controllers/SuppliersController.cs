@@ -303,6 +303,7 @@ namespace JobsV1.Controllers
             ViewBag.ItemList = filteredItems;
 
             ViewBag.InvItems = db.SupplierInvItems.Where(s => s.SupplierId == id).ToList();
+            //ViewBag.InvItems = supdb.getSuppInvRate(id);
         }
 
         //POST: /Suppliers/AddInvItems

@@ -177,6 +177,7 @@ namespace JobsV1.Models
         public Decimal Fuel { get; set; }
         public Decimal DriverComi { get; set; }
         public Decimal OperatorComi { get; set; }
+        public string items { get; set; }
 
     }
 
@@ -195,6 +196,7 @@ namespace JobsV1.Models
         public string Description { get; set; }
         public int JobStatusId { get; set; }
         public Nullable<Decimal> ActualAmt { get; set; }
+        public string items { get; set; }
 
     }
 
@@ -741,7 +743,7 @@ namespace JobsV1.Models
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-        public List<TripListing> GetTripList(int? DateRange)
+        public List<TripListing> GetTripList(int? DateRange, string srchType, string srch)
         {
             if (DateRange == null)
             {
@@ -750,10 +752,12 @@ namespace JobsV1.Models
 
             string SqlStr = @"
                 SELECT js.JobMainId, js.Id as JobServicesId, js.DtStart, js.DtEnd, js.Particulars, jm.Description, jm.JobStatusId, js.ActualAmt
+                , items = SUBSTRING((SELECT item = (SELECT ii.Description FROM InvItems ii WHERE ii.Id = jsi.InvItemId ) FROM JobServiceItems jsi WHERE jsi.InvItemId = js.Id FOR XML PATH('')),2,100)
 	            FROM JobServices  js
 	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
 	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
             ;";
+
 
             List<cTripList> JobList = db.Database.SqlQuery<cTripList>(SqlStr).ToList();
 
@@ -781,7 +785,7 @@ namespace JobsV1.Models
                             JobServicesId = trip.JobServicesId,
                             DtService = tempDate,
                             DtStart = trip.DtStart,
-                            DtEnd   = trip.DtEnd,
+                            DtEnd = trip.DtEnd,
                             Unit = getCar(trip.JobServicesId),
                             Driver = getDriver(trip.JobServicesId),
                             Particulars = trip.Particulars,
@@ -792,7 +796,8 @@ namespace JobsV1.Models
                             ViewLabel = trip.ViewLabel,
                             Fuel = GetJobExpenseByCategory(trip.JobServicesId, 1),
                             DriverComi = GetJobExpenseByCategory(trip.JobServicesId, 3),
-                            OperatorComi = GetJobExpenseByCategory(trip.JobServicesId, 8)
+                            OperatorComi = GetJobExpenseByCategory(trip.JobServicesId, 8),
+                            items = trip.items
                         });
 
                         prevId = trip.JobServicesId;
@@ -803,6 +808,21 @@ namespace JobsV1.Models
 
                 tempDate = tempDate.AddDays(1);
             }
+
+
+            //search string
+            if (srch != null)
+            {
+                //get jobservice items ids
+                var jsIds = db.JobServiceItems.Where(s => s.InvItem.Description.Contains(srch) && s.InvItem.ViewLabel.ToUpper() == srchType).ToList().Select(c => c.JobServicesId).ToList();
+
+                //tripList = tripList.Where(s ).ToList();
+                tripList = tripList.Where(s => jsIds.Contains(s.JobServicesId)).ToList();
+
+
+            }
+
+
 
             return tripList.OrderBy(s=>s.Unit.FirstOrDefault()).OrderByDescending(s=>s.DtService).ToList();
         }

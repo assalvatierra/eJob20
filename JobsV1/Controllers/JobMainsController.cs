@@ -1076,9 +1076,9 @@ namespace JobsV1.Controllers
 
         #region Trip Listing
 
-        public ActionResult TripListing(int? daterange)
+        public ActionResult TripListing(int? daterange, string srchType, string srch)
         {
-            var tripList = dbc.GetTripList(daterange);
+            var tripList = dbc.GetTripList(daterange, srchType, srch);
 
             return View(tripList);
         }

@@ -1,0 +1,177 @@
+﻿@model IEnumerable<JobsV1.Models.TripListing>
+
+@{
+    ViewBag.Title = "Trip Listing";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Trip Listing</h2>
+
+<div class="col-sm-8">
+        @Html.ActionLink("30 Days", "TripListing", new { DateRange = 30 }) | 
+        @Html.ActionLink("7 Days", "TripListing", new { DateRange = 7 })
+</div>
+
+<div class="col-sm-6 btn-group" id="itemSelected" style="margin-bottom:10px;">
+    <a class="btn btn-default" href="#" role="button" id="UNIT">   Unit   </a>
+    <a class="btn btn-default" href="#" role="button" id="DRIVER"> Driver </a>
+
+    <input id="srch-field" class="input-group-sm form-control col-sm-4" style="margin-top:5px;border-radius:0px;width:150px;" placeholder="Search" />
+    <button class="btn btn-default col-sm-3" onclick="loadtable();"> Search </button>
+</div>
+
+<br />
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th style="min-width:230px;">
+            Car 
+        </th>
+        <th>
+            Driver
+        </th>
+        <th>
+            Particulars / Job Name
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Fuel
+        </th>
+        <th>
+            Driver Comi.
+        </th>
+        <th>
+            Operator Comi
+        </th>
+        <th></th>
+    </tr>
+@{var tempdate = ""; }
+@foreach (var item in Model) {
+   
+    if (tempdate == item.DtService.ToShortDateString())
+    {
+
+        <tr>
+            <td>
+            
+            </td>
+            <td>
+               @foreach (var unitItem in item.Unit)
+               {
+                   @unitItem <br />
+               }
+            </td>
+            <td>
+                @foreach (var driverItem in item.Driver)
+                {
+                    @driverItem <br />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Particulars) / @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
+            </td>
+            <td>
+                @Decimal.Parse(item.Fuel.ToString()).ToString("N0")
+            </td>
+            <td>
+                @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+            </td>
+            <td>
+                @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+            </td>
+            <td>                
+                 @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
+                <a href="#"> Expenses </a>
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td>
+                @item.DtService.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @foreach (var unitItem in item.Unit)
+                {
+            @unitItem <br />
+                }
+            </td>
+            <td>
+                @foreach (var driverItem in item.Driver)
+                {
+            @driverItem <br />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Particulars) / @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
+            </td>
+            <td>
+                @Decimal.Parse(item.Fuel.ToString()).ToString("N0")
+            </td>
+            <td>
+                @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+            </td>
+            <td>
+                @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+            </td>
+            <td> 
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) | 
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null  ) |
+                <a href="#"> Expenses </a>
+            </td>
+        </tr>
+        
+    }
+    tempdate = item.DtService.ToShortDateString();
+}
+</table>
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script>
+    var searchCategory = "UNIT";
+    var dateRange = 30;
+
+
+            
+    function loadtable() {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const myParam = urlParams.get('DateRange');
+        dateRange = myParam;
+        var srch = $("#srch-field").val();
+        //dateRange = 30;
+        //srch = "Honda";
+        window.location.replace("/JobMains/TripListing?DateRange="+ dateRange + "&srchType="+searchCategory+"&srch="+srch);
+    }
+
+    //Events
+    //update status value on click
+    //change color of the text
+    $('#UNIT').click(function () {
+        searchCategory = "UNIT";
+        $('#UNIT').addClass("active")
+        $('#UNIT').siblings().removeClass("active");
+    });
+    $('#DRIVER').click(function () {
+        searchCategory = "DRIVER";
+        $('#DRIVER').addClass("active")
+        $('#DRIVER').siblings().removeClass("active");
+    });
+
+
+
+</script>

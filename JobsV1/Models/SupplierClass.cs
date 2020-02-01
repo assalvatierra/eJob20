@@ -67,6 +67,36 @@ namespace JobsV1.Models
         public string Remarks { get; set; }
     }
 
+    public class cSupplierItemRate
+    {
+        public int Id { get; set; }
+        public int SupplierId { get; set; }
+        public int InvItemId { get; set; }
+        public int ItemRateId { get; set; }
+        public int SupplierInvItemId { get; set; }
+        public string Remarks { get; set; }
+        public string DtEntered { get; set; }
+        public string DtValidFrom { get; set; }
+        public string DtValidTo { get; set; }
+        public string Particulars { get; set; }
+        public string By { get; set; }
+        public string Materials { get; set; }
+        public string ProcBy { get; set; }
+        public string TradeTerm { get; set; }
+        public string Tolerance { get; set; }
+
+    }
+
+
+    public class cSupplierItem
+    {
+        public int Id { get; set; }
+        public int SupplierId { get; set; }
+        public int InvItemId { get; set; }
+        public string DtValidFrom { get; set; }
+
+    }
+
     public class SupplierClass
     {
 
@@ -300,6 +330,30 @@ namespace JobsV1.Models
             prodList = db.Database.SqlQuery<cProductList>(sql).ToList();
             
             return prodList;
+        }
+
+
+        //get supplier list containing the search string,
+        //if search is empty, return all actve items
+        public List<SupplierInvItem> getSuppInvRate(int id)
+        {
+
+            List<cSupplierItem> prodList = new List<cSupplierItem>();
+
+            //sql query with comma separated item list
+            string sql =
+               @"
+                 SELECT sii.* , sir.DtValidFrom FROM SupplierInvItems sii
+                 LEFT JOIN SupplierItemRates sir on sir.SupplierInvItemId = sii.Id
+                 WHERE sii.SupplierId = " + id + " ORDER BY sir.DtValidFrom DESC ";
+            
+            prodList = db.Database.SqlQuery<cSupplierItem>(sql).ToList();
+
+            List<int> IdList = prodList.Select(s => s.Id).ToList();
+
+            List<SupplierInvItem> supItems = db.SupplierInvItems.Where(s=> IdList.Contains(s.Id)).ToList();
+            
+            return supItems;
         }
 
 

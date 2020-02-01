@@ -321,16 +321,29 @@ SELECT * FROM SalesLeads
 	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
 	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
 
- SELECT * FROM 
+
+ SELECT sii.Id, sii.SupplierId, sii.InvItemId, sir.*
+ FROM SupplierInvItems sii
+ LEFT JOIN SupplierItemRates sir on sir.SupplierInvItemId = sii.Id
+
+
+SELECT * FROM (
+ SELECT sii.Id, sii.SupplierId, sii.InvItemId, sir.Id as SupplierInvRateId, sir.SupplierInvItemId, sir.ItemRate, sir.SupplierUnitId,
+ sir.Remarks, sir.DtValidFrom, sir.DtValidTo, sir.Particulars, Sir.Material, sir.ProcBy, sir.TradeTerm, sir.Tolerance, sir.DtEntered
+ FROM SupplierInvItems sii
+ LEFT JOIN SupplierItemRates sir on sir.SupplierInvItemId = sii.Id
+  ) 
+ as sup
+ ORDER BY sup.DtValidFrom DESC
 
 
 
-select  a.Id ItemId, c.JobMainId, c.Id ServiceId, c.Particulars, c.DtStart, c.DtEnd from 
-InvItems a
-left outer join JobServiceItems b on b.InvItemId = a.Id 
-left outer join JobServices c on b.JobServicesId = c.Id
-left outer join JobMains d on c.JobMainId = d.Id
-where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
-
-
-
+   SELECT js.JobMainId, js.Id as JobServicesId, js.DtStart, js.DtEnd, js.Particulars, jm.Description, jm.JobStatusId, js.ActualAmt
+				, items = SUBSTRING((SELECT item = (SELECT ii.Description FROM InvItems ii WHERE ii.Id = jsi.InvItemId ) FROM JobServiceItems jsi WHERE jsi.InvItemId = js.Id FOR XML PATH('')),2,100)
+	            FROM JobServices  js
+	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
+	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
+			
+				 Items = SUBSTRING( (SELECT sii.Id as [text()]
+	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId 
+	FOR XML PATH('')),2,100 ) 

@@ -1074,6 +1074,7 @@
     <Content Include="Content\ModalUser.css" />
     <Content Include="Content\Erp.css" />
     <Content Include="Content\ProductStyle.css" />
+    <Content Include="Content\sortable-theme-bootstrap.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -1587,6 +1588,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.tablesort.min.js" />
     <Content Include="Scripts\Personnel\Payroll.js" />
     <Content Include="Scripts\Products\ProdCreate.js" />
     <Content Include="Scripts\Reporting\UnitIncome.js" />

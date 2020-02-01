@@ -5,7 +5,7 @@
 
 @*<a href="" id="catbtn" data-toggle="modal" data-target="#ItemAddModal" style="margin-bottom:10px;">Add Item</a>*@
 
-<table class="js-sort-table table">
+<table class="js-sort-table table" id="invItems-Table">
     <tr>
         <th>
             Product
@@ -22,7 +22,7 @@
         <th>
             Remarks
         </th>
-        <th>
+        <th id="table-date">
             Date
         </th>
         <th>
@@ -386,7 +386,9 @@
 <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
 <script src="~/Scripts/Job/SupplierAddRate.js"></script>
-<script src="~/Scripts/sort-table.js"></script>
+<script src="~/Scripts/sort-table.js">
+
+</script><script src="~/Scripts/jquery.tablesorter.js"></script>
 
 <script>
     $(document).ready(new function () {
@@ -395,8 +397,18 @@
 
         $("#InvRate-ValidFrom").val(today);
         $("#InvRate-ValidTo").val(endDate);
+
+        $("#table-date").click();
+        $("#table-date").click();
     });
 
+
+    setTimeout(function () {
+
+        $("#table-date").click();
+        $("#table-date").click();
+
+    }, 1000);
 
     //ADDRESS EDIT
     function ajax_createInvRate() {
@@ -582,4 +594,7 @@
         });
     }
 
+</script>
+
+<script>
 </script>
