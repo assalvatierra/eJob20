@@ -1486,6 +1486,7 @@
     </Content>
     <Content Include="Scripts\dataTables.min.js" />
     <Content Include="Scripts\Job\CustEntActivities.js" />
+    <Content Include="Scripts\Job\TripListing.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />
     <Content Include="Scripts\Job\CustEntMainList.js" />
     <Content Include="Scripts\Job\CustEntRecords.js" />
@@ -2274,6 +2275,7 @@
     <Content Include="Views\CustEntMains\CreateDocuments.cshtml" />
     <Content Include="Views\Suppliers\CreateSupplier.cshtml" />
     <Content Include="Views\JobMains\TripListing.cshtml" />
+    <Content Include="Views\JobMains\TripListing_Expenses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

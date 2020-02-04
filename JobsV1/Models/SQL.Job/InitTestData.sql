@@ -344,6 +344,6 @@ SELECT * FROM (
 	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
 	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
 			
-				 Items = SUBSTRING( (SELECT sii.Id as [text()]
-	FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId 
-	FOR XML PATH('')),2,100 ) 
+	--			 Items = SUBSTRING( (SELECT sii.Id as [text()]
+	--FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId 
+	--FOR XML PATH('')),2,100 ) 

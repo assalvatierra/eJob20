@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
 using System.Data.Entity.Core.Objects;
+using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
 {
@@ -25,13 +26,14 @@ namespace JobsV1.Controllers
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
+        private DateClass dt = new DateClass();
 
         // GET: JobMains
         public ActionResult Index(int? Param1 = 1, int? Param2 = 0)
         {
             string sParam = "";
 
-            IQueryable<Models.JobMain> jobMains = db.JobMains.Include(j => j.Customer).Include(j => j.Branch).Include(j => j.JobStatus).Include(j => j.JobThru).OrderBy(d=>d.JobDate);
+            IQueryable<Models.JobMain> jobMains = db.JobMains.Include(j => j.Customer).Include(j => j.Branch).Include(j => j.JobStatus).Include(j => j.JobThru).OrderBy(d => d.JobDate);
             // Param1 : Status Option
             //        0: ALL
             //        1: confirmed
@@ -43,7 +45,7 @@ namespace JobsV1.Controllers
             if (Param1 == 1)
             {
                 jobMains = (IQueryable<Models.JobMain>)jobMains.Where(d => d.JobStatusId == JOBRESERVATION || d.JobStatusId == JOBCONFIRMED);
-                sParam += "[ Status : Confirmed ] ";  
+                sParam += "[ Status : Confirmed ] ";
             }
             if (Param1 == 2)
             {
@@ -61,7 +63,7 @@ namespace JobsV1.Controllers
 
             if (Param2 == 0)
             {
-                dt1 = new DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day, 0,0,1); //.AddDays(-1);
+                dt1 = new DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day, 0, 0, 1); //.AddDays(-1);
                 dt2 = new DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, System.DateTime.Now.Day, 23, 59, 59); //.AddDays(-1);
                 sParam += "[ Date : Current ] ";
             }
@@ -78,13 +80,13 @@ namespace JobsV1.Controllers
                 dt2 = System.DateTime.Now.AddDays(90);
                 sParam += "[ Date : current and incoming ] ";
             }
-                
+
             List<int> svcs = db.JobServices.Where(d =>
                 ((DateTime)d.DtEnd).CompareTo(dt1) >= 0 && ((DateTime)d.DtStart).CompareTo(dt2) <= 0).Select(s => s.JobMainId).ToList();
-                
-            jobMains = (IQueryable<Models.JobMain>)jobMains.Where( d => 
-            (  d.JobDate.CompareTo(dt1) >= 0 && d.JobDate.CompareTo(dt2) <= 0  )
-            || ( svcs.Contains( d.Id ) )  
+
+            jobMains = (IQueryable<Models.JobMain>)jobMains.Where(d =>
+           (d.JobDate.CompareTo(dt1) >= 0 && d.JobDate.CompareTo(dt2) <= 0)
+           || (svcs.Contains(d.Id))
             );
 
             ViewBag.ListParam = sParam;
@@ -138,7 +140,7 @@ namespace JobsV1.Controllers
                     data = data.Where(s => s.Service.Name.ToLower().Contains(service.ToLower())).ToList();
                 }
             }
-            
+
             ////convert to cJobActives
             //List<cActiveJobs> cdata = new List<cActiveJobs>();
 
@@ -158,7 +160,7 @@ namespace JobsV1.Controllers
             //    }
 
             //    var jobs = new cActiveJobs();
-               
+
             //        jobs.Id = item.Id;
             //        jobs.JobMainId = item.JobMainId;
             //        jobs.JobDesc = item.JobMain.Description;
@@ -176,10 +178,10 @@ namespace JobsV1.Controllers
 
             //    cdata.Add(jobs);
             //}
-            
+
             ViewBag.Current = this.GetCurrentTime().ToString("MMM dd yyyy (ddd)");
             ViewBag.today = GetCurrentTime();
-            
+
             return View(data);
         }
 
@@ -197,7 +199,7 @@ namespace JobsV1.Controllers
             ViewBag.Current = this.GetCurrentTime().ToString("MMM-dd-yyyy (ddd)");
             ViewBag.today = GetCurrentTime();
 
-            return View(data.OrderBy(s=>s.SORTDATE));
+            return View(data.OrderBy(s => s.SORTDATE));
         }
 
         protected DateTime GetCurrentTime()
@@ -207,7 +209,7 @@ namespace JobsV1.Controllers
 
             return _localTime;
         }
-        
+
         // GET: JobMains/Details/5
         public ActionResult Details(int? id, int? iType)
         {
@@ -221,10 +223,10 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).OrderBy(s=>s.DtStart);
+            ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).OrderBy(s => s.DtStart);
             ViewBag.Itinerary = db.JobItineraries.Include(j => j.Destination).Where(j => j.JobMainId == jobMain.Id);
             ViewBag.Payments = db.JobPayments.Where(j => j.JobMainId == jobMain.Id);
-            ViewBag.jNotes = db.JobNotes.Where(d => d.JobMainId == jobMain.Id).OrderBy(s=>s.Sort);
+            ViewBag.jNotes = db.JobNotes.Where(d => d.JobMainId == jobMain.Id).OrderBy(s => s.Sort);
 
             //Default form
             string sCompany = "AJ88 Car Rental Services";
@@ -261,10 +263,10 @@ namespace JobsV1.Controllers
             ViewBag.sLogo = sLogo;
 
 
-            if (jobMain.JobStatusId==1) //quotation
+            if (jobMain.JobStatusId == 1) //quotation
                 return View("Details_Quote", jobMain);
 
-            if( iType!= null && (int)iType == 1) //Invoice
+            if (iType != null && (int)iType == 1) //Invoice
                 return View("Details_Invoice", jobMain);
 
             return View(jobMain);
@@ -314,7 +316,7 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).Where( j => j.Supplier.Name == sProvider).OrderBy(s=>s.DtStart);
+            ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).Where(j => j.Supplier.Name == sProvider).OrderBy(s => s.DtStart);
             ViewBag.Itinerary = db.JobItineraries.Include(j => j.Destination).Where(j => j.JobMainId == jobMain.Id);
             ViewBag.Payments = db.JobPayments.Where(j => j.JobMainId == jobMain.Id);
             ViewBag.Notes = db.JobNotes.Where(j => j.JobMainId == jobMain.Id);
@@ -391,13 +393,13 @@ namespace JobsV1.Controllers
             ViewBag.sLine1 = sLine1;
             ViewBag.sLine2 = sLine2;
             ViewBag.sLine3 = sLine3;
-            ViewBag.sLogo  = sLogo;
+            ViewBag.sLogo = sLogo;
 
             //handle prepared by
             var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
             ViewBag.StaffName = getStaffName(encoder.user);
             ViewBag.Sign = getStaffSign(encoder.user);
-            
+
             return View(jobMain);
         }
 
@@ -454,8 +456,8 @@ namespace JobsV1.Controllers
             job.NoOfDays = 1;
             job.NoOfPax = 1;
             job.JobRemarks = "CASH BASIS";
-            var customerlist = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id != null? id : NewCustSysId);
-          
+            var customerlist = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id != null ? id : NewCustSysId);
+
             ViewBag.CustomerId = customerlist;
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name");
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status");
@@ -463,7 +465,7 @@ namespace JobsV1.Controllers
 
             return View(job);
         }
-        
+
         // GET: JobMains/Create
         public ActionResult Create2(int? custid)
         {
@@ -520,7 +522,7 @@ namespace JobsV1.Controllers
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             return View(jobMain);
         }
-        
+
         // GET: JobMains/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -533,11 +535,11 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers.Where(d=>d.Status == "ACT") , "Id", "Name", jobMain.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
-            
+
             TempData["UrlSource"] = Request.UrlReferrer.ToString();
             return View(jobMain);
         }
@@ -563,9 +565,9 @@ namespace JobsV1.Controllers
 
                 //if (jobMain.Customer.Name == "<< New Customer >>")
                 if (jobMain.CustomerId == NewCustSysId)
-                     return RedirectToAction("CreateCustomer", new { jobid = jobMain.Id });
+                    return RedirectToAction("CreateCustomer", new { jobid = jobMain.Id });
                 else
-                return Redirect((string)TempData["UrlSource"]);
+                    return Redirect((string)TempData["UrlSource"]);
                 //return RedirectToAction("Services", "JobServices", new { id = jobMain.Id });
                 //return RedirectToAction("Index");
 
@@ -656,7 +658,7 @@ namespace JobsV1.Controllers
             db.Entry(job).State = EntityState.Modified;
             db.SaveChanges();
 
-            return Redirect( Request.UrlReferrer.ToString() );
+            return Redirect(Request.UrlReferrer.ToString());
 
             //return RedirectToAction("JobTable", new { span = 30 });
 
@@ -675,7 +677,7 @@ namespace JobsV1.Controllers
 
         public string CloseOldJob()
         {
-            
+
             //var job = db.JobMains.Where(s=> DateTime.Compare(s.JobDate, DateTime.Now ) < 60).ToList();
 
             //foreach (var item in job)
@@ -719,7 +721,7 @@ namespace JobsV1.Controllers
             System.DateTime dtNow = today;
             System.DateTime dtStart = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 0, 0, 0);
             System.DateTime dtUntil = System.DateTime.Now.AddDays((double)span);
-            
+
 
             dtUntil = new DateTime(dtUntil.Year, dtUntil.Month, dtUntil.Day, 23, 59, 59);
             //Column Date Labels
@@ -748,7 +750,7 @@ namespace JobsV1.Controllers
                 cust.iJobId = item.Id;
 
                 List<Models.JobServices> svc = db.JobServices.Include(j => j.JobServicePickups).Where(d => d.JobMainId == item.Id).ToList();
-               
+
                 for (DateTime dtItem = dtStart; dtItem.CompareTo(dtUntil) < 0; dtItem = dtItem.AddDays(1))
                 {
                     foreach (var svcitem in svc)
@@ -767,7 +769,7 @@ namespace JobsV1.Controllers
                         {
                             // get Inventory items - Internal
                             var invItems = db.JobServiceItems.Where(d => d.JobServicesId == svcitem.Id);
-                            foreach( var invitemtmp in invItems)
+                            foreach (var invitemtmp in invItems)
                             {
                                 string itemiconpath = "*";
                                 var itemcat = invitemtmp.InvItem.InvItemCategories.FirstOrDefault();
@@ -790,10 +792,10 @@ namespace JobsV1.Controllers
                             }
 
                             // get Supplier Items - Po
-                            var suppItems = db.SupplierPoDtls.Where(d=>d.JobServicesId==svcitem.Id);
-                            foreach ( var supPoDtl in suppItems )
+                            var suppItems = db.SupplierPoDtls.Where(d => d.JobServicesId == svcitem.Id);
+                            foreach (var supPoDtl in suppItems)
                             {
-                                foreach ( var supItem in supPoDtl.SupplierPoItems)
+                                foreach (var supItem in supPoDtl.SupplierPoItems)
                                 {
                                     string itemiconpath = "*";
                                     var itemcat = supItem.InvItem.InvItemCategories.FirstOrDefault();
@@ -833,7 +835,7 @@ namespace JobsV1.Controllers
             ViewBag.ColLabels = ColLabels;
             ViewBag.ColValues = CustData;
 
-            return View(jobMains.ToList().Where(j=>j.JobDate.CompareTo(DateTime.Today) >= 0));
+            return View(jobMains.ToList().Where(j => j.JobDate.CompareTo(DateTime.Today) >= 0));
 
         }
 
@@ -869,10 +871,10 @@ namespace JobsV1.Controllers
         }
 
 
-        public ActionResult JobTable2(int? span=30) //2017 version
+        public ActionResult JobTable2(int? span = 30) //2017 version
         {
             System.DateTime dtNow = this.GetCurrentTime();
-            System.DateTime dtStart = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 12,0,0);
+            System.DateTime dtStart = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, 12, 0, 0);
             System.DateTime dtUntil = System.DateTime.Now.AddDays((double)span);
             dtUntil = new DateTime(dtUntil.Year, dtUntil.Month, dtUntil.Day, 23, 59, 59);
             //Column Date Labels
@@ -883,12 +885,12 @@ namespace JobsV1.Controllers
             }
 
             System.Collections.ArrayList CustData = new System.Collections.ArrayList();
-            
+
             var jobMains2 = db.JobMains.Include(j => j.Customer).Include(j => j.Branch).Include(j => j.JobStatus).Include(j => j.JobThru).OrderBy(d => d.JobDate);
 
             var jobMains = jobMains2.ToList().Where(
-                d => ( d.JobStatusId == JOBRESERVATION || d.JobStatusId == JOBCONFIRMED )
-//                || (d.JobStatusId == JOBCLOSED && d.JobDate.CompareTo(System.DateTime.Now.AddDays(1)) >= 0)
+                d => (d.JobStatusId == JOBRESERVATION || d.JobStatusId == JOBCONFIRMED)
+              //                || (d.JobStatusId == JOBCLOSED && d.JobDate.CompareTo(System.DateTime.Now.AddDays(1)) >= 0)
               );
 
             System.Collections.ArrayList data = new System.Collections.ArrayList();
@@ -910,26 +912,26 @@ namespace JobsV1.Controllers
                         int iend = dtItem.CompareTo((DateTime)svcitem.DtEnd);
 
                         string sLabel = dtItem.ToString("dd") + "-" + dtItem.DayOfWeek.ToString();
-                        if (dtItem.CompareTo( (DateTime)svcitem.DtStart) >= 0 && dtItem.CompareTo( (DateTime)svcitem.DtEnd ) <= 0)
+                        if (dtItem.CompareTo((DateTime)svcitem.DtStart) >= 0 && dtItem.CompareTo((DateTime)svcitem.DtEnd) <= 0)
                         {
                             string sDriver = "";
                             try
                             {
                                 sDriver = svcitem.JobServicePickups.FirstOrDefault().ProviderName.Trim();
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 sDriver = "";
                             }
-                                
-                            cust.tblValue.Add(new JobTableValue { DtDate = dtItem, Book = 1, supplier = svcitem.Supplier.Name, item = svcitem.SupplierItem.Description, Incharge = sDriver, label = sLabel } );
+
+                            cust.tblValue.Add(new JobTableValue { DtDate = dtItem, Book = 1, supplier = svcitem.Supplier.Name, item = svcitem.SupplierItem.Description, Incharge = sDriver, label = sLabel });
                         }
                         else
                         {
-                            cust.tblValue.Add(new JobTableValue { DtDate = dtItem, Book = 0, supplier = "", item = "", Incharge ="", label = sLabel });
+                            cust.tblValue.Add(new JobTableValue { DtDate = dtItem, Book = 0, supplier = "", item = "", Incharge = "", label = sLabel });
 
                         }//end of if dtItem.Compare
-                        
+
                     } //end of foreach ( var svcitem...
 
                 }// end of for(DateTime
@@ -972,7 +974,7 @@ namespace JobsV1.Controllers
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
-        
+
         #region Job Notes
         public ActionResult JobNotes(int? id)
         {
@@ -997,7 +999,7 @@ namespace JobsV1.Controllers
         {
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", id);
             JobNote jn = new JobNote();
-            jn.Sort = 10 * ( 1 + db.JobNotes.Where(d => d.JobMainId == id).ToList().Count() );
+            jn.Sort = 10 * (1 + db.JobNotes.Where(d => d.JobMainId == id).ToList().Count());
 
             ViewBag.templateNotes = db.PreDefinedNotes.ToList();
             ViewBag.JobId = id;
@@ -1052,7 +1054,7 @@ namespace JobsV1.Controllers
         }
 
         #endregion
-        
+
         #region  JobQuickList
         public ActionResult JobQuickList()
         {
@@ -1061,7 +1063,7 @@ namespace JobsV1.Controllers
             today = today.Date;
 
             IQueryable<Models.JobMain> jobMains = db.JobMains.Include(j => j.Customer).Include(j => j.Branch).Include(j => j.JobStatus).Include(j => j.JobThru).OrderBy(d => d.JobDate);
-            jobMains = (IQueryable<Models.JobMain>)jobMains.Where(d => (d.JobStatusId == JOBRESERVATION || d.JobStatusId == JOBCONFIRMED) && d.JobDate.CompareTo(today) < 0  );
+            jobMains = (IQueryable<Models.JobMain>)jobMains.Where(d => (d.JobStatusId == JOBRESERVATION || d.JobStatusId == JOBCONFIRMED) && d.JobDate.CompareTo(today) < 0);
 
             var p = jobMains.Select(s => s.Id);
 
@@ -1081,6 +1083,206 @@ namespace JobsV1.Controllers
             var tripList = dbc.GetTripList(daterange, srchType, srch);
 
             return View(tripList);
+        }
+
+        public string AddExpenses(int id, string payment, string driver, string fuel, string Operator, string others, string remarks, string dtDriver, string dtOperator )
+        {
+            //add each expense on each respective category
+
+            //get job Main id   
+            int jobmainId = db.JobServices.Find(id).JobMainId;
+            string respString = "";
+
+            //Add Payment
+            respString += CheckPaymentRecord(jobmainId) ? addPayment(jobmainId, payment) : UpdatePaymentRecord(jobmainId, payment);
+
+            //Add Expenses
+            respString += CheckExpenseRecord(id, 3) ? AddExpenseRecord(jobmainId, id, driver, dtDriver, 3, "")      : UpdateExpenseRecord(jobmainId, id, driver, dtDriver, 3, "");
+            respString += CheckExpenseRecord(id, 8) ? AddExpenseRecord(jobmainId, id, Operator, dtOperator, 8, "")  : UpdateExpenseRecord(jobmainId, id, Operator, dtDriver, 8, "");
+            respString += CheckExpenseRecord(id, 6) ? AddExpenseRecord(jobmainId, id, others, dtDriver, 6, remarks) : UpdateExpenseRecord(jobmainId, id, others, dtDriver, 6, "");
+            respString += CheckExpenseRecord(id, 1) ? AddExpenseRecord(jobmainId, id, fuel, dtDriver, 1, "")        : UpdateExpenseRecord(jobmainId, id, fuel, dtDriver, 1, "");
+            
+            return respString;
+        }
+
+        // Added Expenses Record
+        public string AddExpenseRecord(int jobMainId, int jobServiceId, string amount, string Dt, int ExpenseType, string remarks)
+        {
+            string expenseType = db.Expenses.Find(ExpenseType).Name;
+            try
+            {
+                if (amount != null)
+                {
+                    decimal Expense = Decimal.Parse(amount);
+                    if (Expense != 0)
+                    {
+                        JobExpenses expense   = new JobExpenses();
+                        expense.JobServicesId = jobServiceId;
+                        expense.JobMainId     = jobMainId;
+                        expense.Amount        = Expense;
+                        expense.DtExpense     = DateTime.Parse(Dt);
+                        expense.ExpensesId    = ExpenseType;
+                        expense.Remarks       = remarks;
+
+                        db.JobExpenses.Add(expense);
+                        db.SaveChanges();
+
+                        return expenseType +" Expense Created. /";
+                    }
+                }
+                return expenseType + " Not Added / ";
+            }
+            catch (Exception ex)
+            {
+                return expenseType+ " Expense Not Added. /" + ex;
+            }
+        }
+
+        // Upadte Expenses Record
+        public string UpdateExpenseRecord(int jobMainId, int jobServiceId, string amount, string Dt, int ExpenseType, string remarks)
+        {
+            var jobexpenses = db.JobExpenses.Where(j => j.JobServicesId == jobServiceId && j.ExpensesId == ExpenseType).FirstOrDefault();
+            string expenseType = db.Expenses.Find(ExpenseType).Name;
+            try
+            {
+                if (amount != null)
+                {
+                    decimal Expense = Decimal.Parse(amount);
+                    if (Expense != 0)
+                    {
+                        JobExpenses expense = db.JobExpenses.Find(jobexpenses.Id);
+                        expense.Amount = Expense;
+                        expense.DtExpense = DateTime.Parse(Dt);
+                        expense.ExpensesId = ExpenseType;
+                        expense.Remarks = remarks;
+
+                        db.Entry(expense).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        return expenseType + " Expense Updated. /";
+                    }
+                }
+                return expenseType + " Not Updated. /";
+            }
+            catch (Exception ex)
+            {
+                return expenseType + " expense not updated. /" + ex;
+            }
+        }
+
+
+        //check if the jobservice have expense record 
+        public bool CheckExpenseRecord(int jsId, int expenseId)
+        {
+            var jobexpenses = db.JobExpenses.Where(j => j.JobServicesId == jsId && j.ExpensesId == expenseId).Count();
+
+            if (jobexpenses != 0)
+            {
+                //have existing record
+                //UPDATE the existing record
+                return false;
+            }
+            //have NO existing record
+            //CREATE the existing record
+            return true;
+        }
+
+        //check if the jobservice have expense record 
+        public bool CheckPaymentRecord(int id)
+        {
+            var jobexpenses = db.JobPayments.Where(j => j.JobMainId == id).Count();
+
+            if (jobexpenses != 0)
+            {
+                //have existing record
+                //UPDATE the existing record
+                return false;
+            }
+            //have NO existing record
+            //CREATE the existing record
+            return true;
+        }
+
+        // Upadte Expenses Record
+        public string UpdatePaymentRecord(int jobMainId, string amount)
+        {
+            var jobpayment = db.JobExpenses.Where(j => j.JobMainId == jobMainId).FirstOrDefault();
+
+            try
+            {
+                if (amount != null)
+                {
+                    decimal Payment = Decimal.Parse(amount);
+                    if (Payment != 0)
+                    {
+                        JobPayment payment = db.JobPayments.Find(jobpayment.Id);
+                        payment.PaymentAmt = Payment;
+                        payment.DtPayment  = dt.GetCurrentDateTime();
+                        payment.BankId     = 1;
+
+                        db.Entry(payment).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        return   " Payment Updated. /";
+                    }
+                }
+                return   " Not Updated. /";
+            }
+            catch (Exception ex)
+            {
+                return   " Payment not updated. /" + ex;
+            }
+        }
+
+
+
+        public string addPayment(int jobMainId, string paymentAmount)
+        {
+            if (paymentAmount != null)
+            {
+                var payment = Decimal.Parse(paymentAmount);
+
+                if (payment != 0)
+                {
+                    JobPayment jobpayment = new JobPayment();
+                    jobpayment.JobMainId  = jobMainId;
+                    jobpayment.PaymentAmt = payment;
+                    jobpayment.DtPayment  = dt.GetCurrentDateTime();
+                    jobpayment.BankId     = 1;
+                    jobpayment.Remarks    = "";
+                     
+                    db.JobPayments.Add(jobpayment);
+                    db.SaveChanges();
+
+                    return " Payment OK.";
+                }
+
+            }
+
+            return "";
+        }
+        
+        public string getExpenseRecord(int jsId)
+        {
+            cTripExpenses tripExpense = new cTripExpenses();
+
+            int jobmainId = db.JobServices.Find(jsId).JobMainId;
+            
+            tripExpense.Id              = jobmainId;
+            tripExpense.JobServicesId   = jsId;
+            tripExpense.Payment         = dbc.getJobPayment(jobmainId);
+            tripExpense.ActualAmt       = db.JobServices.Find(jsId).ActualAmt;
+            tripExpense.DriverComi      = dbc.getExpenses(jsId, 3); // 3 = driver
+            tripExpense.Fuel            = dbc.getExpenses(jsId, 1); // 1 = Fuel;
+            tripExpense.OperatorComi    = dbc.getExpenses(jsId, 8); // 8 = Operator;
+            tripExpense.Others          = dbc.getExpenses(jsId, 6); // 6 = Others;
+            tripExpense.Remarks         = "None";
+            tripExpense.DtDriver        = dt.GetCurrentDate();
+            tripExpense.DtOperator      = dt.GetCurrentDate();
+            tripExpense.Total           = 0;
+            tripExpense.Net             = 0;
+            
+            return JsonConvert.SerializeObject(tripExpense, Formatting.Indented);
         }
 
         #endregion

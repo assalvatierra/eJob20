@@ -1,0 +1,98 @@
+﻿<!-- Add Clause Edit Modal -->
+<!-- Add Inv Rate Modal -->
+<div class="modal fade" id="AddExpenses" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Expenses <span id="InvRate-ItemName"> Item </span></h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform ">
+                    <b class="col-md-2"> Id </b>
+                    <div class="col-md-10">
+                        <input id="Exp-JobServiceId" class="form-control" type="text" maxlength="80" value="0">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Payment </b>
+                    <div class="col-md-10">
+                        <input id="Exp-Payment" class="form-control" type="text" maxlength="10" value="0">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Fuel </b>
+                    <div class="col-md-10">
+                        <input id="Exp-Fuel" class="form-control" type="text" maxlength="10" value="0">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Driver </b>
+                    <div class="col-md-5">
+                        <input id="Exp-Driver" class="form-control" type="text" maxlength="10" value="0">
+                    </div>
+                    <div class="col-md-1">
+                       <b>Date</b>
+                    </div>
+                    <div class="col-md-4">
+                        <input id="Exp-DtDriver" class="form-control" type="text" maxlength="10" value="0">
+                    </div>
+                    <p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Operator </b>
+                    <div class="col-md-5">
+                        <input id="Exp-Operator" class="form-control" type="text" maxlength="20" value="0">
+                    </div>
+                    <div class="col-md-1">
+                        <b>Date</b>
+                    </div>
+                    <div class="col-md-4">
+                        <input id="Exp-DtOperator" class="form-control" type="text" maxlength="20" value="0">
+                    </div>
+                    <p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2">Others </b>
+                    <div class="col-md-10">
+                        <input id="Exp-Others" class="form-control" type="text" maxlength="10" value="0">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2">Remarks </b>
+                    <div class="col-md-10">
+                        <input id="Exp-Remarks" class="form-control" type="text" maxlength="10" >
+                    </div><p></p>
+                </div>
+
+                <br />
+                <div class="form-group cform"> 
+                    <b class="col-md-2"> Total  </b>
+                    <span class="col-md-4" id="Exp-Total"> 0 </span>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Net  </b>
+                    <span class="col-md-4" id="Exp-Net"> 0 </span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addExpenseBtn" onclick="ajax_AddExpenses()">Save</button>
+                </div>
+            </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+<script src="~/Scripts/Job/TripListing.js"></script>

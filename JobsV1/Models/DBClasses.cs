@@ -200,6 +200,26 @@ namespace JobsV1.Models
 
     }
 
+    public class cTripExpenses
+    {
+        public int Id { get; set; }
+        public int JobServicesId { get; set; }
+        public Nullable<Decimal> ActualAmt { get; set; }
+        public Decimal Fuel { get; set; }
+        public Decimal DriverComi { get; set; }
+        public Decimal OperatorComi { get; set; }
+        public Decimal Others { get; set; }
+        public Decimal Total { get; set; }
+        public Decimal Net { get; set; }
+        public Decimal Payment { get; set; }
+        public DateTime DtDriver { get; set; }
+        public DateTime DtOperator { get; set; }
+        public string Remarks { get; set; }
+
+
+
+    }
+
     public class DBClasses
     {
         JobDBContainer db = new JobDBContainer();
@@ -891,6 +911,38 @@ namespace JobsV1.Models
 
             return total;
         }
+
+
+        // ----- JobExpenses ------ //
+        #region JobExpenses
+        public decimal getJobPayment(int id)
+        {
+            var paymentList = db.JobPayments.Where(j => j.JobMainId == id).ToList();
+            decimal totalPayment = 0;
+
+            foreach (var payment in paymentList)
+            {
+                totalPayment += payment.PaymentAmt;
+            }
+
+            return totalPayment;
+        }
+
+        public decimal getExpenses(int jsid, int expensesId)
+        {
+
+            var driverExpenses = db.JobExpenses.Where(j => j.JobServicesId == jsid && j.ExpensesId == expensesId).ToList();
+            decimal totalExpenses = 0;
+
+            foreach (var expenses in driverExpenses)
+            {
+                totalExpenses += expenses.Amount;
+            }
+
+            return totalExpenses;
+        }
         
+
+        #endregion
     }
 }
