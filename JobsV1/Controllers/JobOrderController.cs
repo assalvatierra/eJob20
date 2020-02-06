@@ -2790,6 +2790,7 @@ order by x.jobid
             return mailResult;
         }
 
+        //PAYPAL PAYMENT
         public void onPaymentSuccess(int jobId, string mailType)
         {
             JobMain jobOrder = db.JobMains.Find(jobId);
@@ -2804,9 +2805,9 @@ order by x.jobid
             string adminEmail = "travel.realbreeze@gmail.com";
             
             //Send invoice 
-            mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
-            mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
-            mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            //mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            //mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            //mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
 
             //client
             mailResult = mail.SendMail(jobId, jobOrder.CustContactEmail, "CLIENT-PAYMENT-SUCCESS", clientName, siteRedirect);

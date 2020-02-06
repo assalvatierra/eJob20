@@ -875,7 +875,6 @@ namespace JobsV1.Models
             {
                 return false;
             }
-            return false;
         }
 
 
@@ -941,7 +940,19 @@ namespace JobsV1.Models
 
             return totalExpenses;
         }
-        
+
+
+        #endregion
+
+
+        #region User Modules
+
+        public bool CheckUserJobModule()
+        {
+
+
+            return false;
+        }
 
         #endregion
     }

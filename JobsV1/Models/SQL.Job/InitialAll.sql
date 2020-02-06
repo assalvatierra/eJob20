@@ -472,26 +472,29 @@ values
 
 insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt])
 values
-('02-15-2020',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
-('03-18-2020',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000),
-('03-27-2020',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500);
+('01-15-2020',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
+('01-18-2020',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000),
+('02-01-2020',1,'Davao City Tour',3,2,'TEST DATA 0103',2,'N/A',1,1,3500),
+('01-27-2020',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500);
 
 
 insert into JobServices([JobMainId],[ServicesId],[SupplierId],[Particulars],[QuotedAmt],[SupplierAmt],[ActualAmt],[Remarks],[SupplierItemId],[DtStart],[DtEnd])
 values
-(1,1,2,'Car Rental sample data R1',5000,5000,5000,'Sample only. Disregard once seen on production',1,'02-15-2020','02-22-2020'),
-(1,1,2,'Car Rental sample data R2',3000,3000,3000,'Sample only. Disregard once seen on production',1,'02-24-2020','02-25-2020'),
-(2,1,2,'SUV Rental R1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'03-18-2020','02-20-2020'),
-(2,1,2,'SUV Rental R2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'03-22-2020','03-24-2020'),
-(3,1,2,'Day 1: Country Side Tour',2000,2000,2000,'Sample only. Disregard once seen on production',1,'03-27-2020','03-27-2020'),
-(3,1,2,'Day 1: Country Side Tour',1500,1500,1000,'Sample only. Disregard once seen on production',1,'03-28-2020','03-28-2020');
+(1,1,2,'Car Rental sample data R1',5000,5000,5000,'Sample only. Disregard once seen on production',1,'01-15-2020','01-22-2020'),
+(1,1,2,'Car Rental sample data R2',3000,3000,3000,'Sample only. Disregard once seen on production',1,'01-24-2020','01-25-2020'),
+(2,1,2,'SUV Rental R1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'01-18-2020','01-20-2020'),
+(2,1,2,'SUV Rental R2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'01-22-2020','01-24-2020'),
+(3,1,2,'MPV Rental sample 1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'02-03-2020','02-05-2020'),
+(3,1,2,'MPV Rental sample 2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'02-07-2020','02-10-2020'),
+(4,1,2,'Day 1: Country Side Tour',2000,2000,2000,'Sample only. Disregard once seen on production',1,'01-27-2020','01-27-2020'),
+(4,1,2,'Day 2: Country Side Tour',1500,1500,1000,'Sample only. Disregard once seen on production',1,'01-28-2020','01-28-2020');
 
 insert into JobItineraries([JobMainId],[DestinationId],[ActualRate],[Remarks],[ItiDate],[SvcId])
 values
-(3,1,0,'','03-27-2019',5),
-(3,2,0,'','03-27-2019',5),
-(3,5,0,'','03-28-2019',6),
-(3,6,0,'','03-28-2019',6);
+(3,1,0,'','01-27-2019',5),
+(3,2,0,'','01-27-2019',5),
+(3,5,0,'','01-28-2019',6),
+(3,6,0,'','01-28-2019',6);
 
 --insert into InvItems([ItemCode],[Description],[Remarks])
 --values ('RNY301','Toyota Innova E M/T 2013 Dsl',''),
@@ -506,6 +509,7 @@ Insert into JobServiceItems([JobServicesId],[InvItemId])
 values		(1,2),(1,7),
 			(2,3),(2,7),
 			(3,3),(3,8),
+			(4,3),(4,8),
 			(4,3),(4,8);
 
 -- Supplier PO Samples

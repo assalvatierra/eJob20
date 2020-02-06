@@ -378,6 +378,13 @@ function searchSupplier() {
             $("#sup-Table").hide();
             $("#prod-Table").show();
             ajax_loadProduct();
+
+            setTimeout(function () {
+                $("#sort-date-validity").click();
+                $("#sort-date-validity").click();
+
+            }, 500);
+
             break;
         default:
             console.log("Supplier");

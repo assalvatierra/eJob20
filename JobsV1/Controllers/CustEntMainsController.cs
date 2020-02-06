@@ -85,7 +85,7 @@ namespace JobsV1.Controllers
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
-            ViewBag.City = db.Cities.Find(custEntMain.CityId).Name;
+            ViewBag.City = db.Cities.Find(custEntMain.CityId) != null ? db.Cities.Find(custEntMain.CityId).Name : "NA";
             ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").ToList(), "Id", "Name");
             ViewBag.Documents = GetDocumentList((int)id);
             ViewBag.CustDocuments = db.CustEntDocuments.Where(c=>c.CustEntMainId == id).ToList();

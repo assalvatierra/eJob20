@@ -105,6 +105,8 @@
     @Html.ActionLink("Add Address", "CreateAddress", "CustEntAddresses", new { companyId = Model.Id }, null)
     @foreach (var address in Model.CustEntAddresses as IEnumerable<JobsV1.Models.CustEntAddress>)
     {
+        if (address.isBilling != null && address.isPrimary == true)
+        {
 
         <p>
             @if (address.isPrimary == true && address.isBilling == true)
@@ -130,6 +132,8 @@
                 <text> Address:</text>
             }
         </p>
+
+        }
         <p class="comp-address">
             <b> &nbsp;&nbsp; @address.Line1  @address.Line2  @address.Line3  @address.Line4  @address.Line5 </b>
             <span class="comp-address-actions" style="display:none;">

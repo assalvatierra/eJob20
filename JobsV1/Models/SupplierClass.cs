@@ -309,6 +309,9 @@ namespace JobsV1.Models
             {
                 switch (sort)
                 {
+                    case "LATEST-DATE":
+                        sql += " ORDER BY DtEntered ASC;";
+                        break;
                     case "LOWEST-DATE":
                         sql += " ORDER BY prods.DtEntered ASC;";
                         break;

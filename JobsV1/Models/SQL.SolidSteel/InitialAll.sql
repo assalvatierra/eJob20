@@ -361,9 +361,9 @@ insert into SupplierInvItems([SupplierId],[InvItemId]) values
 insert into SupplierItemRates([SupplierInvitemId],[ItemRate],[SupplierUnitId],[Remarks],[DtEntered],[DtValidFrom],[DtValidTo],[Particulars],[Material],[By],[ProcBy],[TradeTerm],[Tolerance]) values
 	(1,2500,2,'','01/14/2020','01/16/2020','01/16/2021','Pipe' ,'Carbon Steel','John','Ann','',''),
 	(2,3300,3,'','01/10/2020','01/10/2020','06/30/2020','Plate','Carbon Steel','John','Ann','',''),
-	(3,2500,2,'','01/18/2020','01/20/2020','08/30/2020','Pipe' ,'Carbon Steel','Dalton','Mark','',''),
-	(4,3600,3,'','01/09/2020','01/10/2020','12/30/2020','Plate','Carbon Steel','Mike','Ann','',''),
-	(5,4000,3,'','01/09/2020','01/10/2020','06/30/2020','Pipe' ,'Stainless Steel','Mike','Ann','','');
+	(3,2500,2,'','01/18/2020','01/05/2020','08/30/2020','Pipe' ,'Carbon Steel','Dalton','Mark','',''),
+	(4,3600,3,'','01/09/2020','02/18/2020','12/30/2020','Plate','Carbon Steel','Mike','Ann','',''),
+	(5,4000,3,'','12/09/2019','12/10/2019','06/30/2020','Pipe' ,'Stainless Steel','Mike','Ann','','');
 
 insert into SupplierContactStatus([Name]) values ('Active'),('Resigned');
 

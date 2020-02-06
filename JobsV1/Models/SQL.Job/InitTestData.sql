@@ -347,3 +347,13 @@ SELECT * FROM (
 	--			 Items = SUBSTRING( (SELECT sii.Id as [text()]
 	--FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId 
 	--FOR XML PATH('')),2,100 ) 
+
+
+	SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id ),
+                sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status 
+                FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id 
+                LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId 
+                LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id 
+                LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods 
+
+				ORDER BY DtEntered DESC

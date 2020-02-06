@@ -59,7 +59,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 	('Quick List','',3,'JobMains','ActiveJobs','',21,33),		-- id: 21
 	('Listing','',3,'JobOrder','JobListing','span=30',21,34),	-- id: 23
 	('Job Table','',3,'JobMains','JobTable','span=30',21,35),	-- id: 24
-	('Availability','',3,'InvItems','Availability','',21,36);	-- id: 25
+	('Availability','',3,'InvItems','Availability','',21,36),	-- id: 24
+	('Trip Listing','',3,'JobMains','TripListing' ,'',21,36);	-- id: 25
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (3,1,'2019/1/1');
 
@@ -280,6 +281,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 59, 59),
 ('assalvatierra@gmail.com', 60, 60),
 ('assalvatierra@gmail.com', 61, 61),
+('assalvatierra@gmail.com', 62, 62),
+('assalvatierra@gmail.com', 63, 63),
 
 ('jahdielvillosa@gmail.com', 14, 14),
 ('jahdielvillosa@gmail.com', 15, 15),
@@ -329,4 +332,5 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 59, 59),
 ('jahdielvillosa@gmail.com', 60, 60),
 ('jahdielvillosa@gmail.com', 61, 61),
-('jahdielvillosa@gmail.com', 62, 62); 
+('jahdielvillosa@gmail.com', 62, 62),
+('jahdielvillosa@gmail.com', 63, 63); 

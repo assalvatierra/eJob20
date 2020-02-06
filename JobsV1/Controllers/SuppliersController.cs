@@ -49,7 +49,7 @@ namespace JobsV1.Controllers
         public string TableResultProducts(string search, string category, string status, string sort)
         {
             //get supplier list
-            List<cProductList> prodList = supdb.getProductList(search, category, status, "LOWEST-PRICE");
+            List<cProductList> prodList = supdb.getProductList(search, category, status, "LATEST-DATE");
 
             //convert list to json object
             return JsonConvert.SerializeObject(prodList, Formatting.Indented);
