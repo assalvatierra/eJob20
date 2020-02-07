@@ -86,17 +86,58 @@ namespace JobsV1.Controllers
             {
                 if (customer.Status == null || customer.Status.Trim() == "") customer.Status = "ACT";
 
-                db.Customers.Add(customer);
-                db.SaveChanges();
+                if (HaveNameDuplicate(customer.Name))
+                {
+                    ViewBag.Msg = "Customer Name already exist.";
+                    return RedirectToAction("Create");
+                }
+                else
+                {
 
-                //socialAcc = "fb.com/melissa";
-                //create social account
-                createSocialAccount(customer.Id, socialAcc);
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
 
-                return RedirectToAction("Details", new { id = customer .Id});
+                    //socialAcc = "fb.com/melissa";
+                    //create social account
+                    createSocialAccount(customer.Id, socialAcc);
+
+                    return RedirectToAction("Details", new { id = customer.Id });
+                }
             }
 
             return View(customer);
+        }
+
+        // GET: Customers/CreateCustomer
+        public ActionResult CreateCustomer()
+        {
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
+
+            return View();
+        }
+        public string CreateCustomerAjax(string Name,string Email,string Contact1,string Contact2,string Remarks,string Status)
+        {
+            try
+            {
+
+                Customer customer = new Customer();
+                customer.Name = Name;
+                customer.Email = Email;
+                customer.Contact1 = Contact1;
+                customer.Contact2 = Contact2;
+                customer.Remarks = Remarks;
+                customer.Status = Status;
+
+                db.Customers.Add(customer);
+                db.SaveChanges();
+
+                return customer.Id.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                return "0";
+            }
         }
 
         private void createSocialAccount(int custId, string account)
@@ -400,6 +441,26 @@ namespace JobsV1.Controllers
             //convert list to json object
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }
+
+        
+        //check if Customer Name have duplicate
+        public bool HaveNameDuplicate(string custName)
+        {
+            var custDuplicate = db.Customers.Where(s => custName.Contains(s.Name)).ToList().Count();
+
+            if (custDuplicate != 0)
+            {
+                //has duplicate
+                return true;
+            }
+            else
+            {
+                //count = 0
+                //no duplicate
+                return false;
+            }
+        }
+
 
 
         #region Customer Social details

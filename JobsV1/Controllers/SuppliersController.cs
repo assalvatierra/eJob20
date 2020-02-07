@@ -50,6 +50,7 @@ namespace JobsV1.Controllers
         {
             //get supplier list
             List<cProductList> prodList = supdb.getProductList(search, category, status, "LATEST-DATE");
+            
 
             //convert list to json object
             return JsonConvert.SerializeObject(prodList, Formatting.Indented);

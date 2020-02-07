@@ -249,6 +249,7 @@ function SimpleTable(data) {
 function ProductsTable(data) {
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
+    var today = moment(new Date());
     console.log("products view");
 
     //clear table contents except header
@@ -274,18 +275,25 @@ function ProductsTable(data) {
             content += "<td>" + supplier + "</td>";
             content += "<td>" + rate + " " + unit + "</td>";
             content += "<td>" + dtEntered + "</td>";
-            content += "<td>" + dtValidFrom + " - " + dtValidTo + "</td>";
+            content += "<td>" + dtValidFrom + "</td>";
             content += "<td>" + remarks + "</td>";
 
             content += "<td>" +
                 "<a href='/Suppliers/Details/" + supplierId + "'>Details</a> | " +
                 "<a href='/Suppliers/InvItems/" + supplierId + "'>InvProduct</a>  | " +
                 "<a href='/SupplierActivities/Records/" + supplierId + "'>History</a>  " +
-                "</td>";
+                "</td>";       
             content += "</tr>";
-        
-            $(content).appendTo("#prod-Table");
+
+            var validDate = moment(dtValidTo);
+            //check start validity date
+            if (today.isSameOrBefore(validDate)) {
+
+                $(content).appendTo("#prod-Table");
+            
+            }
         }
+
     }
 }
 

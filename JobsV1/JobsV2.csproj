@@ -2276,6 +2276,7 @@
     <Content Include="Views\Suppliers\CreateSupplier.cshtml" />
     <Content Include="Views\JobMains\TripListing.cshtml" />
     <Content Include="Views\JobMains\TripListing_Expenses.cshtml" />
+    <Content Include="Views\Customers\CreateCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

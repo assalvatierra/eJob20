@@ -488,6 +488,7 @@ namespace JobsV1.Controllers
         {
             try
             {
+
                 //NEW CUSTOMER
                 if (customerId == 1)
                 {
@@ -538,7 +539,27 @@ namespace JobsV1.Controllers
                 return ex.ToString();
             }
         }
-        
+
+
+        //check if Customer Name have duplicate
+        public bool HaveNameDuplicate(string custName)
+        {
+            var custDuplicate = db.Customers.Where(s => custName.Contains(s.Name)).ToList().Count();
+
+            if (custDuplicate != 0)
+            {
+                //has duplicate
+                return true;
+            }
+            else
+            {
+                //count = 0
+                //no duplicate
+                return false;
+            }
+        }
+
+
         private void createSocialAccount(int custId, string account)
         {
             CustSocialAcc social = new CustSocialAcc();

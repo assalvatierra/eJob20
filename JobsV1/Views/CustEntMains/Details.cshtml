@@ -402,7 +402,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_AddContact()">Save</button>
+                <button type="button" class="btn btn-default"  id="editDescBtn" onclick="checkDuplicate()">Save</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -641,6 +641,61 @@
             return true;
         } else {
             return false;
+        }
+    }
+
+    function checkDuplicate() {
+        var custId = $("#ac-custId").val();
+
+        //New Customer
+        if(custId == 1){
+
+            //build json object
+            var data = {
+                custName : $('#ac-name').val()
+            };
+
+            console.log(data);
+
+            var url = '/Customers/HaveNameDuplicate';
+
+            //Post data from server using ajax call
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    // console.log("SUCCESS");
+                },
+                error: function (data) {
+                    // console.log("ERROR");
+                    console.log(data);
+                    PromptDupName(data)
+                }
+            });
+        }else{
+            ajax_AddContact();
+        }
+    }
+
+    function PromptDupName(data) {
+        var response =data["responseText"];
+
+        if (response == "True") {
+            var confirmResponse = confirm("The Customer Name : '" + $('#ac-name').val() + "' already exists, would you like to continue?");
+
+            if (confirmResponse) {
+                //alert("Continue");
+                //Submit Data to create new customer
+                ajax_AddContact();
+            } else {
+                //alert("Cancel");
+                //focus on Name
+            }
+        } else {
+            //create supplier and create new contact
+            ajax_AddContact();
         }
     }
     
