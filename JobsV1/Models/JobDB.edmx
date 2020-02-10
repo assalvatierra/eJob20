@@ -1500,6 +1500,8 @@
     <Property Name="ExpensesId" Type="int" Nullable="false" />
     <Property Name="JobServicesId" Type="int" Nullable="false" />
     <Property Name="DtExpense" Type="datetime" Nullable="true" />
+    <Property Name="IsReleased" Type="bit" Nullable="true" />
+    <Property Name="ForRelease" Type="bit" Nullable="true" />
   </EntityType>
   <EntityType Name="ExpensesCategories">
     <Key>
@@ -5842,6 +5844,8 @@
           <NavigationProperty Name="JobService" Relationship="JobDB.JobServicesJobExpenses" FromRole="JobExpenses" ToRole="JobServices" />
           <Property Name="JobServicesId" Type="Int32" Nullable="false" />
           <Property Name="DtExpense" Type="DateTime" Nullable="true" />
+          <Property Name="IsReleased" Type="Boolean" Nullable="true" />
+          <Property Name="ForRelease" Type="Boolean" Nullable="true" />
         </EntityType>
         <Association Name="ExpensesJobExpenses">
           <End Type="JobDB.Expenses" Role="Expenses" Multiplicity="1" />
@@ -7530,6 +7534,8 @@
           <ScalarProperty Name="ExpensesId" ColumnName="ExpensesId" />
           <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
           <ScalarProperty Name="DtExpense" ColumnName="DtExpense" />
+          <ScalarProperty Name="IsReleased" ColumnName="IsReleased" />
+          <ScalarProperty Name="ForRelease" ColumnName="ForRelease" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

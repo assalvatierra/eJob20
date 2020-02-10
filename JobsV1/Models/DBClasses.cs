@@ -177,6 +177,7 @@ namespace JobsV1.Models
         public Decimal Fuel { get; set; }
         public Decimal DriverComi { get; set; }
         public Decimal OperatorComi { get; set; }
+        public Decimal Payment { get; set; }
         public string items { get; set; }
 
     }
@@ -211,12 +212,13 @@ namespace JobsV1.Models
         public Decimal Others { get; set; }
         public Decimal Total { get; set; }
         public Decimal Net { get; set; }
-        public Decimal Payment { get; set; }
+        public Decimal PaymentCash { get; set; }
+        public Decimal PaymentBank { get; set; }
         public DateTime DtDriver { get; set; }
         public DateTime DtOperator { get; set; }
         public string Remarks { get; set; }
-
-
+        public bool DriverForRelease { get; set; }
+        public bool OperatorForRelease { get; set; }
 
     }
 
@@ -763,7 +765,7 @@ namespace JobsV1.Models
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-        public List<TripListing> GetTripList(int? DateRange, string srchType, string srch)
+        public List<TripListing> GetTripList(int? DateRange, string srch)
         {
             if (DateRange == null)
             {
@@ -777,8 +779,7 @@ namespace JobsV1.Models
 	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
 	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
             ;";
-
-
+            
             List<cTripList> JobList = db.Database.SqlQuery<cTripList>(SqlStr).ToList();
 
             List<TripListing> tripList = new List<TripListing>();
@@ -789,39 +790,41 @@ namespace JobsV1.Models
             var today = datetime.GetCurrentDate();
             var tempDate = today.AddDays(-(int)range);
             var prevId = 0;
+            List<int> JobIdList = new List<int>();
 
             for (var i = 0; i <= range; i++)
             {
                 var prevDate = tempDate;
+
                 foreach (var trip in JobList)
                 {
-                   
+                    //check date
                     if (tempDate.CompareTo(trip.DtStart) >= 0 && tempDate.CompareTo(trip.DtEnd) <= 0 && CheckCarlist(trip.JobServicesId))
                     {
-                        tripList.Add(new TripListing
-                        {
-                            Id = trip.Id,
-                            JobMainId = trip.JobMainId,
-                            JobServicesId = trip.JobServicesId,
-                            DtService = tempDate,
-                            DtStart = trip.DtStart,
-                            DtEnd = trip.DtEnd,
-                            Unit = getCar(trip.JobServicesId),
-                            Driver = getDriver(trip.JobServicesId),
-                            Particulars = trip.Particulars,
-                            Description = trip.Description,
-                            ActualAmt = trip.ActualAmt != null ? trip.ActualAmt : 0,
-                            ItemCode = trip.ItemCode,
-                            JobStatus = trip.JobStatusId.ToString(),
-                            ViewLabel = trip.ViewLabel,
-                            Fuel = GetJobExpenseByCategory(trip.JobServicesId, 1),
-                            DriverComi = GetJobExpenseByCategory(trip.JobServicesId, 3),
-                            OperatorComi = GetJobExpenseByCategory(trip.JobServicesId, 8),
-                            items = trip.items
-                        });
+                            tripList.Add(new TripListing
+                            {
+                                Id = trip.Id,
+                                JobMainId = trip.JobMainId,
+                                JobServicesId = trip.JobServicesId,
+                                DtService = tempDate,
+                                DtStart = trip.DtStart,
+                                DtEnd = trip.DtEnd,
+                                Unit = getCar(trip.JobServicesId),
+                                Driver = getDriver(trip.JobServicesId),
+                                Particulars = trip.Particulars,
+                                Description = trip.Description,
+                                ActualAmt = trip.ActualAmt != null ? trip.ActualAmt : 0,
+                                ItemCode = trip.ItemCode,
+                                JobStatus = trip.JobStatusId.ToString(),
+                                ViewLabel = trip.ViewLabel,
+                                Fuel = GetJobExpenseByCategory(trip.JobServicesId, 1),
+                                DriverComi = GetJobExpenseByCategory(trip.JobServicesId, 3),
+                                OperatorComi = GetJobExpenseByCategory(trip.JobServicesId, 8),
+                                items = trip.items,
+                                Payment = getJobPayment(trip.JobMainId)
+                            });
 
-                        prevId = trip.JobServicesId;
-
+                            prevId = trip.JobServicesId;
                     }
 
                 }
@@ -829,20 +832,17 @@ namespace JobsV1.Models
                 tempDate = tempDate.AddDays(1);
             }
 
-
             //search string
             if (srch != null)
             {
                 //get jobservice items ids
-                var jsIds = db.JobServiceItems.Where(s => s.InvItem.Description.Contains(srch) && s.InvItem.ViewLabel.ToUpper() == srchType).ToList().Select(c => c.JobServicesId).ToList();
+                var jsIds = db.JobServiceItems.Where(s => s.InvItem.Description.Contains(srch) || s.InvItem.ItemCode.Contains(srch)).ToList().Select(c => c.JobServicesId).ToList();
 
                 //tripList = tripList.Where(s ).ToList();
                 tripList = tripList.Where(s => jsIds.Contains(s.JobServicesId)).ToList();
 
 
             }
-
-
 
             return tripList.OrderBy(s=>s.Unit.FirstOrDefault()).OrderByDescending(s=>s.DtService).ToList();
         }
@@ -917,6 +917,34 @@ namespace JobsV1.Models
         public decimal getJobPayment(int id)
         {
             var paymentList = db.JobPayments.Where(j => j.JobMainId == id).ToList();
+            decimal totalPayment = 0;
+
+            foreach (var payment in paymentList)
+            {
+                totalPayment += payment.PaymentAmt;
+            }
+
+            return totalPayment;
+        }
+
+
+        public decimal getJobCashPayment(int id)
+        {
+            var paymentList = db.JobPayments.Where(j => j.JobMainId == id && j.BankId == 1).ToList();
+            decimal totalPayment = 0;
+
+            foreach (var payment in paymentList)
+            {
+                totalPayment += payment.PaymentAmt;
+            }
+
+            return totalPayment;
+        }
+
+
+        public decimal getJobBankPayment(int id)
+        {
+            var paymentList = db.JobPayments.Where(j => j.JobMainId == id && j.BankId != 1).ToList();
             decimal totalPayment = 0;
 
             foreach (var payment in paymentList)

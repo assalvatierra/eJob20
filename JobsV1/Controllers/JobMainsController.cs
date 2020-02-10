@@ -1078,35 +1078,37 @@ namespace JobsV1.Controllers
 
         #region Trip Listing
 
-        public ActionResult TripListing(int? daterange, string srchType, string srch)
+        public ActionResult TripListing(int? daterange, string srch)
         {
-            var tripList = dbc.GetTripList(daterange, srchType, srch);
+            var tripList = dbc.GetTripList(daterange, srch);
 
             return View(tripList);
         }
 
-        public string AddExpenses(int id, string payment, string driver, string fuel, string Operator, string others, string remarks, string dtDriver, string dtOperator )
+        public string AddExpenses(int id, string payment, string driver, string fuel, string Operator, string others, string remarks, bool driverForRelease, bool operatorForRelease)
         {
             //add each expense on each respective category
 
             //get job Main id   
             int jobmainId = db.JobServices.Find(id).JobMainId;
             string respString = "";
+            var dtDriver = dt.GetCurrentDateTime();
+            var dtOperator = dt.GetCurrentDateTime();
 
             //Add Payment
             respString += CheckPaymentRecord(jobmainId) ? addPayment(jobmainId, payment) : UpdatePaymentRecord(jobmainId, payment);
 
             //Add Expenses
-            respString += CheckExpenseRecord(id, 3) ? AddExpenseRecord(jobmainId, id, driver, dtDriver, 3, "")      : UpdateExpenseRecord(jobmainId, id, driver, dtDriver, 3, "");
-            respString += CheckExpenseRecord(id, 8) ? AddExpenseRecord(jobmainId, id, Operator, dtOperator, 8, "")  : UpdateExpenseRecord(jobmainId, id, Operator, dtDriver, 8, "");
-            respString += CheckExpenseRecord(id, 6) ? AddExpenseRecord(jobmainId, id, others, dtDriver, 6, remarks) : UpdateExpenseRecord(jobmainId, id, others, dtDriver, 6, "");
-            respString += CheckExpenseRecord(id, 1) ? AddExpenseRecord(jobmainId, id, fuel, dtDriver, 1, "")        : UpdateExpenseRecord(jobmainId, id, fuel, dtDriver, 1, "");
+            respString += CheckExpenseRecord(id, 3) ? AddExpenseRecord(jobmainId, id, driver, dtDriver, 3, remarks, driverForRelease)        : UpdateExpenseRecord(jobmainId, id, driver, dtDriver, 3, remarks, driverForRelease);
+            respString += CheckExpenseRecord(id, 8) ? AddExpenseRecord(jobmainId, id, Operator, dtOperator, 8, "", operatorForRelease)  : UpdateExpenseRecord(jobmainId, id, Operator, dtDriver, 8, "", operatorForRelease);
+            respString += CheckExpenseRecord(id, 6) ? AddExpenseRecord(jobmainId, id, others, dtDriver, 6, "", false)              : UpdateExpenseRecord(jobmainId, id, others, dtDriver, 6, "", false);
+            respString += CheckExpenseRecord(id, 1) ? AddExpenseRecord(jobmainId, id, fuel, dtDriver, 1, "", false)                     : UpdateExpenseRecord(jobmainId, id, fuel, dtDriver, 1, "", false);
             
             return respString;
         }
 
         // Added Expenses Record
-        public string AddExpenseRecord(int jobMainId, int jobServiceId, string amount, string Dt, int ExpenseType, string remarks)
+        public string AddExpenseRecord(int jobMainId, int jobServiceId, string amount, DateTime encodedDate, int ExpenseType, string remarks, bool forRelease)
         {
             string expenseType = db.Expenses.Find(ExpenseType).Name;
             try
@@ -1120,9 +1122,10 @@ namespace JobsV1.Controllers
                         expense.JobServicesId = jobServiceId;
                         expense.JobMainId     = jobMainId;
                         expense.Amount        = Expense;
-                        expense.DtExpense     = DateTime.Parse(Dt);
+                        expense.DtExpense     = encodedDate;
                         expense.ExpensesId    = ExpenseType;
                         expense.Remarks       = remarks;
+                        expense.ForRelease    = forRelease;
 
                         db.JobExpenses.Add(expense);
                         db.SaveChanges();
@@ -1139,10 +1142,10 @@ namespace JobsV1.Controllers
         }
 
         // Upadte Expenses Record
-        public string UpdateExpenseRecord(int jobMainId, int jobServiceId, string amount, string Dt, int ExpenseType, string remarks)
+        public string UpdateExpenseRecord(int jobMainId, int jobServiceId, string amount, DateTime encodedDate, int expenseType, string remarks, bool forRelease)
         {
-            var jobexpenses = db.JobExpenses.Where(j => j.JobServicesId == jobServiceId && j.ExpensesId == ExpenseType).FirstOrDefault();
-            string expenseType = db.Expenses.Find(ExpenseType).Name;
+            var jobexpenses = db.JobExpenses.Where(j => j.JobServicesId == jobServiceId && j.ExpensesId == expenseType).FirstOrDefault();
+            string expenseName = db.Expenses.Find(expenseType).Name;
             try
             {
                 if (amount != null)
@@ -1152,21 +1155,22 @@ namespace JobsV1.Controllers
                     {
                         JobExpenses expense = db.JobExpenses.Find(jobexpenses.Id);
                         expense.Amount = Expense;
-                        expense.DtExpense = DateTime.Parse(Dt);
-                        expense.ExpensesId = ExpenseType;
+                        expense.DtExpense = encodedDate;
+                        expense.ExpensesId = expenseType;
                         expense.Remarks = remarks;
+                        expense.ForRelease = forRelease;
 
                         db.Entry(expense).State = EntityState.Modified;
                         db.SaveChanges();
 
-                        return expenseType + " Expense Updated. /";
+                        return expenseName + " Expense Updated. /";
                     }
                 }
                 return expenseType + " Not Updated. /";
             }
             catch (Exception ex)
             {
-                return expenseType + " expense not updated. /" + ex;
+                return expenseName + " expense not updated. /" + ex;
             }
         }
 
@@ -1248,7 +1252,7 @@ namespace JobsV1.Controllers
                     jobpayment.JobMainId  = jobMainId;
                     jobpayment.PaymentAmt = payment;
                     jobpayment.DtPayment  = dt.GetCurrentDateTime();
-                    jobpayment.BankId     = 1;
+                    jobpayment.BankId     = 1;  //cash
                     jobpayment.Remarks    = "";
                      
                     db.JobPayments.Add(jobpayment);
@@ -1270,19 +1274,29 @@ namespace JobsV1.Controllers
             
             tripExpense.Id              = jobmainId;
             tripExpense.JobServicesId   = jsId;
-            tripExpense.Payment         = dbc.getJobPayment(jobmainId);
+            tripExpense.PaymentCash     = dbc.getJobCashPayment(jobmainId);
+            tripExpense.PaymentBank     = dbc.getJobBankPayment(jobmainId);
             tripExpense.ActualAmt       = db.JobServices.Find(jsId).ActualAmt;
             tripExpense.DriverComi      = dbc.getExpenses(jsId, 3); // 3 = driver
             tripExpense.Fuel            = dbc.getExpenses(jsId, 1); // 1 = Fuel;
             tripExpense.OperatorComi    = dbc.getExpenses(jsId, 8); // 8 = Operator;
             tripExpense.Others          = dbc.getExpenses(jsId, 6); // 6 = Others;
-            tripExpense.Remarks         = "None";
-            tripExpense.DtDriver        = dt.GetCurrentDate();
-            tripExpense.DtOperator      = dt.GetCurrentDate();
+            tripExpense.Remarks         = db.JobExpenses.Where(j => j.JobMainId == jobmainId && j.ExpensesId == 3).FirstOrDefault().Remarks;
             tripExpense.Total           = 0;
             tripExpense.Net             = 0;
-            
+            tripExpense.DriverForRelease = getForReleaseStatus(jobmainId, 3);
+            tripExpense.OperatorForRelease = getForReleaseStatus(jobmainId,8);
+
             return JsonConvert.SerializeObject(tripExpense, Formatting.Indented);
+        }
+
+        public bool getForReleaseStatus(int jobMainId, int expenseId)
+        {
+            try
+            {
+                return (bool)db.JobExpenses.Where(s => s.JobMainId == jobMainId && s.ExpensesId == expenseId).FirstOrDefault().ForRelease;
+            } catch (Exception ex)
+            { return false; }
         }
 
         #endregion

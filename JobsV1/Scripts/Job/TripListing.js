@@ -1,68 +1,11 @@
-﻿/* ********************************************************
-* By Abel S. Salvatierra
-* @2017 - Real Breeze Travel & Tours
-* 
-*********************************************************** */
-
-
-$(document).ready(function () {
-    InitDatePicker();
-
-    var today = moment().format('MM/DD/YYYY');
-
-    $("#Exp-DtDriver").val(today);
-
-    $("#Exp-DtOperator").val(today);
-})
-
-
-function InitDatePicker() {
-    var ddd1 = $('input[id="Exp-DtDriver"]').val();
-
-    $('input[id="Exp-DtDriver"]').daterangepicker(
-    {
-        timePicker: false,
-        timePickerIncrement: 1,
-        singleDatePicker: true,
-        showDropdowns: true,
-        locale: {
-            format: 'MM/DD/YYYY'
-        }
-    },
-    function (start, end, label) {
-    }
-    );
-
-    $('input[id="Exp-DtDriver"]').val(ddd1);
-
-    // Operator Date
-    var ddd2 = $('input[id="Exp-DtOperator"]').val();
-
-    $('input[id="Exp-DtOperator"]').daterangepicker(
-    {
-        timePicker: false,
-        timePickerIncrement: 1,
-        singleDatePicker: true,
-        showDropdowns: true,
-        locale: {
-            format: 'MM/DD/YYYY'
-        }
-    },
-    function (start, end, label) {
-        
-    }
-    );
-
-    $('input[id="Exp-DtOperator"]').val(ddd2);
-
-}
-
+﻿/****************************/
+/***** Supplier Listing *****/
+/****************************/
 
 
 //Add Item Expense
 function ajax_AddExpenses() {
 
-    //console.log("Add Expenses");
 
     //build json object
     var data = {
@@ -73,11 +16,12 @@ function ajax_AddExpenses() {
         Operator:   $("#Exp-Operator").val(),
         others:     $("#Exp-Others").val(),
         remarks:    $("#Exp-Remarks").val(),
-        dtDriver:   $("#Exp-DtDriver").val(),
-        dtOperator: $("#Exp-DtOperator").val(),
+        driverForRelease: $("#driver-readyReleased").is(":disabled"),
+        operatorForRelease: $("#operator-readyReleased").is(":disabled"),
+
     };
 
-    //console.log(data);
+    console.log(data);
 
     var url = '/JobMains/AddExpenses';
 
@@ -92,8 +36,8 @@ function ajax_AddExpenses() {
         },
         error: function (data) {
             // console.log("ERROR");
-            //console.log(data);
-              location.reload();
+             console.log(data);
+            location.reload();
         }
     });
 }
@@ -134,38 +78,40 @@ function ajax_getExpenses() {
     });
 }
 
-
 //display products
 function ExpenseRecord(data) {
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
     console.log("products view");
 
-    var Payment      = temp["Payment"]       != null ? temp["Payment"]       : "0";
+    var PaymentCash  = temp["PaymentCash"]   != null ? temp["PaymentCash"]   : "0";
+    var PaymentBank  = temp["PaymentBank"]   != null ? temp["PaymentBank"]   : "0";
     var ActualAmt    = temp["ActualAmt"]     != null ? temp["ActualAmt"]     : "0";
     var DriverComi   = temp["DriverComi"]    != null ? temp["DriverComi"]    : "0";
     var Fuel         = temp["Fuel"]          != null ? temp["Fuel"]          : "0";
     var OperatorComi = temp["OperatorComi"]  != null ? temp["OperatorComi"]  : "0";
     var Others       = temp["Others"]        != null ? temp["Others"]        : "0";
     var Remarks      = temp["Remarks"]       != null ? temp["Remarks"]       : "";
-    var DtDriver     = temp["DtDriver"]      != null ? temp["DtDriver"]      : null;
-    var DtOperator   = temp["DtOperator"]    != null ? temp["DtOperator"]    : null;
     var Total        = temp["Total"]         != null ? temp["Total"]         : null;
     var Net          = temp["Net"]           != null ? temp["Net"]           : null;
+    var DvrForRelease= temp["DriverForRelease"] != null ? temp["DriverForRelease"] : false;
+    var OptForRelease= temp["OperatorForRelease"] != null ? temp["OperatorForRelease"] : false;
 
-    var test = 2500;
-    //console.log("Payment: " + Payment);
     //transfer to fields
-    $("#Exp-Payment").val(Payment);
+    $("#Exp-Payment").val(PaymentCash);
+    $("#Exp-PaymentBank").val(PaymentBank);
     $("#Exp-Fuel").val(Fuel);
     $("#Exp-Driver").val(DriverComi);
     $("#Exp-Operator").val(OperatorComi);
     $("#Exp-Others").val(Others);
     $("#Exp-Remarks").val(Remarks);
-    $("#Exp-DtDriver").val(moment(DtDriver).format('MM/DD/YYYY'));
-    $("#Exp-DtOperator").val(moment(DtOperator).format('MM/DD/YYYY'));
-    moment().format('YYYY-MM-DD')
 
+    //disable fields
+    $("#Exp-Driver").attr("disabled", DvrForRelease);
+    $("#driver-readyReleased").attr("disabled", DvrForRelease);
+
+    $("#Exp-Operator").attr("disabled", OptForRelease);
+    $("#operator-readyReleased").attr("disabled", OptForRelease);
 
     //calculate 
     calculateTotal();
@@ -188,3 +134,4 @@ function calculateTotal() {
     $("#Exp-Net").text(net);
 
 }
+

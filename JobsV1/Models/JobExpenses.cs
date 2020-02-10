@@ -21,6 +21,8 @@ namespace JobsV1.Models
         public int ExpensesId { get; set; }
         public int JobServicesId { get; set; }
         public Nullable<System.DateTime> DtExpense { get; set; }
+        public Nullable<bool> IsReleased { get; set; }
+        public Nullable<bool> ForRelease { get; set; }
     
         public virtual Expenses Expens { get; set; }
         public virtual JobServices JobService { get; set; }

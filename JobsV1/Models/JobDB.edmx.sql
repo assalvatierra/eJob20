@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/27/2020 14:11:13
+-- Date Created: 02/10/2020 16:50:42
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1627,7 +1627,9 @@ CREATE TABLE [dbo].[JobExpenses] (
     [JobMainId] int  NOT NULL,
     [ExpensesId] int  NOT NULL,
     [JobServicesId] int  NOT NULL,
-    [DtExpense] datetime  NULL
+    [DtExpense] datetime  NULL,
+    [IsReleased] bit  NULL,
+    [ForRelease] bit  NULL
 );
 GO
 
