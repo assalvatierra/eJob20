@@ -377,8 +377,6 @@ function searchSupplier() {
     var srchCat = $('#srch-category').val();
 
 
-
-
     //search and load table
     switch (srchCat) {
         case "PRODUCT":

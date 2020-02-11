@@ -44,7 +44,7 @@
                         <input id="Exp-Driver" class="form-control" type="text" maxlength="10" value="0" style="min-width:280px;" >
                     </div>
                     <div class="col-sm-2" style="margin-top:-5px;margin-left:0px;">
-                        <button class="btn btn-primary" contextmenu="Add Expense" id="driver-readyReleased" onclick="DriverReadyRelease()" > For Release </button>
+                        <button class="btn btn-primary" contextmenu="Add Expense" id="driver-readyReleased" onclick="DriverReadyRelease()" > + </button>
                     </div>
                     <p></p>
                 </div>
@@ -55,7 +55,7 @@
                         <input id="Exp-Operator" class="form-control" type="text" maxlength="20" value="0" style="min-width:280px;">
                     </div>
                     <div class="col-sm-2" style="margin-top:-5px;margin-left:0px;">
-                        <button class="btn btn-primary" contextmenu="Add Expense" id="operator-readyReleased" onclick="OperatorReadyRelease()"> For Release </button>
+                        <button class="btn btn-primary" contextmenu="Add Expense" id="operator-readyReleased" onclick="OperatorReadyRelease()"> + </button>
                     </div>
                     <p></p>
                 </div>
@@ -91,9 +91,7 @@
             </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<script src="~/Scripts/jquery-3.3.1.js"> </script>
-<script src="~/Scripts/Job/TripListing.js"></script>
+</div>
 
 <script>
     function DriverReadyRelease() {

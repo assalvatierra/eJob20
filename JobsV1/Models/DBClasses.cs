@@ -179,6 +179,10 @@ namespace JobsV1.Models
         public Decimal OperatorComi { get; set; }
         public Decimal Payment { get; set; }
         public string items { get; set; }
+        public bool? DriverForRelease { get; set; }
+        public bool? DriverIsReleased { get; set; }
+        public bool? OperatorForRelease { get; set; }
+        public bool? OperatorIsReleased { get; set; }
 
     }
 
@@ -220,6 +224,25 @@ namespace JobsV1.Models
         public bool DriverForRelease { get; set; }
         public bool OperatorForRelease { get; set; }
 
+    }
+
+    public class cDriverTrip
+    {
+        public int Id { get; set; }
+        public int DriverId { get; set; }
+        public int JobMainId { get; set; }
+        public int JobServiceId { get; set; }
+        public string Name { get; set; }
+        public string ItemCode { get; set; }
+        public string Particulars { get; set; }
+        public string Description { get; set; }
+        public Decimal Amount { get; set; }
+        public DateTime DtExpense { get; set; }
+        public DateTime DtStart { get; set; }
+        public DateTime DtEnd { get; set; }
+        public bool? ForRelease { get; set; }
+        public bool? IsReleased { get; set; }
+        public string Remarks { get; set; }
     }
 
     public class DBClasses
@@ -765,6 +788,8 @@ namespace JobsV1.Models
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
+
+        #region TripListing
         public List<TripListing> GetTripList(int? DateRange, string srch)
         {
             if (DateRange == null)
@@ -801,28 +826,32 @@ namespace JobsV1.Models
                     //check date
                     if (tempDate.CompareTo(trip.DtStart) >= 0 && tempDate.CompareTo(trip.DtEnd) <= 0 && CheckCarlist(trip.JobServicesId))
                     {
-                            tripList.Add(new TripListing
-                            {
-                                Id = trip.Id,
-                                JobMainId = trip.JobMainId,
-                                JobServicesId = trip.JobServicesId,
-                                DtService = tempDate,
-                                DtStart = trip.DtStart,
-                                DtEnd = trip.DtEnd,
-                                Unit = getCar(trip.JobServicesId),
-                                Driver = getDriver(trip.JobServicesId),
-                                Particulars = trip.Particulars,
-                                Description = trip.Description,
-                                ActualAmt = trip.ActualAmt != null ? trip.ActualAmt : 0,
-                                ItemCode = trip.ItemCode,
-                                JobStatus = trip.JobStatusId.ToString(),
-                                ViewLabel = trip.ViewLabel,
-                                Fuel = GetJobExpenseByCategory(trip.JobServicesId, 1),
-                                DriverComi = GetJobExpenseByCategory(trip.JobServicesId, 3),
-                                OperatorComi = GetJobExpenseByCategory(trip.JobServicesId, 8),
-                                items = trip.items,
-                                Payment = getJobPayment(trip.JobMainId)
-                            });
+                        tripList.Add(new TripListing
+                        {
+                            Id = trip.Id,
+                            JobMainId = trip.JobMainId,
+                            JobServicesId = trip.JobServicesId,
+                            DtService = tempDate,
+                            DtStart = trip.DtStart,
+                            DtEnd = trip.DtEnd,
+                            Unit = getCar(trip.JobServicesId),
+                            Driver = getDriver(trip.JobServicesId),
+                            Particulars = trip.Particulars,
+                            Description = trip.Description,
+                            ActualAmt = trip.ActualAmt != null ? trip.ActualAmt : 0,
+                            ItemCode = trip.ItemCode,
+                            JobStatus = trip.JobStatusId.ToString(),
+                            ViewLabel = trip.ViewLabel,
+                            Fuel = GetJobExpenseByCategory(trip.JobServicesId, 1),
+                            DriverComi = GetJobExpenseByCategory(trip.JobServicesId, 3),
+                            OperatorComi = GetJobExpenseByCategory(trip.JobServicesId, 8),
+                            items = trip.items,
+                            Payment = getJobPayment(trip.JobMainId),
+                            DriverForRelease = GetForReleaseStatus(trip.JobServicesId,3),
+                            DriverIsReleased = GetForReleaseStatus(trip.JobServicesId, 3),
+                            OperatorForRelease = GetForReleaseStatus(trip.JobServicesId, 8),
+                            OperatorIsReleased = GetForReleaseStatus(trip.JobServicesId, 8)
+                        });
 
                             prevId = trip.JobServicesId;
                     }
@@ -846,6 +875,9 @@ namespace JobsV1.Models
 
             return tripList.OrderBy(s=>s.Unit.FirstOrDefault()).OrderByDescending(s=>s.DtService).ToList();
         }
+
+
+       
 
         // get unit list of string of the job 
         // PARAM : id = jobserviceId 
@@ -911,6 +943,54 @@ namespace JobsV1.Models
             return total;
         }
 
+        private bool GetForReleaseStatus(int jsId, int statusId)
+        {
+            var released = false;
+            try { 
+                released = (bool)db.JobExpenses.Where(s => s.JobServicesId == jsId && s.ExpensesId == statusId).FirstOrDefault().ForRelease;
+            }
+            catch (Exception ex)
+            {}
+
+            return released;
+        }
+
+        private bool GetIsReleaseStatus(int jsId, int statusId)
+        {
+            var released = false;
+            try
+            {
+                released = (bool)db.JobExpenses.Where(s => s.JobServicesId == jsId && s.ExpensesId == statusId).FirstOrDefault().IsReleased;
+            }
+            catch (Exception ex)
+            { }
+
+            return released;
+        }
+
+        public List<cDriverTrip> GetDriversTrip(int id, string sDate, string eDate )
+        {
+            List<cDriverTrip> trip = new List<cDriverTrip>();
+
+         
+                if (id != 0 && sDate != null && eDate != null)
+                {
+
+                    string SqlStr = @"
+                        SELECT je.*, js.DtStart, js.DtEnd, jm.Description, js.Particulars, ii.Description as Name, ii.ItemCode  FROM JobExpenses je 
+	                        LEFT JOIN JobMains jm ON jm.Id = je.JobMainId 
+	                        LEFT JOIN JobServices js ON js.Id = je.JobServicesId 
+	                        LEFT JOIN JobServiceItems jsi ON jsi.JobServicesId = js.Id 
+	                        LEFT JOIN InvItems ii ON ii.Id = jsi.InvItemId ";
+
+                    SqlStr += "WHERE ii.Id = " + id + " AND ForRelease = 1 ;";
+
+                    trip = db.Database.SqlQuery<cDriverTrip>(SqlStr).ToList();
+                }
+            return trip;
+        }
+
+        #endregion 
 
         // ----- JobExpenses ------ //
         #region JobExpenses

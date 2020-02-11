@@ -357,3 +357,11 @@ SELECT * FROM (
                 LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods 
 
 				ORDER BY DtEntered DESC
+
+-- Drivers Trip search by Driver ID
+SELECT je.*, js.DtStart, js.DtEnd, jm.Description, js.Particulars, ii.Description as Name, ii.ItemCode  FROM JobExpenses je
+	LEFT JOIN JobMains jm ON jm.Id = je.JobMainId
+	LEFT JOIN JobServices js ON js.Id = je.JobServicesId
+	LEFT JOIN JobServiceItems jsi ON jsi.JobServicesId = js.Id
+	LEFT JOIN InvItems ii ON ii.Id = jsi.InvItemId
+	WHERE ii.Id = 7 AND ForRelease = 1

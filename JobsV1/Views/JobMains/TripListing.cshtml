@@ -7,14 +7,44 @@
 
 <h2>Trip Listing</h2>
 
-<div class="col-sm-8">
+<div class="col-sm-12">
         @Html.ActionLink("30 Days", "TripListing", new { DateRange = 30 }) | 
         @Html.ActionLink("7 Days", "TripListing", new { DateRange = 7 })
 </div>
+<div class="row">
 
-<div class="col-sm-6 btn-group" id="itemSelected" style="margin-bottom:10px;">
-    <input id="srch-field" class="input-group-sm form-control col-sm-4" style="margin-top:5px;border-radius:0px;width:150px;" placeholder="Search" />
-    <button class="btn btn-default col-sm-3" onclick="search();"> Search </button>
+    <!-- Driver/Unit Search Trip Listing Records -->
+    <div class="col-sm-4 btn-group" id="itemSelected" style="margin-bottom:10px;">
+        <input id="srch-field" class="input-group-sm form-control col-sm-2" style="margin-top:5px;border-radius:0px;width:150px;" placeholder="Search" />
+        <button class="btn btn-default col-sm-3" onclick="search();"> Search </button>
+    </div>
+
+    <!-- Driver Search Trip Listing for Releasing of Commission -->
+    <div class="form-group">
+        <div class="col-md-8">
+            <div class="form-group row">
+                <label for="inputKey" class="col-md-1 control-label" style="margin-top:10px;margin-right:-10px;">Driver</label>
+                <div class="col-md-2" style="margin-top:5px;">
+
+                    @Html.DropDownList("DriverList", null, htmlAttributes: new { @class = "form-control", @id="trip-driver" })
+                   
+                </div>
+                <label for="inputKey" class="col-md-1 control-label" style="margin-top:10px;margin-right:-20px;">Start</label>
+                <div class="col-md-3" style="margin-top:5px;">
+                    <input type="text" class="form-control" id="trip-startDate" name="dtStart" placeholder="Date">
+                </div>
+                <label for="inputValue" class="col-md-1 control-label" style="margin-top:10px;margin-right:-20px;">End</label>
+                <div class="col-md-3" style="margin-top:5px;">
+                    <input type="text" class="form-control" id="trip-endDate" name="dtEnd" placeholder="Date">
+                </div>
+                <div class="col-md-1">
+                    <a id="catbtn" class="btn btn-default" data-toggle="modal" data-target="#DriverTripModal"
+                       style="margin-bottom:10px;" onclick="FilterTrip();">Filter Trip</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <br />
@@ -24,7 +54,7 @@
             Date
         </th>
         <th>
-            Job Id.
+            JobId.
         </th>
         <th style="min-width:230px;">
             Car 
@@ -61,6 +91,8 @@
 
 @foreach (var item in Model) {
 
+
+
     if (!jobList.Contains(item.JobServicesId))
     {
         jobList.Add(item.JobServicesId);
@@ -87,7 +119,15 @@
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Particulars) / @Html.DisplayFor(modelItem => item.Description)
+                    @if (item.Particulars.Length < 40)
+                    {
+                        @Html.DisplayFor(modelItem => item.Particulars)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(1, 40) 
+                        <text>...</text>
+                    }
                 </td>
                 <td>
                     @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
@@ -98,11 +138,44 @@
                 <td>
                     @Decimal.Parse(item.Fuel.ToString()).ToString("N0")
                 </td>
-                <td>
-                    @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                <td >                    
+                    @if (item.DriverForRelease == true)
+                    {
+                        <span style="color:dodgerblue;">
+                            @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                        </span>
+                    }else if(item.DriverIsReleased == true)
+                    {
+                        <span style="color:palegreen;">
+                            @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:black;">
+                            @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                        </span>
+                    }
                 </td>
                 <td>
-                    @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                    @if (item.OperatorForRelease == true)
+                    {
+                        <span style="color:dodgerblue;">
+                            @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                        </span>
+                    }
+                    else if (item.OperatorIsReleased == true)
+                    {
+                        <span style="color:palegreen;">
+                            @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:black;">
+                            @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                        </span>
+                    }
                 </td>
                 <td>                
                     @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
@@ -115,7 +188,7 @@
         {
             <tr>
                 <td>
-                    @item.DtService.ToString("MMM dd yyyy")
+                    @item.DtService.ToString("MMM-dd ")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.JobMainId)
@@ -133,7 +206,15 @@
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Particulars) / @Html.DisplayFor(modelItem => item.Description)
+                    @if (item.Particulars.Length < 40)
+                    {
+                        @Html.DisplayFor(modelItem => item.Particulars)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(1, 40)
+                         <text>...</text>
+                    }
                 </td>
                 <td>
                     @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
@@ -145,10 +226,44 @@
                     @Decimal.Parse(item.Fuel.ToString()).ToString("N0")
                 </td>
                 <td>
-                    @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                    @if (item.DriverForRelease == true)
+                    {
+                        <span style="color:dodgerblue;">
+                            @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                        </span>
+                    }
+                    else if (item.DriverIsReleased == true)
+                    {
+                        <span style="color:palegreen;">
+                            @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:black;">
+                            @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                        </span>
+                    }
                 </td>
                 <td>
-                    @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                    @if (item.OperatorForRelease == true)
+                    {
+                        <span style="color:dodgerblue;">
+                            @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                        </span>
+                    }
+                    else if (item.OperatorIsReleased == true)
+                    {
+                        <span style="color:palegreen;">
+                            @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:black;">
+                            @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                        </span>
+                    }
                 </td>
                 <td> 
                     @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null  ) |
@@ -182,7 +297,15 @@
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Particulars) / @Html.DisplayFor(modelItem => item.Description)
+                    @if (item.Particulars.Length < 40)
+                    {
+                        @Html.DisplayFor(modelItem => item.Particulars)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(1, 40)
+                        <text>...</text>
+                    }
                 </td>
                 <td>
                  -
@@ -210,7 +333,7 @@
         {
             <tr>
                 <td>
-                    @item.DtService.ToString("MMM dd yyyy")
+                    @item.DtService.ToString("MMM-dd ")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.JobMainId)
@@ -228,7 +351,15 @@
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Particulars) / @Html.DisplayFor(modelItem => item.Description)
+                    @if (item.Particulars.Length < 40)
+                    {
+                        @Html.DisplayFor(modelItem => item.Particulars)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(1,40) 
+                        <text>...</text>
+                    }
                 </td>
                 <td>
                     -
@@ -261,8 +392,14 @@
 
 <!--Modal-->
 @{Html.RenderPartial("TripListing_Expenses", null, null );}
+@{Html.RenderPartial("TripListing_DriverTrip", null, null);}
 
-<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+<script src="~/Scripts/Job/TripListing.js"></script>
+
 <script>
     var dateRange = 7;
             

@@ -1,0 +1,60 @@
+﻿<!-- Add Clause Edit Modal -->
+<!-- Add Inv Rate Modal -->
+<div class="modal fade" id="DriverTripModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Driver's Trip <span id="InvRate-ItemName"> Item </span></h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+                
+               <table class="table table-striped" id="DriverTripTable">
+                    <thead>
+                        <tr>
+                            <th> Date </th>
+                            <th> Id </th>
+                            <th> Description </th>
+                            <th> Particular </th>
+                            <th> Amount </th>
+                            <th> Remarks </th>
+                            <th> Release </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-md-6">
+                    <h4>Total : <span id="tripDriver-total"> </span> </h4>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addExpenseBtn" >Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    </div>
+<script>
+    function DriverReadyRelease() {
+        $("#driver-readyReleased").attr("disabled", true);
+        $("#Exp-Driver").attr("disabled", true);
+
+    };
+
+    function OperatorReadyRelease() {
+        $("#operator-readyReleased").attr("disabled", true);
+        $("#Exp-Operator").attr("disabled", true);
+
+    };
+
+    //check if release button is clicked
+    function checkDriverRelease() {
+        console.log($("#driver-readyReleased").is(":disabled"));
+    }
+</script>

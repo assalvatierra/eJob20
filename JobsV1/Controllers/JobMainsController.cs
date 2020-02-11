@@ -967,10 +967,14 @@ namespace JobsV1.Controllers
 
         public ActionResult ConfirmJobStatus(int? id)
         {
-            var Job = db.JobMains.Find(id);
-            Job.JobStatusId = 3;
-            db.Entry(Job).State = EntityState.Modified;
-            db.SaveChanges();
+            if (id != null)
+            {
+                var Job = db.JobMains.Find(id);
+                Job.JobStatusId = 3;
+                db.Entry(Job).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
@@ -1082,7 +1086,35 @@ namespace JobsV1.Controllers
         {
             var tripList = dbc.GetTripList(daterange, srch);
 
+            //Driver name list
+            ViewBag.DriverList = new SelectList(db.InvItems.Where(s=>s.ViewLabel == "driver"), "Id", "ItemCode");
+
             return View(tripList);
+        }
+
+        //AJAX GET
+        public string GetDriverTrip(int id, string sDate, string eDate)
+        {
+            var trip = dbc.GetDriversTrip(id, sDate, eDate);
+            return JsonConvert.SerializeObject(trip, Formatting.Indented);
+        }
+
+        //AJAX GET
+        public bool ComiRelease(int id)
+        {
+            try
+            {
+                JobExpenses expense = db.JobExpenses.Find(id);
+                expense.IsReleased = true;
+
+                db.Entry(expense).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public string AddExpenses(int id, string payment, string driver, string fuel, string Operator, string others, string remarks, bool driverForRelease, bool operatorForRelease)
@@ -1284,17 +1316,17 @@ namespace JobsV1.Controllers
             tripExpense.Remarks         = db.JobExpenses.Where(j => j.JobMainId == jobmainId && j.ExpensesId == 3).FirstOrDefault().Remarks;
             tripExpense.Total           = 0;
             tripExpense.Net             = 0;
-            tripExpense.DriverForRelease = getForReleaseStatus(jobmainId, 3);
-            tripExpense.OperatorForRelease = getForReleaseStatus(jobmainId,8);
+            tripExpense.DriverForRelease = getForReleaseStatus(jsId, 3);
+            tripExpense.OperatorForRelease = getForReleaseStatus(jsId, 8);
 
             return JsonConvert.SerializeObject(tripExpense, Formatting.Indented);
         }
 
-        public bool getForReleaseStatus(int jobMainId, int expenseId)
+        public bool getForReleaseStatus(int jsId, int expenseId)
         {
             try
             {
-                return (bool)db.JobExpenses.Where(s => s.JobMainId == jobMainId && s.ExpensesId == expenseId).FirstOrDefault().ForRelease;
+                return (bool)db.JobExpenses.Where(s => s.JobServicesId == jsId && s.ExpensesId == expenseId).FirstOrDefault().ForRelease;
             } catch (Exception ex)
             { return false; }
         }
