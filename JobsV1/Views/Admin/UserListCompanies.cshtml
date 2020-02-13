@@ -1,0 +1,60 @@
+﻿<!-- Add Clause Edit Modal -->
+<!-- Add Inv Rate Modal -->
+<div class="modal fade" id="UserCompanyList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Company Assigned To </h4>
+                <span id="userName"> Item </span>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+                
+               <table class="table table-striped"  id="CompaniesTable">
+                        <tr>
+                            <th> Company Name </th>
+                            <th> </th>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                </table>
+
+                <div class="col-md-6">
+                    <a id="catbtn" data-toggle="modal" data-target="#AddCompanyList" class="cursor-hand"
+                       style="margin-bottom:10px;" >Add Company</a>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addExpenseBtn" >Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!-- Add Company to the list -->
+<div class="modal fade" id="AddCompanyList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Add Company </h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+                <div class="list-group" id="categorylist2">
+                    @foreach (var company in ViewBag.CompanyList as IEnumerable<JobsV1.Models.CustEntMain>)
+                    {
+                        <a onclick="AddCompany(@company.Id)" class="list-group-item"> @company.Name </a>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addExpenseBtn">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>

@@ -1,0 +1,61 @@
+﻿<!-- Add Clause Edit Modal -->
+<!-- Add Inv Rate Modal -->
+<div class="modal fade" id="UserCompanyList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Users Assigned To Company</h4>
+                <span id="companyId"> Item </span> -
+                <span id="companyName"> Item </span>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+                
+               <table class="table table-striped"  id="UsersTable">
+                        <tr>
+                            <th> User </th>
+                            <th> </th>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                </table>
+
+                <div class="col-md-6">
+                    <a id="catbtn" data-toggle="modal" data-target="#UserList" class="cursor-hand"
+                       style="margin-bottom:10px;" >Add User </a>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addExpenseBtn" >Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!-- Add Inv Rate Modal -->
+<div class="modal fade" id="UserList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Driver's Trip <span id="InvRate-ItemName"> Item </span></h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+                <div class="list-group" id="categorylist2">
+                    @foreach (var user in ViewBag.UserList as IEnumerable<JobsV1.Models.AppUser>)
+                    {
+                        <a onclick="AddUser('@user.UserName')" class="list-group-item"> @user.UserName </a>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addExpenseBtn">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>

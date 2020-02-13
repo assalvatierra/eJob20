@@ -788,7 +788,7 @@ namespace JobsV1.Models
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-
+        //------ Trip Listing ----- //
         #region TripListing
         public List<TripListing> GetTripList(int? DateRange, string srch)
         {
@@ -797,12 +797,12 @@ namespace JobsV1.Models
                 DateRange = 7; 
             }
 
-            string SqlStr = @"
+            string SqlStr = @" 
                 SELECT js.JobMainId, js.Id as JobServicesId, js.DtStart, js.DtEnd, js.Particulars, jm.Description, jm.JobStatusId, js.ActualAmt
                 , items = SUBSTRING((SELECT item = (SELECT ii.Description FROM InvItems ii WHERE ii.Id = jsi.InvItemId ) FROM JobServiceItems jsi WHERE jsi.InvItemId = js.Id FOR XML PATH('')),2,100)
-	            FROM JobServices  js
+	            FROM JobServices  js 
 	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
-	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
+	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE()) AND JobStatusId > 1 AND JobStatusId < 4 
             ;";
             
             List<cTripList> JobList = db.Database.SqlQuery<cTripList>(SqlStr).ToList();

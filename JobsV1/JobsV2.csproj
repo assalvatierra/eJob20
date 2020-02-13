@@ -449,7 +449,7 @@
     <Compile Include="Areas\Products\Models\SupplierClass.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminAccessController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CarCoopController.cs" />
     <Compile Include="Controllers\CarDestinationsController.cs" />
     <Compile Include="Controllers\CarRatePackagesController.cs" />
@@ -1478,6 +1478,8 @@
     <Content Include="Properties\PublishProfiles\ftp.myasp.net.pubxml.user" />
     <Content Include="Properties\PublishProfiles\ftp.Somee.com.pubxml.user" />
     <Content Include="Properties\PublishProfiles\LocalPath.C.pubxml.user" />
+    <Content Include="Scripts\Admin\CompanyList.js" />
+    <Content Include="Scripts\Admin\UserList.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -2279,11 +2281,11 @@
     <Content Include="Views\JobMains\TripListing_Expenses.cshtml" />
     <Content Include="Views\Customers\CreateCustomer.cshtml" />
     <Content Include="Views\JobMains\TripListing_DriverTrip.cshtml" />
-    <Content Include="Views\AdminAccess\Index.cshtml" />
-    <Content Include="Views\AdminAccess\UserList.cshtml" />
-    <Content Include="Views\AdminAccess\UserListCompanies.cshtml" />
-    <Content Include="Views\AdminAccess\CompanyList.cshtml" />
-    <Content Include="Views\AdminAccess\CompanyListUsers.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\UserList.cshtml" />
+    <Content Include="Views\Admin\UserListCompanies.cshtml" />
+    <Content Include="Views\Admin\CompanyList.cshtml" />
+    <Content Include="Views\Admin\CompanyListUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

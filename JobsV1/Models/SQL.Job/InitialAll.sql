@@ -529,11 +529,18 @@ values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test Us
 insert into CustCats(CustomerId, CustCategoryId) 
 values(3,2),(3,1);
 
-insert into CustEntMains(Name, Address, Contact1, Contact2, iconPath) 
-values('NewCompany.Inc','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png');
+insert into CustEntMains(Name, Address, Contact1, Contact2, iconPath,AssignedTo) 
+values	('Acer Phils Inc.','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com'),
+		('Hp Enterprise','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com'),
+		('Honda Motors Inc.','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com');
+
+insert into CustEntAssigns(Assigned, Remarks, Date, CustEntMainId)
+values  ('jahdielsvillosa@gmail.com','','2/13/2020',2),
+		('jahdielsvillosa@gmail.com','','2/13/2020',3),
+		('jahdielsvillosa@gmail.com','','2/13/2020',4);
 
 insert into CustEntities(CustEntMainId, CustomerId) 
-values(2,3);
+values (2,3),(3,3),(4,3);
 
 update CustCategories set iconPath = 'Images/Customers/Category/star-filled-40.png' where Id = 1; 
 update CustCategories set iconPath = 'Images/Customers/Category/Active-30.png' where Id = 2; 

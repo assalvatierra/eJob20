@@ -1,0 +1,38 @@
+﻿@model IEnumerable<JobsV1.Models.CustEntMain>
+
+@{
+    ViewBag.Title = "Company List";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>User Assignment by Companies</h2>
+<table class="table">
+    <tr>
+        <th>
+            Companies
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name )
+            </td>
+            <td>
+                <a id="catbtn" data-toggle="modal" data-target="#UserCompanyList" class="cursor-hand"
+                   style="margin-bottom:10px;" onclick="CompanyUserList('@item.Id','@item.Name')">Assigned</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@{Html.RenderPartial("CompanyListUsers", null, new ViewDataDictionary { { "UserList", ViewBag.UserList } });}
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script src="~/Scripts/Admin/CompanyList.js">
+
+</script>

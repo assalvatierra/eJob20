@@ -337,14 +337,14 @@ SELECT * FROM (
  ORDER BY sup.DtValidFrom DESC
 
 
-
+ -- Trip Listing
    SELECT js.JobMainId, js.Id as JobServicesId, js.DtStart, js.DtEnd, js.Particulars, jm.Description, jm.JobStatusId, js.ActualAmt
 				, items = SUBSTRING((SELECT item = (SELECT ii.Description FROM InvItems ii WHERE ii.Id = jsi.InvItemId ) FROM JobServiceItems jsi WHERE jsi.InvItemId = js.Id FOR XML PATH('')),2,100)
 	            FROM JobServices  js
 	            LEFT JOIN JobMains jm ON jm.Id = js.JobMainId 
-	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE())
+	            WHERE js.DtEnd >= DATEADD(DAY, -30, GETDATE()) AND JobStatusId > 1 AND JobStatusId < 4 
 			
-	--			 Items = SUBSTRING( (SELECT sii.Id as [text()]
+	--Items = SUBSTRING( (SELECT sii.Id as [text()]
 	--FROM SupplierInvItems sii WHERE sup.Id = sii.SupplierId 
 	--FOR XML PATH('')),2,100 ) 
 
