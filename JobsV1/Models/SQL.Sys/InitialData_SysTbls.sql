@@ -17,7 +17,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('HR','HRIS',0,'Personel/HrPersonels','Index','',20,11),
 ('Products','Products',0,'Products/SMProducts','Index','',20,12),
 ('Bookkeeping','Bookkeeping',0,'Accounting/AsMain','Index','span=30',20,13),
-('Master List','Master List',0,'Cities','Index','span=30',20,14)
+('Master List','Master List',0,'Cities','Index','span=30',20,14),
+('Admin','Admin',0,'Cities','Index','span=30',20,14)
 ;
 
 

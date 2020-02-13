@@ -80,12 +80,16 @@
         <th>
             Operator 
         </th>
-        <th></th>
+        <th style="min-width:150px;">
+             
+        </th>
     </tr>
+
 @{
     var tempdate = "";
     var jobList = new List<int>();
-    }
+    var textlimit = 18;
+}
 
 
 
@@ -119,13 +123,13 @@
                     }
                 </td>
                 <td>
-                    @if (item.Particulars.Length < 40)
+                    @if (item.Particulars.Length < textlimit)
                     {
                         @Html.DisplayFor(modelItem => item.Particulars)
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(1, 40) 
+                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(0, textlimit) 
                         <text>...</text>
                     }
                 </td>
@@ -206,13 +210,13 @@
                     }
                 </td>
                 <td>
-                    @if (item.Particulars.Length < 40)
+                    @if (item.Particulars.Length < textlimit)
                     {
                         @Html.DisplayFor(modelItem => item.Particulars)
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(1, 40)
+                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(0, textlimit)
                          <text>...</text>
                     }
                 </td>
@@ -297,13 +301,13 @@
                     }
                 </td>
                 <td>
-                    @if (item.Particulars.Length < 40)
+                    @if (item.Particulars.Length < textlimit)
                     {
                         @Html.DisplayFor(modelItem => item.Particulars)
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(1, 40)
+                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(0, textlimit)
                         <text>...</text>
                     }
                 </td>
@@ -351,13 +355,13 @@
                     }
                 </td>
                 <td>
-                    @if (item.Particulars.Length < 40)
+                    @if (item.Particulars.Length < textlimit)
                     {
                         @Html.DisplayFor(modelItem => item.Particulars)
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(1,40) 
+                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(0, textlimit) 
                         <text>...</text>
                     }
                 </td>

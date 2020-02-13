@@ -75,7 +75,14 @@
                     
                 </td>
                 <td>
-                    (@DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
+                    @{var date1 = new DateTime(); }
+                    @{var date2 = new DateTime(); }
+                    @if (DateTime.TryParse( rate.DtValidFrom, out date1) && DateTime.TryParse(rate.DtValidTo, out date2))
+                    {
+                            @DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") <text>-</text>
+
+                            @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy")
+                    }
                 </td>
                 <td>
                     @rate.By

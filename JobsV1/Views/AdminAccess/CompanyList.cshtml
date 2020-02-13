@@ -1,0 +1,100 @@
+﻿@model IEnumerable<JobsV1.Models.AppUser>
+
+@{
+    ViewBag.Title = "Company List";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>User Assignment </h2>
+<table class="table">
+    <tr>
+        <th>
+            User
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                <a id="catbtn" data-toggle="modal" data-target="#UserCompanyList" class="cursor-hand"
+                   style="margin-bottom:10px;" onclick="UserCompanyList('@item.UserName')">Assigned</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@{Html.RenderPartial("UserListCompanies", null, null);}
+
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
+<script>
+
+    //Add Item Expense
+    function UserCompanyList(user) {
+
+        //build json object
+        var data = {
+            user: user
+        };
+
+        console.log(data);
+
+        var url = '/AdminAccess/GetUserCompanies';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                //console.log(data);
+                LoadCompaniesTable(data);
+            }
+        });
+    }
+
+
+    //display products
+    function LoadCompaniesTable(data) {
+
+        //parse data response to json object
+        var temp = jQuery.parseJSON(data["responseText"]);
+        var total = 0;
+
+        console.log(temp);
+        //clear table contents except header
+        $("#CompaniesTable").find("tr:gt(0)").remove();
+
+        //populate table content
+        for (var x = 0; x < temp.length; x++) {
+            console.log("Load data");
+            var id = temp[x]["Id"] != null ? temp[x]["Id"] : "0";
+            var Name = temp[x]["Name"] != null ? temp[x]["Name"] : "--";
+
+            console.log(Name);
+
+            content = "<tr>";
+            content += "<td>" + Name + "</td>";
+            content += "<td onclick='RemoveCompany(" + id + ")'><a class='cursor-hand'> x </a></td>";
+            content += "</tr>";
+
+            $(content).appendTo("#CompaniesTable");
+        }
+    }
+
+    //DELETE ITEM
+    function RemoveCompany(companyid,user) {
+        console.log("removeitem");
+    }
+</script>
