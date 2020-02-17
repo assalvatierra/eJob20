@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using JobsV1.Models;
 using Newtonsoft.Json;
 using System.Data.Entity;
+using System.Web.Security;
 
 namespace JobsV1.Controllers
 {
@@ -24,17 +25,43 @@ namespace JobsV1.Controllers
         // GET: AdminAccess
         public ActionResult Index()
         {
+            if(User.IsInRole("Admin")){
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("UnAuthorizedAccess", "Admin");
+            }
+        }
+
+        //GET : Error Page
+        public ActionResult Error()
+        {
+           return View();
+        }
+
+        //GET : Un authorized Access Page
+        public ActionResult UnAuthorizedAccess()
+        {
             return View();
         }
 
+        #region UserList
         //GET: UserList 
         public ActionResult UserList()
         {
-            var users = dbc.getUsers_wdException();
-            // ViewBag.CompanyList = db.CustEntMains.Where(c=>c.Status != "BAD" && c.Status != "SUS" && c.Status != "INC").OrderByDescending(c=>c.Name).ToList();
-            ViewBag.CompanyList = db.CustEntMains.ToList();
+            if (User.IsInRole("Admin"))
+            {
+                var users = dbc.getUsers_wdException();
+                ViewBag.CompanyList = db.CustEntMains.Where(c=>c.Status != "BAD" && c.Status != "SUS" && c.Status != "INC").OrderByDescending(c=>c.Name).ToList();
+                // ViewBag.CompanyList = db.CustEntMains.ToList();
             
-            return View(users.ToList());
+                return View(users.ToList());
+            }
+            else
+            {
+                return RedirectToAction("Error", "Admin");
+            }
         }
 
         //GET: UserList
@@ -94,6 +121,7 @@ namespace JobsV1.Controllers
                 return "500";
             }
         }
+        #endregion
 
         #region CompanyListing
         //UPDATE : update company assigned person
@@ -112,9 +140,17 @@ namespace JobsV1.Controllers
         //GET: UserList 
         public ActionResult CompanyList()
         {
-            var companies = db.CustEntMains.ToList();
-            ViewBag.UserList = dbc.getUsers();
-            return View(companies);
+            if (User.IsInRole("Admin"))
+            {
+                var companies = db.CustEntMains.ToList();
+                ViewBag.UserList = dbc.getUsers();
+                return View(companies);
+            }
+            else
+            {
+                return RedirectToAction("Error", "Admin");
+            }
+            
         }
 
         //GET: UserList

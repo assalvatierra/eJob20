@@ -23,6 +23,7 @@ namespace JobsV1.Models
         public string Status { get; set; }
         public string Remarks { get; set; }
         public int CustEntMainId { get; set; }
+        public string Type { get; set; }
     
         public virtual CustEntMain CustEntMain { get; set; }
     }

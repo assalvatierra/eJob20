@@ -18,7 +18,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Products','Products',0,'Products/SMProducts','Index','',20,12),
 ('Bookkeeping','Bookkeeping',0,'Accounting/AsMain','Index','span=30',20,13),
 ('Master List','Master List',0,'Cities','Index','span=30',20,14),
-('Admin','Admin',0,'Cities','Index','span=30',20,14)
+('Admin','Admin',0,'Admin','UserList','',20,15),
+('Activities','Activities',0,'Activities','Index','',20,15)
 ;
 
 
@@ -184,8 +185,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (13,13);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Expense','',13,'Accounting/AsExpenses','ParamForm','',21,131),		-- id: 53
-		('Sales' ,'',13,'Accounting/AsSales','ParamForm','',21,133);	        -- id: 55
+values 	('Expense','',13,'Accounting/AsExpenses','ParamForm','',21,131),		-- id: 56
+		('Sales' ,'',13,'Accounting/AsSales','ParamForm','',21,133);	        -- id: 57
 		
 --Master List
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
@@ -193,9 +194,17 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (14,14);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Cities' ,'',14,'Cities','Index','',21,141),
-		('Categories' ,'',14,'CustCategories','Index','',21,142),
-		('Documents' ,'',14,'SupDocuments','Index','',21,143);	 -- id: 58
+values 	('Cities' ,'',14,'Cities','Index','',21,141),			-- id: 58
+		('Categories' ,'',14,'CustCategories','Index','',21,142),-- id: 59
+		('Documents' ,'',14,'SupDocuments','Index','',21,143);	 -- id: 60
+		
+--Admin Access
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('NO115','Admin','Admin Access','A','../Images/Erp/icons/icons-bookkeeping.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (15,15);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Agent Assignment' ,'',15,'Admin','Index','',21,151);	 -- id: 61
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');
@@ -216,6 +225,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',11,11), 
 ('assalvatierra@gmail.com',12,12), 
 ('assalvatierra@gmail.com',13,13), 
+('assalvatierra@gmail.com',14,14), 
+('assalvatierra@gmail.com',15,15), 
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 
@@ -229,13 +240,13 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',10,10),
 ('jahdielvillosa@gmail.com',11,11),
 ('jahdielvillosa@gmail.com',12,12),
-('jahdielvillosa@gmail.com',13,13); 
+('jahdielvillosa@gmail.com',13,13),
+('jahdielvillosa@gmail.com',14,14),
+('jahdielvillosa@gmail.com',15,15); 
 
 
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
-('assalvatierra@gmail.com', 14, 14),
-('assalvatierra@gmail.com', 15, 15),
 ('assalvatierra@gmail.com', 16, 16),
 ('assalvatierra@gmail.com', 17, 17),
 ('assalvatierra@gmail.com', 18, 18),
@@ -284,9 +295,10 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 61, 61),
 ('assalvatierra@gmail.com', 62, 62),
 ('assalvatierra@gmail.com', 63, 63),
+('assalvatierra@gmail.com', 64, 64),
+('assalvatierra@gmail.com', 65, 65),
+('assalvatierra@gmail.com', 66, 66),
 
-('jahdielvillosa@gmail.com', 14, 14),
-('jahdielvillosa@gmail.com', 15, 15),
 ('jahdielvillosa@gmail.com', 16, 16),
 ('jahdielvillosa@gmail.com', 17, 17),
 ('jahdielvillosa@gmail.com', 18, 18),
@@ -334,4 +346,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 60, 60),
 ('jahdielvillosa@gmail.com', 61, 61),
 ('jahdielvillosa@gmail.com', 62, 62),
-('jahdielvillosa@gmail.com', 63, 63); 
+('jahdielvillosa@gmail.com', 63, 63),
+('jahdielvillosa@gmail.com', 64, 64),
+('jahdielvillosa@gmail.com', 65, 63),
+('jahdielvillosa@gmail.com', 66, 66); 

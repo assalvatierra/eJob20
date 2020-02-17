@@ -265,40 +265,19 @@
         <EntityTypeShape EntityType="JobDB.SupplierDocument" Width="1.5" PointX="48.125" PointY="5.125" />
         <AssociationConnector Association="JobDB.SupplierSupplierDocument" />
         <AssociationConnector Association="JobDB.SupDocumentSupplierDocument" />
-        <EntityTypeShape EntityType="JobDB.CustEntActivity" Width="1.5" PointX="17.125" PointY="1.5" />
+        <EntityTypeShape EntityType="JobDB.CustEntActivity" Width="1.5" PointX="17" PointY="1.25" />
         <EntityTypeShape EntityType="JobDB.CustEntDocuments" Width="1.5" PointX="9.125" PointY="0.5" />
         <AssociationConnector Association="JobDB.CustEntDocumentsSupDocument" ManuallyRouted="true" >
           <ConnectorPoint PointX="10.625" PointY="1.1562505" />
-          <ConnectorPoint PointX="13.125" PointY="1.1562505" />
-          <ConnectorPoint PointX="13.125" PointY="1.625" />
-          <ConnectorPoint PointX="13.25" PointY="1.625" />
-          <ConnectorPoint PointX="13.25" PointY="4.6917936197916656" />
-          <ConnectorPoint PointX="17.635416666666668" PointY="4.6917936197916648" />
-          <ConnectorPoint PointX="17.802083333333332" PointY="4.6917936197916656" />
-          <ConnectorPoint PointX="18.875" PointY="4.6917936197916656" />
-          <ConnectorPoint PointX="18.875" PointY="4.625" />
-          <ConnectorPoint PointX="20.729166666666668" PointY="4.6249999999999991" />
-          <ConnectorPoint PointX="20.895833333333332" PointY="4.625" />
-          <ConnectorPoint PointX="21.510416666666668" PointY="4.6249999999999991" />
-          <ConnectorPoint PointX="21.677083333333332" PointY="4.625" />
-          <ConnectorPoint PointX="25.381222179671131" PointY="4.625" />
-          <ConnectorPoint PointX="25.381222179671131" PointY="4" />
-          <ConnectorPoint PointX="32.375" PointY="4" />
-          <ConnectorPoint PointX="32.375" PointY="5.9321907552083317" />
-          <ConnectorPoint PointX="44.625" PointY="5.9321907552083317" />
-          <ConnectorPoint PointX="44.625" PointY="3.625" />
-          <ConnectorPoint PointX="45.479166666666664" PointY="3.6249999999999996" />
-          <ConnectorPoint PointX="45.645833333333336" PointY="3.625" />
-          <ConnectorPoint PointX="49.625" PointY="3.625" />
-          <ConnectorPoint PointX="49.625" PointY="4.5379850260416665" />
-          <ConnectorPoint PointX="51.75" PointY="4.5379850260416665" />
+          <ConnectorPoint PointX="12.446036405798118" PointY="1.1562505" />
+          <ConnectorPoint PointX="12.446036405798118" PointY="0.4333483960212634" />
+          <ConnectorPoint PointX="44.625" PointY="0.4333483960212634" />
+          <ConnectorPoint PointX="44.625" PointY="0.35569354046549329" />
+          <ConnectorPoint PointX="51.75" PointY="0.35569354046549329" />
           <ConnectorPoint PointX="51.75" PointY="5.125" />
         </AssociationConnector>
         <AssociationConnector Association="JobDB.CustEntMainCustEntDocuments" />
-        <AssociationConnector Association="JobDB.CustEntMainCustEntActivity" ManuallyRouted="true" >
-          <ConnectorPoint PointX="13" PointY="6.8865364583333317" />
-          <ConnectorPoint PointX="17.71875" PointY="6.8865364583333317" />
-          <ConnectorPoint PointX="17.71875" PointY="4.4417936197916656" />
+        <AssociationConnector Association="JobDB.CustEntMainCustEntActivity" ManuallyRouted="false" >
         </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>

@@ -365,3 +365,6 @@ SELECT je.*, js.DtStart, js.DtEnd, jm.Description, js.Particulars, ii.Descriptio
 	LEFT JOIN JobServiceItems jsi ON jsi.JobServicesId = js.Id
 	LEFT JOIN InvItems ii ON ii.Id = jsi.InvItemId
 	WHERE ii.Id = 7 AND ForRelease = 1
+
+
+SELECT * FROM CustEntActivities

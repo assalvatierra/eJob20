@@ -21,6 +21,7 @@ namespace JobsV1.Models
         public string Remarks { get; set; }
         public int SupplierId { get; set; }
         public Nullable<decimal> Amount { get; set; }
+        public string Type { get; set; }
     
         public virtual Supplier Supplier { get; set; }
     }

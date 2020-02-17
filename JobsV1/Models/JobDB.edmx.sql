@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/10/2020 16:50:42
+-- Date Created: 02/17/2020 14:38:30
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1866,7 +1866,8 @@ CREATE TABLE [dbo].[SupplierActivities] (
     [Assigned] nvarchar(40)  NULL,
     [Remarks] nvarchar(80)  NULL,
     [SupplierId] int  NOT NULL,
-    [Amount] decimal(18,0)  NULL
+    [Amount] decimal(18,0)  NULL,
+    [Type] nvarchar(20)  NULL
 );
 GO
 
@@ -1895,7 +1896,8 @@ CREATE TABLE [dbo].[CustEntActivities] (
     [Amount] decimal(18,0)  NULL,
     [Status] nvarchar(20)  NOT NULL,
     [Remarks] nvarchar(80)  NULL,
-    [CustEntMainId] int  NOT NULL
+    [CustEntMainId] int  NOT NULL,
+    [Type] nvarchar(20)  NULL
 );
 GO
 

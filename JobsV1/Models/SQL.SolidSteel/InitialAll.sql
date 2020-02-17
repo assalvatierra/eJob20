@@ -1059,5 +1059,10 @@ values	('Fuel'		 ,'',10,1),
 		;
 
 
-
-		
+--------- ACTIVITES ------------------
+insert into CustEntActivities( Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId)
+values	('01/05/2020', 'jahdielvillosa@gmail.com', '','',0,'Inquiry','', 2 ),
+		('01/20/2020', 'jahdielvillosa@gmail.com', '','',2500,'Bidding Inquiry','', 2 ),
+		('02/12/2020', 'jahdielvillosa@gmail.com', '','',6500,'Bidding Inquiry','', 3 ),
+		('02/15/2020', 'jahdielvillosa@gmail.com', '','SC-001',3500,'Firm Inquiry','', 2 ),
+		('02/16/2020', 'jahdielvillosa@gmail.com', '','',0,'Others','', 3 ); 

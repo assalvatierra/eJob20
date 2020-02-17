@@ -5,7 +5,11 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>User Assignment </h2>
+<h2>Agent Assignment </h2>
+<span > By User </span> |
+@Html.ActionLink("By Company", "CompanyList")
+
+ 
 <table class="table">
     <tr>
         <th>
@@ -29,8 +33,9 @@
 
 </table>
 
+    @{Html.RenderPartial("UserListCompanies", null, new ViewDataDictionary { { "CompanyList", ViewBag.CompanyList } });}
 
-@{Html.RenderPartial("UserListCompanies", null, new ViewDataDictionary { { "CompanyList", ViewBag.CompanyList } });}
+@Html.ActionLink("Back to List", "Index", null, new { @class = "control-text" }) 
 
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
 <script src="~/Scripts/Admin/UserList.js"></script>

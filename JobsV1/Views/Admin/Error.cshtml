@@ -1,0 +1,18 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+<div class="container" style="width:500px;margin-top:100px;margin-bottom:100px;">
+    <div class="center-block">
+        <h1 class="text-danger" style="font-size:100px">Something went wrong.</h1>
+        <h4 class="text-primary">An error occurred while processing your request. We are now working on it. Please try again. </h4>
+
+        @Html.ActionLink("Go Home", "Index", "", null, new { @class = "btn btn-default" })
+
+    </div>
+</div>
+
+
+
+

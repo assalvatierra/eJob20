@@ -1739,6 +1739,7 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
     <Property Name="Amount" Type="decimal" Nullable="true" />
+    <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
   <EntityType Name="SupDocuments">
     <Key>
@@ -1768,6 +1769,7 @@
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
   <EntityType Name="CustEntDocuments">
     <Key>
@@ -6402,6 +6404,7 @@
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierActivity" FromRole="SupplierActivity" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="true" />
+          <Property Name="Type" Type="String" Nullable="true" MaxLength="20" />
         </EntityType>
         <Association Name="SupplierSupplierActivity">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -6472,6 +6475,7 @@
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntMain" />
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="true" MaxLength="20" />
         </EntityType>
         <EntityType Name="CustEntDocuments">
           <Key>
@@ -7795,6 +7799,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7827,6 +7832,7 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

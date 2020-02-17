@@ -6,9 +6,13 @@
 
 
 <h2>
-    Agent Assignment
+    Agent - Company Assignment
 </h2>
 
-@Html.ActionLink("Assignment by User", "UserList", null, new { @class = "btn btn-default" }) <br />
-@Html.ActionLink("Assignment by Company", "CompanyList", null, new { @class = "btn btn-default" }) <br /><br />
+<div class="list-group col-md-4" id="categorylist2">
+    @Html.ActionLink("Assignment by User", "UserList", null, new { @class = "list-group-item" }) 
+    @Html.ActionLink("Assignment by Company", "CompanyList", null, new { @class = "list-group-item" }) 
+    @*<a onclick="AddCompany(@company.Id)" class="list-group-item"> @company.Name </a>*@
+</div>
+
 

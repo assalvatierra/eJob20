@@ -265,7 +265,7 @@ namespace JobsV1.Controllers
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
-            return View();
+            return View(); 
         }
 
         //

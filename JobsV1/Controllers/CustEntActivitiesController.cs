@@ -26,6 +26,13 @@ namespace JobsV1.Controllers
                 new SelectListItem { Value = "Job Order", Text = "Job Order" }
                 };
 
+        private List<SelectListItem> ActivityType = new List<SelectListItem> {
+                new SelectListItem { Value = "MEETING", Text = "Meeting" },
+                new SelectListItem { Value = "QUOTATION", Text = "Quotation" },
+                new SelectListItem { Value = "SALES", Text = "Sales" },
+                new SelectListItem { Value = "CLOSED", Text = "Closed" }
+                };
+
         // GET: CustEntActivities
         public ActionResult Index(int? id)
         {
@@ -69,6 +76,7 @@ namespace JobsV1.Controllers
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", id);
             ViewBag.Status = new SelectList(ActivityStatus, "value", "text");
+            ViewBag.Type = new SelectList(ActivityType, "value", "text");
 
             CustEntActivity activity = new CustEntActivity();
             activity.Amount = 0;
@@ -83,7 +91,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId")] CustEntActivity custEntActivity)
+        public ActionResult Create([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +103,7 @@ namespace JobsV1.Controllers
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
             ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
+            ViewBag.Type = new SelectList(ActivityType, "value", "text", custEntActivity.Type);
             return View(custEntActivity);
         }
 
@@ -112,7 +121,8 @@ namespace JobsV1.Controllers
             }
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
-            ViewBag.Status = new SelectList(ActivityStatus, "value", "text");
+            ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
+            ViewBag.Type = new SelectList(ActivityType, "value", "text", custEntActivity.Type);
             ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }
@@ -122,7 +132,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId")] CustEntActivity custEntActivity)
+        public ActionResult Edit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
@@ -133,6 +143,7 @@ namespace JobsV1.Controllers
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
             ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
+            ViewBag.Type = new SelectList(ActivityType, "value", "text", custEntActivity.Type);
             ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<JobsV1.Models.CustEntActivity>
+
+@{
+    ViewBag.Title = "Daily Activities";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<div class="row">
+    <h4 class="col-md-1 control-label" > Filter : </h4>
+    <input name="DtStart" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
+    <input name="DtEnd" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;"  />
+</div>
+
+<h3>Company Activities</h3>
+
+<table class="table">
+    <tr>
+        <th> Date    </th>
+        <th> Project </th>
+        <th> Code    </th>
+        <th> Amount  </th>
+        <th> Status  </th>
+        <th> Company </th>
+        <th> Remarks </th>
+        <th> AssignedTo </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @DateTime.Parse(item.Date.ToString()).ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalesCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustEntMain.Name )
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Assigned)
+            </td>
+        </tr>
+    }
+    </table>
+
+
+<h3>Suppliers Activities</h3>
+
+<table class="table">
+    <tr>
+        <th> Date    </th>
+        <th> Code  </th>
+        <th> Amount  </th>
+        <th> Suppliers  </th>
+        <th> Type </th>
+        <th> Remarks </th>
+        <th> AssignedTo </th>
+    </tr>
+
+    @foreach (var item in ViewBag.SupplierActivities as IOrderedEnumerable<JobsV1.Models.SupplierActivity>)
+    {
+        <tr>
+            <td>
+                @DateTime.Parse(item.DtActivity.ToString()).ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supplier.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type )
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks )
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Assigned)
+            </td>
+        </tr>
+    }
+</table>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+<script src="~/Scripts/Activities/Activities.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">

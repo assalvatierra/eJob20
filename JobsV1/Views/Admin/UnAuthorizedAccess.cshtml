@@ -1,0 +1,18 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+<div class="container" style="width:500px;margin-top:100px;margin-bottom:100px;">
+    <div class="center-block">
+        <h1 class="text-danger" style="font-size:100px">Unauthorized Access.</h1>
+        <h4 class="text-primary">You are not authorized to access this page. Please contact your administrator for more info. </h4>
+
+        @Html.ActionLink("Go Home", "Index", "", null, new { @class = "btn btn-default" })
+
+    </div>
+</div>
+
+
+
+

@@ -449,6 +449,7 @@
     <Compile Include="Areas\Products\Models\SupplierClass.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CarCoopController.cs" />
     <Compile Include="Controllers\CarDestinationsController.cs" />
@@ -576,6 +577,7 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Class\ActionTrailClass.cs" />
+    <Compile Include="Models\Class\ActivityClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\Class\SalesLeadClass.cs" />
@@ -1478,6 +1480,7 @@
     <Content Include="Properties\PublishProfiles\ftp.myasp.net.pubxml.user" />
     <Content Include="Properties\PublishProfiles\ftp.Somee.com.pubxml.user" />
     <Content Include="Properties\PublishProfiles\LocalPath.C.pubxml.user" />
+    <Content Include="Scripts\Activities\Activities.js" />
     <Content Include="Scripts\Admin\CompanyList.js" />
     <Content Include="Scripts\Admin\UserList.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -2286,6 +2289,9 @@
     <Content Include="Views\Admin\UserListCompanies.cshtml" />
     <Content Include="Views\Admin\CompanyList.cshtml" />
     <Content Include="Views\Admin\CompanyListUsers.cshtml" />
+    <Content Include="Views\Admin\Error.cshtml" />
+    <Content Include="Views\Admin\UnAuthorizedAccess.cshtml" />
+    <Content Include="Views\Activities\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
