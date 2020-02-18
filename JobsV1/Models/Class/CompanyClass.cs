@@ -70,7 +70,7 @@ namespace JobsV1.Models
         #region AJAX_Customer_Table
 
         //-----AJAX Functions for generating table list---------//
-        public List<cCompanyList> generateCompanyList(string search, string searchCat, string status, string sort)
+        public List<cCompanyList> generateCompanyList(string search, string searchCat, string status, string sort, string user)
         {
             List<CompanyList> custList = new List<CompanyList>();
              
@@ -86,7 +86,7 @@ namespace JobsV1.Models
 
                  "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId "+
 
-                 ") as com";
+                 ") as com WHERE (Exclusive = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='"+user+"'))";
 
 
             if (status != null)
@@ -98,30 +98,21 @@ namespace JobsV1.Models
                 }
                 else
                 {
-                    sql += " WHERE com.Status = '" + status + "' ";
+                    sql += " AND com.Status = '" + status + "' ";
                 }
 
             }
             else
             {
                 //status is null
-                sql += " WHERE com.Status != 'INC' OR com.Status != 'BAD' ";
+                sql += " AND com.Status != 'INC' OR com.Status != 'BAD' ";
             }
 
 
             //handle search by name filter
             if (search != null || search != "")
             {
-
-                if (status == "ALL")
-                {
-                    sql += " WHERE ";
-                }
-                else
-                {
-                    sql += " AND ";
-                }
-
+                sql += " AND ";
                 //search using the search by category
                 switch (searchCat)
                     {
@@ -169,7 +160,109 @@ namespace JobsV1.Models
 
             return getCompanyList(custList);
         }
-        
+
+
+        //-----AJAX Functions for generating table list---------//
+        public List<cCompanyList> generateCompanyAdminList(string search, string searchCat, string status, string sort)
+        {
+            List<CompanyList> custList = new List<CompanyList>();
+
+            string sql = "SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), " +
+                 "City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), " +
+
+                 "cust.Name as ContactName, cust.Email as ContactEmail, cust.Contact1 as ContactNumber, " +
+                 "cet.Position as ContactPosition " +
+
+                 "FROM CustEntMains cem " +
+
+                 "LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id " +
+
+                 "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId " +
+
+                 ") as com ";
+
+
+            if (status != null)
+            {
+
+                if (status == "ALL")
+                {
+
+                }
+                else
+                {
+                    sql += " WHERE com.Status = '" + status + "' ";
+                }
+
+            }
+            else
+            {
+                //status is null
+                sql += " WHERE com.Status != 'INC' OR com.Status != 'BAD' ";
+            }
+
+
+            //handle search by name filter
+            if (search != null || search != "")
+            {
+
+                if (status == "ALL")
+                {
+                    sql += " WHERE ";
+                }
+                else
+                {
+                    sql += " AND ";
+                }
+
+                //search using the search by category
+                switch (searchCat)
+                {
+                    case "Company":
+                        sql += " com.Name Like '%" + search + "%' ";
+                        break;
+                    case "City":
+                        sql += " com.City Like '%" + search + "%' ";
+                        break;
+                    case "ContactName":
+                        sql += " com.ContactName Like '%" + search + "%' ";
+                        break;
+                    case "Category":
+                        sql += " com.Category Like '%" + search + "%' ";
+                        break;
+                    case "AssignedTo":
+                        sql += " com.AssignedTo Like '%" + search + "%' ";
+                        break;
+                    default:
+                        sql += " ";
+                        break;
+                }
+            }
+
+
+            if (sort != null)
+            {
+                switch (sort)
+                {
+                    //add more options for sorting
+                    default:
+                        sql += " ORDER BY com.Name ASC;";
+                        break;
+                }
+            }
+            else
+            {
+                //terminator
+                sql += " ORDER BY com.Name ASC;";
+
+            }
+
+            custList = db.Database.SqlQuery<CompanyList>(sql).ToList();
+
+
+            return getCompanyList(custList);
+        }
+
 
         private List<cCompanyList> getCompanyList(List<CompanyList> list)
         {

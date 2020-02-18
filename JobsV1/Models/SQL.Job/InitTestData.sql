@@ -293,7 +293,6 @@ SELECT  sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppl
 	WHERE prods.Name LIKE '%Steel Pipe%' 
 	ORDER BY prods.ItemRate ASC
 
--- Company 
 SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), 
                  City =  (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), 
                  
@@ -305,7 +304,8 @@ SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM C
 				 LEFT JOIN Customers cust ON cust.Id = cet.CustomerId 
 				 ) as com 
 
-				 WHERE com.ContactName like '%Lebron%'
+				WHERE (Exclusive = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='jecca.raelbreeze@gmail.com'))
+-- Company 
 --Sales Lead
 SELECT sl.*, slc.CustEntMainId FROM SalesLeads sl
 	LEFT JOIN SalesLeadCompanies slc ON sl.Id = slc.SalesLeadId

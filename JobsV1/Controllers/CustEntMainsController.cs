@@ -54,9 +54,18 @@ namespace JobsV1.Controllers
         {
             //get lit of customers
             List<cCompanyList> custList = new List<cCompanyList>();
-           
-            custList = comdb.generateCompanyList(search, searchCat, status, sort);
-            
+            var user = HttpContext.User.Identity.Name;
+
+            //handle user roles
+            if (User.IsInRole("Admin"))
+            {
+                custList = comdb.generateCompanyAdminList(search, searchCat, status, sort);
+            }
+            else
+            {
+                custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+            }
+
             //convert list to json object
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }
