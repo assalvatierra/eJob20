@@ -22,9 +22,11 @@
         <th> Code    </th>
         <th> Amount  </th>
         <th> Status  </th>
+        <th> Type    </th>
         <th> Company </th>
         <th> Remarks </th>
         <th> AssignedTo </th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -46,13 +48,36 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustEntMain.Name )
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustEntMain.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Assigned)
+                @*@Html.DisplayFor(modelItem => item.Assigned)*@
+                @{var input = @item.Assigned;}
+                @try
+                {
+                char ch = '@';
+                int idx = input.IndexOf(ch);
+                <text> @input.Substring(0, idx)</text>
+                }
+                catch (Exception ex)
+                {
+                    <text>  input </text>
+                }
+            </td>
+            <td>
+                @if (ViewBag.IsAdmin == true)
+                {
+                    <text>
+                    @Html.ActionLink("Edit", "CompanyActsEdit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "CompanyActsDelete", new { id = item.Id })
+                    </text>
+                }
             </td>
         </tr>
     }
@@ -70,6 +95,7 @@
         <th> Type </th>
         <th> Remarks </th>
         <th> AssignedTo </th>
+        <th></th>
     </tr>
 
     @foreach (var item in ViewBag.SupplierActivities as IOrderedEnumerable<JobsV1.Models.SupplierActivity>)
@@ -94,7 +120,26 @@
                 @Html.DisplayFor(modelItem => item.Remarks )
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Assigned)
+                @{var input = @item.Assigned;}
+                @try
+                {
+                    char ch = '@';
+                    int idx = input.IndexOf(ch);
+                    <text> @input.Substring(0, idx)</text>
+                }
+                catch (Exception ex)
+                {
+                    <text>  input </text>
+                }
+            </td>
+            <td>
+                @if (ViewBag.IsAdmin == true)
+                {
+                    <text>
+                        @Html.ActionLink("Edit", "SupplierActsEdit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "SupplierActsDelete", new { id = item.Id })
+                    </text>
+                }
             </td>
         </tr>
     }
