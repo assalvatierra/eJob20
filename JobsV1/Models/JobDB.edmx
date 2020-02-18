@@ -1000,6 +1000,7 @@
     <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Exclusive" Type="nvarchar" Nullable="true" DefaultValue="PUBLIC" MaxLength="10" />
   </EntityType>
   <EntityType Name="SalesLeads">
     <Key>
@@ -4644,6 +4645,7 @@
           <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
           <NavigationProperty Name="CustEntDocuments" Relationship="JobDB.CustEntMainCustEntDocuments" FromRole="CustEntMain" ToRole="CustEntDocuments" />
           <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntMain" ToRole="CustEntActivity" />
+          <Property Name="Exclusive" Type="String" Nullable="true" MaxLength="10" DefaultValue="PUBLIC" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -6989,6 +6991,7 @@
           <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
           <ScalarProperty Name="Mobile" ColumnName="Mobile" />
           <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Exclusive" ColumnName="Exclusive" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

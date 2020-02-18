@@ -17,6 +17,12 @@ namespace JobsV1.Controllers
         private SupplierClass supdb = new SupplierClass();
         private DateClass date = new DateClass();
 
+        private List<SelectListItem> ActivityType = new List<SelectListItem> {
+                new SelectListItem { Value = "Meeting", Text = "Meeting" },
+                new SelectListItem { Value = "Quotation", Text = "Quotation" },
+                new SelectListItem { Value = "Sales", Text = "Sales" }
+                };
+
         // GET: SupplierActivities/{index}
         public ActionResult Index()
         {
@@ -72,6 +78,7 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+                supplierActivity.Type = "Meeting"; // default for all supplier activity history
                 db.SupplierActivities.Add(supplierActivity);
                 db.SaveChanges();
                 return RedirectToAction("Index");

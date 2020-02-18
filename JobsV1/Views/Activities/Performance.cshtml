@@ -1,0 +1,58 @@
+﻿@model IEnumerable<JobsV1.Models.Class.cUserPerformance >
+
+@{
+    ViewBag.Title = "User Performance Report";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>User Performance Report</h2>
+<!-- Date Filter -->
+<div class="row">
+    <h4 class="col-md-1 control-label"> Filter : </h4>
+    <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
+    <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
+    <button class="btn btn-default" style="margin-top:0px;" onclick="Filter()"> Filter </button>
+</div>
+
+<table class="table js-sort-table">
+    <thead>
+        <tr>
+            <th class="cursor-hand"> User    </th>
+            <th class="js-sort-number"> Quotation </th>
+            <th class="js-sort-number"> Meeting </th>
+            <th class="js-sort-number"> Sales </th>
+            <th class="js-sort-number"> Amount </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+        <tr>
+            <td>
+                @item.UserName
+            </td>
+            <td>
+                @item.Quotation
+            </td>
+            <td>
+                @item.Meeting
+            </td>
+            <td>
+                @item.Sales
+            </td>
+            <td>
+                @item.Amount.ToString("N0")
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+<script src="~/Scripts/Job/DefaultDate.js"></script>
+<script src="~/Scripts/Activities/Performance.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+<script src="~/Scripts/sort-table.min.js"></script>

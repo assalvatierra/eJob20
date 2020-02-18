@@ -29,8 +29,7 @@ namespace JobsV1.Controllers
         private List<SelectListItem> ActivityType = new List<SelectListItem> {
                 new SelectListItem { Value = "Meeting", Text = "Meeting" },
                 new SelectListItem { Value = "Quotation", Text = "Quotation" },
-                new SelectListItem { Value = "Sales", Text = "Sales" },
-                new SelectListItem { Value = "Closed", Text = "Closed" }
+                new SelectListItem { Value = "Sales", Text = "Sales" }
                 };
 
         // GET: Activities
@@ -77,6 +76,26 @@ namespace JobsV1.Controllers
                 var companyActivity = ac.GetCompanyActivitiesUser(user, date1, date2);
                 return View(companyActivity);
             }
+        }
+
+        public ViewResult Performance(string sdate, string edate)
+        {
+            DateTime startDate = new DateTime();
+            DateTime endDate = new DateTime();
+            //handle date when null
+            if (sdate != null && edate != null)
+            {
+                startDate = DateTime.Parse(sdate);
+                endDate = DateTime.Parse(edate);
+            }
+            else
+            {
+                startDate = dt.GetCurrentDate().AddMonths(-1);
+                endDate = dt.GetCurrentDate();
+            }
+
+            var userReport = ac.GetUserPerformance(startDate, endDate);
+            return View(userReport);
         }
 
         #region Company Edit

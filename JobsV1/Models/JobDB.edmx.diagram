@@ -268,8 +268,8 @@
         <EntityTypeShape EntityType="JobDB.CustEntActivity" Width="1.5" PointX="17" PointY="1.25" />
         <EntityTypeShape EntityType="JobDB.CustEntDocuments" Width="1.5" PointX="9.125" PointY="0.5" />
         <AssociationConnector Association="JobDB.CustEntDocumentsSupDocument" ManuallyRouted="true" >
-          <ConnectorPoint PointX="10.625" PointY="1.1562505" />
-          <ConnectorPoint PointX="12.446036405798118" PointY="1.1562505" />
+          <ConnectorPoint PointX="10.625" PointY="2.4802864583333335" />
+          <ConnectorPoint PointX="12.446036405798118" PointY="10.896511827395834" />
           <ConnectorPoint PointX="12.446036405798118" PointY="0.4333483960212634" />
           <ConnectorPoint PointX="44.625" PointY="0.4333483960212634" />
           <ConnectorPoint PointX="44.625" PointY="0.35569354046549329" />

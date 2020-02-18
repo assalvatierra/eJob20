@@ -208,12 +208,12 @@ values 	('Agent Assignment' ,'',15,'Admin','Index','',21,151);	 -- id: 61
 
 --Activities Access
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('NO116','Activities','Admin Access','A','../Images/Erp/icons/icons-bookkeeping.png');
+('NO116','Activities','User Activities Listing','A','../Images/Erp/icons/icons-bookkeeping.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (16,16);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Activities' ,'',16,'Activities','Index','',21,161);	 -- id: 61
-
+values 	('Activities' ,'',16,'Activities','Index','',21,161),
+		('Performance' ,'',16,'Activities','Performance','',21,162);	 -- id: 61
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');
@@ -307,6 +307,9 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 64, 64),
 ('assalvatierra@gmail.com', 65, 65),
 ('assalvatierra@gmail.com', 66, 66),
+('assalvatierra@gmail.com', 67, 67),
+('assalvatierra@gmail.com', 68, 68),
+('assalvatierra@gmail.com', 69, 69),
 
 ('jahdielvillosa@gmail.com', 16, 16),
 ('jahdielvillosa@gmail.com', 17, 17),
@@ -358,4 +361,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 63, 63),
 ('jahdielvillosa@gmail.com', 64, 64),
 ('jahdielvillosa@gmail.com', 65, 63),
-('jahdielvillosa@gmail.com', 66, 66); 
+('jahdielvillosa@gmail.com', 66, 66),
+('jahdielvillosa@gmail.com', 67, 67),
+('jahdielvillosa@gmail.com', 68, 68),
+('jahdielvillosa@gmail.com', 69, 69); 

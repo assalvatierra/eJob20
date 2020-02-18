@@ -5,10 +5,20 @@ using System.Web;
 
 namespace JobsV1.Models.Class
 {
+    public class cUserPerformance {
+        public int Id { get; set; }
+        public string UserName { get; set; }
+        public int Quotation { get; set; }
+        public int Meeting { get; set; }
+        public int Sales { get; set; }
+        public decimal Amount { get; set; }
+    }
+
     public class ActivityClass
     {
 
         private JobDBContainer db = new JobDBContainer();
+        private DBClasses dbc = new DBClasses();
 
         public List<CustEntActivity> GetCompanyActivities(){
 
@@ -82,5 +92,28 @@ namespace JobsV1.Models.Class
                 .ToList();
             return companyActivity.OrderByDescending(s => s.Date);
         }
+
+        #region Performance Report
+        public List<cUserPerformance> GetUserPerformance(DateTime sdate, DateTime edate)
+        {
+            List<cUserPerformance> userReport = new List<cUserPerformance>();
+
+            string sql =
+               " SELECT	UserName,"+
+		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') ),"+
+               "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.Type = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
+               "  FROM AspNetUsers au "+
+               "  ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;";
+
+            userReport = db.Database.SqlQuery<cUserPerformance>(sql).ToList();
+
+
+            return userReport;
+        }
+
+
+        #endregion 
     }
 }

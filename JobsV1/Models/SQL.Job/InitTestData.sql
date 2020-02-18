@@ -366,5 +366,15 @@ SELECT je.*, js.DtStart, js.DtEnd, jm.Description, js.Particulars, ii.Descriptio
 	LEFT JOIN InvItems ii ON ii.Id = jsi.InvItemId
 	WHERE ii.Id = 7 AND ForRelease = 1
 
+SELECT	UserName,
+		Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'2020-01-15') AND convert(datetime, ca.Date) < convert(datetime,'2020-02-20') ),
+		Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Meeting' AND au.UserName = ca.Assigned ),
+		Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Sales' AND au.UserName = ca.Assigned ),
+		Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.Type = 'Sales' AND au.UserName = ca.Assigned )
+ FROM AspNetUsers au 
+ ORDER BY Sales DESC, Meeting DESC, Quotation Desc
+
+
+
 
 SELECT * FROM CustEntActivities

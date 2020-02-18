@@ -373,11 +373,11 @@ values (2,'John Doe','0995-987-4561','(082) 333 6588','johndoe@gmail.com','','',
 	   (3,'Elise Rhodes','0909-545-1335','(082) 235 1112','eliserhodes@gmail.com','','','','','','Procurement','Accounting',1),
 	   (4,'Mike De Guzman','0915-587-9512','(082) 545 3212','mike.dg@gmail.com','','','','','','Sales','Sales',1);
 
-insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount])
-values ('CO-001','1/25/2020 4:17:58 PM','johndoe@gmail.com','Meeting',2,2000),
-	   ('CO-001','1/26/2020 3:30:00 PM','mark@gmail.com','Sales Meeting',2,2000),
-	   ('CO-001','1/12/2020 1:30:00 PM','mike@gmail.com','Sales Meeting',3,2000),
-	   ('CO-001','1/21/2020 1:00:20 PM','johndoe@gmail.com','Sales Meeting',4,2000);
+insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type])
+values ('CO-001','1/25/2020 4:17:58 PM','johndoe@gmail.com','Meeting',2,2000,'Meeting'),
+	   ('CO-001','1/26/2020 3:30:00 PM','mark@gmail.com','Sales Meeting',2,2000,'Meeting'),
+	   ('CO-001','1/12/2020 1:30:00 PM','mike@gmail.com','Sales Meeting',3,2000,'Sales'),
+	   ('CO-001','1/21/2020 1:00:20 PM','johndoe@gmail.com','Sales Meeting',4,2000,'Sales');
 
 insert into SupDocuments([Description]) values 
 	   ('Business Registration'),('Tax Registration'), ('Import Export Registration');
@@ -588,11 +588,11 @@ values	(1,3),(2,2),
 insert into CustEntCats(CustEntMainId,CustCategoryId)
 values (1,2),(2,3),(3,5),(4,2),(5,1); 
 
-insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks)
-values	(1,'1/20/2020','mark@gmail.com','building a project', 'SO-002',500000,'Sales','Meeting Lunch - Sales Activity'),
-		(1,'2/05/2020','mark@gmail.com','building a project', 'SO-002',500000,'Sales','Presentation'),
-		(2,'1/28/2020','mike@gmail.com','Supplier Materials', 'SO-005',250000,'Sales','Meeting'),
-		(3,'1/21/2020','john@gmail.com','Davao Bridge', 'SO-009',750000,'Sales','Initial Meeting');
+insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,Type)
+values	(1,'1/20/2020','jecca.realbreeze@gmail.com','building a project', 'SO-002',50000,'Sales','Meeting Lunch - Sales Activity','Sales'),
+		(1,'2/05/2020','jahdielvillosa@gmail.com','building a project', 'SO-002',50000,'Sales','Presentation','Quotation'),
+		(2,'1/28/2020','jecca.realbreeze@gmail.com','Supplier Materials', 'SO-005',25000,'Sales','Meeting','Meeting'),
+		(3,'1/21/2020','jecca.realbreeze@gmail.com','Davao Bridge', 'SO-009',75000,'Sales','Initial Meeting','Meeting');
 
 update CustCategories set iconPath = 'Images/Customers/Category/star-filled-40.png' where Id = 1; 
 update CustCategories set iconPath = 'Images/Customers/Category/Active-30.png' where Id = 2; 
@@ -1060,9 +1060,9 @@ values	('Fuel'		 ,'',10,1),
 
 
 --------- ACTIVITES ------------------
-insert into CustEntActivities( Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId)
-values	('01/05/2020', 'jahdielvillosa@gmail.com', '','',0,'Inquiry','', 2 ),
-		('01/20/2020', 'jahdielvillosa@gmail.com', '','',2500,'Bidding Inquiry','', 2 ),
-		('02/12/2020', 'jahdielvillosa@gmail.com', '','',6500,'Bidding Inquiry','', 3 ),
-		('02/15/2020', 'jahdielvillosa@gmail.com', '','SC-001',3500,'Firm Inquiry','', 2 ),
-		('02/16/2020', 'jahdielvillosa@gmail.com', '','',0,'Others','', 3 ); 
+insert into CustEntActivities( Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type)
+values	('01/05/2020', 'jahdielvillosa@gmail.com', '','',0,'Inquiry','', 2 ,'Meeting'),
+		('01/20/2020', 'jahdielvillosa@gmail.com', '','',2500,'Bidding Inquiry','', 2 ,'Meeting'),
+		('02/12/2020', 'jahdielvillosa@gmail.com', '','',6500,'Bidding Inquiry','', 3 ,'Meeting'),
+		('02/15/2020', 'jahdielvillosa@gmail.com', '','SC-001',3500,'Firm Inquiry','', 2,'Meeting' ),
+		('02/16/2020', 'jahdielvillosa@gmail.com', '','',25000,'Others','', 3 ,'Sales'); 

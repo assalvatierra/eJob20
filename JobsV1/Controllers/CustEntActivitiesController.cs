@@ -29,8 +29,7 @@ namespace JobsV1.Controllers
         private List<SelectListItem> ActivityType = new List<SelectListItem> {
                 new SelectListItem { Value = "Meeting", Text = "Meeting" },
                 new SelectListItem { Value = "Quotation", Text = "Quotation" },
-                new SelectListItem { Value = "Sales", Text = "Sales" },
-                new SelectListItem { Value = "Closed", Text = "Closed" }
+                new SelectListItem { Value = "Sales", Text = "Sales" }
                 };
 
         // GET: CustEntActivities

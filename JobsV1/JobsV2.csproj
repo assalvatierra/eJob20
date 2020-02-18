@@ -1480,6 +1480,7 @@
     <Content Include="Properties\PublishProfiles\ftp.myasp.net.pubxml.user" />
     <Content Include="Properties\PublishProfiles\ftp.Somee.com.pubxml.user" />
     <Content Include="Properties\PublishProfiles\LocalPath.C.pubxml.user" />
+    <Content Include="Scripts\Activities\Performance.js" />
     <Content Include="Scripts\Activities\Activities.js" />
     <Content Include="Scripts\Admin\CompanyList.js" />
     <Content Include="Scripts\Admin\UserList.js" />
@@ -1491,6 +1492,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\dataTables.min.js" />
+    <Content Include="Scripts\Job\DefaultDate.js" />
     <Content Include="Scripts\Job\CustEntActivities.js" />
     <Content Include="Scripts\Job\TripListing.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />
@@ -2292,6 +2294,11 @@
     <Content Include="Views\Admin\Error.cshtml" />
     <Content Include="Views\Admin\UnAuthorizedAccess.cshtml" />
     <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\Activities\CompanyActsEdit.cshtml" />
+    <Content Include="Views\Activities\CompanyActsDelete.cshtml" />
+    <Content Include="Views\Activities\SupplierActsEdit.cshtml" />
+    <Content Include="Views\Activities\SupplierActsDelete.cshtml" />
+    <Content Include="Views\Activities\Performance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

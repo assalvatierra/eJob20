@@ -18,6 +18,7 @@ namespace JobsV1.Models
         public CustEntMain()
         {
             this.Status = "ACT";
+            this.Exclusive = "PUBLIC";
             this.CustEntities = new HashSet<CustEntity>();
             this.JobEntMains = new HashSet<JobEntMain>();
             this.SalesLeadCompanies = new HashSet<SalesLeadCompany>();
@@ -42,6 +43,7 @@ namespace JobsV1.Models
         public string AssignedTo { get; set; }
         public string Mobile { get; set; }
         public string Code { get; set; }
+        public string Exclusive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntity> CustEntities { get; set; }
