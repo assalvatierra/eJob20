@@ -19,7 +19,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Bookkeeping','Bookkeeping',0,'Accounting/AsMain','Index','span=30',20,13),
 ('Master List','Master List',0,'Cities','Index','span=30',20,14),
 ('Admin','Admin',0,'Admin','UserList','',20,15),
-('Activities','Activities',0,'Activities','Index','',20,15)
+('Activities','Activities',0,'Activities','Index','',20,16)
 ;
 
 
@@ -205,6 +205,15 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (15,15);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Agent Assignment' ,'',15,'Admin','Index','',21,151);	 -- id: 61
+
+--Activities Access
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('NO116','Activities','Admin Access','A','../Images/Erp/icons/icons-bookkeeping.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (16,16);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Activities' ,'',16,'Activities','Index','',21,161);	 -- id: 61
+
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');

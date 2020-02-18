@@ -1,58 +1,50 @@
-﻿
-/* ********************************************************
-* By Abel S. Salvatierra
-* @2017 - Real Breeze Travel & Tours
-* 
-*********************************************************** */
+﻿/*********************
+ * Activities Script *
+ *********************/
 
-$(document).ready(function () {
-    InitDatePicker();
-})
+$(document).ready(new function () {
+    var sDate ;
+    var eDate ;
+    let searchParams = new URLSearchParams(window.location.search)
 
+    if (searchParams.has('sDate')) {
 
-function InitDatePicker()
-{
-    var ddd1 = $('input[name="DtStart"]').val();
+        //get dates from url parameter
+        sDate = getUrlParameter('sDate');
+        eDate = getUrlParameter('eDate');
 
-    $('input[name="DtStart"]').daterangepicker(
-    {
-        timePicker: false,
-        timePickerIncrement: 1,
-        singleDatePicker: true,
-        showDropdowns: true,
-        locale: {
-            format: 'MM/DD/YYYY'
-        }
-    },
-    function (start, end, label) {
-       // alert(start.format('YYYY-MM-DD h:mm A'));
-        
-    }
-    );
+    } else {
 
-
-    $('input[name="DtStart"]').val(ddd1.substr(0, ddd1.indexOf(" ")));
-
-    var ddd2 = $('input[name="DtEnd"]').val();
-
-    $('input[name="DtEnd"]').daterangepicker(
-    {
-        timePicker: false,
-        timePickerIncrement: 1,
-        singleDatePicker: true,
-        showDropdowns: true,
-        locale: {
-            format: 'MM/DD/YYYY'
-        }
-    },
-    function (start, end, label) {
-        // alert(start.format('YYYY-MM-DD h:mm A'));
+        //adjust date to today and one month before 
+        eDate = moment().format('MM/DD/YYYY');
+        sDate = moment(today).add(-1, 'month').format('MM/DD/YYYY');
 
     }
-    ); 
+    $("#DtStart").val(sDate);
+    $("#DtEnd").val(eDate);
+});
 
 
-    $('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ")));
+function Filter() {
+   console.log("test");
+   var startDate = $("#DtStart").val();
+   var endDate = $("#DtEnd").val();
 
-
+   window.location.href = "/Activities?sDate=" + startDate + "&eDate=" + endDate;
 }
+
+//get url parameter
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};

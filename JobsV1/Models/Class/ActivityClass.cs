@@ -38,5 +38,49 @@ namespace JobsV1.Models.Class
 
             return activity;
         }
+
+
+        // GET: Supplier Activities
+        public IOrderedEnumerable<SupplierActivity> GetSupplierActivitiesUser(string user, DateTime sdate, DateTime edate)
+        {
+            //get activities of the user
+            var companyActivity = db.SupplierActivities
+                .Where(c => c.DtActivity.CompareTo(sdate) >= 0 && c.DtActivity.CompareTo(edate) <= 0 && c.Assigned == user)
+                .ToList();
+            return companyActivity.OrderByDescending(s => s.DtActivity);
+        }
+
+
+        // GET: Supplier Activities
+        public IOrderedEnumerable<SupplierActivity> GetSupplierActivitiesAdmin(DateTime sdate, DateTime edate)
+        {
+            //get activities of all users
+            var companyActivity = db.SupplierActivities
+                .Where(c => c.DtActivity.CompareTo(sdate) >= 0 && c.DtActivity.CompareTo(edate) <= 0)
+                .ToList();
+            return companyActivity.OrderByDescending(s => s.DtActivity);
+        }
+
+        // GET: Company Activities
+        public IOrderedEnumerable<CustEntActivity> GetCompanyActivitiesUser(string user, DateTime sdate, DateTime edate)
+        {
+            //get activities of the user
+            var companyActivity = db.CustEntActivities
+                .Where(c => c.Date.CompareTo(sdate) >= 0 && c.Date.CompareTo(edate) <= 0 && c.Assigned == user)
+                .ToList();
+
+            return companyActivity.OrderByDescending(s => s.Date);
+        }
+
+
+        // GET: Company Activities
+        public IOrderedEnumerable<CustEntActivity> GetCompanyActivitiesAdmin(DateTime sdate, DateTime edate)
+        {
+            //get activities of all users
+            var companyActivity = db.CustEntActivities
+                .Where(c=>c.Date.CompareTo(sdate) >= 0 && c.Date.CompareTo(edate) <= 0)
+                .ToList();
+            return companyActivity.OrderByDescending(s => s.Date);
+        }
     }
 }

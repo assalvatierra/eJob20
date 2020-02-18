@@ -15,44 +15,33 @@ namespace JobsV1.Controllers
         private DateClass dt = new DateClass();
 
         // GET: Activities
-        public ActionResult Index( )
+        public ActionResult Index(string sdate, string edate)
         {
+            var user = HttpContext.User.Identity.Name;
+            var date1 = DateTime.Parse(sdate);
+            var date2 = DateTime.Parse(edate);
+
+
             if (User.IsInRole("Admin"))
             {
                 //get activities of all users on Supplier
-                ViewBag.SupplierActivities = GetSupplierActivitiesAdmin();
+                ViewBag.SupplierActivities = ac.GetSupplierActivitiesAdmin(date1, date2);
 
                 //get activities of all users on Companies
-                var companyActivity = db.CustEntActivities.ToList();
-                return View(companyActivity.OrderByDescending(s=>s.Date));
+                var companyActivity = ac.GetCompanyActivitiesAdmin(date1,date2);
+                return View(companyActivity);
             }
             else
             {
                 //get activities of the user on Supplier
-                ViewBag.SupplierActivities = GetSupplierActivitiesUser();
+                ViewBag.SupplierActivities = ac.GetSupplierActivitiesUser(user, date1, date2);
 
                 //get activities of the user on Companies
-                var companyActivity = db.CustEntActivities.Where(s=>s.Assigned == HttpContext.User.Identity.Name).ToList();
-                return View(companyActivity.OrderByDescending(s => s.Date));
+                var companyActivity = ac.GetCompanyActivitiesUser(user, date1, date2);
+                return View(companyActivity);
             }
         }
         
 
-        // GET: Activities
-        public IOrderedEnumerable<SupplierActivity> GetSupplierActivitiesUser()
-        {
-            //get activities of the user
-            var companyActivity = db.SupplierActivities.Where(s => s.Assigned == HttpContext.User.Identity.Name).ToList();
-            return companyActivity.OrderByDescending(s => s.DtActivity);
-        }
-
-
-        // GET: Activities
-        public IOrderedEnumerable<SupplierActivity> GetSupplierActivitiesAdmin()
-        {
-            //get activities of all users
-            var companyActivity = db.SupplierActivities.ToList();
-            return companyActivity.OrderByDescending(s => s.DtActivity);
-        }
     }
 }
