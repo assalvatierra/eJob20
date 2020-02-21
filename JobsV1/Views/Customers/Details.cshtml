@@ -67,8 +67,8 @@
             @{Html.RenderPartial("PartialView_CustSocial", (List<JobsV1.Models.CustSocialAcc>)ViewBag.CustSocial, new ViewDataDictionary { { "customerId", Model.Id } });}
         </div>
 </div>
-
-<div class="col-lg-12 hidden ">
+<!-- Add Hidden on class for SolidSteel-->
+<div class="col-lg-12 hidden">
 
     <div class="row">
         @{Html.RenderPartial("PartialView_JobDetails", (List<JobsV1.Models.CustomerJobDetails>)ViewBag.jobList, new ViewDataDictionary { { "customerId", Model.Id } });}

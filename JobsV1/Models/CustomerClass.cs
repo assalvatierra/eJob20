@@ -417,24 +417,95 @@ namespace JobsV1.Models
 
             return customerList;
         }
-        
+
         #endregion
 
         //new table through ajax call
         #region AJAX_Customer_Table
         //-----AJAX Functions for generating table list---------//
-
-
-        public List<CustomerList> generateCustomerList(string search, string status, string sort)
+        
+        //GET : Customer List
+        public List<CustomerList> GetCustomerList(string search, string status, string sort, string user)
         {
             List<Customer> customers = new List<Customer>();
             List<CustomerList> custList = new List<CustomerList>();
 
-            string sql = "SELECT Id,Name, Contact1, Contact2 , Status,"
+            string sql = "SELECT c.Id, c.Name, c.Contact1, c.Contact2, c.Status,"
                         + " JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,"
                         + " Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id ORDER BY cem.Id DESC)"
                         + " FROM [CustEntities] ce WHERE ce.CustomerId = c.Id  ORDER BY ce.Id DESC) FROM Customers c"
-                         ;
+                        + " INNER JOIN CustEntities cen ON cen.CustomerId = c.Id"
+                        + " LEFT JOIN CustEntMains cem ON cem.Id = cen.CustEntMainId"
+                        + " WHERE cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC' OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = '" + user + "') "
+                        ;
+
+            //handle status filter
+            if (status != "ALL")
+            {
+                sql += " AND c.Status = '" + status + "' ";
+            }
+
+            //handle status filter
+            if (status == "ALL")
+            {
+                sql += " ";
+            }
+
+            //handle search by name filter
+            if (search != null || search != "")
+            {
+                //handle status filter
+                if (status != "ALL")
+                {
+                    sql += " AND  c.Name Like '%" + search + "%' ";
+                }
+                else
+                {
+                    sql += " AND  c.Name Like '%" + search + "%' ";
+                }
+            }
+
+            if (sort != null)
+            {
+                switch (sort)
+                {
+                    case "DATE":
+                        sql += "ORDER BY Id ASC;";
+                        break;
+                    case "NAME":
+                        sql += "ORDER BY Name ASC;";
+                        break;
+                    case "JOBSCOUNT":
+                        sql += "ORDER BY JobCount DESC;";
+                        break;
+                    default:
+                        sql += "ORDER BY JobCount DESC , Name ASC;";
+                        break;
+                }
+            }
+            else
+            {
+                //terminator
+                sql += "ORDER BY JobCount ASC , Name ASC;";
+
+            }
+
+            custList = db.Database.SqlQuery<CustomerList>(sql).ToList();
+            
+            return custList;
+        }
+
+        //GET : Customer Admin List
+        public List<CustomerList> GetCustomerAdminList(string search, string status, string sort)
+        {
+            List<Customer> customers = new List<Customer>();
+            List<CustomerList> custList = new List<CustomerList>();
+
+            string sql = "SELECT c.Id, c.Name, c.Contact1, c.Contact2 , c.Status,"
+                        + " JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,"
+                        + " Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id ORDER BY cem.Id DESC)"
+                        + " FROM [CustEntities] ce WHERE ce.CustomerId = c.Id  ORDER BY ce.Id DESC) FROM Customers c"
+                        ;
 
             //handle status filter
             if (status != "ALL")
@@ -488,9 +559,10 @@ namespace JobsV1.Models
             }
 
             custList = db.Database.SqlQuery<CustomerList>(sql).ToList();
-            
+
             return custList;
         }
+
 
         //Get the latest company name of the customer
         private string getCustCompanyName(int custID)

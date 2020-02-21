@@ -34,7 +34,7 @@ namespace JobsV1.Controllers
         }
         
         //Ajax - Table Result 
-        //Get the list of suppliers
+        //GET the list of suppliers
         public string TableResult(string search, string category, string status, string sort)
         {
             //get supplier list
@@ -45,13 +45,12 @@ namespace JobsV1.Controllers
         }
 
         //Ajax - Table Result 
-        //Get the list of suppliers
+        //GET the list of suppliers
         public string TableResultProducts(string search, string category, string status, string sort)
         {
             //get supplier list
             List<cProductList> prodList = supdb.getProductList(search, category, status, "LATEST-DATE");
             
-
             //convert list to json object
             return JsonConvert.SerializeObject(prodList, Formatting.Indented);
         }

@@ -214,11 +214,9 @@
 
     function initial() {
         var status = filterStatus($("#status-companyName").text());
-        //console.log("status: " + $("#status-companyName").text());
-        //console.log("filtered status: " + status);
+
         $("#status-companyName").text(" ( " + status + " ) ");
         $("#status-Details").text(" " + status + " ");
-
     }
 
     $(document).ready(initial());

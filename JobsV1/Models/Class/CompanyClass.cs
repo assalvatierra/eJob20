@@ -86,7 +86,7 @@ namespace JobsV1.Models
 
                  "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId "+
 
-                 ") as com WHERE (Exclusive = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='"+user+"'))";
+                 ") as com WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user+"'))";
 
 
             if (status != null)

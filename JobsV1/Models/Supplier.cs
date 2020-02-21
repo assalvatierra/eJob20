@@ -40,6 +40,7 @@ namespace JobsV1.Models
         public string Address { get; set; }
         public int CountryId { get; set; }
         public string Code { get; set; }
+        public int CustNotifRecipientId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobServices> JobSuppliers { get; set; }

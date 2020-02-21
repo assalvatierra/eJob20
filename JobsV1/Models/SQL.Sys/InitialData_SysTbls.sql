@@ -190,7 +190,7 @@ values 	('Expense','',13,'Accounting/AsExpenses','ParamForm','',21,131),		-- id:
 		
 --Master List
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('NO114','Master List','Master List of Items','A','../Images/Erp/icons/icons-bookkeeping.png');
+('NO114','Master List','Master List of Items','A','../Images/Erp/icons/icons-masterlist.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (14,14);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
@@ -200,7 +200,7 @@ values 	('Cities' ,'',14,'Cities','Index','',21,141),			-- id: 58
 		
 --Admin Access
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('NO115','Admin','Admin Access','A','../Images/Erp/icons/icons-bookkeeping.png');
+('NO115','Admin','Admin Access','A','../Images/Erp/icons/icons-admin.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (15,15);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
@@ -208,7 +208,7 @@ values 	('Agent Assignment' ,'',15,'Admin','Index','',21,151);	 -- id: 61
 
 --Activities Access
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('NO116','Activities','User Activities Listing','A','../Images/Erp/icons/icons-bookkeeping.png');
+('NO116','Activities','User Activities Listing','A','../Images/Erp/icons/icons-activities.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (16,16);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 

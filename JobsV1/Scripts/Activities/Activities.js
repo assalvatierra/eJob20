@@ -12,12 +12,12 @@ $(document).ready(new function () {
         //get dates from url parameter
         sDate = getUrlParameter('sDate');
         eDate = getUrlParameter('eDate');
-
+        
     } else {
 
         //adjust date to today and one month before 
         eDate = moment().format('MM/DD/YYYY');
-        sDate = moment(today).add(-1, 'month').format('MM/DD/YYYY');
+        sDate = moment(eDate).add(-1, 'month').format('MM/DD/YYYY');
 
     }
     $("#DtStart").val(sDate);

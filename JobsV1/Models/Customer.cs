@@ -25,6 +25,7 @@ namespace JobsV1.Models
             this.CustFiles = new HashSet<CustFiles>();
             this.PortalCustomers = new HashSet<PortalCustomer>();
             this.CustSocialAccs = new HashSet<CustSocialAcc>();
+            this.CustNotifRecipients = new HashSet<CustNotifRecipient>();
         }
     
         public int Id { get; set; }
@@ -51,5 +52,7 @@ namespace JobsV1.Models
         public virtual ICollection<PortalCustomer> PortalCustomers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustSocialAcc> CustSocialAccs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustNotifRecipient> CustNotifRecipients { get; set; }
     }
 }

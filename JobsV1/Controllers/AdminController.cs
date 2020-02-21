@@ -60,7 +60,7 @@ namespace JobsV1.Controllers
             }
             else
             {
-                return RedirectToAction("Error", "Admin");
+                return RedirectToAction("UnAuthorizedAccess", "Admin");
             }
         }
 
@@ -148,7 +148,7 @@ namespace JobsV1.Controllers
             }
             else
             {
-                return RedirectToAction("Error", "Admin");
+                return RedirectToAction("UnAuthorizedAccess", "Admin");
             }
             
         }

@@ -17,7 +17,7 @@ $(document).ready(new function () {
 
         //adjust date to today and one month before 
         eDate = moment().format('MM/DD/YYYY');
-        sDate = moment(today).add(-1, 'month').format('MM/DD/YYYY');
+        sDate = moment(eDate).add(-1, 'month').format('MM/DD/YYYY');
 
     }
     $("#DtStart").val(sDate);

@@ -338,7 +338,7 @@ namespace JobsV1.Controllers
         // GET: UsersList
         public ActionResult ModuleList()
         {
-            return View(db.SysServices.Where(s=>s.Status=="A").ToList());
+            return View(db.SysMenus.Where(s=>s.ParentId == 0).ToList());
         }
 
         //ModuleMenuUsers
@@ -362,11 +362,11 @@ namespace JobsV1.Controllers
                 if (id != null)
                 {
                     //get menuid in services menu
-                    var sysServiceMenuResult = db.SysServiceMenus.Where(s => s.SysServiceId == id)
+                    var sysMenuResult = db.SysMenus.Where(s => s.Id == id)
                         .FirstOrDefault();
 
-                    sysMenuId = sysServiceMenuResult.SysMenuId;
-                    menuName = sysServiceMenuResult.SysMenu.Menu;
+                    sysMenuId = sysMenuResult.Id;
+                    menuName = sysMenuResult.Menu;
                 }
 
                 //return main module menu list using submodule id

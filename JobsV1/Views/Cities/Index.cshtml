@@ -10,9 +10,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <title>Cities List</title>
 </head>
 <body>
+    <h3>Cities List</h3>
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
@@ -31,12 +32,10 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id=item.Id })
             </td>
         </tr>
     }
-    
     </table>
 </body>
 </html>

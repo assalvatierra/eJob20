@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Models.SysService>
+﻿@model IEnumerable<JobsV1.Models.SysMenu >
 
 @{
     ViewBag.Title = "ModuleList";
@@ -9,7 +9,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Menu)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Remarks)
@@ -20,7 +20,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(modelItem => item.Menu)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Remarks)

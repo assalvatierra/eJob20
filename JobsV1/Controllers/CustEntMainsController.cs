@@ -39,6 +39,12 @@ namespace JobsV1.Controllers
                 new SelectListItem { Value = "Buying Inquiry", Text = "Buying Inquiry" },
                 new SelectListItem { Value = "Job Order", Text = "Job Order" }
                 };
+
+        private List<SelectListItem> Exclusive = new List<SelectListItem> {
+                new SelectListItem { Value = "PUBLIC", Text = "Public" },
+                new SelectListItem { Value = "EXCLUSIVE", Text = "Exclusive" }
+                };
+
         public ActionResult Index()
         {
             var companies = db.CustEntMains.ToList();
@@ -93,9 +99,9 @@ namespace JobsV1.Controllers
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
-            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
+            ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).OrderByDescending(s => s.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.City = db.Cities.Find(custEntMain.CityId) != null ? db.Cities.Find(custEntMain.CityId).Name : "NA";
-            ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").ToList(), "Id", "Name");
+            ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").OrderByDescending(s=>s.Name).ToList(), "Id", "Name");
             ViewBag.Documents = GetDocumentList((int)id);
             ViewBag.CustDocuments = db.CustEntDocuments.Where(c=>c.CustEntMainId == id).ToList();
             ViewBag.CompanyId = id;
@@ -214,7 +220,8 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c=>c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            
             return View(main);
         }
 
@@ -251,6 +258,7 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
 
             return View(custEntMain);
         }
@@ -271,6 +279,7 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
             return View(custEntMain);
         }
 
@@ -290,6 +299,7 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
             return View(custEntMain);
         }
 

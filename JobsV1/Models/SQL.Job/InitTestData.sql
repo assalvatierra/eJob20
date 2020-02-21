@@ -366,6 +366,7 @@ SELECT je.*, js.DtStart, js.DtEnd, jm.Description, js.Particulars, ii.Descriptio
 	LEFT JOIN InvItems ii ON ii.Id = jsi.InvItemId
 	WHERE ii.Id = 7 AND ForRelease = 1
 
+-- Customer Activities Report
 SELECT	UserName,
 		Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'2020-01-15') AND convert(datetime, ca.Date) < convert(datetime,'2020-02-20') ),
 		Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Meeting' AND au.UserName = ca.Assigned ),
@@ -374,7 +375,29 @@ SELECT	UserName,
  FROM AspNetUsers au 
  ORDER BY Sales DESC, Meeting DESC, Quotation Desc
 
-
-
-
 SELECT * FROM CustEntActivities
+
+-- Supplier Products
+SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id ),
+                sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status ,
+				IsValid =  IIF(convert(datetime, sir.DtValidTo) < convert(datetime, GETDATE()), 1 , 0)
+                FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id 
+                LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId  
+                LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id					   
+                LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods 
+				WHERE  (ISNULL(prods.ItemRate,'0') = '0') OR convert(datetime, prods.DtValidTo) > convert(datetime, DATEADD(DAY, -180, GETDATE())) 
+
+--Customer List  
+SELECT c.Id,c.Name, c.Contact1, c.Contact2 , c.Status,
+       JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,
+       Company = (SELECT Top(1)  CompanyName = (SELECT Top(1) cem.Name FROM [CustEntMains] cem where ce.CustEntMainId = cem.Id ORDER BY cem.Id DESC)
+	   FROM [CustEntities] ce WHERE ce.CustomerId = c.Id  ORDER BY ce.Id DESC) 
+	  
+	   FROM Customers c
+	   INNER JOIN CustEntities cen ON cen.CustomerId = c.Id                                          
+	   LEFT JOIN CustEntMains cem ON cem.Id = cen.CustEntMainId 
+	   WHERE (cem.Exclusive = 'PUBLIC' OR cem.Exclusive = '') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'jahdielvillosa@gmail.com')     
+
+SELECT * FROM CustEntMains cem 
+WHERE (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'jahdielvillosa@gmail.com')     
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 

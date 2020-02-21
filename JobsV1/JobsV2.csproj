@@ -627,6 +627,15 @@
     <Compile Include="Models\CustFiles.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustNotif.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustNotifActivity.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustNotifRecipient.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Customer.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1357,9 +1366,11 @@
     <Content Include="Images\Erp\HomeLogin_img.jpg" />
     <Content Include="Images\Erp\icons-flag.png" />
     <Content Include="Images\Erp\icons-key.png" />
+    <Content Include="Images\Erp\icons\icons-activities.png" />
     <Content Include="Images\Erp\icons\icons-box.png" />
     <Content Include="Images\Erp\icons\icons-business.png" />
     <Content Include="Images\Erp\icons\icons-employee.png" />
+    <Content Include="Images\Erp\icons\icons-masterlist.png" />
     <Content Include="Images\Erp\icons\icons-products.png" />
     <Content Include="Images\Erp\icons\icons-report.png" />
     <Content Include="Images\Erp\icons\icons-exchange.png" />
@@ -1376,6 +1387,7 @@
     <Content Include="Images\Erp\icons\icons-error.png" />
     <Content Include="Images\Erp\icons\icons-bookkeeping.png" />
     <Content Include="Images\Erp\icons\icons8-lease-64.png" />
+    <Content Include="Images\Erp\icons\icons-admin.png" />
     <Content Include="Images\Erp\icons\inprogress.png" />
     <Content Include="Images\Erp\inprogress.png" />
     <Content Include="Images\Erp\partial-128.png" />

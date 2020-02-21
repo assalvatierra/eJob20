@@ -56,12 +56,9 @@
                 }
                 &nbsp;
                 <span style="font:700 12px verdana,arial;">
-                    @Html.ActionLink(item.Item.ItemCode + "-" + @item.Item.Description,
-                "AddItem", new { itemId = @item.ItemId, serviceId = @ViewBag.serviceId })
+                    <text>  @item.Item.ItemCode - @item.Item.Description </text>
                 </span>
-                
             </td>
-
 
             @foreach (var dt in item.dayStatus)
             {
@@ -80,7 +77,7 @@
                         {
 
                             <a href="#" id="catbtn" data-toggle="modal" data-target="#@(dt.Day)-@(item.ItemId)" style="margin-bottom:10px;">
-                                <img src="~/Images/CarRental/settings.png" width="20" height="10" />
+                                <img src="~/Images/CarRental/settings.png" width="20" height="20" />
                             </a>
 
                                 <!-- Modal -->

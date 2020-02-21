@@ -12,7 +12,7 @@ $(document).ready(function () {
 
 function InitDatePicker()
 {
-    //------------- Start Date ------------------//
+    //------------- Add Start Date ------------------//
     var ddd1 = $('#InvRate-ValidFrom').val();
 
     $('#InvRate-ValidFrom').daterangepicker(
@@ -40,7 +40,7 @@ function InitDatePicker()
 
     $('#InvRate-ValidFrom').val(ddd1);
 
-    //------------- End Date ------------------//
+    //------------- Add End Date ------------------//
 
     var ddd2 = $('#InvRate-ValidTo').val();
 
@@ -66,13 +66,13 @@ function InitDatePicker()
     });
 
     $('#InvRate-ValidTo').val(ddd2);
-    //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
 
-    //------------- Edit Date ------------------//
+    //------------- Edit Start Date ------------------//
 
-    var ddd2 = $('#EditInvRate-DtEntered').val();
+    //Start Date
+    var ddd3 = $('#EditInvRate-ValidFrom').val();
 
-    $('#EditInvRate-DtEntered').daterangepicker(
+    $('#EditInvRate-ValidFrom').daterangepicker(
     {
         timePicker: false,
         timePickerIncrement: 1,
@@ -89,11 +89,38 @@ function InitDatePicker()
         var datepicker = start.format('YYYY-MM-DD');
 
         if (today > datepicker) {
-            alert("Job date is past the date today. Do you want to continue?");
+            //alert("Job date is past the date today. Do you want to continue?");
         }
     });
 
-    $('#EditInvRate-DtEntered').val(ddd2);
-    //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
+    $('#EditInvRate-ValidFrom').val(ddd3);
+
+    //------------- Edit End Date ------------------//
+
+    //End Date
+    var ddd4 = $('#EditInvRate-ValidTo').val();
+
+    $('#EditInvRate-ValidTo').daterangepicker(
+    {
+        timePicker: false,
+        timePickerIncrement: 1,
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'MM/DD/YYYY'
+        }
+    },
+    function (start, end, label) {
+        //check if date is greater than or equal to today
+
+        var today = moment().format('YYYY-MM-DD');
+        var datepicker = start.format('YYYY-MM-DD');
+
+        if (today > datepicker) {
+            //alert("Job date is past the date today. Do you want to continue?");
+        }
+    });
+
+    $('#EditInvRate-ValidTo').val(ddd4);
 
 }

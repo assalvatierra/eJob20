@@ -102,7 +102,7 @@ function ajax_loadContent() {
         },
         error: function (data) {
            // console.log("ERROR");
-           console.log(data);
+           //console.log(data);
            switchViews(data)
         }
     });
@@ -133,7 +133,7 @@ function ajax_loadProduct() {
         },
         error: function (data) {
             // console.log("ERROR");
-            console.log(data);
+            //console.log(data);
             ProductsTable(data);
         }
     });
@@ -243,6 +243,8 @@ function SimpleTable(data) {
         $("#sup-header-2").text("Category");
         $("#sup-header-3").text("Product");
     }
+
+    $("#expireNotice").hide();
 }
 
 //display products
@@ -250,7 +252,7 @@ function ProductsTable(data) {
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
     var today = moment(new Date());
-    console.log("products view");
+    //console.log("products view");
 
     //clear table contents except header
     $("#prod-Table").find("tr:gt(0)").remove();
@@ -267,76 +269,37 @@ function ProductsTable(data) {
         var dtValidFrom = temp[x]["DtValidFrom"] != null ? temp[x]["DtValidFrom"] : "--";
         var dtValidTo = temp[x]["DtValidTo"] != null ? temp[x]["DtValidTo"] : "--";
         var remarks = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
+        var isValid = temp[x]["IsValid"] != null ? temp[x]["IsValid"] : "--";
         
         //exclude product without rate
         if (rate != "--") {
-            content = "<tr>";
+            content = " ";
+            if (isValid == 0) {
+                content += "<tr>";
+            } else {
+                content += "<tr style='color:gray'>";
+            }
+
             content += "<td>" + product + "</td>";
             content += "<td>" + supplier + "</td>";
             content += "<td>" + rate + " " + unit + "</td>";
             content += "<td>" + dtEntered + "</td>";
             content += "<td>" + dtValidFrom + "</td>";
+            content += "<td>" + dtValidTo + "</td>";
             content += "<td>" + remarks + "</td>";
 
             content += "<td>" +
                 "<a href='/Suppliers/Details/" + supplierId + "'>Details</a> | " +
                 "<a href='/Suppliers/InvItems/" + supplierId + "'>InvProduct</a>  | " +
-                "<a href='/SupplierActivities/Records/" + supplierId + "'>History</a>  " +
                 "</td>";       
             content += "</tr>";
 
             var validDate = moment(dtValidTo);
-            //check start validity date
-            if (today.isSameOrBefore(validDate)) {
-
-                $(content).appendTo("#prod-Table");
+         
+            $(content).appendTo("#prod-Table");
             
-            }
         }
-
-    }
-}
-
-//display expanded information 
-//of suppliers
-function ExpandedTable(data) {
-    console.log("ExpandedTable");
-    //parse data response to json object
-    var temp = jQuery.parseJSON(data["responseText"]);
-
-    //clear table contents except header
-    $("#sup-Table").find("tr:gt(0)").remove();
-
-    //populate table content
-    for (var x = 0; x < temp.length; x++) {
-
-        var contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
-        var contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
-        var contact3 = temp[x]["Contact3"] != null ? temp[x]["Contact3"] : "--";
-        var Email = temp[x]["Email"] != null ? temp[x]["Email"] : "--";
-        var City = temp[x]["City"] != null ? temp[x]["City"] : "--";
-        var SupType = temp[x]["SupType"] != null ? temp[x]["SupType"] : "--";
-        var Dtls = temp[x]["Details"] != null ? temp[x]["Details"] : "--";
-
-        content = "<tr>";
-        content += "<td>" + temp[x]["Name"] + "</td>";
-        content += "<td>" + contact1 + "<br>"
-            + contact2 + "<br>"
-            + contact3 + "</td>";
-        content += "<td>" + Email + "</td>";
-        content += "<td>" + temp[x]["Status"] + "</td>";
-        content += "<td>" + SupType + "</td>";
-        content += "<td>" + Dtls + "</td>";
-        content += "<td>" +
-            "<a href='Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
-            "<a href='SupplierItems/'>Items</a>  | " +
-            "<a href='Suppliers/InvItems/" + temp[x]["Id"] + "'>InvItems</a>" +
-            "</td>";
-        content += "<tr>";
-
-        $(content).appendTo("#sup-Table");
-        $("#sup-header-2").text("Email");
-        $("#sup-header-3").text("Status");
+            $("#expireNotice").show();
     }
 }
 
@@ -369,7 +332,7 @@ function FilteredStatus(status) {
 
 //Search Filter
 function searchSupplier() {
-    console.log("Searching");
+    //console.log("Searching");
 
     //get search-field
     var srch = $('#srch-field').val();
@@ -380,20 +343,20 @@ function searchSupplier() {
     //search and load table
     switch (srchCat) {
         case "PRODUCT":
-            console.log("Product");
+            //console.log("Product");
             $("#sup-Table").hide();
             $("#prod-Table").show();
             ajax_loadProduct();
 
             setTimeout(function () {
-                $("#sort-date-validity").click();
-                $("#sort-date-validity").click();
+                //$("#sort-date-validity").click();
+                //$("#sort-date-validity").click();
 
             }, 500);
 
             break;
         default:
-            console.log("Supplier");
+            //console.log("Supplier");
             $("#prod-Table").hide();
             $("#sup-Table").show();
             ajax_loadContent();

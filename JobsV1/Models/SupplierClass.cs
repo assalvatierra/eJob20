@@ -65,6 +65,7 @@ namespace JobsV1.Models
         public string DtValidFrom { get; set; }
         public string DtValidTo { get; set; }
         public string Remarks { get; set; }
+        public int   IsValid { get; set; }
     }
 
     public class cSupplierItemRate
@@ -273,16 +274,20 @@ namespace JobsV1.Models
             //sql query with comma separated item list
             string sql =
                 "SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id )," +
-                "sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status " +
+                "sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status, " +
+                "IsValid = IIF(convert(datetime, sir.DtValidTo) < convert(datetime, GETDATE()), 1, 0) "+
                 "FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id "+
                 "LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId "+
                 "LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id "+
                 "LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods ";
 
+            //get products 6 months before the validfrom
+            sql += "WHERE (ISNULL(prods.ItemRate,'0') = '0') OR  convert(datetime, prods.DtValidFrom) > convert(datetime, DATEADD(DAY, -180, GETDATE())) ";
+
             //handle status filter
             if (status != "ALL")
             {
-                sql += " WHERE prods.Status = '" + status + "' ";
+                sql += " AND prods.Status = '" + status + "' ";
             }
 
             //handle status filter
@@ -301,7 +306,7 @@ namespace JobsV1.Models
                 }
                 else
                 {
-                    sql += " WHERE prods.Name Like '%" + search + "%' ";
+                    sql += " AND prods.Name Like '%" + search + "%' ";
                 }
             }
 
@@ -310,7 +315,7 @@ namespace JobsV1.Models
                 switch (sort)
                 {
                     case "LATEST-DATE":
-                        sql += " ORDER BY DtEntered ASC;";
+                        sql += " ORDER BY IsValid ASC, convert(datetime, DtValidFrom)  DESC;";
                         break;
                     case "LOWEST-DATE":
                         sql += " ORDER BY prods.DtEntered ASC;";
@@ -331,9 +336,27 @@ namespace JobsV1.Models
             }
 
             prodList = db.Database.SqlQuery<cProductList>(sql).ToList();
-            
+
+            //get list of products of 
+            var productNoRate = db.SupplierInvItems.Where(s => s.SupplierItemRates.Count == 0 &&  s.InvItem.Description.Contains(search)).ToList();
+            foreach (var prod in productNoRate)
+            {
+
+                prodList.Add(new cProductList {
+                    Id = prod.Id,
+                    Name = prod.InvItem.Description,
+                    Supplier = prod.Supplier.Name,
+                    SupplierId = prod.Supplier.Id,
+                    ItemRate = "No Rate",
+                    IsValid = 0
+                });
+
+            }
+
             return prodList;
         }
+
+
 
 
         //get supplier list containing the search string,
