@@ -268,7 +268,7 @@
         <EntityTypeShape EntityType="JobDB.CustEntActivity" Width="1.5" PointX="17" PointY="1.25" />
         <EntityTypeShape EntityType="JobDB.CustEntDocuments" Width="1.5" PointX="9.125" PointY="0.5" />
         <AssociationConnector Association="JobDB.CustEntDocumentsSupDocument" ManuallyRouted="true" >
-          <ConnectorPoint PointX="10.625" PointY="2.4802864583333335" />
+          <ConnectorPoint PointX="10.625" PointY="1.5552553898239907" />
           <ConnectorPoint PointX="12.446036405798118" PointY="10.896511827395834" />
           <ConnectorPoint PointX="12.446036405798118" PointY="0.4333483960212634" />
           <ConnectorPoint PointX="44.625" PointY="0.4333483960212634" />
@@ -279,6 +279,14 @@
         <AssociationConnector Association="JobDB.CustEntMainCustEntDocuments" />
         <AssociationConnector Association="JobDB.CustEntMainCustEntActivity" ManuallyRouted="false" >
         </AssociationConnector>
+        <EntityTypeShape EntityType="JobDB.CustNotif" Width="1.5" PointX="6.75" PointY="22.375" />
+        <EntityTypeShape EntityType="JobDB.CustNotifActivity" Width="1.5" PointX="9.25" PointY="22.375" />
+        <EntityTypeShape EntityType="JobDB.CustNotifRecipient" Width="1.5" PointX="4.125" PointY="22.375" />
+        <AssociationConnector Association="JobDB.CustNotifCustNotifActivity" />
+        <AssociationConnector Association="JobDB.CustomerCustNotifRecipient" />
+        <AssociationConnector Association="JobDB.CustNotifCustNotifRecipient" />
+        <EntityTypeShape EntityType="JobDB.NotifRecipient" Width="1.5" PointX="4.125" PointY="25.5" />
+        <AssociationConnector Association="JobDB.NotifRecipientCustNotifRecipient" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

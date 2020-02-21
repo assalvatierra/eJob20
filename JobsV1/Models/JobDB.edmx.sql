@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/18/2020 17:03:41
+-- Date Created: 02/21/2020 17:25:19
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -11,7 +11,7 @@ GO
 USE [aspnet-JobsV1-20160528101923];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO
+GO 
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -740,7 +740,8 @@ CREATE TABLE [dbo].[Suppliers] (
     [Website] nvarchar(80)  NULL,
     [Address] nvarchar(150)  NULL,
     [CountryId] int  NOT NULL,
-    [Code] nvarchar(30)  NULL
+    [Code] nvarchar(30)  NULL,
+    [CustNotifRecipientId] int  NOT NULL
 );
 GO
 
@@ -1910,6 +1911,37 @@ CREATE TABLE [dbo].[CustEntDocuments] (
 );
 GO
 
+-- Creating table 'CustNotifs'
+CREATE TABLE [dbo].[CustNotifs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [MsgTitle] nvarchar(80)  NULL,
+    [MsgBody] nvarchar(360)  NOT NULL,
+    [DtEncoded] datetime  NOT NULL,
+    [DtScheduled] datetime  NOT NULL,
+    [Occurence] nvarchar(20)  NOT NULL,
+    [IsEmail] bit  NOT NULL,
+    [IsSms] bit  NOT NULL,
+    [Status] nvarchar(20)  NOT NULL
+);
+GO
+
+-- Creating table 'CustNotifActivities'
+CREATE TABLE [dbo].[CustNotifActivities] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtActivity] datetime  NOT NULL,
+    [Status] nvarchar(40)  NOT NULL,
+    [CustNotifId] int  NOT NULL
+);
+GO
+
+-- Creating table 'CustNotifRecipients'
+CREATE TABLE [dbo].[CustNotifRecipients] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CustomerId] int  NOT NULL,
+    [CustNotifId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2583,6 +2615,24 @@ GO
 -- Creating primary key on [Id] in table 'CustEntDocuments'
 ALTER TABLE [dbo].[CustEntDocuments]
 ADD CONSTRAINT [PK_CustEntDocuments]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustNotifs'
+ALTER TABLE [dbo].[CustNotifs]
+ADD CONSTRAINT [PK_CustNotifs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustNotifActivities'
+ALTER TABLE [dbo].[CustNotifActivities]
+ADD CONSTRAINT [PK_CustNotifActivities]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustNotifRecipients'
+ALTER TABLE [dbo].[CustNotifRecipients]
+ADD CONSTRAINT [PK_CustNotifRecipients]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4298,6 +4348,51 @@ GO
 CREATE INDEX [IX_FK_CustEntMainCustEntActivity]
 ON [dbo].[CustEntActivities]
     ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [CustNotifId] in table 'CustNotifActivities'
+ALTER TABLE [dbo].[CustNotifActivities]
+ADD CONSTRAINT [FK_CustNotifCustNotifActivity]
+    FOREIGN KEY ([CustNotifId])
+    REFERENCES [dbo].[CustNotifs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustNotifCustNotifActivity'
+CREATE INDEX [IX_FK_CustNotifCustNotifActivity]
+ON [dbo].[CustNotifActivities]
+    ([CustNotifId]);
+GO
+
+-- Creating foreign key on [CustomerId] in table 'CustNotifRecipients'
+ALTER TABLE [dbo].[CustNotifRecipients]
+ADD CONSTRAINT [FK_CustomerCustNotifRecipient]
+    FOREIGN KEY ([CustomerId])
+    REFERENCES [dbo].[Customers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomerCustNotifRecipient'
+CREATE INDEX [IX_FK_CustomerCustNotifRecipient]
+ON [dbo].[CustNotifRecipients]
+    ([CustomerId]);
+GO
+
+-- Creating foreign key on [CustNotifId] in table 'CustNotifRecipients'
+ALTER TABLE [dbo].[CustNotifRecipients]
+ADD CONSTRAINT [FK_CustNotifCustNotifRecipient]
+    FOREIGN KEY ([CustNotifId])
+    REFERENCES [dbo].[CustNotifs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustNotifCustNotifRecipient'
+CREATE INDEX [IX_FK_CustNotifCustNotifRecipient]
+ON [dbo].[CustNotifRecipients]
+    ([CustNotifId]);
 GO
 
 -- --------------------------------------------------

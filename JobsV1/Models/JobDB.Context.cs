@@ -137,5 +137,9 @@ namespace JobsV1.Models
         public virtual DbSet<SupplierDocument> SupplierDocuments { get; set; }
         public virtual DbSet<CustEntActivity> CustEntActivities { get; set; }
         public virtual DbSet<CustEntDocuments> CustEntDocuments { get; set; }
+        public virtual DbSet<CustNotif> CustNotifs { get; set; }
+        public virtual DbSet<CustNotifActivity> CustNotifActivities { get; set; }
+        public virtual DbSet<CustNotifRecipient> CustNotifRecipients { get; set; }
+        public virtual DbSet<NotifRecipient> NotifRecipients { get; set; }
     }
 }
