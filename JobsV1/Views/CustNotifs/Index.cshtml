@@ -1,0 +1,109 @@
+﻿@model IEnumerable<JobsV1.Models.CustNotif>
+
+@{
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.Title = "Customer Notification List";
+}
+
+<h2>Notification List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MsgTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MsgBody)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtEncoded)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtScheduled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Occurence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsSms)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MsgTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MsgBody)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtEncoded)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtScheduled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Occurence)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsSms)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            <button class="btn btn-default" onclick="sendEmail()">Send Test</button>
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            <a href="#" id="catbtn" data-toggle="modal" data-target="#recipientModal" onclick="setNotifId(@item.Id)"> Recipients </a> |
+            @*@Html.ActionLink("Recipients", "RecipientsList", new { id=item.Id }) |*@
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+@{ Html.RenderPartial("RecipientList", new ViewDataDictionary { }); }
+@{ Html.RenderPartial("RecipientAdd", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
+<script>
+    function sendEmail() {
+        //build json object
+        var data = {
+
+        };
+
+        console.log(data);
+
+        var url = '/CustNotifs/SendEmail';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+            }
+        });
+    }
+</script>

@@ -24,7 +24,7 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public string MsgTitle { get; set; }
         public string MsgBody { get; set; }
-        public System.DateTime DtEncoded { get; set; }
+        public Nullable<System.DateTime> DtEncoded { get; set; }
         public System.DateTime DtScheduled { get; set; }
         public string Occurence { get; set; }
         public bool IsEmail { get; set; }

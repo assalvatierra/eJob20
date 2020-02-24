@@ -1,0 +1,92 @@
+﻿
+<!-- Add Clause Edit Modal -->
+<div class="modal fade" id="addRecipientModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Recipients</h4>
+            </div>
+            <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Id </b>
+                    <div class="col-md-10">
+                        <input id="add-NotifId" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Customer </b>
+                    <div class="col-md-10">
+                        <select id="add-customerId" class="form-control">
+                            @foreach (var unit in ViewBag.Customers as IEnumerable<JobsV1.Models.Customer>)
+                            {
+                                <option value="@unit.Id"> @unit.Name</option>
+
+                            }
+                        </select>
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Email </b>
+                    <div class="col-md-10">
+                        <input id="add-email" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Mobile </b>
+                    <div class="col-md-10">
+                        <input id="add-mobile" class="form-control" type="text" maxlength="80" value="0">
+                    </div><p></p>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_AddInfo()">Add</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    function setNotifId(id) {
+        $("#add-NotifId").val(id);
+    }
+
+    //ADDRESS EDIT
+    function ajax_AddInfo() {
+        //build json object
+        var data = {
+            id : parseInt($("#add-NotifId").val()),
+            customerId: parseInt($("#add-customerId").find(":selected").val()),
+            email: $("#add-email").val(),
+            mobile: $("#add-mobile").val()
+        };
+
+        console.log(data);
+
+        var url = '/CustNotifs/AddRecipient';
+
+        //Post data from server using ajax call
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                // console.log("SUCCESS");
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                //location.reload();
+            }
+        });
+    }
+
+</script>

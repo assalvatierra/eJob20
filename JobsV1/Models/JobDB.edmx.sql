@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/21/2020 17:25:19
+-- Date Created: 02/22/2020 17:59:05
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -11,7 +11,7 @@ GO
 USE [aspnet-JobsV1-20160528101923];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO 
+GO
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -359,6 +359,18 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntActivities] DROP CONSTRAINT [FK_CustEntMainCustEntActivity];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CustNotifCustNotifActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustNotifActivities] DROP CONSTRAINT [FK_CustNotifCustNotifActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerCustNotifRecipient]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustNotifRecipients] DROP CONSTRAINT [FK_CustomerCustNotifRecipient];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustNotifCustNotifRecipient]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustNotifRecipients] DROP CONSTRAINT [FK_CustNotifCustNotifRecipient];
+GO
+IF OBJECT_ID(N'[dbo].[FK_NotifRecipientCustNotifRecipient]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustNotifRecipients] DROP CONSTRAINT [FK_NotifRecipientCustNotifRecipient];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -699,6 +711,18 @@ IF OBJECT_ID(N'[dbo].[CustEntActivities]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CustEntDocuments]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustEntDocuments];
+GO
+IF OBJECT_ID(N'[dbo].[CustNotifs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustNotifs];
+GO
+IF OBJECT_ID(N'[dbo].[CustNotifActivities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustNotifActivities];
+GO
+IF OBJECT_ID(N'[dbo].[CustNotifRecipients]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustNotifRecipients];
+GO
+IF OBJECT_ID(N'[dbo].[NotifRecipients]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[NotifRecipients];
 GO
 
 -- --------------------------------------------------
@@ -1916,7 +1940,7 @@ CREATE TABLE [dbo].[CustNotifs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [MsgTitle] nvarchar(80)  NULL,
     [MsgBody] nvarchar(360)  NOT NULL,
-    [DtEncoded] datetime  NOT NULL,
+    [DtEncoded] datetime  NULL,
     [DtScheduled] datetime  NOT NULL,
     [Occurence] nvarchar(20)  NOT NULL,
     [IsEmail] bit  NOT NULL,
@@ -1938,7 +1962,16 @@ GO
 CREATE TABLE [dbo].[CustNotifRecipients] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [CustomerId] int  NOT NULL,
-    [CustNotifId] int  NOT NULL
+    [CustNotifId] int  NOT NULL,
+    [NotifRecipientId] int  NOT NULL
+);
+GO
+
+-- Creating table 'NotifRecipients'
+CREATE TABLE [dbo].[NotifRecipients] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Email] nvarchar(max)  NOT NULL,
+    [Mobile] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -2633,6 +2666,12 @@ GO
 -- Creating primary key on [Id] in table 'CustNotifRecipients'
 ALTER TABLE [dbo].[CustNotifRecipients]
 ADD CONSTRAINT [PK_CustNotifRecipients]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'NotifRecipients'
+ALTER TABLE [dbo].[NotifRecipients]
+ADD CONSTRAINT [PK_NotifRecipients]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4393,6 +4432,21 @@ GO
 CREATE INDEX [IX_FK_CustNotifCustNotifRecipient]
 ON [dbo].[CustNotifRecipients]
     ([CustNotifId]);
+GO
+
+-- Creating foreign key on [NotifRecipientId] in table 'CustNotifRecipients'
+ALTER TABLE [dbo].[CustNotifRecipients]
+ADD CONSTRAINT [FK_NotifRecipientCustNotifRecipient]
+    FOREIGN KEY ([NotifRecipientId])
+    REFERENCES [dbo].[NotifRecipients]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_NotifRecipientCustNotifRecipient'
+CREATE INDEX [IX_FK_NotifRecipientCustNotifRecipient]
+ON [dbo].[CustNotifRecipients]
+    ([NotifRecipientId]);
 GO
 
 -- --------------------------------------------------

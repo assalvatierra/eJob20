@@ -470,6 +470,7 @@
     <Compile Include="Controllers\CustEntitiesController.cs" />
     <Compile Include="Controllers\CustEntMainsController.cs" />
     <Compile Include="Controllers\CustFilesController.cs" />
+    <Compile Include="Controllers\CustNotifsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomHelper.cs" />
     <Compile Include="Controllers\DestinationsController.cs" />
@@ -781,6 +782,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NotifRecipient.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\OnlineReservation.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1504,6 +1508,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\dataTables.min.js" />
+    <Content Include="Scripts\Job\CustNotif.js" />
     <Content Include="Scripts\Job\DefaultDate.js" />
     <Content Include="Scripts\Job\CustEntActivities.js" />
     <Content Include="Scripts\Job\TripListing.js" />
@@ -2311,6 +2316,13 @@
     <Content Include="Views\Activities\SupplierActsEdit.cshtml" />
     <Content Include="Views\Activities\SupplierActsDelete.cshtml" />
     <Content Include="Views\Activities\Performance.cshtml" />
+    <Content Include="Views\CustNotifs\Create.cshtml" />
+    <Content Include="Views\CustNotifs\Delete.cshtml" />
+    <Content Include="Views\CustNotifs\Details.cshtml" />
+    <Content Include="Views\CustNotifs\Edit.cshtml" />
+    <Content Include="Views\CustNotifs\Index.cshtml" />
+    <Content Include="Views\CustNotifs\RecipientList.cshtml" />
+    <Content Include="Views\CustNotifs\RecipientAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

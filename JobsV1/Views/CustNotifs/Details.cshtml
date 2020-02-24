@@ -1,0 +1,82 @@
+﻿@model JobsV1.Models.CustNotif
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CustNotif</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MsgTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MsgTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MsgBody)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MsgBody)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DtEncoded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtEncoded)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DtScheduled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtScheduled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Occurence)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Occurence)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSms)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSms)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

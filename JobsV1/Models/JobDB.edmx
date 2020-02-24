@@ -121,6 +121,7 @@
     <EntitySet Name="CustNotifs" EntityType="JobDB.Store.CustNotifs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustNotifActivities" EntityType="JobDB.Store.CustNotifActivities" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustNotifRecipients" EntityType="JobDB.Store.CustNotifRecipients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="NotifRecipients" EntityType="JobDB.Store.NotifRecipients" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -587,6 +588,10 @@
     </AssociationSet>
     <AssociationSet Name="CustNotifCustNotifRecipient" Association="JobDB.Store.CustNotifCustNotifRecipient">
       <End Role="CustNotif" EntitySet="CustNotifs" />
+      <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
+    </AssociationSet>
+    <AssociationSet Name="NotifRecipientCustNotifRecipient" Association="JobDB.Store.NotifRecipientCustNotifRecipient">
+      <End Role="NotifRecipient" EntitySet="NotifRecipients" />
       <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
     </AssociationSet>
   </EntityContainer>
@@ -1803,7 +1808,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MsgTitle" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="MsgBody" Type="nvarchar" Nullable="false" MaxLength="360" />
-    <Property Name="DtEncoded" Type="datetime" Nullable="false" />
+    <Property Name="DtEncoded" Type="datetime" Nullable="true" />
     <Property Name="DtScheduled" Type="datetime" Nullable="false" />
     <Property Name="Occurence" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="IsEmail" Type="bit" Nullable="false" />
@@ -1826,6 +1831,15 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CustomerId" Type="int" Nullable="false" />
     <Property Name="CustNotifId" Type="int" Nullable="false" />
+    <Property Name="NotifRecipientId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NotifRecipients">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Mobile" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3228,6 +3242,18 @@
       </Principal>
       <Dependent Role="CustNotifRecipient">
         <PropertyRef Name="CustNotifId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NotifRecipientCustNotifRecipient">
+    <End Role="NotifRecipient" Type="JobDB.Store.NotifRecipients" Multiplicity="1" />
+    <End Role="CustNotifRecipient" Type="JobDB.Store.CustNotifRecipients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NotifRecipient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustNotifRecipient">
+        <PropertyRef Name="NotifRecipientId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -6637,7 +6663,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MsgTitle" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="MsgBody" Type="String" Nullable="false" MaxLength="360" />
-          <Property Name="DtEncoded" Type="DateTime" Nullable="false" />
+          <Property Name="DtEncoded" Type="DateTime" Nullable="true" />
           <Property Name="DtScheduled" Type="DateTime" Nullable="false" />
           <Property Name="Occurence" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="IsEmail" Type="Boolean" Nullable="false" />
@@ -8080,6 +8106,16 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="CustNotifId" ColumnName="CustNotifId" />
+          <ScalarProperty Name="NotifRecipientId" ColumnName="NotifRecipientId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NotifRecipients">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.NotifRecipient)">
+        <MappingFragment StoreEntitySet="NotifRecipients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

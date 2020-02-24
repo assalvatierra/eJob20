@@ -77,6 +77,66 @@ namespace JobsV1.Models
             }
         }
 
+        //Send Email to the [recipientEMail] one at a time,
+        //[emailSubject] as email title, 
+        //[emailContent] as email body,
+        //[emalPicture] as Picture Link to <img>,
+        //[emailAttachmentLink] as Attachment link to <a>
+        public string SendMail(string recipientEMail, string emailSubject, string emailContent)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("mail.realwheelsdavao.com"); //smtp server
+
+                MailDefinition md = new MailDefinition();
+                md.From = "Realwheels.Reservation@RealWheelsDavao.com";      //sender mail
+                md.IsBodyHtml = true;           //set true to enable use of html tags 
+                md.Subject = emailSubject;      //mail title
+
+                ListDictionary replacements = new ListDictionary();
+                replacements.Add("{name}", "Martin");
+
+                string body, message;
+
+                //mail content for client inquiries
+                message = emailContent;
+
+                //build email body
+                body =
+                    "" +
+                    " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
+                    " <div style='background-color:white;min-width:250px;margin:20px;padding:0px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial;'> " +
+                    " <div style='text-align:left;padding:20px;'><h3>" +
+                    message +
+                    " </h3></div>" +
+                    " <br />" +
+                    " </div>" +
+                    " <div style='text-align:center;color:#626262;'>" +
+                    " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
+                    " <p> For inquiries, kindly email us through inquiries.realwheels@gmail.com or dial (+63) 82 333 5157. </p> " +
+                    " </div>" +
+                    " </div>" +
+                    "       ";
+
+                MailMessage msg = md.CreateMailMessage(recipientEMail, replacements, body, new System.Web.UI.Control());
+                //msg.Attachments.Add(new Attachment(emailPicture));
+
+                SmtpServer.Port = 587;          //default smtp port
+                SmtpServer.Credentials = new System.Net.NetworkCredential(
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
+                SmtpServer.EnableSsl = false;   //enable for gmail smtp server
+                System.Net.ServicePointManager.Expect100Continue = false;
+                SmtpServer.Send(msg);           //send message
+                return "success";
+            }
+            catch (Exception ex)
+            {
+                return "error: " + ex;
+            }
+        }
+
         //generate and return  of the attachment link html element and string
         //return none if no link is specified
         public string handleAttachLink(string link)
