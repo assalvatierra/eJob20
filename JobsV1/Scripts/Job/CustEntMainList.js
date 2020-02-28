@@ -105,10 +105,10 @@ function ajax_loadContent() {
     var query = $('#srch-field').val();
     var category = $('#srch-category').val();
 
-    console.log("category: " + category);
-    console.log("status: " + status);
-    console.log("sort: " + sort);
-    console.log("q: " + query);
+    //console.log("category: " + category);
+    //console.log("status: " + status);
+    //console.log("sort: " + sort);
+    //console.log("q: " + query);
 
     //build json object
     var data = {
@@ -118,7 +118,7 @@ function ajax_loadContent() {
         sort : sort
     };
 
-    console.log(data);
+    //console.log(data);
 
     //request data from server using ajax call
     $.ajax({
@@ -132,7 +132,7 @@ function ajax_loadContent() {
         },
         error: function (data) {
             //console.log("ERROR");
-            console.log(data);
+            //console.log(data);
             LoadTable(data);
         }
     });
@@ -142,10 +142,10 @@ function ajax_loadContent() {
 //of suppliers
 function LoadTable(data) {
     
-    console.log(data);
+    //console.log(data);
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
-    console.log(temp);
+    //console.log(temp);
     //clear table contents except header
     $("#company-Table").find("tr:gt(0)").remove();
     var jobcount = 0;
@@ -234,9 +234,10 @@ function LoadTable(data) {
             content += "<td>" + Assigned + "</td>";
 
             content += "<td>"
-                    + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|"
-                    + "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> "
-                    + "</td>";
+                    + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|";
+           
+            content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> "
+            content += "</td>";
         //}
         content += "</tr>";
 

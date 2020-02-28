@@ -19,6 +19,8 @@
 
         <h1> @Html.DisplayFor(model => model.Name) ( <span id="status"> </span> ) </h1>
         @Html.ActionLink("<View History> ", "Index", "CustEntActivities", new { id = Model.Id }, null)
+        
+
         <h5> <b>Telephone:</b> @Html.DisplayFor(model => model.Contact1) </h5>
         <h5> <b>Fax:</b> @Html.DisplayFor(model => model.Contact2) </h5>
         <h5> <b>Mobile:</b> @Html.DisplayFor(model => model.Mobile) </h5>
@@ -56,14 +58,20 @@
             }
         </h5>
         <h5>
+            <b>Exclusivity:</b>
+            <span>
+                @Html.DisplayFor(model => model.Exclusive)
+            </span>
+        </h5>
+        <h5>
             <b>Assigned To:</b>
             <span>
                 @Html.DisplayFor(model => model.AssignedTo)
             </span>
             <p>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                @if (ViewBag.isAllowedHistory)
-            {
+                @if (ViewBag.IsAdmin)
+                {
                     @Html.ActionLink("<View History> ", "AssignedRecords", new { companyId = Model.Id })
                 }
 
@@ -348,7 +356,7 @@
             <div class="modal-body row" id="modal2-content">
 
                 <div class="form-group cform">
-                    <b class="col-md-2"> Id </b>
+                    <b class="col-md-2"> Contact </b>
                     <div class="col-md-10">
 
                         @Html.DropDownList("ContactList", null, htmlAttributes: new { @class = "form-control", @id = "ac-custId" })

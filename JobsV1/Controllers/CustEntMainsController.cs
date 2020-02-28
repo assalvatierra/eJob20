@@ -47,6 +47,8 @@ namespace JobsV1.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+
             var companies = db.CustEntMains.ToList();
             return View(companies);
         }
@@ -101,11 +103,12 @@ namespace JobsV1.Controllers
             ViewBag.categories = db.CustCategories.ToList();
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).OrderByDescending(s => s.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.City = db.Cities.Find(custEntMain.CityId) != null ? db.Cities.Find(custEntMain.CityId).Name : "NA";
-            ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").OrderByDescending(s=>s.Name).ToList(), "Id", "Name");
+            ViewBag.ContactList = new SelectList(db.Customers.Where(c=>c.Status != "INC").OrderBy(s=>s.Name).ToList(), "Id", "Name",1);
             ViewBag.Documents = GetDocumentList((int)id);
             ViewBag.CustDocuments = db.CustEntDocuments.Where(c=>c.CustEntMainId == id).ToList();
             ViewBag.CompanyId = id;
             ViewBag.isAllowedHistory = checkifAdmin();
+            ViewBag.IsAdmin = User.IsInRole("Admin");
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
 
@@ -230,14 +233,27 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code")] CustEntMain custEntMain, int? id)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive")] CustEntMain custEntMain, int? id)
         {
             if (ModelState.IsValid)
             {
-                
+                var DuplicateCount = db.CustEntMains.Where(s => custEntMain.Name.Contains(s.Name)).ToList().Count();
+
+                if (DuplicateCount == 0)
+                {
                     db.CustEntMains.Add(custEntMain);
                     db.SaveChanges();
-                
+                }else
+                {
+                    ViewBag.Msg = "Customer Name already exist.";
+
+                    ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
+                    ViewBag.Status = new SelectList(StatusList, "value", "text");
+                    ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+
+                    return View(custEntMain);
+                }
 
                 if (id != null)
                 {
@@ -248,12 +264,12 @@ namespace JobsV1.Controllers
                     db.CustEntities.Add(company); 
                     db.SaveChanges();
 
-                    return RedirectToAction("Index", "CustEntMains", null);
+                    return RedirectToAction("Details", "CustEntMains", new { id = custEntMain.Id });
                 }
 
                 AddAssignedRecords(custEntMain.Id, custEntMain.AssignedTo);
 
-                return RedirectToAction("Index", "CustEntMains", null);
+                return RedirectToAction("Details", "CustEntMains", new { id = custEntMain.Id });
             }
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
@@ -262,6 +278,8 @@ namespace JobsV1.Controllers
 
             return View(custEntMain);
         }
+
+        
 
         // GET: CustEntMains/Edit/5
         public ActionResult Edit(int? id)
@@ -279,7 +297,7 @@ namespace JobsV1.Controllers
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
-            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
             return View(custEntMain);
         }
 
@@ -288,7 +306,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code")] CustEntMain custEntMain)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {
