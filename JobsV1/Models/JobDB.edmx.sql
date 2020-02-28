@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/22/2020 17:59:05
+-- Date Created: 02/27/2020 14:33:16
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -359,9 +359,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntMainCustEntActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntActivities] DROP CONSTRAINT [FK_CustEntMainCustEntActivity];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CustNotifCustNotifActivity]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CustNotifActivities] DROP CONSTRAINT [FK_CustNotifCustNotifActivity];
-GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerCustNotifRecipient]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustNotifRecipients] DROP CONSTRAINT [FK_CustomerCustNotifRecipient];
 GO
@@ -370,6 +367,9 @@ IF OBJECT_ID(N'[dbo].[FK_CustNotifCustNotifRecipient]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_NotifRecipientCustNotifRecipient]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustNotifRecipients] DROP CONSTRAINT [FK_NotifRecipientCustNotifRecipient];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustNotifRecipientCustNotifActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustNotifActivities] DROP CONSTRAINT [FK_CustNotifRecipientCustNotifActivity];
 GO
 
 -- --------------------------------------------------
@@ -764,8 +764,7 @@ CREATE TABLE [dbo].[Suppliers] (
     [Website] nvarchar(80)  NULL,
     [Address] nvarchar(150)  NULL,
     [CountryId] int  NOT NULL,
-    [Code] nvarchar(30)  NULL,
-    [CustNotifRecipientId] int  NOT NULL
+    [Code] nvarchar(30)  NULL
 );
 GO
 
@@ -1954,7 +1953,7 @@ CREATE TABLE [dbo].[CustNotifActivities] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DtActivity] datetime  NOT NULL,
     [Status] nvarchar(40)  NOT NULL,
-    [CustNotifId] int  NOT NULL
+    [CustNotifRecipientId] int  NOT NULL
 );
 GO
 
@@ -1970,8 +1969,8 @@ GO
 -- Creating table 'NotifRecipients'
 CREATE TABLE [dbo].[NotifRecipients] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Email] nvarchar(max)  NOT NULL,
-    [Mobile] nvarchar(max)  NOT NULL
+    [Email] nvarchar(max)  NULL,
+    [Mobile] nvarchar(max)  NULL
 );
 GO
 
@@ -4389,21 +4388,6 @@ ON [dbo].[CustEntActivities]
     ([CustEntMainId]);
 GO
 
--- Creating foreign key on [CustNotifId] in table 'CustNotifActivities'
-ALTER TABLE [dbo].[CustNotifActivities]
-ADD CONSTRAINT [FK_CustNotifCustNotifActivity]
-    FOREIGN KEY ([CustNotifId])
-    REFERENCES [dbo].[CustNotifs]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CustNotifCustNotifActivity'
-CREATE INDEX [IX_FK_CustNotifCustNotifActivity]
-ON [dbo].[CustNotifActivities]
-    ([CustNotifId]);
-GO
-
 -- Creating foreign key on [CustomerId] in table 'CustNotifRecipients'
 ALTER TABLE [dbo].[CustNotifRecipients]
 ADD CONSTRAINT [FK_CustomerCustNotifRecipient]
@@ -4447,6 +4431,21 @@ GO
 CREATE INDEX [IX_FK_NotifRecipientCustNotifRecipient]
 ON [dbo].[CustNotifRecipients]
     ([NotifRecipientId]);
+GO
+
+-- Creating foreign key on [CustNotifRecipientId] in table 'CustNotifActivities'
+ALTER TABLE [dbo].[CustNotifActivities]
+ADD CONSTRAINT [FK_CustNotifRecipientCustNotifActivity]
+    FOREIGN KEY ([CustNotifRecipientId])
+    REFERENCES [dbo].[CustNotifRecipients]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustNotifRecipientCustNotifActivity'
+CREATE INDEX [IX_FK_CustNotifRecipientCustNotifActivity]
+ON [dbo].[CustNotifActivities]
+    ([CustNotifRecipientId]);
 GO
 
 -- --------------------------------------------------

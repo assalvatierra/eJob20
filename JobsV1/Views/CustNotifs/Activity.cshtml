@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.Title = "Customer Notification List";
+}
+
+<h2>Notification List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Notification", "Index")
+</p>
+<table class="table" id="activityTable">
+    <tr>
+        <th>
+          Date
+        </th>
+        <th>
+           Title
+        </th>
+        <th>
+           Recipient
+        </th>
+        <th>
+            Status
+        </th>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td colspan="3">
+            <img src="~/Images/GIF/loading.gif" height="25" />
+            Loading Activity please wait...
+        </td>
+        
+    </tr>
+
+</table>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script src="~/Scripts/CustNotif/Activities.js">
+
+</script>

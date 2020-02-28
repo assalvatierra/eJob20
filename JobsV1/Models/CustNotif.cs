@@ -17,7 +17,6 @@ namespace JobsV1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustNotif()
         {
-            this.CustNotifActivities = new HashSet<CustNotifActivity>();
             this.CustNotifRecipients = new HashSet<CustNotifRecipient>();
         }
     
@@ -31,8 +30,6 @@ namespace JobsV1.Models
         public bool IsSms { get; set; }
         public string Status { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustNotifActivity> CustNotifActivities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustNotifRecipient> CustNotifRecipients { get; set; }
     }

@@ -578,10 +578,6 @@
       <End Role="CustEntMain" EntitySet="CustEntMains" />
       <End Role="CustEntActivity" EntitySet="CustEntActivities" />
     </AssociationSet>
-    <AssociationSet Name="CustNotifCustNotifActivity" Association="JobDB.Store.CustNotifCustNotifActivity">
-      <End Role="CustNotif" EntitySet="CustNotifs" />
-      <End Role="CustNotifActivity" EntitySet="CustNotifActivities" />
-    </AssociationSet>
     <AssociationSet Name="CustomerCustNotifRecipient" Association="JobDB.Store.CustomerCustNotifRecipient">
       <End Role="Customer" EntitySet="Customers" />
       <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
@@ -593,6 +589,10 @@
     <AssociationSet Name="NotifRecipientCustNotifRecipient" Association="JobDB.Store.NotifRecipientCustNotifRecipient">
       <End Role="NotifRecipient" EntitySet="NotifRecipients" />
       <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
+    </AssociationSet>
+    <AssociationSet Name="CustNotifRecipientCustNotifActivity" Association="JobDB.Store.CustNotifRecipientCustNotifActivity">
+      <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
+      <End Role="CustNotifActivity" EntitySet="CustNotifActivities" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -633,7 +633,6 @@
     <Property Name="Address" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="CountryId" Type="int" Nullable="false" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="30" />
-    <Property Name="CustNotifRecipientId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Customers">
     <Key>
@@ -1822,7 +1821,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DtActivity" Type="datetime" Nullable="false" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="CustNotifId" Type="int" Nullable="false" />
+    <Property Name="CustNotifRecipientId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CustNotifRecipients">
     <Key>
@@ -1838,8 +1837,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Mobile" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3209,18 +3208,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CustNotifCustNotifActivity">
-    <End Role="CustNotif" Type="JobDB.Store.CustNotifs" Multiplicity="1" />
-    <End Role="CustNotifActivity" Type="JobDB.Store.CustNotifActivities" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CustNotif">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CustNotifActivity">
-        <PropertyRef Name="CustNotifId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="CustomerCustNotifRecipient">
     <End Role="Customer" Type="JobDB.Store.Customers" Multiplicity="1" />
     <End Role="CustNotifRecipient" Type="JobDB.Store.CustNotifRecipients" Multiplicity="*" />
@@ -3254,6 +3241,18 @@
       </Principal>
       <Dependent Role="CustNotifRecipient">
         <PropertyRef Name="NotifRecipientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustNotifRecipientCustNotifActivity">
+    <End Role="CustNotifRecipient" Type="JobDB.Store.CustNotifRecipients" Multiplicity="1" />
+    <End Role="CustNotifActivity" Type="JobDB.Store.CustNotifActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustNotifRecipient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustNotifActivity">
+        <PropertyRef Name="CustNotifRecipientId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3833,10 +3832,6 @@
           <EntitySet Name="CustNotifs" EntityType="JobDB.CustNotif" />
           <EntitySet Name="CustNotifActivities" EntityType="JobDB.CustNotifActivity" />
           <EntitySet Name="CustNotifRecipients" EntityType="JobDB.CustNotifRecipient" />
-          <AssociationSet Name="CustNotifCustNotifActivity" Association="JobDB.CustNotifCustNotifActivity">
-            <End Role="CustNotif" EntitySet="CustNotifs" />
-            <End Role="CustNotifActivity" EntitySet="CustNotifActivities" />
-          </AssociationSet>
           <AssociationSet Name="CustomerCustNotifRecipient" Association="JobDB.CustomerCustNotifRecipient">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
@@ -3849,6 +3844,10 @@
           <AssociationSet Name="NotifRecipientCustNotifRecipient" Association="JobDB.NotifRecipientCustNotifRecipient">
             <End Role="NotifRecipient" EntitySet="NotifRecipients" />
             <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
+          </AssociationSet>
+          <AssociationSet Name="CustNotifRecipientCustNotifActivity" Association="JobDB.CustNotifRecipientCustNotifActivity">
+            <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
+            <End Role="CustNotifActivity" EntitySet="CustNotifActivities" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -3913,7 +3912,6 @@
           <Property Name="Code" Type="String" Nullable="true" MaxLength="30" />
           <NavigationProperty Name="SupplierActivities" Relationship="JobDB.SupplierSupplierActivity" FromRole="Supplier" ToRole="SupplierActivity" />
           <NavigationProperty Name="SupplierDocuments" Relationship="JobDB.SupplierSupplierDocument" FromRole="Supplier" ToRole="SupplierDocument" />
-          <Property Name="CustNotifRecipientId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -6669,7 +6667,6 @@
           <Property Name="IsEmail" Type="Boolean" Nullable="false" />
           <Property Name="IsSms" Type="Boolean" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
-          <NavigationProperty Name="CustNotifActivities" Relationship="JobDB.CustNotifCustNotifActivity" FromRole="CustNotif" ToRole="CustNotifActivity" />
           <NavigationProperty Name="CustNotifRecipients" Relationship="JobDB.CustNotifCustNotifRecipient" FromRole="CustNotif" ToRole="CustNotifRecipient" />
         </EntityType>
         <EntityType Name="CustNotifActivity">
@@ -6679,8 +6676,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DtActivity" Type="DateTime" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="40" />
-          <NavigationProperty Name="CustNotif" Relationship="JobDB.CustNotifCustNotifActivity" FromRole="CustNotifActivity" ToRole="CustNotif" />
-          <Property Name="CustNotifId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustNotifRecipient" Relationship="JobDB.CustNotifRecipientCustNotifActivity" FromRole="CustNotifActivity" ToRole="CustNotifRecipient" />
+          <Property Name="CustNotifRecipientId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="CustNotifRecipient">
           <Key>
@@ -6693,19 +6690,8 @@
           <Property Name="CustNotifId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="NotifRecipient" Relationship="JobDB.NotifRecipientCustNotifRecipient" FromRole="CustNotifRecipient" ToRole="NotifRecipient" />
           <Property Name="NotifRecipientId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustNotifActivities" Relationship="JobDB.CustNotifRecipientCustNotifActivity" FromRole="CustNotifRecipient" ToRole="CustNotifActivity" />
         </EntityType>
-        <Association Name="CustNotifCustNotifActivity">
-          <End Type="JobDB.CustNotif" Role="CustNotif" Multiplicity="1" />
-          <End Type="JobDB.CustNotifActivity" Role="CustNotifActivity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustNotif">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CustNotifActivity">
-              <PropertyRef Name="CustNotifId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="CustomerCustNotifRecipient">
           <End Type="JobDB.Customer" Role="Customer" Multiplicity="1" />
           <End Type="JobDB.CustNotifRecipient" Role="CustNotifRecipient" Multiplicity="*" />
@@ -6735,8 +6721,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" Nullable="false" />
-          <Property Name="Mobile" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="true" />
+          <Property Name="Mobile" Type="String" Nullable="true" />
           <NavigationProperty Name="CustNotifRecipients" Relationship="JobDB.NotifRecipientCustNotifRecipient" FromRole="NotifRecipient" ToRole="CustNotifRecipient" />
         </EntityType>
         <Association Name="NotifRecipientCustNotifRecipient">
@@ -6748,6 +6734,18 @@
             </Principal>
             <Dependent Role="CustNotifRecipient">
               <PropertyRef Name="NotifRecipientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CustNotifRecipientCustNotifActivity">
+          <End Type="JobDB.CustNotifRecipient" Role="CustNotifRecipient" Multiplicity="1" />
+          <End Type="JobDB.CustNotifActivity" Role="CustNotifActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustNotifRecipient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustNotifActivity">
+              <PropertyRef Name="CustNotifRecipientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6795,7 +6793,6 @@
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="CountryId" ColumnName="CountryId" />
           <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="CustNotifRecipientId" ColumnName="CustNotifRecipientId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -8096,7 +8093,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DtActivity" ColumnName="DtActivity" />
           <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="CustNotifId" ColumnName="CustNotifId" />
+          <ScalarProperty Name="CustNotifRecipientId" ColumnName="CustNotifRecipientId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

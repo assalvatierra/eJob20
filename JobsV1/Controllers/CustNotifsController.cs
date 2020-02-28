@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
@@ -15,6 +16,8 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private EmailBlaster emailSender = new EmailBlaster();
+        private CustNotifClass notify = new CustNotifClass();
+        private DateClass dt = new DateClass();
 
         private List<SelectListItem> OccurenceList = new List<SelectListItem> {
                 new SelectListItem { Value = "ONE-TIME", Text = "One Time" },
@@ -166,8 +169,7 @@ namespace JobsV1.Controllers
         }
 
         // POST: CustNotifs/AddRecipient
-        // id = notification id
-        // 
+        // id = CustNotif id
         public string AddRecipient(int? id, int customerId, string email, string mobile)
         {
             if (id != null)
@@ -175,14 +177,16 @@ namespace JobsV1.Controllers
                 try
                 {
 
-                CustNotifRecipient custRecipient = new CustNotifRecipient();
-                custRecipient.CustNotifId = (int)id;
-                custRecipient.CustomerId = customerId;
-                custRecipient.NotifRecipientId = CreateRecipient(email, mobile);
+                    CustNotifRecipient custRecipient = new CustNotifRecipient();
+                    custRecipient.CustNotifId = (int)id;
+                    custRecipient.CustomerId = customerId;
+                    custRecipient.NotifRecipientId = CreateRecipient(email, mobile);
 
-                db.CustNotifRecipients.Add(custRecipient);
-                db.SaveChanges();
+                    db.CustNotifRecipients.Add(custRecipient);
+                    db.SaveChanges();
 
+                    var notif = db.CustNotifs.Find(id);
+                    CreateActivity(custRecipient.Id, notif.DtScheduled, "PENDING");
                 }
                 catch (Exception err)
                 {
@@ -205,6 +209,58 @@ namespace JobsV1.Controllers
             return custRecipient.Id;
 
         }
+
+        public string GetRecipientList(int id)
+        {
+            var recipientList = notify.GetRecipientList();
+           return JsonConvert.SerializeObject(recipientList, Formatting.Indented);
+
+        }
+
+        public string GetRecipient(int id)
+        {
+            var customer =  db.Customers.Find(id);
+            cNotifRecipient cRecipient = new cNotifRecipient();
+            cRecipient.Id = customer.Id;
+            cRecipient.Name = customer.Name;
+            cRecipient.Email = customer.Email;
+            cRecipient.Mobile = customer.Contact2;
+            cRecipient.CustomerId = customer.Id;
+
+            return JsonConvert.SerializeObject(cRecipient, Formatting.Indented);
+        }
+
+        //TODO : Cancell CustNotification Activity on DeleteRecipient
+        public string DeleteRecipient(int id)
+        {
+            try
+            {
+                //check if recipient has activitity 
+                //if yes, then remove activity
+                 var custActs = db.CustNotifActivities.Where(s => s.CustNotifRecipientId == id).ToList();
+                if (custActs.Count > 0)
+                {
+
+                    foreach (var act in custActs)
+                    {
+                        db.CustNotifActivities.Remove(act);
+                        db.SaveChanges();
+                    }
+
+                }
+                //remove recipient
+                CustNotifRecipient custNotif = db.CustNotifRecipients.Find(id);
+                db.CustNotifRecipients.Remove(custNotif);
+                db.SaveChanges();
+
+                return "200";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+        }
         #endregion
 
         #region EmailHandler
@@ -213,15 +269,86 @@ namespace JobsV1.Controllers
         {
             if (id != null)
             {
-                var email = "jahdielsvillosa@gmail.com";
-                var subject = "email subject Test";
-                var content = "email content test";
-                emailSender.SendMail(email, subject, content);
+                //get notification
+                var notif = db.CustNotifs.Find(id);
+
+                //get recipient list
+                foreach (var recipients in notif.CustNotifRecipients)
+                {
+                    var email = recipients.NotifRecipient.Email;
+                    var subject = notif.MsgTitle;
+                    var content = notif.MsgBody;
+                    emailSender.SendMail(email, subject, content);
+
+                    //CreateActivity((int)recipients.Id, notif.DtScheduled, "PENDING");
+                }
+
                 return "200";
             }
             return "500";
         }
+        //POST: Send Email Notification Test
+        //id : Notification Activity Id
+        public string SendPendingEmail()
+        {
+            try
+            {
+                //get notification
+                var notifActList = notify.GetPendingNotif();
+
+                foreach (var notification in notifActList)
+                {
+                    //send email
+                    notify.SendEmailNotif(notification.Id);
+                }
+
+                return "200";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+        
+        public string CheckPendingCount()
+        {
+            var count = notify.GetPendingNotif().Count;
+            return JsonConvert.SerializeObject(count, Formatting.Indented);
+        }
 
         #endregion
+
+        #region Activity
+        // GET: CustNotifs
+        public ActionResult Activity()
+        {
+            return View();
+        }
+        
+        //GET: ajax get activity list
+        public string GetActivity()
+        {
+            var activity = notify.GetActivityList();
+
+            return JsonConvert.SerializeObject(activity, Formatting.Indented);
+        }
+
+        //GET: ajax get activity list
+        public string CreateActivity(int id, DateTime date ,string status)
+        {
+            CustNotifActivity activity = new CustNotifActivity();
+            activity.DtActivity = date;
+            activity.Status = status;
+            activity.CustNotifRecipientId = id;
+
+            db.CustNotifActivities.Add(activity);
+            db.SaveChanges();
+
+            return "";
+        }
+
+
+        #endregion
+
     }
 }

@@ -580,6 +580,7 @@
     <Compile Include="Models\Class\ActionTrailClass.cs" />
     <Compile Include="Models\Class\ActivityClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
+    <Compile Include="Models\Class\CustNotifClass.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\Class\SalesLeadClass.cs" />
     <Compile Include="Models\CoopMember.cs">
@@ -1507,6 +1508,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\CustNotif\CustNotifs.js" />
+    <Content Include="Scripts\CustNotif\Activities.js" />
     <Content Include="Scripts\dataTables.min.js" />
     <Content Include="Scripts\Job\CustNotif.js" />
     <Content Include="Scripts\Job\DefaultDate.js" />
@@ -2323,6 +2326,7 @@
     <Content Include="Views\CustNotifs\Index.cshtml" />
     <Content Include="Views\CustNotifs\RecipientList.cshtml" />
     <Content Include="Views\CustNotifs\RecipientAdd.cshtml" />
+    <Content Include="Views\CustNotifs\Activity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

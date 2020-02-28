@@ -17,8 +17,8 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public System.DateTime DtActivity { get; set; }
         public string Status { get; set; }
-        public int CustNotifId { get; set; }
+        public int CustNotifRecipientId { get; set; }
     
-        public virtual CustNotif CustNotif { get; set; }
+        public virtual CustNotifRecipient CustNotifRecipient { get; set; }
     }
 }

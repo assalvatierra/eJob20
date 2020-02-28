@@ -14,6 +14,12 @@ namespace JobsV1.Models
     
     public partial class CustNotifRecipient
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustNotifRecipient()
+        {
+            this.CustNotifActivities = new HashSet<CustNotifActivity>();
+        }
+    
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public int CustNotifId { get; set; }
@@ -22,5 +28,7 @@ namespace JobsV1.Models
         public virtual Customer Customer { get; set; }
         public virtual CustNotif CustNotif { get; set; }
         public virtual NotifRecipient NotifRecipient { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustNotifActivity> CustNotifActivities { get; set; }
     }
 }

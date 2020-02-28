@@ -8,7 +8,7 @@
                 <h4 class="modal-title">Notification Recipients</h4>
             </div>
 
-            <div class="modal-body row" id="modal2-content">
+            <div class="modal-body row" id="r-Table">
 
                 <table class="table">
                     <thead>
@@ -17,62 +17,23 @@
                             <th>Mobile</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                Some data here..
-                            </td>
-                            <td> 
-                                Some data here.. 
-                            </td>
-                            <td> 
-                                <a href="#" onclick="RemoveRecipient()"> Remove</a>
-                             </td>
-                        </tr>
+                    <tbody id="recipientTable">
                         <tr>
                             <td colspan="3">
-                                <a href="#" id="catbtn" data-toggle="modal" data-target="#addRecipientModal" > Add Recipient </a> |
+                                <br />
+                                <img src="~/Images/GIF/loading.gif" height="25" />
+                                Loading suppliers, please wait...
                             </td>
                         </tr>
                     </tbody>
+
                 </table>
+                <a href="#" id="catbtn" data-toggle="modal" data-target="#addRecipientModal"> Add Recipient </a> 
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_createSupContact()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn">Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<script>
-
-    //ADDRESS EDIT
-    function ajax_addRecipient() {
-        //build json object
-        var data = {
-        
-        };
-
-        console.log(data);
-
-        var url = '/Suppliers/CreateSupContact';
-
-        //Post data from server using ajax call
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                // console.log("SUCCESS");
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                console.log(data);
-                location.reload();
-            }
-        });
-    }
-
-</script>

@@ -77,6 +77,7 @@ namespace JobsV1.Models
             }
         }
 
+        //For Customer Notifications
         //Send Email to the [recipientEMail] one at a time,
         //[emailSubject] as email title, 
         //[emailContent] as email body,
