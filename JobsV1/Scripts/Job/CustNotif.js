@@ -32,6 +32,7 @@ function InitDatePicker()
     );
     $('input[name="DtScheduled"]').val(ddd1);
 
+    $('input[name="DtScheduled"]').val(moment().add(1, 'days').format("MM/DD/YYYY h:mm A"));
 }
 
 

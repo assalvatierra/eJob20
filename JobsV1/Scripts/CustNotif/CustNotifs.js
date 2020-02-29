@@ -8,7 +8,7 @@ function sendEmail(id) {
         id: id
     };
     $("#send-test").text("Sending Email");
-    console.log(data);
+    //console.log(data);
 
     var url = '/CustNotifs/SendEmail';
 
@@ -36,6 +36,7 @@ function sendEmail(id) {
 
 //Set Notification Id to the field
 function setNotifId(id) {
+    //console.log("NotifID:" + id);
     $("#add-NotifId").val(id);
     ajax_UpdateList();
 }
@@ -108,7 +109,7 @@ function ajax_GetCustomer() {
 }
 
 
-//UPDATE: Get list of recipient with the given notificaiton Id
+//READ: Get list of recipient with the given notificaiton Id
 function ajax_UpdateList() {
 
     var setId = $("#add-NotifId").val();
@@ -185,6 +186,12 @@ function loadList(data) {
         content += "<td>" + Email + "</td>";
         content += "<td>" + Mobile + "</td>";
         content += "<td> <a href='#' onclick='RemoveRecipient(" + Id + ")'> Remove</a> </td>";
+        content += "</tr>";
+    }
+
+    if (temp.length == 0) {
+        content += "<tr>";
+        content += "<td colspan=3>  No Recipients Found </td>";
         content += "</tr>";
     }
 

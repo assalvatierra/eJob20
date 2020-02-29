@@ -62,6 +62,24 @@ function loadList(data) {
         content += "<td>" + Title + "</td>";
         content += "<td>" + Name + "</td>";
         content += "<td>" + Status + "</td>";
+
+        content += "<td>";
+        if (Status == "DONE") {
+            content += "<a href='#' onclick='Undone_UpdateStatus(" + Id + ")'> Resend </a> ";
+        }
+
+        if (Status == "CANCELLED") {
+            content += "<a href='#' onclick='Undone_UpdateStatus(" + Id + ")'> Resend </a> ";
+        }
+
+        if (Status == "PENDING") {
+            content += "<a href='#' onclick='Cancel_UpdateStatus(" + Id + ")'> Cancel </a> ";
+            content += "| <a href='#' onclick='SendEmail(" + Id + ")'> Send <a/> ";
+        }
+
+        content += "<td>";
+
+        content += "</td>";
         content += "</tr>";
     }
 
@@ -69,6 +87,49 @@ function loadList(data) {
 
 }
 
+//Update the table every 60 seconds
 function UpdatePage() {
-    myVar = setInterval(ajax_UpdateList, 30000); // in milliseconds // 30 seconds
+    myVar = setInterval(ajax_UpdateList, 60000); // in milliseconds // 60 seconds
 }
+
+function Undone_UpdateStatus(id) {
+    Act_UpdateStatus(id,"PENDING");
+}
+
+function Cancel_UpdateStatus(id) {
+    Act_UpdateStatus(id, "CANCELLED");
+}
+
+//UPDATE: Get list of recipient with the given notificaiton Id
+function Act_UpdateStatus(id, status) {
+
+    //build json object
+    var data = {
+        id: id,
+        status: status
+    };
+
+    //console.log(data);
+    var url = '/CustNotifs/UpdateActivityStatus';
+
+    //Post data from server using ajax call
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            //console.log("SUCCESS");
+        },
+        error: function (data) {
+            //console.log("ERROR");
+            console.log(data);
+            
+            var res = data["responseText"];
+            if (res == "200") {
+                ajax_UpdateList();
+            }
+        }
+    });
+}
+

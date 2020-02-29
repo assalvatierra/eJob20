@@ -212,7 +212,7 @@ namespace JobsV1.Controllers
 
         public string GetRecipientList(int id)
         {
-            var recipientList = notify.GetRecipientList();
+            var recipientList = notify.GetRecipientList(id);
            return JsonConvert.SerializeObject(recipientList, Formatting.Indented);
 
         }
@@ -310,6 +310,7 @@ namespace JobsV1.Controllers
             }
         }
         
+        //GET: get pending count
         public string CheckPendingCount()
         {
             var count = notify.GetPendingNotif().Count;
@@ -348,6 +349,26 @@ namespace JobsV1.Controllers
         }
 
 
+        //UPDATE: update activity status
+        public string UpdateActivityStatus(int id, string status)
+        {
+            try
+            {
+
+                CustNotifActivity activity = db.CustNotifActivities.Find(id);
+                activity.Status = status;
+
+                db.Entry(activity).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return "200";
+
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
         #endregion
 
     }

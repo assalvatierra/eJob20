@@ -43,7 +43,7 @@ namespace JobsV1.Models.Class
         private DateClass dt = new DateClass();
         private EmailBlaster emailSender = new EmailBlaster();
 
-        public List<cNotifRecipient> GetRecipientList()
+        public List<cNotifRecipient> GetRecipientList(int id)
         {
             List<cNotifRecipient> recipients = new List<cNotifRecipient>();
 
@@ -55,8 +55,8 @@ namespace JobsV1.Models.Class
 	                Email = (SELECT Email FROM NotifRecipients nr WHERE nr.Id = cr.NotifRecipientId),
 	                Mobile = (SELECT Mobile FROM NotifRecipients nr WHERE nr.Id = cr.NotifRecipientId)
                 FROM CustNotifRecipients cr
-                WHERE CustNotifId = 1		;";
-
+                ";
+            sql += "WHERE CustNotifId = "+ id +" ;";
             recipients = db.Database.SqlQuery<cNotifRecipient>(sql).ToList();
 
             return recipients;
@@ -103,7 +103,7 @@ namespace JobsV1.Models.Class
                 FROM CustNotifActivities cna 	
                 LEFT JOIN CustNotifRecipients cnr ON cnr.Id = cna.CustNotifRecipientId
                 LEFT JOIN CustNotifs cn ON cn.Id = cnr.CustNotifId	
-                WHERE cna.DtActivity <= convert(datetime, GETDATE()) AND cna.Status = 'PENDING';";
+                WHERE cna.DtActivity <= convert(datetime, DATEADD(HOUR, +8, GETUTCDATE())) AND cna.Status = 'PENDING';";
 
             pending = db.Database.SqlQuery<cPendingNotif>(sql).ToList();
 
