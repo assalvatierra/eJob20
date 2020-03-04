@@ -54,7 +54,7 @@ namespace JobsV1.Models
                     " </div>" +
                     " <div style='text-align:center;color:#626262;'>" +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
-                    " <p> For inquiries, kindly email us through realbreezedavao@gmail.com or dial(+63) 82 297 1831. </p> " +
+                    " <p> For inquiries, kindly email us through realbreezedavao@gmail.com or dial(+63) 082 333 5157. </p> " +
                     " </div>" +
                     " </div>" +
                     "       " ;   

@@ -1508,6 +1508,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
     <Content Include="Scripts\CustNotif\CustNotifs.js" />
     <Content Include="Scripts\CustNotif\Activities.js" />
     <Content Include="Scripts\dataTables.min.js" />
@@ -1519,13 +1520,13 @@
     <Content Include="Scripts\Job\CustEntMainList.js" />
     <Content Include="Scripts\Job\CustEntRecords.js" />
     <Content Include="Scripts\Job\SupplierAddRate.js" />
-    <Content Include="Scripts\Job\CompanyReport.js" />
+    <Content Include="Scripts\CustEntMain\CompanyReport.js" />
     <Content Include="Scripts\Job\CustomerList.js" />
     <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\Job\CashExpenses.js" />
     <Content Include="Scripts\Job\JobExpense.js" />
     <Content Include="Scripts\Job\CustEntClause.js" />
-    <Content Include="Scripts\Job\CompanyDetails.js" />
+    <Content Include="Scripts\CustEntMain\CompanyDetails.js" />
     <Content Include="Scripts\Job\OnlineReservation.js" />
     <Content Include="Scripts\Job\PortalCustomer.js" />
     <Content Include="Scripts\Job\ProdCreate.js" />
@@ -2328,6 +2329,7 @@
     <Content Include="Views\CustNotifs\RecipientAdd.cshtml" />
     <Content Include="Views\CustNotifs\Activity.cshtml" />
     <Content Include="Views\CustNotifs\CreateNotif.cshtml" />
+    <Content Include="Views\CustEntMains\ClauseEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

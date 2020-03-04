@@ -229,7 +229,7 @@
 
                     <p style="margin:20px;text-align:center;"> </p>
                     <p>Click Here for Paypal Payment: </p>
-                    <div id="paypal-button" ></div>
+                    <div id="paypal-button"></div>
                 </div>
             </td>
 
@@ -282,16 +282,16 @@
 <script>
 
     var today = new Date().toLocaleString();
-    
+
        //if("ViewBag.isPaymentValid" == "True" ) {
        //alert("Notice, online payment has been disable. For Payment transactions, please call (+63)9330895358  or (+63)9167558473");
        //}else{
-     
+
         var count = 0;
         paypal.Button.render({
             // Configure environment
-            // env: 'production',
-            env: 'sandbox',
+            env: 'production',
+            //env: 'sandbox',
             client: {
                 //paypal live
                 sandbox: 'AQx9QuKflAiELK-iXsyxy6sINZ9NxJ9DQUWZnW0Tp4LcxGbBN2HyOg0C3K0-qmrGwLSXnzL-xHRrko3q',
@@ -310,6 +310,7 @@
 
             // Set up a payment
             payment: function (data, actions) {
+                PaypalActivityAttempt(@Model.Id);
                 return actions.payment.create({
                     transactions: [{
                         amount: {
@@ -374,19 +375,32 @@
                     // Show a confirmation message to the buyer
                     console.log(data);
                     console.log(response);
-                    ajaxSendMail(@Model.Id);
+                    HandlePayPalState(response)
                     //window.location.href = 'Url.Action("onPaymentSuccess", "JobOrder", new{ jobId = Model.Id, mailType = "PAYMENT-PENDING" })'
                 });
             }
         }, '#paypal-button');
 
+    function HandlePayPalState(response){
+        var state = response["state"];
+
+        if(state == "approved"){
+            PaypalActivity(@Model.Id,"CLIENT-PAYMENT-SUCCESS",response["id"],response["create_time"]);
+            ajaxSendMail(@Model.Id,"CLIENT-PAYMENT-SUCCESS");
 
 
+        }else{
+            //state failed
+            //ajaxSendMail(@Model.Id,"CLIENT-PAYMENT-DENIED");
+            PaypalActivity(@Model.Id,"CLIENT-PAYMENT-DENIED",response["id"],response["create_time"]);
+            window.alert('We cannot proccess your payment. Please try again later.'  );
+        }
+    }
 
-    function ajaxSendMail(jobid) {
+    function ajaxSendMail(jobid, status) {
         var data = {
             jobId: jobid,
-            mailType: "CLIENT-PAYMENT-SUCCESS"
+            mailType: status
         }
 
         var serviceURL = '/JobOrder/onPaymentSuccess';
@@ -402,13 +416,14 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(){
-                console.log('success');
+                console.log('email send success');
                 disableLoadOverlay();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-
+                console.log('email Error');
                 console.log(jqXHR.responseText);
                 disableLoadOverlay();
+                alert('Thank you for payment! Please check your email for the confirmation.'  );
             }
         });
     }
@@ -418,8 +433,6 @@
     }
 
     function disableLoadOverlay(){
-
-        window.alert('Thank you for payment! Please check your email for the confirmation.'  );
 
         $("#overlay2").css("display","none");
     }
@@ -456,7 +469,71 @@
             console.log("Personal Acccount == name");
         }
 
-        console.log("Useng old pattern");
+        console.log("Using old pattern");
+    }
+
+    function PaypalActivity(id, status, transactionId, trxDate){
+        var Amount = @dQuotedAmt;
+
+        var data = {
+            id: id,
+            activity: status,
+            amount : Amount,
+            transId : transactionId,
+            trxDate : trxDate
+        }
+
+        var serviceURL = '/JobOrder/AddPaypalActivity';
+        console.log(data);
+
+        //send email using ajax
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(){
+                console.log('activity log success');
+                //disableLoadOverlay();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('activity log Err');
+                //console.log(jqXHR.responseText);
+            }
+        });
+    }
+
+    function PaypalActivityAttempt(id){
+        var Amount = @dQuotedAmt;
+        var currentTime = new Date();
+        var data = {
+            id: id,
+            activity: "PAYMENT-ATTEMPT",
+            amount : Amount,
+            transId : "0",
+            trxDate : currentTime
+        }
+
+        var serviceURL = '/JobOrder/AddPaypalActivity';
+        console.log(data);
+
+        //send email using ajax
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(){
+                console.log('activity log success');
+                //disableLoadOverlay();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('activity log Err');
+                //console.log(jqXHR.responseText);
+            }
+        });
     }
 
     getcalcAddOn();

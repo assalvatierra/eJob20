@@ -55,16 +55,17 @@ namespace JobsV1.Models
                 {
                     case "ADMIN":
                         //mail title
-                        md.Subject = renterName + ": Reservation ";
-                        
+                        md.Subject = job.Branch.Name + ": Reservation ";
+
                         //email content
-                        message = "A NEW Reservation Inquiry has been made. Please follow the link for the reservation details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
+                        message = " <h1> " + job.Branch.Name + " Inquiry </h1>";
+                        message += "A NEW Reservation Inquiry has been made. Please follow the link for the reservation details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
                         "> View Reservation Details  </a> ";
                         break;
                     case "PAYMENT-SUCCESS":
                         //mail content for successful payment
                         //mail title
-                        md.Subject = renterName + ": Reservation ";
+                        md.Subject = job.Branch.Name + ": Reservation ";
                         
                         //email content
                         message = "Paypal Payment is successful. Please follow the link for the invoice details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
@@ -73,7 +74,7 @@ namespace JobsV1.Models
                     case "PAYMENT-DENIED":
                         //mail content for denied payment
                         //mail title
-                        md.Subject = renterName + ": Reservation ";
+                        md.Subject = job.Branch.Name + ": Reservation ";
                         
                         //email content
                         message = "Paypal Payment have been DENIED. Please follow the link for the invoice details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
@@ -82,7 +83,7 @@ namespace JobsV1.Models
                     case "PAYMENT-PENDING":
                         //mail content for pending payment
                         //mail title
-                        md.Subject = renterName + ": Reservation ";
+                        md.Subject = job.Branch.Name + ": Reservation ";
                         
                         //email content
                         message = "Paypal Payment has been sent. Please follow the link for the invoice details. <a href='" + siteName + "" + jobId + "/" + reserve.DtTrx.Month + "/" + reserve.DtTrx.Day + "/" + reserve.DtTrx.Year + "/" + reserve.RenterName + "/' " +
@@ -116,7 +117,8 @@ namespace JobsV1.Models
                         reserve = db.CarReservations.Find(jobId);
 
                         //mail content for Invoice link
-                        message = "Good day, please follow the link for the invoice and payment of your reservation."+
+                        message = " <h1> " + job.Branch.Name + " Invoice </h1>";
+                        message += "Good day, please follow the link for the invoice and payment of your reservation."+
                             "<br> <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + 
                             "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                             "> View Invoice </a> " +
@@ -125,10 +127,11 @@ namespace JobsV1.Models
                         break;
                     case "CLIENT-PAYMENT-SUCCESS":
                         //mail title
-                        md.Subject = "Realwheels Payment";
-                        
+                        md.Subject = job.Branch.Name + " Payment";
+
                         //mail content for payment successful
-                        message = "Thank you for your payment. Please follow the link for the invoice and payment."+
+                        message = " <h1> " + job.Branch.Name + " Payment Success </h1>";
+                        message += "Thank you for your payment. <br> Please follow the link for the invoice and payment."+
                             "<br> <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + 
                             "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                             "> View Invoice </a> ";
@@ -137,9 +140,10 @@ namespace JobsV1.Models
                         
                         //mail title
                         md.Subject = job.Description + " Invoice Sent";
-                        
+
                         //mail content for admin when a new invoice is sent 
-                        message = " An invoice link has been sent to " + job.Description + ". Please follow the link"+
+                        message = " <h1> " + job.Branch.Name + " Invoice Sent </h1>";
+                        message += " An invoice link has been sent to " + job.Description + ". Please follow the link"+
                             " for the invoice and payment.<br> <a href='" + siteName + "" + jobId + "/" + 
                             job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                             "> View Invoice </a> ";
@@ -149,8 +153,9 @@ namespace JobsV1.Models
                         //mail title
                         md.Subject = job.Description + " Payment Success";
 
-                        //mail content for admin 
-                        message = "A New Payment has been made. Please follow the link for the invoice and payment.<br>"+
+                        //mail content for admin
+                        message = " <h1> " + job.Branch.Name + " Payment </h1>";
+                        message += "A New Payment has been made. Please follow the link for the invoice and payment.<br>"+
                             " <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" +
                             job.JobDate.Year + "/" + jobDesc + "/' " +
                             "> View Invoice </a> ";
@@ -173,10 +178,10 @@ namespace JobsV1.Models
                 body =
                     "" +
                     " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
-                    " <div style='background-color:white;min-width:200px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> "+ job.Branch.Name + " Reservation </h1>" +
+                    " <div style='background-color:white;min-width:200px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'> " +
                     message +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
-                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
+                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
                     " </div></div>" +
                     "";
 
@@ -241,7 +246,7 @@ namespace JobsV1.Models
                     " <div style='background-color:white;min-width:250px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> RealWheels Car Reservation </h1>" +
                     message +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
-                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
+                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
                     " </div></div>" +
                     "";
 
@@ -308,7 +313,7 @@ namespace JobsV1.Models
                     " <div style='background-color:white;min-width:250px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> Invoice Link Sent </h1>" +
                     message +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
-                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
+                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
                     " </div></div>" +
                     "";
 
@@ -372,7 +377,7 @@ namespace JobsV1.Models
                     " <div style='background-color:white;min-width:200px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> Payment Successful </h1>" +
                     message +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE. </p> " +
-                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
+                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
                     " </div></div>" +
                     "";
 
@@ -440,7 +445,7 @@ namespace JobsV1.Models
                     " <div style='background-color:white;min-width:200px;margin:20px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> Reservation Invoice </h1>" +
                     message +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
-                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
+                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
                     " </div></div>" +
                     "";
 
@@ -494,7 +499,7 @@ namespace JobsV1.Models
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
 
                 //mail content for client inquiries
-                message = "Thank you for your payment. Please follow the link for the invoice and payment. <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
+                message = "Thank you for your payment. <br> Follow the link for the invoice. <a href='" + siteName + "" + jobId + "/" + job.JobDate.Month + "/" + job.JobDate.Day + "/" + job.JobDate.Year + "/" + jobDesc + "/' " +
                 "> View Invoice </a> ";
                
                 body =
@@ -503,7 +508,7 @@ namespace JobsV1.Models
                     " <div style='background-color:white;min-width:200px;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>  <h1> Payment Successful </h1>" +
                     message +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE. </p> " +
-                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
+                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
                     " </div></div>" +
                     "";
 
@@ -526,7 +531,7 @@ namespace JobsV1.Models
 
         /**
          * CLIENT -  SEND EMAIL QUOTATION
-         * Send email to client on payment success
+         * Send email to client 
          */
         public string SendMailQuotation(int jobId, string clientMail, List<JobServices> js)
         {
@@ -656,7 +661,7 @@ namespace JobsV1.Models
                      + "<p> Validity: <b>" + dateValid + "</b></p></div><hr>";
                     //footer
                body += " <p style='text-align:center;'> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE. </p> " +
-                    " <p style='text-align:center;'> For further inquiries kindly email us through " + getcallBackEmail(job.Branch.Name) + " or dial(+63) 82 297 1831. </p> " +
+                    " <p style='text-align:center;'> For further inquiries kindly email us through " + getcallBackEmail(job.Branch.Name) + " or dial(+63) 082 333 5157. </p> " +
                     "</div></div>" +
                     "";
 
@@ -872,7 +877,7 @@ namespace JobsV1.Models
                     + "<br><br><br><hr>"
                     //Footer
                     + " <p style='text-align:center;'> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE. </p> " +
-                    " <p style='text-align:center;'> For further inquiries kindly email us through " + getcallBackEmail(job.Branch.Name) + " or dial(+63) 82 297 1831. </p> " +
+                    " <p style='text-align:center;'> For further inquiries kindly email us through " + getcallBackEmail(job.Branch.Name) + " or dial(+63) 082 333 5157. </p> " +
                     "</div></div>" +
                     "";
 
@@ -964,7 +969,7 @@ namespace JobsV1.Models
                 title +
                 message +
                 " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
-                " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
+                " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
                 " </div></div>" ;
 
             return Email(body, email, subject);
@@ -1037,7 +1042,7 @@ namespace JobsV1.Models
                 title +
                 message +
                 " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
-                " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 82 297 1831. </p> " +
+                " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
                 " </div></div>";
 
             return Email(body, email, subject);
