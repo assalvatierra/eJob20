@@ -7,10 +7,8 @@
 
 <h2>Trip Listing</h2>
 
-<div class="col-sm-12">
-        @Html.ActionLink("30 Days", "TripListing", new { DateRange = 30 }) | 
-        @Html.ActionLink("7 Days", "TripListing", new { DateRange = 7 })
-</div>
+
+
 <div class="row">
 
     <!-- Driver/Unit Search Trip Listing Records -->
@@ -88,14 +86,13 @@
 @{
     var tempdate = "";
     var jobList = new List<int>();
-    var textlimit = 18;
+    var textlimit = 20; //18
 }
 
 
 
 @foreach (var item in Model) {
-
-
+    var jobDesc = item.Particulars +" / "+ item.Description;
 
     if (!jobList.Contains(item.JobServicesId))
     {
@@ -123,14 +120,16 @@
                     }
                 </td>
                 <td>
-                    @if (item.Particulars.Length < textlimit)
+                    @if (jobDesc.Length < textlimit)
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars)
+                        @jobDesc
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(0, textlimit) 
-                        <text>...</text>
+                        <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                            @jobDesc.ToString().Substring(0, textlimit)
+                            <text>...</text>
+                        </span>
                     }
                 </td>
                 <td>
@@ -210,14 +209,16 @@
                     }
                 </td>
                 <td>
-                    @if (item.Particulars.Length < textlimit)
+                    @if (jobDesc.Length < textlimit)
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars)
+                        @jobDesc
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(0, textlimit)
-                         <text>...</text>
+                        <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                            @jobDesc.ToString().Substring(0, textlimit);
+                            <text>...</text>
+                        </span>
                     }
                 </td>
                 <td>
@@ -301,14 +302,16 @@
                     }
                 </td>
                 <td>
-                    @if (item.Particulars.Length < textlimit)
+                    @if (jobDesc.Length < textlimit)
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars)
+                        @jobDesc
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(0, textlimit)
-                        <text>...</text>
+                        <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                            @jobDesc.ToString().Substring(0, textlimit)
+                            <text>...</text>
+                        </span>
                     }
                 </td>
                 <td>
@@ -355,14 +358,16 @@
                     }
                 </td>
                 <td>
-                    @if (item.Particulars.Length < textlimit)
+                    @if (jobDesc.Length < textlimit)
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars)
+                        @jobDesc
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Particulars).ToString().Substring(0, textlimit) 
-                        <text>...</text>
+                        <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                            @jobDesc.ToString().Substring(0, textlimit)
+                            <text>...</text>
+                        </span>
                     }
                 </td>
                 <td>
@@ -390,6 +395,7 @@
     }
 
     tempdate = item.DtService.ToShortDateString();
+    
 }
 </table>
 
@@ -418,4 +424,7 @@
         window.location.replace("/JobMains/TripListing?DateRange="+ dateRange +"&srch="+srch);
     }
 
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 </script>

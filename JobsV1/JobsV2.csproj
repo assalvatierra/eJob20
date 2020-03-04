@@ -2327,6 +2327,7 @@
     <Content Include="Views\CustNotifs\RecipientList.cshtml" />
     <Content Include="Views\CustNotifs\RecipientAdd.cshtml" />
     <Content Include="Views\CustNotifs\Activity.cshtml" />
+    <Content Include="Views\CustNotifs\CreateNotif.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

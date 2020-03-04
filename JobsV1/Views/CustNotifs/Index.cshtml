@@ -8,9 +8,15 @@
 <h2>Notification List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Create New", "CreateNotif") |
     @Html.ActionLink("Activity", "Activity")
 </p>
+<p>
+    <span> Status: </span>
+    @Html.ActionLink("Active", "Index", new { status = "ACTIVE" }) |
+    @Html.ActionLink("Inactive", "Index", new { status = "INACTIVE" })
+</p>
+
 <table class="table">
     <tr>
         <th>

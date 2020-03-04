@@ -137,7 +137,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (9,9);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 	('SMS','',9,'JobServices','NotificationList','',21,91),		-- id: 46
-	('Paypal','',9,'PaypalTransactions','Index','',21,92);		-- id: 47
+	('Paypal','',9,'PaypalTransactions','Index','',21,92),		-- id: 47
+	('Notification','',9,'CustNotifs','Index','',21,93);		-- id: 48
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values	
 (9,1,'2019/1/1');
 insert into SysSettings([SysKey],[SysValue],[Remarks]) values

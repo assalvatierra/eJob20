@@ -17,7 +17,7 @@ namespace JobsV1.Controllers
         // GET: Cities
         public ActionResult Index()
         {
-            return View(db.Cities.ToList().OrderByDescending(s=>s.Name));
+            return View(db.Cities.ToList().OrderBy(s=>s.Name));
         }
 
         // GET: Cities/Details/5

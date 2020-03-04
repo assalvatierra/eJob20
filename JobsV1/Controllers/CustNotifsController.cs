@@ -34,9 +34,19 @@ namespace JobsV1.Controllers
                 };
 
         // GET: CustNotifs
-        public ActionResult Index()
+        public ActionResult Index(string status)
         {
-            ViewBag.Customers = db.Customers.OrderBy(s=>s.Name).ToList();
+            List<CustNotif> custNotifs;
+            ViewBag.Customers = db.Customers.OrderBy(s => s.Name).ToList();
+
+            if (status != null)
+            {
+                custNotifs = db.CustNotifs.ToList();
+            }
+            else
+            {
+                custNotifs = db.CustNotifs.Where(s=>s.Status == status).ToList();
+            }
             return View(db.CustNotifs.ToList());
         }
 
@@ -58,9 +68,15 @@ namespace JobsV1.Controllers
         // GET: CustNotifs/Create
         public ActionResult Create()
         {
+            CustNotif notif = new CustNotif();
+            notif.MsgTitle = " ";
+            notif.MsgBody = " ";
+            notif.IsEmail = true;
+            notif.DtScheduled = dt.GetCurrentDateTime();
+            notif.DtEncoded = dt.GetCurrentDateTime();
             ViewBag.Occurence = new SelectList(OccurenceList, "Value", "Text");
             ViewBag.Status = new SelectList(StatusList, "Value", "Text");
-            return View();
+            return View(notif);
         }
 
         // POST: CustNotifs/Create
@@ -72,6 +88,7 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+                custNotif.DtEncoded = dt.GetCurrentDateTime();
                 db.CustNotifs.Add(custNotif);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -156,6 +173,42 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
+        #region CreateNotif
+
+        // GET: CustNotifs/Create
+        public ActionResult CreateNotif()
+        {
+            CustNotif notif = new CustNotif();
+            notif.MsgTitle = " ";
+            notif.MsgBody = " ";
+            notif.IsEmail = true;
+            notif.DtScheduled = dt.GetCurrentDateTime();
+            notif.DtEncoded = dt.GetCurrentDateTime();
+            ViewBag.Occurence = new SelectList(OccurenceList, "Value", "Text");
+            ViewBag.Status = new SelectList(StatusList, "Value", "Text");
+            return View(notif);
+        }
+
+        // POST: CustNotifs/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNotif([Bind(Include = "Id,MsgTitle,MsgBody,DtEncoded,DtScheduled,Occurence,IsEmail,IsSms,Status")] CustNotif custNotif)
+        {
+            if (ModelState.IsValid)
+            {
+                custNotif.DtEncoded = dt.GetCurrentDateTime();
+                db.CustNotifs.Add(custNotif);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Occurence = new SelectList(OccurenceList, "Value", "Text");
+            ViewBag.Status = new SelectList(StatusList, "Value", "Text");
+
+            return View(custNotif);
+        }
+        #endregion
 
         #region Recipients 
 
