@@ -69,9 +69,23 @@
 </div>
 
 <!-- Add Hidden on class for SolidSteel-->
-<div class="col-lg-12">
+<div class="col-lg-12" id="jobList">
     <div class="row">
         @{Html.RenderPartial("PartialView_JobDetails", (List<JobsV1.Models.CustomerJobDetails>)ViewBag.jobList, new ViewDataDictionary { { "customerId", Model.Id } });}
     </div>
 </div>
 <hr />
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    $(document).ready(new function(){
+        var cond = '@ViewBag.HaveJob';
+
+        if(cond == 'True'){
+            $('#jobList').show();
+        }else{
+            
+            $('#jobList').hide();
+        }
+    });
+    
+</script>

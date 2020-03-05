@@ -18,8 +18,11 @@
     <div class="col-lg-6">
 
         <h1> @Html.DisplayFor(model => model.Name) ( <span id="status"> </span> ) </h1>
-        @Html.ActionLink("<View History> ", "Index", "CustEntActivities", new { id = Model.Id }, null)
-            
+
+        @if (ViewBag.isAllowedHistory)
+        {
+                @Html.ActionLink("<View History> ", "Index", "CustEntActivities", new { id = Model.Id }, null)
+        }
 
         <h5> <b>Telephone:</b> @Html.DisplayFor(model => model.Contact1) </h5>
         <h5> <b>Fax:</b> @Html.DisplayFor(model => model.Contact2) </h5>
@@ -288,7 +291,7 @@
 </div>
 
 <!-- Job List-->
-<div class="row">
+<div class="row" id="jobList">
     <h3>Job List</h3>
     <p>
         <b>Date: </b>
@@ -527,8 +530,22 @@
     <script src="~/Scripts/CustEntMain/CompanyReport.js"></script>
     <script src="~/Scripts/CustEntMain/CustEntMainDetails.js"></script>
 }
+<script src="~/Scripts/jquery-3.3.1.js"> </script>
 <script>
-    
+    $(document).ready(JobListVisibility());
+
+    //joblist 
+    function JobListVisibility(){
+        var cond = '@ViewBag.HaveJob';
+        console.log(cond);
+        if(cond == 'True'){
+            $('#jobList').show();
+        }else{
+            
+            $('#jobList').hide();
+        }
+    }
+
     //Add Company Contact
     function ajax_AddContact() {
 

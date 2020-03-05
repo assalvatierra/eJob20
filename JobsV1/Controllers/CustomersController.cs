@@ -63,7 +63,9 @@ namespace JobsV1.Controllers
             ViewBag.categoryList = db.CustCategories.ToList();
             ViewBag.custId = (int)id;
             PartialView_CustSocial((int)id);
-            
+            ViewBag.HaveJob = db.JobMains.Where(j => j.CustomerId == id).FirstOrDefault() != null ? true : false;
+
+
             return View(customer);
         }
 

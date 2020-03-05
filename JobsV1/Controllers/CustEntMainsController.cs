@@ -55,7 +55,7 @@ namespace JobsV1.Controllers
 
         //Ajax - Table Result 
         //Get the list of company containing the search string,
-        //if search is empty, return all actve items
+        //if search is empty, return all active items
         //Param : search = search string
         //        status = company list string
         public string TableResult(string search, string searchCat,string status, string sort)
@@ -67,12 +67,14 @@ namespace JobsV1.Controllers
             //handle user roles
             if (User.IsInRole("Admin"))
             {
-                custList = comdb.generateCompanyAdminList(search, searchCat, status, sort);
+                custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
             }
             else
             {
                 custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
             }
+
+            //custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
 
             //convert list to json object
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
@@ -97,7 +99,18 @@ namespace JobsV1.Controllers
             {
                 top = 30;
             }
-            
+
+            //get logged user account
+            var user = HttpContext.User.Identity.Name;
+
+            //check previlages
+            var isAdmin = User.IsInRole("Admin");
+            var isAssigned = custEntMain.AssignedTo == user ? true : false;
+
+            //check jobcount
+            var jobcount = db.JobEntMains.Where(s => s.CustEntMainId == id).Count();
+
+            //ViewBags
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
@@ -107,8 +120,9 @@ namespace JobsV1.Controllers
             ViewBag.Documents = GetDocumentList((int)id);
             ViewBag.CustDocuments = db.CustEntDocuments.Where(c=>c.CustEntMainId == id).ToList();
             ViewBag.CompanyId = id;
-            ViewBag.isAllowedHistory = checkifAdmin();
-            ViewBag.IsAdmin = User.IsInRole("Admin");
+            ViewBag.isAllowedHistory = isAdmin || isAssigned ? true : false ;
+            ViewBag.IsAdmin = isAdmin;
+            ViewBag.HaveJob = jobcount != 0 ? true : false;
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
 

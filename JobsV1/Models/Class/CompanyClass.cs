@@ -20,14 +20,9 @@ namespace JobsV1.Models
         public string Remarks   { get; set; }
         public string City      { get; set; }
         public string Category  { get; set; }
-
-        //public string ContactName { get; set; }
-        //public string ContactNumber { get; set; }
-        //public string ContactEmail { get; set; }
-        //public string ContactPosition { get; set; }
-
         public string AssignedTo { get; set; }
         public string Status { get; set; }
+        public string Exclusive { get; set; }
     }
 
     public class cCompanyList
@@ -46,6 +41,8 @@ namespace JobsV1.Models
         public List<string> ContactMobileEmail { get; set; }
         public string AssignedTo { get; set; }
         public string Status { get; set; }
+        public string Exclusive { get; set; }
+        public bool IsAssigned { get; set; }
     }
 
     public class cCompanyContact
@@ -68,27 +65,23 @@ namespace JobsV1.Models
         
         //new table through ajax call
         #region AJAX_Customer_Table
-
+        
         //-----AJAX Functions for generating table list---------//
         public List<cCompanyList> generateCompanyList(string search, string searchCat, string status, string sort, string user)
         {
             List<CompanyList> custList = new List<CompanyList>();
-             
-            string sql = "SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), "+
-                 "City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), "+
-                 
-				 "cust.Name as ContactName, cust.Email as ContactEmail, cust.Contact1 as ContactNumber, "+
+
+            string sql = "SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM CustCategories c WHERE c.Id = b.CustCategoryId ) FROM CustEntCats b WHERE cem.Id = b.CustEntMainId ), " +
+                 "City = (SELECT TOP 1  Name FROM Cities city WHERE city.Id = CityId), " +
+                 "cust.Name as ContactName, cust.Email as ContactEmail, cust.Contact1 as ContactNumber, " +
                  "cet.Position as ContactPosition " +
-
-                 "FROM CustEntMains cem "+
-
-                 "LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id "+
-
-                 "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId "+
-
-                 ") as com WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user+"'))";
-
-
+                 "FROM CustEntMains cem " +
+                 "LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id " +
+                 "LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) as com " +
+                 "WHERE Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE') ";
+            
+                 //") as com WHERE (Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE' AND AssignedTo='" + user+"'))";
+                 
             if (status != null)
             {
 
@@ -158,7 +151,7 @@ namespace JobsV1.Models
             custList = db.Database.SqlQuery<CompanyList>(sql).ToList();
             
 
-            return getCompanyList(custList);
+            return getCompanyList(custList, user);
         }
 
 
@@ -260,11 +253,11 @@ namespace JobsV1.Models
             custList = db.Database.SqlQuery<CompanyList>(sql).ToList();
 
 
-            return getCompanyList(custList);
+            return getCompanyList(custList, "admin");
         }
 
-
-        private List<cCompanyList> getCompanyList(List<CompanyList> list)
+        //Add Contact Persons to company list result
+        private List<cCompanyList> getCompanyList(List<CompanyList> list, string user)
         {
             List<cCompanyList> comlist = new List<cCompanyList>();
 
@@ -279,30 +272,41 @@ namespace JobsV1.Models
                 //build contact list
                 var contacts = db.CustEntities.Where(s => s.CustEntMainId == com.Id).ToList();
                 var custEnts = db.CustEntities.Where(s => s.CustEntMainId == com.Id).ToList();
-                List<string> contactNames = custEnts.Select(s => s.Customer.Name).ToList();
-                List<string> contactPositions = custEnts.Select(s => s.Position).ToList();
+                List<string> contactNames = new List<string>(); 
+                List<string> contactPositions = new List<string>(); 
                 List<string> contactNumberEmail = new List<string>();
-                foreach (var items in custEnts )
+                var isAssigned = false;
+                
+                if (user == com.AssignedTo || user == "admin")
                 {
-                    var temp = "";
-                    if (items.Customer.Contact2 != null)
-                    {
-                        temp = items.Customer.Contact1 + " | " + items.Customer.Contact2;
-                    }
-                    else
-                    {
-                        temp = items.Customer.Contact1;
-                    }
-                    contactNumberEmail.Add( temp + " <br> " + items.Customer.Email);
+                    isAssigned = true;
                 }
 
-               
+                //show contact details to admin and public
+                if (isAssigned || com.Exclusive == "PUBLIC")
+                {
+                    contactNames = custEnts.Select(s => s.Customer.Name).ToList();
+                    contactPositions =  custEnts.Select(s => s.Position).ToList();
 
+                    foreach (var items in custEnts)
+                    {
+                        var temp = "";
+                        if (items.Customer.Contact2 != null)
+                        {
+                            temp = items.Customer.Contact1 + " | " + items.Customer.Contact2;
+                        }
+                        else
+                        {
+                            temp = items.Customer.Contact1;
+                        }
+                        contactNumberEmail.Add(temp + " <br> " + items.Customer.Email);
+                    }
+                }
 
                 comlist.Add(new cCompanyList {
                     Id = com.Id,
                     Address = com.Address,
-                    AssignedTo = removeSpecialChar(com.AssignedTo) ,
+                    AssignedTo = removeSpecialChar(com.AssignedTo),
                     Category = com.Category,
                     City = com.City,
                     Code = com.Code,
@@ -313,8 +317,9 @@ namespace JobsV1.Models
                     Website = com.Website,
                     ContactName = contactNames,
                     ContactPosition = contactPositions,
-                    ContactMobileEmail = contactNumberEmail
-
+                    ContactMobileEmail = contactNumberEmail,
+                    Exclusive = com.Exclusive,
+                    IsAssigned = isAssigned
                 });
 
                 prevId = com.Id;

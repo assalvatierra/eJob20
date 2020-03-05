@@ -16,7 +16,7 @@ function intial() {
 
 //update status value on click
 //change color of the text
-$('#ACT').click(function () {
+$('#ACT').click(function() {
     status = "ACT";
     $('#ACT').css("color", "black");
     $('#ACT').siblings().css("color", "steelblue");
@@ -142,12 +142,16 @@ function ajax_loadContent() {
 //of suppliers
 function LoadTable(data) {
     
-    //console.log(data);
+    console.log(data);
+
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
-    //console.log(temp);
+
+    console.log(temp);
+
     //clear table contents except header
     $("#company-Table").find("tr:gt(0)").remove();
+
     var jobcount = 0;
     var company  = "";
     var contact1 = "";
@@ -176,22 +180,20 @@ function LoadTable(data) {
         var ContactPersons = temp[x]["ContactName"] != null ? temp[x]["ContactName"] : "--";
         var ContactPosition = temp[x]["ContactPosition"] != null ? temp[x]["ContactPosition"] : "--";
         var ContactMobileEmail = temp[x]["ContactMobileEmail"] != null ? temp[x]["ContactMobileEmail"] : "--";
+        var Exclusive = temp[x]["Exclusive"] != null ? temp[x]["Exclusive"] : "--";
+        var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : "--";
 
         content = "<tr>";
 
-        //if (temp[x]["Id"] == prevId) {
-
-        //} else {
-
-            content += "<td>" + temp[x]["Name"] + "</td>";
-            content += "<td>" + code + "</td>";
-            content += "<td>" + website + "</td>";
-            content += "<td>" + City + "</td>";
-            content += "<td>" + categories + "</td>";
-            content += "<td>" + parseStatus(Status) + "</td>";
+        content += "<td>" + temp[x]["Name"] + "</td>";
+        content += "<td>" + code + "</td>";
+        content += "<td>" + website + "</td>";
+        content += "<td>" + City + "</td>";
+        content += "<td>" + categories + "</td>";
+        content += "<td>" + parseStatus(Status) + "</td>";
 
             //Contact Person Names
-            content += "<td>";
+        content += "<td>";
                 for (var prods = 0; prods < ContactPersons.length; prods++) {
                     if (typeof ContactPersons[prods] === "undefined") {
                         console.log("something is undefined");
@@ -200,50 +202,78 @@ function LoadTable(data) {
                         content += " " + contact+ " <br><br>";
                     }
                 }
-            content += "</td>";
+        content += "</td>";
 
-            //Contact Person Positions
-            content += "<td>";
-               for (var pos = 0; pos < ContactPosition.length; pos++) {
-                    if (typeof ContactPosition[pos] === "undefined") {
-                        console.log("something is undefined");
-                    } else {
-                            if (ContactPosition[pos] != null) {
+        //Contact Person Positions
+        content += "<td>";
 
-                                var positions = ContactPosition[pos].toString();
-
-                                content += " " + positions + " <br><br>";
-                            }
+        for (var pos = 0; pos < ContactPosition.length; pos++) {
+            if (typeof ContactPosition[pos] === "undefined") {
+                console.log("something is undefined");
+            } else {
+               if (ContactPosition[pos] != null) {
+                   var positions = ContactPosition[pos].toString();
+                   content += " " + positions + " <br><br>";
+               }
                        
-                    }
-                }
-            content += "</td>";
+            }
+        }
+        content += "</td>";
 
-            //Contact Person Positions
-            content += "<td>";
-                for (var contact = 0; contact < ContactMobileEmail.length; contact++) {
-                    if (typeof ContactMobileEmail[contact] === "undefined") {
-                        console.log("something is undefined");
-                    } else {
-                    var contactdetails = ContactMobileEmail[contact].toString();
-                        content += " " + contactdetails + " <br>";
-                    }
-                }
-            content += "</td>";
+         //Contact Person Positions
+        content += "<td>";
+        for (var contact = 0; contact < ContactMobileEmail.length; contact++) {
+            if (typeof ContactMobileEmail[contact] === "undefined") {
+                console.log("something is undefined");
+            } else {
+            var contactdetails = ContactMobileEmail[contact].toString();
+                content += " " + contactdetails + " <br>";
+            }
+        }
+        content += "</td>";
+        content += "<td>" + Assigned + "</td>";
 
-            content += "<td>" + Assigned + "</td>";
+        //  EXCLUSIVE permissions to DETAILS and HISTORY 
+        //  for assigned login and admin only, 
+        //  hide for not assigned login 
+        if (Exclusive == "EXCLUSIVE") {
+            if (IsAssigned == true) {
+                content += "<td>"
+                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|";
+                content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
+                content += "<p>" + Exclusive + "</p>";
+                content += "</td>";
+            } else {
+                content += "<td>"
+                content += "<p>" + Exclusive + "</p>";
+                content += "</td>";
 
-            content += "<td>"
-                    + "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|";
-           
-            content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> "
-            content += "</td>";
-        //}
+            }
+        }
+
+        //  PUBLIC permissions to HISTORY 
+        //  for assigned login and admin only
+        //  hide for not assigned login
+        if (Exclusive == "PUBLIC") {
+            if (IsAssigned == true) {
+                content += "<td>"
+                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|";
+                content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
+                content += "<p>" + Exclusive + "</p>";
+                content += "</td>";
+            } else {
+                content += "<td>"
+                content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|";
+                content += "<p>" + Exclusive + "</p>";
+                content += "</td>";
+            }
+        }
+
+
         content += "</tr>";
 
         prevId = temp[x]["Id"]
         $(content).appendTo("#company-Table");
-        
     }
 }
 

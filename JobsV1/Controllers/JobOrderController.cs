@@ -110,6 +110,7 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
         private ActionTrailClass trail = new ActionTrailClass();
+        private DateClass dt = new DateClass();
         
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
@@ -2723,7 +2724,6 @@ order by x.jobid
         #endregion
 
         #region SendMails
-
         //Handle email sending for Invoice
         public String SendEmail(int jobId, string mailType)
         {
@@ -2790,31 +2790,6 @@ order by x.jobid
             return mailResult;
         }
 
-        //PAYPAL PAYMENT
-        public void onPaymentSuccess(int jobId, string mailType)
-        {
-            JobMain jobOrder = db.JobMains.Find(jobId);
-            EMailHandler mail = new EMailHandler();
-
-            string siteRedirect = "https://realwheelsdavao.com/invoice/";
-
-            string clientName = jobOrder.Description;
-            string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
-            string ajdavaoEmail = "ajdavao88@gmail.com";
-            string mailResult = "";
-            string adminEmail = "travel.realbreeze@gmail.com";
-            
-            //Send invoice 
-            //mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
-            //mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
-            //mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
-
-            //client
-            mailResult = mail.SendMail(jobId, jobOrder.CustContactEmail, "CLIENT-PAYMENT-SUCCESS", clientName, siteRedirect);
-            
-            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
-
-        }
         
         //After Payment Success, send email to client, admin and company emails
         public void PaymentReserveSuccess(int reservationId)
@@ -2959,7 +2934,6 @@ order by x.jobid
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = JobMainId });
             //return RedirectToAction("JobServices", "JobOrder", new { JobMainId = JobMainId });
         }
-
         #endregion
 
         #region Driver Instructions
@@ -2987,7 +2961,6 @@ order by x.jobid
             return RedirectToAction("DriverInstructions","JobOrder" , new { id = jsId , mainId = mainId });
         }
 
-
         public ActionResult DeleteDriverInst(int id, int jsId)
         {
             DriverInsJobService ins = db.DriverInsJobServices.Find(id);
@@ -3004,6 +2977,62 @@ order by x.jobid
         {
             var js = db.JobServices.Find(jsId);
             return js.JobMainId;
+        }
+        #endregion
+
+
+        #region Paypal Transaction
+
+        //PAYPAL PAYMENT
+        public void onPaymentSuccess(int jobId, string mailType)
+        {
+            JobMain jobOrder = db.JobMains.Find(jobId);
+            EMailHandler mail = new EMailHandler();
+
+            string siteRedirect = "https://realwheelsdavao.com/invoice/";
+
+            string clientName = jobOrder.Description;
+            string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
+            string ajdavaoEmail = "ajdavao88@gmail.com";
+            string mailResult = "";
+            string adminEmail = "travel.realbreeze@gmail.com";
+
+            //Send invoice 
+            mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+            mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-PAYMENT-SUCCESS", clientName, siteRedirect);
+
+            //client
+            mailResult = mail.SendMail(jobId, jobOrder.CustContactEmail, "CLIENT-PAYMENT-SUCCESS", clientName, siteRedirect);
+
+            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
+
+        }
+
+        public string AddPaypalActivity(int id, string activity, decimal amount, string transId, string trxDate)
+        {
+            try
+            {
+                //Create Transaction History
+                PaypalTransaction trans = new PaypalTransaction();
+                trans.JobId   = id;
+                trans.TrxDate =  DateTime.Parse(trxDate);
+                trans.TrxId   = transId;
+                trans.Status  = activity;
+                trans.Remarks = " ";
+                trans.Amount  =  amount;
+                trans.DatePosted = dt.GetCurrentDateTime();
+
+                db.PaypalTransactions.Add(trans);
+                db.SaveChanges();
+
+                return "200";
+
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
         }
         #endregion
     }
