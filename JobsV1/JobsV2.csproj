@@ -2330,6 +2330,7 @@
     <Content Include="Views\CustNotifs\Activity.cshtml" />
     <Content Include="Views\CustNotifs\CreateNotif.cshtml" />
     <Content Include="Views\CustEntMains\ClauseEdit.cshtml" />
+    <Content Include="Views\JobOrder\IndexOld.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

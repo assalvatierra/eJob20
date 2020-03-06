@@ -264,7 +264,8 @@ namespace JobsV1.Controllers
             return data;
         }
 
-
+        // JobOrder/JobStatus
+        // Return list of jobs with status of the jobs
         public ActionResult JobStatus(int? sortid, int? serviceId, int? mainid)
         {
 
@@ -285,38 +286,35 @@ namespace JobsV1.Controllers
 
             var data = getJobData((int)sortid); // get job list data
 
-
+            //Get List of Customers
             List<Customer> customers = db.Customers.ToList();
             ViewBag.companyList = customers;
 
+            //Handle jobmainId
             var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
             jobmainId = mainid != null ? (int)mainid : jobmainId;
             ViewBag.mainId = jobmainId;
 
-            if (sortid == 1)
-            {
-
+            //job sorting order
+            if (sortid == 1) {
                 return View(data.OrderBy(d => d.Main.JobDate));
-            }
-            else
-            {
+            }else{
                 return View(data.OrderByDescending(d => d.Main.JobDate));
-
             }
             
         }
 
+        //GET : return customer email
         public string getCustomerEmail(int id)
         {
             string custEmail = db.Customers.Find(id).Email;
-
             return custEmail;
         }
 
+        //GET : return customer contact number
         public string getCustomerNumber(int id)
         {
             string custNum = db.Customers.Find(id).Contact1;
-
             return custNum;
         }
 
@@ -328,14 +326,15 @@ namespace JobsV1.Controllers
             return companyNum;
         }
 
+        //GET : get the date of the job based on the date today
         public DateTime TempJobDate(int mainId)
         {
             //update jobdate
             var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
             DateTime minDate = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault().JobDate.Date;
             DateTime maxDate = new DateTime(1,1,1);
-
             DateTime today = new DateTime();
+
             today = getDateTimeToday().Date;
 
             //loop though all jobservices in the jobmain
@@ -408,7 +407,6 @@ namespace JobsV1.Controllers
             }
 
             if (minDate == new DateTime(9999, 12, 30)) {
-                // main.JobDate = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault().JobDate;
                 main.JobDate = minDate;
             }
 
@@ -416,7 +414,7 @@ namespace JobsV1.Controllers
             //return minDate;
         }
 
-
+        //GET the lastest date of the job based on the date today
         public DateTime MinJobDate(int mainId)
         {
             //update jobdate
@@ -455,8 +453,7 @@ namespace JobsV1.Controllers
                         minDate = svcDtStart.Date; //if Today < Dtstart but today is greater than smallest date
                     }
                 }
-
-
+                
                 //get max date
                 if (DateTime.Compare(maxDate, svcDtEnd.Date) <= 0)
                 {
@@ -468,6 +465,7 @@ namespace JobsV1.Controllers
             return minDate;
         }
 
+        //GET jobcount 
         public List<cjobCounter> getJobActionCount(List<Int32> jobidlist )
         {
             #region sqlstr
@@ -501,7 +499,8 @@ order by x.jobid
             return jobcntr;
         }
 
-
+        // JobOrder/JobListing 
+        // List of jobs by date with minimal information
         public ActionResult JobListing(int? sortid, int? serviceId, int? mainid)
         {
 
@@ -2317,6 +2316,28 @@ order by x.jobid
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
+
+        public string CloseJob(int id)
+        {
+            try
+            {
+
+                var Job = db.JobMains.Find(id);
+                Job.JobStatusId = 4;
+                db.Entry(Job).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //job trail
+                trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CLOSED", id.ToString());
+
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
 
         #endregion
 

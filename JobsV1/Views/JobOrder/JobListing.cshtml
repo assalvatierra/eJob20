@@ -536,7 +536,8 @@
                     @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
                     @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id }, null)
                     @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
-                    @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+                    @*@Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)*@
+                @Html.ActionLink("[ Close ]", "CloseJob", "JobOrder", new { id = item.Main.Id }, null)
                 </td>
             </tr>
         }
@@ -619,6 +620,8 @@
             // The variable iDiv is still good... Just append to it.
             iDiv.appendChild(innerDiv);
         }
+
+
 
     </script>
 

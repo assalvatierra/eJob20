@@ -241,11 +241,11 @@ function LoadTable(data) {
                 content += "<td>"
                 content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|";
                 content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
-                content += "<p>" + Exclusive + "</p>";
+                //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";
             } else {
                 content += "<td>"
-                content += "<p>" + Exclusive + "</p>";
+                //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";
 
             }
@@ -259,12 +259,12 @@ function LoadTable(data) {
                 content += "<td>"
                 content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|";
                 content += "<a href='CustEntActivities/Index/" + temp[x]["Id"] + "'> History </a><br> ";
-                content += "<p>" + Exclusive + "</p>";
+                //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";
             } else {
                 content += "<td>"
                 content += "<a href='CustEntMains/Details/" + temp[x]["Id"] + "'> Details</a>|";
-                content += "<p>" + Exclusive + "</p>";
+                //content += "<p>" + Exclusive + "</p>";
                 content += "</td>";
             }
         }
