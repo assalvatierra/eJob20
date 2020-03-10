@@ -617,7 +617,7 @@ namespace JobsV1.Models
             switch (sortid)
             {
                 case 1: //OnGoing
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -80, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -60, GETDATE());";
                     break;
                 case 2: //prev
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -60, GETDATE());";
@@ -626,7 +626,7 @@ namespace JobsV1.Models
                     sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());";
                     break;
                 default:
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -350, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -150, GETDATE());";
                     //jobMains = jobMains.ToList();
                     break;
             }

@@ -5,17 +5,6 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<style>
-    .right {
-  position: absolute;
-  right: 0px;
-  width: 400px;
-  /*border: 3px solid #73AD21;*/
-  padding: 10px;
-}
-
-
-</style>
 
 <h2>Job Orders</h2>
 <div class="col-lg-12">
@@ -35,7 +24,6 @@
     </div>
 
     <div class="col-lg-3">
-
         <div class="form-group" style="width:350px;margin-right:0px">
             <div class="col-lg-5">
                 <input type="text" maxlength="30" class="form-control" style="width:140px" id="src-field" />
@@ -44,23 +32,18 @@
                 <button class="btn btn-default" style="margin-top:-0px;" onclick="ajaxSearch();">Search by Id</button>
             </div>
         </div>
-
     </div>
-    <p>
-        @*@ViewBag.today*@
-    </p>
-
 </div>
 <table class="table">
 
 @foreach (var item in Model) {
     <tr >
         <td id="main@(item.Main.Id)">
-            <div style="background-color:lightgray;text-align:center;">
-                <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Main.JobDate.ToString("MMM-yyyy")</span>
-                <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Main.JobDate.ToString("dd")</span>
-                <span style="color:blue; font: bold 12px arial, verdana;">(@item.Main.JobDate.ToString("ddd"))</span>
-                <br /><br /><span style="color:red; font: normal 18px arial, verdana;">&nbsp;</span>
+            <div style="background-color:white;text-align:center;border:1px solid #e0e0e0;padding:15px 0px;border-radius:5px;">
+                <span style="color:blue; font: bold 14px arial, verdana;">@item.Main.JobDate.ToString("MMM-yyyy")</span>
+                <br /><span style="color:blue; font: bold 30px arial, verdana;">@item.Main.JobDate.ToString("dd")</span>
+                <span style="color:blue; font: bold 14px arial, verdana;">(@item.Main.JobDate.ToString("ddd"))</span>
+                <br /><span style="color:red; font: normal 18px arial, verdana;">&nbsp;</span>
                 
                 @if (@item.Main.AgreedAmt != 0)
                 {
@@ -89,87 +72,69 @@
         </td>
 
         <td>
-            <div>
-                <span style="color:darkgreen;font:bold 16px arial, verdana;">
+            <div class="panel panel-default" >
+                <div class="panel-heading">
+                    <span style="color:darkgreen;font:bold 16px arial, verdana;">
 
-                    @if (item.Main.JobEntMains.FirstOrDefault() != null)
+                        @if (item.Main.JobEntMains.FirstOrDefault() != null)
+                        {
+                            @item.Main.JobEntMains.FirstOrDefault().CustEntMain.Name
+                            <text>-</text>
+                        }
+
+                        @item.Main.Customer.Name
+                    </span>
+                    @if (item.Main.JobStatus.Status == "INQUIRY")
                     {
-                        @item.Main.JobEntMains.FirstOrDefault().CustEntMain.Name
-                        <text>-</text>
+                        <span class="pull-right label label-info">
+                            @item.Main.JobStatus.Status
+                        </span>
                     }
+                    else if (item.Main.JobStatus.Status == "RESERVATION")
+                    {
+                        <span class="pull-right label label-primary">
+                            @item.Main.JobStatus.Status
+                        </span>
+                    }
+                    else if (item.Main.JobStatus.Status == "CONFIRMED")
+                    {
+                        <span class="pull-right label label-success">
+                            @item.Main.JobStatus.Status
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="pull-right label label-default">
+                            @item.Main.JobStatus.Status
+                        </span>
+                    }
+                </div>
 
-                    @item.Main.Customer.Name
-                </span>
+                <div class="panel-body">
+                    @*<b style="font:500 10px;color:darkblue;"> </b>*@
+                    <div class="list-group">
+                        <a href="#" class="list-group-item" onclick="ShowJobServiceModal(@(item.Main.Id))"> @item.Main.Description </a>
+                    </div>
 
-                [
-                @Html.ActionLink("Customer Details", "CompanyDetail", new { jobid = item.Main.Id, custid = item.Main.CustomerId}) |
-                @Html.ActionLink("Edit Job", "JobDetails", new { jobid = item.Main.Id }) |     
-                <a href="#" id="catbtn" data-toggle="modal" data-target="#@item.Main.Id" style="margin-bottom:10px;">Change Company</a>
-                ]
-
-                <br />
-                <span style="font:500 10px;color:darkblue;">
-                    @item.Main.Description 
-                   
-                </span>
-                <span>
-
-                   [ @item.Main.JobStatus.Status ]
-                </span>
-
+                    <div class="btn-group" role="group" >
+                        <a href="/JobOrder/JobServices?JobMainId=@item.Main.Id" type="button" class="btn btn-default"> Job Details </a>
+                        <a href="/JobOrder/BookingDetails/@item.Main.Id" type="button" class="btn btn-default"> Booking </a>
+                        <a href="/JobOrder/BookingDetails/@item.Main.Id?iType=1" type="button" class="btn btn-default"> Invoice </a>
+                        <a href="#" class="btn btn-default" onclick="ShowPaymentModal(@(item.Main.Id))"> Payment </a>
+                        <a href="/JobOrder/TextConfirmation/@item.Main.Id" type="button" class="btn btn-default"> Text Confirmation </a>
+                    </div>
+                 </div>
             </div>
-            <div>
-                    @Html.Partial("PartialViewServiceList", item.Services)
-            </div>
 
-            <p>
-                @Html.ActionLink("[ Add New Service ]", "JobServiceAdd", new { JobMainId = item.Main.Id }, null)
-            </p>
-
-            <p>
-                @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
-                @Html.ActionLink("[ Booking ]"    , "BookingDetails", new { id = item.Main.Id }, null)
-                @Html.ActionLink("[ Invoice ]"    , "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
-                <a href="#" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))" >[ Payment ]</a>
-                <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(item.Main.Id))">[ Send Invoice ]</a>
-                @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
-
-                <!--
-                 Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
-                   --> 
-            </p>
-         </td>
+        </td>
     </tr>
 }
 </table>
 
-<div class="modal fade" id="mainid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Company List</h4>
-            </div>
+<!-- Partial Views -->
+@{ Html.RenderPartial("PartialViewserviceListModal"); }
 
-            <div class="modal-body" id="modal2-content">
 
-                <div class="list-group" id="categorylist">
-
-                    @foreach (var list in ViewBag.companyList as IEnumerable<JobsV1.Models.Customer>)
-                    {
-                        <!--
-                        <a href="Url.Action("ChangeCompany", "JobOrder", new { id = item.Main.Id, newId = list.Id },null)" class="list-group-item"> list.Name</a>
-                        -->  
-                    }
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 <!-- Modal Payment -->
 <div class="modal fade" id="jobPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -179,7 +144,6 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Payment Methods</h4>
             </div>
-
             <div class="modal-body" id="modal2-content">
                 <h4>
                     Payment History
@@ -190,12 +154,10 @@
                         <th>Type</th>
                         <th>Amount</th>
                     </tr>
-                    
                 </table>
                 <div id="paymentActions">
 
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -204,10 +166,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-
 @Html.Partial("PartialViewJS")
-
 
 <p>
     @Html.ActionLink("Create New", "jobCreate", null, null)
@@ -339,17 +298,61 @@
             });
         }
 
-        /*Payments modal
-         *Show Payment modal and retrieve the job payments history
-         *and show actions with payments.
+        /* Payments modal
+         * Show Payment modal and retrieve the job payments history
+         * and show actions with payments.
          */
-        function showPaymentModal(jobId){
+        function ShowPaymentModal(jobId){
             $('#jobPayment').modal('show');
             getPaymentData(jobId);
+        }
+        
+        /* JobService modal
+         * Show Payment modal and retrieve the job payments history
+         * and show actions with payments.
+         */
+        function ShowJobServiceModal(jobId){
+            $('#jobServiceModal').modal('show');
+            GetJobServiceData(jobId);
         }
 
         /**
         * Payment_Ajax
+        * Get Payments transactions of the job
+        * using the jobId 
+        */
+        function GetJobServiceData(jobId){
+            var data = {
+                jobId: jobId,
+            }
+
+            var serviceURL = '/JobOrder/GetJobServicesData';
+
+
+            //send email using ajax
+            $.ajax({
+                type: "POST",
+                url: serviceURL,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){
+                    console.log('success');
+                    console.log(data);
+                    jobPayments(data,jobId)
+                    //disableLoadOverlay();
+                },
+                error: function(jqXHR) {
+
+                    //alert(jqXHR.responseText);
+                    //disableLoadOverlay();
+                }
+            });
+        }
+
+        
+        /**
+        * GET: JobServices Data
         * Get Payments transactions of the job
         * using the jobId 
         */
@@ -382,6 +385,7 @@
             });
         }
 
+        
         
 
         function jobPayments(data,jobId){

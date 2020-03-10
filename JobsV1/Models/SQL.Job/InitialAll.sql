@@ -470,24 +470,28 @@ insert into PaypalAccounts ([SysCode],[Key],[Secret])
 values
 ('Realwheels', 'ASTv_oxNk66nZW4tVTbt78dtocU-70VVoDDmgtdMSzv1Aqmw8QK6lJ01vzn6lO6jPio3DbfbT_6G6F6b' , 'EAYtPcgQYKu5UfA4WV5lzE_iPj1WFiGnPC_8XvSgYrjoISJEnZAezmdcofe5oRyJZzPToJO6QUMlgmS2');
 
-insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt])
+insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt],[CustContactEmail],[CustContactNumber],[AssignedTo])
 values
-('03-15-2020',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
-('03-18-2020',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000),
-('03-01-2020',1,'Davao City Tour',3,2,'TEST DATA 0103',2,'N/A',1,1,3500),
-('03-27-2020',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500);
+('03-15-2020',1,'Test Job 101',4,1,'TEST DATA 0101',3,'N/A',1,1,5000,'test','09123456','jahdielvillosa@gmail.com'),
+('03-18-2020',1,'Test Job 102',3,1,'TEST DATA 0102',3,'N/A',1,1,3000,'test','09123456','jahdielvillosa@gmail.com'),
+('04-01-2020',1,'Test City Tour',3,2,'TEST DATA 0103',2,'N/A',1,1,3500,'test','09123456','jahdielvillosa@gmail.com'),
+('01-27-2020',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500,'test','09123456','jahdielvillosa@gmail.com');
 
 
 insert into JobServices([JobMainId],[ServicesId],[SupplierId],[Particulars],[QuotedAmt],[SupplierAmt],[ActualAmt],[Remarks],[SupplierItemId],[DtStart],[DtEnd])
 values
+--Test Job 101--
 (1,1,2,'Car Rental sample data R1',5000,5000,5000,'Sample only. Disregard once seen on production',1,'03-15-2020','03-22-2020'),
 (1,1,2,'Car Rental sample data R2',3000,3000,3000,'Sample only. Disregard once seen on production',1,'03-24-2020','03-25-2020'),
+--Test Job 102--
 (2,1,2,'SUV Rental R1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'03-18-2020','03-20-2020'),
 (2,1,2,'SUV Rental R2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'03-22-2020','03-24-2020'),
-(3,1,2,'MPV Rental sample 1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'03-03-2020','03-05-2020'),
-(3,1,2,'MPV Rental sample 2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'03-07-2020','03-10-2020'),
-(4,1,2,'Day 1: Country Side Tour',2000,2000,2000,'Sample only. Disregard once seen on production',1,'03-27-2020','03-27-2020'),
-(4,1,2,'Day 2: Country Side Tour',1500,1500,1000,'Sample only. Disregard once seen on production',1,'03-28-2020','03-28-2020');
+--Test City Tour--
+(3,1,2,'MPV Rental sample 1',2000,2000,2000,'Sample only. Disregard once seen on production',1,'04-03-2020','04-05-2020'),
+(3,1,2,'MPV Rental sample 2',1000,1000,1000,'Sample only. Disregard once seen on production',1,'04-07-2020','04-10-2020'),
+--Davao City Tour--
+(4,1,2,'Day 1: Country Side Tour',2000,2000,2000,'Sample only. Disregard once seen on production',1,'01-27-2020','01-27-2020'),
+(4,1,2,'Day 2: Country Side Tour',1500,1500,1000,'Sample only. Disregard once seen on production',1,'01-28-2020','01-28-2020');
 
 insert into JobItineraries([JobMainId],[DestinationId],[ActualRate],[Remarks],[ItiDate],[SvcId])
 values
@@ -495,6 +499,12 @@ values
 (3,2,0,'','01-27-2019',5),
 (3,5,0,'','01-28-2019',6),
 (3,6,0,'','01-28-2019',6);
+
+insert into JobTrails([RefTable],[RefId],[dtTrail],[user],[Action],[IPAddress])
+values 
+('joborder',1,'02-10-2020','demo@gmail.com','Create Job','NA'),
+('joborder',2,'02-15-2020','demo@gmail.com','Create Job','NA'),
+('joborder',3,'02-20-2020','demo@gmail.com','Create Job','NA');
 
 --insert into InvItems([ItemCode],[Description],[Remarks])
 --values ('RNY301','Toyota Innova E M/T 2013 Dsl',''),

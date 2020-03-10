@@ -99,6 +99,7 @@ namespace JobsV1.Controllers
     {
         // NEW CUSTOMER Reference ID
         private int NewCustSysId = 1;
+
         // Job Status
         private int JOBINQUIRY = 1;
         private int JOBRESERVATION = 2;
@@ -111,6 +112,7 @@ namespace JobsV1.Controllers
         private DBClasses dbc = new DBClasses();
         private ActionTrailClass trail = new ActionTrailClass();
         private DateClass dt = new DateClass();
+        private JobOrderClass jo = new JobOrderClass();
         
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
@@ -155,7 +157,49 @@ namespace JobsV1.Controllers
                 return View(data.OrderByDescending(d => d.Main.JobDate));
             }
         }
-        
+
+        // GET: JobOrder
+        public ActionResult IndexSimplified(int? sortid, int? serviceId, int? mainid, string search)
+        {
+
+            if (sortid != null)
+                Session["FilterID"] = (int)sortid;
+            else
+            {
+                if (Session["FilterID"] != null)
+                    sortid = (int)Session["FilterID"];
+                else
+                    sortid = 1;
+            }
+
+            if (Session["FilterID"] == null)
+            {
+                Session["FilterID"] = 1;
+            }
+
+            //get job main Id
+            var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
+            jobmainId = mainid != null ? (int)mainid : jobmainId;
+            ViewBag.mainId = jobmainId;
+
+            var data = getJobData((int)sortid); // get job list data
+            //SEARCH
+            if (search != null)
+            {
+                data = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) || d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower())).ToList();
+            }
+
+            if (sortid == 1)
+            {
+                return View(data.OrderBy(d => d.Main.JobDate));
+            }
+            else
+            {
+                return View(data.OrderByDescending(d => d.Main.JobDate));
+            }
+        }
+
+        //GET : return list of jobs
         public List<cJobOrder> getJobData(int sortid)
         {  
             //IEnumerable<Models.JobMain> jobMains = db.JobMains
@@ -318,6 +362,7 @@ namespace JobsV1.Controllers
             return custNum;
         }
 
+        //GET : return customer company name
         public string getCustomerCompany(int id)
         {
             //int companyNum = db.CustEntities.Where(s=>s.CustomerId == id).LastOrDefault() != null ? db.CustEntities.Where(s => s.CustomerId == id).LastOrDefault().CustEntMain.Id : 1;
@@ -326,7 +371,7 @@ namespace JobsV1.Controllers
             return companyNum;
         }
 
-        //GET : get the date of the job based on the date today
+        //GET : return date of the job based on the date today
         public DateTime TempJobDate(int mainId)
         {
             //update jobdate
@@ -414,7 +459,7 @@ namespace JobsV1.Controllers
             //return minDate;
         }
 
-        //GET the lastest date of the job based on the date today
+        //GET : the lastest date of the job based on the date today
         public DateTime MinJobDate(int mainId)
         {
             //update jobdate
@@ -465,7 +510,7 @@ namespace JobsV1.Controllers
             return minDate;
         }
 
-        //GET jobcount 
+        //GET : return the list of jobcount 
         public List<cjobCounter> getJobActionCount(List<Int32> jobidlist )
         {
             #region sqlstr
@@ -2317,6 +2362,30 @@ order by x.jobid
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
 
+
+        //GET : payment transction history
+        //[HttpGet]
+        public string GetJobServices(int? jobId)
+        {
+
+            List<cJobPayment> paymentList = new List<cJobPayment>();
+
+            //get transactions
+            List<JobPayment> jobTrans = db.JobPayments.Where(j => j.JobMainId == jobId).ToList();
+            foreach (var payment in jobTrans)
+            {
+                paymentList.Add(new cJobPayment
+                {
+                    Id = payment.Id,
+                    DtPayment = payment.DtPayment,
+                    Amount = payment.PaymentAmt,
+                    Type = payment.Bank.BankName
+                });
+
+            }
+            return JsonConvert.SerializeObject(paymentList, Formatting.Indented);
+        }
+
         public string CloseJob(int id)
         {
             try
@@ -2719,9 +2788,6 @@ order by x.jobid
                     });
 
                 }
-
-            
-
             return JsonConvert.SerializeObject(paymentList, Formatting.Indented);
         }
         #endregion
@@ -3000,8 +3066,7 @@ order by x.jobid
             return js.JobMainId;
         }
         #endregion
-
-
+        
         #region Paypal Transaction
 
         //PAYPAL PAYMENT
