@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Create Notification</h2>
 
 @using (Html.BeginForm()) 
 {
@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MsgTitle, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MsgTitle, new { htmlAttributes = new { @class = "form-control" , @maxlength = 50 } })
+                @Html.EditorFor(model => model.MsgTitle, new { htmlAttributes = new { @class = "form-control", @id = "notif-Title", @maxlength = 50 } })
                 @Html.ValidationMessageFor(model => model.MsgTitle, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="form-group">
             <label class="control-label col-md-2"> Message </label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.MsgBody, new { htmlAttributes = new { @class = "form-control", @id="message" }, cols = 40, rows = 6, maxlength = 300 })
+                @Html.TextAreaFor(model => model.MsgBody, new { htmlAttributes = new { @class = "form-control", @id= "notif-MsgBody" }, cols = 40, rows = 6, maxlength = 300 })
                 @Html.ValidationMessageFor(model => model.MsgBody, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DtScheduled, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DtScheduled, htmlAttributes: new { @class = "control-label col-md-2", @id = "notif-DtScheduled" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DtScheduled, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DtScheduled, "", new { @class = "text-danger" })
@@ -50,7 +50,7 @@
             @Html.LabelFor(model => model.IsEmail, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.IsEmail)
+                    @Html.EditorFor(model => model.IsEmail, new { htmlAttributes = new { @id = "notif-IsEmail" } })
                     @Html.ValidationMessageFor(model => model.IsEmail, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -60,7 +60,7 @@
             @Html.LabelFor(model => model.IsSms, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.IsSms)
+                    @Html.EditorFor(model => model.IsSms, new { htmlAttributes = new { @id = "notif-IsSms" } })
                     @Html.ValidationMessageFor(model => model.IsSms, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -69,7 +69,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Occurence, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Occurence", null, htmlAttributes: new { @class = "form-control disable" })
+                @Html.DropDownList("Occurence", null, htmlAttributes: new { @class = "form-control disable", @id = "notif-Occurence" })
                 @Html.ValidationMessageFor(model => model.Occurence, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -78,47 +78,55 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Status", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("Status", null, htmlAttributes: new { @class = "form-control", @id = "notif-Status" })
                 @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                @*<input type="submit" value="Create" class="btn btn-default" />*@
+                @*<input value="Submit" class="btn btn-default"  onclick="ajax_SubmitNotif()" />*@
             </div>
         </div>
     </div>
 }
 
-<div class="row col-md-6">
-    <a href="#"> Add Recipient </a>
-
-    <table class="table table-default">
-        <thead>
-            <tr>
-                <th> Customer </th>
-                <th> Email </th>
-                <th> Mobile </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td> s </td>
-                <td> s </td>
-                <td> s </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="col-md-10"></div>
-<br />
 <div class="row">
-    @Html.ActionLink("Back to List", "Index")
+    <div class="col-lg-offset-1 col-lg-6" style="padding:20px;">
+        <h3> Recipients </h3>
+        <a class="cursor-hand" onclick="AddRecipientModal()"> Add Recipient </a>
+        <table class="table table-responsive .thead-light" id="RecipientTable">
+            <thead class=".thead-light">
+                <tr>
+                    <th> Id </th>
+                    <th> Email </th>
+                    <th> Mobile </th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
 </div>
+<div class="row">
+    <div class="col-lg-offset-2 col-md-10">
+        <button class="btn btn-default" onclick="ajax_SubmitNotif()" > Submit </button>
+    </div>
+</div>
+<div class="row">
+    <br />
+    <div class="row">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
+@{ Html.RenderPartial("RecipientAdd", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
+@{ Html.RenderPartial("RecipientEdit", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/Job/CustNotif.js"></script>
+    <script src="~/Scripts/CustNotif/CreateNotif.js"></script>
 }
 

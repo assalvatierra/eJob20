@@ -27,7 +27,6 @@ function InitDatePicker()
     },
     function (start, end, label) {
        // alert(start.format('YYYY-MM-DD h:mm A'));
-        
     }
     );
     $('input[name="DtScheduled"]').val(ddd1);

@@ -8,18 +8,17 @@
                 <h4 class="modal-title">Add Recipients</h4>
             </div>
             <div class="modal-body row" id="modal2-content">
-
                 <div class="form-group cform hidden">
                     <b class="col-md-2"> Id </b>
                     <div class="col-md-10">
-                        <input id="add-NotifId" class="form-control" type="text" maxlength="80">
+                        <input id="edit-NotifId" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
                     <b class="col-md-2"> Customer </b>
                     <div class="col-md-10">
-                        <select id="add-customerId" class="form-control" onchange="ajax_GetCustomer()">
+                        <select id="edit-customerId" class="form-control" onchange="ajax_GetCustomer()">
                             @foreach (var cust in ViewBag.Customers as IEnumerable<JobsV1.Models.Customer>)
                             {
                                 <option value="@cust.Id"> @cust.Name</option>
@@ -32,21 +31,21 @@
                 <div class="form-group cform">
                     <b class="col-md-2"> Email </b>
                     <div class="col-md-10">
-                        <input id="add-email" class="form-control" type="text" maxlength="80">
+                        <input id="edit-email" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
                     <b class="col-md-2"> Mobile </b>
                     <div class="col-md-10">
-                        <input id="add-mobile" class="form-control" type="text" maxlength="80" value="0">
+                        <input id="edit-mobile" class="form-control" type="text" maxlength="80" value="0">
                     </div><p></p>
                 </div>
 
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="editDescBtn" onclick="ajax_AddInfo()">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="editBtn" onclick="ajax_EditSaveInfo()">Save</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

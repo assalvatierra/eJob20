@@ -37,7 +37,7 @@ namespace JobsV1.Controllers
         public ActionResult Index(string status)
         {
             List<CustNotif> custNotifs;
-            ViewBag.Customers = db.Customers.OrderBy(s => s.Name).ToList();
+            ViewBag.Customers = db.Customers.Where(c=>c.Status == "ACT").OrderBy(s => s.Name).ToList();
 
             if (status != null)
             {
@@ -184,8 +184,11 @@ namespace JobsV1.Controllers
             notif.IsEmail = true;
             notif.DtScheduled = dt.GetCurrentDateTime();
             notif.DtEncoded = dt.GetCurrentDateTime();
+
             ViewBag.Occurence = new SelectList(OccurenceList, "Value", "Text");
             ViewBag.Status = new SelectList(StatusList, "Value", "Text");
+            ViewBag.Customers = db.Customers.Where(c => c.Status == "ACT").OrderBy(s => s.Name).ToList();
+
             return View(notif);
         }
 
@@ -205,8 +208,30 @@ namespace JobsV1.Controllers
             }
             ViewBag.Occurence = new SelectList(OccurenceList, "Value", "Text");
             ViewBag.Status = new SelectList(StatusList, "Value", "Text");
+            ViewBag.Customers = db.Customers.Where(c => c.Status == "ACT").OrderBy(s => s.Name).ToList();
 
             return View(custNotif);
+        }
+
+        //CREATE : create notification and return Id
+        [HttpPost]
+        public int CreateNotifRecord(string MsgTitle, string MsgBody, string DtSched, string IsEmail, string ISms, string Occurence, string Status)
+        {
+            CustNotif custNotif = new CustNotif();
+            custNotif.MsgTitle  = MsgTitle;
+            custNotif.MsgBody   = MsgBody;
+            custNotif.DtScheduled = DateTime.Parse(DtSched);
+            custNotif.IsEmail = IsEmail == "true" ? true : false;
+            custNotif.IsSms   = ISms == "true" ? true : false;
+            custNotif.Occurence = Occurence;
+            custNotif.Status = Status;
+            custNotif.DtEncoded = dt.GetCurrentDateTime();
+
+            db.CustNotifs.Add(custNotif);
+            db.SaveChanges();
+
+            var data = custNotif.Id;
+            return data;
         }
         #endregion
 
@@ -245,7 +270,6 @@ namespace JobsV1.Controllers
                 {
                     return JsonConvert.SerializeObject(err, Formatting.Indented);
                 }
-                //return View(db.CustNotifRecipients.ToList());
             }
             return JsonConvert.SerializeObject("500", Formatting.Indented);
         }

@@ -752,6 +752,7 @@
     <Compile Include="Models\JobNotificationRequest.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Class\JobOrderClass.cs" />
     <Compile Include="Models\JobPayment.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1509,6 +1510,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
+    <Content Include="Scripts\CustNotif\CreateNotif.js" />
     <Content Include="Scripts\CustNotif\CustNotifs.js" />
     <Content Include="Scripts\CustNotif\Activities.js" />
     <Content Include="Scripts\dataTables.min.js" />
@@ -1950,7 +1952,7 @@
     <Content Include="Views\SalesActivities\Index.cshtml" />
     <Content Include="Views\SalesLeads\CompanyEdit.cshtml" />
     <Content Include="Views\SalesLeads\CompanyDetail.cshtml" />
-    <Content Include="Views\JobOrder\Index.cshtml" />
+    <Content Include="Views\JobOrder\IndexSimplified.cshtml" />
     <Content Include="Views\JobOrder\PartialViewService.cshtml" />
     <Content Include="Views\JobOrder\PartialViewServiceList.cshtml" />
     <Content Include="Views\JobOrder\PartialViewJobServiceItems.cshtml" />
@@ -2330,7 +2332,9 @@
     <Content Include="Views\CustNotifs\Activity.cshtml" />
     <Content Include="Views\CustNotifs\CreateNotif.cshtml" />
     <Content Include="Views\CustEntMains\ClauseEdit.cshtml" />
-    <Content Include="Views\JobOrder\IndexOld.cshtml" />
+    <Content Include="Views\JobOrder\Index.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewServiceListModal.cshtml" />
+    <Content Include="Views\CustNotifs\RecipientEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
