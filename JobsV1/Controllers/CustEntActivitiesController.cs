@@ -17,20 +17,23 @@ namespace JobsV1.Controllers
         private DateClass date      = new DateClass();
         private CompanyClass comdb  = new CompanyClass();
 
+
         private List<SelectListItem> ActivityStatus = new List<SelectListItem> {
+                new SelectListItem { Value = "Open", Text = "Open" },
+                new SelectListItem { Value = "For Client Comment", Text = "For Client Comment" },
+                new SelectListItem { Value = "Awarded", Text = "Awarded" },
+                new SelectListItem { Value = "Close", Text = "Close" }
+                };
+
+        private List<SelectListItem> ActivityType = new List<SelectListItem> {
                 new SelectListItem { Value = "Others", Text = "Others" },
                 new SelectListItem { Value = "Indicated Price", Text = "Indicated Price" },
                 new SelectListItem { Value = "Bidding Only", Text = "Bidding Only" },
                 new SelectListItem { Value = "Firm Inquiry", Text = "Firm Inquiry" },
                 new SelectListItem { Value = "Buying Inquiry", Text = "Buying Inquiry" },
-                new SelectListItem { Value = "Job Order", Text = "Job Order" }
+                new SelectListItem { Value = "Others", Text = "Others" }
                 };
 
-        private List<SelectListItem> ActivityType = new List<SelectListItem> {
-                new SelectListItem { Value = "Meeting", Text = "Meeting" },
-                new SelectListItem { Value = "Quotation", Text = "Quotation" },
-                new SelectListItem { Value = "Sales", Text = "Sales" }
-                };
 
         // GET: CustEntActivities
         public ActionResult Index(int? id)

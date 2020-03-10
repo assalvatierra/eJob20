@@ -14,6 +14,7 @@ namespace JobsV1.Controllers
     {
         // NEW CUSTOMER Reference ID
         private int NewCustSysId = 1;
+
         // Job Status
         private int JOBINQUIRY = 1;
         private int JOBRESERVATION = 2;

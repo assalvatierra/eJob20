@@ -150,7 +150,6 @@ namespace JobsV1.Controllers
             social.Skype = "";
             social.Viber = "";
            
-
             db.CustSocialAccs.Add(social);
             db.SaveChanges();
         }

@@ -105,10 +105,10 @@ function ajax_loadContent() {
     var query = $('#srch-field').val();
     var category = $('#srch-category').val();
 
-    //console.log("category: " + category);
-    //console.log("status: " + status);
-    //console.log("sort: " + sort);
-    //console.log("q: " + query);
+    console.log("category: " + category);
+    console.log("status: " + status);
+    console.log("sort: " + sort);
+    console.log("q: " + query);
 
     //build json object
     var data = {
@@ -142,7 +142,7 @@ function ajax_loadContent() {
 //of suppliers
 function LoadTable(data) {
     
-    console.log(data);
+    //console.log(data);
 
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
@@ -180,7 +180,7 @@ function LoadTable(data) {
         var ContactPersons = temp[x]["ContactName"] != null ? temp[x]["ContactName"] : "--";
         var ContactPosition = temp[x]["ContactPosition"] != null ? temp[x]["ContactPosition"] : "--";
         var ContactMobileEmail = temp[x]["ContactMobileEmail"] != null ? temp[x]["ContactMobileEmail"] : "--";
-        var Exclusive = temp[x]["Exclusive"] != null ? temp[x]["Exclusive"] : "--";
+        var Exclusive = temp[x]["Exclusive"] != null ? temp[x]["Exclusive"] : "PUBLIC";
         var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : "--";
 
         content = "<tr>";
@@ -268,6 +268,7 @@ function LoadTable(data) {
                 content += "</td>";
             }
         }
+
 
 
         content += "</tr>";
