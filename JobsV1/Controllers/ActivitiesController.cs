@@ -113,8 +113,9 @@ namespace JobsV1.Controllers
             }
             ViewBag.Assigned = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
-            ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
-            ViewBag.Type = new SelectList(ActivityType, "value", "text", custEntActivity.Type);
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
             ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }
@@ -124,7 +125,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CompanyActsEdit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type")] CustEntActivity custEntActivity)
+        public ActionResult CompanyActsEdit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
@@ -134,8 +135,9 @@ namespace JobsV1.Controllers
             }
             ViewBag.Assigned = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
-            ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
-            ViewBag.Type = new SelectList(ActivityType, "value", "text", custEntActivity.Type);
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
             ViewBag.Id = custEntActivity.CustEntMainId;
             return RedirectToAction("Index", "CompanyActsEdit", new { id = custEntActivity.Id});
         }

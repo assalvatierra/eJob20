@@ -17,7 +17,6 @@ namespace JobsV1.Controllers
         private DateClass date      = new DateClass();
         private CompanyClass comdb  = new CompanyClass();
 
-
         private List<SelectListItem> ActivityStatus = new List<SelectListItem> {
                 new SelectListItem { Value = "Open", Text = "Open" },
                 new SelectListItem { Value = "For Client Comment", Text = "For Client Comment" },
@@ -33,7 +32,6 @@ namespace JobsV1.Controllers
                 new SelectListItem { Value = "Buying Inquiry", Text = "Buying Inquiry" },
                 new SelectListItem { Value = "Others", Text = "Others" }
                 };
-
 
         // GET: CustEntActivities
         public ActionResult Index(int? id)
@@ -77,8 +75,9 @@ namespace JobsV1.Controllers
         {
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", id);
-            ViewBag.Status = new SelectList(ActivityStatus, "value", "text");
-            ViewBag.Type = new SelectList(ActivityType, "value", "text");
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status");
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type");
 
             CustEntActivity activity = new CustEntActivity();
             activity.Amount = 0;
@@ -93,10 +92,11 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type")] CustEntActivity custEntActivity)
+        public ActionResult Create([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
+                custEntActivity.Amount = Decimal.Parse(custEntActivity.Amount.ToString());
                 db.CustEntActivities.Add(custEntActivity);
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = custEntActivity.CustEntMainId });
@@ -104,8 +104,9 @@ namespace JobsV1.Controllers
 
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
-            ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
-            ViewBag.Type = new SelectList(ActivityType, "value", "text", custEntActivity.Type);
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
             return View(custEntActivity);
         }
 
@@ -123,8 +124,9 @@ namespace JobsV1.Controllers
             }
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
-            ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
-            ViewBag.Type = new SelectList(ActivityType, "value", "text", custEntActivity.Type);
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
             ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }
@@ -134,7 +136,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type")] CustEntActivity custEntActivity)
+        public ActionResult Edit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
@@ -144,8 +146,9 @@ namespace JobsV1.Controllers
             }
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
-            ViewBag.Status = new SelectList(ActivityStatus, "value", "text", custEntActivity.Status);
-            ViewBag.Type = new SelectList(ActivityType, "value", "text", custEntActivity.Type);
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
             ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }

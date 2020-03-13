@@ -141,5 +141,9 @@ namespace JobsV1.Models
         public virtual DbSet<CustNotifActivity> CustNotifActivities { get; set; }
         public virtual DbSet<CustNotifRecipient> CustNotifRecipients { get; set; }
         public virtual DbSet<NotifRecipient> NotifRecipients { get; set; }
+        public virtual DbSet<CustEntActStatus> CustEntActStatus { get; set; }
+        public virtual DbSet<CustEntActType> CustEntActTypes { get; set; }
+        public virtual DbSet<SupplierActStatus> SupplierActStatus { get; set; }
+        public virtual DbSet<CustEntActivityType> CustEntActivityTypes { get; set; }
     }
 }

@@ -602,6 +602,15 @@
     <Compile Include="Models\CustEntActivity.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustEntActivityType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustEntActStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustEntActType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustEntAddress.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -884,6 +893,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierActivity.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierActStatus.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierClass.cs" />
@@ -1509,6 +1521,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
     <Content Include="Scripts\CustNotif\CreateNotif.js" />
     <Content Include="Scripts\CustNotif\CustNotifs.js" />
@@ -1516,7 +1529,7 @@
     <Content Include="Scripts\dataTables.min.js" />
     <Content Include="Scripts\Job\CustNotif.js" />
     <Content Include="Scripts\Job\DefaultDate.js" />
-    <Content Include="Scripts\Job\CustEntActivities.js" />
+    <Content Include="Scripts\CustEntMain\CustEntActivities.js" />
     <Content Include="Scripts\Job\TripListing.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />
     <Content Include="Scripts\Job\CustEntMainList.js" />

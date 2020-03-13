@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/27/2020 14:33:16
+-- Date Created: 03/12/2020 18:36:39
 -- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -723,6 +723,18 @@ IF OBJECT_ID(N'[dbo].[CustNotifRecipients]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[NotifRecipients]', 'U') IS NOT NULL
     DROP TABLE [dbo].[NotifRecipients];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntActStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntActStatus];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntActTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntActTypes];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierActStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierActStatus];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntActivityTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntActivityTypes];
 GO
 
 -- --------------------------------------------------
@@ -1922,7 +1934,8 @@ CREATE TABLE [dbo].[CustEntActivities] (
     [Status] nvarchar(20)  NOT NULL,
     [Remarks] nvarchar(80)  NULL,
     [CustEntMainId] int  NOT NULL,
-    [Type] nvarchar(20)  NULL
+    [Type] nvarchar(20)  NULL,
+    [ActivityType] nvarchar(30)  NULL
 );
 GO
 
@@ -1971,6 +1984,34 @@ CREATE TABLE [dbo].[NotifRecipients] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Email] nvarchar(max)  NULL,
     [Mobile] nvarchar(max)  NULL
+);
+GO
+
+-- Creating table 'CustEntActStatus'
+CREATE TABLE [dbo].[CustEntActStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] nvarchar(30)  NOT NULL
+);
+GO
+
+-- Creating table 'CustEntActTypes'
+CREATE TABLE [dbo].[CustEntActTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SupplierActStatus'
+CREATE TABLE [dbo].[SupplierActStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'CustEntActivityTypes'
+CREATE TABLE [dbo].[CustEntActivityTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(20)  NOT NULL
 );
 GO
 
@@ -2671,6 +2712,30 @@ GO
 -- Creating primary key on [Id] in table 'NotifRecipients'
 ALTER TABLE [dbo].[NotifRecipients]
 ADD CONSTRAINT [PK_NotifRecipients]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntActStatus'
+ALTER TABLE [dbo].[CustEntActStatus]
+ADD CONSTRAINT [PK_CustEntActStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntActTypes'
+ALTER TABLE [dbo].[CustEntActTypes]
+ADD CONSTRAINT [PK_CustEntActTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierActStatus'
+ALTER TABLE [dbo].[SupplierActStatus]
+ADD CONSTRAINT [PK_SupplierActStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntActivityTypes'
+ALTER TABLE [dbo].[CustEntActivityTypes]
+ADD CONSTRAINT [PK_CustEntActivityTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

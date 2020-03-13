@@ -7,7 +7,6 @@
 }
 <div class="row">
     <h3>Company Details</h3>
-
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
         @Html.ActionLink("Back to List", "Index")
@@ -81,7 +80,6 @@
             </p>
         </h5>
         @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
-
     </div>
 
     <div class="col-lg-6" style="margin-top:80px;">
@@ -109,6 +107,7 @@
     }
 </div>
 
+<!-- Address -->
 <div class="row">
     <h3>Address</h3>
     @Html.ActionLink("Add Address", "CreateAddress", "CustEntAddresses", new { companyId = Model.Id }, null)
@@ -154,6 +153,7 @@
     }
 </div>
 
+<!-- Contacts -->
 <div class="row">
 
     <h3>Contacts </h3>
@@ -364,17 +364,20 @@
                 <div class="form-group cform">
                     <b class="col-md-2"> Contact </b>
                     <div class="col-md-10">
-
                         @Html.DropDownList("ContactList", null, htmlAttributes: new { @class = "form-control", @id = "ac-custId" })
-
                     </div><p></p>
                 </div>
 
-                <div class="form-group cform">
+                <div class="form-group cform" id="ac-name-group">
                     <b class="col-md-2"> Name </b>
                     <div class="col-md-10">
                         <input id="ac-name" class="form-control" type="text" maxlength="80">
                     </div><p></p>
+                </div>
+                <div class="form-group cform"  id="ac-name-warning" hidden>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <span class="text-danger"> This field is required </span>
+                    </div>
                 </div>
 
                 <div class="form-group cform">
@@ -517,15 +520,8 @@
 </div><!-- /.modal -->
 
 <!-- End of Modal -->
-
-
 @{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "Documents", ViewBag.Documents } }); }
 @{ Html.RenderPartial("ClauseEdit", null ); }
-
-@*<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
-<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
-<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -535,23 +531,18 @@
 }
 <script src="~/Scripts/jquery-3.3.1.js"> </script>
 <script>
+    // On Page Ready
     $(document).ready(JobListVisibility());
 
-    //joblist 
+    // Joblist 
+    // Show / Hide Job Listing and Searching
     function JobListVisibility(){
         var cond = '@ViewBag.HaveJob';
-        console.log(cond);
-        if(cond == 'True'){
-            $('#jobList').show();
-        }else{
-            
-            $('#jobList').hide();
-        }
+        cond == 'True' ? $('#jobList').show() :  $('#jobList').hide();
     }
 
     //Add Company Contact
     function ajax_AddContact() {
-
         //build json object
         var data = {
             companyId : @Model.Id,
@@ -564,10 +555,6 @@
             social: $("#ac-social").val(),
             status: $("#ac-status").val()
         };
-
-        console.log("TEST: " + $("#ac-name").val());
-        console.log("Add Data: ");
-        console.log(data);
 
         var url = '/CustEntMains/AddContact';
 
@@ -587,4 +574,27 @@
             }
         });
     }
+
+    // Validate Add Contact
+    // Check if Name is not empty
+    function Check_AddContact(){
+        name =  $("#ac-name").val();
+
+        if( name == '' ){
+            $("#ac-name-group").addClass("has-warning has-feedback");
+            $("#ac-name-warning").show();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    // Arrow function test 
+    // First arrow function, yay
+    // Check input changes on Add Contact Name Field
+    $("#ac-name").on("input", () => {
+        $("#ac-name-group").removeClass("has-warning has-feedback");
+        $("#ac-name-warning").hide();
+    });
+
 </script>

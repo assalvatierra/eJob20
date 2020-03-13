@@ -300,6 +300,15 @@ values ('NEW (not yet defined)',' ',' ',' ');
 insert into SalesStatusCodes([SeqNo],[Name])
 values (1,'NEW'), (2,'ASSESMENT'), (3, 'PROPOSAL SENT'), (4, 'NEGOTIATION'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
 
+insert into CustEntActStatus([Status])
+values ('Open'), ('For Client Comment'), ('For Meeting'), ('Awarded'), ('Close');
+
+insert into CustEntActTypes([Type])
+values ('Others'), ('Indicated Price'), ('Bidding Only'), ('Firm Inquiry'), ('Buying Inquiry');
+
+insert into CustEntActivityTypes([Type])
+values ('Quotation'), ('Meeting'), ('Sales'), ('Undefined');
+
 insert into SalesActCodes([Name],[Desc],[SysCode],[iconPath],[DefaultActStatus])
 values 
 ('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
@@ -327,6 +336,9 @@ insert into SupplierTypes(Description) values
 insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId]) values('<< New Supplier >>','--',' ', '--','1','1','ACT',1);
 insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId]) values('AJ Davao Car Rental','Abel / 0995-085-0158',' ', 'AJDavao88@gmail.com','1','1','ACT',1);
 insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values ('Default','1','Item by supplier','Supplier','ACT');
+
+insert into SupplierActStatus([Status])
+values ('Open'), ('For Client Comment'), ('Awarded'), ('Close');
 
 insert into Services([Name],[Description],[Status]) 
 values

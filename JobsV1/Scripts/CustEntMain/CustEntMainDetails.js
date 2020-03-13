@@ -29,7 +29,7 @@ $(document).ready(function () {
     );
 });
 
-//ADDRESS EDIT - SET INPUT 
+//ADDRESS EDIT - set address details to the address modal edit fields
 function edit_setAddress(id, line1, line2, line3, line4, line5, isPrimary, isBilling) {
     $("#address-ID").val(id);
     $("#Address-1").val(line1);
@@ -44,7 +44,7 @@ function edit_setAddress(id, line1, line2, line3, line4, line5, isPrimary, isBil
     console.log("billing: " + isChecked(isBilling));
 }
 
-//ADDRESS EDIT - SET INPUT
+//CLAUSE EDIT - ste clause details to the clause modal edit fields
 function edit_setClause(id, title, stardate, enddate, desc1, desc2, desc3) {
     $("#Clause-ID").val(id);
     $("#Clause-Title").val(title);
@@ -55,6 +55,8 @@ function edit_setClause(id, title, stardate, enddate, desc1, desc2, desc3) {
     $("#Clause-Desc3").val(desc3);
 }
 
+// For isBilling and isPrimary checkboxes
+// return True || False
 function isChecked(input) {
     if (input == "onclick" || input == "on") {
         return true;
@@ -63,38 +65,44 @@ function isChecked(input) {
     }
 }
 
+//GET : check the name of the contact on Add Contact Modal
+//      when existing name is found, verify user,
+//      if not, proceed to add new user
 function checkDuplicate() {
     var custId = $("#ac-custId").val();
 
-    //New Customer
-    if(custId == 1){
+    if (Check_AddContact()) {
+    
+        ////New Customer
+        if(custId == 1){
 
-        //build json object
-        var data = {
-            custName : $('#ac-name').val()
-        };
+            //build json object
+            var data = {
+                custName : $('#ac-name').val()
+            };
 
-        console.log(data);
+            console.log(data);
 
-        var url = '/Customers/HaveNameDuplicate';
+            var url = '/Customers/HaveNameDuplicate';
 
-        //Post data from server using ajax call
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                // console.log("SUCCESS");
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                console.log(data);
-                PromptDupName(data)
-            }
-        });
-    }else{
-        ajax_AddContact();
+            //Post data from server using ajax call
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    // console.log("SUCCESS");
+                },
+                error: function (data) {
+                    // console.log("ERROR");
+                    console.log(data);
+                    PromptDupName(data)
+                }
+            });
+        }else{
+            ajax_AddContact();
+        }
     }
 }
 

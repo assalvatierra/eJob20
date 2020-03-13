@@ -122,6 +122,10 @@
     <EntitySet Name="CustNotifActivities" EntityType="JobDB.Store.CustNotifActivities" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustNotifRecipients" EntityType="JobDB.Store.CustNotifRecipients" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="NotifRecipients" EntityType="JobDB.Store.NotifRecipients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntActStatus" EntityType="JobDB.Store.CustEntActStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntActTypes" EntityType="JobDB.Store.CustEntActTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierActStatus" EntityType="JobDB.Store.SupplierActStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntActivityTypes" EntityType="JobDB.Store.CustEntActivityTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -1791,6 +1795,7 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="ActivityType" Type="nvarchar" Nullable="true" MaxLength="30" />
   </EntityType>
   <EntityType Name="CustEntDocuments">
     <Key>
@@ -1839,6 +1844,34 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="CustEntActStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="CustEntActTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SupplierActStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntActivityTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3849,6 +3882,10 @@
             <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
             <End Role="CustNotifActivity" EntitySet="CustNotifActivities" />
           </AssociationSet>
+          <EntitySet Name="CustEntActStatus" EntityType="JobDB.CustEntActStatus" />
+          <EntitySet Name="CustEntActTypes" EntityType="JobDB.CustEntActType" />
+          <EntitySet Name="SupplierActStatus" EntityType="JobDB.SupplierActStatus" />
+          <EntitySet Name="CustEntActivityTypes" EntityType="JobDB.CustEntActivityType" />
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -6607,6 +6644,7 @@
           <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntMain" />
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="ActivityType" Type="String" Nullable="true" MaxLength="30" />
         </EntityType>
         <EntityType Name="CustEntDocuments">
           <Key>
@@ -6749,6 +6787,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CustEntActStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="CustEntActType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplierActStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustEntActivityType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8060,6 +8126,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -8113,6 +8180,38 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActStatus)">
+        <MappingFragment StoreEntitySet="CustEntActStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActType)">
+        <MappingFragment StoreEntitySet="CustEntActTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierActStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierActStatus)">
+        <MappingFragment StoreEntitySet="SupplierActStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActivityTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActivityType)">
+        <MappingFragment StoreEntitySet="CustEntActivityTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -12,20 +12,9 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CustEntActivity
+    public partial class CustEntActStatus
     {
         public int Id { get; set; }
-        public System.DateTime Date { get; set; }
-        public string Assigned { get; set; }
-        public string ProjectName { get; set; }
-        public string SalesCode { get; set; }
-        public Nullable<decimal> Amount { get; set; }
         public string Status { get; set; }
-        public string Remarks { get; set; }
-        public int CustEntMainId { get; set; }
-        public string Type { get; set; }
-        public string ActivityType { get; set; }
-    
-        public virtual CustEntMain CustEntMain { get; set; }
     }
 }
