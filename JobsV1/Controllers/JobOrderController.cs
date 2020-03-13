@@ -159,7 +159,7 @@ namespace JobsV1.Controllers
         }
 
         // GET: JobOrder
-        public ActionResult IndexSimplified(int? sortid, int? serviceId, int? mainid, string search)
+        public ActionResult IndexSimplified(int? sortid, int? serviceId, int? mainid, string search, string page)
         {
 
             if (sortid != null)
@@ -191,11 +191,11 @@ namespace JobsV1.Controllers
 
             if (sortid == 1)
             {
-                return View(data.OrderBy(d => d.Main.JobDate));
+                return View(data.OrderBy(d => d.Main.JobDate).Take(10));
             }
             else
             {
-                return View(data.OrderByDescending(d => d.Main.JobDate));
+                return View(data.OrderByDescending(d => d.Main.JobDate).Take(10));
             }
         }
 

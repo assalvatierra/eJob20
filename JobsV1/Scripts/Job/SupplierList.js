@@ -363,3 +363,11 @@ function searchSupplier() {
             break;
     }
 }
+
+
+//On Enter, Search and reload Table
+$('#srch-field').on('keypress', function (e) {
+    if (e.which === 13) {
+        ajax_loadContent(); //Load Table
+    }
+});

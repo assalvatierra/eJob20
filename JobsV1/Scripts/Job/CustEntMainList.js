@@ -147,7 +147,7 @@ function LoadTable(data) {
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
 
-    console.log(temp);
+    //console.log(temp);
 
     //clear table contents except header
     $("#company-Table").find("tr:gt(0)").remove();
@@ -321,3 +321,9 @@ function parseStatus(status) {
     }
 }
 
+//On Enter, Search and reload Table
+$('#srch-field').on('keypress', function (e) {
+    if (e.which === 13) {
+        ajax_loadContent(); //Load Table
+    }
+});
