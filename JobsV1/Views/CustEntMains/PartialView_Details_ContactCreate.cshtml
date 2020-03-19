@@ -1,0 +1,83 @@
+﻿
+<!-- Add Contact Modal -->
+<div class="modal fade" id="comContactAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add New Contact</h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+
+                <div class="form-group cform hidden">
+                    <b class="col-md-2"> CompanyId </b>
+                    <div class="col-md-10">
+                        <input id="ac-companyId" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Contact </b>
+                    <div class="col-md-10">
+                        @Html.DropDownList("ContactList", null, htmlAttributes: new { @class = "form-control", @id = "ac-custId" })
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform" id="ac-name-group">
+                    <b class="col-md-2"> Name </b>
+                    <div class="col-md-10">
+                        <input id="ac-name" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+
+                <div class="form-group cform" id="ac-name-warning" hidden>
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <span class="text-danger"> This field is required </span>
+                    </div>
+                </div>
+
+                <div class="form-group cform">
+                    <b class="col-md-2"> Position </b>
+                    <div class="col-md-10">
+                        <input id="ac-position" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Email </b>
+                    <div class="col-md-10">
+                        <input id="ac-email" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Telephone </b>
+                    <div class="col-md-10">
+                        <input id="ac-tel" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Mobile </b>
+                    <div class="col-md-10">
+                        <input id="ac-mobile" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Social  Media </b>
+                    <div class="col-md-10">
+                        <input id="ac-social" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform hidden">
+                    <b class="col-md-2"> Status </b>
+                    <div class="col-md-10">
+                        <input id="ac-status" class="form-control" type="text" maxlength="80" value="ACT">
+                    </div><p></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="editDescBtn" onclick="checkDuplicate()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

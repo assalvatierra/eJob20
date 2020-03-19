@@ -368,7 +368,32 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
-        #region Delete 
+        #region Address 
+        [HttpPost]
+        public bool CreateAddress(int custEntMainId, string line1, string line2, string line3, string line4, string isBilling, string isPrimary )
+        {
+            if (custEntMainId != null)
+            {
+
+                CustEntAddress address = new CustEntAddress();
+                address.CustEntMainId = custEntMainId;
+                address.Line1 = line1;
+                address.Line2 = line2;
+                address.Line3 = line3;
+                address.Line4 = line4;
+                address.isBilling = isBilling == "true" ? true : false;
+                address.isPrimary = isPrimary == "true" ? true : false;
+
+                db.CustEntAddresses.Add(address);
+                db.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+
+        }
+
 
         public string EditAddress( int id, string line1, string line2, string line3, string line4, string line5,  bool isPrimary , bool isBilling)
         {

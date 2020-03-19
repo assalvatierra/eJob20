@@ -1,22 +1,14 @@
 ﻿//Show hide edit / delete of address
 $(document).ready(function () {
-    $("p.comp-address").hover(
-        function () { //on hover
-            //console.log("test hover");
-            $(this).children("span.comp-address-actions").show();
-        },
-        function () { //on leave
-            //console.log("test leave");
-            $(this).children("span.comp-address-actions").hide();
-        }
-    );
+    AddressInitial();
+    ClauseInitial();
 
     $("#status").text(parseStatusText('@Model.Status'));
 
 });
 
 //Show hide edit / delete of Clauses
-$(document).ready(function () {
+function ClauseInitial() {
     $("div.comp-clauses").hover(
         function () { //on hover
             //console.log("test hover");
@@ -27,7 +19,20 @@ $(document).ready(function () {
             $(this).children("span.comp-clauses-actions").hide();
         }
     );
-});
+}
+
+function AddressInitial() {
+    $("p.comp-address").hover(
+        function () { //on hover
+            //console.log("test hover");
+            $(this).children("span.comp-address-actions").show();
+        },
+        function () { //on leave
+            //console.log("test leave");
+            $(this).children("span.comp-address-actions").hide();
+        }
+    );
+}
 
 //ADDRESS EDIT - set address details to the address modal edit fields
 function edit_setAddress(id, line1, line2, line3, line4, line5, isPrimary, isBilling) {
@@ -127,6 +132,65 @@ function PromptDupName(data) {
 }
     
 
+//ADDRESS Create
+function intialCreateAddress(custEntMainId) {
+    if (custEntMainId != null) {
+        //Prepare Fields
+        $("#create-Address-1").val(""),
+        $("#create-Address-2").val(""),
+        $("#create-Address-3").val(""),
+        $("#create-Address-4").val(""),
+        $("#create-Address-5").val(""),
+
+        //initial data & show modal
+        $("#custEntMainId").val(custEntMainId);
+        $("#AddressCreate").modal("show");
+    }
+}
+
+function ajax_CreateAddress() {
+
+    //build json object
+    var data = {
+        custEntMainId: $("#custEntMainId").val(),
+        line1: $("#create-Address-1").val(),
+        line2: $("#create-Address-2").val(),
+        line3: $("#create-Address-3").val(),
+        line4: $("#create-Address-4").val(),
+        line5: $("#create-Address-5").val(),
+        isPrimary: isChecked($("#create-isPrimary:checked").val()),
+        isBilling: isChecked($("#create-isBilling:checked").val())
+    };
+
+    console.log(data);
+
+    var url = '/CustEntMains/CreateAddress';
+
+    //Post data from server using ajax call
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'text',
+        success: function (data) {
+            console.log("SUCCESS");
+            console.log(data);
+            if (data == "True") {
+                location.reload();
+            }
+        },
+        error: function (data) {
+            console.log("ERROR");
+            console.log(data);
+            if (data == "True") {
+                location.reload();
+            } else {
+                alert("Something went wrong while creaing new address for the Company. Please contact your administrator for assistance.");
+            }
+        }
+    });
+}
+
 //ADDRESS EDIT
 function ajax_EditAddress() {
 
@@ -144,7 +208,7 @@ function ajax_EditAddress() {
 
     console.log(data);
 
-    var url = '/CustEntMains/EditAddress';
+    var url = '/CustEntMains/CreateAddress';
 
     //Post data from server using ajax call
     $.ajax({
@@ -411,6 +475,7 @@ function PromptRemoveDocument(docDesc, Id){
     }
 }
 
+//DELETE 
 function RemoveDocument(Id){
    
     //build json object
@@ -435,3 +500,66 @@ function RemoveDocument(Id){
     });
 }
 
+
+function InitialAddContactModal(companyId) {
+    if (companyId != null) {
+        $("#ac-custId").val(companyId);
+        $("#comContactAdd").modal("show");
+    }
+}
+
+//Add Company Contact
+function ajax_AddContact() {
+    //build json object
+    var data = {
+        companyId: $("#ac-companyId").val(),
+        customerId: $("#ac-custId").val(),
+        name: $("#ac-name").val(),
+        position: $("#ac-position").val(),
+        email: $("#ac-email").val(),
+        tel: $("#ac-tel").val(),
+        mobile: $("#ac-mobile").val(),
+        social: $("#ac-social").val(),
+        status: $("#ac-status").val()
+    };
+
+    var url = '/CustEntMains/AddContact';
+
+    //Post data from server using ajax call
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            // console.log("SUCCESS");
+        },
+        error: function (data) {
+            // console.log("ERROR");
+            console.log(data);
+            location.reload();
+        }
+    });
+}
+
+// Validate Add Contact
+// Check if Name is not empty
+function Check_AddContact() {
+    name = $("#ac-name").val();
+
+    if (name == '') {
+        $("#ac-name-group").addClass("has-warning has-feedback");
+        $("#ac-name-warning").show();
+        return false;
+    } else {
+        return true;
+    }
+}
+
+// Arrow function test
+// First arrow function, yay
+// Check input changes on Add Contact Name Field
+$("#ac-name").on("input", () => {
+    $("#ac-name-group").removeClass("has-warning has-feedback");
+    $("#ac-name-warning").hide();
+});

@@ -25,7 +25,7 @@ namespace JobsV1.Models
         private ActionTrailClass trail = new ActionTrailClass();
         private DateClass dt = new DateClass();
 
-        //GET : return list of confirmed jobs
+        //GET : return list of ONGOING jobs
         public List<cJobOrder> getJobData(int sortid)
         {
             var confirmed = dbc.getJobConfirmedList(sortid).Select(s => s.Id);
@@ -219,7 +219,7 @@ namespace JobsV1.Models
             //return minDate;
         }
 
-        //GET the lastest date of the job based on the date today
+        //GET : lastest date of the job based on the date today
         public DateTime MinJobDate(int mainId)
         {
             //update jobdate

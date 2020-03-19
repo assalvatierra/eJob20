@@ -1,0 +1,67 @@
+﻿
+<!-- Add Address Edit Modal -->
+<div class="modal fade" id="AddressCreate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Create Address</h4>
+            </div>
+
+            <div class="modal-body row" id="modal2-content">
+                <div class="form-group cform">
+                    <b class="col-md-2"> Id </b>
+                    <div class="col-md-10">
+                        <input id="custEntMainId" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Line 1 </b>
+                    <div class="col-md-10">
+                        <input id="create-Address-1" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Line 2 </b>
+                    <div class="col-md-10">
+                        <input id="create-Address-2" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Line 3 </b>
+                    <div class="col-md-10">
+                        <input id="create-Address-3" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Line 4 </b>
+                    <div class="col-md-10">
+                        <input id="create-Address-4" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Line 5 </b>
+                    <div class="col-md-10">
+                        <input id="create-Address-5" class="form-control" type="text" maxlength="80">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Billing</b>
+                    <div class="col-md-10">
+                        <input id="create-isBilling" type="checkbox">
+                    </div><p></p>
+                </div>
+                <div class="form-group cform">
+                    <b class="col-md-2"> Is this Branch? </b>
+                    <div class="col-md-10">
+                        <input id="create-isPrimary" type="checkbox">
+                    </div><p></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="createDescBtn" onclick="ajax_CreateAddress()">Submit</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

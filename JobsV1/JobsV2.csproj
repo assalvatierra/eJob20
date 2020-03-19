@@ -2348,6 +2348,10 @@
     <Content Include="Views\JobOrder\Index.cshtml" />
     <Content Include="Views\JobOrder\PartialViewServiceListModal.cshtml" />
     <Content Include="Views\CustNotifs\RecipientEdit.cshtml" />
+    <Content Include="Views\CustEntMains\PartialView_Details_Categories.cshtml" />
+    <Content Include="Views\CustEntMains\PartialView_Details_AddressEdit.cshtml" />
+    <Content Include="Views\CustEntMains\PartialView_Details_AddressCreate.cshtml" />
+    <Content Include="Views\CustEntMains\PartialView_Details_ContactCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
