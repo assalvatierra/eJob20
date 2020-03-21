@@ -440,4 +440,30 @@ SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM C
                  FROM CustEntMains cem 
                  LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id 
                  LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) as com 
-                 WHERE Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                 WHERE Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')                 
+				 
+
+SELECT  jm.Id, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+FROM JobMains jm
+LEFT JOIN JobServices js ON jm.Id = js.JobMainId
+
+-- Job Order Revision Listing --
+SELECT * FROM (
+SELECT jm.Id, jm.JobDate, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+FROM JobMains jm
+LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+WHERE job.DtStart >= convert(datetime, GETDATE()) OR (job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
+AND job.JobStatusId < 4
+GROUP BY job.Id
+
+
+SELECT * FROM (
+SELECT jm.Id, jm.JobDate, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+FROM JobMains jm
+LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+WHERE job.DtStart >= convert(datetime, GETDATE()) OR (job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
+AND job.JobStatusId < 4
+ 

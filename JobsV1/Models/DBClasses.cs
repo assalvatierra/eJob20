@@ -583,7 +583,14 @@ namespace JobsV1.Models
             switch (sortid)
             {
                 case 1: //OnGoing
-                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -80, GETDATE());";
+                        // sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -80, GETDATE());";
+                    sql = @"SELECT DISTINCT job.Id FROM ( 
+                            SELECT jm.Id, jm.JobDate, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd, 
+                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId) 
+                            FROM JobMains jm 
+                            LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job 
+                            WHERE job.DtStart >= convert(datetime, GETDATE()) OR(job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE())) 
+                            AND job.JobStatusId < 4";
                     break;
                 case 2: //prev
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE()) ;";
@@ -639,8 +646,6 @@ namespace JobsV1.Models
             return joblist;
 
         }
-
-
 
         //For Job Income Reporting 
         //Get all previous CLOSED jobs

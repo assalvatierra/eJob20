@@ -161,7 +161,7 @@ namespace JobsV1.Controllers
         // GET: JobOrder
         public ActionResult IndexSimplified(int? sortid, int? serviceId, int? mainid, string search, string page)
         {
-
+            Session["FilterID"] = 1;
             if (sortid != null)
                 Session["FilterID"] = (int)sortid;
             else
@@ -172,30 +172,25 @@ namespace JobsV1.Controllers
                     sortid = 1;
             }
 
-            if (Session["FilterID"] == null)
-            {
-                Session["FilterID"] = 1;
-            }
-
             //get job main Id
-            var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
-            jobmainId = mainid != null ? (int)mainid : jobmainId;
-            ViewBag.mainId = jobmainId;
+            ViewBag.mainId = jo.GetJobMainId(serviceId, mainid);
 
-            var data = getJobData((int)sortid); // get job list data
+            // get job list data
+            var data = jo.getJobData((int)sortid); 
+
             //SEARCH
             if (search != null)
             {
-                data = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) || d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower())).ToList();
+                //data = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) || d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower())).ToList();
             }
 
             if (sortid == 1)
             {
-                return View(data.OrderBy(d => d.Main.JobDate).Take(10));
+                return View(data.OrderBy(d => d.JobDate));
             }
             else
             {
-                return View(data.OrderByDescending(d => d.Main.JobDate).Take(10));
+                return View(data.OrderByDescending(d => d.JobDate));
             }
         }
 
@@ -218,7 +213,6 @@ namespace JobsV1.Controllers
                 .Include(j => j.JobThru)
                 ;
 
-            List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
             var data = new List<cJobOrder>();
 
             DateTime today = new DateTime();
@@ -239,19 +233,12 @@ namespace JobsV1.Controllers
                     cJobService cjoTmp = new cJobService();
                     cjoTmp.Service = svc;
 
-                    var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
-
-                    cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
-                    cjoTmp.SvcActionsDone = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
-                    cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
                     cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
                     cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
                     joTmp.Main.AgreedAmt += svc.ActualAmt;
 
                     joTmp.Services.Add(cjoTmp);
                 }
-
-                joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
 
                 //get min job date
                 if (sortid == 1)
@@ -282,21 +269,16 @@ namespace JobsV1.Controllers
             {
                 case 1: //OnGoing
                     data = (List<cJobOrder>)data
-                        .Where(d => (d.Main.JobStatusId == JOBINQUIRY || d.Main.JobStatusId == JOBRESERVATION || d.Main.JobStatusId == JOBCONFIRMED)).ToList()
                        .Where(d => d.Main.JobDate.CompareTo(today.Date) >= 0).ToList();
 
                     break;
                 case 2: //prev
                     data = (List<cJobOrder>)data
-                        .Where(d => (d.Main.JobStatusId == JOBINQUIRY || d.Main.JobStatusId == JOBRESERVATION || d.Main.JobStatusId == JOBCONFIRMED)).ToList()
                         .Where(p => DateTime.Compare(p.Main.JobDate.Date, today.Date) < 0)
-
                         .ToList();
-
                     break;
                 case 3: //close
                     data = (List<cJobOrder>)data
-                        .Where(d => (d.Main.JobStatusId == JOBCLOSED || d.Main.JobStatusId == JOBCANCELLED)).ToList()
                         .Where(p => p.Main.JobDate.Date > today.Date.AddDays(-150)).ToList();
                     break;
 

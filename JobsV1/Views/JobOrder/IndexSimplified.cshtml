@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Controllers.cJobOrder>
+﻿@model IEnumerable<JobsV1.Models.cJobOrderListing>
 
 @{
     ViewBag.Title = "Work in Progress";
@@ -38,17 +38,17 @@
 
 @foreach (var item in Model) {
     <tr >
-        <td id="main@(item.Main.Id)">
+        <td id="main@(item.Id)">
             <div style="background-color:white;text-align:center;border:1px solid #e0e0e0;padding:15px 0px;border-radius:5px;">
-                <span style="color:blue; font: bold 14px arial, verdana;">@item.Main.JobDate.ToString("MMM-yyyy")</span>
-                <br /><span style="color:blue; font: bold 30px arial, verdana;">@item.Main.JobDate.ToString("dd")</span>
-                <span style="color:blue; font: bold 14px arial, verdana;">(@item.Main.JobDate.ToString("ddd"))</span>
+                <span style="color:blue; font: bold 14px arial, verdana;">@item.JobDate.ToString("MMM-yyyy")</span>
+                <br /><span style="color:blue; font: bold 30px arial, verdana;">@item.JobDate.ToString("dd")</span>
+                <span style="color:blue; font: bold 14px arial, verdana;">(@item.JobDate.ToString("ddd"))</span>
                 <br /><span style="color:red; font: normal 18px arial, verdana;">&nbsp;</span>
                 
-                @if (@item.Main.AgreedAmt != 0)
+                @if (@item.Amount != 0)
                 {
                     <span style="color:blue; font: bold 12px arial, verdana;">
-                        @string.Format("{0:N}", @item.Main.AgreedAmt)
+                        @string.Format("{0:N}", @item.Amount)
                     </span>
                     <br />
 
@@ -59,7 +59,8 @@
                     <span style="color:green; font: bold 10px arial, verdana;">
                         @string.Format("{0:N}", @item.Payment)
                     </span>
-                    if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
+                    <!--TODO: Check if paypal payment-->
+                    if (item.Payment == 5)
                     {
                         <br />
                         <span>
@@ -76,36 +77,32 @@
                 <div class="panel-heading">
                     <span style="color:darkgreen;font:bold 16px arial, verdana;">
 
-                        @if (item.Main.JobEntMains.FirstOrDefault() != null)
-                        {
-                            @item.Main.JobEntMains.FirstOrDefault().CustEntMain.Name
-                            <text>-</text>
-                        }
-
-                        @item.Main.Customer.Name
+                        @item.Company
+                           
+                        @item.Customer
                     </span>
-                    @if (item.Main.JobStatus.Status == "INQUIRY")
+                    @if (item.Status == 1)
                     {
                         <span class="pull-right label label-info">
-                            @item.Main.JobStatus.Status
+                            INQUIRY
                         </span>
                     }
-                    else if (item.Main.JobStatus.Status == "RESERVATION")
+                    else if (item.Status == 2)
                     {
                         <span class="pull-right label label-primary">
-                            @item.Main.JobStatus.Status
+                           RESERVATION
                         </span>
                     }
-                    else if (item.Main.JobStatus.Status == "CONFIRMED")
+                    else if (item.Status == 3)
                     {
                         <span class="pull-right label label-success">
-                            @item.Main.JobStatus.Status
+                           CONFIRMED
                         </span>
                     }
                     else
                     {
                         <span class="pull-right label label-default">
-                            @item.Main.JobStatus.Status
+                            NA
                         </span>
                     }
                 </div>
@@ -113,15 +110,15 @@
                 <div class="panel-body">
                     @*<b style="font:500 10px;color:darkblue;"> </b>*@
                     <div class="list-group">
-                        <a class="list-group-item cursor-hand" onclick="ShowJobServiceModal(@(item.Main.Id))"> @item.Main.Description </a>
+                        <a class="list-group-item cursor-hand" onclick="ShowJobServiceModal(@(item.Id))"> @item.Description </a>
                     </div>
 
                     <div class="btn-group" role="group" >
-                        <a href="/JobOrder/JobServices?JobMainId=@item.Main.Id" type="button" class="btn btn-default"> Job Details </a>
-                        <a href="/JobOrder/BookingDetails/@item.Main.Id" type="button" class="btn btn-default"> Booking </a>
-                        <a href="/JobOrder/BookingDetails/@item.Main.Id?iType=1" type="button" class="btn btn-default"> Invoice </a>
-                        <a href="#" class="btn btn-default" onclick="ShowPaymentModal(@(item.Main.Id))"> Payment </a>
-                        <a href="/JobOrder/TextConfirmation/@item.Main.Id" type="button" class="btn btn-default"> Text Confirmation </a>
+                        <a href="/JobOrder/JobServices?JobMainId=@item.Id" type="button" class="btn btn-default"> Job Details </a>
+                        <a href="/JobOrder/BookingDetails/@item.Id" type="button" class="btn btn-default"> Booking </a>
+                        <a href="/JobOrder/BookingDetails/@item.Id?iType=1" type="button" class="btn btn-default"> Invoice </a>
+                        <a href="#" class="btn btn-default" onclick="ShowPaymentModal(@(item.Id))"> Payment </a>
+                        <a href="/JobOrder/TextConfirmation/@item.Id" type="button" class="btn btn-default"> Text Confirmation </a>
                     </div>
                  </div>
             </div>

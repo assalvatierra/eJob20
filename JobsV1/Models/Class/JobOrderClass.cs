@@ -8,48 +8,54 @@ using System.Web;
 
 namespace JobsV1.Models
 {
+    public class cJobOrderListing
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public string Customer { get; set; }
+        public string Company { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Payment { get; set; }
+        public DateTime JobDate { get; set; }
+        public int Status { get; set; }
+        public DateTime DtStart { get; set; }
+        public DateTime DtEnd { get; set; }
+    }
 
+    public class cJobOrderServices
+    {
+        public int Id { get; set; }
+        public decimal QuotedAmt { get; set; }
+        public DateTime DtStart { get; set; }
+        public DateTime DtEnd { get; set; }
+    }
 
     public class JobOrderClass
     {
-        // Job Status
-        private int JOBINQUIRY = 1;
-        private int JOBRESERVATION = 2;
-        private int JOBCONFIRMED = 3;
-        private int JOBCLOSED = 4;
-        private int JOBCANCELLED = 5;
-        private int JOBTEMPLATE = 6;
-
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
         private ActionTrailClass trail = new ActionTrailClass();
         private DateClass dt = new DateClass();
 
         //GET : return list of ONGOING jobs
-        public List<cJobOrder> getJobData(int sortid)
+        public List<cJobOrderListing> getJobData(int sortid)
         {
-            var confirmed = dbc.getJobConfirmedList(sortid).Select(s => s.Id);
+            var confirmed = GetJobOrderListing(sortid);
+            var confirmedIds = confirmed.Select(s => s.Id);
+            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => confirmedIds.Contains(j.Id));
 
-            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => confirmed.Contains(j.Id))
-                .Include(j => j.Customer)
-                .Include(j => j.Branch)
-                .Include(j => j.JobStatus)
-                .Include(j => j.JobThru)
-                ;
+            var data = new List<cJobOrderListing>();
 
-            List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
-            var data = new List<cJobOrder>();
-
-            DateTime today = new DateTime();
-            today = dt.GetCurrentDate();
+            DateTime today = dt.GetCurrentDate();
 
             foreach (var main in jobMains)
             {
-                cJobOrder joTmp = new cJobOrder();
-                joTmp.Main = main;
-                joTmp.Services = new List<cJobService>();
-                joTmp.Main.AgreedAmt = 0;
+                cJobOrderListing joTmp = new cJobOrderListing();
+                joTmp.Amount = 0;
                 joTmp.Payment = 0;
+                joTmp.Status = main.JobStatusId;
+                joTmp.Description = main.Description;
+                joTmp.Customer = main.Customer.Name;
 
                 List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
                 foreach (var svc in joSvc)
@@ -57,35 +63,16 @@ namespace JobsV1.Models
                     cJobService cjoTmp = new cJobService();
                     cjoTmp.Service = svc;
 
-                    var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
-
-                    cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
-                    cjoTmp.SvcActionsDone = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
-                    cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
-                    cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
-                    cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
-                    joTmp.Main.AgreedAmt += svc.ActualAmt;
-
-                    joTmp.Services.Add(cjoTmp);
+                    joTmp.Amount += svc.ActualAmt == null ? 0 : (decimal)svc.ActualAmt;
+                    
                 }
-
-                joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
 
                 //get min job date
-                if (sortid == 1)
-                {
-                    joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
-                    //joTmp.Main.JobDate = MinJobDate(joTmp.Main.Id);
-                }
-                if (sortid == 2)
-                {
-                    //joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
-                    //joTmp.Main.JobDate = MinJobDate(joTmp.Main.Id);
-                }
-                else
-                {
-                    joTmp.Main.JobDate = MinJobDate(joTmp.Main.Id);
-                }
+                //var StartDate = (DateTime)db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).FirstOrDefault().DtStart;
+                //var EndDate = (DateTime)db.JobServices.Where(d => d.JobMainId == main.Id).OrderByDescending(s => s.DtEnd).FirstOrDefault().DtEnd;
+
+                // joTmp.JobDate = TempJobDate(main.Id);
+                joTmp.JobDate = TempJobDate(main.Id);
 
                 List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
                 foreach (var payment in jobPayment)
@@ -95,34 +82,7 @@ namespace JobsV1.Models
 
                 data.Add(joTmp);
             }
-
-            switch (sortid)
-            {
-                case 1: //OnGoing
-                    data = (List<cJobOrder>)data
-                        .Where(d => (d.Main.JobStatusId == JOBINQUIRY || d.Main.JobStatusId == JOBRESERVATION || d.Main.JobStatusId == JOBCONFIRMED)).ToList()
-                       .Where(d => d.Main.JobDate.CompareTo(today.Date) >= 0).ToList();
-
-                    break;
-                case 2: //prev
-                    data = (List<cJobOrder>)data
-                        .Where(d => (d.Main.JobStatusId == JOBINQUIRY || d.Main.JobStatusId == JOBRESERVATION || d.Main.JobStatusId == JOBCONFIRMED)).ToList()
-                        .Where(p => DateTime.Compare(p.Main.JobDate.Date, today.Date) < 0)
-
-                        .ToList();
-
-                    break;
-                case 3: //close
-                    data = (List<cJobOrder>)data
-                        .Where(d => (d.Main.JobStatusId == JOBCLOSED || d.Main.JobStatusId == JOBCANCELLED)).ToList()
-                        .Where(p => p.Main.JobDate.Date > today.Date.AddDays(-150)).ToList();
-                    break;
-
-                default:
-                    data = (List<cJobOrder>)data.ToList();
-                    break;
-            }
-
+            data = data.Where(s => DateTime.Compare(s.JobDate, today) >= 0).ToList();
             return data;
         }
 
@@ -219,55 +179,61 @@ namespace JobsV1.Models
             //return minDate;
         }
 
-        //GET : lastest date of the job based on the date today
-        public DateTime MinJobDate(int mainId)
+        //GET  : lastest date of the job based on the date today
+        //PARAM: starDate , endDate 
+        public DateTime MinJobDate(DateTime startDate, DateTime endDate)
         {
             //update jobdate
-            var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
 
-            DateTime minDate = main.JobDate;
-            DateTime maxDate = new DateTime(1, 1, 1);
+            DateTime finalDate = startDate;
+            DateTime minDate = startDate;
+            DateTime maxDate = endDate;
 
             DateTime today = new DateTime();
             today = dt.GetCurrentDate();
 
-            //loop though all jobservices in the jobmain
-            //to get the latest date
-            foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
+            //get min date
+
+            //today is equal to smallest start date
+            if (DateTime.Compare(today, minDate) == 0)
             {
+                finalDate = minDate;
+            }
 
-                var svcDtStart = (DateTime)svc.DtStart;
-                var svcDtEnd = (DateTime)svc.DtEnd;
-                //get min date
+            //today is equal to highest end date
+            if (DateTime.Compare(today, maxDate) == 0)
+            {
+                finalDate = maxDate;
+            }
 
-                // minDate >= (DateTime)svc.DtStart;
-                if (DateTime.Compare(minDate, svcDtStart.Date) >= 0)
+            //today is < smallest date
+            if (DateTime.Compare(today, minDate) < 0)
+            {
+                finalDate = minDate;
+            }
+
+            //today is greater than the smallest date
+            //job is currently on going, adjust date
+            if (DateTime.Compare(today, minDate) > 0)
+            {
+                if (DateTime.Compare(today, maxDate) < 0)
                 {
-                    minDate = svcDtStart.Date; //if minDate > Dtstart
+                    finalDate = today;
                 }
 
-                if (DateTime.Compare(today, svcDtStart.Date) >= 0 && DateTime.Compare(today, svcDtEnd.Date) <= 0)
+                if (DateTime.Compare(today, maxDate) > 0)
                 {
-                    minDate = today; //latest date is today or within the range of start date and end date
-                    //skip
-                }
-                else
-                {
-                    if (DateTime.Compare(today, svcDtStart.Date) < 0 && DateTime.Compare(today, minDate) > 0)
-                    {
-                        minDate = svcDtStart.Date; //if Today < Dtstart but today is greater than smallest date
-                    }
-                }
-
-                //get max date
-                if (DateTime.Compare(maxDate, svcDtEnd.Date) <= 0)
-                {
-                    maxDate = svcDtEnd.Date;
+                    finalDate = minDate;
                 }
             }
 
+            if (minDate == new DateTime(9999, 12, 30))
+            {
+                finalDate = minDate;
+            }
+
             //return main.JobDate;
-            return minDate;
+            return finalDate;
         }
 
         //GET jobcount 
@@ -302,6 +268,55 @@ order by x.jobid
             #endregion
             List<cjobCounter> jobcntr = db.Database.SqlQuery<cjobCounter>(sqlstr).Where(d => jobidlist.Contains(d.JobId)).ToList();
             return jobcntr;
+        }
+
+        //GET JobMainId
+        //Filter nullable serviceId and mainId
+        public int GetJobMainId(int? serviceId, int? maindId)
+        {
+            var jobMainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
+            jobMainId = maindId != null ? (int)maindId : jobMainId;
+            return jobMainId;
+        }
+
+
+        //Get Job Order Listing based on the sort
+        public List<cJobOrderListing> GetJobOrderListing(int sortid)
+        {
+            List<cJobOrderListing> joblist = new List<cJobOrderListing>();
+
+            string sql = "";
+
+            //filter jobs based on statusId and date
+            switch (sortid)
+            {
+                case 1: //OnGoing
+                    sql = @"SELECT DISTINCT job.Id FROM (
+                            SELECT jm.Id, jm.JobDate, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+                            FROM JobMains jm
+                            LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+                            WHERE job.DtStart >= convert(datetime, GETDATE()) OR(job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
+                            AND job.JobStatusId < 4";
+                    break;
+                case 2: //prev
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE()) ;";
+                    break;
+                case 3: //close
+                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());";
+                    break;
+                default:
+                    sql = "select * from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -30, GETDATE());";
+                    break;
+            }
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobOrderListing>(sql).ToList();
+
+            return joblist;
+
         }
 
     }
