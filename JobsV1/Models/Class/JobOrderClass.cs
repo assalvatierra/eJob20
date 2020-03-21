@@ -16,6 +16,7 @@ namespace JobsV1.Models
         public string Company { get; set; }
         public decimal Amount { get; set; }
         public decimal Payment { get; set; }
+        public decimal PaymentFromId { get; set; }
         public DateTime JobDate { get; set; }
         public int Status { get; set; }
         public DateTime DtStart { get; set; }
@@ -25,9 +26,16 @@ namespace JobsV1.Models
     public class cJobOrderServices
     {
         public int Id { get; set; }
-        public decimal QuotedAmt { get; set; }
+        public string Particulars { get; set; }
+        public string Supplier { get; set; }
+        public string SupplierItem { get; set; }
+        public decimal ActualAmt { get; set; }
         public DateTime DtStart { get; set; }
         public DateTime DtEnd { get; set; }
+        public List<cUnitList> cUnits { get; set; }
+        public string JobPickup { get; set; }
+        public string ServiceType { get; set; }
+        public string Remarks { get; set; }
     }
 
     public class JobOrderClass
@@ -40,49 +48,37 @@ namespace JobsV1.Models
         //GET : return list of ONGOING jobs
         public List<cJobOrderListing> getJobData(int sortid)
         {
-            var confirmed = GetJobOrderListing(sortid);
-            var confirmedIds = confirmed.Select(s => s.Id);
-            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => confirmedIds.Contains(j.Id));
-
             var data = new List<cJobOrderListing>();
-
             DateTime today = dt.GetCurrentDate();
+            var confirmed = GetJobOrderListing(sortid);
 
-            foreach (var main in jobMains)
+            foreach (var main in confirmed)
             {
-                cJobOrderListing joTmp = new cJobOrderListing();
+                cJobOrderListing joTmp = main;
                 joTmp.Amount = 0;
                 joTmp.Payment = 0;
-                joTmp.Status = main.JobStatusId;
-                joTmp.Description = main.Description;
-                joTmp.Customer = main.Customer.Name;
 
-                List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
-                foreach (var svc in joSvc)
+                //get total amount
+                var totalAmountList = db.JobServices.Where(d => d.JobMainId == main.Id).ToList().Select(s=>s.ActualAmt);
+                foreach (var amount in totalAmountList)
                 {
-                    cJobService cjoTmp = new cJobService();
-                    cjoTmp.Service = svc;
-
-                    joTmp.Amount += svc.ActualAmt == null ? 0 : (decimal)svc.ActualAmt;
-                    
+                    joTmp.Amount += amount != null ? (decimal)amount : decimal.Zero;
                 }
 
-                //get min job date
-                //var StartDate = (DateTime)db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).FirstOrDefault().DtStart;
-                //var EndDate = (DateTime)db.JobServices.Where(d => d.JobMainId == main.Id).OrderByDescending(s => s.DtEnd).FirstOrDefault().DtEnd;
-
-                // joTmp.JobDate = TempJobDate(main.Id);
-                joTmp.JobDate = TempJobDate(main.Id);
-
+                //get total payment done
                 List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
                 foreach (var payment in jobPayment)
                 {
                     joTmp.Payment += payment.PaymentAmt;
                 }
 
+                //get jobdate
+                // joTmp.JobDate = TempJobDate(main.Id);
+                joTmp.JobDate = MinJobDate(main.DtStart, main.DtEnd);
+
                 data.Add(joTmp);
             }
-            data = data.Where(s => DateTime.Compare(s.JobDate, today) >= 0).ToList();
+            data = data.Where(s => DateTime.Compare(s.JobDate, today) >= 0 && s.Status < 4).ToList();
             return data;
         }
 
@@ -279,7 +275,6 @@ order by x.jobid
             return jobMainId;
         }
 
-
         //Get Job Order Listing based on the sort
         public List<cJobOrderListing> GetJobOrderListing(int sortid)
         {
@@ -291,13 +286,14 @@ order by x.jobid
             switch (sortid)
             {
                 case 1: //OnGoing
-                    sql = @"SELECT DISTINCT job.Id FROM (
-                            SELECT jm.Id, jm.JobDate, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
-                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
-                            FROM JobMains jm
-                            LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
-                            WHERE job.DtStart >= convert(datetime, GETDATE()) OR(job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
-                            AND job.JobStatusId < 4";
+                    sql = @"SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), 
+	                                Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
+	                                FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+		                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+		                            WHERE job.DtStart >= convert(datetime, GETDATE()) 
+                                    OR (job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
+		                            AND job.JobStatusId < 4 GROUP BY job.Id ORDER BY DtStart";
                     break;
                 case 2: //prev
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE()) ;";

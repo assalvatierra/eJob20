@@ -3103,5 +3103,71 @@ order by x.jobid
             }
         }
         #endregion
+
+
+        #region ajax calls
+
+        [HttpGet]
+        public string GetJobServicesData(int id)
+        {
+            var servicesList = db.JobServices.Where(s => s.JobMainId == id).ToList();
+            List<cJobOrderServices> services = new List<cJobOrderServices>();
+
+            foreach (var svc in servicesList)
+            {
+                List<cUnitList> units = new List<cUnitList>();
+
+
+                var svcUnits = db.JobServiceItems.Where(s => s.JobServicesId == svc.Id);
+                foreach (var unit in svcUnits)
+                {
+                    units.Add(new cUnitList {
+                        Id = unit.Id,
+                        Unit = unit.InvItem.Description,
+                        Code = unit.InvItem.ItemCode,
+                        ViewInfo = unit.InvItem.ViewLabel
+                    });
+                }
+
+                services.Add(new cJobOrderServices
+                {
+                    Id = svc.Id,
+                    Particulars = svc.Particulars,
+                    DtStart = (DateTime)svc.DtStart,
+                    DtEnd = (DateTime)svc.DtEnd,
+                    Remarks = svc.Remarks,
+                    Supplier = svc.Supplier.Name,
+                    SupplierItem = svc.SupplierItem.Description,
+                    cUnits = units,
+                    ActualAmt = 1000,
+                    ServiceType = svc.Service.Name,
+                    JobPickup = GetJobServicePickup(svc.Id)
+
+                });
+            }
+
+            return JsonConvert.SerializeObject(services, Formatting.Indented);
+        }
+
+
+        public string GetJobServicePickup(int svcId)
+        {
+
+            var pickup = db.JobServicePickups.Where(s => s.JobServicesId == svcId) != null ? db.JobServicePickups.Where(s => s.JobServicesId == svcId).FirstOrDefault() : null;
+
+            string pickupInstructions = "";
+            if (pickup != null)
+            {
+                pickupInstructions = " [  <b>Time:</b> " + pickup.JsTime + " " + pickup.JsLocation + " ] &nbsp;" ;
+                pickupInstructions += " [ <b>Contact:</b> " + pickup.ClientContact + " / " + pickup.ClientName + " ] &nbsp;";
+                pickupInstructions += " [ <b>InCharge:</b> " + pickup.ProviderContact + " / " + pickup.ProviderName + " ] &nbsp;";
+            }
+
+            return pickupInstructions;
+
+        }
+        #endregion
+
+
     }
 }

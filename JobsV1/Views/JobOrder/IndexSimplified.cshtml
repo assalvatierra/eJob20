@@ -122,16 +122,14 @@
                     </div>
                  </div>
             </div>
-
         </td>
     </tr>
 }
 </table>
 
 <!-- Partial Views -->
-@{ Html.RenderPartial("PartialViewserviceListModal"); }
 
-
+@{ Html.RenderPartial("PartialViewJobServiceModal"); }
 
 <!-- Modal Payment -->
 <div class="modal fade" id="jobPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -163,7 +161,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-@Html.Partial("PartialViewJS")
+@*@Html.Partial("PartialViewJS")*@
 
 <p>
     @Html.ActionLink("Create New", "jobCreate", null, null)
@@ -180,7 +178,7 @@
     @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed-bot" })
 </p>
 
-<!-- Modal -->
+<!-- Payment Modal -->
 <div class="modal fade" id="Payment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -210,7 +208,6 @@
 {
     <script type="text/javascript">
         $(document).ready(function () {
-            initialize();
 
             var mainId = @(ViewBag.mainId);
             if(mainId != ''){
@@ -220,21 +217,29 @@
                 }, 500);
             }
 
+            //get url parameter
             const urlParams = new URLSearchParams(window.location.search);
             const myParam = urlParams.get('search');
             $("#src-field").val(myParam);
         });
 
-        
+        /*
+         * Show Loading Overlay
+         */ 
         function LoadOverlay(){
             $("#overlay2").css("display","flex");
         }
-
         
+        /*
+         * Hide Loading Overlay
+         */ 
         function disableLoadOverlay(){
             $("#overlay2").css("display","none");
         }
-
+        
+        /*
+         * Update Active Filter color
+         */ 
         switch(@(Session["FilterID"] != null? (int)Session["FilterID"]: 1 )){
             case 1:
                 $("#ongoing").css("color","black")
@@ -264,7 +269,9 @@
             iDiv.appendChild(innerDiv);
         }
 
-
+        /*
+         * Send Invoice thru Email to the Customer
+         */ 
         function ajaxSendMail(jobid) {
             var data = {
                 jobId: jobid,
@@ -288,7 +295,6 @@
                     disableLoadOverlay();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-
                     alert(jqXHR.responseText);
                     disableLoadOverlay();
                 }
@@ -314,42 +320,89 @@
         }
 
         /**
-        * Payment_Ajax
-        * Get Payments transactions of the job
-        * using the jobId 
+        * Get JobServices of the job
+        * with jobId
         */
         function GetJobServiceData(jobId){
             var data = {
-                jobId: jobId,
+                id: jobId,
             }
 
             var serviceURL = '/JobOrder/GetJobServicesData';
 
-
-            //send email using ajax
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: serviceURL,
-                data: JSON.stringify(data),
+                data: data,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(data){
                     console.log('success');
-                    console.log(data);
-                    jobPayments(data,jobId)
-                    //disableLoadOverlay();
+                    DisplayJobServiceData(data);
+                    //jobPayments(data,jobId)
                 },
-                error: function(jqXHR) {
-
+                error: function(data) {
+                    console.log(data);
                     //alert(jqXHR.responseText);
-                    //disableLoadOverlay();
                 }
             });
         }
 
+        function DisplayJobServiceData(data) { 
+            
+            $("#svc-content").empty();
+            //parse data response to json object
+            var temp = data;
+            console.log(data);
+            //populate table content
+            for (var svc = 0; svc < temp.length; svc++) {
+                let DtStart = moment(temp[svc]["DtStart"]).format("MMM DD YYYY");
+                let DtEnd = moment(temp[svc]["DtEnd"]).format("MMM DD YYYY");
+                let Particulars = temp[svc]["Particulars"];
+                let SupplierItem = temp[svc]["SupplierItem"];
+                let ServiceType = temp[svc]["ServiceType"];
+                let JobPickup = temp[svc]["JobPickup"];
+
+                var AssignUnits = temp[svc]["cUnits"];
+                 
+                content =  '<div class="panel panel-default ">';
+                content += ' <div class="panel-heading">';
+                content += '   <div class="panel-title">';
+                content += '   <b> '+ Particulars +'</b>';
+                content += '   <p style="font-size: 8pt;margin-bottom:1px;">';
+                content += '   <span >'+ DtStart +'</span> - ';
+                content += '   <span >'+ DtEnd +'</span> - ';
+                content += '   <b id="svc-Type"> ' + ServiceType + ' </b>';
+                content += '   [ ' + SupplierItem + ' ]'
+                content += '   </p>';
+                content += '   </div>';
+                content += ' </div>';
+
+                content += ' <div class="panel-body">';
+                content += '  <p> Assigned Items </p>';
+                content += ' <div class="well">';
+
+                for (var item=0; item < AssignUnits.length; item++ ) {
+                    var unit = AssignUnits[item]["Unit"];
+                    var code = AssignUnits[item]["Code"];
+                    content += '   <span > (' + code + ') '+ unit +'</span> <br>';
+                }
+
+                content += ' </div>';
+                content += ' <p style="font-size: 8pt;"> '+ JobPickup  +' </p>';
+                content += ' </div>';
+
+                content += ' </div>';
+                content += '</div>';
+                
+                $(content).appendTo("#svc-content");
+
+            }
+        }
+
         
         /**
-        * GET: JobServices Data
+        * GET: Payments Data
         * Get Payments transactions of the job
         * using the jobId 
         */
@@ -360,8 +413,6 @@
 
             var serviceURL = '/JobOrder/GetPaymentHistory';
 
-
-            //send email using ajax
             $.ajax({
                 type: "POST",
                 url: serviceURL,
@@ -382,9 +433,9 @@
             });
         }
 
-        
-        
-
+        /*
+         * Update JobPayment modal for each jobService
+         */ 
         function jobPayments(data,jobId){
 
             if(data["length"] != 0){
@@ -423,7 +474,10 @@
              //<a href="Url.Action("PaymentCreatePG", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Personal Guarentee" }, null)" class="list-group-item"> Personal Guarantee</a>
              $(contentAction).appendTo("#paymentActions");
         }
-        
+
+        /*
+         * Search using jobId or jobDescription
+         */ 
         function ajaxSearch() {
             var data = {
                 search: $("#src-field").val()

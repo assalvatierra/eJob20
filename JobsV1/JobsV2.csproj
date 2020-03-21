@@ -2346,7 +2346,7 @@
     <Content Include="Views\CustNotifs\CreateNotif.cshtml" />
     <Content Include="Views\CustEntMains\ClauseEdit.cshtml" />
     <Content Include="Views\JobOrder\Index.cshtml" />
-    <Content Include="Views\JobOrder\PartialViewServiceListModal.cshtml" />
+    <Content Include="Views\JobOrder\PartialViewJobServiceModal.cshtml" />
     <Content Include="Views\CustNotifs\RecipientEdit.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Details_Categories.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Details_AddressEdit.cshtml" />

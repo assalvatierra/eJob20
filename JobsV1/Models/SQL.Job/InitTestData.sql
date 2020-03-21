@@ -459,11 +459,13 @@ AND job.JobStatusId < 4
 GROUP BY job.Id
 
 
-SELECT * FROM (
-SELECT jm.Id, jm.JobDate, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
-Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
-FROM JobMains jm
-LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
-WHERE job.DtStart >= convert(datetime, GETDATE()) OR (job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
-AND job.JobStatusId < 4
- 
+SELECT  Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd), 
+	    Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
+	    FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
+		Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		FROM JobMains jm
+		LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+		WHERE job.DtStart >= convert(datetime, GETDATE()) OR (job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
+		AND job.JobStatusId < 4
+		GROUP BY job.Id ORDER BY DtStart
+	
