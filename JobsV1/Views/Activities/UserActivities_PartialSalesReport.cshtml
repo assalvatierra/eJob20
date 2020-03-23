@@ -1,0 +1,51 @@
+﻿@model JobsV1.Models.Class.cUserSalesReport
+
+
+<h4>Activity Sales Summary</h4>
+
+<p id="nav nav-group">
+    <span>Show: </span>
+    <a href="#"> Weekly </a> |
+    <a href="#"> Monthly </a> |
+    <a href="#"> Yearly </a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Summary
+        </th>
+        <th>
+            Total Sales
+        </th>
+        <th>
+            Total Quotation 
+        </th>
+        <th>
+            Total Procurement
+        </th>
+        <th>
+            Total Job Order
+        </th>
+    </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.User)
+            </td>
+            <td>
+                @Model.TotalSales.ToString("N0")
+            </td>
+            <td>
+                @Model.TotalQuotation.ToString("N0")
+            </td>
+            <td>
+                @Model.TotalProcurement.ToString("N0")
+            </td>
+            <td>
+                @Model.TotaalJobOrder.ToString("N0")
+            </td>
+        </tr>
+    
+
+</table>

@@ -793,6 +793,24 @@ namespace JobsV1.Models
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
+
+        public string UserRemoveEmail(string input)
+        {
+            try
+            {
+                char ch = '@';
+                int idx = input.IndexOf(ch);
+                return input.Substring(0, idx);
+
+            }
+            catch (Exception ex)
+            {
+                return input;
+            }
+
+        }
+
+
         //------ Trip Listing ----- //
         #region TripListing
         public List<TripListing> GetTripList(int? DateRange, string srch)

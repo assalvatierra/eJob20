@@ -307,7 +307,7 @@ insert into CustEntActTypes([Type])
 values ('Others'), ('Indicated Price'), ('Bidding Only'), ('Firm Inquiry'), ('Buying Inquiry');
 
 insert into CustEntActivityTypes([Type])
-values ('Quotation'), ('Meeting'), ('Sales'), ('Undefined');
+values ('Quotation'), ('Meeting'), ('Sales'), ('Procurement'), ('Calls/Email'), ('Others');
 
 insert into SalesActCodes([Name],[Desc],[SysCode],[iconPath],[DefaultActStatus])
 values 
@@ -551,6 +551,7 @@ values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test Us
 insert into CustCats(CustomerId, CustCategoryId) 
 values(3,2),(3,1);
 
+--- CustEntMains ----
 insert into CustEntMains(Name, Address, Contact1, Contact2, iconPath,AssignedTo) 
 values	('Acer Phils Inc.','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com'),
 		('Hp Enterprise','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com'),
@@ -568,6 +569,18 @@ update CustCategories set iconPath = 'Images/Customers/Category/star-filled-40.p
 update CustCategories set iconPath = 'Images/Customers/Category/Active-30.png' where Id = 2; 
 update CustCategories set iconPath = 'Images/Customers/Category//suspended-64.png' where Id = 3; 
 update CustCategories set iconPath = 'Images/Customers/Category/cancel-40.png' where Id = 4;  
+
+--- CustEntMains : Activities ---
+insert into CustEntActivities (Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type, ActivityType)
+values	('03-05-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Firm Inquiry', 'Quotation'),
+		('03-08-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Indicated Price', 'Quotation'),
+		('03-10-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 0, 'Open', 'N/A', 2, 'Buying Inquiry', 'Meeting'),
+		('03-15-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 230000, 'Close', 'N/A', 2, 'Buying Inquiry', 'Sales'),
+
+		('03-07-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 0, 'Open', 'N/A', 3, 'Bidding Only', 'Meeting'),
+		('03-12-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 3, 'Buying Inquiry', 'Sales'),
+
+		('03-18-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 4, 'Buying Inquiry', 'Sales');
 
 
 

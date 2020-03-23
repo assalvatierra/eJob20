@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace JobsV1.Models.Class
 {
+    #region Helper Class
     public class cUserPerformance {
         public int Id { get; set; }
         public string UserName { get; set; }
@@ -14,11 +14,52 @@ namespace JobsV1.Models.Class
         public decimal Amount { get; set; }
     }
 
+    public class cUserPerformanceReport
+    {
+        public string User { get; set; }
+        public int Sales { get; set; }
+        public int Quotation { get; set; }
+        public int Meeting { get; set; }
+        public int Procurement { get; set; }
+        public int CallsAndEmail { get; set; }
+    }
+
+    public class cUserSalesReport
+    {
+        public string User { get; set; }
+        public decimal TotalSales { get; set; }
+        public decimal TotalQuotation { get; set; }
+        public decimal TotalProcurement { get; set; }
+        public decimal TotaalJobOrder { get; set; }
+    }
+    public class cUserActivity : CustEntActivity
+    {
+        public string Company { get; set; }
+
+        //remove @email from user for display
+        public string UserRemoveEmail(string input)
+        {
+            try
+            {
+                char ch = '@';
+                int idx = input.IndexOf(ch);
+                return input.Substring(0, idx);
+            }
+            catch (Exception ex)
+            {
+                return input;
+            }
+
+        }
+    }
+
+    #endregion
     public class ActivityClass
     {
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
+
 
         public List<CustEntActivity> GetCompanyActivities(){
 
@@ -114,6 +155,86 @@ namespace JobsV1.Models.Class
         }
 
 
-        #endregion 
+        #endregion
+
+
+        #region UserActivities
+
+        //GET : get user activities by the user 
+        public List<cUserActivity> GetUserActivities(string user, string sDate, string eDate)
+        {
+
+            List<cUserActivity> activity = new List<cUserActivity>();
+            string dateQuery = "";
+            if (sDate != null && eDate != null)
+            {
+                dateQuery = " AND (job.Date >= convert('" + sDate + "', GETDATE()) AND job.Date <= convert('" + eDate + "', GETDATE()))  ";
+            }
+
+            //sql query with comma separated item list
+            string sql =
+               @" SELECT *, Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEntMainId )  
+                FROM CustEntActivities act WHERE " +
+                "Assigned = '" + user + "' "+ dateQuery + " ORDER BY Date DESC;";
+
+            activity = db.Database.SqlQuery<cUserActivity>(sql).ToList();
+
+            return activity;
+        }
+
+        //GET : return user performance report based on the count of each Activity Type
+        public cUserPerformanceReport GetUserPerformance(List<cUserActivity> activities, string user)
+        {
+            cUserPerformanceReport performance = new cUserPerformanceReport();
+
+            //get counts of each activity
+            performance.User = dbc.UserRemoveEmail(user);
+            performance.Sales = activities.Where(a => a.ActivityType == "Sales").Count();
+            performance.Meeting = activities.Where(a => a.ActivityType == "Meeting").Count();
+            performance.Quotation = activities.Where(a => a.ActivityType == "Quotation").Count();
+            performance.Procurement = activities.Where(a => a.ActivityType == "Procurement").Count();
+            performance.CallsAndEmail = activities.Where(a => a.ActivityType == "Calls/Email").Count();
+
+
+            return performance;
+        }
+
+        //GET : return user performance report based on the total amount of each Activity Type
+        public cUserSalesReport GetUserSales(List<cUserActivity> activities, string user)
+        {
+            cUserSalesReport sales = new cUserSalesReport();
+            sales.TotalSales = 0;
+            sales.TotalQuotation = 0;
+            sales.TotalProcurement = 0;
+            sales.TotaalJobOrder = 0;
+            //get total of each Activity Type
+            foreach (var act in activities)
+            {
+                decimal tempAmt = act.Amount != null ? (decimal)act.Amount : 0;
+                switch (act.ActivityType)
+                {
+                    case "Sales":
+                        sales.TotalSales += tempAmt;
+                        break;
+                    case "Quotation":
+                        sales.TotalQuotation += tempAmt;
+                        break;
+                    case "Procurement":
+                        sales.TotalProcurement += tempAmt;
+                        break;
+                    case "Job Order":
+                        sales.TotaalJobOrder += tempAmt;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            sales.User = dbc.UserRemoveEmail(user);
+
+
+            return sales;
+        }
+        #endregion
     }
 }

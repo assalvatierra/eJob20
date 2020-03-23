@@ -2352,6 +2352,9 @@
     <Content Include="Views\CustEntMains\PartialView_Details_AddressEdit.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Details_AddressCreate.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Details_ContactCreate.cshtml" />
+    <Content Include="Views\Activities\UserActivities.cshtml" />
+    <Content Include="Views\Activities\UserActivities_PartialTypeReport.cshtml" />
+    <Content Include="Views\Activities\UserActivities_PartialSalesReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

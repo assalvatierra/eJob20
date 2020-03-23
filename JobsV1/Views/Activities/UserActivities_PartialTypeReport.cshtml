@@ -1,0 +1,55 @@
+﻿@model JobsV1.Models.Class.cUserPerformanceReport
+
+<h4>Activity Type Summary</h4>
+
+<p id="nav nav-group">
+    <span>Show: </span>
+    <a href="#"> Weekly </a> |
+    <a href="#"> Monthly </a> |
+    <a href="#"> Yearly </a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Summary
+        </th>
+        <th>
+            Job Order / Sales
+        </th>
+        <th>
+           Quotation 
+        </th>
+        <th>
+           Meeting
+        </th>
+        <th>
+           Procurement
+        </th>
+        <th>
+           Calls/Email
+        </th>
+    </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.User)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Sales)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Quotation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Meeting)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Procurement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.CallsAndEmail)
+            </td>
+        </tr>
+    
+
+</table>

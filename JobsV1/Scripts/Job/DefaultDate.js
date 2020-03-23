@@ -31,8 +31,8 @@ function InitDatePicker()
     }
     );
 
-
     //$('input[name="DtStart"]').val(ddd1.substr(0, ddd1.indexOf(" ")));
+
     //Date 2
     var ddd2 = $('input[name="DtEnd"]').val();
 
@@ -53,7 +53,8 @@ function InitDatePicker()
     ); 
 
 
-    //$('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ")));
+   // $('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ")));
+
 
 }
 

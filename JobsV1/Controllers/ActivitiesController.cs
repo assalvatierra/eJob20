@@ -10,6 +10,7 @@ using System.Net;
 
 namespace JobsV1.Controllers
 {
+
     public class ActivitiesController : Controller
     {
         private ActivityClass ac = new ActivityClass();
@@ -244,5 +245,26 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
+        #region User Activitiy
+
+        public ActionResult UserActivities(string user, string sDate, string eDate)
+        {
+            if (user != null)
+            {
+                var custAct = ac.GetUserActivities(user, sDate, eDate);
+
+                ViewBag.User = dbc.UserRemoveEmail(user);
+                ViewBag.PerfSummary = ac.GetUserPerformance(custAct, user);
+                ViewBag.SalesSummary = ac.GetUserSales(custAct, user);
+
+                return View(custAct);
+            }
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+
     }
+
 }
