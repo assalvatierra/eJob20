@@ -28,8 +28,10 @@
         @foreach(var item in Model)
         {
         <tr>
-            <td>
-                @item.UserName
+            <td >
+                <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites" >
+                    @item.UserName
+                </a>
             </td>
             <td>
                 @item.Quotation
@@ -56,3 +58,8 @@
 <script src="~/Scripts/Activities/Performance.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
 <script src="~/Scripts/sort-table.min.js"></script>
+<script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

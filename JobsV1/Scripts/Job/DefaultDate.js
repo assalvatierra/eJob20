@@ -52,6 +52,24 @@ function InitDatePicker()
     }
     ); 
 
+    //Date 2
+    var ddd2 = $('input[name="Date"]').val();
+
+    $('input[name="Date"]').daterangepicker(
+        {
+            timePicker: false,
+            timePickerIncrement: 1,
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'MM/DD/YYYY'
+            }
+        },
+        function (start, end, label) {
+            // alert(start.format('YYYY-MM-DD h:mm A'));
+
+        }
+    ); 
 
    // $('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ")));
 

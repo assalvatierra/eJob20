@@ -469,3 +469,7 @@ SELECT  Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd),
 		AND job.JobStatusId < 4
 		GROUP BY job.Id ORDER BY DtStart
 	
+SELECT *, Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEntMainId )  
+      FROM CustEntActivities act WHERE
+      Assigned = 'jahdielvillosa@gmail.com' AND (act.Date >= convert(datetime, '03/01/2020') AND act.Date <= convert(datetime, '03/30/2020'))
+	  ORDER BY Date DESC;

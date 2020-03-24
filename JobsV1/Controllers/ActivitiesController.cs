@@ -7,6 +7,7 @@ using JobsV1.Models.Class;
 using JobsV1.Models;
 using System.Data.Entity;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
 {
@@ -248,23 +249,110 @@ namespace JobsV1.Controllers
 
         #region User Activitiy
 
+        //Get User Activities within a specific date range
         public ActionResult UserActivities(string user, string sDate, string eDate)
         {
-            if (user != null)
+            if (!String.IsNullOrEmpty(user))
             {
                 var custAct = ac.GetUserActivities(user, sDate, eDate);
 
-                ViewBag.User = dbc.UserRemoveEmail(user);
+                ViewBag.User = user;
                 ViewBag.PerfSummary = ac.GetUserPerformance(custAct, user);
                 ViewBag.SalesSummary = ac.GetUserSales(custAct, user);
+
+                //For Create Activity View
+                Partial_ActivityCreate();
+
 
                 return View(custAct);
             }
 
             return RedirectToAction("Index");
         }
-        #endregion
 
+        // GET : User Activity Type report from date range
+        [HttpGet]
+        public string GetUserTypeSummary(string user, string sDate, string eDate)
+        {
+            if (!String.IsNullOrEmpty(user))
+            {
+                //get 7 days from today
+                var today = dt.GetCurrentDate();
+
+                var custAct = ac.GetUserActivities(user, sDate, eDate);
+                var userPerf = ac.GetUserPerformance(custAct, user);
+
+                //convert list to json object
+                return JsonConvert.SerializeObject(userPerf, Formatting.Indented);
+            }
+
+            return "Error";
+        }
+
+        // GET : User sales report from date range
+        [HttpGet]
+        public string GetUserSalesSummary(string user, string sDate, string eDate)
+        {
+            if (!String.IsNullOrEmpty(user))
+            {
+                //get 7 days from today
+                var today = dt.GetCurrentDate();
+
+                var custAct = ac.GetUserActivities(user, sDate, eDate);
+                var userPerf = ac.GetUserSales(custAct, user);
+
+                //convert list to json object
+                return JsonConvert.SerializeObject(userPerf, Formatting.Indented);
+            }
+
+            return "Error";
+        }
+
+        public void Partial_ActivityCreate()
+        {
+            ViewBag.Assigned = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name");
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status");
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type");
+
+            CustEntActivity activity = new CustEntActivity();
+            activity.Amount = 0;
+            activity.Date = dt.GetCurrentDateTime();
+            ViewBag.CustEntActivity = activity;
+        }
+
+        [HttpPost]
+        public string CreateActivity( string actDate, string Assigned, string ProjectName, string SalesCode, string Amount, string Status, string Remarks, string CustEntMainId, string Type, string ActivityType )
+        {
+            try
+            {
+                //create activity
+                CustEntActivity act = new CustEntActivity();
+                act.Date = DateTime.Parse(actDate);
+                act.Assigned = Assigned;
+                act.ProjectName = ProjectName;
+                act.SalesCode = SalesCode;
+                act.Amount = Decimal.Parse(Amount);
+                act.Status = Status;
+                act.Remarks = Remarks;
+                act.CustEntMainId = int.Parse(CustEntMainId);
+                act.Type = Type;
+                act.ActivityType = ActivityType;
+
+                db.CustEntActivities.Add(act);
+                db.SaveChanges();
+
+                return "Done";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+
+        }
+        #endregion
     }
 
 }

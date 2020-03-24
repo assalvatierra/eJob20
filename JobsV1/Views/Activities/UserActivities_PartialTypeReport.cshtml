@@ -2,14 +2,16 @@
 
 <h4>Activity Type Summary</h4>
 
-<p id="nav nav-group">
+<p id="Act-Type-Filters">
     <span>Show: </span>
-    <a href="#"> Weekly </a> |
-    <a href="#"> Monthly </a> |
-    <a href="#"> Yearly </a>
+    <a class="cursor-hand" onclick="FilterTypeSummary('Weekly')" id="Act-Type-Filter-Weekly"> Weekly </a> |
+    <a class="cursor-hand" onclick="FilterTypeSummary('Monthly')" id="Act-Type-Filter-Monthly"> Monthly </a> |
+    <a class="cursor-hand" onclick="FilterTypeSummary('Yearly')" id="Act-Type-Filter-Yearly"> Yearly </a>
+    <span id="Act-Type-Filter-Msg" class="text-muted pull-right" hidden>
+        Showing Weekly
+    </span>
 </p>
-
-<table class="table">
+<table class="table" id="TypeSummaryTable">
     <tr>
         <th>
             Summary
@@ -18,18 +20,28 @@
             Job Order / Sales
         </th>
         <th>
-           Quotation 
+            Quotation
         </th>
         <th>
-           Meeting
+            Meeting
         </th>
         <th>
-           Procurement
+            Procurement
         </th>
         <th>
-           Calls/Email
+            Calls/Email
         </th>
     </tr>
+    @if (Model.Sales == 0 && Model.Quotation == 0 && Model.Meeting == 0 && Model.Procurement == 0 && Model.CallsAndEmail == 0)
+    {
+        <tr>
+            <td colspan="6">
+                <p class="text-center"> No Results Found</p>
+            </td>
+        </tr>
+    }
+    else
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => Model.User)
@@ -50,6 +62,5 @@
                 @Html.DisplayFor(modelItem => Model.CallsAndEmail)
             </td>
         </tr>
-    
-
+    }
 </table>

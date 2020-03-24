@@ -29,10 +29,9 @@
     <div class="panel-body">
 
         <h4>Company Activities</h4>
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-        <table class="table">
+        <a class="cursor-hand" onclick="CreateActivity()" > Create
+        </a>
+        <table class="table" id="Act-Main-Table">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Date)
@@ -68,7 +67,7 @@
             </tr>
 
             @foreach (var item in Model)
-            {
+{
                 <tr>
                     <td>
                         @DateTime.Parse(item.Date.ToString()).ToString("MMM-dd yyyy")
@@ -105,7 +104,7 @@
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                     </td>
                 </tr>
-            }
+}
         </table>
     </div>
 </div>
@@ -122,16 +121,233 @@
     </div>
 </div>
 
+@{Html.RenderPartial("UserActivities_ActivityCreate", (JobsV1.Models.CustEntActivity)ViewBag.custEntActivity);}
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/Job/DefaultDate.js"></script>
     <script type="text/javascript">
+        $(document).ready(Initialize());
+
+        function Initialize() {
+            setDateDefault();
+
+            console.log("count: " + $('#Act-Main-Table tr').length);
+            //check table row count
+            if ($('#Act-Main-Table tr').length == 1) {
+
+                content = "<tr>";
+                content += "<td colspan=10> <p class='text-center'> No Results Found </p> </td>";
+                content += "</tr>";
+
+                $(content).appendTo("#Act-Main-Table");
+            }
+
+        }
+
+        //Default date
+        function setDateDefault() {
+
+            //Get URL Parameters
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var sDate = urlParams.get('sDate');
+            var eDate = urlParams.get('eDate');
+            var user  = '@ViewBag.User';
+
+            //update dates input fields from url parameters
+            $('input[name="DtStart"]').val(sDate);
+            $('input[name="DtEnd"]').val(eDate);
+            ShowSalesReportMsg(sDate, eDate, " ");
+            ShowTypeReportMsg(sDate, eDate, " ");
+            //console.log(sDate == null);
+
+            //when url dates are empty, assign dates 1 week as default
+            if (sDate == null || eDate == null) {
+                var today = moment();
+                let pastWeek = moment().add(-7, 'days');
+
+                //convert to string
+                var sDate = pastWeek.format("MM/DD/YYYY");
+                var eDate = today.format("MM/DD/YYYY");
+
+                window.location.href = "UserActivities?user="+ user +"&sDate=" + sDate + "&eDate=" + eDate;
+            }
+        }
+
         function Search() {
             var sDate = $('input[name="DtStart"]').val();
             var eDate = $('input[name="DtEnd"]').val();
-            var user  = '@ViewBag.User'; 
-            console.log("sDate : " + sDate);
+            var user  = '@ViewBag.User';
+            console.log("sDate : " + sDate + " - edate: " + eDate  );
             window.location.href = "UserActivities?user="+ user +"&sDate=" + sDate + "&eDate="+eDate;
         }
+
+
+        /**
+         *  Activity Type Summary
+         **/
+        function FilterTypeSummary( type ) {
+            var user = '@ViewBag.User';
+            var sDate = moment();
+            var eDate = moment();
+
+            $("#Act-Type-Filter-"+type).css("color","black");
+            $("#Act-Type-Filter-"+type).siblings("a").css("color","#008ac9");
+
+            switch (type) {
+                case "Weekly":
+                    sDate = moment().add(-7, 'days').format('MM/DD/YYYY');
+                    break;
+                case "Monthly":
+                    sDate = moment().startOf('month').format('MM/DD/YYYY');
+                    break;
+                case "Yearly":
+                    sDate = moment().startOf('year').format('MM/DD/YYYY');
+                    break;
+                default:
+                    break;
+            }
+            eDate = eDate.format('MM/DD/YYYY');
+
+            //build json object
+            var data = {
+                user: user,
+                sDate: sDate,
+                eDate: eDate
+            };
+
+            //request data from server using ajax call
+            $.ajax({
+                url: '/Activities/GetUserTypeSummary/',
+                //url: 'CustEntMains/TableResult',
+                type: "GET",
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+                    console.log("SUCCESS");
+                    ReLoadTypeSummary(data);
+                    ShowTypeReportMsg(sDate, eDate, type);
+                },
+                error: function (data) {
+                    console.log("ERROR");
+                    console.log(data);
+                    //LoadTable(data);
+                }
+            });
+        }
+
+        //populate data result to the type summary table
+        function ReLoadTypeSummary(data) {
+
+            //clear table data
+            $("#TypeSummaryTable").find("tr:gt(0)").remove();
+
+            content = "<tr>";
+            content += "<td> " + data["User"] + "</td>";
+            content += "<td> " + data["Sales"] + "</td>";
+            content += "<td> " + data["Quotation"] + "</td>";
+            content += "<td> " + data["Meeting"] + "</td>";
+            content += "<td> " + data["Procurement"] + "</td>";
+            content += "<td> " + data["CallsAndEmail"] + "</td>";
+            content += "</tr>";
+
+            $(content).appendTo("#TypeSummaryTable");
+        }
+
+        function ShowTypeReportMsg(sDate, eDate, filter) {
+
+            sDate = moment(sDate).format("MMM DD YYYY");
+            eDate = moment(eDate).format("MMM DD YYYY");
+
+            $("#Act-Type-Filter-Msg").show();
+            $("#Act-Type-Filter-Msg").text("Showing " + filter + " Report from " + sDate +" to " + eDate+ " ");
+        }
+
+
+        /**
+         *  Activity Sales Summary
+         **/
+        function FilterSalesSummary( type ) {
+            var user = '@ViewBag.User';
+            var sDate = moment();
+            var eDate = moment();
+
+            $("#Act-Sales-Filter-"+type).css("color","black");
+            $("#Act-Sales-Filter-"+type).siblings("a").css("color","#008ac9");
+
+            switch (type) {
+                case "Weekly":
+                    sDate = moment().add(-7, 'days').format('MM/DD/YYYY');
+                    break;
+                case "Monthly":
+                    sDate = moment().startOf('month').format('MM/DD/YYYY');
+                    break;
+                case "Yearly":
+                    sDate = moment().startOf('year').format('MM/DD/YYYY');
+                    break;
+                default:
+                    break;
+            }
+            eDate = eDate.format('MM/DD/YYYY');
+
+            //build json object
+            var data = {
+                user: user,
+                sDate: sDate,
+                eDate: eDate
+            };
+
+            //request data from server using ajax call
+            $.ajax({
+                url: '/Activities/GetUserSalesSummary/',
+                //url: 'CustEntMains/TableResult',
+                type: "GET",
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+                    console.log("SUCCESS");
+                    ReLoadSalesSummary(data);
+                    console.log(data);
+                    ShowSalesReportMsg(sDate, eDate, type);
+                },
+                error: function (data) {
+                    console.log("ERROR");
+                    console.log(data);
+                    //LoadTable(data);
+                }
+            });
+        }
+
+        //populate data result to the type summary table
+        function ReLoadSalesSummary(data) {
+
+            //clear table data
+            $("#SalesSummaryTable").find("tr:gt(0)").remove();
+
+            content = "<tr>";
+            content += "<td> " + data["User"].toLocaleString() + "</td>";
+            content += "<td> " + data["TotalSales"].toLocaleString() + "</td>";
+            content += "<td> " + data["TotalQuotation"].toLocaleString() + "</td>";
+            content += "<td> " + data["TotalProcurement"].toLocaleString() + "</td>";
+            content += "<td> " + data["TotalJobOrder"].toLocaleString() + "</td>";
+            content += "</tr>";
+
+            $(content).appendTo("#SalesSummaryTable");
+        }
+
+        function ShowSalesReportMsg(sDate, eDate, filter) {
+            sDate = moment(sDate).format("MMM DD YYYY");
+            eDate = moment(eDate).format("MMM DD YYYY");
+            $("#Act-Sales-Filter-Msg").show();
+            $("#Act-Sales-Filter-Msg").text("Showing " + filter + " Report from " + sDate +" to " + eDate+ " ");
+        }
+
+
+        function CreateActivity() {
+            $("#ActivityCreate").modal("show");
+        }
+
     </script>
 }

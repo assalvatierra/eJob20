@@ -307,7 +307,7 @@ insert into CustEntActTypes([Type])
 values ('Others'), ('Indicated Price'), ('Bidding Only'), ('Firm Inquiry'), ('Buying Inquiry');
 
 insert into CustEntActivityTypes([Type])
-values ('Quotation'), ('Meeting'), ('Sales'), ('Procurement'), ('Calls/Email'), ('Others');
+values ('Quotation'), ('Meeting'), ('Sales'), ('JobOrder'),('Procurement'), ('Calls/Email'), ('Others');
 
 insert into SalesActCodes([Name],[Desc],[SysCode],[iconPath],[DefaultActStatus])
 values 

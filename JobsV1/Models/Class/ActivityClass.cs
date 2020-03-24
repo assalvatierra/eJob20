@@ -30,7 +30,7 @@ namespace JobsV1.Models.Class
         public decimal TotalSales { get; set; }
         public decimal TotalQuotation { get; set; }
         public decimal TotalProcurement { get; set; }
-        public decimal TotaalJobOrder { get; set; }
+        public decimal TotalJobOrder { get; set; }
     }
     public class cUserActivity : CustEntActivity
     {
@@ -166,16 +166,16 @@ namespace JobsV1.Models.Class
 
             List<cUserActivity> activity = new List<cUserActivity>();
             string dateQuery = "";
-            if (sDate != null && eDate != null)
+            if (sDate != "" && eDate != "")
             {
-                dateQuery = " AND (job.Date >= convert('" + sDate + "', GETDATE()) AND job.Date <= convert('" + eDate + "', GETDATE()))  ";
+                dateQuery = " AND (Date >= convert(datetime, '" + sDate + "') AND Date <= convert(datetime, '" + eDate + "'))  ";
             }
 
             //sql query with comma separated item list
             string sql =
                @" SELECT *, Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEntMainId )  
                 FROM CustEntActivities act WHERE " +
-                "Assigned = '" + user + "' "+ dateQuery + " ORDER BY Date DESC;";
+                "Assigned = '" + user + "' "+ dateQuery + " ORDER BY Date DESC ;";
 
             activity = db.Database.SqlQuery<cUserActivity>(sql).ToList();
 
@@ -206,7 +206,7 @@ namespace JobsV1.Models.Class
             sales.TotalSales = 0;
             sales.TotalQuotation = 0;
             sales.TotalProcurement = 0;
-            sales.TotaalJobOrder = 0;
+            sales.TotalJobOrder = 0;
             //get total of each Activity Type
             foreach (var act in activities)
             {
@@ -223,7 +223,7 @@ namespace JobsV1.Models.Class
                         sales.TotalProcurement += tempAmt;
                         break;
                     case "Job Order":
-                        sales.TotaalJobOrder += tempAmt;
+                        sales.TotalJobOrder += tempAmt;
                         break;
                     default:
                         break;

@@ -2355,6 +2355,7 @@
     <Content Include="Views\Activities\UserActivities.cshtml" />
     <Content Include="Views\Activities\UserActivities_PartialTypeReport.cshtml" />
     <Content Include="Views\Activities\UserActivities_PartialSalesReport.cshtml" />
+    <Content Include="Views\Activities\UserActivities_ActivityCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
