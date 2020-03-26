@@ -135,21 +135,27 @@ namespace JobsV1.Models.Class
         }
 
         #region Performance Report
-        public List<cUserPerformance> GetUserPerformance(DateTime sdate, DateTime edate)
+        public List<cUserPerformance> GetUserPerformanceReport(DateTime sdate, DateTime edate)
         {
             List<cUserPerformance> userReport = new List<cUserPerformance>();
 
             string sql =
                " SELECT	UserName,"+
-		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') ),"+
-               "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
-               "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.Type = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
-               "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.Type = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
+		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') ),"+
+               "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
                "  FROM AspNetUsers au "+
+
+               //"  Where UserName NOT IN " +
+               //" ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +
+               //" 'admin@gmail.com' ,'demo@gmail.com', 'assalvatierra@yahoo.com' )" +
+
                "  ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;";
 
             userReport = db.Database.SqlQuery<cUserPerformance>(sql).ToList();
 
+           
 
             return userReport;
         }

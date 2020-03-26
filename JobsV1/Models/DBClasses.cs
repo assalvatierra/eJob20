@@ -259,7 +259,10 @@ namespace JobsV1.Models
 
         public IList<AppUser> getUsers_wdException()
         {
-            var data = db.Database.SqlQuery<AppUser>("Select UserName from AspNetUsers Where UserName NOT IN ('jahdielvillosa@gmail.com','jahdielsvillosa@gmail.com','assalvatierra@gmail.com')"); 
+            var data = db.Database.SqlQuery<AppUser>("Select UserName from AspNetUsers Where UserName NOT IN "+
+                " ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +
+                " 'admin@gmail.com' ,'demo@gmail.com', 'assalvatierra@yahoo.com' " +
+                ")"); 
             return data.ToList();
         }
 
@@ -898,9 +901,6 @@ namespace JobsV1.Models
 
             return tripList.OrderBy(s=>s.Unit.FirstOrDefault()).OrderByDescending(s=>s.DtService).ToList();
         }
-
-
-       
 
         // get unit list of string of the job 
         // PARAM : id = jobserviceId 

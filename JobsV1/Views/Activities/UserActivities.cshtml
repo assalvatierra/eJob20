@@ -29,8 +29,14 @@
     <div class="panel-body">
 
         <h4>Company Activities</h4>
-        <a class="cursor-hand" onclick="CreateActivity()" > Create
-        </a>
+        <p>
+            <a class="cursor-hand" onclick="CreateActivity()">
+                Add Activity
+            </a>
+        </p>
+        @*<a class="cursor-hand" onclick="ReloadActivitySummary()">
+                Update
+            </a>*@
         <table class="table" id="Act-Main-Table">
             <tr>
                 <th>
@@ -67,7 +73,7 @@
             </tr>
 
             @foreach (var item in Model)
-{
+            {
                 <tr>
                     <td>
                         @DateTime.Parse(item.Date.ToString()).ToString("MMM-dd yyyy")
@@ -100,11 +106,20 @@
                         @item.UserRemoveEmail(item.Assigned)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @if (ViewBag.IsAdmin)
+                        {
+                            <text>
+                                <a class="cursor-hand" onclick="EditActivity(@item.Id)">
+                                    Edit
+                                </a> |
+                                <a class="cursor-hand" onclick="DeleteActivity(@item.Id)">
+                                    Delete
+                                </a>
+                            </text>
+                        }
                     </td>
                 </tr>
-}
+            }
         </table>
     </div>
 </div>
@@ -122,16 +137,20 @@
 </div>
 
 @{Html.RenderPartial("UserActivities_ActivityCreate", (JobsV1.Models.CustEntActivity)ViewBag.custEntActivity);}
+@{Html.RenderPartial("UserActivities_ActivityEdit", (JobsV1.Models.CustEntActivity)ViewBag.custEntActivity);}
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/Job/DefaultDate.js"></script>
-    <script type="text/javascript">
+<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
+<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
+<script src="~/Scripts/Job/DefaultDate.js"></script>
+<script type="text/javascript">
         $(document).ready(Initialize());
 
         function Initialize() {
             setDateDefault();
+            setDefaultValues();
 
             console.log("count: " + $('#Act-Main-Table tr').length);
             //check table row count
@@ -144,6 +163,11 @@
                 $(content).appendTo("#Act-Main-Table");
             }
 
+        }
+
+        function setDefaultValues() {
+            $("#act-create-assigned").val("@ViewBag.User");
+            $("#act-edit-assigned").val("@ViewBag.User");
         }
 
         //Default date
@@ -226,7 +250,7 @@
                 data: data,
                 dataType: 'json',
                 success: function (data) {
-                    console.log("SUCCESS");
+                    console.log("ATTEMPT TO FILTER TYPE TABLE");
                     ReLoadTypeSummary(data);
                     ShowTypeReportMsg(sDate, eDate, type);
                 },
@@ -307,7 +331,7 @@
                 data: data,
                 dataType: 'json',
                 success: function (data) {
-                    console.log("SUCCESS");
+                    console.log("ATTEMPT TO FILTER SALES TABLE");
                     ReLoadSalesSummary(data);
                     console.log(data);
                     ShowSalesReportMsg(sDate, eDate, type);
@@ -349,5 +373,115 @@
             $("#ActivityCreate").modal("show");
         }
 
-    </script>
-}
+        //DELETE
+        function DeleteActivity(id) {
+            if (confirm("Do you want to remove this activity?")) {
+                ajax_DeleteActivity(id);
+            }
+        }
+
+        function ajax_DeleteActivity(id) {
+
+            //build json object
+            var data = {
+                id: id
+            };
+
+            console.log(data);
+
+            var url = '/Activities/DeleteActivityRecord';
+
+            //Post data from server using ajax call
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: 'text',
+                success: function (data) {
+                    console.log("ATTEMPTING DELETE");
+                    console.log(data);
+                    ReloadActivitySummary();
+                },
+                error: function (data) {
+                    console.log("ERROR");
+                ReloadActivitySummary();
+                    console.log(data);
+                }
+            });
+        }
+
+
+
+    /**
+      *  Activity Summary
+      **/
+    function ReloadActivitySummary() {
+            //Get URL Parameters
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var sDate = urlParams.get('sDate');
+            var eDate = urlParams.get('eDate');
+            var user  = '@ViewBag.User';
+
+            //eDate = moment(eDate).format('MM/DD/YYYY');
+
+            //build json object
+            var data = {
+                user: user,
+                sDate: sDate,
+                eDate: eDate
+            };
+
+            //request data from server using ajax call
+            $.ajax({
+                url: '/Activities/GetUserActivitySummary',
+                //url: 'CustEntMains/TableResult',
+                type: "GET",
+                data: data,
+                dataType: 'json',
+                success: function (data) {
+                    console.log("Reloading table");
+                    UpdateActivityTable(data);
+                },
+                error: function (data) {
+                    console.log("ERROR");
+                    console.log(data);
+                    //LoadTable(data);
+                }
+            });
+        }
+
+        //populate data result to the type summary table
+        function UpdateActivityTable(data) {
+            var isAdmin = "@ViewBag.IsAdmin";
+            //clear table data
+            $("#Act-Main-Table").find("tr:gt(0)").remove();
+
+            for (let i = 0; i < data.length; i++){
+                var id = data[i]["Id"];
+                content = "<tr>";
+                content += "<td> " + moment(data[i]["Date"]).format("MMM-DD YYYY") + "</td>";
+                content += "<td> " + data[i]["ProjectName"] + "</td>";
+                content += "<td> " + data[i]["SalesCode"] + "</td>";
+                content += "<td> " + data[i]["Amount"].toLocaleString() + "</td>";
+                content += "<td> " + data[i]["Status"] + "</td>";
+                content += "<td> " + data[i]["Type"] + "</td>";
+                content += "<td> " + data[i]["ActivityType"] + "</td>";
+                content += "<td> " + data[i]["Company"] + "</td>";
+                content += "<td> " + data[i]["Remarks"] + "</td>";
+                content += "<td> " + data[i]["Assigned"] + "</td>";
+                content += "<td> ";
+
+                //check if user is admin
+                if (isAdmin == "True") {
+                    content += " <a class='cursor-hand' onclick='EditActivity(" + id + ")'>Edit</a> | ";
+                    content += " <a class='cursor-hand' onclick='DeleteActivity(" + id + ")'>Delete</a> ";
+                }
+                content += "</td> ";
+
+                content += "</tr>";
+                $(content).appendTo("#Act-Main-Table");
+            }
+        }
+
+</script>
