@@ -69,6 +69,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Assigned)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Points)
+                </th>
                 <th></th>
             </tr>
 
@@ -97,13 +100,20 @@
                         @Html.DisplayFor(modelItem => item.ActivityType)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Company)
+
+                        @Html.ActionLink(item.Company, "Details","CustEntMains", new { id = item.CustEntMainId }, null)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Remarks)
                     </td>
                     <td>
                         @item.UserRemoveEmail(item.Assigned)
+                    </td>
+                    <td>
+                        @if (ViewBag.IsAdmin)
+                        {
+                            @Html.DisplayFor(modelItem => item.Points)
+                        }
                     </td>
                     <td>
                         @if (ViewBag.IsAdmin)
@@ -152,7 +162,6 @@
             setDateDefault();
             setDefaultValues();
 
-            console.log("count: " + $('#Act-Main-Table tr').length);
             //check table row count
             if ($('#Act-Main-Table tr').length == 1) {
 
@@ -172,6 +181,9 @@
 
         //Default date
         function setDateDefault() {
+            //test
+            console.log("moment date:" +  moment() );
+            console.log("js date:" +  new Date() );
 
             //Get URL Parameters
             var queryString = window.location.search;
@@ -185,16 +197,16 @@
             $('input[name="DtEnd"]').val(eDate);
             ShowSalesReportMsg(sDate, eDate, " ");
             ShowTypeReportMsg(sDate, eDate, " ");
-            //console.log(sDate == null);
 
             //when url dates are empty, assign dates 1 week as default
             if (sDate == null || eDate == null) {
-                var today = moment();
+                var today = moment(new Date());
                 let pastWeek = moment().add(-7, 'days');
 
                 //convert to string
                 var sDate = pastWeek.format("MM/DD/YYYY");
                 var eDate = today.format("MM/DD/YYYY");
+                console.log("today: " + eDate);
 
                 window.location.href = "UserActivities?user="+ user +"&sDate=" + sDate + "&eDate=" + eDate;
             }
@@ -470,6 +482,7 @@
                 content += "<td> " + data[i]["Company"] + "</td>";
                 content += "<td> " + data[i]["Remarks"] + "</td>";
                 content += "<td> " + data[i]["Assigned"] + "</td>";
+                content += "<td> " + data[i]["Points"] + "</td>";
                 content += "<td> ";
 
                 //check if user is admin

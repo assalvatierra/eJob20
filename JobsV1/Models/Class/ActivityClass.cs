@@ -35,6 +35,7 @@ namespace JobsV1.Models.Class
     public class cUserActivity : CustEntActivity
     {
         public string Company { get; set; }
+        public int Points { get; set; }
 
         //remove @email from user for display
         public string UserRemoveEmail(string input)
@@ -169,7 +170,7 @@ namespace JobsV1.Models.Class
         //GET : get user activities by the user 
         public List<cUserActivity> GetUserActivities(string user, string sDate, string eDate)
         {
-
+            //eDate = DateTime.Parse(eDate).AddDays(1).ToShortDateString();
             List<cUserActivity> activity = new List<cUserActivity>();
             string dateQuery = "";
             if (sDate != "" && eDate != "")
@@ -179,9 +180,10 @@ namespace JobsV1.Models.Class
 
             //sql query with comma separated item list
             string sql =
-               @" SELECT *, Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEntMainId )  
-                FROM CustEntActivities act WHERE " +
-                "Assigned = '" + user + "' "+ dateQuery + " ORDER BY Date DESC ;";
+               @" SELECT *, Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEntMainId ),
+                  Points = (SELECT Points FROM CustEntActivityTypes type WHERE type.Type = act.ActivityType)
+                  FROM CustEntActivities act WHERE " +
+                  "Assigned = '" + user + "' "+ dateQuery + " ORDER BY Date DESC ;";
 
             activity = db.Database.SqlQuery<cUserActivity>(sql).ToList();
 
