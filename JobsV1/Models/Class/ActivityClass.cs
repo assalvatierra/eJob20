@@ -11,7 +11,9 @@ namespace JobsV1.Models.Class
         public int Quotation { get; set; }
         public int Meeting { get; set; }
         public int Sales { get; set; }
+        public int Procurement { get; set; }
         public decimal Amount { get; set; }
+        public string Role { get; set; }
     }
 
     public class cUserPerformanceReport
@@ -52,6 +54,12 @@ namespace JobsV1.Models.Class
             }
 
         }
+    }
+
+    public class cUserRole
+    {
+        public string UserName { get; set; }
+        public string UserRole { get; set; }
     }
 
     #endregion
@@ -145,6 +153,7 @@ namespace JobsV1.Models.Class
 		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') ),"+
                "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Procurement = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Procurement' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
                "  FROM AspNetUsers au "+
 
@@ -156,11 +165,24 @@ namespace JobsV1.Models.Class
 
             userReport = db.Database.SqlQuery<cUserPerformance>(sql).ToList();
 
-           
-
             return userReport;
         }
 
+        public string GetUserRole(string user)
+        {
+            if (!String.IsNullOrEmpty(user))
+            {
+
+                string sql = @"SELECT UserName, UserRole = (SELECT Name FROM AspNetRoles r WHERE r.Id = ur.RoleId) FROM AspNetUsers u
+	                            LEFT JOIN AspNetUserRoles ur ON ur.UserId = u.Id
+	                            WHERE UserName = '"+ user +"' ;";
+
+                var Role = db.Database.SqlQuery<cUserRole>(sql).FirstOrDefault();
+                return Role.UserRole;
+            }
+
+            return "NA";
+        }
 
         #endregion
 

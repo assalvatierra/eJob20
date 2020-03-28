@@ -80,6 +80,7 @@ namespace JobsV1.Controllers
             }
         }
 
+        #region Performance 
         public ViewResult Performance(string sdate, string edate)
         {
             DateTime startDate = new DateTime();
@@ -96,9 +97,22 @@ namespace JobsV1.Controllers
                 endDate = dt.GetCurrentDate();
             }
 
-            var userReport = ac.GetUserPerformance(startDate, endDate);
+            var userReport = ac.GetUserPerformanceReport(startDate, endDate);
+            userReport = AssignUserRoles(userReport);
             return View(userReport);
         }
+
+        public List<cUserPerformance> AssignUserRoles(List<cUserPerformance> UserList)
+        {
+            foreach (var user in UserList)
+            {
+                user.Role = ac.GetUserRole(user.UserName);
+            }
+
+            return UserList;
+        }
+
+        #endregion
 
         #region Company Edit
         // GET: CustEntActivities/Edit/5
@@ -257,12 +271,12 @@ namespace JobsV1.Controllers
                 var custAct = ac.GetUserActivities(user, sDate, eDate);
 
                 ViewBag.User = user;
+                ViewBag.IsAdmin = User.IsInRole("Admin");
                 ViewBag.PerfSummary = ac.GetUserPerformance(custAct, user);
                 ViewBag.SalesSummary = ac.GetUserSales(custAct, user);
 
-                //For Create Activity View
-                Partial_ActivityCreate();
-
+                //For Create Activity View for the user
+                Partial_ActivityCreate(user);
 
                 return View(custAct);
             }
@@ -272,12 +286,31 @@ namespace JobsV1.Controllers
 
         // GET : User Activity Type report from date range
         [HttpGet]
+        public string GetUserActivitySummary(string user, string sDate, string eDate)
+        {
+            if (!String.IsNullOrEmpty(user))
+            {
+                List<cUserActivity> tempAct = new List<cUserActivity>();
+                var custAct = ac.GetUserActivities(user, sDate, eDate);
+                foreach(var act in custAct)
+                {
+                    act.Assigned = act.UserRemoveEmail(act.Assigned);
+                    tempAct.Add(act);
+                }
+
+                //convert list to json object
+                return JsonConvert.SerializeObject(tempAct, Formatting.Indented);
+            }
+
+            return "Error";
+        }
+
+        // GET : User Activity Type report from date range
+        [HttpGet]
         public string GetUserTypeSummary(string user, string sDate, string eDate)
         {
             if (!String.IsNullOrEmpty(user))
             {
-                //get 7 days from today
-                var today = dt.GetCurrentDate();
 
                 var custAct = ac.GetUserActivities(user, sDate, eDate);
                 var userPerf = ac.GetUserPerformance(custAct, user);
@@ -295,9 +328,6 @@ namespace JobsV1.Controllers
         {
             if (!String.IsNullOrEmpty(user))
             {
-                //get 7 days from today
-                var today = dt.GetCurrentDate();
-
                 var custAct = ac.GetUserActivities(user, sDate, eDate);
                 var userPerf = ac.GetUserSales(custAct, user);
 
@@ -308,10 +338,10 @@ namespace JobsV1.Controllers
             return "Error";
         }
 
-        public void Partial_ActivityCreate()
+        public void Partial_ActivityCreate(string user)
         {
-            ViewBag.Assigned = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName");
-            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name");
+            ViewBag.Assigned = user;
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains.OrderBy(c=>c.Name), "Id", "Name");
             ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status");
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
             ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type");
@@ -319,9 +349,11 @@ namespace JobsV1.Controllers
             CustEntActivity activity = new CustEntActivity();
             activity.Amount = 0;
             activity.Date = dt.GetCurrentDateTime();
+            activity.Assigned = user;
             ViewBag.CustEntActivity = activity;
         }
 
+        //CREATE : Activities/CreateActivity
         [HttpPost]
         public string CreateActivity( string actDate, string Assigned, string ProjectName, string SalesCode, string Amount, string Status, string Remarks, string CustEntMainId, string Type, string ActivityType )
         {
@@ -343,15 +375,103 @@ namespace JobsV1.Controllers
                 db.CustEntActivities.Add(act);
                 db.SaveChanges();
 
-                return "Done";
+                return "New Activity Added";
             }
             catch (Exception ex)
             {
                 return ex.ToString();
             }
-
-
         }
+
+        //GET : Activities/GetActivityRecord
+        [HttpGet]
+        public string GetActivityRecord(int id)
+        {
+            try
+            {
+                //create activity
+                CustEntActivity act = db.CustEntActivities.Find(id);
+                if (act != null)
+                {
+                    cUserActivity userAct = new cUserActivity();
+                    userAct.Id = act.Id;
+                    userAct.Date = act.Date;
+                    userAct.ProjectName = act.ProjectName;
+                    userAct.SalesCode = act.SalesCode;
+                    userAct.Amount = act.Amount;
+                    userAct.Status = act.Status;
+                    userAct.Remarks = act.Remarks;
+                    userAct.Company = act.CustEntMain.Name;
+                    userAct.CustEntMainId = act.CustEntMainId;
+                    userAct.Assigned = act.Assigned;
+                    userAct.Type = act.Type;
+                    userAct.ActivityType = act.ActivityType;
+
+                    return JsonConvert.SerializeObject(userAct, Formatting.Indented);
+                }
+                return "ERROR";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+        //EDIT : Activities/EditActivity
+        [HttpPost]
+        public string EditActivity(int id, string actDate, string Assigned, string ProjectName, string SalesCode, string Amount, string Status, string Remarks, string CustEntMainId, string Type, string ActivityType)
+        {
+            try
+            {
+                //create activity
+                CustEntActivity act = db.CustEntActivities.Find(id);
+                act.Date = DateTime.Parse(actDate);
+                act.Assigned = Assigned;
+                act.ProjectName = ProjectName;
+                act.SalesCode = SalesCode;
+                act.Amount = Decimal.Parse(Amount);
+                act.Status = Status;
+                act.Remarks = Remarks;
+                act.CustEntMainId = int.Parse(CustEntMainId);
+                act.Type = Type;
+                act.ActivityType = ActivityType;
+
+                db.Entry(act).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return "Edit Success";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+        //DELETE : Activities/DeleteActivityRecord
+        [HttpPost]
+        public string DeleteActivityRecord(int id)
+        {
+            try
+            {
+                //create activity
+                CustEntActivity act = db.CustEntActivities.Find(id);
+                if (act != null)
+                {
+
+                    db.CustEntActivities.Remove(act);
+                    db.SaveChanges();
+                    return "DELETE SUCCESS ";
+                }
+                return "DELETE ERROR ";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+
+
         #endregion
     }
 

@@ -18,9 +18,12 @@
     <thead>
         <tr>
             <th class="cursor-hand"> User    </th>
+            <th></th>
+            <th>Role</th>
             <th class="js-sort-number"> Quotation </th>
             <th class="js-sort-number"> Meeting </th>
             <th class="js-sort-number"> Sales </th>
+            <th class="js-sort-number"> Procurement </th>
             <th class="js-sort-number"> Amount </th>
         </tr>
     </thead>
@@ -28,10 +31,19 @@
         @foreach(var item in Model)
         {
         <tr>
-            <td >
-                <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites" >
-                    @item.UserName
+            <td>
+                @item.UserName
+            </td>
+            <td>
+                <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                    Sales
+                </a> |
+                <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                    Procurement
                 </a>
+            </td>
+            <td>
+                @item.Role
             </td>
             <td>
                 @item.Quotation
@@ -41,6 +53,9 @@
             </td>
             <td>
                 @item.Sales
+            </td>
+            <td>
+                @item.Procurement
             </td>
             <td>
                 @item.Amount.ToString("N0")
