@@ -145,5 +145,6 @@ namespace JobsV1.Models
         public virtual DbSet<CustEntActType> CustEntActTypes { get; set; }
         public virtual DbSet<SupplierActStatus> SupplierActStatus { get; set; }
         public virtual DbSet<CustEntActivityType> CustEntActivityTypes { get; set; }
+        public virtual DbSet<SupplierActivityType> SupplierActivityTypes { get; set; }
     }
 }

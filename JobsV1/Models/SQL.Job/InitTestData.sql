@@ -473,3 +473,15 @@ SELECT *, Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEn
       FROM CustEntActivities act WHERE
       Assigned = 'jahdielvillosa@gmail.com' AND (act.Date >= convert(datetime, '03/01/2020') AND act.Date <= convert(datetime, '03/30/2020'))
 	  ORDER BY Date DESC;
+
+--GET USER ROLE--
+SELECT UserRole = (SELECT Name FROM AspNetRoles r WHERE r.Id = ur.RoleId) FROM AspNetUsers u
+	LEFT JOIN AspNetUserRoles ur ON ur.UserId = u.Id
+	WHERE UserName = 'jahdielvillosa@gmail.com' ;
+
+-- Procurement Activities --
+SELECT *, Company = (SELECT Name FROM Suppliers sup WHERE sup.Id = act.SupplierId ),
+          Points = (SELECT Points FROM SupplierActivityTypes type WHERE type.Type = act.ActivityType),
+		  DtActivity as Date
+		  
+          FROM SupplierActivities act 

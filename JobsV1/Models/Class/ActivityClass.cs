@@ -24,6 +24,7 @@ namespace JobsV1.Models.Class
         public int Meeting { get; set; }
         public int Procurement { get; set; }
         public int CallsAndEmail { get; set; }
+        public int Close { get; set; }
     }
 
     public class cUserSalesReport
@@ -157,9 +158,9 @@ namespace JobsV1.Models.Class
                "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
                "  FROM AspNetUsers au "+
 
-               //"  Where UserName NOT IN " +
-               //" ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +
-               //" 'admin@gmail.com' ,'demo@gmail.com', 'assalvatierra@yahoo.com' )" +
+               "  Where UserName NOT IN " +
+               " ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +
+               " 'admin@gmail.com' ,'demo@gmail.com', 'assalvatierra@yahoo.com' )" +
 
                "  ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;";
 
@@ -168,6 +169,28 @@ namespace JobsV1.Models.Class
             return userReport;
         }
 
+        //Override
+        public List<cUserPerformance> GetUserPerformanceReport(string user,DateTime sdate, DateTime edate)
+        {
+            List<cUserPerformance> userReport = new List<cUserPerformance>();
+
+            string sql =
+               " SELECT	UserName," +
+               "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Procurement = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Procurement' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
+               "  FROM AspNetUsers au " +
+
+               "  Where UserName = '"+ user + "' " +
+
+               "  ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;";
+
+            userReport = db.Database.SqlQuery<cUserPerformance>(sql).ToList();
+
+            return userReport;
+        }
         public string GetUserRole(string user)
         {
             if (!String.IsNullOrEmpty(user))
@@ -192,6 +215,12 @@ namespace JobsV1.Models.Class
         //GET : get user activities by the user 
         public List<cUserActivity> GetUserActivities(string user, string sDate, string eDate)
         {
+            if (!String.IsNullOrEmpty(eDate))
+            {
+                var tempDate = DateTime.Parse(eDate);
+                eDate = tempDate.AddDays(1).ToShortDateString();
+            }
+
             //eDate = DateTime.Parse(eDate).AddDays(1).ToShortDateString();
             List<cUserActivity> activity = new List<cUserActivity>();
             string dateQuery = "";
@@ -264,6 +293,56 @@ namespace JobsV1.Models.Class
 
 
             return sales;
+        }
+        #endregion
+
+        #region Supplier Activities
+        //GET : get user activities by the user 
+        public List<cUserActivity> GetSupActivities(string user, string sDate, string eDate)
+        {
+            //add 1 day
+            if (!String.IsNullOrEmpty(eDate))
+            {
+                var tempDate = DateTime.Parse(eDate);
+                eDate = tempDate.AddDays(1).ToShortDateString();
+            }
+
+            //eDate = DateTime.Parse(eDate).AddDays(1).ToShortDateString();
+            List<cUserActivity> activity = new List<cUserActivity>();
+            string dateQuery = "";
+            if (sDate != "" && eDate != "")
+            {
+                dateQuery = " AND (DtActivity >= convert(datetime, '" + sDate + "') AND DtActivity <= convert(datetime, '" + eDate + "'))  ";
+            }
+
+            //sql query with comma separated item list
+            string sql =
+               @" SELECT *, Company = (SELECT Name FROM Suppliers sup WHERE sup.Id = act.SupplierId ), 
+                  Points = (SELECT Points FROM SupplierActivityTypes type WHERE type.Type = act.ActivityType), 
+                  Code as SalesCode ,DtActivity as Date
+                  FROM SupplierActivities act WHERE " +
+                  "Assigned = '" + user + "' " + dateQuery + " ORDER BY DtActivity DESC ;";
+
+            activity = db.Database.SqlQuery<cUserActivity>(sql).ToList();
+
+            return activity;
+        }
+
+
+        //GET : return user performance report based on the count of each Activity Type
+        public cUserPerformanceReport GetSupPerformance(List<cUserActivity> activities, string user)
+        {
+            cUserPerformanceReport performance = new cUserPerformanceReport();
+
+            //get counts of each activity
+            performance.User = dbc.UserRemoveEmail(user);
+            performance.Close = activities.Where(a => a.ActivityType == "Close").Count();
+            performance.Sales = activities.Where(a => a.ActivityType == "Job Order").Count();
+            performance.Meeting = activities.Where(a => a.ActivityType == "Meeting").Count();
+            performance.Procurement = activities.Where(a => a.ActivityType == "Procurement").Count();
+
+
+            return performance;
         }
         #endregion
     }

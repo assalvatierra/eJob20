@@ -306,8 +306,8 @@ values ('Open'), ('For Client Comment'), ('For Meeting'), ('Awarded'), ('Close')
 insert into CustEntActTypes([Type])
 values ('Others'), ('Indicated Price'), ('Bidding Only'), ('Firm Inquiry'), ('Buying Inquiry');
 
-insert into CustEntActivityTypes([Type])
-values ('Quotation'), ('Meeting'), ('Sales'), ('JobOrder'),('Procurement'), ('Calls/Email'), ('Others');
+insert into CustEntActivityTypes([Type],[Points])
+values ('Quotation',8), ('Meeting',8), ('Sales',15),('Procurement',8), ('Calls/Email',2), ('Others',1);
 
 insert into SalesActCodes([Name],[Desc],[SysCode],[iconPath],[DefaultActStatus])
 values 
@@ -339,6 +339,9 @@ insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Statu
 
 insert into SupplierActStatus([Status])
 values ('Open'), ('For Client Comment'), ('Awarded'), ('Close');
+
+insert into SupplierActivityTypes([Type],[Points])
+values ('Job Order',15), ('Procurement',8), ('Meeting',8), ('Close',1);
 
 insert into Services([Name],[Description],[Status]) 
 values

@@ -53,9 +53,28 @@ function InitDatePicker()
     ); 
 
     //Date 2
-    var ddd2 = $('input[name="Date"]').val();
+    var ddd3 = $('input[name="Date"]').val();
 
     $('input[name="Date"]').daterangepicker(
+        {
+            timePicker: false,
+            timePickerIncrement: 1,
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'MM/DD/YYYY'
+            }
+        },
+        function (start, end, label) {
+            // alert(start.format('YYYY-MM-DD h:mm A'));
+
+        }
+    ); 
+
+    //Date 2
+    var ddd4 = $('input[name="DtActivity"]').val();
+
+    $('input[name="DtActivity"]').daterangepicker(
         {
             timePicker: false,
             timePickerIncrement: 1,

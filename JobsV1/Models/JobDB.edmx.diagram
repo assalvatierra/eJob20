@@ -268,9 +268,13 @@
         <EntityTypeShape EntityType="JobDB.CustEntActivity" Width="1.5" PointX="17" PointY="0.875" />
         <EntityTypeShape EntityType="JobDB.CustEntDocuments" Width="1.5" PointX="9.125" PointY="0.5" />
         <AssociationConnector Association="JobDB.CustEntDocumentsSupDocument" ManuallyRouted="true" >
-          <ConnectorPoint PointX="10.625" PointY="1.7062078545227735" />
-          <ConnectorPoint PointX="12.446036405798118" PointY="10.896511827395834" />
-          <ConnectorPoint PointX="12.446036405798118" PointY="0.4333483960212634" />
+          <ConnectorPoint PointX="10.625" PointY="0.5" />
+          <ConnectorPoint PointX="10.625" PointY="0.33874126879048383" />
+          <ConnectorPoint PointX="22.685766891541732" PointY="0.33874126879048383" />
+          <ConnectorPoint PointX="22.685766891541732" PointY="4.6992734905082747" />
+          <ConnectorPoint PointX="24.50680329733985" PointY="10.858318124560075" />
+          <ConnectorPoint PointX="26.269968217480116" PointY="10.858318124560075" />
+          <ConnectorPoint PointX="26.269968217480116" PointY="0.4333483960212634" />
           <ConnectorPoint PointX="44.625" PointY="0.4333483960212634" />
           <ConnectorPoint PointX="44.625" PointY="0.35569354046549329" />
           <ConnectorPoint PointX="51.75" PointY="0.35569354046549329" />
@@ -289,8 +293,9 @@
         <AssociationConnector Association="JobDB.CustNotifRecipientCustNotifActivity" />
         <EntityTypeShape EntityType="JobDB.CustEntActStatus" Width="1.5" PointX="19.125" PointY="0.875" />
         <EntityTypeShape EntityType="JobDB.CustEntActType" Width="1.5" PointX="21" PointY="0.875" />
-        <EntityTypeShape EntityType="JobDB.SupplierActStatus" Width="1.5" PointX="38.125" PointY="3.875" />
-        <EntityTypeShape EntityType="JobDB.CustEntActivityType" Width="1.5" PointX="20" PointY="2.75" />
+        <EntityTypeShape EntityType="JobDB.SupplierActStatus" Width="1.5" PointX="37.875" PointY="3.125" />
+        <EntityTypeShape EntityType="JobDB.CustEntActivityType" Width="1.5" PointX="21" PointY="2.625" />
+        <EntityTypeShape EntityType="JobDB.SupplierActivityType" Width="1.5" PointX="37.875" PointY="4.875" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

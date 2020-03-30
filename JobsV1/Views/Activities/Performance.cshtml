@@ -35,12 +35,31 @@
                 @item.UserName
             </td>
             <td>
+                @if(item.Role == "Sales"){
                 <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
                     Sales
-                </a> |
-                <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                </a> 
+                }
+
+                @if(item.Role == "Procurement"){
+
+                <a href="/Activities/SupActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+
                     Procurement
                 </a>
+                }
+
+
+                @if(item.Role == "Admin"){
+                <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                    Sales |
+                </a> 
+                <a href="/Activities/SupActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+
+                    Procurement
+                </a>
+                }
+
             </td>
             <td>
                 @item.Role

@@ -895,6 +895,9 @@
     <Compile Include="Models\SupplierActivity.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SupplierActivityType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SupplierActStatus.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -2353,9 +2356,16 @@
     <Content Include="Views\CustEntMains\PartialView_Details_AddressCreate.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Details_ContactCreate.cshtml" />
     <Content Include="Views\Activities\UserActivities.cshtml" />
-    <Content Include="Views\Activities\UserActivities_PartialTypeReport.cshtml" />
+    <Content Include="Views\Activities\SupActivities_PartialTypeReport.cshtml" />
     <Content Include="Views\Activities\UserActivities_PartialSalesReport.cshtml" />
     <Content Include="Views\Activities\UserActivities_ActivityCreate.cshtml" />
+    <Content Include="Views\Activities\UserActivities_ActivityEdit.cshtml" />
+    <Content Include="Views\SupplierActivities\RecordsEdit.cshtml" />
+    <Content Include="Views\Activities\SupActivities.cshtml" />
+    <Content Include="Views\Activities\UserActivities_PartialTypeReport.cshtml" />
+    <Content Include="Views\Activities\SupActivities_PartialSalesReport.cshtml" />
+    <Content Include="Views\Activities\SupActivities_ActivityCreate.cshtml" />
+    <Content Include="Views\Activities\SupActivities_ActivityEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

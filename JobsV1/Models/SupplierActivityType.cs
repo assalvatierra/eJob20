@@ -12,18 +12,10 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SupplierActivity
+    public partial class SupplierActivityType
     {
         public int Id { get; set; }
-        public string Code { get; set; }
-        public System.DateTime DtActivity { get; set; }
-        public string Assigned { get; set; }
-        public string Remarks { get; set; }
-        public int SupplierId { get; set; }
-        public Nullable<decimal> Amount { get; set; }
         public string Type { get; set; }
-        public string ActivityType { get; set; }
-    
-        public virtual Supplier Supplier { get; set; }
+        public int Points { get; set; }
     }
 }

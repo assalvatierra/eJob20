@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/12/2020 18:36:39
--- Generated from EDMX file: D:\Github\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 03/28/2020 14:09:32
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -735,6 +735,9 @@ IF OBJECT_ID(N'[dbo].[SupplierActStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CustEntActivityTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustEntActivityTypes];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierActivityTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierActivityTypes];
 GO
 
 -- --------------------------------------------------
@@ -1904,7 +1907,8 @@ CREATE TABLE [dbo].[SupplierActivities] (
     [Remarks] nvarchar(80)  NULL,
     [SupplierId] int  NOT NULL,
     [Amount] decimal(18,0)  NULL,
-    [Type] nvarchar(20)  NULL
+    [Type] nvarchar(20)  NULL,
+    [ActivityType] nvarchar(20)  NOT NULL
 );
 GO
 
@@ -2011,7 +2015,16 @@ GO
 -- Creating table 'CustEntActivityTypes'
 CREATE TABLE [dbo].[CustEntActivityTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Type] nvarchar(20)  NOT NULL
+    [Type] nvarchar(20)  NOT NULL,
+    [Points] int  NOT NULL
+);
+GO
+
+-- Creating table 'SupplierActivityTypes'
+CREATE TABLE [dbo].[SupplierActivityTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(20)  NOT NULL,
+    [Points] int  NOT NULL
 );
 GO
 
@@ -2736,6 +2749,12 @@ GO
 -- Creating primary key on [Id] in table 'CustEntActivityTypes'
 ALTER TABLE [dbo].[CustEntActivityTypes]
 ADD CONSTRAINT [PK_CustEntActivityTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierActivityTypes'
+ALTER TABLE [dbo].[SupplierActivityTypes]
+ADD CONSTRAINT [PK_SupplierActivityTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

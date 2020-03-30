@@ -126,6 +126,7 @@
     <EntitySet Name="CustEntActTypes" EntityType="JobDB.Store.CustEntActTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierActStatus" EntityType="JobDB.Store.SupplierActStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntActivityTypes" EntityType="JobDB.Store.CustEntActivityTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierActivityTypes" EntityType="JobDB.Store.SupplierActivityTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -1765,6 +1766,7 @@
     <Property Name="SupplierId" Type="int" Nullable="false" />
     <Property Name="Amount" Type="decimal" Nullable="true" />
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="ActivityType" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <EntityType Name="SupDocuments">
     <Key>
@@ -1872,6 +1874,15 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Points" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SupplierActivityTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Points" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3886,6 +3897,7 @@
           <EntitySet Name="CustEntActTypes" EntityType="JobDB.CustEntActType" />
           <EntitySet Name="SupplierActStatus" EntityType="JobDB.SupplierActStatus" />
           <EntitySet Name="CustEntActivityTypes" EntityType="JobDB.CustEntActivityType" />
+          <EntitySet Name="SupplierActivityTypes" EntityType="JobDB.SupplierActivityType" />
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -6573,6 +6585,7 @@
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="true" />
           <Property Name="Type" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="ActivityType" Type="String" Nullable="false" MaxLength="20" />
         </EntityType>
         <Association Name="SupplierSupplierActivity">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -6814,6 +6827,15 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplierActivityType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -8093,6 +8115,7 @@
           <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -8212,6 +8235,16 @@
         <MappingFragment StoreEntitySet="CustEntActivityTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Points" ColumnName="Points" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierActivityTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierActivityType)">
+        <MappingFragment StoreEntitySet="SupplierActivityTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Points" ColumnName="Points" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -38,6 +38,13 @@ namespace JobsV1.Models
         public string Remarks { get; set; }
     }
 
+    public class cJobOnProgress
+    {
+        public int Id { get; set; }
+        public DateTime DtStart { get; set; }
+        public DateTime DtEnd { get; set; }
+    }
+
     public class JobOrderClass
     {
         private JobDBContainer db = new JobDBContainer();
@@ -290,6 +297,44 @@ order by x.jobid
 	                                Description = MIN(job.Description), Customer = MIN(job.Customer), Status = MIN(job.JobStatusId)  
 	                                FROM ( SELECT jm.Id,  jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
 		                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)
+		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
+		                            WHERE job.DtStart >= convert(datetime, GETDATE()) 
+                                    OR (job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
+		                            AND job.JobStatusId < 4 GROUP BY job.Id ORDER BY DtStart";
+                    break;
+                case 2: //prev
+                    sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE()) ;";
+                    break;
+                case 3: //close
+                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());";
+                    break;
+                default:
+                    sql = "select * from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -30, GETDATE());";
+                    break;
+            }
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobOrderListing>(sql).ToList();
+
+            return joblist;
+
+        }
+
+
+        //Get Job Order Listing based on the sort
+        public List<cJobOrderListing> GetJobOrderOnProgress(int sortid)
+        {
+            List<cJobOrderListing> joblist = new List<cJobOrderListing>();
+
+            string sql = "";
+
+            //filter jobs based on statusId and date
+            switch (sortid)
+            {
+                case 1: //OnGoing
+                    sql = @"SELECT Id = MIN(job.Id), DtStart = MIN(job.DtStart), DtEnd = MIN(job.DtEnd)
 		                            FROM JobMains jm LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job
 		                            WHERE job.DtStart >= convert(datetime, GETDATE()) 
                                     OR (job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE()))
