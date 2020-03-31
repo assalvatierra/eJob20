@@ -70,7 +70,10 @@
                     @Html.DisplayNameFor(model => model.Assigned)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Points)
+                    @if (ViewBag.IsAdmin)
+                    {
+                        @Html.DisplayNameFor(model => model.Points)
+                    }
                 </th>
                 <th></th>
             </tr>
@@ -182,7 +185,7 @@
         //Default date
         function setDateDefault() {
             //test
-            console.log("moment date:" +  moment() );
+            console.log("moment date:" +  moment().format("L") );
             console.log("js date:" +  new Date() );
 
             //Get URL Parameters
@@ -482,15 +485,16 @@
                 content += "<td> " + data[i]["Company"] + "</td>";
                 content += "<td> " + data[i]["Remarks"] + "</td>";
                 content += "<td> " + data[i]["Assigned"] + "</td>";
-                content += "<td> " + data[i]["Points"] + "</td>";
-                content += "<td> ";
-
+                
                 //check if user is admin
                 if (isAdmin == "True") {
+                    content += "<td> " + data[i]["Points"] + "</td>";
+                    content += "<td> ";
                     content += " <a class='cursor-hand' onclick='EditActivity(" + id + ")'>Edit</a> | ";
                     content += " <a class='cursor-hand' onclick='DeleteActivity(" + id + ")'>Delete</a> ";
+                    content += "</td> ";
                 }
-                content += "</td> ";
+
 
                 content += "</tr>";
                 $(content).appendTo("#Act-Main-Table");

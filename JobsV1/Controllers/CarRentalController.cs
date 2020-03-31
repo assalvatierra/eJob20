@@ -497,8 +497,21 @@ namespace JobsV1.Controllers
             }
         }
 
-        //Handle Google Captcha
-        public int IsReCaptchValid(string gresponse)
+
+        public ActionResult ArticleView(string article)
+        {
+            switch (article)
+            {
+                case "Article1":
+                    return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
+                default:
+                    return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
+            }
+        }
+
+
+                    //Handle Google Captcha
+                    public int IsReCaptchValid(string gresponse)
         {
             var result = false;
             var captchaResponse = gresponse;

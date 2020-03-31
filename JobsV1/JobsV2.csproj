@@ -2366,6 +2366,7 @@
     <Content Include="Views\Activities\SupActivities_PartialSalesReport.cshtml" />
     <Content Include="Views\Activities\SupActivities_ActivityCreate.cshtml" />
     <Content Include="Views\Activities\SupActivities_ActivityEdit.cshtml" />
+    <Content Include="Views\CarRental\ArticlesView\Article1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
