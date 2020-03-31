@@ -83,8 +83,11 @@ namespace JobsV1.Controllers
         #region Performance 
         public ViewResult Performance(string sdate, string edate)
         {
+            var user = HttpContext.User.Identity.Name;
             DateTime startDate = new DateTime();
             DateTime endDate = new DateTime();
+            var isAdmin = false;
+
             //handle date when null
             if (sdate != null && edate != null)
             {
@@ -97,9 +100,19 @@ namespace JobsV1.Controllers
                 endDate = dt.GetCurrentDate();
             }
 
-            var userReport = ac.GetUserPerformanceReport(startDate, endDate);
-            userReport = AssignUserRoles(userReport);
-            return View(userReport);
+            if (User.IsInRole("Admin"))
+            {
+                var userReport = ac.GetUserPerformanceReport(startDate, endDate);
+                userReport = AssignUserRoles(userReport);
+                return View(userReport);
+            }
+            else
+            {
+                var userReport = ac.GetUserPerformanceReport(user,startDate, endDate);
+                userReport = AssignUserRoles(userReport);
+                return View(userReport);
+            }
+
         }
 
         public List<cUserPerformance> AssignUserRoles(List<cUserPerformance> UserList)
@@ -284,7 +297,7 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET : User Activity Type report from date range
+        // GET : User Activities report from date range
         [HttpGet]
         public string GetUserActivitySummary(string user, string sDate, string eDate)
         {
@@ -471,6 +484,197 @@ namespace JobsV1.Controllers
         }
 
 
+
+        #endregion
+
+
+        #region Supplier Activities
+
+        //Get User Activities within a specific date range
+        public ActionResult SupActivities(string user, string sDate, string eDate)
+        {
+            if (!String.IsNullOrEmpty(user))
+            {
+                var supAct = ac.GetSupActivities(user, sDate, eDate);
+
+                ViewBag.User = user;
+                ViewBag.IsAdmin = User.IsInRole("Admin");
+                ViewBag.PerfSummary = ac.GetSupPerformance(supAct, user);
+                ViewBag.SalesSummary = ac.GetUserSales(supAct, user);
+
+                //For Create Activity View for the user
+                Partial_SupActivity(user);
+
+
+                return View(supAct);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public void Partial_SupActivity(string user)
+        {
+            ViewBag.Assigned = user;
+            ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(c => c.Name), "Id", "Name");
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
+            ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type");
+
+            SupplierActivity activity = new SupplierActivity();
+            activity.DtActivity = dt.GetCurrentDateTime();
+            activity.Assigned = user;
+            ViewBag.supActivity = activity;
+        }
+
+        // GET : User Activities report from date range 
+        [HttpGet]
+        public string GetSupActivitySummary(string user, string sDate, string eDate)
+        {
+            if (!String.IsNullOrEmpty(user))
+            {
+                List<cUserActivity> tempAct = new List<cUserActivity>();
+                var custAct = ac.GetSupActivities(user, sDate, eDate);
+                foreach (var act in custAct)
+                {
+                    act.Assigned = act.UserRemoveEmail(act.Assigned);
+                    tempAct.Add(act);
+                }
+
+                //convert list to json object
+                return JsonConvert.SerializeObject(tempAct, Formatting.Indented);
+            }
+
+            return "Error";
+        }
+
+
+        //CREATE : Activities/CreateActivity
+        [HttpPost]
+        public string CreateSupActivity(string actDate, string Assigned, string Code, string Remarks, string SupplierId, string Type, string ActivityType)
+        {
+            try
+            {
+                //create activity
+                SupplierActivity act = new SupplierActivity();
+                act.DtActivity = DateTime.Parse(actDate);
+                act.Assigned = Assigned;
+                act.Code = Code;
+                act.Remarks = Remarks;
+                act.SupplierId = int.Parse(SupplierId);
+                act.Type = Type;
+                act.ActivityType = ActivityType;
+                act.Amount = 0;
+
+                db.SupplierActivities.Add(act);
+                db.SaveChanges();
+
+                return "New Activity Added";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+
+        //EDIT - GET : Activities/GetActivityRecord
+        [HttpGet]
+        public string GetSupActivityRecord(int id)
+        {
+            try
+            {
+                //create activity
+                SupplierActivity act = db.SupplierActivities.Find(id);
+                if (act != null)
+                {
+                    cUserActivity userAct = new cUserActivity();
+                    userAct.Id = act.Id;
+                    userAct.Date = act.DtActivity;
+                    userAct.SalesCode = act.Code;
+                    userAct.Amount = act.Amount;
+                    userAct.Remarks = act.Remarks;
+                    userAct.Company = act.Supplier.Name;
+                    userAct.CustEntMainId = act.SupplierId;
+                    userAct.Assigned = act.Assigned;
+                    userAct.Type = act.Type;
+                    userAct.ActivityType = act.ActivityType;
+
+                    return JsonConvert.SerializeObject(userAct, Formatting.Indented);
+                }
+                return "ERROR";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+        //EDIT : Activities/EditActivity
+        [HttpPost]
+        public string EditSupActivity(int id, string actDate, string Assigned,  string Code, string Remarks, string SupplierId, string Type, string ActivityType)
+        {
+            try
+            {
+                //create activity
+                SupplierActivity act = db.SupplierActivities.Find(id);
+                act.DtActivity = DateTime.Parse(actDate);
+                act.Assigned = Assigned;
+                act.Code = Code;
+                act.Remarks = Remarks;
+                act.SupplierId = int.Parse(SupplierId);
+                act.Type = Type;
+                act.ActivityType = ActivityType;
+
+                db.Entry(act).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return "Edit Success";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+
+        //DELETE : Activities/DeleteActivityRecord
+        [HttpPost]
+        public string DeleteSupActivityRecord(int id)
+        {
+            try
+            {
+                //create activity
+                SupplierActivity act = db.SupplierActivities.Find(id);
+                if (act != null)
+                {
+
+                    db.SupplierActivities.Remove(act);
+                    db.SaveChanges();
+                    return "DELETE SUCCESS ";
+                }
+                return "DELETE ERROR ";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+        
+        // GET : User Activity Type report from date range
+        [HttpGet]
+        public string GetSupTypeSummary(string user, string sDate, string eDate)
+        {
+            if (!String.IsNullOrEmpty(user))
+            {
+
+                var custAct = ac.GetSupActivities(user, sDate, eDate);
+                var userPerf = ac.GetUserPerformance(custAct, user);
+
+                //convert list to json object
+                return JsonConvert.SerializeObject(userPerf, Formatting.Indented);
+            }
+
+            return "Error";
+        }
 
         #endregion
     }
