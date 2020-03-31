@@ -317,7 +317,7 @@ namespace JobsV1.Models.Class
 
             //sql query with comma separated item list
             string sql =
-               @" SELECT *, Company = (SELECT Name FROM Suppliers sup WHERE sup.Id = act.SupplierId ), 
+               @" SELECT *, Company = (SELECT Name FROM Suppliers sup WHERE sup.Id = act.SupplierId ), SupplierId as CustEntMainId,  
                   Points = (SELECT Points FROM SupplierActivityTypes type WHERE type.Type = act.ActivityType), 
                   Code as SalesCode ,DtActivity as Date
                   FROM SupplierActivities act WHERE " +
