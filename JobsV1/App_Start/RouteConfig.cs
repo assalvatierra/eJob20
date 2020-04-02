@@ -76,6 +76,19 @@ namespace JobsV1
 
             #endregion
 
+            #region Articles
+
+            /********************************
+            * Articles
+            ********************************/
+
+            routes.MapRoute(
+                name: "Article/Article1",
+                url: "Articles/Article1",
+                defaults: new { controller = "CarRental", action = "ArticleView", article = "Article1" }
+            );
+
+            #endregion
 
             /********************************
             * invoice
