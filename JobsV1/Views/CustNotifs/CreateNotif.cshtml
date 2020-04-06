@@ -12,7 +12,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>CustNotif</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -83,38 +82,43 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                @*<input type="submit" value="Create" class="btn btn-default" />*@
-                @*<input value="Submit" class="btn btn-default"  onclick="ajax_SubmitNotif()" />*@
+                <input type="submit" value="Create" class="btn btn-default" />
+                <input value="Submit" class="btn btn-default"  onclick="ajax_SubmitNotif()" />
             </div>
-        </div>
+        </div>*@
     </div>
 }
 
 <div class="row">
-    <div class="col-lg-offset-1 col-lg-6" style="padding:20px;">
-        <h3> Recipients </h3>
-        <a class="cursor-hand" onclick="AddRecipientModal()"> Add Recipient </a>
-        <table class="table table-responsive .thead-light" id="RecipientTable">
-            <thead class=".thead-light">
-                <tr>
-                    <th> Id </th>
-                    <th> Email </th>
-                    <th> Mobile </th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
+    <div class=" col-lg-6">
+        <div class="panel panel-default" >
+            <div class="panel-body" style="padding:30px;">
+                <h4> Notification Recipients </h4>
+                <a class="cursor-hand" onclick="AddRecipientModal()"> Add Recipient </a>
+                <table class="table table-responsive .thead-light" id="RecipientTable">
+                    <thead class=".thead-light">
+                        <tr>
+                            <th> Id </th>
+                            <th> Email </th>
+                            <th> Mobile </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-lg-offset-2 col-md-10">
         <button class="btn btn-default" onclick="ajax_SubmitNotif()" > Submit </button>
     </div>
 </div>
+
 <div class="row">
     <br />
     <div class="row">

@@ -204,6 +204,7 @@ namespace JobsV1.Controllers
                 custNotif.DtEncoded = dt.GetCurrentDateTime();
                 db.CustNotifs.Add(custNotif);
                 db.SaveChanges();
+                //return RedirectToAction("CreateNotifRecipients", new { id = custNotif.Id });
                 return RedirectToAction("Index");
             }
             ViewBag.Occurence = new SelectList(OccurenceList, "Value", "Text");
@@ -246,17 +247,28 @@ namespace JobsV1.Controllers
             return JsonConvert.SerializeObject(list, Formatting.Indented);
         }
 
-        // POST: CustNotifs/AddRecipient
-        // id = CustNotif id
-        public string AddRecipient(int? id, int customerId, string email, string mobile)
+        public ActionResult CreateNotifRecipients(int? id)
         {
             if (id != null)
+            {
+                ViewBag.Customers = db.Customers.Where(c => c.Status == "ACT").OrderBy(s => s.Name).ToList();
+                ViewBag.notifId = (int)id;
+                return View();
+            }
+            return View();
+        }
+
+        // POST: CustNotifs/AddRecipient
+        // id = CustNotif id
+        public string AddRecipient(int id, int customerId, string email, string mobile)
+        {
+            try
             {
                 try
                 {
 
                     CustNotifRecipient custRecipient = new CustNotifRecipient();
-                    custRecipient.CustNotifId = (int)id;
+                    custRecipient.CustNotifId = id;
                     custRecipient.CustomerId = customerId;
                     custRecipient.NotifRecipientId = CreateRecipient(email, mobile);
 
@@ -271,17 +283,22 @@ namespace JobsV1.Controllers
                     return JsonConvert.SerializeObject(err, Formatting.Indented);
                 }
             }
-            return JsonConvert.SerializeObject("500", Formatting.Indented);
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject("500 : " + ex.ToString(), Formatting.Indented);
+            }
+
+            return "Error";
         }
 
         public int CreateRecipient(string email, string mobile)
         {
 
-            NotifRecipient custRecipient = new NotifRecipient();
+            CustNotifRecipientList custRecipient = new CustNotifRecipientList();
             custRecipient.Email = email;
             custRecipient.Mobile = mobile;
 
-            db.NotifRecipients.Add(custRecipient);
+            db.CustNotifRecipientLists.Add(custRecipient);
             db.SaveChanges();
             return custRecipient.Id;
 
@@ -352,7 +369,7 @@ namespace JobsV1.Controllers
                 //get recipient list
                 foreach (var recipients in notif.CustNotifRecipients)
                 {
-                    var email = recipients.NotifRecipient.Email;
+                    var email = recipients.CustNotifRecipientList.Email;
                     var subject = notif.MsgTitle;
                     var content = notif.MsgBody;
                     emailSender.SendMail(email, subject, content);

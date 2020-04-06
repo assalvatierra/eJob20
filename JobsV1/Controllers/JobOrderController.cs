@@ -197,12 +197,6 @@ namespace JobsV1.Controllers
         //GET : return list of jobs
         public List<cJobOrder> getJobData(int sortid)
         {  
-            //IEnumerable<Models.JobMain> jobMains = db.JobMains
-            //    .Include(j => j.Customer)
-            //    .Include(j => j.Branch)
-            //    .Include(j => j.JobStatus)
-            //    .Include(j => j.JobThru)
-            //    ;
 
             var confirmed = dbc.getJobConfirmedList(sortid).Select(s=>s.Id);
 
@@ -347,7 +341,6 @@ namespace JobsV1.Controllers
         //GET : return customer company name
         public string getCustomerCompany(int id)
         {
-            //int companyNum = db.CustEntities.Where(s=>s.CustomerId == id).LastOrDefault() != null ? db.CustEntities.Where(s => s.CustomerId == id).LastOrDefault().CustEntMain.Id : 1;
             var company = db.CustEntities.Where(s => s.CustomerId == id).FirstOrDefault();
             string companyNum = company != null ?  company.CustEntMainId.ToString() : " ";
             return companyNum;
@@ -576,13 +569,6 @@ order by x.jobid
                     cJobService cjoTmp = new cJobService();
                     cjoTmp.Service = svc;
 
-                    //var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
-
-                    //cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
-                    //cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
-                    //cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
-                    //cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
-
                     joTmp.Main.AgreedAmt += svc.ActualAmt != null ? svc.ActualAmt : 0;
                     joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j=>j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name: "";
                     joTmp.Expenses += getJobExpensesBySVC(svc.Id);
@@ -611,8 +597,6 @@ order by x.jobid
                 }
 
                 joTmp.PostedIncome = cIncome;
-
-                //joTmp.Expenses = getJobExpense(joTmp);
 
                 joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
                 

@@ -1,0 +1,34 @@
+﻿
+<h3> Notification ID: @ViewBag.notifId</h3>
+<h4 class="modal-title">Notification Recipients</h4>
+<div class="modal-body row" id="r-Table">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Mobile</th>
+            </tr>
+        </thead>
+        <tbody id="recipientTable">
+            <tr>
+                <td colspan="3">
+                    <br />
+                    <img src="~/Images/GIF/loading.gif" height="25" />
+                    Loading suppliers, please wait...
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="#" id="catbtn" data-toggle="modal" data-target="#addRecipientModal"> Add Recipient </a>
+</div>
+
+
+@{ Html.RenderPartial("RecipientAdd", new ViewDataDictionary { { "Customers", ViewBag.Customers }, { "notifId", ViewBag.notifId } }); }
+@{ Html.RenderPartial("RecipientEdit", new ViewDataDictionary { { "Customers", ViewBag.Customers }, { "notifId", ViewBag.notifId } }); }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/CustNotif/CreateNotif.js"></script>
+}
+

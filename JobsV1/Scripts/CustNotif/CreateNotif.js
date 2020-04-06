@@ -42,12 +42,6 @@ function InitDatePicker()
   * 4. Save Recipient - 
   **/
 
-//ADD Recipient to the Table
-function AddRecipientModal() {
-    //Show Modal
-    $('#addRecipientModal').modal('show');
-}
-
 //GET: Get customer email and mobile 
 function ajax_GetCustomer() {
 
@@ -75,7 +69,7 @@ function ajax_GetCustomer() {
             var Email = temp["Email"] != null ? temp["Email"] : "--";
             var Mobile = temp["Mobile"] != null ? temp["Mobile"] : "--";
 
-            $("#add-NotifId").val(Id);
+            //$("#add-NotifId").val(Id);
             $("#add-email").val(Email);
             $("#add-mobile").val(Mobile);
         }
@@ -86,20 +80,25 @@ function ajax_GetCustomer() {
 function ajax_AddInfo() {
 
    var id = $("#add-NotifId").val();
+   var customerId = $("#add-customerId").find(":selected").val();
    var email = $("#add-email").val();
    var mobile = $("#add-mobile").val();
-
+   
    content = ""; 
    content += "<tr>";
-   content += "<td>" + id + "</td>";
+   content += "<td>" + customerId + "</td>";
    content += "<td>" + email + "</td>";
    content += "<td>" + mobile + "</td>";
    content += "<td>";
    //content += '<td> <a class="cursor-hand" onclick="EditRecipient('+ id +', ' + email + ', '+ mobile +')" > Edit </a> |';
    content += " <a class='cursor-hand' onclick='RemoveRecipient(this)'> Remove </a> </td>";
    content += "</tr>";
-
+    
+   //add to table
    $(content).appendTo("#RecipientTable");
+
+   //add to db
+    //ajax_AddNotifRecipient(id, customerId ,email, mobile);
 }
 
 //DELETE : remove recipient row from the table
@@ -116,9 +115,20 @@ function EditRecipient( id, email, mobile) {
     $("#add-mobile").val(mobile);
 }
 
-//SAVE: Save Notification and Recipients
-function Submit() {
+//-- CreateNotif --//
+/*Algorithm :
+ * 1. Create Notification Details
+ * 2. Add Recipients 
+ * 3. Submit Notification (save details to database) and return notificationId
+ * 4. get NotificationId and loop through each recipients
+ * 5. save each recipient with the notificationId to the database
+ * 6. return to index page
+ */
 
+//ADD Recipient to the Table
+function AddRecipientModal() {
+    //Show Modal
+    $('#addRecipientModal').modal('show');
 }
 
 //CREATE : Submit Notification and return Notificatoin Id
@@ -144,9 +154,9 @@ function ajax_SubmitNotif() {
         url: url,
         type: "POST",
         data: data,
-        dataType: 'application/json; charset=utf-8',
+        dataType: 'String',
         success: function (data) {
-             console.log("SUCCESS");
+            console.log("SUCCESS");
             console.log(data["responseText"]);
             ajax_AddRecipients();
         },
@@ -164,8 +174,10 @@ function ajax_SubmitNotif() {
 
 //GET : Loop through the recipients table and save to notification recipients
 function ajax_AddRecipients(id) {
+    console.log("Adding Recipients");
+
     $('#RecipientTable > tbody  > tr').each(function (i, tr) {
-        console.log(i);
+        //console.log(i);
         var $tds = $(this).find('td'),
             custId = $tds.eq(0).text(),
             custEmail = $tds.eq(1).text(),
@@ -173,9 +185,12 @@ function ajax_AddRecipients(id) {
 
         ajax_AddNotifRecipient(id, custId, custEmail, custMobile );
     });
+
+   // window.location.href = '../CustNotifs';
 }
 
 //CREATE : submit notification recipient to the server
+//id = notification Id
 function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
 
     //build json object
@@ -185,7 +200,9 @@ function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
         email: customerEmail,
         mobile: customerMobile
     };
-    console.log(data);
+
+    //console.log(data);
+
     var url = '/CustNotifs/AddRecipient';
 
     //Post data from server using ajax call
@@ -193,7 +210,7 @@ function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
         url: url,
         type: "POST",
         data: data,
-        dataType: 'application/json; charset=utf-8',
+        dataType: 'json',
         success: function (data) {
              console.log("SUCCESS");
              console.log(customerId +" : " + data["responseText"]);
@@ -203,6 +220,5 @@ function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
             console.log(customerId + " : " + data["responseText"]);
         }
     });
-
 
 }
