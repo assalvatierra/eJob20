@@ -12,23 +12,19 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CustNotifRecipient
+    public partial class CustNotifRecipientList
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CustNotifRecipient()
+        public CustNotifRecipientList()
         {
-            this.CustNotifActivities = new HashSet<CustNotifActivity>();
+            this.CustNotifRecipients = new HashSet<CustNotifRecipient>();
         }
     
         public int Id { get; set; }
-        public int CustomerId { get; set; }
-        public int CustNotifId { get; set; }
-        public int NotifRecipientId { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
     
-        public virtual Customer Customer { get; set; }
-        public virtual CustNotif CustNotif { get; set; }
-        public virtual CustNotifRecipientList CustNotifRecipientList { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustNotifActivity> CustNotifActivities { get; set; }
+        public virtual ICollection<CustNotifRecipient> CustNotifRecipients { get; set; }
     }
 }

@@ -647,6 +647,9 @@
     <Compile Include="Models\CustNotifRecipient.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustNotifRecipientList.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Customer.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -793,9 +796,6 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\NotifRecipient.cs">
-      <DependentUpon>JobDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\OnlineReservation.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -2367,6 +2367,7 @@
     <Content Include="Views\Activities\SupActivities_ActivityCreate.cshtml" />
     <Content Include="Views\Activities\SupActivities_ActivityEdit.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\Article1.cshtml" />
+    <Content Include="Views\CustNotifs\CreateNotifRecipients.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -52,8 +52,8 @@ namespace JobsV1.Models.Class
                @"                                  
                 SELECT *,
 	                Name = (SELECT Name FROM Customers cu WHERE cu.Id = cr.CustomerId),
-	                Email = (SELECT Email FROM NotifRecipients nr WHERE nr.Id = cr.NotifRecipientId),
-	                Mobile = (SELECT Mobile FROM NotifRecipients nr WHERE nr.Id = cr.NotifRecipientId)
+	                Email = (SELECT Email FROM CustNotifRecipientLists nr WHERE nr.Id = cr.NotifRecipientId),
+	                Mobile = (SELECT Mobile FROM CustNotifRecipientLists nr WHERE nr.Id = cr.NotifRecipientId)
                 FROM CustNotifRecipients cr
                 ";
             sql += "WHERE CustNotifId = "+ id +" ;";
@@ -119,7 +119,7 @@ namespace JobsV1.Models.Class
                 var notifAct = db.CustNotifActivities.Find(id);
 
                 var notification = notifAct.CustNotifRecipient.CustNotif;
-                var recipient = notifAct.CustNotifRecipient.NotifRecipient;
+                var recipient = notifAct.CustNotifRecipient.CustNotifRecipientList;
 
                 //get recipient list
                 var email = recipient.Email;

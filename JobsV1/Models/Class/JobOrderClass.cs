@@ -182,8 +182,8 @@ namespace JobsV1.Models
             //return minDate;
         }
 
-        //GET  : lastest date of the job based on the date today
-        //PARAM: starDate , endDate 
+        //GET  : lastest date of the job based on the date today from two dates
+        //P    : starDate , endDate 
         public DateTime MinJobDate(DateTime startDate, DateTime endDate)
         {
             //update jobdate
