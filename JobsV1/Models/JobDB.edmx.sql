@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/28/2020 14:09:32
+-- Date Created: 04/06/2020 16:24:49
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1983,8 +1983,8 @@ CREATE TABLE [dbo].[CustNotifRecipients] (
 );
 GO
 
--- Creating table 'NotifRecipients'
-CREATE TABLE [dbo].[NotifRecipients] (
+-- Creating table 'CustNotifRecipientLists'
+CREATE TABLE [dbo].[CustNotifRecipientLists] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Email] nvarchar(max)  NULL,
     [Mobile] nvarchar(max)  NULL
@@ -2722,9 +2722,9 @@ ADD CONSTRAINT [PK_CustNotifRecipients]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'NotifRecipients'
-ALTER TABLE [dbo].[NotifRecipients]
-ADD CONSTRAINT [PK_NotifRecipients]
+-- Creating primary key on [Id] in table 'CustNotifRecipientLists'
+ALTER TABLE [dbo].[CustNotifRecipientLists]
+ADD CONSTRAINT [PK_CustNotifRecipientLists]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4506,7 +4506,7 @@ GO
 ALTER TABLE [dbo].[CustNotifRecipients]
 ADD CONSTRAINT [FK_NotifRecipientCustNotifRecipient]
     FOREIGN KEY ([NotifRecipientId])
-    REFERENCES [dbo].[NotifRecipients]
+    REFERENCES [dbo].[CustNotifRecipientLists]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO

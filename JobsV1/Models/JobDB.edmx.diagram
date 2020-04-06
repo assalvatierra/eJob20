@@ -285,10 +285,10 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="JobDB.CustNotif" Width="1.5" PointX="6.75" PointY="22.375" />
         <EntityTypeShape EntityType="JobDB.CustNotifActivity" Width="1.5" PointX="1.25" PointY="22.75" />
-        <EntityTypeShape EntityType="JobDB.CustNotifRecipient" Width="1.5" PointX="4.125" PointY="22.375" />
+        <EntityTypeShape EntityType="JobDB.CustNotifRecipient" Width="2.125" PointX="3.875" PointY="22.375" />
         <AssociationConnector Association="JobDB.CustomerCustNotifRecipient" />
         <AssociationConnector Association="JobDB.CustNotifCustNotifRecipient" />
-        <EntityTypeShape EntityType="JobDB.NotifRecipient" Width="1.5" PointX="4.125" PointY="25.5" />
+        <EntityTypeShape EntityType="JobDB.CustNotifRecipientList" Width="1.875" PointX="4" PointY="25.625" />
         <AssociationConnector Association="JobDB.NotifRecipientCustNotifRecipient" />
         <AssociationConnector Association="JobDB.CustNotifRecipientCustNotifActivity" />
         <EntityTypeShape EntityType="JobDB.CustEntActStatus" Width="1.5" PointX="19.125" PointY="0.875" />
