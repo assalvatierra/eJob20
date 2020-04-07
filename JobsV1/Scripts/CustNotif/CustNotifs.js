@@ -198,3 +198,8 @@ function loadList(data) {
     $(content).appendTo("#recipientTable");
 
 }
+
+
+function SubmitRecipientList() {
+    window.location.href = "/CustNotifs";
+}

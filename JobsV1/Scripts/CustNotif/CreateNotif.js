@@ -95,10 +95,8 @@ function ajax_AddInfo() {
    content += "</tr>";
     
    //add to table
-   $(content).appendTo("#RecipientTable");
+    $(content).appendTo("#recipientTable");
 
-   //add to db
-    //ajax_AddNotifRecipient(id, customerId ,email, mobile);
 }
 
 //DELETE : remove recipient row from the table
@@ -173,25 +171,28 @@ function ajax_SubmitNotif() {
 }
 
 //GET : Loop through the recipients table and save to notification recipients
-function ajax_AddRecipients(id) {
+function ajax_AddRecipients (id) {
     console.log("Adding Recipients");
+    let rowLength = $('#tableId tbody tr').length;
 
-    $('#RecipientTable > tbody  > tr').each(function (i, tr) {
-        //console.log(i);
+    $('#recipientTable > tbody  > tr').each(async function (i, tr) {
+        console.log(i);
         var $tds = $(this).find('td'),
             custId = $tds.eq(0).text(),
             custEmail = $tds.eq(1).text(),
             custMobile = $tds.eq(2).text();
 
-        ajax_AddNotifRecipient(id, custId, custEmail, custMobile );
+        let result = await ajax_AddNotifRecipient(id, custId, custEmail, custMobile);
+        console.log(result);
+        if (result == "DONE") {
+            console.log(i + " is done.");
+        }
     });
-
-   // window.location.href = '../CustNotifs';
-}
+};
 
 //CREATE : submit notification recipient to the server
 //id = notification Id
-function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
+async function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
 
     //build json object
     var data = {
@@ -210,15 +211,23 @@ function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
         url: url,
         type: "POST",
         data: data,
-        dataType: 'json',
+        dataType: 'string',
         success: function (data) {
-             console.log("SUCCESS");
-             console.log(customerId +" : " + data["responseText"]);
+            console.log("SUCCESS");
+            console.log(customerId + " : " + data["responseText"]);
+            return "DONE";
         },
         error: function (data) {
             console.log("ERROR");
             console.log(customerId + " : " + data["responseText"]);
+            return "DONE";
         }
     });
+}
 
+//call to submit recipients list with async
+ function SubmitRecipientList() {
+    console.log("performing submit");
+    ajax_AddRecipients(2);
+    //window.location.href = "/CustNotifs"
 }

@@ -204,8 +204,9 @@ namespace JobsV1.Controllers
                 custNotif.DtEncoded = dt.GetCurrentDateTime();
                 db.CustNotifs.Add(custNotif);
                 db.SaveChanges();
-                //return RedirectToAction("CreateNotifRecipients", new { id = custNotif.Id });
-                return RedirectToAction("Index");
+
+                return RedirectToAction("CreateNotifRecipients", new { id = custNotif.Id });
+                //return RedirectToAction("Index");
             }
             ViewBag.Occurence = new SelectList(OccurenceList, "Value", "Text");
             ViewBag.Status = new SelectList(StatusList, "Value", "Text");
@@ -355,6 +356,8 @@ namespace JobsV1.Controllers
             }
 
         }
+
+
         #endregion
 
         #region EmailHandler
