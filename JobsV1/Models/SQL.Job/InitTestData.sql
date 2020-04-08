@@ -426,7 +426,8 @@ SELECT cna.Id,
 	   IsEmail = cn.IsEmail,
 	   IsSMS = cn.IsSMS,
 	   Status = cna.Status,
-	   Recipient = (SELECT Email FROM NotifRecipients nr WHERE nr.Id = cnr.NotifRecipientId)
+	   Occurence = cn.Occurence,
+	   Recipient = (SELECT Email FROM CustNotifRecipientLists nr WHERE nr.Id = cnr.NotifRecipientId)
 FROM CustNotifActivities cna 	
 LEFT JOIN CustNotifRecipients cnr ON cnr.Id = cna.CustNotifRecipientId
 LEFT JOIN CustNotifs cn ON cn.Id = cnr.CustNotifId	

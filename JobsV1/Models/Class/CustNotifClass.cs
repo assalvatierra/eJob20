@@ -34,6 +34,8 @@ namespace JobsV1.Models.Class
         public bool IsSMS { get; set; }
         public string Recipient { get; set; }
         public string Status { get; set; }
+        public string Occurence { get; set; }
+        public int CustNotifRecipientId { get; set; }
     }
 
 
@@ -73,7 +75,7 @@ namespace JobsV1.Models.Class
 	            DtActivity = cna.DtActivity,
 	            Title = cn.MsgTitle,
 	            Status = cna.Status,
-	            Recipient = (SELECT Email FROM NotifRecipients nr WHERE nr.Id = cnr.NotifRecipientId)
+	            Recipient = (SELECT Email FROM CustNotifRecipientLists nr WHERE nr.Id = cnr.NotifRecipientId)
                 FROM CustNotifActivities cna 	
                 LEFT JOIN CustNotifRecipients cnr ON cnr.Id = cna.CustNotifRecipientId
                 LEFT JOIN CustNotifs cn ON cn.Id = cnr.CustNotifId;";
@@ -99,7 +101,9 @@ namespace JobsV1.Models.Class
 	                   IsEmail = cn.IsEmail,
 	                   IsSMS = cn.IsSMS,
 	                   Status = cna.Status,
-	                   Recipient = (SELECT Email FROM NotifRecipients nr WHERE nr.Id = cnr.NotifRecipientId)
+	                   Occurence = cn.Occurence,
+	                   Recipient = (SELECT Email FROM CustNotifRecipientLists nr WHERE nr.Id = cnr.NotifRecipientId),
+                       CustNotifRecipientId = cnr.Id
                 FROM CustNotifActivities cna 	
                 LEFT JOIN CustNotifRecipients cnr ON cnr.Id = cna.CustNotifRecipientId
                 LEFT JOIN CustNotifs cn ON cn.Id = cnr.CustNotifId	

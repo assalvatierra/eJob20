@@ -386,6 +386,7 @@ namespace JobsV1.Controllers
         }
         //POST: Send Email Notification Test
         //id : Notification Activity Id
+        // Check pending notifications and send all pending 
         public string SendPendingEmail()
         {
             try
@@ -395,8 +396,16 @@ namespace JobsV1.Controllers
 
                 foreach (var notification in notifActList)
                 {
+                    Console.WriteLine(notification.Recipient);
+
                     //send email
                     notify.SendEmailNotif(notification.Id);
+
+                    //check and update occurence of the notification
+                    if (notification.Occurence != "ONE-TIME")
+                    {
+                        UpdateReoccuringNotif(notification);
+                    }
                 }
 
                 return "200";
@@ -413,6 +422,60 @@ namespace JobsV1.Controllers
             var count = notify.GetPendingNotif().Count;
             return JsonConvert.SerializeObject(count, Formatting.Indented);
         }
+
+        //FOR DAILY OCCURENCE
+        public void UpdateReoccuringNotif(cPendingNotif notif)
+        {
+            string occurence = notif.Occurence;
+
+            if (occurence == "DAILY")
+            {
+                //add new activity tommorrow
+                createDailyActivity(notif.CustNotifRecipientId, notif.DtActivity);
+            }
+
+            if (occurence == "WEEKLY")
+            {
+                //add new activity tommorrow
+                createWeeklyActivity(notif.CustNotifRecipientId, notif.DtActivity);
+            }
+
+            if (occurence == "MONTHLY")
+            {
+                //add new activity tommorrow
+                createMonthlyActivity(notif.CustNotifRecipientId, notif.DtActivity);
+            }
+            //check 
+        }
+
+        //Create activity record for daily occurence notification
+        public void createDailyActivity(int recipientId, DateTime currentSchedule)
+        {
+            var tempDateTime = currentSchedule;
+            DateTime tommorrow = tempDateTime.AddDays(1);
+
+            CreateActivity(recipientId, tommorrow, "PENDING");
+        }
+
+
+        //Create activity record for daily occurence notification
+        public void createWeeklyActivity(int recipientId, DateTime currentSchedule)
+        {
+            var tempDateTime = currentSchedule;
+            DateTime tommorrow = tempDateTime.AddDays(7);
+
+            CreateActivity(recipientId, tommorrow, "PENDING");
+        }
+
+        //Create activity record for daily occurence notification
+        public void createMonthlyActivity(int recipientId, DateTime currentSchedule)
+        {
+            var tempDateTime = currentSchedule;
+            DateTime tommorrow = tempDateTime.AddMonths(1);
+
+            CreateActivity(recipientId, tommorrow, "PENDING");
+        }
+
 
         #endregion
 
@@ -432,7 +495,7 @@ namespace JobsV1.Controllers
         }
 
         //GET: ajax get activity list
-        public string CreateActivity(int id, DateTime date ,string status)
+        public void CreateActivity(int id, DateTime date ,string status)
         {
             CustNotifActivity activity = new CustNotifActivity();
             activity.DtActivity = date;
@@ -442,7 +505,6 @@ namespace JobsV1.Controllers
             db.CustNotifActivities.Add(activity);
             db.SaveChanges();
 
-            return "";
         }
 
 
@@ -451,7 +513,6 @@ namespace JobsV1.Controllers
         {
             try
             {
-
                 CustNotifActivity activity = db.CustNotifActivities.Find(id);
                 activity.Status = status;
 

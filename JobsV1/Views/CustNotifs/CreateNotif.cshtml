@@ -82,16 +82,16 @@
             </div>
         </div>
 
-        @*<div class="form-group">
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
-                <input value="Submit" class="btn btn-default"  onclick="ajax_SubmitNotif()" />
+                @*<input value="Submit" class="btn btn-default"  onclick="ajax_SubmitNotif()" />*@
             </div>
-        </div>*@
+        </div>*
     </div>
 }
 
-<div class="row">
+@*<div class="row">
     <div class=" col-lg-6">
         <div class="panel panel-default" >
             <div class="panel-body" style="padding:30px;">
@@ -117,7 +117,7 @@
     <div class="col-lg-offset-2 col-md-10">
         <button class="btn btn-default" onclick="ajax_SubmitNotif()" > Submit </button>
     </div>
-</div>
+</div>*@
 
 <div class="row">
     <br />
@@ -126,8 +126,8 @@
     </div>
 </div>
 
-@{ Html.RenderPartial("RecipientAdd", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
-@{ Html.RenderPartial("RecipientEdit", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
+@*@{ Html.RenderPartial("RecipientAdd", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
+@{ Html.RenderPartial("RecipientEdit", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
