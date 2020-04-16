@@ -1,9 +1,12 @@
-﻿@model IEnumerable<JobsV1.Models.JobExpenses >
+﻿@model IEnumerable<JobsV1.Models.JobExpenses>
 
 @{
     ViewBag.Title = "Expenses";
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
 }
+
+@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+
 
 <h3>@ViewBag.JobOrderName </h3>
 
@@ -13,7 +16,7 @@
     <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobMainId }, null)
     | @Html.ActionLink("Details", "Details", "JobMains", new { id = ViewBag.JobMainId }, null)
 </p>
-         
+
 <p>
     @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobMainId }, null) |
     @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobMainId }, null) |
@@ -57,7 +60,7 @@
 </table>
 
 <table class="table table-borderless" id="jobExpenseTbl" style="border:1px solid lightgray;">
-    
+
     <tr>
         <td width="700">
             <b>
@@ -74,9 +77,10 @@
                 @if (services.ActualAmt != null)
                 {
                     <text>
-                    @services.Particulars (@services.ActualAmt.Value.ToString("#,###.00"))
+                        @services.Particulars (@services.ActualAmt.Value.ToString("#,###.00"))
                     </text>
-                }else
+                }
+                else
                 {
                     <text> @services.Particulars (0)</text>
                 }
@@ -141,8 +145,8 @@
             <td>@item.OthersInc.ToString("#,###.00")</td>
             <td>@item.Remarks</td>
             <td>
-                <a href="" id="editPosted" data-toggle="modal" data-target="#editPostedModal" style="margin-bottom:10px;" 
-                   onclick="editPosted(@item.Id,@item.CarRentalInc,@item.TourInc,@item.OthersInc,'@item.Remarks');" >Edit</a>
+                <a href="" id="editPosted" data-toggle="modal" data-target="#editPostedModal" style="margin-bottom:10px;"
+                   onclick="editPosted(@item.Id,@item.CarRentalInc,@item.TourInc,@item.OthersInc,'@item.Remarks');">Edit</a>
                 | @Html.ActionLink("Delete", "PostedDelete", "JobExpenses", new { id = item.Id }, null)
             </td>
         </tr>
@@ -153,12 +157,12 @@
 
 <div class="jumbotron">
     <div class="container">
-        
-            <h3>Summary</h3>
-            <h3> Payments:  @ViewBag.totalPayment.ToString("#,###.00") </h3>
-            <h3> Expenses:  @ViewBag.totalExpenses.ToString("#,###.00") </h3>
-            <h3> Revenue: &nbsp;@ViewBag.totalBalance.ToString("#,###.00")  </h3>
-           <span class="hidden" id="RevenueAmt">@ViewBag.totalBalance</span>
+
+        <h3>Summary</h3>
+        <h3> Payments:  @ViewBag.totalPayment.ToString("#,###.00") </h3>
+        <h3> Expenses:  @ViewBag.totalExpenses.ToString("#,###.00") </h3>
+        <h3> Revenue: &nbsp;@ViewBag.totalBalance.ToString("#,###.00")  </h3>
+        <span class="hidden" id="RevenueAmt">@ViewBag.totalBalance</span>
     </div>
 </div>
 
@@ -167,7 +171,7 @@
     <div class="container">
         <div class="col-lg-3">
             <h4> Car Rental </h4>
-            <input id="carRentalIncome" type="number" class="form-control" style="width:150px;" value="0"  oninput="validatePosted();calcCarIncome();" onkeypress="validate(event)" />
+            <input id="carRentalIncome" type="number" class="form-control" style="width:150px;" value="0" oninput="validatePosted();calcCarIncome();" onkeypress="validate(event)" />
         </div>
         <div class="col-lg-3">
             <h4> Tour </h4>
@@ -175,7 +179,7 @@
         </div>
         <div class="col-lg-3">
             <h4> Others </h4>
-            <input id="othersIncome" type="number" class="form-control" style="width:150px;"  value="0"  oninput="validatePosted();" onkeypress='validate(event)' />
+            <input id="othersIncome" type="number" class="form-control" style="width:150px;" value="0" oninput="validatePosted();" onkeypress='validate(event)' />
         </div>
         <div class="col-lg-8">
             <h4>Remarks</h4>
@@ -183,7 +187,7 @@
         </div>
         <div class="col-lg-8">
             <!-- Post and Close Buttons -->
-            <p style="font-size:12px;margin-top:5px;" >
+            <p style="font-size:12px;margin-top:5px;">
                 <input type="checkbox" id="postClose-checkbox" /> Post and Close
             </p>
             <div id="Post-or-close">
@@ -198,7 +202,7 @@
                 <button class="btn btn-primary" id="PostBtn" onclick="checkInput(@ViewBag.JobMainId, @ViewBag.totalPayment, @ViewBag.totalExpenses, @ViewBag.totalBalance,'PostAndClose')"> Post and Close </button>
             </div>
             <br />
-            <p id="posting-warning-msg" class="text-danger" > Revenue and Total Income does not match </p>
+            <p id="posting-warning-msg" class="text-danger"> Revenue and Total Income does not match </p>
         </div>
     </div>
 </div>
@@ -212,7 +216,7 @@
                 <h4 class="modal-title">Edit Expenses</h4>
             </div>
             <div class="modal-body row">
-               
+
                 <div class="form-group col-md-12 hidden">
                     <b class="col-md-2 "> Id: </b>
                     <div class="col-md-10">
@@ -241,7 +245,7 @@
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> Tour: </b>
                     <div class="col-md-10">
-                        <input type="number" maxlength="12" class="form-control" id="edit-tourInc" value="0" oninput="validatePosted_edit();" onkeypress="validate(event)"  />
+                        <input type="number" maxlength="12" class="form-control" id="edit-tourInc" value="0" oninput="validatePosted_edit();" onkeypress="validate(event)" />
                     </div>
                 </div>
                 <br /><br />
@@ -249,7 +253,7 @@
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> others: </b>
                     <div class="col-md-10">
-                        <input type="number" maxlength="12" class="form-control" id="edit-otherInc" value="0" oninput="validatePosted_edit();" onkeypress="validate(event)"  />
+                        <input type="number" maxlength="12" class="form-control" id="edit-otherInc" value="0" oninput="validatePosted_edit();" onkeypress="validate(event)" />
                     </div>
                 </div>
                 <br /><br />
@@ -263,7 +267,7 @@
                 <br /><br />
 
                 <div class="form-group col-md-12">
-                    <span  id="edit-warning-msg" class="col-lg-8 text-danger"  >The Revenue and Total Income does not match</span>
+                    <span id="edit-warning-msg" class="col-lg-8 text-danger">The Revenue and Total Income does not match</span>
                 </div>
 
                 <!--End of Modal Body-->
@@ -285,10 +289,10 @@
         validatePosted();
 
         var totalIncome;
-        var revenue = $("#RevenueAmt").text();  
+        var revenue = $("#RevenueAmt").text();
         //console.log("revenue: "+revenue);
-        
-        var revenue = $("#RevenueAmt").text();  
+
+        var revenue = $("#RevenueAmt").text();
 
         if( $("#carRentalIncome").val() == 0){
             $("#carRentalIncome").val(revenue);
@@ -343,7 +347,7 @@
         });
     }
 
-    
+
     //Close Job
     function CloseJob(jobId) {
 
@@ -367,7 +371,7 @@
             }
         });
     }
-    
+
     //Add Expense
     function CloseReloadJob(jobId) {
 
@@ -489,7 +493,7 @@
 
     //handle numbers only
     $('#carRentalIncome,#tourIncome,#othersIncome,#edit-carRentalInc,#edit-tourInc,#edit-otherInc,#edit-postedRemarks').on('input', function () {
-       
+
         //backspace
         if (isNaN($(this).val())) {
             var txt = $(this);
@@ -506,8 +510,8 @@
         }
 
     });
-    
-    //prevent invalid inputs 
+
+    //prevent invalid inputs
     function validate(evt) {
        var theEvent = evt || window.event;
        console.log("validate");
@@ -529,7 +533,7 @@
 
     // CheckInput
     // validate and check if the input from the job income section
-    // are numbers and the total are equal to the revenue. Also 
+    // are numbers and the total are equal to the revenue. Also
     // handles actions with the Post and close buttons
     function checkInput(jobId,payment,expenses,income,postType){
         if(validatePosted()){
@@ -550,7 +554,7 @@
         }
     }
 
-    // Post and Close Check Box 
+    // Post and Close Check Box
     $('#postClose-checkbox').on('click', function(){
         if ($(this).is(":checked"))
         {
@@ -558,7 +562,7 @@
             $("#Post-or-close").hide();
             $("#Post-and-close").show();
         }else{
-            
+
             $("#Post-or-close").show();
             $("#Post-and-close").hide();
         }
@@ -569,7 +573,7 @@
         console.log("--- Calculate ---");
 
         var totalIncome;
-        var revenue = $("#RevenueAmt").text();  
+        var revenue = $("#RevenueAmt").text();
 
         //if( $("#carRentalIncome").val() == 0){
         //    $("#carRentalIncome").val(revenue);
@@ -578,7 +582,7 @@
         var carIncome = $("#carRentalIncome").val();
         //console.log("carRentalIncome: "+carIncome);
         totalIncome = carIncome;
-        
+
         //console.log(totalIncome + " != " + revenue);
 
         if( totalIncome != revenue ){
@@ -593,7 +597,7 @@
 
     function calcTour(){
         var totalIncome;
-        var revenue = $("#RevenueAmt").text();  
+        var revenue = $("#RevenueAmt").text();
         var carIncome = $("#carRentalIncome").val();
         var tourIncome = $("#tourIncome").val();
 

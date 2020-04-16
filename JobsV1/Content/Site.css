@@ -549,3 +549,64 @@ rental-type-wdriver {
         border: 1px solid lightgray;
     }
 
+
+    /* Navigation */
+
+    .nav-submenus{
+        padding:10px 5px;
+        float: left;
+    }
+
+    .nav-submenus a {
+        padding:10px 5px;
+        text-decoration: none;
+    }
+
+    .nav-submenus:hover{
+        background-color:lightgray;
+        cursor:pointer;
+       
+    }
+
+    .nav-submenu-container{
+        width:90%;
+    }
+
+    .nav-submenu-home {
+        width: 5%;
+        float: right;
+        padding:10px 0px;
+        margin-right:0px;
+    }
+
+    .nav-submenu-home a{
+        padding:10px 5px;
+    }
+
+    .nav-submenu-home a{
+        padding:10px 5px;
+        text-decoration: none;
+    }
+
+    .nav-submenu-home a:hover {
+        background-color:lightgray;
+        cursor:pointer;
+    }
+
+    @media only screen and (max-width: 1024px){
+
+        .nav-submenu-home {
+            float: left;
+            color:red;
+        }
+
+    }
+
+
+    .right {
+        position: absolute;
+        right: 0px;
+        width: 400px;
+        /*border: 3px solid #73AD21;*/
+        padding: 10px;
+    }

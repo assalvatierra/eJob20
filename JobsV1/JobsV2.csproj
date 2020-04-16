@@ -2368,6 +2368,8 @@
     <Content Include="Views\Activities\SupActivities_ActivityEdit.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\Article1.cshtml" />
     <Content Include="Views\CustNotifs\CreateNotifRecipients.cshtml" />
+    <Content Include="Views\Shared\Menu.cshtml" />
+    <Content Include="Views\Shared\_ModuleLayout_NoMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

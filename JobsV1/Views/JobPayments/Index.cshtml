@@ -1,9 +1,12 @@
 ﻿@model IEnumerable<JobsV1.Models.JobPayment>
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.Title = "Job Service - Payments";
+    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
 }
+
+@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+
 
 <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
 
@@ -18,7 +21,7 @@
     </p>
     <p>
         @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) |
-        @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) | 
+        @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
         @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
         Payments |
         @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)
@@ -45,26 +48,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DtPayment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentAmt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bank.BankName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtPayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentAmt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bank.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
 <p>

@@ -1,0 +1,25 @@
+﻿@using JobsV1.CustomHelper
+
+@{ 
+    
+    var ROOTMENUID = (int)ViewBag.ROOTMENUID;
+    var USERNAME = (string)Session["USERNAME"] != null ? (string)Session["USERNAME"] : null;
+}
+                    <div>
+                        <div  class="row" style="min-width:200px;">
+                            <div class="CustomBox" style="height:110px;width:100%;">
+                                @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)
+                            </div>
+                        </div>
+
+                    </div>
+                    <div>
+                        <div class="row" style="vertical-align:top;min-width:200px;">
+                            <div class="CustomBox" style="float:left;width:100%;">
+                                @Html.Menu2(Url.Content("~/"), "" , "", ROOTMENUID, USERNAME)
+                            </div>
+                            <div class="PanelContainer">
+                                @*@RenderSection("LeftInfo", required: false)*@
+                            </div>
+                        </div>
+                    </div>

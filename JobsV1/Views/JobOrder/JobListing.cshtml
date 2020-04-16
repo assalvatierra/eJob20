@@ -2,8 +2,10 @@
 
 @{
     ViewBag.Title = "Job Listing";
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
 }
+
+@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
 
 <h2>Job Listing</h2>
 
@@ -14,7 +16,7 @@
     | Listing
     | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
     | @Html.ActionLink("Availability", "Availability", "InvItems")
-        -->
+      -->
 </p>
 
 <p>
@@ -36,13 +38,13 @@
             Company
         </th>
         <th width="18%">
-            Rate/Payment/Expenses
+            Rate /Payment@*/Expenses*@
         </th>
         <th width="30%">
-         
+
         </th>
     </tr>
-    @{ 
+    @{
         decimal total_rate = 0;
         decimal total_payment = 0;
         decimal total_expenses = 0;
@@ -54,17 +56,17 @@
     {
         <tr>
             <td>
-               @if (@item.Services.FirstOrDefault() != null)
-               {
-                   string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd (ddd)");
-                   @s1
-               }
-               else
-               {
-                   string s1 = (item.Main.JobDate).ToString("MMM-dd (ddd)");
-                   @s1
+                @if (@item.Services.FirstOrDefault() != null)
+                {
+                    string s1 = ((DateTime)item.Services.FirstOrDefault().Service.DtStart).ToString("MMM-dd (ddd)");
+                    @s1
+                }
+                else
+                {
+                    string s1 = (item.Main.JobDate).ToString("MMM-dd (ddd)");
+                    @s1
 
-               }
+                }
             </td>
             <td>
                 @if (@item.Services.FirstOrDefault() != null)
@@ -118,9 +120,9 @@
 
             </td>
             <td>
-                @{ 
+                @{
 
-                    total_rate += item.Main.AgreedAmt != null ? (decimal)item.Main.AgreedAmt: 0;
+                    total_rate += item.Main.AgreedAmt != null ? (decimal)item.Main.AgreedAmt : 0;
                     total_payment += item.Payment;
 
                 }
@@ -128,7 +130,7 @@
                 @if (item.Main.AgreedAmt != 0)
                 {
                     <span style="color:blue; font: bold 12px arial, verdana;">
-                        @string.Format("{0:N0}", item.Main.AgreedAmt) 
+                        @string.Format("{0:N0}", item.Main.AgreedAmt)
                     </span>
                 }
 
@@ -136,7 +138,7 @@
                 @if (item.Payment != 0)
                 {
                     <span style="color:green; font: bold 12px arial, verdana;">
-                      @string.Format("{0:N0}", item.Payment)
+                        @string.Format("{0:N0}", item.Payment)
                     </span>
 
                     //if Paid in Paypal
@@ -153,44 +155,45 @@
                     <span>---</span>
                 }
 
-                <span>/ </span>
-                @if (item.Expenses != 0)
-                {
-                    <span style="color:orangered; font: bold 12px arial, verdana;">
-                        @string.Format("{0:N0}", item.Expenses)
-                    </span>
-                    total_expenses += item.Expenses;
-                }
-                else
-                {
-                    <span>---</span>
-                }
+                @*<span>/ </span>
+                    @if (item.Expenses != 0)
+                    {
+                        <span style="color:orangered; font: bold 12px arial, verdana;">
+                            @string.Format("{0:N0}", item.Expenses)
+                        </span>
+                        total_expenses += item.Expenses;
+                    }
+                    else
+                    {
+                        <span>---</span>
+                    }*@
             </td>
             <td>
                 @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
                 @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
                 @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
-                @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id}, null)
+                @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id }, null)
                 @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
                 @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+                @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
             </td>
         </tr>
     }
-    @{ 
+    @{
         total_collectible = total_rate - total_payment;
         total_projIncome = total_rate - total_expenses;
-     }
+    }
     <tr style="font-weight:bold;background-color:#dddddd">
         <td colspan="2"></td>
         <td style="text-align:right">
             Total:
-            <br /> Projected Income: 
+            <br /> Projected Income:
         </td>
-        <td> 
-            <span class="amount-rate">@string.Format("{0:N0}", total_rate)</span> / 
-            <span class="amount-payment">@string.Format("{0:N0}", total_payment)</span> / 
-            <span class="amount-expense">@string.Format("{0:N0}", total_expenses)</span>
-        <br /> <span class="amount-rate">@string.Format("{0:N0}", total_projIncome)</span> 
+        <td>
+            <span class="amount-rate">@string.Format("{0:N0}", total_rate)</span> /
+            <span class="amount-payment">@string.Format("{0:N0}", total_payment)</span> @* /
+                <span class="amount-expense">@string.Format("{0:N0}", total_expenses)</span>*@
+            <br /> <span class="amount-rate">@string.Format("{0:N0}", total_projIncome)</span>
         </td>
         <td> Total Collectible: <span class="amount-rate"> @string.Format("{0:N0}", total_collectible) </span> </td>
     </tr>
@@ -209,21 +212,21 @@
             <th width="20%">
                 Payment / Expenses / Income
                 <br /> [ Tour / Car / Others ]
-             </th>
+            </th>
             <th width="30%"> </th>
         </tr>
-            @{
-                decimal current_totalPayment = 0;
-                decimal current_totalExpenses = 0;
-                decimal current_total = 0;
-                decimal current_totalTourInc = 0;
-                decimal current_totalCarInc = 0;
-                decimal current_totalOthersInc = 0;
-                decimal temp_income = 0;
-            }
-            @foreach (var item in ViewBag.CurrentMonth as IEnumerable<JobsV1.Controllers.cJobOrder>)
-            {
-                temp_income = 0;
+        @{
+            decimal current_totalPayment = 0;
+            decimal current_totalExpenses = 0;
+            decimal current_total = 0;
+            decimal current_totalTourInc = 0;
+            decimal current_totalCarInc = 0;
+            decimal current_totalOthersInc = 0;
+            decimal temp_income = 0;
+        }
+        @foreach (var item in ViewBag.CurrentMonth as IEnumerable<JobsV1.Controllers.cJobOrder>)
+        {
+            temp_income = 0;
             <tr>
                 <td>
                     @if (@item.Services.FirstOrDefault() != null)
@@ -300,11 +303,11 @@
                     else
                     {
                         <span>
-                            / --- 
+                            / ---
                         </span>
                     }
 
-                    <!--Expenses-->                    
+                    <!--Expenses-->
                     @{current_totalExpenses += item.Expenses;}
                     @if (item.Expenses != 0)
                     {
@@ -322,12 +325,12 @@
 
 
 
-                    
+
 
                     <!--Income-->
-                    @{ temp_income = item.Payment - item.Expenses;  }
+                    @{ temp_income = item.Payment - item.Expenses; }
                     <span>
-                        / 
+                        /
                     </span>
                     <span style="color:black ; font: bold 12px arial, verdana;">
                         @string.Format("{0:N0}", temp_income)
@@ -363,10 +366,10 @@
                         </span>
                     }
 
-                    
+
                     @if (item.isPosted == false)
                     {
-                        <img src="~/Images/Erp/icons/icons-error.png" width="25" alt="not posted" title="not posted"/>
+                        <img src="~/Images/Erp/icons/icons-error.png" width="25" alt="not posted" title="not posted" />
                     }
                 </td>
                 <td>
@@ -376,25 +379,27 @@
                     @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id }, null)
                     @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
                     @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+                    @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
                 </td>
             </tr>
-            }
+        }
 
         <!--Calculate Payment - Expenses -->
         @{current_total = current_totalPayment - current_totalExpenses;}
 
         <tr style="font-weight:bold;background-color:#dddddd">
-             <td colspan="2"></td>
+            <td colspan="2"></td>
             <td style="text-align:right">
                 Total:
             </td>
-             <td> <span class="amount-rate"> @string.Format("{0:N0}", current_totalPayment) </span> / <span class="amount-payment">@string.Format("{0:N0}", current_totalExpenses)</span> 
-             <br /><span class="amount-rate">@string.Format("{0:N0}", current_totalTourInc)</span> / <span class="amount-payment">@string.Format("{0:N0}", current_totalCarInc)</span> / <span class="amount-expense">@string.Format("{0:N0}", current_totalOthersInc)</span>
-             </td>
-             <td> Total Income: <span class="amount-rate"> @string.Format("{0:N0}", current_total) </span> </td>
+            <td>
+                <span class="amount-rate"> @string.Format("{0:N0}", current_totalPayment) </span> / <span class="amount-payment">@string.Format("{0:N0}", current_totalExpenses)</span>
+                <br /><span class="amount-rate">@string.Format("{0:N0}", current_totalTourInc)</span> / <span class="amount-payment">@string.Format("{0:N0}", current_totalCarInc)</span> / <span class="amount-expense">@string.Format("{0:N0}", current_totalOthersInc)</span>
+            </td>
+            <td> Total Income: <span class="amount-rate"> @string.Format("{0:N0}", current_total) </span> </td>
         </tr>
     </table>
-    
+
 }
 
 
@@ -410,7 +415,7 @@
             <th width="18%">Rate / Payment / Expenses</th>
             <th width="30%"> </th>
         </tr>
-        @{ 
+        @{
             decimal old_totalRate = 0;
             decimal old_totalPayment = 0;
             decimal old_total = 0;
@@ -483,7 +488,7 @@
 
                 </td>
                 <td>
-                    @{ old_totalRate += item.Main.AgreedAmt != null ? (decimal)item.Main.AgreedAmt: 0; }
+                    @{ old_totalRate += item.Main.AgreedAmt != null ? (decimal)item.Main.AgreedAmt : 0; }
                     @if (item.Main.AgreedAmt != 0)
                     {
                         <span style="color:blue; font: bold 12px arial, verdana;">
@@ -536,24 +541,24 @@
                     @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
                     @Html.ActionLink("[ Payment ]", "Payments", "JobPayments", new { id = item.Main.Id }, null)
                     @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
-                    @*@Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)*@
-                @Html.ActionLink("[ Close ]", "CloseJob", "JobOrder", new { id = item.Main.Id }, null)
+                    @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
+                    @Html.ActionLink("[ Close ]", "CloseJob", "JobOrder", new { id = item.Main.Id }, null)
                 </td>
             </tr>
         }
 
         @{ old_total = old_totalRate - old_totalPayment;
             old_totalprojIncome = old_totalRate - old_totalExpenses;
-             }
+        }
         <tr style="font-weight:bold;background-color:#dddddd">
             <td colspan="2"></td>
             <td style="text-align:right">
                 Total:
-                <br /> Projected Income: 
+                <br /> Projected Income:
             </td>
-            <td> 
-                <span class="amount-rate">@string.Format("{0:N0}", old_totalRate)</span> / 
-                <span class="amount-payment">@string.Format("{0:N0}", old_totalPayment)</span> / 
+            <td>
+                <span class="amount-rate">@string.Format("{0:N0}", old_totalRate)</span> /
+                <span class="amount-payment">@string.Format("{0:N0}", old_totalPayment)</span> /
                 <span class="amount-expense">@string.Format("{0:N0}", old_totalExpenses)</span><br />
                 <span class="amount-rate">@string.Format("{0:N0}", old_totalprojIncome)</span>
             </td>
@@ -566,7 +571,7 @@
 @Html.Partial("PartialViewJS")
 
 <p>
-      @Html.ActionLink("Create New", "jobCreate", null, null)
+    @Html.ActionLink("Create New", "jobCreate", null, null)
     | @Html.ActionLink("Work In Progress", "Index", "JobOrder", new { span = 30 }, null)
     | Listing
     | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)

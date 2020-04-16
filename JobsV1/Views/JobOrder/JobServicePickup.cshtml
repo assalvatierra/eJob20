@@ -2,8 +2,12 @@
 
 @{
     ViewBag.Title = "ServicePickup";
-    List<JobsV1.Models.JobContact> contacts = (List< JobsV1.Models.JobContact>)ViewBag.Contact;
+    List<JobsV1.Models.JobContact> contacts = (List<JobsV1.Models.JobContact>)ViewBag.Contact;
+    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
 }
+
+@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+
 
 <h2>ServicePickup</h2>
 
@@ -11,7 +15,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>JobServicePickup</h4>
         <hr />
@@ -30,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.JsTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.JsTime, new { htmlAttributes = new { @class = "form-control" , @value = "8:00 AM"} })
+                @Html.EditorFor(model => model.JsTime, new { htmlAttributes = new { @class = "form-control", @value = "8:00 AM" } })
                 @Html.ValidationMessageFor(model => model.JsTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -62,7 +66,7 @@
         <div class="form-group">
             <label class="control-label col-md-2"><button id="selectProvider">Provider</button></label>
             <div class="col-md-10">
-                
+
                 @Html.EditorFor(model => model.ProviderName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ProviderName, "", new { @class = "text-danger" })
             </div>
@@ -71,11 +75,11 @@
 
         <div class="form-group">
             <label class="control-label col-md-2">&nbsp;</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProviderContact, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ProviderContact, "", new { @class = "text-danger" })
-                </div>
-</div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProviderContact, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProviderContact, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -87,69 +91,68 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "JobServices", "JobOrder",new { JobMainId = Model.Id }, null)
+    @Html.ActionLink("Back to List", "JobServices", "JobOrder", new { JobMainId = Model.Id }, null)
 
 </div>
 
 
 
-    <div id="dialog" title="Service Provider">
-        <table>
-            @foreach (var item in contacts)
-            {
-                <tr>
-                    <td style="white-space:nowrap">
-                        <a href="Javascript:SetProvider('@item.ShortName','@item.Tel1')"> 
-                            @item.ShortName
-                        </a>
-                        @Html.DisplayFor(modelItem => item.Tel1)   @Html.DisplayFor(modelItem => item.Tel2)
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>
+<div id="dialog" title="Service Provider">
+    <table>
+        @foreach (var item in contacts)
+        {
+            <tr>
+                <td style="white-space:nowrap">
+                    <a href="Javascript:SetProvider('@item.ShortName','@item.Tel1')">
+                        @item.ShortName
+                    </a>
+                    @Html.DisplayFor(modelItem => item.Tel1)   @Html.DisplayFor(modelItem => item.Tel2)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-        <script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
-        <script type="text/javascript" src="~/Scripts/Job/JobPickup.js"></script>
-
-
-        <script>
-            var dlg;
-
-            $(function () {
-                // Initialize Dialog
-                dlg = $("#dialog").dialog({
-                    autoOpen: false,
-                    modal: true,
-                    buttons:
-                        {
-                            Close: function () {
-                                dlg.dialog("close");
-                            }
-                        }
-                });
-
-                // Initialize Controls
-                $("#selectProvider").click(function (event) {
-                    dlg.dialog("open");
-                    event.preventDefault();
-                });
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/Job/JobPickup.js"></script>
 
 
+    <script>
+        var dlg;
 
+        $(function () {
+            // Initialize Dialog
+            dlg = $("#dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons:
+                {
+                    Close: function () {
+                        dlg.dialog("close");
+                    }
+                }
             });
 
-            function SetProvider(name, contact)
-            {
-                $("#ProviderName").val(name);
-                $("#ProviderContact").val(contact);
-            }
-
-
-        </script>
+            // Initialize Controls
+            $("#selectProvider").click(function (event) {
+                dlg.dialog("open");
+                event.preventDefault();
+            });
 
 
 
-    }
+        });
+
+        function SetProvider(name, contact) {
+            $("#ProviderName").val(name);
+            $("#ProviderContact").val(contact);
+        }
+
+
+    </script>
+
+
+
+}

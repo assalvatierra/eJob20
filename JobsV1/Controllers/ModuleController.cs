@@ -24,14 +24,13 @@ namespace JobsV1.Controllers
         {
             return 1;
         }
-
+        
         public ActionResult Menu(int id)
         {
             System.Diagnostics.Trace.WriteLine("Module (" + System.DateTime.Now.ToString() + ")" + "Menu:" + id.ToString());
 
             string UserName = HttpContext.User.Identity.Name;
             Session["USERNAME"] = (string)UserName;
-
 
             ModRoute mr = dal.getMenuRoute(id);
             Session["CURRENTMENUID"] = (int)mr.RootMenuId;
@@ -65,6 +64,7 @@ namespace JobsV1.Controllers
             //redirect to controller/action if redirect option is not found.
             
         }
+
 
         public ActionResult Error()
         {

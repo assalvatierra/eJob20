@@ -68,16 +68,61 @@ namespace JobsV1.CustomHelper
             htmlString += "</span>";
             return new HtmlString(htmlString);
         }
-        
-       /*
-        public static IHtmlString Module(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId)
+
+        /*
+         public static IHtmlString Module(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId)
+         {
+            SysService service = new ErpDataLayer().getModule(MenuId);
+            string str2 = "<span>";
+            return new HtmlString(((((str2 + "<img src='" + rootUrl + service.IconPath + "' class='ModulePageIcon' alt='' />") + "</span>" + "<span>") + "<h2>" + service.Description + "</h2>") + "<p>" + service.Remarks + "</p>") + "</span>");
+         }
+         */
+
+        private static int parentId = -1;
+        private static int preId = -1;
+        public static IHtmlString Menu2(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId, string username)
         {
-           SysService service = new ErpDataLayer().getModule(MenuId);
-           string str2 = "<span>";
-           return new HtmlString(((((str2 + "<img src='" + rootUrl + service.IconPath + "' class='ModulePageIcon' alt='' />") + "</span>" + "<span>") + "<h2>" + service.Description + "</h2>") + "<p>" + service.Remarks + "</p>") + "</span>");
+
+            SysAccessLayer dal = new SysAccessLayer();
+            var menu = dal.getModMenu2(MenuId, username);
+
+            string htmlString = " ";
+
+
+            htmlString += "";
+            foreach (var item in menu)
+            {
+                htmlString += "<div class='nav-submenu-container'>";
+                if (item.ParentId == parentId || item.ParentId == preId)
+                {
+                    htmlString += "";
+                    htmlString += "<span class='nav-submenus'>";
+                    //        htmlString += "<a href='" + rootUrl + item.Controller + "/" + item.Action + "/'>" + item.Menu + "</a>";
+                    htmlString += " <a href='" + rootUrl + "Module/Menu/" + item.Id + "/' >" + item.Menu  +"</a>   ";
+                    htmlString += "</span>";
+                }
+                else
+                {
+                    htmlString += "";
+                    // htmlString += item.Menu;
+                    //htmlString += "<a href='" + rootUrl + "Module/Menu/" + item.Id + "/' >" + item.Menu + "</a>  | ";
+                    htmlString += "";
+                }
+
+                parentId = item.ParentId;
+                preId = item.Id;
+
+                htmlString += "</div>";
+            }
+            htmlString += "<div class='nav-submenu-home'> <a href='" + rootUrl + "Home/' >Home</a></div>";
+
+            htmlString += "";
+
+            htmlString += "";
+
+            return new HtmlString(htmlString);
         }
-        */
-        
+
         #endregion
     }
 }

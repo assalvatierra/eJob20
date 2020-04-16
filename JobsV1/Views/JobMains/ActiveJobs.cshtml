@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<JobsV1.Models.JobServices>
 
 @{
-    ViewBag.Title = "ActiveJobs";
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.Title = "Active Jobs";
+    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
 }
+
+@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
 
 <h2>Active Jobs</h2>
 <div class="col-lg-12">
@@ -12,7 +14,8 @@
     @Html.ActionLink("Tomorrow", "ActiveJobs", new { FilterId = 3 }) |
     @Html.ActionLink("After 2 Days", "ActiveJobs", new { FilterId = 4 })
     @*@Html.ActionLink("Close Old Jobs", "CloseOldJob")*@
-</div><br />
+</div>
+<br />
 
 <div class="col-lg-12" style="margin-bottom:10px;">
     <!-- service Search Filter -->
@@ -22,7 +25,7 @@
         <option value="Car">Car Rental</option>
         <option value="Tour">Tour Package</option>
     </select> &nbsp;
-    <button class="btn btn-primary" onclick="ActiveJobsUpdate();" >
+    <button class="btn btn-primary" onclick="ActiveJobsUpdate();">
         <span class="glyphicon glyphicon-search"></span> Filter
     </button>
 
@@ -48,8 +51,8 @@
         string s2 = ((DateTime)item.DtEnd).ToString("MMM dd yyyy (ddd)");
         string sStyle1 = "";
         if (ViewBag.Current == s1) { sStyle1 = "background-color:lightgray"; }
-  
-        <tr style="@sStyle1" >
+
+        <tr style="@sStyle1">
             <td>
                 @*@DateTime.Compare((DateTime)item.DtEnd,DateTime.Now)*@
                 @Html.DisplayFor(modelItem => item.Service.Name)
@@ -71,7 +74,7 @@
 
             </td>
             <td>
-                @s1 - 
+                @s1 -
                 @s2
                 <br />
                 @{
@@ -95,7 +98,7 @@
                         {
                             <span>Location: </span>
                             <span style="font-weight:bold;">
-                            @Html.DisplayFor(modelItem => js.JsLocation)
+                                @Html.DisplayFor(modelItem => js.JsLocation)
                             </span>
                         }
                     }
@@ -110,10 +113,10 @@
                 @Html.DisplayFor(modelItem => item.SupplierItem.Description)
             </td>
             <td>
-                @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) 
+                @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null)
             </td>
         </tr>
-      }
+    }
 
 </table>
 
@@ -121,11 +124,11 @@
 
     @Html.ActionLink("Home", "Index", "Home", null, null) |
     @Html.ActionLink("Work in Progress", "Index", "JobOrder", new { sortid = 1 }, null) |
-    Quick List 
+    Quick List
 
 </p>
 
-<script src="~/Scripts/jquery-1.12.4.min.js"> </script>
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
 <script>
 
     function Update() {
@@ -140,19 +143,19 @@
         Update();
     });
 
-    function getToday(){
+    function getToday() {
 
         var today = new Date();
         var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
+        var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
 
-        if(dd<10) {
-            dd = '0'+dd
+        if (dd < 10) {
+            dd = '0' + dd
         }
 
-        if(mm<10) {
-            mm = '0'+mm
+        if (mm < 10) {
+            mm = '0' + mm
         }
 
         today = yyyy + '-' + mm + '-' + dd;

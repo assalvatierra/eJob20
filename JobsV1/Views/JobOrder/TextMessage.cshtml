@@ -1,7 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "TextMessage";
+    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
 }
+
+@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
 
 <h2>Trip Message</h2>
 

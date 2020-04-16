@@ -2,10 +2,12 @@
 
 @{
     ViewBag.Title = "Item Availability";
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
-
     List<JobsV1.Models.DayLabel> vLabel = (List<JobsV1.Models.DayLabel>)ViewBag.dtLabel;
+    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
 }
+
+@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+
 
 <h2>Item Availability</h2>
 
@@ -69,7 +71,7 @@
                 { sBgColor = "red"; }
 
                 <td style="border:1px solid red; font:300 8px arial; background-color:@sBgColor;">
-                   
+
                     <span>@Html.DisplayFor(modelItemday => dt.Date.Day)</span>
 
                     <p>
@@ -80,7 +82,7 @@
                                 <img src="~/Images/CarRental/settings.png" width="20" height="20" />
                             </a>
 
-                                <!-- Modal -->
+                            <!-- Modal -->
                             <div class="modal fade" id="@(dt.Day)-@(item.ItemId)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -93,7 +95,7 @@
                                             <span>@Html.DisplayFor(modelItemday => item.Item.Description)</span>
                                         </div>
                                         <!--
-                                            
+
                                         -->
                                         <div class="modal-body" id="modal2-content">
 
@@ -102,7 +104,7 @@
                                                 {
                                                     <a href="@Url.Action("JobServices", "JobOrder", new {
                                                                 JobMainId = @Html.DisplayFor(modelItemday =>
-                                                                item.Item.JobServiceItems.Where(j => j.InvItemId == item.Item.Id)    
+                                                                item.Item.JobServiceItems.Where(j => j.InvItemId == item.Item.Id)
                                                                 .Where(s => s.JobService.Id == svc2.Id).FirstOrDefault().JobService.JobMainId) })"
                                                        class="list-group-item">
 
@@ -111,7 +113,7 @@
                                                         @Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.JobMain.Description)
                                                         -
                                                         @Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.Particulars)
-                                                        
+
                                                     </a>
                                                 }
                                             </div>
@@ -191,19 +193,19 @@
             var remarks = "";
             if (temp[x]["remarks"] == null) {
                 remarks = "";
-            }else{
+            } else {
                 remarks = temp[x]["remarks"];
             }
 
-                content = "<tr>";
-                content += "<td>"
-                    + " <img src='" + temp[x]["icon"] + "' height='21'> "
-                    + "<a href='/JobOrder/AddItems/' >"
-                    + " " + temp[x]["itemCode"] + " - "
-                    + " " + temp[x]["Name"] + "</a> "
-                    + " " + remarks + " "
-                    + "</td>";
-                content += "<tr>";
+            content = "<tr>";
+            content += "<td>"
+                + " <img src='" + temp[x]["icon"] + "' height='21'> "
+                + "<a href='/JobOrder/AddItems/' >"
+                + " " + temp[x]["itemCode"] + " - "
+                + " " + temp[x]["Name"] + "</a> "
+                + " " + remarks + " "
+                + "</td>";
+            content += "<tr>";
 
             $(content).appendTo("#moreItemsTable");
         }
