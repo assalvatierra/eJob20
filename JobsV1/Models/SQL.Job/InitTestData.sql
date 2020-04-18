@@ -484,5 +484,31 @@ SELECT UserRole = (SELECT Name FROM AspNetRoles r WHERE r.Id = ur.RoleId) FROM A
 SELECT *, Company = (SELECT Name FROM Suppliers sup WHERE sup.Id = act.SupplierId ),
           Points = (SELECT Points FROM SupplierActivityTypes type WHERE type.Type = act.ActivityType),
 		  DtActivity as Date
-		  
           FROM SupplierActivities act 
+
+-- JobListing / JobOrder --
+SELECT DISTINCT job.Id FROM ( 
+       SELECT jm.Id, jm.JobDate, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd, 
+       Customer = c.Name
+       FROM JobMains jm 
+       LEFT OUTER JOIN JobServices js ON jm.Id = js.JobMainId 
+	   LEFT OUTER JOIN Customers c ON jm.CustomerId = c.Id
+	   ) job 
+       WHERE job.DtStart >= convert(datetime, GETDATE()) OR(job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE())) 
+       AND job.JobStatusId < 4
+
+        SELECT	UserName,
+		                Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'4/01/2020') AND convert(datetime, ca.Date) < convert(datetime,'4/20/2020') ),
+                        Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'4/01/2020') AND convert(datetime, ca.Date) < convert(datetime,'4/20/2020') ),
+                        Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'4/01/2020') AND convert(datetime, ca.Date) < convert(datetime,'4/20/2020') ),
+                        ProcMeeting = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Meeting' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'4/01/2020') AND convert(datetime, sa.DtActivity) < convert(datetime,'4/20/2020') ),
+                        Procurement = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Procurement' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'4/01/2020') AND convert(datetime, sa.DtActivity) < convert(datetime,'4/20/2020') ),
+                       JobOrder = (SELECT COUNT(*) FROM SupplierActivities ca WHERE ca.ActivityType = 'Job Order' AND au.UserName = ca.Assigned AND convert(datetime, ca.DtActivity) > convert(datetime,'4/01/2020') AND convert(datetime, ca.DtActivity) < convert(datetime,'4/20/2020') ),
+                       Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'4/01/2020') AND convert(datetime, ca.Date) < convert(datetime,'4/20/2020') )
+                FROM AspNetUsers au 
+
+                 Where UserName NOT IN 
+                ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', 
+                'admin@gmail.com' ,'demo@gmail.com', 'assalvatierra@yahoo.com' )
+
+                ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;

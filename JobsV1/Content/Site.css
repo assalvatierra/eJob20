@@ -593,15 +593,6 @@ rental-type-wdriver {
         cursor:pointer;
     }
 
-    @media only screen and (max-width: 1024px){
-
-        .nav-submenu-home {
-            float: left;
-            color:red;
-        }
-
-    }
-
 
     .right {
         position: absolute;
@@ -610,3 +601,18 @@ rental-type-wdriver {
         /*border: 3px solid #73AD21;*/
         padding: 10px;
     }
+
+/* Small Screens */
+@media only screen and (max-width: 1024px) {
+
+    .nav-submenu-home {
+        float: left;
+        color: red;
+    }
+}
+
+@media only screen and (max-width: 360px){
+    #loginForm {
+        width: 300px;
+    }
+}

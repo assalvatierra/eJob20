@@ -586,12 +586,12 @@ namespace JobsV1.Models
             switch (sortid)
             {
                 case 1: //OnGoing
-                        // sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -80, GETDATE());";
                     sql = @"SELECT DISTINCT job.Id FROM ( 
                             SELECT jm.Id, jm.JobDate, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd, 
-                            Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId) 
+                            Customer = c.Name
                             FROM JobMains jm 
-                            LEFT JOIN JobServices js ON jm.Id = js.JobMainId ) job 
+                            LEFT OUTER JOIN JobServices js ON jm.Id = js.JobMainId 
+	                        LEFT OUTER JOIN Customers c ON jm.CustomerId = c.Id ) job 
                             WHERE job.DtStart >= convert(datetime, GETDATE()) OR(job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE())) 
                             AND job.JobStatusId < 4";
                     break;
@@ -603,7 +603,6 @@ namespace JobsV1.Models
                     break;
                 default:
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -350, GETDATE());";
-                    //jobMains = jobMains.ToList();
                     break;
             }
 

@@ -50,8 +50,18 @@ values
 ('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
 ('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2); 
 
+insert into SalesStatusCodes([SeqNo],[Name])
+values (1,'NEW'), (2,'ASSESMENT'), (3, 'PROPOSAL SENT'), (4, 'NEGOTIATION'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
+
 insert into SalesActStatus([Name])
 values ('REQUEST'),('DONE'),('SUSPEND');
+
+insert into CustEntActTypes([Type])
+values ('Others'), ('Indicated Price'), ('Bidding Only'), ('Firm Inquiry'), ('Buying Inquiry');
+
+
+insert into CustEntActivityTypes([Type],[Points])
+values ('Quotation',8), ('Meeting',8), ('Sales',15),('Procurement',8), ('Calls/Email',2), ('Others',1);
 
 insert into SalesLeadCatCodes([CatName],[SysCode],[iconPath])
 values	('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'), 
@@ -373,11 +383,11 @@ values (2,'John Doe','0995-987-4561','(082) 333 6588','johndoe@gmail.com','','',
 	   (3,'Elise Rhodes','0909-545-1335','(082) 235 1112','eliserhodes@gmail.com','','','','','','Procurement','Accounting',1),
 	   (4,'Mike De Guzman','0915-587-9512','(082) 545 3212','mike.dg@gmail.com','','','','','','Sales','Sales',1);
 
-insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type])
-values ('CO-001','1/25/2020 4:17:58 PM','johndoe@gmail.com','Meeting',2,2000,'Meeting'),
-	   ('CO-001','1/26/2020 3:30:00 PM','mark@gmail.com','Sales Meeting',2,2000,'Meeting'),
-	   ('CO-001','1/12/2020 1:30:00 PM','mike@gmail.com','Sales Meeting',3,2000,'Sales'),
-	   ('CO-001','1/21/2020 1:00:20 PM','johndoe@gmail.com','Sales Meeting',4,2000,'Sales');
+insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType])
+values ('CO-001','1/25/2020 4:17:58 PM','johndoe@gmail.com','Meeting',2,2000,'Bidding Only','Quotation'),
+	   ('CO-001','1/26/2020 3:30:00 PM','mark@gmail.com','Sales Meeting',2,2000,'Bidding Only','Quotation'),
+	   ('CO-001','1/12/2020 1:30:00 PM','mike@gmail.com','Sales Meeting',3,2000,'Firm Inquiry','Quotation'),
+	   ('CO-001','1/21/2020 1:00:20 PM','johndoe@gmail.com','Sales Meeting',4,2000,'Bidding Only','Quotation');
 
 insert into SupDocuments([Description]) values 
 	   ('Business Registration'),('Tax Registration'), ('Import Export Registration');

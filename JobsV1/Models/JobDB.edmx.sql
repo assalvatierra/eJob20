@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/06/2020 16:24:49
+-- Date Created: 04/13/2020 15:23:17
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -721,8 +721,8 @@ GO
 IF OBJECT_ID(N'[dbo].[CustNotifRecipients]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustNotifRecipients];
 GO
-IF OBJECT_ID(N'[dbo].[NotifRecipients]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[NotifRecipients];
+IF OBJECT_ID(N'[dbo].[CustNotifRecipientLists]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustNotifRecipientLists];
 GO
 IF OBJECT_ID(N'[dbo].[CustEntActStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustEntActStatus];
