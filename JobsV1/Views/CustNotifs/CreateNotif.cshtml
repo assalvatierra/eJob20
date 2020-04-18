@@ -97,7 +97,7 @@
             <div class="panel-body" style="padding:30px;">
                 <h4> Notification Recipients </h4>
                 <a class="cursor-hand" onclick="AddRecipientModal()"> Add Recipient </a>
-                <table class="table table-responsive .thead-light" id="RecipientTable">
+                <table class="table table-responsive .thead-light" id="recipientTable">
                     <thead class=".thead-light">
                         <tr>
                             <th> Id </th>
@@ -115,7 +115,7 @@
 
 <div class="row">
     <div class="col-lg-offset-2 col-md-10">
-        <button class="btn btn-default" onclick="ajax_SubmitNotif()" > Submit </button>
+        <button class="btn btn-default" onclick="ajax_SubmitNotif()"> Submit </button>
     </div>
 </div>*@
 
@@ -126,8 +126,8 @@
     </div>
 </div>
 
-@*@{ Html.RenderPartial("RecipientAdd", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
-@{ Html.RenderPartial("RecipientEdit", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }*@
+@{ Html.RenderPartial("RecipientAdd", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
+@{ Html.RenderPartial("RecipientEdit", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
