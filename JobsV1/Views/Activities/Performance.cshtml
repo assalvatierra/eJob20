@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
+<style>
+    .sales-table{
+        background-color:lightgray;
+    }
+</style>
+
 <h2>User Performance Report</h2>
 <!-- Date Filter -->
 <div class="row">
@@ -17,14 +23,25 @@
 <table class="table js-sort-table">
     <thead>
         <tr>
+            <th colspan="4">
+
+            </th>
+            <th colspan="3" class="sales-table text-center" > SALES DIVISION </th>
+            <th colspan="3" class="text-center"> PROCUREMENT DIVISION </th>
+        </tr>
+        <tr>
             <th class="cursor-hand"> User    </th>
             <th></th>
             <th>Role</th>
-            <th class="js-sort-number"> Quotation </th>
             <th class="js-sort-number"> Meeting </th>
-            <th class="js-sort-number"> Sales </th>
+
+            <th class="js-sort-number sales-table"> Quotation </th>
+            <th class="js-sort-number sales-table" > Sales </th>
+            <th class="js-sort-number sales-table"> Total&nbsp;Sales</th>
+
             <th class="js-sort-number"> Procurement </th>
-            <th class="js-sort-number"> Amount </th>
+            <th class="js-sort-number"> JobOrder </th>
+            <th class="js-sort-number"> Total&nbsp;Job</th>
         </tr>
     </thead>
     <tbody>
@@ -35,49 +52,60 @@
                 @item.UserName
             </td>
             <td>
-                @if(item.Role == "Sales"){
-                <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
-                    Sales
-                </a> 
+                @if (item.Role == "Sales")
+                {
+                    <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                        Sales
+                    </a>
                 }
 
-                @if(item.Role == "Procurement"){
+                @if (item.Role == "Procurement")
+                {
 
-                <a href="/Activities/SupActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                    <a href="/Activities/SupActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
 
-                    Procurement
-                </a>
+                        Procurement
+                    </a>
                 }
 
+                @if (item.Role == "Admin")
+                {
+                    <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                        Sales |
+                    </a>
+                    <a href="/Activities/SupActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
 
-                @if(item.Role == "Admin"){
-                <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
-                    Sales |
-                </a> 
-                <a href="/Activities/SupActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
-
-                    Procurement
-                </a>
+                        Procurement
+                    </a>
                 }
 
             </td>
             <td>
                 @item.Role
             </td>
-            <td>
-                @item.Quotation
-            </td>
+
             <td>
                 @item.Meeting
             </td>
-            <td>
+            <!-- Sales Division  -->
+            <td class="sales-table">
+                @item.Quotation
+            </td>
+            <td class="sales-table">
                 @item.Sales
             </td>
+            <td class="sales-table">
+                @item.Amount.ToString("N0")
+            </td>
+            <!-- Procurement Division  -->
             <td>
                 @item.Procurement
             </td>
             <td>
-                @item.Amount.ToString("N0")
+                @item.JobOrder
+            </td>
+            <td>
+                @item.ProcAmount.ToString("N0")
             </td>
         </tr>
         }

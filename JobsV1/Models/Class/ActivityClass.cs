@@ -11,8 +11,11 @@ namespace JobsV1.Models.Class
         public int Quotation { get; set; }
         public int Meeting { get; set; }
         public int Sales { get; set; }
+        public int ProcMeeting { get; set; }
         public int Procurement { get; set; }
+        public int JobOrder { get; set; }
         public decimal Amount { get; set; }
+        public decimal ProcAmount { get; set; }
         public string Role { get; set; }
     }
 
@@ -147,6 +150,9 @@ namespace JobsV1.Models.Class
         #region Performance Report
         public List<cUserPerformance> GetUserPerformanceReport(DateTime sdate, DateTime edate)
         {
+           var tempDate = edate;
+           edate = tempDate.AddDays(1);
+
             List<cUserPerformance> userReport = new List<cUserPerformance>();
 
             string sql =
@@ -154,7 +160,9 @@ namespace JobsV1.Models.Class
 		       "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'"+ sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'"+ edate + "') ),"+
                "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
-               "         Procurement = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Procurement' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         ProcMeeting = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Meeting' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
+               "         Procurement = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Procurement' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
+               "         JobOrder = (SELECT COUNT(*) FROM SupplierActivities ca WHERE ca.ActivityType = 'Job Order' AND au.UserName = ca.Assigned AND convert(datetime, ca.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.DtActivity) < convert(datetime,'" + edate + "') )," +
                "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
                "  FROM AspNetUsers au "+
 
@@ -166,12 +174,18 @@ namespace JobsV1.Models.Class
 
             userReport = db.Database.SqlQuery<cUserPerformance>(sql).ToList();
 
+            //Update total meeting Count
+            userReport = UpdateTotalMeeting(userReport);
+
             return userReport;
         }
 
         //Override
         public List<cUserPerformance> GetUserPerformanceReport(string user,DateTime sdate, DateTime edate)
         {
+            var tempDate = edate;
+            edate = tempDate.AddDays(1);
+
             List<cUserPerformance> userReport = new List<cUserPerformance>();
 
             string sql =
@@ -179,7 +193,9 @@ namespace JobsV1.Models.Class
                "         Quotation = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Quotation' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Meeting = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Meeting' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
                "         Sales = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
-               "         Procurement = (SELECT COUNT(*) FROM CustEntActivities ca WHERE ca.ActivityType = 'Procurement' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         ProcMeeting = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Meeting' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
+               "         Procurement = (SELECT COUNT(*) FROM SupplierActivities ca WHERE ca.ActivityType = 'Procurement' AND au.UserName = ca.Assigned AND convert(datetime, ca.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.DtActivity) < convert(datetime,'" + edate + "') )," +
+               "         JobOrder = (SELECT COUNT(*) FROM SupplierActivities ca WHERE ca.ActivityType = 'Job Order' AND au.UserName = ca.Assigned AND convert(datetime, ca.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.DtActivity) < convert(datetime,'" + edate + "') )," +
                "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
                "  FROM AspNetUsers au " +
 
@@ -189,8 +205,24 @@ namespace JobsV1.Models.Class
 
             userReport = db.Database.SqlQuery<cUserPerformance>(sql).ToList();
 
+            //Update total meeting Count
+            userReport = UpdateTotalMeeting(userReport);
+
             return userReport;
         }
+
+
+        private List<cUserPerformance> UpdateTotalMeeting(List<cUserPerformance> userPerf)
+        {
+            foreach (var perf in userPerf)
+            {
+                    perf.Meeting += perf.ProcMeeting;
+            }
+
+            return userPerf;
+        }
+
+
         public string GetUserRole(string user)
         {
             if (!String.IsNullOrEmpty(user))
@@ -238,8 +270,36 @@ namespace JobsV1.Models.Class
 
             activity = db.Database.SqlQuery<cUserActivity>(sql).ToList();
 
+            //Filter and Remove points on Duplicate Activity with the same code
+            activity = FilterDuplicateActivity(activity);
+
             return activity;
         }
+
+        private List<cUserActivity> FilterDuplicateActivity( List<cUserActivity> activityList)
+        {
+            //holds the Ids of unique activity
+            List<string> tempCodes = new List<string>();
+
+            foreach (var act in activityList)
+            {
+                if (!tempCodes.Contains(act.SalesCode))
+                {
+                    //if Id is not in the list, add id to the list
+                    //and retain the point
+                    tempCodes.Add(act.SalesCode);
+
+                }
+                else
+                {
+                    //If Id is in the list, remove the point
+                    act.Points = 0;
+                }
+            }
+
+            return activityList;
+        }
+
 
         //GET : return user performance report based on the count of each Activity Type
         public cUserPerformanceReport GetUserPerformance(List<cUserActivity> activities, string user)
@@ -324,6 +384,9 @@ namespace JobsV1.Models.Class
                   "Assigned = '" + user + "' " + dateQuery + " ORDER BY DtActivity DESC ;";
 
             activity = db.Database.SqlQuery<cUserActivity>(sql).ToList();
+
+            //Filter and Remove points on Duplicate Activity with the same code
+            activity = FilterDuplicateActivity(activity);
 
             return activity;
         }

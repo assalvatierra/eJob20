@@ -420,6 +420,7 @@ namespace JobsV1.Controllers
         public string CheckPendingCount()
         {
             var count = notify.GetPendingNotif().Count;
+           
             return JsonConvert.SerializeObject(count, Formatting.Indented);
         }
 

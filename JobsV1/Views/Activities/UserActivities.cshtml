@@ -113,7 +113,7 @@
                         @item.UserRemoveEmail(item.Assigned)
                     </td>
                     <td>
-                        @if (ViewBag.IsAdmin)
+                        @if (ViewBag.IsAdmin && item.Points != 0)
                         {
                             @Html.DisplayFor(modelItem => item.Points)
                         }
