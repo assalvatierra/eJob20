@@ -89,6 +89,10 @@ $('#JOBSCOUNT').click(function () {
     setActiveSort(this);
 });
 
+$(".sort-panel .btn-group > .btn").click(function () {
+    $(this).addClass("active").siblings().removeClass("active");
+});
+
 function setActiveSort(element){
     $(element).css("color", "black");
     $(element).siblings().css("color", "steelblue");
@@ -185,7 +189,7 @@ function LoadTable(data) {
 
         content = "<tr>";
 
-        content += "<td>" + temp[x]["Name"] + "</td>";
+        content += "<td class='table-name-col'>" + temp[x]["Name"] + "</td>";
         content += "<td>" + code + "</td>";
         content += "<td>" + website + "</td>";
         content += "<td>" + City + "</td>";

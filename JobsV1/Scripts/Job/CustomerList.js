@@ -106,7 +106,7 @@ function ajax_loadContent() {
         },
         error: function (data) {
             //console.log("ERROR");
-            //console.log(data);
+            console.log(data);
             LoadTable(data);
         }
     });
@@ -137,13 +137,13 @@ function LoadTable(data) {
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
 
         content  = "<tr>";
-        content += "<td>" + temp[x]["Name"] + "<br />";
-        content += "<td>" + contact1 + "</td>";
-        content += "<td>" + contact2 + "</td>";
-        content += "<td>" + company              + "</td>";
-        content += "<td>" + jobcount             + "</td>";
-        content += "<td>" + temp[x]["Status"]    + "</td>";
-        content += "<td>" + "<a href='Customers/Details/" + temp[x]["Id"] + "'>Details</a> "
+        content += "<td class='table-name-col' > <a href='Customers/Details/"+ temp[x]["Id"] +"'>" + temp[x]["Name"] + "<br />";
+        content += "<td >" + contact1 + "</td>";
+        content += "<td >" + contact2 + "</td>";
+        content += "<td >" + company              + "</td>";
+        content += "<td >" + jobcount             + "</td>";
+        content += "<td >" + temp[x]["Status"]    + "</td>";
+        content += "<td >" + "<a href='Customers/Details/" + temp[x]["Id"] + "'>Details</a> "
                 + "</td>";
         content += "<tr>";
 

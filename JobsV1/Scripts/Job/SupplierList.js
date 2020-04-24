@@ -180,7 +180,7 @@ function SimpleTable(data) {
         var code = temp[x]["Code"] != null ? temp[x]["Code"] : "--";
        
         content =  "<tr>";
-        content += "<td>" + temp[x]["Name"].toString() + "</td>";
+        content += "<td class='table-name-col' >" + temp[x]["Name"].toString() + "</td>";
         content += "<td>" + code + "</td>";
 
         content += "<td>" + country + "</td>";
@@ -233,8 +233,8 @@ function SimpleTable(data) {
         content += "</td>";
 
         content += "<td>" +
-            "<a href='/Suppliers/Details/" + temp[x]["Id"] + "'>Details</a> | " +
-            "<a href='/Suppliers/InvItems/" + temp[x]["Id"] + "'>InvProduct</a>  | " +
+            "<a href='/Suppliers/Details/" + temp[x]["Id"] + "'>Details</a>&nbsp;| " +
+            "<a href='/Suppliers/InvItems/" + temp[x]["Id"] + "'>InvProduct</a>&nbsp;| " +
             "<a href='/SupplierActivities/Records/" + temp[x]["Id"] + "'>History</a>  " +
             "</td>";
         content += "</tr>";

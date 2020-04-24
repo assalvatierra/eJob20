@@ -83,7 +83,7 @@ function ajax_AddInfo() {
    var customerId = $("#add-customerId").find(":selected").val();
    var email = $("#add-email").val();
    var mobile = $("#add-mobile").val();
-   
+    console.log("Recipient Email Added : " + email);    //test
    content = ""; 
    content += "<tr>";
    content += "<td>" + customerId + "</td>";
@@ -175,24 +175,27 @@ function ajax_AddRecipients (id) {
     console.log("Adding Recipients");
     let rowLength = $('#tableId tbody tr').length;
 
-    $('#recipientTable > tbody  > tr').each(async function (i, tr) {
+    $('#recipientTable > tbody  > tr').each(function (i, tr) {
         console.log(i);
         var $tds = $(this).find('td'),
             custId = $tds.eq(0).text(),
             custEmail = $tds.eq(1).text(),
             custMobile = $tds.eq(2).text();
 
-        let result = await ajax_AddNotifRecipient(id, custId, custEmail, custMobile);
+        let result = ajax_AddNotifRecipient(id, custId, custEmail, custMobile);
+
         console.log(result);
+
         if (result == "DONE") {
             console.log(i + " is done.");
         }
+
     });
 };
 
 //CREATE : submit notification recipient to the server
 //id = notification Id
-async function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
+function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMobile) {
 
     //build json object
     var data = {
@@ -229,5 +232,12 @@ async function ajax_AddNotifRecipient(id, customerId, customerEmail, customerMob
  function SubmitRecipientList() {
     console.log("performing submit");
     ajax_AddRecipients(2);
-    //window.location.href = "/CustNotifs"
+    window.location.href = "/CustNotifs"
+}
+
+
+async function GetPendingCount() {
+    console.log("Get Pending Count Request");
+    var result2 = await $.get("/CustNotifs/CheckPendingCount");
+
 }
