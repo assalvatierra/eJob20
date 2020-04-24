@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Supplier Details";
+    Session["ROOTMENUID"] = 4;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
@@ -114,7 +115,7 @@
         @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
         {
             <tr>
-                <td>@contact.Name</td>
+                <td class="table-name-col">@contact.Name</td>
                 <td>@contact.Landline</td>
                 <td>@contact.Mobile</td>
                 <td>@contact.SkypeId</td>

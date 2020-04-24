@@ -77,6 +77,10 @@
                 </th>
                 <th></th>
             </tr>
+            
+
+            <!-- Total Points -->
+            @{ int totalPoints = 0; }
 
             @foreach (var item in Model)
             {
@@ -132,7 +136,15 @@
                         }
                     </td>
                 </tr>
+                totalPoints += item.Points;
             }
+            
+            <tr>
+                <td colspan="9" ></td>
+                <td >  Total Points:</td>
+                <td > <b> @totalPoints </b></td>
+                <td >  </td>
+            </tr>
         </table>
     </div>
 </div>
@@ -469,6 +481,8 @@
         //populate data result to the type summary table
         function UpdateActivityTable(data) {
             var isAdmin = "@ViewBag.IsAdmin";
+            var totalPoints = 0;
+
             //clear table data
             $("#Act-Main-Table").find("tr:gt(0)").remove();
 
@@ -485,6 +499,7 @@
                 content += "<td> " + data[i]["Company"] + "</td>";
                 content += "<td> " + data[i]["Remarks"] + "</td>";
                 content += "<td> " + data[i]["Assigned"] + "</td>";
+                totalPoints += data[i]["Points"];
                 
                 //check if user is admin
                 if (isAdmin == "True") {
@@ -498,6 +513,18 @@
 
                 content += "</tr>";
                 $(content).appendTo("#Act-Main-Table");
+            }
+
+
+            //check if user is admin
+            if (isAdmin == "True") {
+                var totalPointsRow = "";
+                totalPointsRow += "<tr>";
+                totalPointsRow += "<td colspan='9'> </td>";
+                totalPointsRow += "<td > Total Points: </td>";
+                totalPointsRow += "<td> <b>" + totalPoints + "</b></td>";
+                totalPointsRow += "</tr>";
+                $(totalPointsRow).appendTo("#Act-Main-Table");
             }
         }
 

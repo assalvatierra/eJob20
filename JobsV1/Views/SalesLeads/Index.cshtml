@@ -7,308 +7,268 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Sales Lead: List</h2>
+<link href="/Content/TableStyles.css" rel="stylesheet" />
 
+<div class="view-header">
+    <h2>Sales Lead: List</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create") |
-    Sales Lead |
-    @Html.ActionLink("Quotation", "JobLeads", "JobMains")
-</p>
-<p>
-    Filters:
-    @Html.ActionLink("New Lead", "Index", new { sortid = 5 }, new { @id = "newLead" }) |
-    @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }, new { @id = "ongoing" }) |
-    @Html.ActionLink("Accepted", "Index", new { sortid = 1 }, new { @id = "acceptedLead", @onclick = "filter();" }) |
-    @Html.ActionLink("Closed", "Index", new { sortid = 2 }, new { @id = "closedLead" }) |
-    @Html.ActionLink("All", "Index", new { sortid = 3 }, new { @id = "allLead" })
-</p>
+    <div class="header-btn-list">
+        <div class="btn-group">
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" }) 
+        </div>
+    </div>
+</div>
 
-<table class="table">
+<div class="view-content content-min-width" >
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td id="lead@(item.Id)">
-                <div style="background-color:lightgray;text-align:center;">
-                    <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Date.ToString("MMM-yyyy")</span>
-                    <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Date.ToString("dd")</span>
-                    <span style="color:blue; font: bold 12px arial, verdana;">(@item.Date.ToString("ddd"))</span>
-                    <br /><br /><span style="color:red; font: normal 18px arial, verdana;">@item.Price.ToString("##,###")</span>
-                </div>
+    <p>
+        
+        Sales Lead |
+        @Html.ActionLink("Quotation", "JobLeads", "JobMains")
+    </p>
+    <p>
+        Filters:
+        @Html.ActionLink("New Lead", "Index", new { sortid = 5 }, new { @id = "newLead" }) |
+        @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }, new { @id = "ongoing" }) |
+        @Html.ActionLink("Accepted", "Index", new { sortid = 1 }, new { @id = "acceptedLead", @onclick = "filter();" }) |
+        @Html.ActionLink("Closed", "Index", new { sortid = 2 }, new { @id = "closedLead" }) |
+        @Html.ActionLink("All", "Index", new { sortid = 3 }, new { @id = "allLead" })
+    </p>
 
-                @{
-                    foreach (var status in item.SalesStatus)
-                    {
-                        if (@status.SalesStatusCodeId == 5)
+    <table class="table table-no-border" >
+
+        @foreach (var item in Model)
+        {
+            <tr >
+                <td id="lead@(item.Id)" class="td-no-border">
+                    <div style="text-align:center;" class="date-box">
+                        <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Date.ToString("MMM-yyyy")</span>
+                        <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Date.ToString("dd")</span>
+                        <span style="color:blue; font: bold 12px arial, verdana;">(@item.Date.ToString("ddd"))</span>
+                        @if (item.Price != 0)
                         {
-                            <img src="~/Images/Customers/Category/Active-30.png" height="20" alt="ACCEPTED" />
-                        }
-
-                        if (@status.SalesStatusCodeId == 7)
-                        {
-                            <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
-                        }
-                    }
-                }
-
-            </td>
-            <td>
-                <!--Sales Lead Status-->
-                <div style="background-color:lightgray;">
-                    @foreach (var salesstat in SalesStatCode)
-                    {
-                        if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
-                        {
-                            <span style="font-weight:800; color: gray">
-                                @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
-                            </span>
-                        }
-                        else
-                        {
-                            <span>
-                                @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
-                            </span>
-                        }
-                    }
-                </div>
-
-                <div>
-                    <span style="color:darkgreen;font:bold 16px arial, verdana;">
-                        @{
-                            try
-                            {
-                                var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain.Name;
-                                <text>
-                                    @company -
-                                </text>
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
-
-                        @Html.DisplayFor(modelItem => item.Customer.Name)
-                    </span> |
-                    <span style="color:maroon;font:bold 12px arial, verdana;">
-                        @Html.DisplayFor(modelItem => item.CustName)
-
-                        @if (item.CustPhone.IsEmpty())
-                        {
-                            <text> / </text>
-                            @Html.DisplayFor(modelItem => item.CustPhone)
-                        }
-
-                        @if (item.CustEmail.IsEmpty())
-                        {
-                            <text> / </text>
-                            @Html.DisplayFor(modelItem => item.CustEmail)
-                        }
-
-                    </span>
-
-                    &nbsp; &nbsp;
-                    @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
-                    [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
-                      @Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |
-                      @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })  |
-                      @Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })
-                    ]
-
-                    @foreach (var salescat in item.SalesLeadCategories)
-                    {
-                        <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
-                             alt=@salescat.SalesLeadCatCode.CatName height="24"
-                             title=@salescat.SalesLeadCatCode.CatName />
-                    }
-
-
-                    <br />
-                    <span style="font-weight:600;color:darkblue;">
-                        @Html.DisplayFor(modelItem => item.Details)
-                    </span>
-                    <br />
-                    <span style="font:500 arial, verdana;">
-                        @Html.DisplayFor(modelItem => item.Remarks)
-                    </span>
-                    <br />
-                    @if (item.SalesActivities.Count() > 0)
-                    {
-                        <span style="font:bold 8px, arial, verdana; color:maroon ;">
-                            Activities<br />
-                        </span>
-
-                        <span style="font:bold 8px, arial, verdana; color: royalblue;">
-                            @foreach (var tmpAct in item.SalesActivities)
-                            {
-                                if (tmpAct.SalesActStatusId == 1)
-                                {
-                                    <span style="color:red;font-weight:800;">! </span>
-                                    <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                         alt=@tmpAct.SalesActCode.iconPath height="16"
-                                         title=@tmpAct.SalesActCode.iconPath />
-
-                                    <span style="color:maroon;">@tmpAct.Particulars</span>
-                                    <span style="font:status-bar;color:maroon;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                    @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
-                                    @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })
-
-                                    <br />
-                                }
-                                if (tmpAct.SalesActStatusId == 2)
-                                {
-                                    <span style="color:darkgray;font-weight:800;">&#10004; </span>
-                                    <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                         alt=@tmpAct.SalesActCode.iconPath height="16"
-                                         title=@tmpAct.SalesActCode.iconPath />
-                                    <span style="color:darkgray;">@tmpAct.Particulars</span>
-                                    <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                    <br />
-                                }
-                                if (tmpAct.SalesActStatusId == 3)
-                                {
-                                    <span style="color:darkgray;font-weight:800;">&#x2022; </span>
-                                    <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                         alt=@tmpAct.SalesActCode.iconPath height="16"
-                                         title=@tmpAct.SalesActCode.iconPath />
-                                    <span style="color:darkgray;">@tmpAct.Particulars</span>
-                                    <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                    <br />
-                                }
-                            }
-                        </span>
-                    }
-                    [ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]
-
-                    <!-- Items with Prices -->
-                    <br /><br />
-                    <span style="font:bolder 12px, arial, verdana; color:black;font-weight:600;">
-                        Items
-                    </span> <br />
-                    <div id="SalesLeadItems-@item.Id">
-                        @foreach (var invItems in item.SalesLeadItems)
-                        {
-                            <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
-
-                                <div style="background-color:lightgray;padding:5px;">
-                                    <b>
-                                        @invItems.InvItem.Description -
-                                        <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
-                                        <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
-                                    </b>
-
-                                    <span class="pull-right">
-                                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
-                                        <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
-
-                                    </span>
-                                </div>
-
-                                <div id="supItem-@invItems.Id">
-                                    @foreach (var supItem in invItems.SalesLeadQuotedItems)
-                                    {
-                                    <p style="margin:3px 20px;">
-                                        @supItem.SupplierItemRate.SupplierInvItem.Supplier.Name <span>- P</span>
-                                        @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
-                                        @supItem.SupplierItemRate.SupplierUnit.Unit <span> ( </span>
-                                        <span style="font:normal 11px arial,verdana;">
-                                            @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
-                                            @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
-                                        </span>
-                                        <span> ) </span>
-                                        <a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>
-                                    </p>
-                                    }
-                                </div>
-
-                                <!--Add Item-->
-                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier ]</a>
-                            </div>
+                            <br /><br /><span style="color:red; font: normal 18px arial, verdana;">@item.Price.ToString("##,###")</span>
                         }
                     </div>
-                    <br />
 
-                    <!--Add Item-->
-                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">[ Add Item ]</a>
-
-                    <!-- End of Items with Prices -->
-
-                    @*<br /><br />[
                     @{
-                        if (@item.SalesLeadLinks.Count() == 0)
+                        foreach (var status in item.SalesStatus)
                         {
-                            @Html.ActionLink("New Quotation ", "QuotationCreate", new
+                            if (@status.SalesStatusCodeId == 5)
                             {
-                                id = item.Id,
-                                custid = item.CustomerId,
-                                amount = item.Price,
-                                cusmail = item.CustEmail,
-                                contact = item.CustPhone,
-                                desc = item.CustName,
-                                remarks = item.Remarks,
-                                leadDT = item.Date
-                            }, null)
-                            <span>|</span>
+                                <img src="~/Images/Customers/Category/Active-30.png" height="20" alt="ACCEPTED" />
+                            }
 
-                            @Html.ActionLink("Link Quotation ", "QuotationLink", new { id = item.Id }, null)
-
-                            <span>|</span>
-
-                            @Html.ActionLink("Link JobOrder ", "QuotationLink", new { id = item.Id, linkid = 1 }, null)
-
+                            if (@status.SalesStatusCodeId == 7)
+                            {
+                                <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
+                            }
                         }
-                        else if (@item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id).FirstOrDefault().JobMain.JobStatusId == 3)
+                    }
+
+                </td>
+                <td>
+                    <!--Sales Lead Status-->
+                    <div style="background-color:lightgray;">
+                        @foreach (var salesstat in SalesStatCode)
                         {
-                            <img src="~/Images/Customers/Category/Active-30.png" width="15" height="15" alt="quotation approve" />
-
-                            @Html.ActionLink(" - View Quotation", "Services", "JobServices",
-                                            new
-                                                 {
-                                                     id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
-                                                .FirstOrDefault().JobMainId
-                                                 }, null)
-                            <span>|</span>
-                            @Html.ActionLink(" Unlink ", "QuotationUnlink", "SalesLeads",
-                                            new { id = item.Id }, null)
+                            if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
+                            {
+                                <span style="font-weight:800; color: gray">
+                                    @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
+                                </span>
+                            }
                         }
-                        else
+                    </div>
+
+                    <div>
+                        <span style="color:darkgreen;font:bold 16px arial, verdana;">
+                            @{
+                                try
+                                {
+                                    var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain.Name;
+                                    <text>
+                                        @company -
+                                    </text>
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+
+                            @Html.DisplayFor(modelItem => item.Customer.Name)
+                        </span> |
+                        <span style="color:maroon;font:bold 12px arial, verdana;">
+                            @Html.DisplayFor(modelItem => item.CustName)
+
+                            @if (item.CustPhone.IsEmpty())
+                            {
+                                <text> / </text>
+                                @Html.DisplayFor(modelItem => item.CustPhone)
+                            }
+
+                            @if (item.CustEmail.IsEmpty())
+                            {
+                                <text> / </text>
+                                @Html.DisplayFor(modelItem => item.CustEmail)
+                            }
+
+                        </span>
+
+                        &nbsp; &nbsp;
+                        @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
+                        [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |
+                        @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })  |
+                        @Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })
+                        ]
+
+                        @foreach (var salescat in item.SalesLeadCategories)
                         {
-                            @Html.ActionLink("Approve Quotation ", "ConfirmJob", "SalesLeads",
-                                            new
-                                                 {
-                                                     id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
-                                            .FirstOrDefault().JobMainId
-                                                 }, null)
-                            <span>|</span>
-                            @Html.ActionLink(" View Quotation ", "Services", "JobServices",
-                                            new
-                                                 {
-                                                     id = item.SalesLeadLinks.Where(s => s.SalesLeadId == item.Id)
-                                            .FirstOrDefault().JobMainId
-                                                 }, null)
-                            <span>|</span>
-                            @Html.ActionLink(" Unlink ", "QuotationUnlink", "SalesLeads",
-                                            new { id = item.Id }, null)
+                            <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
+                                 alt=@salescat.SalesLeadCatCode.CatName height="24"
+                                 title=@salescat.SalesLeadCatCode.CatName />
                         }
 
-                    } ]*@
 
-                    <br />
-                    <span style="font: status-bar; color:gray;">
-                        Entered: @Html.DisplayFor(modelItem => item.EnteredBy)
-                        @@ @Html.DisplayFor(modelItem => item.DtEntered)
-                    </span>
-                    <br />
-                    <span style="font: status-bar; color:gray;">
-                        Assigned: @Html.DisplayFor(modelItem => item.AssignedTo)
-                    </span>
-                </div>
-            </td>
-        </tr>
-    }
+                        <br />
+                        <span style="font-weight:600;color:darkblue;">
+                            @Html.DisplayFor(modelItem => item.Details)
+                        </span>
+                        <br />
+                        <span style="font:500 arial, verdana;">
+                            @Html.DisplayFor(modelItem => item.Remarks)
+                        </span>
+                        <br />
+                        @if (item.SalesActivities.Count() > 0)
+                        {
+                            <span style="font:bold 8px, arial, verdana; color:maroon ;">
+                                Activities<br />
+                            </span>
 
-</table>
+                            <span style="font:bold 8px, arial, verdana; color: royalblue;">
+                                @foreach (var tmpAct in item.SalesActivities)
+                                {
+                                    if (tmpAct.SalesActStatusId == 1)
+                                    {
+                                        <span style="color:red;font-weight:800;">! </span>
+                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                             alt=@tmpAct.SalesActCode.iconPath height="16"
+                                             title=@tmpAct.SalesActCode.iconPath />
+
+                                        <span style="color:maroon;">@tmpAct.Particulars</span>
+                                        <span style="font:status-bar;color:maroon;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
+                                        @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })
+
+                                        <br />
+                                    }
+                                    if (tmpAct.SalesActStatusId == 2)
+                                    {
+                                        <span style="color:darkgray;font-weight:800;">&#10004; </span>
+                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                             alt=@tmpAct.SalesActCode.iconPath height="16"
+                                             title=@tmpAct.SalesActCode.iconPath />
+                                        <span style="color:darkgray;">@tmpAct.Particulars</span>
+                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        <br />
+                                    }
+                                    if (tmpAct.SalesActStatusId == 3)
+                                    {
+                                        <span style="color:darkgray;font-weight:800;">&#x2022; </span>
+                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                             alt=@tmpAct.SalesActCode.iconPath height="16"
+                                             title=@tmpAct.SalesActCode.iconPath />
+                                        <span style="color:darkgray;">@tmpAct.Particulars</span>
+                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        <br />
+                                    }
+                                }
+                            </span>
+                        }
+                        [ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]
+
+                        <!-- Items with Prices -->
+                        <br /><br />
+                        <span style="font:bolder 12px, arial, verdana; color:black;font-weight:600;">
+                            Items
+                        </span> <br />
+                        <div id="SalesLeadItems-@item.Id">
+                            @foreach (var invItems in item.SalesLeadItems)
+                            {
+                                <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
+
+                                    <div style="background-color:lightgray;padding:5px;">
+                                        <b>
+                                            @invItems.InvItem.Description -
+                                            @if (invItems.QuotedPrice != null)
+                                            {
+                                                <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
+                                            }
+                                            <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
+                                        </b>
+
+                                        <span class="pull-right">
+                                            <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
+                                            <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
+
+                                        </span>
+                                    </div>
+
+                                    <div id="supItem-@invItems.Id">
+                                        @foreach (var supItem in invItems.SalesLeadQuotedItems)
+                                        {
+                                            <p style="margin:3px 20px;">
+                                                @supItem.SupplierItemRate.SupplierInvItem.Supplier.Name <span>- P</span>
+                                                @if (supItem.SupplierItemRate.ItemRate != null)
+                                                {
+                                                    @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
+                                                }
+
+                                                @supItem.SupplierItemRate.SupplierUnit.Unit <span> ( </span>
+                                                <span style="font:normal 11px arial,verdana;">
+                                                    @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
+                                                    @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
+                                                </span>
+                                                <span> ) </span>
+                                                <a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>
+                                            </p>
+                                        }
+                                    </div>
+
+                                    <!--Add Item-->
+                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier ]</a>
+                                </div>
+                            }
+                        </div>
+                        <br />
+
+                        <!--Add Item-->
+                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">[ Add Item ]</a>
+
+                        <br />
+                        <span style="font: status-bar; color:gray;">
+                            Entered: @Html.DisplayFor(modelItem => item.EnteredBy)
+                            @@ @Html.DisplayFor(modelItem => item.DtEntered)
+                        </span>
+                        <br />
+                        <span style="font: status-bar; color:gray;">
+                            Assigned: @Html.DisplayFor(modelItem => item.AssignedTo)
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
 
 <!-- Add Sales Lead Items -->
 <div class="modal fade" id="selectSupItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -342,7 +302,7 @@
                 <div class="form-group col-md-12">
                     <b class="col-md-2 "> Rate: </b>
                     <div class="col-md-10">
-                        <input type="number" value="0" maxlength="25" class="form-control" id="supItem-Rate"  onkeypress='validate(event)'/>
+                        <input type="number" value="0" maxlength="25" class="form-control" id="supItem-Rate" onkeypress='validate(event)' />
                     </div>
                 </div>
                 <br /><br />
@@ -362,7 +322,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- Edit Sales Lead Item-->
 <div class="modal fade" id="EditSupLeadItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -417,26 +376,30 @@
 </div><!-- /.modal -->
 @{Html.RenderPartial("AddSupItemPartial", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier } });}
 
-<p>
-    @Html.ActionLink("Create New", "Create") |
-    Sales Lead |
-    @Html.ActionLink("Quotation", "JobLeads", "JobMains")
-</p>
-<p>
-    Filters:
-    @Html.ActionLink("New Lead", "Index", null, null) |
-    @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }) |
-    @Html.ActionLink("Accepted", "Index", new { sortid = 1 }) |
-    @Html.ActionLink("Closed", "Index", new { sortid = 2 }) |
-    @Html.ActionLink("All", "Index", new { sortid = 3 }, null)
-</p>
+<div class="view-content">
+
+    <p>
+        @Html.ActionLink("Create New", "Create") |
+        Sales Lead |
+        @Html.ActionLink("Quotation", "JobLeads", "JobMains")
+    </p>
+    <p>
+        Filters:
+        @Html.ActionLink("New Lead", "Index", null, null) |
+        @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }) |
+        @Html.ActionLink("Accepted", "Index", new { sortid = 1 }) |
+        @Html.ActionLink("Closed", "Index", new { sortid = 2 }) |
+        @Html.ActionLink("All", "Index", new { sortid = 3 }, null)
+    </p>
+</div>
+
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 @section scripts
 {
     <script type="text/javascript">
         $(document).ready(function () {
             $('html, body').animate({
-                scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
+                //scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
             }, 750);
 
         });
@@ -576,8 +539,8 @@
     //****************************
     //*** Handle Invalid Input ***
     //****************************
-        
-    //prevent invalid inputs 
+
+    //prevent invalid inputs
     function validate(evt) {
         var theEvent = evt || window.event;
 
@@ -608,7 +571,7 @@
             $('#edit-supItem-Rate').val(0);
         }
     });
-        
+
     //handle numbers only on input
     $('#supItem-Rate').on('input',function(){
         //backspace

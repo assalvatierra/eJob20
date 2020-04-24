@@ -2,131 +2,150 @@
 
 @{
     ViewBag.Title = "Active Jobs";
-    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
+    Session["ROOTMENUID"] = 3;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+<link href="/Content/TableStyles.css" rel="stylesheet" />
 
-<h2>Active Jobs</h2>
-<div class="col-lg-12">
-    @Html.ActionLink("All", "ActiveJobs", new { FilterId = 1 }) |
-    @Html.ActionLink("Today", "ActiveJobs", new { FilterId = 2 }) |
-    @Html.ActionLink("Tomorrow", "ActiveJobs", new { FilterId = 3 }) |
-    @Html.ActionLink("After 2 Days", "ActiveJobs", new { FilterId = 4 })
-    @*@Html.ActionLink("Close Old Jobs", "CloseOldJob")*@
-</div>
-<br />
-
-<div class="col-lg-12" style="margin-bottom:10px;">
-    <!-- service Search Filter -->
-    <h5 class="pull-left">Service :&nbsp; </h5>
-    <select class="dropdown col-sm-1" id="service-input" style="font-size:15px;padding:8px;width:120px;">
-        <option value="all">All</option>
-        <option value="Car">Car Rental</option>
-        <option value="Tour">Tour Package</option>
-    </select> &nbsp;
-    <button class="btn btn-primary" onclick="ActiveJobsUpdate();">
-        <span class="glyphicon glyphicon-search"></span> Filter
-    </button>
+<div class="view-header">
+    <h2>Active Jobs</h2>
 
 </div>
-<table class="table">
-    <tr>
-        <th>Service</th>
-        <th>
-            Name
-        </th>
-        <th>
-            Start &emsp;&emsp;&emsp;&emsp; &emsp;- &emsp;&emsp;&emsp;&emsp; End
-        </th>
-        <th>
-            Item
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        string s1 = ((DateTime)item.DtStart).ToString("MMM dd yyyy (ddd)");
-        string s2 = ((DateTime)item.DtEnd).ToString("MMM dd yyyy (ddd)");
-        string sStyle1 = "";
-        if (ViewBag.Current == s1) { sStyle1 = "background-color:lightgray"; }
+<div class="view-content">
 
-        <tr style="@sStyle1">
-            <td>
-                @*@DateTime.Compare((DateTime)item.DtEnd,DateTime.Now)*@
-                @Html.DisplayFor(modelItem => item.Service.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobMain.Description)
-                /
-                @Html.DisplayFor(modelItem => item.Particulars)
-                <br />
+    <div class="filter-panel">
 
-                @foreach (var items in item.JobServiceItems)
-                {
-                    <span> - </span>
-                    <span> ( </span>
-                    @Html.DisplayFor(modelItem => items.InvItem.ItemCode)
-                    <span> ) </span>
-                    @Html.DisplayFor(modelItem => items.InvItem.Description)
-                }
+        <div class="status-panel">
+            <div class="btn-group">
+                @Html.ActionLink("All", "ActiveJobs", new { FilterId = 1 }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Today", "ActiveJobs", new { FilterId = 2 }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Tomorrow", "ActiveJobs", new { FilterId = 3 }, new { @class = "btn btn-default" })
+                @Html.ActionLink("After 2 Days", "ActiveJobs", new { FilterId = 4 }, new { @class = "btn btn-default" })
+            </div>
+            @*@Html.ActionLink("Close Old Jobs", "CloseOldJob")*@
+        </div>
+        <br />
 
-            </td>
-            <td>
-                @s1 -
-                @s2
-                <br />
-                @{
-                    var js = item.JobServicePickups.Where(s => s.JobServicesId == item.Id).FirstOrDefault();
-                    try
-                    {
-                        if (js.JsDate != null)
-                        {
+        <div class="search-panel">
+            <!-- service Search Filter -->
 
-                            string s3 = ((DateTime)js.JsDate).ToString("MMM-dd (ddd)");
-                            <span>DateTime:</span>
-                            <span style="font-weight:bold;">
-                                @s3
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default disabled">Service : </button>
+                </div>
+                <div class="input-group-btn" style="top:2px;">
+                    <select class="dropdown dropdown-toggle form-control" id="service-input" style="font-size:15px;padding:8px;width:120px;">
+                        <option value="all" selected>All</option>
+                        <option value="Car">Car Rental</option>
+                        <option value="Tour">Tour Package</option>
+                    </select>
+                </div>
 
-                                @js.JsTime
-                            </span>
-                        }
+                <div class="input-group">
+                    <button class="btn btn-default" onclick="ActiveJobsUpdate();" style="margin-right:-4px;">
+                        <span class="glyphicon glyphicon-search"></span> Filter
+                    </button>
+                </div>
+               
+            </div>
+        </div>
+    </div>
 
-                        <span>&nbsp;</span>
-                        if (js.JsLocation != null)
-                        {
-                            <span>Location: </span>
-                            <span style="font-weight:bold;">
-                                @Html.DisplayFor(modelItem => js.JsLocation)
-                            </span>
-                        }
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-                }
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SupplierItem.Description)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null)
-            </td>
+    <table class="table">
+        <tr>
+            <th width="10%">
+                Service
+            </th>
+            <th width="40%">
+                Name
+            </th>
+            <th width="35%">
+                Start &emsp;&emsp;&emsp;&emsp; &emsp;- &emsp;&emsp;&emsp;&emsp; End
+            </th>
+            <th width="10%">
+                Item
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            string s1 = ((DateTime)item.DtStart).ToString("MMM dd yyyy (ddd)");
+            string s2 = ((DateTime)item.DtEnd).ToString("MMM dd yyyy (ddd)");
+            string sStyle1 = "";
+            if (ViewBag.Current == s1) { sStyle1 = "background-color:lightgray"; }
 
-<p>
+            <tr style="@sStyle1">
+                <td>
+                    @*@DateTime.Compare((DateTime)item.DtEnd,DateTime.Now)*@
+                    @Html.DisplayFor(modelItem => item.Service.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobMain.Description)
+                    /
+                    @Html.DisplayFor(modelItem => item.Particulars)
+                    <br />
 
-    @Html.ActionLink("Home", "Index", "Home", null, null) |
-    @Html.ActionLink("Work in Progress", "Index", "JobOrder", new { sortid = 1 }, null) |
-    Quick List
+                    @foreach (var items in item.JobServiceItems)
+                    {
+                        <span> - </span>
+                        <span> ( </span>
+                        @Html.DisplayFor(modelItem => items.InvItem.ItemCode)
+                        <span> ) </span>
+                        @Html.DisplayFor(modelItem => items.InvItem.Description)
+                    }
 
-</p>
+                </td>
+                <td>
+                    @s1 -
+                    @s2
+                    <br />
+                    @{
+                        var js = item.JobServicePickups.Where(s => s.JobServicesId == item.Id).FirstOrDefault();
+                        try
+                        {
+                            if (js.JsDate != null)
+                            {
+
+                                string s3 = ((DateTime)js.JsDate).ToString("MMM-dd (ddd)");
+                                <span>DateTime:</span>
+                                <span style="font-weight:bold;">
+                                    @s3
+
+                                    @js.JsTime
+                                </span>
+                            }
+
+                            <span>&nbsp;</span>
+                            if (js.JsLocation != null)
+                            {
+                                <span>Location: </span>
+                                <span style="font-weight:bold;">
+                                    @Html.DisplayFor(modelItem => js.JsLocation)
+                                </span>
+                            }
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierItem.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
 
 <script src="~/Scripts/jquery-1.12.4.min.js"></script>
 <script>

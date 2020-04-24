@@ -2,139 +2,148 @@
 
 @{
     ViewBag.Title = "Work in Progress";
-    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
+    Session["ROOTMENUID"] = 3;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+<link href="/Content/TableStyles.css" rel="stylesheet" />
 
+<div class="view-header">
+    <h2>Job Orders</h2>
 
+    <div class="header-btn-list">
 
-<h2>Job Orders</h2>
-<div class="col-lg-12">
-
-    <div class="col-lg-9">
-
-        <p>
-            @Html.ActionLink("Create New", "jobCreate", "JobOrder", null, null)
-        </p>
-
-        <p>
-            Filters:
-            @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing" }) |
-            @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous" }) |
-            @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed" })
-        </p>
-    </div>
-
-    <div class="col-lg-3">
-
-        <div class="form-group" style="width:350px;margin-right:0px">
-            <div class="col-lg-5">
-                <input type="text" maxlength="30" class="form-control" style="width:140px" id="src-field" />
-            </div>
-            <div class="col-lg-7">
-                <button class="btn btn-default" style="margin-top:-0px;" onclick="ajaxSearch();">Search by Id</button>
-            </div>
+        <div class="btn-group">
+                @Html.ActionLink("Create New", "jobCreate", "JobOrder", null, new { @class="btn btn-primary btn-square"})
         </div>
 
+
     </div>
-    <p>
-        @*@ViewBag.today*@
-    </p>
-
 </div>
-<table class="table">
+<div class="view-content" style="min-width:490px;">
+    <div class="filter-panel">
+        <div class="sort-panel">
+            <div class="btn-group">
+                <button class="btn btn-default disabled" >
+                    Filters:
+                </button>
+                @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing" , @class="btn btn-default" }) 
+                @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous", @class = "btn btn-default" }) 
+                @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed", @class = "btn btn-default" })
+            </div>
+            
+        </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td id="main@(item.Main.Id)">
-                <div style="background-color:lightgray;text-align:center;">
-                    <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Main.JobDate.ToString("MMM-yyyy")</span>
-                    <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Main.JobDate.ToString("dd")</span>
-                    <span style="color:blue; font: bold 12px arial, verdana;">(@item.Main.JobDate.ToString("ddd"))</span>
-                    <br /><br /><span style="color:red; font: normal 18px arial, verdana;">&nbsp;</span>
+        <div class="search-panel">
 
-                    @if (@item.Main.AgreedAmt != 0)
-                    {
-                        <span style="color:blue; font: bold 12px arial, verdana;">
-                            @string.Format("{0:N}", @item.Main.AgreedAmt)
-                        </span>
-                        <br />
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <input type="text" maxlength="30" class="form-control" style="width:auto" id="src-field" />
+                </div>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" onclick="ajaxSearch();">Search by Id</button>
+                </div>
+            </div>
 
-                    }
+        </div>
+        <p>
+            @*@ViewBag.today*@
+        </p>
 
-                    @if (@item.Payment != 0)
-                    {
-                        <span style="color:green; font: bold 10px arial, verdana;">
-                            @string.Format("{0:N}", @item.Payment)
-                        </span>
-                        if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
+    </div>
+    <table class="table table-no-border" >
+
+        @foreach (var item in Model)
+        {
+            <tr >
+                <td id="main@(item.Main.Id)" style="border-left:none;border-right:none;">
+                    <div style="background-color:whitesmoke;text-align:center;border:1px solid lightgray;padding:10px 5px;">
+                        <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Main.JobDate.ToString("MMM-yyyy")</span>
+                        <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Main.JobDate.ToString("dd")</span>
+                        <span style="color:blue; font: bold 12px arial, verdana;">(@item.Main.JobDate.ToString("ddd"))</span>
+                        <br /><span style="color:red; font: normal 18px arial, verdana;">&nbsp;</span>
+
+                        @if (@item.Main.AgreedAmt != 0)
                         {
-                            <br />
-                            <span>
-                                Paid in
-                                <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
+                            <span style="color:blue; font: bold 12px arial, verdana;">
+                                @string.Format("{0:N}", @item.Main.AgreedAmt)
                             </span>
+                            <br />
+
                         }
-                    }
-                </div>
-            </td>
 
-            <td>
-                <div>
-                    <span style="color:darkgreen;font:bold 16px arial, verdana;">
-
-                        @if (item.Main.JobEntMains.FirstOrDefault() != null)
+                        @if (@item.Payment != 0)
                         {
-                            @item.Main.JobEntMains.FirstOrDefault().CustEntMain.Name
-                            <text>-</text>
+                            <span style="color:green; font: bold 10px arial, verdana;">
+                                @string.Format("{0:N}", @item.Payment)
+                            </span>
+                            if (item.Main.JobPayments.Where(s => s.JobMainId == item.Main.Id).FirstOrDefault().BankId == 5)
+                            {
+                                <br />
+                                <span>
+                                    Paid in
+                                    <img src="~/Images/paypal.png" width="20" height="20" alt="Paid through paypal" />
+                                </span>
+                            }
                         }
+                    </div>
+                </td>
 
-                        @item.Main.Customer.Name
-                    </span>
+                <td>
+                    <div>
+                        <span style="color:darkgreen;font:bold 16px arial, verdana;">
 
-                    @*[
-                        @Html.ActionLink("Customer Details", "CompanyDetail", new { jobid = item.Main.Id, custid = item.Main.CustomerId}) |
-                        @Html.ActionLink("Edit Job", "JobDetails", new { jobid = item.Main.Id }) |
-                        <a href="#" id="catbtn" data-toggle="modal" data-target="#@item.Main.Id" style="margin-bottom:10px;">Change Company</a>
-                        ]*@
+                            @if (item.Main.JobEntMains.FirstOrDefault() != null)
+                            {
+                                @item.Main.JobEntMains.FirstOrDefault().CustEntMain.Name
+                                <text>-</text>
+                            }
 
-                    <br />
-                    <span style="font:500 10px;color:darkblue;">
-                        @item.Main.Description
+                            @item.Main.Customer.Name
+                        </span>
 
-                    </span>
-                    <span>
+                        @*[
+                            @Html.ActionLink("Customer Details", "CompanyDetail", new { jobid = item.Main.Id, custid = item.Main.CustomerId}) |
+                            @Html.ActionLink("Edit Job", "JobDetails", new { jobid = item.Main.Id }) |
+                            <a href="#" id="catbtn" data-toggle="modal" data-target="#@item.Main.Id" style="margin-bottom:10px;">Change Company</a>
+                            ]*@
 
-                        [ @item.Main.JobStatus.Status ]
-                    </span>
+                        <br />
+                        <span style="font:500 10px;color:darkblue;">
+                            @item.Main.Description
 
-                </div>
-                <div>
-                    @Html.Partial("PartialViewServiceList", item.Services)
-                </div>
+                        </span>
+                        <span>
 
-                <p>
-                    @Html.ActionLink("[ Add New Service ]", "JobServiceAdd", new { JobMainId = item.Main.Id }, null)
-                </p>
+                            [ @item.Main.JobStatus.Status ]
+                        </span>
 
-                <p>
-                    @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
-                    @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
-                    @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
-                    <a href="#" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))">[ Payment ]</a>
-                    <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(item.Main.Id))">[ Send Invoice ]</a>
-                    @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
+                    </div>
+                    <div>
+                        @Html.Partial("PartialViewServiceList", item.Services)
+                    </div>
 
-                    <!--
-                     Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
-                       -->
-                </p>
-            </td>
-        </tr>
-    }
-</table>
+                    <p>
+                        @Html.ActionLink("[ Add New Service ]", "JobServiceAdd", new { JobMainId = item.Main.Id }, null)
+                    </p>
+
+                    <p style="cursor:pointer;">
+                        @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
+                        @Html.ActionLink("[ Booking ]", "BookingDetails", new { id = item.Main.Id }, null)
+                        @Html.ActionLink("[ Invoice ]", "BookingDetails", new { id = item.Main.Id, iType = 1 }, null)
+                        <a href="#" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))">[ Payment ]</a>
+                        <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(item.Main.Id))">[ Send Invoice ]</a>
+                        @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
+
+                        <!--
+                         Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
+                           -->
+                    </p>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
 
 <div class="modal fade" id="mainid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -200,21 +209,23 @@
 
 @Html.Partial("PartialViewJS")
 
+<div  style="margin-left:20px;padding:0px 0px 10px 10px;">
 
-<p>
-    @Html.ActionLink("Create New", "jobCreate", null, null)
-    | Work In Progress
-    | @Html.ActionLink("Listing", "JobListing", "JobOrder", new { span = 30 }, null)
-    | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
-    | @Html.ActionLink("Availability", "Availability", "InvItems")
-</p>
+    <p>
+        @Html.ActionLink("Create New", "jobCreate", null, null)
+        | Work In Progress
+        | @Html.ActionLink("Listing", "JobListing", "JobOrder", new { span = 30 }, null)
+        | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
+        | @Html.ActionLink("Availability", "Availability", "InvItems")
+    </p>
 
-<p>
-    Filters:
-    @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing-bot" }) |
-    @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous-bot" }) |
-    @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed-bot" })
-</p>
+    <p>
+        Filters:
+        @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing-bot" }) |
+        @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous-bot" }) |
+        @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed-bot" })
+    </p>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="Payment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

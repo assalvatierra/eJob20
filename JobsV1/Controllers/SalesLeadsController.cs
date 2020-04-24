@@ -47,7 +47,7 @@ namespace JobsV1.Controllers
                 }
             }
 
-            var leadList = sldb.generateList(null,null,null,null).ToList();
+            //var leadList = sldb.generateList(null,null,null,null).ToList();
 
             var companyLeads = db.SalesLeadCompanies.Where(s => s.CustEntMainId == companyId).Select(s => s.SalesLeadId).ToList();
             var salesLeads = db.SalesLeads.Include(s => s.SalesLeadCompanies)

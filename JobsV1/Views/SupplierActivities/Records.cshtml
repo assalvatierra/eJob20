@@ -29,6 +29,9 @@
             Activity Type
         </th>
         <th>
+            Amount
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th></th>
@@ -52,10 +55,16 @@
         @Html.DisplayFor(modelItem => item.ActivityType)
     </td>
     <td>
+        @if (item.Amount != null)
+        {
+            @Decimal.Parse(item.Amount.ToString()).ToString("N0");
+        }
+    </td>
+    <td>
         @Html.DisplayFor(modelItem => item.Remarks)
     </td>
     <td>
-        @Html.ActionLink("Edit", "RecordsEdit", new { id = item.Id }) | 
+        @Html.ActionLink("Edit", "RecordsEdit", new { id = item.Id }) |
         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
     </td>
 </tr>

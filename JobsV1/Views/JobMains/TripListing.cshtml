@@ -2,405 +2,419 @@
 
 @{
     ViewBag.Title = "Trip Listing";
-    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
+    Session["ROOTMENUID"] = 3;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
+<link href="/Content/TableStyles.css" rel="stylesheet" />
 
-@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+<div class="view-header">
+    <h2>Trip Listing</h2>
+</div>
+
+<div class="view-content">
 
 
-<h2>Trip Listing</h2>
-
-<div class="row">
-
-    <!-- Driver/Unit Search Trip Listing Records -->
-    <div class="col-sm-4 btn-group" id="itemSelected" style="margin-bottom:10px;">
-        <input id="srch-field" class="input-group-sm form-control col-sm-2" style="margin-top:5px;border-radius:0px;width:150px;" placeholder="Search" />
-        <button class="btn btn-default col-sm-3" onclick="search();"> Search </button>
-    </div>
-
-    <!-- Driver Search Trip Listing for Releasing of Commission -->
-    <div class="form-group">
-        <div class="col-md-8">
-            <div class="form-group row">
-                <label for="inputKey" class="col-md-1 control-label" style="margin-top:10px;margin-right:-10px;">Driver</label>
-                <div class="col-md-2" style="margin-top:5px;">
-
-                    @Html.DropDownList("DriverList", null, htmlAttributes: new { @class = "form-control", @id = "trip-driver" })
-
+    <div class="filter-panel">
+        <!-- Driver Search Trip Listing for Releasing of Commission -->
+        <div class="sort-panel">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default disabled">Driver</button>
                 </div>
-                <label for="inputKey" class="col-md-1 control-label" style="margin-top:10px;margin-right:-20px;">Start</label>
-                <div class="col-md-3" style="margin-top:5px;">
+                <div class="input-group-btn" style="width:100px;top:2px;">
+                    @Html.DropDownList("DriverList", null, htmlAttributes: new { @class = "form-control", @id = "trip-driver" })
+                </div>
+                <span> &nbsp; </span>
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-sqaure disabled">Start</button>
+                </div>
+                <div class="input-group-btn" style="width:120px;top:2px;">
                     <input type="text" class="form-control" id="trip-startDate" name="dtStart" placeholder="Date">
                 </div>
-                <label for="inputValue" class="col-md-1 control-label" style="margin-top:10px;margin-right:-20px;">End</label>
-                <div class="col-md-3" style="margin-top:5px;">
+                <span> &nbsp; </span>
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-sqaure disabled">End</button>
+                </div>
+                <div class="input-group-btn" style="width:120px;top:2px;">
                     <input type="text" class="form-control" id="trip-endDate" name="dtEnd" placeholder="Date">
                 </div>
-                <div class="col-md-1">
-                    <a id="catbtn" class="btn btn-default" data-toggle="modal" data-target="#DriverTripModal"
+
+                <div class="input-group" style="top:5px;">
+                    <a id="catbtn" class="btn btn-default btn-sqaure" data-toggle="modal" data-target="#DriverTripModal"
                        style="margin-bottom:10px;" onclick="FilterTrip();">Filter Trip</a>
                 </div>
             </div>
         </div>
+
+        <!-- Driver/Unit Search Trip Listing Records -->
+        <div class="search-panel">
+            <div class="input-group" id="itemSelected">
+                <input id="srch-field" class="search-field form-control" placeholder="Search" />
+                <div class="input-group-btn">
+                    <button class="btn btn-default" onclick="search();">  Search </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
+
+
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                JobId.
+            </th>
+            <th style="min-width:230px;">
+                Car
+            </th>
+            <th>
+                Driver
+            </th>
+            <th>
+                Particulars / Job Name
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Payment
+            </th>
+            <th>
+                Fuel
+            </th>
+            <th>
+                Driver
+            </th>
+            <th>
+                Operator
+            </th>
+            <th style="min-width:150px;">
+
+            </th>
+        </tr>
+
+        @{
+            var tempdate = "";
+            var jobList = new List<int>();
+            var textlimit = 20; //18
+        }
+
+
+
+        @foreach (var item in Model)
+        {
+            var jobDesc = item.Particulars + " / " + item.Description;
+
+            if (!jobList.Contains(item.JobServicesId))
+            {
+                jobList.Add(item.JobServicesId);
+
+                if (tempdate == item.DtService.ToShortDateString())
+                {
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobMainId)
+                        </td>
+                        <td>
+                            @foreach (var unitItem in item.Unit)
+                            {
+                                @unitItem <br />
+                            }
+                        </td>
+                        <td>
+                            @foreach (var driverItem in item.Driver)
+                            {
+                                @driverItem <br />
+                            }
+                        </td>
+                        <td>
+                            @if (jobDesc.Length < textlimit)
+                            {
+                                @jobDesc
+                            }
+                            else
+                            {
+                                <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                                    @jobDesc.ToString().Substring(0, textlimit)
+                                    <text>...</text>
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
+                        </td>
+                        <td>
+                            @Decimal.Parse(item.Payment.ToString()).ToString("N0")
+                        </td>
+                        <td>
+                            @Decimal.Parse(item.Fuel.ToString()).ToString("N0")
+                        </td>
+                        <td>
+                            @if (item.DriverForRelease == true)
+                            {
+                                <span style="color:dodgerblue;">
+                                    @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                            else if (item.DriverIsReleased == true)
+                            {
+                                <span style="color:palegreen;">
+                                    @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="color:black;">
+                                    @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.OperatorForRelease == true)
+                            {
+                                <span style="color:dodgerblue;">
+                                    @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                            else if (item.OperatorIsReleased == true)
+                            {
+                                <span style="color:palegreen;">
+                                    @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="color:black;">
+                                    @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
+                            <a id="catbtn" data-toggle="modal" data-target="#AddExpenses"
+                               style="margin-bottom:10px;" onclick="addExpenses('@item.JobServicesId')">Expenses</a>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @item.DtService.ToString("MMM-dd ")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobMainId)
+                        </td>
+                        <td>
+                            @foreach (var unitItem in item.Unit)
+                            {
+                                @unitItem <br />
+                            }
+                        </td>
+                        <td>
+                            @foreach (var driverItem in item.Driver)
+                            {
+                                @driverItem <br />
+                            }
+                        </td>
+                        <td>
+                            @if (jobDesc.Length < textlimit)
+                            {
+                                @jobDesc
+                            }
+                            else
+                            {
+                                <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                                    @jobDesc.ToString().Substring(0, textlimit);
+                                    <text>...</text>
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
+                        </td>
+                        <td>
+                            @Decimal.Parse(item.Payment.ToString()).ToString("N0")
+                        </td>
+                        <td>
+                            @Decimal.Parse(item.Fuel.ToString()).ToString("N0")
+                        </td>
+                        <td>
+                            @if (item.DriverForRelease == true)
+                            {
+                                <span style="color:dodgerblue;">
+                                    @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                            else if (item.DriverIsReleased == true)
+                            {
+                                <span style="color:palegreen;">
+                                    @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="color:black;">
+                                    @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.OperatorForRelease == true)
+                            {
+                                <span style="color:dodgerblue;">
+                                    @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                            else if (item.OperatorIsReleased == true)
+                            {
+                                <span style="color:palegreen;">
+                                    @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="color:black;">
+                                    @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
+                            <a id="catbtn" data-toggle="modal" data-target="#AddExpenses" class="cursor-hand"
+                               style="margin-bottom:10px;" onclick="addExpenses('@item.JobServicesId')">Expenses</a>
+                        </td>
+                    </tr>
+
+                }
+
+            }
+            else
+            {
+                if (tempdate == item.DtService.ToShortDateString())
+                {
+                    <tr>
+                        <td></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobMainId)
+                        </td>
+                        <td>
+                            @foreach (var unitItem in item.Unit)
+                            {
+                                @unitItem <br />
+                            }
+                        </td>
+                        <td>
+                            @foreach (var driverItem in item.Driver)
+                            {
+                                @driverItem <br />
+                            }
+                        </td>
+                        <td>
+                            @if (jobDesc.Length < textlimit)
+                            {
+                                @jobDesc
+                            }
+                            else
+                            {
+                                <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                                    @jobDesc.ToString().Substring(0, textlimit)
+                                    <text>...</text>
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
+                            <a id="catbtn" data-toggle="modal" data-target="#AddExpenses"
+                               style="margin-bottom:10px;" onclick="addExpenses('@item.JobServicesId')">Expenses</a>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @item.DtService.ToString("MMM-dd ")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobMainId)
+                        </td>
+                        <td>
+                            @foreach (var unitItem in item.Unit)
+                            {
+                                @unitItem <br />
+                            }
+                        </td>
+                        <td>
+                            @foreach (var driverItem in item.Driver)
+                            {
+                                @driverItem <br />
+                            }
+                        </td>
+                        <td>
+                            @if (jobDesc.Length < textlimit)
+                            {
+                                @jobDesc
+                            }
+                            else
+                            {
+                                <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
+                                    @jobDesc.ToString().Substring(0, textlimit)
+                                    <text>...</text>
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            -
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
+                            <a id="catbtn" data-toggle="modal" data-target="#AddExpenses" class="cursor-hand"
+                               style="margin-bottom:10px;" onclick="addExpenses('@item.JobServicesId')">Expenses</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+            tempdate = item.DtService.ToShortDateString();
+
+        }
+    </table>
 </div>
-
-<br />
-<table class="table">
-    <tr>
-        <th>
-            Date
-        </th>
-        <th>
-            JobId.
-        </th>
-        <th style="min-width:230px;">
-            Car
-        </th>
-        <th>
-            Driver
-        </th>
-        <th>
-            Particulars / Job Name
-        </th>
-        <th>
-            Amount
-        </th>
-        <th>
-            Payment
-        </th>
-        <th>
-            Fuel
-        </th>
-        <th>
-            Driver
-        </th>
-        <th>
-            Operator
-        </th>
-        <th style="min-width:150px;">
-
-        </th>
-    </tr>
-
-    @{
-        var tempdate = "";
-        var jobList = new List<int>();
-        var textlimit = 20; //18
-    }
-
-
-
-    @foreach (var item in Model)
-    {
-        var jobDesc = item.Particulars + " / " + item.Description;
-
-        if (!jobList.Contains(item.JobServicesId))
-        {
-            jobList.Add(item.JobServicesId);
-
-            if (tempdate == item.DtService.ToShortDateString())
-            {
-                <tr>
-                    <td>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.JobMainId)
-                    </td>
-                    <td>
-                        @foreach (var unitItem in item.Unit)
-                        {
-                            @unitItem <br />
-                        }
-                    </td>
-                    <td>
-                        @foreach (var driverItem in item.Driver)
-                        {
-                            @driverItem <br />
-                        }
-                    </td>
-                    <td>
-                        @if (jobDesc.Length < textlimit)
-                        {
-                            @jobDesc
-                        }
-                        else
-                        {
-                            <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
-                                @jobDesc.ToString().Substring(0, textlimit)
-                                <text>...</text>
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
-                    </td>
-                    <td>
-                        @Decimal.Parse(item.Payment.ToString()).ToString("N0")
-                    </td>
-                    <td>
-                        @Decimal.Parse(item.Fuel.ToString()).ToString("N0")
-                    </td>
-                    <td>
-                        @if (item.DriverForRelease == true)
-                        {
-                            <span style="color:dodgerblue;">
-                                @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                        else if (item.DriverIsReleased == true)
-                        {
-                            <span style="color:palegreen;">
-                                @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                        else
-                        {
-                            <span style="color:black;">
-                                @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        @if (item.OperatorForRelease == true)
-                        {
-                            <span style="color:dodgerblue;">
-                                @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                        else if (item.OperatorIsReleased == true)
-                        {
-                            <span style="color:palegreen;">
-                                @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                        else
-                        {
-                            <span style="color:black;">
-                                @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
-                        <a id="catbtn" data-toggle="modal" data-target="#AddExpenses"
-                           style="margin-bottom:10px;" onclick="addExpenses('@item.JobServicesId')">Expenses</a>
-                    </td>
-                </tr>
-            }
-            else
-            {
-                <tr>
-                    <td>
-                        @item.DtService.ToString("MMM-dd ")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.JobMainId)
-                    </td>
-                    <td>
-                        @foreach (var unitItem in item.Unit)
-                        {
-                            @unitItem <br />
-                        }
-                    </td>
-                    <td>
-                        @foreach (var driverItem in item.Driver)
-                        {
-                            @driverItem <br />
-                        }
-                    </td>
-                    <td>
-                        @if (jobDesc.Length < textlimit)
-                        {
-                            @jobDesc
-                        }
-                        else
-                        {
-                            <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
-                                @jobDesc.ToString().Substring(0, textlimit);
-                                <text>...</text>
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        @Decimal.Parse(item.ActualAmt.ToString()).ToString("N0")
-                    </td>
-                    <td>
-                        @Decimal.Parse(item.Payment.ToString()).ToString("N0")
-                    </td>
-                    <td>
-                        @Decimal.Parse(item.Fuel.ToString()).ToString("N0")
-                    </td>
-                    <td>
-                        @if (item.DriverForRelease == true)
-                        {
-                            <span style="color:dodgerblue;">
-                                @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                        else if (item.DriverIsReleased == true)
-                        {
-                            <span style="color:palegreen;">
-                                @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                        else
-                        {
-                            <span style="color:black;">
-                                @Decimal.Parse(item.DriverComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        @if (item.OperatorForRelease == true)
-                        {
-                            <span style="color:dodgerblue;">
-                                @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                        else if (item.OperatorIsReleased == true)
-                        {
-                            <span style="color:palegreen;">
-                                @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                        else
-                        {
-                            <span style="color:black;">
-                                @Decimal.Parse(item.OperatorComi.ToString()).ToString("N0")
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
-                        <a id="catbtn" data-toggle="modal" data-target="#AddExpenses" class="cursor-hand"
-                           style="margin-bottom:10px;" onclick="addExpenses('@item.JobServicesId')">Expenses</a>
-                    </td>
-                </tr>
-
-            }
-
-        }
-        else
-        {
-            if (tempdate == item.DtService.ToShortDateString())
-            {
-                <tr>
-                    <td></td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.JobMainId)
-                    </td>
-                    <td>
-                        @foreach (var unitItem in item.Unit)
-                        {
-                            @unitItem <br />
-                        }
-                    </td>
-                    <td>
-                        @foreach (var driverItem in item.Driver)
-                        {
-                            @driverItem <br />
-                        }
-                    </td>
-                    <td>
-                        @if (jobDesc.Length < textlimit)
-                        {
-                            @jobDesc
-                        }
-                        else
-                        {
-                            <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
-                                @jobDesc.ToString().Substring(0, textlimit)
-                                <text>...</text>
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
-                        <a id="catbtn" data-toggle="modal" data-target="#AddExpenses"
-                           style="margin-bottom:10px;" onclick="addExpenses('@item.JobServicesId')">Expenses</a>
-                    </td>
-                </tr>
-            }
-            else
-            {
-                <tr>
-                    <td>
-                        @item.DtService.ToString("MMM-dd ")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.JobMainId)
-                    </td>
-                    <td>
-                        @foreach (var unitItem in item.Unit)
-                        {
-                            @unitItem <br />
-                        }
-                    </td>
-                    <td>
-                        @foreach (var driverItem in item.Driver)
-                        {
-                            @driverItem <br />
-                        }
-                    </td>
-                    <td>
-                        @if (jobDesc.Length < textlimit)
-                        {
-                            @jobDesc
-                        }
-                        else
-                        {
-                            <span data-toggle="tooltip" data-placement="bottom" title="@item.Particulars / @item.Description">
-                                @jobDesc.ToString().Substring(0, textlimit)
-                                <text>...</text>
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        -
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null) |
-                        <a id="catbtn" data-toggle="modal" data-target="#AddExpenses" class="cursor-hand"
-                           style="margin-bottom:10px;" onclick="addExpenses('@item.JobServicesId')">Expenses</a>
-                    </td>
-                </tr>
-            }
-        }
-
-        tempdate = item.DtService.ToShortDateString();
-
-    }
-</table>
-
 
 <!--Modal-->
 @{Html.RenderPartial("TripListing_Expenses", null, null);}

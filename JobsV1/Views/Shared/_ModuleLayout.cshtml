@@ -12,6 +12,9 @@
     <title>@ViewBag.Title </title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">     <!-- Google Fonts : Nunito Regular -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @Styles.Render("~/Content/css/DateRangePicker")
@@ -80,8 +83,8 @@
         <div id="body">
             <section class="content-wrapper main-content clear-fix">
 
-                <div class="row" style="margin:20px;">
-                    <div>
+                <div class="container">
+                    <div class="row">
                         <!--
                         <td style="vertical-align:top;">
                             <div class="CustomBox" style="float:left;height:110px;width:90%;">
@@ -92,15 +95,15 @@
                         </td>
                         -->
                        
-                        <div  class="row" style="min-width:200px;">
+                        <div  style="min-width:300px;">
                             <div class="CustomBox" style="height:110px;width:100%;">
                                 @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)
                             </div>
                         </div>
 
                     </div>
-                    <div>
-                        <div class="row" style="vertical-align:top;min-width:200px;">
+                    <div class="row">
+                        <div style="vertical-align:top;min-width:300px;">
                             <div class="CustomBox" style="float:left;width:100%;">
                                 @Html.Menu2(Url.Content("~/"), "" , "", ROOTMENUID, USERNAME)
                             </div>
@@ -109,8 +112,8 @@
                             </div>
                         </div>
 
-                        <div style="vertical-align:top;max-width:100%;margin-left:0px">
-                            <div class="PanelContainer">
+                        <div >
+                            <div class="PanelContainer-main">
                                 @RenderBody()
                             </div>
                         </div>
@@ -124,7 +127,7 @@
     <footer>
         <div class="content-wrapper">
             <div class="float-left" style="margin-left:10px;">
-                <p>&copy; @DateTime.Now.Year - SolidSteelServer.com </p>
+                <p>&copy; @DateTime.Now.Year - Realwheelsdavao.com </p>
             </div>
         </div>
     </footer>

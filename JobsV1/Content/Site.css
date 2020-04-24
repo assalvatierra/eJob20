@@ -92,9 +92,34 @@ textarea {
     border-top: none;
 }
 
-.jobservice{
-    background-color:lightgray;
+.jobservice {
+    background-color: lightgray;
+    padding: 1em;
+    cursor: pointer;
+    padding-left: 1.5em;
 }
+
+.jobservice-container {
+    border: 1px solid lightgray;
+    margin-bottom: 0.5em;
+}
+
+.jobservice-pickup {
+    background-color: whitesmoke;
+    padding: 1em;
+    font: normal 11px arial, verdana;
+    padding-left: 1.5em;
+    margin-left: 0px;
+}
+
+.jobservice-pickup p {
+   margin-bottom:0px;
+}
+
+.jobservice-items {
+    padding: 5px 15px;
+}
+
 
 .car-primary {
     background-color:white;
@@ -560,6 +585,7 @@ rental-type-wdriver {
     .nav-submenus a {
         padding:10px 5px;
         text-decoration: none;
+        color:royalblue;
     }
 
     .nav-submenus:hover{
@@ -575,16 +601,12 @@ rental-type-wdriver {
     .nav-submenu-home {
         width: 5%;
         float: right;
-        padding:10px 0px;
-        margin-right:0px;
+        margin-top:10px;
     }
 
     .nav-submenu-home a{
-        padding:10px 5px;
-    }
-
-    .nav-submenu-home a{
-        padding:10px 5px;
+        padding:12px 11px;
+        color:royalblue;
         text-decoration: none;
     }
 
@@ -602,15 +624,36 @@ rental-type-wdriver {
         padding: 10px;
     }
 
-/* Small Screens */
-@media only screen and (max-width: 1024px) {
+.nav-sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+/* PC 1080p Screens */
+@media only screen and (max-width: 1200px) {
 
     .nav-submenu-home {
-        float: left;
-        color: red;
+        margin-right: 10px;
+    }
+}
+@media only screen and (max-width: 990px) {
+
+    .nav-submenu-home {
+        margin-right: 20px;
     }
 }
 
+/* Medium Screens */
+@media only screen and (max-width: 800px) {
+
+    .nav-submenu-home {
+        float: left;
+        color: royalblue;
+    }
+}
+
+/* Small Screens */
 @media only screen and (max-width: 360px){
     #loginForm {
         width: 300px;

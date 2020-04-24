@@ -46,6 +46,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @id = "act-edit-amount", @maxlength = 15 } })
+                                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -132,6 +139,7 @@
                 $("#act-edit-assigned").val(data["Assigned"]);
                 $("#act-edit-code").val(data["SalesCode"]);
                 $("#act-edit-remarks").val(data["Remarks"]);
+                $("#act-edit-amount").val(data["Amount"]);
                 $("#act-edit-supplierId").val(data["CustEntMainId"]);
                 $("#act-edit-type").val(data["Type"]);
                 $("#act-edit-activityType").val(data["ActivityType"]);
@@ -146,6 +154,7 @@
                     actDate: $("#act-edit-date").val(),
                     Assigned: $("#act-edit-assigned").val(),
                     Code: $("#act-edit-code").val(),
+                    Amount: $("#act-edit-amount").val(),
                     Remarks: $("#act-edit-remarks").val(),
                     SupplierId: $("#act-edit-supplierId").find(":selected").val(),
                     Type: $("#act-edit-type").find(":selected").val(),
