@@ -62,6 +62,15 @@
       <End Role="SmProduct" EntitySet="SmProducts" />
       <End Role="SmFile" EntitySet="SmFiles" />
     </AssociationSet>
+    <EntitySet Name="SmProdAds" EntityType="ProdDB.SmProdAds" />
+    <AssociationSet Name="SmCategorySmProdAds" Association="ProdDB.SmCategorySmProdAds">
+      <End Role="SmCategory" EntitySet="SmCategories" />
+      <End Role="SmProdAds" EntitySet="SmProdAds" />
+    </AssociationSet>
+    <AssociationSet Name="SmProductSmProdAds" Association="ProdDB.SmProductSmProdAds">
+      <End Role="SmProduct" EntitySet="SmProducts" />
+      <End Role="SmProdAds" EntitySet="SmProdAds" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="SmProduct">
     <Key>
@@ -87,6 +96,7 @@
     <NavigationProperty Name="SmProdCats" Relationship="ProdDB.SmProductSmProdCat" FromRole="SmProduct" ToRole="SmProdCat" />
     <NavigationProperty Name="SmRates" Relationship="ProdDB.SmProductSmRate" FromRole="SmProduct" ToRole="SmRate" />
     <NavigationProperty Name="SmFiles" Relationship="ProdDB.SmProductSmFile" FromRole="SmProduct" ToRole="SmFile" />
+    <NavigationProperty Name="SmProdAds" Relationship="ProdDB.SmProductSmProdAds" FromRole="SmProduct" ToRole="SmProdAds" />
   </EntityType>
   <EntityType Name="SmProdDesc">
     <Key>
@@ -254,6 +264,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
     <NavigationProperty Name="SmProdCats" Relationship="ProdDB.SmCategorySmProdCat" FromRole="SmCategory" ToRole="SmProdCat" />
+    <NavigationProperty Name="SmProdAds" Relationship="ProdDB.SmCategorySmProdAds" FromRole="SmCategory" ToRole="SmProdAds" />
   </EntityType>
   <EntityType Name="SmProdCat">
     <Key>
@@ -352,6 +363,42 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="SmFile">
+        <PropertyRef Name="SmProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SmProdAds">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Image" Type="String" Nullable="false" />
+    <Property Name="Link" Type="String" Nullable="false" />
+    <NavigationProperty Name="SmCategory" Relationship="ProdDB.SmCategorySmProdAds" FromRole="SmProdAds" ToRole="SmCategory" />
+    <Property Name="SmCategoryId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SmProduct" Relationship="ProdDB.SmProductSmProdAds" FromRole="SmProdAds" ToRole="SmProduct" />
+    <Property Name="SmProductId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="SmCategorySmProdAds">
+    <End Type="ProdDB.SmCategory" Role="SmCategory" Multiplicity="1" />
+    <End Type="ProdDB.SmProdAds" Role="SmProdAds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SmCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SmProdAds">
+        <PropertyRef Name="SmCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SmProductSmProdAds">
+    <End Type="ProdDB.SmProduct" Role="SmProduct" Multiplicity="1" />
+    <End Type="ProdDB.SmProdAds" Role="SmProdAds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SmProduct">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SmProdAds">
         <PropertyRef Name="SmProductId" />
       </Dependent>
     </ReferentialConstraint>

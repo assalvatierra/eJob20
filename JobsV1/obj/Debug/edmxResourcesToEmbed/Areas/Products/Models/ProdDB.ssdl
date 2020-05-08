@@ -14,6 +14,7 @@
     <EntitySet Name="SmRates" EntityType="ProdDB.Store.SmRates" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SmRateUoMs" EntityType="ProdDB.Store.SmRateUoMs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SmFiles" EntityType="ProdDB.Store.SmFiles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SmProdAds" EntityType="ProdDB.Store.SmProdAds" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="SmProdStatusSmProduct" Association="ProdDB.Store.SmProdStatusSmProduct">
       <End Role="SmProdStatus" EntitySet="SmProdStatus" />
       <End Role="SmProduct" EntitySet="SmProducts" />
@@ -61,6 +62,14 @@
     <AssociationSet Name="SmProductSmFile" Association="ProdDB.Store.SmProductSmFile">
       <End Role="SmProduct" EntitySet="SmProducts" />
       <End Role="SmFile" EntitySet="SmFiles" />
+    </AssociationSet>
+    <AssociationSet Name="SmCategorySmProdAds" Association="ProdDB.Store.SmCategorySmProdAds">
+      <End Role="SmCategory" EntitySet="SmCategories" />
+      <End Role="SmProdAds" EntitySet="SmProdAds" />
+    </AssociationSet>
+    <AssociationSet Name="SmProductSmProdAds" Association="ProdDB.Store.SmProductSmProdAds">
+      <End Role="SmProduct" EntitySet="SmProducts" />
+      <End Role="SmProdAds" EntitySet="SmProdAds" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="SmProducts">
@@ -186,6 +195,16 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Desc" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Link" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="SmProductId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SmProdAds">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Image" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SmCategoryId" Type="int" Nullable="false" />
     <Property Name="SmProductId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="SmProdStatusSmProduct">
@@ -328,6 +347,30 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="SmFile">
+        <PropertyRef Name="SmProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SmCategorySmProdAds">
+    <End Role="SmCategory" Type="ProdDB.Store.SmCategories" Multiplicity="1" />
+    <End Role="SmProdAds" Type="ProdDB.Store.SmProdAds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SmCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SmProdAds">
+        <PropertyRef Name="SmCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SmProductSmProdAds">
+    <End Role="SmProduct" Type="ProdDB.Store.SmProducts" Multiplicity="1" />
+    <End Role="SmProdAds" Type="ProdDB.Store.SmProdAds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SmProduct">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SmProdAds">
         <PropertyRef Name="SmProductId" />
       </Dependent>
     </ReferentialConstraint>

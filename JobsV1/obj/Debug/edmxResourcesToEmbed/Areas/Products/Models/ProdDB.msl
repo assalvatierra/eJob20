@@ -139,5 +139,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SmProdAds">
+      <EntityTypeMapping TypeName="IsTypeOf(ProdDB.SmProdAds)">
+        <MappingFragment StoreEntitySet="SmProdAds">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="SmCategoryId" ColumnName="SmCategoryId" />
+          <ScalarProperty Name="SmProductId" ColumnName="SmProductId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

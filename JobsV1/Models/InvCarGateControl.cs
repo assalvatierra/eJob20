@@ -22,6 +22,9 @@ namespace JobsV1.Models
         public string Remarks { get; set; }
         public string Driver { get; set; }
         public string Inspector { get; set; }
+        public Nullable<int> JobMainId { get; set; }
+        public Nullable<int> CustomerId { get; set; }
+        public Nullable<int> DriverId { get; set; }
     
         public virtual InvItem InvItem { get; set; }
     }

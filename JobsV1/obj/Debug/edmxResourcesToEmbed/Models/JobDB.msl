@@ -18,6 +18,7 @@
           <ScalarProperty Name="AgreedAmt" ColumnName="AgreedAmt" />
           <ScalarProperty Name="CustContactEmail" ColumnName="CustContactEmail" />
           <ScalarProperty Name="CustContactNumber" ColumnName="CustContactNumber" />
+          <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -34,6 +35,10 @@
           <ScalarProperty Name="CityId" ColumnName="CityId" />
           <ScalarProperty Name="SupplierTypeId" ColumnName="SupplierTypeId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -452,6 +457,11 @@
           <ScalarProperty Name="Website" ColumnName="Website" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="CityId" ColumnName="CityId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Exclusive" ColumnName="Exclusive" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -525,6 +535,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -773,6 +784,9 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="Driver" ColumnName="Driver" />
           <ScalarProperty Name="Inspector" ColumnName="Inspector" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="DriverId" ColumnName="DriverId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -785,6 +799,7 @@
           <ScalarProperty Name="dtTrail" ColumnName="dtTrail" />
           <ScalarProperty Name="user" ColumnName="user" />
           <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -999,6 +1014,8 @@
           <ScalarProperty Name="ExpensesId" ColumnName="ExpensesId" />
           <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
           <ScalarProperty Name="DtExpense" ColumnName="DtExpense" />
+          <ScalarProperty Name="IsReleased" ColumnName="IsReleased" />
+          <ScalarProperty Name="ForRelease" ColumnName="ForRelease" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1073,9 +1090,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PickupInstructions">
-      <EntityTypeMapping TypeName="IsTypeOf(JobDB.PickupInstructions)">
-        <MappingFragment StoreEntitySet="PickupInstructions">
+    <EntitySetMapping Name="DriverInsJobServices">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.DriverInsJobService)">
+        <MappingFragment StoreEntitySet="DriverInsJobServices">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DriverInstructionsId" ColumnName="DriverInstructionsId" />
           <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
@@ -1128,6 +1145,267 @@
           <ScalarProperty Name="Desc3" ColumnName="Desc3" />
           <ScalarProperty Name="DtEncoded" ColumnName="DtEncoded" />
           <ScalarProperty Name="EncodedBy" ColumnName="EncodedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierContacts">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierContact)">
+        <MappingFragment StoreEntitySet="SupplierContacts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Landline" ColumnName="Landline" />
+          <ScalarProperty Name="SkypeId" ColumnName="SkypeId" />
+          <ScalarProperty Name="ViberId" ColumnName="ViberId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="WhatsApp" ColumnName="WhatsApp" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="SupplierContactStatusId" ColumnName="SupplierContactStatusId" />
+          <ScalarProperty Name="WeChat" ColumnName="WeChat" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierItemRates">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierItemRate)">
+        <MappingFragment StoreEntitySet="SupplierItemRates">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SupplierInvItemId" ColumnName="SupplierInvItemId" />
+          <ScalarProperty Name="ItemRate" ColumnName="ItemRate" />
+          <ScalarProperty Name="SupplierUnitId" ColumnName="SupplierUnitId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="DtValidFrom" ColumnName="DtValidFrom" />
+          <ScalarProperty Name="DtValidTo" ColumnName="DtValidTo" />
+          <ScalarProperty Name="Particulars" ColumnName="Particulars" />
+          <ScalarProperty Name="By" ColumnName="By" />
+          <ScalarProperty Name="Material" ColumnName="Material" />
+          <ScalarProperty Name="ProcBy" ColumnName="ProcBy" />
+          <ScalarProperty Name="TradeTerm" ColumnName="TradeTerm" />
+          <ScalarProperty Name="Tolerance" ColumnName="Tolerance" />
+          <ScalarProperty Name="DtEntered" ColumnName="DtEntered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierUnits">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierUnit)">
+        <MappingFragment StoreEntitySet="SupplierUnits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesLeadItems">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadItems)">
+        <MappingFragment StoreEntitySet="SalesLeadItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="QuotedPrice" ColumnName="QuotedPrice" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesLeadQuotedItems">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadQuotedItem)">
+        <MappingFragment StoreEntitySet="SalesLeadQuotedItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SalesLeadItemsId" ColumnName="SalesLeadItemsId" />
+          <ScalarProperty Name="SupplierItemRateId" ColumnName="SupplierItemRateId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustSocialAccs">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustSocialAcc)">
+        <MappingFragment StoreEntitySet="CustSocialAccs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Facebook" ColumnName="Facebook" />
+          <ScalarProperty Name="Viber" ColumnName="Viber" />
+          <ScalarProperty Name="Skype" ColumnName="Skype" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdminEmails">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.AdminEmail)">
+        <MappingFragment StoreEntitySet="AdminEmails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="AccCode" ColumnName="AccCode" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Countries">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.Country)">
+        <MappingFragment StoreEntitySet="Countries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierContactStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierContactStatus)">
+        <MappingFragment StoreEntitySet="SupplierContactStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntAssigns">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntAssign)">
+        <MappingFragment StoreEntitySet="CustEntAssigns">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierActivity)">
+        <MappingFragment StoreEntitySet="SupplierActivities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="DtActivity" ColumnName="DtActivity" />
+          <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupDocuments">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupDocument)">
+        <MappingFragment StoreEntitySet="SupDocuments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierDocuments">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierDocument)">
+        <MappingFragment StoreEntitySet="SupplierDocuments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="SupDocumentId" ColumnName="SupDocumentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActivity)">
+        <MappingFragment StoreEntitySet="CustEntActivities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="SalesCode" ColumnName="SalesCode" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntDocuments">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntDocuments)">
+        <MappingFragment StoreEntitySet="CustEntDocuments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SupDocumentId" ColumnName="SupDocumentId" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustNotifs">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustNotif)">
+        <MappingFragment StoreEntitySet="CustNotifs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MsgTitle" ColumnName="MsgTitle" />
+          <ScalarProperty Name="MsgBody" ColumnName="MsgBody" />
+          <ScalarProperty Name="DtEncoded" ColumnName="DtEncoded" />
+          <ScalarProperty Name="DtScheduled" ColumnName="DtScheduled" />
+          <ScalarProperty Name="Occurence" ColumnName="Occurence" />
+          <ScalarProperty Name="IsEmail" ColumnName="IsEmail" />
+          <ScalarProperty Name="IsSms" ColumnName="IsSms" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustNotifActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustNotifActivity)">
+        <MappingFragment StoreEntitySet="CustNotifActivities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtActivity" ColumnName="DtActivity" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CustNotifRecipientId" ColumnName="CustNotifRecipientId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustNotifRecipients">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustNotifRecipient)">
+        <MappingFragment StoreEntitySet="CustNotifRecipients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="CustNotifId" ColumnName="CustNotifId" />
+          <ScalarProperty Name="NotifRecipientId" ColumnName="NotifRecipientId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustNotifRecipientLists">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustNotifRecipientList)">
+        <MappingFragment StoreEntitySet="CustNotifRecipientLists">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActStatus)">
+        <MappingFragment StoreEntitySet="CustEntActStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActType)">
+        <MappingFragment StoreEntitySet="CustEntActTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierActStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierActStatus)">
+        <MappingFragment StoreEntitySet="SupplierActStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActivityTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActivityType)">
+        <MappingFragment StoreEntitySet="CustEntActivityTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Points" ColumnName="Points" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierActivityTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierActivityType)">
+        <MappingFragment StoreEntitySet="SupplierActivityTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Points" ColumnName="Points" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

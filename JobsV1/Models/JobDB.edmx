@@ -1319,6 +1319,9 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="250" />
     <Property Name="Driver" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="Inspector" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="JobMainId" Type="int" Nullable="true" />
+    <Property Name="CustomerId" Type="int" Nullable="true" />
+    <Property Name="DriverId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="JobTrails">
     <Key>
@@ -5588,6 +5591,9 @@
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
           <Property Name="Driver" Type="String" Nullable="true" MaxLength="50" />
           <Property Name="Inspector" Type="String" Nullable="true" MaxLength="50" />
+          <Property Name="JobMainId" Type="Int32" Nullable="true" />
+          <Property Name="CustomerId" Type="Int32" Nullable="true" />
+          <Property Name="DriverId" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="InvItemInvCarGateControl">
           <End Type="JobDB.InvItem" Role="InvItem" Multiplicity="1" />
@@ -7626,6 +7632,9 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="Driver" ColumnName="Driver" />
           <ScalarProperty Name="Inspector" ColumnName="Inspector" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="DriverId" ColumnName="DriverId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
