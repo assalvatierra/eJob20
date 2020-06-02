@@ -349,7 +349,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/15/2019 10:43:43</publishTime>
     </File>
     <File Include="Areas/Products/Script/ProdList.js">
-      <publishTime>07/29/2019 18:00:14</publishTime>
+      <publishTime>04/24/2020 13:41:14</publishTime>
     </File>
     <File Include="Areas/Products/Script/ProductDesc.js">
       <publishTime>05/28/2019 13:36:36</publishTime>
@@ -406,13 +406,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/13/2019 11:49:01</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/Details.cshtml">
-      <publishTime>09/16/2019 16:10:02</publishTime>
+      <publishTime>04/24/2020 13:39:41</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/Edit.cshtml">
       <publishTime>05/21/2019 16:22:34</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/Index.cshtml">
-      <publishTime>06/15/2019 11:20:31</publishTime>
+      <publishTime>04/24/2020 13:38:50</publishTime>
     </File>
     <File Include="Areas/Products/Views/SmProducts/PartialView_Ads.cshtml">
       <publishTime>09/14/2019 15:52:30</publishTime>
@@ -493,10 +493,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>04/01/2020 14:07:18</publishTime>
+      <publishTime>06/02/2020 16:01:49</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>04/01/2020 14:07:18</publishTime>
+      <publishTime>06/02/2020 16:01:49</publishTime>
     </File>
     <File Include="bin/de/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>09/07/2019 13:56:13</publishTime>
@@ -520,10 +520,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/07/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>04/01/2020 14:05:02</publishTime>
+      <publishTime>06/02/2020 15:58:17</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>04/01/2020 14:05:02</publishTime>
+      <publishTime>06/02/2020 15:58:17</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>09/07/2019 13:56:13</publishTime>
@@ -669,11 +669,29 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/bootstrap-directional-buttons.min.css">
       <publishTime>03/21/2019 16:25:25</publishTime>
     </File>
+    <File Include="Content/bootstrap-theme.css">
+      <publishTime>04/23/2020 14:56:39</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.css.map">
+      <publishTime>04/23/2020 14:56:39</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.min.css">
+      <publishTime>04/23/2020 14:56:39</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.min.css.map">
+      <publishTime>04/23/2020 14:56:38</publishTime>
+    </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>03/05/2019 09:53:30</publishTime>
+      <publishTime>04/23/2020 14:56:38</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css.map">
+      <publishTime>04/23/2020 14:56:38</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
-      <publishTime>03/05/2019 09:53:30</publishTime>
+      <publishTime>04/23/2020 14:56:38</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css.map">
+      <publishTime>04/23/2020 14:56:38</publishTime>
     </File>
     <File Include="Content/bootstrap.min.slate.css">
       <publishTime>03/05/2019 09:53:30</publishTime>
@@ -690,6 +708,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/Erp.css">
       <publishTime>03/07/2019 14:38:31</publishTime>
     </File>
+    <File Include="Content/font-awesome.min.css">
+      <publishTime>04/24/2020 13:11:42</publishTime>
+    </File>
     <File Include="Content/Login.css">
       <publishTime>07/24/2019 10:04:24</publishTime>
     </File>
@@ -703,10 +724,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/20/2019 11:35:51</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>01/21/2020 17:20:20</publishTime>
+      <publishTime>04/23/2020 11:31:06</publishTime>
     </File>
     <File Include="Content/sortable-theme-bootstrap.css">
       <publishTime>01/31/2020 15:01:57</publishTime>
+    </File>
+    <File Include="Content/TableStyles.css">
+      <publishTime>04/24/2020 14:54:44</publishTime>
     </File>
     <File Include="Content/themes/base/accordion.css">
       <publishTime>03/05/2019 09:53:30</publishTime>
@@ -877,7 +901,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 15:40:28</publishTime>
     </File>
     <File Include="Content/UserStyles.css">
-      <publishTime>03/06/2020 11:20:29</publishTime>
+      <publishTime>04/16/2020 12:21:11</publishTime>
     </File>
     <File Include="Documents/FeatureList.txt">
       <publishTime>03/05/2019 09:53:30</publishTime>
@@ -886,16 +910,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:36</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.eot">
-      <publishTime>03/05/2019 09:53:36</publishTime>
+      <publishTime>04/23/2020 14:56:38</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.svg">
-      <publishTime>03/05/2019 09:53:36</publishTime>
+      <publishTime>04/23/2020 14:56:38</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.ttf">
-      <publishTime>03/05/2019 09:53:36</publishTime>
+      <publishTime>04/23/2020 14:56:38</publishTime>
     </File>
     <File Include="fonts/glyphicons-halflings-regular.woff">
-      <publishTime>03/05/2019 09:53:36</publishTime>
+      <publishTime>04/23/2020 14:56:38</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff2">
+      <publishTime>04/23/2020 14:56:37</publishTime>
     </File>
     <File Include="Images/Call.png">
       <publishTime>03/05/2019 09:53:30</publishTime>
@@ -1885,10 +1912,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/27/2016 09:42:50</publishTime>
     </File>
     <File Include="Models/JobDB.edmx.diagram">
-      <publishTime>03/28/2020 15:16:06</publishTime>
+      <publishTime>04/06/2020 16:25:09</publishTime>
     </File>
     <File Include="Models/JobDB.edmx.sql">
-      <publishTime>03/28/2020 14:10:50</publishTime>
+      <publishTime>04/13/2020 15:23:32</publishTime>
     </File>
     <File Include="Models/JobNotes.sql">
       <publishTime>03/15/2017 13:30:18</publishTime>
@@ -1939,13 +1966,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/09/2019 17:55:46</publishTime>
     </File>
     <File Include="Models/SQL.Job/InitialAll.sql">
-      <publishTime>03/28/2020 15:59:07</publishTime>
+      <publishTime>04/22/2020 16:20:47</publishTime>
     </File>
     <File Include="Models/SQL.Job/InitialData.sql">
       <publishTime>06/28/2019 16:09:22</publishTime>
     </File>
     <File Include="Models/SQL.Job/InitTestData.sql">
-      <publishTime>03/30/2020 12:02:38</publishTime>
+      <publishTime>04/18/2020 19:47:36</publishTime>
     </File>
     <File Include="Models/SQL.Job/JobDB.Car.sql">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -1972,7 +1999,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/14/2019 16:53:25</publishTime>
     </File>
     <File Include="Models/SQL.SolidSteel/InitialAll.sql">
-      <publishTime>02/18/2020 18:04:14</publishTime>
+      <publishTime>04/18/2020 15:35:45</publishTime>
     </File>
     <File Include="Models/SQL.Sys/InitialData_SysTbls.sql">
       <publishTime>03/02/2020 11:19:03</publishTime>
@@ -1984,10 +2011,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/06/2019 10:07:55</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>04/30/2019 10:22:48</publishTime>
+      <publishTime>04/23/2020 14:56:39</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>04/01/2020 14:07:14</publishTime>
+      <publishTime>06/02/2020 16:01:45</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -1996,7 +2023,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:32</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>04/01/2020 10:58:52</publishTime>
+      <publishTime>04/24/2020 14:56:24</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>02/19/2020 17:09:27</publishTime>
@@ -2017,10 +2044,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:33</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
-      <publishTime>03/05/2019 09:53:33</publishTime>
+      <publishTime>04/23/2020 14:56:37</publishTime>
     </File>
     <File Include="Scripts/bootstrap.min.js">
-      <publishTime>03/05/2019 09:53:33</publishTime>
+      <publishTime>04/23/2020 14:56:37</publishTime>
     </File>
     <File Include="Scripts/CarRental/FormCarPackages.js">
       <publishTime>03/05/2019 09:53:33</publishTime>
@@ -2059,10 +2086,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/10/2020 10:47:20</publishTime>
     </File>
     <File Include="Scripts/CustNotif/CreateNotif.js">
-      <publishTime>03/10/2020 17:41:07</publishTime>
+      <publishTime>04/15/2020 16:12:28</publishTime>
     </File>
     <File Include="Scripts/CustNotif/CustNotifs.js">
-      <publishTime>03/10/2020 10:49:41</publishTime>
+      <publishTime>04/07/2020 15:47:33</publishTime>
     </File>
     <File Include="Scripts/dataTables.min.js">
       <publishTime>11/28/2019 08:57:16</publishTime>
@@ -2084,6 +2111,33 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/DateRangePicker/package.json">
       <publishTime>03/05/2019 09:53:33</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper-utils.js">
+      <publishTime>04/23/2020 14:50:47</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper-utils.js.map">
+      <publishTime>04/23/2020 14:50:47</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper-utils.min.js">
+      <publishTime>04/23/2020 14:50:47</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper-utils.min.js.map">
+      <publishTime>04/23/2020 14:50:47</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper.js">
+      <publishTime>04/23/2020 14:50:47</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper.js.map">
+      <publishTime>04/23/2020 14:50:47</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper.min.js">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper.min.js.map">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/index.js.flow">
+      <publishTime>04/23/2020 14:50:46</publishTime>
     </File>
     <File Include="Scripts/Job/CarGateControl.js">
       <publishTime>03/05/2019 09:53:33</publishTime>
@@ -2107,7 +2161,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/19/2019 12:08:24</publishTime>
     </File>
     <File Include="Scripts/Job/CustEntMainList.js">
-      <publishTime>03/24/2020 14:53:50</publishTime>
+      <publishTime>04/23/2020 14:40:41</publishTime>
     </File>
     <File Include="Scripts/Job/CustEntRecords.js">
       <publishTime>12/01/2019 08:48:17</publishTime>
@@ -2116,7 +2170,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/10/2020 10:45:43</publishTime>
     </File>
     <File Include="Scripts/Job/CustomerList.js">
-      <publishTime>03/12/2020 16:23:25</publishTime>
+      <publishTime>04/21/2020 18:56:09</publishTime>
     </File>
     <File Include="Scripts/Job/CustomerReport.js">
       <publishTime>04/06/2019 15:19:16</publishTime>
@@ -2170,7 +2224,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/20/2020 14:51:54</publishTime>
     </File>
     <File Include="Scripts/Job/SupplierList.js">
-      <publishTime>03/19/2020 17:43:04</publishTime>
+      <publishTime>04/23/2020 11:11:47</publishTime>
     </File>
     <File Include="Scripts/Job/SupplierListExpand.js">
       <publishTime>04/06/2019 15:19:16</publishTime>
@@ -2195,6 +2249,24 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/jquery-1.12.4.min.map">
       <publishTime>03/05/2019 09:53:33</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.0.0.js">
+      <publishTime>04/23/2020 14:50:38</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.0.0.min.js">
+      <publishTime>04/23/2020 14:50:38</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.0.0.min.map">
+      <publishTime>04/23/2020 14:50:38</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.0.0.slim.js">
+      <publishTime>04/23/2020 14:50:38</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.0.0.slim.min.js">
+      <publishTime>04/23/2020 14:50:38</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.0.0.slim.min.map">
+      <publishTime>04/23/2020 14:50:38</publishTime>
     </File>
     <File Include="Scripts/jquery-3.3.1.js">
       <publishTime>03/05/2019 09:53:33</publishTime>
@@ -2232,8 +2304,35 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/Personnel/Payroll.js">
       <publishTime>05/03/2019 12:12:40</publishTime>
     </File>
+    <File Include="Scripts/popper-utils.js">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/popper-utils.js.map">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/popper-utils.min.js">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/popper-utils.min.js.map">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/popper.js">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/popper.js.map">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/popper.min.js">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/popper.min.js.map">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
     <File Include="Scripts/Products/ProdCreate.js">
       <publishTime>05/20/2019 10:43:39</publishTime>
+    </File>
+    <File Include="Scripts/README.md">
+      <publishTime>04/23/2020 14:50:46</publishTime>
     </File>
     <File Include="Scripts/Reporting/JobDate.js">
       <publishTime>07/19/2019 14:46:38</publishTime>
@@ -2262,8 +2361,224 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/sortable.min.js">
       <publishTime>01/29/2020 17:10:11</publishTime>
     </File>
+    <File Include="Scripts/src/index.js">
+      <publishTime>04/23/2020 14:50:46</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/defaults.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/destroy.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/disableEventListeners.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/enableEventListeners.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/placements.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/update.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/applyStyle.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/arrow.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/computeStyle.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/flip.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/hide.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/index.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/inner.js">
+      <publishTime>04/23/2020 14:50:45</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/keepTogether.js">
+      <publishTime>04/23/2020 14:50:44</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/offset.js">
+      <publishTime>04/23/2020 14:50:44</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/preventOverflow.js">
+      <publishTime>04/23/2020 14:50:44</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/shift.js">
+      <publishTime>04/23/2020 14:50:44</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/clockwise.js">
+      <publishTime>04/23/2020 14:50:44</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/computeAutoPlacement.js">
+      <publishTime>04/23/2020 14:50:44</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/debounce.js">
+      <publishTime>04/23/2020 14:50:44</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/find.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/findCommonOffsetParent.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/findIndex.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getBordersSize.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getBoundaries.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getBoundingClientRect.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getClientRect.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getFixedPositionOffsetParent.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOffsetParent.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOffsetRect.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOffsetRectRelativeToArbitraryNode.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOppositePlacement.js">
+      <publishTime>04/23/2020 14:50:43</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOppositeVariation.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOuterSizes.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getParentNode.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getPopperOffsets.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getReferenceNode.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getReferenceOffsets.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getRoot.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getRoundedOffsets.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getScroll.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getScrollParent.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getStyleComputedProperty.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getSupportedPropertyName.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getViewportOffsetRectRelativeToArtbitraryNode.js">
+      <publishTime>04/23/2020 14:50:42</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getWindow.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getWindowSizes.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/includeScroll.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/index.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isBrowser.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isFixed.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isFunction.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isIE.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isModifierEnabled.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isModifierRequired.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isNumeric.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isOffsetContainer.js">
+      <publishTime>04/23/2020 14:50:41</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/removeEventListeners.js">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/runModifiers.js">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/setAttributes.js">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/setStyles.js">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/setupEventListeners.js">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
     <File Include="Scripts/ssl.js">
       <publishTime>03/05/2019 09:53:33</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper-utils.js">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper-utils.js.map">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper-utils.min.js">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper-utils.min.js.map">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.js">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.js.flow">
+      <publishTime>04/23/2020 14:50:40</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.js.map">
+      <publishTime>04/23/2020 14:50:39</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.min.js">
+      <publishTime>04/23/2020 14:50:39</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.min.js.map">
+      <publishTime>04/23/2020 14:50:39</publishTime>
     </File>
     <File Include="Scripts/_references.js">
       <publishTime>03/11/2020 16:22:33</publishTime>
@@ -2314,19 +2629,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/24/2020 20:09:50</publishTime>
     </File>
     <File Include="Views/Activities/Index.cshtml">
-      <publishTime>03/25/2020 16:42:31</publishTime>
+      <publishTime>04/18/2020 20:17:10</publishTime>
     </File>
     <File Include="Views/Activities/Performance.cshtml">
-      <publishTime>03/30/2020 15:56:50</publishTime>
+      <publishTime>04/18/2020 20:18:49</publishTime>
     </File>
     <File Include="Views/Activities/SupActivities.cshtml">
-      <publishTime>03/30/2020 15:20:12</publishTime>
+      <publishTime>04/18/2020 21:36:20</publishTime>
     </File>
     <File Include="Views/Activities/SupActivities_ActivityCreate.cshtml">
-      <publishTime>03/30/2020 14:43:25</publishTime>
+      <publishTime>04/18/2020 20:53:55</publishTime>
     </File>
     <File Include="Views/Activities/SupActivities_ActivityEdit.cshtml">
-      <publishTime>03/30/2020 15:05:11</publishTime>
+      <publishTime>04/18/2020 21:05:49</publishTime>
     </File>
     <File Include="Views/Activities/SupActivities_PartialSalesReport.cshtml">
       <publishTime>03/30/2020 12:31:07</publishTime>
@@ -2341,7 +2656,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/18/2020 11:51:56</publishTime>
     </File>
     <File Include="Views/Activities/UserActivities.cshtml">
-      <publishTime>03/30/2020 14:41:24</publishTime>
+      <publishTime>04/18/2020 21:14:31</publishTime>
     </File>
     <File Include="Views/Activities/UserActivities_ActivityCreate.cshtml">
       <publishTime>03/25/2020 13:26:26</publishTime>
@@ -2827,7 +3142,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:33</publishTime>
     </File>
     <File Include="Views/CarReservations/Index.cshtml">
-      <publishTime>03/12/2019 15:30:07</publishTime>
+      <publishTime>04/17/2020 14:55:08</publishTime>
     </File>
     <File Include="Views/CarUnits/Create.cshtml">
       <publishTime>03/05/2019 09:53:33</publishTime>
@@ -3019,10 +3334,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/19/2020 17:08:53</publishTime>
     </File>
     <File Include="Views/CustEntMains/Edit.cshtml">
-      <publishTime>02/19/2020 13:50:40</publishTime>
+      <publishTime>04/23/2020 17:28:01</publishTime>
     </File>
     <File Include="Views/CustEntMains/Index.cshtml">
-      <publishTime>03/12/2020 14:41:43</publishTime>
+      <publishTime>04/23/2020 14:39:50</publishTime>
     </File>
     <File Include="Views/CustEntMains/PartialView_Details_AddressCreate.cshtml">
       <publishTime>03/19/2020 17:07:46</publishTime>
@@ -3064,7 +3379,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/24/2020 15:07:15</publishTime>
     </File>
     <File Include="Views/CustNotifs/CreateNotif.cshtml">
-      <publishTime>03/10/2020 17:48:29</publishTime>
+      <publishTime>04/15/2020 17:07:31</publishTime>
+    </File>
+    <File Include="Views/CustNotifs/CreateNotifRecipients.cshtml">
+      <publishTime>04/07/2020 15:48:31</publishTime>
     </File>
     <File Include="Views/CustNotifs/Delete.cshtml">
       <publishTime>02/22/2020 16:53:20</publishTime>
@@ -3079,13 +3397,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/02/2020 15:28:42</publishTime>
     </File>
     <File Include="Views/CustNotifs/RecipientAdd.cshtml">
-      <publishTime>03/10/2020 13:38:01</publishTime>
+      <publishTime>04/06/2020 15:13:20</publishTime>
     </File>
     <File Include="Views/CustNotifs/RecipientEdit.cshtml">
       <publishTime>03/10/2020 13:57:33</publishTime>
     </File>
     <File Include="Views/CustNotifs/RecipientList.cshtml">
-      <publishTime>02/28/2020 10:14:00</publishTime>
+      <publishTime>04/06/2020 15:36:26</publishTime>
     </File>
     <File Include="Views/Customers/CompanyCreate.cshtml">
       <publishTime>03/05/2019 09:53:33</publishTime>
@@ -3103,7 +3421,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:33</publishTime>
     </File>
     <File Include="Views/Customers/Details.cshtml">
-      <publishTime>03/19/2020 17:38:37</publishTime>
+      <publishTime>04/24/2020 12:56:51</publishTime>
     </File>
     <File Include="Views/Customers/DeactivateOldCustomer.cshtml">
       <publishTime>04/22/2019 10:07:53</publishTime>
@@ -3115,7 +3433,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/09/2019 15:10:34</publishTime>
     </File>
     <File Include="Views/Customers/Index.cshtml">
-      <publishTime>02/07/2020 17:29:57</publishTime>
+      <publishTime>04/23/2020 14:39:37</publishTime>
     </File>
     <File Include="Views/Customers/PartialView_CategoryDetails.cshtml">
       <publishTime>09/09/2019 13:19:35</publishTime>
@@ -3184,7 +3502,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/19/2019 11:59:12</publishTime>
     </File>
     <File Include="Views/EmailBlaster/Index.cshtml">
-      <publishTime>07/19/2019 09:45:04</publishTime>
+      <publishTime>04/24/2020 13:11:04</publishTime>
     </File>
     <File Include="Views/Error/Error.cshtml">
       <publishTime>09/21/2019 16:34:22</publishTime>
@@ -3265,7 +3583,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/InvItems/Availability.cshtml">
-      <publishTime>02/21/2020 17:47:31</publishTime>
+      <publishTime>04/16/2020 16:50:14</publishTime>
     </File>
     <File Include="Views/InvItems/Create.cshtml">
       <publishTime>11/13/2019 02:09:10</publishTime>
@@ -3280,7 +3598,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/InvItems/Index.cshtml">
-      <publishTime>02/06/2020 10:03:14</publishTime>
+      <publishTime>04/23/2020 11:39:15</publishTime>
     </File>
     <File Include="Views/InvItems/ItemList_byServiceId.cshtml">
       <publishTime>03/05/2019 09:53:34</publishTime>
@@ -3319,7 +3637,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/JobExpenses/CashExpenses.cshtml">
-      <publishTime>08/12/2019 15:39:40</publishTime>
+      <publishTime>04/16/2020 16:55:42</publishTime>
     </File>
     <File Include="Views/JobExpenses/CashPayments.cshtml">
       <publishTime>06/27/2019 18:17:57</publishTime>
@@ -3355,7 +3673,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/JobItineraries/Index.cshtml">
-      <publishTime>12/28/2019 03:16:56</publishTime>
+      <publishTime>04/16/2020 16:53:41</publishTime>
     </File>
     <File Include="Views/JobItineraries/JobDestination.cshtml">
       <publishTime>06/28/2019 17:44:15</publishTime>
@@ -3364,7 +3682,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/28/2019 17:47:18</publishTime>
     </File>
     <File Include="Views/JobMains/ActiveJobs.cshtml">
-      <publishTime>12/28/2019 02:41:36</publishTime>
+      <publishTime>04/22/2020 13:02:54</publishTime>
     </File>
     <File Include="Views/JobMains/ActiveJobs2.cshtml">
       <publishTime>08/03/2019 17:21:50</publishTime>
@@ -3403,16 +3721,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/JobMains/JobLeads.cshtml">
-      <publishTime>03/12/2019 15:29:29</publishTime>
+      <publishTime>04/22/2020 15:38:56</publishTime>
     </File>
     <File Include="Views/JobMains/JobNotes.cshtml">
-      <publishTime>07/24/2019 16:20:23</publishTime>
+      <publishTime>04/16/2020 16:55:04</publishTime>
     </File>
     <File Include="Views/JobMains/JobQuickList.cshtml">
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/JobMains/JobTable.cshtml">
-      <publishTime>03/12/2019 15:52:51</publishTime>
+      <publishTime>04/22/2020 16:07:44</publishTime>
     </File>
     <File Include="Views/JobMains/JobTable2.cshtml">
       <publishTime>03/05/2019 09:53:34</publishTime>
@@ -3424,7 +3742,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/13/2020 14:42:46</publishTime>
     </File>
     <File Include="Views/JobMains/TripListing.cshtml">
-      <publishTime>03/02/2020 14:49:48</publishTime>
+      <publishTime>04/22/2020 13:38:18</publishTime>
     </File>
     <File Include="Views/JobMains/TripListing_DriverTrip.cshtml">
       <publishTime>02/11/2020 19:23:18</publishTime>
@@ -3466,7 +3784,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/20/2019 15:39:54</publishTime>
     </File>
     <File Include="Views/JobOrder/Index.cshtml">
-      <publishTime>03/06/2020 13:25:49</publishTime>
+      <publishTime>04/22/2020 16:01:31</publishTime>
     </File>
     <File Include="Views/JobOrder/IndexOld.cshtml">
       <publishTime>03/06/2020 13:25:49</publishTime>
@@ -3493,7 +3811,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/14/2019 11:09:54</publishTime>
     </File>
     <File Include="Views/JobOrder/JobListing.cshtml">
-      <publishTime>03/06/2020 16:46:30</publishTime>
+      <publishTime>04/24/2020 14:56:02</publishTime>
     </File>
     <File Include="Views/JobOrder/JobServiceAdd.cshtml">
       <publishTime>07/17/2019 10:28:48</publishTime>
@@ -3505,10 +3823,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/19/2019 06:43:11</publishTime>
     </File>
     <File Include="Views/JobOrder/JobServicePickup.cshtml">
-      <publishTime>07/24/2019 18:05:58</publishTime>
+      <publishTime>04/16/2020 16:52:28</publishTime>
     </File>
     <File Include="Views/JobOrder/JobServices.cshtml">
-      <publishTime>01/09/2020 14:35:25</publishTime>
+      <publishTime>04/22/2020 17:23:17</publishTime>
     </File>
     <File Include="Views/JobOrder/jobStatus.cshtml">
       <publishTime>03/28/2019 09:35:23</publishTime>
@@ -3529,7 +3847,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/JobOrder/PartialViewServiceList.cshtml">
-      <publishTime>03/06/2020 14:10:52</publishTime>
+      <publishTime>04/23/2020 10:56:24</publishTime>
     </File>
     <File Include="Views/JobOrder/PartialViewServiceListModal.cshtml">
       <publishTime>03/07/2020 14:33:11</publishTime>
@@ -3571,7 +3889,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2019 15:20:30</publishTime>
     </File>
     <File Include="Views/JobOrder/TextMessage.cshtml">
-      <publishTime>03/05/2019 09:53:34</publishTime>
+      <publishTime>04/16/2020 16:53:01</publishTime>
     </File>
     <File Include="Views/JobPayments/AdvanceList.cshtml">
       <publishTime>03/05/2019 09:53:34</publishTime>
@@ -3589,7 +3907,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/JobPayments/Index.cshtml">
-      <publishTime>06/15/2019 10:13:50</publishTime>
+      <publishTime>04/16/2020 16:54:46</publishTime>
     </File>
     <File Include="Views/JobPickups/Create.cshtml">
       <publishTime>03/05/2019 09:53:34</publishTime>
@@ -3718,7 +4036,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/20/2019 14:42:50</publishTime>
     </File>
     <File Include="Views/OnlineReservations/Index.cshtml">
-      <publishTime>09/18/2019 17:34:00</publishTime>
+      <publishTime>04/17/2020 15:17:02</publishTime>
     </File>
     <File Include="Views/OnlineReservations/PackageDetails.cshtml">
       <publishTime>08/30/2019 14:19:39</publishTime>
@@ -3874,10 +4192,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/07/2019 17:54:50</publishTime>
     </File>
     <File Include="Views/Reporting/Index.cshtml">
-      <publishTime>07/19/2019 14:18:20</publishTime>
+      <publishTime>04/24/2020 13:20:41</publishTime>
     </File>
     <File Include="Views/Reporting/JobIncome.cshtml">
-      <publishTime>01/09/2020 15:14:26</publishTime>
+      <publishTime>04/24/2020 13:22:01</publishTime>
     </File>
     <File Include="Views/Reporting/JobIncomePrint.cshtml">
       <publishTime>01/09/2020 15:14:34</publishTime>
@@ -3886,7 +4204,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/19/2019 13:57:39</publishTime>
     </File>
     <File Include="Views/Reporting/JobListing.cshtml">
-      <publishTime>01/09/2020 15:14:43</publishTime>
+      <publishTime>04/24/2020 13:21:48</publishTime>
     </File>
     <File Include="Views/Reporting/JobListingPrint.cshtml">
       <publishTime>01/09/2020 15:14:49</publishTime>
@@ -3895,7 +4213,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/18/2019 13:16:02</publishTime>
     </File>
     <File Include="Views/Reporting/PackageRates.cshtml">
-      <publishTime>01/09/2020 15:14:54</publishTime>
+      <publishTime>04/24/2020 13:23:34</publishTime>
     </File>
     <File Include="Views/Reporting/PackageRatesPrint.cshtml">
       <publishTime>01/09/2020 15:14:59</publishTime>
@@ -3904,7 +4222,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/18/2019 13:25:07</publishTime>
     </File>
     <File Include="Views/Reporting/Payments.cshtml">
-      <publishTime>01/09/2020 15:15:04</publishTime>
+      <publishTime>04/24/2020 13:22:55</publishTime>
     </File>
     <File Include="Views/Reporting/PaymentsPrint.cshtml">
       <publishTime>01/09/2020 15:15:14</publishTime>
@@ -3913,7 +4231,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/18/2019 13:45:46</publishTime>
     </File>
     <File Include="Views/Reporting/UnitIncome.cshtml">
-      <publishTime>01/10/2020 09:28:04</publishTime>
+      <publishTime>04/24/2020 13:23:39</publishTime>
     </File>
     <File Include="Views/Reporting/UnitIncomePrint.cshtml">
       <publishTime>01/10/2020 09:27:13</publishTime>
@@ -3970,7 +4288,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:35</publishTime>
     </File>
     <File Include="Views/SalesLeads/Index.cshtml">
-      <publishTime>12/20/2019 08:58:36</publishTime>
+      <publishTime>04/22/2020 15:33:06</publishTime>
     </File>
     <File Include="Views/SalesLeads/IndexCompanies.cshtml">
       <publishTime>01/20/2020 15:43:13</publishTime>
@@ -4002,17 +4320,23 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Shared/Lockout.cshtml">
       <publishTime>03/05/2019 09:53:35</publishTime>
     </File>
+    <File Include="Views/Shared/Menu.cshtml">
+      <publishTime>04/16/2020 13:18:49</publishTime>
+    </File>
     <File Include="Views/Shared/NotFound.cshtml">
       <publishTime>03/29/2019 15:27:43</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/02/2020 11:32:12</publishTime>
+      <publishTime>04/22/2020 17:02:53</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>01/29/2020 13:20:53</publishTime>
     </File>
     <File Include="Views/Shared/_ModuleLayout.cshtml">
-      <publishTime>03/11/2020 15:39:18</publishTime>
+      <publishTime>04/24/2020 13:12:40</publishTime>
+    </File>
+    <File Include="Views/Shared/_ModuleLayout_NoMenu.cshtml">
+      <publishTime>04/16/2020 17:29:01</publishTime>
     </File>
     <File Include="Views/SupDocuments/Create.cshtml">
       <publishTime>01/16/2020 11:21:10</publishTime>
@@ -4045,13 +4369,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2020 15:39:56</publishTime>
     </File>
     <File Include="Views/SupplierActivities/Records.cshtml">
-      <publishTime>03/30/2020 14:50:28</publishTime>
+      <publishTime>04/19/2020 15:06:29</publishTime>
     </File>
     <File Include="Views/SupplierActivities/RecordsCreate.cshtml">
-      <publishTime>03/28/2020 16:20:25</publishTime>
+      <publishTime>06/02/2020 16:01:09</publishTime>
     </File>
     <File Include="Views/SupplierActivities/RecordsEdit.cshtml">
-      <publishTime>03/28/2020 16:40:50</publishTime>
+      <publishTime>04/19/2020 14:56:28</publishTime>
     </File>
     <File Include="Views/SupplierItems/Create.cshtml">
       <publishTime>03/05/2019 09:53:35</publishTime>
@@ -4129,7 +4453,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:35</publishTime>
     </File>
     <File Include="Views/Suppliers/Details.cshtml">
-      <publishTime>03/05/2020 17:02:34</publishTime>
+      <publishTime>04/23/2020 11:44:38</publishTime>
     </File>
     <File Include="Views/Suppliers/DeactivateSupplierList.cshtml">
       <publishTime>04/22/2019 10:13:57</publishTime>
@@ -4141,13 +4465,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/25/2020 15:28:21</publishTime>
     </File>
     <File Include="Views/Suppliers/Index.cshtml">
-      <publishTime>02/20/2020 16:20:15</publishTime>
+      <publishTime>04/23/2020 13:35:24</publishTime>
     </File>
     <File Include="Views/Suppliers/InvItems.cshtml">
       <publishTime>01/16/2020 14:25:09</publishTime>
     </File>
     <File Include="Views/Suppliers/InvItemsPartial.cshtml">
-      <publishTime>03/07/2020 13:48:04</publishTime>
+      <publishTime>04/23/2020 11:43:43</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/Create.cshtml">
       <publishTime>03/08/2019 15:52:30</publishTime>
@@ -4162,10 +4486,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2019 10:20:26</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/Index.cshtml">
-      <publishTime>03/06/2019 10:41:52</publishTime>
+      <publishTime>04/17/2020 14:15:22</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/ModuleList.cshtml">
-      <publishTime>02/19/2020 15:27:14</publishTime>
+      <publishTime>04/17/2020 14:10:40</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/ModuleMenuUserAdd.cshtml">
       <publishTime>03/13/2019 09:45:45</publishTime>
@@ -4174,10 +4498,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/13/2019 09:50:44</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/ModuleMenuUsers.cshtml">
-      <publishTime>03/13/2019 09:27:48</publishTime>
+      <publishTime>04/17/2020 14:15:20</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/ModuleSubMenu.cshtml">
-      <publishTime>03/11/2019 13:48:09</publishTime>
+      <publishTime>04/17/2020 14:15:17</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/ModuleSubMenuDelete.cshtml">
       <publishTime>03/13/2019 12:56:52</publishTime>
@@ -4186,22 +4510,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/12/2019 17:24:55</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/ModuleUsers.cshtml">
-      <publishTime>03/13/2019 09:46:56</publishTime>
+      <publishTime>04/17/2020 14:15:12</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/UsersAccessDelete.cshtml">
       <publishTime>03/08/2019 17:25:59</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/UsersAccessList.cshtml">
-      <publishTime>03/12/2019 09:31:26</publishTime>
+      <publishTime>04/17/2020 14:16:37</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/UserServicesAdd.cshtml">
       <publishTime>03/12/2019 14:34:31</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/UserServicesList.cshtml">
-      <publishTime>03/12/2019 15:00:43</publishTime>
+      <publishTime>04/17/2020 14:11:30</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/UsersList.cshtml">
-      <publishTime>03/11/2019 16:13:53</publishTime>
+      <publishTime>04/17/2020 14:09:53</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/UserSubModuleAdd.cshtml">
       <publishTime>03/12/2019 14:55:12</publishTime>
@@ -4210,7 +4534,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/12/2019 14:55:07</publishTime>
     </File>
     <File Include="Views/SysAccessUsers/UserSubModuleList.cshtml">
-      <publishTime>03/12/2019 14:38:29</publishTime>
+      <publishTime>04/17/2020 14:13:20</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>03/05/2019 09:53:35</publishTime>
@@ -4219,7 +4543,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:35</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/01/2020 14:07:09</publishTime>
+      <publishTime>06/02/2020 16:01:42</publishTime>
     </File>
     <File Include="WebService.asmx">
       <publishTime>03/05/2019 09:53:35</publishTime>

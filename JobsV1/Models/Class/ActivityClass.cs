@@ -163,8 +163,9 @@ namespace JobsV1.Models.Class
                "         ProcMeeting = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Meeting' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
                "         Procurement = (SELECT COUNT(*) FROM SupplierActivities sa WHERE sa.ActivityType = 'Procurement' AND au.UserName = sa.Assigned AND convert(datetime, sa.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, sa.DtActivity) < convert(datetime,'" + edate + "') )," +
                "         JobOrder = (SELECT COUNT(*) FROM SupplierActivities ca WHERE ca.ActivityType = 'Job Order' AND au.UserName = ca.Assigned AND convert(datetime, ca.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.DtActivity) < convert(datetime,'" + edate + "') )," +
-               "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )" +
-               "  FROM AspNetUsers au "+
+               "         Amount = (SELECT ISNULL(SUM(Amount),0) FROM CustEntActivities ca WHERE ca.ActivityType = 'Sales' AND au.UserName = ca.Assigned AND convert(datetime, ca.Date) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.Date) < convert(datetime,'" + edate + "') )," +
+               "         ProcAmount = (SELECT ISNULL(SUM(Amount),0) FROM SupplierActivities ca WHERE ca.ActivityType = 'Job Order' AND au.UserName = ca.Assigned AND convert(datetime, ca.DtActivity) > convert(datetime,'" + sdate + "') AND convert(datetime, ca.DtActivity) < convert(datetime,'" + edate + "') )" +
+               "  FROM AspNetUsers au " +
 
                "  Where UserName NOT IN " +
                " ('jahdielvillosa@gmail.com' ,'jahdielsvillosa@gmail.com', 'assalvatierra@gmail.com', " +

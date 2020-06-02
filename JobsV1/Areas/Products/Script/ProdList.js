@@ -133,7 +133,7 @@ function SimpleTable(data) {
 
             content = "<tr>";
             content += "<td>" + temp[x]["Code"] + "</td>";
-            content += "<td>" + temp[x]["Name"] + "</td>";
+            content += "<td class='table-name-col td-bordered'>" + temp[x]["Name"] + "</td>";
             content += "<td>" + temp[x]["Price"] + "</td>";
             content += "<td>" + temp[x]["ValidityStart"] + "</td>";
             content += "<td>" + temp[x]["ValidityEnd"] + "</td>";

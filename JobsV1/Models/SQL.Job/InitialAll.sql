@@ -546,6 +546,7 @@ values (1,'10 seater vehicle',3500,1), (1,'14 seater vehicle',4000,1);
 
 insert into SupplierUnits([Unit])
 values ('Meter'),('Inch'),('Feet'),('Box'),('Package');
+insert into SupplierContactStatus([Name]) values ('Active'),('Resigned');
 
 -- Customer PO Samples
 insert into Customers(Name, Email, Contact1, Contact2, Remarks, Status) 

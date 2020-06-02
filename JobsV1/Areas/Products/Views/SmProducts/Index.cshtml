@@ -1,47 +1,60 @@
 ﻿@model IEnumerable<JobsV1.Areas.Products.Models.SmProduct>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Products ";
+    Session["ROOTMENUID"] = 12;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
+<div class="view-header">
+    <h2>Products </h2>
 
-<h2>Products </h2>
+    <div class="header-btn-list">
+        @Html.ActionLink("Add New Product", "Create", null, new { @class= "btn btn-primary" })
+    </div>
+</div>
+<div class="view-content"> 
 
-<p>
-    @Html.ActionLink("Add New Product", "Create")
-</p>
-<p>
-    <a onclick="setActiveTrue()" id="status-act" style="cursor:pointer;color:black;">Active</a> |
-    <a onclick="setInactiveTrue()" id="status-inc" style="cursor:pointer;color:dodgerblue;">Inactive</a>
-</p>
-<p>
-    <span> Search </span>
-    <input type="search" id="srch-field" />
-    <button class="btn btn-default" id="srch-btn" onclick="ajax_loadContent()">Search</button>
-</p>
+    <div class="filter-panel">
+        <div class="status-panel">
+            <div class="btn-group">
+                <button class="btn btn-default" onclick="setActiveTrue()" id="status-act" >Active</button>
+                <button class="btn btn-default" onclick="setInactiveTrue()" id="status-inc"  style="color:dodgerblue;">Inactive</button>
+            </div>
+        </div>
+        <div class="search-panel">
+            <div class="input-group">
+                <input class="form-control" type="search" id="srch-field" placeholder="Search Product" />
+                <div class="input-group-btn">
+                    <button class="btn btn-default" id="srch-btn" onclick="ajax_loadContent()">Search</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 
-<table class="table " id="prodTable">
-    <tr>
-        <th>Code</th>
-        <th>Name </th>
-        <th>Price</th>
-        <th>Validity Start</th>
-        <th>Validity End </th>
-        <th>Remarks</th>
-        <th>Status</th>
-        <th></th>
-    </tr>
-    <tr>
-        <td colspan="2"> </td>
-        <td colspan="3">
-            <br />
-            <img src="~/Images/GIF/loading.gif" height="25" />
-            Loading products, please wait...
-        </td>
-    </tr>
-</table>
+    <table class="table " id="prodTable">
+        <tr>
+            <th>Code</th>
+            <th>Name </th>
+            <th>Price</th>
+            <th>Validity Start</th>
+            <th>Validity End </th>
+            <th>Remarks</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td colspan="2"> </td>
+            <td colspan="3">
+                <br />
+                <img src="~/Images/GIF/loading.gif" height="25" />
+                Loading products, please wait...
+            </td>
+        </tr>
+    </table>
 
+</div>
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/DateRangePicker/moment.min.js"></script>

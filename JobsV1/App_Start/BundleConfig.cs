@@ -39,7 +39,10 @@ namespace JobsV1
                       "~/Content/Erp.css",
                       "~/Content/UserStyles.css",
                       "~/Content/ModalSalesLead.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/TableStyles.css"
+                      ));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/all.css",
@@ -77,6 +80,11 @@ namespace JobsV1
             bundles.Add(new StyleBundle("~/Content/css/DateRangePicker").Include(
                     "~/Content/daterangepicker.css"
                 ));
+
+            bundles.Add(new StyleBundle("~/Content/TableStyles").Include(
+                      "~/Content/TableStyles.css"
+                      ));
+
         }
     }
 }

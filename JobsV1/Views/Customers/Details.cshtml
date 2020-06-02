@@ -20,12 +20,9 @@
                     </span>
                 </p>
                 <p>
-                    <b>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </b>
-                    <span>
+                    <h2>
                         @Html.DisplayFor(model => model.Name)
-                    </span>
+                    </h2>
                 </p>
                 <p>
                     <b> @Html.DisplayNameFor(model => model.Email) </b>
@@ -52,10 +49,9 @@
             </div>
         </div>
 
-        <div class="col-sm-4">
-            <div>
-                <br /><br />
-                @{Html.RenderPartial("PartialView_CompanyDetails", (List<JobsV1.Models.CustEntMain>)ViewBag.companyList, new ViewDataDictionary { { "customerId", Model.Id }, { "companies", (List<JobsV1.Models.CustEntMain>)ViewBag.companies },{ "companiesPrev", (List<JobsV1.Models.CustEntity>)ViewBag.companiesPrev }, {"custposition",  (string)ViewBag.custposition  } });}
+        <div class="col-sm-4" >
+            <div style="margin-top:6em;">
+                @{Html.RenderPartial("PartialView_CompanyDetails", (List<JobsV1.Models.CustEntMain>)ViewBag.companyList, new ViewDataDictionary { { "customerId", Model.Id }, { "companies", (List<JobsV1.Models.CustEntMain>)ViewBag.companies }, { "companiesPrev", (List<JobsV1.Models.CustEntity>)ViewBag.companiesPrev }, { "custposition", (string)ViewBag.custposition } });}
             </div>
             <div>
               @*  @{Html.RenderPartial("PartialView_Files", (List<JobsV1.Models.CustFiles>)ViewBag.fileList, new ViewDataDictionary { { "customerId", Model.Id } });}*@
@@ -63,10 +59,10 @@
         </div>
 
         <div class="col-sm-4">
-            <br /><br />
-            @{Html.RenderPartial("PartialView_CustSocial", (List<JobsV1.Models.CustSocialAcc>)ViewBag.CustSocial, new ViewDataDictionary { { "customerId", Model.Id } });}
+            <div style="margin-top:6em;">
+                @{Html.RenderPartial("PartialView_CustSocial", (List<JobsV1.Models.CustSocialAcc>)ViewBag.CustSocial, new ViewDataDictionary { { "customerId", Model.Id } });}
+            </div>
         </div>
-</div>
 
 <!-- Add Hidden on class for SolidSteel-->
 <div class="col-lg-12" id="jobList">

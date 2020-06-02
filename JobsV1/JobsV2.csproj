@@ -1098,16 +1098,20 @@
     <Content Include="bin\System.Web.WebPages.Razor.dll" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\bootstrap-directional-buttons.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.slate.css" />
     <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\ModalUser.css" />
     <Content Include="Content\Erp.css" />
     <Content Include="Content\ProductStyle.css" />
     <Content Include="Content\sortable-theme-bootstrap.css" />
+    <Content Include="Content\TableStyles.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -1519,11 +1523,11 @@
     <Content Include="Scripts\Admin\UserList.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
     <Content Include="Scripts\CustNotif\CreateNotif.js" />
@@ -1633,9 +1637,19 @@
     <Content Include="Areas\Products\Views\SmProdAds\Edit.cshtml" />
     <Content Include="Areas\Products\Views\SmProdAds\Index.cshtml" />
     <Content Include="Areas\Products\Views\SmProducts\PartialView_Ads.cshtml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
     <Content Include="Scripts\jquery.tablesort.min.js" />
     <Content Include="Scripts\Personnel\Payroll.js" />
     <Content Include="Scripts\Products\ProdCreate.js" />
@@ -1746,7 +1760,6 @@
     <Content Include="Scripts\DateRangePicker\package.js" />
     <None Include="Properties\PublishProfiles\LocalPath.C.pubxml" />
     <None Include="Properties\PublishProfiles\LocalPath.D.pubxml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\Job\CarGateControl.js" />
     <Content Include="Scripts\Job\CarMaintenance.js" />
@@ -1763,6 +1776,8 @@
     <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
@@ -2372,9 +2387,6 @@
     <Content Include="Views\Shared\_ModuleLayout_NoMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>

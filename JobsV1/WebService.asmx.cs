@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using JobsV1.Models.Class;
 
 namespace JobsV1
 {
@@ -22,7 +23,7 @@ namespace JobsV1
     {
         //database
         private JobDBContainer db = new JobDBContainer();
-
+        private CustNotifClass notify = new CustNotifClass();
         [WebMethod]
         public string HelloWorld()
         {
@@ -134,6 +135,18 @@ namespace JobsV1
             Context.Response.ContentType = "application/json";
             Context.Response.Write(JsonConvert.SerializeObject(ds, Newtonsoft.Json.Formatting.Indented));
             */
+        }
+        
+        [WebMethod]
+        public void CheckPendingCount()
+        {
+
+            var count =  notify.GetPendingNotif().Count;
+
+            Context.Response.Clear();
+            Context.Response.ContentType = "application/json";
+            Context.Response.Write(JsonConvert.SerializeObject(count, Newtonsoft.Json.Formatting.Indented));
+            
         }
 
     }

@@ -24,7 +24,16 @@
     box-shadow: 0 10px 10px rgb(210,210,210);
 }
 
+h2 {
+    margin-top: 15px;
+    margin-bottom: 12px;
+}
+
 h2, h3, p {
+    margin-left:10px;
+}
+
+span {
     margin-left:10px;
 }
 
@@ -312,3 +321,12 @@ h2, h3, p {
     padding: 10px 32px;
     margin-top: 10px;
 }
+
+.CustomBox span h2{
+    margin-bottom:0px;
+}
+
+.CustomBox span p {
+    color: gray;
+}
+

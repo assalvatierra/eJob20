@@ -183,7 +183,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RecordsCreate([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount,Type,ActivityType")] SupplierActivity supplierActivity)
+        public ActionResult RecordsCreate([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {
@@ -225,7 +225,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RecordsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount,Type,ActivityType")] SupplierActivity supplierActivity)
+        public ActionResult RecordsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {

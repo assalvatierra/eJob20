@@ -549,7 +549,7 @@ namespace JobsV1.Controllers
 
         //CREATE : Activities/CreateActivity
         [HttpPost]
-        public string CreateSupActivity(string actDate, string Assigned, string Code, string Remarks, string SupplierId, string Type, string ActivityType)
+        public string CreateSupActivity(string actDate, string Assigned, string Code, string Amount, string Remarks, string SupplierId, string Type, string ActivityType)
         {
             try
             {
@@ -562,7 +562,7 @@ namespace JobsV1.Controllers
                 act.SupplierId = int.Parse(SupplierId);
                 act.Type = Type;
                 act.ActivityType = ActivityType;
-                act.Amount = 0;
+                act.Amount = Decimal.Parse(Amount);
 
                 db.SupplierActivities.Add(act);
                 db.SaveChanges();
@@ -610,7 +610,7 @@ namespace JobsV1.Controllers
 
         //EDIT : Activities/EditActivity
         [HttpPost]
-        public string EditSupActivity(int id, string actDate, string Assigned,  string Code, string Remarks, string SupplierId, string Type, string ActivityType)
+        public string EditSupActivity(int id, string actDate, string Assigned,  string Code, string Amount, string Remarks, string SupplierId, string Type, string ActivityType)
         {
             try
             {
@@ -623,6 +623,7 @@ namespace JobsV1.Controllers
                 act.SupplierId = int.Parse(SupplierId);
                 act.Type = Type;
                 act.ActivityType = ActivityType;
+                act.Amount = Decimal.Parse(Amount);
 
                 db.Entry(act).State = EntityState.Modified;
                 db.SaveChanges();

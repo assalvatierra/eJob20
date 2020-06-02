@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<JobsV1.Models.EmailBlasterTemplate>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Email Blaster";
+    Session["ROOTMENUID"] = 5;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Index</h2>
+<h2> Email Blaster</h2>
 
 <p>
     @Html.ActionLink("Customer List", "Index", "Customers") |

@@ -99,7 +99,7 @@
                 <td style="color:black;" >
                     @if (item.Main.JobStatus.Status == "INQUIRY")
                     {
-                        <p style="color:forestgreen;">
+                        <p style="color:forestgreen;margin-bottom:0px">
                             <span style="font-weight:bold;">
                                 @item.Company
                             </span>
@@ -112,7 +112,7 @@
                                 @item.Main.Description
                             </span>
                         </p>
-                        <span style="color:forestgreen;padding-left:10px;">
+                        <span style="color:forestgreen;padding-left:0px;">
                             [ @item.Main.JobStatus.Status ]
                         </span>
                     }
@@ -120,7 +120,7 @@
                     {
 
                         <!-- RESERVATION / CONFIRM -->
-                        <p >
+                        <p style="margin-bottom:0px">
 
                             <span style="font-weight:bold;">
                                 @item.Company
@@ -134,7 +134,7 @@
                             </span>
                         </p>
 
-                        <span class="table-name-col" style="padding-left:10px;color:black;">
+                        <span class="table-name-col" style="padding-left:0px;color:black;">
                             [ @item.Main.JobStatus.Status ]
                         </span>
                     }
@@ -196,9 +196,6 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li>
-                                @Html.ActionLink(" Job Details ", "JobServices", new { JobMainId = item.Main.Id }, null)
-                            </li>
                             <li>
                                 @Html.ActionLink(" Booking ", "BookingDetails", new { id = item.Main.Id }, null)
                             </li>
