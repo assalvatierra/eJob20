@@ -2385,6 +2385,7 @@
     <Content Include="Views\CustNotifs\CreateNotifRecipients.cshtml" />
     <Content Include="Views\Shared\Menu.cshtml" />
     <Content Include="Views\Shared\_ModuleLayout_NoMenu.cshtml" />
+    <Content Include="Views\CarRental\ArticlesView\NewSeatCapacity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

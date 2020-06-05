@@ -88,6 +88,11 @@ namespace JobsV1
                 defaults: new { controller = "CarRental", action = "ArticleView", article = "Article1" }
             );
 
+            routes.MapRoute(
+                name: "Article/NewSeatCapacity",
+                url: "Articles/NewSeatCapacity",
+                defaults: new { controller = "CarRental", action = "ArticleView", article = "NewSeatCapacity" }
+            );
             #endregion
 
             /********************************

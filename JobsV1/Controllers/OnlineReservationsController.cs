@@ -239,11 +239,11 @@ namespace JobsV1.Controllers
                 string testadminEmail = "realbreezemark@gmail.com";
 
                 mailResult = email.SendMailOnlineReserve(id, reservation.Email, "CLIENT", svcType); //send email to client first
-                mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN", svcType);     //send email to client first
+               // mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN", svcType);     //send email to client first
 
-                //mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN", svcType);
-                //mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN", svcType);
-                //mailResult = email.SendMailOnlineReserve(id, adminEmail, "ADMIN", svcType);
+                mailResult = email.SendMailOnlineReserve(id, companyEmail, "ADMIN", svcType);
+                mailResult = email.SendMailOnlineReserve(id, ajdavaoEmail, "ADMIN", svcType);
+                mailResult = email.SendMailOnlineReserve(id, adminEmail, "ADMIN", svcType);
 
             }
             return mailResult;
@@ -263,11 +263,11 @@ namespace JobsV1.Controllers
                 string testadminEmail = "realbreezemark@gmail.com";
 
                 mailResult = email.SendMailOnlineInquire(id, reservation.Email, "CLIENT", svcType); //send email to client first
-                mailResult = email.SendMailOnlineInquire(id, testadminEmail, "ADMIN", svcType);     //send email to client first
+                //mailResult = email.SendMailOnlineInquire(id, testadminEmail, "ADMIN", svcType);     //send email to client first
 
-                //mailResult = email.SendMailOnlineInquire(id, companyEmail, "ADMIN", svcType);
-                //mailResult = email.SendMailOnlineInquire(id, ajdavaoEmail, "ADMIN", svcType);
-                //mailResult = email.SendMailOnlineInquire(id, adminEmail, "ADMIN", svcType);
+                mailResult = email.SendMailOnlineInquire(id, companyEmail, "ADMIN", svcType);
+                mailResult = email.SendMailOnlineInquire(id, ajdavaoEmail, "ADMIN", svcType);
+                mailResult = email.SendMailOnlineInquire(id, adminEmail, "ADMIN", svcType);
 
             }
             return mailResult;

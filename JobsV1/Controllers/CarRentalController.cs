@@ -504,6 +504,8 @@ namespace JobsV1.Controllers
             {
                 case "Article1":
                     return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
+                case "NewSeatCapacity":
+                    return View("~/Views/CarRental/ArticlesView/NewSeatCapacity.cshtml");
                 default:
                     return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
             }
@@ -538,7 +540,9 @@ namespace JobsV1.Controllers
 
             return PartialView("Articles");
         }
-       
+
+
+
 
         #region Dynamic SiteMap 
         // [Route("sitemap.xml")]
