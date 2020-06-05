@@ -3,6 +3,7 @@
     padding-bottom: 20px;
 }
 
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 10px;
@@ -658,4 +659,16 @@ rental-type-wdriver {
     #loginForm {
         width: 300px;
     }
+}
+
+
+/* home page fonts */
+
+.home-page-header {
+    font-family:  'Lato','sans-serif';
+}
+
+.home-page-p {
+    font-family: 'Lato','sans-serif';
+    font-size: 18px;
 }
