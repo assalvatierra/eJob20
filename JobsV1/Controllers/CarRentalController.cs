@@ -456,8 +456,6 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/CarViews/DavaoRentaCar.cshtml");
                 case "toyota-avanza":
                     return View("~/Views/CarRental/CarViews/ToyotaAvanza.cshtml");
-                case "van-rental":
-                    return View("~/Views/CarRental/CarViews/VanRental.cshtml");
 
                     //Page 2 start
                 case "p2-innova-rental":
@@ -480,6 +478,11 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/CarViews/Tags/2020-SelfDrive-Rental.cshtml");
                 case "toyota-rush": //updated June 7
                     return View("~/Views/CarRental/CarViews/2020-ToyotaRush.cshtml");
+                case "GrandiaTourer2020": //updated June 7 - not done
+                    return View("~/Views/CarRental/CarViews/2020ToyotaGLGrandiaTourer.cshtml");
+                case "van-rental": //updated June 7
+                    return View("~/Views/CarRental/CarViews/VanRental.cshtml");
+
 
                 case "tag-car-rental-davao":
                     return View("~/Views/CarRental/CarViews/Tags/car-rental-davao.cshtml");

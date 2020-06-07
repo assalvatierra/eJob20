@@ -251,8 +251,9 @@ namespace JobsV1
                 url: "ads/rent-a-car-suv-for-rent-davao-city/",
                 defaults: new { controller = "CarRental", action = "CarView", carDesc = "suv-rental" }
                 );
-
-            routes.MapRoute(
+       
+ 
+             routes.MapRoute(
               name: "ads/rent-a-car-davao-city-self-drive/",
               url: "ads/rent-a-car-davao-city-self-drive/",
               defaults: new { controller = "CarRental", action = "CarView", carDesc = "selfdrive-rental" }
@@ -274,6 +275,13 @@ namespace JobsV1
                 url: "ads/toyota-hiace-gl-grandia/",
                 defaults: new { controller = "CarRental", action = "CarView", carDesc = "van-rental" }
             );
+
+            routes.MapRoute(
+                name: "ToyotaGrandiaTourer-for-rent",
+                url: "CarRental/ToyotaGrandiaTourer-for-rent",
+                defaults: new { controller = "CarRental", action = "CarView", carDesc = "GrandiaTourer2020" }
+            );
+
             /*
                         routes.MapRoute(
                           name: "ads/4x4-rental-suv-for-rent-davao/",
