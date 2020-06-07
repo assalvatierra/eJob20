@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Gate Control Records</h2>
@@ -72,6 +73,11 @@
 
 </table>
 
+@Html.ActionLink("List", "Index", "SupplierItems") |
+@Html.ActionLink("Items", "Index", "InvItems") |
+@Html.ActionLink("Availability", "Availability", "InvItems") |
+Gate Control |
+@Html.ActionLink("Maintenance", "Index", "InvCarRecords")
 
 @foreach (var prio in ViewBag.priority as IEnumerable<JobsV1.Models.InvCarRecord>)
 {

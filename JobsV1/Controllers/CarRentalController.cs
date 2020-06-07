@@ -31,6 +31,7 @@ namespace JobsV1.Controllers
         // GET: CarRental
         public ActionResult Index()
         {
+            //SEO part
             ViewBag.Title = "Davao Car Rental | Van, Sedan, AUV/MPV/SUV Rentals | Real Wheels Rent A Car Davao | Start Your Journey With Us! ";
             ViewBag.Description = @"Rent a Car company offering affordable selfdrive or with driver car rental service in Davao City, Philippines.
                  We offer -Grandia/Super/Premium, MPV / AUV and SUV for rent, Innova rentals, sedan rentals, 4x4 rentals, pickup rentals and van rentals in the City.
@@ -38,7 +39,12 @@ namespace JobsV1.Controllers
                  We also partnered to several car rentals in Davao for us to provide a reliable and quality service.
                  ";
 
-            
+            ViewBag.CanonicalURL = "https://realwheelsdavao.com/";
+
+            //End of SEO
+
+
+
             ViewBag.isAuthorize = HttpContext.User.Identity.Name == "" ? 0 : 1;
             ViewBag.CarUnitList = db.CarUnits.ToList();
             ViewBag.CarRates = db.CarRates.ToList();
@@ -468,6 +474,13 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/CarViews/Pickup4x4.cshtml");
 
                 //ads tag start
+                case "suv-rental": //updated June 7
+                    return View("~/Views/CarRental/CarViews/Tags/2020-SUV-Rental.cshtml");
+                case "selfdrive-rental": //updated June 7
+                    return View("~/Views/CarRental/CarViews/Tags/2020-SelfDrive-Rental.cshtml");
+                case "toyota-rush": //updated June 7
+                    return View("~/Views/CarRental/CarViews/2020-ToyotaRush.cshtml");
+
                 case "tag-car-rental-davao":
                     return View("~/Views/CarRental/CarViews/Tags/car-rental-davao.cshtml");
                 case "tag-davao-rent-a-car":

@@ -2,12 +2,19 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "Create") |
+</p>
+
+<!-- Filter -->
+<p>
+    @Html.ActionLink("Active", "Index", new { showActive = 1 }) |
+    @Html.ActionLink("Inactive", "Index", new { showActive = 2 }) 
 </p>
 <table class="table">
     <tr>
@@ -25,6 +32,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DaysMin)
+        </th>
+        <th>
+            Status
         </th>
         <th></th>
     </tr>
@@ -47,6 +57,9 @@
             @Html.DisplayFor(modelItem => item.DaysMin)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Status )
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
@@ -55,3 +68,10 @@
 }
 
 </table>
+<p>
+    @Html.ActionLink("Home", "Index", "Home", null, null) |
+    Packages |
+    @Html.ActionLink("Unit Package Rates", "Index", "CarRateUnitPackages", new { status = "all", package = "all", unit = "all", group = "all" }, null) |
+    @Html.ActionLink("Unit Rates", "Index", "CarRates", null, null)  |
+    @Html.ActionLink("Groups", "Index", "RateGroups", null, null)
+</p>

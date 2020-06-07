@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "SUV Rental | Rent-a-car | Davao City, Philippines";
+    ViewBag.Description = "SUV Rental: SUV for Rent in Davao. Available for Self-drive and with driver car rental options, Long term and short term rental contracts. Rent-a-car service from Davao City, Philipines.";
+    ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
+}
+
+<div class="jumbotron">
+
+    <h2>SUV Rental Davao</h2>
+    <p>
+        Sports Utility Vehicle
+    </p>
+
+</div>
+<div class="container">
+
+    <div class="col-lg-8 ads-desc-box">
+        <div class="col-lg-12 ">
+            <img src="~/Images/CarRental/CarViews/FordEverest/Ford-Everest.gif" alt="realwheelsdavao ford-everest" class="img-thumbnail ads-desc-img-primary" />
+
+        </div>
+
+        <div class="col-lg-12 ads-desc-img-box">
+            <a href="~/Images/CarRental/CarViews/FordEverest/Ford-Everest.png" target="_blank">
+                <img src="~/Images/CarRental/CarViews/FordEverest/Ford-Everest.png" alt="SUV-ford-everest" class="img-thumbnail ads-desc-img-box-gallery" />
+            </a>
+            <a href="~/Images/CarRental/CarViews/ToyotaInnova/Toyota-innova.png" target="_blank">
+                <img src="~/Images/CarRental/CarViews/ToyotaInnova/Toyota-innova.png" alt="SUV-Toyota-Innova" class="img-thumbnail ads-desc-img-box-gallery" />
+            </a>
+            <a href="~/Images/CarRental/rush/Toyota-Rush-2019.png" target="_blank">
+                <img src="~/Images/CarRental/rush/Toyota-Rush-2019.png" alt="SUV-Toyota-Rush" class="img-thumbnail ads-desc-img-box-gallery" />
+            </a>
+        </div>
+
+        <div class="col-lg-12">
+            <h2> Why rent an SUV?</h2>
+            <p>
+                <br />Stylish, relax and comfortable ride for business meetings and any kind of occasion
+                <br />Additional seating capacity ideal for larger family and traveling with extended family and friends
+                <br />Extra luggage space, flexible seating and safety features 
+                <br />More comfortable and safe when traveling to Philippine provinces with some unpaved and rough roads
+                <br />Tougher build and high ground clearance for peace of mind
+                
+            </p>
+            <h2>
+                SUV Rental Service options
+            </h2>
+            <p>
+                <br />1. Airport Service Package (One Way: Pickup-Drop Off, Airport to City Downtown)
+                <br />2. Special Events Package (Weddings, Blessing & Others)
+                <br />3. Company Service (Monthly or yearly Contract Basis)
+                <br />4. Family and Personal use (Monthly or yearly Contract Basis)
+                <br />5. Davao Tour Service Package
+                <br />6. Out of Town Travel
+                <br />( Digos, Kidapawan, General Santos City, Bukidnon, CDO,
+                <br />Tagum City, COMVAL, Mati, Surigao, etc. )
+            </p>
+            <hr />
+            <p>
+                <h3>For Booking and Reservations</h3>
+            <a class="btn btn-default" style="margin-bottom:5px;" href="tel:+63 926-733-5449"> Globe: +63 926-733-5449 </a>
+            <br /><a class="btn btn-default" style="margin-bottom:5px;" href="tel:+63 909-076-1575">Smart: +63 909-076-1575 </a>
+            <br /><a class="btn btn-default" style="margin-bottom:5px;" href="mailto: Inquiries.RealWheels@gmail.com">email: Inquiries.RealWheels@gmail.com </a>
+            <br />
+            </p>
+        </div>
+
+        @{Html.RenderPartial("CarViews/TagsView");}
+
+
+    </div>
+
+
+    <div class="col-lg-4 ads-tech-details">
+        <h2>
+            SUVs for Rent
+        </h2>
+        <p>
+            <br /> Manufacturer: <b>Ford</b>
+            <br /> Model:        <b>Everest 2016 White</b>
+            <br /> Transmission: <b>Automatic 4x2 Diesel</b>
+        </p>
+        <p>
+            <br /> Manufacturer: <b>Toyota</b>
+            <br /> Model:        <b>Innova 2019</b>
+            <br /> Transmission: <b>4x2 Automatic Diesel</b>
+        </p>
+        <p>
+            <br /> Manufacturer: <b>Toyota</b>
+            <br /> Model:        <b>Rush 2019</b>
+            <br /> Transmission: <b>4x2 Automatic Gasoline</b>
+        </p>
+        <p>
+            <br /> Manufacturer: <b>Toyota</b>
+            <br /> Model:        <b>Fortuner 2011</b>
+            <br /> Transmission: <b>4x4 Automatic Diesel</b>
+        </p>
+
+        <p>
+            <br /> Manufacturer: <b>Toyota</b>
+            <br /> Model:        <b>Fortuner 2015</b>
+            <br /> Transmission: <b>4x2 Automatic Diesel</b>
+        </p>
+
+        <p>
+            <br /> Manufacturer: <b>Mitsubishi</b>
+            <br /> Model:        <b>Monterosports 2015</b>
+            <br /> Transmission: <b>4x4 Automatic Diesel</b>
+        </p>
+        <p>
+            <br /> Manufacturer: <b>Toyota</b>
+            <br /> Model:        <b>Innova 2015</b>
+            <br /> Transmission: <b>4x2 Manual Diesel</b>
+        </p>
+    </div>
+
+
+    @{Html.RenderPartial("CarViews/PopularAdsView");}
+</div>

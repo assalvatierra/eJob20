@@ -25,6 +25,18 @@ function InitDatePicker() {
     },
     function (start, end, label) {
         //alert(start.format('YYYY-MM-DD h:mm A'));
+        //check if date is greater than or equal to today
+
+        var today = moment().format('YYYY-MM-DD');
+        var datepicker = start.format('YYYY-MM-DD');
+        //alert(today > datepicker);
+
+        if (today > datepicker) {
+            alert("Job date is past the date today. Do you want to continue?");
+
+        }
+
+        //alert(start.format('YYYY-MM-DD'));
 
     }
     );

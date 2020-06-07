@@ -1,7 +1,7 @@
 ﻿@model JobsV1.Models.CarUnit
 
 @{
-//ViewBag.Title = "MPV/AUV for Rent";
+
 }
 
 @Styles.Render("~/Content/css/Site")
@@ -15,11 +15,43 @@
     </div>
 
     <div class="col-lg-8">
-
+        
         <div class="col-lg-12 details-container">
-            <img src="~/Images/CarRental/innova/toyotainnova_front.jpg" class="center-block img-responsive"  alt="toyota-innova-car-rental-davao" style="width:60%;margin:auto;" />
+            <img src="~/Images/CarRental/innova/toyota-innova.jpg" class="center-block img-responsive" alt="toyota-innova-car-rental-davao" style="width:60%;margin:auto;" />
 
             <h2>Toyota Innova</h2>
+
+            <p>
+                The Toyota Innova is an MPV, a sub-category of the SUV, based on the IMV platform, shared with the Toyota
+                Fortuner and Toyota Hilux. Sporting 7 seats and a softer suspension than its IMV cousins, it has become
+                popular with families in Asia. It comes with either a turbo diesel inline four or a gasoline inline four
+                engine; 2.8L and 2.4L for the diesel variants, 2.0 ad 2.7 for the gasoline variants. Transmission may be
+                a 6-speed automatic, or a 5-speed manual transmission. Despite being based on the same platform as the
+                Fortuner and Hilux, it is not designed as an offroader; it doesn’t come with 4-wheel-drive or a limited
+                slip differential. It being designed by Toyota, the Innova is very reliable whether it is used as a family
+                mover, a daily commuter, even a rental or a cab.  It is definitely designed towards families and is the best
+                of its class here in the Philippines.
+
+            </p>
+            <p>
+                The Innova is only a little bit smaller than the Toyota Fortuner, a mid-size SUV, thus there is plenty of space
+                for the occupants. The Innova is readily available in a lot car rental companies as it is a very popular vehicle.
+                There is plenty of leg room for the occupants of this vehicle. With the front seats on a reasonable position, the
+                second row has plenty of room, even more room than a lot of SUVs, even when the second rows seats are moved all
+                the way forward to give room to the 3rd row passengers. The third row is a little small for adults over 5ft, but
+                moving the 2nd row forward gives the 3rd a generous amount of leg room. Head room great for all 3 rows, and has
+                plenty in terms of width. The Innova is also comfortable. As stated before, it has a softer suspension than the
+                Fortuner and a lot of other SUVs. The newer models have double wishbone type suspension in front, allowing more
+                movement of the wheels, and less on the passengers. The Innova offers two vents for the second row and another
+                two vents for the third row, insuring that all the occupants are comfortable with the temperature.  Some models
+                come with captain seats, which remove a seat in exchange for a pair of more prestigious seats. The third row can
+                seat three people comfortably and leaves plenty of space for luggage. There is an option to fold the 3rd row making
+                it a 5-seater with a large cargo area, and folding the 2nd row makes way for even more cargo. Renting a car with a
+                driver would be a great way to enjoy the Innova.
+            </p>
+        </div>
+        <div class="col-lg-12 details-container">
+           
             <p>
                 <a href="http://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
                 is the best MPV/AUV vehicle in the Philippines. With the Innova, you are
@@ -84,7 +116,7 @@
         </div>
 
         <div class="col-lg-12 details-container">
-            <h3 class="text-primary">  Available Vans for rent:</h3>
+            <h3 class="text-primary">  Available MPV for rent:</h3>
             <table class="table">
                 <tr>
                     <td>
@@ -141,12 +173,13 @@
 
         <div class="col-lg-12 details-container dtls-gallery">
             <h1 class="text-primary">Gallery</h1>
-            <a href="~/Images/CarRental/innova/toyotainnova_front.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyotainnova_front.jpg" alt="toyota-innova-car-rental-davao" /></a>
-            <a href="~/Images/CarRental/innova/ToyotaInnova_SideView.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/ToyotaInnova_SideView.jpg" alt="toyota-innova-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/innova/toyota-innova.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova.jpg" alt="toyota-innova-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" alt="toyota-innova-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" alt="toyota-innova-car-rental-davao" /></a>
             <a href="~/Images/CarRental/innova/toyotainnova_interior.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyotainnova_interior.jpg" alt="toyota-innova-car-rental-davao" /></a>
         </div>
 
-        <div class="col-lg-12 details-container">
+        <div class="col-lg-12 details-container"  style="display:none;">
             <h1 class="text-primary text-center">Book Now! </h1>
             @Html.ActionLink("Cost Estimate and Reservation", "FormRenter", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
             <p class="text-info text-center" style="font-size:12px;color:gray;">

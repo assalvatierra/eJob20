@@ -1,96 +1,111 @@
-﻿@model IEnumerable<JobsV1.Models.CustomerDetails >
+﻿@model IEnumerable<JobsV1.Models.CustomerDetails>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Contact Listing";
+    Session["ROOTMENUID"] = 5;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Index</h2>
+<link href="/Content/TableStyles.css" rel="stylesheet" />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-           Status
-        </th>
-        <th>
-           Customer
-        </th>
-        <th>
-           Category
-        </th>
-        <th>
-           Company
-        </th>
-        <th>
-            Jobs
-        </th>
-        <th>
-            Status
-        </th>
-        <th></th>
-    </tr>
+<div class="view-header">
 
-    @foreach (var item in Model)
-    {
+    <h2>Contact List</h2>
+
+    <div class="header-btn-list">
+
+        <div class="btn-group">
+            @Html.ActionLink("Add Contact", "CreateCustomer", null, new { @class = "btn btn-primary" })
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    @Html.ActionLink("Deactivate Old Users", "DeactivateOldCustomer")
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+    @*<span class="header-btn">
+            @Html.ActionLink("Create New", "CreateCustomer")
+        </span>
+        <span class="header-btn">
+            @Html.ActionLink("Deactivate Old Users", "DeactivateOldCustomer")
+        </span>*@
+</div>
+
+@*<p>
+        @Html.ActionLink("Active", "Index", new { status = "ACTIVE" }, new { @id = "ACTIVE" }) |
+        @Html.ActionLink("Inactive", "Index", new { status = "INACTIVE" }, new { @id = "INACTIVE" }) |
+        @Html.ActionLink("Bad", "Index", new { status = "BAD" }, new { @id = "BAD" }) |
+        @Html.ActionLink("All", "Index", new { status = "ALL" }, new { @id = "ALL" })
+    </p>
+*@
+<div class="view-content">
+    <div class="filter-panel">
+
+        <div class="sort-panel btn-group">
+            <button type="button" class="btn btn-default disabled"> Sort by </button>
+            <button id="DATE" type="button" class="btn btn-default status-link status-active"> Date Added  </button>
+            <button id="NAME" type="button" class="btn btn-default status-link">  Name </button>
+            <button id="JOBSCOUNT" type="button" class="btn btn-default status-link">  Job Count </button>
+        </div>
+
+        <div class="status-panel btn-group">
+            <button type="button" class="btn btn-default disabled"> Show </button>
+            <button id="ALL" type="button" class="btn btn-default status-link status-active"> ALL </button>
+            <button id="ACTIVE" type="button" class="btn btn-default status-link">  ACTIVE </button>
+            <button id="INACTIVE" type="button" class="btn btn-default status-link"> INACTIVE </button>
+            <button id="BAD" type="button" class="btn btn-default status-link"> BAD </button>
+        </div>
+
+        @*Status:
+                <div class="button-group btn-group-sm" role="group">
+            <div class="status-panel">
+                Sort:
+                <span>
+                    <li id="DATE" class="status-link status-active"> Date Added </li>
+                    <li id="NAME" class="status-link"> Name </li>
+                    <li id="JOBSCOUNT" class="status-link"> Job Count </li>
+                </span>
+            </div>
+        *@
+
+        <div class="search-panel">
+            <div class="input-group ">
+                <input class=" form-control" id="srch-field" type="search" placeholder="Search by name"  />
+                <div class="input-group-btn">
+                    <button class="btn btn-default" onclick="ajax_loadContent()"> <span class="fa fa-search"> </span> </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <table class="table" id="sup-Table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
-                <p>
-                    <a href="mailto:@item.Email">@Html.DisplayFor(modelItem => item.Email)</a>
-                </p>
-                <p>
-                    <a href="tel:@item.Contact1">@Html.DisplayFor(modelItem => item.Contact1)</a> |
-                    <a href="tel:@item.Contact2">@Html.DisplayFor(modelItem => item.Contact2)</a>
-                </p>
-                <p>
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </p>
-            </td>
-            <td>
-                <p>
-                    @foreach (var cat in @item.categories)
-                    {
-                        <img src="@Html.DisplayFor(modelItem => cat.iconPath)" width="25" height="25" />
-                    }
-                </p>
-            </td>
-            <td>
-                <p>
-
-                    @foreach (var comp in @item.companies)
-                    {
-                        <p>
-                        <img src="@Html.DisplayFor(modelItem => comp.iconPath)" width="25" height="25" />
-
-                        @Html.DisplayFor(modelItem => comp.Name)
-                        </p>
-                    }
-
-                   
-                </p>
-            </td>
-
-            <td>
-                <p>
-                 
-                    @Html.DisplayFor(modelItem => item.JobID)
-                     
-                </p>
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            <th><span> CUSTOMER </span></th>
+            <th><span> TEL </span></th>
+            <th id="sup-header-2"><span> MOBILE </span>  </th>
+            <th id="sup-header-3"><span> COMPANY </span></th>
+            <th id="sup-header-3"><span> JOBS </span> </th>
+            <th id="sup-header-4"><span> STATUS </span></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td colspan="2"> </td>
+            <td colspan="5">
+                <br />
+                <img src="~/Images/GIF/loading.gif" height="25" />
+                Loading customers, please wait...
             </td>
         </tr>
-    }
+    </table>
 
-</table>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/Job/CustomerList.js"></script>

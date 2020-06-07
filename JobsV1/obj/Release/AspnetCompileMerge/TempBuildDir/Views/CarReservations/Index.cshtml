@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Index";
+    Session["ROOTMENUID"] = 2;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <style>
@@ -33,6 +35,9 @@
 </p>
 <p>
     Filter by: 
+        @Html.ActionLink("OnGoing", "Index",new { filter = 1 }) |
+        @Html.ActionLink("Previous", "Index", new { filter = 2 })
+
 </p>
 <table class="table">
 
@@ -52,13 +57,20 @@
             <p><label class="cust-rsvr-rdate" >
                  @Html.DisplayFor(modelItem => item.DtStart) - @Html.DisplayFor(modelItem => item.DtEnd) 
             </label></p>
-            <p> <span style="color:gray;"> Destination: </span> @Html.DisplayFor(modelItem => item.Destinations) - @Html.DisplayFor(modelItem => item.UseFor) </p>
-            <p> <span style="color:gray;"> Vehicle: </span>@Html.DisplayFor(modelItem => item.CarUnit.Description) -
-            @foreach (var packages in ViewBag.PackageList as IEnumerable<JobsV1.Models.CarRateUnitPackage>) {
-            
-             @Html.DisplayFor(modelItem => item.CarResPackages.Where(c=>c.CarRateUnitPackageId == packages.Id).FirstOrDefault().CarRateUnitPackage.CarRatePackage.Remarks)
+            <p> <span style="color:gray;"> Reservation No: </span> @Html.DisplayFor(modelItem => item.Id) </p>
 
-            }
+            <p> <span style="color:gray;"> Destination: </span> @Html.DisplayFor(modelItem => item.Destinations) - @Html.DisplayFor(modelItem => item.UseFor) </p>
+
+            <p> <span style="color:gray;"> Vehicle: </span>@Html.DisplayFor(modelItem => item.CarUnit.Description) -
+                @if (@Html.DisplayFor(modelItem => item.SelfDrive).ToString() ==  "1")
+                {
+                    <span> Self Drive</span>
+                }
+                else
+                {
+                    <span> With Driver </span>
+                }
+            </p>
             <p>
                 <span style="color:gray;"> Meals & Accomodation: </span>
                 @if (@Html.DisplayFor(modelItem => item.CarResPackages.Where(s => s.CarReservationId == item.Id).FirstOrDefault().DrvMealByClient).ToString() == "0")
@@ -83,7 +95,6 @@
             </p>
         </td>
 
-
         <td class="col-sm-4">
             <p>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
@@ -96,11 +107,22 @@
            
         </td>
         <td class="col-sm-3">
-            <p></p>
-
             <p> <span style="color:black;"> Job Details: </span></p>
-            <buton class="btn btn-default"> Create Quotation</buton>
-            <buton class="btn btn-default"> Link Quotation</buton>
+            @if (item.JobRefNo != 0 && item.JobRefNo != null)
+            {
+                @Html.ActionLink("View Quotation", "JobServices", "JobOrder", new { JobMainId = item.JobRefNo }, new { @class = "btn btn-primary" })
+            }
+            else
+            {
+                @Html.ActionLink("Create Quotation", "CreateQuotation",
+               new { rsvId = item.Id , renter = item.RenterName, dtStart = item.DtStart,
+                   dtEnd = item.DtEnd, details = item.Destinations , rentType = item.SelfDrive ,
+                   unit = item.CarUnitId ,rate = item.BaseRate,
+                   renterNum = item.RenterMobile, renterEmail = item.RenterEmail
+               },
+
+               new { @class = "btn btn-default" })
+            }
         </td>
     </tr>
     <tr>

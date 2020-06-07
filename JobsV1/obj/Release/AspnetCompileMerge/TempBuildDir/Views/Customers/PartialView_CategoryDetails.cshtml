@@ -6,33 +6,16 @@
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 
     <div>
-        <dl class="dl-horizontal">
-            <dt>
-                Category
-            </dt>
-            <dd></dd>
-
-        @foreach (var item in Model)
-        {
-            <dt>
-                <img src="@Html.DisplayFor(modelItem => item.iconPath)" width="25" height="25" style="margin-right:20px;" />
-
-            </dt>
-            <dd>
-                @Html.DisplayFor(modelItem => item.Name) - 
-
-                @Html.ActionLink("Remove", "Remove", "CustCats", new { catid = item.Id, custid = customerid }, null)
-            </dd>
+       <h3> Category </h3>
+        @foreach (var item in Model){
+            <img src="~/@Html.DisplayFor(modelItem => item.iconPath)" width="20" height="20" style="margin-right:20px;margin-bottom:5px;" />
+             @Html.DisplayFor(modelItem => item.Name) 
+             <text> &nbsp; </text>
+             @Html.ActionLink("Remove", "Remove", "CustCats", new { catid = item.Id, custid = customerid }, null)
+            <br />
         }
-            <dd>
-                <a id="catbtn" href="#" data-toggle="modal" data-target="#categoryModal" style="margin-bottom:10px;">Add Category</a>
-                
-            </dd>
-
-        </dl>
+        <br /><a id="catbtn" href="#" data-toggle="modal" data-target="#categoryModal" style="margin-bottom:10px;">Add Category</a>
 </div>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -48,8 +31,11 @@
                     <a href="@Url.Action("addCategory", "CustCats", new { catid = 2, userid = @customerid })" class="list-group-item"> ACTIVE </a>
                     <a href="@Url.Action("addCategory", "CustCats", new { catid = 3, userid = @customerid })" class="list-group-item"> SUSPENDED </a>
                     <a href="@Url.Action("addCategory", "CustCats", new { catid = 4, userid = @customerid })" class="list-group-item"> BAD ACCOUNT </a>
+                    <a href="@Url.Action("addCategory", "CustCats", new { catid = 5, userid = @customerid })" class="list-group-item"> CAR_RENTAL </a>
+                    <a href="@Url.Action("addCategory", "CustCats", new { catid = 6, userid = @customerid })" class="list-group-item"> TOUR </a>
+                    <a href="@Url.Action("addCategory", "CustCats", new { catid = 7, userid = @customerid })" class="list-group-item"> CLIENT </a>
+                    <a href="@Url.Action("addCategory", "CustCats", new { catid = 8, userid = @customerid })" class="list-group-item"> COMPANY </a>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -122,6 +123,12 @@ namespace JobsV1
                 defaults: new { controller = "CarRental", action = "Index", id = UrlParameter.Optional }
             );
 
+
+            /********************************
+             * missing links found by Google Search Console
+             * *****************************/
+            Register_CarRentalAds(routes);
+
             /********************************
             * AJ88 car rental default
             ********************************/
@@ -233,7 +240,65 @@ namespace JobsV1
                 namespaces: new[] { "JobsV1.Controllers" }
             );
         }
-  
+
+
+        // Car Rental Ads links
+        // Not Found Error in Google Search Console
+        public static void Register_CarRentalAds(RouteCollection routes)
+        {
+            routes.MapRoute(
+                name: "rent-a-car-suv-for-rent-davao-city",
+                url: "ads/rent-a-car-suv-for-rent-davao-city/",
+                defaults: new { controller = "CarRental", action = "CarView", carDesc = "suv-rental" }
+                );
+
+            routes.MapRoute(
+              name: "ads/rent-a-car-davao-city-self-drive/",
+              url: "ads/rent-a-car-davao-city-self-drive/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "selfdrive-rental" }
+            );
+
+            routes.MapRoute(
+              name: "ads/toyota-avanza-1-3e-at/",
+              url: "ads/toyota-avanza-1-3e-at/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "toyota-rush" }
+            );
+            routes.MapRoute(
+              name: "ads/toyota-Rush/",
+              url: "ads/toyota-Rush/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "toyota-rush" }
+            );
+            
+            routes.MapRoute(
+                name: "ads/toyota-hiace-gl-grandia/",
+                url: "ads/toyota-hiace-gl-grandia/",
+                defaults: new { controller = "CarRental", action = "CarView", carDesc = "van-rental" }
+            );
+            /*
+                        routes.MapRoute(
+                          name: "ads/4x4-rental-suv-for-rent-davao/",
+                          url: "ads/4x4-rental-suv-for-rent-davao/",
+                          defaults: new { controller = "CarRental", action = "CarView", carDesc = "toyota-fortuner" }
+                        );
+
+                        routes.MapRoute(
+                          name: "ads/rent-a-car-davao-city-self-drive-2/",
+                          url: "ads/rent-a-car-davao-city-self-drive-2/",
+                          defaults: new { controller = "CarRental", action = "CarView", carDesc = "innova-self-drive" }
+                        );
+
+                        routes.MapRoute(
+                          name: "ad-tag/rent-a-car-davao-city/",
+                          url: "ad-tag/rent-a-car-davao-city/",
+                          defaults: new { controller = "CarRental", action = "CarView", carDesc = "rent-a-car-davao-city" }
+                        );
+
+                        */
+
+
+        }
+
+
         // AJcarrental Davao / Davao Carrental hub 
         public static void RegisterRoutes_Carrental(RouteCollection routes)
         {

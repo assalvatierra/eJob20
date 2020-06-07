@@ -20,6 +20,9 @@
         <th>
             @Html.DisplayNameFor(model => model.CarCategory.Description)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SortOrder)
+        </th>
         <th></th>
     </tr>
 
@@ -48,6 +51,9 @@
             }
             
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SortOrder)
         </td>
     </tr>
 }

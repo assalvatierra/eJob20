@@ -1194,6 +1194,7 @@
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner3.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner2.png" />
     <Content Include="Images\CarRental\car101.png" />
+    <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Everest.gif" />
     <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Everest.png" />
     <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Fiesta.jpg" />
     <Content Include="Images\CarRental\CarViews\HondaCity2012\HondaCity2012-interior.jpg" />
@@ -1206,6 +1207,7 @@
     <Content Include="Images\CarRental\CarViews\SelfDrive\HondaCity2012 %282%29.jpg" />
     <Content Include="Images\CarRental\CarViews\SelfDrive\Toyota-Innova %282%29.png" />
     <Content Include="Images\CarRental\CarViews\SelfDrive\ToyotaInnova2015 %282%29.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaAvanza\ToyotaAvanza.gif" />
     <Content Include="Images\CarRental\CarViews\ToyotaAvanza\ToyotaAvanza.jpg" />
     <Content Include="Images\CarRental\CarViews\ToyotaFortuner\Fortuner.png" />
     <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-GL-Grandia-interior.jpg" />
@@ -1301,6 +1303,7 @@
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-back-seat.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-back.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-seat.jpg" />
+    <Content Include="Images\CarRental\rush\Toyota-Rush-2019.gif" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019.png" />
     <Content Include="Images\CarRental\rush\toyota-rush-interior.jpg" />
@@ -2134,7 +2137,7 @@
     <Content Include="Views\CarRental\CarViews\HondaCity2012-SelfDrive.cshtml" />
     <Content Include="Views\CarRental\CarViews\MiniVanSedan.cshtml" />
     <Content Include="Views\CarRental\CarViews\DavaoRentaCar.cshtml" />
-    <Content Include="Views\CarRental\CarViews\ToyotaAvanza.cshtml" />
+    <Content Include="Views\CarRental\CarViews\2020-ToyotaRush.cshtml" />
     <Content Include="Views\CarRental\CarViews\VanRental.cshtml" />
     <Content Include="Views\CarRental\CarViews\ListingAds2.cshtml" />
     <Content Include="Views\CarRental\CarViews\ToyotaInnovaCarForRent.cshtml" />
@@ -2386,6 +2389,8 @@
     <Content Include="Views\Shared\Menu.cshtml" />
     <Content Include="Views\Shared\_ModuleLayout_NoMenu.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\NewSeatCapacity.cshtml" />
+    <Content Include="Views\CarRental\CarViews\Tags\2020-SUV-Rental.cshtml" />
+    <Content Include="Views\CarRental\CarViews\Tags\2020-SelfDrive-Rental.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

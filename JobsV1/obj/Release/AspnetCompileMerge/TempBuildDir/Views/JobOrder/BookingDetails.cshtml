@@ -13,6 +13,9 @@
 
     string sDocTitle = "";
 
+    var customerName = Model.Customer.Name.Trim();
+    var jobName = Model.Description.Trim();
+
     if (Model.JobStatusId == 1)
     {
         sDocTitle = "QUOTATION DETAILS";
@@ -29,9 +32,7 @@
     {
         sDocTitle = "INVOICE";
     }
-
 }
-
 
 <table>
     <tr>
@@ -72,13 +73,39 @@
     </tr>
     <tr>
         <th valign="top">
-            Account
+            Account : 
         </th>
         <td>
-            @Html.DisplayFor(model => model.Description)
-            <br />@Html.DisplayFor(model => model.Customer.Name)
-            <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
-            | Remarks: @Html.DisplayFor(model => model.JobRemarks)
+            @{
+                <script>
+                    console.log("jobname: @jobName");
+                    console.log("customerName: @customerName");
+                </script>
+
+                if (Model.Customer.Name.Trim() == "Personal Account")
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
+                else if (Model.Customer.Name.Trim() == Model.Description.Trim())
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
+                }
+            }
+
+            <!--Company-->
+            <br />@ViewBag.custCompany
+            <br />
+
+            @if (Model.NoOfPax != 0)
+            {
+                <text>  Pax: @Html.DisplayFor(model => model.NoOfPax) | </text>
+            }
+             Days: @Html.DisplayFor(model => model.NoOfDays)
+           
         </td>
     </tr>
     <tr>
@@ -87,6 +114,17 @@
         </th>
         <td>
             @Html.DisplayFor(model => model.JobStatus.Status)
+        </td>
+    </tr>
+    <tr>
+        @if (Model.JobRemarks != null)
+        {
+            <th>
+                Payment Term &nbsp;
+            </th>
+        }
+        <td>
+            @Html.DisplayFor(model => model.JobRemarks)
         </td>
     </tr>
 </table>
@@ -132,7 +170,12 @@
                 <b>
                   P @string.Format("{0:N}", item.QuotedAmt)  - @Html.DisplayFor(modelItem => item.Particulars) 
                 </b>
+                @if (item.Remarks != null)
+                {
+                      <text>
                 <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+                      </text>
+                }
                 <br /> [ Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
                 @if (pickup != null)
                 {
@@ -194,10 +237,10 @@
 
                 @*<br /><a href="~/Reports/TripVoucher/Viewer.aspx?SrvId=@item.Id&JobId=@item.JobMainId&file=@item.JobMain.Customer.Name">Trip Voucher</a>*@
                 
-                @if (pickup != null)
+                @*if (pickup != null)
                 {
-                    <span>Office:</span> @pickup.ProviderContact
-                }
+                    <span>Office:</span> pickup.ProviderContact
+                }*@
             </td>
            
                
@@ -294,7 +337,18 @@
                         {
                             <tr>
                                 <td>Partial:</td>
-                                <td align="right">@dPaidAmt.ToString("##,###.00")</td>
+                                <td align="right">
+                                    @if (dPaidAmt != 0)
+                                    {
+                                        <text> @dPaidAmt.ToString("##,###.00") </text>
+                                    }
+                                    else
+                                    {
+                                        <text>0</text>
+                                    }
+
+
+                                </td>
                             </tr>
                             <tr>
                                 <td>Balance:</td>
@@ -306,6 +360,13 @@
                 </div>
             </td>
 
+        </tr>
+        <tr>
+            <td>
+                <h6>
+                    We also accept Credit Card, Bank Transfer and Paypal Payments.
+                </h6>
+            </td>
         </tr>
     </table>
 </div>
@@ -322,9 +383,9 @@
         {
             <tr>
                 <td colspan="4" style="border-top:none">
-                    <span style="font:12px calibre, verdana;">
+                    <b style="font:bold 16px calibre, verdana;">
                         @notetmp.Note
-                    </span>
+                    </b>
                 </td>
             </tr>
         }
@@ -380,15 +441,30 @@
             <table>
                 <tr>
                     <td style="vertical-align:bottom;">Representative:</td>
-                    <td><br /><br /><u style="font-size:large;vertical-align:bottom;">    Elvie S. Salvatierra        </u></td>
+                    <td><br /><br /><u style="font-size:large;vertical-align:bottom;">  
+                          @*Elvie S. Salvatierra*@      
+                          @ViewBag.StaffName
+                         </u></td>
                 </tr>
                 <tr>
                     <td style="vertical-align:bottom;">Signature:</td>
-                    <td><br /><img src="~/Images/Signature-1.png" width="60px;"/></td>
+                    <td><br /><img src="@ViewBag.Sign" width="60px;"/></td>
                 </tr>
                 <tr>
                     <td style="vertical-align:bottom;">Date:</td>
-                    <td><br /><u style="font-size:large;vertical-align:bottom;"> @System.DateTime.Now.ToString("MMM dd, yyyy") </u></td>
+                    <td><br /><u style="font-size:large;vertical-align:bottom;">
+    @{try
+        {
+            @System.DateTime.Parse(ViewBag.DateNow).ToString("MMM dd, yyyy")
+        }
+        catch (Exception ex)
+        {
+            @System.DateTime.Now.ToString("MMM dd, yyyy")
+        }
+
+    }
+
+</u></td>
                 </tr>
                 <tr><td colspan="2">&nbsp;</td></tr>
             </table>

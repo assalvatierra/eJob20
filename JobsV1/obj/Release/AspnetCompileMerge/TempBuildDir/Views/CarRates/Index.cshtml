@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Index</h2>
@@ -67,3 +68,10 @@
 }
 
 </table>
+<p>
+    @Html.ActionLink("Home", "Index", "Home", null, null) |
+    @Html.ActionLink("Packages", "Index", "CarRatePackages", new { isActive = 1 }, null) |
+    @Html.ActionLink("Unit Package Rates", "Index", "CarRateUnitPackages", new { status = "all", package = "all", unit = "all", group = "all" }, null) |
+    Unit Rates |
+    @Html.ActionLink("Groups", "Index", "RateGroups", null, null)
+</p>

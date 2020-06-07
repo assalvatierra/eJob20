@@ -27,6 +27,7 @@
     {
         sDocTitle = "INVOICE";
     }
+   
 
 }
 
@@ -73,17 +74,40 @@
             Details
         </th>
         <td>
-            @Html.DisplayFor(model => model.Customer.Name)
+             @ViewBag.custCompany
         </td>
     </tr>
     <tr>
         <th valign="top">
             &nbsp;
         </th>
-        <td>
-            @Html.DisplayFor(model => model.Description)
-            <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
-            | Remarks: @Html.DisplayFor(model => model.JobRemarks)
+        <td><!--Company-->
+
+            @{
+                if (Model.Customer.Name.Trim() == "Personal Account")
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
+                else if (Model.Customer.Name.Trim() == Model.Description.Trim())
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
+                }
+            }
+            
+            
+            <br />
+
+            @if (Model.NoOfPax != 0)
+            {
+                <text>  Pax: @Html.DisplayFor(model => model.NoOfPax) | </text>
+            }
+             Days: @Html.DisplayFor(model => model.NoOfDays)
+            <br />Remarks: @Html.DisplayFor(model => model.JobRemarks)
+
         </td>
     </tr>
 </table>
@@ -146,29 +170,31 @@
 
         </tr>
         <tr>
-            <td colspan="4" style="border-top:none">
-                @{string sIti = "";
-                    foreach (var ititmp in itineraries)
-                    {
-                        if (ititmp.SvcId == item.Id)
+            @if(Model.JobStatusId != 5) { 
+                <td colspan="4" style="border-top:none">
+                    @{string sIti = "";
+                        foreach (var ititmp in itineraries)
                         {
-                            if (sIti.Trim() != "") { sIti += ","; }
-                            else { sIti += "Destinations:"; }
+                            if (ititmp.SvcId == item.Id)
+                            {
+                                if (sIti.Trim() != "") { sIti += ","; }
+                                else { sIti += "Destinations:"; }
 
-                            sIti += " " + ititmp.Destination.Description;
+                                sIti += " " + ititmp.Destination.Description;
+                            }
                         }
+
                     }
 
-                }
+                    <span style="font:14px arial, verdana;">
+                        @sIti
+                    </span>
 
-                <span style="font:14px arial, verdana;">
-                    @sIti
-                </span>
-
-            </td>
+                </td>
+            }
         </tr>
 
-    }
+       }
 
 </table>
 
@@ -191,16 +217,16 @@
 {
     <table>
         <tr>
-            <td>Terms & Conditions</td>
+            <td>Remarks</td>
         </tr>
 
         @foreach (var notetmp in jNotes)
         {
             <tr>
                 <td colspan="4" style="border-top:none">
-                    <span style="font:12px calibre, verdana;">
+                    <b style="font:bold 16px calibre, verdana;">
                         @notetmp.Note
-                    </span>
+                    </b>
                 </td>
             </tr>
         }
@@ -216,15 +242,30 @@
         <table>
             <tr>
                 <td style="vertical-align:bottom;">Prepared By:</td>
-                <td><br /><br /><u style="font-size:large;vertical-align:bottom;">    Elvie S. Salvatierra        </u></td>
+                <td><br /><br /><u style="font-size:large;vertical-align:bottom;">  
+                      @*Elvie S. Salvatierra*@    
+                      @ViewBag.StaffName
+                </u></td>
             </tr>
             <tr>
                 <td style="vertical-align:bottom;">Signature:</td>
-                <td><br /><img src="~/Images/Signature-1.png" width="60px;" /></td>
+                <td><br /><img src="@ViewBag.Sign" width="60px;" /></td>
             </tr>
             <tr>
                 <td style="vertical-align:bottom;">Validity:</td>
-                <td><br /><u style="font-size:large;vertical-align:bottom;"> @System.DateTime.Now.AddDays(30).ToString("MMM dd, yyyy") </u></td>
+                <td><br /><u style="font-size:large;vertical-align:bottom;">
+    @{try
+        {
+            @System.DateTime.Parse(ViewBag.DateNow).ToString("MMM dd, yyyy")
+        }
+        catch (Exception ex)
+        {
+            @System.DateTime.Now.ToString("MMM dd, yyyy")
+        }
+
+    }
+
+</u></td>
             </tr>
             <tr><td colspan="2">&nbsp;</td></tr>
 

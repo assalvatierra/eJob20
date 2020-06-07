@@ -1,45 +1,115 @@
-﻿
-<div class="col-md-12">
-    <h4>Summay</h4>
-    <table class="table table-bordered">
-        <tr>
-            <th>Item </th>
-            <th>Rate </th>
-        </tr>
-        <tr>
-            <td id="smry-itour"> Description </td>
-            <td id="smry-rtour"> </td>
-        </tr>
-        <tr>
-            <td id="smry-idays"> Days </td>
-            <td id="smry-rdays"> </td>
-        </tr>
-        <tr>
-            <td id="smry-iVehicle"> Vehicle </td>
-            <td id="smry-rVehicle"> </td>
-        </tr>
-        <tr style="display:none;">
-            <td id="smry-iVehicleRate"> Vehicle Rate per day </td>
-            <td id="smry-rVehicleRate"> </td>
-        </tr>
-        <tr>
-            <td id="smry-iType"> Rental Type </td>
-            <td id="smry-rType"> </td>
-        </tr>
-        <tr>
-            <td id="smry-iFuel"> Fuel </td>
-            <td id="smry-rFuel"> </td>
-        </tr>
-        <tr>
-            <td id="smry-iMeal"> Driver Meals/Accomodation </td>
-            <td id="smry-rMeal"> </td>
-        </tr>
-        <tr>
-            <td id="smry-itotal" style="font-weight:bold;"> Total </td>
-            <td id="smry-rtotal"> </td>
-        </tr>
-</table>
+﻿@model JobsV1.Models.PackageTable 
+
+
+<div class="modal-content" style="min-width:600px;">
+    <div class="modal-header">
+        <h3 class="modal-title">Summary </h3>
+
+        <a href="#" onclick="FormSummary_PrevForm()"> Previous </a>&bull;
+        <a href="#" onclick="FormSummary_NextForm()"> Proceed </a>
+
+        <h5 id="modal-text-foot">-</h5>
+    </div>
+
+    <div class="col-md-12">
+        <h4>Summay</h4>
+        <table class="table table-bordered">
+
+            <tr>
+                <td id="smry-itour"> Description </td>
+                <td id="smry-rtour"> @Html.DisplayFor(model => model.Description)   </td>
+            </tr>
+            <tr>
+                <td id="smry-idays"> Days </td>
+                <td id="smry-rdays"> @Html.DisplayFor(model => model.Days) </td>
+            </tr>
+            <tr>
+                <td id="smry-iVehicle"> Vehicle </td>
+                <td id="smry-rVehicle"> @ViewBag.Unit</td>
+            </tr>
+            <tr style="display:none;">
+                <td id="smry-iVehicleRate"> Vehicle Rate per day </td>
+                <td id="smry-rVehicleRate"> @ViewBag.CarRate</td>
+            </tr>
+            <tr>
+                <td id="smry-iType"> Rental Type </td>
+                <td id="smry-rType"> @ViewBag.RentTypeTxt</td>
+            </tr>
+            <tr>
+                <td id="smry-iFuel"> Fuel </td>
+                <td id="smry-rFuel"> @Html.DisplayFor(model => model.TextFuel)</td>
+            </tr>
+            <tr>
+                <td id="smry-iMeal"> Driver Meals/Accomodation </td>
+                <td id="smry-rMeal"> @Html.DisplayFor(model => model.TextMeals) </td>
+            </tr>
+            <tr>
+                <td id="smry-itotal" style="font-weight:bold;"> @Html.DisplayNameFor(model => model.Rate) </td>
+                <td id="smry-rtotal">
+                    @Html.DisplayFor(model => model.TextRate)
+                    <br />
+                    @Model.Rate.ToString("##,###.00")
+
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="modal-footer" id="rsv-footer" style="display:block;">
+
+        <div class="pull-left">
+            @Html.ActionLink("Cancel", "Index", "CarRental", null, new { @class = "btn btn-primary" })
+
+            <button class="btn btn-primary"  onclick="FormSummary_PrevForm()">Previous</button>
+
+            <button class="btn btn-primary" onclick="FormSummary_NextForm()"> Next </button>
+
+        </div>
+    </div>
 </div>
 
+
+<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="~/Scripts/CarRental/FormCarSummary.js"></script>
+
+<script>
+    var selectedTour = 1; //selected package id
+
+    function FormSummary_NextForm() {
+        var rentalType = @ViewBag.rentType;
+        var carId = @ViewBag.carId;
+        var noDays = @ViewBag.days;
+        var mealsAcc = @ViewBag.meals;
+        var fuel = @ViewBag.fuel;
+        var pkgId = @ViewBag.pkg;
+        
+        //loading screen
+        LoadOverlay();
+        FormSummary_Next("CarRental",carId, noDays, rentalType, mealsAcc, fuel, pkgId);
+
+    }
+
+    function FormSummary_PrevForm() {
+        var rentalType = @ViewBag.rentType;
+        var carId = @ViewBag.carId;
+        var noDays = @ViewBag.days;
+        var mealsAcc = @ViewBag.meals;
+        var fuel = @ViewBag.fuel;
+
+        //loading screen
+        LoadOverlay();
+
+        FormSummary_Prev("CarRental",carId, noDays, rentalType, mealsAcc, fuel);
+
+    }
+
+    //next popup on formpackages package list
+    $(document).ready(function () {
+
+        formPackages_TransText(@ViewBag.carId,@ViewBag.days,@ViewBag.meals,@ViewBag.fuel,"@ViewBag.RentTypeTxt","@ViewBag.carDesc");
+    });
+
+</script>
 
 

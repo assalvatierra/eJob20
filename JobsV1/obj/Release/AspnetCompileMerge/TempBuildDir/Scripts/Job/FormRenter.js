@@ -6,7 +6,7 @@
 
 $(document).ready(function () {
     InitDatePicker();
-    InitEditChange();
+   // InitEditChange();
 })
 
 
@@ -14,7 +14,7 @@ function InitDatePicker() {
     var ddd1 = $('input[name="DtTrx"]').val();
     $('input[name="DtTrx"]').daterangepicker(
     {
-        timePicker: false,
+        timePicker: true,
         timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,
@@ -33,7 +33,7 @@ function InitDatePicker() {
     var ddd1 = $('input[name="DtStart"]').val();
     $('input[name="DtStart"]').daterangepicker(
     {
-        timePicker: false,
+        timePicker: true,
         timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,
@@ -52,7 +52,7 @@ function InitDatePicker() {
     var ddd1 = $('input[name="DtEnd"]').val();
     $('input[name="DtEnd"]').daterangepicker(
     {
-        timePicker: false,
+        timePicker: true,
         timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,

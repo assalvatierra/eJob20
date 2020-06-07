@@ -2,16 +2,21 @@
 
 @{
     ViewBag.Title = "Item Availability";
-
     List<JobsV1.Models.DayLabel> vLabel = (List<JobsV1.Models.DayLabel>)ViewBag.dtLabel;
+    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
 }
+
+@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+
 
 <h2>Item Availability</h2>
 
-@Html.ActionLink("Create New", "jobCreate", "JobOrder", null, null)
-| @Html.ActionLink("Work In Progress", "Index", "JobOrder")
+@Html.ActionLink("Create New", "Create", "InvItems", null, null)
+<!--| @Html.ActionLink("Work In Progress", "Index", "JobOrder")
+| @Html.ActionLink("Listing", "JobListing", "JobOrder", new { span = 30 }, null)
 | @Html.ActionLink("Job Table", "JobTable", "JobMains", new { span = 30 }, null)
 | Availability
+    -->
 
 
 <table class="table">
@@ -53,12 +58,9 @@
                 }
                 &nbsp;
                 <span style="font:700 12px verdana,arial;">
-                    @Html.ActionLink(item.Item.ItemCode + "-" + @item.Item.Description,
-                "AddItem", new { itemId = @item.ItemId, serviceId = @ViewBag.serviceId })
+                    <text>  @item.Item.ItemCode - @item.Item.Description </text>
                 </span>
-                <span>@item.Item.Remarks</span>
             </td>
-
 
             @foreach (var dt in item.dayStatus)
             {
@@ -69,19 +71,19 @@
                 { sBgColor = "red"; }
 
                 <td style="border:1px solid red; font:300 8px arial; background-color:@sBgColor;">
-                   
+
                     <span>@Html.DisplayFor(modelItemday => dt.Date.Day)</span>
 
                     <p>
                         @if (dt.status > 0)
                         {
 
-                            <a href="#" id="catbtn" data-toggle="modal" data-target="#@(dt.Day)@(item.ItemId)" style="margin-bottom:10px;">
+                            <a href="#" id="catbtn" data-toggle="modal" data-target="#@(dt.Day)-@(item.ItemId)" style="margin-bottom:10px;">
                                 <img src="~/Images/CarRental/settings.png" width="20" height="20" />
                             </a>
 
-                                <!-- Modal -->
-                            <div class="modal fade" id="@(dt.Day)@(item.ItemId)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <!-- Modal -->
+                            <div class="modal fade" id="@(dt.Day)-@(item.ItemId)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -89,10 +91,11 @@
                                             <h4 class="modal-title">Item List</h4>
 
                                             <span>@Html.DisplayFor(modelItemday => dt.Date.Day)</span>-
-                                            <span>@Html.DisplayFor(modelItemday => item.ItemId)</span>
+                                            <span>@Html.DisplayFor(modelItemday => item.ItemId)</span>-
+                                            <span>@Html.DisplayFor(modelItemday => item.Item.Description)</span>
                                         </div>
                                         <!--
-                                            
+
                                         -->
                                         <div class="modal-body" id="modal2-content">
 
@@ -101,7 +104,7 @@
                                                 {
                                                     <a href="@Url.Action("JobServices", "JobOrder", new {
                                                                 JobMainId = @Html.DisplayFor(modelItemday =>
-                                                                item.Item.JobServiceItems.Where(j => j.InvItemId == item.Item.Id)    
+                                                                item.Item.JobServiceItems.Where(j => j.InvItemId == item.Item.Id)
                                                                 .Where(s => s.JobService.Id == svc2.Id).FirstOrDefault().JobService.JobMainId) })"
                                                        class="list-group-item">
 
@@ -110,7 +113,7 @@
                                                         @Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.JobMain.Description)
                                                         -
                                                         @Html.DisplayFor(modelItem => item.Item.JobServiceItems.Where(s => s.JobServicesId == svc2.Id).FirstOrDefault().JobService.Particulars)
-                                                        
+
                                                     </a>
                                                 }
                                             </div>
@@ -130,3 +133,91 @@
     }
 
 </table>
+
+<table class="table" id="moreItemsTable">
+    <tr>
+        <td>
+            <a onclick="ajax_loadUnits();">More Items</a> |
+            <a onclick="hideUnits();">Hide Items</a>
+        </td>
+    </tr>
+</table>
+
+
+<script>
+
+    //load table content on search btn click
+    //request data from server using ajax call
+    //then clear and add contents to the table
+    function ajax_loadUnits() {
+
+        //build json object
+        var data = {
+            search: ""
+        };
+
+        //console.log(query);
+        //request data from server using ajax call
+        $.ajax({
+            url: '/JobOrder/getMoreItems',
+            type: "GET",
+            data: JSON.stringify(data),
+            dataType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //console.log("SUCCESS");
+
+            },
+            error: function (data) {
+                // console.log("ERROR");
+                console.log(data);
+                //console.log(data['responseText']);
+                SimpleTable(data);
+            }
+        });
+    }
+
+    //display simple/limited information
+    //of inventory items of sort order more
+    //than 110.
+    function SimpleTable(data) {
+        //console.log("SimpleTable");
+        //parse data response to json object
+        var temp = jQuery.parseJSON(data["responseText"]);
+
+        //clear table contents except header
+        $("#moreItemsTable").find("tr:gt(0)").remove();
+        //$("#moreItemsTable").remove();
+
+        //populate table content
+        for (var x = 0; x < temp.length; x++) {
+            var remarks = "";
+            if (temp[x]["remarks"] == null) {
+                remarks = "";
+            } else {
+                remarks = temp[x]["remarks"];
+            }
+
+            content = "<tr>";
+            content += "<td>"
+                + " <img src='" + temp[x]["icon"] + "' height='21'> "
+                + "<a href='/JobOrder/AddItems/' >"
+                + " " + temp[x]["itemCode"] + " - "
+                + " " + temp[x]["Name"] + "</a> "
+                + " " + remarks + " "
+                + "</td>";
+            content += "<tr>";
+
+            $(content).appendTo("#moreItemsTable");
+        }
+    }
+
+    function hideUnits() {
+        $("#moreItemsTable").find("tr:gt(0)").remove();
+    }
+</script>
+
+@Html.ActionLink("List", "Index", "SupplierItems") |
+@Html.ActionLink("Items", "Index", "InvItems") |
+Availability |
+@Html.ActionLink("Gate Control", "Index", "InvCarGateControls") |
+@Html.ActionLink("Maintenance", "Index", "InvCarRecords")

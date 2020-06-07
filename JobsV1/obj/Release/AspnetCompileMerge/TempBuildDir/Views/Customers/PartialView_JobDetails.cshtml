@@ -6,24 +6,62 @@
 }
 
 <br /><br /><br />
-<dl class="dl-horizontal">
-    
-    <dd></dd>
+<div class="row">
+
+    <p>
+        <b>Date: </b>
+        <input id="startDate" type="date"  /> - 
+        <input id="endDate" type="date" />
+
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a class="cursor-pointer" id="last30" onclick="getLastJobs(30)">Last 30 Days</a> |
+            <a class="cursor-pointer" id="last60" onclick="getLastJobs(60)">Last 60 Days</a>
+        </span>
+        &nbsp;&nbsp;&nbsp;
+        <input type="button" value="Filter" class="btn btn-default" onclick="detailsUpdate(@customerid)" />
+    </p>
+    <p id="StatusOp">
+        <b>Top: </b>
+        <a class="cursor-pointer option-selected" onclick="topUpdate(30)"  id="take30">  30 </a> |
+        <a class="cursor-pointer" onclick="topUpdate(60)"  id="take60">  60 </a> |
+        <a class="cursor-pointer" onclick="topUpdate(100)" id="take100"> 100</a> 
+    </p>
+    <p id="StatusOp" >
+        <b>Status: </b>
+        <a class="cursor-pointer option-selected" onclick="statusUpdate('ALL')"  id="ALL" >  ALL</a> | 
+        <a class="cursor-pointer" onclick="statusUpdate('INQUIRY')"     id="INQUIRY" >     INQUIRY</a> | 
+        <a class="cursor-pointer" onclick="statusUpdate('RESERVATION')" id="RESERVATION" > RESERVATION</a> | 
+        <a class="cursor-pointer" onclick="statusUpdate('CONFIRMED')"   id="CONFIRMED" >   CONFIRMED</a> | 
+        <a class="cursor-pointer" onclick="statusUpdate('CLOSED')"      id="CLOSED" >      CLOSED</a> | 
+        <a class="cursor-pointer" onclick="statusUpdate('CANCELLED')"   id="CANCELLED" >   CANCELLED</a> 
+    </p>
     <table  class="table table-striped">
 
         <tr style="border:1px solid lightgray">
-            <th>Job Date </th>
-            <th>Description </th>
+            <th> Job # </th>
+            <th onclick="sortbyJobDate(@customerid)" id="jobdate-header">
+                <a class="cursor-pointer" >Job Date
+                <span id="jobdate-arrowUp">&#8593;</span>
+                <span id="jobdate-arrowDown" hidden>&#8595;</span>
+                </a>
+            </th>
+            <th> Description </th>
             <th> No of Days </th>
             <th> No of Pax </th>
             <th> Status </th>
+            <th> Amount </th>
             <th>  </th>
         </tr>
         @foreach (var item in Model)
         {
          <tr style="border:1px solid lightgray">
+             <td>
+                 @Html.DisplayFor(modelItem => item.Id)
+             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.JobDate)
+                @item.JobDate.AsDateTime().Month/@item.JobDate.AsDateTime().Day/@item.JobDate.AsDateTime().Year
+                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -37,15 +75,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.StatusRemarks)
             </td>
+             <td>
+
+                @item.Amount.ToString("##,###.00")
+             </td>
+            
             <td>
-                @Html.ActionLink("Details", "Details", "JobMains", new { id = item.Id }, null)
+                @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = item.Id }, null) |
+                @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = item.Id }, null)
             </td>
         </tr>
         }
-
     </table>
     <h4>
         @Html.ActionLink("Add Job", "Create", "JobMains", new { id = customerid }, null)
     </h4>
+</div>
 
-</dl>
+<script src="~/Scripts/jquery-1.12.4.min.js"> </script>
+<script src="~/Scripts/DateRangePicker/moment.min.js" ></script>
+<script src="~/Scripts/Job/CustomerReport.js"> </script>
+

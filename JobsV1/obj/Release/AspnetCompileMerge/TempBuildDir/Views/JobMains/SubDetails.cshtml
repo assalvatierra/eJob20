@@ -21,8 +21,8 @@
         <td>
             <span style="font:bold 21px arial, verdana;">@ViewBag.sCompany</span>
             <span style="font:12px arial, verdana;color:royalblue">
-                <br />@ViewBag.sLine1
-                <br />@ViewBag.sLine2
+                <br />@ViewBag.sLine1  
+                <br />@ViewBag.sLine2  
                 <br />@ViewBag.sLine3
             </span>
         </td>
@@ -51,20 +51,34 @@
     </tr>
     <tr>
         <th>
-            Details
+           To
         </th>
         <td>
-            @Html.DisplayFor(model => model.Customer.Name)
+            <b> @ViewBag.Supplier</b>
         </td>
     </tr>
     <tr>
-        <th valign="top">
-            &nbsp;
-        </th>
-        <td>
-            @Html.DisplayFor(model => model.Description)
-            <br />Pax: @Html.DisplayFor(model => model.NoOfPax) | Days: @Html.DisplayFor(model => model.NoOfDays)
-            | Remarks: @Html.DisplayFor(model => model.JobRemarks)
+        <th valign="top">Details</th>
+        <td >
+            <!--Company-->
+            @*@Model.Customer.Name /*@
+             @ViewBag.JobName
+            <br /> @ViewBag.custCompany
+            <br />
+
+                @if (Model.NoOfPax != 0)
+                {
+                    <text>  Pax: @Html.DisplayFor(model => model.NoOfPax) | </text>
+                }
+
+                Days: @Html.DisplayFor(model => model.NoOfDays)
+            
+            <br />
+            @if (Model.JobRemarks != null)
+            {
+                <text> Remarks: </text>
+            }
+            @Html.DisplayFor(model => model.JobRemarks)
         </td>
     </tr>
     <tr>
@@ -119,8 +133,8 @@
 
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Supplier.Name)
-                <br />[ Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
+                @*@Html.DisplayFor(modelItem => item.Supplier.Name)*@
+                Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description) 
                 @*<br /><a href="~/Reports/TripVoucher/Viewer.aspx?SrvId=@item.Id&JobId=@item.JobMainId&file=@item.JobMain.Customer.Name">Trip Voucher</a>*@
             </td>
             <td>
@@ -169,8 +183,77 @@
 
 </table>
 
+<div class="hidden">
+    <p>Notes:</p>
+    @foreach (var notes in Model.JobNotes as IEnumerable<JobsV1.Models.JobNote>)
+    {
+        <p>
+            @notes.Note
+        </p>
+    }
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+</div>
+
+
+<!--Total Amount, Bank Details and Paypal Button-->
+<div class="jumbotron">
+
+    <table style="width: 100%; table-layout: auto; ">
+        <tr>
+            <td style="width:70%;padding:10px;">
+
+                <div>
+                    <h2>Summary</h2>
+                    @*Expenses: @dContractAmt*@
+                    <table>
+                        <tr>
+                            <td>Total Due:</td>
+                            <td align="right">@dQuotedAmt.ToString("##,###.00")</td>
+                        </tr>
+                        @if (Model.JobStatusId == 2 || Model.JobStatusId == 3 || Model.JobStatusId == 4)
+                        {
+                            <tr>
+                                <td>Partial:</td>
+                                <td align="right">@dPaidAmt.ToString("##,###.00")</td>
+                            </tr>
+                            <tr>
+                                <td>Balance:</td>
+                                @{ Decimal dBalance = (dQuotedAmt - dPaidAmt); }
+                                <td align="right">@dBalance.ToString("##,###.00")</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </td>
+
+
+        </tr>
+    </table>
+</div>
+
+<div class="col-lg-12">
+    <p>
+        <table>
+            <tr>
+                <td style="vertical-align:bottom;">Prepared By:</td>
+                <td>
+                    <br /><br /><u style="font-size:large;vertical-align:bottom;">
+                        @ViewBag.StaffName
+                    </u>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align:bottom;">Signature:</td>
+                <td><br /><img src="@ViewBag.Sign" width="60px;" /></td>
+            </tr>
+            <tr>
+                <td style="vertical-align:bottom;">Date:</td>
+                <td><br /><u style="font-size:large;vertical-align:bottom;"> @System.DateTime.Now.ToString("MMM dd, yyyy") </u></td>
+            </tr>
+            <tr><td colspan="2">&nbsp;</td></tr>
+
+        </table>
+    </p>
+</div>
+
+
