@@ -276,32 +276,29 @@ namespace JobsV1
                 defaults: new { controller = "CarRental", action = "CarView", carDesc = "van-rental" }
             );
 
+            //routes.MapRoute(
+            //    name: "ToyotaGrandiaTourer-for-rent",
+            //    url: "CarRental/ToyotaGrandiaTourer-for-rent",
+            //    defaults: new { controller = "CarRental", action = "CarView", carDesc = "GrandiaTourer2020" }
+            //);
             routes.MapRoute(
-                name: "ToyotaGrandiaTourer-for-rent",
-                url: "CarRental/ToyotaGrandiaTourer-for-rent",
-                defaults: new { controller = "CarRental", action = "CarView", carDesc = "GrandiaTourer2020" }
+              name: "ads/4x4-rental-suv-for-rent-davao/",
+              url: "ads/4x4-rental-suv-for-rent-davao/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "toyota-fortuner" }
             );
 
-            /*
-                        routes.MapRoute(
-                          name: "ads/4x4-rental-suv-for-rent-davao/",
-                          url: "ads/4x4-rental-suv-for-rent-davao/",
-                          defaults: new { controller = "CarRental", action = "CarView", carDesc = "toyota-fortuner" }
-                        );
+            routes.MapRoute(
+              name: "ads/rent-a-car-davao-city-self-drive-2/",
+              url: "ads/rent-a-car-davao-city-self-drive-2/",
+              defaults: new { controller = "CarRental", action = "CarView", carDesc = "selfdrive-rental" }
+            );
+            
+            //routes.MapRoute(
+            //    name: "ad-tag/rent-a-car-davao-city/",
+            //    url: "ad-tag/rent-a-car-davao-city/",
+            //    defaults: new { controller = "CarRental", action = "CarView", carDesc = "rent-a-car-davao-city" }
+            //);
 
-                        routes.MapRoute(
-                          name: "ads/rent-a-car-davao-city-self-drive-2/",
-                          url: "ads/rent-a-car-davao-city-self-drive-2/",
-                          defaults: new { controller = "CarRental", action = "CarView", carDesc = "innova-self-drive" }
-                        );
-
-                        routes.MapRoute(
-                          name: "ad-tag/rent-a-car-davao-city/",
-                          url: "ad-tag/rent-a-car-davao-city/",
-                          defaults: new { controller = "CarRental", action = "CarView", carDesc = "rent-a-car-davao-city" }
-                        );
-
-                        */
 
 
         }

@@ -2138,13 +2138,13 @@
     <Content Include="Views\CarRental\CarViews\MiniVanSedan.cshtml" />
     <Content Include="Views\CarRental\CarViews\DavaoRentaCar.cshtml" />
     <Content Include="Views\CarRental\CarViews\2020-ToyotaRush.cshtml" />
-    <Content Include="Views\CarRental\CarViews\VanRental.cshtml" />
+    <Content Include="Views\CarRental\CarViews\2020VanRental.cshtml" />
     <Content Include="Views\CarRental\CarViews\ListingAds2.cshtml" />
     <Content Include="Views\CarRental\CarViews\ToyotaInnovaCarForRent.cshtml" />
     <Content Include="Views\CarRental\CarViews\FordFiesta.cshtml" />
     <Content Include="Views\CarRental\CarViews\RentCarSelfDrive.cshtml" />
     <Content Include="Views\CarRental\CarViews\HondaCityRental.cshtml" />
-    <Content Include="Views\CarRental\CarViews\ToyotaFortuner.cshtml" />
+    <Content Include="Views\CarRental\CarViews\2020ToyotaFortuner.cshtml" />
     <Content Include="Views\CarRental\CarViews\Pickup4x4.cshtml" />
     <Content Include="Views\CarRental\CarViews\Tags\car-rental-davao.cshtml" />
     <Content Include="Views\CarRental\CarViews\Tags\davao-rent-A-car.cshtml" />

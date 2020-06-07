@@ -466,8 +466,6 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/CarViews/FordFiesta.cshtml");
                 case "honda-self-drive":
                     return View("~/Views/CarRental/CarViews/HondaCityRental.cshtml");
-                case "toyota-fortuner":
-                    return View("~/Views/CarRental/CarViews/ToyotaFortuner.cshtml");
                 case "pickup":
                     return View("~/Views/CarRental/CarViews/Pickup4x4.cshtml");
 
@@ -481,15 +479,17 @@ namespace JobsV1.Controllers
                 case "GrandiaTourer2020": //updated June 7 - not done
                     return View("~/Views/CarRental/CarViews/2020ToyotaGLGrandiaTourer.cshtml");
                 case "van-rental": //updated June 7
-                    return View("~/Views/CarRental/CarViews/VanRental.cshtml");
+                    return View("~/Views/CarRental/CarViews/2020VanRental.cshtml");
+                case "toyota-fortuner": //update June 8
+                    return View("~/Views/CarRental/CarViews/2020ToyotaFortuner.cshtml");
+                case "rent-a-car-davao-city": //update June 8
+                    return View("~/Views/CarRental/CarViews/Tags/rent-a-car-davao-city.cshtml");
 
 
                 case "tag-car-rental-davao":
                     return View("~/Views/CarRental/CarViews/Tags/car-rental-davao.cshtml");
                 case "tag-davao-rent-a-car":
                     return View("~/Views/CarRental/CarViews/Tags/davao-rent-A-car.cshtml");
-                case "rent-a-car-davao-city":
-                    return View("~/Views/CarRental/CarViews/Tags/rent-a-car-davao-city.cshtml");
                 case "van-for-rent-davao-city":
                     return View("~/Views/CarRental/CarViews/Tags/van-for-rent-davao-city.cshtml");
                                     

@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "SUV 4x4 Rental | Rent-a-car | Davao City, Philippines";
+    ViewBag.Description = "SUV 4x4 Rental: SUV for Rent in Davao. Available for Self-drive and with driver car rental options, Long term and short term rental contracts. Rent-a-car service from Davao City, Philipines.";
+    ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
+}
+
+<div class="jumbotron">
+
+    <h1>4x4 Rental</h1>
+    <p>
+        SUV / Pickup
+    </p>
+
+</div>
+<div class="container">
+
+    <div class="col-lg-8 ads-desc-box">
+
+        <div class="col-lg-12 ">
+            <img src="~/Images/CarRental/CarViews/ToyotaFortuner/Fortuner.png" alt="realwheelsdavao toyota-fortuner" class="img-thumbnail ads-desc-img-primary" />
+
+        </div>
+
+        <div class="col-lg-12 ads-desc-img-box">
+            <a href="~/Images/CarRental/CarViews/ToyotaFortuner/Fortuner.png" target="_blank">
+                <img src="~/Images/CarRental/CarViews/ToyotaFortuner/Fortuner.png" alt="realwheelsdavao toyota-fortuner" class="img-thumbnail ads-desc-img-box-gallery" />
+            </a>
+
+        </div>
+
+        <div class="col-lg-12">
+            <h2>
+                4x4 Rentals
+            </h2>
+            <p>
+                4x4 vehicles are design tough and very capable in maneuvering rough terrains. 
+                4x4 Suv are best for site visits and if not familiar with the place and terrain. 
+                Have a peace of mind and get 4x4 for visiting unfamiliar telecom sites, road construction projects, mining survey and other remote area visits. 
+            </p>
+            <h2>
+                Services Offered
+            </h2>
+            <p>
+                <br />Offering an affordable and quality rent a car service in Davao City Philippines.
+                <br />1. Corporate travels
+                <br />2. Site visits
+                <br />3. Personal use
+                <br />4. With Driver
+                <br />5. Short term and long term contracts
+                <br />6. Out of town travels
+                <br />( Digos, Kidapawan, General Santos City, Bukidnon, CDO,
+                <br />Tagum City, COMVAL, Mati, Surigao, etc. )
+                <br />
+                <br />RATES ( Fuel by Renter )
+                <br />Daily rentals: P 3,500 per day
+                <br />Weekly rentals: P 3,000 per day
+                <br />Monthly rentals: P 2,200 per day
+            </p>
+            <hr />
+            <p>
+                <h3>For Booking and Reservations</h3>
+                <a class="btn btn-default" style="margin-bottom:5px;" href="tel:+63 926-733-5449"> Globe: +63 926-733-5449 </a>
+                <br /><a class="btn btn-default" style="margin-bottom:5px;" href="tel:+63 909-076-1575">Smart: +63 909-076-1575 </a>
+                <br /><a class="btn btn-default" style="margin-bottom:5px;" href="mailto: Inquiries.RealWheels@gmail.com">email: Inquiries.RealWheels@gmail.com </a>
+                <br />
+            </p>
+        </div>
+
+        @{Html.RenderPartial("CarViews/TagsView");}
+    </div>
+
+
+    <div class="col-lg-4 ads-tech-details">
+        <h2>
+            4x4 for Rent
+        </h2>
+        <p>
+            <br /> Manufacturer: <b>Toyota</b>
+            <br /> Model:        <b>Fortuner 2011</b>
+            <br /> Transmission: <b>4x4 Automatic Diesel</b>
+        </p>
+        <p>
+            <br /> Manufacturer: <b>Mitsubishi</b>
+            <br /> Model:        <b>Monterosports 2015</b>
+            <br /> Transmission: <b>4x4 Automatic Diesel</b>
+        </p>
+        <p>
+            <br /> Manufacturer: <b>Isuzu</b>
+            <br /> Model:        <b>MUX</b>
+            <br /> Transmission: <b>4x4 Automatic Diesel</b>
+        </p>
+
+    </div>
+
+
+    @{Html.RenderPartial("CarViews/PopularAdsView");}
+</div>

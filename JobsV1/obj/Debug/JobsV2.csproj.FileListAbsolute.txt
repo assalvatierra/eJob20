@@ -190,7 +190,6 @@ D:\Projects\eJob20\JobsV1\bin\ApplicationInsights.config
 D:\Projects\eJob20\JobsV1\bin\JobsV1.dll.config
 D:\Projects\eJob20\JobsV1\bin\JobsV1.dll
 D:\Projects\eJob20\JobsV1\bin\JobsV1.pdb
-D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csprojAssemblyReference.cache
 D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CoreCompileInputs.cache
 D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CopyComplete
 D:\Projects\eJob20\JobsV1\obj\Debug\JobsV1.dll
