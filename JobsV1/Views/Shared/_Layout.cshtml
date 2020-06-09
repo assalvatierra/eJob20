@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@{
+
+    if ( ViewBag.CanonicalURL == null)
+    { ViewBag.CanonicalURL = "https://realwheelsdavao.com/"; }
+
+    // http-->https & www-->non-www
+    string sCan = (string)ViewBag.canonicalURL;
+    ViewBag.CanonicalURL = sCan.Replace("http://", "https://").Replace("//www.","//");
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -26,6 +36,8 @@
     @Styles.Render("~/Content/themes/base/css")
 
 </head>
+
+
 <body onresize="toggleScreen()" onload="toggleScreen()">
 
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -69,9 +81,9 @@
     <div id="overlay2">
         <div class="overlay-msg2">
             <div>
-                <img src="~/Images/GIF/gif-sending-mail.gif" style="border-radius:250px;width:150px;"/>
+                <img src="~/Images/GIF/gif-sending-mail.gif" style="border-radius:250px;width:150px;" />
                 <br />
-                <p  style="color:white;text-align:center;"> Please wait ... </p>
+                <p style="color:white;text-align:center;"> Please wait ... </p>
             </div>
         </div>
     </div>

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using JobsV1.Models;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
 {
@@ -407,6 +408,8 @@ namespace JobsV1.Controllers
             ViewBag.monthlyRate = car.Monthly;
 
             var carUnitView = db.CarViewPages.Where(s => s.CarUnitId == unitid).FirstOrDefault();
+
+            ViewBag.CanonicalURL = Request.Url.AbsoluteUri;
             return View(carUnitView.Viewname, db.CarUnits.Where(d => d.Id == unitid).FirstOrDefault());
         }
           

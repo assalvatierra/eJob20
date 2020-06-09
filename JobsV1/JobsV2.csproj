@@ -1194,6 +1194,7 @@
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner3.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner2.png" />
     <Content Include="Images\CarRental\car101.png" />
+    <Content Include="Images\CarRental\CarViews\7-Seater.jpg" />
     <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Everest.gif" />
     <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Everest.png" />
     <Content Include="Images\CarRental\CarViews\FordEverest\Ford-Fiesta.jpg" />
@@ -1210,9 +1211,13 @@
     <Content Include="Images\CarRental\CarViews\ToyotaAvanza\ToyotaAvanza.gif" />
     <Content Include="Images\CarRental\CarViews\ToyotaAvanza\ToyotaAvanza.jpg" />
     <Content Include="Images\CarRental\CarViews\ToyotaFortuner\Fortuner.png" />
+    <Content Include="Images\CarRental\CarViews\ToyotaGrandia\glgrandia_frontview.jpg" />
     <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-GL-Grandia-interior.jpg" />
     <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-GL-Grandia-rear.jpg" />
     <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-GL-Grandia.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-Grandia-front-seats.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-Grandia-seats.jpg" />
+    <Content Include="Images\CarRental\CarViews\ToyotaGrandia\Toyota-Grandia-side.jpg" />
     <Content Include="Images\CarRental\CarViews\ToyotaInnova\toyota-innova-cabin.jpg" />
     <Content Include="Images\CarRental\CarViews\ToyotaInnova\Toyota-innova.png" />
     <Content Include="Images\CarRental\CarViews\ToyotaInnova\toyotainnova2015.jpg" />
@@ -1224,6 +1229,7 @@
     <Content Include="Images\CarRental\CarViews\VanRental\VanSeats.jpg" />
     <Content Include="Images\CarRental\Driver101.png" />
     <Content Include="Images\CarRental\Driver102x.png" />
+    <Content Include="Images\CarRental\ford-everest-car-rental.jpg" />
     <Content Include="Images\CarRental\ford-everest-car-rental.PNG" />
     <Content Include="Images\CarRental\FordEverest.jpg" />
     <Content Include="Images\CarRental\fordeverest_primary.jpg" />
@@ -1242,6 +1248,7 @@
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-front-seat.jpg" />
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner.jpg" />
     <Content Include="Images\CarRental\fortuner\toyotafortuner_rearview.jpg" />
+    <Content Include="Images\CarRental\glgrandia-car-rental.jpg" />
     <Content Include="Images\CarRental\glgrandia-car-rental.PNG" />
     <Content Include="Images\CarRental\glgrandia\glgrandia_frontview.jpg" />
     <Content Include="Images\CarRental\glgrandia\glgrandia_interior.jpg" />
@@ -1271,6 +1278,7 @@
     <Content Include="Images\CarRental\innova\toyotainnova_front.jpg" />
     <Content Include="Images\CarRental\innova\toyotainnova_interior.jpg" />
     <Content Include="Images\CarRental\innova\ToyotaInnova_SideView.jpg" />
+    <Content Include="Images\CarRental\nissan-premium-car-rental.jpg" />
     <Content Include="Images\CarRental\nissan-premium-car-rental.PNG" />
     <Content Include="Images\CarRental\NissanPremiumPrimary.png" />
     <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-2018.jpg" />
@@ -1311,6 +1319,7 @@
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-seats.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-side.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-tourer-seats.jpg" />
+    <Content Include="Images\CarRental\toyota-innova-car-rental.jpg" />
     <Content Include="Images\CarRental\toyota-innova-car-rental.PNG" />
     <Content Include="Images\CarRental\toyota-tourer-2020-px.jpg" />
     <Content Include="Images\CarRental\toyotagrandia_primary.jpg" />
