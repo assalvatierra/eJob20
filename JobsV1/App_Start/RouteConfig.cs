@@ -38,7 +38,6 @@ namespace JobsV1
             /********************************
             * Car Rental w/ Articles
             ********************************/
-
             routes.MapRoute(
                 name: "van-for-rent",
                 url: "CarRental/van-for-rent",
