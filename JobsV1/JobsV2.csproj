@@ -310,6 +310,7 @@
     <Compile Include="Areas\Accounting\Models\AsSales.cs">
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\AutoCare\AutoCareAreaRegistration.cs" />
     <Compile Include="Areas\Personel\Controllers\HomeController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrDtrsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPayrollsController.cs" />
@@ -795,6 +796,9 @@
     <Compile Include="Models\JobType.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\JobVehicle.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OnlineReservation.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
@@ -978,6 +982,24 @@
     <Compile Include="Models\SysSetupType.cs">
       <DependentUpon>SysDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Vehicle.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleBrand.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleFuel.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleModel.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleTransmission.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMSWebService.asmx.cs">
       <DependentUpon>SMSWebService.asmx</DependentUpon>
@@ -1008,6 +1030,7 @@
     <Content Include="Areas\Accounting\Models\InitAccountData.sql" />
     <Content Include="Areas\Accounting\Models\InitData.sql" />
     <Content Include="Areas\Accounting\Scripts\Sales.js" />
+    <Content Include="Areas\AutoCare\Data\SQL\InitialAll.sql" />
     <Content Include="Areas\Personel\Models\HrisDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>HrisDB.Context.cs</LastGenOutput>
@@ -1657,6 +1680,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Areas\AutoCare\Views\web.config" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2415,6 +2439,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
+    <Folder Include="Areas\AutoCare\Controllers\" />
+    <Folder Include="Areas\AutoCare\Views\Shared\" />
     <Folder Include="Areas\Products\Views\Home\" />
     <Folder Include="Views\CustomHelper\" />
   </ItemGroup>

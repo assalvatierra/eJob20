@@ -12,12 +12,14 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SalesLeadQuotedItem
+    public partial class JobVehicle
     {
         public int Id { get; set; }
-        public int SalesLeadItemsId { get; set; }
-        public int SupplierItemRateId { get; set; }
+        public int VehicleId { get; set; }
+        public int JobMainId { get; set; }
+        public int Mileage { get; set; }
     
-        public virtual SalesLeadItems SalesLeadItem { get; set; }
+        public virtual Vehicle Vehicle { get; set; }
+        public virtual JobMain JobMain { get; set; }
     }
 }

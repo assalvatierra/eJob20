@@ -127,6 +127,13 @@
     <EntitySet Name="SupplierActStatus" EntityType="JobDB.Store.SupplierActStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntActivityTypes" EntityType="JobDB.Store.CustEntActivityTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierActivityTypes" EntityType="JobDB.Store.SupplierActivityTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobVehicles" EntityType="JobDB.Store.JobVehicles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Vehicles" EntityType="JobDB.Store.Vehicles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VehicleTypes" EntityType="JobDB.Store.VehicleTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VehicleModels" EntityType="JobDB.Store.VehicleModels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VehicleBrands" EntityType="JobDB.Store.VehicleBrands" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VehicleTransmissions" EntityType="JobDB.Store.VehicleTransmissions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VehicleFuels" EntityType="JobDB.Store.VehicleFuels" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -539,10 +546,6 @@
       <End Role="SalesLeadItems" EntitySet="SalesLeadItems" />
       <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
     </AssociationSet>
-    <AssociationSet Name="SupplierItemRateSalesLeadQuotedItem" Association="JobDB.Store.SupplierItemRateSalesLeadQuotedItem">
-      <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
-      <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
-    </AssociationSet>
     <AssociationSet Name="CustomerCustSocialAcc" Association="JobDB.Store.CustomerCustSocialAcc">
       <End Role="Customer" EntitySet="Customers" />
       <End Role="CustSocialAcc" EntitySet="CustSocialAccs" />
@@ -598,6 +601,42 @@
     <AssociationSet Name="CustNotifRecipientCustNotifActivity" Association="JobDB.Store.CustNotifRecipientCustNotifActivity">
       <End Role="CustNotifRecipient" EntitySet="CustNotifRecipients" />
       <End Role="CustNotifActivity" EntitySet="CustNotifActivities" />
+    </AssociationSet>
+    <AssociationSet Name="VehicleJobVehicle" Association="JobDB.Store.VehicleJobVehicle">
+      <End Role="Vehicle" EntitySet="Vehicles" />
+      <End Role="JobVehicle" EntitySet="JobVehicles" />
+    </AssociationSet>
+    <AssociationSet Name="JobMainJobVehicle" Association="JobDB.Store.JobMainJobVehicle">
+      <End Role="JobMain" EntitySet="JobMains" />
+      <End Role="JobVehicle" EntitySet="JobVehicles" />
+    </AssociationSet>
+    <AssociationSet Name="CustomerVehicle" Association="JobDB.Store.CustomerVehicle">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Vehicle" EntitySet="Vehicles" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntMainVehicle" Association="JobDB.Store.CustEntMainVehicle">
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+      <End Role="Vehicle" EntitySet="Vehicles" />
+    </AssociationSet>
+    <AssociationSet Name="VehicleBrandVehicleMake" Association="JobDB.Store.VehicleBrandVehicleMake">
+      <End Role="VehicleBrand" EntitySet="VehicleBrands" />
+      <End Role="VehicleMake" EntitySet="VehicleModels" />
+    </AssociationSet>
+    <AssociationSet Name="VehicleTypeVehicleMake" Association="JobDB.Store.VehicleTypeVehicleMake">
+      <End Role="VehicleType" EntitySet="VehicleTypes" />
+      <End Role="VehicleMake" EntitySet="VehicleModels" />
+    </AssociationSet>
+    <AssociationSet Name="VehicleTransmissionVehicleMake" Association="JobDB.Store.VehicleTransmissionVehicleMake">
+      <End Role="VehicleTransmission" EntitySet="VehicleTransmissions" />
+      <End Role="VehicleMake" EntitySet="VehicleModels" />
+    </AssociationSet>
+    <AssociationSet Name="VehicleFuelVehicleMake" Association="JobDB.Store.VehicleFuelVehicleMake">
+      <End Role="VehicleFuel" EntitySet="VehicleFuels" />
+      <End Role="VehicleMake" EntitySet="VehicleModels" />
+    </AssociationSet>
+    <AssociationSet Name="VehicleModelVehicle" Association="JobDB.Store.VehicleModelVehicle">
+      <End Role="VehicleModel" EntitySet="VehicleModels" />
+      <End Role="Vehicle" EntitySet="Vehicles" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1887,6 +1926,72 @@
     <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Points" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="JobVehicles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VehicleId" Type="int" Nullable="false" />
+    <Property Name="JobMainId" Type="int" Nullable="false" />
+    <Property Name="Mileage" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Vehicles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VehicleModelId" Type="int" Nullable="false" />
+    <Property Name="YearModel" Type="nvarchar" Nullable="false" MaxLength="4" />
+    <Property Name="PlateNo" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Conduction" Type="nvarchar" Nullable="true" MaxLength="10" />
+    <Property Name="EngineNo" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="ChassisNo" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Color" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="CustEntMainId" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="VehicleTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="VehicleModels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Make" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Variant" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="VehicleBrandId" Type="int" Nullable="false" />
+    <Property Name="VehicleTypeId" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="VehicleTransmissionId" Type="int" Nullable="false" />
+    <Property Name="VehicleFuelId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VehicleBrands">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Brand" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="VehicleTransmissions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="VehicleFuels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fuel" Type="nvarchar" Nullable="false" MaxLength="5" />
+  </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
     <End Role="JobType" Type="JobDB.Store.JobTypes" Multiplicity="*" />
@@ -3123,18 +3228,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="SupplierItemRateSalesLeadQuotedItem">
-    <End Role="SupplierItemRate" Type="JobDB.Store.SupplierItemRates" Multiplicity="1" />
-    <End Role="SalesLeadQuotedItem" Type="JobDB.Store.SalesLeadQuotedItems" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SupplierItemRate">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="SalesLeadQuotedItem">
-        <PropertyRef Name="SupplierItemRateId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="CustomerCustSocialAcc">
     <End Role="Customer" Type="JobDB.Store.Customers" Multiplicity="1" />
     <End Role="CustSocialAcc" Type="JobDB.Store.CustSocialAccs" Multiplicity="*" />
@@ -3300,6 +3393,114 @@
       </Principal>
       <Dependent Role="CustNotifActivity">
         <PropertyRef Name="CustNotifRecipientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VehicleJobVehicle">
+    <End Role="Vehicle" Type="JobDB.Store.Vehicles" Multiplicity="1" />
+    <End Role="JobVehicle" Type="JobDB.Store.JobVehicles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Vehicle">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobVehicle">
+        <PropertyRef Name="VehicleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="JobMainJobVehicle">
+    <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
+    <End Role="JobVehicle" Type="JobDB.Store.JobVehicles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobVehicle">
+        <PropertyRef Name="JobMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomerVehicle">
+    <End Role="Customer" Type="JobDB.Store.Customers" Multiplicity="1" />
+    <End Role="Vehicle" Type="JobDB.Store.Vehicles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vehicle">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustEntMainVehicle">
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="1" />
+    <End Role="Vehicle" Type="JobDB.Store.Vehicles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vehicle">
+        <PropertyRef Name="CustEntMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VehicleBrandVehicleMake">
+    <End Role="VehicleBrand" Type="JobDB.Store.VehicleBrands" Multiplicity="1" />
+    <End Role="VehicleMake" Type="JobDB.Store.VehicleModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VehicleBrand">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VehicleMake">
+        <PropertyRef Name="VehicleBrandId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VehicleTypeVehicleMake">
+    <End Role="VehicleType" Type="JobDB.Store.VehicleTypes" Multiplicity="1" />
+    <End Role="VehicleMake" Type="JobDB.Store.VehicleModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VehicleType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VehicleMake">
+        <PropertyRef Name="VehicleTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VehicleTransmissionVehicleMake">
+    <End Role="VehicleTransmission" Type="JobDB.Store.VehicleTransmissions" Multiplicity="1" />
+    <End Role="VehicleMake" Type="JobDB.Store.VehicleModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VehicleTransmission">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VehicleMake">
+        <PropertyRef Name="VehicleTransmissionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VehicleFuelVehicleMake">
+    <End Role="VehicleFuel" Type="JobDB.Store.VehicleFuels" Multiplicity="1" />
+    <End Role="VehicleMake" Type="JobDB.Store.VehicleModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VehicleFuel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VehicleMake">
+        <PropertyRef Name="VehicleFuelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VehicleModelVehicle">
+    <End Role="VehicleModel" Type="JobDB.Store.VehicleModels" Multiplicity="1" />
+    <End Role="Vehicle" Type="JobDB.Store.Vehicles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VehicleModel">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vehicle">
+        <PropertyRef Name="VehicleModelId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3822,10 +4023,6 @@
             <End Role="SalesLeadItems" EntitySet="SalesLeadItems" />
             <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
           </AssociationSet>
-          <AssociationSet Name="SupplierItemRateSalesLeadQuotedItem" Association="JobDB.SupplierItemRateSalesLeadQuotedItem">
-            <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
-            <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
-          </AssociationSet>
           <EntitySet Name="CustSocialAccs" EntityType="JobDB.CustSocialAcc" />
           <AssociationSet Name="CustomerCustSocialAcc" Association="JobDB.CustomerCustSocialAcc">
             <End Role="Customer" EntitySet="Customers" />
@@ -3901,6 +4098,49 @@
           <EntitySet Name="SupplierActStatus" EntityType="JobDB.SupplierActStatus" />
           <EntitySet Name="CustEntActivityTypes" EntityType="JobDB.CustEntActivityType" />
           <EntitySet Name="SupplierActivityTypes" EntityType="JobDB.SupplierActivityType" />
+          <EntitySet Name="JobVehicles" EntityType="JobDB.JobVehicle" />
+          <EntitySet Name="Vehicles" EntityType="JobDB.Vehicle" />
+          <AssociationSet Name="VehicleJobVehicle" Association="JobDB.VehicleJobVehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="JobVehicle" EntitySet="JobVehicles" />
+          </AssociationSet>
+          <AssociationSet Name="JobMainJobVehicle" Association="JobDB.JobMainJobVehicle">
+            <End Role="JobMain" EntitySet="JobMains" />
+            <End Role="JobVehicle" EntitySet="JobVehicles" />
+          </AssociationSet>
+          <EntitySet Name="VehicleTypes" EntityType="JobDB.VehicleType" />
+          <AssociationSet Name="CustomerVehicle" Association="JobDB.CustomerVehicle">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Vehicle" EntitySet="Vehicles" />
+          </AssociationSet>
+          <AssociationSet Name="CustEntMainVehicle" Association="JobDB.CustEntMainVehicle">
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+            <End Role="Vehicle" EntitySet="Vehicles" />
+          </AssociationSet>
+          <EntitySet Name="VehicleModels" EntityType="JobDB.VehicleModel" />
+          <EntitySet Name="VehicleBrands" EntityType="JobDB.VehicleBrand" />
+          <AssociationSet Name="VehicleBrandVehicleMake" Association="JobDB.VehicleBrandVehicleMake">
+            <End Role="VehicleBrand" EntitySet="VehicleBrands" />
+            <End Role="VehicleMake" EntitySet="VehicleModels" />
+          </AssociationSet>
+          <AssociationSet Name="VehicleTypeVehicleMake" Association="JobDB.VehicleTypeVehicleMake">
+            <End Role="VehicleType" EntitySet="VehicleTypes" />
+            <End Role="VehicleMake" EntitySet="VehicleModels" />
+          </AssociationSet>
+          <EntitySet Name="VehicleTransmissions" EntityType="JobDB.VehicleTransmission" />
+          <AssociationSet Name="VehicleTransmissionVehicleMake" Association="JobDB.VehicleTransmissionVehicleMake">
+            <End Role="VehicleTransmission" EntitySet="VehicleTransmissions" />
+            <End Role="VehicleMake" EntitySet="VehicleModels" />
+          </AssociationSet>
+          <EntitySet Name="VehicleFuels" EntityType="JobDB.VehicleFuel" />
+          <AssociationSet Name="VehicleFuelVehicleMake" Association="JobDB.VehicleFuelVehicleMake">
+            <End Role="VehicleFuel" EntitySet="VehicleFuels" />
+            <End Role="VehicleMake" EntitySet="VehicleModels" />
+          </AssociationSet>
+          <AssociationSet Name="VehicleModelVehicle" Association="JobDB.VehicleModelVehicle">
+            <End Role="VehicleModel" EntitySet="VehicleModels" />
+            <End Role="Vehicle" EntitySet="Vehicles" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -3935,6 +4175,7 @@
           <NavigationProperty Name="CashExpenses" Relationship="JobDB.CashExpenseJobMain" FromRole="JobMain" ToRole="CashExpense" />
           <NavigationProperty Name="JobPosts" Relationship="JobDB.JobMainJobPost" FromRole="JobMain" ToRole="JobPost" />
           <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
+          <NavigationProperty Name="JobVehicles" Relationship="JobDB.JobMainJobVehicle" FromRole="JobMain" ToRole="JobVehicle" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -3985,6 +4226,7 @@
           <NavigationProperty Name="PortalCustomers" Relationship="JobDB.CustomerPortalCustomer" FromRole="Customer" ToRole="PortalCustomer" />
           <NavigationProperty Name="CustSocialAccs" Relationship="JobDB.CustomerCustSocialAcc" FromRole="Customer" ToRole="CustSocialAcc" />
           <NavigationProperty Name="CustNotifRecipients" Relationship="JobDB.CustomerCustNotifRecipient" FromRole="Customer" ToRole="CustNotifRecipient" />
+          <NavigationProperty Name="Vehicles" Relationship="JobDB.CustomerVehicle" FromRole="Customer" ToRole="Vehicle" />
         </EntityType>
         <EntityType Name="JobType">
           <Key>
@@ -4827,6 +5069,7 @@
           <NavigationProperty Name="CustEntDocuments" Relationship="JobDB.CustEntMainCustEntDocuments" FromRole="CustEntMain" ToRole="CustEntDocuments" />
           <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntMain" ToRole="CustEntActivity" />
           <Property Name="Exclusive" Type="String" Nullable="true" MaxLength="10" DefaultValue="PUBLIC" />
+          <NavigationProperty Name="Vehicles" Relationship="JobDB.CustEntMainVehicle" FromRole="CustEntMain" ToRole="Vehicle" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -6356,7 +6599,6 @@
           <Property Name="Remarks" Type="String" Nullable="false" />
           <Property Name="DtValidFrom" Type="String" Nullable="false" />
           <Property Name="DtValidTo" Type="String" Nullable="false" />
-          <NavigationProperty Name="SalesLeadQuotedItems" Relationship="JobDB.SupplierItemRateSalesLeadQuotedItem" FromRole="SupplierItemRate" ToRole="SalesLeadQuotedItem" />
           <Property Name="Particulars" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="By" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="Material" Type="String" Nullable="true" MaxLength="40" />
@@ -6455,7 +6697,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="SalesLeadItem" Relationship="JobDB.SalesLeadItemsSalesLeadQuotedItem" FromRole="SalesLeadQuotedItem" ToRole="SalesLeadItems" />
           <Property Name="SalesLeadItemsId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SupplierItemRate" Relationship="JobDB.SupplierItemRateSalesLeadQuotedItem" FromRole="SalesLeadQuotedItem" ToRole="SupplierItemRate" />
           <Property Name="SupplierItemRateId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="SalesLeadItemsSalesLeadQuotedItem">
@@ -6467,18 +6708,6 @@
             </Principal>
             <Dependent Role="SalesLeadQuotedItem">
               <PropertyRef Name="SalesLeadItemsId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="SupplierItemRateSalesLeadQuotedItem">
-          <End Type="JobDB.SupplierItemRate" Role="SupplierItemRate" Multiplicity="1" />
-          <End Type="JobDB.SalesLeadQuotedItem" Role="SalesLeadQuotedItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SupplierItemRate">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SalesLeadQuotedItem">
-              <PropertyRef Name="SupplierItemRateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6843,6 +7072,195 @@
           <Property Name="Type" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="Points" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="JobVehicle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Vehicle" Relationship="JobDB.VehicleJobVehicle" FromRole="JobVehicle" ToRole="Vehicle" />
+          <Property Name="VehicleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobMain" Relationship="JobDB.JobMainJobVehicle" FromRole="JobVehicle" ToRole="JobMain" />
+          <Property Name="JobMainId" Type="Int32" Nullable="false" />
+          <Property Name="Mileage" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="JobVehicles" Relationship="JobDB.VehicleJobVehicle" FromRole="Vehicle" ToRole="JobVehicle" />
+          <Property Name="VehicleModelId" Type="Int32" Nullable="false" />
+          <Property Name="YearModel" Type="String" Nullable="false" MaxLength="4" />
+          <Property Name="PlateNo" Type="String" Nullable="false" MaxLength="10" />
+          <Property Name="Conduction" Type="String" Nullable="true" MaxLength="10" />
+          <Property Name="EngineNo" Type="String" Nullable="true" MaxLength="50" />
+          <Property Name="ChassisNo" Type="String" Nullable="true" MaxLength="50" />
+          <Property Name="Color" Type="String" Nullable="true" MaxLength="30" />
+          <NavigationProperty Name="Customer" Relationship="JobDB.CustomerVehicle" FromRole="Vehicle" ToRole="Customer" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainVehicle" FromRole="Vehicle" ToRole="CustEntMain" />
+          <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
+          <NavigationProperty Name="VehicleModel" Relationship="JobDB.VehicleModelVehicle" FromRole="Vehicle" ToRole="VehicleModel" />
+        </EntityType>
+        <Association Name="VehicleJobVehicle">
+          <End Type="JobDB.Vehicle" Role="Vehicle" Multiplicity="1" />
+          <End Type="JobDB.JobVehicle" Role="JobVehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobVehicle">
+              <PropertyRef Name="VehicleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JobMainJobVehicle">
+          <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
+          <End Type="JobDB.JobVehicle" Role="JobVehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobVehicle">
+              <PropertyRef Name="JobMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VehicleType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" />
+          <NavigationProperty Name="VehicleMakes" Relationship="JobDB.VehicleTypeVehicleMake" FromRole="VehicleType" ToRole="VehicleMake" />
+        </EntityType>
+        <Association Name="CustomerVehicle">
+          <End Type="JobDB.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="JobDB.Vehicle" Role="Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CustEntMainVehicle">
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="1" />
+          <End Type="JobDB.Vehicle" Role="Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="CustEntMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VehicleModel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Make" Type="String" Nullable="false" MaxLength="50" />
+          <NavigationProperty Name="VehicleBrand" Relationship="JobDB.VehicleBrandVehicleMake" FromRole="VehicleMake" ToRole="VehicleBrand" />
+          <Property Name="Variant" Type="String" Nullable="false" />
+          <Property Name="VehicleBrandId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="VehicleType" Relationship="JobDB.VehicleTypeVehicleMake" FromRole="VehicleMake" ToRole="VehicleType" />
+          <Property Name="VehicleTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" />
+          <NavigationProperty Name="VehicleTransmission" Relationship="JobDB.VehicleTransmissionVehicleMake" FromRole="VehicleMake" ToRole="VehicleTransmission" />
+          <Property Name="VehicleTransmissionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="VehicleFuel" Relationship="JobDB.VehicleFuelVehicleMake" FromRole="VehicleMake" ToRole="VehicleFuel" />
+          <Property Name="VehicleFuelId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Vehicles" Relationship="JobDB.VehicleModelVehicle" FromRole="VehicleModel" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="VehicleBrand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Brand" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="VehicleMakes" Relationship="JobDB.VehicleBrandVehicleMake" FromRole="VehicleBrand" ToRole="VehicleMake" />
+        </EntityType>
+        <Association Name="VehicleBrandVehicleMake">
+          <End Type="JobDB.VehicleBrand" Role="VehicleBrand" Multiplicity="1" />
+          <End Type="JobDB.VehicleModel" Role="VehicleMake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VehicleBrand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VehicleMake">
+              <PropertyRef Name="VehicleBrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VehicleTypeVehicleMake">
+          <End Type="JobDB.VehicleType" Role="VehicleType" Multiplicity="1" />
+          <End Type="JobDB.VehicleModel" Role="VehicleMake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VehicleType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VehicleMake">
+              <PropertyRef Name="VehicleTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VehicleTransmission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="5" />
+          <NavigationProperty Name="VehicleMakes" Relationship="JobDB.VehicleTransmissionVehicleMake" FromRole="VehicleTransmission" ToRole="VehicleMake" />
+        </EntityType>
+        <Association Name="VehicleTransmissionVehicleMake">
+          <End Type="JobDB.VehicleTransmission" Role="VehicleTransmission" Multiplicity="1" />
+          <End Type="JobDB.VehicleModel" Role="VehicleMake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VehicleTransmission">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VehicleMake">
+              <PropertyRef Name="VehicleTransmissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VehicleFuel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fuel" Type="String" Nullable="false" MaxLength="5" />
+          <NavigationProperty Name="VehicleMakes" Relationship="JobDB.VehicleFuelVehicleMake" FromRole="VehicleFuel" ToRole="VehicleMake" />
+        </EntityType>
+        <Association Name="VehicleFuelVehicleMake">
+          <End Type="JobDB.VehicleFuel" Role="VehicleFuel" Multiplicity="1" />
+          <End Type="JobDB.VehicleModel" Role="VehicleMake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VehicleFuel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VehicleMake">
+              <PropertyRef Name="VehicleFuelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VehicleModelVehicle">
+          <End Type="JobDB.VehicleModel" Role="VehicleModel" Multiplicity="1" />
+          <End Type="JobDB.Vehicle" Role="Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VehicleModel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="VehicleModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8254,6 +8672,79 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Points" ColumnName="Points" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobVehicles">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.JobVehicle)">
+        <MappingFragment StoreEntitySet="JobVehicles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+          <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vehicles">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.Vehicle)">
+        <MappingFragment StoreEntitySet="Vehicles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VehicleModelId" ColumnName="VehicleModelId" />
+          <ScalarProperty Name="YearModel" ColumnName="YearModel" />
+          <ScalarProperty Name="PlateNo" ColumnName="PlateNo" />
+          <ScalarProperty Name="Conduction" ColumnName="Conduction" />
+          <ScalarProperty Name="EngineNo" ColumnName="EngineNo" />
+          <ScalarProperty Name="ChassisNo" ColumnName="ChassisNo" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VehicleTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.VehicleType)">
+        <MappingFragment StoreEntitySet="VehicleTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VehicleModels">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.VehicleModel)">
+        <MappingFragment StoreEntitySet="VehicleModels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Make" ColumnName="Make" />
+          <ScalarProperty Name="Variant" ColumnName="Variant" />
+          <ScalarProperty Name="VehicleBrandId" ColumnName="VehicleBrandId" />
+          <ScalarProperty Name="VehicleTypeId" ColumnName="VehicleTypeId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="VehicleTransmissionId" ColumnName="VehicleTransmissionId" />
+          <ScalarProperty Name="VehicleFuelId" ColumnName="VehicleFuelId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VehicleBrands">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.VehicleBrand)">
+        <MappingFragment StoreEntitySet="VehicleBrands">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VehicleTransmissions">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.VehicleTransmission)">
+        <MappingFragment StoreEntitySet="VehicleTransmissions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VehicleFuels">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.VehicleFuel)">
+        <MappingFragment StoreEntitySet="VehicleFuels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fuel" ColumnName="Fuel" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

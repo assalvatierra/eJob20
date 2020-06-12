@@ -12,12 +12,18 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SalesLeadQuotedItem
+    public partial class VehicleTransmission
     {
-        public int Id { get; set; }
-        public int SalesLeadItemsId { get; set; }
-        public int SupplierItemRateId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public VehicleTransmission()
+        {
+            this.VehicleMakes = new HashSet<VehicleModel>();
+        }
     
-        public virtual SalesLeadItems SalesLeadItem { get; set; }
+        public int Id { get; set; }
+        public string Type { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VehicleModel> VehicleMakes { get; set; }
     }
 }
