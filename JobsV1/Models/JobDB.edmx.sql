@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/12/2020 23:08:37
--- Generated from EDMX file: D:\Projects\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 06/13/2020 11:25:17
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -326,9 +326,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesLeadItemsSalesLeadQuotedItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SalesLeadItemsSalesLeadQuotedItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SupplierItemRateSalesLeadQuotedItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem];
-GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerCustSocialAcc]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustSocialAccs] DROP CONSTRAINT [FK_CustomerCustSocialAcc];
 GO
@@ -370,6 +367,33 @@ IF OBJECT_ID(N'[dbo].[FK_NotifRecipientCustNotifRecipient]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_CustNotifRecipientCustNotifActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustNotifActivities] DROP CONSTRAINT [FK_CustNotifRecipientCustNotifActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleJobVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobVehicles] DROP CONSTRAINT [FK_VehicleJobVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_JobMainJobVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobVehicles] DROP CONSTRAINT [FK_JobMainJobVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_CustomerVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_CustEntMainVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleBrandVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleBrandVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleTypeVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleTypeVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleTransmissionVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleTransmissionVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleFuelVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleFuelVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleModelVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_VehicleModelVehicle];
 GO
 
 -- --------------------------------------------------
@@ -738,6 +762,27 @@ IF OBJECT_ID(N'[dbo].[CustEntActivityTypes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SupplierActivityTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SupplierActivityTypes];
+GO
+IF OBJECT_ID(N'[dbo].[JobVehicles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobVehicles];
+GO
+IF OBJECT_ID(N'[dbo].[Vehicles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Vehicles];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleTypes];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleModels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleModels];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleBrands]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleBrands];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleTransmissions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleTransmissions];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleFuels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleFuels];
 GO
 
 -- --------------------------------------------------

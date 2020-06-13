@@ -42,7 +42,7 @@
                 @Html.DisplayFor(modelItem => item.SalesCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                @(((Decimal)item.Amount).ToString("N0"))
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
@@ -51,23 +51,26 @@
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustEntMain.Name)
+                @Html.ActionLink(item.CustEntMain.Name, "Index", "CustEntActivities", new { id = item.CustEntMainId }, null) 
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @{var input = @item.Assigned;}
-                @try
-                {
-                char ch = '@';
-                int idx = input.IndexOf(ch);
-                <text> @input.Substring(0, idx)</text>
-                }
-                catch (Exception ex)
-                {
-                    <text>  input </text>
-                }
+
+                <a href="@Url.Action("UserActivities", "Activities", new { user = item.Assigned })">
+                    @{var input = @item.Assigned;}
+                    @try
+                    {
+                        char ch = '@';
+                        int idx = input.IndexOf(ch);
+                        <text> @input.Substring(0, idx)</text>
+                    }
+                    catch (Exception ex)
+                    {
+                        <text> NA </text>
+                    }
+                </a>
             </td>
             <td>
                 @if (ViewBag.IsAdmin == true)
@@ -110,7 +113,8 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Supplier.Name)
+
+                @Html.ActionLink(item.Supplier.Name, "Records", "SupplierActivities", new { id = item.SupplierId }, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type )
@@ -119,17 +123,19 @@
                 @Html.DisplayFor(modelItem => item.Remarks )
             </td>
             <td>
-                @{var input = @item.Assigned;}
-                @try
-                {
-                    char ch = '@';
-                    int idx = input.IndexOf(ch);
-                    <text> @input.Substring(0, idx)</text>
-                }
-                catch (Exception ex)
-                {
-                    <text>  input </text>
-                }
+                <a href="@Url.Action("SupActivities", "Activities", new { user = item.Assigned })">
+                    @{var input = @item.Assigned;}
+                    @try
+                    {
+                        char ch = '@';
+                        int idx = input.IndexOf(ch);
+                        <text> @input.Substring(0, idx)</text>
+                    }
+                    catch (Exception ex)
+                    {
+                        <text>  input </text>
+                    }
+                </a>
             </td>
             <td>
                 @if (ViewBag.IsAdmin == true)
