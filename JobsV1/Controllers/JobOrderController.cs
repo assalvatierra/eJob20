@@ -1206,6 +1206,7 @@ order by x.jobid
 
             }
 
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
