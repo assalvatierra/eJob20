@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Data.Entity.Core.Objects;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace JobsV1.Controllers
 {
@@ -1186,11 +1187,17 @@ order by x.jobid
         {
             if (ModelState.IsValid)
             {
+                CultureInfo provider = CultureInfo.InvariantCulture;
                 if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
                 {
                     var cust = db.Customers.Find(jobMain.CustomerId);
                     jobMain.CustContactEmail = cust.Email;
                     jobMain.CustContactNumber = cust.Contact1;
+                }
+
+                if(jobMain.JobDate != new DateTime())
+                {
+                    jobMain.JobDate = DateTime.ParseExact(jobMain.JobDate.ToString(), "M/d/yyyy h:mm:ss tt", provider);
                 }
 
                 db.JobMains.Add(jobMain);
