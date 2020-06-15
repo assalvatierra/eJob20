@@ -1471,6 +1471,8 @@
     <Content Include="Images\Icons\car-rental.png" />
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
+    <Content Include="Images\Icons\settings-red.png" />
+    <Content Include="Images\Icons\settings-black.png" />
     <Content Include="Images\Icons\skype-logo.png" />
     <Content Include="Images\Icons\viber-original.png" />
     <Content Include="Images\Icons\whatsapp-original.png" />
