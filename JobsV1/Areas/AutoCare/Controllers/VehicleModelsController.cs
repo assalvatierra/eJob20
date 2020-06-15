@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.AutoCare.Controllers
 {
@@ -43,6 +44,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             ViewBag.VehicleTypeId = new SelectList(db.VehicleTypes, "Id", "Type");
             ViewBag.VehicleTransmissionId = new SelectList(db.VehicleTransmissions, "Id", "Type");
             ViewBag.VehicleFuelId = new SelectList(db.VehicleFuels, "Id", "Fuel");
+            ViewBag.VehicleDriveId = new SelectList(db.VehicleDrives, "Id", "Drive");
             return View();
         }
 
@@ -51,19 +53,23 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Make,Variant,VehicleBrandId,VehicleTypeId,Remarks,VehicleTransmissionId,VehicleFuelId")] VehicleModel vehicleModel)
+        public ActionResult Create([Bind(Include = "Id,Make,Variant,VehicleBrandId,VehicleTypeId,Remarks,VehicleTransmissionId,VehicleFuelId,VehicleDriveId")] VehicleModel vehicleModel)
         {
             if (ModelState.IsValid)
             {
-                db.VehicleModels.Add(vehicleModel);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (VehicleModelsValidation(vehicleModel))
+                {
+                    db.VehicleModels.Add(vehicleModel);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands, "Id", "Brand", vehicleModel.VehicleBrandId);
             ViewBag.VehicleTypeId = new SelectList(db.VehicleTypes, "Id", "Type", vehicleModel.VehicleTypeId);
             ViewBag.VehicleTransmissionId = new SelectList(db.VehicleTransmissions, "Id", "Type", vehicleModel.VehicleTransmissionId);
             ViewBag.VehicleFuelId = new SelectList(db.VehicleFuels, "Id", "Fuel", vehicleModel.VehicleFuelId);
+            ViewBag.VehicleDriveId = new SelectList(db.VehicleDrives, "Id", "Drive", vehicleModel.VehicleDriveId);
             return View(vehicleModel);
         }
 
@@ -83,6 +89,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             ViewBag.VehicleTypeId = new SelectList(db.VehicleTypes, "Id", "Type", vehicleModel.VehicleTypeId);
             ViewBag.VehicleTransmissionId = new SelectList(db.VehicleTransmissions, "Id", "Type", vehicleModel.VehicleTransmissionId);
             ViewBag.VehicleFuelId = new SelectList(db.VehicleFuels, "Id", "Fuel", vehicleModel.VehicleFuelId);
+            ViewBag.VehicleDriveId = new SelectList(db.VehicleDrives, "Id", "Drive", vehicleModel.VehicleDriveId);
             return View(vehicleModel);
         }
 
@@ -91,18 +98,22 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Make,Variant,VehicleBrandId,VehicleTypeId,Remarks,VehicleTransmissionId,VehicleFuelId")] VehicleModel vehicleModel)
+        public ActionResult Edit([Bind(Include = "Id,Make,Variant,VehicleBrandId,VehicleTypeId,Remarks,VehicleTransmissionId,VehicleFuelId,VehicleDriveId")] VehicleModel vehicleModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(vehicleModel).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (VehicleModelsValidation(vehicleModel))
+                {
+                    db.Entry(vehicleModel).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands, "Id", "Brand", vehicleModel.VehicleBrandId);
             ViewBag.VehicleTypeId = new SelectList(db.VehicleTypes, "Id", "Type", vehicleModel.VehicleTypeId);
             ViewBag.VehicleTransmissionId = new SelectList(db.VehicleTransmissions, "Id", "Type", vehicleModel.VehicleTransmissionId);
             ViewBag.VehicleFuelId = new SelectList(db.VehicleFuels, "Id", "Fuel", vehicleModel.VehicleFuelId);
+            ViewBag.VehicleDriveId = new SelectList(db.VehicleDrives, "Id", "Drive", vehicleModel.VehicleDriveId);
             return View(vehicleModel);
         }
 
@@ -139,6 +150,26 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public bool VehicleModelsValidation(VehicleModel vehicleModel)
+        {
+            bool isValid = true;
+
+            if (vehicleModel.Make.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Make", "Invalid Make");
+                isValid = false;
+            }
+
+            if (vehicleModel.Variant.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Variant", "Invalid Variant");
+                isValid = false;
+            }
+
+            return isValid;
         }
     }
 }

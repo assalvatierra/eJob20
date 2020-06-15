@@ -5,6 +5,7 @@
     System.Collections.ArrayList providers = ViewBag.Providers;
     var iti = ViewBag.Itineraries;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var jobVehicle = ViewBag.JobVehicle as JobsV1.Models.JobVehicle;
 }
 
 
@@ -39,30 +40,28 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-@*<div id="dialog" title="Service Provider">
-        <table>
-            @foreach (var item in providers)
-                {
-                <tr>
-                    <td style="white-space:nowrap">
-                        @if ((string)item == "Provider not defined.")
-                        { <p>@item</p> }
-                        else
-                        {
-                        @Html.ActionLink("[" + @item + "]", "SubDetails", "JobMains", new { id = ViewBag.JobOrder.Id, sProvider = @item }, null)
-                        }
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>*@
 
 <div class="view-content">
 
     <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
     <div>
         <p>
-            Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
+            
+            <!-- Vehicle -->
+            
+            <span id="jobVehicleText" style="margin:0;">
+            @if (jobVehicle != null)
+            {
+                <span style="margin:0;">
+                    Vehicle:
+                    @jobVehicle.Vehicle.VehicleModel.VehicleBrand.Brand
+                    @jobVehicle.Vehicle.VehicleModel.Make
+                    @jobVehicle.Vehicle.YearModel
+                    (@jobVehicle.Vehicle.PlateNo)
+                </span>
+               
+            } </span>
+            <br />Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
             <br />Description: @ViewBag.JobOrder.Description
             <br />Encoder: @ViewBag.JobEncoder.user - @ViewBag.JobEncoder.dtTrail
             <br />Status:
@@ -78,8 +77,6 @@
                 @ViewBag.JobStatus
             }
 
-
-
             <!-- Change Status -->
             @if (ViewBag.JobStatus == "INQUIRY")
             {
@@ -92,7 +89,10 @@
                 @Html.ActionLink("(Confirm Job)", "ConfirmJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
             }
 
-            <br />@Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+
+            <br />
+              @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+            | <a  data-toggle="modal" data-target="#AddVehicleModal"> Vehicle </a>
             | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
             | <a id="aContractorLink" data-toggle="modal" data-target="#aContractorLink">Contractors</a>
             | @Html.ActionLink("Voucher", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 2 }, null)
@@ -257,8 +257,12 @@
 
 </div>
 
+<!-- Modals -->
+@Html.Partial("_AddVehicleModal", ViewBag.Vehicles as IEnumerable<JobsV1.Models.Vehicle>)
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Job/JobVehicle.js"> </script>
     <script>
 
             //var dlg;

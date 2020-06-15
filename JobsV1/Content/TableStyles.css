@@ -6,7 +6,7 @@
 .PanelContainer-main {
     font-family: 'Nunito', sans-serif !important;
     background-color: white;
-    color: slategrey;
+    color: black;
     border: 1px solid lightgray;
     margin-left: 15px;
     display: inline-flex;
@@ -330,3 +330,6 @@ span {
     color: gray;
 }
 
+.modal-text-label {
+    padding-top: 10px;
+}

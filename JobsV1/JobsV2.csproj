@@ -311,6 +311,7 @@
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\AutoCare\AutoCareAreaRegistration.cs" />
+    <Compile Include="Areas\AutoCare\Controllers\HomeController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\VehicleModelsController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\VehiclesController.cs" />
     <Compile Include="Areas\Personel\Controllers\HomeController.cs" />
@@ -1577,6 +1578,7 @@
     <Content Include="Scripts\Job\CustNotif.js" />
     <Content Include="Scripts\Job\DefaultDate.js" />
     <Content Include="Scripts\CustEntMain\CustEntActivities.js" />
+    <Content Include="Scripts\Job\JobVehicle.js" />
     <Content Include="Scripts\Job\TripListing.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />
     <Content Include="Scripts\Job\CustEntMainList.js" />
@@ -2442,6 +2444,7 @@
     <Content Include="Views\CarRental\CarViews\Tags\2020-SUV-Rental.cshtml" />
     <Content Include="Views\CarRental\CarViews\Tags\2020-SelfDrive-Rental.cshtml" />
     <Content Include="Views\CarRental\CarViews\2020ToyotaGLGrandiaTourer.cshtml" />
+    <Content Include="Views\JobOrder\_AddVehicleModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

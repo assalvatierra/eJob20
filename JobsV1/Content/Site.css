@@ -672,3 +672,7 @@ rental-type-wdriver {
     font-family: 'Lato','sans-serif';
     font-size: 18px;
 }
+
+.form-group{
+    margin-bottom:0px;
+}

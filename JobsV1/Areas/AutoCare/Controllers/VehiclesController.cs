@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.AutoCare.Controllers
 {
@@ -54,15 +55,61 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Vehicles.Add(vehicle);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (VehicleValidation(vehicle))
+                {
+                    db.Vehicles.Add(vehicle);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
             ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make", vehicle.VehicleModelId);
             return View(vehicle);
+        }
+
+        public bool VehicleValidation(Vehicle vehicle)
+        {
+            bool isValid = true;
+
+            if (vehicle.PlateNo.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("PlateNo", "Invalid Plate No");
+                isValid = false;
+            }
+
+            if (vehicle.YearModel.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("YearModel", "Invalid Year Model");
+                isValid = false;
+            }
+
+            if (vehicle.Conduction.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Conduction", "Invalid Conduction");
+                isValid = false;
+            }
+
+            if (vehicle.EngineNo.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("EngineNo", "Invalid EngineNo");
+                isValid = false;
+            }
+
+            if (vehicle.ChassisNo.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("ChassisNo", "Invalid ChassisNo");
+                isValid = false;
+            }
+
+            if (vehicle.Color.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Color", "Invalid Color");
+                isValid = false;
+            }
+
+            return isValid;
         }
 
         // GET: AutoCare/Vehicles/Edit/5
@@ -92,9 +139,12 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(vehicle).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (VehicleValidation(vehicle))
+                {
+                    db.Entry(vehicle).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);

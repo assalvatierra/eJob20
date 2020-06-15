@@ -1614,10 +1614,8 @@ order by x.jobid
                     sortid = 1;
             }
 
-            ViewBag.JobMainId = JobMainId;
 
             var Job = db.JobMains.Where(d => d.Id == JobMainId).FirstOrDefault();
-            ViewBag.JobOrder = Job;
 
             var jobServices = db.JobServices.Include(j => j.JobMain).Include(j => j.Supplier).Include(j => j.Service).Include(j => j.SupplierItem).Include(j => j.JobServicePickups).Where(d => d.JobMainId == JobMainId);
 
@@ -1629,7 +1627,6 @@ order by x.jobid
                     string sTmp = "";
                     try
                     {
-                        //  sTmp = item.JobServicePickups.FirstOrDefault().ProviderName;
                         sTmp = item.Supplier.Name;
                     }
                     catch
@@ -1652,20 +1649,18 @@ order by x.jobid
                 ViewBag.JobEncoder = new JobTrail { Id = 0, Action = "Create", user = "none", dtTrail = DateTime.Now, RefId = "0", RefTable = "none" };
             }
 
+            ViewBag.JobMainId = JobMainId;
+            ViewBag.JobOrder = Job;
             ViewBag.JobItems = jobServices;
-
             ViewBag.Providers = providers;
-
             ViewBag.JobStatus = db.JobMains.Where(j=>j.Id == JobMainId).FirstOrDefault().JobStatus.Status.ToString();
-
             ViewBag.Itineraries = db.JobItineraries.Where(d => d.JobMainId == JobMainId).ToList();
-
             ViewBag.sortid = sortid;
-
             ViewBag.jobAction = action;
-
             ViewBag.user = HttpContext.User.Identity.Name;
-
+            ViewBag.Vehicles = db.Vehicles.ToList();
+            ViewBag.JobVehicle = db.JobVehicles.Where(j => j.JobMainId == JobMainId).OrderByDescending(j=>j.Id).FirstOrDefault() ?? null;
+           
             return View(jobServices.OrderBy(d => d.DtStart).ToList());
 
         }
@@ -1678,7 +1673,6 @@ order by x.jobid
             int iyear = int.Parse(year);
 
             JobMain job = db.JobMains.Where(j => j.Id == id).
-                //Where(j=> j.JobDate.Month == iMonth && j.JobDate.Day == iday && j.JobDate.Year == iyear).FirstOrDefault();
                 Where(j => j.JobDate.Month == iMonth).
                 Where(j => j.JobDate.Day == iday).
                 Where(j => j.JobDate.Year == iyear).
@@ -3090,7 +3084,6 @@ order by x.jobid
         }
         #endregion
 
-
         #region ajax calls
 
         [HttpGet]
@@ -3155,5 +3148,43 @@ order by x.jobid
         #endregion
 
 
+        #region Vehicles
+        public bool AddJobVehicle(int? jobMainId, int? vehicleId, int? mileage)
+        {
+
+            try
+            {
+
+                if (jobMainId == null || vehicleId == null || mileage == null )
+                {
+                   return false;
+                }
+
+                JobVehicle jobVehicle = new JobVehicle() { 
+                    JobMainId = (int)jobMainId,
+                    VehicleId = (int)vehicleId,
+                    Mileage = (int)mileage
+                };
+
+                //save JobVehicle
+                db.JobVehicles.Add(jobVehicle);
+                db.SaveChanges();
+
+                return true;
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
+            }
+        }
+        #endregion
+
+
+        public ActionResult ErrorPage()
+        {
+            return View();
+        }
     }
 }
