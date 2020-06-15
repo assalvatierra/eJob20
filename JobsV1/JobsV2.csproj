@@ -311,6 +311,8 @@
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\AutoCare\AutoCareAreaRegistration.cs" />
+    <Compile Include="Areas\AutoCare\Controllers\VehicleModelsController.cs" />
+    <Compile Include="Areas\AutoCare\Controllers\VehiclesController.cs" />
     <Compile Include="Areas\Personel\Controllers\HomeController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrDtrsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPayrollsController.cs" />
@@ -1684,6 +1686,18 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Areas\AutoCare\Views\web.config" />
+    <Content Include="Areas\AutoCare\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Vehicles\Create.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Vehicles\Delete.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Vehicles\Details.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Vehicles\Edit.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Vehicles\Index.cshtml" />
+    <Content Include="Areas\AutoCare\Views\VehicleModels\Create.cshtml" />
+    <Content Include="Areas\AutoCare\Views\VehicleModels\Delete.cshtml" />
+    <Content Include="Areas\AutoCare\Views\VehicleModels\Details.cshtml" />
+    <Content Include="Areas\AutoCare\Views\VehicleModels\Edit.cshtml" />
+    <Content Include="Areas\AutoCare\Views\VehicleModels\Index.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2442,8 +2456,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
-    <Folder Include="Areas\AutoCare\Controllers\" />
-    <Folder Include="Areas\AutoCare\Views\Shared\" />
     <Folder Include="Areas\Products\Views\Home\" />
     <Folder Include="Views\CustomHelper\" />
   </ItemGroup>

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<JobsV1.Models.VehicleModel>
+
+@{
+    ViewBag.Title = "Index";
+    Session["ROOTMENUID"] = 17;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Vehicles Model</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Make)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Variant)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleBrand.Brand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleType.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleTransmission.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleFuel.Fuel)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Make)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Variant)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleBrand.Brand)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleType.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleTransmission.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleFuel.Fuel)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

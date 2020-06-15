@@ -19,7 +19,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Bookkeeping','Bookkeeping',0,'Accounting/AsMain','Index','span=30',20,13),
 ('Master List','Master List',0,'Cities','Index','span=30',20,14),
 ('Admin','Admin',0,'Admin','UserList','',20,15),
-('Activities','Activities',0,'Activities','Index','',20,16)
+('Activities','Activities',0,'Activities','Index','',20,16),
+('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17)
 ;
 
 
@@ -215,6 +216,16 @@ insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (16,16);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Activities' ,'',16,'Activities','Index','',21,161),
 		('Performance' ,'',16,'Activities','Performance','',21,162);	 -- id: 61
+		
+--AutoCare Access
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('NO117','AutoCare','Vehicles Listing','A','../Images/Erp/icons/icons-activities.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (17,17);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Vehicles' ,'',17,'AutoCare/Vehicles','Index','',21,171),	--72
+		('Vehicle Models' ,'',17,'AutoCare/VehicleModels','Index','',21,172);	 -- id: 73
+
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');
@@ -237,6 +248,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',13,13), 
 ('assalvatierra@gmail.com',14,14), 
 ('assalvatierra@gmail.com',15,15), 
+('assalvatierra@gmail.com',16,16), 
+('assalvatierra@gmail.com',17,17), 
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 
@@ -252,13 +265,13 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',12,12),
 ('jahdielvillosa@gmail.com',13,13),
 ('jahdielvillosa@gmail.com',14,14),
-('jahdielvillosa@gmail.com',15,15); 
+('jahdielvillosa@gmail.com',15,15),
+('jahdielvillosa@gmail.com',16,16),
+('jahdielvillosa@gmail.com',17,17); 
 
 
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
-('assalvatierra@gmail.com', 16, 16),
-('assalvatierra@gmail.com', 17, 17),
 ('assalvatierra@gmail.com', 18, 18),
 ('assalvatierra@gmail.com', 19, 19),
 ('assalvatierra@gmail.com', 20, 20),
@@ -311,9 +324,11 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 67, 67),
 ('assalvatierra@gmail.com', 68, 68),
 ('assalvatierra@gmail.com', 69, 69),
+('assalvatierra@gmail.com', 70, 70),
+('assalvatierra@gmail.com', 71, 71),
+('assalvatierra@gmail.com', 72, 72),
+('assalvatierra@gmail.com', 73, 73),
 
-('jahdielvillosa@gmail.com', 16, 16),
-('jahdielvillosa@gmail.com', 17, 17),
 ('jahdielvillosa@gmail.com', 18, 18),
 ('jahdielvillosa@gmail.com', 19, 19),
 ('jahdielvillosa@gmail.com', 20, 20),
@@ -365,4 +380,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 66, 66),
 ('jahdielvillosa@gmail.com', 67, 67),
 ('jahdielvillosa@gmail.com', 68, 68),
-('jahdielvillosa@gmail.com', 69, 69); 
+('jahdielvillosa@gmail.com', 69, 69),
+('jahdielvillosa@gmail.com', 70, 70),
+('jahdielvillosa@gmail.com', 71, 71),
+('jahdielvillosa@gmail.com', 72, 72),
+('jahdielvillosa@gmail.com', 73, 73); 

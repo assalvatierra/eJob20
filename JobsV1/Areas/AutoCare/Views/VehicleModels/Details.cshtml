@@ -1,0 +1,74 @@
+﻿@model JobsV1.Models.VehicleModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VehicleModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Make)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Make)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Variant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Variant)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VehicleBrand.Brand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VehicleBrand.Brand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VehicleType.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VehicleType.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VehicleTransmission.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VehicleTransmission.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VehicleFuel.Fuel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VehicleFuel.Fuel)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
