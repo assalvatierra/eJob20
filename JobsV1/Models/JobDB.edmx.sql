@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/12/2020 23:08:37
+-- Date Created: 06/13/2020 21:48:18
 -- Generated from EDMX file: D:\Projects\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -326,9 +326,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesLeadItemsSalesLeadQuotedItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SalesLeadItemsSalesLeadQuotedItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SupplierItemRateSalesLeadQuotedItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem];
-GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerCustSocialAcc]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustSocialAccs] DROP CONSTRAINT [FK_CustomerCustSocialAcc];
 GO
@@ -370,6 +367,36 @@ IF OBJECT_ID(N'[dbo].[FK_NotifRecipientCustNotifRecipient]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_CustNotifRecipientCustNotifActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustNotifActivities] DROP CONSTRAINT [FK_CustNotifRecipientCustNotifActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleJobVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobVehicles] DROP CONSTRAINT [FK_VehicleJobVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_JobMainJobVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobVehicles] DROP CONSTRAINT [FK_JobMainJobVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_CustomerVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_CustEntMainVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleBrandVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleBrandVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleTypeVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleTypeVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleTransmissionVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleTransmissionVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleFuelVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleFuelVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleModelVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_VehicleModelVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleDriveVehicleModel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleDriveVehicleModel];
 GO
 
 -- --------------------------------------------------
@@ -738,6 +765,30 @@ IF OBJECT_ID(N'[dbo].[CustEntActivityTypes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SupplierActivityTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SupplierActivityTypes];
+GO
+IF OBJECT_ID(N'[dbo].[JobVehicles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobVehicles];
+GO
+IF OBJECT_ID(N'[dbo].[Vehicles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Vehicles];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleTypes];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleModels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleModels];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleBrands]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleBrands];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleTransmissions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleTransmissions];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleFuels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleFuels];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleDrives]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleDrives];
 GO
 
 -- --------------------------------------------------
@@ -2070,9 +2121,10 @@ CREATE TABLE [dbo].[VehicleModels] (
     [Variant] nvarchar(max)  NOT NULL,
     [VehicleBrandId] int  NOT NULL,
     [VehicleTypeId] int  NOT NULL,
-    [Remarks] nvarchar(max)  NOT NULL,
+    [Remarks] nvarchar(max)  NULL,
     [VehicleTransmissionId] int  NOT NULL,
-    [VehicleFuelId] int  NOT NULL
+    [VehicleFuelId] int  NOT NULL,
+    [VehicleDriveId] int  NOT NULL
 );
 GO
 
@@ -2093,7 +2145,14 @@ GO
 -- Creating table 'VehicleFuels'
 CREATE TABLE [dbo].[VehicleFuels] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Fuel] nvarchar(5)  NOT NULL
+    [Fuel] nvarchar(10)  NOT NULL
+);
+GO
+
+-- Creating table 'VehicleDrives'
+CREATE TABLE [dbo].[VehicleDrives] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Drive] nvarchar(10)  NOT NULL
 );
 GO
 
@@ -2866,6 +2925,12 @@ GO
 -- Creating primary key on [Id] in table 'VehicleFuels'
 ALTER TABLE [dbo].[VehicleFuels]
 ADD CONSTRAINT [PK_VehicleFuels]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'VehicleDrives'
+ALTER TABLE [dbo].[VehicleDrives]
+ADD CONSTRAINT [PK_VehicleDrives]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4761,6 +4826,21 @@ GO
 CREATE INDEX [IX_FK_VehicleModelVehicle]
 ON [dbo].[Vehicles]
     ([VehicleModelId]);
+GO
+
+-- Creating foreign key on [VehicleDriveId] in table 'VehicleModels'
+ALTER TABLE [dbo].[VehicleModels]
+ADD CONSTRAINT [FK_VehicleDriveVehicleModel]
+    FOREIGN KEY ([VehicleDriveId])
+    REFERENCES [dbo].[VehicleDrives]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VehicleDriveVehicleModel'
+CREATE INDEX [IX_FK_VehicleDriveVehicleModel]
+ON [dbo].[VehicleModels]
+    ([VehicleDriveId]);
 GO
 
 -- --------------------------------------------------

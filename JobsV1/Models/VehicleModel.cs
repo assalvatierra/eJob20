@@ -28,6 +28,7 @@ namespace JobsV1.Models
         public string Remarks { get; set; }
         public int VehicleTransmissionId { get; set; }
         public int VehicleFuelId { get; set; }
+        public int VehicleDriveId { get; set; }
     
         public virtual VehicleBrand VehicleBrand { get; set; }
         public virtual VehicleType VehicleType { get; set; }
@@ -35,5 +36,6 @@ namespace JobsV1.Models
         public virtual VehicleFuel VehicleFuel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public virtual VehicleDrive VehicleDrive { get; set; }
     }
 }

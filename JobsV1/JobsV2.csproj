@@ -988,6 +988,9 @@
     <Compile Include="Models\VehicleBrand.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VehicleDrive.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\VehicleFuel.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>

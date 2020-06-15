@@ -134,6 +134,7 @@
     <EntitySet Name="VehicleBrands" EntityType="JobDB.Store.VehicleBrands" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VehicleTransmissions" EntityType="JobDB.Store.VehicleTransmissions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VehicleFuels" EntityType="JobDB.Store.VehicleFuels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VehicleDrives" EntityType="JobDB.Store.VehicleDrives" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -637,6 +638,10 @@
     <AssociationSet Name="VehicleModelVehicle" Association="JobDB.Store.VehicleModelVehicle">
       <End Role="VehicleModel" EntitySet="VehicleModels" />
       <End Role="Vehicle" EntitySet="Vehicles" />
+    </AssociationSet>
+    <AssociationSet Name="VehicleDriveVehicleModel" Association="JobDB.Store.VehicleDriveVehicleModel">
+      <End Role="VehicleDrive" EntitySet="VehicleDrives" />
+      <End Role="VehicleModel" EntitySet="VehicleModels" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1967,9 +1972,10 @@
     <Property Name="Variant" Type="nvarchar(max)" Nullable="false" />
     <Property Name="VehicleBrandId" Type="int" Nullable="false" />
     <Property Name="VehicleTypeId" Type="int" Nullable="false" />
-    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
     <Property Name="VehicleTransmissionId" Type="int" Nullable="false" />
     <Property Name="VehicleFuelId" Type="int" Nullable="false" />
+    <Property Name="VehicleDriveId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="VehicleBrands">
     <Key>
@@ -1990,7 +1996,14 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Fuel" Type="nvarchar" Nullable="false" MaxLength="5" />
+    <Property Name="Fuel" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="VehicleDrives">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Drive" Type="nvarchar" Nullable="false" MaxLength="10" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3504,6 +3517,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="VehicleDriveVehicleModel">
+    <End Role="VehicleDrive" Type="JobDB.Store.VehicleDrives" Multiplicity="1" />
+    <End Role="VehicleModel" Type="JobDB.Store.VehicleModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VehicleDrive">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VehicleModel">
+        <PropertyRef Name="VehicleDriveId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4140,6 +4165,11 @@
           <AssociationSet Name="VehicleModelVehicle" Association="JobDB.VehicleModelVehicle">
             <End Role="VehicleModel" EntitySet="VehicleModels" />
             <End Role="Vehicle" EntitySet="Vehicles" />
+          </AssociationSet>
+          <EntitySet Name="VehicleDrives" EntityType="JobDB.VehicleDrive" />
+          <AssociationSet Name="VehicleDriveVehicleModel" Association="JobDB.VehicleDriveVehicleModel">
+            <End Role="VehicleDrive" EntitySet="VehicleDrives" />
+            <End Role="VehicleModel" EntitySet="VehicleModels" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -7170,12 +7200,14 @@
           <Property Name="VehicleBrandId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="VehicleType" Relationship="JobDB.VehicleTypeVehicleMake" FromRole="VehicleMake" ToRole="VehicleType" />
           <Property Name="VehicleTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" />
           <NavigationProperty Name="VehicleTransmission" Relationship="JobDB.VehicleTransmissionVehicleMake" FromRole="VehicleMake" ToRole="VehicleTransmission" />
           <Property Name="VehicleTransmissionId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="VehicleFuel" Relationship="JobDB.VehicleFuelVehicleMake" FromRole="VehicleMake" ToRole="VehicleFuel" />
           <Property Name="VehicleFuelId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Vehicles" Relationship="JobDB.VehicleModelVehicle" FromRole="VehicleModel" ToRole="Vehicle" />
+          <NavigationProperty Name="VehicleDrive" Relationship="JobDB.VehicleDriveVehicleModel" FromRole="VehicleModel" ToRole="VehicleDrive" />
+          <Property Name="VehicleDriveId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="VehicleBrand">
           <Key>
@@ -7234,7 +7266,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fuel" Type="String" Nullable="false" MaxLength="5" />
+          <Property Name="Fuel" Type="String" Nullable="false" MaxLength="10" />
           <NavigationProperty Name="VehicleMakes" Relationship="JobDB.VehicleFuelVehicleMake" FromRole="VehicleFuel" ToRole="VehicleMake" />
         </EntityType>
         <Association Name="VehicleFuelVehicleMake">
@@ -7258,6 +7290,26 @@
             </Principal>
             <Dependent Role="Vehicle">
               <PropertyRef Name="VehicleModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VehicleDrive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Drive" Type="String" Nullable="false" MaxLength="10" />
+          <NavigationProperty Name="VehicleModels" Relationship="JobDB.VehicleDriveVehicleModel" FromRole="VehicleDrive" ToRole="VehicleModel" />
+        </EntityType>
+        <Association Name="VehicleDriveVehicleModel">
+          <End Type="JobDB.VehicleDrive" Role="VehicleDrive" Multiplicity="1" />
+          <End Type="JobDB.VehicleModel" Role="VehicleModel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VehicleDrive">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VehicleModel">
+              <PropertyRef Name="VehicleDriveId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8721,6 +8773,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="VehicleTransmissionId" ColumnName="VehicleTransmissionId" />
           <ScalarProperty Name="VehicleFuelId" ColumnName="VehicleFuelId" />
+          <ScalarProperty Name="VehicleDriveId" ColumnName="VehicleDriveId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -8745,6 +8798,14 @@
         <MappingFragment StoreEntitySet="VehicleFuels">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Fuel" ColumnName="Fuel" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VehicleDrives">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.VehicleDrive)">
+        <MappingFragment StoreEntitySet="VehicleDrives">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Drive" ColumnName="Drive" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

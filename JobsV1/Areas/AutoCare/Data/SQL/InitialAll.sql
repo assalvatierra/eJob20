@@ -57,7 +57,8 @@ values	('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'),
 		('LongTerm','LONGTERM','~/Images/SalesLead/Longterm.png'), 
 		('Corporate','CORPORATE ACCOUNT','~/Images/SalesLead/ShakeHands.png'), 
 		('HardOne', 'HARDONE','~/Images/SalesLead/unhappy.jpg');
-		
+
+-- ----- Auto shop ------
 insert into Services([Name],[Description],[Status]) values
 	('Change Oil','Change Oil','1'),
 	('Under Chassis','Alignment, bushing, etc ','1'),
@@ -78,16 +79,35 @@ Values
 ('Others','Other Types','~/Images/CarRental/Repair101.png','OTHER');
 
 
+-- ----- Auto shop ------
 insert into InvItems ([ItemCode],[Description],[Remarks],[ContactInfo],[ViewLabel],[OrderNo] )
 values
-('CSTPP','Carbon Steel Pipe','Carbon Steel Pipe','','',100),
-('CSTPL','Carbon Steel Plate','Carbon Steel Plate','','',100),
-('SSTPP','Stainless Steel Pipe','Stainless Steel Pipe','','',100),
-('SSTPL','Stainless Steel Plate','Stainless Steel Plate','','',100);
+('B1.0809','Bay 1 ( Slot 8-9 am )','','','',100),
+('B1.0910','Bay 1 ( Slot 9-10 am )','','','',101), 
+('B1.1011','Bay 1 ( Slot 10-11 am )','','','',102), 
+('B2.0809','Bay 2 ( Slot 8-9 am )','','','',103), 
+('B2.0910','Bay 2 ( Slot 9-10 am )','','','',104), 
+('B2.1011','Bay 2 ( Slot 10-11 am )','','','',105); 
 
 insert into InvItemCategories([InvItemId],[InvItemCatId])
 values
 (1,1);
+
+-- ----- Auto shop (Vehicle) ------
+insert into VehicleBrands ([Brand]) values('Toyota'),('Nissan'),('Mitsubishi'),('Isuzu'),('Hyundai'),('Honda'),('Ford');
+insert into VehicleTypes([Type]) values('VAN'),('SUV'),('MPV'),('CAR'),('Pickup'),('Truck'),('Others');
+insert into VehicleTransmissions([Type]) values('A/T'),('M/T'),('CVT');
+insert into VehicleFuels([Fuel]) values('Gasoline'),('Diesel');
+insert into VehicleDrives([Drive]) values('4x2'),('4x4');
+insert into VehicleModels([Make],[Variant],[VehicleBrandId],[VehicleTypeId],[VehicleTransmissionId],[VehicleFuelId],[VehicleDriveId])
+values
+('Grandia','GL',1,1,2,2,1),
+('Grandia','Super',1,2,2,2,1),
+('Commuter','',1,1,2,2,1),
+('Fortuner','G',1,2,2,2,2),
+('Monterosports','GLX',3,2,1,2,2),
+('Vios','G',1,4,1,1,1);
+
 
 
 
@@ -99,9 +119,9 @@ insert into SupplierTypes(Description) values
 	('Repair Shop'),('Machine Shop'),('Installer');
 insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId],[Code] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT',1,'SUP01');
 insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId],[Code] )
-	values('American Steels CO., INC','(082) 223-6659','(082 223-6650)','0912-564-9877','americansteel.com','Manila', '','amsteels.supply@gmail.com','1','1','ACT',1,'SUP02'),
-	      ('Green Steels Industries LTD','(082) 333-8845','(082 333-8840)','0915-654-1125','greensteels.com','Davao City', '','green.steels@gmail.com','1','1','ACT',1,'SUP03'),
-	      ('Asia Metals and Steels INC','(0086) 11236548','(0086 11238840)','-','asia-metals-steels.com','Davao City', '','asia.metals.sales@gmail.com','1','1','ACT',1,'SUP04');
+	values('Auto Repair Sub-1','(082) 223-22222','(082 223-6565)','0912-564-7777','AutoRepair.com','Davao', '','subcon.supply@gmail.com','1','1','ACT',1,'SUP02'),
+	      ('Engine Repair sub-1','(082) 333-8888','(082 333-4440)','0915-554-1111','enginerepair.com','Davao City', '','enginerepair@gmail.com','1','1','ACT',1,'SUP03'),
+	      ('Parts Supply','(0086) 11236548','(0086 11238840)','-','partsdavao.com','Davao City', '','partsdavao@gmail.com','1','1','ACT',1,'SUP04');
 
 insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values 
 	('Default','1','Item by supplier','Supplier','ACT');
@@ -109,30 +129,6 @@ insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Statu
 insert into SupplierUnits([Unit])
 values ('Meter'),('Inch'),('Feet'),('Box'),('Package');
 
-
-insert into JobMains([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt])
-values
-('11-15-2019',1,'Test Job 101',10,1,'TEST DATA 0101',3,'N/A',1,1,5000),
-('11-27-2019',1,'Item scheduling',3,1,'TEST DATA 0102',3,'N/A',1,1,3000),
-('11-27-2019',1,'Davao City Tour',3,2,'Template Test',6,'N/A',1,1,3500);
-
-
-insert into JobServices([JobMainId],[ServicesId],[SupplierId],[Particulars],[QuotedAmt],[SupplierAmt],[ActualAmt],[Remarks],[SupplierItemId],[DtStart],[DtEnd])
-values
-(1,1,2,'sample data R1',5000,5000,5000,'Sample only. Disregard once seen on production',9,'11-15-2019','11-22-2019'),
-(1,1,2,'sample data R2',3000,3000,3000,'Sample only. Disregard once seen on production',9,'11-24-2019','11-28-2019'),
-(2,1,2,'Repair 101',2000,2000,2000,'Sample only. Disregard once seen on production',9,'11-27-2019','11-28-2019'),
-(2,1,2,'Change oil 101',1000,1000,1000,'Sample only. Disregard once seen on production',9,'11-29-2019','11-30-2019'),
-(3,1,2,'Replace Brakepad ',2000,2000,2000,'Sample only. Disregard once seen on production',9,'11-27-2019','11-27-2019');
-
-insert into InvItemCategories([InvItemId],[InvItemCatId])
-values (1,1), (2,1), (3,1), (4,2);
-
-Insert into JobServiceItems([JobServicesId],[InvItemId])
-values(1,2),(1,3),
-(2,3),(2,4),
-(3,3),(3,4),
-(4,3),(4,4);
 
 -- Customer and Companies Initial
 

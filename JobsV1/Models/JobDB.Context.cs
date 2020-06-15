@@ -153,5 +153,6 @@ namespace JobsV1.Models
         public virtual DbSet<VehicleBrand> VehicleBrands { get; set; }
         public virtual DbSet<VehicleTransmission> VehicleTransmissions { get; set; }
         public virtual DbSet<VehicleFuel> VehicleFuels { get; set; }
+        public virtual DbSet<VehicleDrive> VehicleDrives { get; set; }
     }
 }

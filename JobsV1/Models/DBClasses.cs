@@ -355,7 +355,7 @@ namespace JobsV1.Models
             DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             List<ItemSchedule> ItemSched = new List<ItemSchedule>();
 
-            var InvItems = db.InvItems.Where(s => s.OrderNo <= 110).ToList().OrderBy(s => s.OrderNo);
+            var InvItems = db.InvItems.Where(s => s.OrderNo <= 510).ToList().OrderBy(s => s.OrderNo);
             var ItemId = db.InvItems.Select(s => s.Id).ToList();
 
 

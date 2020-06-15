@@ -1184,6 +1184,7 @@ order by x.jobid
         [ValidateAntiForgeryToken]
         public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId)
         {
+            
             if (ModelState.IsValid)
             {
                 if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
