@@ -69,10 +69,6 @@
                     <span>@Html.DisplayFor(modelItemday => dt.Date.Day)</span>
 
                     <p>
-                        @*<a href="@Html.Action("","SelectItemSchedule", new { jsId = @ViewBag.serviceId, itemId = item.ItemId, jsDate = dt.Date })" style="margin-bottom:10px;">
-                            <img src="~/Images/CarRental/settings.png" width="20" height="20" />
-                        </a>*@
-
                         <a href="#" onclick="SelectItemSchedule(@ViewBag.JobMainId,@ViewBag.serviceId, @item.ItemId,'@dt.Date')">
                             <img src="~/Images/CarRental/settings.png" width="20" height="20" />
                         </a>
