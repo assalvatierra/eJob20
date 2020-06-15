@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Data.Entity.Core.Objects;
 using Newtonsoft.Json;
+using PayPal.Api;
 
 namespace JobsV1.Controllers
 {
@@ -851,7 +852,35 @@ order by x.jobid
             ViewBag.serviceId = JobServiceId;
             return View(gret.ItemSched);
         }
-        
+
+        public bool SelectItemSchedule(int jsId, int itemId, DateTime jsDate)
+        {
+            try
+            {
+                var jobService = db.JobServices.Find(jsId);
+                //add item to jobservice
+                JobServiceItem jsItem = new JobServiceItem() { 
+                    InvItemId = itemId,
+                    JobServicesId = jsId
+                };
+                db.JobServiceItems.Add(jsItem);
+
+                //edit date of jobservice
+                jobService.DtStart = jsDate.Add(new TimeSpan(8, 0, 0)); //8AM
+                jobService.DtEnd = jsDate.Add(new TimeSpan(17, 0, 0)); //5PM
+
+                db.Entry(jobService).State = EntityState.Modified;
+
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
+            }
+        }
+
         //GET : Ajax - getMoreItems()
         //Get the list of InvItems of Order No greater than 110
         [HttpGet]
@@ -887,6 +916,7 @@ order by x.jobid
             ViewBag.mainId = mainId;
             ViewBag.dtLabel = gret.dLabel;
             ViewBag.serviceId = JobServiceId;
+            ViewBag.JobMainId = mainId;
             return View(gret.ItemSched);
         }
 
@@ -3147,7 +3177,6 @@ order by x.jobid
         }
         #endregion
 
-
         #region Vehicles
         public bool AddJobVehicle(int? jobMainId, int? vehicleId, int? mileage)
         {
@@ -3175,11 +3204,11 @@ order by x.jobid
             }
             catch (Exception ex)
             {
-                throw ex;
                 return false;
             }
         }
         #endregion
+
 
 
         public ActionResult ErrorPage()

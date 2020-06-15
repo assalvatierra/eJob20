@@ -2445,6 +2445,7 @@
     <Content Include="Views\CarRental\CarViews\Tags\2020-SelfDrive-Rental.cshtml" />
     <Content Include="Views\CarRental\CarViews\2020ToyotaGLGrandiaTourer.cshtml" />
     <Content Include="Views\JobOrder\_AddVehicleModal.cshtml" />
+    <Content Include="Views\InvItems\AvailabilityTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -81,6 +81,7 @@ namespace JobsV1.Models
     {
         [Key]
         public int Day { get; set; }
+        public int Hour { get; set; }
         public DateTime Date { get; set; }
         public int status { get; set; }
         public List<JobServices> svc { get; set; }
@@ -98,6 +99,7 @@ namespace JobsV1.Models
 
     public class DayLabel
     {
+        public int iHour { get; set; }
         public int iDay { get; set; }
         public string sDayName { get; set; }
         public string sDayNo { get; set; }
@@ -416,6 +418,109 @@ namespace JobsV1.Models
                 dsTmp.iDay = i + 1;
                 dsTmp.sDayName = dtDay.ToString("ddd");
                 dsTmp.sDayNo = dtDay.ToString("dd");
+
+                dLabel.Add(dsTmp);
+            }
+
+            getItemSchedReturn dReturn = new getItemSchedReturn();
+            dReturn.dLabel = dLabel;
+            dReturn.ItemSched = ItemSched;
+
+            return dReturn;
+        }
+
+
+        public getItemSchedReturn ItemSchedulesByHour()
+        {
+            #region get itemJobs
+            string SqlStr = @"
+                select  a.Id ItemId, c.JobMainId, c.Id ServiceId, c.Particulars, c.DtStart, c.DtEnd from 
+                InvItems a
+                left outer join JobServiceItems b on b.InvItemId = a.Id 
+                left outer join JobServices c on b.JobServicesId = c.Id
+                left outer join JobMains d on c.JobMainId = d.Id
+                where d.JobStatusId < 4 AND c.DtStart >= DATEADD(DAY, -30, GETDATE())
+                ;";
+            List<cItemSchedule> itemJobs = db.Database.SqlQuery<cItemSchedule>(SqlStr).ToList();
+
+            //cItemSchedule
+            #endregion
+
+            int NoOfDays = 24;
+            DateTime dtStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+            List<ItemSchedule> ItemSched = new List<ItemSchedule>();
+
+            var InvItems = db.InvItems.Where(s => s.OrderNo <= 510).ToList().OrderBy(s => s.OrderNo);
+            var ItemId = db.InvItems.Select(s => s.Id).ToList();
+
+
+            foreach (var tmpItem in InvItems)
+            {
+                ItemSchedule ItemTmp = new ItemSchedule();
+
+                ItemTmp.ItemId = tmpItem.Id;
+                ItemTmp.Item = tmpItem;
+                ItemTmp.dayStatus = new List<DayStatus>();
+
+                Console.WriteLine(ItemTmp.Item.Description);
+
+                var JobServiceList = itemJobs.Where(d => d.ItemId == tmpItem.Id);
+                for (int i = 0; i <= NoOfDays; i++)
+                {
+                    DayStatus dsTmp = new DayStatus();
+                    dsTmp.Date = dtStart.AddDays(i);
+                    dsTmp.Day = i + 1;
+                    dsTmp.Hour = i + 1;
+                    dsTmp.status = 0;
+
+                    //Check if your Messages collection exists
+                    if (dsTmp.svc == null)
+                    {
+                        //It's null - create it
+                        dsTmp.svc = new List<JobServices>();
+                    }
+
+
+                    foreach (var jsTmp in JobServiceList)
+                    {
+                        int istart = dsTmp.Date.CompareTo(jsTmp.DtStart);
+                        int iend = dsTmp.Date.CompareTo(jsTmp.DtEnd);
+
+                        if (istart >= 0 && iend <= 0)
+                        {
+                            var jshourStart = DateTime.Parse(jsTmp.DtStart.ToString()).Hour;
+                            var jshourEnd = DateTime.Parse(jsTmp.DtEnd.ToString()).Hour;
+                            int ihourStart = TimeSpan.Compare( TimeSpan.FromHours(dsTmp.Hour), TimeSpan.FromHours(jshourStart));
+                            int ihourEnd = TimeSpan.Compare(TimeSpan.FromHours(dsTmp.Hour), TimeSpan.FromHours(jshourStart));
+
+                            if (ihourStart >= 0 && ihourEnd <= 0)
+                            {
+                                dsTmp.status += 1;
+                                JobServices js = db.JobServices.Where(j => j.Id == jsTmp.ServiceId).FirstOrDefault();
+                                dsTmp.svc.Add(js);
+                            }
+                        }
+
+                    }
+
+                    ItemTmp.dayStatus.Add(dsTmp);
+                }
+
+
+                ItemSched.Add(ItemTmp);
+            }
+
+            //Day Label
+            List<DayLabel> dLabel = new List<DayLabel>();
+            for (int i = 0; i <= NoOfDays; i++)
+            {
+                DateTime dtDay = dtStart.AddHours(i);
+
+                DayLabel dsTmp = new DayLabel();
+                dsTmp.iDay = i + 1;
+                dsTmp.iHour = i + 1;
+                dsTmp.sDayNo = dtDay.ToString("hh tt");
+                dsTmp.sDayName = dtDay.ToString("MMM-d");
 
                 dLabel.Add(dsTmp);
             }

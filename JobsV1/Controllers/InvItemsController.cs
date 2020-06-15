@@ -288,6 +288,16 @@ namespace JobsV1.Controllers
             
             return View(gret.ItemSched);
         }
+
+
+        public ActionResult AvailabilityTime()
+        {
+            DBClasses dbclass = new DBClasses();
+            Models.getItemSchedReturn gret = dbclass.ItemSchedulesByHour();
+            ViewBag.dtLabel = gret.dLabel;
+
+            return View(gret.ItemSched);
+        }
         #endregion
     }
 }
