@@ -850,6 +850,7 @@ order by x.jobid
             ViewBag.mainId = mainId;
             ViewBag.dtLabel = gret.dLabel;
             ViewBag.serviceId = JobServiceId;
+            ViewBag.JobMainId = mainId;
             return View(gret.ItemSched);
         }
 

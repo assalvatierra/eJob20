@@ -67,6 +67,12 @@
                 <td style="border:1px solid red; font:300 8px arial; background-color:@sBgColor;" >
 
                     <span>@Html.DisplayFor(modelItemday => dt.Date.Day)</span>
+                    
+                    <p>
+                        <a href="#" onclick="SelectItemSchedule(@ViewBag.JobMainId,@ViewBag.serviceId, @item.ItemId,'@dt.Date')">
+                            <img src="~/Images/CarRental/settings.png" width="20" height="20" />
+                        </a>
+                    </p>
 
 
                     <p>
@@ -206,5 +212,24 @@
 
     function hideUnits() {
         $("#moreItemsTable").find("tr:gt(0)").remove();
+    }
+
+
+    function SelectItemSchedule(jobmainId, jsId, itemId, jsDate) {
+        data = {
+            jsId: jsId,
+            itemId: itemId,
+            jsDate: jsDate
+        }
+
+        $.post("/JobOrder/SelectItemSchedule", data, (result) => {
+            console.log(result);
+
+            if (result == 'True') {
+                window.location.href = "/JobOrder/JobServices?JobMainId=" + jobmainId;
+            } else {
+                alert('Error selecting item schedule');
+            }
+        });
     }
 </script>
