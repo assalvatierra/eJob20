@@ -93,7 +93,7 @@ insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values
 
 --Equipments
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('EQ106','Equipments','List of Equipments','A','../Images/Erp/icons/icons-trolley.png');
+('EQ106','Resources','List of Resources','A','../Images/Erp/icons/icons-trolley.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (6,6);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 	('Items','',6,'InvItems','Index','',21,62),					-- id: 34
