@@ -8,11 +8,11 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Sales Leads','Sales Lead',0,'SalesLeads','Index','',20,2),
 ('Job Orders','Job Orders',0,'JobOrder','Index','',20,3),
 ('Suppliers','List of Suppliers',0,'Suppliers','Index','',20,4),
-('Customers','Job Orders',0,'CustEntMains','Index','',20,5),
-('Equipments','Job Orders',0,'SupplierItems','Index','',20,6),
-('Packages','Job Orders',0,'CarRatePackages','Index','',20,7),
-('Reporting','Job Orders',0,'Reporting','Index','',20,8),
-('Notifications','Job Orders',0,'JobServices','NotificationList','',20,9),
+('Customers','Customers',0,'CustEntMains','Index','',20,5),
+('Resources','resources',0,'SupplierItems','Index','',20,6),
+('Packages','Packages',0,'CarRatePackages','Index','',20,7),
+('Reporting','Reports',0,'Reporting','Index','',20,8),
+('Notifications','Notifications',0,'JobServices','NotificationList','',20,9),
 ('Accounts','Accounts',0,'Accounting/AccntMains','Index','',20,10),
 ('HR','HRIS',0,'Personel/HrPersonels','Index','',20,11),
 ('Products','Products',0,'Products/SMProducts','Index','',20,12),
@@ -267,7 +267,13 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',14,14),
 ('jahdielvillosa@gmail.com',15,15),
 ('jahdielvillosa@gmail.com',16,16),
-('jahdielvillosa@gmail.com',17,17); 
+('jahdielvillosa@gmail.com',17,17), 
+
+('Demo@gmail.com',1,1), 
+('Demo@gmail.com',3,3), 
+('Demo@gmail.com',5,5), 
+('Demo@gmail.com',6,6), 
+('Demo@gmail.com',17,17); 
 
 
 
@@ -384,4 +390,28 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 70, 70),
 ('jahdielvillosa@gmail.com', 71, 71),
 ('jahdielvillosa@gmail.com', 72, 72),
-('jahdielvillosa@gmail.com', 73, 73); 
+('jahdielvillosa@gmail.com', 73, 73),
+
+
+('Demo@gmail.com', 18, 18),
+('Demo@gmail.com', 19, 19),
+('Demo@gmail.com', 20, 20),
+('Demo@gmail.com', 21, 21),
+('Demo@gmail.com', 26, 26),
+('Demo@gmail.com', 27, 27),
+('Demo@gmail.com', 28, 28),
+('Demo@gmail.com', 29, 29),
+('Demo@gmail.com', 30, 30),
+('Demo@gmail.com', 31, 31),
+('Demo@gmail.com', 32, 32),
+('Demo@gmail.com', 37, 37),
+('Demo@gmail.com', 38, 38),
+('Demo@gmail.com', 39, 39),
+('Demo@gmail.com', 40, 40),
+('Demo@gmail.com', 41, 41),
+('Demo@gmail.com', 42, 42),
+('Demo@gmail.com', 43, 43),
+('Demo@gmail.com', 44, 44),
+('Demo@gmail.com', 45, 45),
+('Demo@gmail.com', 72, 72),
+('Demo@gmail.com', 73, 73); 

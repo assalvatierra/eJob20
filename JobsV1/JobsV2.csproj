@@ -1037,6 +1037,7 @@
     <Content Include="Areas\Accounting\Models\InitData.sql" />
     <Content Include="Areas\Accounting\Scripts\Sales.js" />
     <Content Include="Areas\AutoCare\Data\SQL\InitialAll.sql" />
+    <Content Include="Areas\AutoCare\Data\SQL\InitialData_SysTbls.sql" />
     <Content Include="Areas\Personel\Models\HrisDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>HrisDB.Context.cs</LastGenOutput>
