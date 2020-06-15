@@ -853,15 +853,26 @@ order by x.jobid
             return View(gret.ItemSched);
         }
 
-        public bool SelectItemSchedule(int jsId, int itemId, DateTime jsDate)
+        public bool SelectItemSchedule(int? jsId, int? itemId, DateTime jsDate)
         {
             try
             {
+                if (jsId == null || itemId == null || jsDate == null)
+                {
+                    return false;
+                }
+
                 var jobService = db.JobServices.Find(jsId);
+
+                if(jobService == null)
+                {
+                    return false;
+                }
+
                 //add item to jobservice
                 JobServiceItem jsItem = new JobServiceItem() { 
-                    InvItemId = itemId,
-                    JobServicesId = jsId
+                    InvItemId = (int)itemId,
+                    JobServicesId = (int)jsId
                 };
                 db.JobServiceItems.Add(jsItem);
 
@@ -874,9 +885,8 @@ order by x.jobid
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
                 return false;
             }
         }

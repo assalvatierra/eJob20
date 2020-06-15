@@ -58,7 +58,7 @@
 
         <div class="form-group">
             <span class="control-label col-md-2"> <b>Job Name</b> </span>
-            <div class="col-md-10">
+            <div class="col-md-9" style="padding-left:5px;">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>

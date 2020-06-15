@@ -17,12 +17,12 @@ function InitDatePicker()
 
     $('input[name="DtStart"]').daterangepicker(
     {
-        timePicker: true,
+        timePicker: false,
         timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'MM/DD/YYYY hh:mm A'
+            format: 'MM/DD/YYYY'
         }
     },
 
@@ -43,17 +43,19 @@ function InitDatePicker()
         if (datepicker > dateEnd) {
             alert("JobService start date is greater than the JobService end date. Are you sure?");
         }
+
     }
     );
 
+
     $('input[name="DtEnd"]').daterangepicker(
     {
-        timePicker: true,
+        timePicker: false,
         timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'MM/DD/YYYY hh:mm A'
+            format: 'MM/DD/YYYY '
         }
     },
     function (start, end, label) {
@@ -78,8 +80,8 @@ function InitDatePicker()
     }
     );
 
-    //$('input[name="DtStart"]').val(ddd1.substr( 0, ddd1.indexOf(" ") ));
-    //$('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ") ));
+    $('input[name="DtStart"]').val(ddd1.substr( 0, ddd1.indexOf(" ") ));
+    $('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ") ));
 
 
 
