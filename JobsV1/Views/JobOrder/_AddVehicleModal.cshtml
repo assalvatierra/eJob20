@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Models.Vehicle> 
+﻿
 <!-- Modal View of JobService  -->
 
 <!-- Add Item Modal -->
@@ -15,16 +15,16 @@
                         <label class="control-label text-muted col-md-2 modal-text-label"> Vehicle </label>
                         <div class="col-md-7">
                             <select class="list-group form-control" id="addVehicle-Options">
-                                @if (Model != null)
+                                @if (ViewBag.VehicleList != null)
                                 {
-                                    foreach (var vehicle in Model)
+                                    foreach (var vehicle in ViewBag.VehicleList as IEnumerable<JobsV1.Models.Vehicle>)
                                     {
                                         <option value="@vehicle.Id"> @vehicle.VehicleModel.VehicleBrand.Brand @vehicle.VehicleModel.Make @vehicle.YearModel (@vehicle.PlateNo) </option>
                                     }
                                 }
                                 else
                                 {
-                                    <option> No Vehicles Found </option>
+                                    <option> No Vehicle Found </option>
                                 }
                             </select>
 
@@ -45,8 +45,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                @if (Model != null)
+                @if (ViewBag.VehicleList != null)
                 {
+                    
                     <button type="button" class="btn btn-default" onclick="AddJobVehicle(@ViewBag.JobMainId)"> Submit </button>
                 }
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -54,5 +55,3 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-@Html.Partial("_SearchVehicleModal")

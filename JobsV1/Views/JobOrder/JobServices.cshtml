@@ -23,7 +23,6 @@
 
                 @foreach (var item in providers)
                 {
-
                     if ((string)item == "Provider not defined.")
                     {<p>@item</p> }
                 else
@@ -48,7 +47,7 @@
         <p>
 
             <!-- Vehicle -->
-            Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy") 
+            Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
             <span id="jobVehicleText" style="margin:0;">
                 <br />Description: @ViewBag.JobOrder.Description &nbsp;
             </span>
@@ -247,11 +246,13 @@
 </div>
 
 <!-- Modals -->
-@Html.Partial("_AddVehicleModal", ViewBag.Vehicles as IEnumerable<JobsV1.Models.Vehicle>)
+@Html.Partial("_AddVehicleModal", null, new ViewDataDictionary { { "VehicleList", ViewBag.Vehicles } })
+@Html.Partial("_SearchVehicleModal", null, new ViewDataDictionary { { "VehicleList", ViewBag.Vehicles } })
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/Job/JobVehicle.js"> </script>
+    <script src="~/Scripts/Job/JobVehicle.js"></script>
     <script>
 
             $(document).ready(function () {

@@ -13,12 +13,21 @@
                 <input type="text" id="SearchBarCustomer" onkeyup="searchVehicle()" placeholder="Search for names.." title="Type in a name">
 
                 <ul id="SearchListCustomer">
-                    @foreach (var vehicle in Model as IEnumerable<JobsV1.Models.Vehicle>)
+                    @if (ViewBag.VehicleList != null)
                     {
-                        <li style="cursor:pointer;list-style:none;" value="@vehicle.Id">
-                            <a onclick="SetVehicle(@vehicle.Id)">
-                                @vehicle.VehicleModel.VehicleBrand.Brand @vehicle.VehicleModel.Make @vehicle.YearModel (@vehicle.PlateNo)
-                            </a>
+                        foreach (var vehicle in ViewBag.VehicleList as IEnumerable<JobsV1.Models.Vehicle>)
+                        {
+                            <li style="cursor:pointer;list-style:none;" value="@vehicle.Id">
+                                <a onclick="SetVehicle(@vehicle.Id)">
+                                    @vehicle.VehicleModel.VehicleBrand.Brand @vehicle.VehicleModel.Make @vehicle.YearModel (@vehicle.PlateNo)
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li style="cursor:pointer;list-style:none;">
+                           No Vehicle Found
                         </li>
                     }
                 </ul>

@@ -1703,14 +1703,14 @@ order by x.jobid
             ViewBag.JobOrder = Job;
             ViewBag.JobItems = jobServices;
             ViewBag.Providers = providers;
-            ViewBag.JobStatus = db.JobMains.Where(j=>j.Id == JobMainId).FirstOrDefault().JobStatus.Status.ToString();
+            ViewBag.JobStatus = db.JobMains.Where(j => j.Id == JobMainId).FirstOrDefault()  != null ? db.JobMains.Where(j=>j.Id == JobMainId).FirstOrDefault().JobStatus.Status.ToString(): "NA";
             ViewBag.Itineraries = db.JobItineraries.Where(d => d.JobMainId == JobMainId).ToList();
             ViewBag.sortid = sortid;
             ViewBag.jobAction = action;
             ViewBag.user = HttpContext.User.Identity.Name;
-            ViewBag.Vehicles = db.Vehicles.ToList();
-            ViewBag.JobVehicle = jvc.GetCustomerVehicleList((int)JobMainId);
-           
+            ViewBag.Vehicles = jvc.GetCustomerVehicleList((int)JobMainId);
+            ViewBag.JobVehicle = jvc.GetJobVehicle((int)JobMainId);
+            var veh = jvc.GetCustomerVehicleList((int)JobMainId);
             return View(jobServices.OrderBy(d => d.DtStart).ToList());
 
         }

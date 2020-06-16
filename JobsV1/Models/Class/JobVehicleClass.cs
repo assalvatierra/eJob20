@@ -14,7 +14,7 @@ namespace JobsV1.Models.Class
             return db.JobVehicles.Where(j => j.JobMainId == jobmainId).OrderByDescending(j => j.Id).FirstOrDefault() ?? null;
         }
 
-        public List<Vehicle> GetCustomerVehicleList(int jobmainId)
+        public IEnumerable<Vehicle> GetCustomerVehicleList(int jobmainId)
         {
             var job = db.JobMains.Find(jobmainId);
             if (job == null)
@@ -25,7 +25,7 @@ namespace JobsV1.Models.Class
             var customerId = job.CustomerId; 
 
             var customerVehicles = db.Vehicles.Where(s => s.CustomerId == customerId).ToList();
-            if (customerVehicles == null)
+            if (customerVehicles.Count() == 0)
             {
                 return null;
             }
