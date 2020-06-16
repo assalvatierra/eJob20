@@ -13,6 +13,7 @@ using System.Net;
 using System.Data.Entity.Core.Objects;
 using Newtonsoft.Json;
 using PayPal.Api;
+using System.Configuration;
 
 namespace JobsV1.Controllers
 {
@@ -114,11 +115,12 @@ namespace JobsV1.Controllers
         private ActionTrailClass trail = new ActionTrailClass();
         private DateClass dt = new DateClass();
         private JobOrderClass jo = new JobOrderClass();
-        
+        private JobVehicleClass jvc = new JobVehicleClass();
+
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
         {
-
+            var siteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
             if (sortid != null)
                 Session["FilterID"] = (int)sortid;
             else
@@ -142,6 +144,9 @@ namespace JobsV1.Controllers
             var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
             jobmainId = mainid != null ? (int)mainid : jobmainId;
             ViewBag.mainId = jobmainId;
+            ViewBag.JobVehicle = jvc.GetJobVehicle(jobmainId);
+            ViewBag.SiteConfig = siteConfig;
+
 
             //SEARCH
             if (search != null)
@@ -1113,6 +1118,7 @@ order by x.jobid
                 db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().CustEntMainId : 1 ;
 
             ViewBag.mainid = jobid;
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CustomerId  = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId    = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
@@ -1155,8 +1161,9 @@ order by x.jobid
                
                 return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
             }
-            
-          
+
+
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
@@ -1209,7 +1216,7 @@ order by x.jobid
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id);
             }
 
-            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name",2);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
@@ -1250,7 +1257,7 @@ order by x.jobid
 
             }
 
-            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
@@ -1702,7 +1709,7 @@ order by x.jobid
             ViewBag.jobAction = action;
             ViewBag.user = HttpContext.User.Identity.Name;
             ViewBag.Vehicles = db.Vehicles.ToList();
-            ViewBag.JobVehicle = db.JobVehicles.Where(j => j.JobMainId == JobMainId).OrderByDescending(j=>j.Id).FirstOrDefault() ?? null;
+            ViewBag.JobVehicle = jvc.GetCustomerVehicleList((int)JobMainId);
            
             return View(jobServices.OrderBy(d => d.DtStart).ToList());
 
@@ -3202,24 +3209,16 @@ order by x.jobid
                    return false;
                 }
 
-                JobVehicle jobVehicle = new JobVehicle() { 
-                    JobMainId = (int)jobMainId,
-                    VehicleId = (int)vehicleId,
-                    Mileage = (int)mileage
-                };
+                return jvc.AddJobVehicle(jobMainId, vehicleId, mileage);
 
-                //save JobVehicle
-                db.JobVehicles.Add(jobVehicle);
-                db.SaveChanges();
-
-                return true;
                 
             }
-            catch (Exception ex)
+            catch 
             {
                 return false;
             }
         }
+
         #endregion
 
 

@@ -9,7 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>JobMain</h4>
         <hr />
@@ -34,16 +34,19 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerId, "CustomerId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" })
+            <div class="col-md-4" style="width:320px">
+                @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control", @id = "customerList" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
             </div>
+            <span style="float:left">
+                <button class="btn btn-default" data-toggle="modal" data-target="#CustomersModal" style="margin-top:0px;float:left;" type="button">Search Customer</button>
+            </span>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.CustContactEmail, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CustContactEmail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CustContactEmail, new { htmlAttributes = new { @class = "form-control", @id = "CustContactEmail" } })
                 @Html.ValidationMessageFor(model => model.CustContactEmail, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -51,7 +54,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustContactNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CustContactNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CustContactNumber, new { htmlAttributes = new { @class = "form-control", @id = "CustContactNumber" } })
                 @Html.ValidationMessageFor(model => model.CustContactNumber, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -59,7 +62,7 @@
         <div class="form-group">
             <span class="control-label col-md-2"> <b>Job Name</b> </span>
             <div class="col-md-9" style="padding-left:5px;">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @maxlength = "80", @id = "jobdesc" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -83,7 +86,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.JobRemarks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.JobRemarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.JobRemarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                 @Html.ValidationMessageFor(model => model.JobRemarks, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -99,7 +102,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StatusRemarks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StatusRemarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.StatusRemarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                 @Html.ValidationMessageFor(model => model.StatusRemarks, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -148,7 +151,10 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+@Html.Partial("_SearchCustomerModal")
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/Job/Main.js"></script>
+    <script type="text/javascript" src="~/Scripts/Job/JobCreate.js"></script>
 }

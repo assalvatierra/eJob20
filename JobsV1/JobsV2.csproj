@@ -585,6 +585,7 @@
     <Compile Include="Models\Class\ActivityClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
+    <Compile Include="Models\Class\JobVehicleClass.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\Class\SalesLeadClass.cs" />
     <Compile Include="Models\CoopMember.cs">
@@ -1581,6 +1582,7 @@
     <Content Include="Scripts\Job\CustNotif.js" />
     <Content Include="Scripts\Job\DefaultDate.js" />
     <Content Include="Scripts\CustEntMain\CustEntActivities.js" />
+    <Content Include="Scripts\Job\JobCreate.js" />
     <Content Include="Scripts\Job\JobVehicle.js" />
     <Content Include="Scripts\Job\TripListing.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />
@@ -2449,6 +2451,8 @@
     <Content Include="Views\CarRental\CarViews\2020ToyotaGLGrandiaTourer.cshtml" />
     <Content Include="Views\JobOrder\_AddVehicleModal.cshtml" />
     <Content Include="Views\InvItems\AvailabilityTime.cshtml" />
+    <Content Include="Views\JobOrder\_SearchCustomerModal.cshtml" />
+    <Content Include="Views\JobOrder\_SearchVehicleModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

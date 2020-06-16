@@ -46,23 +46,12 @@
     <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
     <div>
         <p>
-            
+
             <!-- Vehicle -->
-            
+            Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy") 
             <span id="jobVehicleText" style="margin:0;">
-            @if (jobVehicle != null)
-            {
-                <span style="margin:0;">
-                    Vehicle:
-                    @jobVehicle.Vehicle.VehicleModel.VehicleBrand.Brand
-                    @jobVehicle.Vehicle.VehicleModel.Make
-                    @jobVehicle.Vehicle.YearModel
-                    (@jobVehicle.Vehicle.PlateNo)
-                </span>
-               
-            } </span>
-            <br />Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
-            <br />Description: @ViewBag.JobOrder.Description
+                <br />Description: @ViewBag.JobOrder.Description &nbsp;
+            </span>
             <br />Encoder: @ViewBag.JobEncoder.user - @ViewBag.JobEncoder.dtTrail
             <br />Status:
 
@@ -91,8 +80,8 @@
 
 
             <br />
-              @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
-            | <a  data-toggle="modal" data-target="#AddVehicleModal"> Vehicle </a>
+            @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+            | <a data-toggle="modal" data-target="#AddVehicleModal"> Vehicle </a>
             | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
             | <a id="aContractorLink" data-toggle="modal" data-target="#aContractorLink">Contractors</a>
             | @Html.ActionLink("Voucher", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 2 }, null)
@@ -264,28 +253,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/Job/JobVehicle.js"> </script>
     <script>
-
-            //var dlg;
-            //$(function () {
-            //    // Initialize Dialog
-            //    dlg = $("#dialog").dialog({
-            //        autoOpen: false,
-            //        modal: true,
-            //        buttons:
-            //            {
-            //                Close: function () {
-            //                    dlg.dialog("close");
-            //                }
-            //            }
-            //    });
-
-            //    // Initialize Controls
-            //    $("#aContractorLink").click(function (event) {
-            //        dlg.dialog("open");
-            //        event.preventDefault();
-            //    });
-            //});
-
 
             $(document).ready(function () {
                 //LoadOverlay();
