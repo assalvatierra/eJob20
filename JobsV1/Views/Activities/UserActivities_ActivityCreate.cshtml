@@ -81,7 +81,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @id = "act-create-remarks", @maxlength = 80 } })
+                                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @id = "act-create-remarks", @maxlength = 250 } })
                                 @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                             </div>
                         </div>

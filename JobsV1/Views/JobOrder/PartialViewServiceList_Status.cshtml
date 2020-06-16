@@ -24,7 +24,7 @@
 
                     <td style="width:80%;">
                         <!-- Display status list and add red line below -->
-                      
+                      @if(item.SvcActionsDone != null) { 
 
                             @foreach (var done in item.SvcActionsDone)
                             {
@@ -43,7 +43,7 @@
                                 }
                             }
 
-                       
+                      }
                         <!--Actions not done-->
                         @Html.Partial("PartialViewSrvActionItems_Status", item.SvcActions, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id }, { "SvcActionsDones", ViewBag.SvcActionsDone } })
                     </td>
