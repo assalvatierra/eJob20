@@ -36,14 +36,16 @@ function getNumber() {
         });
 }
 
-//get number using ajax post
+//get company using ajax post
 function getCompany() {
     $.post("/JobOrder/getCustomerCompany",
         {
             id: $("#customerList option:selected").val()
         },
         function (data, status) {
-            $('[name=CompanyId]').val(data);
+            console.log(data);
+            $('#CompanyId').val(data);
+            $('#company-textfield').val($("#CompanyId option:selected").text());
         });
 }
 
@@ -66,6 +68,7 @@ function searchCustomer() {
 
 function setValue(value) {
     var customer = $("#customerList option:selected").text();
+    $('#customer-textfield').val(customer);
     $('#customerList').val(value);
     $('#CustomersModal').modal('toggle');
     //$("#jobdesc").val(customer);

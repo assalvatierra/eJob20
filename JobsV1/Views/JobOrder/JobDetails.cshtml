@@ -27,7 +27,8 @@
         <div class="form-group">
             <b class="control-label col-md-2"> Company </b>
             <div class="col-md-10">
-                @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control", @id = "companyId2" })
+                <input type="text" class="form-control" id="company-textfield" disabled />
+                @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control hidden", @id = "CompanyId" })
                 @Html.ValidationMessageFor(model => model.JobThruId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -35,7 +36,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerId, "CustomerId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4" style="width:320px">
-                @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control", @id = "customerList" })
+                <input type="text" class="form-control" id="customer-textfield" disabled />
+                @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control hidden", @id = "customerList" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
             </div>
             <span style="float:left">
@@ -157,4 +159,10 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/Job/Main.js"></script>
     <script type="text/javascript" src="~/Scripts/Job/JobCreate.js"></script>
+    <script>
+        $(document).ready(() => {
+            $('#company-textfield').val($("#CompanyId option:selected").text());
+            $('#customer-textfield').val($("#customerList option:selected").text());
+        });
+    </script>
 }

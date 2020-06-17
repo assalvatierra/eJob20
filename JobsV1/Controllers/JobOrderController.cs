@@ -14,6 +14,7 @@ using System.Data.Entity.Core.Objects;
 using Newtonsoft.Json;
 using PayPal.Api;
 using System.Configuration;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
 {
@@ -1135,31 +1136,34 @@ order by x.jobid
         {
             if (ModelState.IsValid)
             {
-                if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
+                if (JobCreateValidation(jobMain))
                 {
-                    var cust = db.Customers.Find(jobMain.CustomerId);
-                    jobMain.CustContactEmail = cust.Email;
-                    jobMain.CustContactNumber = cust.Contact1;
-                }
+                    if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
+                    {
+                        var cust = db.Customers.Find(jobMain.CustomerId);
+                        jobMain.CustContactEmail = cust.Email;
+                        jobMain.CustContactNumber = cust.Contact1;
+                    }
 
-                //Console.WriteLine("AgreedAmt: "+AgreedAmt);
-                System.Diagnostics.Debug.WriteLine("AgreedAmt job: " + jobMain.AgreedAmt);
-                System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
+                    //Console.WriteLine("AgreedAmt: "+AgreedAmt);
+                    System.Diagnostics.Debug.WriteLine("AgreedAmt job: " + jobMain.AgreedAmt);
+                    System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
 
-                jobMain.AgreedAmt = AgreedAmt;
-                db.Entry(jobMain).State = EntityState.Modified;
-                db.SaveChanges();
+                    jobMain.AgreedAmt = AgreedAmt;
+                    db.Entry(jobMain).State = EntityState.Modified;
+                    db.SaveChanges();
 
-                System.Diagnostics.Debug.WriteLine("----" );
-                System.Diagnostics.Debug.WriteLine("AgreedAmt job: " + jobMain.AgreedAmt);
-                System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
-                EditjobCompany(jobMain.Id, (int)CompanyId);
+                    System.Diagnostics.Debug.WriteLine("----" );
+                    System.Diagnostics.Debug.WriteLine("AgreedAmt job: " + jobMain.AgreedAmt);
+                    System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
+                    EditjobCompany(jobMain.Id, (int)CompanyId);
 
-                //job trail
-                trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Edit Saved", jobMain.Id.ToString());
+                    //job trail
+                    trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Edit Saved", jobMain.Id.ToString());
 
                
-                return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
+                    return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
+                }
             }
 
 
@@ -1237,24 +1241,28 @@ order by x.jobid
             
             if (ModelState.IsValid)
             {
-                if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
+                if (JobCreateValidation(jobMain))
                 {
-                    var cust = db.Customers.Find(jobMain.CustomerId);
-                    jobMain.CustContactEmail = cust.Email;
-                    jobMain.CustContactNumber = cust.Contact1;
+
+                    if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
+                    {
+                        var cust = db.Customers.Find(jobMain.CustomerId);
+                        jobMain.CustContactEmail = cust.Email;
+                        jobMain.CustContactNumber = cust.Contact1;
+                    }
+
+                    db.JobMains.Add(jobMain);
+                    db.SaveChanges();
+
+                    if (CompanyId != null)
+                    {
+                        AddjobCompany(jobMain.Id, (int)CompanyId);
+                    }
+
+                    dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
+                    return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobMain.Id });
+
                 }
-
-                db.JobMains.Add(jobMain);
-                db.SaveChanges();
-
-                if (CompanyId != null)
-                {
-                    AddjobCompany(jobMain.Id, (int)CompanyId);
-                }
-
-                dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
-                return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobMain.Id });
-
             }
 
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
@@ -1267,6 +1275,31 @@ order by x.jobid
             return View(jobMain);
         }
 
+
+        public bool JobCreateValidation(JobMain jobMain)
+        {
+            bool isValid = true;
+
+            if (jobMain.JobDate == null )
+            {
+                ModelState.AddModelError("JobDate", "Invalid JobDate");
+                isValid = false;
+            }
+
+            if (jobMain.Description.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Description", "Invalid Description");
+                isValid = false;
+            }
+
+            if (jobMain.AgreedAmt == null)
+            {
+                ModelState.AddModelError("AgreedAmt", "Invalid AgreedAmt");
+                isValid = false;
+            }
+
+            return isValid;
+        }
         public void AddjobCompany(int jobId, int companyId)
         {
             JobEntMain jobCompany = new JobEntMain();

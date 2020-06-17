@@ -40,6 +40,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // GET: AutoCare/Vehicles/Create
         public ActionResult Create()
         {
+            ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name");
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make");
@@ -62,7 +63,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                     return RedirectToAction("Index");
                 }
             }
-
+            ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
             ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make", vehicle.VehicleModelId);
@@ -85,30 +86,6 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 isValid = false;
             }
 
-            if (vehicle.Conduction.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("Conduction", "Invalid Conduction");
-                isValid = false;
-            }
-
-            if (vehicle.EngineNo.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("EngineNo", "Invalid EngineNo");
-                isValid = false;
-            }
-
-            if (vehicle.ChassisNo.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("ChassisNo", "Invalid ChassisNo");
-                isValid = false;
-            }
-
-            if (vehicle.Color.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("Color", "Invalid Color");
-                isValid = false;
-            }
-
             return isValid;
         }
 
@@ -124,6 +101,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
             ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make", vehicle.VehicleModelId);
@@ -146,6 +124,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                     return RedirectToAction("Index");
                 }
             }
+            ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
             ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make", vehicle.VehicleModelId);
