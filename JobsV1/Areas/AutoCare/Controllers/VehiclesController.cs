@@ -74,6 +74,18 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             bool isValid = true;
 
+            if (vehicle.CustEntMainId == 0 )
+            {
+                ModelState.AddModelError("Company", "Invalid Company");
+                isValid = false;
+            }
+
+            if (vehicle.CustomerId == 1)
+            {
+                ModelState.AddModelError("Customer", "Invalid Customer");
+                isValid = false;
+            }
+
             if (vehicle.PlateNo.IsNullOrWhiteSpace())
             {
                 ModelState.AddModelError("PlateNo", "Invalid Plate No");
