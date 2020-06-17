@@ -392,26 +392,22 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 72, 72),
 ('jahdielvillosa@gmail.com', 73, 73),
 
-
+--account access--
 ('Demo@gmail.com', 18, 18),
 ('Demo@gmail.com', 19, 19),
 ('Demo@gmail.com', 20, 20),
 ('Demo@gmail.com', 21, 21),
+--job order--
 ('Demo@gmail.com', 26, 26),
-('Demo@gmail.com', 27, 27),
 ('Demo@gmail.com', 28, 28),
 ('Demo@gmail.com', 29, 29),
 ('Demo@gmail.com', 30, 30),
 ('Demo@gmail.com', 31, 31),
-('Demo@gmail.com', 32, 32),
+-- Customers --
 ('Demo@gmail.com', 37, 37),
 ('Demo@gmail.com', 38, 38),
-('Demo@gmail.com', 39, 39),
-('Demo@gmail.com', 40, 40),
+-- Resources --
 ('Demo@gmail.com', 41, 41),
-('Demo@gmail.com', 42, 42),
-('Demo@gmail.com', 43, 43),
-('Demo@gmail.com', 44, 44),
-('Demo@gmail.com', 45, 45),
+-- Resources --
 ('Demo@gmail.com', 72, 72),
 ('Demo@gmail.com', 73, 73); 
