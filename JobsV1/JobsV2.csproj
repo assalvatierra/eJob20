@@ -1582,6 +1582,7 @@
     <Content Include="Scripts\Job\CustNotif.js" />
     <Content Include="Scripts\Job\DefaultDate.js" />
     <Content Include="Scripts\CustEntMain\CustEntActivities.js" />
+    <Content Include="Scripts\CustEntMain\CustomerSearch.js" />
     <Content Include="Scripts\Job\JobCreate.js" />
     <Content Include="Scripts\Job\JobVehicle.js" />
     <Content Include="Scripts\Job\TripListing.js" />
@@ -2454,6 +2455,7 @@
     <Content Include="Views\InvItems\AvailabilityTime.cshtml" />
     <Content Include="Views\JobOrder\_SearchCustomerModal.cshtml" />
     <Content Include="Views\JobOrder\_SearchVehicleModal.cshtml" />
+    <Content Include="Views\CustEntMains\_SearchCustomerModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

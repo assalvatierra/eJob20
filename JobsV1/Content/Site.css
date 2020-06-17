@@ -676,3 +676,11 @@ rental-type-wdriver {
 .form-group{
     margin-bottom:0px;
 }
+
+.form-label{
+    margin-top:5px;
+}
+
+.form-group-margin {
+    margin-bottom: 15px;
+}

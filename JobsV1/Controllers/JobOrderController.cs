@@ -1300,6 +1300,7 @@ order by x.jobid
 
             return isValid;
         }
+
         public void AddjobCompany(int jobId, int companyId)
         {
             JobEntMain jobCompany = new JobEntMain();

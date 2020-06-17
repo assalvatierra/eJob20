@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
 using JobsV1.Models.Class;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
@@ -109,6 +110,7 @@ namespace JobsV1.Controllers
             var jobcount = db.JobEntMains.Where(s => s.CustEntMainId == id).Count();
 
             //ViewBags
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
@@ -249,39 +251,43 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var DuplicateCount = db.CustEntMains.Where(s => custEntMain.Name.Contains(s.Name)).ToList().Count();
-
-                if (DuplicateCount == 0)
+                if (CompanyCreateValidation(custEntMain))
                 {
-                    db.CustEntMains.Add(custEntMain);
-                    db.SaveChanges();
-                }else
-                {
-                    ViewBag.Msg = "Customer Name already exist.";
 
-                    ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
-                    ViewBag.Status = new SelectList(StatusList, "value", "text");
-                    ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-                    ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+                    var DuplicateCount = db.CustEntMains.Where(s => custEntMain.Name.Contains(s.Name)).ToList().Count();
 
-                    return View(custEntMain);
-                }
+                    if (DuplicateCount == 0)
+                    {
+                        db.CustEntMains.Add(custEntMain);
+                        db.SaveChanges();
+                    }else
+                    {
+                        ViewBag.Msg = "Customer Name already exist.";
 
-                if (id != null)
-                {
-                    //save new company to customer
-                    CustEntity company = new CustEntity();
-                    company.CustEntMainId = custEntMain.Id;
-                    company.CustomerId = (int)id;
-                    db.CustEntities.Add(company); 
-                    db.SaveChanges();
+                        ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
+                        ViewBag.Status = new SelectList(StatusList, "value", "text");
+                        ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                        ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+
+                        return View(custEntMain);
+                    }
+
+                    if (id != null)
+                    {
+                        //save new company to customer
+                        CustEntity company = new CustEntity();
+                        company.CustEntMainId = custEntMain.Id;
+                        company.CustomerId = (int)id;
+                        db.CustEntities.Add(company); 
+                        db.SaveChanges();
+
+                        return RedirectToAction("Details", "CustEntMains", new { id = custEntMain.Id });
+                    }
+
+                    AddAssignedRecords(custEntMain.Id, custEntMain.AssignedTo);
 
                     return RedirectToAction("Details", "CustEntMains", new { id = custEntMain.Id });
                 }
-
-                AddAssignedRecords(custEntMain.Id, custEntMain.AssignedTo);
-
-                return RedirectToAction("Details", "CustEntMains", new { id = custEntMain.Id });
             }
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
@@ -291,7 +297,20 @@ namespace JobsV1.Controllers
             return View(custEntMain);
         }
 
-        
+
+        public bool CompanyCreateValidation(CustEntMain custEntMain)
+        {
+            bool isValid = true;
+
+            if (custEntMain.Name.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Name", "Invalid Name");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
 
         // GET: CustEntMains/Edit/5
         public ActionResult Edit(int? id)
@@ -322,9 +341,12 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(custEntMain).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details", new { id = custEntMain.Id });
+                if (CompanyCreateValidation(custEntMain))
+                {
+                    db.Entry(custEntMain).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = custEntMain.Id });
+                }
             }
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
@@ -558,10 +580,14 @@ namespace JobsV1.Controllers
             return RedirectToAction("Details", new { id = companyId });
         }
         
-        public string AddContact(int companyId, int customerId, string name, string position, string email, string tel, string mobile, string social, string status)
+        public bool AddContact(int? companyId, int? customerId, string name, string position, string email, string tel, string mobile, string social, string status)
         {
             try
             {
+                if(companyId == null || customerId == null || name.IsNullOrWhiteSpace())
+                {
+                    return false;
+                }
 
                 //NEW CUSTOMER
                 if (customerId == 1)
@@ -596,27 +622,28 @@ namespace JobsV1.Controllers
                 
                 //create new connection from customer and company
                 CustEntity custEnt = new CustEntity();
-                custEnt.CustEntMainId = companyId;
-                custEnt.CustomerId = customerId;
+                custEnt.CustEntMainId = (int)companyId;
+                custEnt.CustomerId = (int)customerId;
                 custEnt.Position = position;
 
                 db.CustEntities.Add(custEnt);
                 db.SaveChanges();
 
                 //create customer social account
-                createSocialAccount(customerId, social);
+                createSocialAccount((int)customerId, social);
                 
-                return "200";
+                return true;
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                throw ex;
+                return false;
             }
         }
 
 
         //check if Customer Name have duplicate
-        public bool HaveNameDuplicate(string custName)
+        public bool CheckNameDuplicate(string custName)
         {
             var custDuplicate = db.Customers.Where(s => custName.Contains(s.Name)).ToList().Count();
 
@@ -627,7 +654,6 @@ namespace JobsV1.Controllers
             }
             else
             {
-                //count = 0
                 //no duplicate
                 return false;
             }
