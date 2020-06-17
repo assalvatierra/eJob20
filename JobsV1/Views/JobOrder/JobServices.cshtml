@@ -246,7 +246,7 @@
 </div>
 
 <!-- Modals -->
-@Html.Partial("_AddVehicleModal", null, new ViewDataDictionary { { "VehicleList", ViewBag.Vehicles } })
+@Html.Partial("_AddVehicleModal", null, new ViewDataDictionary { { "VehicleList", ViewBag.Vehicles }, { "JobMainId", ViewBag.JobMainId } })
 @Html.Partial("_SearchVehicleModal", null, new ViewDataDictionary { { "VehicleList", ViewBag.Vehicles } })
 
 

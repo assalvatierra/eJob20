@@ -1733,7 +1733,7 @@ order by x.jobid
                 ViewBag.JobEncoder = new JobTrail { Id = 0, Action = "Create", user = "none", dtTrail = DateTime.Now, RefId = "0", RefTable = "none" };
             }
 
-            ViewBag.JobMainId = JobMainId;
+            ViewBag.JobMainId = (int)JobMainId;
             ViewBag.JobOrder = Job;
             ViewBag.JobItems = jobServices;
             ViewBag.Providers = providers;
