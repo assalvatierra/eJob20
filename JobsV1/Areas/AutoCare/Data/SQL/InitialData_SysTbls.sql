@@ -9,7 +9,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Job Orders','Job Orders',0,'JobOrder','Index','',20,3),
 ('Suppliers','List of Suppliers',0,'Suppliers','Index','',20,4),
 ('Customers','Customers',0,'CustEntMains','Index','',20,5),
-('Resources','resources',0,'SupplierItems','Index','',20,6),
+('Resources','Resources',0,'InvItems','Index','',20,6),
 ('Packages','Packages',0,'CarRatePackages','Index','',20,7),
 ('Reporting','Reports',0,'Reporting','Index','',20,8),
 ('Notifications','Notifications',0,'JobServices','NotificationList','',20,9),
@@ -223,8 +223,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (17,17);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Vehicles' ,'',17,'AutoCare/Vehicles','Index','',21,171),	--72
-		('Vehicle Models' ,'',17,'AutoCare/VehicleModels','Index','',21,172);	 -- id: 73
+values 	('Units' ,'',17,'AutoCare/Vehicles','Index','',21,171),	--72
+		('Models' ,'',17,'AutoCare/VehicleModels','Index','',21,172);	 -- id: 73
 
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
