@@ -1,0 +1,47 @@
+﻿@model IEnumerable<JobsV1.Models.Class.JobVehicleService>
+
+@{
+    ViewBag.Title = "Vehicle Services";
+    Session["ROOTMENUID"] = 17;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Vehicle Services</h2>
+<h3> @ViewBag.VehicleDetails </h3>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mileage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Particulars)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @DateTime.Parse(item.DtStart.ToString()).ToString("MMM dd yyyy h:mm tt")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mileage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Particulars)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+    </tr>
+}
+
+</table>

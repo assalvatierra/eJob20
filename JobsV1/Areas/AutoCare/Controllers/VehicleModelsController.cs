@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.AutoCare.Controllers
@@ -14,7 +15,6 @@ namespace JobsV1.Areas.AutoCare.Controllers
     public class VehicleModelsController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
-
         // GET: AutoCare/VehicleModels
         public ActionResult Index()
         {
@@ -171,5 +171,6 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             return isValid;
         }
+
     }
 }

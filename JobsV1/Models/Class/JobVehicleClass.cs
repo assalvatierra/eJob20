@@ -5,6 +5,18 @@ using System.Web;
 
 namespace JobsV1.Models.Class
 {
+
+    public class JobVehicleService
+    {
+        public int Id { get; set; }
+        public int VehicleId { get; set; }
+        public Vehicle Vehicle { get; set; }
+        public int Mileage { get; set; }
+        public DateTime DtStart { get; set; }
+        public string Particulars { get; set; }
+        public string Remarks { get; set; }
+    }
+
     public class JobVehicleClass
     {
         private JobDBContainer db = new JobDBContainer();
@@ -77,6 +89,24 @@ namespace JobsV1.Models.Class
                 throw ex;
                 return false;
             }
+        }
+
+
+        public List<JobVehicleService> GetJobVehicleServices(int vehicleId)
+        {
+            if (vehicleId == 0)
+            {
+                return new List<JobVehicleService>();
+            }
+            string SqlStr = 
+                    " SELECT jv.*, js.DtStart, js.Particulars, js.Remarks FROM JobVehicles jv"
+                   +" LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId"
+                   +" WHERE jv.VehicleId = "+ vehicleId +";";
+               
+            List<JobVehicleService> vehicleServices = db.Database.SqlQuery<JobVehicleService>(SqlStr).ToList();
+
+
+            return vehicleServices;
         }
 
     }

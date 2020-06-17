@@ -68,10 +68,10 @@ function searchCustomer() {
 
 function setValue(value) {
     var customer = $("#customerList option:selected").text();
-    $('#customer-textfield').val(customer);
     $('#customerList').val(value);
+    $('#customer-textfield').val($("#customerList option:selected").text());
     $('#CustomersModal').modal('toggle');
-    //$("#jobdesc").val(customer);
+
     getEmail();
     getNumber();
     getCompany();

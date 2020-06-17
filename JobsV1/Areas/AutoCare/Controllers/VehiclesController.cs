@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.AutoCare.Controllers
@@ -14,11 +15,19 @@ namespace JobsV1.Areas.AutoCare.Controllers
     public class VehiclesController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private JobVehicleClass jvc = new JobVehicleClass();
 
         // GET: AutoCare/Vehicles
-        public ActionResult Index()
+        public ActionResult Index(string srch)
         {
             var vehicles = db.Vehicles.Include(v => v.Customer).Include(v => v.CustEntMain).Include(v => v.VehicleModel);
+
+
+            if (!srch.IsNullOrWhiteSpace())
+            {
+                vehicles = vehicles.Where(v => v.PlateNo.ToLower().Contains(srch.ToLower()) || v.Conduction.ToLower().Contains(srch.ToLower()));
+            }
+
             return View(vehicles.ToList());
         }
 
@@ -176,6 +185,23 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public ActionResult VehicleServices(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            var vehicleServices = jvc.GetJobVehicleServices((int)id);
+
+            //get vehicle details
+            var vehicle = db.Vehicles.Find(id);
+            string vehicleDetails = vehicle.VehicleModel.VehicleBrand.Brand + " " + vehicle.VehicleModel.Make + " " + vehicle.YearModel +
+                " (" + vehicle.PlateNo + ")";
+            ViewBag.VehicleDetails = vehicleDetails;
+            return View(vehicleServices);
         }
     }
 }

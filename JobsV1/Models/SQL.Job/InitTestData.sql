@@ -512,3 +512,7 @@ SELECT DISTINCT job.Id FROM (
                 'admin@gmail.com' ,'demo@gmail.com', 'assalvatierra@yahoo.com' )
 
                 ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;
+
+SELECT jv.*, js.DtStart, js.Particulars, js.Remarks FROM JobVehicles jv
+    LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId
+    WHERE jv.VehicleId = 1
