@@ -1700,14 +1700,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Mobile" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="Landline" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="SkypeId" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="ViberId" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Mobile" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="Landline" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="SkypeId" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="ViberId" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
-    <Property Name="WhatsApp" Type="nvarchar" Nullable="false" MaxLength="80" />
-    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="WhatsApp" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="SupplierContactStatusId" Type="int" Nullable="false" />
     <Property Name="WeChat" Type="nvarchar" Nullable="true" MaxLength="40" />
     <Property Name="Position" Type="nvarchar" Nullable="true" MaxLength="40" />
@@ -1809,7 +1809,7 @@
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="DtActivity" Type="datetime" Nullable="false" />
     <Property Name="Assigned" Type="nvarchar" Nullable="true" MaxLength="40" />
-    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="250" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
     <Property Name="Amount" Type="decimal" Nullable="true" />
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
@@ -1841,7 +1841,7 @@
     <Property Name="SalesCode" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="Amount" Type="decimal" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="250" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="ActivityType" Type="nvarchar" Nullable="true" MaxLength="30" />
@@ -6589,15 +6589,15 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="Landline" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="SkypeId" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="ViberId" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="Mobile" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="Landline" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="SkypeId" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="ViberId" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="Remarks" Type="String" Nullable="true" />
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierContact" FromRole="SupplierContact" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
-          <Property Name="WhatsApp" Type="String" Nullable="false" MaxLength="80" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="WhatsApp" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Email" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="SupplierContactStatu" Relationship="JobDB.SupplierContactStatusSupplierContact" FromRole="SupplierContact" ToRole="SupplierContactStatus" />
           <Property Name="SupplierContactStatusId" Type="Int32" Nullable="false" />
           <Property Name="WeChat" Type="String" Nullable="true" MaxLength="40" />
@@ -6845,7 +6845,7 @@
           <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="DtActivity" Type="DateTime" Nullable="false" />
           <Property Name="Assigned" Type="String" Nullable="true" MaxLength="40" />
-          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierSupplierActivity" FromRole="SupplierActivity" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="true" />
@@ -6918,7 +6918,7 @@
           <Property Name="SalesCode" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="Amount" Type="Decimal" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
-          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="250" />
           <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntMain" />
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="String" Nullable="true" MaxLength="20" />

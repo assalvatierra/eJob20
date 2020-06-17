@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 
 namespace JobsV1.Controllers
@@ -108,7 +109,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website,Code")] Supplier supplier)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && InputValidation(supplier))
             {
                 if (HaveNameDuplicate(supplier.Name))
                 {
@@ -207,7 +208,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Contact1,Contact2,Contact3,Email,Details,CityId,SupplierTypeId,Status,Address,CountryId,Website,Code")] Supplier supplier)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && InputValidation(supplier))
             {
                 db.Entry(supplier).State = EntityState.Modified;
                 db.SaveChanges();
@@ -338,6 +339,18 @@ namespace JobsV1.Controllers
             return RedirectToAction("InvItems", "Suppliers", new { id = item.SupplierId });
         }
 
+        public bool InputValidation(Supplier supplier)
+        {
+            bool isValid = true;
+
+            if (supplier.Name.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Description", "Invalid Description");
+                isValid = false;
+            }
+
+            return isValid;
+        }
         #endregion
 
         #region invItemRate
@@ -448,38 +461,74 @@ namespace JobsV1.Controllers
         //  Create new Supplier contact
         public ActionResult CreateSupContactForm(int id)
         {
-            ViewBag.SupplierId = id;
-            ViewBag.contactStatus = db.SupplierContactStatus.ToList();
+            SupplierContact supContact = new SupplierContact();
+            supContact.SupplierId = id;
 
-            return View();
+            ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", id);
+            ViewBag.SupplierContactStatusId = new SelectList(db.SupplierContactStatus, "Id", "Name");
+            return View(supContact);
         }
 
         //  Create new Supplier contact
-        public ActionResult CreateSupContact(int SupplierId, string  Name, string Mobile, string Landline, string SkypeId, string ViberId , string WhatsApp, string Email, int Status, string Remarks, string WeChat, string Position, string Department)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateSupContactForm([Bind(Include = "Id,SupplierId,Name,Mobile,Landline,SkypeId,Details,ViberId,WhatsApp,SupplierContactStatusId,Remarks,WeChat,Position,Department")] SupplierContact supplierContact)
+        {
+            if (CreateContactValidation(supplierContact))
+            {
+                if (supplierContact.SupplierId != 0)
+                {
+                   db.SupplierContacts.Add(supplierContact);
+                   db.SaveChanges();
+                }
+                return RedirectToAction("Details" , new { id = supplierContact.SupplierId });
+
+            }
+                ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierContact.SupplierId);
+                ViewBag.SupplierContactStatusId = new SelectList(db.SupplierContactStatus, "Id", "Name");
+                return View(supplierContact);
+        }
+
+
+        //  Create new Supplier contact
+        public ActionResult CreateSupContact(int SupplierId, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string WhatsApp, string Email, int Status, string Remarks, string WeChat, string Position, string Department)
         {
             SupplierContact supContact = new SupplierContact();
-            supContact.SupplierId = SupplierId;
-            supContact.Name = Name;
-            supContact.Mobile = Mobile;
-            supContact.Landline = Landline;
-            supContact.SkypeId = SkypeId;
-            supContact.ViberId = ViberId;
-            supContact.Remarks = Remarks;
-            supContact.WhatsApp = WhatsApp;
-            supContact.Email = Email;
-            supContact.SupplierContactStatusId = Status;
-            supContact.WeChat = WeChat;
-            supContact.Position = Position;
-            supContact.Department = Position;
 
-            if (SupplierId != 0)
+            if (CreateContactValidation(supContact))
             {
-               db.SupplierContacts.Add(supContact);
-               db.SaveChanges();
+
+                supContact.SupplierId = SupplierId;
+                supContact.Name = Name;
+                supContact.Mobile = Mobile;
+                supContact.Landline = Landline;
+                supContact.SkypeId = SkypeId;
+                supContact.ViberId = ViberId;
+                supContact.Remarks = Remarks;
+                supContact.WhatsApp = WhatsApp;
+                supContact.Email = Email;
+                supContact.SupplierContactStatusId = Status;
+                supContact.WeChat = WeChat;
+                supContact.Position = Position;
+                supContact.Department = Position;
+
+                if (SupplierId != 0)
+                {
+                    db.SupplierContacts.Add(supContact);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Details", new { id = SupplierId });
+
             }
-            return RedirectToAction("Details" , new { id = SupplierId });
-           
+            else
+            {
+
+                ViewBag.SupplierId = SupplierId;
+                ViewBag.ContactStatus = db.SupplierContactStatus.ToList();
+                return View();
+            }
         }
+
 
         //  Create new Supplier contact
         public ActionResult EditSupContact(int id, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks, string WhatsApp, string Email, int Status, string WeChat, string Position, string Department)
@@ -523,6 +572,27 @@ namespace JobsV1.Controllers
             return RedirectToAction("Details", new { id = tempId });
 
         }
+
+        public bool CreateContactValidation(SupplierContact supplierContact)
+        {
+            bool isValid = true;
+
+            if (supplierContact.Name.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Name", "Invalid Name");
+                isValid = false;
+            }
+
+            if (HaveNameDuplicate(supplierContact.Name))
+            {
+
+                ModelState.AddModelError("Name", "Name is Already Used");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
 
         #endregion
 

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
 {
@@ -59,7 +60,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Description,Remarks,SupplierId,InCharge,Tel1,Tel2,Tel3,Status")] SupplierItem supplierItem)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && InputValidation(supplierItem))
             {
                 db.SupplierItems.Add(supplierItem);
                 db.SaveChanges();
@@ -96,7 +97,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Description,Remarks,SupplierId,InCharge,Tel1,Tel2,Tel3,Status")] SupplierItem supplierItem)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && InputValidation(supplierItem))
             {       
                 db.Entry(supplierItem).State = EntityState.Modified;
                 db.SaveChanges();
@@ -141,6 +142,20 @@ namespace JobsV1.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public bool InputValidation(SupplierItem supplierItem)
+        {
+            bool isValid = true;
+
+            if (supplierItem.Description.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Description", "Invalid Description");
+                isValid = false;
+            }
+
+            return isValid;
         }
     }
 }

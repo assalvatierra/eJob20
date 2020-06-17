@@ -1,4 +1,4 @@
-﻿@model JobsV1.Models.Supplier
+﻿@model JobsV1.Models.SupplierContact
 
 @{
     ViewBag.Title = "Create";
@@ -15,153 +15,119 @@
         <h4>Supplier Contact</h4>
         <hr />
 
+        
         <div class="form-group">
-            <b class="col-md-2 control-label"> Name </b>
+            @Html.LabelFor(model => model.SupplierId, "Supplier", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input id="SupCon-Name" class="form-control" type="text" maxlength="80">
+                @Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label"> Name </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <b class="col-md-2 control-label"> LandLine </b>
             <div class="col-md-10">
-                <input id="SupCon-Landline" class="form-control" type="text" maxlength="40">
+                @Html.EditorFor(model => model.Landline, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
+                @Html.ValidationMessageFor(model => model.Landline, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> Mobile</b>
             <div class="col-md-10">
-                <input id="SupCon-Mobile" class="form-control" type="text" maxlength="40">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
+                @Html.ValidationMessageFor(model => model.Landline, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> Skype ID </b>
             <div class="col-md-10">
-                <input id="SupCon-Skype" class="form-control" type="text" maxlength="40">
+                @Html.EditorFor(model => model.SkypeId, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
+                @Html.ValidationMessageFor(model => model.SkypeId, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> Viber ID </b>
             <div class="col-md-10">
-                <input id="SupCon-Viber" class="form-control" type="text" maxlength="40">
+                @Html.EditorFor(model => model.ViberId, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
+                @Html.ValidationMessageFor(model => model.ViberId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> WhatsApp </b>
             <div class="col-md-10">
-                <input id="SupCon-WhatsApp" class="form-control" type="text" maxlength="80">
+                @Html.EditorFor(model => model.WhatsApp, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.ValidationMessageFor(model => model.WhatsApp, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> WeChat </b>
             <div class="col-md-10">
-                <input id="SupCon-WeChat" class="form-control" type="text" maxlength="80">
+                @Html.EditorFor(model => model.WeChat, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.ValidationMessageFor(model => model.WeChat, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> Email </b>
             <div class="col-md-10">
-                <input id="SupCon-Email" class="form-control" type="text" maxlength="80">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> Position </b>
             <div class="col-md-10">
-                <input id="SupCon-Position" class="form-control" type="text" maxlength="80">
+                @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> Department </b>
             <div class="col-md-10">
-                <input id="SupCon-Department" class="form-control" type="text" maxlength="80">
+                @Html.EditorFor(model => model.Department, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> Status </b>
             <div class="col-md-10">
-
-                <select name="SupConStatus" class="form-control" id="SupCon-Status">
-                    @foreach (var status in ViewBag.contactStatus as IEnumerable<JobsV1.Models.SupplierContactStatus>)
-                    {
-                        <option value="@status.Id"> @status.Name </option>
-                    }
-                </select>
-
+                @Html.DropDownList("SupplierContactStatusId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SupplierContactStatusId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group  ">
             <b class="col-md-2 control-label"> Remarks </b>
             <div class="col-md-10">
-                <input id="SupCon-Remarks" class="form-control" type="text" maxlength="80">
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group  ">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create"  onclick="ajax_createSupContact()" class="btn btn-default" />
+                <button type="submit" value="Create" class="btn btn-default"> Create </button>
             </div>
         </div>
     </div>
-    
 }
 
 <div>
-    @Html.ActionLink("Back to Supplier Details", "Details", new {id = ViewBag.SupplierId })
+    @Html.ActionLink("Back to Supplier Details", "Details", new {id = Model.SupplierId })
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
-<script>
-
-    //ADDRESS EDIT
-    function ajax_createSupContact() {
-        //build json object
-        var data = {
-            SupplierId: @ViewBag.SupplierId,
-            Name:     $("#SupCon-Name").val(),
-            LandLine: $("#SupCon-Landline").val(),
-            Mobile:   $("#SupCon-Mobile").val(),
-            SkypeId:  $("#SupCon-Skype").val(),
-            ViberId:  $("#SupCon-Viber").val(),
-            WhatsApp: $("#SupCon-WhatsApp").val(),
-            Email:    $("#SupCon-Email").val(),
-            Status:   $("#SupCon-Status").val(),
-            Remarks:  $("#SupCon-Remarks").val(),
-            WeChat:   $("#SupCon-WeChat").val(),
-            Position: $("#SupCon-Position").val(),
-            Department:  $("#SupCon-Department").val()
-        };
-
-        console.log(data);
-
-        var url = '/Suppliers/CreateSupContact';
-
-        //Post data from server using ajax call
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                // console.log("SUCCESS");
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                console.log(data);
-                //location.reload();
-                
-                window.location.href = "/Suppliers/Details/@ViewBag.SupplierId";
-            }
-        });
-    }
-
-</script>

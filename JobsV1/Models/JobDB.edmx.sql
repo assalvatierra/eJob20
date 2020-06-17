@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/15/2020 11:50:15
+-- Date Created: 06/17/2020 16:19:06
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1849,14 +1849,14 @@ GO
 CREATE TABLE [dbo].[SupplierContacts] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [Mobile] nvarchar(40)  NOT NULL,
-    [Landline] nvarchar(40)  NOT NULL,
-    [SkypeId] nvarchar(40)  NOT NULL,
-    [ViberId] nvarchar(40)  NOT NULL,
-    [Remarks] nvarchar(max)  NOT NULL,
+    [Mobile] nvarchar(40)  NULL,
+    [Landline] nvarchar(40)  NULL,
+    [SkypeId] nvarchar(40)  NULL,
+    [ViberId] nvarchar(40)  NULL,
+    [Remarks] nvarchar(max)  NULL,
     [SupplierId] int  NOT NULL,
-    [WhatsApp] nvarchar(80)  NOT NULL,
-    [Email] nvarchar(80)  NOT NULL,
+    [WhatsApp] nvarchar(80)  NULL,
+    [Email] nvarchar(80)  NULL,
     [SupplierContactStatusId] int  NOT NULL,
     [WeChat] nvarchar(40)  NULL,
     [Position] nvarchar(40)  NULL,
@@ -1958,7 +1958,7 @@ CREATE TABLE [dbo].[SupplierActivities] (
     [Code] nvarchar(20)  NULL,
     [DtActivity] datetime  NOT NULL,
     [Assigned] nvarchar(40)  NULL,
-    [Remarks] nvarchar(80)  NULL,
+    [Remarks] nvarchar(250)  NULL,
     [SupplierId] int  NOT NULL,
     [Amount] decimal(18,0)  NULL,
     [Type] nvarchar(20)  NULL,
@@ -1990,7 +1990,7 @@ CREATE TABLE [dbo].[CustEntActivities] (
     [SalesCode] nvarchar(20)  NULL,
     [Amount] decimal(18,0)  NULL,
     [Status] nvarchar(20)  NOT NULL,
-    [Remarks] nvarchar(80)  NULL,
+    [Remarks] nvarchar(250)  NULL,
     [CustEntMainId] int  NOT NULL,
     [Type] nvarchar(20)  NULL,
     [ActivityType] nvarchar(30)  NULL

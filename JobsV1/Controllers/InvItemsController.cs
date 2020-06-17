@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
 {
@@ -107,7 +108,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,ItemCode,Description,Remarks,ContactInfo,ImgPath,ViewLabel,OrderNo")] InvItem invItem)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && InputValidation(invItem))
             {
                 db.InvItems.Add(invItem);
                 db.SaveChanges();
@@ -155,13 +156,33 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ItemCode,Description,Remarks,ContactInfo,ImgPath,ViewLabel,OrderNo")] InvItem invItem)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && InputValidation(invItem))
             {
                 db.Entry(invItem).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(invItem);
+        }
+
+
+        public bool InputValidation(InvItem invItem)
+        {
+            bool isValid = true;
+
+            if (invItem.ItemCode.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("ItemCode", "Invalid ItemCode");
+                isValid = false;
+            }
+
+            if (invItem.Description.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Description", "Invalid Description");
+                isValid = false;
+            }
+
+            return isValid;
         }
 
         // GET: InvItems/Delete/5
