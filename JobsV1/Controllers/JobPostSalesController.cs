@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
 {
@@ -50,7 +51,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,DtPost,DoneBy,Remarks,JobServicesId")] JobPostSale jobPostSale)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && InputValidation(jobPostSale))
             {
                 db.JobPostSales.Add(jobPostSale);
                 db.SaveChanges();
@@ -84,7 +85,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,DtPost,DoneBy,Remarks,JobServicesId")] JobPostSale jobPostSale)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && InputValidation(jobPostSale))
             {
                 db.Entry(jobPostSale).State = EntityState.Modified;
                 db.SaveChanges();
@@ -127,6 +128,33 @@ namespace JobsV1.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public bool InputValidation(JobPostSale jobPostSale)
+        {
+            bool isValid = true;
+
+            if (jobPostSale.DoneBy.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("DoneBy", "Invalid DoneBy");
+                isValid = false;
+            }
+
+            if (jobPostSale.DtPost == null)
+            {
+                ModelState.AddModelError("DtPost", "Invalid DtPost");
+                isValid = false;
+            }
+
+            if (jobPostSale.JobServicesId == 0)
+            {
+                ModelState.AddModelError("JobServicesId", "Invalid JobServicesId");
+                isValid = false;
+            }
+
+
+            return isValid;
         }
     }
 }
