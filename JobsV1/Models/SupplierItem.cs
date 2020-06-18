@@ -29,6 +29,7 @@ namespace JobsV1.Models
         public string Tel2 { get; set; }
         public string Tel3 { get; set; }
         public string Status { get; set; }
+        public Nullable<int> Interval { get; set; }
     
         public virtual Supplier Supplier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

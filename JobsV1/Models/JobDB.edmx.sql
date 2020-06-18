@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/17/2020 16:19:06
+-- Date Created: 06/18/2020 17:08:18
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -956,7 +956,8 @@ CREATE TABLE [dbo].[SupplierItems] (
     [Tel1] nvarchar(max)  NULL,
     [Tel2] nvarchar(max)  NULL,
     [Tel3] nvarchar(max)  NULL,
-    [Status] nvarchar(3)  NULL
+    [Status] nvarchar(3)  NULL,
+    [Interval] int  NULL
 );
 GO
 
