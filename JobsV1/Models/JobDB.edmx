@@ -135,6 +135,7 @@
     <EntitySet Name="VehicleTransmissions" EntityType="JobDB.Store.VehicleTransmissions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VehicleFuels" EntityType="JobDB.Store.VehicleFuels" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VehicleDrives" EntityType="JobDB.Store.VehicleDrives" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobPostSales" EntityType="JobDB.Store.JobPostSales" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -642,6 +643,10 @@
     <AssociationSet Name="VehicleDriveVehicleModel" Association="JobDB.Store.VehicleDriveVehicleModel">
       <End Role="VehicleDrive" EntitySet="VehicleDrives" />
       <End Role="VehicleModel" EntitySet="VehicleModels" />
+    </AssociationSet>
+    <AssociationSet Name="JobPostSaleJobServices" Association="JobDB.Store.JobPostSaleJobServices">
+      <End Role="JobPostSale" EntitySet="JobPostSales" />
+      <End Role="JobServices" EntitySet="JobServices" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -2005,6 +2010,16 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Drive" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="JobPostSales">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtPost" Type="datetime" Nullable="false" />
+    <Property Name="DoneBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="JobServicesId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3530,6 +3545,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="JobPostSaleJobServices">
+    <End Role="JobPostSale" Type="JobDB.Store.JobPostSales" Multiplicity="*" />
+    <End Role="JobServices" Type="JobDB.Store.JobServices" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="JobServices">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobPostSale">
+        <PropertyRef Name="JobServicesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4172,6 +4199,11 @@
             <End Role="VehicleDrive" EntitySet="VehicleDrives" />
             <End Role="VehicleModel" EntitySet="VehicleModels" />
           </AssociationSet>
+          <EntitySet Name="JobPostSales" EntityType="JobDB.JobPostSale" />
+          <AssociationSet Name="JobPostSaleJobServices" Association="JobDB.JobPostSaleJobServices">
+            <End Role="JobPostSale" EntitySet="JobPostSales" />
+            <End Role="JobServices" EntitySet="JobServices" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -4322,6 +4354,7 @@
           <NavigationProperty Name="SupplierPoDtls" Relationship="JobDB.JobServicesSupplierPoDtl" FromRole="JobServices" ToRole="SupplierPoDtl" />
           <NavigationProperty Name="JobExpenses" Relationship="JobDB.JobServicesJobExpenses" FromRole="JobServices" ToRole="JobExpenses" />
           <NavigationProperty Name="PickupInstructions" Relationship="JobDB.JobServicesPickupInstructions" FromRole="JobServices" ToRole="PickupInstructions" />
+          <NavigationProperty Name="JobPostSales" Relationship="JobDB.JobPostSaleJobServices" FromRole="JobServices" ToRole="JobPostSale" />
         </EntityType>
         <Association Name="JobMainJobSupplier">
           <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
@@ -7315,6 +7348,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="JobPostSale">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtPost" Type="DateTime" Nullable="false" Precision="30" />
+          <Property Name="DoneBy" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="150" />
+          <NavigationProperty Name="JobService" Relationship="JobDB.JobPostSaleJobServices" FromRole="JobPostSale" ToRole="JobServices" />
+          <Property Name="JobServicesId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="JobPostSaleJobServices">
+          <End Type="JobDB.JobPostSale" Role="JobPostSale" Multiplicity="*" />
+          <End Type="JobDB.JobServices" Role="JobServices" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="JobServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobPostSale">
+              <PropertyRef Name="JobServicesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8809,6 +8865,17 @@
         <MappingFragment StoreEntitySet="VehicleDrives">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Drive" ColumnName="Drive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobPostSales">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.JobPostSale)">
+        <MappingFragment StoreEntitySet="JobPostSales">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtPost" ColumnName="DtPost" />
+          <ScalarProperty Name="DoneBy" ColumnName="DoneBy" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

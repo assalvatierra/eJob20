@@ -273,6 +273,8 @@
         <AssociationConnector Association="JobDB.VehicleModelVehicle" />
         <EntityTypeShape EntityType="JobDB.VehicleDrive" Width="1.5" PointX="15.25" PointY="15.25" />
         <AssociationConnector Association="JobDB.VehicleDriveVehicleModel" />
+        <EntityTypeShape EntityType="JobDB.JobPostSale" Width="1.5" PointX="29.75" PointY="10.125" />
+        <AssociationConnector Association="JobDB.JobPostSaleJobServices" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

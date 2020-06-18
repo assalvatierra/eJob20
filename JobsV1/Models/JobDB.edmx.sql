@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/18/2020 17:08:18
+-- Date Created: 06/18/2020 20:32:15
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -398,6 +398,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_VehicleDriveVehicleModel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleDriveVehicleModel];
 GO
+IF OBJECT_ID(N'[dbo].[FK_JobPostSaleJobServices]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobPostSales] DROP CONSTRAINT [FK_JobPostSaleJobServices];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -789,6 +792,9 @@ IF OBJECT_ID(N'[dbo].[VehicleFuels]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[VehicleDrives]', 'U') IS NOT NULL
     DROP TABLE [dbo].[VehicleDrives];
+GO
+IF OBJECT_ID(N'[dbo].[JobPostSales]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobPostSales];
 GO
 
 -- --------------------------------------------------
@@ -2157,6 +2163,16 @@ CREATE TABLE [dbo].[VehicleDrives] (
 );
 GO
 
+-- Creating table 'JobPostSales'
+CREATE TABLE [dbo].[JobPostSales] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtPost] datetime  NOT NULL,
+    [DoneBy] nvarchar(50)  NOT NULL,
+    [Remarks] nvarchar(150)  NULL,
+    [JobServicesId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2932,6 +2948,12 @@ GO
 -- Creating primary key on [Id] in table 'VehicleDrives'
 ALTER TABLE [dbo].[VehicleDrives]
 ADD CONSTRAINT [PK_VehicleDrives]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'JobPostSales'
+ALTER TABLE [dbo].[JobPostSales]
+ADD CONSTRAINT [PK_JobPostSales]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4842,6 +4864,21 @@ GO
 CREATE INDEX [IX_FK_VehicleDriveVehicleModel]
 ON [dbo].[VehicleModels]
     ([VehicleDriveId]);
+GO
+
+-- Creating foreign key on [JobServicesId] in table 'JobPostSales'
+ALTER TABLE [dbo].[JobPostSales]
+ADD CONSTRAINT [FK_JobPostSaleJobServices]
+    FOREIGN KEY ([JobServicesId])
+    REFERENCES [dbo].[JobServices]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobPostSaleJobServices'
+CREATE INDEX [IX_FK_JobPostSaleJobServices]
+ON [dbo].[JobPostSales]
+    ([JobServicesId]);
 GO
 
 -- --------------------------------------------------

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<JobsV1.Models.JobPostSale>
+
+@{
+    ViewBag.Title = "Post Sales";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+    <div class="panel">
+        <h2>Post Sales</h2>
+
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtPost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DoneBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JobService.Particulars)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtPost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DoneBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobService.Particulars)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>

@@ -3255,7 +3255,57 @@ order by x.jobid
 
         #endregion
 
+        #region Job Post Sales
+        public bool CreateJobPostSalesRecord(int jobMainId)
+        {
+            var jobServiceList = db.JobServices.Where(j=>j.JobMainId == jobMainId).ToList();
 
+            if (jobServiceList != null)
+            {
+                var AddResult = false;
+                foreach (var service in jobServiceList)
+                {
+                    AddResult = AddJobPostSales(service.Id);
+
+                    if (AddResult == false)
+                    {
+                        return AddResult;
+                    }
+                }
+
+                return AddResult;
+            }
+            return false;
+        }
+
+        public bool AddJobPostSales(int jobServiceId)
+        {
+            try
+            {
+                var User = HttpContext.User.Identity.Name;
+                var jobServices = db.JobServices.Find(jobServiceId);
+                var PostSalesInterval = jobServices.SupplierItem.Interval == null ? 60 : (int)jobServices.SupplierItem.Interval;
+                var PostSalesDate = ((DateTime)jobServices.DtStart).AddMonths(PostSalesInterval);
+
+                JobPostSale postSale = new JobPostSale()
+                {
+                    DtPost = PostSalesDate,
+                    DoneBy = User,
+                    JobServicesId = jobServiceId,
+                    Remarks = ""
+                };
+
+                db.JobPostSales.Add(postSale);
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        #endregion
 
         public ActionResult ErrorPage()
         {

@@ -495,6 +495,7 @@
     <Compile Include="Controllers\JobOrderController.cs" />
     <Compile Include="Controllers\JobPaymentsController.cs" />
     <Compile Include="Controllers\JobPickupsController.cs" />
+    <Compile Include="Controllers\JobPostSalesController.cs" />
     <Compile Include="Controllers\JobPostsController.cs" />
     <Compile Include="Controllers\JobServicePickupsController.cs" />
     <Compile Include="Controllers\JobServicesController.cs" />
@@ -777,6 +778,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobPost.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobPostSale.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobServiceItem.cs">
@@ -1579,6 +1583,7 @@
     <Content Include="Scripts\CustNotif\CustNotifs.js" />
     <Content Include="Scripts\CustNotif\Activities.js" />
     <Content Include="Scripts\dataTables.min.js" />
+    <Content Include="Scripts\JobPostSale\PostSale.js" />
     <Content Include="Scripts\Job\CustNotif.js" />
     <Content Include="Scripts\Job\DefaultDate.js" />
     <Content Include="Scripts\CustEntMain\CustEntActivities.js" />
@@ -2458,6 +2463,11 @@
     <Content Include="Views\JobOrder\_SearchCustomerModal.cshtml" />
     <Content Include="Views\JobOrder\_SearchVehicleModal.cshtml" />
     <Content Include="Views\CustEntMains\_SearchCustomerModal.cshtml" />
+    <Content Include="Views\JobPostSales\Create.cshtml" />
+    <Content Include="Views\JobPostSales\Delete.cshtml" />
+    <Content Include="Views\JobPostSales\Details.cshtml" />
+    <Content Include="Views\JobPostSales\Edit.cshtml" />
+    <Content Include="Views\JobPostSales\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

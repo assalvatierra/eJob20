@@ -23,6 +23,7 @@ namespace JobsV1.Models
             this.SupplierPoDtls = new HashSet<SupplierPoDtl>();
             this.JobExpenses = new HashSet<JobExpenses>();
             this.PickupInstructions = new HashSet<DriverInsJobService>();
+            this.JobPostSales = new HashSet<JobPostSale>();
         }
     
         public int Id { get; set; }
@@ -54,5 +55,7 @@ namespace JobsV1.Models
         public virtual ICollection<JobExpenses> JobExpenses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DriverInsJobService> PickupInstructions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobPostSale> JobPostSales { get; set; }
     }
 }

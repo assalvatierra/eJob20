@@ -20,7 +20,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Master List','Master List',0,'Cities','Index','span=30',20,14),
 ('Admin','Admin',0,'Admin','UserList','',20,15),
 ('Activities','Activities',0,'Activities','Index','',20,16),
-('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17)
+('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17),
+('Post Sales','Job Post Sales',0,'JobPostSales','Index','',20,18)
 ;
 
 
@@ -226,6 +227,15 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 values 	('Units' ,'',17,'AutoCare/Vehicles','Index','',21,171),	--70
 		('Models' ,'',17,'AutoCare/VehicleModels','Index','',21,172);	 -- id: 71
 
+--After Sales
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('NO118','Post Sales','Job Post Sales','A','../Images/Erp/icons/icons-activities.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (18,18);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values ('Post Sales' ,'',18,'JobPostSales','Index','',21,172);	 -- id: 71
+
+
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (12,1,'2019/1/1');
@@ -250,6 +260,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',15,15), 
 ('assalvatierra@gmail.com',16,16), 
 ('assalvatierra@gmail.com',17,17), 
+('assalvatierra@gmail.com',18,18), 
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 
@@ -268,17 +279,18 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',15,15),
 ('jahdielvillosa@gmail.com',16,16),
 ('jahdielvillosa@gmail.com',17,17), 
+('jahdielvillosa@gmail.com',18,18), 
 
 ('Demo@gmail.com',1,1), 
 ('Demo@gmail.com',3,3), 
 ('Demo@gmail.com',5,5), 
 ('Demo@gmail.com',6,6), 
-('Demo@gmail.com',17,17); 
+('Demo@gmail.com',17,17), 
+('Demo@gmail.com',18,18); 
 
 
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
-('assalvatierra@gmail.com', 18, 18),
 ('assalvatierra@gmail.com', 19, 19),
 ('assalvatierra@gmail.com', 20, 20),
 ('assalvatierra@gmail.com', 21, 21),
@@ -334,6 +346,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 71, 71),
 ('assalvatierra@gmail.com', 72, 72),
 ('assalvatierra@gmail.com', 73, 73),
+('assalvatierra@gmail.com', 74, 74),
+('assalvatierra@gmail.com', 75, 75),
 
 ('jahdielvillosa@gmail.com', 18, 18),
 ('jahdielvillosa@gmail.com', 19, 19),
@@ -391,24 +405,27 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 71, 71),
 ('jahdielvillosa@gmail.com', 72, 72),
 ('jahdielvillosa@gmail.com', 73, 73),
+('jahdielvillosa@gmail.com', 74, 74),
+('jahdielvillosa@gmail.com', 75, 75),
 
 --account access--
-('Demo@gmail.com', 18, 18),
 ('Demo@gmail.com', 19, 19),
 ('Demo@gmail.com', 20, 20),
 ('Demo@gmail.com', 21, 21),
+('Demo@gmail.com', 22, 22),
 --job order--
-('Demo@gmail.com', 26, 26),
-('Demo@gmail.com', 28, 28),
+('Demo@gmail.com', 27, 27),
 ('Demo@gmail.com', 29, 29),
 ('Demo@gmail.com', 30, 30),
 ('Demo@gmail.com', 31, 31),
+('Demo@gmail.com', 32, 32),
 -- Customers --
-('Demo@gmail.com', 37, 37),
 ('Demo@gmail.com', 38, 38),
+('Demo@gmail.com', 39, 39),
 -- Resources --
-('Demo@gmail.com', 41, 41),
-('Demo@gmail.com', 45, 45),
+('Demo@gmail.com', 42, 42),
+('Demo@gmail.com', 46, 46),
 -- Resources --
-('Demo@gmail.com', 72, 72),
-('Demo@gmail.com', 73, 73); 
+('Demo@gmail.com', 73, 73),
+('Demo@gmail.com', 74, 74),
+('Demo@gmail.com', 75, 75); 
