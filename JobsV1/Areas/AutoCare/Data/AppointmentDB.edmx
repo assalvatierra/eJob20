@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AppointmentDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="AppointmentDBStoreContainer">
+    <EntitySet Name="Appointments" EntityType="AppointmentDB.Store.Appointments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AppointmentStatus" EntityType="AppointmentDB.Store.AppointmentStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AppointmentSlots" EntityType="AppointmentDB.Store.AppointmentSlots" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="AppointmentStatusAppointment" Association="AppointmentDB.Store.AppointmentStatusAppointment">
+      <End Role="AppointmentStatus" EntitySet="AppointmentStatus" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="AppointmentSlotAppointment" Association="AppointmentDB.Store.AppointmentSlotAppointment">
+      <End Role="AppointmentSlot" EntitySet="AppointmentSlots" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Appointments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtEntered" Type="datetime" Nullable="false" />
+    <Property Name="Customer" Type="nvarchar" Nullable="false" MaxLength="60" />
+    <Property Name="Contact" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="CustCode" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Plate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Conduction" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Request" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AppointmentStatusId" Type="int" Nullable="false" />
+    <Property Name="AppointmentSlotId" Type="int" Nullable="false" />
+    <Property Name="AppointmentDate" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AppointmentStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="AppointmentSlots">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="AppointmentStatusAppointment">
+    <End Role="AppointmentStatus" Type="AppointmentDB.Store.AppointmentStatus" Multiplicity="1" />
+    <End Role="Appointment" Type="AppointmentDB.Store.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AppointmentStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="AppointmentStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AppointmentSlotAppointment">
+    <End Role="AppointmentSlot" Type="AppointmentDB.Store.AppointmentSlots" Multiplicity="1" />
+    <End Role="Appointment" Type="AppointmentDB.Store.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AppointmentSlot">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="AppointmentSlotId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AppointmentDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="AppointmentDBContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appointments" EntityType="AppointmentDB.Appointment" />
+          <EntitySet Name="AppointmentStatus" EntityType="AppointmentDB.AppointmentStatus" />
+          <AssociationSet Name="AppointmentStatusAppointment" Association="AppointmentDB.AppointmentStatusAppointment">
+            <End Role="AppointmentStatus" EntitySet="AppointmentStatus" />
+            <End Role="Appointment" EntitySet="Appointments" />
+          </AssociationSet>
+          <EntitySet Name="AppointmentSlots" EntityType="AppointmentDB.AppointmentSlot" />
+          <AssociationSet Name="AppointmentSlotAppointment" Association="AppointmentDB.AppointmentSlotAppointment">
+            <End Role="AppointmentSlot" EntitySet="AppointmentSlots" />
+            <End Role="Appointment" EntitySet="Appointments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtEntered" Type="DateTime" Nullable="false" />
+          <Property Name="Customer" Type="String" Nullable="false" MaxLength="60" />
+          <Property Name="Contact" Type="String" Nullable="false" MaxLength="30" />
+          <Property Name="CustCode" Type="String" Nullable="false" MaxLength="10" />
+          <Property Name="Plate" Type="String" Nullable="false" />
+          <Property Name="Conduction" Type="String" Nullable="true" />
+          <Property Name="Request" Type="String" Nullable="false" />
+          <NavigationProperty Name="AppointmentStatu" Relationship="AppointmentDB.AppointmentStatusAppointment" FromRole="Appointment" ToRole="AppointmentStatus" />
+          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="AppointmentStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AppointmentSlot" Relationship="AppointmentDB.AppointmentSlotAppointment" FromRole="Appointment" ToRole="AppointmentSlot" />
+          <Property Name="AppointmentSlotId" Type="Int32" Nullable="false" />
+          <Property Name="AppointmentDate" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AppointmentStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="10" />
+          <NavigationProperty Name="Appointments" Relationship="AppointmentDB.AppointmentStatusAppointment" FromRole="AppointmentStatus" ToRole="Appointment" />
+        </EntityType>
+        <Association Name="AppointmentStatusAppointment">
+          <End Type="AppointmentDB.AppointmentStatus" Role="AppointmentStatus" Multiplicity="1" />
+          <End Type="AppointmentDB.Appointment" Role="Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="AppointmentStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AppointmentSlot">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <NavigationProperty Name="Appointments" Relationship="AppointmentDB.AppointmentSlotAppointment" FromRole="AppointmentSlot" ToRole="Appointment" />
+        </EntityType>
+        <Association Name="AppointmentSlotAppointment">
+          <End Type="AppointmentDB.AppointmentSlot" Role="AppointmentSlot" Multiplicity="1" />
+          <End Type="AppointmentDB.Appointment" Role="Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentSlot">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="AppointmentSlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AppointmentDBStoreContainer" CdmEntityContainer="AppointmentDBContainer">
+    <EntitySetMapping Name="Appointments">
+      <EntityTypeMapping TypeName="IsTypeOf(AppointmentDB.Appointment)">
+        <MappingFragment StoreEntitySet="Appointments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtEntered" ColumnName="DtEntered" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="CustCode" ColumnName="CustCode" />
+          <ScalarProperty Name="Plate" ColumnName="Plate" />
+          <ScalarProperty Name="Conduction" ColumnName="Conduction" />
+          <ScalarProperty Name="Request" ColumnName="Request" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="AppointmentStatusId" ColumnName="AppointmentStatusId" />
+          <ScalarProperty Name="AppointmentSlotId" ColumnName="AppointmentSlotId" />
+          <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AppointmentStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(AppointmentDB.AppointmentStatus)">
+        <MappingFragment StoreEntitySet="AppointmentStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AppointmentSlots">
+      <EntityTypeMapping TypeName="IsTypeOf(AppointmentDB.AppointmentSlot)">
+        <MappingFragment StoreEntitySet="AppointmentSlots">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
