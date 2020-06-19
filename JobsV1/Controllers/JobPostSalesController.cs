@@ -14,11 +14,18 @@ namespace JobsV1.Controllers
     public class JobPostSalesController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private DateClass dateClass = new DateClass();
 
         // GET: JobPostSales
         public ActionResult Index()
         {
+            DateTime today = dateClass.GetCurrentDate();
             var jobPostSales = db.JobPostSales.Include(j => j.JobService);
+
+            jobPostSales = jobPostSales.Where(s => s.DtPost.Year == today.Year &&
+                                                s.DtPost.Month == today.Month && 
+                                                s.DtPost.Day == today.Day);
+
             return View(jobPostSales.ToList());
         }
 
