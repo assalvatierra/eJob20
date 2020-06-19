@@ -40,20 +40,17 @@
         <div class="col-sm-4" style="text-align:center;">
             <a href="@Url.Action("Service", "Module", new { id = @t.Id })">
                 @{ 
-                    var icon = t.IconPath.ToString();
-                    var iconPath = t.IconPath.replace("..", "~"); 
+                    var iconPath = t.IconPath; 
                     }
                 @if (File.Exists(Server.MapPath(iconPath)))
                 {
 
-                    <img src="@Url.Content("~/")@t.IconPath" style="height:90px;margin:20px" alt="Image unable to load" onload="" />
+                    <img src="@t.IconPath" style="height:90px;margin:20px" alt="Image unable to load" />
                 }
                 else
                 {
-                    <img src="~/Images/Erp/icons/icons-activities.png" />
+                    <img src="~/Images/Erp/icons/icons-activities.png"  style="height:90px;margin:20px" />
                 }
-
-                <img src="@Url.Content("~/")@t.IconPath" style="height:90px;margin:20px" alt="Image unable to load" onload="" />
             </a>
             <p>
                 <h3> @t.Description </h3>
