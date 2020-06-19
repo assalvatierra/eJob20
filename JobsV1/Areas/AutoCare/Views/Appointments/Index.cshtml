@@ -1,0 +1,94 @@
+﻿@model IEnumerable<JobsV1.Areas.AutoCare.Data.Appointment>
+
+@{
+    ViewBag.Title = "Appointments";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Appointments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtEntered)
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Slot
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Conduction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Request)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppointmentStatu.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtEntered)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppointmentDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppointmentSlot.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contact)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Plate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Conduction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Request)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppointmentStatu.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

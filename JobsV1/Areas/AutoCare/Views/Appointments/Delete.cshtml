@@ -1,0 +1,112 @@
+﻿@model JobsV1.Areas.AutoCare.Data.Appointment
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Appointment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentSlot.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentSlot.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentStatu.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentStatu.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DtEntered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtEntered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Conduction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Conduction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

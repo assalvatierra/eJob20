@@ -311,6 +311,8 @@
       <DependentUpon>AccountingDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\AutoCare\AutoCareAreaRegistration.cs" />
+    <Compile Include="Areas\AutoCare\Controllers\AppointmentsController.cs" />
+    <Compile Include="Areas\AutoCare\Controllers\AppointmentSlotsController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\HomeController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\VehicleModelsController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\VehiclesController.cs" />
@@ -1078,6 +1080,7 @@
     </Content>
     <Content Include="Areas\AutoCare\Data\SQL\InitialAll.sql" />
     <Content Include="Areas\AutoCare\Data\SQL\InitialData_SysTbls.sql" />
+    <Content Include="Areas\AutoCare\Scipts\Appointments\AppointmentDate.js" />
     <Content Include="Areas\Personel\Models\HrisDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>HrisDB.Context.cs</LastGenOutput>
@@ -1476,6 +1479,7 @@
     <Content Include="Images\Erp\icons\icons-activities.png" />
     <Content Include="Images\Erp\icons\icons-box.png" />
     <Content Include="Images\Erp\icons\icons-business.png" />
+    <Content Include="Images\Erp\icons\icons-callback.png" />
     <Content Include="Images\Erp\icons\icons-employee.png" />
     <Content Include="Images\Erp\icons\icons-masterlist.png" />
     <Content Include="Images\Erp\icons\icons-products.png" />
@@ -1488,6 +1492,7 @@
     <Content Include="Images\Erp\icons\icons-move.png" />
     <Content Include="Images\Erp\icons\icons-notification.png" />
     <Content Include="Images\Erp\icons\icons-package.png" />
+    <Content Include="Images\Erp\icons\icons-suv.png" />
     <Content Include="Images\Erp\icons\icons-technical.png" />
     <Content Include="Images\Erp\icons\icons-trolley.png" />
     <Content Include="Images\Erp\icons\icons-accounting.png" />
@@ -1512,6 +1517,7 @@
     <Content Include="Images\Icons\car-rental.png" />
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
+    <Content Include="Images\Icons\icons-callback.png" />
     <Content Include="Images\Icons\settings-red.png" />
     <Content Include="Images\Icons\settings-black.png" />
     <Content Include="Images\Icons\skype-logo.png" />
@@ -1756,6 +1762,17 @@
     <Content Include="Areas\AutoCare\Data\AppointmentDB.edmx.diagram">
       <DependentUpon>AppointmentDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\AutoCare\Views\Home\Index.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\Create.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\Delete.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\Details.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\Edit.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\Index.cshtml" />
+    <Content Include="Areas\AutoCare\Views\AppointmentSlots\Create.cshtml" />
+    <Content Include="Areas\AutoCare\Views\AppointmentSlots\Delete.cshtml" />
+    <Content Include="Areas\AutoCare\Views\AppointmentSlots\Details.cshtml" />
+    <Content Include="Areas\AutoCare\Views\AppointmentSlots\Edit.cshtml" />
+    <Content Include="Areas\AutoCare\Views\AppointmentSlots\Index.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2510,6 +2527,7 @@
     <Content Include="Views\JobPostSales\Details.cshtml" />
     <Content Include="Views\JobPostSales\Edit.cshtml" />
     <Content Include="Views\JobPostSales\Index.cshtml" />
+    <Content Include="Views\Home\AutoCare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

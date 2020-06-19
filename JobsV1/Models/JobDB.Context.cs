@@ -155,5 +155,11 @@ namespace JobsV1.Models
         public virtual DbSet<VehicleFuel> VehicleFuels { get; set; }
         public virtual DbSet<VehicleDrive> VehicleDrives { get; set; }
         public virtual DbSet<JobPostSale> JobPostSales { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.AutoCare.Data.Appointment> Appointments { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.AutoCare.Data.AppointmentSlot> AppointmentSlots { get; set; }
+
+        public System.Data.Entity.DbSet<JobsV1.Areas.AutoCare.Data.AppointmentStatus> AppointmentStatus { get; set; }
     }
 }

@@ -1,0 +1,106 @@
+﻿@model JobsV1.Areas.AutoCare.Data.Appointment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Appointment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentSlot.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentSlot.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentStatu.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentStatu.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DtEntered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtEntered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Conduction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Conduction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Request)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Request)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

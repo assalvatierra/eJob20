@@ -21,7 +21,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Admin','Admin',0,'Admin','UserList','',20,15),
 ('Activities','Activities',0,'Activities','Index','',20,16),
 ('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17),
-('Post Sales','Job Post Sales',0,'JobPostSales','Index','',20,18)
+('Post Sales','Job Post Sales',0,'JobPostSales','Index','',20,18),
+('Appointments','Appointments',0,'AutoCare/Appointments','Index','',20,19)
 ;
 
 
@@ -233,7 +234,16 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (18,18);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values ('Post Sales' ,'',18,'JobPostSales','Index','',21,172);	 -- id: 71
+values ('Post Sales' ,'',18,'JobPostSales','Index','',21,181);	 -- id: 71
+
+--After Sales
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('NO119','Appointments','Job Appointments','A','/Images/Erp/icons/icons-callback.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (19,19);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values  ('Appointment' ,'',19,'AutoCare/Appointments','Index','',21,191),
+		('Slots' ,'',19,'AutoCare/AppointmentSlots','Index','',21,192);	 -- id: 71
 
 
 
@@ -261,6 +271,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',16,16), 
 ('assalvatierra@gmail.com',17,17), 
 ('assalvatierra@gmail.com',18,18), 
+('assalvatierra@gmail.com',19,19), 
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 
@@ -280,18 +291,19 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',16,16),
 ('jahdielvillosa@gmail.com',17,17), 
 ('jahdielvillosa@gmail.com',18,18), 
+('jahdielvillosa@gmail.com',19,19), 
 
 ('Demo@gmail.com',1,1), 
 ('Demo@gmail.com',3,3), 
 ('Demo@gmail.com',5,5), 
 ('Demo@gmail.com',6,6), 
 ('Demo@gmail.com',17,17), 
-('Demo@gmail.com',18,18); 
+('Demo@gmail.com',18,18), 
+('Demo@gmail.com',19,19); 
 
 
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
-('assalvatierra@gmail.com', 19, 19),
 ('assalvatierra@gmail.com', 20, 20),
 ('assalvatierra@gmail.com', 21, 21),
 ('assalvatierra@gmail.com', 22, 22),
@@ -348,8 +360,10 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 73, 73),
 ('assalvatierra@gmail.com', 74, 74),
 ('assalvatierra@gmail.com', 75, 75),
+('assalvatierra@gmail.com', 76, 76),
+('assalvatierra@gmail.com', 77, 77),
+('assalvatierra@gmail.com', 78, 78),
 
-('jahdielvillosa@gmail.com', 19, 19),
 ('jahdielvillosa@gmail.com', 20, 20),
 ('jahdielvillosa@gmail.com', 21, 21),
 ('jahdielvillosa@gmail.com', 22, 22),
@@ -406,25 +420,32 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 73, 73),
 ('jahdielvillosa@gmail.com', 74, 74),
 ('jahdielvillosa@gmail.com', 75, 75),
+('jahdielvillosa@gmail.com', 76, 76),
+('jahdielvillosa@gmail.com', 77, 77),
+('jahdielvillosa@gmail.com', 78, 78),
 
 --account access--
-('Demo@gmail.com', 19, 19),
 ('Demo@gmail.com', 20, 20),
 ('Demo@gmail.com', 21, 21),
 ('Demo@gmail.com', 22, 22),
+('Demo@gmail.com', 23, 23),
 --job order--
-('Demo@gmail.com', 27, 27),
-('Demo@gmail.com', 29, 29),
+('Demo@gmail.com', 28, 28),
 ('Demo@gmail.com', 30, 30),
 ('Demo@gmail.com', 31, 31),
 ('Demo@gmail.com', 32, 32),
+('Demo@gmail.com', 33, 33),
 -- Customers --
-('Demo@gmail.com', 38, 38),
 ('Demo@gmail.com', 39, 39),
+('Demo@gmail.com', 40, 40),
 -- Resources --
-('Demo@gmail.com', 42, 42),
-('Demo@gmail.com', 46, 46),
--- Resources --
-('Demo@gmail.com', 73, 73),
+('Demo@gmail.com', 43, 43),
+('Demo@gmail.com', 47, 47),
+-- Vehicles --
 ('Demo@gmail.com', 74, 74),
-('Demo@gmail.com', 75, 75); 
+('Demo@gmail.com', 75, 75),
+-- Post Sale --
+('Demo@gmail.com', 76, 76),
+-- Appointments --
+('Demo@gmail.com', 77, 77),
+('Demo@gmail.com', 78, 78); 
