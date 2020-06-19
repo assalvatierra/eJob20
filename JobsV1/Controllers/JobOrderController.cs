@@ -1161,8 +1161,25 @@ order by x.jobid
                     //job trail
                     trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Edit Saved", jobMain.Id.ToString());
 
-               
-                    return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
+
+                    //add job post record when job is closed (4 = CLOSED)
+                    if(jobMain.JobStatusId == 4)
+                    {
+                        if (CreateJobPostSalesRecord(jobMain.Id))
+                        {
+                            return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Unable to Add Job Post Sale Schedule");
+                        }
+
+                    }
+                    else
+                    {
+                        return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
+                    }
+                        
                 }
             }
 
@@ -1292,11 +1309,6 @@ order by x.jobid
                 isValid = false;
             }
 
-            if (jobMain.AgreedAmt == null)
-            {
-                ModelState.AddModelError("AgreedAmt", "Invalid AgreedAmt");
-                isValid = false;
-            }
 
             return isValid;
         }
@@ -2445,7 +2457,9 @@ order by x.jobid
                 //job trail
                 trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CLOSED", id.ToString());
 
-                return "OK";
+                if(CreateJobPostSalesRecord(id))
+                    return "OK";
+                return "Error";
             }
             catch (Exception ex)
             {
@@ -3285,7 +3299,7 @@ order by x.jobid
                 var User = HttpContext.User.Identity.Name;
                 var jobServices = db.JobServices.Find(jobServiceId);
                 var PostSalesInterval = jobServices.SupplierItem.Interval == null ? 60 : (int)jobServices.SupplierItem.Interval;
-                var PostSalesDate = ((DateTime)jobServices.DtStart).AddMonths(PostSalesInterval);
+                var PostSalesDate = ((DateTime)jobServices.DtStart).AddDays(PostSalesInterval);
 
                 JobPostSale postSale = new JobPostSale()
                 {

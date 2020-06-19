@@ -4,14 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace JobsV1.Areas.Personel.Controllers
+namespace JobsV1.Areas.AutoCare.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Accounting/Home
+        // GET: AutoCare/Home
         public ActionResult Index()
         {
-            // return View();
             return RedirectToAction("Index", "Home", new { area = "" });
         }
     }

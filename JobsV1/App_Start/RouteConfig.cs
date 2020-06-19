@@ -777,5 +777,72 @@ namespace JobsV1
             );
 
         }
+
+
+        //Realwheels 
+        public static void RegisterRoutes_AutoCare(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.IgnoreRoute("{*x}", new { x = @".*\.asmx(/.*)?" });
+
+            /********************************
+            * sitemap
+            ********************************/
+            routes.MapRoute(
+                name: "sitemap",
+                url: "sitemap",
+                defaults: new { controller = "Home", action = "SitemapXml", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+                );
+
+            routes.MapRoute(
+                name: "Home",
+                url: "Home/",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+
+            /********************************
+            * invoice
+            ********************************/
+            routes.MapRoute(
+                name: "JobOrderInvoice",
+                url: "invoice/{id}/{month}/{day}/{year}/{rName}",
+                defaults: new { controller = "JobOrder", action = "BookingRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
+            );
+
+            /********************************
+            * Car Rental Reservation
+            ********************************/
+            routes.MapRoute(
+                name: "Reservation",
+                url: "reservation/{id}/{month}/{day}/{year}/{rName}",
+                defaults: new { controller = "CarReservations", action = "ReservationRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
+            );
+
+            /********************************
+            * landing/home page
+            ********************************/
+            routes.MapRoute(
+                name: "myHome",
+                url: "Home/Index/{id}",
+                defaults: new { controller = "Home", action = "AutoCare", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+            /********************************
+            * AJ88 car rental default
+            ********************************/
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "AutoCare", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+        }
+
     }
 }

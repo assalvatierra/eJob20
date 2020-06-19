@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace JobsV1.Areas.AutoCare.Controllers
+namespace JobsV1.Areas.Personel.Controllers
 {
     public class HomeController : Controller
     {

@@ -50,6 +50,12 @@ namespace JobsV1.Controllers
             return View();
         }
 
+        public ActionResult AutoCare()
+        {
+            ViewBag.Message = "Welcome";
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

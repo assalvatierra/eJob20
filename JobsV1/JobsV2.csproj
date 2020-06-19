@@ -1458,8 +1458,10 @@
     <Content Include="Images\Erp\icons\icons-accounting.png" />
     <Content Include="Images\Erp\icons\icons-error.png" />
     <Content Include="Images\Erp\icons\icons-bookkeeping.png" />
+    <Content Include="Images\Erp\icons\icons-callback.png" />
     <Content Include="Images\Erp\icons\icons8-lease-64.png" />
     <Content Include="Images\Erp\icons\icons-admin.png" />
+    <Content Include="Images\Erp\icons\icons-suv.png" />
     <Content Include="Images\Erp\icons\inprogress.png" />
     <Content Include="Images\Erp\inprogress.png" />
     <Content Include="Images\Erp\partial-128.png" />
@@ -1477,6 +1479,7 @@
     <Content Include="Images\Icons\car-rental.png" />
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
+    <Content Include="Images\Icons\icons-callback.png" />
     <Content Include="Images\Icons\settings-red.png" />
     <Content Include="Images\Icons\settings-black.png" />
     <Content Include="Images\Icons\skype-logo.png" />
@@ -1714,6 +1717,7 @@
     <Content Include="Areas\AutoCare\Views\Vehicles\_SearchCustomerModal.cshtml" />
     <Content Include="Areas\AutoCare\Views\VehicleModels\VehicleServices.cshtml" />
     <Content Include="Areas\AutoCare\Views\Vehicles\VehicleServices.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Home\Index.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2468,6 +2472,7 @@
     <Content Include="Views\JobPostSales\Details.cshtml" />
     <Content Include="Views\JobPostSales\Edit.cshtml" />
     <Content Include="Views\JobPostSales\Index.cshtml" />
+    <Content Include="Views\Home\AutoCare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

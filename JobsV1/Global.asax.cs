@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -16,7 +17,20 @@ namespace JobsV1
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            
+            var currentSite = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            switch (currentSite){
+                case "AutoCare":
+                    RouteConfig.RegisterRoutes_AutoCare(RouteTable.Routes);
+                    break;
+                case "Realwheels":
+                    RouteConfig.RegisterRoutes(RouteTable.Routes);
+                    break;
+                default:
+                    RouteConfig.RegisterRoutes(RouteTable.Routes);
+                    break;
+            }
+
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
