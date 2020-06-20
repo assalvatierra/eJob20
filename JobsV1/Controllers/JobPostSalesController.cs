@@ -19,14 +19,15 @@ namespace JobsV1.Controllers
         // GET: JobPostSales
         public ActionResult Index()
         {
-            DateTime today = dateClass.GetCurrentDate();
-            var jobPostSales = db.JobPostSales.Include(j => j.JobService);
+            DateTime today = dateClass.GetCurrentDate().Date;
 
-            jobPostSales = jobPostSales.Where(s => s.DtPost.Year == today.Year &&
-                                                s.DtPost.Month == today.Month && 
-                                                s.DtPost.Day == today.Day);
+            //get job services after the supplier interval
+            var jobserviceList = db.JobServices.Where(j => today >= (DateTime)DbFunctions.AddDays(DbFunctions.TruncateTime(j.DtStart), j.SupplierItem.Interval));
 
-            return View(jobPostSales.ToList());
+            //get jobservices with jobstatus of DONE (4)
+            jobserviceList = jobserviceList.Where(j => j.JobMain.JobStatusId == 4);
+
+            return View(jobserviceList.ToList());
         }
 
         // GET: JobPostSales/Details/5
@@ -45,10 +46,18 @@ namespace JobsV1.Controllers
         }
 
         // GET: JobPostSales/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars");
-            return View();
+            int jobserviceId = 1;
+            if(id != null)
+            {
+                jobserviceId =(int)id;
+            }
+
+            JobPostSale jobPostSale = new JobPostSale();
+            jobPostSale.DoneBy = HttpContext.User.Identity.Name;
+            ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobserviceId);
+            return View(jobPostSale);
         }
 
         // POST: JobPostSales/Create
@@ -162,6 +171,15 @@ namespace JobsV1.Controllers
 
 
             return isValid;
+        }
+
+        public ActionResult JobsForServicing()
+        {
+
+            DateTime today = dateClass.GetCurrentDate().Date;
+            var jobserviceList = db.JobServices.Where(j => today >= (DateTime)DbFunctions.AddDays(DbFunctions.TruncateTime(j.DtStart), j.SupplierItem.Interval));
+
+            return View(jobserviceList);
         }
     }
 }

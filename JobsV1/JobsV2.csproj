@@ -612,6 +612,7 @@
     <Compile Include="Models\Class\ActivityClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
+    <Compile Include="Models\Class\JobPostSaleClass.cs" />
     <Compile Include="Models\Class\JobVehicleClass.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\Class\SalesLeadClass.cs" />
@@ -1248,6 +1249,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\AutoCare\autocare-car-back-blur.png" />
+    <Content Include="Images\AutoCare\autocare-car-back.png" />
+    <Content Include="Images\AutoCare\background-login.png" />
+    <Content Include="Images\AutoCare\icons-gear.png" />
+    <Content Include="Images\AutoCare\icons-key-2.png" />
+    <Content Include="Images\AutoCare\icons-key.png" />
+    <Content Include="Images\AutoCare\icons-male-user.png" />
+    <Content Include="Images\AutoCare\icons-paint-sprayer.png" />
+    <Content Include="Images\AutoCare\icons-user.png" />
+    <Content Include="Images\AutoCare\icons-wrench.png" />
     <Content Include="Images\Call.png" />
     <Content Include="Images\CarRental\4x4.101.png" />
     <Content Include="Images\CarRental\Ads\Ads-Airport-2019.png" />

@@ -15,16 +15,15 @@ body{
 }
 
 #loginForm {
-    width: 45%;
-	height: auto;
-	border: 1px solid #c8c8c8;
-	border-radius: 4px;
-	background-color: #dde0e8;
-	padding: 25px 18px 25px 25px;
-	box-shadow: #7f7f7f 6px 6px 6px;
-	margin:50px auto;
-   
-
+    width: 400px;
+    height: auto;
+    border-radius: 4px;
+    /*background-color: black;*/
+    padding: 25px 18px 25px 25px;
+    /*box-shadow: #7f7f7f 6px 6px 6px;*/
+    margin: 50px auto;
+    background: rgba(11, 12, 12, 0.70);
+    color:white;
 }
 
 
@@ -175,4 +174,105 @@ footer#main{
 	text-align:center;
 	font:normal 11px/16px Arial, Helvetica, sans-serif;
 	width:100%;
+}
+
+
+
+.form-icon {
+    background-color: dodgerblue;
+    border: none;
+    padding: 5px 10px;
+}
+
+.top-icons-holder {
+    position: absolute;
+    top: -50px;
+}
+
+.top-icons {
+    background-color: dodgerblue;
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.login-header {
+    margin-bottom: 20px;
+}
+
+    .login-header h3 {
+        margin-top: 0px;
+    }
+
+.login-form {
+    margin: 10px;
+}
+
+.login-form-input {
+    width: 520px;
+}
+
+.login-remember-text {
+    padding-left: 0px !important;
+}
+
+@media(max-width:450px) {
+    .top-icons-holder {
+        top: -100px;
+        left:120px;
+    }
+
+    .login-header {
+        margin-bottom: 50px;
+    }
+
+}
+
+@media(max-width:740px) {
+    .top-icons-holder {
+        top: -100px;
+        left: 120px;
+        width: 0;
+        display: none;
+    }
+
+    .login-header {
+        margin-bottom: 50px;
+    }
+
+    .login-form{
+       height:10px;
+       width:90%;
+    }
+
+    .form-icon {
+        display:none;
+    }
+}
+
+@media(max-width:768px) {
+    .top-icons-holder {
+        top: -100px;
+        left: 120px;
+        width:0;
+        display:none;
+    }
+
+    .login-header {
+        margin-bottom: 50px;
+    }
+}
+
+@media(max-width:1024px) {
+    .top-icons-holder {
+        top: -100px;
+        left: 120px;
+        display: none;
+    }
+
+    .login-header {
+        margin-bottom: 50px;
+    }
 }
