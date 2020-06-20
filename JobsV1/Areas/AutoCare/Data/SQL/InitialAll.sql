@@ -328,11 +328,11 @@ values	('Fuel'		 ,'',10,1),
 
 --------- ACTIVITES ------------------
 insert into CustEntActivities( Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type)
-values	('01/05/2020', 'jahdielvillosa@gmail.com', '','',0,'Inquiry','', 2 ,'Meeting'),
-		('01/20/2020', 'jahdielvillosa@gmail.com', '','',2500,'Bidding Inquiry','', 2 ,'Meeting'),
-		('02/12/2020', 'jahdielvillosa@gmail.com', '','',6500,'Bidding Inquiry','', 3 ,'Meeting'),
-		('02/15/2020', 'jahdielvillosa@gmail.com', '','SC-001',3500,'Firm Inquiry','', 2,'Meeting' ),
-		('02/16/2020', 'jahdielvillosa@gmail.com', '','',25000,'Others','', 3 ,'Sales'); 
+values	('01/05/2020', 'demo@gmail.com', '','',0,'Inquiry','', 2 ,'Meeting'),
+		('01/20/2020', 'demo@gmail.com', '','',2500,'Bidding Inquiry','', 2 ,'Meeting'),
+		('02/12/2020', 'demo@gmail.com', '','',6500,'Bidding Inquiry','', 3 ,'Meeting'),
+		('02/15/2020', 'demo@gmail.com', '','SC-001',3500,'Firm Inquiry','', 2,'Meeting' ),
+		('02/16/2020', 'demo@gmail.com', '','',25000,'Others','', 3 ,'Sales'); 
 
 
 --------- APPOINTMENT ----------------

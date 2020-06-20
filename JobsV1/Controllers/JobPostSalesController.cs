@@ -14,12 +14,20 @@ namespace JobsV1.Controllers
     public class JobPostSalesController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private DateClass dateClass = new DateClass();
 
         // GET: JobPostSales
         public ActionResult Index()
         {
-            var jobPostSales = db.JobPostSales.Include(j => j.JobService);
-            return View(jobPostSales.ToList());
+            DateTime today = dateClass.GetCurrentDate().Date;
+
+            //get job services after the supplier interval
+            var jobserviceList = db.JobServices.Where(j => today >= (DateTime)DbFunctions.AddDays(DbFunctions.TruncateTime(j.DtStart), j.SupplierItem.Interval));
+
+            //get jobservices with jobstatus of DONE (4)
+            jobserviceList = jobserviceList.Where(j => j.JobMain.JobStatusId == 4);
+
+            return View(jobserviceList.ToList());
         }
 
         // GET: JobPostSales/Details/5
@@ -38,10 +46,18 @@ namespace JobsV1.Controllers
         }
 
         // GET: JobPostSales/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars");
-            return View();
+            int jobserviceId = 1;
+            if(id != null)
+            {
+                jobserviceId =(int)id;
+            }
+
+            JobPostSale jobPostSale = new JobPostSale();
+            jobPostSale.DoneBy = HttpContext.User.Identity.Name;
+            ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobserviceId);
+            return View(jobPostSale);
         }
 
         // POST: JobPostSales/Create
@@ -155,6 +171,15 @@ namespace JobsV1.Controllers
 
 
             return isValid;
+        }
+
+        public ActionResult JobsForServicing()
+        {
+
+            DateTime today = dateClass.GetCurrentDate().Date;
+            var jobserviceList = db.JobServices.Where(j => today >= (DateTime)DbFunctions.AddDays(DbFunctions.TruncateTime(j.DtStart), j.SupplierItem.Interval));
+
+            return View(jobserviceList);
         }
     }
 }
