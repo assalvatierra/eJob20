@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/19/2020 13:15:26
+-- Date Created: 06/19/2020 19:56:02
 -- Generated from EDMX file: D:\Projects\eJob20\JobsV1\Areas\AutoCare\Data\AppointmentDB.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,26 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_AppointmentStatusAppointment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Appointments] DROP CONSTRAINT [FK_AppointmentStatusAppointment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AppointmentSlotAppointment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Appointments] DROP CONSTRAINT [FK_AppointmentSlotAppointment];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Appointments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Appointments];
+GO
+IF OBJECT_ID(N'[dbo].[AppointmentStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AppointmentStatus];
+GO
+IF OBJECT_ID(N'[dbo].[AppointmentSlots]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AppointmentSlots];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -33,11 +48,11 @@ CREATE TABLE [dbo].[Appointments] (
     [DtEntered] datetime  NOT NULL,
     [Customer] nvarchar(60)  NOT NULL,
     [Contact] nvarchar(30)  NOT NULL,
-    [CustCode] nvarchar(10)  NOT NULL,
+    [CustCode] nvarchar(10)  NULL,
     [Plate] nvarchar(max)  NOT NULL,
     [Conduction] nvarchar(max)  NULL,
     [Request] nvarchar(max)  NOT NULL,
-    [Remarks] nvarchar(max)  NOT NULL,
+    [Remarks] nvarchar(max)  NULL,
     [AppointmentStatusId] int  NOT NULL,
     [AppointmentSlotId] int  NOT NULL,
     [AppointmentDate] nvarchar(max)  NOT NULL

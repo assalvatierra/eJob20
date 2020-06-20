@@ -337,5 +337,8 @@ values	('01/05/2020', 'jahdielvillosa@gmail.com', '','',0,'Inquiry','', 2 ,'Meet
 
 --------- APPOINTMENT ----------------
 insert into AppointmentStatus([Status]) values 
-('ACTIVE'),('DONE'),('CANCELLED');
+('NEW'),('ACCEPTED'),('CANCELLED');
+
+insert into AppointmentSlots([Description]) values
+('09-10 am Daily'),('10-11 am Daily'),('11-12 nn Daily');
 

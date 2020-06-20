@@ -26,11 +26,11 @@
     <Property Name="DtEntered" Type="datetime" Nullable="false" />
     <Property Name="Customer" Type="nvarchar" Nullable="false" MaxLength="60" />
     <Property Name="Contact" Type="nvarchar" Nullable="false" MaxLength="30" />
-    <Property Name="CustCode" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="CustCode" Type="nvarchar" Nullable="true" MaxLength="10" />
     <Property Name="Plate" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Conduction" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Request" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
     <Property Name="AppointmentStatusId" Type="int" Nullable="false" />
     <Property Name="AppointmentSlotId" Type="int" Nullable="false" />
     <Property Name="AppointmentDate" Type="nvarchar(max)" Nullable="false" />
@@ -98,12 +98,12 @@
           <Property Name="DtEntered" Type="DateTime" Nullable="false" />
           <Property Name="Customer" Type="String" Nullable="false" MaxLength="60" />
           <Property Name="Contact" Type="String" Nullable="false" MaxLength="30" />
-          <Property Name="CustCode" Type="String" Nullable="false" MaxLength="10" />
+          <Property Name="CustCode" Type="String" Nullable="true" MaxLength="10" />
           <Property Name="Plate" Type="String" Nullable="false" />
           <Property Name="Conduction" Type="String" Nullable="true" />
           <Property Name="Request" Type="String" Nullable="false" />
           <NavigationProperty Name="AppointmentStatu" Relationship="AppointmentDB.AppointmentStatusAppointment" FromRole="Appointment" ToRole="AppointmentStatus" />
-          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" />
           <Property Name="AppointmentStatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AppointmentSlot" Relationship="AppointmentDB.AppointmentSlotAppointment" FromRole="Appointment" ToRole="AppointmentSlot" />
           <Property Name="AppointmentSlotId" Type="Int32" Nullable="false" />
