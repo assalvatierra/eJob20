@@ -221,7 +221,7 @@ values 	('Activities' ,'',16,'Activities','Index','',21,161),
 		
 --AutoCare Access
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('NO117','Vehicles','Vehicles Listing','A','/Images/Erp/icons/icons-suv.png');
+('NO117','Vehicles','Vehicles Listing','A','/Images/AutoCare/icons-suv.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (17,17);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
@@ -230,15 +230,15 @@ values 	('Units' ,'',17,'AutoCare/Vehicles','Index','',21,171),	--70
 
 --After Sales
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('NO118','Post Sales','Job Post Sales','A','/Images/Erp/icons/icons-callback.png');
+('NO118','Post Sales','Job Post Sales','A','/Images/AutoCare/icons-callback.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (18,18);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values ('Post Sales' ,'',18,'JobPostSales','Index','',21,181);	 -- id: 71
 
---After Sales
+--Appointments
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('NO119','Appointments','Job Appointments','A','/Images/Erp/icons/icons-callback.png');
+('NO119','Appointments','Job Appointments','A','/Images/AutoCare/icons-call.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (19,19);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 

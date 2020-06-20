@@ -538,6 +538,7 @@
     <Compile Include="Controllers\ProductPricesController.cs" />
     <Compile Include="Controllers\ProductProdCatsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\RateGroupsController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\SalesActivitiesController.cs" />
@@ -1252,11 +1253,13 @@
     <Content Include="Images\AutoCare\autocare-car-back-blur.png" />
     <Content Include="Images\AutoCare\autocare-car-back.png" />
     <Content Include="Images\AutoCare\background-login.png" />
+    <Content Include="Images\AutoCare\icons-callback.png" />
     <Content Include="Images\AutoCare\icons-gear.png" />
     <Content Include="Images\AutoCare\icons-key-2.png" />
     <Content Include="Images\AutoCare\icons-key.png" />
     <Content Include="Images\AutoCare\icons-male-user.png" />
     <Content Include="Images\AutoCare\icons-paint-sprayer.png" />
+    <Content Include="Images\AutoCare\icons-suv.png" />
     <Content Include="Images\AutoCare\icons-user.png" />
     <Content Include="Images\AutoCare\icons-wrench.png" />
     <Content Include="Images\Call.png" />
@@ -1784,6 +1787,7 @@
     <Content Include="Areas\AutoCare\Views\AppointmentSlots\Details.cshtml" />
     <Content Include="Areas\AutoCare\Views\AppointmentSlots\Edit.cshtml" />
     <Content Include="Areas\AutoCare\Views\AppointmentSlots\Index.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\PublicAppointment.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2539,6 +2543,8 @@
     <Content Include="Views\JobPostSales\Edit.cshtml" />
     <Content Include="Views\JobPostSales\Index.cshtml" />
     <Content Include="Views\Home\AutoCare.cshtml" />
+    <Content Include="Views\Public\Appointment.cshtml" />
+    <Content Include="Views\Public\AppointmentSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

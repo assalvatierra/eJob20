@@ -779,7 +779,7 @@ namespace JobsV1
         }
 
 
-        //Realwheels 
+        //AutoCare 
         public static void RegisterRoutes_AutoCare(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -814,13 +814,15 @@ namespace JobsV1
             );
 
             /********************************
-            * Car Rental Reservation
+            * AutoCare Appointment
             ********************************/
             routes.MapRoute(
-                name: "Reservation",
-                url: "reservation/{id}/{month}/{day}/{year}/{rName}",
-                defaults: new { controller = "CarReservations", action = "ReservationRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
+                name: "Appointment",
+                url: "Appointment/",
+                defaults: new { controller = "Public", action = "Appointment" },
+                namespaces: new[] { "JobsV1.Controllers" }
             );
+
 
             /********************************
             * landing/home page
@@ -828,7 +830,7 @@ namespace JobsV1
             routes.MapRoute(
                 name: "myHome",
                 url: "Home/Index/{id}",
-                defaults: new { controller = "Home", action = "AutoCare", id = UrlParameter.Optional },
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "JobsV1.Controllers" }
             );
 
@@ -838,7 +840,7 @@ namespace JobsV1
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "AutoCare", id = UrlParameter.Optional },
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "JobsV1.Controllers" }
             );
 

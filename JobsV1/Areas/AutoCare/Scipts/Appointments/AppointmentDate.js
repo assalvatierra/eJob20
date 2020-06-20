@@ -46,7 +46,7 @@ function InitDatePicker()
             singleDatePicker: true,
             showDropdowns: true,
             locale: {
-                format: 'MM/DD/YYYY'
+                format: 'MMM DD YYYY'
             }
         },
         function (start, end, label) {
@@ -63,6 +63,6 @@ function InitDatePicker()
         }
     );
 
-    $('input[name="AppointmentDate"]').val(moment().add(1, 'DAYS').format("MM/DD/YYYY"));
+    $('input[name="AppointmentDate"]').val(moment().add(1, 'DAYS').format("MMM DD YYYY"));
 
 }

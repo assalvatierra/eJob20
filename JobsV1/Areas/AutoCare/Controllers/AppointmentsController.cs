@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -55,6 +56,8 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             if (ModelState.IsValid && InputValidation(appointment))
             {
+                appointment.AppointmentDate = DateTime.ParseExact(appointment.AppointmentDate, "MMM dd yyyy",
+                                                   CultureInfo.InvariantCulture).ToString("MM/dd/yyyy");
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -91,6 +94,8 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             if (ModelState.IsValid && InputValidation(appointment))
             {
+                appointment.AppointmentDate = DateTime.ParseExact(appointment.AppointmentDate, "MMM dd yyyy",
+                                                   CultureInfo.InvariantCulture).ToString("MM/dd/yyyy");
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -159,26 +164,22 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 isValid = false;
             }
 
-            if (appointment.CustCode.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("CustCode", "Invalid CustCode");
-                isValid = false;
-            }
-
             if (appointment.Request.IsNullOrWhiteSpace())
             {
                 ModelState.AddModelError("Request", "Invalid Request");
                 isValid = false;
             }
 
-            if (appointment.Remarks.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("Remarks", "Invalid Remarks");
-                isValid = false;
-            }
-
 
             return isValid;
+        }
+
+
+        public ActionResult PublicAppointment()
+        {
+            ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description",1);
+            ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status",1);
+            return View();
         }
     }
 }
