@@ -1,0 +1,107 @@
+﻿@model JobsV1.Areas.Personel.Models.crDriverSummary
+
+@{
+    ViewBag.Title = "DriverSummary";
+
+    decimal _drivertrips = 0;
+    decimal _drivercash = 0;
+}
+
+<h2>@Model.Driver.Name</h2>
+
+<h3>Trips</h3>
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Rate
+        </th>
+        <th>
+            Addon
+        </th>
+        <th>
+            Expense
+        </th>
+        <th>
+            Driver
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.DriverTrips)
+    {
+        _drivertrips += item.DriverFee;
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtTrip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+                /
+                @Html.DisplayFor(modelItem => item.crLogCompany.Name)
+                /
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Addon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expenses)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DriverFee)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">Total Driver's fee</td>
+        <td>@_drivertrips</td>
+        <td></td>
+    </tr>
+
+
+
+    @foreach (var item in Model.DriverCash)
+    {
+        _drivercash += item.Amount;
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtRelease)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td colspan="3">Cash Voucher</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+           
+            <td>
+                @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="5" align="right">Total Driver's CA</td>
+        <td>@_drivercash</td>
+        <td></td>
+    </tr>
+
+
+</table>
+
+
+<h3>Driver's Balance: @(_drivertrips - _drivercash) </h3>

@@ -340,6 +340,8 @@
     <Compile Include="Areas\AutoCare\Data\AppointmentStatus.cs">
       <DependentUpon>AppointmentDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Controllers\CarRentalCashReleaseController.cs" />
+    <Compile Include="Areas\Personel\Controllers\CarRentalLogController.cs" />
     <Compile Include="Areas\Personel\Controllers\HomeController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrDtrsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPayrollsController.cs" />
@@ -347,6 +349,40 @@
     <Compile Include="Areas\Personel\Controllers\HrProfilesController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrSalariesController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrTrainingsController.cs" />
+    <Compile Include="Areas\Personel\Models\CarRentalLogDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarRentalLogDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\CarRentalLogDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\CarRentalLogDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarRentalLogDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crDriverSummary.cs" />
+    <Compile Include="Areas\Personel\Models\crLogCashRelease.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogClosing.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogCompany.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogDriver.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogTrip.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogUnit.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\HrDtr.cs">
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
@@ -411,6 +447,7 @@
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
+    <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\Controllers\SmCategoriesController.cs" />
@@ -1083,6 +1120,17 @@
     <Content Include="Areas\AutoCare\Data\SQL\InitialAll.sql" />
     <Content Include="Areas\AutoCare\Data\SQL\InitialData_SysTbls.sql" />
     <Content Include="Areas\AutoCare\Scipts\Appointments\AppointmentDate.js" />
+    <Content Include="Areas\Personel\Models\CarRentalLogDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CarRentalLogDB.Context.cs</LastGenOutput>
+      <DependentUpon>CarRentalLogDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Personel\Models\CarRentalLogDB.edmx.sql" />
+    <Content Include="Areas\Personel\Models\CarRentalLogDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CarRentalLogDB.cs</LastGenOutput>
+      <DependentUpon>CarRentalLogDB.edmx</DependentUpon>
+    </Content>
     <Content Include="Areas\Personel\Models\HrisDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>HrisDB.Context.cs</LastGenOutput>
@@ -1788,6 +1836,24 @@
     <Content Include="Areas\AutoCare\Views\AppointmentSlots\Edit.cshtml" />
     <Content Include="Areas\AutoCare\Views\AppointmentSlots\Index.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\PublicAppointment.cshtml" />
+    <EntityDeploy Include="Areas\Personel\Models\CarRentalLogDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CarRentalLogDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Areas\Personel\Models\CarRentalLogDB.edmx.diagram">
+      <DependentUpon>CarRentalLogDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Personel\Views\CarRentalLog\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummary.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

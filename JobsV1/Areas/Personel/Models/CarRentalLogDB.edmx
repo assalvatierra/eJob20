@@ -1,0 +1,431 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CarRentalLogDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CarRentalLogDBStoreContainer">
+    <EntitySet Name="crLogDrivers" EntityType="CarRentalLogDB.Store.crLogDrivers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogUnits" EntityType="CarRentalLogDB.Store.crLogUnits" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogCompanies" EntityType="CarRentalLogDB.Store.crLogCompanies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogTrips" EntityType="CarRentalLogDB.Store.crLogTrips" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogCashReleases" EntityType="CarRentalLogDB.Store.crLogCashReleases" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogClosings" EntityType="CarRentalLogDB.Store.crLogClosings" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
+      <End Role="crLogDriver" EntitySet="crLogDrivers" />
+      <End Role="crLogTrip" EntitySet="crLogTrips" />
+    </AssociationSet>
+    <AssociationSet Name="crLogUnitcrLogTrip" Association="CarRentalLogDB.Store.crLogUnitcrLogTrip">
+      <End Role="crLogUnit" EntitySet="crLogUnits" />
+      <End Role="crLogTrip" EntitySet="crLogTrips" />
+    </AssociationSet>
+    <AssociationSet Name="crLogCompanycrLogTrip" Association="CarRentalLogDB.Store.crLogCompanycrLogTrip">
+      <End Role="crLogCompany" EntitySet="crLogCompanies" />
+      <End Role="crLogTrip" EntitySet="crLogTrips" />
+    </AssociationSet>
+    <AssociationSet Name="crLogDrivercrLogCashRelease" Association="CarRentalLogDB.Store.crLogDrivercrLogCashRelease">
+      <End Role="crLogDriver" EntitySet="crLogDrivers" />
+      <End Role="crLogCashRelease" EntitySet="crLogCashReleases" />
+    </AssociationSet>
+    <AssociationSet Name="crLogClosingcrLogCashRelease" Association="CarRentalLogDB.Store.crLogClosingcrLogCashRelease">
+      <End Role="crLogClosing" EntitySet="crLogClosings" />
+      <End Role="crLogCashRelease" EntitySet="crLogCashReleases" />
+    </AssociationSet>
+    <AssociationSet Name="crLogClosingcrLogTrip" Association="CarRentalLogDB.Store.crLogClosingcrLogTrip">
+      <End Role="crLogClosing" EntitySet="crLogClosings" />
+      <End Role="crLogTrip" EntitySet="crLogTrips" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="crLogDrivers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="crLogUnits">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="crLogCompanies">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="crLogTrips">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="crLogDriverId" Type="int" Nullable="false" />
+    <Property Name="crLogUnitId" Type="int" Nullable="false" />
+    <Property Name="crLogCompanyId" Type="int" Nullable="false" />
+    <Property Name="DtTrip" Type="datetime" Nullable="false" />
+    <Property Name="Rate" Type="decimal" Nullable="false" />
+    <Property Name="Expenses" Type="decimal" Nullable="false" />
+    <Property Name="DriverFee" Type="decimal" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="crLogClosingId" Type="int" Nullable="true" />
+    <Property Name="Addon" Type="decimal" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crLogCashReleases">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtRelease" Type="datetime" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="crLogDriverId" Type="int" Nullable="false" />
+    <Property Name="crLogClosingId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="crLogClosings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dtClose" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="crLogDrivercrLogTrip">
+    <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
+    <End Role="crLogTrip" Type="CarRentalLogDB.Store.crLogTrips" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogDriver">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogTrip">
+        <PropertyRef Name="crLogDriverId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogUnitcrLogTrip">
+    <End Role="crLogUnit" Type="CarRentalLogDB.Store.crLogUnits" Multiplicity="1" />
+    <End Role="crLogTrip" Type="CarRentalLogDB.Store.crLogTrips" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogTrip">
+        <PropertyRef Name="crLogUnitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogCompanycrLogTrip">
+    <End Role="crLogCompany" Type="CarRentalLogDB.Store.crLogCompanies" Multiplicity="1" />
+    <End Role="crLogTrip" Type="CarRentalLogDB.Store.crLogTrips" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogCompany">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogTrip">
+        <PropertyRef Name="crLogCompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogDrivercrLogCashRelease">
+    <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
+    <End Role="crLogCashRelease" Type="CarRentalLogDB.Store.crLogCashReleases" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogDriver">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogCashRelease">
+        <PropertyRef Name="crLogDriverId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogClosingcrLogCashRelease">
+    <End Role="crLogClosing" Type="CarRentalLogDB.Store.crLogClosings" Multiplicity="0..1" />
+    <End Role="crLogCashRelease" Type="CarRentalLogDB.Store.crLogCashReleases" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogClosing">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogCashRelease">
+        <PropertyRef Name="crLogClosingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogClosingcrLogTrip">
+    <End Role="crLogClosing" Type="CarRentalLogDB.Store.crLogClosings" Multiplicity="0..1" />
+    <End Role="crLogTrip" Type="CarRentalLogDB.Store.crLogTrips" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogClosing">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogTrip">
+        <PropertyRef Name="crLogClosingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CarRentalLogDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CarRentalLogDBContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="crLogDrivers" EntityType="CarRentalLogDB.crLogDriver" />
+          <EntitySet Name="crLogUnits" EntityType="CarRentalLogDB.crLogUnit" />
+          <EntitySet Name="crLogCompanies" EntityType="CarRentalLogDB.crLogCompany" />
+          <EntitySet Name="crLogTrips" EntityType="CarRentalLogDB.crLogTrip" />
+          <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.crLogDrivercrLogTrip">
+            <End Role="crLogDriver" EntitySet="crLogDrivers" />
+            <End Role="crLogTrip" EntitySet="crLogTrips" />
+          </AssociationSet>
+          <AssociationSet Name="crLogUnitcrLogTrip" Association="CarRentalLogDB.crLogUnitcrLogTrip">
+            <End Role="crLogUnit" EntitySet="crLogUnits" />
+            <End Role="crLogTrip" EntitySet="crLogTrips" />
+          </AssociationSet>
+          <AssociationSet Name="crLogCompanycrLogTrip" Association="CarRentalLogDB.crLogCompanycrLogTrip">
+            <End Role="crLogCompany" EntitySet="crLogCompanies" />
+            <End Role="crLogTrip" EntitySet="crLogTrips" />
+          </AssociationSet>
+          <EntitySet Name="crLogCashReleases" EntityType="CarRentalLogDB.crLogCashRelease" />
+          <AssociationSet Name="crLogDrivercrLogCashRelease" Association="CarRentalLogDB.crLogDrivercrLogCashRelease">
+            <End Role="crLogDriver" EntitySet="crLogDrivers" />
+            <End Role="crLogCashRelease" EntitySet="crLogCashReleases" />
+          </AssociationSet>
+          <EntitySet Name="crLogClosings" EntityType="CarRentalLogDB.crLogClosing" />
+          <AssociationSet Name="crLogClosingcrLogCashRelease" Association="CarRentalLogDB.crLogClosingcrLogCashRelease">
+            <End Role="crLogClosing" EntitySet="crLogClosings" />
+            <End Role="crLogCashRelease" EntitySet="crLogCashReleases" />
+          </AssociationSet>
+          <AssociationSet Name="crLogClosingcrLogTrip" Association="CarRentalLogDB.crLogClosingcrLogTrip">
+            <End Role="crLogClosing" EntitySet="crLogClosings" />
+            <End Role="crLogTrip" EntitySet="crLogTrips" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="crLogDriver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogDrivercrLogTrip" FromRole="crLogDriver" ToRole="crLogTrip" />
+          <NavigationProperty Name="crLogCashReleases" Relationship="CarRentalLogDB.crLogDrivercrLogCashRelease" FromRole="crLogDriver" ToRole="crLogCashRelease" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="crLogUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogUnitcrLogTrip" FromRole="crLogUnit" ToRole="crLogTrip" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="crLogCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogCompanycrLogTrip" FromRole="crLogCompany" ToRole="crLogTrip" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="crLogTrip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="crLogDriver" Relationship="CarRentalLogDB.crLogDrivercrLogTrip" FromRole="crLogTrip" ToRole="crLogDriver" />
+          <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crLogUnit" Relationship="CarRentalLogDB.crLogUnitcrLogTrip" FromRole="crLogTrip" ToRole="crLogUnit" />
+          <Property Name="crLogUnitId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crLogCompany" Relationship="CarRentalLogDB.crLogCompanycrLogTrip" FromRole="crLogTrip" ToRole="crLogCompany" />
+          <Property Name="crLogCompanyId" Type="Int32" Nullable="false" />
+          <Property Name="DtTrip" Type="DateTime" Nullable="false" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" />
+          <Property Name="Expenses" Type="Decimal" Nullable="false" />
+          <Property Name="DriverFee" Type="Decimal" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
+          <NavigationProperty Name="crLogClosing" Relationship="CarRentalLogDB.crLogClosingcrLogTrip" FromRole="crLogTrip" ToRole="crLogClosing" />
+          <Property Name="crLogClosingId" Type="Int32" Nullable="true" />
+          <Property Name="Addon" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <Association Name="crLogDrivercrLogTrip">
+          <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogTrip" Role="crLogTrip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogDriver">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogTrip">
+              <PropertyRef Name="crLogDriverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crLogUnitcrLogTrip">
+          <End Type="CarRentalLogDB.crLogUnit" Role="crLogUnit" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogTrip" Role="crLogTrip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogTrip">
+              <PropertyRef Name="crLogUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crLogCompanycrLogTrip">
+          <End Type="CarRentalLogDB.crLogCompany" Role="crLogCompany" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogTrip" Role="crLogTrip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogCompany">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogTrip">
+              <PropertyRef Name="crLogCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crLogCashRelease">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtRelease" Type="DateTime" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="30" />
+          <NavigationProperty Name="crLogDriver" Relationship="CarRentalLogDB.crLogDrivercrLogCashRelease" FromRole="crLogCashRelease" ToRole="crLogDriver" />
+          <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crLogClosing" Relationship="CarRentalLogDB.crLogClosingcrLogCashRelease" FromRole="crLogCashRelease" ToRole="crLogClosing" />
+          <Property Name="crLogClosingId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <Association Name="crLogDrivercrLogCashRelease">
+          <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogCashRelease" Role="crLogCashRelease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogDriver">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogCashRelease">
+              <PropertyRef Name="crLogDriverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crLogClosing">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtClose" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="crLogCashReleases" Relationship="CarRentalLogDB.crLogClosingcrLogCashRelease" FromRole="crLogClosing" ToRole="crLogCashRelease" />
+          <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogClosingcrLogTrip" FromRole="crLogClosing" ToRole="crLogTrip" />
+        </EntityType>
+        <Association Name="crLogClosingcrLogCashRelease">
+          <End Type="CarRentalLogDB.crLogClosing" Role="crLogClosing" Multiplicity="0..1" />
+          <End Type="CarRentalLogDB.crLogCashRelease" Role="crLogCashRelease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogClosing">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogCashRelease">
+              <PropertyRef Name="crLogClosingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crLogClosingcrLogTrip">
+          <End Type="CarRentalLogDB.crLogClosing" Role="crLogClosing" Multiplicity="0..1" />
+          <End Type="CarRentalLogDB.crLogTrip" Role="crLogTrip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogClosing">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogTrip">
+              <PropertyRef Name="crLogClosingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CarRentalLogDBStoreContainer" CdmEntityContainer="CarRentalLogDBContainer">
+    <EntitySetMapping Name="crLogDrivers">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogDriver)">
+        <MappingFragment StoreEntitySet="crLogDrivers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogUnits">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogUnit)">
+        <MappingFragment StoreEntitySet="crLogUnits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogCompanies">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogCompany)">
+        <MappingFragment StoreEntitySet="crLogCompanies">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogTrips">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogTrip)">
+        <MappingFragment StoreEntitySet="crLogTrips">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="crLogDriverId" ColumnName="crLogDriverId" />
+          <ScalarProperty Name="crLogUnitId" ColumnName="crLogUnitId" />
+          <ScalarProperty Name="crLogCompanyId" ColumnName="crLogCompanyId" />
+          <ScalarProperty Name="DtTrip" ColumnName="DtTrip" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="Expenses" ColumnName="Expenses" />
+          <ScalarProperty Name="DriverFee" ColumnName="DriverFee" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="crLogClosingId" ColumnName="crLogClosingId" />
+          <ScalarProperty Name="Addon" ColumnName="Addon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogCashReleases">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogCashRelease)">
+        <MappingFragment StoreEntitySet="crLogCashReleases">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtRelease" ColumnName="DtRelease" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="crLogDriverId" ColumnName="crLogDriverId" />
+          <ScalarProperty Name="crLogClosingId" ColumnName="crLogClosingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogClosings">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogClosing)">
+        <MappingFragment StoreEntitySet="crLogClosings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="dtClose" ColumnName="dtClose" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

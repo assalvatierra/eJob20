@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5fae7c9056fb492ab0ff2c159d907431" Name="Diagram1" >
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogDriver" Width="1.5" PointX="6.875" PointY="0.875" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogUnit" Width="1.5" PointX="1.125" PointY="1.125" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogCompany" Width="1.5" PointX="1.125" PointY="3" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogTrip" Width="1.5" PointX="3.875" PointY="1" />
+        <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogTrip" />
+        <AssociationConnector Association="CarRentalLogDB.crLogUnitcrLogTrip" />
+        <AssociationConnector Association="CarRentalLogDB.crLogCompanycrLogTrip" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogCashRelease" Width="1.5" PointX="6.875" PointY="2.875" />
+        <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogCashRelease" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogClosing" Width="1.5" PointX="4" PointY="5.75" />
+        <AssociationConnector Association="CarRentalLogDB.crLogClosingcrLogCashRelease" />
+        <AssociationConnector Association="CarRentalLogDB.crLogClosingcrLogTrip" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
