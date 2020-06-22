@@ -354,32 +354,38 @@
 </div>
 
 <!-- Start of Modal -->
-<!-- End of Modal -->
 @{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "Documents", ViewBag.Documents } }); }
 @{ Html.RenderPartial("ClauseEdit", null); }
 @{ Html.RenderPartial("PartialView_Details_Categories", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "categories", ViewBag.categories } }); }
 @{ Html.RenderPartial("PartialView_Details_AddressCreate", null); }
 @{ Html.RenderPartial("PartialView_Details_AddressEdit", null); }
 @{ Html.RenderPartial("PartialView_Details_ContactCreate", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "ContactList", ViewBag.ContactList } }); }
-
+@Html.Partial("_SearchCustomerModal")
+<!-- End of Modal -->
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/CustEntMain/CompanyDetails.js"></script>
     <script src="~/Scripts/CustEntMain/CompanyReport.js"></script>
     <script src="~/Scripts/CustEntMain/CustEntMainDetails.js"></script>
-}
-<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script>
+    <script type="text/javascript" src="~/Scripts/CustEntMain/CustomerSearch.js"></script>
+    <script>
     // On Page Ready
-    $(document).ready(JobListVisibility());
+        $(document).ready(() => {
+            JobListVisibility();
+            InitialCustomer();
+        });
 
     // Joblist
     // Show / Hide Job Listing and Searching
     function JobListVisibility(){
         var cond = '@ViewBag.HaveJob';
         cond == 'True' ? $('#jobList').show() : $('#jobList').hide();
-
     }
 
+        function InitialCustomer() {
+            $("#ac-custId").val(1);
+            ajax_getContactDetails();
+        }
 
-</script>
+    </script>
+}

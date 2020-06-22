@@ -38,8 +38,19 @@
     @foreach (var t in ViewBag.EntServices)
     {
         <div class="col-sm-4" style="text-align:center;">
-            <a href="@Url.Action("Service","Module", new { id=@t.Id })">
-                <img src="@Url.Content("~/")@t.IconPath" style="height:90px;margin:20px" alt="Edit" />
+            <a href="@Url.Action("Service", "Module", new { id = @t.Id })">
+                @{ 
+                    var iconPath = t.IconPath; 
+                    }
+                @if (File.Exists(Server.MapPath(iconPath)))
+                {
+
+                    <img src="@t.IconPath" style="height:90px;margin:20px" alt="Image unable to load" />
+                }
+                else
+                {
+                    <img src="~/Images/Erp/icons/icons-activities.png"  style="height:90px;margin:20px" />
+                }
             </a>
             <p>
                 <h3> @t.Description </h3>
@@ -48,3 +59,16 @@
     }
 </div>
 <br /><br /> 
+
+@section Scripts{
+    <script>
+         $.get(image_url)
+            .done(function () {
+                // Do something now you know the image exists.
+
+            }).fail(function () {
+                // Image doesn't exist - do something else.
+
+            })
+    </script>
+    }

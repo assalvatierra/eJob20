@@ -4,12 +4,13 @@
     ViewBag.Title = "Work in Progress";
     Session["ROOTMENUID"] = 3;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var jobVehicle = ViewBag.JobVehicle as JobsV1.Models.JobVehicle;
 }
 
 <link href="/Content/TableStyles.css" rel="stylesheet" />
 
 <div class="view-header">
-    <h2>Job Orders</h2>
+    <h2>Job Orders @ViewBag.SiteConfig</h2>
 
     <div class="header-btn-list">
 
@@ -110,8 +111,7 @@
 
                         <br />
                         <span style="font:500 10px;color:darkblue;">
-                            @item.Main.Description
-
+                             @item.Main.Description
                         </span>
                         <span>
 
