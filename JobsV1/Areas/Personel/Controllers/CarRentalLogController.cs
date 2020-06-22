@@ -50,7 +50,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name");
             ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description");
             ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name");
-            ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id");
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id");
             return View(trip);
         }
 
@@ -59,7 +59,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks,crLogClosingId")] crLogTrip crLogTrip)
+        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +71,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crLogTrip.crLogUnitId);
             ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name", crLogTrip.crLogCompanyId);
-            ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
         }
 
@@ -90,7 +90,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crLogTrip.crLogUnitId);
             ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name", crLogTrip.crLogCompanyId);
-            ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
         }
 
@@ -99,7 +99,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks,crLogClosingId")] crLogTrip crLogTrip)
+        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -110,7 +110,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crLogTrip.crLogUnitId);
             ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name", crLogTrip.crLogCompanyId);
-            ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
         }
 
@@ -152,6 +152,94 @@ namespace JobsV1.Areas.Personel.Controllers
             driversummary.DriverCash = cashtrx;
 
             return View(driversummary);
+        }
+
+        public ActionResult PaytoClose(int id, decimal amount)
+        {
+            crLogDriver driver = db.crLogDrivers.Find(id);
+            List<crLogTrip> trips = db.crLogTrips.Where(d => d.crLogDriverId == id && d.crLogClosingId == null).ToList();
+            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosingId == null).ToList();
+
+            string sErrorMessage = "";
+            decimal _tripAmt = 0;
+            decimal _cashAmt = 0;
+            decimal _paytoCloseAmt = 0;
+            foreach (var item in trips)
+            {
+                _tripAmt += item.DriverFee;
+            }
+            foreach(var item in cashtrx)
+            {
+                _cashAmt += item.Amount;
+            }
+            _paytoCloseAmt = _tripAmt - _cashAmt;
+
+            if (_paytoCloseAmt != amount)
+                sErrorMessage = "Amount is not valid to close the transactions.";
+
+
+            int closingId = this.generateClosingTrx();
+            decimal _tripAmt2 = 0;
+            try
+            {
+                foreach (var item in trips)
+                {
+                    _tripAmt2 += item.DriverFee;
+                    item.crLogClosingId = closingId;
+                }
+                if (_tripAmt2 == _tripAmt)
+                    db.SaveChanges();
+                else
+                    sErrorMessage = "Amount in Trips has changed and not ready for closing. please try again.";
+            }
+            catch(Exception e)
+            {
+                sErrorMessage = "Unable to finish closing the trips logs \n\n" + e.Message;
+            }
+
+            decimal _cashAmt2 = 0;
+            try
+            {
+                foreach (var item in cashtrx)
+                {
+                    _cashAmt2 += item.Amount;
+                    item.crLogClosingId = closingId;
+                }
+                if (_cashAmt2 == _cashAmt)
+                    db.SaveChanges();
+                else
+                    sErrorMessage = "Amount in Cash Trx has changed and not ready for closing. please try again.";
+            }
+            catch (Exception e)
+            {
+                sErrorMessage = "Unable to finish closing cash trasactions \n\n" + e.Message;
+            }
+
+
+            if (sErrorMessage.Trim() == "")
+            {
+                ViewBag.ReturnCode = "1";
+                ViewBag.ReturnMessage = "Closing successfull...";
+            }
+            else
+            {
+                ViewBag.ReturnCode = "-1";
+                ViewBag.ReturnMessage = sErrorMessage;
+            }
+
+            ViewBag.DriverId = id;
+            return View();
+        }
+
+        int generateClosingTrx()
+        {
+            crLogClosing ctrx = new crLogClosing()
+            { dtClose = System.DateTime.Now };
+
+            db.crLogClosings.Add(ctrx);
+            db.SaveChanges();
+
+            return ctrx.Id;
         }
 
 

@@ -88,7 +88,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
-           
+
             <td>
                 @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })
             </td>
@@ -103,5 +103,12 @@
 
 </table>
 
+@{ decimal _balance = (_drivertrips - _drivercash); }
+<h3>Driver's Balance: @_balance </h3>
+<h4>
+    @Html.ActionLink("Pay and Close", "PaytoClose", new { id = Model.Driver.Id, amount = _balance })
+</h4>
+<br />
+@Html.ActionLink("Go to Trip Log", "Index")
+    | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease")
 
-<h3>Driver's Balance: @(_drivertrips - _drivercash) </h3>

@@ -1854,6 +1854,7 @@
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\Index.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummary.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\PaytoClose.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

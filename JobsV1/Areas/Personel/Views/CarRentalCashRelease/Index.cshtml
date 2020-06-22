@@ -1,35 +1,39 @@
 ﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogCashRelease>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cash Transaction";
 }
 
-<h2>Index</h2>
+<h2>Cash Transaction</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add New Cash Trx", "Create")
+    | @Html.ActionLink("Trip Log", "Index", "CarRentalLog")
 </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DtRelease)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Remarks)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.crLogDriver.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.crLogClosing.Id)
-            </th>
-            <th></th>
-        </tr>
 
-    @foreach (var item in Model) {
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtRelease)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.crLogDriver.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.crLogClosing.Id)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DtRelease)
@@ -47,10 +51,10 @@
                 @Html.DisplayFor(modelItem => item.crLogClosing.Id)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Driver Summary", "DriverSummary", new { id=item.crLogDriverId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Driver Summary", "DriverSummary","CarRentalLog", new { id = item.crLogDriverId },null )
             </td>
         </tr>
     }
 
-    </table>
+</table>

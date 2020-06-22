@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "PaytoClose";
+}
+
+<h2>@ViewBag.ReturnMessage</h2>
+
+@if (ViewBag.ReturnCode=="1")
+{
+    <p>
+        @Html.ActionLink("Back to Trip Log", "Index")
+    </p>
+}
+
+<p>
+    @Html.ActionLink("Back to Driver Summary", "DriverSummary", new { id = ViewBag.DriverId })
+</p>
