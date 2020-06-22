@@ -59,8 +59,6 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             if (ModelState.IsValid && InputValidation(appointment))
             {
-                appointment.AppointmentDate = DateTime.ParseExact(appointment.AppointmentDate, "MMM dd yyyy",
-                                                   CultureInfo.InvariantCulture).ToString("MM/dd/yyyy");
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -97,8 +95,6 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             if (ModelState.IsValid && InputValidation(appointment))
             {
-                appointment.AppointmentDate = DateTime.ParseExact(appointment.AppointmentDate, "MMM dd yyyy",
-                                                   CultureInfo.InvariantCulture).ToString("MM/dd/yyyy");
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

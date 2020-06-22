@@ -169,7 +169,7 @@ function LoadTable(data) {
     for (var x = 0; x < temp.length; x++) {
         Address = temp[x]["Address"] != null ? temp[x]["Address"] : "--";
         company = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
-        website = temp[x]["Website"] != null ? temp[x]["Website"] : "--";
+        website = temp[x]["Website"] != null ? temp[x]["Website"] : " ";
         contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
         contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
         mobile = temp[x]["Mobile"] != null ? temp[x]["Mobile"] : "--";
@@ -179,7 +179,7 @@ function LoadTable(data) {
         var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
         var Status = temp[x]["Status"] != null ? temp[x]["Status"] : "--";
         var email = temp[x]["ContactEmail"] != null ? temp[x]["ContactEmail"] : "--";
-        var code = temp[x]["Code"] != null ? temp[x]["Code"] : "--";
+        var code = temp[x]["Code"] != null ? temp[x]["Code"] : " ";
 
         var ContactPersons = temp[x]["ContactName"] != null ? temp[x]["ContactName"] : "--";
         var ContactPosition = temp[x]["ContactPosition"] != null ? temp[x]["ContactPosition"] : "--";
@@ -187,9 +187,13 @@ function LoadTable(data) {
         var Exclusive = temp[x]["Exclusive"] != null ? temp[x]["Exclusive"] : "PUBLIC";
         var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : "--";
 
+
+        website = "<a href='https://" + website + "' target='_blank' >" + website.substring(0, 15) + "... </a>";
+        
+
         content = "<tr>";
 
-        content += "<td class='table-name-col'>" + temp[x]["Name"] + "</td>";
+        content += "<td class='table-name-col'><b>" + temp[x]["Name"] + "</b></td>";
         content += "<td>" + code + "</td>";
         content += "<td>" + website + "</td>";
         content += "<td>" + City + "</td>";

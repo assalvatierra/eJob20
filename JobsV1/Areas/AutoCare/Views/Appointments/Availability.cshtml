@@ -98,7 +98,7 @@
     <script>
         function SelectSchedule(id, date) {
             console.log("id:" + id + " date: " + date);
-
+            $("#AppointmentItems-List").children().remove();
             var res = $.get("/AutoCare/Appointments/GetAppointments/",
                 { id : id, date : date },
                 (result) => {

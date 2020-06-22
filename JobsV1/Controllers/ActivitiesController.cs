@@ -487,7 +487,6 @@ namespace JobsV1.Controllers
 
         #endregion
 
-
         #region Supplier Activities
 
         //Get User Activities within a specific date range
@@ -675,6 +674,20 @@ namespace JobsV1.Controllers
             }
 
             return "Error";
+        }
+
+        #endregion
+
+
+        #region Searh Modal 
+
+        [HttpGet]
+        public JsonResult GetCodeHistoryList(string salesCode)
+        {
+            var activityList = db.CustEntActivities.Where(a => a.SalesCode.Contains(salesCode))
+                .Select(a => new { a.Id, a.CustEntMainId, a.ActivityType, a.ProjectName, a.CustEntMain.Name, a.Status , a.Date.Month, a.Date.Year, a.Date.Day });
+
+            return Json(activityList.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         #endregion

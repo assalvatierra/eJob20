@@ -2617,6 +2617,7 @@
     <Content Include="Views\Public\Appointment.cshtml" />
     <Content Include="Views\Public\AppointmentSuccess.cshtml" />
     <Content Include="Views\Public\AppSchedules.cshtml" />
+    <Content Include="Views\Activities\_SalesCodeModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

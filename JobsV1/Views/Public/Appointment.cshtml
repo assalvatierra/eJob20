@@ -129,6 +129,15 @@
     <script src="~/Areas/AutoCare/Scipts/Appointments/AppointmentDate.js"></script>
 
     <script>
+
+        $(document).ready(function () {
+            if ('@ViewBag.IsNotValid' == 'True') {
+                $("#ApmntFormDate").hide();
+                $("#ApmntFormDetails").show();
+            }
+        });
+
+
         function SelectSchedule(slotId, date) {
             console.log("slotId : " + slotId);
             console.log("date : " + date);
