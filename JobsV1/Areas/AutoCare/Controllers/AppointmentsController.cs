@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.AutoCare.Data;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.AutoCare.Controllers
@@ -16,11 +17,13 @@ namespace JobsV1.Areas.AutoCare.Controllers
     public class AppointmentsController : Controller
     {
         private AppointmentDBContainer db = new AppointmentDBContainer();
+        private AppointmentClass apClass = new AppointmentClass();
 
         // GET: AutoCare/Appointments
         public ActionResult Index()
         {
-            var appointments = db.Appointments.Include(a => a.AppointmentSlot).Include(a => a.AppointmentStatu);
+            var appointments = db.Appointments.Include(a => a.AppointmentSlot).Include(a => a.AppointmentStatu)
+                .OrderBy(a=>a.AppointmentDate).Where(a=>a.AppointmentStatusId < 3);
             return View(appointments.ToList());
         }
 
@@ -180,6 +183,26 @@ namespace JobsV1.Areas.AutoCare.Controllers
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description",1);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status",1);
             return View();
+        }
+
+        public ActionResult AppointmentSelect()
+        {
+            var apSchedules = apClass.GetAppoinmentSchedules();
+            return View(apSchedules);
+        }
+
+        public ActionResult Availability()
+        {
+            var apSchedules = apClass.GetAppoinmentSchedules();
+            return View(apSchedules);
+        }
+
+        [HttpGet]
+        public JsonResult GetAppointments(int id, string date)
+        {
+            var appointmentList = db.Appointments.ToList().Select(s=> new { s.Customer, s.Plate, s.Request, s.AppointmentSlotId, s.AppointmentDate });
+            appointmentList = appointmentList.Where(a => a.AppointmentSlotId == id && DateTime.Parse(a.AppointmentDate).Date == DateTime.Parse(date).Date).ToList();
+            return Json(appointmentList.ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 }

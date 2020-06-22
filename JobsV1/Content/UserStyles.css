@@ -522,3 +522,35 @@
       margin:0px;
       margin-top:0px;
     }
+
+
+/* Appointments */
+
+
+.appointment-panel {
+    margin-top: 20px;
+}
+
+.appointment-slot {
+    background-color: whitesmoke;
+    color: royalblue;
+    font-weight: 600;
+}
+
+.appointment-occupied {
+    background-color: darkgrey;
+}
+
+.appointment-cell {
+    transition: 0.4s;
+    cursor: pointer;
+    border: 1px solid blue;
+    color: gray;
+}
+
+    .appointment-cell:hover {
+        background-color: dodgerblue;
+        color: white;
+        box-shadow: 1px 1px 5px 0.5px dodgerblue;
+        border: 1px solid dodgerblue;
+    }

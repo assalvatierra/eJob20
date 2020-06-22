@@ -6,12 +6,14 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using JobsV1.Models.Class;
 
 namespace JobsV1.Controllers
 {
     public class PublicController : Controller
     {
         private AppointmentDBContainer db = new AppointmentDBContainer();
+        private AppointmentClass apClass = new AppointmentClass();
 
         // GET: Public
         public ActionResult Index()
@@ -19,11 +21,15 @@ namespace JobsV1.Controllers
             return View();
         }
 
-        public ActionResult Appointment()
+        public ActionResult Appointment(int? SlotId, string Date)
         {
-            ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", 1);
+            Appointment appointment = new Appointment();
+            appointment.AppointmentDate = Date;
+
+            ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", SlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", 1);
-            return View();
+            ViewBag.Schedules = apClass.GetAppoinmentSchedules(); 
+            return View(appointment);
         }
 
 
@@ -36,9 +42,6 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid && AppointmentValidation(appointment))
             {
-                appointment.AppointmentDate = DateTime.ParseExact(appointment.AppointmentDate, "MMM dd yyyy",
-                                                    CultureInfo.InvariantCulture).ToString("MM/dd/yyyy");
-
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
                 return RedirectToAction("AppointmentSuccess");
@@ -46,6 +49,7 @@ namespace JobsV1.Controllers
 
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
+            ViewBag.Schedules = apClass.GetAppoinmentSchedules();
             return View(appointment);
         }
 

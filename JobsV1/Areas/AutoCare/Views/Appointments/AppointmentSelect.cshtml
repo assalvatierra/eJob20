@@ -1,0 +1,69 @@
+﻿@model JobsV1.Models.Class.ApmntSchedule
+
+@{
+    ViewBag.Title = "Appointments";
+}
+
+<h2>Appointments</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>
+                Slot
+            </th>
+            @foreach (var apHeader in Model.dateLabels)
+            {
+                <th>
+                    @apHeader.DateMonth  @apHeader.Day<br />
+                    @apHeader.DateDay
+
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.appointments)
+        {
+            <tr>
+                <td class="appointment-slot">
+                    @item.slot.Description
+                </td>
+
+                @foreach (var schedule in item.apDaysStatuses)
+                {
+                    if (schedule.status)
+                    {
+                        <td class="appointment-occupied">
+                            @schedule.date.ToString("dd")
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="appointment-cell" onclick="SelectSchedule(@item.slot.Id, '@schedule.date' )">
+                            @schedule.date.ToString("dd")
+                        </td>
+                    }
+                }
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts{
+    <script>
+        function SelectSchedule(slotId, date) {
+            alert("You have selected this schedule");
+            console.log("slotId : " + slotId);
+            console.log("date : " + date);
+        }
+    </script>
+}

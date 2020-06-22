@@ -1,0 +1,123 @@
+﻿@model JobsV1.Models.Class.ApmntSchedule
+
+@{
+    ViewBag.Title = "Appointments Availability";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+}
+
+<style>
+    .appointment-slot {
+        background-color: whitesmoke;
+        color: royalblue;
+        font-weight: 600;
+    }
+
+    .appointment-occupied {
+        background-color: dodgerblue;
+        color:white;
+        transition: 0.5s;
+    }
+
+        .appointment-occupied:hover {
+            background-color: deepskyblue;
+            box-shadow: 1px 1px 10px 1px lightgray;
+        }
+
+    .appointment-cell {
+        transition: 0.5s;
+        cursor: pointer;
+        border: 1px solid blue;
+        color: gray;
+    }
+
+</style>
+
+<h2>Appointments Availability</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>
+                Slot
+            </th>
+            @foreach (var apHeader in Model.dateLabels)
+            {
+                <th>
+                    <span >  @apHeader.DateMonth  @apHeader.Day</span>
+                    <br />
+                    @if(apHeader.DateDay == "Sun") { 
+                        <span class="text-danger">  @apHeader.DateDay </span>
+                    } else { 
+                        <span class="text-center">  @apHeader.DateDay</span>
+                    }
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.appointments)
+        {
+            <tr>
+                <td class="appointment-slot">
+                    @item.slot.Description
+                </td>
+
+                @foreach (var schedule in item.apDaysStatuses)
+                {
+                    if (schedule.status)
+                    {
+                        <td class="appointment-occupied" onclick="SelectSchedule(@item.slot.Id, '@schedule.date.ToString("MM/dd/yyyy")' )" style="cursor:pointer;">
+                            @schedule.date.ToString("dd")
+                            <span class="badge pull-right"> @schedule.appointments.Count() </span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="color:gray;">
+                            @schedule.date.ToString("dd") 
+                        </td>
+                    }
+                }
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@Html.Partial("_ScheduleItemsModal")
+
+@section Scripts{
+    <script>
+        function SelectSchedule(id, date) {
+            console.log("id:" + id + " date: " + date);
+
+            var res = $.get("/AutoCare/Appointments/GetAppointments/",
+                { id : id, date : date },
+                (result) => {
+                    console.log(result);
+
+                    for (var i = 0; i < result.length; i++) {
+
+                        var appointment = "<a href='#' class='list-group-item'> <b>" + result[i]["Customer"]
+                            + "</b> (" + result[i]["Plate"] + ") - Request: " + result[i]["Request"] + " " 
+                        $("#AppointmentItems-List").append(appointment);
+
+                    }
+
+                    $("#SelectAppointmentModal").modal("show");
+
+            })
+
+            //console.log(res);
+            //open modal and show all items on this schedule
+        }
+    </script>
+}

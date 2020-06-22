@@ -648,6 +648,7 @@
     </Compile>
     <Compile Include="Models\Class\ActionTrailClass.cs" />
     <Compile Include="Models\Class\ActivityClass.cs" />
+    <Compile Include="Models\Class\AppointmentClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
     <Compile Include="Models\Class\JobPostSaleClass.cs" />
@@ -1301,6 +1302,7 @@
     <Content Include="Images\AutoCare\autocare-car-back-blur.png" />
     <Content Include="Images\AutoCare\autocare-car-back.png" />
     <Content Include="Images\AutoCare\background-login.png" />
+    <Content Include="Images\AutoCare\icons-call.png" />
     <Content Include="Images\AutoCare\icons-callback.png" />
     <Content Include="Images\AutoCare\icons-gear.png" />
     <Content Include="Images\AutoCare\icons-key-2.png" />
@@ -1815,7 +1817,6 @@
     <Content Include="Areas\AutoCare\Views\VehicleModels\Edit.cshtml" />
     <Content Include="Areas\AutoCare\Views\VehicleModels\Index.cshtml" />
     <Content Include="Areas\AutoCare\Views\Vehicles\_SearchCustomerModal.cshtml" />
-    <Content Include="Areas\AutoCare\Views\VehicleModels\VehicleServices.cshtml" />
     <Content Include="Areas\AutoCare\Views\Vehicles\VehicleServices.cshtml" />
     <EntityDeploy Include="Areas\AutoCare\Data\AppointmentDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1855,6 +1856,9 @@
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\Index.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummary.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\PaytoClose.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\AppointmentSelect.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\Availability.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\_ScheduleItemsModal.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2612,6 +2616,7 @@
     <Content Include="Views\Home\AutoCare.cshtml" />
     <Content Include="Views\Public\Appointment.cshtml" />
     <Content Include="Views\Public\AppointmentSuccess.cshtml" />
+    <Content Include="Views\Public\AppSchedules.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

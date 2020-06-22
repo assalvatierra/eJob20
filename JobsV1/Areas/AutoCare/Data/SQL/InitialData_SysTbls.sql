@@ -65,7 +65,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 	('Listing','',3,'JobOrder','JobListing','span=30',21,34),	-- id: 28
 	('Job Table','',3,'JobMains','JobTable','span=30',21,35),	-- id: 29
 	('Availability','',3,'InvItems','Availability','',21,36),	-- id: 30
-	('Trip Listing','',3,'JobMains','TripListing' ,'',21,36);	-- id: 31
+	('Trip Listing','',3,'JobMains','TripListing' ,'',21,36),	-- id: 30
+	('Trip Logs','',3,'Personel/CarRentalLog','Index' ,'',21,36);		-- id: 31
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (3,1,'2019/1/1');
 
@@ -208,7 +209,7 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (15,15);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Agent Assignment' ,'',15,'Admin','Index','',21,151);	 -- id: 68
+values 	('Agent Assignment' ,'',15,'Admin','Index','',21,151);	
 
 --Activities Access
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
@@ -217,7 +218,7 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (16,16);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Activities' ,'',16,'Activities','Index','',21,161),
-		('Performance' ,'',16,'Activities','Performance','',21,162);	 -- id: 69
+		('Performance' ,'',16,'Activities','Performance','',21,162);	
 		
 --AutoCare Access
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
@@ -225,8 +226,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (17,17);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Units' ,'',17,'AutoCare/Vehicles','Index','',21,171),	--70
-		('Models' ,'',17,'AutoCare/VehicleModels','Index','',21,172);	 -- id: 71
+values 	('Units' ,'',17,'AutoCare/Vehicles','Index','',21,171),	
+		('Models' ,'',17,'AutoCare/VehicleModels','Index','',21,172);	
 
 --After Sales
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
@@ -234,7 +235,7 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (18,18);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values ('Post Sales' ,'',18,'JobPostSales','Index','',21,181);	 -- id: 71
+values ('Post Sales' ,'',18,'JobPostSales','Index','',21,181);	 
 
 --Appointments
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
@@ -243,7 +244,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (19,19);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values  ('Appointment' ,'',19,'AutoCare/Appointments','Index','',21,191),
-		('Slots' ,'',19,'AutoCare/AppointmentSlots','Index','',21,192);	 -- id: 71
+		('Slots' ,'',19,'AutoCare/AppointmentSlots','Index','',21,192),
+		('Availability' ,'',19,'AutoCare/Appointments','Availability','',21,193);	
 
 
 
@@ -363,6 +365,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 76, 76),
 ('assalvatierra@gmail.com', 77, 77),
 ('assalvatierra@gmail.com', 78, 78),
+('assalvatierra@gmail.com', 79, 79),
+('assalvatierra@gmail.com', 80, 80),
 
 ('jahdielvillosa@gmail.com', 20, 20),
 ('jahdielvillosa@gmail.com', 21, 21),
@@ -423,6 +427,9 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 76, 76),
 ('jahdielvillosa@gmail.com', 77, 77),
 ('jahdielvillosa@gmail.com', 78, 78),
+('jahdielvillosa@gmail.com', 79, 79),
+('jahdielvillosa@gmail.com', 80, 80),
+
 
 --account access--
 ('Demo@gmail.com', 20, 20),
@@ -436,16 +443,17 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('Demo@gmail.com', 32, 32),
 ('Demo@gmail.com', 33, 33),
 -- Customers --
-('Demo@gmail.com', 39, 39),
 ('Demo@gmail.com', 40, 40),
+('Demo@gmail.com', 41, 41),
 -- Resources --
-('Demo@gmail.com', 43, 43),
-('Demo@gmail.com', 47, 47),
+('Demo@gmail.com', 44, 44),
+('Demo@gmail.com', 48, 48),
 -- Vehicles --
-('Demo@gmail.com', 74, 74),
 ('Demo@gmail.com', 75, 75),
--- Post Sale --
 ('Demo@gmail.com', 76, 76),
--- Appointments --
+-- Post Sale --
 ('Demo@gmail.com', 77, 77),
-('Demo@gmail.com', 78, 78); 
+-- Appointments --
+('Demo@gmail.com', 78, 78),
+('Demo@gmail.com', 79, 79),
+('Demo@gmail.com', 80, 80); 
