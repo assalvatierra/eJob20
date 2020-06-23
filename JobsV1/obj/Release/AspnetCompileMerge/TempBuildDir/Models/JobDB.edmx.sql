@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/08/2020 20:36:02
--- Generated from EDMX file: D:\Projects\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 06/18/2020 20:32:15
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -326,9 +326,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesLeadItemsSalesLeadQuotedItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SalesLeadItemsSalesLeadQuotedItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SupplierItemRateSalesLeadQuotedItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem];
-GO
 IF OBJECT_ID(N'[dbo].[FK_CustomerCustSocialAcc]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustSocialAccs] DROP CONSTRAINT [FK_CustomerCustSocialAcc];
 GO
@@ -370,6 +367,39 @@ IF OBJECT_ID(N'[dbo].[FK_NotifRecipientCustNotifRecipient]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_CustNotifRecipientCustNotifActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustNotifActivities] DROP CONSTRAINT [FK_CustNotifRecipientCustNotifActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleJobVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobVehicles] DROP CONSTRAINT [FK_VehicleJobVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_JobMainJobVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobVehicles] DROP CONSTRAINT [FK_JobMainJobVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_CustomerVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntMainVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_CustEntMainVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleBrandVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleBrandVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleTypeVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleTypeVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleTransmissionVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleTransmissionVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleFuelVehicleMake]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleFuelVehicleMake];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleModelVehicle]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Vehicles] DROP CONSTRAINT [FK_VehicleModelVehicle];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VehicleDriveVehicleModel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VehicleModels] DROP CONSTRAINT [FK_VehicleDriveVehicleModel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_JobPostSaleJobServices]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobPostSales] DROP CONSTRAINT [FK_JobPostSaleJobServices];
 GO
 
 -- --------------------------------------------------
@@ -739,6 +769,33 @@ GO
 IF OBJECT_ID(N'[dbo].[SupplierActivityTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SupplierActivityTypes];
 GO
+IF OBJECT_ID(N'[dbo].[JobVehicles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobVehicles];
+GO
+IF OBJECT_ID(N'[dbo].[Vehicles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Vehicles];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleTypes];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleModels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleModels];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleBrands]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleBrands];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleTransmissions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleTransmissions];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleFuels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleFuels];
+GO
+IF OBJECT_ID(N'[dbo].[VehicleDrives]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VehicleDrives];
+GO
+IF OBJECT_ID(N'[dbo].[JobPostSales]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobPostSales];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -905,7 +962,8 @@ CREATE TABLE [dbo].[SupplierItems] (
     [Tel1] nvarchar(max)  NULL,
     [Tel2] nvarchar(max)  NULL,
     [Tel3] nvarchar(max)  NULL,
-    [Status] nvarchar(3)  NULL
+    [Status] nvarchar(3)  NULL,
+    [Interval] int  NULL
 );
 GO
 
@@ -1798,14 +1856,14 @@ GO
 CREATE TABLE [dbo].[SupplierContacts] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [Mobile] nvarchar(40)  NOT NULL,
-    [Landline] nvarchar(40)  NOT NULL,
-    [SkypeId] nvarchar(40)  NOT NULL,
-    [ViberId] nvarchar(40)  NOT NULL,
-    [Remarks] nvarchar(max)  NOT NULL,
+    [Mobile] nvarchar(40)  NULL,
+    [Landline] nvarchar(40)  NULL,
+    [SkypeId] nvarchar(40)  NULL,
+    [ViberId] nvarchar(40)  NULL,
+    [Remarks] nvarchar(max)  NULL,
     [SupplierId] int  NOT NULL,
-    [WhatsApp] nvarchar(80)  NOT NULL,
-    [Email] nvarchar(80)  NOT NULL,
+    [WhatsApp] nvarchar(80)  NULL,
+    [Email] nvarchar(80)  NULL,
     [SupplierContactStatusId] int  NOT NULL,
     [WeChat] nvarchar(40)  NULL,
     [Position] nvarchar(40)  NULL,
@@ -1907,7 +1965,7 @@ CREATE TABLE [dbo].[SupplierActivities] (
     [Code] nvarchar(20)  NULL,
     [DtActivity] datetime  NOT NULL,
     [Assigned] nvarchar(40)  NULL,
-    [Remarks] nvarchar(80)  NULL,
+    [Remarks] nvarchar(250)  NULL,
     [SupplierId] int  NOT NULL,
     [Amount] decimal(18,0)  NULL,
     [Type] nvarchar(20)  NULL,
@@ -1939,7 +1997,7 @@ CREATE TABLE [dbo].[CustEntActivities] (
     [SalesCode] nvarchar(20)  NULL,
     [Amount] decimal(18,0)  NULL,
     [Status] nvarchar(20)  NOT NULL,
-    [Remarks] nvarchar(80)  NULL,
+    [Remarks] nvarchar(250)  NULL,
     [CustEntMainId] int  NOT NULL,
     [Type] nvarchar(20)  NULL,
     [ActivityType] nvarchar(30)  NULL
@@ -2028,6 +2086,90 @@ CREATE TABLE [dbo].[SupplierActivityTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Type] nvarchar(20)  NOT NULL,
     [Points] int  NOT NULL
+);
+GO
+
+-- Creating table 'JobVehicles'
+CREATE TABLE [dbo].[JobVehicles] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [VehicleId] int  NOT NULL,
+    [JobMainId] int  NOT NULL,
+    [Mileage] int  NOT NULL
+);
+GO
+
+-- Creating table 'Vehicles'
+CREATE TABLE [dbo].[Vehicles] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [VehicleModelId] int  NOT NULL,
+    [YearModel] nvarchar(4)  NOT NULL,
+    [PlateNo] nvarchar(10)  NOT NULL,
+    [Conduction] nvarchar(10)  NULL,
+    [EngineNo] nvarchar(50)  NULL,
+    [ChassisNo] nvarchar(50)  NULL,
+    [Color] nvarchar(30)  NULL,
+    [CustomerId] int  NOT NULL,
+    [CustEntMainId] int  NOT NULL,
+    [Remarks] nvarchar(250)  NULL
+);
+GO
+
+-- Creating table 'VehicleTypes'
+CREATE TABLE [dbo].[VehicleTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(10)  NOT NULL
+);
+GO
+
+-- Creating table 'VehicleModels'
+CREATE TABLE [dbo].[VehicleModels] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Make] nvarchar(50)  NOT NULL,
+    [Variant] nvarchar(max)  NOT NULL,
+    [VehicleBrandId] int  NOT NULL,
+    [VehicleTypeId] int  NOT NULL,
+    [Remarks] nvarchar(max)  NULL,
+    [VehicleTransmissionId] int  NOT NULL,
+    [VehicleFuelId] int  NOT NULL,
+    [VehicleDriveId] int  NOT NULL
+);
+GO
+
+-- Creating table 'VehicleBrands'
+CREATE TABLE [dbo].[VehicleBrands] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Brand] nvarchar(20)  NOT NULL
+);
+GO
+
+-- Creating table 'VehicleTransmissions'
+CREATE TABLE [dbo].[VehicleTransmissions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(5)  NOT NULL
+);
+GO
+
+-- Creating table 'VehicleFuels'
+CREATE TABLE [dbo].[VehicleFuels] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Fuel] nvarchar(10)  NOT NULL
+);
+GO
+
+-- Creating table 'VehicleDrives'
+CREATE TABLE [dbo].[VehicleDrives] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Drive] nvarchar(10)  NOT NULL
+);
+GO
+
+-- Creating table 'JobPostSales'
+CREATE TABLE [dbo].[JobPostSales] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtPost] datetime  NOT NULL,
+    [DoneBy] nvarchar(50)  NOT NULL,
+    [Remarks] nvarchar(150)  NULL,
+    [JobServicesId] int  NOT NULL
 );
 GO
 
@@ -2758,6 +2900,60 @@ GO
 -- Creating primary key on [Id] in table 'SupplierActivityTypes'
 ALTER TABLE [dbo].[SupplierActivityTypes]
 ADD CONSTRAINT [PK_SupplierActivityTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'JobVehicles'
+ALTER TABLE [dbo].[JobVehicles]
+ADD CONSTRAINT [PK_JobVehicles]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Vehicles'
+ALTER TABLE [dbo].[Vehicles]
+ADD CONSTRAINT [PK_Vehicles]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'VehicleTypes'
+ALTER TABLE [dbo].[VehicleTypes]
+ADD CONSTRAINT [PK_VehicleTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'VehicleModels'
+ALTER TABLE [dbo].[VehicleModels]
+ADD CONSTRAINT [PK_VehicleModels]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'VehicleBrands'
+ALTER TABLE [dbo].[VehicleBrands]
+ADD CONSTRAINT [PK_VehicleBrands]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'VehicleTransmissions'
+ALTER TABLE [dbo].[VehicleTransmissions]
+ADD CONSTRAINT [PK_VehicleTransmissions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'VehicleFuels'
+ALTER TABLE [dbo].[VehicleFuels]
+ADD CONSTRAINT [PK_VehicleFuels]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'VehicleDrives'
+ALTER TABLE [dbo].[VehicleDrives]
+ADD CONSTRAINT [PK_VehicleDrives]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'JobPostSales'
+ALTER TABLE [dbo].[JobPostSales]
+ADD CONSTRAINT [PK_JobPostSales]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4310,21 +4506,6 @@ ON [dbo].[SalesLeadQuotedItems]
     ([SalesLeadItemsId]);
 GO
 
--- Creating foreign key on [SupplierItemRateId] in table 'SalesLeadQuotedItems'
-ALTER TABLE [dbo].[SalesLeadQuotedItems]
-ADD CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem]
-    FOREIGN KEY ([SupplierItemRateId])
-    REFERENCES [dbo].[SupplierItemRates]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SupplierItemRateSalesLeadQuotedItem'
-CREATE INDEX [IX_FK_SupplierItemRateSalesLeadQuotedItem]
-ON [dbo].[SalesLeadQuotedItems]
-    ([SupplierItemRateId]);
-GO
-
 -- Creating foreign key on [CustomerId] in table 'CustSocialAccs'
 ALTER TABLE [dbo].[CustSocialAccs]
 ADD CONSTRAINT [FK_CustomerCustSocialAcc]
@@ -4533,6 +4714,171 @@ GO
 CREATE INDEX [IX_FK_CustNotifRecipientCustNotifActivity]
 ON [dbo].[CustNotifActivities]
     ([CustNotifRecipientId]);
+GO
+
+-- Creating foreign key on [VehicleId] in table 'JobVehicles'
+ALTER TABLE [dbo].[JobVehicles]
+ADD CONSTRAINT [FK_VehicleJobVehicle]
+    FOREIGN KEY ([VehicleId])
+    REFERENCES [dbo].[Vehicles]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VehicleJobVehicle'
+CREATE INDEX [IX_FK_VehicleJobVehicle]
+ON [dbo].[JobVehicles]
+    ([VehicleId]);
+GO
+
+-- Creating foreign key on [JobMainId] in table 'JobVehicles'
+ALTER TABLE [dbo].[JobVehicles]
+ADD CONSTRAINT [FK_JobMainJobVehicle]
+    FOREIGN KEY ([JobMainId])
+    REFERENCES [dbo].[JobMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobMainJobVehicle'
+CREATE INDEX [IX_FK_JobMainJobVehicle]
+ON [dbo].[JobVehicles]
+    ([JobMainId]);
+GO
+
+-- Creating foreign key on [CustomerId] in table 'Vehicles'
+ALTER TABLE [dbo].[Vehicles]
+ADD CONSTRAINT [FK_CustomerVehicle]
+    FOREIGN KEY ([CustomerId])
+    REFERENCES [dbo].[Customers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomerVehicle'
+CREATE INDEX [IX_FK_CustomerVehicle]
+ON [dbo].[Vehicles]
+    ([CustomerId]);
+GO
+
+-- Creating foreign key on [CustEntMainId] in table 'Vehicles'
+ALTER TABLE [dbo].[Vehicles]
+ADD CONSTRAINT [FK_CustEntMainVehicle]
+    FOREIGN KEY ([CustEntMainId])
+    REFERENCES [dbo].[CustEntMains]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntMainVehicle'
+CREATE INDEX [IX_FK_CustEntMainVehicle]
+ON [dbo].[Vehicles]
+    ([CustEntMainId]);
+GO
+
+-- Creating foreign key on [VehicleBrandId] in table 'VehicleModels'
+ALTER TABLE [dbo].[VehicleModels]
+ADD CONSTRAINT [FK_VehicleBrandVehicleMake]
+    FOREIGN KEY ([VehicleBrandId])
+    REFERENCES [dbo].[VehicleBrands]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VehicleBrandVehicleMake'
+CREATE INDEX [IX_FK_VehicleBrandVehicleMake]
+ON [dbo].[VehicleModels]
+    ([VehicleBrandId]);
+GO
+
+-- Creating foreign key on [VehicleTypeId] in table 'VehicleModels'
+ALTER TABLE [dbo].[VehicleModels]
+ADD CONSTRAINT [FK_VehicleTypeVehicleMake]
+    FOREIGN KEY ([VehicleTypeId])
+    REFERENCES [dbo].[VehicleTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VehicleTypeVehicleMake'
+CREATE INDEX [IX_FK_VehicleTypeVehicleMake]
+ON [dbo].[VehicleModels]
+    ([VehicleTypeId]);
+GO
+
+-- Creating foreign key on [VehicleTransmissionId] in table 'VehicleModels'
+ALTER TABLE [dbo].[VehicleModels]
+ADD CONSTRAINT [FK_VehicleTransmissionVehicleMake]
+    FOREIGN KEY ([VehicleTransmissionId])
+    REFERENCES [dbo].[VehicleTransmissions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VehicleTransmissionVehicleMake'
+CREATE INDEX [IX_FK_VehicleTransmissionVehicleMake]
+ON [dbo].[VehicleModels]
+    ([VehicleTransmissionId]);
+GO
+
+-- Creating foreign key on [VehicleFuelId] in table 'VehicleModels'
+ALTER TABLE [dbo].[VehicleModels]
+ADD CONSTRAINT [FK_VehicleFuelVehicleMake]
+    FOREIGN KEY ([VehicleFuelId])
+    REFERENCES [dbo].[VehicleFuels]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VehicleFuelVehicleMake'
+CREATE INDEX [IX_FK_VehicleFuelVehicleMake]
+ON [dbo].[VehicleModels]
+    ([VehicleFuelId]);
+GO
+
+-- Creating foreign key on [VehicleModelId] in table 'Vehicles'
+ALTER TABLE [dbo].[Vehicles]
+ADD CONSTRAINT [FK_VehicleModelVehicle]
+    FOREIGN KEY ([VehicleModelId])
+    REFERENCES [dbo].[VehicleModels]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VehicleModelVehicle'
+CREATE INDEX [IX_FK_VehicleModelVehicle]
+ON [dbo].[Vehicles]
+    ([VehicleModelId]);
+GO
+
+-- Creating foreign key on [VehicleDriveId] in table 'VehicleModels'
+ALTER TABLE [dbo].[VehicleModels]
+ADD CONSTRAINT [FK_VehicleDriveVehicleModel]
+    FOREIGN KEY ([VehicleDriveId])
+    REFERENCES [dbo].[VehicleDrives]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VehicleDriveVehicleModel'
+CREATE INDEX [IX_FK_VehicleDriveVehicleModel]
+ON [dbo].[VehicleModels]
+    ([VehicleDriveId]);
+GO
+
+-- Creating foreign key on [JobServicesId] in table 'JobPostSales'
+ALTER TABLE [dbo].[JobPostSales]
+ADD CONSTRAINT [FK_JobPostSaleJobServices]
+    FOREIGN KEY ([JobServicesId])
+    REFERENCES [dbo].[JobServices]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobPostSaleJobServices'
+CREATE INDEX [IX_FK_JobPostSaleJobServices]
+ON [dbo].[JobPostSales]
+    ([JobServicesId]);
 GO
 
 -- --------------------------------------------------

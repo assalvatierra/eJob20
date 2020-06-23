@@ -23,6 +23,9 @@ namespace JobsV1
                 case "AutoCare":
                     RouteConfig.RegisterRoutes_AutoCare(RouteTable.Routes);
                     break;
+                case "SolidSteel":
+                    RouteConfig.RegisterRoutes_SolidSteel(RouteTable.Routes);
+                    break;
                 case "Realwheels":
                     RouteConfig.RegisterRoutes(RouteTable.Routes);
                     break;

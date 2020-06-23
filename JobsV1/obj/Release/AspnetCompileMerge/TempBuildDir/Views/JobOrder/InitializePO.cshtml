@@ -42,6 +42,7 @@
             <label class="control-label col-md-2">Budget</label>
             <div class="col-md-10">
                 <input class="form-control text-box single-line" id="Amount" name="Amount" type="text" value="">
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
             </div>
         </div>
 

@@ -6,10 +6,10 @@
 
 <h2>jobCreate</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>JobMain</h4>
         <hr />
@@ -23,29 +23,31 @@
         </div>
 
 
-        <div class="form-group" >
+        <div class="form-group">
             <b class="control-label col-md-2"> Company </b>
             <div class="col-md-10">
-                @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control", @id = "companyId2" })
+                <input type="text" class="form-control" id="company-textfield" disabled />
+                @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control hidden", @id = "CompanyId" })
                 @Html.ValidationMessageFor(model => model.JobThruId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <b class="control-label col-md-2"> Contact </b>
-            <div class="col-md-4"  style="width:320px">
-                @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" , @id = "customerList"})
+            <div class="col-md-4" style="width:320px">
+                <input type="text" class="form-control" id="customer-textfield" disabled />
+                @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control hidden", @id = "customerList" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
             </div>
             <span style="float:left">
-                <button class="btn btn-default" href="#" id="catbtn" data-toggle="modal" data-target="#CustomersModal" style="margin-top:0px;float:left;">Search Customer</button>
+                <button class="btn btn-default" data-toggle="modal" data-target="#CustomersModal" style="margin-top:0px;float:left;" type="button">Search Customer</button>
             </span>
         </div>
 
         <div class="form-group">
             <b class="control-label col-md-2">Email</b>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CustContactEmail, new { htmlAttributes = new { @class = "form-control" , @id = "CustContactEmail" } })
+                @Html.EditorFor(model => model.CustContactEmail, new { htmlAttributes = new { @class = "form-control", @id = "CustContactEmail" } })
                 @Html.ValidationMessageFor(model => model.CustContactEmail, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -59,7 +61,7 @@
         </div>
 
         <div class="form-group">
-            <b class="control-label col-md-2" >Job Name</b>
+            <b class="control-label col-md-2">Job Name</b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @maxlength = "80", @id = "jobdesc" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -83,7 +85,7 @@
         </div>
 
         <div class="form-group">
-           <b class="control-label col-md-2"> Job Remarks </b>
+            <b class="control-label col-md-2"> Job Remarks </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.JobRemarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                 @Html.ValidationMessageFor(model => model.JobRemarks, "", new { @class = "text-danger" })
@@ -147,132 +149,24 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", new {   })
+    @Html.ActionLink("Back to List", "Index", new { })
 </div>
+
+@Html.Partial("_SearchCustomerModal")
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Job/Main.js"></script>
+    <script type="text/javascript" src="~/Scripts/Job/JobCreate.js"> </script>
+    <script>
+        /* Initial  */
+        $(document).ready(function () {
+            $("#CompanyId2").val(2);
+            $('#company-textfield').val($("#CompanyId option:selected").text());
+            $('#customer-textfield').val($("#customerList option:selected").text());
+        });
+    </script>
+
 }
 
-<script type="text/javascript" src="~/Scripts/jquery-1.12.4.min.js"></script>
-<script>
-    /* Input validation */
-
-    $(document).ready(function () {
-        $("#CompanyId2").val(2);
-    });
-
-    //Change job desription bsed on the cutomer name
-    $("#customerList").change(function () {
-        var customer = $("#customerList option:selected").text();
-        //console.log("customer : " + customer);
-        //$("#jobdesc").val(customer);
-        getEmail();
-        getNumber();
-        getCompany();
-    });
-
-    //get email using ajax post
-    function getEmail() {
-        $.post("/JobOrder/getCustomerEmail",
-        {
-            id: $("#customerList option:selected").val()
-        },
-        function (data, status) {
-            $("#CustContactEmail").val(data);
-            //  alert("Data: " + data + "\nStatus: " + status);
-        });
-    }
-
-    //get number using ajax post
-    function getNumber() {
-        $.post("/JobOrder/getCustomerNumber",
-        {
-            id: $("#customerList option:selected").val()
-        },
-        function (data, status) {
-            $("#CustContactNumber").val(data);
-        });
-    }
-
-    //get number using ajax post
-    function getCompany() {
-        $.post("/JobOrder/getCustomerCompany",
-        {
-            id: $("#customerList option:selected").val()
-        },
-        function (data, status) {
-            $('[name=CompanyId]').val(data);
-        });
-    }
-
-    function searchCustomer() {
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("SearchBarCustomer");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("SearchListCustomer");
-        li = ul.getElementsByTagName("li");
-
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-    }
-
-    function setValue(value) {
-        var customer = $("#customerList option:selected").text();
-        $('#customerList').val(value);
-        $('#CustomersModal').modal('toggle');
-        //$("#jobdesc").val(customer);
-        getEmail();
-        getNumber();
-        getCompany();
-    }
-
-
-    ////Change job desription bsed on the cutomer name
-    //$("#jobdesc").on("keypress", function (e) {
-    //    var k;
-    //    document.all ? k = e.keyCode : k = e.which;
-    //    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
-    
-    //});
-</script>
-
-
-<!-- Modal -->
-<div class="modal fade" id="CustomersModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Customer List</h4>
-            </div>
-
-            <div class="modal-body" id="modal2-content">
-
-                <input type="text" id="SearchBarCustomer" onkeyup="searchCustomer()" placeholder="Search for names.." title="Type in a name">
-
-                <ul   id="SearchListCustomer">
-                    @foreach (var cust in ViewBag.CustomerList as IEnumerable<JobsV1.Models.Customer>)
-                    {
-                        <li style="cursor:pointer;list-style:none;" value="@cust.Name">
-                            <a onclick="setValue(@cust.Id)"  >
-                                @cust.Name
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->

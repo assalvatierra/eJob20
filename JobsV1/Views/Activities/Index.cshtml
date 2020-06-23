@@ -7,9 +7,9 @@
 <br />
 <h2>Customer Activities</h2>
 <div class="row">
-    <h4 class="col-md-1 control-label" > Filter : </h4>
+    <h4 class="col-md-1 control-label"> Filter : </h4>
     <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
-    <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;"  />
+    <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
     <button class="btn btn-default" style="margin-top:0px;" onclick="Filter()"> Filter </button>
 </div>
 
@@ -39,7 +39,7 @@
                 @Html.DisplayFor(modelItem => item.ProjectName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SalesCode)
+                <a  style="cursor:pointer;" onclick="SearchCodeActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>
             </td>
             <td>
                 @(((Decimal)item.Amount).ToString("N0"))
@@ -75,14 +75,14 @@
                 @if (ViewBag.IsAdmin == true)
                 {
                     <text>
-                    @Html.ActionLink("Edit", "CompanyActsEdit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "CompanyActsDelete", new { id = item.Id })
+                        @Html.ActionLink("Edit", "CompanyActsEdit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "CompanyActsDelete", new { id = item.Id })
                     </text>
                 }
             </td>
         </tr>
     }
-    </table>
+</table>
 
 
 <h4>Suppliers Activities</h4>
@@ -106,7 +106,7 @@
                 @DateTime.Parse(item.DtActivity.ToString()).ToString("MMM dd yyyy")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Code)
+                @Html.DisplayFor(modelItem => item.Code) 
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
@@ -115,10 +115,10 @@
                 @Html.ActionLink(item.Supplier.Name, "Records", "SupplierActivities", new { id = item.SupplierId }, null)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type )
+                @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Remarks )
+                @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
                 <a href="@Url.Action("SupActivities", "Activities", new { user = item.Assigned })">
@@ -148,9 +148,30 @@
     }
 </table>
 
-<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
-<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
-<script src="~/Scripts/Job/DefaultDate.js"></script>
-<script src="~/Scripts/Activities/Activities.js"></script>
-<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
+@Html.Partial("_SalesCodeModal")
+
+@section Scripts{
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
+    <script src="~/Scripts/Activities/Activities.js"></script>
+    <script>
+        function SearchCodeActivities(code) {
+            $.get("/Activities/GetCodeHistoryList", { salesCode: code }, (result) => {
+                console.log(result);
+                $("#SearchCode-Activities").children().remove();
+
+                for (var i = 0; i < result.length; i++) {
+                    var projectName = result[i]["ProjectName"] == null ? " " : result[i]["ProjectName"] + " / ";
+
+                    var activity = "<a href='../CustEntActivities/Index/" + result[i]["CustEntMainId"] + "' class='list-group-item'> " 
+                        + result[i]["Month"] + "/" + result[i]["Day"] + "/" + result[i]["Year"] + " - <b> " + projectName
+                        + result[i]["Name"] + "</b> -  " + result[i]["ActivityType"] + " (" + result[i]["Status"]  + ") ";
+                    $("#SearchCode-Activities").append(activity);
+
+                }
+
+                $("#SearchCodeModal").modal("show");
+            });
+        }
+    </script>
+
+}

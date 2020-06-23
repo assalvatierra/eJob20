@@ -46,7 +46,7 @@
                  @Html.ActionLink("Details", "Details", "CustEntMains", new { id = item.Id }, null)
             </dd>
         }
-        <dd><a id="catbtn" data-toggle="modal" data-target="#companyViewModal" style="margin-bottom:10px;">Add </a> |
+        <dd><a id="catbtn" data-toggle="modal" data-target="#companyViewModal" style="margin-bottom:10px;">Assign New Company </a> |
             <a id="catbtn" data-toggle="modal" data-target="#companyPrevListModal" style="margin-bottom:10px;">Company History</a>
         </dd>
     </dl>
@@ -65,14 +65,7 @@
 
                     @foreach (var item in ViewData["companiesPrev"] as IEnumerable<JobsV1.Models.CustEntity>)
                     {
-                        /*
-                        if (ViewBag.companies.Id == item.CustEntMainId)
-                        {
-                            <label class="label label-success">
-                                CURRENT 
-                            </label>
-                        }
-                        */
+                       
                         <dt>
                             Company
                         </dt>
@@ -118,33 +111,26 @@
                 <h4 class="modal-title">Company List</h4>
             </div>
             <div class="modal-body" id="modal2-content">
+                <div class="row">
+                    <div class="form-group form-group-margin col-md-12">
+                        <label class="form-label col-md-2">Company</label>
+                        <div class="col-md-10">
+                            <select name="CompanyList" class="form-control" id="cust-companyList">
+                                @foreach (var company in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
+                                {
+                                    <option value="@company.Id"> @company.Name </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-
-
-                    @*@foreach (var item in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
-            {
-                <a href="@Uracl.Action("addCompanyCat", "Customers", new { companyId = item.Id, userid = @customerid })" class="list-group-item"> @item.Name </a>
-            }*@
-                    <span class="control-label col-md-2">Company</span>
-                    <div class="col-md-10">
-                        <select name="CompanyList" class="form-control col-md-4" id="cust-companyList">
-                            @foreach (var company in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
-                            {
-                                <option value="@company.Id"> @company.Name </option>
-                            }
-                        </select>
+                    <div class="form-group form-group-margin col-md-12">
+                        <label class="form-label col-md-2">Position</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="cust-position" />
+                        </div>
                     </div>
                 </div>
-                <br /><br />
-
-                <div class="form-group">
-                    <span class="control-label col-md-2">Position</span>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="cust-position" />
-                    </div>
-                </div>
-                <br /><br />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" onclick="addCustomerCompany()">Submit</button>
@@ -163,41 +149,32 @@
                 <h4 class="modal-title">Company List</h4>
             </div>
             <div class="modal-body" id="modal2-content">
+                <div class="row">
+                    <div class="form-group form-group-margin col-md-12">
+                        <label class="form-label col-md-2">Company</label>
+                        <div class="col-md-10">
+                            <select name="CompanyList" class="form-control col-md-4" id="cust-edit-companyList">
+                                @foreach (var company in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
+                                {
+                                    <option value="@company.Id"> @company.Name </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-margin col-md-12">
+                        <label class="form-label col-md-2">Position</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="cust-edit-position" />
+                        </div>
+                    </div>
 
-                <div class="form-group">
-
-
-                    @*@foreach (var item in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
-                        {
-                            <a href="@Uracl.Action("addCompanyCat", "Customers", new { companyId = item.Id, userid = @customerid })" class="list-group-item"> @item.Name </a>
-                        }*@
-                    <span class="control-label col-md-2">Company</span>
-                    <div class="col-md-10">
-                        <select name="CompanyList" class="form-control col-md-4" id="cust-edit-companyList">
-                            @foreach (var company in ViewData["companies"] as IEnumerable<JobsV1.Models.CustEntMain>)
-                            {
-                                <option value="@company.Id"> @company.Name </option>
-                            }
-                        </select>
+                    <div class="form-group hidden col-md-12">
+                        <label class="form-label col-md-2"> ID </label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="cust-edit-companyList-Id" />
+                        </div>
                     </div>
                 </div>
-                <br /><br />
-
-                <div class="form-group">
-                    <span class="control-label col-md-2">Position</span>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="cust-edit-position" />
-                    </div>
-                </div>
-                <br /><br />
-
-                <div class="form-group hidden">
-                    <span class="control-label col-md-2"> ID </span>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="cust-edit-companyList-Id" />
-                    </div>
-                </div>
-                <br /><br />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" onclick="EditCustomerCompany()">Submit</button>

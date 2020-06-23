@@ -28,7 +28,8 @@ namespace JobsV1.Controllers
 
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", SlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", 1);
-            ViewBag.Schedules = apClass.GetAppoinmentSchedules(); 
+            ViewBag.Schedules = apClass.GetAppoinmentSchedules();
+            ViewBag.IsNotValid = false;
             return View(appointment);
         }
 
@@ -50,6 +51,7 @@ namespace JobsV1.Controllers
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
             ViewBag.Schedules = apClass.GetAppoinmentSchedules();
+            ViewBag.IsNotValid = true;
             return View(appointment);
         }
 

@@ -25,25 +25,9 @@
                 </li>
             </ul>
         </div>
-
-
     </div>
-
-    @*<span class="header-btn">
-            @Html.ActionLink("Create New", "CreateCustomer")
-        </span>
-        <span class="header-btn">
-            @Html.ActionLink("Deactivate Old Users", "DeactivateOldCustomer")
-        </span>*@
 </div>
 
-@*<p>
-        @Html.ActionLink("Active", "Index", new { status = "ACTIVE" }, new { @id = "ACTIVE" }) |
-        @Html.ActionLink("Inactive", "Index", new { status = "INACTIVE" }, new { @id = "INACTIVE" }) |
-        @Html.ActionLink("Bad", "Index", new { status = "BAD" }, new { @id = "BAD" }) |
-        @Html.ActionLink("All", "Index", new { status = "ALL" }, new { @id = "ALL" })
-    </p>
-*@
 <div class="view-content">
     <div class="filter-panel">
 
@@ -61,19 +45,6 @@
             <button id="INACTIVE" type="button" class="btn btn-default status-link"> INACTIVE </button>
             <button id="BAD" type="button" class="btn btn-default status-link"> BAD </button>
         </div>
-
-        @*Status:
-                <div class="button-group btn-group-sm" role="group">
-            <div class="status-panel">
-                Sort:
-                <span>
-                    <li id="DATE" class="status-link status-active"> Date Added </li>
-                    <li id="NAME" class="status-link"> Name </li>
-                    <li id="JOBSCOUNT" class="status-link"> Job Count </li>
-                </span>
-            </div>
-        *@
-
         <div class="search-panel">
             <div class="input-group ">
                 <input class=" form-control" id="srch-field" type="search" placeholder="Search by name"  />

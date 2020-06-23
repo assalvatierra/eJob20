@@ -220,7 +220,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 values 	('Activities' ,'',16,'Activities','Index','',21,161),
 		('Performance' ,'',16,'Activities','Performance','',21,162);	
 		
---AutoCare Access
+--Vehicles Access
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
 ('NO117','Vehicles','Vehicles Listing','A','/Images/AutoCare/icons-suv.png');
 
