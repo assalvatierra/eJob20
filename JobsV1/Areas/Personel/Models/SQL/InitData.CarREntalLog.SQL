@@ -19,6 +19,7 @@ values
 ('Peter'),
 ('Kelvin'),
 ('Nick'),
+('Danny'),
 ('Wilfredo'),
 ('Jehiel'),
 ('Lemwel'),

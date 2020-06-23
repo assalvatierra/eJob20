@@ -17,6 +17,9 @@
             Date
         </th>
         <th>
+            Driver
+        </th>
+        <th>
             Description
         </th>
         <th>
@@ -36,34 +39,37 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DtTrip)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogUnit.Description)
-                /
-                @Html.DisplayFor(modelItem => item.crLogCompany.Name)
-                /
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Addon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Expenses)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DriverFee)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.DtTrip)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+        /
+        @Html.DisplayFor(modelItem => item.crLogCompany.Name)
+        /
+        @Html.DisplayFor(modelItem => item.Remarks)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Rate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Addon)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Expenses)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DriverFee)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })
+    </td>
+</tr>
     }
 
 </table>
