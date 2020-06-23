@@ -1,0 +1,182 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
+
+@{
+    ViewBag.Title = "Trip Log";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Copy Trip Log</h2>
+<p>
+    @Html.ActionLink("Search Again", "CopyTrip", null, new { @class = "btn btn-default" })
+
+    <button class="btn btn-primary" onclick="ShowCopyLogsModal()">
+        Copy Selected
+    </button>
+</p>
+<table class="table" id="LogsTable">
+    <tr>
+        <th></th>
+        <th>
+            Date
+        </th>
+        <th>
+            Driver
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Rate
+        </th>
+        <th>
+            Addon
+        </th>
+        <th>
+            Expense
+        </th>
+        <th>
+            Driver
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="td-checkbox"> <input type="checkbox" value="@item.Id" checked /> </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtTrip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+                /
+                @Html.DisplayFor(modelItem => item.crLogCompany.Name)
+                /
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Addon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expenses)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DriverFee)
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<!-- Search Date Modal -->
+<!-- Modal -->
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="modal fade" role="dialog" id="FindLogDateModal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" style="width:300px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> Find Logs by Date</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Date:</label>
+                            <input type="text" class="form-control" id="findLogDate" name="srchDate">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" value="Create" class="btn btn-primary" >Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Copied Logs Date -->
+<div class="modal fade" role="dialog" id="CopiedLogDateModal">
+    <div class="modal-dialog" style="width:300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Set Date for the Copied Logs</h4>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Date:</label>
+                        <input type="text" class="form-control" id="copiedLogDate" name="copiedLogDate">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" value="Create" class="btn btn-primary" onclick="SubmitCopyLogs()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
+    <script>
+        $(document).ready(() => {
+            if ('@ViewBag.isSubmitted' == 'False') {
+                $("#FindLogDateModal").modal("show");
+            }
+            $("#findLogDate").val(moment().add(-1,'days').format("MM/DD/YYYY"));
+            $("#copiedLogDate").val(moment().format("MM/DD/YYYY"));
+        });
+
+
+        function SubmitCopyLogs() {
+            let cDate = $("#copiedLogDate").val();
+            let count = 0;
+            console.log(cDate);
+
+            $('#LogsTable  tr:gt(0)').each(function () {
+                var current_row = $(this);
+                var selected_Id = current_row.find("td:eq(0)").children('input:checked').val();
+                console.log(selected_Id);
+                //submit and copy logs to new logs
+                ajax_CopyLogs(selected_Id, cDate);
+                count++;
+            });
+
+            if (count > 0) {
+                alert("Copying Done !");
+                window.location.href = "../CarRentalLog/";
+            }
+
+            alert("No Items were selected");
+        }
+
+        //submit log id and date to copy selected logs to a new logs
+        function ajax_CopyLogs(id, cDate) {
+           var res = $.post("/Personel/CarRentalLog/CopyTripSubmit", { id : id, copyDate: cDate }, (result) => {
+               console.log("result:" + result);
+               return result;
+           });
+        }
+
+        function ShowCopyLogsModal() {
+            $("#CopiedLogDateModal").modal("show");
+
+            var findLogDate = $("#findLogDate").val();
+            $("#copiedLogDate").val(moment(findLogDate).add(1,'days').format("MM/DD/YYYY"));
+        }
+
+
+    </script>
+}

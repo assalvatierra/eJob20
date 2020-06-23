@@ -140,7 +140,7 @@
 
 
 @{Html.RenderPartial("InvItemsPartial", (IEnumerable<JobsV1.Models.SupplierItemRate>)ViewBag.InvItemsRates,
-                      new ViewDataDictionary { { "SupplierId", Model.Id } , { "Model.Id", Model.Id },
+                            new ViewDataDictionary { { "SupplierId", Model.Id } , { "Model.Id", Model.Id },
                 { "SupplierName", ViewBag.SupplierName } , { "ItemList", ViewBag.ItemList }, { "UnitList", ViewBag.UnitList } });}
 
 <!-- Prereq Scripts -->
@@ -151,7 +151,9 @@
 @{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "SupplierId", ViewBag.SupplierId }, { "Documents", ViewBag.Documents } }); }
 
 @section Scripts{
+    @Scripts.Render("~/bundles/DateRangePicker")
     <script type="text/javascript" src="~/Scripts/jquery.tablesorter.js"></script>
     <script type="text/javascript" src="~/Scripts/Suppliers/SupDetails.js"></script>
     <script type="text/javascript" src="~/Scripts/Suppliers/SupInvItems.js"></script>
+    <script type="text/javascript" src="~/Scripts/Job/SupplierAddRate.js"></script>
 }

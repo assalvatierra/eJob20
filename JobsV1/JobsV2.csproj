@@ -1149,6 +1149,7 @@
     <Content Include="Areas\Personel\Script\DateRangePicker\moment.js" />
     <Content Include="Areas\Personel\Script\DateRangePicker\moment.min.js" />
     <Content Include="Areas\Personel\Script\DateRangePicker\package.js" />
+    <Content Include="Areas\Personel\Script\CopyTrip.js" />
     <Content Include="Areas\Personel\Script\ProdCreate.js" />
     <Content Include="Areas\Personel\Script\ProdList.js" />
     <Content Include="Areas\Personel\Script\SupList.js" />
@@ -1859,6 +1860,7 @@
     <Content Include="Areas\AutoCare\Views\Appointments\AppointmentSelect.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\Availability.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\_ScheduleItemsModal.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\CopyTrip.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
