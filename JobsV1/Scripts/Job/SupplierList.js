@@ -186,7 +186,7 @@ function SimpleTable(data) {
         content += "<td class='table-name-col' >" + temp[x]["Name"].toString() + "</td>";
         content += "<td>" + code + "</td>";
 
-        content += "<td>" + country + "</td>";
+        content += "<td>" + country + " - " + city +"</td>";
         content += "<td>" + category + "</td>";
         content += "<td>" + FilteredStatus(status) + "</td>";
 
