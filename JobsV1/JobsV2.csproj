@@ -1875,6 +1875,8 @@
     <Content Include="Scripts\sort-table.min.js" />
     <Content Include="Scripts\sortable.min.js" />
     <Content Include="Scripts\ssl.js" />
+    <Content Include="Scripts\Suppliers\SupDetails.js" />
+    <Content Include="Scripts\Suppliers\SupInvItems.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />
     <EntityDeploy Include="Models\JobDB.edmx">

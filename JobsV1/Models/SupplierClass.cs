@@ -172,6 +172,9 @@ namespace JobsV1.Models
                     case "PRODUCT":
                         sql += " ItemList.Items Like '%" + search + "%' ";
                         break;
+                    case "CITY":
+                        sql += " ItemList.City Like '%" + search + "%' ";
+                        break;
                     default:
                         sql += " (ItemList.Name Like '%" + search + "%' OR ItemList.Items Like '%" + search + "%')  ";
                         break;

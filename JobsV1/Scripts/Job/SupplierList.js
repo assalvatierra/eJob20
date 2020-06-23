@@ -15,6 +15,9 @@ function initial() {
     $('#ALL').css("color", "black");
     ajax_loadContent();
 
+    //trigger sorting on date of items
+    $('#titleee a').trigger('click');
+
 }
 
 //update status value on click

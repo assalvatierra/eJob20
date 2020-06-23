@@ -400,9 +400,13 @@
 }
 
 .cform {
-    padding-bottom:15px;
+    padding-bottom:20px;
 }
 
+
+.cform b {
+    margin-top:7px;
+}
 
 
 .reservation-content-white {

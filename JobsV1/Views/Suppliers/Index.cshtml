@@ -51,28 +51,16 @@
         <div>
             <select class="form-control search-field" id="srch-category">
                 <option value="SUPPLIER"> Supplier </option>
-                <option value="COUNTRY"> Country     </option>
+                <option value="COUNTRY">  Country  </option>
                 <option value="CATEGORY"> Category </option>
-                <option value="PRODUCT"> Product  </option>
+                <option value="PRODUCT">  Product  </option>
+                <option value="CITY">  City  </option>
             </select>
         </div>
         <div>
             <button class="btn btn-default search-group" id="srch-btn" onclick="searchSupplier()">Search</button>
         </div>
     </div>
-
-    @*<p>Table View:
-            <span>
-                <span id="simple-Table" class="status-link" onclick="ajax_loadContent()" >Simple</span>
-                <span id="expanded-Table" class="status-link" onclick="ajax_loadContent()"> Expanded</span>
-            </span>
-        </p>
-
-        <p >
-            <input type="search" id="srch-field"/>
-            <button class="btn btn-default" onclick="ajax_loadContent()">Search</button>
-        </p>
-    *@
 
     <table class="table js-sort-table " id="sup-Table">
         <thead>
@@ -125,6 +113,9 @@
     <p id="expireNotice" hidden>Note: Greyed Products are past valid date.</p>
 
 </div>
+
+
+
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/Job/SupplierList.js"></script>
 <script src="~/Scripts/sort-table.js"></script>

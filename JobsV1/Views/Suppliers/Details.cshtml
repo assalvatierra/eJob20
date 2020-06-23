@@ -74,29 +74,30 @@
 
     </div>
 
-    <div class="col-md-6" style="margin-top:100px;" >
+    <div class="col-md-6" style="margin-top:100px;">
         <h4>Company Documents</h4>
         <div>
-           @foreach (var doc in ViewBag.supDocuments as IEnumerable<JobsV1.Models.SupplierDocument>)
-           {
-                <p> @doc.SupDocument.Description.ToString() &nbsp; 
+            @foreach (var doc in ViewBag.supDocuments as IEnumerable<JobsV1.Models.SupplierDocument>)
+            {
+                <p>
+                    @doc.SupDocument.Description.ToString() &nbsp;
                     @Html.ActionLink("Remove", "RemoveSupDocument", new { id = doc.Id })
                 </p>
-           }
+            }
         </div>
-        <a href="#" id="catbtn"  data-toggle="modal" data-target="#createDocuments">Edit</a>
+        <a href="#" id="catbtn" data-toggle="modal" data-target="#createDocuments">Edit</a>
     </div>
 
 </div>
 
 <br />
-<div class="row" >
+<div class="row">
     <h3> Supplier Contact </h3>
     <div class="col-lg-12">
         <a href="#" id="catbtn" data-toggle="modal" data-target="#createSupContact">Add Contact</a>
     </div>
 
-    <table class="table"> 
+    <table class="table">
         <tr>
             <th>Name</th>
             <th>Landline</th>
@@ -138,90 +139,19 @@
 </div>
 
 
-@{Html.RenderPartial("InvItemsPartial", (IEnumerable<JobsV1.Models.SupplierInvItem>)ViewBag.InvItems,
-                new ViewDataDictionary { { "SupplierId", Model.Id } , { "Model.Id", Model.Id },
+@{Html.RenderPartial("InvItemsPartial", (IEnumerable<JobsV1.Models.SupplierItemRate>)ViewBag.InvItemsRates,
+                      new ViewDataDictionary { { "SupplierId", Model.Id } , { "Model.Id", Model.Id },
                 { "SupplierName", ViewBag.SupplierName } , { "ItemList", ViewBag.ItemList }, { "UnitList", ViewBag.UnitList } });}
-        
+
 <!-- Prereq Scripts -->
-<script src="~/Scripts/jquery-3.3.1.js"> </script>
-        
-@{ Html.RenderPartial("CreateSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
-@{ Html.RenderPartial("EditSupContact", new ViewDataDictionary { {"InvItems" ,ViewBag.InvItems } , {"contactStatus", ViewBag.contactStatus } , { "SupplierId", ViewBag.SupplierId} }); }
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+
+@{ Html.RenderPartial("CreateSupContact", new ViewDataDictionary { { "InvItems", ViewBag.InvItems }, { "contactStatus", ViewBag.contactStatus }, { "SupplierId", ViewBag.SupplierId } }); }
+@{ Html.RenderPartial("EditSupContact", new ViewDataDictionary { { "InvItems", ViewBag.InvItems }, { "contactStatus", ViewBag.contactStatus }, { "SupplierId", ViewBag.SupplierId } }); }
 @{ Html.RenderPartial("CreateDocuments", new ViewDataDictionary { { "SupplierId", ViewBag.SupplierId }, { "Documents", ViewBag.Documents } }); }
 
-<script>
-    
-    //display confirmation message for removal of contact
-    function ConfirmRemoveContact(id, name) {
-        var res = confirm("Do you want to remove " + name + " ?")
-        if(res){
-            ajax_deleteContactId(id);
-        }
-    }
-
-    //Contact Delete
-    function ajax_deleteContactId(Id) {
-
-        //build json object
-        var data = {
-            id: Id
-        };
-
-        console.log(data);
-
-        var url = '/Suppliers/deleteSupContact';
-
-        //Post data from server using ajax call
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                // console.log("SUCCESS");
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                console.log(data);
-                location.reload();
-            }
-        });
-    }
-
-    function filterStatus(status){
-        switch(status){
-            case "ACT":
-                return "Active";
-                break;
-            case "INC":
-                return "Inactive";
-                break;
-            case "BAD":
-                return "Bad Account";
-                break;
-            case "AOP":
-                return "Accreditation on Progress";
-                break;
-            case "ACC":
-                return "Accredited";
-                break;
-            case "PRI":
-                return "PRIORITY";
-                break;
-            default:
-                return "Active";
-                break;
-        }
-    }
-
-    function initial() {
-        var status = filterStatus($("#status-companyName").text());
-
-        $("#status-companyName").text(" ( " + status + " ) ");
-        $("#status-Details").text(" " + status + " ");
-    }
-
-    $(document).ready(initial());
-
-   
-</script>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="~/Scripts/Suppliers/SupDetails.js"></script>
+    <script type="text/javascript" src="~/Scripts/Suppliers/SupInvItems.js"></script>
+}
