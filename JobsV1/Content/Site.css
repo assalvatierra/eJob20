@@ -579,7 +579,8 @@ rental-type-wdriver {
     /* Navigation */
 
     .nav-submenus{
-        padding:10px 5px;
+        padding:10px 10px;
+        margin-left:0px;
         float: left;
     }
 
@@ -606,7 +607,7 @@ rental-type-wdriver {
     }
 
     .nav-submenu-home a{
-        padding:12px 11px;
+        padding:12px 0px;
         color:royalblue;
         text-decoration: none;
     }

@@ -5,6 +5,13 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
+<style>
+    .PanelContainer-main {
+        background-color: #eff3f6;
+        border:none;
+    }
+</style>
+
 <h2>Trip Log</h2>
 
 <p>
@@ -13,76 +20,94 @@
     @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease")
 </p>
 
-<div class="row" style="margin-bottom:5px;padding:10px;">
-    <form>
-        <p style="padding-left:10px;">
-            <label>Date options: </label>
-            <a class="cursor-pointer" onclick="SetStartDate(-7)"> This Week </a> |
-            <a class="cursor-pointer" onclick="SetStartDate(-15)"> Last 15 Days </a> |
-            <a class="cursor-pointer" onclick="SetStartDate(-30)"> Last 30 Days </a> 
-        </p>
-    </form>
-    <form class="form-inline">
-        @using (Html.BeginForm())
-        {
-            <span></span>
-            <div class="form-group" style="padding-right:5px;">
-                <label for="filter-date-label"> Date: </label>
-                <input type="text" name="startDate" id="filter-sdate" class="form-control" style="width:120px;" />
-                <label for="filter-date-label"> - </label>
-                <input type="text" name="endDate" id="filter-edate" class="form-control" style="width:120px;" />
-            </div>
+<p>
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
+</p>
+
+    <div class="modal fade" role="dialog" id="FilterModal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" style="width:340px;">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> Find Logs by Date</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-bottom:0px;padding:10px;padding-left:25px">
+                        @using (Html.BeginForm())
+                        {
+                            <form id="FilterForm" method="post">
+                                <p style="padding-left:0px;">
+                                    <label>Date options: </label><br />
+                                    <a class="cursor-pointer" onclick="SetStartDate(-7)"> This Week </a> |
+                                    <a class="cursor-pointer" onclick="SetStartDate(-15)"> Last 15 Days </a> |
+                                    <a class="cursor-pointer" onclick="SetStartDate(-30)"> Last 30 Days </a>
+                                </p>
+
+                                <span></span>
+                                <div class="form-group" style="padding-right:5px;">
+                                    <label for="filter-date-label"> Date: </label>
+                                    <input type="text" name="startDate" id="filter-sdate" class="form-control" />
+                                    <label for="filter-date-label"> - </label>
+                                    <input type="text" name="endDate" id="filter-edate" class="form-control" />
+                                    <br />
+                                </div>
 
 
-            <div class="form-group" style="padding-right:5px;">
-                <label for="filter-unit">Unit:</label>
-                <select name="unit" id="filter-unit" class="form-control" >
-                    <option value="all">All</option>
-                    @foreach (var unit in ViewBag.crLogUnitList as List<JobsV1.Areas.Personel.Models.crLogUnit>)
-                    {
-                        <option value="@unit.Description"> @unit.Description </option>
-                    }
-                </select>
-            </div>
+                                <div class="form-group" style="padding-right:5px;">
+                                    <label for="filter-unit">Unit:</label>
+                                    <select name="unit" id="filter-unit" class="form-control">
+                                        <option value="all">All</option>
+                                        @foreach (var unit in ViewBag.crLogUnitList as List<JobsV1.Areas.Personel.Models.crLogUnit>)
+                                        {
+                                            <option value="@unit.Description"> @unit.Description </option>
+                                        }
+                                    </select>
+                                </div>
 
-            <div class="form-group" style="padding-right:5px;">
-                <label for="filter-driver">Driver:</label>
-                <select name="driver" id="filter-driver" class="form-control">
-                    <option value="all">All</option>
-                    @foreach (var unit in ViewBag.crLogDriverList as List<JobsV1.Areas.Personel.Models.crLogDriver>)
-                    {
-                        <option value="@unit.Name"> @unit.Name </option>
-                    }
-                </select>
-            </div>
+                                <div class="form-group" style="padding-right:5px;">
+                                    <label for="filter-driver">Driver:</label>
+                                    <select name="driver" id="filter-driver" class="form-control">
+                                        <option value="all">All</option>
+                                        @foreach (var unit in ViewBag.crLogDriverList as List<JobsV1.Areas.Personel.Models.crLogDriver>)
+                                        {
+                                            <option value="@unit.Name"> @unit.Name </option>
+                                        }
+                                    </select>
+                                </div>
 
-            <div class="form-group" style="padding-right:5px;">
-                <label for="filter-company">Company:</label>
-                <select name="company" id="filter-company" class="form-control" style="width:120px;">
-                    <option value="all">All</option>
-                    @foreach (var unit in ViewBag.crLogCompanyList as List<JobsV1.Areas.Personel.Models.crLogCompany>)
-                    {
-                        <option value="@unit.Name"> @unit.Name </option>
-                    }
-                </select>
-            </div>
+                                <div class="form-group" style="padding-right:5px;">
+                                    <label for="filter-company">Company:</label>
+                                    <select name="company" id="filter-company" class="form-control">
+                                        <option value="all">All</option>
+                                        @foreach (var unit in ViewBag.crLogCompanyList as List<JobsV1.Areas.Personel.Models.crLogCompany>)
+                                        {
+                                            <option value="@unit.Name"> @unit.Name </option>
+                                        }
+                                    </select>
+                                </div>
 
-            <div class="form-group" style="padding-right:5px;">
-                <label for="sort-by">Sort:</label>
-                <select name="sortby" id="sort-by" class="form-control" >
-                    <option value="Unit"> Unit </option>
-                    <option value="Company"> Company </option>
-                    <option value="Driver"> Driver </option>
-                    <option value="Date"> Date </option>
-                </select>
+                                <div class="form-group" style="padding-right:5px;">
+                                    <label for="sort-by">Sort:</label>
+                                    <select name="sortby" id="sort-by" class="form-control">
+                                        <option value="Unit"> Unit </option>
+                                        <option value="Company"> Company </option>
+                                        <option value="Driver"> Driver </option>
+                                        <option value="Date"> Date </option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="col-lg-offset-5 col-md-7 col-xs-offset-5 col-xs-7">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        }
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <button class="btn btn-default"> Search </button>
-            </div>
-        }
-    </form>
-</div>
+        </div>
+    </div>
 
 <table class="table">
     <tr>
@@ -109,46 +134,81 @@
         </th>
         <th></th>
     </tr>
+    @{ 
 
+        var count = 0;
+        decimal totalRate = 0;
+        decimal totalAddon = 0;
+        decimal totalExpenses = 0;
+        decimal totalDriverFee = 0;
+    }
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.DtTrip)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.crLogDriver.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.crLogUnit.Description)
-        /
-        @Html.DisplayFor(modelItem => item.crLogCompany.Name)
-        /
-        @Html.DisplayFor(modelItem => item.Remarks)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Rate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Addon)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Expenses)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DriverFee)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })
-    </td>
-</tr>
+
+         count += 1;
+         totalRate += item.Rate;
+         totalAddon += item.Addon;
+         totalExpenses += item.Expenses;
+         totalDriverFee += item.DriverFee;
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtTrip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+                /
+                @Html.DisplayFor(modelItem => item.crLogCompany.Name)
+                /
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @item.Rate.ToString("#,##0.00")
+            </td>
+            <td>
+                @item.Addon.ToString("#,##0.00")
+            </td>
+            <td>
+                @item.Expenses.ToString("#,##0.00")
+            </td>
+            <td>
+                @item.DriverFee.ToString("#,##0.00")
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })
+            </td>
+        </tr>
+    }
+
+    @{ 
+        <tr>
+            <td colspan="3">
+                <p> Total Count: @count </p>
+            </td>
+            <td>
+                @totalRate.ToString("#,##0.00")
+            </td>
+            <td>
+                @totalAddon.ToString("#,##0.00")
+            </td>
+            <td>
+                @totalExpenses.ToString("#,##0.00")
+            </td>
+            <td>
+                @totalDriverFee.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
     }
 
 </table>
 
 @section Scripts{
-    <script src="~/Areas/Personel/Script/CarRentalLog.js"> </script>
+    <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
     <script>
         $(document).ready(() => {
             $("#filter-unit").val("@ViewBag.FilteredUnit")
@@ -173,5 +233,6 @@
             let sDate = moment().format("MM/DD/YYYY");
             $("#filter-sdate").val(moment(sDate).add(days, 'days').format("MM/DD/YYYY"));
         }
+
     </script>
-    }
+}

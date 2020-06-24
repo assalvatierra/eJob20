@@ -8,16 +8,15 @@
     background-color: white;
     color: black;
     border: 1px solid lightgray;
-    margin-left: 15px;
+    margin-left: 5px;
     display: inline-flex;
     flex-flow: column;
-    width: 100%;
+    width: auto;
+    min-width:1170px;
     margin-bottom: 20px;
     padding: 0px 20px 20px 20px;
-    display: inline-table;
-    border-radius:2px;
+    border-radius: 2px;
     transition-duration: 1s;
-    margin: auto -20px ;
 }
 
 .PanelContainer-main:hover{
@@ -184,10 +183,8 @@ span {
 
 
     .PanelContainer-main {
-        display: inline-table;
         flex-flow: column;
-        width: auto;
-        padding-right:5px;
+        padding-right: 5px;
     }
 
     .view-header {
@@ -197,7 +194,19 @@ span {
 }
 
 
-@media (max-width:370px) {
+@media (max-width:620px) {
+
+
+    .PanelContainer-main {
+        flex-flow: column;
+        display: inline-table;
+        width: auto;
+        padding-right: 5px;
+        min-width: 620px;
+    }
+}
+
+@media (max-width:375px) {
 
     .filter-panel {
         display: flex;
@@ -217,25 +226,22 @@ span {
     .search-panel {
         flex:1;
         align-self: flex-start;
-        margin-left:-20px;
+        margin-left:20px;
     }
 
 
+    .PanelContainer-main {
+        flex-flow: column;
+        display: inline-table;
+        width: auto;
+        padding-right: 5px;
+        min-width: 370px;
+    }
 }
 
 .amount-rate {
     color: royalblue;
 }
-
-
-/* Menu Navigation */
-.CustomBox{
-    background-color: white;
-    margin:0px 0px;
-    box-shadow: none;
-    margin:5px -20px;
-}
-
 
 /* JobOrder Custom Revision using Flexbox */
 .td-no-border {
@@ -322,13 +328,6 @@ span {
     margin-top: 10px;
 }
 
-.CustomBox span h2{
-    margin-bottom:0px;
-}
-
-.CustomBox span p {
-    color: gray;
-}
 
 .modal-text-label {
     padding-top: 10px;
