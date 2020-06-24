@@ -1145,6 +1145,7 @@
     </Content>
     <Content Include="Areas\Personel\Models\InitHRData.sql" />
     <Content Include="Areas\Personel\Models\InitData.sql" />
+    <Content Include="Areas\Personel\Script\CarRentalLog.js" />
     <Content Include="Areas\Personel\Script\DateRangePicker\daterangepicker.js" />
     <Content Include="Areas\Personel\Script\DateRangePicker\moment.js" />
     <Content Include="Areas\Personel\Script\DateRangePicker\moment.min.js" />

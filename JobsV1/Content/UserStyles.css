@@ -558,3 +558,7 @@
         box-shadow: 1px 1px 5px 0.5px dodgerblue;
         border: 1px solid dodgerblue;
     }
+
+.no-padding{
+    padding:0px;
+}

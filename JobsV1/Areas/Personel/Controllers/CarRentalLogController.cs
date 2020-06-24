@@ -17,10 +17,76 @@ namespace JobsV1.Areas.Personel.Controllers
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
 
         // GET: Personel/CarRentalLog
-        public ActionResult Index()
+        public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby)
         {
-            var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
-            return View(crLogTrips.OrderByDescending(c=>c.DtTrip).ToList());
+
+            try
+            {
+                //Get Logs
+                var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
+
+                //Filter
+                if (!startDate.IsNullOrWhiteSpace() && !endDate.IsNullOrWhiteSpace())
+                {
+                    var sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                    var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+
+                    crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
+                }
+
+                if (!String.IsNullOrEmpty(unit) && unit != "all" )
+                {
+                    crLogTrips = crLogTrips.Where(c => c.crLogUnit.Description == unit);
+                }
+
+                if (!driver.IsNullOrWhiteSpace() && driver != "all")
+                {
+                    crLogTrips = crLogTrips.Where(c => c.crLogDriver.Name == driver);
+                }
+
+                if (!company.IsNullOrWhiteSpace() && company != "all")
+                {
+                    crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
+                }
+
+                //Sorting
+                switch (sortby)
+                {
+                    case "Unit":
+                        crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description);
+                        break;
+                    case "Company":
+                        crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name);
+                        break;
+                    case "Driver":
+                        crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.Name);
+                        break;
+                    case "Date":
+                        crLogTrips = crLogTrips.OrderByDescending(c => c.DtTrip);
+                        break;
+                    default:
+                        break;
+                }
+
+
+                ViewBag.FilteredsDate = startDate;
+                ViewBag.FilteredeDate = endDate;
+                ViewBag.FilteredUnit = unit ?? "all";
+                ViewBag.FilteredDriver = driver ?? "all";
+                ViewBag.FilteredCompany = company ?? "all";
+                ViewBag.SortBy = sortby ?? "Unit";
+
+                ViewBag.crLogUnitList = db.crLogUnits.ToList();
+                ViewBag.crLogDriverList = db.crLogDrivers.ToList();
+                ViewBag.crLogCompanyList = db.crLogCompanies.ToList();
+
+            return View(crLogTrips.ToList());
+
+            }
+            catch
+            {
+                return View(new List<crLogTrip>());
+            }
         }
 
         // GET: Personel/CarRentalLog/Details/5
