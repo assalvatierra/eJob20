@@ -62,13 +62,23 @@ namespace JobsV1.Areas.Personel.Controllers
                         crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.Name);
                         break;
                     case "Date":
+                        crLogTrips = crLogTrips.OrderBy(c => c.DtTrip);
+                        break;
+                    case "Date-Desc":
                         crLogTrips = crLogTrips.OrderByDescending(c => c.DtTrip);
                         break;
                     default:
+                        crLogTrips = crLogTrips.OrderBy(c => c.DtTrip);
                         break;
                 }
 
+                var tripLogs = crLogTrips.ToList();
 
+                //get summary
+                var logSummary = GetCrLogSummary(tripLogs);
+                ViewBag.DriversLogSummary = logSummary.CrDrivers;
+                ViewBag.CompaniesLogSummary = logSummary.CrCompanies;
+                ViewBag.UnitsLogSummary = logSummary.CrUnits;
                 ViewBag.FilteredsDate = startDate;
                 ViewBag.FilteredeDate = endDate;
                 ViewBag.FilteredUnit = unit ?? "all";
@@ -79,14 +89,128 @@ namespace JobsV1.Areas.Personel.Controllers
                 ViewBag.crLogUnitList = db.crLogUnits.ToList();
                 ViewBag.crLogDriverList = db.crLogDrivers.ToList();
                 ViewBag.crLogCompanyList = db.crLogCompanies.ToList();
-
-            return View(crLogTrips.ToList());
+            return View(tripLogs);
 
             }
             catch
             {
                 return View(new List<crLogTrip>());
             }
+        }
+
+        public CrLogSummary GetCrLogSummary(List<crLogTrip> tripLogs)
+        {
+            CrLogSummary logSummary = new CrLogSummary();
+
+            logSummary.CrDrivers = GetDriverLogs(logSummary, tripLogs);
+            logSummary.CrCompanies = GetCompanyLogs(logSummary, tripLogs);
+            logSummary.CrUnits = GetUnitLogs(logSummary, tripLogs);
+
+            return logSummary;
+        }
+
+        public List<CrDriverLogs> GetDriverLogs(CrLogSummary logSummary, List<crLogTrip> tripLogs)
+        {
+            foreach (var trip in tripLogs)
+            {
+                //Driver Logs 
+                if (logSummary.CrDrivers == null)
+                    logSummary.CrDrivers = new List<CrDriverLogs>();
+
+                //check if log for the driver exists
+                if (logSummary.CrDrivers.Where(c => c.DriversId == trip.crLogDriverId).FirstOrDefault() == null)
+                {
+                    //if does not exist
+
+                    CrDriverLogs driverLog = new CrDriverLogs();
+                    driverLog.DriversId = trip.crLogDriverId;
+                    driverLog.Driver = trip.crLogDriver.Name;
+                    driverLog.JobCount = 1;
+                    driverLog.TotalDriverFee = trip.DriverFee;
+
+                    logSummary.CrDrivers.Add(driverLog);
+                }
+                else
+                {
+                    //if driver log exist
+                    //find the log and update
+                    var driverLog = logSummary.CrDrivers.Where(c => c.DriversId == trip.crLogDriverId).FirstOrDefault();
+                    driverLog.JobCount += 1;
+                    driverLog.TotalDriverFee += trip.DriverFee;
+                }
+            }
+
+            return logSummary.CrDrivers;
+        }
+
+        public List<CrCompanyLogs> GetCompanyLogs(CrLogSummary logSummary, List<crLogTrip> tripLogs)
+        {
+
+            foreach (var trip in tripLogs)
+            {
+                //Driver Logs 
+                if (logSummary.CrCompanies == null)
+                    logSummary.CrCompanies = new List<CrCompanyLogs>();
+
+                //check if log for the driver exists
+                if (logSummary.CrCompanies.Where(c => c.CompanyId == trip.crLogCompanyId).FirstOrDefault() == null)
+                {
+                    //if does not exist
+
+                    CrCompanyLogs companyLogs = new CrCompanyLogs();
+                    companyLogs.CompanyId = trip.crLogCompanyId;
+                    companyLogs.Company = trip.crLogCompany.Name;
+                    companyLogs.JobCount = 1;
+                    companyLogs.TotalAmount = trip.Rate;
+
+                    logSummary.CrCompanies.Add(companyLogs);
+                }
+                else
+                {
+                    //if driver log exist
+                    //find the log and update
+                    var companyLogs = logSummary.CrCompanies.Where(c => c.CompanyId == trip.crLogCompanyId).FirstOrDefault();
+                    companyLogs.JobCount += 1;
+                    companyLogs.TotalAmount += trip.Rate;
+                }
+            }
+
+            return logSummary.CrCompanies;
+        }
+
+        public List<CrUnitLogs> GetUnitLogs(CrLogSummary logSummary, List<crLogTrip> tripLogs)
+        {
+
+            foreach (var trip in tripLogs)
+            {
+                //Driver Logs 
+                if (logSummary.CrUnits == null)
+                    logSummary.CrUnits = new List<CrUnitLogs>();
+
+                //check if log for the driver exists
+                if (logSummary.CrUnits.Where(c => c.UnitId == trip.crLogUnitId).FirstOrDefault() == null)
+                {
+                    //if does not exist
+
+                    CrUnitLogs unitLogs = new CrUnitLogs();
+                    unitLogs.UnitId = trip.crLogUnitId;
+                    unitLogs.Unit = trip.crLogUnit.Description;
+                    unitLogs.JobCount = 1;
+                    unitLogs.TotalAmount = trip.Rate;
+
+                    logSummary.CrUnits.Add(unitLogs);
+                }
+                else
+                {
+                    //if driver log exist
+                    //find the log and update
+                    var unitLogs = logSummary.CrUnits.Where(c => c.UnitId == trip.crLogUnitId).FirstOrDefault();
+                    unitLogs.JobCount += 1;
+                    unitLogs.TotalAmount += trip.Rate;
+                }
+            }
+
+            return logSummary.CrUnits;
         }
 
         // GET: Personel/CarRentalLog/Details/5

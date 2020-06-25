@@ -377,6 +377,7 @@
     <Compile Include="Areas\Personel\Models\crLogDriver.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\CrLogSummary.cs" />
     <Compile Include="Areas\Personel\Models\crLogTrip.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
@@ -1862,6 +1863,7 @@
     <Content Include="Areas\AutoCare\Views\Appointments\Availability.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\_ScheduleItemsModal.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\CopyTrip.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_LogSummaryModal.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
