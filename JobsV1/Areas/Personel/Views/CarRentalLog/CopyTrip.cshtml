@@ -7,6 +7,9 @@
 
 <h2>Copy Trip Log</h2>
 <p>
+    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog") 
+</p>
+<p>
     @Html.ActionLink("Search Again", "CopyTrip", null, new { @class = "btn btn-default" })
 
     <button class="btn btn-primary" onclick="ShowCopyLogsModal()">
