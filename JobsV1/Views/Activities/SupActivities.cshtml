@@ -37,105 +37,105 @@
         @*<a class="cursor-hand" onclick="ReloadActivitySummary()">
                 Update
             </a>*@
-    <table class="table" id="Act-Main-Table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                Procurement Code
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                Work
-            </th>
-            <th>
-                Amount
-            </th>
-            <th>
-                Company
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Remarks)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Assigned)
-            </th>
-            <th>
-                @if (ViewBag.IsAdmin)
-                {
-                    @Html.DisplayNameFor(model => model.Points)
-                }
-            </th>
-            <th></th>
-        </tr>
-
-        <!-- Total Points -->
-        @{ int totalPoints = 0; }
-
-        @foreach (var item in Model)
-        {
+        <table class="table" id="Act-Main-Table">
             <tr>
-                <td>
-                    @DateTime.Parse(item.Date.ToString()).ToString("MMM-dd yyyy")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalesCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ActivityType)
-                </td>
-                <td>
-                    @if (item.Amount != null)
-                    {
-                        @Decimal.Parse(item.Amount.ToString()).ToString("N0")
-                    }
-                </td>
-                <td>
-
-                    @Html.ActionLink(item.Company, "Details", "Suppliers", new { id = item.CustEntMainId }, null)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </td>
-                <td>
-                    @item.UserRemoveEmail(item.Assigned)
-                </td>
-                <td>
-                    @if (ViewBag.IsAdmin && item.Points != 0)
-                    {
-                        @Html.DisplayFor(modelItem => item.Points)
-                    }
-                </td>
-                <td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    Procurement Code
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    Work
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Company
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Assigned)
+                </th>
+                <th>
                     @if (ViewBag.IsAdmin)
                     {
-                        <text>
-                            <a class="cursor-hand" onclick="EditActivity(@item.Id)">
-                                Edit
-                            </a> |
-                            <a class="cursor-hand" onclick="DeleteActivity(@item.Id)">
-                                Delete
-                            </a>
-                        </text>
+                        @Html.DisplayNameFor(model => model.Points)
                     }
-                </td>
+                </th>
+                <th></th>
             </tr>
-            totalPoints += item.Points;
-        }
-        <tr>
-            <td colspan="7" ></td>
-            <td >  Total Points:</td>
-            <td > <b> @totalPoints </b></td>
-            <td >  </td>
-        </tr>
 
-    </table>
+            <!-- Total Points -->
+            @{ int totalPoints = 0; }
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @DateTime.Parse(item.Date.ToString()).ToString("MMM-dd yyyy")
+                    </td>
+                    <td>
+                        <a style="cursor:pointer;" onclick="SearchCodeSupActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActivityType)
+                    </td>
+                    <td>
+                        @if (item.Amount != null)
+                        {
+                            @Decimal.Parse(item.Amount.ToString()).ToString("N0")
+                        }
+                    </td>
+                    <td>
+
+                        @Html.ActionLink(item.Company, "Details", "Suppliers", new { id = item.CustEntMainId }, null)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @item.UserRemoveEmail(item.Assigned)
+                    </td>
+                    <td>
+                        @if (ViewBag.IsAdmin && item.Points != 0)
+                        {
+                            @Html.DisplayFor(modelItem => item.Points)
+                        }
+                    </td>
+                    <td>
+                        @if (ViewBag.IsAdmin)
+                        {
+                            <text>
+                                <a class="cursor-hand" onclick="EditActivity(@item.Id)">
+                                    Edit
+                                </a> |
+                                <a class="cursor-hand" onclick="DeleteActivity(@item.Id)">
+                                    Delete
+                                </a>
+                            </text>
+                        }
+                    </td>
+                </tr>
+                totalPoints += item.Points;
+            }
+            <tr>
+                <td colspan="7"></td>
+                <td>  Total Points:</td>
+                <td> <b> @totalPoints </b></td>
+                <td>  </td>
+            </tr>
+
+        </table>
     </div>
 </div>
 
@@ -146,14 +146,14 @@
 </div>
 
 @*<div class="panel panel-default">
-    <div class="panel-body">
-        @{Html.RenderPartial("SupActivities_PartialSalesReport", (JobsV1.Models.Class.cUserSalesReport)ViewBag.SalesSummary);}
-    </div>
-</div>*@
+        <div class="panel-body">
+            @{Html.RenderPartial("SupActivities_PartialSalesReport", (JobsV1.Models.Class.cUserSalesReport)ViewBag.SalesSummary);}
+        </div>
+    </div>*@
 
 
-    @{Html.RenderPartial("SupActivities_ActivityCreate", (JobsV1.Models.SupplierActivity)ViewBag.supActivity);}
-    @{Html.RenderPartial("SupActivities_ActivityEdit", (JobsV1.Models.SupplierActivity)ViewBag.supActivity);}
+@{Html.RenderPartial("SupActivities_ActivityCreate", (JobsV1.Models.SupplierActivity)ViewBag.supActivity);}
+@{Html.RenderPartial("SupActivities_ActivityEdit", (JobsV1.Models.SupplierActivity)ViewBag.supActivity);}
 
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
@@ -161,6 +161,7 @@
 <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
 <script src="~/Scripts/Job/DefaultDate.js"></script>
+<script src="~/Scripts/Activities/SearchByCode.js"></script>
 
 <script type="text/javascript">
         $(document).ready(Initialize());
@@ -515,7 +516,7 @@
                 $(totalPointsRow).appendTo("#Act-Main-Table");
             }
 
-           
+
         }
 
 </script>

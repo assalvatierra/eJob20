@@ -79,12 +79,13 @@ namespace JobsV1.Areas.Personel.Controllers
                 ViewBag.DriversLogSummary = logSummary.CrDrivers;
                 ViewBag.CompaniesLogSummary = logSummary.CrCompanies;
                 ViewBag.UnitsLogSummary = logSummary.CrUnits;
+
                 ViewBag.FilteredsDate = startDate;
                 ViewBag.FilteredeDate = endDate;
                 ViewBag.FilteredUnit = unit ?? "all";
                 ViewBag.FilteredDriver = driver ?? "all";
                 ViewBag.FilteredCompany = company ?? "all";
-                ViewBag.SortBy = sortby ?? "Unit";
+                ViewBag.SortBy = sortby ?? "Date";
 
                 ViewBag.crLogUnitList = db.crLogUnits.ToList();
                 ViewBag.crLogDriverList = db.crLogDrivers.ToList();
@@ -161,7 +162,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     companyLogs.CompanyId = trip.crLogCompanyId;
                     companyLogs.Company = trip.crLogCompany.Name;
                     companyLogs.JobCount = 1;
-                    companyLogs.TotalAmount = trip.Rate;
+                    companyLogs.TotalAmount = trip.Rate + trip.Addon;
 
                     logSummary.CrCompanies.Add(companyLogs);
                 }
@@ -171,7 +172,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     //find the log and update
                     var companyLogs = logSummary.CrCompanies.Where(c => c.CompanyId == trip.crLogCompanyId).FirstOrDefault();
                     companyLogs.JobCount += 1;
-                    companyLogs.TotalAmount += trip.Rate;
+                    companyLogs.TotalAmount += trip.Rate + trip.Addon;
                 }
             }
 
@@ -196,7 +197,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     unitLogs.UnitId = trip.crLogUnitId;
                     unitLogs.Unit = trip.crLogUnit.Description;
                     unitLogs.JobCount = 1;
-                    unitLogs.TotalAmount = trip.Rate;
+                    unitLogs.TotalAmount = trip.Rate + trip.Addon;
 
                     logSummary.CrUnits.Add(unitLogs);
                 }
@@ -206,7 +207,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     //find the log and update
                     var unitLogs = logSummary.CrUnits.Where(c => c.UnitId == trip.crLogUnitId).FirstOrDefault();
                     unitLogs.JobCount += 1;
-                    unitLogs.TotalAmount += trip.Rate;
+                    unitLogs.TotalAmount += trip.Rate + trip.Addon;
                 }
             }
 
@@ -518,5 +519,256 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
         }
+
+        public IQueryable<crLogTrip> GetFilteredTripLogs(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+            //Get Logs
+            var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
+
+            //Filter
+            if (!startDate.IsNullOrWhiteSpace() && !endDate.IsNullOrWhiteSpace())
+            {
+                var sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+
+                crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
+            }
+
+            if (!String.IsNullOrEmpty(unit) && unit != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogUnit.Description == unit);
+            }
+
+            if (!driver.IsNullOrWhiteSpace() && driver != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogDriver.Name == driver);
+            }
+
+            if (!company.IsNullOrWhiteSpace() && company != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
+            }
+
+            //Sorting
+            switch (sortby)
+            {
+                case "Unit":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description);
+                    break;
+                case "Company":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name);
+                    break;
+                case "Driver":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.Name);
+                    break;
+                case "Date":
+                    crLogTrips = crLogTrips.OrderBy(c => c.DtTrip);
+                    break;
+                case "Date-Desc":
+                    crLogTrips = crLogTrips.OrderByDescending(c => c.DtTrip);
+                    break;
+                default:
+                    crLogTrips = crLogTrips.OrderBy(c => c.DtTrip);
+                    break;
+            }
+
+           return crLogTrips;
+
+        }
+
+        #region Reports 
+        public ActionResult ReportFilter(string reportby, string startDate, string endDate, string unit, string driver, string company, string sortby, string buffer)
+        {
+
+            ViewBag.ReportBy = reportby ?? "Company";
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby?? "Date";
+            ViewBag.crLogUnitList = db.crLogUnits.ToList();
+            ViewBag.crLogDriverList = db.crLogDrivers.ToList();
+            ViewBag.crLogCompanyList = db.crLogCompanies.ToList();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ReportFilter(string reportby, string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+            switch (reportby)
+            {
+                case "Company":
+                    if (company != "all")
+                    {
+                        return RedirectToAction("ReportByCompany", new
+                        {
+                            startDate = startDate,
+                            endDate = endDate,
+                            unit = unit,
+                            driver = driver,
+                            company = company,
+                            sortby = sortby
+                        });
+
+                    }
+                    ModelState.AddModelError("", "Please select a company");
+                    break;
+                case "Driver":
+                    if (driver != "all")
+                    {
+                        return RedirectToAction("ReportByDriver", new
+                        {
+                            startDate = startDate,
+                            endDate = endDate,
+                            unit = unit,
+                            driver = driver,
+                            company = company,
+                            sortby = sortby
+                        });
+
+                    }
+                    ModelState.AddModelError("", "Please select a driver");
+                    break;
+                case "Unit":
+                    if (unit != "all")
+                    {
+                        return RedirectToAction("ReportByUnit", new
+                        {
+                            startDate = startDate,
+                            endDate = endDate,
+                            unit = unit,
+                            driver = driver,
+                            company = company,
+                            sortby = sortby
+                        });
+
+                    }
+                    ModelState.AddModelError("", "Please select a unit");
+                    break;
+                default:
+                    break;
+            }
+            ViewBag.ReportBy = reportby;
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+            ViewBag.crLogUnitList = db.crLogUnits.ToList();
+            ViewBag.crLogDriverList = db.crLogDrivers.ToList();
+            ViewBag.crLogCompanyList = db.crLogCompanies.ToList();
+
+            return View();
+        }
+
+        public ActionResult ReportByCompany(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+            var tripLogs = GetFilteredTripLogs(startDate, endDate, unit, driver, company, sortby).ToList();
+
+            List<CrReports.ReportByCompany> reportResult = new List<CrReports.ReportByCompany>();
+            decimal runningRate = 0;
+            foreach (var trip in tripLogs)
+            {
+                var rate = trip.Rate + trip.Addon;
+                runningRate += rate;
+
+                CrReports.ReportByCompany report = new CrReports.ReportByCompany();
+                report.Company = trip.crLogCompany.Name;
+                report.Driver = trip.crLogDriver.Name;
+                report.Vehicle = trip.crLogUnit.Description;
+                report.DtTrip = trip.DtTrip;
+                report.Rate = rate;
+                report.Running = runningRate;
+
+                reportResult.Add(report);
+            }
+
+            ViewBag.CompanyDetails = company;
+
+            ViewBag.ReportBy = "Company";
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+
+            return View(reportResult);
+        }
+
+        public ActionResult ReportByDriver(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+            var tripLogs = GetFilteredTripLogs(startDate, endDate, unit, driver, company, sortby).ToList();
+
+            List<CrReports.ReportByDriver> reportResult = new List<CrReports.ReportByDriver>();
+            decimal runningRate = 0;
+            foreach (var trip in tripLogs)
+            {
+                runningRate += trip.DriverFee;
+
+                CrReports.ReportByDriver report = new CrReports.ReportByDriver();
+                report.Company = trip.crLogCompany.Name;
+                report.Driver = trip.crLogDriver.Name;
+                report.Vehicle = trip.crLogUnit.Description;
+                report.DtTrip = trip.DtTrip;
+                report.Rate = trip.DriverFee;
+                report.Running = runningRate;
+
+                reportResult.Add(report);
+            }
+
+            ViewBag.DriverDetails = driver;
+
+            ViewBag.ReportBy = "Driver";
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+
+            return View(reportResult);
+        }
+
+
+        public ActionResult ReportByUnit(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+            var tripLogs = GetFilteredTripLogs(startDate, endDate, unit, driver, company, sortby).ToList();
+
+            List<CrReports.ReportByUnit> reportResult = new List<CrReports.ReportByUnit>();
+            decimal runningRate = 0;
+            foreach (var trip in tripLogs)
+            {
+                var rate = ( trip.Rate + trip.Addon ) - (trip.DriverFee + trip.Expenses);
+                runningRate += rate;
+
+                CrReports.ReportByUnit report = new CrReports.ReportByUnit();
+                report.Company = trip.crLogCompany.Name;
+                report.Driver = trip.crLogDriver.Name;
+                report.Vehicle = trip.crLogUnit.Description;
+                report.DtTrip = trip.DtTrip;
+                report.Rate = rate;
+                report.Running = runningRate;
+
+                reportResult.Add(report);
+            }
+
+            ViewBag.UnitDetails = unit;
+
+            ViewBag.ReportBy = "Unit";
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+
+            return View(reportResult);
+        }
+
+        #endregion
     }
 }

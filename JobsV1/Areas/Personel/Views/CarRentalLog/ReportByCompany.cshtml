@@ -1,0 +1,79 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.CrReports.ReportByCompany>
+@{
+    ViewBag.Title = "ReportByCompany";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Report By Company</h2>
+<p>
+    @Html.ActionLink("Back to Reports Filter", "ReportFilter", new {
+        reportby = ViewBag.ReportBy,
+        startDate = ViewBag.FilteredsDate,
+        endDate = ViewBag.FilteredeDate,
+        unit = ViewBag.FilteredUnit,
+        driver = ViewBag.FilteredDriver,
+        company = ViewBag.FilteredCompany,
+        sortby = ViewBag.SortBy
+    })
+</p>
+<h3>  @ViewBag.CompanyDetails </h3>
+<table class="table">
+    <tr>
+        <th> Date </th>
+        <th> Vehicle </th>
+        <th> Driver </th>
+        <th> Remarks </th>
+        <th> Rate </th>
+        <th> Running  </th>
+    </tr>
+    @{ 
+        int count = 0;
+        decimal totalRate = 0;
+    }
+    @foreach (var trip in Model)
+    {
+        count++;
+        totalRate += trip.Rate;
+        <tr>
+            <td>
+                @trip.DtTrip.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @trip.Vehicle
+            </td>
+            <td>
+                @trip.Driver
+            </td>
+            <td>
+                @trip.Remarks
+            </td>
+            <td>
+                @trip.Rate.ToString("#,##0.00")
+            </td>
+            <td>
+                @trip.Running.ToString("#,##0.00")
+            </td>
+        </tr>
+
+    }
+    @{ 
+        <tr>
+            <td colspan=" 4">
+               <span> Total Count: </span> @count
+            </td>
+            <td>
+                @totalRate.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
+    }
+
+    @if (Model.Count() == 0)
+    {
+    <tr>
+        <td colspan="7">
+            No results found
+        </td>
+    </tr>
+    }
+</table>

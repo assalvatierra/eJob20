@@ -384,6 +384,7 @@
     <Compile Include="Areas\Personel\Models\crLogUnit.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\CrReports.cs" />
     <Compile Include="Areas\Personel\Models\HrDtr.cs">
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
@@ -1676,6 +1677,7 @@
     <Content Include="Properties\PublishProfiles\LocalPath.C.pubxml.user" />
     <Content Include="Scripts\Activities\Performance.js" />
     <Content Include="Scripts\Activities\Activities.js" />
+    <Content Include="Scripts\Activities\SearchByCode.js" />
     <Content Include="Scripts\Admin\CompanyList.js" />
     <Content Include="Scripts\Admin\UserList.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -1864,6 +1866,10 @@
     <Content Include="Areas\AutoCare\Views\Appointments\_ScheduleItemsModal.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\CopyTrip.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_LogSummaryModal.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\ReportFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\ReportByCompany.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\ReportByUnit.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\ReportByDriver.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

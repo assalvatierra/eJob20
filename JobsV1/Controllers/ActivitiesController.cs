@@ -685,7 +685,17 @@ namespace JobsV1.Controllers
         public JsonResult GetCodeHistoryList(string salesCode)
         {
             var activityList = db.CustEntActivities.Where(a => a.SalesCode.Contains(salesCode))
-                .Select(a => new { a.Id, a.CustEntMainId, a.ActivityType, a.ProjectName, a.CustEntMain.Name, a.Status , a.Date.Month, a.Date.Year, a.Date.Day });
+                .Select(a => new { a.Id, a.CustEntMainId, a.SalesCode, a.ActivityType, a.ProjectName, a.Remarks, a.CustEntMain.Name, a.Status , a.Date.Month, a.Date.Year, a.Date.Day });
+
+            return Json(activityList.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        public JsonResult GetSupCodeHistoryList(string salesCode)
+        {
+            var activityList = db.SupplierActivities.Where(a => a.Code.Contains(salesCode))
+                .Select(a => new { a.Id, a.SupplierId, a.Code, a.ActivityType, a.Supplier.Name, a.Remarks, a.Type, a.Amount, a.DtActivity.Month, a.DtActivity.Year, a.DtActivity.Day });
 
             return Json(activityList.ToList(), JsonRequestBehavior.AllowGet);
         }

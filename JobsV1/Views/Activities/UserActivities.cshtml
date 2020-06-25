@@ -77,7 +77,7 @@
                 </th>
                 <th></th>
             </tr>
-            
+
 
             <!-- Total Points -->
             @{ int totalPoints = 0; }
@@ -92,7 +92,7 @@
                         @Html.DisplayFor(modelItem => item.ProjectName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.SalesCode)
+                        <a style="cursor:pointer;" onclick="SearchCodeActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>
                     </td>
                     <td>
                         @Decimal.Parse(item.Amount.ToString()).ToString("N0")
@@ -108,7 +108,7 @@
                     </td>
                     <td>
 
-                        @Html.ActionLink(item.Company, "Details","CustEntMains", new { id = item.CustEntMainId }, null)
+                        @Html.ActionLink(item.Company, "Details", "CustEntMains", new { id = item.CustEntMainId }, null)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Remarks)
@@ -138,12 +138,12 @@
                 </tr>
                 totalPoints += item.Points;
             }
-            
+
             <tr>
-                <td colspan="9" ></td>
-                <td >  Total Points:</td>
-                <td > <b> @totalPoints </b></td>
-                <td >  </td>
+                <td colspan="9"></td>
+                <td>  Total Points:</td>
+                <td> <b> @totalPoints </b></td>
+                <td>  </td>
             </tr>
         </table>
     </div>
@@ -163,6 +163,8 @@
 
 @{Html.RenderPartial("UserActivities_ActivityCreate", (JobsV1.Models.CustEntActivity)ViewBag.custEntActivity);}
 @{Html.RenderPartial("UserActivities_ActivityEdit", (JobsV1.Models.CustEntActivity)ViewBag.custEntActivity);}
+@Html.Partial("_SalesCodeModal")
+
 
 
 <link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
@@ -170,6 +172,7 @@
 <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
 <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
 <script src="~/Scripts/Job/DefaultDate.js"></script>
+<script src="~/Scripts/Activities/SearchByCode.js"></script>
 <script type="text/javascript">
         $(document).ready(Initialize());
 
@@ -500,7 +503,7 @@
                 content += "<td> " + data[i]["Remarks"] + "</td>";
                 content += "<td> " + data[i]["Assigned"] + "</td>";
                 totalPoints += data[i]["Points"];
-                
+
                 //check if user is admin
                 if (isAdmin == "True") {
                     content += "<td> " + data[i]["Points"] + "</td>";
@@ -526,6 +529,7 @@
                 totalPointsRow += "</tr>";
                 $(totalPointsRow).appendTo("#Act-Main-Table");
             }
-        }
+    }
+
 
 </script>

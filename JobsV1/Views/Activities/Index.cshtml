@@ -39,7 +39,7 @@
                 @Html.DisplayFor(modelItem => item.ProjectName)
             </td>
             <td>
-                <a  style="cursor:pointer;" onclick="SearchCodeActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>
+                <a style="cursor:pointer;" onclick="SearchCodeActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>
             </td>
             <td>
                 @(((Decimal)item.Amount).ToString("N0"))
@@ -106,7 +106,7 @@
                 @DateTime.Parse(item.DtActivity.ToString()).ToString("MMM dd yyyy")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Code) 
+                <a style="cursor:pointer;" onclick="SearchCodeSupActivities('@item.Code')">  @Html.DisplayFor(modelItem => item.Code) </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
@@ -153,25 +153,7 @@
 @section Scripts{
     <script src="~/Scripts/Job/DefaultDate.js"></script>
     <script src="~/Scripts/Activities/Activities.js"></script>
-    <script>
-        function SearchCodeActivities(code) {
-            $.get("/Activities/GetCodeHistoryList", { salesCode: code }, (result) => {
-                console.log(result);
-                $("#SearchCode-Activities").children().remove();
+    <script src="~/Scripts/Activities/SearchByCode.js"></script>
 
-                for (var i = 0; i < result.length; i++) {
-                    var projectName = result[i]["ProjectName"] == null ? " " : result[i]["ProjectName"] + " / ";
-
-                    var activity = "<a href='../CustEntActivities/Index/" + result[i]["CustEntMainId"] + "' class='list-group-item'> " 
-                        + result[i]["Month"] + "/" + result[i]["Day"] + "/" + result[i]["Year"] + " - <b> " + projectName
-                        + result[i]["Name"] + "</b> -  " + result[i]["ActivityType"] + " (" + result[i]["Status"]  + ") ";
-                    $("#SearchCode-Activities").append(activity);
-
-                }
-
-                $("#SearchCodeModal").modal("show");
-            });
-        }
-    </script>
 
 }

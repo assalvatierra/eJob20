@@ -286,9 +286,12 @@ namespace JobsV1.Models.Class
             {
                 if (!tempCodes.Contains(act.SalesCode))
                 {
-                    //if Id is not in the list, add id to the list
-                    //and retain the point
-                    tempCodes.Add(act.SalesCode);
+                   
+                        //if Id is not in the list, add id to the list
+                        //and retain the point
+                        tempCodes.Add(act.SalesCode);
+                    
+
 
                 }
                 else

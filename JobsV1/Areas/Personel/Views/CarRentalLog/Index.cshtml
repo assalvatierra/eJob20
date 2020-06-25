@@ -17,7 +17,8 @@
 <p>
     @Html.ActionLink("Add New Trip", "Create") |
     @Html.ActionLink("Copy Trip", "CopyTrip") |
-    @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease")
+    @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |
+    @Html.ActionLink("Reports", "ReportFilter" )
 </p>
 
 <p>
@@ -90,11 +91,11 @@
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="sort-by">Sort:</label>
                                 <select name="sortby" id="sort-by" class="form-control">
+                                    <option value="Date"> Date Asc </option>
+                                    <option value="Date-Desc"> Date Desc</option>
                                     <option value="Unit"> Unit </option>
                                     <option value="Company"> Company </option>
                                     <option value="Driver"> Driver </option>
-                                    <option value="Date"> Date Asc </option>
-                                    <option value="Date-Desc"> Date Desc</option>
                                 </select>
                             </div>
                             <br />

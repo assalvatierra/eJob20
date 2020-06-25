@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "Report Filter";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+<style>
+    .PanelContainer-main {
+        background-color: #eff3f6;
+        border: none;
+        padding-left: 0px;
+        margin-left: -10px;
+    }
+</style>
+<div class="center-block" style="display:flex;margin:auto;justify-content:center;">
+
+    @using (Html.BeginForm("ReportFilter", "CarRentalLog", FormMethod.Post))
+    {
+        <form id="FilterForm" method="post" class="form form-inline">
+
+            <h2>Report Filter</h2>
+
+            <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
+                <label for="report-by">Report By:</label>
+                <select name="reportby" id="report-by" class="form-control">
+                    <option value="Company"> Company </option>
+                    <option value="Driver"> Driver </option>
+                    <option value="Unit"> Unit </option>
+                </select>
+            </div>
+
+            <p style="padding-left:0px;">
+                <label>Date options: </label><br />
+                <a class="cursor-pointer" onclick="SetStartDate(-7)"> This Week </a> |
+                <a class="cursor-pointer" onclick="SetStartDate(-15)"> Last 15 Days </a> |
+                <a class="cursor-pointer" onclick="SetStartDate(-30)"> Last 30 Days </a>
+            </p>
+
+            <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
+                <label for="filter-date-label"> Start Date: </label>
+                <input type="text" name="startDate" id="filter-sdate" class="form-control" style="margin-bottom:10px;" />
+                <label for="filter-date-label"> End Date: </label>
+                <input type="text" name="endDate" id="filter-edate" class="form-control" />
+            </div>
+
+
+            <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
+                <label for="filter-unit">Unit:</label>
+                <select name="unit" id="filter-unit" class="form-control">
+                    <option value="all">All</option>
+                    @foreach (var unit in ViewBag.crLogUnitList as List<JobsV1.Areas.Personel.Models.crLogUnit>)
+                    {
+                        <option value="@unit.Description"> @unit.Description </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
+                <label for="filter-driver">Driver:</label>
+                <select name="driver" id="filter-driver" class="form-control">
+                    <option value="all">All</option>
+                    @foreach (var unit in ViewBag.crLogDriverList as List<JobsV1.Areas.Personel.Models.crLogDriver>)
+                    {
+                        <option value="@unit.Name"> @unit.Name </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
+                <label for="filter-company">Company:</label>
+                <select name="company" id="filter-company" class="form-control">
+                    <option value="all">All</option>
+                    @foreach (var unit in ViewBag.crLogCompanyList as List<JobsV1.Areas.Personel.Models.crLogCompany>)
+                    {
+                        <option value="@unit.Name"> @unit.Name </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
+                <label for="sort-by">Sort:</label>
+                <select name="sortby" id="sort-by" class="form-control">
+                    <option value="Date"> Date Asc </option>
+                    <option value="Date-Desc"> Date Desc</option>
+                    <option value="Unit"> Unit </option>
+                    <option value="Company"> Company </option>
+                    <option value="Driver"> Driver </option>
+                </select>
+
+            </div>
+            
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-lg-offset-2 col-md-8 col-xs-offset-2 col-xs-8">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" value="Create" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    }
+
+</div>
+
+@section Scripts{
+    <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
+    <script>
+        $(document).ready(() => {
+            $("#report-by").val("@ViewBag.ReportBy")
+            $("#filter-unit").val("@ViewBag.FilteredUnit")
+            $("#filter-driver").val("@ViewBag.FilteredDriver")
+            $("#filter-company").val("@ViewBag.FilteredCompany")
+            $("#sort-by").val("@ViewBag.SortBy")
+
+            if ("@ViewBag.FilteredsDate" != "") {
+                $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").format("MM/DD/YYYY"))
+            } else {
+                $("#filter-sdate").val(moment().format("MM/DD/YYYY"))
+            }
+
+            if ("@ViewBag.FilteredsDate" != "") {
+                $("#filter-edate").val(moment("@ViewBag.FilteredeDate").format("MM/DD/YYYY"))
+            } else {
+                $("#filter-edate").val(moment().format("MM/DD/YYYY"))
+            }
+        });
+
+        function SetStartDate(days) {
+            let sDate = moment().format("MM/DD/YYYY");
+            $("#filter-sdate").val(moment(sDate).add(days, 'days').format("MM/DD/YYYY"));
+        }
+
+    </script>
+}

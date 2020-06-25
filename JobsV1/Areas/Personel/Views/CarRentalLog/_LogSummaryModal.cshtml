@@ -23,18 +23,6 @@
                     </tr>
 
                     <tr>
-                        <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Driver</span> </td>
-                    </tr>
-                    @foreach (var log in DriversLogSummary)
-                    {
-                        <tr>
-                            <td> <span style="margin-left:15px;"> @log.Driver </span> </td>
-                            <td> @log.JobCount </td>
-                            <td> @log.TotalDriverFee.ToString("#,##0.00") </td>
-                        </tr>
-                    }
-
-                    <tr>
                         <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Company </span> </td>
                     </tr>
                     @foreach (var log in CompaniesLogSummary)
@@ -43,6 +31,18 @@
                             <td> <span style="margin-left:15px;"> @log.Company </span> </td>
                             <td> @log.JobCount </td>
                             <td> @log.TotalAmount.ToString("#,##0.00") </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Driver</span> </td>
+                    </tr>
+                    @foreach (var log in DriversLogSummary)
+                    {
+                        <tr>
+                            <td> <span style="margin-left:15px;"> @log.Driver </span> </td>
+                            <td> @log.JobCount </td>
+                            <td> @log.TotalDriverFee.ToString("#,##0.00") </td>
                         </tr>
                     }
 
