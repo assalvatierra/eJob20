@@ -233,8 +233,8 @@ namespace JobsV1.Controllers
                 {
                     cJobService cjoTmp = new cJobService();
                     cjoTmp.Service = svc;
-                    var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
-
+                    var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id ).Select(s => s.SrvActionItemId);
+                    cjoTmp.SvcActionsDone = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
                     cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
                     cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
                     cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
@@ -2008,8 +2008,14 @@ order by x.jobid
             today = getDateTimeToday().Date;
 
             //get paypal keys at db
-            PaypalAccount paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();
-            ViewBag.key = paypal.Key;
+            PaypalAccount paypal = new PaypalAccount();
+            if (db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault() != null)
+                paypal = db.PaypalAccounts.Where(p => p.SysCode.Equals("RealWheels")).FirstOrDefault();
+            if (paypal != null)
+            {
+                ViewBag.key = paypal.Key ?? "NA";
+            }
+            ViewBag.key = "NA";
 
             ViewBag.isPaymentValid = jobMain.JobDate.Date == today ? "True" : "False" ;
 

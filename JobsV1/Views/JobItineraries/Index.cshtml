@@ -2,10 +2,8 @@
 
 @{
     ViewBag.Title = "Job Itineraries";
-    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
-
-@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
 
 
 <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
@@ -19,11 +17,12 @@
 
     </p>
     <p>
-        @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) | 
         Itinerary |
         @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
         @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null) |
-        @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)
+        @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null) |
+        @Html.ActionLink("Text Confirmation", "TextConfirmation", new { id = ViewBag.JobOrder.Id }, null)
     </p>
 </div>
 @if (ViewBag.SvcParticular != "")
