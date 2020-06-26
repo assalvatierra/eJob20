@@ -556,6 +556,7 @@ rental-type-wdriver {
     .status-link{
         color:steelblue;
         cursor:pointer;
+        margin-left:0px;
     }
 
     .status-link .status-active{
@@ -631,6 +632,15 @@ rental-type-wdriver {
     position: sticky;
     top: 0;
 }
+
+.module {
+    transition: 0.3s;
+    cursor:pointer;
+}
+
+    .module:hover{
+        color:dodgerblue;
+    }
 
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {

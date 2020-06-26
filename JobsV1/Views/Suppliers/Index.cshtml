@@ -9,12 +9,12 @@
 <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css" />
 <script type="text/javascript" src="DataTables/datatables.min.js"></script>
 
-<div class="view-header">
+<div >
 
     <h2>Suppliers</h2>
-
-    @Html.ActionLink("Create New", "CreateSupplier" )
-
+    <p>
+        @Html.ActionLink("Create New", "CreateSupplier")
+    </p>
     @*<div class="header-btn-list">
         <div class="btn-group">
             @Html.ActionLink("Create New", "CreateSupplier",null, null })
@@ -37,9 +37,9 @@
         Status:
         <span>
             <span id="ACT" class="status-link"> Active   </span> |
-            <span id="INC" class="status-link"> Inactive </span> |
-            <span id="BAD" class="status-link"> Bad      </span> |
-            <span id="ACC" class="status-link"> Accredited </span> |
+            <span id="INC" class="status-link"> Inactive </span>  |
+            <span id="BAD" class="status-link"> Bad      </span>  |
+            <span id="ACC" class="status-link"> Accredited </span>  |
             <span id="AOP" class="status-link"> Acc. on Progress </span> |
             <span id="ALL" class="status-link"> All </span>
         </span>

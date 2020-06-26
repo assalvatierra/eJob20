@@ -28,16 +28,16 @@
 <div>
     <h3>Modules</h3>
     <span>
-        @*@( ViewBag.ConfigVersion != "" || ViewBag.DBActive != "" ? "Configuration: " : "")
+        @( ViewBag.ConfigVersion != "" || ViewBag.DBActive != "" ? "Configuration: " : "")
         @( ViewBag.ConfigVersion != "" ? " Web: " + ViewBag.ConfigVersion : "" )
-        @( ViewBag.DBActive != "" ? " | DB: " + ViewBag.DBActive : "" )*@
+        @( ViewBag.DBActive != "" ? " | DB: " + ViewBag.DBActive : "" )
     </span>
 </div>
 
 <div class="container">
     @foreach (var t in ViewBag.EntServices)
     {
-        <div class="col-sm-4" style="text-align:center;">
+        <div class="col-sm-4 module" style="text-align:center;">
             <a href="@Url.Action("Service", "Module", new { id = @t.Id })">
                 @{ 
                     var iconPath = t.IconPath; 

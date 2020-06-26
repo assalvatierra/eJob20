@@ -316,7 +316,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2019 09:43:48</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalCashRelease/Create.cshtml">
-      <publishTime>06/22/2020 10:22:16</publishTime>
+      <publishTime>06/26/2020 13:12:17</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalCashRelease/Delete.cshtml">
       <publishTime>06/22/2020 10:22:16</publishTime>
@@ -325,7 +325,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/22/2020 10:22:16</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalCashRelease/Edit.cshtml">
-      <publishTime>06/22/2020 10:22:16</publishTime>
+      <publishTime>06/26/2020 13:12:17</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalCashRelease/Index.cshtml">
       <publishTime>06/22/2020 11:48:29</publishTime>
@@ -712,10 +712,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>06/26/2020 13:08:58</publishTime>
+      <publishTime>06/26/2020 13:30:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>06/26/2020 13:08:58</publishTime>
+      <publishTime>06/26/2020 13:30:40</publishTime>
     </File>
     <File Include="bin/de/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -739,10 +739,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>06/26/2020 13:08:39</publishTime>
+      <publishTime>06/26/2020 13:20:49</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>06/26/2020 13:08:39</publishTime>
+      <publishTime>06/26/2020 13:20:49</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -943,7 +943,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/20/2019 11:35:51</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>06/24/2020 16:08:24</publishTime>
+      <publishTime>06/26/2020 13:29:56</publishTime>
     </File>
     <File Include="Content/sortable-theme-bootstrap.css">
       <publishTime>01/31/2020 15:01:57</publishTime>
@@ -2323,7 +2323,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/02/2020 18:00:03</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>06/26/2020 13:08:54</publishTime>
+      <publishTime>06/26/2020 13:30:38</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -2332,7 +2332,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:32</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>06/26/2020 13:03:27</publishTime>
+      <publishTime>06/26/2020 13:26:19</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>02/19/2020 17:09:27</publishTime>
@@ -4861,7 +4861,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2020 12:57:27</publishTime>
     </File>
     <File Include="Views/Suppliers/Index.cshtml">
-      <publishTime>06/26/2020 13:08:31</publishTime>
+      <publishTime>06/26/2020 13:30:31</publishTime>
     </File>
     <File Include="Views/Suppliers/InvItems.cshtml">
       <publishTime>06/23/2020 13:47:30</publishTime>

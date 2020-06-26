@@ -7,10 +7,7 @@
     DateTime dtend = (DateTime)item.Service.DtEnd;
 
     <div class="row" >
-        <div class="row" style="padding:0.5em;margin-left:16px;padding-bottom:0px;margin:0px;background-color:lightgray;" 
-
-             >
-
+        <div class="row" style="padding:0.5em;margin-left:16px;padding-bottom:0px;margin:0px;;" >
             <table class="table" style="background:inherit;border-bottom:0px;padding:0px;margin:0px;">
                 <tr>
                     <td style="font-size:12px;margin:0px;margin-right:20px;width:5%;">
@@ -21,12 +18,11 @@
                         &nbsp;<span style="font-weight:600;color:darkblue;padding:0px;margin:0px;">@item.Service.Particulars</span><br />
                         &nbsp;<span style="font:bold 11px;color:darkblue;padding:0px;margin:0px;">&nbsp;[item: @item.Service.SupplierItem.Description]</span>
                     </td>
-
                     <td style="width:80%;">
                         <!-- Display status list and add red line below -->
                       @if(item.SvcActionsDone != null) { 
 
-                            @foreach (var done in item.SvcActionsDone)
+                            foreach (var done in item.SvcActionsDone)
                             {
                                 <span>&#187;</span>
                                 if (done.Desc == "On Progress" || done.Desc == "On progress" )
