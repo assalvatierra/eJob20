@@ -336,8 +336,8 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult DriverSummary(int id)
         {
             crLogDriver driver = db.crLogDrivers.Find(id);
-            List<crLogTrip> trips = db.crLogTrips.Where(d => d.crLogDriverId == id && d.crLogClosingId==null).ToList();
-            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosingId == null).ToList();
+            List<crLogTrip> trips = db.crLogTrips.Where(d => d.crLogDriverId == id && d.crLogClosingId==null).OrderBy(s=>s.DtTrip).ToList();
+            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosingId == null).OrderBy(s=>s.DtRelease).ToList();
 
             crDriverSummary driversummary = new crDriverSummary();
             driversummary.Driver = driver;
