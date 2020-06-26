@@ -258,10 +258,28 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
+
         //check if supplierName have duplicate
         public bool HaveNameDuplicate(string supName)
         {
-            var supDuplicate = db.Suppliers.Where(s => supName.Contains(s.Name)).ToList().Select(s=>s.Id);
+            var supDuplicate = db.Suppliers.Where(s => supName.Contains(s.Name)).ToList().Select(s => s.Id);
+
+            if (supDuplicate.Count() != 0)
+            {
+                //has duplicate
+                return true;
+            }
+            else
+            {
+                //no duplicate
+                return false;
+            }
+        }
+
+        //check if supplierName have duplicate
+        public bool HaveSupNameDuplicate(string supName)
+        {
+            var supDuplicate = db.SupplierContacts.Where(s => supName.Contains(s.Name)).ToList().Select(s=>s.Id);
 
             if (supDuplicate.Count() != 0)
             {
@@ -493,11 +511,10 @@ namespace JobsV1.Controllers
 
 
         //  Create new Supplier contact
-        public ActionResult CreateSupContact(int SupplierId, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string WhatsApp, string Email, int Status, string Remarks, string WeChat, string Position, string Department)
+        public string CreateSupContact(int SupplierId, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string WhatsApp, string Email, int Status, string Remarks, string WeChat, string Position, string Department)
         {
             SupplierContact supContact = new SupplierContact();
-
-            if (CreateContactValidation(supContact))
+            try
             {
 
                 supContact.SupplierId = SupplierId;
@@ -512,47 +529,100 @@ namespace JobsV1.Controllers
                 supContact.SupplierContactStatusId = Status;
                 supContact.WeChat = WeChat;
                 supContact.Position = Position;
-                supContact.Department = Position;
+                supContact.Department = Department;
 
-                if (SupplierId != 0)
+                
+                if (CreateContactValidation(supContact))
                 {
-                    db.SupplierContacts.Add(supContact);
-                    db.SaveChanges();
+
+                    if (SupplierId != 0)
+                    {
+                        db.SupplierContacts.Add(supContact);
+                        db.SaveChanges();
+                    }
+                    return "True";
+
                 }
-                return RedirectToAction("Details", new { id = SupplierId });
+                else
+                {
 
+                    ViewBag.SupplierId = SupplierId;
+                    ViewBag.ContactStatus = db.SupplierContactStatus.ToList();
+
+                    if (supContact.Name.IsNullOrWhiteSpace())
+                    {
+                        return "Please prove a Name";
+                    }
+                    else
+                    {
+                        return "Name is already been used.";
+                    }
+
+                }
+                return "False";
             }
-            else
+            catch
             {
-
-                ViewBag.SupplierId = SupplierId;
-                ViewBag.ContactStatus = db.SupplierContactStatus.ToList();
-                return View();
+                return "False";
             }
         }
 
 
         //  Create new Supplier contact
-        public ActionResult EditSupContact(int id, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks, string WhatsApp, string Email, int Status, string WeChat, string Position, string Department)
+        public string EditSupContact(int id, string Name, string Mobile, string Landline, string SkypeId, string ViberId, string Remarks, string WhatsApp, string Email, int Status, string WeChat, string Position, string Department)
         {
-            SupplierContact supContact = db.SupplierContacts.Find(id);
-            supContact.Name = Name;
-            supContact.Mobile = Mobile;
-            supContact.Landline = Landline;
-            supContact.SkypeId = SkypeId;
-            supContact.ViberId = ViberId;
-            supContact.Remarks = Remarks;
-            supContact.WhatsApp = WhatsApp;
-            supContact.Email = Email;
-            supContact.SupplierContactStatusId = Status;
-            supContact.WeChat = WeChat;
-            supContact.Position = Position;
-            supContact.Department = Department;
+            try
+            {
 
-            db.Entry(supContact).State = EntityState.Modified;
-            db.SaveChanges();
+                SupplierContact supContact = db.SupplierContacts.Find(id);
+                supContact.Name = Name;
+                supContact.Mobile = Mobile;
+                supContact.Landline = Landline;
+                supContact.SkypeId = SkypeId;
+                supContact.ViberId = ViberId;
+                supContact.Remarks = Remarks;
+                supContact.WhatsApp = WhatsApp;
+                supContact.Email = Email;
+                supContact.SupplierContactStatusId = Status;
+                supContact.WeChat = WeChat;
+                supContact.Position = Position;
+                supContact.Department = Department;
 
-            return RedirectToAction("Details", new { id = supContact });
+
+
+                if (!supContact.Name.IsNullOrWhiteSpace())
+                {
+
+                    if (id != 0)
+                    {
+                        db.Entry(supContact).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    return "True";
+
+                }
+                else
+                {
+
+                    ViewBag.SupplierId = id;
+                    ViewBag.ContactStatus = db.SupplierContactStatus.ToList();
+
+                    if (supContact.Name.IsNullOrWhiteSpace())
+                    {
+                        return "Please prove a Name";
+                    }
+                    else
+                    {
+                        return "Name is already been used.";
+                    }
+
+                }
+            }
+            catch
+            {
+                return "False";
+            }
+
         }
 
         public ActionResult deleteSupContact(int? id)
@@ -585,7 +655,7 @@ namespace JobsV1.Controllers
                 isValid = false;
             }
 
-            if (HaveNameDuplicate(supplierContact.Name))
+            if (HaveSupNameDuplicate(supplierContact.Name))
             {
 
                 ModelState.AddModelError("Name", "Name is Already Used");

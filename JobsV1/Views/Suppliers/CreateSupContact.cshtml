@@ -108,7 +108,7 @@
 
 <script>
 
-    //ADDRESS EDIT
+    //Supplier Contact Create
     function ajax_createSupContact() {
         //build json object
         var data = {
@@ -127,25 +127,20 @@
             Department:  $("#SupCon-Department").val()
         };
 
-        console.log(data);
-
         var url = '/Suppliers/CreateSupContact';
 
         //Post data from server using ajax call
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                // console.log("SUCCESS");
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                console.log(data);
-                location.reload();
-            }
-        });
+       var res = $.post(url, data, (result) => {
+           console.log(result);
+           if (result == "True") {
+               location.reload();
+           } else if (result == "False") {
+               alert("Cannot Add Supplier Contact");
+           } else {
+               alert(result);
+           }
+       })
+
     }
 
 </script>

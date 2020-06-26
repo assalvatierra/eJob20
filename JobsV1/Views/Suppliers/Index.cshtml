@@ -12,10 +12,12 @@
 <div class="view-header">
 
     <h2>Suppliers</h2>
-    
-    <div class="header-btn-list">
+
+    @Html.ActionLink("Create New", "CreateSupplier" )
+
+    @*<div class="header-btn-list">
         <div class="btn-group">
-            @Html.ActionLink("Create New", "CreateSupplier",null,new { @class = "btn btn-primary" })
+            @Html.ActionLink("Create New", "CreateSupplier",null, null })
             <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
@@ -25,7 +27,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div>*@
 
 </div>
 
