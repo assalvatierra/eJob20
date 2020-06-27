@@ -28,6 +28,7 @@ namespace JobsV1.Controllers
 
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", SlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", 1);
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description");
             ViewBag.Schedules = apClass.GetAppoinmentSchedules();
             ViewBag.IsNotValid = false;
             return View(appointment);
@@ -39,7 +40,7 @@ namespace JobsV1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Appointment([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate")] Appointment appointment)
+        public ActionResult Appointment([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate,AppointmentRequestId")] Appointment appointment)
         {
             if (ModelState.IsValid && AppointmentValidation(appointment))
             {
@@ -50,6 +51,7 @@ namespace JobsV1.Controllers
 
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description", appointment.AppointmentRequestId);
             ViewBag.Schedules = apClass.GetAppoinmentSchedules();
             ViewBag.IsNotValid = true;
             return View(appointment);
@@ -80,13 +82,6 @@ namespace JobsV1.Controllers
             if (appointment.Plate.IsNullOrWhiteSpace())
             {
                 ModelState.AddModelError("Plate", "Invalid Plate");
-                isValid = false;
-            }
-
-
-            if (appointment.Request.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("Request", "Invalid Request");
                 isValid = false;
             }
 

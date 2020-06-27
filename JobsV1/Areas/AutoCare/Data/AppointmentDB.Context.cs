@@ -28,5 +28,6 @@ namespace JobsV1.Areas.AutoCare.Data
         public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<AppointmentStatus> AppointmentStatus { get; set; }
         public virtual DbSet<AppointmentSlot> AppointmentSlots { get; set; }
+        public virtual DbSet<AppointmentRequest> AppointmentRequests { get; set; }
     }
 }

@@ -47,47 +47,68 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MsgTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MsgBody)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DtEncoded)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DtScheduled)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Occurence)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsSms)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            <button class="btn btn-default" onclick="sendEmail(@item.Id)" id="send-test">Send Test</button>
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            <a href="#" id="catbtn" data-toggle="modal" data-target="#recipientModal" onclick="setNotifId(@item.Id)"> Recipients </a> 
-            @*@Html.ActionLink("Recipients", "RecipientsList", new { id=item.Id }) |*@
-            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MsgTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MsgBody)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtEncoded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtScheduled)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Occurence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <button class="btn btn-default" onclick="sendEmail(@item.Id)" id="send-test">Send Test</button>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                <a href="#" id="catbtn" data-toggle="modal" data-target="#recipientModal" onclick="setNotifId(@item.Id)"> Recipients </a>
+                @*@Html.ActionLink("Recipients", "RecipientsList", new { id=item.Id }) |*@
+                @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            </td>
+        </tr>
+    }
 
 </table>
+
+<p>
+   <a class="cursor-pointer" onclick="EmailTest()"> Send Test </a>
+</p>
+
 @{ Html.RenderPartial("RecipientList", new ViewDataDictionary { }); }
 @{ Html.RenderPartial("RecipientAdd", new ViewDataDictionary { { "Customers", ViewBag.Customers } }); }
 
-<script src="~/Scripts/CustNotif/CustNotifs.js"> </script>
+@section Scripts{
+    <script src="~/Scripts/CustNotif/CustNotifs.js"></script>
+    <script>
+        function EmailTest() {
+            $.post("/CustNotifs/EmailTest", null, (result) => {
+                console.log("Test Email Response: ");
+                console.log(result);
+                if (result == "True") {
+                    console.log("Email sent successfully");
+                } else {
+                    console.log("Email not sent");
+                }
+            });
+        }
+    </script>
+}
 

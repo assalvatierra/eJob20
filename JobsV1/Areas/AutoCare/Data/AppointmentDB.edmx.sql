@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/19/2020 19:56:02
--- Generated from EDMX file: D:\Projects\eJob20\JobsV1\Areas\AutoCare\Data\AppointmentDB.edmx
+-- Date Created: 06/27/2020 10:44:40
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Areas\AutoCare\Data\AppointmentDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -49,13 +49,14 @@ CREATE TABLE [dbo].[Appointments] (
     [Customer] nvarchar(60)  NOT NULL,
     [Contact] nvarchar(30)  NOT NULL,
     [CustCode] nvarchar(10)  NULL,
-    [Plate] nvarchar(max)  NOT NULL,
-    [Conduction] nvarchar(max)  NULL,
-    [Request] nvarchar(max)  NOT NULL,
-    [Remarks] nvarchar(max)  NULL,
+    [Plate] nvarchar(80)  NOT NULL,
+    [Conduction] nvarchar(80)  NULL,
+    [Request] nvarchar(80)  NULL,
+    [Remarks] nvarchar(80)  NULL,
     [AppointmentStatusId] int  NOT NULL,
     [AppointmentSlotId] int  NOT NULL,
-    [AppointmentDate] nvarchar(max)  NOT NULL
+    [AppointmentDate] nvarchar(max)  NOT NULL,
+    [AppointmentRequestId] int  NOT NULL
 );
 GO
 
@@ -70,6 +71,13 @@ GO
 CREATE TABLE [dbo].[AppointmentSlots] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Description] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'AppointmentRequests'
+CREATE TABLE [dbo].[AppointmentRequests] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(80)  NOT NULL
 );
 GO
 
@@ -92,6 +100,12 @@ GO
 -- Creating primary key on [Id] in table 'AppointmentSlots'
 ALTER TABLE [dbo].[AppointmentSlots]
 ADD CONSTRAINT [PK_AppointmentSlots]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AppointmentRequests'
+ALTER TABLE [dbo].[AppointmentRequests]
+ADD CONSTRAINT [PK_AppointmentRequests]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -127,6 +141,21 @@ GO
 CREATE INDEX [IX_FK_AppointmentSlotAppointment]
 ON [dbo].[Appointments]
     ([AppointmentSlotId]);
+GO
+
+-- Creating foreign key on [AppointmentRequestId] in table 'Appointments'
+ALTER TABLE [dbo].[Appointments]
+ADD CONSTRAINT [FK_AppointmentRequestAppointment]
+    FOREIGN KEY ([AppointmentRequestId])
+    REFERENCES [dbo].[AppointmentRequests]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AppointmentRequestAppointment'
+CREATE INDEX [IX_FK_AppointmentRequestAppointment]
+ON [dbo].[Appointments]
+    ([AppointmentRequestId]);
 GO
 
 -- --------------------------------------------------

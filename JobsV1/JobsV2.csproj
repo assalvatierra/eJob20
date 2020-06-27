@@ -334,6 +334,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppointmentDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\AutoCare\Data\AppointmentRequest.cs">
+      <DependentUpon>AppointmentDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\AutoCare\Data\AppointmentSlot.cs">
       <DependentUpon>AppointmentDB.tt</DependentUpon>
     </Compile>
@@ -656,6 +659,7 @@
     <Compile Include="Models\Class\AppointmentClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
+    <Compile Include="Models\Class\EmailBuilderClass.cs" />
     <Compile Include="Models\Class\JobPostSaleClass.cs" />
     <Compile Include="Models\Class\JobVehicleClass.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />

@@ -10,6 +10,8 @@
         <AssociationConnector Association="AppointmentDB.AppointmentStatusAppointment" />
         <EntityTypeShape EntityType="AppointmentDB.AppointmentSlot" Width="1.5" PointX="4.75" PointY="1" />
         <AssociationConnector Association="AppointmentDB.AppointmentSlotAppointment" />
+        <EntityTypeShape EntityType="AppointmentDB.AppointmentRequest" Width="1.5" PointX="6.75" PointY="2.5" />
+        <AssociationConnector Association="AppointmentDB.AppointmentRequestAppointment" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

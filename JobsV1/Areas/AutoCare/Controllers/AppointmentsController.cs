@@ -23,7 +23,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         public ActionResult Index()
         {
             var appointments = db.Appointments.Include(a => a.AppointmentSlot).Include(a => a.AppointmentStatu)
-                .OrderBy(a=>a.AppointmentDate).Where(a=>a.AppointmentStatusId < 3);
+                .OrderByDescending(a=>a.AppointmentDate).Where(a=>a.AppointmentStatusId < 3);
             return View(appointments.ToList());
         }
 
@@ -47,6 +47,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description");
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status");
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description");
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate")] Appointment appointment)
+        public ActionResult Create([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate,AppointmentRequestId")] Appointment appointment)
         {
             if (ModelState.IsValid && InputValidation(appointment))
             {
@@ -66,6 +67,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description", appointment.AppointmentRequestId);
             return View(appointment);
         }
 
@@ -83,6 +85,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             }
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description", appointment.AppointmentRequestId);
             return View(appointment);
         }
 
@@ -91,7 +94,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate")] Appointment appointment)
+        public ActionResult Edit([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate,AppointmentRequestId")] Appointment appointment)
         {
             if (ModelState.IsValid && InputValidation(appointment))
             {
@@ -101,6 +104,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             }
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description", appointment.AppointmentRequestId);
             return View(appointment);
         }
 
@@ -163,11 +167,6 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 isValid = false;
             }
 
-            if (appointment.Request.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("Request", "Invalid Request");
-                isValid = false;
-            }
 
 
             return isValid;
@@ -196,7 +195,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         [HttpGet]
         public JsonResult GetAppointments(int id, string date)
         {
-            var appointmentList = db.Appointments.ToList().Select(s=> new { s.Customer, s.Plate, s.Request, s.AppointmentSlotId, s.AppointmentDate });
+            var appointmentList = db.Appointments.ToList().Select(s => new { s.Customer, s.Plate, s.AppointmentRequest.Description, s.Request, s.Remarks, s.AppointmentSlotId , s.AppointmentDate });
             appointmentList = appointmentList.Where(a => a.AppointmentSlotId == id && DateTime.Parse(a.AppointmentDate).Date == DateTime.Parse(date).Date).ToList();
             return Json(appointmentList.ToList(), JsonRequestBehavior.AllowGet);
         }

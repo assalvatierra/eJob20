@@ -26,8 +26,10 @@ namespace JobsV1.Areas.AutoCare.Data
         public int AppointmentStatusId { get; set; }
         public int AppointmentSlotId { get; set; }
         public string AppointmentDate { get; set; }
+        public int AppointmentRequestId { get; set; }
     
         public virtual AppointmentStatus AppointmentStatu { get; set; }
         public virtual AppointmentSlot AppointmentSlot { get; set; }
+        public virtual AppointmentRequest AppointmentRequest { get; set; }
     }
 }

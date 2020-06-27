@@ -9,12 +9,17 @@
     <EntitySet Name="Appointments" EntityType="AppointmentDB.Store.Appointments" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AppointmentStatus" EntityType="AppointmentDB.Store.AppointmentStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AppointmentSlots" EntityType="AppointmentDB.Store.AppointmentSlots" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AppointmentRequests" EntityType="AppointmentDB.Store.AppointmentRequests" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="AppointmentStatusAppointment" Association="AppointmentDB.Store.AppointmentStatusAppointment">
       <End Role="AppointmentStatus" EntitySet="AppointmentStatus" />
       <End Role="Appointment" EntitySet="Appointments" />
     </AssociationSet>
     <AssociationSet Name="AppointmentSlotAppointment" Association="AppointmentDB.Store.AppointmentSlotAppointment">
       <End Role="AppointmentSlot" EntitySet="AppointmentSlots" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="AppointmentRequestAppointment" Association="AppointmentDB.Store.AppointmentRequestAppointment">
+      <End Role="AppointmentRequest" EntitySet="AppointmentRequests" />
       <End Role="Appointment" EntitySet="Appointments" />
     </AssociationSet>
   </EntityContainer>
@@ -27,13 +32,14 @@
     <Property Name="Customer" Type="nvarchar" Nullable="false" MaxLength="60" />
     <Property Name="Contact" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="CustCode" Type="nvarchar" Nullable="true" MaxLength="10" />
-    <Property Name="Plate" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Conduction" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Request" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Plate" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Conduction" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Request" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="AppointmentStatusId" Type="int" Nullable="false" />
     <Property Name="AppointmentSlotId" Type="int" Nullable="false" />
     <Property Name="AppointmentDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AppointmentRequestId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="AppointmentStatus">
     <Key>
@@ -48,6 +54,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AppointmentRequests">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
   </EntityType>
   <Association Name="AppointmentStatusAppointment">
     <End Role="AppointmentStatus" Type="AppointmentDB.Store.AppointmentStatus" Multiplicity="1" />
@@ -73,6 +86,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="AppointmentRequestAppointment">
+    <End Role="AppointmentRequest" Type="AppointmentDB.Store.AppointmentRequests" Multiplicity="1" />
+    <End Role="Appointment" Type="AppointmentDB.Store.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AppointmentRequest">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="AppointmentRequestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -89,6 +114,11 @@
             <End Role="AppointmentSlot" EntitySet="AppointmentSlots" />
             <End Role="Appointment" EntitySet="Appointments" />
           </AssociationSet>
+          <EntitySet Name="AppointmentRequests" EntityType="AppointmentDB.AppointmentRequest" />
+          <AssociationSet Name="AppointmentRequestAppointment" Association="AppointmentDB.AppointmentRequestAppointment">
+            <End Role="AppointmentRequest" EntitySet="AppointmentRequests" />
+            <End Role="Appointment" EntitySet="Appointments" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Appointment">
           <Key>
@@ -99,15 +129,17 @@
           <Property Name="Customer" Type="String" Nullable="false" MaxLength="60" />
           <Property Name="Contact" Type="String" Nullable="false" MaxLength="30" />
           <Property Name="CustCode" Type="String" Nullable="true" MaxLength="10" />
-          <Property Name="Plate" Type="String" Nullable="false" />
-          <Property Name="Conduction" Type="String" Nullable="true" />
-          <Property Name="Request" Type="String" Nullable="false" />
+          <Property Name="Plate" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Conduction" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Request" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="AppointmentStatu" Relationship="AppointmentDB.AppointmentStatusAppointment" FromRole="Appointment" ToRole="AppointmentStatus" />
-          <Property Name="Remarks" Type="String" Nullable="true" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="AppointmentStatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AppointmentSlot" Relationship="AppointmentDB.AppointmentSlotAppointment" FromRole="Appointment" ToRole="AppointmentSlot" />
           <Property Name="AppointmentSlotId" Type="Int32" Nullable="false" />
           <Property Name="AppointmentDate" Type="String" Nullable="false" />
+          <NavigationProperty Name="AppointmentRequest" Relationship="AppointmentDB.AppointmentRequestAppointment" FromRole="Appointment" ToRole="AppointmentRequest" />
+          <Property Name="AppointmentRequestId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="AppointmentStatus">
           <Key>
@@ -149,6 +181,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AppointmentRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="Appointments" Relationship="AppointmentDB.AppointmentRequestAppointment" FromRole="AppointmentRequest" ToRole="Appointment" />
+        </EntityType>
+        <Association Name="AppointmentRequestAppointment">
+          <End Type="AppointmentDB.AppointmentRequest" Role="AppointmentRequest" Multiplicity="1" />
+          <End Type="AppointmentDB.Appointment" Role="Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentRequest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="AppointmentRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -170,6 +222,7 @@
           <ScalarProperty Name="AppointmentStatusId" ColumnName="AppointmentStatusId" />
           <ScalarProperty Name="AppointmentSlotId" ColumnName="AppointmentSlotId" />
           <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
+          <ScalarProperty Name="AppointmentRequestId" ColumnName="AppointmentRequestId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -184,6 +237,14 @@
     <EntitySetMapping Name="AppointmentSlots">
       <EntityTypeMapping TypeName="IsTypeOf(AppointmentDB.AppointmentSlot)">
         <MappingFragment StoreEntitySet="AppointmentSlots">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AppointmentRequests">
+      <EntityTypeMapping TypeName="IsTypeOf(AppointmentDB.AppointmentRequest)">
+        <MappingFragment StoreEntitySet="AppointmentRequests">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>

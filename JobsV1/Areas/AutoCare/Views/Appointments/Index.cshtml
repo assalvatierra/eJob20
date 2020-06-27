@@ -50,12 +50,13 @@
     </tr>
 
 @foreach (var item in Model) {
+
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.DtEntered)
+            @item.DtEntered.ToString("MMM dd yyyy h:m tt")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AppointmentDate)
+            @DateTime.Parse(item.AppointmentDate).ToString("MMM dd yyyy")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AppointmentSlot.Description)
@@ -76,7 +77,7 @@
             @Html.DisplayFor(modelItem => item.Conduction)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Request)
+            @Html.DisplayFor(modelItem => item.AppointmentRequest.Description)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Remarks)

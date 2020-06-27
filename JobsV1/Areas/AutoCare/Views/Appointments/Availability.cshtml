@@ -69,7 +69,7 @@
                 {
                     if (schedule.status)
                     {
-                        <td class="appointment-occupied" onclick="SelectSchedule(@item.slot.Id, '@schedule.date.ToString("MM/dd/yyyy")' )" style="cursor:pointer;">
+                        <td class="appointment-occupied" onclick="SelectSchedule(@item.slot.Id, '@schedule.date.ToString("MM/dd/yyyy")', '@item.slot.Description' )" style="cursor:pointer;">
                             @schedule.date.ToString("dd")
                             <span class="badge pull-right"> @schedule.appointments.Count() </span>
                         </td>
@@ -96,18 +96,19 @@
 
 @section Scripts{
     <script>
-        function SelectSchedule(id, date) {
+        function SelectSchedule(id, date, slot) {
             console.log("id:" + id + " date: " + date);
             $("#AppointmentItems-List").children().remove();
+            $("#slot-desc").text(slot);
             var res = $.get("/AutoCare/Appointments/GetAppointments/",
                 { id : id, date : date },
                 (result) => {
                     console.log(result);
 
                     for (var i = 0; i < result.length; i++) {
-
+                        var remarks = result[i]["Remarks"] ?? "";
                         var appointment = "<a href='#' class='list-group-item'> <b>" + result[i]["Customer"]
-                            + "</b> (" + result[i]["Plate"] + ") - Request: " + result[i]["Request"] + " " 
+                            + "</b> (" + result[i]["Plate"] + ") - Request: " + result[i]["Description"] + " " + remarks + " ";
                         $("#AppointmentItems-List").append(appointment);
 
                     }

@@ -384,6 +384,7 @@ namespace JobsV1.Controllers
             }
             return "500";
         }
+
         //POST: Send Email Notification Test
         //id : Notification Activity Id
         // Check pending notifications and send all pending 
@@ -530,5 +531,15 @@ namespace JobsV1.Controllers
         }
         #endregion
 
+        #region Email test
+
+        public bool EmailTest()
+        {
+            EmailBuilderClass emailBuilder = new EmailBuilderClass();
+            return emailBuilder.SendEmail_NotifTest("jahdielsvillosa@gmail.com");
+
+        }
+
+        #endregion
     }
 }

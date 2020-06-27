@@ -3,11 +3,8 @@
 @{
     ViewBag.Title = "Item Availability";
     List<JobsV1.Models.DayLabel> vLabel = (List<JobsV1.Models.DayLabel>)ViewBag.dtLabel;
-    Layout = "~/Views/Shared/_ModuleLayout_NoMenu.cshtml";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
-
-@Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
-
 
 <h2>Item Availability</h2>
 
@@ -215,9 +212,3 @@
         $("#moreItemsTable").find("tr:gt(0)").remove();
     }
 </script>
-
-@Html.ActionLink("List", "Index", "SupplierItems") |
-@Html.ActionLink("Items", "Index", "InvItems") |
-Availability |
-@Html.ActionLink("Gate Control", "Index", "InvCarGateControls") |
-@Html.ActionLink("Maintenance", "Index", "InvCarRecords")
