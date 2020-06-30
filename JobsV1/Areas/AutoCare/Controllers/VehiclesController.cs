@@ -49,10 +49,18 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // GET: AutoCare/Vehicles/Create
         public ActionResult Create()
         {
+
+            var Vehicles = db.VehicleModels
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type
+                  });
+
+            ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name");
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name");
-            ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make");
             return View();
         }
 
@@ -72,10 +80,18 @@ namespace JobsV1.Areas.AutoCare.Controllers
                     return RedirectToAction("Index");
                 }
             }
+
+            var Vehicles = db.VehicleModels
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type
+                  });
+
+            ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
-            ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make", vehicle.VehicleModelId);
             return View(vehicle);
         }
 
@@ -122,10 +138,17 @@ namespace JobsV1.Areas.AutoCare.Controllers
             {
                 return HttpNotFound();
             }
+            var Vehicles = db.VehicleModels
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type
+                  });
+
+            ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
-            ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make", vehicle.VehicleModelId);
             return View(vehicle);
         }
 
@@ -145,10 +168,17 @@ namespace JobsV1.Areas.AutoCare.Controllers
                     return RedirectToAction("Index");
                 }
             }
+            var Vehicles = db.VehicleModels
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type
+                  });
+
+            ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
-            ViewBag.VehicleModelId = new SelectList(db.VehicleModels, "Id", "Make", vehicle.VehicleModelId);
             return View(vehicle);
         }
 

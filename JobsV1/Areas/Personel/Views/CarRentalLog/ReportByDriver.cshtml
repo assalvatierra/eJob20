@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Report By Company</h2>
+<h2>Report By Driver</h2>
 <p>
     @Html.ActionLink("Back to Reports Filter", "ReportFilter", new
     {
@@ -19,65 +19,67 @@
 
     @Html.ActionLink("Trip Logs", "Index", "CarRentalLog")
 </p>
-<h3>  @ViewBag.DriverDetails </h3>
-<table class="table">
-    <tr>
-        <th> Date </th>
-        <th> Vehicle </th>
-        <th> Company </th>
-        <th> Remarks </th>
-        <th> Driver Fee </th>
-        <th> Running  </th>
-    </tr>
-
-    @{
-        int count = 0;
-        decimal totalRate = 0;
-    }
-    @foreach (var trip in Model)
-    {
-        count++;
-        totalRate += trip.Rate;
+@foreach (var tripGroup in Model.GroupBy(s => s.Driver).ToList())
+{
+    int count = 0;
+    decimal totalRate = 0;
+    decimal running = 0;
+    <h3>  @tripGroup.Key </h3>
+    <table class="table">
         <tr>
-            <td>
-                @trip.DtTrip.ToString("MMM dd yyyy")
-            </td>
-            <td>
-                @trip.Vehicle
-            </td>
-            <td>
-                @trip.Company
-            </td>
-            <td>
-                @trip.Remarks
-            </td>
-            <td>
-                @trip.Rate.ToString("#,##0.00")
-            </td>
-            <td>
-                @trip.Running.ToString("#,##0.00")
-            </td>
+            <th> Date </th>
+            <th> Vehicle </th>
+            <th> Company </th>
+            <th> Remarks </th>
+            <th> Driver Fee </th>
+            <th> Running  </th>
         </tr>
-    }
 
-    @if (Model.Count() == 0)
-    {
-        <tr>
-            <td colspan="7">
-                No results found
-            </td>
-        </tr>
-    }
-    @{
-        <tr>
-            <td colspan=" 4">
-                <span> Total Count: </span> @count
-            </td>
-            <td>
-                @totalRate.ToString("#,##0.00")
-            </td>
-            <td></td>
-        </tr>
-    }
+        @foreach (var trip in tripGroup)
+        {
+            count++;
+            totalRate += trip.Rate;
+            <tr>
+                <td>
+                    @trip.DtTrip.ToString("MMM dd yyyy")
+                </td>
+                <td>
+                    @trip.Vehicle
+                </td>
+                <td>
+                    @trip.Company
+                </td>
+                <td>
+                    @trip.Remarks
+                </td>
+                <td>
+                    @trip.Rate.ToString("#,##0.00")
+                </td>
+                <td>
+                    @totalRate.ToString("#,##0.00")
+                </td>
+            </tr>
+        }
 
-</table>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="7">
+                    No results found
+                </td>
+            </tr>
+        }
+        @{
+            <tr>
+                <td colspan=" 4">
+                    <span> Total Count: </span> @count
+                </td>
+                <td>
+                    @totalRate.ToString("#,##0.00")
+                </td>
+                <td></td>
+            </tr>
+        }
+
+    </table>
+}

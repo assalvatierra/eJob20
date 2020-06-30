@@ -1122,6 +1122,7 @@ order by x.jobid
                 db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().CustEntMainId : 1 ;
 
             ViewBag.mainid = jobid;
+            ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CustomerId  = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId    = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
@@ -1187,6 +1188,8 @@ order by x.jobid
             }
 
 
+            ViewBag.mainid = jobMain.Id;
+            ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
@@ -1240,6 +1243,7 @@ order by x.jobid
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id);
             }
 
+            ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name",2);
@@ -1285,6 +1289,7 @@ order by x.jobid
                 }
             }
 
+            ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
@@ -1415,7 +1420,11 @@ order by x.jobid
             js.ActualAmt = 0;
             js.QuotedAmt = 0;
             js.SupplierAmt = 0;
-            
+
+            var siteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            if (siteConfig == "AutoCare")
+                js.Remarks = "";
+
             //modify SupplierItem
             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
             var SuppliersActive = db.Suppliers.Where(s => s.Status != "INC").ToList();

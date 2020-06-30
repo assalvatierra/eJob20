@@ -39,12 +39,12 @@
 
     <thead>
         <tr>
-            <th>
+            <th style="min-width:150px;">
                 Slot
             </th>
             @foreach (var apHeader in Model.dateLabels)
             {
-                <th>
+                <th style="min-width:80px;">
                     <span >  @apHeader.DateMonth  @apHeader.Day</span>
                     <br />
                     @if(apHeader.DateDay == "Sun") { 
@@ -106,7 +106,7 @@
                     console.log(result);
 
                     for (var i = 0; i < result.length; i++) {
-                        var remarks = result[i]["Remarks"] ?? "";
+                        var remarks = result[i]["Remarks"] != null ? result[i]["Remarks"]  : "" ;
                         var appointment = "<a href='#' class='list-group-item'> <b>" + result[i]["Customer"]
                             + "</b> (" + result[i]["Plate"] + ") - Request: " + result[i]["Description"] + " " + remarks + " ";
                         $("#AppointmentItems-List").append(appointment);

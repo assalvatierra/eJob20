@@ -232,7 +232,12 @@ namespace JobsV1.Controllers
         // GET: CustEntMains/Create
         public ActionResult Create()
         {
+            var lastId = 0;
+            if (db.CustEntMains.FirstOrDefault() != null)
+                lastId = db.CustEntMains.OrderByDescending(s=>s.Id).FirstOrDefault().Id + 1;
+
             CustEntMain main = new CustEntMain();
+            main.Code = lastId.ToString("D4");
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c=>c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");

@@ -342,5 +342,8 @@ insert into AppointmentStatus([Status]) values
 insert into AppointmentSlots([Description]) values
 ('09-10 am Daily'),('10-11 am Daily'),('11-12 nn Daily');
 
-insert into AppointmentRequests([Description]) values
-('Change Oil'),('Body Repair'),('Engine Check'),('Under Chassis'),('Others');
+insert into AppointmentRequests([Description],[OrderNo]) values
+('Change Oil',1),('Body Repair',2),('Engine Check',3),('Under Chassis',4),('Others',5);
+
+insert into AppointmentAcctTypes([Description]) values
+('Regular Account'),('Fleet Account');

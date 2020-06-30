@@ -66,7 +66,7 @@ function isChecked(input) {
 }
 
 function AddCompanyContact() {
-    if (checkDuplicate()) {
+    if (checkDuplicate() == true) {
         console.log("adding new contact ");
         ajax_AddContact();
     }
@@ -85,22 +85,18 @@ function InitialAddContactModal(companyId) {
 //      when existing name is found, verify user,
 //      if not, proceed to add new user
 function checkDuplicate() {
+
+
     var custId = $("#ac-custId").val();
 
     console.log("checking duplicate name ");
     if (Check_AddContact()) {
     
-        ////New Customer
+        //New Customer
         if(custId == 1){
-
-            $.get("/CustEntMains/CheckNameDuplicate", { custName: $('#ac-name').val() }, (result) => {
-                console.log(result);
-                if (result == 'True') {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
+            console.log("adding new customer")
+          
+           return true;
 
         } else {
             console.log("add new contact ");
@@ -109,6 +105,19 @@ function checkDuplicate() {
         return false;
     }
     return false;
+}
+
+function checkName() {
+    var custId = $("#ac-custId").val();
+    $("#add-contact-error").hide();
+
+     $.get("/CustEntMains/CheckNameDuplicate", { custName: $('#ac-name').val() }, (result) => {
+          console.log(result);
+          if (result == 'True' && custId == 1) {
+              $("#add-contact-error").show();
+              isNameUnique = false;
+          } 
+     });
 }
 
 

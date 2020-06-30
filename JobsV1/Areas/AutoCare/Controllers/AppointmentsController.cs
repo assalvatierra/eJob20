@@ -16,15 +16,17 @@ namespace JobsV1.Areas.AutoCare.Controllers
 {
     public class AppointmentsController : Controller
     {
+        private JobDBContainer jdb = new JobDBContainer();
         private AppointmentDBContainer db = new AppointmentDBContainer();
         private AppointmentClass apClass = new AppointmentClass();
-
+        private DateClass date = new DateClass();
         // GET: AutoCare/Appointments
         public ActionResult Index()
         {
+            var today = date.GetCurrentDate();
             var appointments = db.Appointments.Include(a => a.AppointmentSlot).Include(a => a.AppointmentStatu)
                 .OrderByDescending(a=>a.AppointmentDate).Where(a=>a.AppointmentStatusId < 3);
-            return View(appointments.ToList());
+            return View(appointments.ToList().Where(a => DateTime.Parse(a.AppointmentDate).Date >= today.Date));
         }
 
         // GET: AutoCare/Appointments/Details/5
@@ -45,9 +47,11 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // GET: AutoCare/Appointments/Create
         public ActionResult Create()
         {
+            ViewBag.CustomerList = jdb.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description");
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status");
-            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description");
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description");
+            ViewBag.AppointmentAcctTypeId = new SelectList(db.AppointmentAcctTypes, "Id", "Description");
             return View();
         }
 
@@ -56,7 +60,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate,AppointmentRequestId")] Appointment appointment)
+        public ActionResult Create([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate,AppointmentRequestId,Unit,AppointmentAcctTypeId")] Appointment appointment)
         {
             if (ModelState.IsValid && InputValidation(appointment))
             {
@@ -65,9 +69,11 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.CustomerList = jdb.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
-            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description", appointment.AppointmentRequestId);
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description", appointment.AppointmentRequestId);
+            ViewBag.AppointmentAcctTypeId = new SelectList(db.AppointmentAcctTypes, "Id", "Description", appointment.AppointmentAcctTypeId);
             return View(appointment);
         }
 
@@ -83,9 +89,11 @@ namespace JobsV1.Areas.AutoCare.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CustomerList = jdb.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
-            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description", appointment.AppointmentRequestId);
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description", appointment.AppointmentRequestId);
+            ViewBag.AppointmentAcctTypeId = new SelectList(db.AppointmentAcctTypes, "Id", "Description", appointment.AppointmentAcctTypeId);
             return View(appointment);
         }
 
@@ -94,7 +102,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate,AppointmentRequestId")] Appointment appointment)
+        public ActionResult Edit([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate,AppointmentRequestId,Unit,AppointmentAcctTypeId")] Appointment appointment)
         {
             if (ModelState.IsValid && InputValidation(appointment))
             {
@@ -102,9 +110,12 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.CustomerList = jdb.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
-            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests, "Id", "Description", appointment.AppointmentRequestId);
+            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description", appointment.AppointmentRequestId);
+            ViewBag.AppointmentAcctTypeId = new SelectList(db.AppointmentAcctTypes, "Id", "Description", appointment.AppointmentAcctTypeId);
             return View(appointment);
         }
 

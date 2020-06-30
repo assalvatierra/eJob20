@@ -72,6 +72,12 @@ namespace JobsV1.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
+            var lastId = 0;
+            if (db.CustEntMains.FirstOrDefault() != null)
+                lastId = db.CustEntMains.OrderByDescending(s => s.Id).FirstOrDefault().Id + 1;
+
+            Customer customer = new Customer();
+
             ViewBag.Status = new SelectList(StatusList, "value", "text");
 
             return View();
@@ -448,7 +454,6 @@ namespace JobsV1.Controllers
                 custList = custdb.GetCustomerList(search, status, sort, user);
             }
 
-           
             //convert list to json object
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }

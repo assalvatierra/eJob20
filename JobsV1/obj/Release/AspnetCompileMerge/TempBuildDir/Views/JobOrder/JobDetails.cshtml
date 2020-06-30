@@ -26,11 +26,14 @@
 
         <div class="form-group">
             <b class="control-label col-md-2"> Company </b>
-            <div class="col-md-10">
+            <div class="col-md-4" style="width:320px">
                 <input type="text" class="form-control" id="company-textfield" disabled />
                 @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control hidden", @id = "CompanyId" })
                 @Html.ValidationMessageFor(model => model.JobThruId, "", new { @class = "text-danger" })
             </div>
+            <span style="float:left">
+                <button class="btn btn-default" data-toggle="modal" data-target="#CompanySearchModal" style="margin-top:0px;float:left;" type="button">Search Company</button>
+            </span>
         </div>
 
         <div class="form-group">
@@ -63,7 +66,7 @@
 
         <div class="form-group">
             <span class="control-label col-md-2"> <b>Job Name</b> </span>
-            <div class="col-md-9" style="padding-left:5px;">
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @maxlength = "80", @id = "jobdesc" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
@@ -153,12 +156,14 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@Html.Partial("_SearchCustomerModal")
+@Html.Partial("_SearchCompanyModal", null, new ViewDataDictionary { { "CompanyList", ViewBag.CompanyList } })
+@Html.Partial("_SearchCustomerModal", null, new ViewDataDictionary { { "CustomerList", ViewBag.CustomerList } })
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/Job/Main.js"></script>
     <script type="text/javascript" src="~/Scripts/Job/JobCreate.js"></script>
+    <script type="text/javascript" src="~/Scripts/Job/JobSearchCompany.js"></script>
     <script>
         $(document).ready(() => {
             $('#company-textfield').val($("#CompanyId option:selected").text());

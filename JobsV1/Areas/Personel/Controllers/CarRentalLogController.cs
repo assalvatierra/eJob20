@@ -344,6 +344,7 @@ namespace JobsV1.Areas.Personel.Controllers
             driversummary.DriverTrips = trips;
             driversummary.DriverCash = cashtrx;
 
+            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
             return View(driversummary);
         }
 
@@ -538,15 +539,27 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 crLogTrips = crLogTrips.Where(c => c.crLogUnit.Description == unit);
             }
+            else
+            {
+                crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description);
+            }
 
             if (!driver.IsNullOrWhiteSpace() && driver != "all")
             {
                 crLogTrips = crLogTrips.Where(c => c.crLogDriver.Name == driver);
             }
+            else
+            {
+                crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.Name);
+            }
 
             if (!company.IsNullOrWhiteSpace() && company != "all")
             {
                 crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
+            }
+            else
+            {
+                crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name);
             }
 
             //Sorting
@@ -600,8 +613,6 @@ namespace JobsV1.Areas.Personel.Controllers
             switch (reportby)
             {
                 case "Company":
-                    if (company != "all")
-                    {
                         return RedirectToAction("ReportByCompany", new
                         {
                             startDate = startDate,
@@ -611,13 +622,7 @@ namespace JobsV1.Areas.Personel.Controllers
                             company = company,
                             sortby = sortby
                         });
-
-                    }
-                    ModelState.AddModelError("", "Please select a company");
-                    break;
                 case "Driver":
-                    if (driver != "all")
-                    {
                         return RedirectToAction("ReportByDriver", new
                         {
                             startDate = startDate,
@@ -627,13 +632,8 @@ namespace JobsV1.Areas.Personel.Controllers
                             company = company,
                             sortby = sortby
                         });
-
-                    }
-                    ModelState.AddModelError("", "Please select a driver");
-                    break;
                 case "Unit":
-                    if (unit != "all")
-                    {
+                  
                         return RedirectToAction("ReportByUnit", new
                         {
                             startDate = startDate,
@@ -643,10 +643,6 @@ namespace JobsV1.Areas.Personel.Controllers
                             company = company,
                             sortby = sortby
                         });
-
-                    }
-                    ModelState.AddModelError("", "Please select a unit");
-                    break;
                 default:
                     break;
             }

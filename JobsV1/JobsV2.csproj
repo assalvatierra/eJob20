@@ -319,6 +319,9 @@
     <Compile Include="Areas\AutoCare\Data\Appointment.cs">
       <DependentUpon>AppointmentDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\AutoCare\Data\AppointmentAcctType.cs">
+      <DependentUpon>AppointmentDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\AutoCare\Data\AppointmentDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -455,6 +458,7 @@
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
+    <Content Include="Areas\AutoCare\Scipts\Appointments\CustomerSearch.js" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -1705,6 +1709,7 @@
     <Content Include="Scripts\Job\DefaultDate.js" />
     <Content Include="Scripts\CustEntMain\CustEntActivities.js" />
     <Content Include="Scripts\CustEntMain\CustomerSearch.js" />
+    <Content Include="Scripts\Job\JobSearchCompany.js" />
     <Content Include="Scripts\Job\JobCreate.js" />
     <Content Include="Scripts\Job\JobVehicle.js" />
     <Content Include="Scripts\Job\TripListing.js" />
@@ -1892,6 +1897,7 @@
     <Content Include="Areas\Personel\Views\crLogUnits\Details.cshtml" />
     <Content Include="Areas\Personel\Views\crLogUnits\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogUnits\Index.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Appointments\_SearchCustomerModal.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2653,6 +2659,7 @@
     <Content Include="Views\Public\AppointmentSuccess.cshtml" />
     <Content Include="Views\Public\AppSchedules.cshtml" />
     <Content Include="Views\Activities\_SalesCodeModal.cshtml" />
+    <Content Include="Views\JobOrder\_SearchCompanyModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

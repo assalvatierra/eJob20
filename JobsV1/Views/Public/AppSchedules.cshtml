@@ -4,21 +4,21 @@
     var Schedule = ViewBag.Schedules as JobsV1.Models.Class.ApmntSchedule;
 }
 
-<div id="ApmntFormDate">
+<div id="ApmntFormDate" >
     <h2>Select Appointment Date</h2>
-    <div class="panel appointment-panel">
+    <div class="panel appointment-panel" style="min-width:920px;" >
         <div class="panel-body">
 
             <table class="table table-bordered">
 
                 <thead>
                     <tr>
-                        <th>
+                        <th  style="min-width:120px;">
                            Appointment Slot
                         </th>
                         @foreach (var apHeader in Schedule.dateLabels)
                         {
-                            <th>
+                            <th  style="min-width:80px;">
                                 @apHeader.DateMonth  @apHeader.Day<br />
                                 @apHeader.DateDay
 

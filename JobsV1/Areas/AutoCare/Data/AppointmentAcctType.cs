@@ -12,17 +12,16 @@ namespace JobsV1.Areas.AutoCare.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class AppointmentRequest
+    public partial class AppointmentAcctType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AppointmentRequest()
+        public AppointmentAcctType()
         {
             this.Appointments = new HashSet<Appointment>();
         }
     
         public int Id { get; set; }
         public string Description { get; set; }
-        public Nullable<int> OrderNo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }

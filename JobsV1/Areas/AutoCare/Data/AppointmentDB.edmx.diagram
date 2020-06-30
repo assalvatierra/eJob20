@@ -12,6 +12,8 @@
         <AssociationConnector Association="AppointmentDB.AppointmentSlotAppointment" />
         <EntityTypeShape EntityType="AppointmentDB.AppointmentRequest" Width="1.5" PointX="6.75" PointY="2.5" />
         <AssociationConnector Association="AppointmentDB.AppointmentRequestAppointment" />
+        <EntityTypeShape EntityType="AppointmentDB.AppointmentAcctType" Width="1.5" PointX="0.5" PointY="2.375" />
+        <AssociationConnector Association="AppointmentDB.AppointmentAcctTypeAppointment" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

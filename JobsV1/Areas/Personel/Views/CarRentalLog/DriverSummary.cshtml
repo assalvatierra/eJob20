@@ -7,8 +7,16 @@
     decimal _drivertrips = 0;
     decimal _drivercash = 0;
 }
+<div class="view-header" style="border-bottom:none;">
+    <h2>@Model.Driver.Name</h2>
+    <div class="header-btn-list">
+        @Html.DropDownList("crLogDriverId", null, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div>
+    </div>
+</div>
 
-<h2>@Model.Driver.Name</h2>
+
 
 <h3>Trips</h3>
 <table class="table">
@@ -110,6 +118,18 @@
     @Html.ActionLink("Pay and Close", "PaytoClose", new { id = Model.Driver.Id, amount = _balance })
 </h4>
 <br />
-@Html.ActionLink("Go to Trip Log", "Index")
-    | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease")
+<p>
+    @Html.ActionLink("Go to Trip Log", "Index") | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease")
+</p>
 
+@section Scripts{
+
+    <script>
+        $("select[name=crLogDriverId]").change(() => {
+            let selectedDriver = $("select[name=crLogDriverId] :selected").val();
+
+            window.location.href = "../DriverSummary/" + selectedDriver;
+        })
+    </script>
+
+}

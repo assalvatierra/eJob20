@@ -80,10 +80,8 @@ function InitDatePicker()
     }
     );
 
-    $('input[name="DtStart"]').val(ddd1.substr( 0, ddd1.indexOf(" ") ));
-    $('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ") ));
-
-
+    $('input[name="DtStart"]').val(moment().format("MM/DD/YYYY"));
+    $('input[name="DtEnd"]').val(moment().add(1,'days').format("MM/DD/YYYY"));
 
 
 }
