@@ -8,10 +8,10 @@ namespace JobsV1.Models.Class
 {
     public interface iCustEntCode
     {
-        public string GenerateCode(int id);
+        string GenerateCode(int id);
     }
 
-    public class AutoCare_CustEntCode : iCustEntCode
+    public class CustEntCode_AutoCare : iCustEntCode
     {
         private readonly JobDBContainer db = new JobDBContainer();
         private readonly DateClass dt = new DateClass();
@@ -25,10 +25,18 @@ namespace JobsV1.Models.Class
 
                 var company = db.CustEntMains.Find(id);
 
-                var codeAccountType = db.CustEntAccountTypes.Find(company.CustEntAccountTypeId).SysCode;
+                var codeAccountType = db.CustEntAccountTypes.Find(company.CustEntAccountTypeId).Name;
+
+                var codeType = "";
+                if (codeAccountType == "Regular")
+                    codeType = "1";
+                else if (codeAccountType == "Fleet")
+                    codeType = "2";
+                else
+                    codeType = "1";
 
                 //build company code pattern string
-                var companyCode = codeDate + codeAccountType + company.Id.ToString("D4");
+                var companyCode = codeDate + codeType + company.Id.ToString("D4");
 
                 return companyCode;
             }
@@ -37,7 +45,31 @@ namespace JobsV1.Models.Class
                 return "";
             }
         }
-    }
 
+     }
+
+
+
+
+        public class CustEntCode_Default : iCustEntCode
+        {
+            private readonly JobDBContainer db = new JobDBContainer();
+            private readonly DateClass dt = new DateClass();
+
+            public string GenerateCode(int id)
+            {
+                try
+                {
+                    //not implemented
+                    return null;
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+
+        }
+    
 
 }

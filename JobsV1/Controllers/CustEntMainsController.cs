@@ -312,30 +312,37 @@ namespace JobsV1.Controllers
         {
             try
             {
-                //CustEntCode custEntCode = new CustEntCode();
+                iCustEntCode custEntCode;
+                var companyCode = "";
 
-                //var company = db.CustEntMains.Find(id);
-                //var companyCode = "";
+                var company = db.CustEntMains.Find(id);
+                if (company == null)
+                    return false;
 
-                //var siteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
-                //if(siteConfig == "AutoCare")
-                //{
-                //    //build company code pattern string
-                //    custEntCode.isAutoGenerate = true;
-                //    companyCode = custEntCode.generateCode(id);
-                //}
-                //else
-                //{
-                //    //build company code pattern string
-                //    custEntCode.isAutoGenerate = false;
-                //    companyCode = custEntCode.generateCode(id);
-                //}
+                var accountSysCode = db.CustEntAccountTypes.Find(company.CustEntAccountTypeId).SysCode;
+                switch (accountSysCode)
+                {
+                    case "TYPE01":
+                        custEntCode = new CustEntCode_AutoCare();
+                        companyCode = custEntCode.GenerateCode(id);
+                        break;
+                    case "NOGEN":
+                        custEntCode = new CustEntCode_Default();
+                        companyCode = custEntCode.GenerateCode(id);
+                        break;
+                    default:
+                        companyCode = null;
+                        break;
+                }
 
-                //company.Code = companyCode;
+                if (companyCode.IsNullOrWhiteSpace())
+                    return true;
 
-                ////save company code changes
-                //db.Entry(company).State = EntityState.Modified;
-                //db.SaveChanges();
+                company.Code = companyCode;
+
+                //save company code changes
+                db.Entry(company).State = EntityState.Modified;
+                db.SaveChanges();
 
                 return true;
             }

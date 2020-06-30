@@ -158,7 +158,7 @@ values
 --values ('NEW (not yet defined)',' ',' ',' ');
 
 insert into CustEntAccountTypes(Name, SysCode) values 
-('Default', '1');
+('Default', 'NOGEN'),('Regular', 'TYPE01'),('Fleet', 'TYPE01');
 
 insert into CustEntMains(Name,Code, Address, Contact1, Contact2, iconPath, Website, Remarks, CityId, Status, AssignedTo, Mobile, Exclusive, CustEntAccountTypeId) 
 values ('Google.Inc','COP-001','Davao City','888-9888','888-9881','','google.com','',5,'ACT','jecca.realbreeze@gmail.com','09126659987','PUBLIC', 1),
@@ -348,4 +348,4 @@ insert into AppointmentRequests([Description],[OrderNo]) values
 ('Change Oil',1),('Body Repair',2),('Engine Check',3),('Under Chassis',4),('Others',5);
 
 insert into AppointmentAcctTypes([Description]) values
-('Regular Account'),('Fleet Account');
+('Regular'),('Fleet Account');
