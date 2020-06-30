@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -232,18 +233,16 @@ namespace JobsV1.Controllers
         // GET: CustEntMains/Create
         public ActionResult Create()
         {
-            var lastId = 0;
-            if (db.CustEntMains.FirstOrDefault() != null)
-                lastId = db.CustEntMains.OrderByDescending(s=>s.Id).FirstOrDefault().Id + 1;
-
+           
             CustEntMain main = new CustEntMain();
-            main.Code = lastId.ToString("D4");
+
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c=>c.Name).ToList(), "Id", "Name");
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
-            
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
+
             return View(main);
         }
 
@@ -252,7 +251,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive")] CustEntMain custEntMain, int? id)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId")] CustEntMain custEntMain, int? id)
         {
             if (ModelState.IsValid)
             {
@@ -263,9 +262,14 @@ namespace JobsV1.Controllers
 
                     if (DuplicateCount == 0)
                     {
+                        //create company
                         db.CustEntMains.Add(custEntMain);
                         db.SaveChanges();
-                    }else
+
+                        //update company code
+                        UpdateCompanyCode(custEntMain.Id);
+                    }
+                    else
                     {
                         ViewBag.Msg = "Customer Name already exist.";
 
@@ -273,6 +277,7 @@ namespace JobsV1.Controllers
                         ViewBag.Status = new SelectList(StatusList, "value", "text");
                         ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
                         ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+                        ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
 
                         return View(custEntMain);
                     }
@@ -298,8 +303,46 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
 
             return View(custEntMain);
+        }
+
+        public bool UpdateCompanyCode(int id)
+        {
+            try
+            {
+                //CustEntCode custEntCode = new CustEntCode();
+
+                //var company = db.CustEntMains.Find(id);
+                //var companyCode = "";
+
+                //var siteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+                //if(siteConfig == "AutoCare")
+                //{
+                //    //build company code pattern string
+                //    custEntCode.isAutoGenerate = true;
+                //    companyCode = custEntCode.generateCode(id);
+                //}
+                //else
+                //{
+                //    //build company code pattern string
+                //    custEntCode.isAutoGenerate = false;
+                //    companyCode = custEntCode.generateCode(id);
+                //}
+
+                //company.Code = companyCode;
+
+                ////save company code changes
+                //db.Entry(company).State = EntityState.Modified;
+                //db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 
@@ -334,6 +377,7 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
             return View(custEntMain);
         }
 
@@ -342,7 +386,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive")] CustEntMain custEntMain)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,Contact1,Contact2,Mobile,iconPath,CityId,Website,Status,AssignedTo,Code,Exclusive,CustEntAccountTypeId")] CustEntMain custEntMain)
         {
             if (ModelState.IsValid)
             {
@@ -357,6 +401,7 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(StatusList, "value", "text",custEntMain.Status);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
             return View(custEntMain);
         }
 

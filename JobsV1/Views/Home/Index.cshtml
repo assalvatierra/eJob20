@@ -27,7 +27,7 @@
 
 <div>
     <h3>Modules</h3>
-    <span>
+    <span hidden>
         @( ViewBag.ConfigVersion != "" || ViewBag.DBActive != "" ? "Configuration: " : "")
         @( ViewBag.ConfigVersion != "" ? " Web: " + ViewBag.ConfigVersion : "" )
         @( ViewBag.DBActive != "" ? " | DB: " + ViewBag.DBActive : "" )

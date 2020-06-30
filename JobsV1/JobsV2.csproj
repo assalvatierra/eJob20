@@ -662,6 +662,7 @@
     <Compile Include="Models\Class\ActivityClass.cs" />
     <Compile Include="Models\Class\AppointmentClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
+    <Compile Include="Models\Class\CustEntCode.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
     <Compile Include="Models\Class\EmailBuilderClass.cs" />
     <Compile Include="Models\Class\JobPostSaleClass.cs" />
@@ -682,6 +683,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustEntAccountType.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustEntActivity.cs">

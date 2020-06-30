@@ -49,6 +49,7 @@ function getCompany() {
         });
 }
 
+
 function searchCustomer() {
     var input, filter, ul, li, a, i;
     input = document.getElementById("SearchBarCustomer");
@@ -70,8 +71,14 @@ function setValue(value, name) {
     $('#customerList').val(value);
     $('#Customer').val(name);
     $('#CustomersModal').modal('toggle');
-    console.log(name);
-    //getEmail();
+    $('#CustCode').val(padDigits(value, 4))
+    //console.log(name);
+    console.log("cust code: " + padDigits(value, 4))
     getNumber(value);
-    //getCompany();
+
+
+}
+
+function padDigits(number, digits) {
+    return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
 }

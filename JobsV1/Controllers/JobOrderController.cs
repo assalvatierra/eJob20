@@ -345,7 +345,8 @@ namespace JobsV1.Controllers
         public string getCustomerNumber(int id)
         {
             string custNum = db.Customers.Find(id).Contact1;
-            return custNum;
+            string custNum2 = db.Customers.Find(id).Contact2;
+            return custNum2;
         }
 
         //GET : return customer company name

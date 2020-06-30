@@ -45,6 +45,7 @@ namespace JobsV1.Models
         public string Mobile { get; set; }
         public string Code { get; set; }
         public string Exclusive { get; set; }
+        public int CustEntAccountTypeId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntity> CustEntities { get; set; }
@@ -66,5 +67,6 @@ namespace JobsV1.Models
         public virtual ICollection<CustEntActivity> CustEntActivities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public virtual CustEntAccountType CustEntAccountType { get; set; }
     }
 }

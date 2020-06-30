@@ -136,6 +136,7 @@
     <EntitySet Name="VehicleFuels" EntityType="JobDB.Store.VehicleFuels" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="VehicleDrives" EntityType="JobDB.Store.VehicleDrives" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobPostSales" EntityType="JobDB.Store.JobPostSales" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntAccountTypes" EntityType="JobDB.Store.CustEntAccountTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -648,6 +649,10 @@
       <End Role="JobPostSale" EntitySet="JobPostSales" />
       <End Role="JobServices" EntitySet="JobServices" />
     </AssociationSet>
+    <AssociationSet Name="CustEntAccountTypeCustEntMain" Association="JobDB.Store.CustEntAccountTypeCustEntMain">
+      <End Role="CustEntAccountType" EntitySet="CustEntAccountTypes" />
+      <End Role="CustEntMain" EntitySet="CustEntMains" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -668,6 +673,7 @@
     <Property Name="CustContactEmail" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="CustContactNumber" Type="nvarchar" Nullable="true" MaxLength="120" />
     <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="CustEntAccountTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Suppliers">
     <Key>
@@ -1076,6 +1082,7 @@
     <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="Exclusive" Type="nvarchar" Nullable="true" DefaultValue="PUBLIC" MaxLength="10" />
+    <Property Name="CustEntAccountTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SalesLeads">
     <Key>
@@ -2020,6 +2027,14 @@
     <Property Name="DoneBy" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="JobServicesId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntAccountTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="SysCode" Type="nvarchar" Nullable="false" MaxLength="10" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3557,6 +3572,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustEntAccountTypeCustEntMain">
+    <End Role="CustEntAccountType" Type="JobDB.Store.CustEntAccountTypes" Multiplicity="1" />
+    <End Role="CustEntMain" Type="JobDB.Store.CustEntMains" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntAccountType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntMain">
+        <PropertyRef Name="CustEntAccountTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4204,6 +4231,11 @@
             <End Role="JobPostSale" EntitySet="JobPostSales" />
             <End Role="JobServices" EntitySet="JobServices" />
           </AssociationSet>
+          <EntitySet Name="CustEntAccountTypes" EntityType="JobDB.CustEntAccountType" />
+          <AssociationSet Name="CustEntAccountTypeCustEntMain" Association="JobDB.CustEntAccountTypeCustEntMain">
+            <End Role="CustEntAccountType" EntitySet="CustEntAccountTypes" />
+            <End Role="CustEntMain" EntitySet="CustEntMains" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -4239,6 +4271,7 @@
           <NavigationProperty Name="JobPosts" Relationship="JobDB.JobMainJobPost" FromRole="JobMain" ToRole="JobPost" />
           <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="JobVehicles" Relationship="JobDB.JobMainJobVehicle" FromRole="JobMain" ToRole="JobVehicle" />
+          <Property Name="CustEntAccountTypeId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -5135,6 +5168,8 @@
           <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntMainCustEntActivity" FromRole="CustEntMain" ToRole="CustEntActivity" />
           <Property Name="Exclusive" Type="String" Nullable="true" MaxLength="10" DefaultValue="PUBLIC" />
           <NavigationProperty Name="Vehicles" Relationship="JobDB.CustEntMainVehicle" FromRole="CustEntMain" ToRole="Vehicle" />
+          <NavigationProperty Name="CustEntAccountType" Relationship="JobDB.CustEntAccountTypeCustEntMain" FromRole="CustEntMain" ToRole="CustEntAccountType" />
+          <Property Name="CustEntAccountTypeId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="SalesLead">
           <Key>
@@ -7371,6 +7406,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CustEntAccountType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="SysCode" Type="String" Nullable="false" MaxLength="10" />
+          <NavigationProperty Name="CustEntMains" Relationship="JobDB.CustEntAccountTypeCustEntMain" FromRole="CustEntAccountType" ToRole="CustEntMain" />
+        </EntityType>
+        <Association Name="CustEntAccountTypeCustEntMain">
+          <End Type="JobDB.CustEntAccountType" Role="CustEntAccountType" Multiplicity="1" />
+          <End Type="JobDB.CustEntMain" Role="CustEntMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntAccountType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntMain">
+              <PropertyRef Name="CustEntAccountTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7395,6 +7451,7 @@
           <ScalarProperty Name="CustContactEmail" ColumnName="CustContactEmail" />
           <ScalarProperty Name="CustContactNumber" ColumnName="CustContactNumber" />
           <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+          <ScalarProperty Name="CustEntAccountTypeId" ColumnName="CustEntAccountTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -7839,6 +7896,7 @@
           <ScalarProperty Name="Mobile" ColumnName="Mobile" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Exclusive" ColumnName="Exclusive" />
+          <ScalarProperty Name="CustEntAccountTypeId" ColumnName="CustEntAccountTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -8876,6 +8934,15 @@
           <ScalarProperty Name="DoneBy" ColumnName="DoneBy" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="JobServicesId" ColumnName="JobServicesId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntAccountTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntAccountType)">
+        <MappingFragment StoreEntitySet="CustEntAccountTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="SysCode" ColumnName="SysCode" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
