@@ -230,7 +230,10 @@ namespace JobsV1.Areas.AutoCare.Controllers
             var vehicle = db.Vehicles.Find(id);
             string vehicleDetails = vehicle.VehicleModel.VehicleBrand.Brand + " " + vehicle.VehicleModel.Make + " " + vehicle.YearModel +
                 " (" + vehicle.PlateNo + ")";
+
             ViewBag.VehicleDetails = vehicleDetails;
+            ViewBag.Customer = vehicle.Customer.Name;
+            ViewBag.Company = vehicle.CustEntMain.Name;
 
             return View(vehicleServices);
         }

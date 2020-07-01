@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "jobCreate";
+    var siteConfig = ViewBag.SiteConfig;
 }
 
 <h2>jobCreate</h2>
@@ -71,7 +72,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="NoPax">
             <b class="control-label col-md-2"> No of Pax </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NoOfPax, new { htmlAttributes = new { @class = "form-control" } })
@@ -79,7 +80,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="NoDays">
             <b class="control-label col-md-2"> No of Days </b>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NoOfDays, new { htmlAttributes = new { @class = "form-control" } })
@@ -172,7 +173,17 @@
             $("#CompanyId2").val(2);
             $('#company-textfield').val($("#CompanyId option:selected").text());
             $('#customer-textfield').val($("#customerList option:selected").text());
+
+            AutoCare_CustomFields();
         });
+
+
+        function AutoCare_CustomFields() {
+            if ('@siteConfig' == 'AutoCare') {
+                $("#NoPax").hide();
+                $("#NoDays").hide();
+            }
+        }
     </script>
 
 }

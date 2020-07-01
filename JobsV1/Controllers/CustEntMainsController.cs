@@ -21,6 +21,7 @@ namespace JobsV1.Controllers
         private CompanyClass comdb = new CompanyClass();
         private DBClasses dbclasses = new DBClasses();
         private DateClass dt = new DateClass();
+        private JobVehicleClass jvc = new JobVehicleClass();
 
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "PRI", Text = "Priority" },
@@ -110,6 +111,9 @@ namespace JobsV1.Controllers
             //check jobcount
             var jobcount = db.JobEntMains.Where(s => s.CustEntMainId == id).Count();
 
+            //contacts 
+            var companyContactEntity = db.CustEntities.Where(c => c.CustEntMainId == id).Select(c => c.CustomerId).ToList();
+
             //ViewBags
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
@@ -124,6 +128,9 @@ namespace JobsV1.Controllers
             ViewBag.isAllowedHistory = isAdmin || isAssigned ? true : false ;
             ViewBag.IsAdmin = isAdmin;
             ViewBag.HaveJob = jobcount != 0 ? true : false;
+            ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustEntMainId == id).ToList();
+            ViewBag.VehicleModelList = db.VehicleModels.ToList();
+            ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).ToList();
             ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
@@ -951,6 +958,141 @@ namespace JobsV1.Controllers
             {
                 return "Error";
             }
+        }
+
+        #endregion
+
+
+        #region Vehicles 
+        [HttpPost]
+        public bool AddCustomerVehicle(int vehicleModelId, string yearModel, string plateNo, string conduction, string engineNo, string chassisNo, string color, int customerId, int custEntMainId, string remarks)
+        {
+            try
+            {
+                Vehicle vehicle = new Vehicle();
+
+                vehicle.VehicleModelId = vehicleModelId;
+                vehicle.YearModel = yearModel;
+                vehicle.PlateNo = plateNo;
+                vehicle.Conduction = conduction;
+                vehicle.EngineNo = engineNo;
+                vehicle.ChassisNo = chassisNo;
+                vehicle.Color = color;
+                vehicle.CustomerId = customerId;
+                vehicle.CustEntMainId = custEntMainId;
+                vehicle.Remarks = remarks;
+
+                db.Vehicles.Add(vehicle);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetVehicleDetails(int? id)
+        {
+            if (id == null)
+                return null;
+            var vehicle = db.Vehicles.Where(v => v.Id == id).Select(v => new {
+                v.VehicleModelId,
+                v.VehicleModel.Make,
+                v.VehicleModel.VehicleBrand.Brand,
+                v.VehicleModel.VehicleTransmission.Type,
+                v.YearModel,
+                v.PlateNo,
+                v.Conduction,
+                v.EngineNo,
+                v.ChassisNo,
+                v.Color,
+                v.CustomerId,
+                v.Customer.Name,
+                v.CustEntMainId,
+                v.Remarks,
+                v.Id
+            });
+
+            return Json(vehicle, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public bool EditCustomerVehicle(int Id, int vehicleModelId, string yearModel, string plateNo, string conduction, string engineNo, string chassisNo, string color, int customerId, int custEntMainId, string remarks)
+        {
+
+            try
+            {
+                Vehicle vehicle = db.Vehicles.Find(Id);
+
+                if (vehicle == null)
+                    return false;
+
+                vehicle.VehicleModelId = vehicleModelId;
+                vehicle.YearModel = yearModel;
+                vehicle.PlateNo = plateNo;
+                vehicle.Conduction = conduction;
+                vehicle.EngineNo = engineNo;
+                vehicle.ChassisNo = chassisNo;
+                vehicle.Color = color;
+                vehicle.CustomerId = customerId;
+                vehicle.CustEntMainId = custEntMainId;
+                vehicle.Remarks = remarks;
+
+                db.Entry(vehicle).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool DeleteCustomerVehicle(int Id)
+        {
+
+            try
+            {
+                Vehicle vehicle = db.Vehicles.Find(Id);
+
+                if (vehicle == null)
+                    return false;
+
+                db.Vehicles.Remove(vehicle);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public ActionResult VehicleServices(int? id, int? companyId)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            var vehicleServices = jvc.GetJobVehicleServices((int)id);
+
+            //get vehicle details
+            var vehicle = db.Vehicles.Find(id);
+            string vehicleDetails = vehicle.VehicleModel.VehicleBrand.Brand + " " + vehicle.VehicleModel.Make + " " + vehicle.YearModel +
+                " (" + vehicle.PlateNo + ")";
+
+            ViewBag.VehicleDetails = vehicleDetails;
+            ViewBag.CompanyId = companyId;
+            ViewBag.Customer = vehicle.Customer.Name;
+            ViewBag.Company = vehicle.CustEntMain.Name;
+
+            return View(vehicleServices);
         }
 
         #endregion

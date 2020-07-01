@@ -1,17 +1,17 @@
 ﻿
-/*  Customer Vehicles
- *  Create / Edit / Delete Vehicles for Customers
+/*  Company Vehicles
+ *  Create / Edit / Delete Vehicles for Customers under the Company
  *  path: Customer/Details
- *  6/30/2020
+ *  7/1/2020
  **/ 
 
 //Add Vehicle
-function ShowAddVehicleModal(customerId) {
-    getCustomerCompany(customerId);
+function ShowAddVehicleModal(companyId) {
+    $("#addVehicle-CompanyId").val(companyId);
 }
 
 //Submit Add Vehicle
-function Submit_AddVehicle(customerId) {
+function Submit_AddVehicle() {
     var vehicle = {
         vehicleModelId: $("#addVehicle-Model :selected").val(),
         yearModel: $("#addVehicle-YearModel").val(),
@@ -20,7 +20,7 @@ function Submit_AddVehicle(customerId) {
         engineNo: $("#addVehicle-EngineNo").val(),
         chassisNo: $("#addVehicle-ChassisNo").val(),
         color: $("#addVehicle-Color").val(),
-        customerId: parseInt(customerId),
+        customerId: $("#addVehicle-ContactId :selected").val(),
         custEntMainId: parseInt($("#addVehicle-CompanyId").val()),
         remarks: $("#addVehicle-Remarks").val(),
     };
@@ -29,7 +29,7 @@ function Submit_AddVehicle(customerId) {
 
     if (Create_ValidateVehicleInput()) {
 
-        var res = $.post("/Customers/AddCustomerVehicle", vehicle, (result) => {
+        var res = $.post("/CustEntMains/AddCustomerVehicle", vehicle, (result) => {
             //console.log(result);
             if (result == 'True') {
                 $("#AddVehicleModal").modal('hide');
@@ -43,30 +43,18 @@ function Submit_AddVehicle(customerId) {
     }
 }
 
-//get company using ajax post
-function getCustomerCompany(customerId) {
-    $.post("/JobOrder/getCustomerCompany",
-        {
-            id: customerId
-        },
-        function (data, status) {
-            //console.log(data);
-            $('#addVehicle-CompanyId').val(data);
-        });
-}
-
-
 //Edit Vehicle
 
 function ShowEditVehicleModal(id) {
+    $("#editVehicle-CompanyId").val(id);
     EditVehicle_GetDetails(id);
 }
 
 //Get Vehicle Details
 function EditVehicle_GetDetails(id) {
-    $.get("/Customers/GetVehicleDetails", { id: id }, function (data, status) {
+    $.get("/CustEntMains/GetVehicleDetails", { id: id }, function (data, status) {
         $("#editVehicle-VehicleId").val(data[0]['Id']);
-        $("#editVehicle-Model :selected").val(data[0]['VehicleModelId']);
+        $("#editVehicle-Model").val(data[0]['VehicleModelId']);
         $("#editVehicle-YearModel").val(data[0]['YearModel']);
         $("#editVehicle-PlateNo").val(data[0]['PlateNo']);
         $("#editVehicle-Conduction").val(data[0]['Conduction']);
@@ -74,12 +62,13 @@ function EditVehicle_GetDetails(id) {
         $("#editVehicle-ChassisNo").val(data[0]['ChassisNo']);
         $("#editVehicle-Color").val(data[0]['Color']);
         $("#editVehicle-CompanyId").val(data[0]['CustEntMainId']);
-        $("#editVehicle-Remarks").val(data[0]['Remarks']);
+        $("#editVehicle-ContactId").val(data[0]['CustomerId']);
+        $("#editVehicle-Remarks").val(data[0]['Remarks']);;
     });
 }
 
 //save Edit Change
-function Submit_EditVehicle(customerId) {
+function Submit_EditVehicle() {
     var vehicle = {
         Id: parseInt($("#editVehicle-VehicleId").val()),
         vehicleModelId: parseInt($("#editVehicle-Model :selected").val()),
@@ -89,16 +78,16 @@ function Submit_EditVehicle(customerId) {
         engineNo: $("#editVehicle-EngineNo").val(),
         chassisNo: $("#editVehicle-ChassisNo").val(),
         color: $("#editVehicle-Color").val(),
-        customerId: parseInt(customerId),
+        customerId: parseInt($("#editVehicle-ContactId :selected").val()),
         custEntMainId: parseInt($("#editVehicle-CompanyId").val()),
         remarks: $("#editVehicle-Remarks").val(),
     };
 
-    console.log(vehicle);
+    //console.log(vehicle);
     if (Edit_ValidateVehicleInput()) {
 
-        var res = $.post("/Customers/EditCustomerVehicle", vehicle, (result) => {
-            console.log(result);
+        var res = $.post("/CustEntMains/EditCustomerVehicle", vehicle, (result) => {
+            //console.log(result);
             if (result == 'True') {
                 $("#EditVehicleModal").modal('hide');
                 window.location.reload();
@@ -106,7 +95,7 @@ function Submit_EditVehicle(customerId) {
                 alert("Error! Unable to edit vehicle to customer. ");
             }
         });
-       console.log(res);
+        //console.log(res);
     }
 }
 
@@ -116,8 +105,8 @@ function ShowDeleteVehicleModal(id) {
 }
 
 function DeleteVehicle_GetDetails(id) {
-    $.get("/Customers/GetVehicleDetails", { id: id }, function (data, status) {
-        console.log(data);
+    $.get("/CustEntMains/GetVehicleDetails", { id: id }, function (data, status) {
+        //console.log(data);
         $("#deleteVehicle-Id").text(data[0]['Id']);
         $("#deleteVehicle-Model").text(data[0]['Brand'] + ' ' + data[0]['Make'] + ' ' + data[0]['Type']);
         $("#deleteVehicle-YearModel").text(data[0]['YearModel']);
@@ -127,6 +116,7 @@ function DeleteVehicle_GetDetails(id) {
         $("#deleteVehicle-ChassisNo").text(data[0]['ChassisNo']);
         $("#deleteVehicle-Color").text(data[0]['Color']);
         $("#deleteVehicle-CompanyId").text(data[0]['CustEntMainId']);
+        $("#deleteVehicle-Customer").text(data[0]['Name']);
         $("#deleteVehicle-Remarks").text(data[0]['Remarks']);
     });
 }
@@ -138,8 +128,8 @@ function Submit_DeleteVehicle() {
         Id: parseInt($("#deleteVehicle-Id").text())
     };
 
-    var res = $.post("/Customers/DeleteCustomerVehicle", vehicle, (result) => {
-        console.log(result);
+    var res = $.post("/CustEntMains/DeleteCustomerVehicle", vehicle, (result) => {
+        //console.log(result);
         if (result == 'True') {
             $("#DeleteVehicleModal").modal('hide');
             window.location.reload();
@@ -175,7 +165,6 @@ function Create_ValidateVehicleInput() {
         $("#validate-createVehicle").text("Invalid Vehicle Year Model and Plate No");
         $("#validate-createVehicle").show();
         isValid = false;
-
     }
 
 
@@ -202,14 +191,11 @@ function Edit_ValidateVehicleInput() {
         isValid = false;
     }
 
-
     if (yearModel == "" && plateNo == "") {
         $("#validate-editVehicle").text("Invalid Vehicle Year Model and Plate No");
         $("#validate-editVehicle").show();
         isValid = false;
-
     }
-
 
     return isValid;
 }

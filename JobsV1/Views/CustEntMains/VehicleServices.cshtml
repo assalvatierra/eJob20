@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<JobsV1.Models.Class.JobVehicleService>
 
 @{
-    ViewBag.Title = "Vehicle Services";
-    Session["ROOTMENUID"] = 17;
+    ViewBag.Title = "Contacts - Vehicle Services";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Vehicle Services</h2>
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back Company Details", "Details", new { id = ViewBag.CompanyId })
 </p>
 
 <div>
@@ -18,6 +17,7 @@
     <p class="text-muted" style="margin-bottom:0px;"> Vehicle </p>
     <h3 style="margin-top:0px;"> @ViewBag.VehicleDetails </h3>
 </div>
+
 
 <table class="table">
     <tr>
@@ -35,7 +35,7 @@
         </th>
     </tr>
 
-    @foreach (var item in Model.Distinct())
+    @foreach (var item in Model)
     {
         <tr>
             <td>
@@ -52,7 +52,6 @@
                     {
                         <span> ( @item.JsServices )</span>
                     }
-
                 </a>
                 @if (item.Particulars == null)
                 {

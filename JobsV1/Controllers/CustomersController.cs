@@ -617,7 +617,9 @@ namespace JobsV1.Controllers
                 Vehicle vehicle = db.Vehicles.Find(Id);
 
                 if (vehicle == null)
+                {
                     return false;
+                }
 
                 vehicle.VehicleModelId = vehicleModelId;
                 vehicle.YearModel = yearModel;
@@ -635,7 +637,7 @@ namespace JobsV1.Controllers
 
                 return true;
             }
-            catch
+            catch 
             {
                 return false;
             }
@@ -677,6 +679,8 @@ namespace JobsV1.Controllers
                 " (" + vehicle.PlateNo + ")";
             ViewBag.VehicleDetails = vehicleDetails;
             ViewBag.CustomerId = customerId;
+            ViewBag.Customer = vehicle.Customer.Name;
+            ViewBag.Company = vehicle.CustEntMain.Name;
 
             return View(vehicleServices);
         }

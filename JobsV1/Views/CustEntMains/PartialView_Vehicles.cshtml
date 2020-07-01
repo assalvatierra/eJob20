@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<JobsV1.Models.Vehicle>
 @{
-    int customerid = Convert.ToInt32(ViewData["customerId"]);
+    int companyId = Convert.ToInt32(ViewData["companyId"]);
     var vehicleModels = ViewData["VehicleModelList"] as IEnumerable<JobsV1.Models.VehicleModel>;
+    var contactList = ViewData["CompanyContacts"] as IEnumerable<JobsV1.Models.Customer>;
 }
 
 <div>
     <h3> Vehicles </h3>
-    <a id="catbtn" href="#" data-toggle="modal" data-target="#AddVehicleModal" style="margin-bottom:20px;" onclick="ShowAddVehicleModal('@customerid')">Add Vehicle</a>
+    <a id="catbtn" href="#" data-toggle="modal" data-target="#AddVehicleModal" style="margin-bottom:20px;" onclick="ShowAddVehicleModal('@companyId')">Add Vehicle</a>
     <table class="table">
-
         <tr>
+            <th> Contact </th>
             <th> Vehicle </th>
             <th> Year </th>
             <th> Plate </th>
@@ -23,6 +24,7 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td> @item.Customer.Name </td>
                 <td> @item.VehicleModel.VehicleBrand.Brand @item.VehicleModel.Make @item.VehicleModel.Variant  @item.VehicleModel.VehicleTransmission.Type</td>
                 <td> @item.YearModel </td>
                 <td> @item.PlateNo </td>
@@ -32,9 +34,9 @@
                 <td> @item.Color </td>
                 <td> @item.Remarks </td>
                 <td>
-                    <a id="catbtn" href="#" data-toggle="modal" data-target="#EditVehicleModal" style="margin-bottom:10px;" onclick="ShowEditVehicleModal('@item.Id')"> Edit </a> | 
-                    @Html.ActionLink("Services", "VehicleServices", new { id = item.Id, customerId = customerid }) |
-                    <a id="catbtn" href="#" data-toggle="modal" data-target="#DeleteVehicleModal" style="margin-bottom:10px;" onclick="ShowDeleteVehicleModal('@item.Id')"> Delete</a>
+                    <a id="catbtn" class="cursor-pointer" data-toggle="modal" data-target="#EditVehicleModal" style="margin-bottom:10px;" onclick="ShowEditVehicleModal('@item.Id')"> Edit </a> | 
+                    @Html.ActionLink("Services", "VehicleServices", new { id = item.Id, companyId = companyId }) |
+                    <a id="catbtn" class="cursor-pointer"  data-toggle="modal" data-target="#DeleteVehicleModal" style="margin-bottom:10px;" onclick="ShowDeleteVehicleModal('@item.Id')"> Delete</a>
                 </td>
             </tr>
         }
@@ -51,14 +53,27 @@
             </div>
             <div class="modal-body row">
                 <form>
-
-                    <div class="form-group form-group-margin col-md-12 hidden">
+                    <div class="form-group form-group-margin col-md-12" hidden>
                         <label class="form-label col-md-2"> Company </label>
                         <div class="col-md-10">
-                            <input class="form-control" id="addVehicle-CompanyId" type="text" maxlength="80" />
-
+                            <input class="form-control" id="addVehicle-CompanyId" type="text" maxlength="80" disabled />
                         </div>
                     </div>
+
+                    <div class="form-group form-group-margin col-md-12">
+                        <label class="form-label col-md-2"> Contact </label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="addVehicle-ContactId">
+                                @foreach (var contact in contactList)
+                                {
+                                    <option value="@contact.Id">
+                                        @contact.Name
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group form-group-margin col-md-12">
                         <label class="form-label col-md-2"> Model </label>
                         <div class="col-md-10">
@@ -72,6 +87,7 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="form-group form-group-margin col-md-12">
                         <label class="form-label col-md-2"> Year&nbsp;Model </label>
                         <div class="col-md-10">
@@ -121,7 +137,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="Submit_AddVehicle('@customerid')">Submit</button>
+                <button type="button" class="btn btn-primary" onclick="Submit_AddVehicle()">Submit</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -136,19 +152,34 @@
             </div>
             <div class="modal-body row">
                 <form>
-                    <div class="form-group form-group-margin col-md-12 hidden">
-                        <label class="form-label col-md-2"> Company </label>
+                    <div class="form-group form-group-margin col-md-12" hidden>
+                        <label class="form-label col-md-2"> VehicleId </label>
                         <div class="col-md-10">
-                            <input class="form-control" id="editVehicle-VehicleId" type="text" maxlength="80" />
+                            <input class="form-control" id="editVehicle-VehicleId" type="text" maxlength="80" disabled />
                         </div>
                     </div>
 
-                    <div class="form-group form-group-margin col-md-12 hidden">
+                    <div class="form-group form-group-margin col-md-12" hidden>
                         <label class="form-label col-md-2"> Company </label>
                         <div class="col-md-10">
-                            <input class="form-control" id="editVehicle-CompanyId" type="text" maxlength="80" />
+                            <input class="form-control" id="editVehicle-CompanyId" type="text" maxlength="80" disabled />
                         </div>
                     </div>
+
+                    <div class="form-group form-group-margin col-md-12">
+                        <label class="form-label col-md-2"> Contact </label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="editVehicle-ContactId">
+                                @foreach (var contact in contactList)
+                                {
+                                    <option value="@contact.Id">
+                                        @contact.Name
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group form-group-margin col-md-12">
                         <label class="form-label col-md-2"> Model </label>
                         <div class="col-md-10">
@@ -213,7 +244,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="Submit_EditVehicle('@customerid')">Submit</button>
+                <button type="button" class="btn btn-primary" onclick="Submit_EditVehicle()">Submit</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -230,6 +261,7 @@
                 <div class="col-md-12">
                     <h4> Do you want to Delete this Vehicle? </h4>
                     <p><span class="text-muted">Id:</span> <span id="deleteVehicle-Id">  </span> </p>
+                    <p><span class="text-muted">Customer:</span> <span id="deleteVehicle-Customer">  </span> </p>
                     <p><span class="text-muted">Model:</span> <span id="deleteVehicle-Model">  </span> </p>
                     <p><span class="text-muted">YearModel:</span> <span id="deleteVehicle-YearModel">  </span> </p>
                     <p><span class="text-muted">PlateNo:</span> <span id="deleteVehicle-PlateNo">  </span> </p>
@@ -247,5 +279,5 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<br />
+
 <hr />

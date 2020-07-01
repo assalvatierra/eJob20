@@ -1704,6 +1704,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
+    <Content Include="Scripts\CustEntMain\CustEntVehicle.js" />
     <Content Include="Scripts\CustNotif\CreateNotif.js" />
     <Content Include="Scripts\CustNotif\CustNotifs.js" />
     <Content Include="Scripts\CustNotif\Activities.js" />
@@ -2667,6 +2668,8 @@
     <Content Include="Views\JobOrder\_SearchCompanyModal.cshtml" />
     <Content Include="Views\Customers\PartialView_Vehicles.cshtml" />
     <Content Include="Views\Customers\VehicleServices.cshtml" />
+    <Content Include="Views\CustEntMains\PartialView_Vehicles.cshtml" />
+    <Content Include="Views\CustEntMains\VehicleServices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

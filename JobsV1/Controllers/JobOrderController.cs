@@ -1131,7 +1131,8 @@ order by x.jobid
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
             ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
-            
+            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+
             return View(jobMain);
         }
 
@@ -1198,6 +1199,7 @@ order by x.jobid
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
             ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
             return View(jobMain);
         }
@@ -1251,6 +1253,7 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
             ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName");
+            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
             return View(job);
         }
@@ -1298,6 +1301,8 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+
             return View(jobMain);
         }
 

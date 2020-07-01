@@ -96,6 +96,7 @@
     </div>
 </div>
 
+<!-- Categories -->
 <div class="row">
     <h3> Categories </h3>
     <a href="#" id="catbtn" data-toggle="modal" data-target="#categoryModal">Add Category</a>
@@ -230,7 +231,7 @@
                         }
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Details", "Customers", new { id = custcompany.Customer.Id }, null) |
+                        @Html.ActionLink("Details", "Details", "Customers", new { id = custcompany.Customer.Id }, null) |
                         @Html.ActionLink("Remove", "DeleteContact", "CustEntMains", new { id = custcompany.Id }, null)
 
                     </td>
@@ -238,6 +239,8 @@
             }
         }
     </table>
+
+    <hr />
 </div>
 
 <!-- Company Clauses -->
@@ -277,7 +280,6 @@
 
         @foreach (var item in ViewBag.SalesLeads as IEnumerable<JobsV1.Models.Class.CompanyLeadsTbl>)
         {
-
             <tr>
                 <td>
                     @*<a href="@Url.Action("addCategory", "CustEntMains", new { id = item.Id, companyId = Model.Id })" > @item.Desc </a>*@
@@ -298,6 +300,13 @@
     </table>
 </div>
 
+
+<div class="row" id="VehiclesTable">
+    @{Html.RenderPartial("PartialView_Vehicles", (List<JobsV1.Models.Vehicle>)ViewBag.CustomerVehicles, 
+      new ViewDataDictionary { { "companyId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList }, { "CompanyContacts", ViewBag.CompanyContacts } });}
+</div>
+
+
 <!-- Job List-->
 <div class="row" id="jobList">
     <h3>Job List</h3>
@@ -306,19 +315,19 @@
         <input id="startDate" type="date" /> -
         <input id="endDate" type="date" />
         &nbsp;&nbsp;&nbsp;
-        <a onclick="getLastJobs(30)">Last 30 Days</a>
-        <a onclick="getLastJobs(60)">Last 60 Days</a>
+        <a class="cursor-pointer" onclick="getLastJobs(30)">Last 30 Days</a>
+        <a class="cursor-pointer" onclick="getLastJobs(60)">Last 60 Days</a>
         &nbsp;&nbsp;&nbsp;
         <input type="button" value="Filter" class="btn btn-default" style="margin-top:-10px;padding:5px;" onclick="detailsUpdate(@customerid)" />
     </p>
     <p id="StatusOp">
         <b>Status: </b>
-        <a onclick="statusUpdate('ALL')" id="ALL">         ALL</a> |
-        <a onclick="statusUpdate('INQUIRY')" id="INQUIRY">     INQUIRY</a> |
-        <a onclick="statusUpdate('RESERVATION')" id="RESERVATION"> RESERVATION</a> |
-        <a onclick="statusUpdate('CONFIRMED')" id="CONFIRMED">   CONFIRMED</a> |
-        <a onclick="statusUpdate('CLOSED')" id="CLOSED">      CLOSED</a> |
-        <a onclick="statusUpdate('CANCELLED')" id="CANCELLED">   CANCELLED</a>
+        <a class="cursor-pointer" onclick="statusUpdate('ALL')" id="ALL">         ALL</a> |
+        <a class="cursor-pointer" onclick="statusUpdate('INQUIRY')" id="INQUIRY">     INQUIRY</a> |
+        <a class="cursor-pointer" onclick="statusUpdate('RESERVATION')" id="RESERVATION"> RESERVATION</a> |
+        <a class="cursor-pointer" onclick="statusUpdate('CONFIRMED')" id="CONFIRMED">   CONFIRMED</a> |
+        <a class="cursor-pointer" onclick="statusUpdate('CLOSED')" id="CLOSED">      CLOSED</a> |
+        <a class="cursor-pointer" onclick="statusUpdate('CANCELLED')" id="CANCELLED">   CANCELLED</a>
     </p>
 
     <table class="table table-striped">
@@ -360,6 +369,7 @@
 @{ Html.RenderPartial("PartialView_Details_AddressCreate", null); }
 @{ Html.RenderPartial("PartialView_Details_AddressEdit", null); }
 @{ Html.RenderPartial("PartialView_Details_ContactCreate", new ViewDataDictionary { { "CompanyId", ViewBag.CompanyId }, { "ContactList", ViewBag.ContactList } }); }
+
 @Html.Partial("_SearchCustomerModal")
 <!-- End of Modal -->
 @section Scripts {
@@ -367,13 +377,16 @@
     <script src="~/Scripts/CustEntMain/CompanyDetails.js"></script>
     <script src="~/Scripts/CustEntMain/CompanyReport.js"></script>
     <script src="~/Scripts/CustEntMain/CustEntMainDetails.js"></script>
-    <script type="text/javascript" src="~/Scripts/CustEntMain/CustomerSearch.js"></script>
+    <script src="~/Scripts/CustEntMain/CustomerSearch.js"></script>
+    <script src="~/Scripts/CustEntMain/CustEntVehicle.js"></script>
     <script>
     // On Page Ready
         $(document).ready(() => {
+            //initialize
             JobListVisibility();
-            InitialCustomer();
             SaleLeadVisibility();
+            VehicleVisibility();
+            InitialCustomer();
         });
 
         // Joblist
@@ -390,7 +403,15 @@
                 $('#SalesLeadTable').hide()
                 $('#Clauses').hide()
             }
-            
+        }
+
+        function VehicleVisibility() {
+
+            var config = '@ViewBag.SiteConfig';
+
+            if (config == 'AutoCare') {
+                $('#VehiclesTable').show();
+            }
         }
 
         function InitialCustomer() {
