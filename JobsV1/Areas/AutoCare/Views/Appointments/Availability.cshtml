@@ -106,9 +106,10 @@
                     console.log(result);
 
                     for (var i = 0; i < result.length; i++) {
-                        var remarks = result[i]["Remarks"] != null ? result[i]["Remarks"]  : "" ;
-                        var appointment = "<a href='#' class='list-group-item'> <b>" + result[i]["Customer"]
-                            + "</b> (" + result[i]["Plate"] + ") - Request: " + result[i]["Description"] + " " + remarks + " ";
+                        var remarks = result[i]["Remarks"] != null ? result[i]["Remarks"] : "";
+                        var company = result[i]["Company"] != null ? " ( "+ result[i]["Company"] + " ) " : "";
+                        var appointment = "<a href='/AutoCare/Appointments/Details/" + result[i]["Id"] +"' class='list-group-item'> <b>" + result[i]["Customer"] +  company + " - " + result[i]["Unit"] + " "
+                            + "</b> (" + result[i]["Plate"] + ") <br> Request: " + result[i]["Description"] + " " + remarks + " ";
                         $("#AppointmentItems-List").append(appointment);
 
                     }

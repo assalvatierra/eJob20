@@ -206,9 +206,61 @@ namespace JobsV1.Areas.AutoCare.Controllers
         [HttpGet]
         public JsonResult GetAppointments(int id, string date)
         {
-            var appointmentList = db.Appointments.ToList().Select(s => new { s.Customer, s.Plate, s.AppointmentRequest.Description, s.Request, s.Remarks, s.AppointmentSlotId , s.AppointmentDate });
+            var appointmentList = db.Appointments.ToList().Select(s => new {s.Id, s.Customer, s.CustCode, s.Unit, s.Plate, s.AppointmentRequest.Description, s.Request, s.Remarks, s.AppointmentSlotId , s.AppointmentDate });
             appointmentList = appointmentList.Where(a => a.AppointmentSlotId == id && DateTime.Parse(a.AppointmentDate).Date == DateTime.Parse(date).Date).ToList();
-            return Json(appointmentList.ToList(), JsonRequestBehavior.AllowGet);
+
+            var apptDetails = new List<cAppointmentDetails>();
+            foreach (var appt in appointmentList)
+            {
+                var tempDetails = new cAppointmentDetails();
+
+                tempDetails.Date = appt.AppointmentDate;
+                tempDetails.Id = appt.Id;
+                tempDetails.Customer = appt.Customer;
+                tempDetails.Unit = appt.Unit;
+                tempDetails.Plate = appt.Plate;
+                tempDetails.Description = appt.Description;
+                tempDetails.Request = appt.Request;
+                tempDetails.Remarks = appt.Remarks;
+                tempDetails.SlotId = appt.AppointmentSlotId;
+                tempDetails.Company = GetCustomerCompany(appt.CustCode);
+
+                apptDetails.Add(tempDetails);
+            }
+
+            return Json(apptDetails, JsonRequestBehavior.AllowGet);
+        }
+
+
+        private string GetCustomerCompany(string customerCode)
+        {
+
+            int customerId = 0;
+            if (Int32.TryParse(customerCode, out customerId))
+            {
+                var custEntity = jdb.CustEntities.Where(s => s.CustomerId == customerId).FirstOrDefault();
+                if (custEntity != null)
+                {
+                    return custEntity.CustEntMain.Name;
+                }
+            }
+
+            return null;
         }
     }
+
+    public class cAppointmentDetails
+    {
+        public int Id { get; set; }
+        public string Customer { get; set; }
+        public string Company { get; set; }
+        public string Unit { get; set; }
+        public string Plate { get; set; }
+        public string Request { get; set; }
+        public string Description { get; set; }
+        public string Remarks { get; set; }
+        public int SlotId { get; set; }
+        public string Date { get; set; }
+    }
 }
+
