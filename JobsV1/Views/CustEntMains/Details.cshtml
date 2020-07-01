@@ -241,7 +241,7 @@
 </div>
 
 <!-- Company Clauses -->
-<div class="row">
+<div class="row" id="Clauses">
     <h3>Clauses</h3>
     @Html.ActionLink("Add Clause", "CreateClause", new { companyId = Model.Id }, null)
     @foreach (var clause in Model.CustEntClauses as IEnumerable<JobsV1.Models.CustEntClauses>)
@@ -264,7 +264,7 @@
 </div>
 
 <!-- Sales Leads -->
-<div class="row">
+<div class="row" id="SalesLeadTable">
     <h3>Sales Leads</h3>
 
     <table class="table table-striped">
@@ -373,14 +373,25 @@
         $(document).ready(() => {
             JobListVisibility();
             InitialCustomer();
+            SaleLeadVisibility();
         });
 
-    // Joblist
-    // Show / Hide Job Listing and Searching
-    function JobListVisibility(){
-        var cond = '@ViewBag.HaveJob';
-        cond == 'True' ? $('#jobList').show() : $('#jobList').hide();
-    }
+        // Joblist
+        // Show / Hide Job Listing and Searching
+        function JobListVisibility(){
+            var cond = '@ViewBag.HaveJob';
+            cond == 'True' ? $('#jobList').show() : $('#jobList').hide();
+        }
+
+        function SaleLeadVisibility() {
+            var config = '@ViewBag.SiteConfig';
+
+            if (config == 'AutoCare') {
+                $('#SalesLeadTable').hide()
+                $('#Clauses').hide()
+            }
+            
+        }
 
         function InitialCustomer() {
             $("#ac-custId").val(1);

@@ -513,6 +513,9 @@ SELECT DISTINCT job.Id FROM (
 
                 ORDER BY Sales DESC, Meeting DESC, Quotation Desc ;
 
-SELECT jv.*, js.DtStart, js.Particulars, js.Remarks FROM JobVehicles jv
+SELECT DISTINCT jv.*, ISNULL(js.DtStart, jm.JobDate), js.Particulars, js.Remarks,  JobMainId = jm.Id FROM JobVehicles jv
     LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId
-    WHERE jv.VehicleId = 1
+    LEFT JOIN JobMains jm ON jm.Id = jv.JobMainId
+    WHERE jv.VehicleId = 2
+
+    AND js.DtStart IS NOT NULL

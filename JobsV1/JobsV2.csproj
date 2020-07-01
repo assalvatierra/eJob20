@@ -835,6 +835,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JobDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Class\JobOrderClass.cs" />
     <Compile Include="Models\JobEntMain.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -853,7 +854,6 @@
     <Compile Include="Models\JobNotificationRequest.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Class\JobOrderClass.cs" />
     <Compile Include="Models\JobPayment.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1707,6 +1707,7 @@
     <Content Include="Scripts\CustNotif\CreateNotif.js" />
     <Content Include="Scripts\CustNotif\CustNotifs.js" />
     <Content Include="Scripts\CustNotif\Activities.js" />
+    <Content Include="Scripts\Customer\Vehicle.js" />
     <Content Include="Scripts\dataTables.min.js" />
     <Content Include="Scripts\JobPostSale\PostSale.js" />
     <Content Include="Scripts\Job\CustNotif.js" />
@@ -2664,6 +2665,8 @@
     <Content Include="Views\Public\AppSchedules.cshtml" />
     <Content Include="Views\Activities\_SalesCodeModal.cshtml" />
     <Content Include="Views\JobOrder\_SearchCompanyModal.cshtml" />
+    <Content Include="Views\Customers\PartialView_Vehicles.cshtml" />
+    <Content Include="Views\Customers\VehicleServices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

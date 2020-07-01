@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/18/2020 20:32:15
+-- Date Created: 06/30/2020 17:27:39
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -401,6 +401,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_JobPostSaleJobServices]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[JobPostSales] DROP CONSTRAINT [FK_JobPostSaleJobServices];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntAccountTypeCustEntMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntMains] DROP CONSTRAINT [FK_CustEntAccountTypeCustEntMain];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -795,6 +798,9 @@ IF OBJECT_ID(N'[dbo].[VehicleDrives]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[JobPostSales]', 'U') IS NOT NULL
     DROP TABLE [dbo].[JobPostSales];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntAccountTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntAccountTypes];
 GO
 
 -- --------------------------------------------------
@@ -1225,7 +1231,8 @@ CREATE TABLE [dbo].[CustEntMains] (
     [AssignedTo] nvarchar(80)  NULL,
     [Mobile] nvarchar(max)  NULL,
     [Code] nvarchar(20)  NULL,
-    [Exclusive] nvarchar(10)  NULL
+    [Exclusive] nvarchar(10)  NULL,
+    [CustEntAccountTypeId] int  NOT NULL
 );
 GO
 
@@ -2173,6 +2180,14 @@ CREATE TABLE [dbo].[JobPostSales] (
 );
 GO
 
+-- Creating table 'CustEntAccountTypes'
+CREATE TABLE [dbo].[CustEntAccountTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(40)  NOT NULL,
+    [SysCode] nvarchar(10)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -2954,6 +2969,12 @@ GO
 -- Creating primary key on [Id] in table 'JobPostSales'
 ALTER TABLE [dbo].[JobPostSales]
 ADD CONSTRAINT [PK_JobPostSales]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntAccountTypes'
+ALTER TABLE [dbo].[CustEntAccountTypes]
+ADD CONSTRAINT [PK_CustEntAccountTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4879,6 +4900,21 @@ GO
 CREATE INDEX [IX_FK_JobPostSaleJobServices]
 ON [dbo].[JobPostSales]
     ([JobServicesId]);
+GO
+
+-- Creating foreign key on [CustEntAccountTypeId] in table 'CustEntMains'
+ALTER TABLE [dbo].[CustEntMains]
+ADD CONSTRAINT [FK_CustEntAccountTypeCustEntMain]
+    FOREIGN KEY ([CustEntAccountTypeId])
+    REFERENCES [dbo].[CustEntAccountTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntAccountTypeCustEntMain'
+CREATE INDEX [IX_FK_CustEntAccountTypeCustEntMain]
+ON [dbo].[CustEntMains]
+    ([CustEntAccountTypeId]);
 GO
 
 -- --------------------------------------------------

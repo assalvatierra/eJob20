@@ -1,16 +1,17 @@
 ﻿@model IEnumerable<JobsV1.Models.Class.JobVehicleService>
 
 @{
-    ViewBag.Title = "Vehicle Services";
-    Session["ROOTMENUID"] = 17;
+    ViewBag.Title = "Contacts - Vehicle Services";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Vehicle Services</h2>
-<h3> @ViewBag.VehicleDetails </h3>
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back Customer Details", "Details", new { id = ViewBag.CustomerId })
 </p>
+
+<h3> @ViewBag.VehicleDetails </h3>
+
 <table class="table">
     <tr>
         <th>
@@ -27,7 +28,7 @@
         </th>
     </tr>
 
-@foreach (var item in Model.Distinct()) {
+@foreach (var item in Model) {
     <tr>
         <td>
             @DateTime.Parse(item.DtStart.ToString()).ToString("MMM dd yyyy")

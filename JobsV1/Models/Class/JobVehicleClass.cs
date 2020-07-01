@@ -15,6 +15,7 @@ namespace JobsV1.Models.Class
         public DateTime DtStart { get; set; }
         public string Particulars { get; set; }
         public string Remarks { get; set; }
+        public int JobMainId { get; set; }
     }
 
     public class JobVehicleClass
@@ -84,9 +85,9 @@ namespace JobsV1.Models.Class
                 return true;
 
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+              
                 return false;
             }
         }
@@ -94,19 +95,26 @@ namespace JobsV1.Models.Class
 
         public List<JobVehicleService> GetJobVehicleServices(int vehicleId)
         {
-            if (vehicleId == 0)
+            try { 
+                if (vehicleId == 0)
+                {
+                    return new List<JobVehicleService>();
+                }
+                string SqlStr =
+                         " SELECT jv.*, DtStart = ISNULL(js.DtStart, jm.JobDate), js.Particulars, js.Remarks,  JobMainId = jm.Id FROM JobVehicles jv"
+                       + " LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId"
+                       + " LEFT JOIN JobMains jm ON jm.Id = jv.JobMainId "
+                       + " WHERE jv.VehicleId = "+ vehicleId + " ;";
+               
+                List<JobVehicleService> vehicleServices = db.Database.SqlQuery<JobVehicleService>(SqlStr).ToList();
+
+
+                return vehicleServices;
+            }
+            catch
             {
                 return new List<JobVehicleService>();
             }
-            string SqlStr = 
-                    " SELECT jv.*, js.DtStart, js.Particulars, js.Remarks FROM JobVehicles jv"
-                   +" LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId"
-                   +" WHERE jv.VehicleId = "+ vehicleId +";";
-               
-            List<JobVehicleService> vehicleServices = db.Database.SqlQuery<JobVehicleService>(SqlStr).ToList();
-
-
-            return vehicleServices;
         }
 
     }

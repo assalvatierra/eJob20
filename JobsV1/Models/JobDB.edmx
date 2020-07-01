@@ -673,7 +673,6 @@
     <Property Name="CustContactEmail" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="CustContactNumber" Type="nvarchar" Nullable="true" MaxLength="120" />
     <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
-    <Property Name="CustEntAccountTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Suppliers">
     <Key>
@@ -4271,7 +4270,6 @@
           <NavigationProperty Name="JobPosts" Relationship="JobDB.JobMainJobPost" FromRole="JobMain" ToRole="JobPost" />
           <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="JobVehicles" Relationship="JobDB.JobMainJobVehicle" FromRole="JobMain" ToRole="JobVehicle" />
-          <Property Name="CustEntAccountTypeId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -7451,7 +7449,6 @@
           <ScalarProperty Name="CustContactEmail" ColumnName="CustContactEmail" />
           <ScalarProperty Name="CustContactNumber" ColumnName="CustContactNumber" />
           <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
-          <ScalarProperty Name="CustEntAccountTypeId" ColumnName="CustEntAccountTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

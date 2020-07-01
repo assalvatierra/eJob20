@@ -124,6 +124,7 @@ namespace JobsV1.Controllers
             ViewBag.isAllowedHistory = isAdmin || isAssigned ? true : false ;
             ViewBag.IsAdmin = isAdmin;
             ViewBag.HaveJob = jobcount != 0 ? true : false;
+            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
 

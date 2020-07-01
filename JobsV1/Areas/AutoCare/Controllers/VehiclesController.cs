@@ -231,6 +231,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             string vehicleDetails = vehicle.VehicleModel.VehicleBrand.Brand + " " + vehicle.VehicleModel.Make + " " + vehicle.YearModel +
                 " (" + vehicle.PlateNo + ")";
             ViewBag.VehicleDetails = vehicleDetails;
+
             return View(vehicleServices);
         }
     }
