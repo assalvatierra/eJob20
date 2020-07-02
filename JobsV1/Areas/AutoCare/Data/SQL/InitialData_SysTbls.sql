@@ -94,7 +94,7 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (5,1,'2019/1/1');
 
---Equipments
+--Equipments /Resources
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
 ('EQ106','Resources','List of Resources','A','/Images/Erp/icons/icons-trolley.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (6,6);
@@ -103,7 +103,9 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 	('Availability','',6,'InvItems','Availability','',21,63),	-- id: 41
 	('Gate Control','',6,'InvCarGateControls','Index','',21,64),-- id: 42
 	('Maintenance','',6,'InvCarRecords','Index','',21,65),		-- id: 43
-	('Services','',6,'SupplierItems','Index','',21,61);		    -- id: 44
+	('Service Types','',6,'SupplierItems','Index','',21,61),	-- id: 43
+	('Services','',6,'Services','Index','',21,62);		        -- id: 44
+
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (6,1,'2019/1/1');
 
@@ -457,3 +459,15 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('Demo@gmail.com', 78, 78),
 ('Demo@gmail.com', 79, 79),
 ('Demo@gmail.com', 80, 80); 
+
+
+--Additional
+
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
+	('Services','',6,'Services','Index','',21,62);		        -- id: 81
+
+	
+insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
+('assalvatierra@gmail.com', 81, 81),
+('jahdielvillosa@gmail.com', 81, 81),
+('Demo@gmail.com', 81, 81);

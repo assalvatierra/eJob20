@@ -592,6 +592,7 @@
     <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\SalesActivitiesController.cs" />
     <Compile Include="Controllers\SalesLeadsController.cs" />
+    <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SupDocumentsController.cs" />
     <Compile Include="Controllers\SupplierActivitiesController.cs" />
     <Compile Include="Controllers\SupplierItemsController.cs" />
@@ -1719,6 +1720,7 @@
     <Content Include="Scripts\Job\JobSearchCompany.js" />
     <Content Include="Scripts\Job\JobCreate.js" />
     <Content Include="Scripts\Job\JobVehicle.js" />
+    <Content Include="Scripts\Job\ServicesEdit.js" />
     <Content Include="Scripts\Job\TripListing.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />
     <Content Include="Scripts\Job\CustEntMainList.js" />
@@ -2671,6 +2673,11 @@
     <Content Include="Views\Customers\VehicleServices.cshtml" />
     <Content Include="Views\CustEntMains\PartialView_Vehicles.cshtml" />
     <Content Include="Views\CustEntMains\VehicleServices.cshtml" />
+    <Content Include="Views\Services\Create.cshtml" />
+    <Content Include="Views\Services\Delete.cshtml" />
+    <Content Include="Views\Services\Details.cshtml" />
+    <Content Include="Views\Services\Edit.cshtml" />
+    <Content Include="Views\Services\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

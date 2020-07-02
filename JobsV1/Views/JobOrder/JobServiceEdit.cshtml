@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ServicesId, "ServicesId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ServicesId, "ServiceType", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ServicesId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ServicesId, "", new { @class = "text-danger" })
@@ -41,19 +41,19 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierId, "SupplierId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierId, "Supplier", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.SupplierItemId, "SupplierItemId", htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.SupplierItemId, "SupplierItem", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("SupplierItemId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SupplierItemId, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.DtStart, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -96,7 +96,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SupplierItemId, "SupplierItemId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.SupplierItemId, "ServiceItem", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("SupplierItemId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SupplierItemId, "", new { @class = "text-danger" })
@@ -125,8 +125,12 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/Job/Services.js"></script>
+    <script type="text/javascript" src="~/Scripts/Job/ServicesEdit.js"></script>
+    <script>
+        $(document).ready(() => {
+            $('input[name="DtStart"]').val(moment('@ViewBag.Sdate').format("MM/DD/YYYY"));
+            $('input[name="DtEnd"]').val(moment('@ViewBag.Edate').format("MM/DD/YYYY"));
+        });
+    </script>
 }
 

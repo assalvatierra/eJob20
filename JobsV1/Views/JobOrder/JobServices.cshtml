@@ -81,7 +81,12 @@
 
             <br />
             @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
-            | <a data-toggle="modal" data-target="#AddVehicleModal"> Vehicle </a>
+
+            @if (siteconfig == "AutoCare")
+            {
+                <text> |<a data-toggle="modal" data-target = "#AddVehicleModal" > Vehicle </a></text>
+            }
+
             | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
             | <a id="aContractorLink" data-toggle="modal" data-target="#aContractorLink">Contractors</a>
             | @Html.ActionLink("Voucher", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 2 }, null)

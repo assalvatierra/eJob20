@@ -125,8 +125,8 @@ insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address
 	      ('Engine Repair sub-1','(082) 333-8888','(082 333-4440)','0915-554-1111','enginerepair.com','Davao City', '','enginerepair@gmail.com','1','1','ACT',1,'SUP03'),
 	      ('Parts Supply','(0086) 11236548','(0086 11238840)','-','partsdavao.com','Davao City', '','partsdavao@gmail.com','1','1','ACT',1,'SUP04');
 
-insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status]) values 
-	('Default','1','Item by supplier','Supplier','ACT');
+insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status],[Interval]) values 
+	('Default','1','Item by supplier','Supplier','ACT',30);
 
 insert into SupplierUnits([Unit])
 values ('Meter'),('Inch'),('Feet'),('Box'),('Package');

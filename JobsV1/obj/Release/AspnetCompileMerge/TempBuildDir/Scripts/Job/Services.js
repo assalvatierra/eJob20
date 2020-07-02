@@ -80,8 +80,12 @@ function InitDatePicker()
     }
     );
 
-    $('input[name="DtStart"]').val(moment().format("MM/DD/YYYY"));
-    $('input[name="DtEnd"]').val(moment().add(1,'days').format("MM/DD/YYYY"));
+
+    var SDate = $('input[name="DtStart"]').val();
+    var EDate = $('input[name="DtEnd"]').val();
+
+    $('input[name="DtStart"]').val(moment(SDate).format("MM/DD/YYYY"));
+    $('input[name="DtEnd"]').val(moment(EDate).format("MM/DD/YYYY"));
 
 
 }

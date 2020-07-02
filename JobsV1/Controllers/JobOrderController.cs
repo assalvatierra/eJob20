@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using PayPal.Api;
 using System.Configuration;
 using Microsoft.Ajax.Utilities;
+using System.Globalization;
 
 namespace JobsV1.Controllers
 {
@@ -1445,7 +1446,6 @@ order by x.jobid
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name");
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description");
             ViewBag.ServicesId = new SelectList(db.Services.Where(s=>s.Status == "1").ToList(), "Id", "Name");
-            //ViewBag.SupplierItemId = new SelectList(db.SupplierItems, "Id", "Description");
             return View(js);
         }
 
@@ -1474,10 +1474,11 @@ order by x.jobid
             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
             var SuppliersActive = db.Suppliers.Where(s => s.Status != "INC").ToList();
 
+            ViewBag.id = jobServices.JobMainId;
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobServices.JobMainId);
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name", jobServices.SupplierId);
-            ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name", jobServices.ServicesId);
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description", jobServices.SupplierItemId);
+            ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name", jobServices.ServicesId);
 
             dbc.addEncoderRecord("jobOrder/jobservice", jobServices.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job Service");
 
@@ -1497,11 +1498,13 @@ order by x.jobid
                 return HttpNotFound();
             }
 
+
             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
             var SuppliersActive = db.Suppliers.Where(s => s.Status != "INC").ToList();
 
             ViewBag.svcId = jobServices.Id;
-
+            ViewBag.Sdate = jobServices.DtStart.ToString();
+            ViewBag.Edate = jobServices.DtEnd.ToString();
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobServices.JobMainId);
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name", jobServices.SupplierId);
             ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name", jobServices.ServicesId);
