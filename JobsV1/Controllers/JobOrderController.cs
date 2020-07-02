@@ -111,6 +111,8 @@ namespace JobsV1.Controllers
         private int JOBCANCELLED = 5;
         private int JOBTEMPLATE = 6;
 
+        private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
         private ActionTrailClass trail = new ActionTrailClass();
@@ -118,10 +120,10 @@ namespace JobsV1.Controllers
         private JobOrderClass jo = new JobOrderClass();
         private JobVehicleClass jvc = new JobVehicleClass();
 
+
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
         {
-            var siteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
             if (sortid != null)
                 Session["FilterID"] = (int)sortid;
             else
@@ -146,7 +148,7 @@ namespace JobsV1.Controllers
             jobmainId = mainid != null ? (int)mainid : jobmainId;
             ViewBag.mainId = jobmainId;
             ViewBag.JobVehicle = jvc.GetJobVehicle(jobmainId);
-            ViewBag.SiteConfig = siteConfig;
+            ViewBag.SiteConfig = SITECONFIG;
 
 
             //SEARCH
@@ -1014,7 +1016,7 @@ order by x.jobid
             var job = db.JobServices.Find(serviceId).JobMain;
 
             //job trail
-            trail.recordTrail("Remove Item", HttpContext.User.Identity.Name, "Remove Item " + item.Description +" from " + job.Description, serviceId.ToString());
+            //trail.recordTrail("Remove Item", HttpContext.User.Identity.Name, "Remove Item " + item.Description +" from " + job.Description, serviceId.ToString());
 
             return RedirectToAction("InventoryItemList", new { serviceId = serviceId });
         }
@@ -1131,7 +1133,7 @@ order by x.jobid
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
             ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
-            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            ViewBag.SiteConfig = SITECONFIG;
 
             return View(jobMain);
         }
@@ -1199,7 +1201,7 @@ order by x.jobid
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
             ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
-            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            ViewBag.SiteConfig = SITECONFIG;
 
             return View(jobMain);
         }
@@ -1253,7 +1255,7 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
             ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName");
-            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            ViewBag.SiteConfig = SITECONFIG;
 
             return View(job);
         }
@@ -1301,7 +1303,7 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
-            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            ViewBag.SiteConfig = SITECONFIG;
 
             return View(jobMain);
         }
@@ -1427,7 +1429,7 @@ order by x.jobid
             js.QuotedAmt = 0;
             js.SupplierAmt = 0;
 
-            var siteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            var siteConfig = SITECONFIG;
             if (siteConfig == "AutoCare")
                 js.Remarks = "";
 
@@ -1774,6 +1776,8 @@ order by x.jobid
             ViewBag.user = HttpContext.User.Identity.Name;
             ViewBag.Vehicles = jvc.GetCustomerVehicleList((int)JobMainId);
             ViewBag.JobVehicle = jvc.GetJobVehicle((int)JobMainId);
+            ViewBag.SiteConfig = SITECONFIG;
+
             var veh = jvc.GetCustomerVehicleList((int)JobMainId);
             return View(jobServices.OrderBy(d => d.DtStart).ToList());
 

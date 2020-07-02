@@ -7,6 +7,7 @@
 
 //Add Vehicle
 function ShowAddVehicleModal(customerId) {
+    Clear_CreateVehicle();
     getCustomerCompany(customerId);
 }
 
@@ -59,6 +60,7 @@ function getCustomerCompany(customerId) {
 //Edit Vehicle
 
 function ShowEditVehicleModal(id) {
+    Clear_EditVehicle();
     EditVehicle_GetDetails(id);
 }
 
@@ -66,7 +68,7 @@ function ShowEditVehicleModal(id) {
 function EditVehicle_GetDetails(id) {
     $.get("/Customers/GetVehicleDetails", { id: id }, function (data, status) {
         $("#editVehicle-VehicleId").val(data[0]['Id']);
-        $("#editVehicle-Model :selected").val(data[0]['VehicleModelId']);
+        $("#editVehicle-Model").val(data[0]['VehicleModelId']);
         $("#editVehicle-YearModel").val(data[0]['YearModel']);
         $("#editVehicle-PlateNo").val(data[0]['PlateNo']);
         $("#editVehicle-Conduction").val(data[0]['Conduction']);
@@ -214,3 +216,23 @@ function Edit_ValidateVehicleInput() {
     return isValid;
 }
 
+function Clear_CreateVehicle(){
+    $("#addVehicle-Model").val(1);
+    $("#addVehicle-YearModel").val("");
+    $("#addVehicle-PlateNo").val("");
+    $("#addVehicle-Conduction").val("");
+    $("#addVehicle-EngineNo").val("");
+    $("#addVehicle-ChassisNo").val("");
+    $("#addVehicle-Color").val("");
+    $("#addVehicle-Remarks").val("");
+}
+
+function Clear_EditVehicle() {
+    $("#editVehicle-YearModel").val("");
+    $("#editVehicle-PlateNo").val("");
+    $("#editVehicle-Conduction").val("");
+    $("#editVehicle-EngineNo").val("");
+    $("#editVehicle-ChassisNo").val("");
+    $("#editVehicle-Color").val("");
+    $("#editVehicle-Remarks").val("");
+}

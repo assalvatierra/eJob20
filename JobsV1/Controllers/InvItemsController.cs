@@ -301,6 +301,30 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index", "InvItems", null);
         }
 
+        [HttpGet]
+        public JsonResult GetItemDetails(int itemid, DateTime date)
+        {
+            var endDate = date.AddDays(1);
+            var jsitemIds = db.JobServiceItems.Where(s => s.InvItemId == itemid).Select(s => s.JobServicesId).ToList();
+            var jsitems = db.JobServices.Where(s => jsitemIds.Contains(s.Id) && (DateTime)s.DtStart >= date && (DateTime)s.DtEnd <= endDate).ToList();
+
+            List<ItemDetailsList> data = new List<ItemDetailsList>();
+
+            foreach (var item in jsitems)
+            {
+                ItemDetailsList tempData = new ItemDetailsList();
+
+                tempData.JobDescription = item.JobMain.Description;
+                tempData.Id = item.Id;
+                tempData.JobId = item.JobMainId;
+                tempData.Service = item.Service.Name;
+
+                data.Add(tempData);
+            }
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         #region Availability
         public ActionResult Availability() {
             DBClasses dbclass = new DBClasses();
@@ -321,4 +345,14 @@ namespace JobsV1.Controllers
         }
         #endregion
     }
+}
+
+
+public class ItemDetailsList
+{
+    public int Id { get; set; }
+    public string JobDescription { get; set; }
+    public string Customer { get; set; }
+    public int JobId { get; set; }
+    public string Service { get; set; }
 }

@@ -16,32 +16,48 @@ namespace JobsV1.Models.Class
         //
         public void recordTrail(string jobTable, string user, string action)
         {
-            JobTrail trail = new JobTrail();
-            trail.user = user;
-            trail.Action = action;
-            trail.RefTable = jobTable;
-            trail.dtTrail = dt.GetCurrentDateTime();
-            trail.RefId = "0";
-            trail.IPAddress = GetIPAddress();
+            try
+            {
 
-            db.JobTrails.Add(trail);
-            db.SaveChanges();
+                JobTrail trail = new JobTrail();
+                trail.user = user;
+                trail.Action = action;
+                trail.RefTable = jobTable;
+                trail.dtTrail = dt.GetCurrentDateTime();
+                trail.RefId = "0";
+                trail.IPAddress = GetIPAddress();
+
+                db.JobTrails.Add(trail);
+                db.SaveChanges();
+            }
+            catch
+            {
+
+            }
 
         }
 
         //override
         public void recordTrail(string jobTable, string user, string action, string refId)
         {
-            JobTrail trail = new JobTrail();
-            trail.user = user;
-            trail.Action = action;
-            trail.RefTable = jobTable;
-            trail.dtTrail = dt.GetCurrentDateTime();
-            trail.RefId = refId;
-            trail.IPAddress = GetIPAddress();
+            try
+            {
 
-            db.JobTrails.Add(trail);
-            db.SaveChanges();
+                JobTrail trail = new JobTrail();
+                trail.user = user;
+                trail.Action = action;
+                trail.RefTable = jobTable;
+                trail.dtTrail = dt.GetCurrentDateTime();
+                trail.RefId = refId;
+                trail.IPAddress = GetIPAddress();
+
+                db.JobTrails.Add(trail);
+                db.SaveChanges();
+                }
+            catch
+            {
+
+            }
 
         }
 

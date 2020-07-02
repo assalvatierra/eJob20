@@ -74,6 +74,10 @@
                     <p>
                         @if (dt.status > 0)
                         {
+                            
+                            @*<a class="cursor-pointer" onclick="ajax_LoadItemDetails('@item.ItemId','@dt.Date')">
+                                <img src="~/Images/CarRental/settings.png" width="20" height="20" />
+                            </a>*@
 
                             <a href="#" id="catbtn" data-toggle="modal" data-target="#@(dt.Day)-@(item.ItemId)" style="margin-bottom:10px;">
                                 <img src="~/Images/CarRental/settings.png" width="20" height="20" />
@@ -141,74 +145,117 @@
 </table>
 
 
-<script>
 
-    //load table content on search btn click
-    //request data from server using ajax call
-    //then clear and add contents to the table
-    function ajax_loadUnits() {
+<!-- Modal -->
+<div class="modal fade" id="ItemDetailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Item List</h4>
+            </div>
+            <div class="modal-body" >
+                <div class="list-group" id="itemmodal-categorylist" style="font:500 14px arial, verdana;">
 
-        //build json object
-        var data = {
-            search: ""
-        };
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-        //console.log(query);
-        //request data from server using ajax call
-        $.ajax({
-            url: '/JobOrder/getMoreItems',
-            type: "GET",
-            data: JSON.stringify(data),
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                //console.log("SUCCESS");
+@section Scripts{
+    <script>
 
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                console.log(data);
-                //console.log(data['responseText']);
-                SimpleTable(data);
-            }
-        });
-    }
+        function ajax_LoadItemDetails(itemId, date) {
 
-    //display simple/limited information
-    //of inventory items of sort order more
-    //than 110.
-    function SimpleTable(data) {
-        //console.log("SimpleTable");
-        //parse data response to json object
-        var temp = jQuery.parseJSON(data["responseText"]);
+            console.log("getting item details");
 
-        //clear table contents except header
-        $("#moreItemsTable").find("tr:gt(0)").remove();
-        //$("#moreItemsTable").remove();
-
-        //populate table content
-        for (var x = 0; x < temp.length; x++) {
-            var remarks = "";
-            if (temp[x]["remarks"] == null) {
-                remarks = "";
-            } else {
-                remarks = temp[x]["remarks"];
+            var data = {
+                itemId: itemId,
+                date: date
             }
 
-            content = "<tr>";
-            content += "<td>"
-                + " <img src='" + temp[x]["icon"] + "' height='21'> "
-                + "<a href='/JobOrder/AddItems/' >"
-                + " " + temp[x]["itemCode"] + " - "
-                + " " + temp[x]["Name"] + "</a> "
-                + " " + remarks + " "
-                + "</td>";
-            content += "<tr>";
+            console.log(data);
+            
+            $.get("/InvItems/GetItemDetails", { itemId: itemId, date: date }, (result) => {
 
-            $(content).appendTo("#moreItemsTable");
+                console.log(result);
+
+            });
+
+            $("#ItemDetailsModal").modal('show');
         }
-    }
 
-    function hideUnits() {
-        $("#moreItemsTable").find("tr:gt(0)").remove();
-    }
-</script>
+        //load table content on search btn click
+        //request data from server using ajax call
+        //then clear and add contents to the table
+        function ajax_loadUnits() {
+
+            //build json object
+            var data = {
+                search: ""
+            };
+
+            //console.log(query);
+            //request data from server using ajax call
+            $.ajax({
+                url: '/JobOrder/getMoreItems',
+                type: "GET",
+                data: JSON.stringify(data),
+                dataType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    //console.log("SUCCESS");
+
+                },
+                error: function (data) {
+                    // console.log("ERROR");
+                    console.log(data);
+                    //console.log(data['responseText']);
+                    SimpleTable(data);
+                }
+            });
+        }
+
+        //display simple/limited information
+        //of inventory items of sort order more
+        //than 110.
+        function SimpleTable(data) {
+            //console.log("SimpleTable");
+            //parse data response to json object
+            var temp = jQuery.parseJSON(data["responseText"]);
+
+            //clear table contents except header
+            $("#moreItemsTable").find("tr:gt(0)").remove();
+            //$("#moreItemsTable").remove();
+
+            //populate table content
+            for (var x = 0; x < temp.length; x++) {
+                var remarks = "";
+                if (temp[x]["remarks"] == null) {
+                    remarks = "";
+                } else {
+                    remarks = temp[x]["remarks"];
+                }
+
+                content = "<tr>";
+                content += "<td>"
+                    + " <img src='" + temp[x]["icon"] + "' height='21'> "
+                    + "<a href='/JobOrder/AddItems/' >"
+                    + " " + temp[x]["itemCode"] + " - "
+                    + " " + temp[x]["Name"] + "</a> "
+                    + " " + remarks + " "
+                    + "</td>";
+                content += "<tr>";
+
+                $(content).appendTo("#moreItemsTable");
+            }
+        }
+
+        function hideUnits() {
+            $("#moreItemsTable").find("tr:gt(0)").remove();
+        }
+    </script>
+}
