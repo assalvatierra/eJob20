@@ -390,7 +390,7 @@ namespace JobsV1.Models
                     foreach (var jsTmp in JobServiceList)
                     {
                         var jsStartDate = DateTime.Parse(jsTmp.DtStart.ToString()).Date;
-                        var jsEndDate = DateTime.Parse(jsTmp.DtStart.ToString()).Date;
+                        var jsEndDate = DateTime.Parse(jsTmp.DtEnd.ToString()).Date;
 
                         int istart = dsTmp.Date.CompareTo(jsStartDate);
                         int iend = dsTmp.Date.CompareTo(jsEndDate);

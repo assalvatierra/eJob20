@@ -987,11 +987,14 @@ order by x.jobid
 
             //remove unassigned
             var jscount = db.JobServiceItems.Where(s => s.JobServicesId == serviceId).Count();
+
             if (jscount > 1)
             {
-                var unassigned = db.InvItems.Where(s => s.Description == "UnAssigned").FirstOrDefault().Id;
-                RemoveUnassignedItem(unassigned, serviceId);
-
+                if (db.InvItems.Where(s => s.Description == "UnAssigned").FirstOrDefault() != null)
+                {
+                    var unassigned = db.InvItems.Where(s => s.Description == "UnAssigned").FirstOrDefault().Id;
+                    RemoveUnassignedItem(unassigned, serviceId);
+                }
             }
 
             var itemName = db.InvItems.Find(itemId);
