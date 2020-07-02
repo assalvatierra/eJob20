@@ -15,6 +15,7 @@ namespace JobsV1.Controllers
     public class InvItemsController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private DateClass dt = new DateClass();
 
         // GET: InvItems
         public ActionResult Index()
@@ -302,27 +303,77 @@ namespace JobsV1.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetItemDetails(int itemid, DateTime date)
+        public JsonResult GetItemDetails(int? itemid, DateTime? date)
         {
-            var endDate = date.AddDays(1);
-            var jsitemIds = db.JobServiceItems.Where(s => s.InvItemId == itemid).Select(s => s.JobServicesId).ToList();
-            var jsitems = db.JobServices.Where(s => jsitemIds.Contains(s.Id) && (DateTime)s.DtStart >= date && (DateTime)s.DtEnd <= endDate).ToList();
-
-            List<ItemDetailsList> data = new List<ItemDetailsList>();
-
-            foreach (var item in jsitems)
+            try
             {
-                ItemDetailsList tempData = new ItemDetailsList();
 
-                tempData.JobDescription = item.JobMain.Description;
-                tempData.Id = item.Id;
-                tempData.JobId = item.JobMainId;
-                tempData.Service = item.Service.Name;
+                if (itemid == null || date == null)
+                {
+                    return null;
+                }
+                var selectedDate = DateTime.Parse(date.ToString()).Date;
 
-                data.Add(tempData);
+                var endDate = selectedDate.AddDays(1);
+                var jsitemIds = db.JobServiceItems.Where(s => s.InvItemId == itemid).Select(s => s.JobServicesId).ToList();
+                var jsitems = db.JobServices.Where(s => jsitemIds.Contains(s.Id)).ToList();
+
+                List<ItemDetailsList> data = new List<ItemDetailsList>();
+
+                foreach (var item in jsitems)
+                {
+                    var jsStartDt = DateTime.Parse(item.DtStart.ToString()).Date;
+                    var jsEndDt = DateTime.Parse(item.DtEnd.ToString()).Date;
+
+                    var sDateComp = selectedDate.CompareTo(jsStartDt);
+                    var eDateComp = selectedDate.CompareTo(jsEndDt); 
+
+                    if (sDateComp >= 0 && eDateComp <= 0 )
+                    {
+
+                        ItemDetailsList tempData = new ItemDetailsList();
+
+                        tempData.JobDescription = item.JobMain.Description;
+                        tempData.Id = item.Id;
+                        tempData.JobId = item.JobMainId;
+                        tempData.Service = item.Service.Name;
+                        tempData.ServiceDesc = item.Particulars;
+                        tempData.Customer = item.JobMain.Customer.Name;
+                        tempData.Company = GetJobCustCompany(item.JobMainId);
+
+                        data.Add(tempData);
+
+                    }
+                }
+
+                return Json(data, JsonRequestBehavior.AllowGet);
             }
+            catch
+            {
+                return null;
+            }
+        }
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+        public string GetJobCustCompany(int jobId)
+        {
+            try
+            {
+                var jobCustEntQuery = db.JobEntMains.Where(j => j.JobMainId == jobId);
+                if (jobCustEntQuery.FirstOrDefault() != null)
+                {
+                    var latestCompany = jobCustEntQuery.OrderByDescending(s=>s.Id).FirstOrDefault();
+
+                    var company = latestCompany.CustEntMain.Name;
+
+                    return company;
+                }
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         #region Availability
@@ -355,4 +406,6 @@ public class ItemDetailsList
     public string Customer { get; set; }
     public int JobId { get; set; }
     public string Service { get; set; }
+    public string ServiceDesc { get; set; }
+    public string Company { get; set; }
 }

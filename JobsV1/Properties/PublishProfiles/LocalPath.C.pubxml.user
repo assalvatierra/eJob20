@@ -718,10 +718,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>07/02/2020 13:30:08</publishTime>
+      <publishTime>07/02/2020 14:58:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>07/02/2020 13:30:08</publishTime>
+      <publishTime>07/02/2020 14:58:40</publishTime>
     </File>
     <File Include="bin/de/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -745,10 +745,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>07/02/2020 13:29:51</publishTime>
+      <publishTime>07/02/2020 14:58:23</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>07/02/2020 13:29:51</publishTime>
+      <publishTime>07/02/2020 14:58:23</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -2329,7 +2329,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/02/2020 18:00:03</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>07/02/2020 13:30:05</publishTime>
+      <publishTime>07/02/2020 14:58:36</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -2338,7 +2338,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:32</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>07/02/2020 12:44:24</publishTime>
+      <publishTime>07/02/2020 13:30:26</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>02/19/2020 17:09:27</publishTime>
@@ -2465,6 +2465,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/index.js.flow">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Scripts/InvItems/Availability.js">
+      <publishTime>07/02/2020 14:56:35</publishTime>
     </File>
     <File Include="Scripts/Job/CarGateControl.js">
       <publishTime>03/05/2019 09:53:33</publishTime>
@@ -3970,7 +3973,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:34</publishTime>
     </File>
     <File Include="Views/InvItems/Availability.cshtml">
-      <publishTime>07/02/2020 11:15:01</publishTime>
+      <publishTime>07/02/2020 14:57:43</publishTime>
     </File>
     <File Include="Views/InvItems/AvailabilityTime.cshtml">
       <publishTime>06/15/2020 16:52:18</publishTime>

@@ -1710,6 +1710,7 @@
     <Content Include="Scripts\CustNotif\Activities.js" />
     <Content Include="Scripts\Customer\Vehicle.js" />
     <Content Include="Scripts\dataTables.min.js" />
+    <Content Include="Scripts\InvItems\Availability.js" />
     <Content Include="Scripts\JobPostSale\PostSale.js" />
     <Content Include="Scripts\Job\CustNotif.js" />
     <Content Include="Scripts\Job\DefaultDate.js" />
