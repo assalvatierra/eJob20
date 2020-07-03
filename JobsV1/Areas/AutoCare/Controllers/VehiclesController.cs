@@ -18,7 +18,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         private JobVehicleClass jvc = new JobVehicleClass();
 
         // GET: AutoCare/Vehicles
-        public ActionResult Index(string srch)
+        public ActionResult Index(string srch, string sortby)
         {
             var vehicles = db.Vehicles.Include(v => v.Customer).Include(v => v.CustEntMain).Include(v => v.VehicleModel);
 
@@ -27,6 +27,28 @@ namespace JobsV1.Areas.AutoCare.Controllers
             {
                 vehicles = vehicles.Where(v => v.PlateNo.ToLower().Contains(srch.ToLower()) || v.Conduction.ToLower().Contains(srch.ToLower()));
             }
+
+
+
+            switch (sortby)
+            {
+                case "Vehicle":
+                    vehicles = vehicles.OrderBy(v => v.VehicleModel.VehicleBrand.Brand).OrderBy(v=>v.VehicleModel.Make);
+                    break;
+                case "YearModel":
+                    vehicles = vehicles.OrderBy(v => v.YearModel);
+                    break;
+                case "Customer":
+                    vehicles = vehicles.OrderBy(v => v.Customer.Name);
+                    break;
+                case "Company":
+                    vehicles = vehicles.OrderBy(v => v.CustEntMain.Name);
+                    break;
+                default:
+                    vehicles = vehicles.OrderBy(v => v.VehicleModel.VehicleBrand.Brand).OrderBy(v => v.VehicleModel.Make);
+                    break;
+            }
+
 
             return View(vehicles.ToList());
         }

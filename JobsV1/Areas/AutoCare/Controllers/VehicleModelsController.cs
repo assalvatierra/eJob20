@@ -16,9 +16,25 @@ namespace JobsV1.Areas.AutoCare.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         // GET: AutoCare/VehicleModels
-        public ActionResult Index()
+        public ActionResult Index(string sortby)
         {
             var vehicleModels = db.VehicleModels.Include(v => v.VehicleBrand).Include(v => v.VehicleType).Include(v => v.VehicleTransmission).Include(v => v.VehicleFuel);
+
+
+            switch (sortby)
+            {
+                case "Make":
+                    vehicleModels = vehicleModels.OrderBy(v => v.Make);
+                    break;
+
+                case "Brand":
+                    vehicleModels = vehicleModels.OrderBy(v => v.VehicleBrand.Brand);
+                    break;
+                default:
+                    vehicleModels = vehicleModels.OrderBy(v => v.Make);
+                    break;
+            }
+            
             return View(vehicleModels.ToList());
         }
 

@@ -13,7 +13,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Make)
+            @Html.ActionLink("Make", "Index", new { sortby = "Make" })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Variant)
@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VehicleBrand.Brand)
+            @Html.ActionLink("Brand", "Index", new { sortby = "Brand" })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.VehicleType.Type)

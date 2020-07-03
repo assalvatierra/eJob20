@@ -25,10 +25,10 @@
     <table class="table">
         <tr>
             <th>
-                 Vehicle
+                @Html.ActionLink("Vehicle", "Index", new { sortby = "Vehicle" })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.YearModel)
+                @Html.ActionLink("YearModel", "Index", new { sortby = "YearModel" })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PlateNo)
@@ -49,10 +49,10 @@
                 @Html.DisplayNameFor(model => model.Remarks)
             </th>
             <th>
-               Customer
+                @Html.ActionLink("Customer", "Index", new { sortby = "Customer" })
             </th>
             <th>
-                Company
+                @Html.ActionLink("Company", "Index", new { sortby = "Company" })
             </th>
             <th></th>
         </tr>
