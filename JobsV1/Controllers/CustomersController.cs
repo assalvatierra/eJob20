@@ -70,7 +70,7 @@ namespace JobsV1.Controllers
             ViewBag.HaveJob = db.JobMains.Where(j => j.CustomerId == id).FirstOrDefault() != null ? true : false;
             ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
             ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustomerId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
-            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).OrderBy(v => v.Make).ToList();
+            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make).ToList();
 
             return View(customer);
         }

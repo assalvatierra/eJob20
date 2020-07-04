@@ -1721,6 +1721,7 @@
     <Content Include="Scripts\Job\JobSearchCompany.js" />
     <Content Include="Scripts\Job\JobCreate.js" />
     <Content Include="Scripts\Job\JobVehicle.js" />
+    <Content Include="Scripts\Job\JobPayment.js" />
     <Content Include="Scripts\Job\ServicesEdit.js" />
     <Content Include="Scripts\Job\TripListing.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />

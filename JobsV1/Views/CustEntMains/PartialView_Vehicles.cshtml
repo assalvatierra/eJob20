@@ -78,7 +78,7 @@
                         <label class="form-label col-md-2"> Model </label>
                         <div class="col-md-10">
                             <select class="form-control" id="addVehicle-Model">
-                                @foreach (var vehicle in vehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make))
+                                @foreach (var vehicle in vehicleModels)
                                 {
                                     <option value="@vehicle.Id">
                                         @vehicle.VehicleBrand.Brand @vehicle.Make  @vehicle.Variant @vehicle.VehicleTransmission.Type
@@ -184,7 +184,7 @@
                         <label class="form-label col-md-2"> Model </label>
                         <div class="col-md-10">
                             <select class="form-control" id="editVehicle-Model">
-                                @foreach (var vehicle in vehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v=>v.Make))
+                                @foreach (var vehicle in vehicleModels)
                                 {
                                     <option value="@vehicle.Id">
                                         @vehicle.VehicleBrand.Brand @vehicle.Make  @vehicle.Variant @vehicle.VehicleTransmission.Type

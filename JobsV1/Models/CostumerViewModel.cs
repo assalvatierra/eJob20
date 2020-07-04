@@ -34,6 +34,7 @@ namespace JobsV1.Models
         public string NoOfDays { get; set; }
         public string NoOfPax { get; set; }
         public string StatusRemarks { get; set; }
+        public string PaymentStatus { get; set; }
         public decimal Amount { get; set; }
     }
 

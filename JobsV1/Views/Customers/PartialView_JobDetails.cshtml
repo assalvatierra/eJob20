@@ -50,6 +50,7 @@
             <th> No of Pax </th>
             <th> Status </th>
             <th> Amount </th>
+            <th> Payment </th>
             <th>  </th>
         </tr>
         @foreach (var item in Model)
@@ -75,14 +76,17 @@
                 @Html.DisplayFor(modelItem => item.StatusRemarks)
             </td>
              <td>
-
                 @item.Amount.ToString("##,###.00")
              </td>
+             <td>
+                @*@item.PaymentStatus*@
+             </td>
             
-            <td>
-                @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = item.Id }, null) |
-                @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = item.Id }, null)
-            </td>
+             <td>
+                 @*@Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = item.Id }, null) |*@
+                 @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = item.Id , iType = 1 }, null) |
+                 @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = item.Id }, null)
+             </td>
         </tr>
         }
     </table>

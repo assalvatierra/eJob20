@@ -30,6 +30,7 @@ namespace JobsV1.Models
         public Decimal Amount { get; set; }
         public string Status { get; set; }
         public string AssignedTo { get; set; }
+        public string PaymentStatus { get; set; }
 
     }
 
@@ -258,7 +259,8 @@ namespace JobsV1.Models
                     AgreedAmt = "0",
                     NoOfDays = "0",
                     NoOfPax = "0",
-                    StatusRemarks = "none"
+                    StatusRemarks = "none",
+                    PaymentStatus = "NA",
                 });
             }
             else
@@ -282,8 +284,9 @@ namespace JobsV1.Models
                         NoOfDays = record.NoOfDays.ToString(),
                         NoOfPax = record.NoOfPax.ToString(),
                         StatusRemarks = record.JobStatus.Status,
-                        Amount = totalAmount
-                    });
+                        Amount = totalAmount,
+                        PaymentStatus = record.JobPayments.Count != 0 ? "Paid" : "UnPaid"
+                    }); 
                 }
             }
             return jobList;

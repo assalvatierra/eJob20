@@ -11,6 +11,7 @@ using JobsV1.Models;
 using JobsV1.Models.Class;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
+using PayPal.Api;
 
 namespace JobsV1.Controllers
 {
@@ -129,8 +130,8 @@ namespace JobsV1.Controllers
             ViewBag.IsAdmin = isAdmin;
             ViewBag.HaveJob = jobcount != 0 ? true : false;
             ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustEntMainId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
-            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v=>v.VehicleBrand.Brand).OrderBy(v=>v.Make).ToList();
-            ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).ToList();
+            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make).ToList();
+            ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).OrderBy(c=>c.Name).ToList();
             ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
@@ -218,7 +219,8 @@ namespace JobsV1.Controllers
                     Status = items.JobStatus.Status,
                     Id = items.Id,
                     Amount = getJobTotal(items.Id),
-                    AssignedTo = items.AssignedTo
+                    AssignedTo = items.AssignedTo,
+                    PaymentStatus = items.JobPayments.Count != 0 ? "Paid" : "Unpaid"
                 });
             }
 
