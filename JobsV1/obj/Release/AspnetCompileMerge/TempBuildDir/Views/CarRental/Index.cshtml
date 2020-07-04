@@ -5,8 +5,21 @@
     //title and description defined in controller
 }
 <!-- For Facebook share/like link -->
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '596694584162008',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v7.0'
+        });
+    };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="tQtB0r8H"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=596694584162008&autoLogAppEvents=1" nonce="e2XOPjWp"></script>
+
 <!-- Banner -->
 <div class="jumbotron row rental-banner">
     <div class="col-md-8">
@@ -29,6 +42,8 @@
         @if (ViewBag.isAuthorize == 1)
         {
             @Html.ActionLink("Reservation", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success btn-lg btn-rsv" })
+
+            <br />
         }
 
         @*<a class="btn btn-primary rsv-call-btn rsv-call-text" href="tel:+63822971831">
@@ -81,7 +96,11 @@
     <div class="col-lg-5"></div>
 
     <!-- Facebook Like -->
-    <div class="fb-like" data-href="https://www.facebook.com/RealWheelsDavao/" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+    <div class="col-lg-2">
+        <b>Follow us on Facebook</b>
+        <div class="fb-like" data-href="https://www.facebook.com/RealWheelsDavao/" data-width="300" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+        <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FRealWheelsDavao%2F&width=300&layout=standard&action=like&size=small&share=true&height=35&appId=596694584162008" width="300" height="35" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+    </div>
 </div>
 
 <!-- Car Selection -->
@@ -126,3 +145,7 @@
 
 
 @Html.Action("MobileModalView")
+
+@section Scripts{
+
+}

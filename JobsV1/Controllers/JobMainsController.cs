@@ -141,44 +141,7 @@ namespace JobsV1.Controllers
                 }
             }
 
-            ////convert to cJobActives
-            //List<cActiveJobs> cdata = new List<cActiveJobs>();
-
-            //foreach (var item in data)
-            //{
-            //    var pickup = item.JobServicePickups.Where(s => s.JobServicesId == item.Id).FirstOrDefault() ;
-            //    TimeSpan timedefault = TimeSpan.Parse("00:00");
-            //    DateTime tempDate = (DateTime)item.DtStart;
-            //    DateTime sortdate = today;
-            //    if (pickup != null)
-            //    {
-            //        string timeValue = pickup.JsTime;
-            //        TimeSpan _time = TimeSpan.Parse(timeValue.Replace(" AM", "").Replace(" PM", ""));
-
-            //        var time = _time;
-            //        sortdate = new DateTime(tempDate.Year, tempDate.Month, tempDate.Day, time.Hours, time.Minutes, time.Seconds);
-            //    }
-
-            //    var jobs = new cActiveJobs();
-
-            //        jobs.Id = item.Id;
-            //        jobs.JobMainId = item.JobMainId;
-            //        jobs.JobDesc = item.JobMain.Description;
-            //        jobs.Particulars = item.Particulars;
-            //        jobs.Service = item.Service.Name;
-            //        jobs.Customer = item.JobMain.Customer.Name;
-            //        jobs.Item = item.SupplierItem.Description;
-            //        jobs.DtStart = ((DateTime)item.DtStart).ToString("MMM dd yyyy (ddd)");
-            //        jobs.DtEnd = ((DateTime)item.DtEnd).ToString("MMM dd yyyy (ddd)");
-            //        jobs.JsDate = pickup != null ? pickup.JsDate.ToString("MMM dd yyyy (ddd)") : "";
-            //        jobs.JsTime = pickup != null ? pickup.JsTime : ""; // TimeSpan.Parse(pickup.JsTime.Substring(1,4))
-            //        jobs.JsLocation = pickup != null ? pickup.JsLocation : "N/A";
-            //        jobs.SORTDATE = sortdate;
-            //        jobs.Assigned = item.JobServiceItems;
-
-            //    cdata.Add(jobs);
-            //}
-
+            ViewBag.FilterId = FilterId;
             ViewBag.Current = this.GetCurrentTime().ToString("MMM dd yyyy (ddd)");
             ViewBag.today = GetCurrentTime();
 

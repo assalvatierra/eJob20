@@ -128,8 +128,8 @@ namespace JobsV1.Controllers
             ViewBag.isAllowedHistory = isAdmin || isAssigned ? true : false ;
             ViewBag.IsAdmin = isAdmin;
             ViewBag.HaveJob = jobcount != 0 ? true : false;
-            ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustEntMainId == id).ToList();
-            ViewBag.VehicleModelList = db.VehicleModels.ToList();
+            ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustEntMainId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
+            ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v=>v.VehicleBrand.Brand).OrderBy(v=>v.Make).ToList();
             ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).ToList();
             ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 

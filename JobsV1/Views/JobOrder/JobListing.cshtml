@@ -25,8 +25,8 @@
 <div class="view-content">
     <div class="filter-panel">
 
-        <div class="status-panel btn-group">
-            <button type="button" class="btn btn-default disabled"> Show </button>
+        <div class="status-panel btn-group" id="filter-group">
+            <button type="button" class="btn btn-default disabled" style=""> Show </button>
 
             @Html.ActionLink("OnGoing", "JobListing", "JobOrder", new { sortid = 1 }, new { @id = "ongoing", @class="btn btn-default status-link status-active" }) 
             @Html.ActionLink("Previous", "JobListing", "JobOrder", new { sortid = 2 }, new { @id = "previous", @class="btn btn-default status-link " }) 
@@ -621,30 +621,31 @@
     <script type="text/javascript">
         $(document).ready(function () {
             initialize();
-
+            FilterInitial();
             $('html, body').animate({
                 scrollTop: $("#main@(ViewBag.mainId)").offset().top - 50
             }, 500);
 
         });
 
-        switch(@(Session["FilterID"] != null? (int)Session["FilterID"]: 1 )){
-            case 1:
-                $("#ongoing").css("color","black")
-                $("#ongoing-bot").css("color","black")
-                break;
-            case 2:
-                $("#previous").css("color","black")
-                $("#previous-bot").css("color","black")
-                break;
-            case 3:
-                $("#closed").css("color","black")
-                $("#closed-bot").css("color","black")
-                break;
-            default:
+        function FilterInitial() {
+            $("#filter-group").children("a").removeClass("active");
+            switch(@(Session["FilterID"] != null? (int)Session["FilterID"]: 1 )){
+                case 1:
+                    $("#ongoing").addClass("active");
+                    break;
+                case 2:
+                    $("#previous").addClass("active");
+                    break;
+                case 3:
+                    $("#closed").addClass("active");
+                    break;
+                default:
 
-                break;
+                    break;
+            }
         }
+
 
         function updateval(){
             var iDiv = document.getElementbyId('categorylist');

@@ -33,7 +33,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             switch (sortby)
             {
                 case "Vehicle":
-                    vehicles = vehicles.OrderBy(v => v.VehicleModel.VehicleBrand.Brand).OrderBy(v=>v.VehicleModel.Make);
+                    vehicles = vehicles.OrderBy(v => v.VehicleModel.VehicleBrand.Brand).ThenBy(v=>v.VehicleModel.Make);
                     break;
                 case "YearModel":
                     vehicles = vehicles.OrderBy(v => v.YearModel);
@@ -45,7 +45,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                     vehicles = vehicles.OrderBy(v => v.CustEntMain.Name);
                     break;
                 default:
-                    vehicles = vehicles.OrderBy(v => v.VehicleModel.VehicleBrand.Brand).OrderBy(v => v.VehicleModel.Make);
+                    vehicles = vehicles.OrderBy(v => v.VehicleModel.VehicleBrand.Brand).ThenBy(v => v.VehicleModel.Make);
                     break;
             }
 

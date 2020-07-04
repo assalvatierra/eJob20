@@ -1717,6 +1717,7 @@
     <Content Include="Scripts\Job\DefaultDate.js" />
     <Content Include="Scripts\CustEntMain\CustEntActivities.js" />
     <Content Include="Scripts\CustEntMain\CustomerSearch.js" />
+    <Content Include="Scripts\Job\JobOrder.js" />
     <Content Include="Scripts\Job\JobSearchCompany.js" />
     <Content Include="Scripts\Job\JobCreate.js" />
     <Content Include="Scripts\Job\JobVehicle.js" />

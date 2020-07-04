@@ -4,6 +4,7 @@
     ViewBag.Title = "Active Jobs";
     Session["ROOTMENUID"] = 3;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var filterId = ViewBag.FilterId ?? 1;
 }
 
 <link href="/Content/TableStyles.css" rel="stylesheet" />
@@ -18,11 +19,11 @@
     <div class="filter-panel">
 
         <div class="status-panel">
-            <div class="btn-group">
-                @Html.ActionLink("All", "ActiveJobs", new { FilterId = 1 }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Today", "ActiveJobs", new { FilterId = 2 }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Tomorrow", "ActiveJobs", new { FilterId = 3 }, new { @class = "btn btn-default" })
-                @Html.ActionLink("After 2 Days", "ActiveJobs", new { FilterId = 4 }, new { @class = "btn btn-default" })
+            <div class="btn-group" id="filter-group">
+                @Html.ActionLink("All", "ActiveJobs", new { FilterId = 1 }, new { @class = "btn btn-default", @id="filter-all" })
+                @Html.ActionLink("Today", "ActiveJobs", new { FilterId = 2 }, new { @class = "btn btn-default", @id = "filter-today" })
+                @Html.ActionLink("Tomorrow", "ActiveJobs", new { FilterId = 3 }, new { @class = "btn btn-default", @id = "filter-tomorrow" })
+                @Html.ActionLink("After 2 Days", "ActiveJobs", new { FilterId = 4 }, new { @class = "btn btn-default", @id = "filter-after2days" })
             </div>
             @*@Html.ActionLink("Close Old Jobs", "CloseOldJob")*@
         </div>
@@ -48,7 +49,7 @@
                         <span class="glyphicon glyphicon-search"></span> Filter
                     </button>
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -147,92 +148,110 @@
 
 </div>
 
-<script src="~/Scripts/jquery-1.12.4.min.js"></script>
-<script>
+@section Scripts{
 
-    function Update() {
-        var url_string = window.location.href;
-        var url = new URL(url_string);
-        var service = url.searchParams.get("service");
-        $('#service-input').val(service);
-    }
+    <script>
 
-
-    $(function () {
-        Update();
-    });
-
-    function getToday() {
-
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-
-        today = yyyy + '-' + mm + '-' + dd;
-        return today;
-    }
-
-    function ActiveJobsUpdate() {
-        var url_string = window.location.href;
-        var url = new URL(url_string);
-        var filterid = url.searchParams.get("FilterId");
-
-        var serviceVal = document.getElementById("service-input").value;
-
-        var requestString = "/JobMains/ActiveJobs?";
-
-        requestString += "FilterId=" + filterid + "&";
-
-        if (serviceVal != null) {
-
-            requestString = requestString + "&service=" + serviceVal;
-        }
-
-
-        window.location.href = requestString;
-        //window.location.href = "/Reporting/Index/" + idVal + "&sDate=" + sDateVal + "&sDate=" + eDateVal;
-    }
-
-
-    /**
-      * Expense.js
-      * Perform Add, Edit and Remove functions
-      * using modal.
-      */
-    //Add Expense
-    function CloseJob(jobId) {
-
-        var data = {
-            jobId: jobId
-        };
-
-        url = "/JobMains/CloseJobActive";
-
-        //Submit data to server using ajax
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: 'application/json; charset=utf-8',
-            success: function (data) {
-                console.log("SUCCESS");
-            },
-            error: function (data) {
-                // console.log("ERROR");
-                console.log(data);
-                location.reload();
-                //addRateToView(expAmt, expense, expRmk, expdate);
-                //$('#addExpenseModal').modal('toggle');
-            }
+        $(() => {
+            console.log("Initialize");
+            Update();
+            FilterInitial(@filterId);
         });
-    }
-</script>
+
+        function FilterInitial(filter) {
+            $("#filter-group").children("a").removeClass("active");
+            switch (filter) {
+                case 1:
+                    $("#filter-all").addClass("active");
+                    break;
+                case 2:
+                    $("#filter-today").addClass("active");
+                    break;
+                case 3:
+                    $("#filter-tomorrow").addClass("active");
+                    break;
+                case 4:
+                    $("#filter-after2days").addClass("active");
+                    break;
+                default:
+                    $("#filter-all").addClass("active");
+                    break;
+            }
+        }
+
+        function Update() {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var service = url.searchParams.get("service");
+            $('#service-input').val(service);
+        }
+
+        function getToday() {
+
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            today = yyyy + '-' + mm + '-' + dd;
+            return today;
+        }
+
+        function ActiveJobsUpdate() {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var filterid = url.searchParams.get("FilterId");
+            var serviceVal = document.getElementById("service-input").value;
+            var requestString = "/JobMains/ActiveJobs?";
+
+            requestString += "FilterId=" + filterid + "&";
+
+            if (serviceVal != null) {
+
+                requestString = requestString + "&service=" + serviceVal;
+            }
+
+
+            window.location.href = requestString;
+        }
+
+
+        /**
+         * Update job status to Closed
+         */
+        //Close Job
+        function CloseJob(jobId) {
+
+            var data = {
+                jobId: jobId
+            };
+
+            url = "/JobMains/CloseJobActive";
+
+            //Submit data to server using ajax
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log("SUCCESS");
+                },
+                error: function (data) {
+                    console.log(data);
+                    location.reload();
+                }
+            });
+        }
+    </script>
+
+
+}
