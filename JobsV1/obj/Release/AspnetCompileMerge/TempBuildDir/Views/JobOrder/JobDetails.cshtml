@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="jobName">
             <span class="control-label col-md-2"> <b>Job Name</b> </span>
             <div class="col-md-9">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @maxlength = "80", @id = "jobdesc" } })
@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="jobRemarks">
             @Html.LabelFor(model => model.JobRemarks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.JobRemarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
@@ -106,6 +106,14 @@
         </div>
 
         <div class="form-group">
+            <b class="control-label col-md-2"> Payment&nbsp;Status </b>
+            <div class="col-md-10">
+                @Html.DropDownList("JobPaymentStatusId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StatusRemarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="statusRemarks">
             @Html.LabelFor(model => model.StatusRemarks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StatusRemarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
@@ -129,7 +137,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="jobAmount">
             @Html.LabelFor(model => model.AgreedAmt, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AgreedAmt, new { htmlAttributes = new { @class = "form-control" } })
@@ -140,8 +148,8 @@
         <div class="form-group">
             <b class="control-label col-md-2"> Assigned To </b>
             <div class="col-md-10">
-                @Html.DropDownList("Staff", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.JobThruId, "", new { @class = "text-danger" })
+                @Html.DropDownList("AssignedTo", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AssignedTo, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -178,6 +186,10 @@
             if ('@siteConfig' == 'AutoCare') {
                 $("#NoPax").hide();
                 $("#NoDays").hide();
+                $("#jobName").hide();
+                $("#jobRemarks").hide();
+                $("#statusRemarks").hide();
+                $("#jobAmount").hide();
             }
         }
     </script>

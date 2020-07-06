@@ -29,6 +29,9 @@ namespace JobsV1.Models
         public int VehicleTransmissionId { get; set; }
         public int VehicleFuelId { get; set; }
         public int VehicleDriveId { get; set; }
+        public string MotorOil { get; set; }
+        public string GearOil { get; set; }
+        public string TransmissionOil { get; set; }
     
         public virtual VehicleBrand VehicleBrand { get; set; }
         public virtual VehicleType VehicleType { get; set; }

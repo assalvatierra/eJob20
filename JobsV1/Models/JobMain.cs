@@ -28,6 +28,7 @@ namespace JobsV1.Models
             this.CashExpenses = new HashSet<CashExpense>();
             this.JobPosts = new HashSet<JobPost>();
             this.JobVehicles = new HashSet<JobVehicle>();
+            this.JobMainPaymentStatus = new HashSet<JobMainPaymentStatus>();
         }
     
         public int Id { get; set; }
@@ -72,5 +73,7 @@ namespace JobsV1.Models
         public virtual ICollection<JobPost> JobPosts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<JobVehicle> JobVehicles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobMainPaymentStatus> JobMainPaymentStatus { get; set; }
     }
 }

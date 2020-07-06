@@ -849,6 +849,9 @@
     <Compile Include="Models\JobMain.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\JobMainPaymentStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\JobNote.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -856,6 +859,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobPayment.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobPaymentStatus.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobPickup.cs">

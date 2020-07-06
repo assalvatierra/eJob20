@@ -354,10 +354,10 @@
                     @job.Status
                 </td>
                 <td>@job.AssignedTo</td>
-                <td> @*@job.PaymentStatus*@ </td>
+                <td> @job.PaymentStatus </td>
                 <td>
                     @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = job.Id, iType = 1 }, null) |
-                    @Html.ActionLink("Job Details", "BookingDetails", "JobOrder", new { id = job.Id }, null)
+                    @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = job.Id }, null)
                 </td>
             </tr>
         }

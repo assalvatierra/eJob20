@@ -285,12 +285,27 @@ namespace JobsV1.Models
                         NoOfPax = record.NoOfPax.ToString(),
                         StatusRemarks = record.JobStatus.Status,
                         Amount = totalAmount,
-                        PaymentStatus = record.JobPayments.Count != 0 ? "Paid" : "UnPaid"
+                        PaymentStatus = GetLastJobPaymentStatus(record.Id)
                     }); 
                 }
             }
             return jobList;
         }
+
+
+        private string GetLastJobPaymentStatus(int jobId)
+        {
+            var tempStatus = db.JobMainPaymentStatus.Where(j => j.JobMainId == jobId);
+
+            if (tempStatus.FirstOrDefault() != null)
+            {
+                return tempStatus.OrderByDescending(j => j.Id).FirstOrDefault().JobPaymentStatu.Status;
+            }
+
+            //unpaid if no records
+            return "Unpaid";
+        }
+
 
         #endregion
 

@@ -69,7 +69,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Make,Variant,VehicleBrandId,VehicleTypeId,Remarks,VehicleTransmissionId,VehicleFuelId,VehicleDriveId")] VehicleModel vehicleModel)
+        public ActionResult Create([Bind(Include = "Id,Make,Variant,VehicleBrandId,VehicleTypeId,Remarks,VehicleTransmissionId,VehicleFuelId,VehicleDriveId,MotorOil,GearOil,TransmissionOil")] VehicleModel vehicleModel)
         {
             if (ModelState.IsValid)
             {
@@ -114,7 +114,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Make,Variant,VehicleBrandId,VehicleTypeId,Remarks,VehicleTransmissionId,VehicleFuelId,VehicleDriveId")] VehicleModel vehicleModel)
+        public ActionResult Edit([Bind(Include = "Id,Make,Variant,VehicleBrandId,VehicleTypeId,Remarks,VehicleTransmissionId,VehicleFuelId,VehicleDriveId,MotorOil,GearOil,TransmissionOil")] VehicleModel vehicleModel)
         {
             if (ModelState.IsValid)
             {

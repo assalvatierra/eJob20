@@ -38,7 +38,7 @@ function getNumber() {
 
 //get company using ajax post
 function getCompany() {
-    $.post("/JobOrder/getCustomerCompany",
+    $.get("/Customers/GetCustomerCompanyOrDefault",
         {
             id: $("#customerList option:selected").val()
         },

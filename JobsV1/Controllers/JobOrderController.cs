@@ -1136,7 +1136,8 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
-            ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", GetLastJobPaymentStatus((int)jobid));
             ViewBag.SiteConfig = SITECONFIG;
 
             return View(jobMain);
@@ -1144,7 +1145,7 @@ order by x.jobid
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId, decimal? AgreedAmt)
+        public ActionResult JobDetails([Bind(Include = "Id,JobDate,CompanyId,CustomerId,Description,NoOfPax,NoOfDays,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId, decimal? AgreedAmt, int? JobPaymentStatusId)
         {
             if (ModelState.IsValid)
             {
@@ -1170,12 +1171,17 @@ order by x.jobid
                     System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
                     EditjobCompany(jobMain.Id, (int)CompanyId);
 
+                    //Edit job payment status
+                    if (JobPaymentStatusId != null)
+                    {
+                        EditJobPaymentStatus((int)JobPaymentStatusId, jobMain.Id);
+                    }
+
                     //job trail
                     trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Edit Saved", jobMain.Id.ToString());
 
-
                     //add job post record when job is closed (4 = CLOSED)
-                    if(jobMain.JobStatusId == 4)
+                    if (jobMain.JobStatusId == 4)
                     {
                         if (CreateJobPostSalesRecord(jobMain.Id))
                         {
@@ -1204,7 +1210,8 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
-            ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", (int)JobPaymentStatusId);
             ViewBag.SiteConfig = SITECONFIG;
 
             return View(jobMain);
@@ -1252,14 +1259,16 @@ order by x.jobid
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id);
             }
 
-            ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
-            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
+            ViewBag.CompanyList = db.CustEntMains.OrderBy(s=>s.Name).ToList() ?? new List<CustEntMain>();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").OrderBy(s=>s.Name).ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name",2);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
-            ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName");
+            ViewBag.AssignedTo = new SelectList(dbc.getUsers(), "UserName", "UserName");
+            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", 2);
             ViewBag.SiteConfig = SITECONFIG;
+
 
             return View(job);
         }
@@ -1270,7 +1279,7 @@ order by x.jobid
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId)
+        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId, int? JobPaymentStatusId)
         {
             
             if (ModelState.IsValid)
@@ -1293,6 +1302,11 @@ order by x.jobid
                         AddjobCompany(jobMain.Id, (int)CompanyId);
                     }
 
+                    if(JobPaymentStatusId != null)
+                    {
+                        AddJobPaymentStatus((int)JobPaymentStatusId, jobMain.Id);
+                    }
+
                     dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
                     return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobMain.Id });
 
@@ -1306,7 +1320,8 @@ order by x.jobid
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
-            ViewBag.Staff = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status",(int)JobPaymentStatusId);
             ViewBag.SiteConfig = SITECONFIG;
 
             return View(jobMain);
@@ -1342,7 +1357,73 @@ order by x.jobid
             db.JobEntMains.Add(jobCompany);
             db.SaveChanges();
         }
-        
+
+        public bool AddJobPaymentStatus(int id, int jobId)
+        {
+            try
+            {
+
+                JobMainPaymentStatus paymentStatus = new JobMainPaymentStatus();
+                paymentStatus.JobMainId = jobId;
+                paymentStatus.JobPaymentStatusId = id;
+
+                db.JobMainPaymentStatus.Add(paymentStatus);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        public int GetLastJobPaymentStatus(int jobId)
+        {
+            var tempStatus = db.JobMainPaymentStatus.Where(j => j.JobMainId == jobId);
+
+            if(tempStatus.FirstOrDefault() != null)
+            {
+               return tempStatus.OrderByDescending(j => j.Id).FirstOrDefault().JobPaymentStatusId;
+            }
+
+            //unpaid if no records
+            return 2; 
+        }
+
+
+        public bool EditJobPaymentStatus(int id, int jobId)
+        {
+            try
+            {
+                //get latest job payment status
+                var tempPaymentStatus = db.JobMainPaymentStatus.Where(j => j.JobMainId == jobId);
+
+                if (tempPaymentStatus.FirstOrDefault() == null)
+                {
+                    //add job payment status
+                    AddJobPaymentStatus(id, jobId);
+                }
+                else
+                {
+                    //check if prev status is not current status
+                    if(GetLastJobPaymentStatus(jobId) != id)
+                    {
+                        //add job payment status
+                        AddJobPaymentStatus(id, jobId);
+                    }
+                }
+
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         public ActionResult ChangeCompany(int id , int newId) {
 
@@ -1435,7 +1516,10 @@ order by x.jobid
 
             var siteConfig = SITECONFIG;
             if (siteConfig == "AutoCare")
+            {
+                //if service is change oil, add oils to remarks
                 js.Remarks = "";
+            }
 
             //modify SupplierItem
             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
@@ -1449,6 +1533,29 @@ order by x.jobid
             return View(js);
         }
 
+        [HttpGet]
+        public string GetVehicleOilRemarks(int jobmainId)
+        {
+            try { 
+            var vehicle = db.JobVehicles.Where(j=>j.JobMainId == jobmainId).FirstOrDefault();
+            
+            if (vehicle != null) { 
+                var vehicleModel = vehicle.Vehicle.VehicleModel;
+                string MotorOil = " Motor Oil: " +  (vehicleModel.MotorOil.ToString() ?? "N/A" );
+                string GearOil = ", Gear Oil: " + (vehicleModel.GearOil.ToString() ?? "N/A");
+                string TransmissionOil = ", Transmission Oil: " + (vehicleModel.TransmissionOil.ToString() ?? "N/A");
+                string OilString = MotorOil + GearOil + TransmissionOil;
+
+                return MotorOil;
+            }
+
+                return "Oil : No Assigned Vehicle";
+            }
+            catch
+            {
+                return "Oil : No Motor Oil Added ";
+            }
+        }
 
         // POST: JobServices/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -1467,7 +1574,7 @@ order by x.jobid
                     int UnassignedId = db.InvItems.Where(u => u.Description == "UnAssigned").FirstOrDefault().Id;
                     AddUnassignedItem(UnassignedId, jobServices.Id);
                 }
-                catch (Exception ex)
+                catch
                 { }
             }
 
@@ -1484,6 +1591,8 @@ order by x.jobid
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobServices.JobMainId });
         }
+
+
 
         // GET: JobServices/Edit/5
         public ActionResult JobServiceEdit(int? id)

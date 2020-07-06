@@ -46,12 +46,12 @@ function Submit_AddVehicle(customerId) {
 
 //get company using ajax post
 function getCustomerCompany(customerId) {
-    $.post("/JobOrder/getCustomerCompany",
+    $.get("/Customers/GetCustomerCompanyOrDefault",
         {
             id: customerId
         },
         function (data, status) {
-            //console.log(data);
+            console.log("company " + data);
             $('#addVehicle-CompanyId').val(data);
         });
 }

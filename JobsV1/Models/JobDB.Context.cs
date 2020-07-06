@@ -156,5 +156,7 @@ namespace JobsV1.Models
         public virtual DbSet<VehicleDrive> VehicleDrives { get; set; }
         public virtual DbSet<JobPostSale> JobPostSales { get; set; }
         public virtual DbSet<CustEntAccountType> CustEntAccountTypes { get; set; }
+        public virtual DbSet<JobPaymentStatus> JobPaymentStatus { get; set; }
+        public virtual DbSet<JobMainPaymentStatus> JobMainPaymentStatus { get; set; }
     }
 }

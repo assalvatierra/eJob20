@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
 
-      <Diagram DiagramId="ef40c35eef7a48f9afcf5346ba52fb5c" Name="Diagram1" ZoomLevel="69" >
+      <Diagram DiagramId="ef40c35eef7a48f9afcf5346ba52fb5c" Name="Diagram1" ZoomLevel="90" >
 
         <EntityTypeShape EntityType="JobDB.JobMain" Width="1.5" PointX="23.375" PointY="11.625" />
         <EntityTypeShape EntityType="JobDB.Supplier" Width="1.5" PointX="60.125" PointY="4.375" />
@@ -266,9 +266,9 @@
         <EntityTypeShape EntityType="JobDB.VehicleBrand" Width="1.5" PointX="11.125" PointY="12.625" />
         <AssociationConnector Association="JobDB.VehicleBrandVehicleMake" />
         <AssociationConnector Association="JobDB.VehicleTypeVehicleMake" />
-        <EntityTypeShape EntityType="JobDB.VehicleTransmission" Width="1.5" PointX="14" PointY="17.375" />
+        <EntityTypeShape EntityType="JobDB.VehicleTransmission" Width="1.5" PointX="14" PointY="18.25" />
         <AssociationConnector Association="JobDB.VehicleTransmissionVehicleMake" />
-        <EntityTypeShape EntityType="JobDB.VehicleFuel" Width="1.5" PointX="12.125" PointY="17.375" />
+        <EntityTypeShape EntityType="JobDB.VehicleFuel" Width="1.5" PointX="12.125" PointY="18.875" />
         <AssociationConnector Association="JobDB.VehicleFuelVehicleMake" />
         <AssociationConnector Association="JobDB.VehicleModelVehicle" />
         <EntityTypeShape EntityType="JobDB.VehicleDrive" Width="1.5" PointX="15.25" PointY="15.25" />
@@ -277,6 +277,10 @@
         <AssociationConnector Association="JobDB.JobPostSaleJobServices" />
         <EntityTypeShape EntityType="JobDB.CustEntAccountType" Width="1.5" PointX="14.625" PointY="6.125" />
         <AssociationConnector Association="JobDB.CustEntAccountTypeCustEntMain" />
+        <EntityTypeShape EntityType="JobDB.JobPaymentStatus" Width="1.5" PointX="14.75" PointY="23.625" />
+        <EntityTypeShape EntityType="JobDB.JobMainPaymentStatus" Width="1.5" PointX="14.75" PointY="20.5" />
+        <AssociationConnector Association="JobDB.JobMainPaymentStatusJobMain" />
+        <AssociationConnector Association="JobDB.JobPaymentStatusJobMainPaymentStatus" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

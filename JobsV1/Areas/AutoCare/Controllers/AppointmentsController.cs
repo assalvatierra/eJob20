@@ -47,7 +47,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // GET: AutoCare/Appointments/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerList = jdb.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
+            ViewBag.CustomerList = jdb.Customers.Where(s => s.Status == "ACT").OrderBy(s => s.Name).ToList() ?? new List<Customer>();
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description");
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status");
             ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description");
@@ -69,7 +69,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerList = jdb.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
+            ViewBag.CustomerList = jdb.Customers.Where(s => s.Status == "ACT").OrderBy(s => s.Name).ToList() ?? new List<Customer>();
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
             ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description", appointment.AppointmentRequestId);

@@ -72,7 +72,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         public ActionResult Create()
         {
 
-            var Vehicles = db.VehicleModels
+            var Vehicles = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make)
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
@@ -80,7 +80,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                   });
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
-            ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
+            ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").OrderBy(s => s.Name).ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name");
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name");
             return View();
@@ -95,15 +95,33 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                //check if company is empty
+                if (vehicle.CustEntMainId == 0)
+                {
+                    //find public company
+                    var defaultCompany = db.CustEntMains.Where(c => c.Name == "Public").FirstOrDefault();
+
+                    if (defaultCompany != null)
+                    {
+                        vehicle.CustEntMainId = defaultCompany.Id;
+                    }
+                    else
+                    {
+                        vehicle.CustEntMainId = 1;
+                    }
+                }
+
                 if (VehicleValidation(vehicle))
                 {
+
                     db.Vehicles.Add(vehicle);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
             }
 
-            var Vehicles = db.VehicleModels
+            var Vehicles = db.VehicleModels.OrderBy(v=>v.VehicleBrand.Brand).ThenBy(v=>v.Make)
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
@@ -111,7 +129,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                   });
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
-            ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
+            ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").OrderBy(s => s.Name).ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
             return View(vehicle);
@@ -123,13 +141,13 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             if (vehicle.CustEntMainId == 0 )
             {
-                ModelState.AddModelError("Company", "Invalid Company");
+                ModelState.AddModelError("CustomerId", "Invalid Company");
                 isValid = false;
             }
 
-            if (vehicle.CustomerId == 1)
+            if (vehicle.CustomerId == 1 || vehicle.CustomerId == 0)
             {
-                ModelState.AddModelError("Customer", "Invalid Customer");
+                ModelState.AddModelError("CustEntMainId", "Invalid Customer");
                 isValid = false;
             }
 

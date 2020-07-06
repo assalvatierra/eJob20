@@ -137,6 +137,8 @@
     <EntitySet Name="VehicleDrives" EntityType="JobDB.Store.VehicleDrives" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobPostSales" EntityType="JobDB.Store.JobPostSales" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntAccountTypes" EntityType="JobDB.Store.CustEntAccountTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobPaymentStatus" EntityType="JobDB.Store.JobPaymentStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobMainPaymentStatus" EntityType="JobDB.Store.JobMainPaymentStatus" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -652,6 +654,14 @@
     <AssociationSet Name="CustEntAccountTypeCustEntMain" Association="JobDB.Store.CustEntAccountTypeCustEntMain">
       <End Role="CustEntAccountType" EntitySet="CustEntAccountTypes" />
       <End Role="CustEntMain" EntitySet="CustEntMains" />
+    </AssociationSet>
+    <AssociationSet Name="JobMainPaymentStatusJobMain" Association="JobDB.Store.JobMainPaymentStatusJobMain">
+      <End Role="JobMainPaymentStatus" EntitySet="JobMainPaymentStatus" />
+      <End Role="JobMain" EntitySet="JobMains" />
+    </AssociationSet>
+    <AssociationSet Name="JobPaymentStatusJobMainPaymentStatus" Association="JobDB.Store.JobPaymentStatusJobMainPaymentStatus">
+      <End Role="JobMainPaymentStatus" EntitySet="JobMainPaymentStatus" />
+      <End Role="JobPaymentStatus" EntitySet="JobPaymentStatus" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1988,6 +1998,9 @@
     <Property Name="VehicleTransmissionId" Type="int" Nullable="false" />
     <Property Name="VehicleFuelId" Type="int" Nullable="false" />
     <Property Name="VehicleDriveId" Type="int" Nullable="false" />
+    <Property Name="MotorOil" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="GearOil" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="TransmissionOil" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="VehicleBrands">
     <Key>
@@ -2034,6 +2047,21 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="SysCode" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="JobPaymentStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="JobMainPaymentStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JobMainId" Type="int" Nullable="false" />
+    <Property Name="JobPaymentStatusId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3583,6 +3611,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="JobMainPaymentStatusJobMain">
+    <End Role="JobMainPaymentStatus" Type="JobDB.Store.JobMainPaymentStatus" Multiplicity="*" />
+    <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="JobMain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobMainPaymentStatus">
+        <PropertyRef Name="JobMainId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="JobPaymentStatusJobMainPaymentStatus">
+    <End Role="JobMainPaymentStatus" Type="JobDB.Store.JobMainPaymentStatus" Multiplicity="*" />
+    <End Role="JobPaymentStatus" Type="JobDB.Store.JobPaymentStatus" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="JobPaymentStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobMainPaymentStatus">
+        <PropertyRef Name="JobPaymentStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4235,6 +4287,16 @@
             <End Role="CustEntAccountType" EntitySet="CustEntAccountTypes" />
             <End Role="CustEntMain" EntitySet="CustEntMains" />
           </AssociationSet>
+          <EntitySet Name="JobPaymentStatus" EntityType="JobDB.JobPaymentStatus" />
+          <EntitySet Name="JobMainPaymentStatus" EntityType="JobDB.JobMainPaymentStatus" />
+          <AssociationSet Name="JobMainPaymentStatusJobMain" Association="JobDB.JobMainPaymentStatusJobMain">
+            <End Role="JobMainPaymentStatus" EntitySet="JobMainPaymentStatus" />
+            <End Role="JobMain" EntitySet="JobMains" />
+          </AssociationSet>
+          <AssociationSet Name="JobPaymentStatusJobMainPaymentStatus" Association="JobDB.JobPaymentStatusJobMainPaymentStatus">
+            <End Role="JobMainPaymentStatus" EntitySet="JobMainPaymentStatus" />
+            <End Role="JobPaymentStatus" EntitySet="JobPaymentStatus" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -4270,6 +4332,7 @@
           <NavigationProperty Name="JobPosts" Relationship="JobDB.JobMainJobPost" FromRole="JobMain" ToRole="JobPost" />
           <Property Name="AssignedTo" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="JobVehicles" Relationship="JobDB.JobMainJobVehicle" FromRole="JobMain" ToRole="JobVehicle" />
+          <NavigationProperty Name="JobMainPaymentStatus" Relationship="JobDB.JobMainPaymentStatusJobMain" FromRole="JobMain" ToRole="JobMainPaymentStatus" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -7276,6 +7339,9 @@
           <NavigationProperty Name="Vehicles" Relationship="JobDB.VehicleModelVehicle" FromRole="VehicleModel" ToRole="Vehicle" />
           <NavigationProperty Name="VehicleDrive" Relationship="JobDB.VehicleDriveVehicleModel" FromRole="VehicleModel" ToRole="VehicleDrive" />
           <Property Name="VehicleDriveId" Type="Int32" Nullable="false" />
+          <Property Name="MotorOil" Type="String" Nullable="true" />
+          <Property Name="GearOil" Type="String" Nullable="true" />
+          <Property Name="TransmissionOil" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="VehicleBrand">
           <Key>
@@ -7422,6 +7488,48 @@
             </Principal>
             <Dependent Role="CustEntMain">
               <PropertyRef Name="CustEntAccountTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="JobPaymentStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="JobMainPaymentStatus" Relationship="JobDB.JobPaymentStatusJobMainPaymentStatus" FromRole="JobPaymentStatus" ToRole="JobMainPaymentStatus" />
+        </EntityType>
+        <EntityType Name="JobMainPaymentStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="JobMain" Relationship="JobDB.JobMainPaymentStatusJobMain" FromRole="JobMainPaymentStatus" ToRole="JobMain" />
+          <Property Name="JobMainId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobPaymentStatu" Relationship="JobDB.JobPaymentStatusJobMainPaymentStatus" FromRole="JobMainPaymentStatus" ToRole="JobPaymentStatus" />
+          <Property Name="JobPaymentStatusId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="JobMainPaymentStatusJobMain">
+          <End Type="JobDB.JobMainPaymentStatus" Role="JobMainPaymentStatus" Multiplicity="*" />
+          <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="JobMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobMainPaymentStatus">
+              <PropertyRef Name="JobMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JobPaymentStatusJobMainPaymentStatus">
+          <End Type="JobDB.JobMainPaymentStatus" Role="JobMainPaymentStatus" Multiplicity="*" />
+          <End Type="JobDB.JobPaymentStatus" Role="JobPaymentStatus" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="JobPaymentStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobMainPaymentStatus">
+              <PropertyRef Name="JobPaymentStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8888,6 +8996,9 @@
           <ScalarProperty Name="VehicleTransmissionId" ColumnName="VehicleTransmissionId" />
           <ScalarProperty Name="VehicleFuelId" ColumnName="VehicleFuelId" />
           <ScalarProperty Name="VehicleDriveId" ColumnName="VehicleDriveId" />
+          <ScalarProperty Name="MotorOil" ColumnName="MotorOil" />
+          <ScalarProperty Name="GearOil" ColumnName="GearOil" />
+          <ScalarProperty Name="TransmissionOil" ColumnName="TransmissionOil" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -8940,6 +9051,23 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="SysCode" ColumnName="SysCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobPaymentStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.JobPaymentStatus)">
+        <MappingFragment StoreEntitySet="JobPaymentStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobMainPaymentStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.JobMainPaymentStatus)">
+        <MappingFragment StoreEntitySet="JobMainPaymentStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+          <ScalarProperty Name="JobPaymentStatusId" ColumnName="JobPaymentStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -349,3 +349,8 @@ insert into AppointmentRequests([Description],[OrderNo]) values
 
 insert into AppointmentAcctTypes([Description]) values
 ('Regular'),('Fleet Account');
+
+
+-------- JOB PAYMENT --------------
+insert into JobPaymentStatus([Status]) values
+('Paid'),('Unpaid'),('Term');

@@ -37,7 +37,7 @@ namespace JobsV1.Controllers
 
             ViewBag.status = status;
 
-            return View(customerDetailList.OrderBy(s=>s.CustEntName));
+            return View(customerDetailList.OrderBy(s=>s.Name));
         }
         
         // GET: Customers/Details/5
@@ -552,11 +552,14 @@ namespace JobsV1.Controllers
 
         #region Vehicles 
         [HttpPost]
-        public bool AddCustomerVehicle(int vehicleModelId, string yearModel, string plateNo, string conduction, string engineNo, string chassisNo, string color, int customerId, int custEntMainId, string remarks)
+        public bool AddCustomerVehicle(int vehicleModelId, string yearModel, string plateNo, string conduction, string engineNo, string chassisNo, string color, int customerId, int? custEntMainId, string remarks)
         {
 
             try
             {
+                if (custEntMainId == null || custEntMainId == 0)
+                    custEntMainId = GetCustomerCompany(customerId);
+
                 Vehicle vehicle = new Vehicle();
 
                 vehicle.VehicleModelId = vehicleModelId;
@@ -567,7 +570,7 @@ namespace JobsV1.Controllers
                 vehicle.ChassisNo = chassisNo;
                 vehicle.Color = color;
                 vehicle.CustomerId = customerId;
-                vehicle.CustEntMainId = custEntMainId;
+                vehicle.CustEntMainId = (int)custEntMainId;
                 vehicle.Remarks = remarks;
 
                 db.Vehicles.Add(vehicle);
@@ -609,11 +612,15 @@ namespace JobsV1.Controllers
         }
 
         [HttpPost]
-        public bool EditCustomerVehicle(int Id, int vehicleModelId, string yearModel, string plateNo, string conduction, string engineNo, string chassisNo, string color, int customerId, int custEntMainId, string remarks)
+        public bool EditCustomerVehicle(int Id, int vehicleModelId, string yearModel, string plateNo, string conduction, string engineNo, string chassisNo, string color, int customerId, int? custEntMainId, string remarks)
         {
 
             try
             {
+                if (custEntMainId == null || custEntMainId == 0)
+                    custEntMainId = GetCustomerCompany(customerId);
+
+
                 Vehicle vehicle = db.Vehicles.Find(Id);
 
                 if (vehicle == null)
@@ -629,7 +636,7 @@ namespace JobsV1.Controllers
                 vehicle.ChassisNo = chassisNo;
                 vehicle.Color = color;
                 vehicle.CustomerId = customerId;
-                vehicle.CustEntMainId = custEntMainId;
+                vehicle.CustEntMainId = (int)custEntMainId;
                 vehicle.Remarks = remarks;
 
                 db.Entry(vehicle).State = EntityState.Modified;
@@ -683,6 +690,80 @@ namespace JobsV1.Controllers
             ViewBag.Company = vehicle.CustEntMain.Name;
 
             return View(vehicleServices);
+        }
+
+        public int GetCustomerCompany(int? id)
+        {
+            if (id == null)
+            {
+                return 1;
+            }
+
+            var custEntities = db.CustEntities.Where(c => c.CustomerId == id);
+            if (custEntities.FirstOrDefault() != null)
+            {
+               return custEntities.FirstOrDefault().CustEntMainId;
+            }
+            else
+            {
+                //find public company
+                var defaultCompany = db.CustEntMains.Where(c => c.Name == "Public");
+
+                //for personal use
+                var personalUse = db.CustEntMains.Where(c => c.Name == "Personal Use");
+
+                if (defaultCompany.FirstOrDefault() != null)
+                {
+                    return defaultCompany.FirstOrDefault().Id;
+                }
+                else if (personalUse.FirstOrDefault() != null)
+                {
+                    return personalUse.FirstOrDefault().Id;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetCustomerCompanyOrDefault(int? id)
+        {
+            var Id = 0;
+            if (id == null)
+            {
+                Id = 1;
+            }
+
+            var custEntities = db.CustEntities.Where(c => c.CustomerId == id);
+            if (custEntities.FirstOrDefault() != null)
+            {
+                Id = custEntities.FirstOrDefault().CustEntMainId;
+            }
+            else
+            {
+                //find public company
+                var defaultCompany = db.CustEntMains.Where(c => c.Name == "Public");
+
+                //for personal use
+                var personalUse = db.CustEntMains.Where(c => c.Name == "Personal Account");
+
+                if (defaultCompany.FirstOrDefault() != null)
+                {
+                    Id = defaultCompany.FirstOrDefault().Id;
+                }
+                else if (personalUse.FirstOrDefault() != null)
+                {
+                    Id = personalUse.FirstOrDefault().Id;
+                }
+                else
+                {
+                    Id = 1;
+                }
+            }
+
+            return Json(Id, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

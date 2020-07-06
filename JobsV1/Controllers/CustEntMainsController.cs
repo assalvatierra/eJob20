@@ -116,7 +116,7 @@ namespace JobsV1.Controllers
             var companyContactEntity = db.CustEntities.Where(c => c.CustEntMainId == id).Select(c => c.CustomerId).ToList();
 
             //ViewBags
-            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").OrderBy(s=>s.Name).ToList() ?? new List<Customer>();
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
             ViewBag.SalesLeads = slc.getCompanyLeads((int)id);
             ViewBag.categories = db.CustCategories.ToList();
@@ -220,7 +220,7 @@ namespace JobsV1.Controllers
                     Id = items.Id,
                     Amount = getJobTotal(items.Id),
                     AssignedTo = items.AssignedTo,
-                    PaymentStatus = items.JobPayments.Count != 0 ? "Paid" : "Unpaid"
+                    PaymentStatus = GetLastJobPaymentStatus(items.Id)
                 });
             }
 
@@ -238,6 +238,20 @@ namespace JobsV1.Controllers
             }
 
             return totalAmt;
+        }
+
+
+        private string GetLastJobPaymentStatus(int jobId)
+        {
+            var tempStatus = db.JobMainPaymentStatus.Where(j => j.JobMainId == jobId);
+
+            if (tempStatus.FirstOrDefault() != null)
+            {
+                return tempStatus.OrderByDescending(j => j.Id).FirstOrDefault().JobPaymentStatu.Status;
+            }
+
+            //unpaid if no records
+            return "Unpaid";
         }
 
         // GET: CustEntMains/Create

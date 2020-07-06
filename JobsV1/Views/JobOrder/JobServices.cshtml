@@ -186,6 +186,16 @@
                     <br />[Quote: @Html.DisplayFor(modelItem => item.QuotedAmt)]
                     <br />[Supplier: @Html.DisplayFor(modelItem => item.SupplierAmt)]
                     <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+
+                    @if (siteconfig == "AutoCare" && item.Service.Name.Contains("Change Oil"))
+                    {
+                      <br />
+                    <span> 
+                    [
+                        @{Html.RenderAction("GetVehicleOilRemarks");}
+                    ]</span>
+                    }
+
                 </td>
                 <td width="175">
                     @foreach (var svc in item.JobServiceItems)
