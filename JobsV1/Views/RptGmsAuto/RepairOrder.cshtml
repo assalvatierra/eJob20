@@ -1,0 +1,537 @@
+﻿@model JobsV1.Models.JobMain
+@{
+    ViewBag.Title = "Repair Order";
+    var JobVehicle = ViewBag.JobVehicle as JobsV1.Models.JobVehicle;
+    var VehicleHistory = ViewBag.VehicleServiceHistory as IEnumerable<JobsV1.Models.JobVehicle>;
+    var jobServices = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
+}
+
+<style>
+    .rpt-box{
+        border: 2px solid black;
+        display:flex;
+        align-content:flex-start;
+        padding:10px;
+        margin:0px 20px;
+    }
+
+    .rpt-jobid{
+        font-size:20px;
+        font-weight:700;
+        margin:0px auto;
+    }
+
+    .rpt-jobdate {
+        font-size: 10px;
+        font-weight: 700;
+        margin: 0px auto;
+    }
+
+    .rpt-td-border-none {
+        border: none !important;
+    }
+
+    .rpt-tr-border-none td {
+        border: none !important;
+    }
+
+    .rpt-table {
+        border: 1px solid black;
+        width: 100%;
+    }
+
+    .rpt-table tr td {
+        border: 1px solid black;
+
+    }
+
+    .rpt-table tr td div p{
+        font-size: 10px;
+        font-weight: 500;
+        margin-bottom: 0px;
+    }
+    
+    .rpt-table tr td div {
+        font-size: 10px;
+        font-weight: 500;
+    }
+    
+    .rpt-table tr td div {
+        display:flex;
+        flex-direction:column;
+    }
+
+    .rpt-text-small {
+        font-size: 10px;
+        font-weight: 500;
+        margin-bottom: 0px;
+    }
+
+    .rpt-text-normal {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .rpt-text-normal-bold {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .rpt-bordered{
+        border:1px solid black;
+        padding:2px;
+    }
+
+    .rpt-bordered-bot {
+        border-bottom: 1px solid black;
+        padding: 2px;
+    }
+
+    .rpt-bordered-none {
+        border:none;
+        padding: 2px;
+        height:100%;
+        flex:1;
+    }
+
+    .rpt-bordered tr td {
+        border: 1px solid black;
+    }
+
+    .rpt-no-line-space{
+        margin-bottom:0px;
+    }
+
+    .rpt-no-line-space p {
+        margin-bottom: 0px;
+    }
+    .rpt-row td{
+        padding:0px;
+    }
+
+    .rpt-td-padding{
+        padding:5px;
+    }
+</style>
+
+<table class="table" style="min-width:650px;border:none;">
+    <tr style="border:none;">
+        <td width="30%">
+            <h1>
+                GMS AutoCare
+            </h1>
+            <p> <span> INQUIRY THRU: </span>
+            
+                @Model.JobThru.Desc
+            
+            </p>
+        </td>
+        <td style="padding:20px 10px;width:40%;">
+            <div id="jobId" class="rpt-box">
+                <span class="rpt-jobid"> JOB NO : @Model.Id.ToString("D4") </span>
+            </div>
+            <br />
+
+            @*<div id="jobId" class="rpt-box">
+                <span class="rpt-jobdate">
+                    Delivery Date & Time
+                    <br />
+                    July 7, 2020
+                </span>
+            </div>*@
+
+        </td>
+        <td style="padding:20px 10px;width:30%;">
+            <p class="rpt-bordered text-center"> Mechanic </p>
+            <p class="rpt-no-line-space"><b> GMS AutoCare  </b></p>
+            <p class="rpt-no-line-space"> Address </p>
+            <p class="rpt-no-line-space"> Telephone </p>
+            <p class="rpt-no-line-space"> VAT Reg / TIN </p>
+            <p class="rpt-no-line-space"> Business Style </p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="border-top:none;" >
+            <h2 class="text-center"> Repair Order </h2>
+        </td>
+    </tr>
+    <tr>
+
+        <!-- Customer Details  -->
+        <td colspan="3" style="padding:0px;">
+            <table class="rpt-table">
+                <tr>
+                    <td width="120px">
+                    </td>
+                    <td>
+                        <p class="rpt-no-line-space"> Business type </p>
+                    </td>
+                    <td>
+                        <p class="rpt-no-line-space"> Service Repair Order </p>
+
+                    </td>
+                </tr>
+                <tr class="rpt-row">
+                    <td>
+                        <div class="rpt-bordered-bot">
+                            <p class="text-muted"> Customer No. </p>
+                            <p> @Model.CustomerId.ToString("D5") </p>
+                        </div>
+                        <div class="rpt-bordered-bot">
+                            <p class="text-muted"> Date Received </p>
+                            <p> @Model.JobDate.ToShortDateString() </p>
+                        </div>
+                        <div class="rpt-bordered-bot">
+                            <p class="text-muted"> Time Recieved </p>
+                            <p>  @Model.JobDate.ToShortTimeString() </p>
+                        </div>
+
+                        <div class="rpt-bordered-none" style="margin-bottom:5px;">
+                            <div style="padding-left:10px;">
+                                <p class="text-muted" style="margin-left:-5px;"> Payment Method </p>
+                                <div class="checkbox rpt-no-line-space" style="margin-top:0px;">
+                                    <label><input type="checkbox" value=""><span style="margin-top:5px;">Cash</span></label>
+                                </div>
+                                <div class="checkbox rpt-no-line-space">
+                                    <label><input type="checkbox" value="">Credit Card</label>
+                                </div>
+                                <div class="checkbox rpt-no-line-space">
+                                    <label><input type="checkbox" value="">Cheque</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                    <td>
+                        <div class="rpt-bordered-bot">
+                            <p class="text-muted"> Customer Name / Company / Address </p>
+                            <span class="rpt-text-normal-bold" style="margin-left:10px;"> @Model.Customer.Name </span>
+                            <p class="rpt-text-normal"> @ViewBag.Company </p>
+                            <p class="rpt-text-normal" style="margin-bottom:5px;"> @ViewBag.CompanyAddress </p>
+                        </div>
+
+                        <div class="rpt-bordered-bot">
+                            <p class="text-muted"> Email Address: </p>
+                            <p> @Model.CustContactEmail </p>
+                        </div>
+
+                        <div class="rpt-bordered-bot">
+                            <p class="text-muted"> Tel No: </p>
+                            <p> @Model.Customer.Contact1 </p>
+                        </div>
+
+                        <div class="rpt-bordered-none" style="margin-bottom:23px;">
+                            <p class="text-muted"> Phone No: </p>
+                            <p> @Model.CustContactNumber </p>
+
+                        </div>
+                    </td>
+
+                    <td>
+                        <!-- Vehicle Details -->
+                        <table class="rpt-table" style="border:none;">
+                            <tr>
+                                <td colspan="2" style="border:none;">
+                                    <div class="rpt-bordered-bot">
+                                        <p class="text-muted">Year/Make/Model: </p>
+                                        <p style="font-size:14px;"> @JobVehicle.Vehicle.YearModel @JobVehicle.Vehicle.VehicleModel.VehicleBrand.Brand @JobVehicle.Vehicle.VehicleModel.Make @JobVehicle.Vehicle.VehicleModel.Variant </p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" style="border:none;">
+                                    <div class="rpt-bordered-bot">
+                                        <p class="text-muted">Chassis NO/Serial No: </p>
+                                        <p> @JobVehicle.Vehicle.ChassisNo &nbsp;</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="border:none;border-right:1px solid black;">
+                                    <div class="rpt-bordered-bot">
+                                        <p class="text-muted"> Color : </p>
+                                        <p> @JobVehicle.Vehicle.Color </p>
+                                    </div>
+                                </td>
+
+                                <td style="border:none;">
+                                    <div class="rpt-bordered-bot">
+                                        <p class="text-muted"> Plate No : </p>
+                                        <p> @JobVehicle.Vehicle.PlateNo </p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="border:none;border-right:1px solid black;">
+                                    <div class="rpt-bordered-bot">
+                                        <p class="text-muted"> Kilometers KM : </p>
+                                        <p> @JobVehicle.Mileage </p>
+                                    </div>
+                                </td>
+
+                                <td style="border:none;">
+                                    <div class="rpt-bordered-bot">
+                                        <p class="text-muted"> Conduction : </p>
+                                        <p> @JobVehicle.Vehicle.Conduction &nbsp;</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="border:none;border-right:1px solid black;">
+                                    <div class="rpt-bordered-none">
+                                        <p class="text-muted"> Engine No : </p>
+                                        <p> @JobVehicle.Vehicle.EngineNo  &nbsp;</p>
+                                    </div>
+                                </td>
+
+                                <td style="border:none;">
+                                    <div class="rpt-bordered-none">
+                                        <p class="text-muted"> Delivery Date : </p>
+                                        <p> @Model.JobDate </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="background-color:black;color:white;padding:2px;">
+            <p class="rpt-no-line-space rpt-text-small"> PRODUCT DETAILS </p>
+        </td>
+    </tr>
+
+    <tr>
+        <!-- Service History -->
+        <td colspan="3" style="padding:0px;">
+            <table class="rpt-table">
+                <tr>
+                    <td colspan="4" style="padding-top:5px;border:none">
+                        <div>
+                            <p> SERVICE HISTORY </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top:5px;border:none">
+                        <div>
+                            <p class="text-muted"> DATE  </p>
+                        </div>
+                    </td>
+                    <td style="padding-top:5px;border:none">
+                        <div>
+                            <p class="text-muted">JOBORDER NO  </p>
+                        </div>
+                    </td>
+                    <td style="padding-top:5px;border:none">
+                        <div>
+                            <p class="text-muted"> MILEAGE  </p>
+                        </div>
+                    </td>
+                    <td style="padding-top:5px;border:none">
+                        <div>
+                            <p class="text-muted"> SERVICE ADIVISOR  </p>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Services History items-->
+                @foreach (var history in VehicleHistory)
+                {
+                    <tr>
+                        <td style="padding-top:5px;border:none">
+                            <div>
+                                <p> @history.JobMain.JobDate  </p>
+                            </div>
+                        </td>
+
+                        <td style="padding-top:5px;border:none">
+                            <div>
+                                <p> #######  </p>
+                            </div>
+                        </td>
+
+                        <td style="padding-top:5px;border:none">
+                            <div>
+                                <p> ###### KM  </p>
+                            </div>
+                        </td>
+
+                        <td style="padding-top:5px;border:none">
+                            <div>
+                                <p>   </p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+                @if(VehicleHistory.Count() == 0)
+                {
+                    <tr>
+                        <td class="rpt-td-border-none" colspan="4">
+                            <div class="text-center" style="margin:10px auto;">
+                            <p> NO PREVIOUS RECORDS </p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </td>
+    </tr>
+
+    <!-- Job Remakrs -->
+    <tr>
+        <td colspan="3" style="padding:0px;">
+            <table class="rpt-table">
+                <tr>
+                    <td>
+                        <div style="margin-bottom:20px;">
+                            <p> CUSTOMER REQUEST </p>
+                            <br />
+                        </div>
+                    </td>
+                    <td>
+                        <div style="margin-bottom:20px;">
+                            <p> SERVICE ADVISOR INSTRUCTIONS </p>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- Job Service Items -->
+    <tr>
+        <td colspan="3" style="padding:0px;">
+            <table class="rpt-table">
+                <tr>
+                    <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> <span style="padding-left:10px;"> START DATE - END DATE</span> </td>
+                    <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> SERVICE TYPE  </td>
+                    <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> PARTICULARS  </td>
+                    <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> ASSIGNED BAY  </td>
+                    <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> AMOUNT  </td>
+                </tr>
+                @{
+                    decimal TotalAmount = 0;
+                }
+                <!-- Items loop here -->
+                @foreach (var services in jobServices)
+                {
+                    TotalAmount += services.ActualAmt != null ? (decimal)services.ActualAmt : 0;
+
+                    <tr class="rpt-tr-border-none rpt-text-small">
+                        <td span style="padding-left:10px;">
+                            <span> @DateTime.Parse(services.DtStart.ToString()).ToString("MM/dd/yyyy") -  @DateTime.Parse(services.DtEnd.ToString()).ToString("MM/dd/yyyy") </span>
+                        </td>
+                        <td>
+                            <span> @services.Service.Name </span>
+                        </td>
+                        <td>
+                            <span> @services.Particulars </span>
+                            <br /><span> Remarks : @services.Remarks </span>
+                        </td>
+                        <td>
+                            @foreach (var item in services.JobServiceItems)
+                            {
+                                <span> @item.InvItem.Description </span><br />
+                            }
+                        </td>
+                        <td>
+                            <span> @(((Decimal)services.ActualAmt).ToString("#,##0.00")) </span>
+                        </td>
+                    </tr>
+                }
+
+                @if (jobServices.Count() == 0)
+                {
+                    <tr class="rpt-tr-border-none rpt-text-small">
+                        <td colspan="5">
+                           <span style="margin:0px auto;"> No Service Found </span>
+                        </td>
+                        
+                    </tr>
+                }
+
+
+                <!-- Total Amount -->
+                <tr class="rpt-tr-border-none">
+                    <td colspan="3">
+                    </td>
+                    <td>
+                        <b>TOTAL AMOUNT</b>
+                    </td>
+                    <td>
+                        <b>@TotalAmount.ToString("#,##0.00")</b>
+                    </td>
+                </tr>
+
+                <!-- Total Amount -->
+                <tr class="rpt-tr-border-none">
+                    <td colspan="4">
+                        <br />
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="padding:0px;">
+             <table class="rpt-table">
+                 <tr>
+                     <td style="width:10%;">
+                         <h2 style="padding-left:10px;"> Service Copy </h2>
+                     </td>
+                     <td style="width:30%;border:none;" >
+                         <table class="rpt-table" style="border:none;">
+                             <tr >
+                                 <td colspan="4" class="text-center">
+                                     <h4 style="margin:5px;"> Confirmation </h4>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td >
+                                     <div class="rpt-td-padding"><span class="rpt-text-small"> Reception </span></div>
+                                 </td>
+                                 <td>
+                                     <div class="rpt-td-padding"> <span class="rpt-text-small"> Diagnosis </span></div>
+                                 </td>
+                                 <td >
+                                     <div class="rpt-td-padding"> <span class="rpt-text-small"> Repair </span></div>
+                                 </td>
+                                 <td>
+                                     <div class="rpt-td-padding text-center"> <span class="rpt-text-small"> Final Inspection </span></div>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td colspan="4">
+                                     <br />
+                                     <br />
+                                     <br />
+                                 </td>
+                             </tr>
+                         </table>
+                     </td>
+                     <td style="width:50%;">
+                         <div style="padding:20px;">
+                             <p>
+                                 I also Agree to the TERMS AND CONDITIONS written in the Repair Order CUSTOMERS COPY
+                             </p>
+                             
+                             <div style="width:95%; margin-left:10px;margin-right:10px; margin-top:30px; border-top:1px solid black;"> </div>
+                             <div class="text-center">
+                                <p> CUSTOMERS SIGNATURE OVER PRINTER NAME</p>
+                             </div>
+                         </div>
+                     </td>
+                 </tr>
+             </table>
+        </td>
+    </tr>
+</table>

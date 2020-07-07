@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/06/2020 17:26:28
+-- Date Created: 07/06/2020 19:35:52
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -2122,7 +2122,7 @@ CREATE TABLE [dbo].[Vehicles] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [VehicleModelId] int  NOT NULL,
     [YearModel] nvarchar(4)  NOT NULL,
-    [PlateNo] nvarchar(10)  NOT NULL,
+    [PlateNo] nvarchar(20)  NOT NULL,
     [Conduction] nvarchar(10)  NULL,
     [EngineNo] nvarchar(50)  NULL,
     [ChassisNo] nvarchar(50)  NULL,

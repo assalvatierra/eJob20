@@ -1969,7 +1969,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="VehicleModelId" Type="int" Nullable="false" />
     <Property Name="YearModel" Type="nvarchar" Nullable="false" MaxLength="4" />
-    <Property Name="PlateNo" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="PlateNo" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Conduction" Type="nvarchar" Nullable="true" MaxLength="10" />
     <Property Name="EngineNo" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="ChassisNo" Type="nvarchar" Nullable="true" MaxLength="50" />
@@ -7252,7 +7252,7 @@
           <NavigationProperty Name="JobVehicles" Relationship="JobDB.VehicleJobVehicle" FromRole="Vehicle" ToRole="JobVehicle" />
           <Property Name="VehicleModelId" Type="Int32" Nullable="false" />
           <Property Name="YearModel" Type="String" Nullable="false" MaxLength="4" />
-          <Property Name="PlateNo" Type="String" Nullable="false" MaxLength="10" />
+          <Property Name="PlateNo" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="Conduction" Type="String" Nullable="true" MaxLength="10" />
           <Property Name="EngineNo" Type="String" Nullable="true" MaxLength="50" />
           <Property Name="ChassisNo" Type="String" Nullable="true" MaxLength="50" />

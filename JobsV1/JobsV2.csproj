@@ -590,6 +590,7 @@
     <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\RateGroupsController.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
+    <Compile Include="Controllers\RptGmsAutoController.cs" />
     <Compile Include="Controllers\SalesActivitiesController.cs" />
     <Compile Include="Controllers\SalesLeadsController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
@@ -2686,6 +2687,8 @@
     <Content Include="Views\Services\Details.cshtml" />
     <Content Include="Views\Services\Edit.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
+    <Content Include="Views\RptGmsAuto\RepairOrder.cshtml" />
+    <Content Include="Views\RptGmsAuto\PageNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

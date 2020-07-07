@@ -28,8 +28,8 @@
     <meta name="twitter:description" content="@ViewBag.Description" />
     <meta name="twitter:title" content="@ViewBag.Title" />
     <script type="text/javascript" src="~/Scripts/Modal.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+    @*<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">*@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css/DateRangePicker")
@@ -40,9 +40,9 @@
 
 <body onresize="toggleScreen()" onload="toggleScreen()">
     <!-- Facebook sdk -->
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="YCuHQl4n"></script>
-
+    @*<div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="YCuHQl4n"></script>
+    *@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -105,8 +105,8 @@
     @Scripts.Render("~/bundles/DateRangePicker")
     @RenderSection("scripts", required: false)
 
-    <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-    <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
+    @*<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
+    <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>*@
 
 </body>
 </html>
