@@ -360,5 +360,48 @@ order by x.jobid
 
         }
 
+        //GET : the lastest date of the job based on the date today
+        public DateTime GetMinMaxJobDate(int mainId, string getType)
+        {
+            //update jobdate
+            var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
+
+            DateTime minDate = main.JobDate;
+            DateTime maxDate = main.JobDate;
+
+            //loop though all jobservices in the jobmain
+            //to get the latest date
+            foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
+            {
+
+                var svcDtStart = (DateTime)svc.DtStart;
+                var svcDtEnd = (DateTime)svc.DtEnd;
+                //get min date
+
+                // minDate >= (DateTime)svc.DtStart;
+                if (DateTime.Compare(minDate, svcDtStart.Date) >= 0)
+                {
+                    minDate = svcDtStart; //if minDate > Dtstart
+                }
+
+                //get max date
+                if (DateTime.Compare(maxDate, svcDtEnd.Date) <= 0)
+                {
+                    maxDate = svcDtEnd;
+                }
+            }
+
+            //return main.JobDate;
+            if (getType.ToLower() == "min")
+                return minDate;
+            else if (getType.ToLower() == "max")
+                return maxDate;
+            else
+                return minDate;
+
+        }
+
+
+
     }
 }

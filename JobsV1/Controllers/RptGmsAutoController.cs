@@ -10,6 +10,7 @@ namespace JobsV1.Controllers
     public class RptGmsAutoController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private JobOrderClass jobOrderClass = new JobOrderClass();
 
         // GET: RptGmsAuto
         public ActionResult Index()
@@ -50,8 +51,39 @@ namespace JobsV1.Controllers
             ViewBag.JobVehicle = jobVehicle;
             ViewBag.VehicleServiceHistory = vehicleServiceHistory;
             ViewBag.JobServices = jobServices;
+            ViewBag.StartJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
+            ViewBag.EndJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
+
 
             return View(jobmain);
         }
+
+
+        [HttpGet]
+        public string GetVehicleOilRemarks(int id)
+        {
+            try
+            {
+                var vehicle = db.JobVehicles.Where(j => j.JobMainId == id).FirstOrDefault();
+
+                if (vehicle != null)
+                {
+                    var vehicleModel = vehicle.Vehicle.VehicleModel;
+                    string MotorOil = " Motor Oil: " + (vehicleModel.MotorOil.ToString() ?? "N/A");
+                    string GearOil = ", Gear Oil: " + (vehicleModel.GearOil.ToString() ?? "N/A");
+                    string TransmissionOil = ", Transmission Oil: " + (vehicleModel.TransmissionOil.ToString() ?? "N/A");
+                    string OilString = MotorOil + GearOil + TransmissionOil;
+
+                    return OilString;
+                }
+
+                return "Oil : No Assigned Vehicle";
+            }
+            catch
+            {
+                return "Oil : No Oil Values Added ";
+            }
+        }
+
     }
 }

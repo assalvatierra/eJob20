@@ -7,6 +7,18 @@
 }
 
 <style>
+
+    .table tr td {
+        border: 1px solid black;
+    }
+
+    .rpt-document-title {
+        border-top: none !important;
+        border-bottom: 1px solid black !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+
     .rpt-box{
         border: 2px solid black;
         display:flex;
@@ -15,10 +27,10 @@
         margin:0px 20px;
     }
 
-    .rpt-jobid{
-        font-size:20px;
-        font-weight:700;
-        margin:0px auto;
+    .rpt-jobid {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0px auto;
     }
 
     .rpt-jobdate {
@@ -114,60 +126,48 @@
     }
 </style>
 
-<table class="table" style="min-width:650px;border:none;">
+<table class="table" style="min-width:550px;border:none;">
     <tr style="border:none;">
-        <td width="30%">
-            <h1>
+        <td width="50%" style="border:none;">
+            <h1 style="margin: 0px 10px;">
                 GMS AutoCare
             </h1>
-            <p> <span> INQUIRY THRU: </span>
-            
-                @Model.JobThru.Desc
-            
-            </p>
-        </td>
-        <td style="padding:20px 10px;width:40%;">
-            <div id="jobId" class="rpt-box">
-                <span class="rpt-jobid"> JOB NO : @Model.Id.ToString("D4") </span>
+            <div class="rpt-no-line-space">
+                <p> <span class="rpt-jobid"> JOB NO : @Model.Id.ToString("D4") </span></p>
+                <p class="rpt-text-small">
+                    <span> INQUIRY THRU: </span>
+                    @Model.JobThru.Desc
+                </p>
             </div>
-            <br />
-
-            @*<div id="jobId" class="rpt-box">
-                <span class="rpt-jobdate">
-                    Delivery Date & Time
-                    <br />
-                    July 7, 2020
-                </span>
-            </div>*@
-
         </td>
-        <td style="padding:20px 10px;width:30%;">
-            <p class="rpt-bordered text-center"> Mechanic </p>
-            <p class="rpt-no-line-space"><b> GMS AutoCare  </b></p>
-            <p class="rpt-no-line-space"> Address </p>
-            <p class="rpt-no-line-space"> Telephone </p>
-            <p class="rpt-no-line-space"> VAT Reg / TIN </p>
-            <p class="rpt-no-line-space"> Business Style </p>
+        <td style="padding:20px 10px;width:10%;border:none;">
+        </td>
+        <td style="padding:20px 10px;width:40%;border:none;">
+            <p class="rpt-no-line-space"><b> GMS AutoCare  </b> ( @Model.Branch.Name ) </p>
+            <p class="rpt-no-line-space rpt-text-small"> Address </p>
+            <p class="rpt-no-line-space rpt-text-small"> Telephone </p>
+            <p class="rpt-no-line-space rpt-text-small"> VAT Reg / TIN </p>
+            <p class="rpt-no-line-space rpt-text-small"> Business Style </p>
         </td>
     </tr>
     <tr>
-        <td colspan="3" style="border-top:none;" >
-            <h2 class="text-center"> Repair Order </h2>
+        <td colspan="3" class="rpt-document-title">
+            <h2 class="text-center" style="margin:0px;"> Repair Order </h2>
         </td>
     </tr>
     <tr>
-
         <!-- Customer Details  -->
         <td colspan="3" style="padding:0px;">
             <table class="rpt-table">
                 <tr>
                     <td width="120px">
+                        <p class="rpt-no-line-space"> <b> Job Details </b> </p>
                     </td>
                     <td>
-                        <p class="rpt-no-line-space"> Business type </p>
+                        <p class="rpt-no-line-space"> <b> Customer Details </b> </p>
                     </td>
                     <td>
-                        <p class="rpt-no-line-space"> Service Repair Order </p>
+                        <p class="rpt-no-line-space"> <b> Vehicle Details </b> </p>
 
                     </td>
                 </tr>
@@ -186,44 +186,41 @@
                             <p>  @Model.JobDate.ToShortTimeString() </p>
                         </div>
 
+                        <div class="rpt-bordered-bot">
+                            <p class="text-muted"> Job Status </p>
+                            <p>  @Model.JobStatus.Status </p>
+                        </div>
+
+
                         <div class="rpt-bordered-none" style="margin-bottom:5px;">
-                            <div style="padding-left:10px;">
-                                <p class="text-muted" style="margin-left:-5px;"> Payment Method </p>
-                                <div class="checkbox rpt-no-line-space" style="margin-top:0px;">
-                                    <label><input type="checkbox" value=""><span style="margin-top:5px;">Cash</span></label>
-                                </div>
-                                <div class="checkbox rpt-no-line-space">
-                                    <label><input type="checkbox" value="">Credit Card</label>
-                                </div>
-                                <div class="checkbox rpt-no-line-space">
-                                    <label><input type="checkbox" value="">Cheque</label>
-                                </div>
+                            <div>
+                                <p class="text-muted" style="margin-left:5px;"> Payment Status </p>
+                                <p> @Model.JobMainPaymentStatus.FirstOrDefault().JobPaymentStatu.Status </p>
                             </div>
                         </div>
 
                     </td>
                     <td>
                         <div class="rpt-bordered-bot">
-                            <p class="text-muted"> Customer Name / Company / Address </p>
+                            <p class="text-muted"> Customer Name </p>
                             <span class="rpt-text-normal-bold" style="margin-left:10px;"> @Model.Customer.Name </span>
-                            <p class="rpt-text-normal"> @ViewBag.Company </p>
-                            <p class="rpt-text-normal" style="margin-bottom:5px;"> @ViewBag.CompanyAddress </p>
+
                         </div>
 
                         <div class="rpt-bordered-bot">
                             <p class="text-muted"> Email Address: </p>
-                            <p> @Model.CustContactEmail </p>
+                            <p> @Model.CustContactEmail &nbsp; </p>
                         </div>
 
                         <div class="rpt-bordered-bot">
-                            <p class="text-muted"> Tel No: </p>
-                            <p> @Model.Customer.Contact1 </p>
+                            <p class="text-muted"> Tel No / Phone : </p>
+                            <p> @Model.CustContactNumber  &nbsp;  </p>
                         </div>
 
-                        <div class="rpt-bordered-none" style="margin-bottom:23px;">
-                            <p class="text-muted"> Phone No: </p>
-                            <p> @Model.CustContactNumber </p>
-
+                        <div class="rpt-bordered-none" style="margin-bottom:0px;">
+                            <p class="text-muted"> Company: </p>
+                            <p class="rpt-text-normal"> @ViewBag.Company </p>
+                            <p class="rpt-text-normal" style="margin-bottom:5px;"> @ViewBag.CompanyAddress </p>
                         </div>
                     </td>
 
@@ -233,8 +230,18 @@
                             <tr>
                                 <td colspan="2" style="border:none;">
                                     <div class="rpt-bordered-bot">
-                                        <p class="text-muted">Year/Make/Model: </p>
-                                        <p style="font-size:14px;"> @JobVehicle.Vehicle.YearModel @JobVehicle.Vehicle.VehicleModel.VehicleBrand.Brand @JobVehicle.Vehicle.VehicleModel.Make @JobVehicle.Vehicle.VehicleModel.Variant </p>
+                                        <p class="text-muted">Make / Model / Year: </p>
+                                        <p style="font-size:14px;">
+                                            @if (JobVehicle.VehicleId != 0)
+                                            {
+                                            <span> @JobVehicle.Vehicle.VehicleModel.VehicleBrand.Brand @JobVehicle.Vehicle.VehicleModel.Make @JobVehicle.Vehicle.VehicleModel.Variant  @JobVehicle.Vehicle.YearModel @JobVehicle.Vehicle.VehicleModel.VehicleTransmission.Type </span>
+                                            }
+                                            else
+                                            {
+                                                <br />
+                                            }
+
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -243,7 +250,16 @@
                                 <td colspan="2" style="border:none;">
                                     <div class="rpt-bordered-bot">
                                         <p class="text-muted">Chassis NO/Serial No: </p>
-                                        <p> @JobVehicle.Vehicle.ChassisNo &nbsp;</p>
+                                        <p>
+                                            @if (JobVehicle.VehicleId != 0)
+                                            {
+                                                <span>@JobVehicle.Vehicle.ChassisNo &nbsp;</span>
+                                            }
+                                            else
+                                            {
+                                                <br />
+                                            }
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -252,14 +268,32 @@
                                 <td style="border:none;border-right:1px solid black;">
                                     <div class="rpt-bordered-bot">
                                         <p class="text-muted"> Color : </p>
-                                        <p> @JobVehicle.Vehicle.Color </p>
+                                        <p>
+                                            @if (JobVehicle.VehicleId != 0)
+                                            {
+                                                <span> @JobVehicle.Vehicle.Color</span>
+                                            }
+                                            else
+                                            {
+                                                <br />
+                                            }
+                                        </p>
                                     </div>
                                 </td>
 
                                 <td style="border:none;">
                                     <div class="rpt-bordered-bot">
                                         <p class="text-muted"> Plate No : </p>
-                                        <p> @JobVehicle.Vehicle.PlateNo </p>
+                                        <p>
+                                            @if (JobVehicle.VehicleId != 0)
+                                            {
+                                                <span>  @JobVehicle.Vehicle.PlateNo</span>
+                                            }
+                                            else
+                                            {
+                                                <br />
+                                            }
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -268,14 +302,28 @@
                                 <td style="border:none;border-right:1px solid black;">
                                     <div class="rpt-bordered-bot">
                                         <p class="text-muted"> Kilometers KM : </p>
-                                        <p> @JobVehicle.Mileage </p>
+                                        <p>
+                                            @if (JobVehicle != null)
+                                            {
+                                                <span> @JobVehicle.Mileage </span>
+                                            }
+                                        </p>
                                     </div>
                                 </td>
 
                                 <td style="border:none;">
                                     <div class="rpt-bordered-bot">
                                         <p class="text-muted"> Conduction : </p>
-                                        <p> @JobVehicle.Vehicle.Conduction &nbsp;</p>
+                                        <p>
+                                            @if (JobVehicle.VehicleId != 0)
+                                            {
+                                                <span>  @JobVehicle.Vehicle.Conduction &nbsp;</span>
+                                            }
+                                            else
+                                            {
+                                                <br />
+                                            }
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -284,14 +332,32 @@
                                 <td style="border:none;border-right:1px solid black;">
                                     <div class="rpt-bordered-none">
                                         <p class="text-muted"> Engine No : </p>
-                                        <p> @JobVehicle.Vehicle.EngineNo  &nbsp;</p>
+                                        <p>
+                                            @if (JobVehicle.VehicleId != 0)
+                                            {
+                                                <span> @JobVehicle.Vehicle.EngineNo  &nbsp;</span>
+                                            }
+                                            else
+                                            {
+                                                <br />
+                                            }
+                                        </p>
                                     </div>
                                 </td>
 
                                 <td style="border:none;">
                                     <div class="rpt-bordered-none">
-                                        <p class="text-muted"> Delivery Date : </p>
-                                        <p> @Model.JobDate </p>
+                                        <p class="text-muted"> Remarks : </p>
+                                        <p>
+                                            @if (JobVehicle.VehicleId != 0)
+                                            {
+                                                <span> @JobVehicle.Vehicle.Remarks &nbsp;</span>
+                                            }
+                                            else
+                                            {
+                                                <br />
+                                            }
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -301,20 +367,20 @@
             </table>
         </td>
     </tr>
-    <tr>
-        <td colspan="3" style="background-color:black;color:white;padding:2px;">
-            <p class="rpt-no-line-space rpt-text-small"> PRODUCT DETAILS </p>
+    <tr style="padding-left:1px;">
+        <td colspan="3" style="background-color:black;color:white;padding:2px;border:1px solid black;">
+            <p class="rpt-no-line-space rpt-text-small"> <b> PRODUCT DETAILS </b> </p>
         </td>
     </tr>
 
     <tr>
         <!-- Service History -->
-        <td colspan="3" style="padding:0px;">
+        <td colspan="3" style="padding:0px;border:1px solid black;">
             <table class="rpt-table">
                 <tr>
                     <td colspan="4" style="padding-top:5px;border:none">
                         <div>
-                            <p> SERVICE HISTORY </p>
+                            <p> <b> SERVICE HISTORY  </b> </p>
                         </div>
                     </td>
                 </tr>
@@ -334,11 +400,6 @@
                             <p class="text-muted"> MILEAGE  </p>
                         </div>
                     </td>
-                    <td style="padding-top:5px;border:none">
-                        <div>
-                            <p class="text-muted"> SERVICE ADIVISOR  </p>
-                        </div>
-                    </td>
                 </tr>
                 <!-- Services History items-->
                 @foreach (var history in VehicleHistory)
@@ -352,34 +413,33 @@
 
                         <td style="padding-top:5px;border:none">
                             <div>
-                                <p> #######  </p>
+                                <p> @history.JobMainId.ToString("D4")  </p>
                             </div>
                         </td>
 
                         <td style="padding-top:5px;border:none">
                             <div>
-                                <p> ###### KM  </p>
-                            </div>
-                        </td>
-
-                        <td style="padding-top:5px;border:none">
-                            <div>
-                                <p>   </p>
+                                <p> @history.Mileage.ToString("#,###") KM  </p>
                             </div>
                         </td>
                     </tr>
                 }
 
-                @if(VehicleHistory.Count() == 0)
+                @if (VehicleHistory.Count() == 0)
                 {
                     <tr>
-                        <td class="rpt-td-border-none" colspan="4">
+                        <td class="rpt-td-border-none" colspan="3">
                             <div class="text-center" style="margin:10px auto;">
-                            <p> NO PREVIOUS RECORDS </p>
+                                <p> NO PREVIOUS RECORDS </p>
                             </div>
                         </td>
                     </tr>
                 }
+                <tr>
+                    <td style="border:none;" colspan="3">
+                        <br />
+                    </td>
+                </tr>
             </table>
         </td>
     </tr>
@@ -391,13 +451,13 @@
                 <tr>
                     <td>
                         <div style="margin-bottom:20px;">
-                            <p> CUSTOMER REQUEST </p>
+                            <p> <b> CUSTOMER REQUEST </b> </p>
                             <br />
                         </div>
                     </td>
                     <td>
                         <div style="margin-bottom:20px;">
-                            <p> SERVICE ADVISOR INSTRUCTIONS </p>
+                            <p> <b> SERVICE ADVISOR INSTRUCTIONS </b> </p>
 
                         </div>
                     </td>
@@ -410,7 +470,7 @@
     <tr>
         <td colspan="3" style="padding:0px;">
             <table class="rpt-table">
-                <tr>
+                <tr class="rpt-text-small">
                     <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> <span style="padding-left:10px;"> START DATE - END DATE</span> </td>
                     <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> SERVICE TYPE  </td>
                     <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> PARTICULARS  </td>
@@ -435,6 +495,17 @@
                         <td>
                             <span> @services.Particulars </span>
                             <br /><span> Remarks : @services.Remarks </span>
+
+                            @if (services.Service.Name.Contains("Change Oil"))
+                            {
+                                <br />
+                                <span>
+                                    [
+                                    @{Html.RenderAction("GetVehicleOilRemarks", new { id = services.JobMainId });}
+                                    ]
+                                </span>
+                            }
+
                         </td>
                         <td>
                             @foreach (var item in services.JobServiceItems)
@@ -452,15 +523,24 @@
                 {
                     <tr class="rpt-tr-border-none rpt-text-small">
                         <td colspan="5">
-                           <span style="margin:0px auto;"> No Service Found </span>
+                            <div class="text-center" style="margin:15px 0px;">
+                                <span style="margin:0px auto;"> NO SERVICES FOUND </span>
+                            </div>
                         </td>
-                        
+
                     </tr>
                 }
 
+                <tr class="rpt-tr-border-none">
+                    <td colspan="5">
+                        <div style="margin:1px 0px;">
+                            &nbsp;
+                        </div>
+                    </td>
+                </tr>
 
                 <!-- Total Amount -->
-                <tr class="rpt-tr-border-none">
+                <tr class="rpt-tr-border-none" >
                     <td colspan="3">
                     </td>
                     <td>
@@ -481,6 +561,45 @@
             </table>
         </td>
     </tr>
+
+    <tr>
+        <td colspan="3" style="padding:0px;">
+            <table class="rpt-table">
+                <tr>
+                    <td>
+                        <div style="height:50px;">
+                            <p> <b> SERVICE START </b> </p>
+                            <p>
+                                @ViewBag.StartJobDate
+                                <br />
+                            </p>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div style="height:50px;">
+                            <p> <b> SERVICE END </b> </p>
+                            <p>
+                                @ViewBag.EndJobDate
+                                <br />
+                            </p>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div style="height:50px;">
+                            <p> <b>  JOB CONTROLLER SIGNATURE & NAME </b> </p>
+                            <p>
+                                <br />
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!--
     <tr>
         <td colspan="3" style="padding:0px;">
              <table class="rpt-table">
@@ -523,7 +642,7 @@
                              <p>
                                  I also Agree to the TERMS AND CONDITIONS written in the Repair Order CUSTOMERS COPY
                              </p>
-                             
+
                              <div style="width:95%; margin-left:10px;margin-right:10px; margin-top:30px; border-top:1px solid black;"> </div>
                              <div class="text-center">
                                 <p> CUSTOMERS SIGNATURE OVER PRINTER NAME</p>
@@ -534,4 +653,5 @@
              </table>
         </td>
     </tr>
+    -->
 </table>
