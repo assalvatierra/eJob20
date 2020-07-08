@@ -1515,7 +1515,7 @@ order by x.jobid
             js.SupplierAmt = 0;
 
             var siteConfig = SITECONFIG;
-            if (siteConfig == "AutoCare")
+            if (siteConfig == "No Vehicle Assigned")
             {
                 //if service is change oil, add oils to remarks
                 js.Remarks = "";

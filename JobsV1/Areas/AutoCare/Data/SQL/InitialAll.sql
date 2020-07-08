@@ -75,7 +75,9 @@ insert into SrvActionCodes([CatCode],[SortNo]) values
 -- ----------------------------------------------
 insert into InvItemCats([Name],[Remarks],[ImgPath],[SysCode])
 Values
-('Pipe','Pipes','~/Images/CarRental/Repair101.png','PIPE'),
+('Bay','Bay','~/Images/CarRental/Repair101.png','BAY'),
+('Mechanic','Mechanic','~/Images/CarRental/Repair101.png','MECHANIC'),
+('Service Advisor','Service Advisor','~/Images/CarRental/Repair101.png','SERVICEADVISOR'),
 ('Others','Other Types','~/Images/CarRental/Repair101.png','OTHER');
 
 

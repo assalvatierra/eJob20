@@ -1,0 +1,121 @@
+﻿
+/*
+    GMS Auto Care Report Styles
+*/
+
+.table tr td {
+    border: 1px solid black;
+}
+
+.rpt-document-title {
+    border-top: none !important;
+    border-bottom: 1px solid black !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.rpt-box {
+    border: 2px solid black;
+    display: flex;
+    align-content: flex-start;
+    padding: 10px;
+    margin: 0px 20px;
+}
+
+.rpt-jobid {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0px auto;
+}
+
+.rpt-jobdate {
+    font-size: 10px;
+    font-weight: 700;
+    margin: 0px auto;
+}
+
+.rpt-td-border-none {
+    border: none !important;
+}
+
+.rpt-tr-border-none td {
+    border: none !important;
+}
+
+.rpt-table {
+    border: 1px solid black;
+    width: 100%;
+}
+
+    .rpt-table tr td {
+        border: 1px solid black;
+    }
+
+        .rpt-table tr td div p {
+            font-size: 10px;
+            font-weight: 500;
+            margin-bottom: 0px;
+        }
+
+        .rpt-table tr td div {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .rpt-table tr td div {
+            display: flex;
+            flex-direction: column;
+        }
+
+.rpt-text-small {
+    font-size: 10px;
+    font-weight: 500;
+    margin-bottom: 0px;
+}
+
+.rpt-text-normal {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.rpt-text-normal-bold {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.rpt-bordered {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+.rpt-bordered-bot {
+    border-bottom: 1px solid black;
+    padding: 2px;
+}
+
+.rpt-bordered-none {
+    border: none;
+    padding: 2px;
+    height: 100%;
+    flex: 1;
+}
+
+.rpt-bordered tr td {
+    border: 1px solid black;
+}
+
+.rpt-no-line-space {
+    margin-bottom: 0px;
+}
+
+    .rpt-no-line-space p {
+        margin-bottom: 0px;
+    }
+
+.rpt-row td {
+    padding: 0px;
+}
+
+.rpt-td-padding {
+    padding: 5px;
+}

@@ -1,12 +1,12 @@
 ﻿@model JobsV1.Models.JobMain
 @{
-    ViewBag.Title = "Repair Order";
+    ViewBag.Title = "Service Billing";
     var JobVehicle = ViewBag.JobVehicle as JobsV1.Models.JobVehicle;
     var VehicleHistory = ViewBag.VehicleServiceHistory as IEnumerable<JobsV1.Models.JobVehicle>;
     var jobServices = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
 }
 
-<link href="~/Content/GMSReport.css" rel="stylesheet"/>
+<link href="~/Content/GMSReport.css" rel="stylesheet" />
 <div style="padding-right:20px;">
     <table class="table" style="min-width:550px;border:none;">
         <tr style="border:none;">
@@ -16,10 +16,7 @@
                 </h1>
                 <div class="rpt-no-line-space">
                     <p> <span class="rpt-jobid"> JOB NO : @Model.Id.ToString("D4") </span></p>
-                    <p class="rpt-text-small">
-                        <span> INQUIRY THRU: </span>
-                        @Model.JobThru.Desc
-                    </p>
+
                 </div>
             </td>
             <td style="padding:5px 10px;width:10%;border:none;">
@@ -34,7 +31,7 @@
         </tr>
         <tr>
             <td colspan="3" class="rpt-document-title">
-                <h2 class="text-center" style="margin:0px;"> Repair Order </h2>
+                <h2 class="text-center" style="margin:0px;"> Service Billing </h2>
             </td>
         </tr>
         <tr>
@@ -120,7 +117,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <br />
+                                                   <span class="rpt-text-small"> No Vehicle Assigned </span> <br />
                                                 }
 
                                             </p>
@@ -249,70 +246,42 @@
                 </table>
             </td>
         </tr>
-        <tr style="padding-left:1px;">
-            <td colspan="3" style="background-color:black;color:white;padding:2px;border:1px solid black;">
-                <p class="rpt-no-line-space rpt-text-small"> <b> PRODUCT DETAILS </b> </p>
-            </td>
-        </tr>
-
         <tr>
-            <!-- Service History -->
+            <!-- Services Done -->
             <td colspan="3" style="padding:0px;border:1px solid black;">
                 <table class="rpt-table">
                     <tr>
                         <td colspan="4" style="padding-top:5px;border:none">
                             <div>
-                                <p> <b> SERVICE HISTORY  </b> </p>
+                                <p> <b> SERVICES DONE  </b> </p>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td style="padding-top:5px;border:none">
-                            <div>
-                                <p class="text-muted"> DATE  </p>
-                            </div>
-                        </td>
-                        <td style="padding-top:5px;border:none">
-                            <div>
-                                <p class="text-muted">JOBORDER NO  </p>
-                            </div>
-                        </td>
-                        <td style="padding-top:5px;border:none">
-                            <div>
-                                <p class="text-muted"> MILEAGE  </p>
-                            </div>
+                            <div> <p class="text-muted">SERVICE TYPE - PARTICULARS</p> </div>
                         </td>
                     </tr>
                     <!-- Services History items-->
-                    @foreach (var history in VehicleHistory)
+                    @foreach (var services in jobServices)
                     {
                         <tr>
                             <td style="padding-top:5px;border:none">
                                 <div>
-                                    <p> @history.JobMain.JobDate  </p>
+                                    <p> @services.Service.Name - @services.Particulars  </p>
+                                    <p style="padding-left:10px;"> @services.Remarks  </p>
                                 </div>
                             </td>
 
-                            <td style="padding-top:5px;border:none">
-                                <div>
-                                    <p> @history.JobMainId.ToString("D4")  </p>
-                                </div>
-                            </td>
-
-                            <td style="padding-top:5px;border:none">
-                                <div>
-                                    <p> @history.Mileage.ToString("#,###") KM  </p>
-                                </div>
-                            </td>
                         </tr>
                     }
 
                     @if (VehicleHistory.Count() == 0)
                     {
                         <tr>
-                            <td class="rpt-td-border-none" colspan="3">
+                            <td class="rpt-td-border-none">
                                 <div class="text-center" style="margin:10px auto;">
-                                    <p> NO PREVIOUS RECORDS </p>
+                                    <p> NO SERVICE RECORDS </p>
                                 </div>
                             </td>
                         </tr>
@@ -326,34 +295,12 @@
             </td>
         </tr>
 
-        <!-- Job Remakrs -->
-        <tr>
-            <td colspan="3" style="padding:0px;">
-                <table class="rpt-table">
-                    <tr>
-                        <td>
-                            <div style="margin-bottom:20px;">
-                                <p> <b> CUSTOMER REQUEST </b> </p>
-                                <br />
-                            </div>
-                        </td>
-                        <td>
-                            <div style="margin-bottom:20px;">
-                                <p> <b> SERVICE ADVISOR INSTRUCTIONS </b> </p>
-
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
         <!-- Job Service Items -->
         <tr>
             <td colspan="3" style="padding:0px;">
                 <table class="rpt-table">
                     <tr class="rpt-text-small">
-                        <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> <span style="padding-left:10px;"> START DATE - END DATE</span> </td>
+                        <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> <span style="padding-left:10px;"> SERVICE DATE</span> </td>
                         <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> SERVICE TYPE  </td>
                         <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> PARTICULARS  </td>
                         <td class="rpt-td-border-none text-muted" style="border-right:1px solid black;"> ASSIGNED BAY  </td>
@@ -368,13 +315,13 @@
                         TotalAmount += services.ActualAmt != null ? (decimal)services.ActualAmt : 0;
 
                         <tr class="rpt-tr-border-none rpt-text-small">
-                            <td span style="padding-left:10px;margin-right:5px;" valign="top">
+                            <td span style="padding-left:10px;"  valign="top">
                                 <span> @DateTime.Parse(services.DtStart.ToString()).ToString("MM/dd/yyyy") -  @DateTime.Parse(services.DtEnd.ToString()).ToString("MM/dd/yyyy") </span>
                             </td>
-                            <td valign="top" style="margin-right:5px;">
+                            <td valign="top">
                                 <span> @services.Service.Name </span>
                             </td>
-                            <td valign="top" style="margin-right:5px;">
+                            <td valign="top">
                                 <span> @services.Particulars </span>
                                 @if (!services.Remarks.IsEmpty())
                                 {
@@ -392,7 +339,7 @@
                                 }
 
                             </td>
-                            <td valign="top" style="margin-right:5px;">
+                            <td valign="top">
                                 @foreach (var item in services.JobServiceItems)
                                 {
                                     if (@item.InvItem.InvItemCategories.FirstOrDefault() != null)
@@ -402,7 +349,7 @@
                                     <span> @item.InvItem.Description </span><br />
                                 }
                             </td>
-                            <td valign="top" style="margin-right:5px;">
+                            <td valign="top">
                                 <span> @(((Decimal)services.ActualAmt).ToString("#,##0.00")) </span>
                             </td>
                         </tr>
@@ -436,14 +383,17 @@
                             <b>TOTAL AMOUNT</b>
                         </td>
                         <td>
-                            <b>@TotalAmount.ToString("#,##0.00")</b>
+                            <b>@TotalAmount.ToString("#,##0.00")  &nbsp; </b>
                         </td>
                     </tr>
 
-                    <!-- Total Amount -->
                     <tr class="rpt-tr-border-none">
-                        <td colspan="4">
-                            <br />
+                        <td colspan="5">
+                            <div class="rpt-bordered" style="margin:10px;width:450px;padding:10px;">
+                                <p> Note: </p>
+                                <p> - 3-month or 90 days guarantee period for worksmanship and replacement of spare parts.  </p>
+                                <p> - 1 year or 20K km warranty for Customer Paid Service Parts. </p>
+                            </div>
                         </td>
                     </tr>
 
@@ -451,105 +401,83 @@
             </td>
         </tr>
 
+        @*<tr>
+                <td colspan="3" style="padding:0px;">
+                    <table class="rpt-table">
+                        <tr>
+                            <td>
+                                <div style="height:50px;">
+                                    <p> <b> SERVICE START </b> </p>
+                                    <p>
+                                        @ViewBag.StartJobDate
+                                        <br />
+                                    </p>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="height:50px;">
+                                    <p> <b> SERVICE END </b> </p>
+                                    <p>
+                                        @ViewBag.EndJobDate
+                                        <br />
+                                    </p>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="height:50px;">
+                                    <p> <b>  JOB CONTROLLER SIGNATURE & NAME </b> </p>
+                                    <p>
+                                        <br />
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>*@
+       
         <tr>
             <td colspan="3" style="padding:0px;">
                 <table class="rpt-table">
                     <tr>
-
-                        <td style="width:100px;">
-                            <div style="height:50px;margin:10px 15px;">
-                                <h4 class="text-center">  SERVICE COPY  </h4>
+                        <td style="width:20%;">
+                            <div style="padding:20px;">
+                                <h3> Customers Copy </h3>
                             </div>
                         </td>
-
-
-                        <td>
-                            <div style="height:50px;">
-                                <p> <b> SERVICE START </b> </p>
+                        <td style="width:80%;">
+                            <div style="padding:20px;">
                                 <p>
-                                    @ViewBag.StartJobDate
-                                    <br />
-                                </p>
-                            </div>
-                        </td>
+                                    I hereby authorize and agree to pay for the above repair work done on my vehicle, including parts and materials
+                                    necessary to perform.
 
-                        <td>
-                            <div style="height:50px;">
-                                <p> <b> SERVICE END </b> </p>
+                                </p><p> &nbsp; </p>
                                 <p>
-                                    @ViewBag.EndJobDate
-                                    <br />
+                                    RECEIVED THE ABOVE ARTICLES / VEHICLES IN GOOD ORDER AND CONDITION AND THAT THE REPAIRS HAVE BEEN MADE TO MY ENTIRE
+                                    SATISFACTION.
                                 </p>
-                            </div>
-                        </td>
+                                <div style="display:flex;justify-content:space-around;flex-flow:row;align-items:flex-start">
+                                    <div style="display:flex;">
+                                        <div style="width:110%; margin-left:0px; margin-top:60px; border-top:1px solid black;"> </div>
+                                        <div class="text-center">
+                                            <p> CUSTOMERS SIGNATURE OVER PRINTED NAME</p>
+                                        </div>
+                                    </div>
 
-                        <td>
-                            <div style="height:50px;">
-                                <p> <b>  JOB CONTROLLER SIGNATURE & NAME </b> </p>
-                                <p>
-                                    <br />
-                                </p>
+                                    <div style="display:flex;">
+                                        <div style="width:110%; margin-left:0px; margin-top:60px; border-top:1px solid black;"> </div>
+                                        <div class="text-center">
+                                            <p> RELEASED BY / DATE / TIME</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
-
-        <!--
-        <tr>
-            <td colspan="3" style="padding:0px;">
-                 <table class="rpt-table">
-                     <tr>
-                         <td style="width:10%;">
-                             <h2 style="padding-left:10px;"> Service Copy </h2>
-                         </td>
-                         <td style="width:30%;border:none;" >
-                             <table class="rpt-table" style="border:none;">
-                                 <tr >
-                                     <td colspan="4" class="text-center">
-                                         <h4 style="margin:5px;"> Confirmation </h4>
-                                     </td>
-                                 </tr>
-                                 <tr>
-                                     <td >
-                                         <div class="rpt-td-padding"><span class="rpt-text-small"> Reception </span></div>
-                                     </td>
-                                     <td>
-                                         <div class="rpt-td-padding"> <span class="rpt-text-small"> Diagnosis </span></div>
-                                     </td>
-                                     <td >
-                                         <div class="rpt-td-padding"> <span class="rpt-text-small"> Repair </span></div>
-                                     </td>
-                                     <td>
-                                         <div class="rpt-td-padding text-center"> <span class="rpt-text-small"> Final Inspection </span></div>
-                                     </td>
-                                 </tr>
-                                 <tr>
-                                     <td colspan="4">
-                                         <br />
-                                         <br />
-                                         <br />
-                                     </td>
-                                 </tr>
-                             </table>
-                         </td>
-                         <td style="width:50%;">
-                             <div style="padding:20px;">
-                                 <p>
-                                     I also Agree to the TERMS AND CONDITIONS written in the Repair Order CUSTOMERS COPY
-                                 </p>
-
-                                 <div style="width:95%; margin-left:10px;margin-right:10px; margin-top:30px; border-top:1px solid black;"> </div>
-                                 <div class="text-center">
-                                    <p> CUSTOMERS SIGNATURE OVER PRINTER NAME</p>
-                                 </div>
-                             </div>
-                         </td>
-                     </tr>
-                 </table>
-            </td>
-        </tr>
-        -->
     </table>
 </div>

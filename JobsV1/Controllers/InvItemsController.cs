@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private DateClass dt = new DateClass();
+
+        private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
         // GET: InvItems
         public ActionResult Index()
@@ -53,6 +56,8 @@ namespace JobsV1.Controllers
             
             //include latest odo, coopMembers list
             ViewBag.SupplierList = suppliers;
+
+            ViewBag.SiteConfig = SITECONFIG;
 
             //inventory items
             var itemList = db.InvItems.Include(s => s.SupplierInvItems)
@@ -114,7 +119,10 @@ namespace JobsV1.Controllers
                 db.InvItems.Add(invItem);
                 db.SaveChanges();
 
-                addDefaultCategory(invItem.Id);
+                if (SITECONFIG == "RealWheels")
+                {
+                    addDefaultCategory(invItem.Id);
+                }
 
                 return RedirectToAction("Index");
             }
@@ -124,15 +132,21 @@ namespace JobsV1.Controllers
 
         public void addDefaultCategory(int id)
         {
-            db.InvItemCategories.Add(
-               new InvItemCategory
-               {
-                   InvItemCatId = 1,
-                   InvItemId = id
-               }
-           );
+            try
+            {
+                db.InvItemCategories.Add(
+                     new InvItemCategory
+                     {
+                         InvItemCatId = 1,
+                         InvItemId = id
+                     }
+                );
 
-            db.SaveChanges();
+                db.SaveChanges();
+            }
+            catch
+            { }
+           
         }
 
         // GET: InvItems/Edit/5

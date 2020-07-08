@@ -59,6 +59,40 @@ namespace JobsV1.Controllers
         }
 
 
+        // Service Billing
+        // id : jobMainId
+        public ActionResult ServiceBilling(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("PageNotFound");
+
+            var jobmain = db.JobMains.Find(id);
+            if (jobmain == null)
+                return RedirectToAction("PageNotFound");
+
+            var jobVehicle = db.JobVehicles.Where(j => j.JobMainId == id).OrderByDescending(j => j.Id).FirstOrDefault();
+            if (jobVehicle == null)
+                jobVehicle = new JobVehicle();
+
+            var vehicleServiceHistory = db.JobVehicles.Where(j => j.VehicleId == jobVehicle.VehicleId && j.JobMainId != id).ToList();
+
+            var jobServices = db.JobServices.Where(j => j.JobMainId == id).OrderBy(j => j.DtStart).ToList();
+
+            var company = jobmain.JobEntMains.Where(s => s.JobMainId == id).FirstOrDefault() ?? null;
+            ViewBag.Company = company != null ? company.CustEntMain.Name : "Personal Account";
+            ViewBag.CompanyAddress = company != null ? company.CustEntMain.Address : "-";
+            ViewBag.JobVehicle = jobVehicle;
+            ViewBag.VehicleServiceHistory = vehicleServiceHistory;
+            ViewBag.JobServices = jobServices;
+            ViewBag.StartJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
+            ViewBag.EndJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
+
+
+            return View(jobmain);
+        }
+
+
+
         [HttpGet]
         public string GetVehicleOilRemarks(int id)
         {

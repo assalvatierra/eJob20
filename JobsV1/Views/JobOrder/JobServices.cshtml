@@ -87,12 +87,9 @@
 
                 <text>
                     |<a data-toggle="modal" data-target="#AddVehicleModal"> Vehicle </a>
-                    | @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null) 
-                    | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
-                    | <a id="aContractorLink" data-toggle="modal" data-target="#aContractorLink">PO</a>
-                    @*| @Html.ActionLink("Voucher", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 2 }, null)*@
+                    | @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
                     | @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, null)
-                    @*  | @Html.ActionLink("Cash Expenses", "JobExpenses", "CashExpenses", new { id = ViewBag.JobOrder.Id }, null)*@
+                    | @Html.ActionLink("Servince Billing", "ServiceBilling", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, null)
                 </text>
             }
             else
@@ -104,27 +101,31 @@
                     | @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 1 }, null)
                     @*  | @Html.ActionLink("Cash Expenses", "JobExpenses", "CashExpenses", new { id = ViewBag.JobOrder.Id }, null)*@
                 </text>
-            }
 
 
 
+                if (ViewBag.JobStatus == "INQUIRY")
+                {
+                    <text>
+                        | <a onclick="ajaxSendQuotation(@ViewBag.JobOrder.Id)"> Send Quotation </a>
+                    </text>
+                }
 
+                if (ViewBag.JobStatus == "RESERVATION")
+                {
+                    <text>
+                        | <a onclick="ajaxSendReservation(@ViewBag.JobOrder.Id)"> Send Reservation </a>
+                    </text>
+                }
 
-            @if (ViewBag.JobStatus == "INQUIRY")
-            {
                 <text>
-                    | <a onclick="ajaxSendQuotation(@ViewBag.JobOrder.Id)"> Send Quotation </a>
+                    | <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(ViewBag.JobOrder.Id))"> Send Invoice </a>
                 </text>
+
             }
 
-            @if (ViewBag.JobStatus == "RESERVATION")
-            {
-                <text>
-                    | <a onclick="ajaxSendReservation(@ViewBag.JobOrder.Id)"> Send Reservation </a>
-                </text>
-            }
 
-            | <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(ViewBag.JobOrder.Id))"> Send Invoice </a>
+
 
             @*| @Html.ActionLink("Send Quotation", "SendEmailQuotation", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)*@
         </p>

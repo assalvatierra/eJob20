@@ -1257,6 +1257,7 @@
     <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\GMSReport.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\ModalUser.css" />
     <Content Include="Content\Erp.css" />
@@ -2689,6 +2690,7 @@
     <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\RptGmsAuto\RepairOrder.cshtml" />
     <Content Include="Views\RptGmsAuto\PageNotFound.cshtml" />
+    <Content Include="Views\RptGmsAuto\ServiceBilling.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
