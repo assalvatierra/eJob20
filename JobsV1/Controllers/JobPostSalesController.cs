@@ -21,13 +21,24 @@ namespace JobsV1.Controllers
         {
             DateTime today = dateClass.GetCurrentDate().Date;
 
+            List<JobServices> validPostSales = new List<JobServices>();
+
             //get job services after the supplier interval
-            var jobserviceList = db.JobServices.Where(j => today >= (DateTime)DbFunctions.AddDays(DbFunctions.TruncateTime(j.DtStart), j.SupplierItem.Interval));
+            var jobserviceList = db.JobServices.Where(j => j.JobMain.JobStatusId == 4).Where(j => j.DtStart > DbFunctions.AddDays(j.DtStart, -200) ).ToList();
 
-            //get jobservices with jobstatus of DONE (4)
-            jobserviceList = jobserviceList.Where(j => j.JobMain.JobStatusId == 4);
+            foreach (var svc in jobserviceList)
+            {
+                if (svc.SupplierItem.Interval != null)
+                {
+                    var startDate = ((DateTime)svc.DtStart).Date;
+                    if (today >= startDate.AddDays((double)svc.SupplierItem.Interval))
+                    {
+                        validPostSales.Add(svc);
+                    }
+                }
+            }
 
-            return View(jobserviceList.ToList());
+            return View(validPostSales);
         }
 
         // GET: JobPostSales/Details/5

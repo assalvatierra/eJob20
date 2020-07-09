@@ -70,16 +70,35 @@
 
                 <tr>
                     <td>
-                        @jobvehicle.Vehicle.PlateNo
+                        @if (jobvehicle.Vehicle != null)
+                        {
+                            @jobvehicle.Vehicle.PlateNo
+                        }
+                        else
+                        {
+                            <p class="text-muted"> No Vehicle Assigned </p>
+                        }
                     </td>
                     <td>
-                        @jobvehicle.Vehicle.YearModel
+                        @if (jobvehicle.Vehicle != null)
+                        {
+                            @jobvehicle.Vehicle.YearModel
+                        }
+
                     </td>
                     <td>
-                        @jobvehicle.Vehicle.VehicleModel.Make
+                        @if (jobvehicle.Vehicle != null)
+                        {
+                            @jobvehicle.Vehicle.VehicleModel.Make
+                        }
+
                     </td>
                     <td>
-                        @jobvehicle.Vehicle.VehicleModel.Variant
+                        @if (jobvehicle.Vehicle != null)
+                        {
+                            @jobvehicle.Vehicle.VehicleModel.Variant
+                        }
+
                     </td>
                     <td>
                         @jobvehicle.Mileage
@@ -88,7 +107,8 @@
                         @item.JobMain.Id
                     </td>
                     <td>
-                        @item.Service.Name
+                        @Html.ActionLink(item.Service.Name, "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null)
+                       
                     </td>
                     <td>
                         @DateTime.Parse(item.DtStart.ToString()).ToString("MMM dd, yyyy")

@@ -4,8 +4,8 @@
     { ViewBag.CanonicalURL = "https://realwheelsdavao.com/"; }
 
     // http-->https & www-->non-www
-    string sCan = (string)ViewBag.canonicalURL;
-    ViewBag.CanonicalURL = sCan.Replace("http://", "https://").Replace("//www.","//");
+    //string sCan = (string)ViewBag.canonicalURL;
+    //ViewBag.CanonicalURL = sCan.Replace("http://", "https://").Replace("//www.","//");
 }
 
 <!DOCTYPE html>
@@ -16,14 +16,14 @@
     <title>@ViewBag.Title</title>
 
     <meta name="description" content="@ViewBag.Description" />
-    <link rel="canonical" href="@ViewBag.CanonicalURL" />
-    <link rel="next" href="https://realwheelsdavao.com/page/2/" />
+    @*<link rel="canonical" href="@ViewBag.CanonicalURL" />
+    <link rel="next" href="https://realwheelsdavao.com/page/2/" />*@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="@ViewBag.Title" />
     <meta property="og:description" content="@ViewBag.Description" />
-    <meta property="og:url" content="https://realwheelsdavao.com/" />
-    <meta property="og:site_name" content="Real Wheels Car Rental Davao" />
+    @*<meta property="og:url" content="https://realwheelsdavao.com/" />
+    <meta property="og:site_name" content="Real Wheels Car Rental Davao" />*@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:description" content="@ViewBag.Description" />
     <meta name="twitter:title" content="@ViewBag.Title" />
