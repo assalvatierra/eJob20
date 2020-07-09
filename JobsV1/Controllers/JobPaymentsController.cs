@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace JobsV1.Controllers
     public class JobPaymentsController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
         // GET: JobPayments
         public ActionResult Index()
@@ -33,10 +35,22 @@ namespace JobsV1.Controllers
         {
             ViewBag.JobMainId = id;
 
+
+            if (db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == id.ToString()).FirstOrDefault() != null)
+            {
+                ViewBag.JobEncoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == id.ToString()).FirstOrDefault();
+            }
+            else
+            {
+                ViewBag.JobEncoder = new JobTrail { Id = 0, Action = "Create", user = "none", dtTrail = DateTime.Now, RefId = "0", RefTable = "none" };
+            }
+
             var Job = db.JobMains.Where(d => d.Id == id).FirstOrDefault();
             ViewBag.JobOrder = Job;
+            ViewBag.SiteConfig = SITECONFIG;
+            ViewBag.JobStatus = Job.JobStatus.Status;
 
-            var jobPayments = db.JobPayments.Include(j => j.JobMain).Include(j => j.Bank).Where(d=>d.JobMainId==id);
+           var jobPayments = db.JobPayments.Include(j => j.JobMain).Include(j => j.Bank).Where(d=>d.JobMainId==id);
             return View("index",jobPayments.ToList());
         }
         // GET: JobPayments/Details/5

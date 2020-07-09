@@ -10,9 +10,9 @@
 <div style="padding-right:20px;">
     <table class="table" style="min-width:550px;border:none;">
         <tr style="border:none;">
-            <td width="50%" style="border:none;">
+            <td width="60%" style="border:none;" colspan="2">
                 <h1 style="margin: 0px 10px;">
-                    GMS AutoCare
+                    GMS AutoCare Center
                 </h1>
                 <div class="rpt-no-line-space">
                     <p> <span class="rpt-jobid"> JOB NO : @Model.Id.ToString("D4") </span></p>
@@ -22,10 +22,8 @@
                     </p>
                 </div>
             </td>
-            <td style="padding:5px 10px;width:10%;border:none;">
-            </td>
-            <td style="padding:5px 10px;width:40%;border:none;">
-                <p class="rpt-no-line-space"><b> GMS AutoCare  </b> ( @Model.Branch.Name ) </p>
+            <td style="padding:10px 10px;width:40%;border:none;">
+                <p class="rpt-no-line-space"><b> GMS AutoCare Center </b> ( @Model.Branch.Name ) </p>
                 <p class="rpt-no-line-space rpt-text-small"> Address </p>
                 <p class="rpt-no-line-space rpt-text-small"> Telephone </p>
                 <p class="rpt-no-line-space rpt-text-small"> VAT Reg / TIN </p>
@@ -61,7 +59,7 @@
                             </div>
                             <div class="rpt-bordered-bot">
                                 <p class="text-muted"> Date Received </p>
-                                <p> @Model.JobDate.ToShortDateString() </p>
+                                <p> @Model.JobDate.ToString("MMM dd yyyy") </p>
                             </div>
                             <div class="rpt-bordered-bot">
                                 <p class="text-muted"> Time Recieved </p>
@@ -77,7 +75,10 @@
                             <div class="rpt-bordered-none" style="margin-bottom:5px;">
                                 <div>
                                     <p class="text-muted" style="margin-left:5px;"> Payment Status </p>
-                                    <p> @Model.JobMainPaymentStatus.FirstOrDefault().JobPaymentStatu.Status </p>
+                                    @if (@Model.JobMainPaymentStatus.FirstOrDefault() != null)
+                                    {
+                                        <p> @Model.JobMainPaymentStatus.FirstOrDefault().JobPaymentStatu.Status </p>
+                                    }
                                 </div>
                             </div>
 
@@ -95,7 +96,7 @@
                             </div>
 
                             <div class="rpt-bordered-bot">
-                                <p class="text-muted"> Tel No / Phone : </p>
+                                <p class="text-muted"> Tel / Mobile No : </p>
                                 <p> @Model.CustContactNumber  &nbsp;  </p>
                             </div>
 
@@ -289,7 +290,7 @@
                         <tr>
                             <td style="padding-top:5px;border:none">
                                 <div>
-                                    <p> @history.JobMain.JobDate  </p>
+                                    <p> @history.JobMain.JobDate.ToString("MMM dd yyyy")  </p>
                                 </div>
                             </td>
 
@@ -369,7 +370,7 @@
 
                         <tr class="rpt-tr-border-none rpt-text-small">
                             <td span style="padding-left:10px;margin-right:5px;" valign="top">
-                                <span> @DateTime.Parse(services.DtStart.ToString()).ToString("MM/dd/yyyy") -  @DateTime.Parse(services.DtEnd.ToString()).ToString("MM/dd/yyyy") </span>
+                                <span> @DateTime.Parse(services.DtStart.ToString()).ToString("MMM dd yyyy") -  @DateTime.Parse(services.DtEnd.ToString()).ToString("MMM dd yyyy") </span>
                             </td>
                             <td valign="top" style="margin-right:5px;">
                                 <span> @services.Service.Name </span>

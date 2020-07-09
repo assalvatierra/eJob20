@@ -31,7 +31,7 @@
                 @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control hidden", @id = "CompanyId" })
                 @Html.ValidationMessageFor(model => model.JobThruId, "", new { @class = "text-danger" })
             </div>
-            <span style="float:left">
+            <span style="float:left" class="search-customer-button">
                 <button class="btn btn-default" data-toggle="modal" data-target="#CompanySearchModal" style="margin-top:0px;float:left;" type="button">Search Company</button>
             </span>
         </div>
@@ -43,7 +43,7 @@
                 @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control hidden", @id = "customerList" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
             </div>
-            <span style="float:left">
+            <span style="float:left" class="search-customer-button">
                 <button class="btn btn-default" data-toggle="modal" data-target="#CustomersModal" style="margin-top:0px;float:left;" type="button">Search Customer</button>
             </span>
         </div>

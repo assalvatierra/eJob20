@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<JobsV1.Models.JobServices>
 
 @{
-    ViewBag.Title = "Services";
+    ViewBag.Title = "Job Services";
     System.Collections.ArrayList providers = ViewBag.Providers;
     var iti = ViewBag.Itineraries;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
@@ -290,9 +290,12 @@
         @Html.ActionLink("Create New", "JobServiceAdd", new { JobMainId = ViewBag.JobMainId })
         <br />@Html.ActionLink("Add Template", "BrowseTemplate", new { JobMainId = ViewBag.JobMainId })
         <br />    @Html.ActionLink("Go to JobOrder", "Index", "JobOrder", new { mainid = ViewBag.JobMainId, sortid = ViewBag.sortid }, null)
-        <br />@Html.ActionLink("Go to Sales Lead", "Index", "SalesLeads", null, null)
-    </p>
+        @if (siteconfig == "AutoCare")
+        {
+             <br />@Html.ActionLink("Go to Sales Lead", "Index", "SalesLeads", null, null)
+        }
 
+    </p>
 
 </div>
 
@@ -304,128 +307,5 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/Job/JobVehicle.js"></script>
-    <script>
-
-            $(document).ready(function () {
-                //LoadOverlay();
-                //jobActionDisplay('@ViewBag.jobAction');
-            });
-
-
-            function jobActionDisplay(action){
-                alert(action);
-            }
-
-            //SEND Quotation to client in email
-            function ajaxSendQuotation(jobId) {
-                var data = {
-                    jobId: jobId,
-                    docType: "QUOTATION"
-                }
-
-                console.log(jobId);
-                var serviceURL = '/JobOrder/SendEmailBooking';
-                console.log("sending email");
-
-                //loading screen
-                LoadOverlay();
-
-                //send email using ajax
-                $.ajax({
-                    type: "POST",
-                    url: serviceURL,
-                    data: JSON.stringify(data),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function () {
-                        console.log('success');
-                        disableLoadOverlay();
-                        console.log("email sent");
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert(jqXHR.responseText);
-                        $("#overlay2-text").text(jqXHR.responseText);
-                        disableLoadOverlay();
-                        console.log("Email Sent");
-                    }
-                });
-            }
-
-            //SEND RESERVATION DETAILS IN EMAIL TO CLIENT
-            function ajaxSendReservation(jobId) {
-                var data = {
-                    jobId: jobId,
-                    docType: "RESERVATION"
-                }
-
-                console.log(jobId);
-                var serviceURL = '/JobOrder/SendEmailBooking';
-                console.log("sending email");
-
-                //loading screen
-                LoadOverlay();
-
-                //send email using ajax
-                $.ajax({
-                    type: "POST",
-                    url: serviceURL,
-                    data: JSON.stringify(data),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function () {
-                        console.log('success');
-                        disableLoadOverlay();
-                        console.log("email sent");
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert(jqXHR.responseText);
-                        $("#overlay2-text").text(jqXHR.responseText);
-                        disableLoadOverlay();
-                        console.log("Email Sent");
-                    }
-                });
-            }
-
-            function LoadOverlay() {
-                console.log("load overlay");
-                $("#overlay2").css("display", "flex");
-            }
-
-            function disableLoadOverlay() {
-                console.log("disable overlay");
-                $("#overlay2").css("display", "none");
-        }
-
-
-        function ajaxSendMail(jobid) {
-            var data = {
-                jobId: jobid,
-                mailType: "CLIENT-INVOICE-SEND"
-            }
-
-            var serviceURL = '/JobOrder/SendEmail';
-
-            //loading screen
-            LoadOverlay()
-
-            //send email using ajax
-            $.ajax({
-                type: "POST",
-                url: serviceURL,
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(){
-                    console.log('success');
-                    disableLoadOverlay();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-
-                    alert(jqXHR.responseText);
-                    disableLoadOverlay();
-                }
-            });
-        }
-
-    </script>
+    <script src="~/Scripts/Job/JobServices.js"></script>
 }

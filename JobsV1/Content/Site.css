@@ -642,6 +642,11 @@ rental-type-wdriver {
         color:dodgerblue;
     }
 
+
+.search-customer-button {
+    margin-left: 0px;
+}
+
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {
 
@@ -654,6 +659,11 @@ rental-type-wdriver {
     .nav-submenu-home {
         margin-right: 20px;
     }
+
+    .search-customer-button {
+        margin-left: 15px;
+        margin-top: 10px;
+    }
 }
 
 /* Medium Screens */
@@ -663,12 +673,16 @@ rental-type-wdriver {
         float: left;
         color: royalblue;
     }
-}
+
 
 /* Small Screens */
-@media only screen and (max-width: 360px){
+@media only screen and (max-width: 420px){
     #loginForm {
         width: 300px;
+    }
+
+    .container{
+        padding:0px;
     }
 }
 

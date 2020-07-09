@@ -1250,6 +1250,11 @@ order by x.jobid
             job.NoOfPax = 1;
             job.AgreedAmt = 0;
 
+            if(SITECONFIG == "AutoCare")
+            {
+                job.JobRemarks = " ";
+            }
+
             if (id == null)
             {
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT" ), "Id", "Name", NewCustSysId);
@@ -1848,7 +1853,8 @@ order by x.jobid
 
             var Job = db.JobMains.Where(d => d.Id == JobMainId).FirstOrDefault();
 
-            var jobServices = db.JobServices.Include(j => j.JobMain).Include(j => j.Supplier).Include(j => j.Service).Include(j => j.SupplierItem).Include(j => j.JobServicePickups).Where(d => d.JobMainId == JobMainId);
+            var jobServices = db.JobServices.Include(j => j.JobMain).Include(j => j.Supplier).Include(j => j.Service)
+                .Include(j => j.SupplierItem).Include(j => j.JobServicePickups).Where(d => d.JobMainId == JobMainId);
 
             System.Collections.ArrayList providers = new System.Collections.ArrayList();
             foreach (var item in jobServices)
@@ -1872,9 +1878,11 @@ order by x.jobid
                 }
             }
 
-            if (db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == JobMainId.ToString()).FirstOrDefault() != null)
+            var jobTrailsEncoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == JobMainId.ToString());
+
+            if (jobTrailsEncoder.FirstOrDefault() != null)
             {
-                ViewBag.JobEncoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == JobMainId.ToString()).FirstOrDefault();
+                ViewBag.JobEncoder = jobTrailsEncoder.FirstOrDefault();
             }
             else {
                 ViewBag.JobEncoder = new JobTrail { Id = 0, Action = "Create", user = "none", dtTrail = DateTime.Now, RefId = "0", RefTable = "none" };
@@ -1884,7 +1892,7 @@ order by x.jobid
             ViewBag.JobOrder = Job;
             ViewBag.JobItems = jobServices;
             ViewBag.Providers = providers;
-            ViewBag.JobStatus = db.JobMains.Where(j => j.Id == JobMainId).FirstOrDefault()  != null ? db.JobMains.Where(j=>j.Id == JobMainId).FirstOrDefault().JobStatus.Status.ToString(): "NA";
+            ViewBag.JobStatus = Job.JobStatus.Status;
             ViewBag.Itineraries = db.JobItineraries.Where(d => d.JobMainId == JobMainId).ToList();
             ViewBag.sortid = sortid;
             ViewBag.jobAction = action;
@@ -2893,7 +2901,7 @@ order by x.jobid
             {
                 db.JobPayments.Add(jobPayment);
                 db.SaveChanges();
-                return RedirectToAction("Payments", new { id = jobPayment.JobMainId });
+                return RedirectToAction("Payments", "JobPayments", new { id = jobPayment.JobMainId });
             }
 
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobPayment.JobMainId);

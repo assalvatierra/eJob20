@@ -7,6 +7,11 @@
     border: 1px solid black;
 }
 
+.table tr td p {
+    margin-left: 5px;
+    padding-left: 5px;
+}
+
 .rpt-document-title {
     border-top: none !important;
     border-bottom: 1px solid black !important;

@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Job Service - Payments";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var siteconfig = ViewBag.SiteConfig;
 }
 
 
@@ -15,16 +16,69 @@
         <br />Description: @ViewBag.JobOrder.Description
         <br />@Html.ActionLink("Edit", "Edit", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
         | @Html.ActionLink("Details", "Details", "JobMains", new { id = ViewBag.JobOrder.Id }, null)
+        <br />Encoder: @ViewBag.JobEncoder.user - @ViewBag.JobEncoder.dtTrail
+        <br />Status:
+
+        @if (ViewBag.JobStatus == "RESERVATION")
+        {
+            <text>
+                RESERVED
+            </text>
+        }
+        else
+        {
+            @ViewBag.JobStatus
+        }
 
 
     </p>
-    <p>
-        @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) |
-        @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
-        @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
-        Payments |
-        @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)
-    </p>
+
+
+    @if (siteconfig == "AutoCare")
+    {
+
+        <text>
+            @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) 
+            | Payments
+            | @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, null)
+            | @Html.ActionLink("Servince Billing", "ServiceBilling", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, null)
+        </text>
+    }
+    else
+    {
+
+        <p>
+            @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) |
+            @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
+            @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
+            Payments |
+            @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)
+            | <a id="aContractorLink" data-toggle="modal" data-target="#aContractorLink">Contractors</a>
+            | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+            | @Html.ActionLink("Voucher", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 2 }, null)
+            | @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 1 }, null)
+        </p>
+
+        if (ViewBag.JobStatus == "INQUIRY")
+        {
+            <text>
+                | <a onclick="ajaxSendQuotation(@ViewBag.JobOrder.Id)"> Send Quotation </a>
+            </text>
+        }
+
+        if (ViewBag.JobStatus == "RESERVATION")
+        {
+            <text>
+                | <a onclick="ajaxSendReservation(@ViewBag.JobOrder.Id)"> Send Reservation </a>
+            </text>
+        }
+
+        <text>
+            | <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(ViewBag.JobOrder.Id))"> Send Invoice </a>
+        </text>
+
+    }
+
 
 </div>
 

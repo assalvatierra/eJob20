@@ -4,6 +4,8 @@
     ViewBag.Title = "Resources";
     Session["ROOTMENUID"] = 6;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    var siteConfig = ViewBag.SiteConfig;
 }
 
 <h2>Item List</h2>
@@ -78,7 +80,11 @@
                     @Html.ActionLink(" [ x ]", "removeSupplier", "InvItems", new { id = supplier.Id }, null)
                     <br />
                 }
-                <a id="catbtn" data-toggle="modal" data-target="@("#sup"+@item.Id)" style="margin-bottom:10px;cursor:pointer">Add Supplier</a>
+
+                @if (siteConfig != "AutoCare")
+                {
+                    <a id="catbtn" data-toggle="modal" data-target="@("#sup"+@item.Id)" style="margin-bottom:10px;cursor:pointer">Add Supplier</a>
+                }
             </td>
 
             @*<td>
