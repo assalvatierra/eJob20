@@ -26,6 +26,9 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
+        public string JobSvcDates { get; set; }
+        public string SvcType { get; set; }
+        public string SvcParticulars { get; set; }
         public string Customer { get; set; }
         public Decimal Amount { get; set; }
         public string Status { get; set; }
@@ -227,6 +230,7 @@ namespace JobsV1.Models
                         jobRecord = jobRecord.OrderBy(j => j.JobDate).ToList();
                     }
                 }
+
                 //handle empty status
                 if (status == null || status == "" || status == "ALL")
                 {
@@ -254,7 +258,7 @@ namespace JobsV1.Models
                 jobList.Add(new CustomerJobDetails
                 {
                     Id = 0,
-                    JobDate = "7/24/2018",
+                    JobDate = "NA",
                     Description = "none",
                     AgreedAmt = "0",
                     NoOfDays = "0",
@@ -273,20 +277,23 @@ namespace JobsV1.Models
                     foreach (var services in svcs)
                     {
                         totalAmount += services.ActualAmt != null ? (decimal)services.ActualAmt : 0;
+                  
+                        jobList.Add(new CustomerJobDetails
+                        {
+                            Id = record.Id,
+                            JobDate = record.JobDate.ToShortDateString(),
+                            Description = record.Description,
+                            JobSvcDates = ((DateTime)services.DtStart).ToShortDateString() + " - " + ((DateTime)services.DtEnd).ToShortDateString(),
+                            SvcParticulars = services.Particulars,
+                            SvcType = services.Service.Name,
+                            AgreedAmt = record.AgreedAmt.ToString(),
+                            NoOfDays = record.NoOfDays.ToString(),
+                            NoOfPax = record.NoOfPax.ToString(),
+                            StatusRemarks = record.JobStatus.Status,
+                            Amount = totalAmount,
+                            PaymentStatus = GetLastJobPaymentStatus(record.Id)
+                        });
                     }
-
-                    jobList.Add(new CustomerJobDetails
-                    {
-                        Id = record.Id,
-                        JobDate = record.JobDate.ToString(),
-                        Description = record.Description,
-                        AgreedAmt = record.AgreedAmt.ToString(),
-                        NoOfDays = record.NoOfDays.ToString(),
-                        NoOfPax = record.NoOfPax.ToString(),
-                        StatusRemarks = record.JobStatus.Status,
-                        Amount = totalAmount,
-                        PaymentStatus = GetLastJobPaymentStatus(record.Id)
-                    }); 
                 }
             }
             return jobList;

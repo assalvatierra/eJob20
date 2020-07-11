@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/06/2020 19:35:52
+-- Date Created: 07/11/2020 14:42:18
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -410,6 +410,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_JobPaymentStatusJobMainPaymentStatus]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[JobMainPaymentStatus] DROP CONSTRAINT [FK_JobPaymentStatusJobMainPaymentStatus];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemCommiInvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemCommis] DROP CONSTRAINT [FK_InvItemCommiInvItem];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -813,6 +816,9 @@ IF OBJECT_ID(N'[dbo].[JobPaymentStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[JobMainPaymentStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[JobMainPaymentStatus];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemCommis]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemCommis];
 GO
 
 -- --------------------------------------------------
@@ -2218,6 +2224,16 @@ CREATE TABLE [dbo].[JobMainPaymentStatus] (
 );
 GO
 
+-- Creating table 'InvItemCommis'
+CREATE TABLE [dbo].[InvItemCommis] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Amount] decimal(18,0)  NOT NULL,
+    [Unit] nvarchar(30)  NOT NULL,
+    [Source] nvarchar(20)  NOT NULL,
+    [InvItemId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3017,6 +3033,12 @@ GO
 -- Creating primary key on [Id] in table 'JobMainPaymentStatus'
 ALTER TABLE [dbo].[JobMainPaymentStatus]
 ADD CONSTRAINT [PK_JobMainPaymentStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvItemCommis'
+ALTER TABLE [dbo].[InvItemCommis]
+ADD CONSTRAINT [PK_InvItemCommis]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -4987,6 +5009,21 @@ GO
 CREATE INDEX [IX_FK_JobPaymentStatusJobMainPaymentStatus]
 ON [dbo].[JobMainPaymentStatus]
     ([JobPaymentStatusId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvItemCommis'
+ALTER TABLE [dbo].[InvItemCommis]
+ADD CONSTRAINT [FK_InvItemCommiInvItem]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemCommiInvItem'
+CREATE INDEX [IX_FK_InvItemCommiInvItem]
+ON [dbo].[InvItemCommis]
+    ([InvItemId]);
 GO
 
 -- --------------------------------------------------

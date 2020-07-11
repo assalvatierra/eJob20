@@ -22,6 +22,20 @@
                 </div>
             </td>
             <td style="padding:10px 10px;width:40%;border:none;">
+                <div class="rpt-bordered" style="margin:5px 10px;">
+                    <h3 class="text-center" style="margin:5px 0px;">
+
+                        @if (JobVehicle.VehicleId != 0)
+                        {
+                            <span> @JobVehicle.Vehicle.PlateNo</span>
+                        }
+                        else
+                        {
+                            <span> No Vehicle Assigned </span>
+                        }
+
+                    </h3>
+                </div>
                 <p class="rpt-no-line-space"><b> GMS AutoCare Center </b> ( @Model.Branch.Name ) </p>
                 <p class="rpt-no-line-space rpt-text-small"> Address </p>
                 <p class="rpt-no-line-space rpt-text-small"> Telephone </p>

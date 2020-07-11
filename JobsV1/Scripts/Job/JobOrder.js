@@ -115,9 +115,9 @@ function getPaymentData(jobId) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            console.log('success');
-            console.log(data);
             jobPayments(data, jobId)
+            //console.log('success');
+            //console.log(data);
             //disableLoadOverlay();
         },
         error: function (jqXHR) {
@@ -141,13 +141,12 @@ function jobPayments(data, jobId) {
         //clear table contents except header
         $("#paymentList").find("tr:gt(0)").remove();
 
-        //remove all link from div actions
-        $("#paymentActions").empty();
+
 
         //populate table content
         for (var x = 0; x < temp.length; x++) {
             var content = "<tr>";
-            content += "<td>" + temp[x]["DtPayment"] + "</td>";
+            content += "<td>" + moment(temp[x]["DtPayment"]).format("MMM DD YYYY h:m A") + "</td>";
             content += "<td>" + temp[x]["Type"] + "</td>";
             content += "<td>" + temp[x]["Amount"] + "</td>";
 
@@ -158,10 +157,14 @@ function jobPayments(data, jobId) {
         }
     }
 
-    var contentAction = "<a href='/JobOrder/Payments/" + jobId + "' class='list-group-item'>  Payment Transaction</a>";
-    contentAction += "<a href='/JobOrder/PaymentCreate?JobMainId=" + jobId + "&remarks=Partial Payment' class='list-group-item'> Partial Payment </a>";
-    contentAction += "<a href='/JobOrder/PaymentCreate?JobMainId=" + jobId + "&remarks=Full Payment' class='list-group-item'> Full Payment </a>";
-    contentAction += "<a href='/JobOrder/PaymentCreatePG?JobMainId=" + jobId + "&remarks=Personal Guarentee' class='list-group-item'> Personal Guarantee </a>";
+
+    //remove all link from div actions
+    $("#paymentActions").empty();
+
+    var contentAction = "<a href='/JobPayments/Payments/" + jobId + "' class='list-group-item'>  Payment Transaction</a>";
+    contentAction += "<a href='/JobPayments/Create?JobMainId=" + jobId + "&remarks=Partial Payment' class='list-group-item'> Partial Payment </a>";
+    contentAction += "<a href='/JobPayments/Create?JobMainId=" + jobId + "&remarks=Full Payment' class='list-group-item'> Full Payment </a>";
+    contentAction += "<a href='/JobPayments/CreatePG?JobMainId=" + jobId + "&remarks=Personal Guarentee' class='list-group-item'> Personal Guarantee </a>";
 
     //<a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Partial Payment" }, null)" class="list-group-item"> Partial Payment</a>
     //<a href="Url.Action("PaymentCreate", "JobOrder", new { JobMainId = item.Main.Id, remarks = "Full Payment" }, null)" class="list-group-item"> Full Payment</a>

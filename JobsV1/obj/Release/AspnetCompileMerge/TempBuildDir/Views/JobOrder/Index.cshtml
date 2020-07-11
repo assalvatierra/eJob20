@@ -7,6 +7,7 @@
     var jobVehicle = ViewBag.JobVehicle as JobsV1.Models.JobVehicle;
     var filterActive = Session["FilterID"] != null ? (int)Session["FilterID"] : 1;
     var siteconfig = ViewBag.SiteConfig;
+    var isAdmin = ViewBag.IsAdmin;
 }
 
 <link href="/Content/TableStyles.css" rel="stylesheet" />
@@ -38,15 +39,18 @@
         </div>
 
         <div class="search-panel">
-
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <input type="text" maxlength="30" class="form-control" style="width:150px;right:20px;" id="src-field" onkeypress="return isNumber(event)" />
+            @using (Html.BeginForm())
+            {
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <input type="text" maxlength="30" class="form-control" style="width:150px;right:20px;" id="src-field" name="search" value="@ViewBag.SrchValue" />
+                    </div>
+                    <div class="input-group-btn">
+                        @*<button class="btn btn-default" onclick="ajaxSearch();">Search by Id</button>*@
+                        <button class="btn btn-default" type="submit"> Search </button>
+                    </div>
                 </div>
-                <div class="input-group-btn">
-                    <button class="btn btn-default" onclick="ajaxSearch();">Search by Id</button>
-                </div>
-            </div>
+            }
 
         </div>
         <p>
@@ -137,7 +141,11 @@
                             @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
                             @Html.ActionLink("[ Repair Order ]", "RepairOrder", "RptGmsAuto", new { id = item.Main.Id }, null)
                             @Html.ActionLink("[ Service Billing ]", "ServiceBilling", "RptGmsAuto", new { id = item.Main.Id }, null)
-                            <a href="#" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))">[ Payment ]</a>
+                            if(isAdmin)
+                            {
+                                <a href="#" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))">[ Payment ]</a>
+                            }
+                            
 
                         }
 
@@ -154,8 +162,8 @@
                         }
 
                         <!--
-                        Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
-                          -->
+    Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
+      -->
                     </p>
                 </td>
             </tr>
@@ -190,6 +198,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <!-- Modal Payment -->
 <div class="modal fade" id="jobPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -258,8 +267,8 @@
 
                 <div class="list-group" id="categorylist2">
                     <a href="@Url.Action("ChangeCompany", "JobOrder", new { id = 1}, null)" id="set1" class="list-group-item"> Partial Payment</a>
-                    <a href="@Url.Action("ChangeCompany", "JobOrder", new { id = 1},null)" class="list-group-item"> Full Payment</a>
-                    <a href="@Url.Action("ChangeCompany", "JobOrder", new { id = 1},null)" class="list-group-item"> Client Assurance</a>
+                    <a href="@Url.Action("ChangeCompany", "JobOrder", new { id = 1}, null)" class="list-group-item"> Full Payment</a>
+                    <a href="@Url.Action("ChangeCompany", "JobOrder", new { id = 1}, null)" class="list-group-item"> Client Assurance</a>
                 </div>
 
             </div>
@@ -285,21 +294,13 @@
                 }, 500);
             }
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const myParam = urlParams.get('search');
-            $("#src-field").val(myParam);
+            //const urlParams = new URLSearchParams(window.location.search);
+            //const myParam = urlParams.get('search');
+            //$("#src-field").val(myParam);
 
             InitialFilter(@filterActive);
         });
 
-        function isNumber(evt) {
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false;
-            }
-            return true;
-        }
     </script>
 
 }

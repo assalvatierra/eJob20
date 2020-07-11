@@ -158,5 +158,6 @@ namespace JobsV1.Models
         public virtual DbSet<CustEntAccountType> CustEntAccountTypes { get; set; }
         public virtual DbSet<JobPaymentStatus> JobPaymentStatus { get; set; }
         public virtual DbSet<JobMainPaymentStatus> JobMainPaymentStatus { get; set; }
+        public virtual DbSet<InvItemCommi> InvItemCommis { get; set; }
     }
 }

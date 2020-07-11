@@ -561,6 +561,7 @@
     <Compile Include="Controllers\InvCarGateControlsController.cs" />
     <Compile Include="Controllers\InvCarRecordsController.cs" />
     <Compile Include="Controllers\InvCarRecordTypesController.cs" />
+    <Compile Include="Controllers\InvItemCommisController.cs" />
     <Compile Include="Controllers\InvItemsController.cs" />
     <Compile Include="Controllers\JobChecklistsController.cs" />
     <Compile Include="Controllers\JobContactsController.cs" />
@@ -811,6 +812,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvItemCategory.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItemCommi.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobAction.cs">
@@ -2692,6 +2696,12 @@
     <Content Include="Views\RptGmsAuto\RepairOrder.cshtml" />
     <Content Include="Views\RptGmsAuto\PageNotFound.cshtml" />
     <Content Include="Views\RptGmsAuto\ServiceBilling.cshtml" />
+    <Content Include="Views\InvItemCommis\Create.cshtml" />
+    <Content Include="Views\InvItemCommis\Delete.cshtml" />
+    <Content Include="Views\InvItemCommis\Details.cshtml" />
+    <Content Include="Views\InvItemCommis\Edit.cshtml" />
+    <Content Include="Views\InvItemCommis\Index.cshtml" />
+    <Content Include="Views\Home\PageNotFoud.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

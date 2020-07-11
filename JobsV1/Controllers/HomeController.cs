@@ -73,6 +73,12 @@ namespace JobsV1.Controllers
             return PartialView("MobileModalView");
         }
 
+        public ActionResult PageNotFoud()
+        {
+            ViewBag.Message = "Page Not Found";
+            return View();
+        }
+
         #region Dynamic SiteMap 
        // [Route("sitemap.xml")]
         public ActionResult SitemapXml()

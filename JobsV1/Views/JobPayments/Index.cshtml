@@ -40,8 +40,8 @@
         <text>
             @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) 
             | Payments
-            | @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, null)
-            | @Html.ActionLink("Servince Billing", "ServiceBilling", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, null)
+            | @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, new { target = "_blank" })
+            | @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, new { target = "_blank" })
         </text>
     }
     else
@@ -125,7 +125,7 @@
 
 </table>
 <p>
-    @Html.ActionLink("New Payment", "Create", new { JobMainId = ViewBag.JobMainId })
-    <br />@Html.ActionLink("Back to Job List", "Index", "JobOrder")
+    @Html.ActionLink("New Payment", "Create", new { JobMainId = ViewBag.JobMainId }) <br />
+    @Html.ActionLink("Back to List", "Index", "JobOrder" ,new { sortid = Session["FilterID"] != null ? (int)Session["FilterID"] : 5, mainid = ViewBag.JobMainId }, null)
 
 </p>

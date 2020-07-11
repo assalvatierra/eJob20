@@ -29,7 +29,10 @@ namespace JobsV1.Models
     {
         public int Id { get; set; }
         public string JobDate { get; set; }
+        public string JobSvcDates { get; set; }
         public string Description { get; set; }
+        public string SvcType { get; set; }
+        public string SvcParticulars { get; set; }
         public string AgreedAmt { get; set; }
         public string NoOfDays { get; set; }
         public string NoOfPax { get; set; }

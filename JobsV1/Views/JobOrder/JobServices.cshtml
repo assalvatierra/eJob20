@@ -7,6 +7,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var jobVehicle = ViewBag.JobVehicle as JobsV1.Models.JobVehicle;
     var siteconfig = ViewBag.SiteConfig;
+    var isAdmin = ViewBag.IsAdmin;
 }
 
 
@@ -86,10 +87,13 @@
             {
 
                 <text>
-                    |<a data-toggle="modal" data-target="#AddVehicleModal"> Vehicle </a>
-                    | @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)
-                    | @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, null)
-                    | @Html.ActionLink("Servince Billing", "ServiceBilling", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, null)
+                    |<a data-toggle="modal" data-target="#AddVehicleModal" class="cursor-hand"> Vehicle </a>
+                    @if (isAdmin)
+                    {
+                        <span>| @Html.ActionLink("Payments", "Payments", "JobPayments", new { id = ViewBag.JobOrder.Id }, null)</span>
+                    }
+                    | @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, new { target = "_blank" })
+                    | @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, new { target = "_blank" })
                 </text>
             }
             else
@@ -198,16 +202,29 @@
                     }
 
                 </td>
-                <td width="175">
+                <td width="190">
                     @foreach (var svc in item.JobServiceItems)
                     {
-                        @Html.DisplayFor(modelItem => svc.InvItem.ItemCode)
-                        <br />
-                        @Html.DisplayFor(modelItem => svc.InvItem.Description)
-                       
-                        @Html.ActionLink(" [x]", "JsRemoveItem", new { ItemId = svc.InvItemId, serviceId = item.Id })
+                        if (siteconfig == "AutoCare")
+                        {
+                            @Html.ActionLink(" [x] ", "JsRemoveItem", new { ItemId = svc.InvItemId, serviceId = item.Id })
+                            @Html.DisplayFor(modelItem => svc.InvItem.Description)
 
-                        <br />
+                            <br />
+                        }
+
+                        if (siteconfig == "Realwheels")
+                        {
+                            @Html.DisplayFor(modelItem => svc.InvItem.ItemCode)
+                            <br />
+                            @Html.DisplayFor(modelItem => svc.InvItem.Description)
+
+                            @Html.ActionLink(" [x]", "JsRemoveItem", new { ItemId = svc.InvItemId, serviceId = item.Id })
+
+                            <br />
+                        }
+
+
                     }
                     @Html.ActionLink("Add Item", "BrowseInvItem_withScheduleJS", new { JobServiceId = item.Id })
                 </td>
@@ -287,12 +304,13 @@
 
     </table>
     <p>
-        @Html.ActionLink("Create New", "JobServiceAdd", new { JobMainId = ViewBag.JobMainId })
+              @Html.ActionLink("Create New", "JobServiceAdd", new { JobMainId = ViewBag.JobMainId })
         <br />@Html.ActionLink("Add Template", "BrowseTemplate", new { JobMainId = ViewBag.JobMainId })
-        <br />    @Html.ActionLink("Go to JobOrder", "Index", "JobOrder", new { mainid = ViewBag.JobMainId, sortid = ViewBag.sortid }, null)
-        @if (siteconfig == "AutoCare")
+        <br />@Html.ActionLink("Go to JobOrder", "Index", "JobOrder", new { mainid = ViewBag.JobMainId, sortid = ViewBag.sortid }, null)
+
+        @if (siteconfig == "Realwheels")
         {
-             <br />@Html.ActionLink("Go to Sales Lead", "Index", "SalesLeads", null, null)
+        <br />@Html.ActionLink("Go to Sales Lead", "Index", "SalesLeads", null, null)
         }
 
     </p>

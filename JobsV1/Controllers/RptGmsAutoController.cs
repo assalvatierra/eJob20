@@ -1,4 +1,5 @@
 ﻿using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,24 +99,55 @@ namespace JobsV1.Controllers
         {
             try
             {
-                var vehicle = db.JobVehicles.Where(j => j.JobMainId == id).FirstOrDefault();
+                var vehicle = db.JobVehicles.Where(j => j.JobMainId == id).OrderByDescending(j => j.Id).FirstOrDefault();
 
                 if (vehicle != null)
                 {
                     var vehicleModel = vehicle.Vehicle.VehicleModel;
-                    string MotorOil = " Motor Oil: " + (vehicleModel.MotorOil.ToString() ?? "N/A");
-                    string GearOil = ", Gear Oil: " + (vehicleModel.GearOil.ToString() ?? "N/A");
-                    string TransmissionOil = ", Transmission Oil: " + (vehicleModel.TransmissionOil.ToString() ?? "N/A");
+                    string MotorOil = "";
+                    string GearOil = "";
+                    string TransmissionOil = "";
+
+                    if (vehicleModel.MotorOil != null)
+                    {
+                        MotorOil = " Motor Oil: " + vehicleModel.MotorOil.ToString() + " L, ";
+                    }
+                    else
+                    {
+                        MotorOil = " Motor Oil: 0 L, ";
+                    }
+
+
+                    if (vehicleModel.GearOil != null)
+                    {
+                        GearOil = " Gear Oil: " + vehicleModel.GearOil.ToString() + " L, ";
+                    }
+                    else
+                    {
+                        GearOil = " Gear Oil: 0 L, ";
+                    }
+
+
+                    if (vehicleModel.TransmissionOil != null)
+                    {
+                        TransmissionOil = " Transmission Oil: " + vehicleModel.TransmissionOil.ToString() + " L ";
+                    }
+                    else
+                    {
+                        TransmissionOil = " Transmission Oil: 0 L ";
+                    }
+
                     string OilString = MotorOil + GearOil + TransmissionOil;
 
                     return OilString;
+
                 }
 
                 return "Oil : No Assigned Vehicle";
             }
             catch
             {
-                return "Oil : No Oil Values Added ";
+                return "Oil : N/A ";
             }
         }
 

@@ -386,7 +386,7 @@ function clickme(event){
 function parseStatus(status) {
     switch (status) {
         case 'PRI':
-            return ' PRIORITY';
+            return 'PRIORITY';
             break;
         case 'ACC':
             return 'ACCREDITED';

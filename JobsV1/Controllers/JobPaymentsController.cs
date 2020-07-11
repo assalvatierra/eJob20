@@ -8,13 +8,16 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
 {
     public class JobPaymentsController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private DateClass dt = new DateClass();
         private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+        
 
         // GET: JobPayments
         public ActionResult Index()
@@ -22,6 +25,8 @@ namespace JobsV1.Controllers
             var jobPayments = db.JobPayments.Include(j => j.JobMain).Include(j => j.Bank);
             return View(jobPayments.ToList());
         }
+
+
 
         public ActionResult AdvanceList()
         {
@@ -42,7 +47,7 @@ namespace JobsV1.Controllers
             }
             else
             {
-                ViewBag.JobEncoder = new JobTrail { Id = 0, Action = "Create", user = "none", dtTrail = DateTime.Now, RefId = "0", RefTable = "none" };
+                ViewBag.JobEncoder = new JobTrail { Id = 0, Action = "Create", user = "none", dtTrail = dt.GetCurrentDateTime(), RefId = "0", RefTable = "none" };
             }
 
             var Job = db.JobMains.Where(d => d.Id == id).FirstOrDefault();
@@ -73,7 +78,7 @@ namespace JobsV1.Controllers
         {
             Models.JobPayment jp = new JobPayment();
             jp.JobMainId = (int)JobMainId;
-            jp.DtPayment = DateTime.Now;
+            jp.DtPayment = dt.GetCurrentDateTime();
             jp.Remarks = remarks;
 
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description");
@@ -81,6 +86,30 @@ namespace JobsV1.Controllers
 
             return View(jp);
         }
+
+
+        // GET: JobPayments/Create , remarks = "Partial Payment" 
+        public ActionResult CreatePG(int? JobMainId, string remarks)
+        {
+
+            JobPayment jobPayment = new JobPayment();
+            jobPayment.BankId = 4;
+            jobPayment.DtPayment = dt.GetCurrentDateTime();
+            jobPayment.JobMainId = (int)JobMainId;
+            jobPayment.PaymentAmt = 0;
+            jobPayment.Remarks = remarks;
+
+            db.JobPayments.Add(jobPayment);
+            db.SaveChanges();
+
+            ViewBag.JobMainId = JobMainId;
+
+            var Job = db.JobMains.Where(d => d.Id == JobMainId).FirstOrDefault();
+            ViewBag.JobOrder = Job;
+
+            return RedirectToAction("Payments", new { id = JobMainId });
+        }
+
 
         // POST: JobPayments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -170,6 +199,20 @@ namespace JobsV1.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public bool PaymentModelsValidation(JobPayment jobPayment)
+        {
+            bool isValid = true;
+
+            if (jobPayment.Remarks.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Remarks", "Invalid Remarks");
+                isValid = false;
+            }
+
+            return isValid;
         }
     }
 }

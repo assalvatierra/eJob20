@@ -7,15 +7,12 @@ using System.Data;
 using System.Data.Entity;
 using JobsV1.Models;
 using JobsV1.Models.Class;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Data.Entity.Core.Objects;
 using Newtonsoft.Json;
 using PayPal.Api;
 using System.Configuration;
 using Microsoft.Ajax.Utilities;
-using System.Globalization;
 
 namespace JobsV1.Controllers
 {
@@ -151,11 +148,24 @@ namespace JobsV1.Controllers
             ViewBag.JobVehicle = jvc.GetJobVehicle(jobmainId);
             ViewBag.SiteConfig = SITECONFIG;
 
+            var isAllowedPayment = false;
+            if (User.IsInRole("Admin") || User.IsInRole("Accounting"))
+            {
+                isAllowedPayment = true;
+            }
+            ViewBag.IsAdmin = isAllowedPayment;
+            ViewBag.SrchValue = search;
 
             //SEARCH
             if (search != null)
             {
-                data = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) || d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower())).ToList();
+                //var srchData = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) ||
+                //d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower()) || d.Company.ToLower().ToString().Contains(search.ToLower()));
+
+                var srchData = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) ||
+                d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower()) || d.Company.ToLower().ToString().Contains(search.ToLower()));
+                if (srchData != null)
+                    data = srchData.ToList();
             }
 
             if (sortid == 1)
@@ -230,6 +240,8 @@ namespace JobsV1.Controllers
                 joTmp.Services = new List<cJobService>();
                 joTmp.Main.AgreedAmt = 0;
                 joTmp.Payment = 0;
+                joTmp.Company = GetJobCompanyName(main.Id);
+
 
                 List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
                 foreach (var svc in joSvc)
@@ -358,6 +370,19 @@ namespace JobsV1.Controllers
             var company = db.CustEntities.Where(s => s.CustomerId == id).FirstOrDefault();
             string companyNum = company != null ?  company.CustEntMainId.ToString() : " ";
             return companyNum;
+        }
+
+        private string GetJobCompanyName(int jobId)
+        {
+            var jobmain = db.JobMains.Find(jobId);
+
+            var jobEntMainQuery = jobmain.JobEntMains.OrderByDescending(j => j.Id).FirstOrDefault();
+            if (jobEntMainQuery != null)
+            {
+                return jobEntMainQuery.CustEntMain.Name;
+            }
+
+            return "N/A";
         }
 
         //GET : return date of the job based on the date today
@@ -1020,7 +1045,7 @@ order by x.jobid
             var job = db.JobServices.Find(serviceId).JobMain;
 
             //job trail
-            //trail.recordTrail("Remove Item", HttpContext.User.Identity.Name, "Remove Item " + item.Description +" from " + job.Description, serviceId.ToString());
+            trail.recordTrail("Remove Item", HttpContext.User.Identity.Name, "Remove Item " + item.Description +" from " + job.Description, serviceId.ToString());
 
             return RedirectToAction("InventoryItemList", new { serviceId = serviceId });
         }
@@ -1253,6 +1278,7 @@ order by x.jobid
             if(SITECONFIG == "AutoCare")
             {
                 job.JobRemarks = " ";
+                job.Description = "GMS AutoCare";
             }
 
             if (id == null)
@@ -1520,10 +1546,9 @@ order by x.jobid
             js.SupplierAmt = 0;
 
             var siteConfig = SITECONFIG;
-            if (siteConfig == "No Vehicle Assigned")
+            if (siteConfig == "AutoCare")
             {
-                //if service is change oil, add oils to remarks
-                js.Remarks = "";
+                js.Remarks = " ";
             }
 
             //modify SupplierItem
@@ -1542,23 +1567,54 @@ order by x.jobid
         public string GetVehicleOilRemarks(int jobmainId)
         {
             try { 
-            var vehicle = db.JobVehicles.Where(j=>j.JobMainId == jobmainId).FirstOrDefault();
+                var vehicle = db.JobVehicles.Where(j=>j.JobMainId == jobmainId).OrderByDescending(j=>j.Id).FirstOrDefault();
             
-            if (vehicle != null) { 
-                var vehicleModel = vehicle.Vehicle.VehicleModel;
-                string MotorOil = " Motor Oil: " +  (vehicleModel.MotorOil.ToString() ?? "N/A" );
-                string GearOil = ", Gear Oil: " + (vehicleModel.GearOil.ToString() ?? "N/A");
-                string TransmissionOil = ", Transmission Oil: " + (vehicleModel.TransmissionOil.ToString() ?? "N/A");
-                string OilString = MotorOil + GearOil + TransmissionOil;
+                if (vehicle != null) { 
+                    var vehicleModel = vehicle.Vehicle.VehicleModel;
+                    string MotorOil = "";
+                    string GearOil = "";
+                    string TransmissionOil = "";
 
-                return MotorOil;
-            }
+                    if (vehicleModel.MotorOil != null)
+                    {
+                        MotorOil = " Motor Oil: " + vehicleModel.MotorOil.ToString() + " L, ";
+                    }
+                    else
+                    {
+                        MotorOil = " Motor Oil: 0 L, " ;
+                    }
+
+
+                    if (vehicleModel.GearOil != null)
+                    {
+                        GearOil = " Gear Oil: " + vehicleModel.GearOil.ToString() + " L, ";
+                    }
+                    else
+                    {
+                        GearOil = " Gear Oil: 0 L, ";
+                    }
+
+
+                    if (vehicleModel.TransmissionOil != null)
+                    {
+                        TransmissionOil = " Transmission Oil: " + vehicleModel.TransmissionOil.ToString() + " L ";
+                    }
+                    else
+                    {
+                        TransmissionOil = " Transmission Oil: 0 L ";
+                    }
+
+                    string OilString = MotorOil + GearOil + TransmissionOil;
+
+                    return OilString;
+
+                }
 
                 return "Oil : No Assigned Vehicle";
             }
             catch
             {
-                return "Oil : No Motor Oil Added ";
+                return "Oil : N/A ";
             }
         }
 
@@ -1888,6 +1944,14 @@ order by x.jobid
                 ViewBag.JobEncoder = new JobTrail { Id = 0, Action = "Create", user = "none", dtTrail = DateTime.Now, RefId = "0", RefTable = "none" };
             }
 
+
+            var isAllowedPayment = false;
+            if(User.IsInRole("Admin") || User.IsInRole("Accounting"))
+            {
+                isAllowedPayment = true;
+            }
+
+            ViewBag.IsAdmin = isAllowedPayment;
             ViewBag.JobMainId = (int)JobMainId;
             ViewBag.JobOrder = Job;
             ViewBag.JobItems = jobServices;

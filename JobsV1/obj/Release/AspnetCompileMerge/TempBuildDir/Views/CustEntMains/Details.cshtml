@@ -334,7 +334,9 @@
         <tr>
             <th>Job #</th>
             <th>Job Date</th>
-            <th>Description</th>
+            <th width="180px">Service Date</th>
+            <th>Type</th>
+            <th>Particulars</th>
             <th>Contact Person</th>
             <th>Amount</th>
             <th>Status</th>
@@ -346,8 +348,11 @@
         {
             <tr>
                 <td>@job.Id</td>
-                <td>@job.Date</td>
-                <td>@job.Description</td>
+                <td>@job.Date.ToString("MM/dd/yyyy") </td>
+                @*<td>@job.Description</td>*@
+                <td>@job.JobSvcDates</td>
+                <td>@job.SvcType</td>
+                <td>@job.SvcParticulars</td>
                 <td>@job.Customer</td>
                 <td>@job.Amount</td>
                 <td>
@@ -356,7 +361,8 @@
                 <td>@job.AssignedTo</td>
                 <td> @job.PaymentStatus </td>
                 <td>
-                    @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = job.Id, iType = 1 }, null) |
+                    @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) | 
+                    @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) | 
                     @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = job.Id }, null)
                 </td>
             </tr>

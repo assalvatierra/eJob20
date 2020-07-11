@@ -38,7 +38,7 @@ namespace JobsV1.Controllers
                 }
             }
 
-            return View(validPostSales);
+            return View(validPostSales.OrderByDescending(s=>s.DtStart));
         }
 
         // GET: JobPostSales/Details/5

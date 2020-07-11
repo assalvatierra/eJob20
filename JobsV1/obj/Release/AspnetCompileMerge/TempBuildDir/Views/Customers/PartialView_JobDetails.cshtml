@@ -45,9 +45,9 @@
                 <span id="jobdate-arrowDown" hidden>&#8595;</span>
                 </a>
             </th>
-            <th> Description </th>
-            <th> No of Days </th>
-            <th> No of Pax </th>
+            <th> Service Date</th>
+            <th> Type </th>
+            <th> Particulars </th>
             <th> Status </th>
             <th> Amount </th>
             <th> Payment </th>
@@ -63,14 +63,14 @@
                 @item.JobDate.AsDateTime().Month/@item.JobDate.AsDateTime().Day/@item.JobDate.AsDateTime().Year
                 
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
+            <td  width="180px">
+                @Html.DisplayFor(modelItem => item.JobSvcDates)
             </td>
-             <td>
-                 @Html.DisplayFor(modelItem => item.NoOfDays) Day(s)
-             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NoOfPax) Person(s)
+                @Html.DisplayFor(modelItem => item.SvcType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SvcParticulars)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StatusRemarks)
@@ -83,8 +83,8 @@
              </td>
             
              <td>
-                 @*@Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = item.Id }, null) |*@
-                 @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = item.Id , iType = 1 }, null) |
+                 @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = item.Id }, new { target = "_blank" }) |
+                 @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = item.Id }, new { target = "_blank" }) |
                  @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = item.Id }, null)
              </td>
         </tr>

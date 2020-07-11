@@ -212,19 +212,61 @@ namespace JobsV1.Controllers
 
             foreach (var items in filteredRecords)
             {
-                companyJobs.Add(new CompanyJobsList {
-                    Date = items.JobDate,
-                    Description = items.Description,
-                    Customer = items.Customer.Name,
-                    Status = items.JobStatus.Status,
-                    Id = items.Id,
-                    Amount = getJobTotal(items.Id),
-                    AssignedTo = items.AssignedTo,
-                    PaymentStatus = GetLastJobPaymentStatus(items.Id)
-                });
+                //job services
+                var services = db.JobServices.Where(s => s.JobMainId == items.Id).ToList();
+                foreach (var svc in services)
+                {
+                    companyJobs.Add(new CompanyJobsList
+                    {
+                        Id = items.Id,
+                        Date = items.JobDate,
+                        Description = items.Description,
+                        JobSvcDates = ((DateTime)svc.DtStart).ToShortDateString() + " - " + ((DateTime)svc.DtEnd).ToShortDateString(),
+                        SvcType = svc.Service.Name,
+                        SvcParticulars = svc.Particulars,
+                        Customer = items.Customer.Name,
+                        Status = items.JobStatus.Status,
+                        Amount = getJobTotal(items.Id),
+                        AssignedTo = removeStringAfterChar(items.AssignedTo),
+                        PaymentStatus = GetLastJobPaymentStatus(items.Id)
+                    });
+                }
             }
 
+            //foreach (var items in filteredRecords)
+            //{
+            //    //job services
+            //    var services = db.JobServices.Where(s => s.JobMainId == items.Id).ToList();
+            //    foreach (var svc in services)
+            //    {
+            //        companyJobs.Add(new CompanyJobsList
+            //        {
+            //            Date = (DateTime)svc.DtStart,
+            //            Description = items.Description,
+            //            Customer = items.Customer.Name,
+            //            Status = items.JobStatus.Status,
+            //            Id = items.Id,
+            //            Amount = getJobTotal(items.Id),
+            //            AssignedTo = items.AssignedTo,
+            //            PaymentStatus = GetLastJobPaymentStatus(items.Id)
+            //        });
+
+            //    }
+            //}
+
+
             return companyJobs;
+        }
+
+        private string removeStringAfterChar(string str)
+        {
+            if (str.Contains('@'))
+            {
+                int index = str.IndexOf('@');
+                string result = str.Substring(0, index);
+                return result;
+            }
+            return str;
         }
 
         private decimal getJobTotal(int jobId)

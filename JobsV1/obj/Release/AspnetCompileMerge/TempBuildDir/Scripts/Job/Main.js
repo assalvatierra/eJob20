@@ -16,7 +16,7 @@ function InitDatePicker()
 
     $('input[name="JobDate"]').daterangepicker(
     {
-        timePicker: false,
+        timePicker: true,
         timePickerIncrement: 1,
         singleDatePicker: true,
         showDropdowns: true,

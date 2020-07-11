@@ -26,6 +26,7 @@ namespace JobsV1.Models
             this.InvCarGateControls = new HashSet<InvCarGateControl>();
             this.CoopMemberItems = new HashSet<CoopMemberItem>();
             this.SalesLeadItems = new HashSet<SalesLeadItems>();
+            this.InvItemCommis = new HashSet<InvItemCommi>();
         }
     
         public int Id { get; set; }
@@ -53,5 +54,7 @@ namespace JobsV1.Models
         public virtual ICollection<CoopMemberItem> CoopMemberItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesLeadItems> SalesLeadItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvItemCommi> InvItemCommis { get; set; }
     }
 }

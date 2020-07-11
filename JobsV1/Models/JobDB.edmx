@@ -139,6 +139,7 @@
     <EntitySet Name="CustEntAccountTypes" EntityType="JobDB.Store.CustEntAccountTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobPaymentStatus" EntityType="JobDB.Store.JobPaymentStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobMainPaymentStatus" EntityType="JobDB.Store.JobMainPaymentStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvItemCommis" EntityType="JobDB.Store.InvItemCommis" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -662,6 +663,10 @@
     <AssociationSet Name="JobPaymentStatusJobMainPaymentStatus" Association="JobDB.Store.JobPaymentStatusJobMainPaymentStatus">
       <End Role="JobMainPaymentStatus" EntitySet="JobMainPaymentStatus" />
       <End Role="JobPaymentStatus" EntitySet="JobPaymentStatus" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemCommiInvItem" Association="JobDB.Store.InvItemCommiInvItem">
+      <End Role="InvItemCommi" EntitySet="InvItemCommis" />
+      <End Role="InvItem" EntitySet="InvItems" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -2062,6 +2067,16 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="JobMainId" Type="int" Nullable="false" />
     <Property Name="JobPaymentStatusId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvItemCommis">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Unit" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="Source" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3635,6 +3650,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvItemCommiInvItem">
+    <End Role="InvItemCommi" Type="JobDB.Store.InvItemCommis" Multiplicity="*" />
+    <End Role="InvItem" Type="JobDB.Store.InvItems" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvItemCommi">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4296,6 +4323,11 @@
           <AssociationSet Name="JobPaymentStatusJobMainPaymentStatus" Association="JobDB.JobPaymentStatusJobMainPaymentStatus">
             <End Role="JobMainPaymentStatus" EntitySet="JobMainPaymentStatus" />
             <End Role="JobPaymentStatus" EntitySet="JobPaymentStatus" />
+          </AssociationSet>
+          <EntitySet Name="InvItemCommis" EntityType="JobDB.InvItemCommi" />
+          <AssociationSet Name="InvItemCommiInvItem" Association="JobDB.InvItemCommiInvItem">
+            <End Role="InvItemCommi" EntitySet="InvItemCommis" />
+            <End Role="InvItem" EntitySet="InvItems" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -5570,6 +5602,7 @@
           <NavigationProperty Name="InvCarGateControls" Relationship="JobDB.InvItemInvCarGateControl" FromRole="InvItem" ToRole="InvCarGateControl" />
           <NavigationProperty Name="CoopMemberItems" Relationship="JobDB.InvItemCoopMemberItem" FromRole="InvItem" ToRole="CoopMemberItem" />
           <NavigationProperty Name="SalesLeadItems" Relationship="JobDB.InvItemSalesLeadItems" FromRole="InvItem" ToRole="SalesLeadItems" />
+          <NavigationProperty Name="InvItemCommis" Relationship="JobDB.InvItemCommiInvItem" FromRole="InvItem" ToRole="InvItemCommi" />
         </EntityType>
         <EntityType Name="InvItemCat">
           <Key>
@@ -7533,6 +7566,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="InvItemCommi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Unit" Type="String" Nullable="false" MaxLength="30" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="InvItem" Relationship="JobDB.InvItemCommiInvItem" FromRole="InvItemCommi" ToRole="InvItem" />
+          <Property Name="InvItemId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvItemCommiInvItem">
+          <End Type="JobDB.InvItemCommi" Role="InvItemCommi" Multiplicity="*" />
+          <End Type="JobDB.InvItem" Role="InvItem" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="InvItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItemCommi">
+              <PropertyRef Name="InvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9068,6 +9124,17 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
           <ScalarProperty Name="JobPaymentStatusId" ColumnName="JobPaymentStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvItemCommis">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.InvItemCommi)">
+        <MappingFragment StoreEntitySet="InvItemCommis">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
