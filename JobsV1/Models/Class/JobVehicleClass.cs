@@ -102,12 +102,12 @@ namespace JobsV1.Models.Class
                     return new List<JobVehicleService>();
                 }
                 string SqlStr =
-                         " SELECT jv.*, DtStart = ISNULL(js.DtStart, jm.JobDate), js.Particulars, js.Remarks,  JobMainId = jm.Id, "
+                         " SELECT jv.*, DtStart = ISNULL(js.DtStart, jm.JobDate), js.Particulars, js.Remarks,  JobMainId = jm.Id, jm.JobStatusId, "
                        + " JsServices = (SELECT s.Name FROM Services s WHERE s.ID = js.ServicesId) "
                        + " FROM JobVehicles jv "
                        + " LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId"
                        + " LEFT JOIN JobMains jm ON jm.Id = jv.JobMainId "
-                       + " WHERE jv.VehicleId = "+ vehicleId + " ORDER BY DtStart DESC ;";
+                       + " WHERE jv.VehicleId = "+ vehicleId + " AND jm.JobStatusId <= 4 ORDER BY DtStart DESC ;";
                
                 List<JobVehicleService> vehicleServices = db.Database.SqlQuery<JobVehicleService>(SqlStr).ToList();
 

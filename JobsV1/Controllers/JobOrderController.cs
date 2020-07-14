@@ -300,6 +300,10 @@ namespace JobsV1.Controllers
                     data = (List<cJobOrder>)data
                         .Where(p => p.Main.JobDate.Date > today.Date.AddDays(-150)).ToList();
                     break;
+                case 4: //cancelled
+                    data = (List<cJobOrder>)data
+                        .Where(p => p.Main.JobDate.Date > today.Date.AddDays(-150)).ToList();
+                    break;
 
                 default:
                     data = (List<cJobOrder>)data.ToList();
@@ -1270,7 +1274,7 @@ order by x.jobid
             DateClass today = new DateClass();
 
             JobMain job = new JobMain();
-            job.JobDate = today.GetCurrentDateTime().AddDays(1);
+            job.JobDate = today.GetCurrentDateTime().AddDays(0);
             job.NoOfDays = 1;
             job.NoOfPax = 1;
             job.AgreedAmt = 0;

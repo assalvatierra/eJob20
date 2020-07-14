@@ -519,6 +519,15 @@ SELECT DISTINCT jv.*, ISNULL(js.DtStart, jm.JobDate), js.Particulars, js.Remarks
     FROM JobVehicles jv
     LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId
     LEFT JOIN JobMains jm ON jm.Id = jv.JobMainId
-    WHERE jv.VehicleId = 2
-
+    WHERE jv.VehicleId = 2 
     AND js.DtStart IS NOT NULL
+
+    ORDER BY DtStart DESC
+
+
+    SELECT jv.*, DtStart = ISNULL(js.DtStart, jm.JobDate), js.Particulars, js.Remarks,  JobMainId = jm.Id, jm.JobStatusId,
+          JsServices = (SELECT s.Name FROM Services s WHERE s.ID = js.ServicesId) 
+          FROM JobVehicles jv 
+          LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId
+          LEFT JOIN JobMains jm ON jm.Id = jv.JobMainId 
+          WHERE jv.VehicleId = 10 AND jm.JobStatusId <= 4  ORDER BY DtStart DESC ;

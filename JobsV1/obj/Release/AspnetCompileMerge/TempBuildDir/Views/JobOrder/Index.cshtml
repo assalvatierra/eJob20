@@ -28,12 +28,13 @@
     <div class="filter-panel">
         <div class="sort-panel">
             <div class="btn-group" id="filter-group">
-                <button class="btn btn-default disabled" >
+                <button class="btn btn-default disabled">
                     Filters:
                 </button>
-                @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing" , @class="btn btn-default" }) 
-                @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous", @class = "btn btn-default" }) 
+                @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing", @class = "btn btn-default" })
+                @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous", @class = "btn btn-default" })
                 @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed", @class = "btn btn-default" })
+                @Html.ActionLink("Cancelled", "Index", new { sortid = 4 }, new { @id = "cancelled", @class = "btn btn-default" })
             </div>
             
         </div>
@@ -250,7 +251,8 @@
         Filters:
         @Html.ActionLink("OnGoing", "Index", new { sortid = 1 }, new { @id = "ongoing-bot" }) |
         @Html.ActionLink("Previous", "Index", new { sortid = 2 }, new { @id = "previous-bot" }) |
-        @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed-bot" })
+        @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed-bot" }) |
+        @Html.ActionLink("Cancelled", "Index", new { sortid = 4 }, new { @id = "cancelled-bot" })
     </p>
 </div>
 

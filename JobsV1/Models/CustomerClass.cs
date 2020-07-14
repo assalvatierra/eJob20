@@ -290,7 +290,7 @@ namespace JobsV1.Models
                             NoOfDays = record.NoOfDays.ToString(),
                             NoOfPax = record.NoOfPax.ToString(),
                             StatusRemarks = record.JobStatus.Status,
-                            Amount = totalAmount,
+                            Amount = (Decimal)services.ActualAmt,
                             PaymentStatus = GetLastJobPaymentStatus(record.Id)
                         });
                     }

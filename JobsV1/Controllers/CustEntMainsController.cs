@@ -226,7 +226,7 @@ namespace JobsV1.Controllers
                         SvcParticulars = svc.Particulars,
                         Customer = items.Customer.Name,
                         Status = items.JobStatus.Status,
-                        Amount = getJobTotal(items.Id),
+                        Amount = (Decimal)svc.ActualAmt, //getJobTotal(items.Id)
                         AssignedTo = removeStringAfterChar(items.AssignedTo),
                         PaymentStatus = GetLastJobPaymentStatus(items.Id)
                     });

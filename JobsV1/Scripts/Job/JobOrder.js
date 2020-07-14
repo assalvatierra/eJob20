@@ -35,6 +35,12 @@ function InitialFilter(filter) {
 
             $("#closed").addClass("active");
             break;
+        case 4:
+            $("#cancelled").css("color", "black");
+            $("#cancelled-bot").css("color", "black");
+
+            $("#cancelled").addClass("active");
+            break;
         default:
 
             break;

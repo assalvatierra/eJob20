@@ -740,7 +740,10 @@ namespace JobsV1.Models
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -60, GETDATE());";
                     break;
                 case 3: //close
-                    sql = "select j.Id from JobMains j where j.JobStatusId > 3 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());";
+                    sql = "select j.Id from JobMains j where j.JobStatusId = 4 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());";
+                    break;
+                case 4: //close
+                    sql = "select j.Id from JobMains j where j.JobStatusId = 5 AND j.JobDate >= DATEADD(DAY, -120, GETDATE());";
                     break;
                 default:
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND j.JobDate >= DATEADD(DAY, -150, GETDATE());";
