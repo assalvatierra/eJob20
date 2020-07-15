@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
@@ -16,6 +17,7 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private DateClass dt = new DateClass();
+        private ActionTrailClass trail = new ActionTrailClass();
         private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
         
 
@@ -55,9 +57,10 @@ namespace JobsV1.Controllers
             ViewBag.SiteConfig = SITECONFIG;
             ViewBag.JobStatus = Job.JobStatus.Status;
 
-           var jobPayments = db.JobPayments.Include(j => j.JobMain).Include(j => j.Bank).Where(d=>d.JobMainId==id);
+            var jobPayments = db.JobPayments.Include(j => j.JobMain).Include(j => j.Bank).Where(d=>d.JobMainId==id);
             return View("index",jobPayments.ToList());
         }
+
         // GET: JobPayments/Details/5
         public ActionResult Details(int? id)
         {
@@ -81,8 +84,9 @@ namespace JobsV1.Controllers
             jp.DtPayment = dt.GetCurrentDateTime();
             jp.Remarks = remarks;
 
-            ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description");
+            ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", JobMainId);
             ViewBag.BankId = new SelectList(db.Banks, "Id", "BankName");
+            ViewBag.JobPaymentTypeId = new SelectList(db.JobPaymentTypes, "Id", "Type");
 
             return View(jp);
         }
@@ -116,17 +120,25 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,JobMainId,DtPayment,PaymentAmt,Remarks,BankId")] JobPayment jobPayment)
+        public ActionResult Create([Bind(Include = "Id,JobMainId,DtPayment,PaymentAmt,Remarks,BankId,JobPaymentTypeId")] JobPayment jobPayment)
         {
             if (ModelState.IsValid)
             {
                 db.JobPayments.Add(jobPayment);
                 db.SaveChanges();
+
+                //add payment status to job
+                AddJobPaymentStatus(jobPayment.JobMainId, 1); //paid
+
+                //job trail
+                trail.recordTrail("JobPayments/Create", HttpContext.User.Identity.Name, "Job Payment Added", jobPayment.JobMainId.ToString());
+
                 return RedirectToAction("Payments", new { id = jobPayment.JobMainId });
             }
 
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobPayment.JobMainId);
             ViewBag.BankId = new SelectList(db.Banks, "Id", "BankName", jobPayment.BankId);
+            ViewBag.JobPaymentTypeId = new SelectList(db.JobPaymentTypes, "Id", "Type", jobPayment.JobPaymentTypeId);
             return View(jobPayment);
         }
 
@@ -144,6 +156,7 @@ namespace JobsV1.Controllers
             }
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobPayment.JobMainId);
             ViewBag.BankId = new SelectList(db.Banks, "Id", "BankName", jobPayment.BankId);
+            ViewBag.JobPaymentTypeId = new SelectList(db.JobPaymentTypes, "Id", "Type", jobPayment.JobPaymentTypeId);
             return View(jobPayment);
         }
 
@@ -152,16 +165,21 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,JobMainId,DtPayment,PaymentAmt,Remarks,BankId")] JobPayment jobPayment)
+        public ActionResult Edit([Bind(Include = "Id,JobMainId,DtPayment,PaymentAmt,Remarks,BankId,JobPaymentTypeId")] JobPayment jobPayment)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(jobPayment).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //job trail
+                trail.recordTrail("JobPayments/Edit", HttpContext.User.Identity.Name, "Job Payment Edited", jobPayment.JobMainId.ToString());
+
                 return RedirectToAction("Payments", new { id = jobPayment.JobMainId });
             }
             ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobPayment.JobMainId);
             ViewBag.BankId = new SelectList(db.Banks, "Id", "BankName", jobPayment.BankId);
+            ViewBag.JobPaymentTypeId = new SelectList(db.JobPaymentTypes, "Id", "Type", jobPayment.JobPaymentTypeId);
             return View(jobPayment);
         }
 
@@ -189,6 +207,10 @@ namespace JobsV1.Controllers
             int tmpId = jobPayment.JobMainId;
             db.JobPayments.Remove(jobPayment);
             db.SaveChanges();
+
+            //job trail
+            trail.recordTrail("JobPayments/Edit", HttpContext.User.Identity.Name, "Job Payment Removed", jobPayment.JobMainId.ToString());
+
             return RedirectToAction("Payments", new { id = tmpId });
         }
 
@@ -213,6 +235,25 @@ namespace JobsV1.Controllers
             }
 
             return isValid;
+        }
+
+
+        private bool AddJobPaymentStatus(int id, int statusId)
+        {
+            try
+            {
+                JobMainPaymentStatus paymentStatus = new JobMainPaymentStatus();
+                paymentStatus.JobMainId = id;
+                paymentStatus.JobPaymentStatusId = statusId;
+
+                db.JobMainPaymentStatus.Add(paymentStatus);
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

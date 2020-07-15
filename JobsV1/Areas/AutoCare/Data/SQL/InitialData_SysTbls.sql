@@ -22,7 +22,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Activities','Activities',0,'Activities','Index','',20,16),
 ('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17),
 ('Post Sales','Job Post Sales',0,'JobPostSales','Index','',20,18),
-('Appointments','Appointments',0,'AutoCare/Appointments','Index','',20,19)
+('Appointments','Appointments',0,'AutoCare/Appointments','Index','',20,19),
+('Cashier','Cashier',0,'Cashier','Index','',20,20)
 ;
 
 
@@ -249,6 +250,15 @@ values  ('Appointment' ,'',19,'AutoCare/Appointments','Index','',21,191),
 		('Slots' ,'',19,'AutoCare/AppointmentSlots','Index','',21,192),
 		('Availability' ,'',19,'AutoCare/Appointments','Availability','',21,193);	
 
+		
+--Cashier
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('NO120','Cashier','Cashier','A','/Images/AutoCare/icons-callback.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (20,20);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values ('Cashier' ,'',20,'Cashier','Index','',21,201);	 
+
 
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
@@ -276,6 +286,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',17,17), 
 ('assalvatierra@gmail.com',18,18), 
 ('assalvatierra@gmail.com',19,19), 
+('assalvatierra@gmail.com',20,20), 
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 
@@ -296,6 +307,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',17,17), 
 ('jahdielvillosa@gmail.com',18,18), 
 ('jahdielvillosa@gmail.com',19,19), 
+('jahdielvillosa@gmail.com',20,20), 
 
 ('Demo@gmail.com',1,1), 
 ('Demo@gmail.com',3,3), 
@@ -303,12 +315,12 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('Demo@gmail.com',6,6), 
 ('Demo@gmail.com',17,17), 
 ('Demo@gmail.com',18,18), 
-('Demo@gmail.com',19,19); 
+('Demo@gmail.com',19,19), 
+('Demo@gmail.com',20,20); 
 
 
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
-('assalvatierra@gmail.com', 20, 20),
 ('assalvatierra@gmail.com', 21, 21),
 ('assalvatierra@gmail.com', 22, 22),
 ('assalvatierra@gmail.com', 23, 23),
@@ -369,6 +381,9 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 78, 78),
 ('assalvatierra@gmail.com', 79, 79),
 ('assalvatierra@gmail.com', 80, 80),
+('assalvatierra@gmail.com', 81, 81),
+('assalvatierra@gmail.com', 82, 82),
+('assalvatierra@gmail.com', 83, 83),
 
 ('jahdielvillosa@gmail.com', 20, 20),
 ('jahdielvillosa@gmail.com', 21, 21),
@@ -431,43 +446,40 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 78, 78),
 ('jahdielvillosa@gmail.com', 79, 79),
 ('jahdielvillosa@gmail.com', 80, 80),
+('jahdielvillosa@gmail.com', 81, 81),
+('jahdielvillosa@gmail.com', 82, 82),
+('jahdielvillosa@gmail.com', 83, 83),
+
 
 
 --account access--
-('Demo@gmail.com', 20, 20),
 ('Demo@gmail.com', 21, 21),
 ('Demo@gmail.com', 22, 22),
 ('Demo@gmail.com', 23, 23),
+('Demo@gmail.com', 24, 24),
 --job order--
-('Demo@gmail.com', 28, 28),
-('Demo@gmail.com', 30, 30),
+('Demo@gmail.com', 29, 29),
 ('Demo@gmail.com', 31, 31),
 ('Demo@gmail.com', 32, 32),
 ('Demo@gmail.com', 33, 33),
+('Demo@gmail.com', 34, 34),
 -- Customers --
-('Demo@gmail.com', 40, 40),
 ('Demo@gmail.com', 41, 41),
+('Demo@gmail.com', 42, 42),
 -- Resources --
-('Demo@gmail.com', 44, 44),
-('Demo@gmail.com', 48, 48),
+('Demo@gmail.com', 45, 45),
+('Demo@gmail.com', 49, 49),
 -- Vehicles --
-('Demo@gmail.com', 75, 75),
 ('Demo@gmail.com', 76, 76),
--- Post Sale --
 ('Demo@gmail.com', 77, 77),
--- Appointments --
+-- Post Sale --
 ('Demo@gmail.com', 78, 78),
+-- Appointments --
 ('Demo@gmail.com', 79, 79),
-('Demo@gmail.com', 80, 80); 
-
-
---Additional
-
-insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-	('Services','',6,'Services','Index','',21,62);		        -- id: 81
+('Demo@gmail.com', 80, 80),
+('Demo@gmail.com', 81, 81),
+('Demo@gmail.com', 82, 82),
+-- Post Sale --
+('Demo@gmail.com', 83, 83); 
 
 	
-insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
-('assalvatierra@gmail.com', 81, 81),
-('jahdielvillosa@gmail.com', 81, 81),
-('Demo@gmail.com', 81, 81);

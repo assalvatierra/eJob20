@@ -2612,7 +2612,21 @@ order by x.jobid
             SMSWebService ws = new SMSWebService();
             ws.AddNotification(id);
         }
-        
+
+        public ActionResult CloseJobStatus(int? id)
+        {
+            var Job = db.JobMains.Find(id);
+            Job.JobStatusId = 4;
+            db.Entry(Job).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //job trail
+            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CONFIRMED", id.ToString());
+
+            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
+        }
+
+
         public ActionResult ConfirmJobStatus(int? id)
         {
             var Job = db.JobMains.Find(id);

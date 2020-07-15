@@ -539,6 +539,7 @@
     <Compile Include="Controllers\CarReservationsController.cs" />
     <Compile Include="Controllers\CarUnitsController.cs" />
     <Compile Include="Controllers\CashExpensesController.cs" />
+    <Compile Include="Controllers\CashierController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\CoopMembersController.cs" />
     <Compile Include="Controllers\CustCategoriesController.cs" />
@@ -867,6 +868,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobPaymentStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobPaymentType.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobPickup.cs">
@@ -1715,6 +1719,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Cashier\CashierJobList.js" />
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
     <Content Include="Scripts\CustEntMain\CustEntVehicle.js" />
@@ -2702,6 +2707,9 @@
     <Content Include="Views\InvItemCommis\Edit.cshtml" />
     <Content Include="Views\InvItemCommis\Index.cshtml" />
     <Content Include="Views\Home\PageNotFoud.cshtml" />
+    <Content Include="Views\Cashier\Index.cshtml" />
+    <Content Include="Views\Cashier\AddPayment.cshtml" />
+    <Content Include="Views\Cashier\JobPaymentDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

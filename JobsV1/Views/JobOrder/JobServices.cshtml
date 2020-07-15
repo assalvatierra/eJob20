@@ -80,6 +80,12 @@
             }
 
 
+            @if (ViewBag.JobStatus == "CONFIRMED")
+            {
+                @Html.ActionLink("(Close Job)", "CloseJobStatus", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+            }
+
+
             <br />
             @Html.ActionLink("Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
 

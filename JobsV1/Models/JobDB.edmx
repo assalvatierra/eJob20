@@ -140,6 +140,7 @@
     <EntitySet Name="JobPaymentStatus" EntityType="JobDB.Store.JobPaymentStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobMainPaymentStatus" EntityType="JobDB.Store.JobMainPaymentStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvItemCommis" EntityType="JobDB.Store.InvItemCommis" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobPaymentTypes" EntityType="JobDB.Store.JobPaymentTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -668,6 +669,10 @@
       <End Role="InvItemCommi" EntitySet="InvItemCommis" />
       <End Role="InvItem" EntitySet="InvItems" />
     </AssociationSet>
+    <AssociationSet Name="JobPaymentTypeJobPayment" Association="JobDB.Store.JobPaymentTypeJobPayment">
+      <End Role="JobPaymentType" EntitySet="JobPaymentTypes" />
+      <End Role="JobPayment" EntitySet="JobPayments" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -883,6 +888,7 @@
     <Property Name="PaymentAmt" Type="decimal" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
     <Property Name="BankId" Type="int" Nullable="false" />
+    <Property Name="JobPaymentTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CarCategories">
     <Key>
@@ -2077,6 +2083,13 @@
     <Property Name="Unit" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="Source" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobPaymentTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3662,6 +3675,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="JobPaymentTypeJobPayment">
+    <End Role="JobPaymentType" Type="JobDB.Store.JobPaymentTypes" Multiplicity="1" />
+    <End Role="JobPayment" Type="JobDB.Store.JobPayments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobPaymentType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="JobPayment">
+        <PropertyRef Name="JobPaymentTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4329,6 +4354,11 @@
             <End Role="InvItemCommi" EntitySet="InvItemCommis" />
             <End Role="InvItem" EntitySet="InvItems" />
           </AssociationSet>
+          <EntitySet Name="JobPaymentTypes" EntityType="JobDB.JobPaymentType" />
+          <AssociationSet Name="JobPaymentTypeJobPayment" Association="JobDB.JobPaymentTypeJobPayment">
+            <End Role="JobPaymentType" EntitySet="JobPaymentTypes" />
+            <End Role="JobPayment" EntitySet="JobPayments" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -4830,6 +4860,8 @@
           <Property Name="Remarks" Type="String" Nullable="true" />
           <NavigationProperty Name="Bank" Relationship="JobDB.BankJobPayment" FromRole="JobPayment" ToRole="Bank" />
           <Property Name="BankId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobPaymentType" Relationship="JobDB.JobPaymentTypeJobPayment" FromRole="JobPayment" ToRole="JobPaymentType" />
+          <Property Name="JobPaymentTypeId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="JobMainJobPayment">
           <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
@@ -7589,6 +7621,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="JobPaymentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="JobPayments" Relationship="JobDB.JobPaymentTypeJobPayment" FromRole="JobPaymentType" ToRole="JobPayment" />
+        </EntityType>
+        <Association Name="JobPaymentTypeJobPayment">
+          <End Type="JobDB.JobPaymentType" Role="JobPaymentType" Multiplicity="1" />
+          <End Type="JobDB.JobPayment" Role="JobPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobPaymentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JobPayment">
+              <PropertyRef Name="JobPaymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7825,6 +7877,7 @@
           <ScalarProperty Name="PaymentAmt" ColumnName="PaymentAmt" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="BankId" ColumnName="BankId" />
+          <ScalarProperty Name="JobPaymentTypeId" ColumnName="JobPaymentTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -9135,6 +9188,14 @@
           <ScalarProperty Name="Unit" ColumnName="Unit" />
           <ScalarProperty Name="Source" ColumnName="Source" />
           <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="JobPaymentTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.JobPaymentType)">
+        <MappingFragment StoreEntitySet="JobPaymentTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

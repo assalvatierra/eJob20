@@ -1,0 +1,85 @@
+﻿@model IEnumerable<JobsV1.Models.JobPayment>
+
+@{
+    ViewBag.Title = "Job Service - Payments";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+
+
+<h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
+
+<div>
+    <p>
+        Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
+        <br />Description: @ViewBag.JobOrder.Description
+        <br />Status:
+
+        @if (ViewBag.JobStatus == "RESERVATION")
+        {
+            <text>
+                RESERVED
+            </text>
+        }
+        else
+        {
+            @ViewBag.JobStatus
+        }
+
+        <br /> <h4>Total Amount:   @{ Html.RenderAction("GetJobTotalAmount", new { id = ViewBag.JobMainId }); } </h4>
+
+    </p>
+
+
+</div>
+
+<h3>Payment Details</h3>
+@Html.ActionLink("Add Payment", "AddPayment", new { id = ViewBag.JobMainId })
+
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Bank
+        </th>
+        <th>
+           Type
+        </th>
+        <th>
+            Remarks
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtPayment)
+            </td>
+            <td>
+                @item.PaymentAmt.ToString("#,##0.00")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bank.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobPaymentType.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+
+</p>

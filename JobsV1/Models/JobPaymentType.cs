@@ -12,18 +12,18 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class JobPayment
+    public partial class JobPaymentType
     {
-        public int Id { get; set; }
-        public int JobMainId { get; set; }
-        public System.DateTime DtPayment { get; set; }
-        public decimal PaymentAmt { get; set; }
-        public string Remarks { get; set; }
-        public int BankId { get; set; }
-        public int JobPaymentTypeId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public JobPaymentType()
+        {
+            this.JobPayments = new HashSet<JobPayment>();
+        }
     
-        public virtual JobMain JobMain { get; set; }
-        public virtual Bank Bank { get; set; }
-        public virtual JobPaymentType JobPaymentType { get; set; }
+        public int Id { get; set; }
+        public string Type { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobPayment> JobPayments { get; set; }
     }
 }

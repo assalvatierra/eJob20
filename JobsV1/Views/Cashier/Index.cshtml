@@ -1,0 +1,130 @@
+﻿@model IEnumerable<JobsV1.Models.JobMain>
+@{
+    ViewBag.Title = "Cashier";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var jobStatus = ViewBag.JobStatus ?? 4;
+    var paymentStatus = ViewBag.PaymentStatus ?? 2;
+    var srchString = ViewBag.SrchString ?? " ";
+}
+
+<h2>Cashier</h2>
+
+<div style="margin-bottom:10px">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" style="padding-left:0;">
+        <div class="input-group">
+                <input type="text" class="form-control" style="margin-top:5px;" name="srch" id="srch-input" placeholder="Search here" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" onclick="SubmitSearch()"> Search </button>
+                </span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="padding-left:0;">
+        <div class="btn-group" id="paymentStatus">
+            <button class="btn btn-default disabled"> Payment: </button>
+            <button class="btn btn-default" onclick="filterPaymentStatus(2)" id="UnPaid"> UnPaid </button>
+            <button class="btn btn-default" onclick="filterPaymentStatus(1)" id="Paid"> Paid </button>
+            <button class="btn btn-default" onclick="filterPaymentStatus(3)" id="PaymentStatus-All"> All </button>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="padding-left:0;">
+        <div class="btn-group" id="jobStatus">
+            <button class="btn btn-default disabled"> Job: </button>
+            <button class="btn btn-default" onclick="filterJobStatus(2)" id="Reservation"> Reservation </button>
+            <button class="btn btn-default" onclick="filterJobStatus(3)" id="Confirmed"> Confirmed </button>
+            <button class="btn btn-default" onclick="filterJobStatus(4)" id="Closed"> Closed </button>
+            <button class="btn btn-default" onclick="filterJobStatus(1)" id="JobStatus-All"> All </button>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th> JobId </th>
+            <th> Job Date </th>
+            <th width="180px"> Description </th>
+            <th> Customer </th>
+            <th> JobStatus </th>
+            <th> Paid / Amount </th>
+            <th> Payment </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td> @item.Id </td>
+                <td> @item.JobDate.ToShortDateString() </td>
+                <td> @item.Description </td>
+                <td> @item.Customer.Name </td>
+                <td> @item.JobStatus.Status </td>
+                <td>
+                    <span class="text-success"> @{ Html.RenderAction("GetJobTotalPaidAmount", new { id = item.Id }); } </span>
+                    <span> / </span>
+                    @{ Html.RenderAction("GetJobTotalAmount", new { id = item.Id }); }
+                </td>
+                <td>
+                    @if (item.JobMainPaymentStatus.FirstOrDefault() != null)
+                    {
+                        @item.JobMainPaymentStatus.OrderByDescending(s => s.Id).FirstOrDefault().JobPaymentStatu.Status
+                    }
+                    else
+                    {
+                        <p>N/A</p>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Recieve Payment", "JobPaymentDetails", new { id = item.Id }) |
+                    @Html.ActionLink("Service Details", "jobServices", "JobOrder", new { JobMainId = item.Id }, null)
+                </td>
+            </tr>
+         }
+
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="8">
+                    <p class="text-center text-muted"> No Results Found </p>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <script src="~/Scripts/Cashier/CashierJobList.js"> </script>
+    <script>
+        var jobStatusID = 1;
+        var paymentStatusID = 2;
+        var srchString = "";
+
+        $(() => {
+            //initialize
+            if (@jobStatus != null) {
+                jobStatusID = @jobStatus;
+            }
+
+            if ('@paymentStatus' != null) {
+                paymentStatusID = @paymentStatus;
+            }
+
+            if ('@srchString' != null) {
+                srchString = '@srchString';
+            }
+
+            //filters
+            console.log("Filters");
+            Init_JobStatusFilter('@jobStatus');
+            Init_PaymentStatusFilter('@paymentStatus');
+            $("#srch-input").val('@srchString');
+
+            console.log("jobStatusID: " + jobStatusID);
+            console.log("paymentStatusID: " + paymentStatusID);
+            console.log("srchString: " + srchString);
+        });
+
+    </script>
+    }
