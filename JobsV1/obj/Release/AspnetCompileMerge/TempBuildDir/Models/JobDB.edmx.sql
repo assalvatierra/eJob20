@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/15/2020 10:28:20
+-- Date Created: 07/15/2020 19:17:10
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -2244,7 +2244,7 @@ GO
 -- Creating table 'JobPaymentTypes'
 CREATE TABLE [dbo].[JobPaymentTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Type] nvarchar(max)  NOT NULL
+    [Type] nvarchar(20)  NOT NULL
 );
 GO
 

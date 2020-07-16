@@ -579,3 +579,13 @@
 .no-padding{
     padding:0px;
 }
+
+
+.job-payment-add-block {
+    background-color: whitesmoke;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0px;
+    padding-bottom: 20px;
+}

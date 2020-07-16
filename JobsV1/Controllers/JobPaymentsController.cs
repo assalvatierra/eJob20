@@ -28,8 +28,6 @@ namespace JobsV1.Controllers
             return View(jobPayments.ToList());
         }
 
-
-
         public ActionResult AdvanceList()
         {
             var payments = db.JobPayments.Include(j => j.JobMain).Include(j => j.Bank)

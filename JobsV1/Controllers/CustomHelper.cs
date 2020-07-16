@@ -60,7 +60,7 @@ namespace JobsV1.CustomHelper
             SysAccessLayer dal = new SysAccessLayer();
             var service = dal.getModule(MenuId);
             string htmlString = "<span>";
-            htmlString += "<img src='" + rootUrl + service.IconPath + "' class='ModulePageIcon' alt='' />";
+            htmlString += "<img src='" + rootUrl + service.IconPath.TrimStart('/') + "' class='ModulePageIcon' alt='' />";
             htmlString += "</span>";
             htmlString += "<span>";
             htmlString += "<h2>" + service.Description + "</h2>";

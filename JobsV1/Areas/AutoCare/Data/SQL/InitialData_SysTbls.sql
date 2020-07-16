@@ -253,7 +253,7 @@ values  ('Appointment' ,'',19,'AutoCare/Appointments','Index','',21,191),
 		
 --Cashier
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('NO120','Cashier','Cashier','A','/Images/AutoCare/icons-callback.png');
+('NO120','Cashier','Cashier','A','/Images/AutoCare/icons-cash-register.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (20,20);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 

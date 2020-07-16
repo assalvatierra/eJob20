@@ -1,0 +1,47 @@
+﻿<!-- Edit Permission Modal -->
+<div class="modal fade" id="Edit-PermissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Edit Permission </h4>
+            </div>
+            <div class="modal-body" id="modal-content">
+                <div class="row">
+                    <label class="control-label col-md-3 form-label"> Admin Password:  </label>
+                    <div class="col-md-9"><input type="password" class="form-control" id="Edit-Pass-Input" onchange="ResetWarning()" /></div>
+                    <div class="col-md-12" hidden><input type="text" class="form-control" id="Edit-Pass-Id" /></div>
+                    <p id="Edit-Pass-warning" class="text-danger col-md-offset-3 col-md-9"> Invalid Password </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="CheckEditPermission()" id="Edit-Proceed">Proceed</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Delete Permission Modal -->
+<div class="modal fade" id="Delete-PermissionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Delete Permission </h4>
+            </div>
+            <div class="modal-body" id="modal-content">
+                <div class="row">
+                    <label class="control-label col-md-3 form-label"> Admin Password:  </label>
+                    <div class="col-md-9"><input type="password" class="form-control" id="Delete-Pass-Input" onchange="ResetWarning()" /></div>
+                    <div class="col-md-12" hidden><input type="text" class="form-control" id="Delete-Pass-Id" /></div>
+                    <p id="Delete-Pass-warning" class="text-danger col-md-offset-3 col-md-9"> Invalid Password </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="CheckDeletePermission()" id="Delete-Proceed">Proceed</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

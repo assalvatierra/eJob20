@@ -1338,6 +1338,8 @@
     <Content Include="Images\AutoCare\autocare-car-back-blur.png" />
     <Content Include="Images\AutoCare\autocare-car-back.png" />
     <Content Include="Images\AutoCare\background-login.png" />
+    <Content Include="Images\AutoCare\icons-cash-register.png" />
+    <Content Include="Images\AutoCare\icons-cashier.png" />
     <Content Include="Images\AutoCare\icons-call.png" />
     <Content Include="Images\AutoCare\icons-callback.png" />
     <Content Include="Images\AutoCare\icons-gear.png" />
@@ -1720,6 +1722,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Cashier\CashierJobList.js" />
+    <Content Include="Scripts\Cashier\CashierPayments.js" />
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
     <Content Include="Scripts\CustEntMain\CustEntVehicle.js" />
@@ -2710,6 +2713,9 @@
     <Content Include="Views\Cashier\Index.cshtml" />
     <Content Include="Views\Cashier\AddPayment.cshtml" />
     <Content Include="Views\Cashier\JobPaymentDetails.cshtml" />
+    <Content Include="Views\Cashier\_PermissionModal.cshtml" />
+    <Content Include="Views\Cashier\EditPayment.cshtml" />
+    <Content Include="Views\Cashier\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -3,9 +3,9 @@
 @{
     ViewBag.Title = "Job Service - Payments";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    decimal PaidTotal = 0;
+    var service = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
 }
-
-
 
 <h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
 
@@ -26,12 +26,50 @@
             @ViewBag.JobStatus
         }
 
-        <br /> <h4>Total Amount:   @{ Html.RenderAction("GetJobTotalAmount", new { id = ViewBag.JobMainId }); } </h4>
-
     </p>
-
-
 </div>
+
+<table class="table">
+    <tr>
+        <td> Date </td>
+        <td> Job Particulars ( Service ) </td>
+        <td> Amount </td>
+    </tr>
+
+    @foreach (var svc in service)
+    {
+        <tr>
+            <td width="300px">
+                @(((DateTime)svc.DtStart).ToString("MMM dd yyyy (ddd)"))
+               - @(((DateTime)svc.DtEnd).ToString("MMM dd yyyy (ddd)"))
+            </td>
+            <td>
+                 @svc.Particulars ( @svc.Service.Name )
+            </td>
+            <td>
+                @(((Decimal)svc.ActualAmt).ToString("#,#00.00"))
+            </td>
+        </tr>
+    }
+
+    @if (service.Count() == 0)
+    {
+        <tr>
+            <td colspan="3">
+                <p class="text-center"> No Job Service Added </p>
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td colspan="2">
+            <p class="pull-right">Total Amount:   </p>
+        </td>
+        <td>
+            @{ Html.RenderAction("GetJobTotalAmount", new { id = ViewBag.JobMainId }); }
+        </td>
+    </tr>
+</table>
 
 <h3>Payment Details</h3>
 @Html.ActionLink("Add Payment", "AddPayment", new { id = ViewBag.JobMainId })
@@ -42,27 +80,28 @@
             Date
         </th>
         <th>
-            Amount
-        </th>
-        <th>
             Bank
         </th>
         <th>
-           Type
+            Type
         </th>
         <th>
             Remarks
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+
         </th>
     </tr>
 
     @foreach (var item in Model)
     {
+        PaidTotal += item.PaymentAmt;
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DtPayment)
-            </td>
-            <td>
-                @item.PaymentAmt.ToString("#,##0.00")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Bank.BankName)
@@ -72,14 +111,81 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @item.PaymentAmt.ToString("#,##0.00")
+            </td>
+            <td>
+                <a href="#" id="catbtn" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
+                <a href="#" id="catbtn" data-toggle="modal" data-target="#Delete-PermissionModal" onclick="SetDeletePermissionId('@item.Id')"> Delete </a>
                 @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
             </td>
         </tr>
     }
-
+    <tr>
+        <td colspan="4" >
+            <p class="pull-right">
+                Total Paid:
+            </p>
+        </td>
+        <td colspan="2">
+            @PaidTotal.ToString("#,##0.00")
+        </td>
+    </tr>
 </table>
+
+<div class="row job-payment-add-block">
+    <div class="col-md-12">
+        <h4> Add Payment </h4>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <label class="control-label"> Amount </label>
+            <input type="text" class="form-control input-lg" id="AddPayment-Amount" value="0" style="" />
+        </div>
+        <div class="col-md-6" style="margin-top:20px;">
+            <button class="btn btn-primary btn-lg" id="AddPayment-Submit" onclick="AddPaymentSubmit('@ViewBag.JobMainId')">
+                Submit
+            </button>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top:20px;">
+        <div class="col-md-3">
+            <label class="control-label"> Bank </label>
+            <select class="form-control" id="AddPayment-Bank">
+                <option value="1"> Cash </option>
+                <option value="2"> BDO </option>
+                <option value="3"> BPI </option>
+                <option value="4"> Personal Guarantee </option>
+                <option value="3"> Paypal </option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="control-label"> Type </label>
+            <select class="form-control" id="AddPayment-Type">
+                <option value="1"> Cash </option>
+                <option value="2"> Bank </option>
+                <option value="3"> Others </option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="control-label"> Remarks </label>
+            <input type="text" class="form-control" id="AddPayment-Remarks" />
+        </div>
+    </div>
+</div>
 <p>
     @Html.ActionLink("Back to List", "Index")
-
 </p>
+
+@Html.Partial("_PermissionModal")
+
+
+@section Scripts{
+    <script src="~/Scripts/Cashier/CashierPayments.js"></script>
+    <script>
+      
+    </script>
+
+}
