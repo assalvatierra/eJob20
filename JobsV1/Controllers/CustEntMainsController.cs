@@ -173,7 +173,7 @@ namespace JobsV1.Controllers
         }
         
         public List<CompanyJobsList> getJobList(int? id, int? top, string sdate, string edate, string status) {
-
+           
             int topFilter = (int)top;
             //PartialView for Details of the Customer
             List<CustomerJobDetails> jobList = new List<CustomerJobDetails>();
@@ -260,13 +260,21 @@ namespace JobsV1.Controllers
 
         private string removeStringAfterChar(string str)
         {
-            if (str.Contains('@'))
+            try
             {
-                int index = str.IndexOf('@');
-                string result = str.Substring(0, index);
-                return result;
+
+                if (str.Contains('@'))
+                {
+                    int index = str.IndexOf('@');
+                    string result = str.Substring(0, index);
+                    return result;
+                }
+                return str;
             }
-            return str;
+            catch
+            {
+                return "N/A";
+            }
         }
 
         private decimal getJobTotal(int jobId)

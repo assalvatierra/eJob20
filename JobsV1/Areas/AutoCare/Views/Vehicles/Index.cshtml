@@ -105,9 +105,26 @@
 @section Scripts{
     <script>
 
+        $(() => {
+            $("#SearchVehicle").val(@ViewBag.SearchString);
+            $("#SearchVehicle").focus();
+        });
+
         function SearchVehicle_Submit() {
             searchValue = $("#SearchVehicle").val();
             window.location.href = "/AutoCare/Vehicles/Index?srch=" + searchValue;
         }
+
+
+        //On Enter submit
+        $('#SearchVehicle').keypress(function (e) {
+            var key = e.which;
+            if (key == 13)  // the enter key code
+            {
+                SearchVehicle_Submit();
+                return false;
+            }
+        });
+
     </script>
     }

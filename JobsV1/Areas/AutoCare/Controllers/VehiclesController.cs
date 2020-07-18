@@ -25,7 +25,10 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             if (!srch.IsNullOrWhiteSpace())
             {
-                vehicles = vehicles.Where(v => v.PlateNo.ToLower().Contains(srch.ToLower()) || v.Conduction.ToLower().Contains(srch.ToLower()));
+                vehicles = vehicles.Where(v => v.PlateNo.ToLower().Contains(srch.ToLower()) || v.Conduction.ToLower().Contains(srch.ToLower()) ||
+                     v.VehicleModel.VehicleBrand.Brand.ToLower().Contains(srch.ToLower()) || v.VehicleModel.Make.ToLower().Contains(srch.ToLower()) ||
+                     v.Customer.Name.ToLower().Contains(srch.ToLower()) || v.CustEntMain.Name.ToLower().Contains(srch.ToLower())
+                );
             }
 
 
@@ -49,7 +52,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                     break;
             }
 
-
+            ViewBag.SearchString = srch ?? "";
             return View(vehicles.ToList());
         }
 

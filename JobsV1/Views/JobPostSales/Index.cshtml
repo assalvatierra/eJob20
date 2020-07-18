@@ -44,6 +44,9 @@
                     JobId
                 </th>
                 <th>
+                    Customer
+                </th>
+                <th>
                     Service
                 </th>
                 <th>
@@ -89,7 +92,10 @@
                     <td>
                         @if (jobvehicle.Vehicle != null)
                         {
+                        <span>
+                            @jobvehicle.Vehicle.VehicleModel.VehicleBrand.Brand&nbsp;
                             @jobvehicle.Vehicle.VehicleModel.Make
+                        </span>
                         }
 
                     </td>
@@ -101,13 +107,16 @@
 
                     </td>
                     <td>
-                        @jobvehicle.Mileage
+                        @jobvehicle.Mileage.ToString("#,##0")
                     </td>
                     <td>
                         @item.JobMain.Id
                     </td>
                     <td>
-                        @Html.ActionLink(item.Service.Name, "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null)
+                        @item.JobMain.Customer.Name
+                    </td>
+                    <td>
+                       @Html.ActionLink(item.Service.Name + " - " + item.Particulars , "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null)
                        
                     </td>
                     <td>
