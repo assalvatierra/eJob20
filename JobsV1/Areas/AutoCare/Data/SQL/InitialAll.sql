@@ -358,4 +358,4 @@ insert into JobPaymentStatus([Status]) values
 ('Paid'),('Unpaid'),('Term');
 
 insert into JobPaymentTypes([Type]) values 
-('Cash'),('Bank'),('Others')
+('Cash'),('Bank'),('Others'),('Discount');

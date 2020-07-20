@@ -18,6 +18,7 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
         private DateClass dt = new DateClass();
         private ActionTrailClass trail = new ActionTrailClass();
+        private JobOrderClass jo = new JobOrderClass();
 
         // GET: Cashier
         public ActionResult Index(string srch, int? paymentStatus, int? jobStatus)
@@ -78,6 +79,9 @@ namespace JobsV1.Controllers
                 total += (decimal)svc.ActualAmt;
             }
 
+            //subtract discounted amount
+            total += jo.GetJobDiscountAmount(id);
+
             return total.ToString("#,##0.00");
         }
 
@@ -89,13 +93,15 @@ namespace JobsV1.Controllers
             {
                 foreach (var payment in jobpayments)
                 {
-                    totalPaidAmount += payment.PaymentAmt;
+                    if(payment.JobPaymentTypeId != 4)
+                    {
+                        totalPaidAmount += payment.PaymentAmt;
+                    }
                 }
             }
 
             return totalPaidAmount.ToString("#,##0.00");
         }
-
 
         private IQueryable<JobMain> GetFilteredJobPayment(IQueryable<JobMain> jobs, int? paymentStatus)
         {
@@ -169,8 +175,9 @@ namespace JobsV1.Controllers
             ViewBag.JobServices= services;
             ViewBag.JobOrder = Job;
             ViewBag.JobStatus = Job.JobStatus.Status;
+            ViewBag.JobDiscount = jo.GetJobDiscountAmount((int)id);
 
-            var jobPayments = db.JobPayments.Where(d => d.JobMainId == id);
+            var jobPayments = db.JobPayments.Where(d => d.JobMainId == id );
             return View(jobPayments.ToList());
         }
 
@@ -194,6 +201,13 @@ namespace JobsV1.Controllers
                 jp.DtPayment = dt.GetCurrentDateTime();
                 jp.Remarks = remarks;
                 jp.PaymentAmt = amount;
+
+                //check if payment type is (PaymentTypeID = 4) Discount
+                if (jp.JobPaymentTypeId == 4)
+                {
+                    //multiply by -1 to subtract from total amount
+                    jp.PaymentAmt = (-1) * (jp.PaymentAmt);
+                }
 
                 db.JobPayments.Add(jp);
                 db.SaveChanges();
@@ -237,6 +251,14 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                //check if payment type is (PaymentTypeID = 4) Discount
+                if (jobPayment.JobPaymentTypeId == 4)
+                {
+                    //multiply by -1 to subtract from total amount
+                    jobPayment.PaymentAmt = (-1) * (jobPayment.PaymentAmt);
+                }
+
                 db.JobPayments.Add(jobPayment);
                 db.SaveChanges();
 
@@ -274,6 +296,9 @@ namespace JobsV1.Controllers
                         totalAmount += (decimal)svc.ActualAmt;
                     }
 
+                    //subtract discounted amount
+                    totalAmount += jo.GetJobDiscountAmount(id);
+
                     //check payment amount if greater than total
                     var payments = db.JobPayments.Where(p => p.JobMainId == id).ToList();
                    
@@ -282,7 +307,9 @@ namespace JobsV1.Controllers
 
                         foreach (var paid in payments)
                         {
-                            totalPaymentAmount += (decimal)paid.PaymentAmt;
+                            //add payment amount except 4 = Discount
+                            if(paid.JobPaymentTypeId != 4)
+                                totalPaymentAmount += (decimal)paid.PaymentAmt;
                         }
 
                     }
@@ -336,6 +363,13 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+                //check if payment type is (PaymentTypeID = 4) Discount
+                if (jobPayment.JobPaymentTypeId == 4)
+                {
+                    //multiply by -1 to subtract from total amount
+                    jobPayment.PaymentAmt = (-1) * (jobPayment.PaymentAmt);
+                }
+
                 db.Entry(jobPayment).State = EntityState.Modified;
                 db.SaveChanges();
 

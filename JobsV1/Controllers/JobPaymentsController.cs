@@ -122,6 +122,14 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                //check if payment type is (PaymentTypeID = 4) Discount
+                if (jobPayment.JobPaymentTypeId == 4)
+                {
+                    //multiply by -1 to subtract from total amount
+                    jobPayment.PaymentAmt = (-1)*(jobPayment.PaymentAmt);
+                }
+
                 db.JobPayments.Add(jobPayment);
                 db.SaveChanges();
 
@@ -167,6 +175,14 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                //check if payment type is (PaymentTypeID = 4) Discount
+                if (jobPayment.JobPaymentTypeId == 4)
+                {
+                    //multiply by -1 to subtract from total amount
+                    jobPayment.PaymentAmt = (-1) * (jobPayment.PaymentAmt);
+                }
+
                 db.Entry(jobPayment).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -252,6 +268,24 @@ namespace JobsV1.Controllers
             {
                 return false;
             }
+        }
+
+        public decimal GetJobDiscount(int jobId)
+        {
+            //get job discount payments of job
+            var jobpayments = db.JobPayments.Where(p => p.JobMainId == jobId && p.JobPaymentTypeId == 4).ToList();
+            if (jobpayments != null)
+            {
+                decimal totalDiscount = 0;
+
+                //get total discount
+                jobpayments.ForEach(p =>
+                    totalDiscount += p.PaymentAmt
+                    );
+
+                return totalDiscount;
+            }
+            return 0;
         }
     }
 }

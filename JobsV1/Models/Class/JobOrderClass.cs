@@ -401,6 +401,23 @@ order by x.jobid
 
         }
 
+        public decimal GetJobDiscountAmount(int jobId)
+        {
+            //get job discount payments of job
+            var jobpayments = db.JobPayments.Where(p => p.JobMainId == jobId && p.JobPaymentTypeId == 4).ToList();
+            if (jobpayments.Count != 0)
+            {
+                decimal totalDiscount = 0;
+
+                //get total discount
+                jobpayments.ForEach(p =>
+                    totalDiscount += p.PaymentAmt
+                    );
+
+                return totalDiscount;
+            }
+            return 0;
+        }
 
 
     }

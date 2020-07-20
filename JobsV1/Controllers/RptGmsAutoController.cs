@@ -54,6 +54,7 @@ namespace JobsV1.Controllers
             ViewBag.JobServices = jobServices;
             ViewBag.StartJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
             ViewBag.EndJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
+            ViewBag.DiscountAmount = jobOrderClass.GetJobDiscountAmount(jobmain.Id);
 
 
             return View(jobmain);
@@ -87,6 +88,7 @@ namespace JobsV1.Controllers
             ViewBag.JobServices = jobServices;
             ViewBag.StartJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
             ViewBag.EndJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
+            ViewBag.DiscountAmount = jobOrderClass.GetJobDiscountAmount(jobmain.Id);
 
 
             return View(jobmain);

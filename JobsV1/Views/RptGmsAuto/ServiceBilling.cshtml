@@ -4,6 +4,7 @@
     var JobVehicle = ViewBag.JobVehicle as JobsV1.Models.JobVehicle;
     var VehicleHistory = ViewBag.VehicleServiceHistory as IEnumerable<JobsV1.Models.JobVehicle>;
     var jobServices = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
+    var DiscountAmount = (Decimal)ViewBag.DiscountAmount;
 }
 
 <link href="~/Content/GMSReport.css" rel="stylesheet" />
@@ -89,7 +90,7 @@
                                     <p class="text-muted" style="margin-left:5px;"> Payment Status </p>
                                     @if (@Model.JobMainPaymentStatus.FirstOrDefault() != null)
                                     {
-                                        <p> @Model.JobMainPaymentStatus.FirstOrDefault().JobPaymentStatu.Status </p>
+                                        <p> @Model.JobMainPaymentStatus.OrderByDescending(s=>s.Id).FirstOrDefault().JobPaymentStatu.Status </p>
                                     }
                                 </div>
                             </div>
@@ -393,6 +394,22 @@
                             </div>
                         </td>
                     </tr>
+
+                    <!-- Discount Amount -->
+                    @if (DiscountAmount != 0)
+                    {
+                         TotalAmount += DiscountAmount; 
+                        <tr class="rpt-tr-border-none">
+                            <td colspan="3">
+                            </td>
+                            <td>
+                                Discount
+                            </td>
+                            <td>
+                                @DiscountAmount.ToString("#,##0.00")  &nbsp;
+                            </td>
+                        </tr>
+                    }
 
                     <!-- Total Amount -->
                     <tr class="rpt-tr-border-none">

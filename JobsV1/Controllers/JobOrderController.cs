@@ -259,6 +259,7 @@ namespace JobsV1.Controllers
                     joTmp.Services.Add(cjoTmp);
                 }
 
+
                 //get min job date
                 if (sortid == 1)
                 {
@@ -275,11 +276,21 @@ namespace JobsV1.Controllers
                     joTmp.Main.JobDate = MinJobDate(joTmp.Main.Id);
                 }
 
+                //add payments
                 List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
                 foreach (var payment in jobPayment)
                 {
-                    joTmp.Payment += payment.PaymentAmt;
+                    //add payments except discount (JobPaymentTypeId = 4)
+                    if (payment.JobPaymentTypeId != 4)
+                    {
+                        joTmp.Payment += payment.PaymentAmt;
+                    }
                 }
+
+                //add discounts
+                //subtract discount amount
+                joTmp.Main.AgreedAmt += jo.GetJobDiscountAmount(main.Id);
+
 
                 data.Add(joTmp);
             }
@@ -645,12 +656,21 @@ order by x.jobid
                 
                 joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
 
+                //job payments
                 joTmp.Payment = 0;
                 List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
                 foreach (var payment in jobPayment)
                 {
-                    joTmp.Payment += payment.PaymentAmt;
+                    //add payments except discount (JobPaymentTypeId = 4)
+                    if (payment.JobPaymentTypeId != 4)
+                    {
+                        joTmp.Payment += payment.PaymentAmt;
+                    }
                 }
+
+                //add discounts
+                //subtract discount amount
+                joTmp.Main.AgreedAmt += jo.GetJobDiscountAmount(main.Id);
 
                 data.Add(joTmp);
 
