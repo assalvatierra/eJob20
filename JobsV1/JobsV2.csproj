@@ -350,6 +350,8 @@
     <Compile Include="Areas\Personel\Controllers\CarRentalLogController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogCompaniesController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogDriversController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogUnitsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HomeController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrDtrsController.cs" />
@@ -1193,6 +1195,8 @@
     </Content>
     <Content Include="Areas\Personel\Models\InitHRData.sql" />
     <Content Include="Areas\Personel\Models\InitData.sql" />
+    <Content Include="Areas\Personel\Script\CrLogFuel.js" />
+    <Content Include="Areas\Personel\Script\CrLogOdoes.js" />
     <Content Include="Areas\Personel\Script\CarRentalLog.js" />
     <Content Include="Areas\Personel\Script\DateRangePicker\daterangepicker.js" />
     <Content Include="Areas\Personel\Script\DateRangePicker\moment.js" />
@@ -1946,6 +1950,16 @@
     <Content Include="Areas\Personel\Views\crLogUnits\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogUnits\Index.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\_SearchCustomerModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOdoes\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOdoes\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOdoes\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOdoes\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogOdoes\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\Index.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

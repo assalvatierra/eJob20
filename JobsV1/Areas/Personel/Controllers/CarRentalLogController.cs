@@ -76,9 +76,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 //get summary
                 var logSummary = GetCrLogSummary(tripLogs);
-                ViewBag.DriversLogSummary = logSummary.CrDrivers;
-                ViewBag.CompaniesLogSummary = logSummary.CrCompanies;
-                ViewBag.UnitsLogSummary = logSummary.CrUnits;
+                ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
+                ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
+                ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
 
                 ViewBag.FilteredsDate = startDate;
                 ViewBag.FilteredeDate = endDate;
