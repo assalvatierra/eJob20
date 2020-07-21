@@ -68,21 +68,33 @@ namespace JobsV1.Controllers
             return View(jobs.ToList());
         }
 
-        public string GetJobTotalAmount(int id)
+        public string GetJobTotalAmount(int? id)
         {
-            var jobservices = db.JobServices.Where(j => j.JobMainId == id).ToList();
-
-            decimal total = 0;
-
-            foreach (var svc in jobservices)
+            try
             {
-                total += (decimal)svc.ActualAmt;
+
+                if (id == null)
+                {
+                    return "0.00";
+                }
+                var jobservices = db.JobServices.Where(j => j.JobMainId == id).ToList();
+
+                decimal total = 0;
+
+                foreach (var svc in jobservices)
+                {
+                    total += (decimal)svc.ActualAmt;
+                }
+
+                //subtract discounted amount
+                total += jo.GetJobDiscountAmount((int)id);
+
+                return total.ToString("#,##0.00");
             }
-
-            //subtract discounted amount
-            total += jo.GetJobDiscountAmount(id);
-
-            return total.ToString("#,##0.00");
+            catch
+            {
+                return "0.00";
+            }
         }
 
         public string GetJobTotalPaidAmount(int id)

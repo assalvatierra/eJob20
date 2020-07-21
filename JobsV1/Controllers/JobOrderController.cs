@@ -1650,6 +1650,19 @@ order by x.jobid
         {
             if (ModelState.IsValid)
             {
+                if (jobServices.QuotedAmt == null)
+                {
+                    jobServices.QuotedAmt = 0;
+                    jobServices.ActualAmt = 0;
+                }
+                else
+                {
+
+                    jobServices.ActualAmt = jobServices.QuotedAmt;
+                }
+
+
+
                 jobServices.DtEnd = ((DateTime)jobServices.DtEnd).Add(new TimeSpan(23, 59, 59));
                 db.JobServices.Add(jobServices);
                 db.SaveChanges();
@@ -1732,6 +1745,17 @@ order by x.jobid
                     ititmp.ItiDate = new DateTime(dtSvc.Year, dtSvc.Month, dtSvc.Day, iHr, iMn, 0);
                     db.Entry(ititmp).State = EntityState.Modified;
                 }
+
+                if (jobServices.QuotedAmt == null)
+                {
+                    jobServices.QuotedAmt = 0;
+                    jobServices.ActualAmt = 0;
+                }
+                else
+                {
+                    jobServices.ActualAmt = jobServices.QuotedAmt;
+                }
+
 
                 //db.SaveChanges();
                 updateJobDate(jobServices.JobMainId);

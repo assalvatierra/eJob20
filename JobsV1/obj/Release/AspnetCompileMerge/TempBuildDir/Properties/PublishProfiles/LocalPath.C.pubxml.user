@@ -718,10 +718,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>07/20/2020 17:01:05</publishTime>
+      <publishTime>07/20/2020 18:07:34</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>07/20/2020 17:01:04</publishTime>
+      <publishTime>07/20/2020 18:07:34</publishTime>
     </File>
     <File Include="bin/de/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -745,10 +745,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>07/20/2020 17:00:32</publishTime>
+      <publishTime>07/20/2020 18:07:01</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>07/20/2020 17:00:32</publishTime>
+      <publishTime>07/20/2020 18:07:01</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -2338,7 +2338,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/02/2020 18:00:03</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>07/20/2020 17:00:56</publishTime>
+      <publishTime>07/20/2020 18:07:28</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -2347,7 +2347,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:32</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>07/20/2020 16:47:42</publishTime>
+      <publishTime>07/20/2020 17:57:32</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>02/19/2020 17:09:27</publishTime>
@@ -2549,6 +2549,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/Job/JobServices.js">
       <publishTime>07/09/2020 14:11:10</publishTime>
+    </File>
+    <File Include="Scripts/Job/JobServicesAdd.js">
+      <publishTime>07/20/2020 17:59:35</publishTime>
     </File>
     <File Include="Scripts/Job/JobVehicle.js">
       <publishTime>06/16/2020 13:09:09</publishTime>
@@ -3592,10 +3595,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/16/2020 12:49:15</publishTime>
     </File>
     <File Include="Views/Cashier/Index.cshtml">
-      <publishTime>07/16/2020 12:41:08</publishTime>
+      <publishTime>07/20/2020 17:46:24</publishTime>
     </File>
     <File Include="Views/Cashier/JobPaymentDetails.cshtml">
-      <publishTime>07/20/2020 16:38:29</publishTime>
+      <publishTime>07/20/2020 17:03:58</publishTime>
     </File>
     <File Include="Views/Cashier/_PermissionModal.cshtml">
       <publishTime>07/16/2020 12:59:25</publishTime>
@@ -4270,7 +4273,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/04/2020 14:49:10</publishTime>
     </File>
     <File Include="Views/JobOrder/JobServiceAdd.cshtml">
-      <publishTime>07/02/2020 18:59:58</publishTime>
+      <publishTime>07/20/2020 18:06:34</publishTime>
     </File>
     <File Include="Views/JobOrder/JobServiceDetails.cshtml">
       <publishTime>03/05/2019 09:53:34</publishTime>
@@ -5059,7 +5062,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:35</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/20/2020 16:46:52</publishTime>
+      <publishTime>07/20/2020 18:07:27</publishTime>
     </File>
     <File Include="WebService.asmx">
       <publishTime>03/05/2019 09:53:35</publishTime>

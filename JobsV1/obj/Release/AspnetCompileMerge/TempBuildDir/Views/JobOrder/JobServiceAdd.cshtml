@@ -74,7 +74,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.QuotedAmt, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.QuotedAmt, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.QuotedAmt, new { htmlAttributes = new { @class = "form-control" , @id="js-Amount" } })
                 @Html.ValidationMessageFor(model => model.QuotedAmt, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -120,4 +120,5 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/DateRangePicker/moment.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Job/Services.js"></script>
+    <script src="~/Scripts/Job/JobServicesAdd.js"> </script>
 }
