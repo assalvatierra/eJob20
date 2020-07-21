@@ -12,24 +12,26 @@ namespace JobsV1.Areas.Personel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class crLogUnit
+    public partial class crLogFuel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public crLogUnit()
+        public crLogFuel()
         {
-            this.crLogTrips = new HashSet<crLogTrip>();
-            this.crLogFuels = new HashSet<crLogFuel>();
-            this.crLogOdoes = new HashSet<crLogOdo>();
+            this.crLogFuelStatus = new HashSet<crLogFuelStatus>();
         }
     
         public int Id { get; set; }
-        public string Description { get; set; }
+        public System.DateTime dtRequest { get; set; }
+        public decimal Amount { get; set; }
+        public int crLogUnitId { get; set; }
+        public int crLogDriverId { get; set; }
+        public System.DateTime dtFillup { get; set; }
+        public int odoFillup { get; set; }
+        public decimal orAmount { get; set; }
     
+        public virtual crLogUnit crLogUnit { get; set; }
+        public virtual crLogDriver crLogDriver { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crLogTrip> crLogTrips { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crLogFuel> crLogFuels { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crLogOdo> crLogOdoes { get; set; }
+        public virtual ICollection<crLogFuelStatus> crLogFuelStatus { get; set; }
     }
 }
