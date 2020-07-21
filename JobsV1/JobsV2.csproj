@@ -373,8 +373,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CarRentalLogDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\crCashReqStatus.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\crDriverSummary.cs" />
     <Compile Include="Areas\Personel\Models\crLogCashRelease.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogCashStatus.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogClosing.cs">
@@ -384,6 +390,15 @@
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogDriver.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogFuel.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogFuelStatus.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogOdo.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\CrLogSummary.cs" />

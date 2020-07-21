@@ -199,6 +199,43 @@
             <End Role="crLogClosing" EntitySet="crLogClosings" />
             <End Role="crLogTrip" EntitySet="crLogTrips" />
           </AssociationSet>
+          <EntitySet Name="crLogFuels" EntityType="CarRentalLogDB.crLogFuel" />
+          <AssociationSet Name="crLogUnitcrLogFuel" Association="CarRentalLogDB.crLogUnitcrLogFuel">
+            <End Role="crLogUnit" EntitySet="crLogUnits" />
+            <End Role="crLogFuel" EntitySet="crLogFuels" />
+          </AssociationSet>
+          <AssociationSet Name="crLogDrivercrLogFuel" Association="CarRentalLogDB.crLogDrivercrLogFuel">
+            <End Role="crLogDriver" EntitySet="crLogDrivers" />
+            <End Role="crLogFuel" EntitySet="crLogFuels" />
+          </AssociationSet>
+          <EntitySet Name="crLogOdoes1" EntityType="CarRentalLogDB.crLogOdo" />
+          <AssociationSet Name="crLogUnitcrLogOdo" Association="CarRentalLogDB.crLogUnitcrLogOdo">
+            <End Role="crLogUnit" EntitySet="crLogUnits" />
+            <End Role="crLogOdo" EntitySet="crLogOdoes1" />
+          </AssociationSet>
+          <AssociationSet Name="crLogDrivercrLogOdo" Association="CarRentalLogDB.crLogDrivercrLogOdo">
+            <End Role="crLogDriver" EntitySet="crLogDrivers" />
+            <End Role="crLogOdo" EntitySet="crLogOdoes1" />
+          </AssociationSet>
+          <EntitySet Name="crCashReqStatus" EntityType="CarRentalLogDB.crCashReqStatus" />
+          <EntitySet Name="crLogFuelStatus" EntityType="CarRentalLogDB.crLogFuelStatus" />
+          <AssociationSet Name="crLogFuelcrLogFuelStatus" Association="CarRentalLogDB.crLogFuelcrLogFuelStatus">
+            <End Role="crLogFuel" EntitySet="crLogFuels" />
+            <End Role="crLogFuelStatus" EntitySet="crLogFuelStatus" />
+          </AssociationSet>
+          <AssociationSet Name="crCashReqStatuscrLogFuelStatus" Association="CarRentalLogDB.crCashReqStatuscrLogFuelStatus">
+            <End Role="crCashReqStatus" EntitySet="crCashReqStatus" />
+            <End Role="crLogFuelStatus" EntitySet="crLogFuelStatus" />
+          </AssociationSet>
+          <EntitySet Name="crLogCashStatus" EntityType="CarRentalLogDB.crLogCashStatus" />
+          <AssociationSet Name="crLogCashReleasecrLogCashStatus" Association="CarRentalLogDB.crLogCashReleasecrLogCashStatus">
+            <End Role="crLogCashRelease" EntitySet="crLogCashReleases" />
+            <End Role="crLogCashStatus" EntitySet="crLogCashStatus" />
+          </AssociationSet>
+          <AssociationSet Name="crCashReqStatuscrLogCashStatus" Association="CarRentalLogDB.crCashReqStatuscrLogCashStatus">
+            <End Role="crCashReqStatus" EntitySet="crCashReqStatus" />
+            <End Role="crLogCashStatus" EntitySet="crLogCashStatus" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -208,6 +245,8 @@
           <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogDrivercrLogTrip" FromRole="crLogDriver" ToRole="crLogTrip" />
           <NavigationProperty Name="crLogCashReleases" Relationship="CarRentalLogDB.crLogDrivercrLogCashRelease" FromRole="crLogDriver" ToRole="crLogCashRelease" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="crLogFuels" Relationship="CarRentalLogDB.crLogDrivercrLogFuel" FromRole="crLogDriver" ToRole="crLogFuel" />
+          <NavigationProperty Name="crLogOdoes" Relationship="CarRentalLogDB.crLogDrivercrLogOdo" FromRole="crLogDriver" ToRole="crLogOdo" />
         </EntityType>
         <EntityType Name="crLogUnit">
           <Key>
@@ -216,6 +255,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogUnitcrLogTrip" FromRole="crLogUnit" ToRole="crLogTrip" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="30" />
+          <NavigationProperty Name="crLogFuels" Relationship="CarRentalLogDB.crLogUnitcrLogFuel" FromRole="crLogUnit" ToRole="crLogFuel" />
+          <NavigationProperty Name="crLogOdoes" Relationship="CarRentalLogDB.crLogUnitcrLogOdo" FromRole="crLogUnit" ToRole="crLogOdo" />
         </EntityType>
         <EntityType Name="crLogCompany">
           <Key>
@@ -293,6 +334,7 @@
           <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="crLogClosing" Relationship="CarRentalLogDB.crLogClosingcrLogCashRelease" FromRole="crLogCashRelease" ToRole="crLogClosing" />
           <Property Name="crLogClosingId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="crLogCashStatus" Relationship="CarRentalLogDB.crLogCashReleasecrLogCashStatus" FromRole="crLogCashRelease" ToRole="crLogCashStatus" />
         </EntityType>
         <Association Name="crLogDrivercrLogCashRelease">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -336,6 +378,162 @@
             </Principal>
             <Dependent Role="crLogTrip">
               <PropertyRef Name="crLogClosingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crLogFuel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtRequest" Type="DateTime" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="crLogUnit" Relationship="CarRentalLogDB.crLogUnitcrLogFuel" FromRole="crLogFuel" ToRole="crLogUnit" />
+          <Property Name="crLogUnitId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crLogDriver" Relationship="CarRentalLogDB.crLogDrivercrLogFuel" FromRole="crLogFuel" ToRole="crLogDriver" />
+          <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
+          <Property Name="dtFillup" Type="DateTime" Nullable="false" />
+          <Property Name="odoFillup" Type="Int32" Nullable="false" />
+          <Property Name="orAmount" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="crLogFuelStatus" Relationship="CarRentalLogDB.crLogFuelcrLogFuelStatus" FromRole="crLogFuel" ToRole="crLogFuelStatus" />
+        </EntityType>
+        <Association Name="crLogUnitcrLogFuel">
+          <End Type="CarRentalLogDB.crLogUnit" Role="crLogUnit" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogFuel" Role="crLogFuel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogFuel">
+              <PropertyRef Name="crLogUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crLogDrivercrLogFuel">
+          <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogFuel" Role="crLogFuel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogDriver">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogFuel">
+              <PropertyRef Name="crLogDriverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crLogOdo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="crLogUnit" Relationship="CarRentalLogDB.crLogUnitcrLogOdo" FromRole="crLogOdo" ToRole="crLogUnit" />
+          <Property Name="crLogUnitId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crLogDriver" Relationship="CarRentalLogDB.crLogDrivercrLogOdo" FromRole="crLogOdo" ToRole="crLogDriver" />
+          <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
+          <Property Name="OdoCurrent" Type="Int32" Nullable="false" />
+          <Property Name="dtReading" Type="DateTime" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" />
+        </EntityType>
+        <Association Name="crLogUnitcrLogOdo">
+          <End Type="CarRentalLogDB.crLogUnit" Role="crLogUnit" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogOdo" Role="crLogOdo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogOdo">
+              <PropertyRef Name="crLogUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crLogDrivercrLogOdo">
+          <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogOdo" Role="crLogOdo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogDriver">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogOdo">
+              <PropertyRef Name="crLogDriverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crCashReqStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" />
+          <NavigationProperty Name="crLogFuelStatus" Relationship="CarRentalLogDB.crCashReqStatuscrLogFuelStatus" FromRole="crCashReqStatus" ToRole="crLogFuelStatus" />
+          <NavigationProperty Name="crLogCashStatus" Relationship="CarRentalLogDB.crCashReqStatuscrLogCashStatus" FromRole="crCashReqStatus" ToRole="crLogCashStatus" />
+        </EntityType>
+        <EntityType Name="crLogFuelStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtStatus" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="crLogFuel" Relationship="CarRentalLogDB.crLogFuelcrLogFuelStatus" FromRole="crLogFuelStatus" ToRole="crLogFuel" />
+          <Property Name="crLogFuelId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crCashReqStatu" Relationship="CarRentalLogDB.crCashReqStatuscrLogFuelStatus" FromRole="crLogFuelStatus" ToRole="crCashReqStatus" />
+          <Property Name="crCashReqStatusId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="crLogFuelcrLogFuelStatus">
+          <End Type="CarRentalLogDB.crLogFuel" Role="crLogFuel" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogFuelStatus" Role="crLogFuelStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogFuel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogFuelStatus">
+              <PropertyRef Name="crLogFuelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crCashReqStatuscrLogFuelStatus">
+          <End Type="CarRentalLogDB.crCashReqStatus" Role="crCashReqStatus" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogFuelStatus" Role="crLogFuelStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crCashReqStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogFuelStatus">
+              <PropertyRef Name="crCashReqStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crLogCashStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtStatus" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="crLogCashRelease" Relationship="CarRentalLogDB.crLogCashReleasecrLogCashStatus" FromRole="crLogCashStatus" ToRole="crLogCashRelease" />
+          <Property Name="crLogCashReleaseId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crCashReqStatu" Relationship="CarRentalLogDB.crCashReqStatuscrLogCashStatus" FromRole="crLogCashStatus" ToRole="crCashReqStatus" />
+          <Property Name="crCashReqStatusId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="crLogCashReleasecrLogCashStatus">
+          <End Type="CarRentalLogDB.crLogCashRelease" Role="crLogCashRelease" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogCashStatus" Role="crLogCashStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogCashRelease">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogCashStatus">
+              <PropertyRef Name="crLogCashReleaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crCashReqStatuscrLogCashStatus">
+          <End Type="CarRentalLogDB.crCashReqStatus" Role="crCashReqStatus" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogCashStatus" Role="crLogCashStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crCashReqStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogCashStatus">
+              <PropertyRef Name="crCashReqStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
