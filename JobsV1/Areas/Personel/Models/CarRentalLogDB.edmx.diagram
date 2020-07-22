@@ -17,20 +17,20 @@
         <EntityTypeShape EntityType="CarRentalLogDB.crLogClosing" Width="1.5" PointX="7" PointY="1.375" />
         <AssociationConnector Association="CarRentalLogDB.crLogClosingcrLogCashRelease" />
         <AssociationConnector Association="CarRentalLogDB.crLogClosingcrLogTrip" />
-        <EntityTypeShape EntityType="CarRentalLogDB.crLogFuel" Width="1.5" PointX="4.5" PointY="8.75" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogFuel" Width="1.5" PointX="4.625" PointY="12.125" />
         <AssociationConnector Association="CarRentalLogDB.crLogUnitcrLogFuel" />
         <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogFuel" />
         <EntityTypeShape EntityType="CarRentalLogDB.crLogOdo" Width="1.5" PointX="4.5" PointY="5.75" />
         <AssociationConnector Association="CarRentalLogDB.crLogUnitcrLogOdo" />
         <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogOdo" />
-        <EntityTypeShape EntityType="CarRentalLogDB.crCashReqStatus" Width="1.5" PointX="11.5" PointY="11.75" />
-        <EntityTypeShape EntityType="CarRentalLogDB.crLogFuelStatus" Width="1.5" PointX="7.75" PointY="11.5" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crCashReqStatus" Width="1.5" PointX="11.5" PointY="14" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogFuelStatus" Width="1.5" PointX="9" PointY="14" />
         <AssociationConnector Association="CarRentalLogDB.crLogFuelcrLogFuelStatus" />
         <AssociationConnector Association="CarRentalLogDB.crCashReqStatuscrLogFuelStatus" />
         <EntityTypeShape EntityType="CarRentalLogDB.crLogCashStatus" Width="1.5" PointX="11.375" PointY="5.125" />
         <AssociationConnector Association="CarRentalLogDB.crLogCashReleasecrLogCashStatus" />
         <AssociationConnector Association="CarRentalLogDB.crCashReqStatuscrLogCashStatus" />
-        <EntityTypeShape EntityType="CarRentalLogDB.crLogType" Width="1.5" PointX="1.75" PointY="10.75" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogType" Width="1.5" PointX="4.625" PointY="9.875" />
         <AssociationConnector Association="CarRentalLogDB.crLogTypecrLogFuel" />
       </Diagram>
     </edmx:Diagrams>

@@ -434,6 +434,9 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
           <NavigationProperty Name="crLogFuels" Relationship="CarRentalLogDB.crLogDrivercrLogFuel" FromRole="crLogDriver" ToRole="crLogFuel" />
           <NavigationProperty Name="crLogOdoes" Relationship="CarRentalLogDB.crLogDrivercrLogOdo" FromRole="crLogDriver" ToRole="crLogOdo" />
+          <Property Name="contact1" Type="String" Nullable="true" />
+          <Property Name="contact2" Type="String" Nullable="true" />
+          <Property Name="OrderNo" Type="Int32" Nullable="true" />
         </EntityType>
         <EntityType Name="crLogUnit">
           <Key>
@@ -444,6 +447,7 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="30" />
           <NavigationProperty Name="crLogFuels" Relationship="CarRentalLogDB.crLogUnitcrLogFuel" FromRole="crLogUnit" ToRole="crLogFuel" />
           <NavigationProperty Name="crLogOdoes" Relationship="CarRentalLogDB.crLogUnitcrLogOdo" FromRole="crLogUnit" ToRole="crLogOdo" />
+          <Property Name="OrderNo" Type="Int32" Nullable="true" />
         </EntityType>
         <EntityType Name="crLogCompany">
           <Key>
