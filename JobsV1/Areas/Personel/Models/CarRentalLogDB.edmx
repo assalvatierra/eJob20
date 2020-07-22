@@ -418,6 +418,11 @@
             <End Role="crCashReqStatus" EntitySet="crCashReqStatus" />
             <End Role="crLogCashStatus" EntitySet="crLogCashStatus" />
           </AssociationSet>
+          <EntitySet Name="crLogTypes" EntityType="CarRentalLogDB.crLogType" />
+          <AssociationSet Name="crLogTypecrLogFuel" Association="CarRentalLogDB.crLogTypecrLogFuel">
+            <End Role="crLogType" EntitySet="crLogTypes" />
+            <End Role="crLogFuel" EntitySet="crLogFuels" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -578,6 +583,8 @@
           <Property Name="odoFillup" Type="Int32" Nullable="false" />
           <Property Name="orAmount" Type="Decimal" Nullable="false" />
           <NavigationProperty Name="crLogFuelStatus" Relationship="CarRentalLogDB.crLogFuelcrLogFuelStatus" FromRole="crLogFuel" ToRole="crLogFuelStatus" />
+          <NavigationProperty Name="crLogType" Relationship="CarRentalLogDB.crLogTypecrLogFuel" FromRole="crLogFuel" ToRole="crLogType" />
+          <Property Name="crLogTypeId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="crLogUnitcrLogFuel">
           <End Type="CarRentalLogDB.crLogUnit" Role="crLogUnit" Multiplicity="1" />
@@ -716,6 +723,26 @@
             </Principal>
             <Dependent Role="crLogCashStatus">
               <PropertyRef Name="crCashReqStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crLogType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" />
+          <NavigationProperty Name="crLogFuels" Relationship="CarRentalLogDB.crLogTypecrLogFuel" FromRole="crLogType" ToRole="crLogFuel" />
+        </EntityType>
+        <Association Name="crLogTypecrLogFuel">
+          <End Type="CarRentalLogDB.crLogType" Role="crLogType" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogFuel" Role="crLogFuel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogFuel">
+              <PropertyRef Name="crLogTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

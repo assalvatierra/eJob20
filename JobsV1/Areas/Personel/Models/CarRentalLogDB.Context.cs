@@ -36,5 +36,6 @@ namespace JobsV1.Areas.Personel.Models
         public virtual DbSet<crCashReqStatus> crCashReqStatus { get; set; }
         public virtual DbSet<crLogFuelStatus> crLogFuelStatus { get; set; }
         public virtual DbSet<crLogCashStatus> crLogCashStatus { get; set; }
+        public virtual DbSet<crLogType> crLogTypes { get; set; }
     }
 }

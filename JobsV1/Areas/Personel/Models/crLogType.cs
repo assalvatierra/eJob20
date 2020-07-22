@@ -12,28 +12,18 @@ namespace JobsV1.Areas.Personel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class crLogFuel
+    public partial class crLogType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public crLogFuel()
+        public crLogType()
         {
-            this.crLogFuelStatus = new HashSet<crLogFuelStatus>();
+            this.crLogFuels = new HashSet<crLogFuel>();
         }
     
         public int Id { get; set; }
-        public System.DateTime dtRequest { get; set; }
-        public decimal Amount { get; set; }
-        public int crLogUnitId { get; set; }
-        public int crLogDriverId { get; set; }
-        public System.DateTime dtFillup { get; set; }
-        public int odoFillup { get; set; }
-        public decimal orAmount { get; set; }
-        public int crLogTypeId { get; set; }
+        public string Type { get; set; }
     
-        public virtual crLogUnit crLogUnit { get; set; }
-        public virtual crLogDriver crLogDriver { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crLogFuelStatus> crLogFuelStatus { get; set; }
-        public virtual crLogType crLogType { get; set; }
+        public virtual ICollection<crLogFuel> crLogFuels { get; set; }
     }
 }
