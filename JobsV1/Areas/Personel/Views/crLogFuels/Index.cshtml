@@ -1,8 +1,10 @@
-﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogFuel>
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.cCrLogFuel>
 
 @{
     ViewBag.Title = "Fuel Logs";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var IsAdmin = (bool)ViewBag.IsAdmin;
+    var StatusId = (int)ViewBag.StatusId;
 }
 
 <style>
@@ -10,74 +12,161 @@
         background-color: #eff3f6;
         border: none;
     }
+
+    .td-bg-gray{
+        background-color:lightgray;
+    }
+
+    .th-bg-gray {
+        background-color: gray;
+        color:white;
+    }
+
+    .status-selected{
+        color:black;
+    }
 </style>
 
 <h2>Fuel Logs</h2>
 <p>
-
     @Html.ActionLink("Trip Logs", "Index", "CarRentalLog", null, null) |
     @Html.ActionLink("Odo", "Index", "CrLogOdoes", null, null) |
     @Html.ActionLink("Fuel", "Index", "CrLogFuels", null, null)
 </p>
+<p id="status-list">
+    <span class="text-muted"> Status Filter:  </span>
+    @Html.ActionLink("Request", "Index", new { statusId = 1 }, new { @id = "status-request" }) |
+    @Html.ActionLink("Approved", "Index", new { statusId = 2 }, new { @id = "status-approved" }) |
+    @Html.ActionLink("Returned", "Index", new { statusId = 3 }, new { @id = "status-returned" })
+</p>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Release Fuel", "Create")
 </p>
 <table class="table">
+
     <tr>
+        <!-- Request -->
         <th>
-            @Html.DisplayNameFor(model => model.dtRequest)
+            @Html.DisplayNameFor(model => model.crLogFuel.crLogUnit.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.crLogUnit.Description)
+            Date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.crLogDriver.Name)
+            Type
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Amount)
+            @Html.DisplayNameFor(model => model.crLogFuel.Amount)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.dtFillup)
+            OR-Amount
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.odoFillup)
+            Odo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.orAmount)
+
         </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.dtRequest)
+                @Html.DisplayFor(modelItem => item.crLogFuel.crLogUnit.Description)
+                (&nbsp;@Html.DisplayFor(modelItem => item.crLogFuel.crLogDriver.Name)&nbsp;)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+                @Html.DisplayFor(modelItem => item.crLogFuel.crLogType.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                @Html.DisplayFor(modelItem => item.crLogFuel.Amount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.dtFillup)
+                @Html.DisplayFor(modelItem => item.crLogFuel.orAmount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.odoFillup)
+                @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.orAmount)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
+
+           @if (item.LatestStatusId == 1)
+            {
+                <td>
+                    @if (IsAdmin)
+                    {
+                    <span>
+                        <a class="cursor-hand" onclick="ApproveRequest('@item.crLogFuel.Id')"> Approve </a> |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
+                    </span>
+                    }
+                </td>
+            }
+
+           @if (item.LatestStatusId == 2)
+            {
+                <td>
+
+                    @Html.ActionLink("Print", "PrintApproved", new { id = item.crLogFuel.Id }) |
+                    @Html.ActionLink("Return", "Return", new { id = item.crLogFuel.Id }) 
+                    @if (IsAdmin)
+                    {
+                        <span>
+                            | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
+                        </span>
+                    }
+                </td>
+            }
+
+           @if (item.LatestStatusId == 3)
+            {
+                <td>
+                    @if (IsAdmin)
+                    {
+                        <span>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
+                        </span>
+                    }
+                </td>
+            }
+
         </tr>
     }
 
 </table>
+
+@section Scripts{
+    
+    <script>
+        $(() => {
+            switch ('@StatusId') {
+                case '1':
+                    $("#status-request").css('color', 'black');
+                    break;
+                case '2':
+                    $("#status-approved").css('color', 'black');
+                    break;
+                case '3':
+                    $("#status-returned").css('color', 'black');
+                    break;
+            }
+        });
+
+
+        function ApproveRequest(id) {
+            $.post("/Personel/crLogFuels/ApproveRequest", { id: parseInt(id) }, (result) => {
+                console.log(result)
+                if (result == 'True') {
+                    window.location.reload();
+                } else {
+                    alert("Error. Unable to approve request");
+                }
+            });
+        }
+    </script>
+    }

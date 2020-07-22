@@ -37,9 +37,14 @@ values
 ('AwesomeOS'),
 ('VXi');
 
+insert into crLogTypes([Type]) values 
+('Fuel'), ('Maintenance'), ('Others');
 
 
-select * from crLogTrips;
-select * from crLogDrivers;
-select * from crLogUnits;
-select * from crLogCompanies;
+insert into crCashReqStatus([Status]) values 
+('Request'), ('Approve'), ('Returned');
+
+--select * from crLogTrips;
+--select * from crLogDrivers;
+--select * from crLogUnits;
+--select * from crLogCompanies;

@@ -11,7 +11,7 @@ function InitDatePicker()
 
     $('input[name="dtRequest"]').daterangepicker(
     {
-        timePicker: false,
+        timePicker: true,
         timePickerIncrement: 1,
         singleDatePicker: true,
         showDropdowns: true,
@@ -35,7 +35,7 @@ function InitDatePicker()
 
     $('input[name="dtFillup"]').daterangepicker(
         {
-            timePicker: false,
+            timePicker: true,
             timePickerIncrement: 1,
             singleDatePicker: true,
             showDropdowns: true,
@@ -53,6 +53,5 @@ function InitDatePicker()
     if (ddd2 == "") {
         $('input[name="dtFillup"]').val(moment().format("MM/DD/YYYY hh:mm A"));
     }
-
 
 }

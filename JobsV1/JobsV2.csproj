@@ -375,6 +375,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CarRentalLogDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\cCrLogFuel.cs" />
     <Compile Include="Areas\Personel\Models\crCashReqStatus.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
@@ -405,6 +406,9 @@
     </Compile>
     <Compile Include="Areas\Personel\Models\CrLogSummary.cs" />
     <Compile Include="Areas\Personel\Models\crLogTrip.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogType.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogUnit.cs">
@@ -1960,6 +1964,8 @@
     <Content Include="Areas\Personel\Views\crLogFuels\Details.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\Return.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\PrintApproveForm.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

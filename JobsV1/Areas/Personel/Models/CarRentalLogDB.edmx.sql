@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/21/2020 16:58:19
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
+-- Date Created: 07/22/2020 13:22:43
+-- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -42,10 +42,10 @@ IF OBJECT_ID(N'[dbo].[FK_crLogDrivercrLogFuel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogFuels] DROP CONSTRAINT [FK_crLogDrivercrLogFuel];
 GO
 IF OBJECT_ID(N'[dbo].[FK_crLogUnitcrLogOdo]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[crLogOdoes1] DROP CONSTRAINT [FK_crLogUnitcrLogOdo];
+    ALTER TABLE [dbo].[crLogOdoes] DROP CONSTRAINT [FK_crLogUnitcrLogOdo];
 GO
 IF OBJECT_ID(N'[dbo].[FK_crLogDrivercrLogOdo]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[crLogOdoes1] DROP CONSTRAINT [FK_crLogDrivercrLogOdo];
+    ALTER TABLE [dbo].[crLogOdoes] DROP CONSTRAINT [FK_crLogDrivercrLogOdo];
 GO
 IF OBJECT_ID(N'[dbo].[FK_crLogFuelcrLogFuelStatus]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogFuelStatus] DROP CONSTRAINT [FK_crLogFuelcrLogFuelStatus];
@@ -58,6 +58,9 @@ IF OBJECT_ID(N'[dbo].[FK_crLogCashReleasecrLogCashStatus]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_crCashReqStatuscrLogCashStatus]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogCashStatus] DROP CONSTRAINT [FK_crCashReqStatuscrLogCashStatus];
+GO
+IF OBJECT_ID(N'[dbo].[FK_crLogTypecrLogFuel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogFuels] DROP CONSTRAINT [FK_crLogTypecrLogFuel];
 GO
 
 -- --------------------------------------------------
@@ -85,8 +88,8 @@ GO
 IF OBJECT_ID(N'[dbo].[crLogFuels]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogFuels];
 GO
-IF OBJECT_ID(N'[dbo].[crLogOdoes1]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[crLogOdoes1];
+IF OBJECT_ID(N'[dbo].[crLogOdoes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogOdoes];
 GO
 IF OBJECT_ID(N'[dbo].[crCashReqStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crCashReqStatus];
@@ -97,6 +100,9 @@ GO
 IF OBJECT_ID(N'[dbo].[crLogCashStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogCashStatus];
 GO
+IF OBJECT_ID(N'[dbo].[crLogTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogTypes];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -105,14 +111,18 @@ GO
 -- Creating table 'crLogDrivers'
 CREATE TABLE [dbo].[crLogDrivers] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(20)  NOT NULL
+    [Name] nvarchar(20)  NOT NULL,
+    [contact1] nvarchar(max)  NULL,
+    [contact2] nvarchar(max)  NULL,
+    [OrderNo] int  NULL
 );
 GO
 
 -- Creating table 'crLogUnits'
 CREATE TABLE [dbo].[crLogUnits] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Description] nvarchar(30)  NOT NULL
+    [Description] nvarchar(30)  NOT NULL,
+    [OrderNo] int  NULL
 );
 GO
 
@@ -166,7 +176,8 @@ CREATE TABLE [dbo].[crLogFuels] (
     [crLogDriverId] int  NOT NULL,
     [dtFillup] datetime  NOT NULL,
     [odoFillup] int  NOT NULL,
-    [orAmount] decimal(18,0)  NOT NULL
+    [orAmount] decimal(18,0)  NOT NULL,
+    [crLogTypeId] int  NOT NULL
 );
 GO
 
@@ -203,6 +214,13 @@ CREATE TABLE [dbo].[crLogCashStatus] (
     [dtStatus] datetime  NOT NULL,
     [crLogCashReleaseId] int  NOT NULL,
     [crCashReqStatusId] int  NOT NULL
+);
+GO
+
+-- Creating table 'crLogTypes'
+CREATE TABLE [dbo].[crLogTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -273,6 +291,12 @@ GO
 -- Creating primary key on [Id] in table 'crLogCashStatus'
 ALTER TABLE [dbo].[crLogCashStatus]
 ADD CONSTRAINT [PK_crLogCashStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogTypes'
+ALTER TABLE [dbo].[crLogTypes]
+ADD CONSTRAINT [PK_crLogTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -488,6 +512,21 @@ GO
 CREATE INDEX [IX_FK_crCashReqStatuscrLogCashStatus]
 ON [dbo].[crLogCashStatus]
     ([crCashReqStatusId]);
+GO
+
+-- Creating foreign key on [crLogTypeId] in table 'crLogFuels'
+ALTER TABLE [dbo].[crLogFuels]
+ADD CONSTRAINT [FK_crLogTypecrLogFuel]
+    FOREIGN KEY ([crLogTypeId])
+    REFERENCES [dbo].[crLogTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogTypecrLogFuel'
+CREATE INDEX [IX_FK_crLogTypecrLogFuel]
+ON [dbo].[crLogFuels]
+    ([crLogTypeId]);
 GO
 
 -- --------------------------------------------------

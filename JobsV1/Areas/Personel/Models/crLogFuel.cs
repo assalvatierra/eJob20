@@ -35,5 +35,10 @@ namespace JobsV1.Areas.Personel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogFuelStatus> crLogFuelStatus { get; set; }
         public virtual crLogType crLogType { get; set; }
+
+        public static implicit operator List<object>(crLogFuel v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

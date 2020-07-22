@@ -17,6 +17,7 @@
     <EntitySet Name="crCashReqStatus" EntityType="CarRentalLogDB.Store.crCashReqStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogFuelStatus" EntityType="CarRentalLogDB.Store.crLogFuelStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogCashStatus" EntityType="CarRentalLogDB.Store.crLogCashStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogTypes" EntityType="CarRentalLogDB.Store.crLogTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -73,6 +74,10 @@
       <End Role="crCashReqStatus" EntitySet="crCashReqStatus" />
       <End Role="crLogCashStatus" EntitySet="crLogCashStatus" />
     </AssociationSet>
+    <AssociationSet Name="crLogTypecrLogFuel" Association="CarRentalLogDB.Store.crLogTypecrLogFuel">
+      <End Role="crLogType" EntitySet="crLogTypes" />
+      <End Role="crLogFuel" EntitySet="crLogFuels" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="crLogDrivers">
     <Key>
@@ -80,6 +85,9 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="contact1" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="contact2" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="OrderNo" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="crLogUnits">
     <Key>
@@ -87,6 +95,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="OrderNo" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="crLogCompanies">
     <Key>
@@ -141,6 +150,7 @@
     <Property Name="dtFillup" Type="datetime" Nullable="false" />
     <Property Name="odoFillup" Type="int" Nullable="false" />
     <Property Name="orAmount" Type="decimal" Nullable="false" />
+    <Property Name="crLogTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="crLogOdoes">
     <Key>
@@ -177,6 +187,13 @@
     <Property Name="dtStatus" Type="datetime" Nullable="false" />
     <Property Name="crLogCashReleaseId" Type="int" Nullable="false" />
     <Property Name="crCashReqStatusId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crLogTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -343,6 +360,18 @@
       </Principal>
       <Dependent Role="crLogCashStatus">
         <PropertyRef Name="crCashReqStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogTypecrLogFuel">
+    <End Role="crLogType" Type="CarRentalLogDB.Store.crLogTypes" Multiplicity="1" />
+    <End Role="crLogFuel" Type="CarRentalLogDB.Store.crLogFuels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogFuel">
+        <PropertyRef Name="crLogTypeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -761,6 +790,9 @@
         <MappingFragment StoreEntitySet="crLogDrivers">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="contact1" ColumnName="contact1" />
+          <ScalarProperty Name="contact2" ColumnName="contact2" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -769,6 +801,7 @@
         <MappingFragment StoreEntitySet="crLogUnits">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -828,6 +861,7 @@
           <ScalarProperty Name="dtFillup" ColumnName="dtFillup" />
           <ScalarProperty Name="odoFillup" ColumnName="odoFillup" />
           <ScalarProperty Name="orAmount" ColumnName="orAmount" />
+          <ScalarProperty Name="crLogTypeId" ColumnName="crLogTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -868,6 +902,14 @@
           <ScalarProperty Name="dtStatus" ColumnName="dtStatus" />
           <ScalarProperty Name="crLogCashReleaseId" ColumnName="crLogCashReleaseId" />
           <ScalarProperty Name="crCashReqStatusId" ColumnName="crCashReqStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogType)">
+        <MappingFragment StoreEntitySet="crLogTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
