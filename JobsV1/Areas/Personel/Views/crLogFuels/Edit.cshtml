@@ -2,9 +2,10 @@
 
 @{
     ViewBag.Title = "Edit";
+    var statusId = ViewBag.LatestStatusId;
 }
 
-<h2>Edit</h2>
+<h2>Edit @statusId</h2>
 
 @using (Html.BeginForm())
 {
@@ -57,7 +58,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group non-editables">
             @Html.LabelFor(model => model.dtFillup, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.dtFillup, new { htmlAttributes = new { @class = "form-control" } })
@@ -65,7 +66,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group non-editables">
             @Html.LabelFor(model => model.odoFillup, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.odoFillup, new { htmlAttributes = new { @class = "form-control" } })
@@ -73,7 +74,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group non-editables">
             @Html.LabelFor(model => model.orAmount, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.orAmount, new { htmlAttributes = new { @class = "form-control" } })
@@ -96,4 +97,11 @@
 
 @section Scripts{
     <script src="~/Areas/Personel/Script/CrLogFuel.js"></script>
+    <script>
+        $(() => {
+            if (@statusId == 1) {
+                $(".non-editables").hide();
+            }
+        });
+    </script>
 }

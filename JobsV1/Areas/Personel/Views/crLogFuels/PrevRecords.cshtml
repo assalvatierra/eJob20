@@ -43,7 +43,10 @@
             @Html.DisplayNameFor(model => model.crLogFuel.crLogUnit.Description)
         </th>
         <th>
-            Date
+            Date Req
+        </th>
+        <th>
+            Date Paid
         </th>
         <th>
             Type
@@ -73,7 +76,10 @@
                 (&nbsp;@Html.DisplayFor(modelItem => item.crLogFuel.crLogDriver.Name)&nbsp;)
             </td>
             <td>
-                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy")
+                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy hh:mm tt")
+            </td>
+            <td>
+                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy hh:mm tt")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.crLogType.Type)

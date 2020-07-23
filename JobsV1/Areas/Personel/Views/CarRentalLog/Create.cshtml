@@ -15,7 +15,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.crLogDriverId, "crLogDriverId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.crLogDriverId, "Driver", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("crLogDriverId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.crLogDriverId, "", new { @class = "text-danger" })
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.crLogUnitId, "crLogUnitId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.crLogUnitId, "Unit", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("crLogUnitId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.crLogUnitId, "", new { @class = "text-danger" })
@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.crLogCompanyId, "crLogCompanyId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.crLogCompanyId, "Company", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("crLogCompanyId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.crLogCompanyId, "", new { @class = "text-danger" })
@@ -98,3 +98,7 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts{
+    <script src="~/Areas/Personel/Script/CarRentalLogCreate.js"></script>
+    }

@@ -37,11 +37,12 @@
     <span class="text-muted"> Status Filter:  </span>
     @Html.ActionLink("Request", "Index", new { statusId = 1 }, new { @id = "status-request" }) |
     @Html.ActionLink("Approved", "Index", new { statusId = 2 }, new { @id = "status-approved" }) |
-    @Html.ActionLink("Returned", "Index", new { statusId = 3 }, new { @id = "status-returned" }) 
+    @Html.ActionLink("Released", "Index", new { statusId = 3 }, new { @id = "status-released" }) |
+    @Html.ActionLink("Returned", "Index", new { statusId = 4 }, new { @id = "status-returned" })
 </p>
 
 <p>
-    @Html.ActionLink("Release Expense", "Create") |
+    @Html.ActionLink("Request Expense", "Create") |
     @Html.ActionLink("Previous Logs", "PrevRecords")
 </p>
 <table class="table">
@@ -52,8 +53,14 @@
             @Html.DisplayNameFor(model => model.crLogFuel.crLogUnit.Description)
         </th>
         <th>
-            Date
+            Date Req
         </th>
+        @if (StatusId == 4)
+        {
+         <th>
+             Date Paid
+         </th>
+        }
         <th>
             Type
         </th>
@@ -79,8 +86,14 @@
                 (&nbsp;@Html.DisplayFor(modelItem => item.crLogFuel.crLogDriver.Name)&nbsp;)
             </td>
             <td>
-                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy")
+                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy hh:mm tt")
             </td>
+           @if (item.LatestStatusId == 4)
+            {
+            <td>
+                @item.crLogFuel.dtFillup.ToString("MMM dd yyyy hh:mm tt") 
+            </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.crLogType.Type)
             </td>
@@ -93,53 +106,45 @@
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
             </td>
-
-            @if (item.LatestStatusId == 1)
-            {
                 <td>
-                    @if (IsAdmin)
-                    {
+               @switch (item.LatestStatusId)
+               {
+                   case 1:
+                       if (IsAdmin) { 
+                        <span>
+                            <a class="cursor-hand" onclick="ApproveRequest('@item.crLogFuel.Id')"> Approve </a> 
+                        </span>
+                       }
+                       else
+                       {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id })
+                       }
+                       break;
+                   case 2:
+                       <span>
+                           @Html.ActionLink("Print", "PrintApproveForm", new { id = item.crLogFuel.Id }, new { @target = "_blank" }) |
+                           <a class="cursor-hand" onclick="ApproveRelease('@item.crLogFuel.Id')"> Release </a> 
+                       </span>
+                       break;
+                   case 3:
+                       <span> 
+                           <a class="cursor-hand" onclick="InitReturnLogModal('@item.crLogFuel.Id')"> Return </a> 
+                       </span>
+                       break;
+                   default:
+                   case 4:
+                       <span></span>
+                       break;
+                }
+               @if (IsAdmin)
+                {
                     <span>
-                        <a class="cursor-hand" onclick="ApproveRequest('@item.crLogFuel.Id')"> Approve </a> |
-                        @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
+                       | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
                         @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
                     </span>
-                    }
+                }
                 </td>
-            }
-
-            @if (item.LatestStatusId == 2)
-            {
-                <td>
-
-                    @Html.ActionLink("Print", "PrintApproveForm", new { id = item.crLogFuel.Id }) |
-                    @Html.ActionLink("Return", "Return", new { id = item.crLogFuel.Id })
-                    @if (IsAdmin)
-                    {
-                    <span>
-                        | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
-                    </span>
-                    }
-                </td>
-            }
-
-            @if (item.LatestStatusId == 3)
-            {
-                <td>
-                    @if (IsAdmin)
-                    {
-                    <span>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
-                    </span>
-                    }
-                </td>
-            }
-
         </tr>
     }
 
@@ -154,8 +159,10 @@
 
 </table>
 
-@section Scripts{
+@Html.Partial("_ReturnLogModal")
 
+@section Scripts{
+    <script src="~/Areas/Personel/Script/CarRentalLogReturn.js"> </script>
     <script>
         $(() => {
             switch ('@StatusId') {
@@ -166,11 +173,15 @@
                     $("#status-approved").css('color', 'black');
                     break;
                 case '3':
+                    $("#status-released").css('color', 'black');
+                    break;
+                case '4':
                     $("#status-returned").css('color', 'black');
                     break;
+                default:
+                    $("#status-request").css('color', 'black');
+                    break;
             }
-
-            console.log('@IsAdmin');
         });
 
 
@@ -180,9 +191,50 @@
                 if (result == 'True') {
                     window.location.reload();
                 } else {
-                    alert("Error. Unable to approve request");
+                    alert("An Error occured while process your request");
                 }
             });
         }
+
+
+
+        function ApproveRelease(id) {
+            $.post("/Personel/crLogFuels/ApproveRelease", { id: parseInt(id) }, (result) => {
+                console.log(result)
+                if (result == 'True') {
+                    window.location.reload();
+                } else {
+                    alert("An Error occured while process your request");
+                }
+            });
+        }
+
+        function InitReturnLogModal(id) {
+            $("#return-LogFuelId").val(id);
+            $("#return-Odo").val(0);
+            $("#return-Amount").val("0.00");
+            $("#return-Date").val(moment().format("MM/DD/YYYY hh:mm A"));
+            $("#ReturnLogModal").modal("show");
+        }
+
+        function SubmitReturnLog() {
+            var data = {
+                id: $("#return-LogFuelId").val(),
+                date: $("#return-Date").val(),
+                odo: $("#return-Odo").val(),
+                amount: $("#return-Amount").val()
+            }
+
+            $.post("/Personel/CrLogFuels/SubmitReturnLog", data, (result) => {
+                console.log(result);
+                if (result == 'True') {
+                    window.location.reload();
+                } else {
+                    alert("An Error occured while process your request");
+                }
+            });
+        }
+
+
     </script>
 }

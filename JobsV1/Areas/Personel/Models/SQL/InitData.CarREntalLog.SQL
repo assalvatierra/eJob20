@@ -42,7 +42,7 @@ insert into crLogTypes([Type]) values
 
 
 insert into crCashReqStatus([Status]) values 
-('Request'), ('Approved'), ('Returned');
+('Request'), ('Approved'),('Released'), ('Returned');
 
 --select * from crLogTrips;
 --select * from crLogDrivers;

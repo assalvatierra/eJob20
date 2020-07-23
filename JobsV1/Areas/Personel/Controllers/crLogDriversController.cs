@@ -18,7 +18,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogDrivers
         public ActionResult Index()
         {
-            return View(db.crLogDrivers.ToList());
+            return View(db.crLogDrivers.OrderBy(c=> c.OrderNo ?? 999).ToList());
         }
 
         // GET: Personel/crLogDrivers/Details/5
@@ -39,7 +39,10 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogDrivers/Create
         public ActionResult Create()
         {
-            return View();
+            crLogDriver crLogDriver = new crLogDriver();
+            crLogDriver.OrderNo = 100;
+
+            return View(crLogDriver);
         }
 
         // POST: Personel/crLogDrivers/Create

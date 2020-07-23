@@ -43,10 +43,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 if (templog.LatestStatusId == statusId)
                 {
                     //add request and accecpted logs
-                    if (log.dtRequest.Date <= today.Date && templog.LatestStatusId < 3)
+                    if (log.dtRequest.Date <= today.Date && templog.LatestStatusId < 4)
                         cCrLogFuel.Add(templog);
                     //add returned logs with date today
-                    if (log.dtRequest.Date == today.Date && templog.LatestStatusId == 3)
+                    if (log.dtRequest.Date == today.Date && templog.LatestStatusId == 4)
                         cCrLogFuel.Add(templog);
                 }
 
@@ -153,6 +153,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.LatestStatusId = getLatestStatusId((int)id);
             ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crLogFuel.crLogUnitId);
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
@@ -209,8 +210,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.Entry(crLogFuel).State = EntityState.Modified;
                 db.SaveChanges();
 
-                //add status logs, REQUEST
-                AddLogStatus(crLogFuel.Id, 3);
+                //add status logs, RETURNED
+                AddLogStatus(crLogFuel.Id, 4);
 
                 return RedirectToAction("Index", new { statusId = 3 });
             }
@@ -314,10 +315,56 @@ namespace JobsV1.Areas.Personel.Controllers
                     return false;
                 return AddLogStatus(id, 2);
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
-                //return false;
+                return false;
+            }
+        }
+
+
+        public bool ApproveRelease(int? id)
+        {
+            try
+            {
+                if (id == null)
+                    return false;
+                return AddLogStatus(id, 3);
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool SubmitReturnLog(int? id, string date, int odo, decimal amount)
+        {
+            try
+            {
+                if (id == null)
+                    return false;
+
+                //find logFuel by Id
+                var crLogFuel = db.crLogFuels.Find(id);
+
+                if(crLogFuel == null)
+                    return false;
+
+                //apply changes
+                crLogFuel.dtFillup = DateTime.Parse(date);
+                crLogFuel.odoFillup = odo;
+                crLogFuel.orAmount = amount;
+
+                //save changes
+                db.Entry(crLogFuel).State = EntityState.Modified;
+                db.SaveChanges();
+
+
+                return AddLogStatus(id, 4);
+            }
+            catch 
+            {
+                return false;
             }
         }
 
@@ -341,9 +388,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return true;
             }
-            catch (Exception ex) 
-            { 
-                throw ex; 
+            catch 
+            {
+                return false;
             }
         }
 

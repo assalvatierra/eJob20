@@ -589,3 +589,7 @@
     margin: 10px 0px;
     padding-bottom: 20px;
 }
+
+.form-group-margin-bot{
+    margin-bottom:10px;
+}

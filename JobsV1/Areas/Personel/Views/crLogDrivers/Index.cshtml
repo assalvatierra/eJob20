@@ -16,6 +16,8 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <th> Contact </th>
+        <th> OrderNo</th>
         <th></th>
     </tr>
 
@@ -23,6 +25,17 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contact1)
+            @if (!String.IsNullOrWhiteSpace(item.contact1) || !String.IsNullOrWhiteSpace(item.contact2))
+            {
+                <span> / @Html.DisplayFor(modelItem => item.contact2) </span>
+            }
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNo)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
