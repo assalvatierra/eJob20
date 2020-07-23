@@ -6,9 +6,15 @@
 }
 
 <h2>Drivers</h2>
-
 <p>
-    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog") |
+    @Html.ActionLink("Trip Logs", "Index", "CarRentalLog") |
+    Drivers |
+    @Html.ActionLink("Units", "Index", "crLogUnits") |
+    @Html.ActionLink("Companies", "Index", "crLogCompanies") |
+    @Html.ActionLink("Odo", "Index", "CrLogOdoes", null, null) |
+    @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null)
+</p>
+<p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
@@ -18,6 +24,7 @@
         </th>
         <th> Contact </th>
         <th> OrderNo</th>
+        <th> Status</th>
         <th></th>
     </tr>
 
@@ -28,14 +35,23 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.contact1)
-            @if (!String.IsNullOrWhiteSpace(item.contact1) || !String.IsNullOrWhiteSpace(item.contact2))
+            @if (!String.IsNullOrWhiteSpace(item.contact2))
             {
-                <span> / @Html.DisplayFor(modelItem => item.contact2) </span>
+                if (!String.IsNullOrWhiteSpace(item.contact1))
+                {
+                    <span> / </span>
+                   
+                }
+                
+                @Html.DisplayFor(modelItem => item.contact2)
             }
 
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OrderNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

@@ -29,7 +29,10 @@
 
 <h2>Expenses Logs</h2>
 <p>
-    @Html.ActionLink("Trip Logs", "Index", "CarRentalLog", null, null) |
+    @Html.ActionLink("Trip Logs", "Index", "CarRentalLog") |
+    @Html.ActionLink("Drivers", "Index", "crLogDrivers") |
+    @Html.ActionLink("Units", "Index", "crLogUnits") |
+    @Html.ActionLink("Companies", "Index", "crLogCompanies") |
     @Html.ActionLink("Odo", "Index", "CrLogOdoes", null, null) |
     Expenses
 </p>

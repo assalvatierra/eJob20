@@ -359,6 +359,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.Entry(crLogFuel).State = EntityState.Modified;
                 db.SaveChanges();
 
+                //add odo log
+                AddOdoLog(crLogFuel);
 
                 return AddLogStatus(id, 4);
             }
@@ -411,5 +413,33 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return View(crlogFuel);
         }
+
+        #region Odo Logs
+        public bool AddOdoLog(crLogFuel logFuel)
+        {
+            try
+            {
+                if (logFuel == null)
+                    return false;
+
+                crLogOdo logOdo = new crLogOdo();
+                logOdo.crLogUnitId = logFuel.crLogUnitId;
+                logOdo.crLogDriverId = logFuel.crLogDriverId;
+                logOdo.OdoCurrent = logFuel.odoFillup;
+                logOdo.dtReading = logFuel.dtFillup;
+                logOdo.Remarks = " ";
+
+                db.crLogOdoes.Add(logOdo);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+           
+        }
+        #endregion
     }
 }

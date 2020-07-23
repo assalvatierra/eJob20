@@ -14,6 +14,10 @@ namespace JobsV1.Areas.Personel.Controllers
     public class crLogDriversController : Controller
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
+        private List<SelectListItem> StatusList = new List<SelectListItem> {
+                new SelectListItem { Value = "ACT", Text = "Active" },
+                new SelectListItem { Value = "INC", Text = "Inactive" }
+                };
 
         // GET: Personel/crLogDrivers
         public ActionResult Index()
@@ -42,6 +46,7 @@ namespace JobsV1.Areas.Personel.Controllers
             crLogDriver crLogDriver = new crLogDriver();
             crLogDriver.OrderNo = 100;
 
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
             return View(crLogDriver);
         }
 
@@ -50,7 +55,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name, Contact1, Contact2, OrderNo")] crLogDriver crLogDriver)
+        public ActionResult Create([Bind(Include = "Id,Name, Contact1, Contact2, OrderNo, Status")] crLogDriver crLogDriver)
         {
             if (ModelState.IsValid && InputValidation(crLogDriver))
             {
@@ -59,6 +64,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogDriver.Status);
             return View(crLogDriver);
         }
 
@@ -74,6 +80,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogDriver.Status);
             return View(crLogDriver);
         }
 
@@ -82,7 +89,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact1, Contact2, OrderNo")] crLogDriver crLogDriver)
+        public ActionResult Edit([Bind(Include = "Id,Name,Contact1, Contact2, OrderNo, Status")] crLogDriver crLogDriver)
         {
             if (ModelState.IsValid && InputValidation(crLogDriver))
             {
@@ -90,6 +97,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogDriver.Status);
             return View(crLogDriver);
         }
 

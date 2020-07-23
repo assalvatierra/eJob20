@@ -13,10 +13,11 @@
 </style>
 
 <h2>Odo Logs</h2>
-
 <p>
-
-    @Html.ActionLink("Trip Logs", "Index", "CarRentalLog", null, null) |
+    @Html.ActionLink("Trip Logs", "Index", "CarRentalLog") |
+    @Html.ActionLink("Drivers", "Index", "crLogDrivers") |
+    @Html.ActionLink("Units", "Index", "crLogUnits") |
+    @Html.ActionLink("Companies", "Index", "crLogCompanies") |
     Odo |
     @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null)
 </p>
@@ -47,13 +48,13 @@
     {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.dtReading)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.crLogUnit.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dtReading)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OdoCurrent)

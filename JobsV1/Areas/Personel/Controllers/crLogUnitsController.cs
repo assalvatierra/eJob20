@@ -14,11 +14,15 @@ namespace JobsV1.Areas.Personel.Controllers
     public class crLogUnitsController : Controller
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
+        private List<SelectListItem> StatusList = new List<SelectListItem> {
+                new SelectListItem { Value = "ACT", Text = "Active" },
+                new SelectListItem { Value = "INC", Text = "Inactive" }
+                };
 
         // GET: Personel/crLogUnits
         public ActionResult Index()
         {
-            return View(db.crLogUnits.ToList());
+            return View(db.crLogUnits.OrderBy(c => c.OrderNo ?? 999).ToList());
         }
 
         // GET: Personel/crLogUnits/Details/5
@@ -39,6 +43,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogUnits/Create
         public ActionResult Create()
         {
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
             return View();
         }
 
@@ -47,7 +52,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,OrderNo")] crLogUnit crLogUnit)
+        public ActionResult Create([Bind(Include = "Id,Description,OrderNo,Status")] crLogUnit crLogUnit)
         {
             if (ModelState.IsValid && InputValidation(crLogUnit))
             {
@@ -56,6 +61,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
             return View(crLogUnit);
         }
 
@@ -71,6 +77,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
             return View(crLogUnit);
         }
 
@@ -79,7 +86,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,OrderNo")] crLogUnit crLogUnit)
+        public ActionResult Edit([Bind(Include = "Id,Description,OrderNo,Status")] crLogUnit crLogUnit)
         {
             if (ModelState.IsValid && InputValidation(crLogUnit))
             {
@@ -87,6 +94,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
             return View(crLogUnit);
         }
 
