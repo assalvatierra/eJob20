@@ -13,5 +13,10 @@ namespace JobsV1.Areas.AutoCare.Controllers
         {
             return RedirectToAction("Index", "Home", new { area = "" });
         }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

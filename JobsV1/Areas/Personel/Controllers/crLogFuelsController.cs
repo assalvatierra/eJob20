@@ -20,8 +20,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Index(int? statusId)
         {
             var today = dt.GetCurrentDate();
-            var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
-                .Where(c=> DbFunctions.TruncateTime(c.dtFillup) >= today).OrderBy(c => c.dtRequest);
+            var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest);
 
 
             if (statusId == null)
@@ -43,8 +42,45 @@ namespace JobsV1.Areas.Personel.Controllers
                     LatestStatus = status
                 };
 
-                if(templog.LatestStatusId == statusId)
+                if (templog.LatestStatusId == statusId)
                     cCrLogFuel.Add(templog);
+            }
+
+
+            //check user permission
+            var isAdmin = false;
+            if (User.IsInRole("Admin"))
+            {
+                isAdmin = true;
+            }
+
+            ViewBag.IsAdmin = true;
+            ViewBag.StatusId = statusId;
+
+            return View(cCrLogFuel.ToList());
+        }
+
+        // GET: Personel/crLogFuels
+        public ActionResult History(int? statusId)
+        {
+            var today = dt.GetCurrentDate();
+            var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
+                .Where(c => DbFunctions.TruncateTime(c.dtFillup) < today).OrderBy(c => c.dtRequest);
+
+            List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
+
+            foreach (var log in crLogFuels.ToList())
+            {
+                var status = db.crCashReqStatus.Find(getLatestStatusId(log.Id)).Status;
+
+                var templog = new Models.cCrLogFuel()
+                {
+                    crLogFuel = log,
+                    LatestStatusId = getLatestStatusId(log.Id),
+                    LatestStatus = status
+                };
+
+                cCrLogFuel.Add(templog);
             }
 
 
@@ -185,7 +221,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 //add status logs, REQUEST
                 AddLogStatus(crLogFuel.Id, 3);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { statusId = 3 });
             }
             ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crLogFuel.crLogUnitId);
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogFuel.crLogDriverId);
@@ -227,7 +263,6 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             base.Dispose(disposing);
         }
-
 
         public int getLatestStatusId(int id)
         {
@@ -284,7 +319,6 @@ namespace JobsV1.Areas.Personel.Controllers
                 throw ex; 
             }
         }
-
 
         public ActionResult PrintApproveForm(int? id)
         {

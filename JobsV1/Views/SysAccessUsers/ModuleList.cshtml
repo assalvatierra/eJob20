@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Models.SysMenu >
+﻿@model IEnumerable<JobsV1.Models.SysMenu>
 
 @{
     ViewBag.Title = "ModuleList";
@@ -7,6 +7,9 @@
 }
 
 <h2>Module List</h2>
+<p>
+    @Html.ActionLink("Create New", "CreateModule")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -16,22 +19,27 @@
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th></th>
+        <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Menu)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-        <td>
-            @Html.ActionLink("Sub Modules", "ModuleSubMenu", new { id=item.Id })  |
-
-            @Html.ActionLink("Users", "ModuleMenuUsers", new { id = item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Menu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.ActionLink("Sub Modules", "ModuleSubMenu", new { id = item.Id })  |
+                @Html.ActionLink("Users", "ModuleMenuUsers", new { id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditModule", new { id = item.Id })  |
+                @Html.ActionLink("Delete", "DeleteModule", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

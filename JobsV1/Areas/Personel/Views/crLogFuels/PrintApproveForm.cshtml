@@ -3,14 +3,246 @@
 @{
     ViewBag.Title = "Print Approve Form";
 }
+<style>
+    .rpt-table-bordered{
+        border:2px solid black;
+    }
+    .rpt-table-bordered td {
+        border-top: 2px solid black !important;
+    }
 
-<table class="table">
-    <tr>
-        <td> Expenses Request Form </td>
-    </tr>
+    .rpt-input-margin{
+        margin-bottom:10px;
+    }
 
-    <tr>
+    .col-md-3 col-xs-3 {
+        margin-left: -10px;
+        margin-right: 10px;
+    }
 
-    </tr>
-</table>
+    .col-md-9 col-xs-9 {
+        margin-left: 0px;
+        margin-right: -15px;
+        padding:0px 5px;
+        left:25px;
+    }
 
+    .table{
+        background-color:none;
+        font-size:12px;
+    }
+
+    h3{
+        margin:0px;
+    }
+
+
+</style>
+
+<div style="display:flex;flex-direction:column;">
+
+    <div style="margin:auto;margin-top:10px;width:750px;">
+        <table class="table rpt-table-bordered">
+            <tr>
+                <td>
+                    <h2 class="text-center"> Expenses Request Form </h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 class="text-center"> Office Copy </h3>
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="form-group col-md-12 col-xs-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 col-xs-3 control-label form-label"> Date&nbsp;Request </label>
+                                        <div class="col-md-9 col-xs-9 col-xs-9">
+                                            <input type="text" class="form-control" value="@Model.dtRequest.ToShortDateString()" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12 col-xs-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 col-xs-3 control-label form-label"> Unit </label>
+                                        <div class="col-md-9 col-xs-9 col-xs-9">
+                                            <input type="text" class="form-control" value="@Model.crLogUnit.Description" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 control-label form-label"> Driver </label>
+                                        <div class="col-md-9 col-xs-9">
+                                            <input type="text" class="form-control" value="@Model.crLogDriver.Name" />
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 control-label form-label"> Amount </label>
+                                        <div class="col-md-9 col-xs-9">
+                                            <input type="text" class="form-control" value="@Model.Amount" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 control-label form-label"> Requested&nbsp;By </label>
+                                        <div class="col-md-9 col-xs-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 control-label form-label"> Released&nbsp;By </label>
+                                        <div class="col-md-9 col-xs-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Date&nbsp;Paid </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control"  />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> ODO </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Amount </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Remarks </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Driver </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Confirmed&nbsp; </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="margin:auto;margin-top:10px;width:750px;">
+        <table class="table rpt-table-bordered">
+            <tr>
+                <td>
+                    <h2 class="text-center"> Expenses Request Form </h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 class="text-center"> Drivers Copy </h3>
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="form-group col-md-12 col-xs-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 col-xs-3 control-label form-label"> Date&nbsp;Request </label>
+                                        <div class="col-md-9 col-xs-9 col-xs-9">
+                                            <input type="text" class="form-control" value="@Model.dtRequest.ToShortDateString()" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12 col-xs-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 col-xs-3 control-label form-label"> Unit </label>
+                                        <div class="col-md-9 col-xs-9 col-xs-9">
+                                            <input type="text" class="form-control" value="@Model.crLogUnit.Description" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 control-label form-label"> Driver </label>
+                                        <div class="col-md-9 col-xs-9">
+                                            <input type="text" class="form-control" value="@Model.crLogDriver.Name" />
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 control-label form-label"> Amount </label>
+                                        <div class="col-md-9 col-xs-9">
+                                            <input type="text" class="form-control" value="@Model.Amount" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 control-label form-label"> Requested&nbsp;By </label>
+                                        <div class="col-md-9 col-xs-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label class="col-md-3 col-xs-3 control-label form-label"> Released&nbsp;By </label>
+                                        <div class="col-md-9 col-xs-9">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Date&nbsp;Paid </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control"  />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> ODO </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> OR&nbsp;Amount </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Remarks </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Driver&nbsp;Sign. </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Confirmed&nbsp; </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+</div>

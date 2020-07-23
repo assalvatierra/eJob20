@@ -314,6 +314,7 @@
     <Compile Include="Areas\AutoCare\Controllers\AppointmentsController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\AppointmentSlotsController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\HomeController.cs" />
+    <Compile Include="Areas\AutoCare\Controllers\JobVehiclesController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\VehicleModelsController.cs" />
     <Compile Include="Areas\AutoCare\Controllers\VehiclesController.cs" />
     <Compile Include="Areas\AutoCare\Data\Appointment.cs">
@@ -1643,8 +1644,8 @@
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
     <Content Include="Images\Icons\icons-callback.png" />
-    <Content Include="Images\Icons\settings-red.png" />
     <Content Include="Images\Icons\settings-black.png" />
+    <Content Include="Images\Icons\settings-red.png" />
     <Content Include="Images\Icons\skype-logo.png" />
     <Content Include="Images\Icons\viber-original.png" />
     <Content Include="Images\Icons\whatsapp-original.png" />
@@ -1966,6 +1967,15 @@
     <Content Include="Areas\Personel\Views\crLogFuels\Index.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\Return.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrintApproveForm.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Home\Error.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Vehicles\VehicleServiceEdit.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Vehicles\VehicleServiceDelete.cshtml" />
+    <Content Include="Areas\AutoCare\Views\JobVehicles\Create.cshtml" />
+    <Content Include="Areas\AutoCare\Views\JobVehicles\Delete.cshtml" />
+    <Content Include="Areas\AutoCare\Views\JobVehicles\Details.cshtml" />
+    <Content Include="Areas\AutoCare\Views\JobVehicles\Edit.cshtml" />
+    <Content Include="Areas\AutoCare\Views\JobVehicles\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\History.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2752,6 +2762,12 @@
     <Content Include="Views\Cashier\_PermissionModal.cshtml" />
     <Content Include="Views\Cashier\EditPayment.cshtml" />
     <Content Include="Views\Cashier\Delete.cshtml" />
+    <Content Include="Views\SysAccessUsers\CreateModule.cshtml" />
+    <Content Include="Views\SysAccessUsers\CreateSubModule.cshtml" />
+    <Content Include="Views\SysAccessUsers\EditModule.cshtml" />
+    <Content Include="Views\SysAccessUsers\DeleteModule.cshtml" />
+    <Content Include="Views\SysAccessUsers\DeleteModuleSubMenu.cshtml" />
+    <Content Include="Views\RptGmsAuto\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

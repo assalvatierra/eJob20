@@ -153,5 +153,64 @@ namespace JobsV1.Controllers
             }
         }
 
+
+        public ActionResult OilReport()
+        {
+            //get mechanic list
+            var mechanicsId = db.InvItemCategories.Where(c => c.InvItemCatId == 2).Select(c => c.InvItemId).ToList();
+            var mechanics = db.InvItems.Where(i=> mechanicsId.Contains(i.Id)).ToList();
+
+            //holds the report
+            List<MechanicOilReport> OilReport = new List<MechanicOilReport>();
+
+            //get jobs of with oil change
+            var jobList = db.JobServices.Where(j => j.Service.Name.Contains("Oil Change") && j.JobMain.JobStatusId < 5 );
+
+            //get jobs of mechanics
+            foreach (var job in jobList)
+            {
+                //get jobservice Items
+                var jsItems = db.JobServiceItems.Where(j => j.JobServicesId == job.Id).ToList();
+                foreach(var item in jsItems)
+                {
+                    if (mechanics.Select(m => m.Id).Contains(item.InvItemId))
+                    {
+                        //get vehicle oil detials
+                        var vehicleQuery = db.JobVehicles.Where(v => v.JobMainId == job.JobMainId).OrderByDescending(c=>c.Id).FirstOrDefault();
+                        if (vehicleQuery != null)
+                        {
+                            var vehicleModel = vehicleQuery.Vehicle.VehicleModel;
+
+                            MechanicOilReport reportItem = new MechanicOilReport();
+                            reportItem.Id = item.InvItemId;
+                            reportItem.Mechanic = item.InvItem.Description;
+                            reportItem.jobService = job.Particulars;
+                            reportItem.Service = job.Service.Name;
+                            reportItem.MotorOil = vehicleModel.MotorOil;
+                            reportItem.GearOil = vehicleModel.GearOil;
+                            reportItem.TransmissionOil = vehicleModel.TransmissionOil;
+                        }
+                    }
+                }
+            }
+
+            return View(mechanics);
+        }
+
     }
 }
+
+
+public class MechanicOilReport
+{
+    public int Id { get; set; }
+    public string Mechanic { get; set; }
+    public string jobService { get; set; }
+    public string Service { get; set; }
+    public int jobId { get; set; }
+    public string MotorOil { get; set; }
+    public string GearOil { get; set; }
+    public string TransmissionOil { get; set; }
+}
+
+

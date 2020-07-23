@@ -9,7 +9,8 @@
 <h2>Module : @ViewBag.MenuName</h2>
 
 <p>
-    @Html.ActionLink("Module List", "ModuleList", null, null)
+    @Html.ActionLink("Module List", "ModuleList", null, null) |
+    @Html.ActionLink("Create Sub Module", "CreateSubModule", new { id = ViewBag.MenuId })
 </p>
 
 <table class="table">
@@ -17,6 +18,7 @@
         <th>
             Sub Modules
         </th>
+        <th></th>
         <th></th>
     </tr>
 
@@ -28,6 +30,10 @@
         <td>
             @Html.ActionLink("Users", "ModuleUsers", new { id=item.Id }) 
         </td>
+            <td>
+                @Html.ActionLink("Edit", "EditModuleSubMenu", new { id = item.Id })  |
+                @Html.ActionLink("Delete", "DeleteModuleSubMenu", new { id = item.Id })
+            </td>
     </tr>
 }
 

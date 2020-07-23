@@ -75,6 +75,125 @@ namespace JobsV1.Controllers
             return View(sysAccessUser);
         }
 
+
+        // GET: SysAccessUsers/Create
+        public ActionResult CreateModule()
+        {
+            SysMenu sysMenu = new SysMenu();
+            sysMenu.ParentId = 0;
+            sysMenu.Seqno = 100;
+            sysMenu.CmdId = 20;
+
+            return View(sysMenu);
+        }
+
+        // POST: SysAccessUsers/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateModule([Bind(Include = "Id,Menu,Remarks,ParentId,Controller,Action,Params,CmdId,Seqno")] SysMenu sysMenu, string iconPath)
+        {
+            if (ModelState.IsValid)
+            {
+                db.SysMenus.Add(sysMenu);
+                db.SaveChanges();
+
+                //add services for the menu 
+                CreateServices(sysMenu.Menu, iconPath);
+
+
+                return RedirectToAction("ModuleList");
+            }
+
+            return View(sysMenu);
+        }
+
+
+        // GET: SysAccessUsers/Create
+        public ActionResult CreateSubModule(int id)
+        {
+            SysMenu sysMenu = new SysMenu();
+            sysMenu.ParentId = id;
+            sysMenu.Seqno = 100;
+            sysMenu.CmdId = 21;
+
+            return View(sysMenu);
+        }
+
+        // POST: SysAccessUsers/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateSubModule([Bind(Include = "Id,Menu,Remarks,ParentId,Controller,Action,Params,CmdId,Seqno")] SysMenu sysMenu)
+        {
+            if (ModelState.IsValid)
+            {
+                db.SysMenus.Add(sysMenu);
+                db.SaveChanges();
+
+                return RedirectToAction("ModuleSubMenu", new { id = sysMenu.ParentId });
+            }
+
+            return View(sysMenu);
+        }
+
+        public bool CreateServices(string desc, string iconPath)
+        {
+            try
+            {
+                SysService sysService = new SysService();
+                sysService.SysCode = "NO000";
+                sysService.Description = desc;
+                sysService.Remarks = desc;
+                sysService.Status = "A";
+                sysService.IconPath = iconPath;
+
+                db.SysServices.Add(sysService);
+                db.SaveChanges();
+
+                //last id
+                var sysServiceId = db.SysServices.OrderByDescending(s => s.Id).FirstOrDefault().Id;
+                var lastId = db.SysMenus.OrderByDescending(s => s.Id).FirstOrDefault().Id;
+
+                
+                if(sysServiceId != 0 && lastId != 0)
+                {
+                    //add reference to service Menu
+                    CreateServicesMenu(lastId, sysServiceId);
+                }
+
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        public bool CreateServicesMenu(int menuId, int sysServiceId)
+        {
+            try
+            {
+
+                SysServiceMenu sysServiceMenu = new SysServiceMenu();
+                sysServiceMenu.SysMenuId = menuId;
+                sysServiceMenu.SysServiceId = sysServiceId;
+
+                db.SysServiceMenus.Add(sysServiceMenu);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         // GET: SysAccessUsers/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -96,7 +215,41 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,SysMenuId,Seqno")] SysAccessUser sysAccessUser)
+        public ActionResult Edit([Bind(Include = "Id,UserId,SysMenuId,Seqno")] SysMenu sysMenu)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(sysMenu).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("ModuleList");
+            }
+
+            return View(sysMenu);
+        }
+
+
+        // GET: SysAccessUsers/Edit/5
+        public ActionResult EditModule(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysMenu sysMenu = db.SysMenus.Find(id);
+            if (sysMenu == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(sysMenu);
+        }
+
+        // POST: SysAccessUsers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditModule([Bind(Include = "Id,Menu,Remarks,ParentId,Controller,Action,Params,CmdId,Seqno")] SysAccessUser sysAccessUser)
         {
             if (ModelState.IsValid)
             {
@@ -134,6 +287,7 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index");
         }
 
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -143,6 +297,58 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
+
+        // GET: SysAccessUsers/Delete/5
+        public ActionResult DeleteModule(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysMenu sysMenu = db.SysMenus.Find(id);
+            if (sysMenu == null)
+            {
+                return HttpNotFound();
+            }
+            return View(sysMenu);
+        }
+
+        // POST: SysAccessUsers/Delete/5
+        [HttpPost, ActionName("DeleteModule")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteModule(int id)
+        {
+            SysMenu sysMenu = db.SysMenus.Find(id);
+            db.SysMenus.Remove(sysMenu);
+            db.SaveChanges();
+            return RedirectToAction("ModuleList");
+        }
+
+        // GET: SysAccessUsers/Delete/5
+        public ActionResult DeleteModuleSubMenu(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SysMenu sysMenu = db.SysMenus.Find(id);
+            if (sysMenu == null)
+            {
+                return HttpNotFound();
+            }
+            return View(sysMenu);
+        }
+
+        // POST: SysAccessUsers/Delete/5
+        [HttpPost, ActionName("DeleteModuleSubMenu")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteModuleSubMenu(int id)
+        {
+            SysMenu sysMenu = db.SysMenus.Find(id);
+            db.SysMenus.Remove(sysMenu);
+            db.SaveChanges();
+            return RedirectToAction("ModuleSubMenu", new { id = sysMenu.ParentId });
+        }
 
         //Users
         // GET: UsersList
@@ -390,6 +596,7 @@ namespace JobsV1.Controllers
                 var sysMenu = db.SysMenus.Where(s => s.ParentId == sysMenuId);
 
                 ViewBag.MenuName = menuName;
+                ViewBag.MenuId = id;
 
                 return View(sysMenu.ToList());
             }

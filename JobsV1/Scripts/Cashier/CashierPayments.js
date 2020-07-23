@@ -4,7 +4,7 @@
  */
 
 $(() => {
-    $("#AddPayment-Amount").focus();
+    //$("#AddPayment-Amount").focus();
 });
 
 function AddPaymentSubmit(id) {
@@ -52,9 +52,9 @@ $(function () {
         }
     });
 
-    $("#AddPayment-Amount").bind("focus blur", function () {
-        $("#AddPayment-Amount").select();
-    });
+    //$("#AddPayment-Amount").bind("focus blur", function () {
+    //    $("#AddPayment-Amount").select();
+    //});
 });
 
 
@@ -75,7 +75,7 @@ function SetEditPermissionId(id) {
     $("#Edit-Pass-Id").val(id);
     $("#Edit-Pass-Input").val("");
     $("#Edit-Pass-warning").hide();
-    $("#Edit-Pass-Input").focus();
+    //$("#Edit-Pass-Input").focus();
 }
 
 //Check admin pass to edit
@@ -103,7 +103,7 @@ function SetDeletePermissionId(id) {
     $("#Delete-Pass-Id").val(id);
     $("#Delete-Pass-Input").val("");
     $("#Delete-Pass-warning").hide();
-    $("#Delete-Pass-Input").focus();
+    //$("#Delete-Pass-Input").focus();
 }
 
 //Check admin pass to delete
@@ -141,7 +141,6 @@ $('#Edit-Pass-Input').keypress(function (e) {
         return false;
     }
 });
-
 
 
 //On Enter submit

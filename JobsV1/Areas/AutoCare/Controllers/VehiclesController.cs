@@ -245,10 +245,18 @@ namespace JobsV1.Areas.AutoCare.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Vehicle vehicle = db.Vehicles.Find(id);
-            db.Vehicles.Remove(vehicle);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+
+                Vehicle vehicle = db.Vehicles.Find(id);
+                db.Vehicles.Remove(vehicle);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -259,6 +267,8 @@ namespace JobsV1.Areas.AutoCare.Controllers
             }
             base.Dispose(disposing);
         }
+
+
 
 
         public ActionResult VehicleServices(int? id)
@@ -280,5 +290,129 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             return View(vehicleServices);
         }
+
+
+        // GET: AutoCare/Vehicles/VehicleServiceEdit/5
+        public ActionResult VehicleServiceEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            JobVehicle jobVehicle = db.JobVehicles.Find(id);
+
+            if (jobVehicle == null)
+            {
+                return HttpNotFound();
+            }
+
+            //generate list of vehicles of the same customer
+            var Vehicles = db.Vehicles.Where(v=>v.CustomerId == jobVehicle.Vehicle.CustomerId)
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.VehicleModel.VehicleBrand.Brand + " " + s.VehicleModel.Make + " " + s.VehicleModel.Variant + " " + s.VehicleModel.VehicleTransmission.Type
+                  });
+
+            ViewBag.JobDesc = jobVehicle.JobMain.Description + " - " + jobVehicle.JobMain.Customer.Name;
+            ViewBag.VehicleId = new SelectList(Vehicles, "Value", "Text");
+            ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobVehicle.JobMainId);
+            return View(jobVehicle);
+        }
+
+        // POST: AutoCare/Vehicles/VehicleServiceEdit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult VehicleServiceEdit([Bind(Include = "Id,VehicleId,JobMainId,Mileage")] JobVehicle jobVehicle)
+        {
+            if (ModelState.IsValid)
+            {
+                var vehicleId = jobVehicle.VehicleId;
+                db.Entry(jobVehicle).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //update job desc 
+                var vehicle = db.Vehicles.Find(jobVehicle.VehicleId);
+                var jobdesc = vehicle.VehicleModel.VehicleBrand.Brand + " " + vehicle.VehicleModel.Make + " " + vehicle.YearModel + "(" + vehicle.PlateNo + ") Mileage: " + jobVehicle.Mileage;
+                
+                UpdateJobDesc(jobVehicle.JobMainId, jobdesc);
+
+                return RedirectToAction("VehicleServices", new { id = vehicleId });
+            }
+
+            var Vehicles = db.Vehicles.Where(v => v.CustomerId == jobVehicle.Vehicle.CustomerId)
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.VehicleModel.VehicleBrand.Brand + " " + s.VehicleModel.Make + " " + s.VehicleModel.Variant + " " + s.VehicleModel.VehicleTransmission.Type
+                  });
+
+            ViewBag.VehicleId = new SelectList(Vehicles, "Value", "Text");
+            ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", jobVehicle.JobMainId);
+            return View(jobVehicle);
+        }
+
+        // GET: AutoCare/Vehicles/VehicleServiceDelete/5
+        public ActionResult VehicleServiceDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            JobVehicle jobVehicle = db.JobVehicles.Find(id);
+            if (jobVehicle == null)
+            {
+                return HttpNotFound();
+            }
+            return View(jobVehicle);
+        }
+
+        // POST: AutoCare/Vehicles/VehicleServiceDelete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult VehicleServiceDelete(int id)
+        {
+            try
+            {
+                JobVehicle jobVehicle = db.JobVehicles.Find(id);
+                var vehicleId = jobVehicle.VehicleId;
+                db.JobVehicles.Remove(jobVehicle);
+                db.SaveChanges();
+                return RedirectToAction("VehicleServices", new { id = vehicleId });
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+
+        //update job description
+        private bool UpdateJobDesc(int jobId, string Desc)
+        {
+            try
+            {
+                //get job details
+                var jobmain = db.JobMains.Find(jobId);
+
+                if (jobmain == null)
+                    return false;
+
+                //change desc
+                jobmain.Description = Desc;
+
+                db.Entry(jobmain).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }
