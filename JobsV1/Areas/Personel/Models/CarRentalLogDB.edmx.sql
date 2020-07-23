@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/22/2020 13:22:43
--- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
+-- Date Created: 07/23/2020 17:51:26
+-- Generated from EDMX file: D:\Projects\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -114,7 +114,8 @@ CREATE TABLE [dbo].[crLogDrivers] (
     [Name] nvarchar(20)  NOT NULL,
     [contact1] nvarchar(max)  NULL,
     [contact2] nvarchar(max)  NULL,
-    [OrderNo] int  NULL
+    [OrderNo] int  NULL,
+    [Status] nvarchar(3)  NULL
 );
 GO
 
@@ -122,7 +123,8 @@ GO
 CREATE TABLE [dbo].[crLogUnits] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Description] nvarchar(30)  NOT NULL,
-    [OrderNo] int  NULL
+    [OrderNo] int  NULL,
+    [Status] nvarchar(3)  NULL
 );
 GO
 

@@ -194,7 +194,6 @@ D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CoreCompileInputs.cache
 D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CopyComplete
 D:\Projects\eJob20\JobsV1\obj\Debug\JobsV1.dll
 D:\Projects\eJob20\JobsV1\obj\Debug\JobsV1.pdb
-D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csprojAssemblyReference.cache
 C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\bin\ApplicationInsights.config
 C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\bin\JobsV1.dll.config
 C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\bin\JobsV1.dll
@@ -211,3 +210,4 @@ C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CoreCompile
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CopyComplete
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.dll
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.pdb
+D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csprojAssemblyReference.cache

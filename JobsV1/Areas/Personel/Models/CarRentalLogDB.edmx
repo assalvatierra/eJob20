@@ -88,6 +88,7 @@
     <Property Name="contact1" Type="nvarchar(max)" Nullable="true" />
     <Property Name="contact2" Type="nvarchar(max)" Nullable="true" />
     <Property Name="OrderNo" Type="int" Nullable="true" />
+    <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="3" />
   </EntityType>
   <EntityType Name="crLogUnits">
     <Key>
@@ -96,6 +97,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="OrderNo" Type="int" Nullable="true" />
+    <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="3" />
   </EntityType>
   <EntityType Name="crLogCompanies">
     <Key>
@@ -466,6 +468,7 @@
           <Property Name="contact1" Type="String" Nullable="true" />
           <Property Name="contact2" Type="String" Nullable="true" />
           <Property Name="OrderNo" Type="Int32" Nullable="true" />
+          <Property Name="Status" Type="String" Nullable="true" MaxLength="3" />
         </EntityType>
         <EntityType Name="crLogUnit">
           <Key>
@@ -477,6 +480,7 @@
           <NavigationProperty Name="crLogFuels" Relationship="CarRentalLogDB.crLogUnitcrLogFuel" FromRole="crLogUnit" ToRole="crLogFuel" />
           <NavigationProperty Name="crLogOdoes" Relationship="CarRentalLogDB.crLogUnitcrLogOdo" FromRole="crLogUnit" ToRole="crLogOdo" />
           <Property Name="OrderNo" Type="Int32" Nullable="true" />
+          <Property Name="Status" Type="String" Nullable="true" MaxLength="3" />
         </EntityType>
         <EntityType Name="crLogCompany">
           <Key>
@@ -793,6 +797,7 @@
           <ScalarProperty Name="contact1" ColumnName="contact1" />
           <ScalarProperty Name="contact2" ColumnName="contact2" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -802,6 +807,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
