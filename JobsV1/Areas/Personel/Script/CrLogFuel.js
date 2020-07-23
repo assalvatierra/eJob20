@@ -51,7 +51,7 @@ function InitDatePicker()
     );
 
     if (ddd2 == "") {
-        //$('input[name="dtFillup"]').val(moment().format("MM/DD/YYYY hh:mm tt"));
+        $('input[name="dtFillup"]').val(moment().format("MM/DD/YYYY hh:mm tt"));
     }
 
 }
