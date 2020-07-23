@@ -20,14 +20,12 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Index(int? statusId)
         {
             var today = dt.GetCurrentDate();
-            var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest);
-
+            var DateFilter = today.AddDays(-7);
+            var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest)
+                .Where(c => DbFunctions.TruncateTime(c.dtRequest) > DateFilter);
 
             if (statusId == null)
-            {
                 statusId = 1;
-            }
-
 
             List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
 
@@ -43,25 +41,26 @@ namespace JobsV1.Areas.Personel.Controllers
                 };
 
                 if (templog.LatestStatusId == statusId)
-                    cCrLogFuel.Add(templog);
+                {
+                    //add request and accecpted logs
+                    if (log.dtRequest.Date <= today.Date && templog.LatestStatusId < 3)
+                        cCrLogFuel.Add(templog);
+                    //add returned logs with date today
+                    if (log.dtRequest.Date == today.Date && templog.LatestStatusId == 3)
+                        cCrLogFuel.Add(templog);
+                }
+
             }
 
 
-            //check user permission
-            var isAdmin = false;
-            if (User.IsInRole("Admin"))
-            {
-                isAdmin = true;
-            }
-
-            ViewBag.IsAdmin = true;
+            ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.StatusId = statusId;
 
             return View(cCrLogFuel.ToList());
         }
 
         // GET: Personel/crLogFuels
-        public ActionResult History(int? statusId)
+        public ActionResult PrevRecords()
         {
             var today = dt.GetCurrentDate();
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
@@ -84,15 +83,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
 
-            //check user permission
-            var isAdmin = false;
-            if (User.IsInRole("Admin"))
-            {
-                isAdmin = true;
-            }
-
-            ViewBag.IsAdmin = true;
-            ViewBag.StatusId = statusId;
+            ViewBag.IsAdmin = User.IsInRole("Admin");
 
             return View(cCrLogFuel.ToList());
         }
@@ -249,10 +240,46 @@ namespace JobsV1.Areas.Personel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            crLogFuel crLogFuel = db.crLogFuels.Find(id);
-            db.crLogFuels.Remove(crLogFuel);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                if (DeleteStatusRecords(id))
+                {
+                    crLogFuel crLogFuel = db.crLogFuels.Find(id);
+                    db.crLogFuels.Remove(crLogFuel);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+        }
+
+        public bool DeleteStatusRecords(int crFuelLogId)
+        {
+            try
+            {
+                var logStatusList = db.crLogFuelStatus.Where(c => c.crLogFuelId == crFuelLogId).ToList();
+
+                if(logStatusList != null)
+                {
+                    db.crLogFuelStatus.RemoveRange(logStatusList);
+                    db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         protected override void Dispose(bool disposing)

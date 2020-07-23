@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<JobsV1.Areas.Personel.Models.cCrLogFuel>
 
 @{
-    ViewBag.Title = "Expenses Logs";
+    ViewBag.Title = "Expenses - Previous Logs";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var IsAdmin = (bool)ViewBag.IsAdmin;
-    var StatusId = (int)ViewBag.StatusId;
 }
 
 <style>
@@ -27,20 +26,14 @@
     }
 </style>
 
-<h2>Expenses Logs</h2>
+<h2>Expenses - Previous Logs</h2>
 <p>
     @Html.ActionLink("Trip Logs", "Index", "CarRentalLog", null, null) |
     @Html.ActionLink("Odo", "Index", "CrLogOdoes", null, null) |
     Expenses
 </p>
-<p id="status-list">
-    <span class="text-muted"> Status Filter:  </span>
-    @Html.ActionLink("Request", "Index", new { statusId = 1 }, new { @id = "status-request" }) |
-    @Html.ActionLink("Approved", "Index", new { statusId = 2 }, new { @id = "status-approved" }) |
-    @Html.ActionLink("Returned", "Index", new { statusId = 3 }, new { @id = "status-returned" })
-</p>
 <p>
-    @Html.ActionLink("Release Fuel", "Create")
+    @Html.ActionLink("Back to Current List", "Index")
 </p>
 <table class="table">
 
@@ -63,6 +56,9 @@
         </th>
         <th>
             Odo
+        </th>
+        <th>
+            Status
         </th>
         <th>
 
@@ -91,6 +87,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LatestStatus)
+            </td>
 
            @if (item.LatestStatusId == 1)
             {
@@ -100,7 +99,8 @@
                     <span>
                         <a class="cursor-hand" onclick="ApproveRequest('@item.crLogFuel.Id')"> Approve </a> |
                         @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
+                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
                     </span>
                     }
                 </td>
@@ -114,10 +114,11 @@
                     @Html.ActionLink("Return", "Return", new { id = item.crLogFuel.Id }) 
                     @if (IsAdmin)
                     {
-                        <span>
-                            | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
-                        </span>
+                    <span>
+                        | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
+                    </span>
                     }
                 </td>
             }
@@ -127,10 +128,11 @@
                 <td>
                     @if (IsAdmin)
                     {
-                        <span>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
-                        </span>
+                    <span>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
+                    </span>
                     }
                 </td>
             }
@@ -141,23 +143,7 @@
 </table>
 
 @section Scripts{
-    
     <script>
-        $(() => {
-            switch ('@StatusId') {
-                case '1':
-                    $("#status-request").css('color', 'black');
-                    break;
-                case '2':
-                    $("#status-approved").css('color', 'black');
-                    break;
-                case '3':
-                    $("#status-returned").css('color', 'black');
-                    break;
-            }
-        });
-
-
         function ApproveRequest(id) {
             $.post("/Personel/crLogFuels/ApproveRequest", { id: parseInt(id) }, (result) => {
                 console.log(result)

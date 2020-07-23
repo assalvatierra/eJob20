@@ -481,6 +481,7 @@
     </Compile>
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
     <Content Include="Areas\AutoCare\Scipts\Appointments\CustomerSearch.js" />
+    <Content Include="Areas\Personel\Models\SQL\SampleData.SQL" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -1975,7 +1976,7 @@
     <Content Include="Areas\AutoCare\Views\JobVehicles\Details.cshtml" />
     <Content Include="Areas\AutoCare\Views\JobVehicles\Edit.cshtml" />
     <Content Include="Areas\AutoCare\Views\JobVehicles\Index.cshtml" />
-    <Content Include="Areas\Personel\Views\crLogFuels\History.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\PrevRecords.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

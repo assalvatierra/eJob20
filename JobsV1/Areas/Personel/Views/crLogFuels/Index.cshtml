@@ -13,17 +13,17 @@
         border: none;
     }
 
-    .td-bg-gray{
-        background-color:lightgray;
+    .td-bg-gray {
+        background-color: lightgray;
     }
 
     .th-bg-gray {
         background-color: gray;
-        color:white;
+        color: white;
     }
 
-    .status-selected{
-        color:black;
+    .status-selected {
+        color: black;
     }
 </style>
 
@@ -37,10 +37,12 @@
     <span class="text-muted"> Status Filter:  </span>
     @Html.ActionLink("Request", "Index", new { statusId = 1 }, new { @id = "status-request" }) |
     @Html.ActionLink("Approved", "Index", new { statusId = 2 }, new { @id = "status-approved" }) |
-    @Html.ActionLink("Returned", "Index", new { statusId = 3 }, new { @id = "status-returned" })
+    @Html.ActionLink("Returned", "Index", new { statusId = 3 }, new { @id = "status-returned" }) 
 </p>
+
 <p>
-    @Html.ActionLink("Release Fuel", "Create")
+    @Html.ActionLink("Release Expense", "Create") |
+    @Html.ActionLink("Previous Logs", "PrevRecords")
 </p>
 <table class="table">
 
@@ -92,7 +94,7 @@
                 @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
             </td>
 
-           @if (item.LatestStatusId == 1)
+            @if (item.LatestStatusId == 1)
             {
                 <td>
                     @if (IsAdmin)
@@ -100,37 +102,40 @@
                     <span>
                         <a class="cursor-hand" onclick="ApproveRequest('@item.crLogFuel.Id')"> Approve </a> |
                         @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
+                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
                     </span>
                     }
                 </td>
             }
 
-           @if (item.LatestStatusId == 2)
+            @if (item.LatestStatusId == 2)
             {
                 <td>
 
                     @Html.ActionLink("Print", "PrintApproveForm", new { id = item.crLogFuel.Id }) |
-                    @Html.ActionLink("Return", "Return", new { id = item.crLogFuel.Id }) 
+                    @Html.ActionLink("Return", "Return", new { id = item.crLogFuel.Id })
                     @if (IsAdmin)
                     {
-                        <span>
-                            | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
-                        </span>
+                    <span>
+                        | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
+                    </span>
                     }
                 </td>
             }
 
-           @if (item.LatestStatusId == 3)
+            @if (item.LatestStatusId == 3)
             {
                 <td>
                     @if (IsAdmin)
                     {
-                        <span>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id })
-                        </span>
+                    <span>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
+                    </span>
                     }
                 </td>
             }
@@ -138,10 +143,19 @@
         </tr>
     }
 
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="7">
+                <p class="text-center"> No Record Found </p>
+            </td>
+        </tr>
+    }
+
 </table>
 
 @section Scripts{
-    
+
     <script>
         $(() => {
             switch ('@StatusId') {
@@ -155,6 +169,8 @@
                     $("#status-returned").css('color', 'black');
                     break;
             }
+
+            console.log('@IsAdmin');
         });
 
 
@@ -169,4 +185,4 @@
             });
         }
     </script>
-    }
+}
