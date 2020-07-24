@@ -333,7 +333,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult DriverSummary(int id)
+        public ActionResult DriverSummary(int id, int? reqStatus)
         {
             crLogDriver driver = db.crLogDrivers.Find(id);
             List<crLogTrip> trips = db.crLogTrips.Where(d => d.crLogDriverId == id && d.crLogClosingId==null).OrderBy(s=>s.DtTrip).ToList();
@@ -345,6 +345,7 @@ namespace JobsV1.Areas.Personel.Controllers
             driversummary.DriverCash = cashtrx;
 
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
+            ViewBag.reqStatus = reqStatus ?? 0;
             return View(driversummary);
         }
 
@@ -450,11 +451,12 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult CopyTrip()
         {
             ViewBag.isSubmitted = false;
+            ViewBag.companyId = new SelectList(db.crLogCompanies, "Id", "Name");
             return View(new List<crLogTrip>());
         }
 
         [HttpPost]
-        public ActionResult CopyTrip(string srchDate)
+        public ActionResult CopyTrip(string srchDate, int? companyId)
         {
             try
             {
@@ -467,9 +469,18 @@ namespace JobsV1.Areas.Personel.Controllers
                     crLogTrips = crLogTrips.Where(c => c.DtTrip.Day == tempDate.Day &&
                                                         c.DtTrip.Month == tempDate.Month &&
                                                         c.DtTrip.Year == tempDate.Year);
+
+                    if (companyId != null)
+                    {
+                        crLogTrips = crLogTrips.Where(c => c.crLogCompanyId == companyId );
+                    }
+
+                    ViewBag.companyId = new SelectList(db.crLogCompanies, "Id", "Name");
                     ViewBag.isSubmitted = true;
                     return View(crLogTrips.ToList());
                 }
+
+                ViewBag.companyId = new SelectList(db.crLogCompanies, "Id", "Name");
                 ViewBag.isSubmitted = false;
                 return View(new List<crLogTrip>());
             }

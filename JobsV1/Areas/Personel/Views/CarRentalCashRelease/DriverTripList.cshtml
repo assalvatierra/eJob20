@@ -1,0 +1,48 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
+@{
+    ViewBag.Title = "DriverTripList";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    decimal amount = (decimal)ViewBag.Amount;
+    string tripLogErr = (string)ViewBag.tripLogErr;
+}
+
+<h2>Driver Trip List</h2>
+<p>
+    @Html.ActionLink("Back to Cash Transactions", "Index")
+</p>
+
+<h2> @ViewBag.Driver </h2>
+<p>
+    <b> Release : @ViewBag.DtRelease </b><br />
+    <b> Amount : @amount.ToString("#,##0.00") </b><br />
+    <b> Remarks :  @ViewBag.Remarks </b><br />
+</p>
+<table class="table">
+    <tr>
+        <th> Date </th>
+        <th> Company </th>
+        <th> Unit </th>
+        <th> Rate </th>
+        <th> Drivers Fee </th>
+    </tr>
+
+    @foreach (var log in Model)
+    {
+        <tr>
+            <td> @log.DtTrip.ToShortDateString() </td>
+            <td> @log.crLogCompany.Name </td>
+            <td> @log.crLogUnit.Description </td>
+            <td> @log.Rate </td>
+            <td> @log.DriverFee </td>
+        </tr>
+    }
+    @if(tripLogErr.Length > 0)
+    {
+        <tr>
+            <td colspan="4">
+                <p class="text-center"> @tripLogErr  </p>
+            </td>
+        </tr>
+    }
+</table>

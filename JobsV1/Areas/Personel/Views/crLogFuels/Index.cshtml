@@ -12,19 +12,6 @@
         background-color: #eff3f6;
         border: none;
     }
-
-    .td-bg-gray {
-        background-color: lightgray;
-    }
-
-    .th-bg-gray {
-        background-color: gray;
-        color: white;
-    }
-
-    .status-selected {
-        color: black;
-    }
 </style>
 
 <h2>Expenses Logs</h2>
@@ -89,12 +76,12 @@
                 (&nbsp;@Html.DisplayFor(modelItem => item.crLogFuel.crLogDriver.Name)&nbsp;)
             </td>
             <td>
-                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy hh:mm tt")
+                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy")
             </td>
            @if (item.LatestStatusId == 4)
             {
             <td>
-                @item.crLogFuel.dtFillup.ToString("MMM dd yyyy hh:mm tt") 
+                @item.crLogFuel.dtFillup.ToString("MMM dd yyyy") 
             </td>
             }
             <td>
@@ -168,75 +155,8 @@
     <script src="~/Areas/Personel/Script/CarRentalLogReturn.js"> </script>
     <script>
         $(() => {
-            switch ('@StatusId') {
-                case '1':
-                    $("#status-request").css('color', 'black');
-                    break;
-                case '2':
-                    $("#status-approved").css('color', 'black');
-                    break;
-                case '3':
-                    $("#status-released").css('color', 'black');
-                    break;
-                case '4':
-                    $("#status-returned").css('color', 'black');
-                    break;
-                default:
-                    $("#status-request").css('color', 'black');
-                    break;
-            }
+            FilterStatus('@StatusId');
         });
-
-
-        function ApproveRequest(id) {
-            $.post("/Personel/crLogFuels/ApproveRequest", { id: parseInt(id) }, (result) => {
-                console.log(result)
-                if (result == 'True') {
-                    window.location.reload();
-                } else {
-                    alert("An Error occured while process your request");
-                }
-            });
-        }
-
-
-
-        function ApproveRelease(id) {
-            $.post("/Personel/crLogFuels/ApproveRelease", { id: parseInt(id) }, (result) => {
-                console.log(result)
-                if (result == 'True') {
-                    window.location.reload();
-                } else {
-                    alert("An Error occured while process your request");
-                }
-            });
-        }
-
-        function InitReturnLogModal(id) {
-            $("#return-LogFuelId").val(id);
-            $("#return-Odo").val(0);
-            $("#return-Amount").val("0.00");
-            $("#return-Date").val(moment().format("MM/DD/YYYY hh:mm A"));
-            $("#ReturnLogModal").modal("show");
-        }
-
-        function SubmitReturnLog() {
-            var data = {
-                id: $("#return-LogFuelId").val(),
-                date: $("#return-Date").val(),
-                odo: $("#return-Odo").val(),
-                amount: $("#return-Amount").val()
-            }
-
-            $.post("/Personel/CrLogFuels/SubmitReturnLog", data, (result) => {
-                console.log(result);
-                if (result == 'True') {
-                    window.location.reload();
-                } else {
-                    alert("An Error occured while process your request");
-                }
-            });
-        }
 
 
     </script>

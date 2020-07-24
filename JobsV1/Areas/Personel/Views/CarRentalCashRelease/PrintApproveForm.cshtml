@@ -1,0 +1,174 @@
+﻿@model JobsV1.Areas.Personel.Models.crLogCashRelease
+
+@{
+    ViewBag.Title = "Print Cash Release Form";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+
+    var tripLogs = ViewBag.crLogTrips as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>;
+}
+
+<div style="display:flex;flex-direction:column;margin-top:-50px;margin-right:20px;">
+
+    <div class="print-form-size">
+        <table class="table rpt-table-bordered">
+            <tr>
+                <td>
+                    <h2 class="text-center"> Cash Release Form </h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 class="text-center"> Office Copy </h3>
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="form-group-sm col-md-12 col-xs-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Date </label>
+                                        <div class="col-md-10 col-xs-10 col-xs-10">
+                                            <input type="text" class="form-control form-input-small" value="@Model.DtRelease.ToShortDateString()" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Driver </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control form-input-small" value="@Model.crLogDriver.Name" />
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Amount </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control form-input-small" value="@Model.Amount.ToString("#,#00.00")" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Remarks </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Driver&nbsp;Sign </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Released&nbsp;By </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td width="200px">
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12 col-xs-12">
+                                        <table>
+                                            <tr>
+                                                <th colspan="2"> Trip Log </th>
+                                            </tr>
+                                            @foreach (var trip in tripLogs)
+                                            {
+                                                <tr class="form-text-small">
+                                                    <th> <span> @trip.DtTrip.ToShortDateString()</span> </th>
+                                                    <th> <span> @trip.crLogUnit.Description </span> </th>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="print-form-size">
+        <table class="table rpt-table-bordered">
+            <tr>
+                <td>
+                    <h2 class="text-center"> Cash Release Form </h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 class="text-center"> Drivers Copy </h3>
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="form-group-sm col-md-12 col-xs-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 col-xs-3 control-label form-label"> Date </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" value="@Model.DtRelease.ToShortDateString()" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Driver </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" value="@Model.crLogDriver.Name" />
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Amount </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" value="@Model.Amount.ToString("#,#00.00")" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Remarks </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Driver&nbsp;Sign </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group-sm col-md-12 col-xs-12">
+                                        <label class="col-md-2 col-xs-2 control-label form-label"> Released&nbsp;By </label>
+                                        <div class="col-md-10 col-xs-10">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td width="200px">
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12 col-xs-12">
+                                        <table>
+                                            <tr>
+                                                <th colspan="2"> Trip Log </th>
+                                            </tr>
+                                            @foreach (var trip in tripLogs)
+                                            {
+                                                <tr class="form-text-small">
+                                                    <th> <span> @trip.DtTrip.ToShortDateString()</span> </th>
+                                                    <th> <span> @trip.crLogUnit.Description </span> </th>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

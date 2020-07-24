@@ -462,7 +462,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogDrivercrLogTrip" FromRole="crLogDriver" ToRole="crLogTrip" />
           <NavigationProperty Name="crLogCashReleases" Relationship="CarRentalLogDB.crLogDrivercrLogCashRelease" FromRole="crLogDriver" ToRole="crLogCashRelease" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" />
           <NavigationProperty Name="crLogFuels" Relationship="CarRentalLogDB.crLogDrivercrLogFuel" FromRole="crLogDriver" ToRole="crLogFuel" />
           <NavigationProperty Name="crLogOdoes" Relationship="CarRentalLogDB.crLogDrivercrLogOdo" FromRole="crLogDriver" ToRole="crLogOdo" />
           <Property Name="contact1" Type="String" Nullable="true" />

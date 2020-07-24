@@ -2,14 +2,14 @@
 
 $(document).ready(function () {
     InitDatePicker();
-    $('input[name="DtTrip"]').val(moment().format('MM/DD/YYYY hh:mm A'))
+    $('input[name="DtRelease"]').val(moment().format("MM/DD/YYYY hh:mm A"));
 })
 
 function InitDatePicker()
 {
-    var ddd1 = $('input[name="DtTrip"]').val();
+    var ddd1 = $('input[name="DtRelease"]').val();
 
-    $('input[name="DtTrip"]').daterangepicker(
+    $('input[name="DtRelease"]').daterangepicker(
     {
         timePicker: true,
         timePickerIncrement: 1,
@@ -25,5 +25,6 @@ function InitDatePicker()
          
         }
     );
+
 
 }

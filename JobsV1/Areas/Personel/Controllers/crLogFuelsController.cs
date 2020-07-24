@@ -21,6 +21,8 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             var today = dt.GetCurrentDate();
             var DateFilter = today.AddDays(-7);
+
+            //get fuel request up to -7 days from today
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest)
                 .Where(c => DbFunctions.TruncateTime(c.dtRequest) > DateFilter);
 

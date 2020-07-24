@@ -1,0 +1,76 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogCashRelease>
+
+@{
+    ViewBag.Title = "Cash Transaction - Previous Records";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var IsAdmin = (bool)ViewBag.IsAdmin;
+}
+
+<h2>Cash Transaction - Previous Records</h2>
+<p>
+    @Html.ActionLink("Back to Trip Log", "Index", "CarRentalLog") |
+    @Html.ActionLink("Ongoing Records", "Index")
+</p>
+<p>
+    @Html.ActionLink("Add New Cash Trx", "Create")
+
+</p>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtRelease)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            Driver
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.DtRelease.ToShortDateString()
+            </td>
+            <td>
+                @item.Amount.ToString("#,##0.00")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @if (IsAdmin)
+                {
+                <span>
+                    @Html.ActionLink("Trip List", "DriverTripList", new { id = item.Id }, null) |
+                    @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })
+                    | @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) 
+                </span>
+                }
+
+            </td>
+        </tr>
+    }
+
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td>
+                <p class="text-center"> No Records Found </p>
+            </td>
+        </tr>
+    }
+</table>

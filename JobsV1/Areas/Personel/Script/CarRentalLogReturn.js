@@ -33,3 +33,75 @@ function isNumberKey(evt) {
 
     return true;
 }
+
+
+function FilterStatus(statusId) {
+    switch (statusId) {
+        case '1':
+            $("#status-request").css('color', 'black');
+            break;
+        case '2':
+            $("#status-approved").css('color', 'black');
+            break;
+        case '3':
+            $("#status-released").css('color', 'black');
+            break;
+        case '4':
+            $("#status-returned").css('color', 'black');
+            break;
+        default:
+            $("#status-request").css('color', 'black');
+            break;
+    }
+}
+
+
+function ApproveRequest(id) {
+    $.post("/Personel/crLogFuels/ApproveRequest", { id: parseInt(id) }, (result) => {
+        console.log(result)
+        if (result == 'True') {
+            window.location.reload();
+        } else {
+            alert("An Error occured while process your request");
+        }
+    });
+}
+
+
+
+function ApproveRelease(id) {
+    $.post("/Personel/crLogFuels/ApproveRelease", { id: parseInt(id) }, (result) => {
+        console.log(result)
+        if (result == 'True') {
+            window.location.reload();
+        } else {
+            alert("An Error occured while process your request");
+        }
+    });
+}
+
+function InitReturnLogModal(id) {
+    $("#return-LogFuelId").val(id);
+    $("#return-Odo").val(0);
+    $("#return-Amount").val("0.00");
+    $("#return-Date").val(moment().format("MM/DD/YYYY hh:mm A"));
+    $("#ReturnLogModal").modal("show");
+}
+
+function SubmitReturnLog() {
+    var data = {
+        id: $("#return-LogFuelId").val(),
+        date: $("#return-Date").val(),
+        odo: $("#return-Odo").val(),
+        amount: $("#return-Amount").val()
+    }
+
+    $.post("/Personel/CrLogFuels/SubmitReturnLog", data, (result) => {
+        console.log(result);
+        if (result == 'True') {
+            window.location.reload();
+        } else {
+            alert("An Error occured while process your request");
+        }
+    });
+}

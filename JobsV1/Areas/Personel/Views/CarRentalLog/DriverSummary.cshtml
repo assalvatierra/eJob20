@@ -6,20 +6,28 @@
 
     decimal _drivertrips = 0;
     decimal _drivercash = 0;
+
+    var reqStatus =  (int)ViewBag.reqStatus;
 }
 <div class="view-header" style="border-bottom:none;">
     <h2>@Model.Driver.Name</h2>
     <div class="header-btn-list">
         @Html.DropDownList("crLogDriverId", null, htmlAttributes: new { @class = "form-control" })
     </div>
-    <div>
+    <div hidden>
+        <p id="DriversId">@Model.Driver.Id</p>
     </div>
 </div>
 
-
+<a href="~/Personel/CarRentalCashRelease" id="request-success-message" hidden>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong> Salary Request Added!</strong> Click here to go Request Transactions
+    </div>
+</a>
 
 <h3>Trips</h3>
-<table class="table">
+<table class="table" id="summary-table">
     <tr>
         <th>
             Date
@@ -39,6 +47,9 @@
         <th>
             Driver
         </th>
+        <th>
+            <input type="checkbox" id="select-all-checkbox" onclick="SelectAllCheckBox()" /> All
+        </th>
         <th></th>
     </tr>
 
@@ -46,8 +57,8 @@
     {
         _drivertrips += item.DriverFee;
 
-        <tr>
-            <td>
+        <tr name="summary-data">
+            <td name="date">
                 @Html.DisplayFor(modelItem => item.DtTrip)
             </td>
             <td>
@@ -66,21 +77,29 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Expenses)
             </td>
-            <td>
+            <td  name="driversFee">
                 @Html.DisplayFor(modelItem => item.DriverFee)
+            </td>
+            <td>
+                <input type="checkbox" class="item-checkbox" onclick="OnSelectCheckBox(this)" />
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id })
             </td>
+            <td name="id" hidden>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
         </tr>
     }
+
     <tr>
         <td colspan="5" align="right">Total Driver's fee</td>
         <td>@_drivertrips</td>
-        <td></td>
+        <td> <span id="Total-Selected-DriverFee"> 0 </span> 
+            
+        </td>
+        <td> <a class="cursor-hand" onclick="CreateSalaryRequest()"> Create Salary Request </a> </td>
     </tr>
-
-
 
     @foreach (var item in Model.DriverCash)
     {
@@ -88,17 +107,18 @@
 
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DtRelease)
+                @item.DtRelease.ToShortDateString()
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
-            <td colspan="3">Cash Voucher</td>
+            <td colspan="3">
+                Cash Voucher
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
-
-            <td>
+            <td colspan="2">
                 @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })
             </td>
         </tr>
@@ -107,10 +127,12 @@
         <td colspan="5" align="right">Total Driver's CA</td>
         <td>@_drivercash</td>
         <td></td>
+        <td></td>
     </tr>
 
 
 </table>
+
 
 @{ decimal _balance = (_drivertrips - _drivercash); }
 <h3>Driver's Balance: @_balance </h3>
@@ -122,14 +144,24 @@
     @Html.ActionLink("Go to Trip Log", "Index") | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease")
 </p>
 
+@Html.Partial("_DriverSalaryReqModal")
+
 @section Scripts{
-
+    <script src="~/Areas/Personel/Script/DriverSummary.js"> </script>
     <script>
-        $("select[name=crLogDriverId]").change(() => {
-            let selectedDriver = $("select[name=crLogDriverId] :selected").val();
 
-            window.location.href = "../DriverSummary/" + selectedDriver;
+        $(() => {
+            Initialize();
         })
+
+        function Initialize() {
+            CalculateTotalSalary();
+
+            if ('@reqStatus' == '1') {
+                $("#request-success-message").show();
+            }
+        }
+
     </script>
 
 }

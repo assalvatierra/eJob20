@@ -69,8 +69,6 @@ namespace JobsV1
                 "~/Content/themes/ui-lightness/jquery-ui.ui-lightness.css"
                ));
 
-
-
             bundles.Add(new ScriptBundle("~/bundles/DateRangePicker").Include(
                     "~/Scripts/sort-table.js",
                     "~/Scripts/DateRangePicker/moment.js",
@@ -83,6 +81,10 @@ namespace JobsV1
 
             bundles.Add(new StyleBundle("~/Content/TableStyles").Include(
                       "~/Content/TableStyles.css"
+                      ));
+
+            bundles.Add(new StyleBundle("~/Content/ReportStyles").Include(
+                      "~/Content/RptTripLog.css"
                       ));
 
         }
