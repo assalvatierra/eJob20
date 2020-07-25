@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using JobsV1.Models.Class;
+using System.Data.Entity;
 
 namespace JobsV1.Controllers
 {
@@ -12,6 +14,7 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private JobOrderClass jobOrderClass = new JobOrderClass();
+        private DateClass dt = new DateClass();
 
         // GET: RptGmsAuto
         public ActionResult Index()
@@ -154,20 +157,50 @@ namespace JobsV1.Controllers
         }
 
 
-        public ActionResult OilReport()
+
+        public ActionResult OilReport(string DtStart, string DtEnd, int? mechanicId)
         {
+            var today = dt.GetCurrentDate();
+
             //get mechanic list
             var mechanicsId = db.InvItemCategories.Where(c => c.InvItemCatId == 2).Select(c => c.InvItemId).ToList();
+            var AllMechanics = db.InvItems.Where(i => mechanicsId.Contains(i.Id)).ToList();
             var mechanics = db.InvItems.Where(i=> mechanicsId.Contains(i.Id)).ToList();
+
+            if (mechanicId != null && mechanicId != 0)
+            {
+                mechanics = mechanics.Where( c=>c.Id == mechanicId).ToList();
+            }
+
+            //all 
+            if(mechanicId == 0)
+            {
+                mechanics = db.InvItems.Where(i => mechanicsId.Contains(i.Id)).ToList();
+            }
 
             //holds the report
             List<MechanicOilReport> OilReport = new List<MechanicOilReport>();
 
             //get jobs of with oil change
-            var jobList = db.JobServices.Where(j => j.Service.Name.Contains("Oil Change") && j.JobMain.JobStatusId < 5 );
+            var jobList = db.JobServices.Where(j => j.Service.Name.Contains("Oil") && j.JobMain.JobStatusId < 5);
+
+            //filter date
+            if (!DtStart.IsNullOrWhiteSpace() && !DtEnd.IsNullOrWhiteSpace() )
+            {
+                DateTime _dtStart = new DateTime();
+                DateTime.TryParse(DtStart, out _dtStart);
+                DateTime _dtEnd = new DateTime();
+                DateTime.TryParse(DtEnd, out _dtEnd);
+
+                jobList = jobList.Where(j => DbFunctions.TruncateTime(j.DtStart) >= _dtStart &&  DbFunctions.TruncateTime(j.DtEnd) <= _dtEnd ).OrderBy(j => j.DtStart);
+            }
+            else
+            {
+                jobList = jobList.Where(j => today == DbFunctions.TruncateTime(j.DtStart) && today == DbFunctions.TruncateTime(j.DtStart)).OrderBy(j => j.DtStart);
+            }
 
             //get jobs of mechanics
-            foreach (var job in jobList)
+            foreach (var job in jobList.ToList())
             {
                 //get jobservice Items
                 var jsItems = db.JobServiceItems.Where(j => j.JobServicesId == job.Id).ToList();
@@ -180,37 +213,36 @@ namespace JobsV1.Controllers
                         if (vehicleQuery != null)
                         {
                             var vehicleModel = vehicleQuery.Vehicle.VehicleModel;
+                            var vehicle = vehicleQuery.Vehicle;
 
                             MechanicOilReport reportItem = new MechanicOilReport();
-                            reportItem.Id = item.InvItemId;
+                            reportItem.Id = item.JobService.JobMainId;
+                            reportItem.JobSvcDate = DateTime.Parse(item.JobService.DtStart.ToString()).ToShortDateString()
+                                + " - " + DateTime.Parse(item.JobService.DtEnd.ToString()).ToShortDateString();
+                            reportItem.Vehicle = vehicleModel.VehicleBrand.Brand + " " + vehicleModel.Make + " " + vehicle.YearModel 
+                                + " ( " + vehicle.PlateNo + " )";
                             reportItem.Mechanic = item.InvItem.Description;
-                            reportItem.jobService = job.Particulars;
+                            reportItem.jobService = "("+ job.Service.Name +") " + job.Particulars;
                             reportItem.Service = job.Service.Name;
-                            reportItem.MotorOil = vehicleModel.MotorOil;
-                            reportItem.GearOil = vehicleModel.GearOil;
-                            reportItem.TransmissionOil = vehicleModel.TransmissionOil;
+                            reportItem.MotorOil =  vehicleModel.MotorOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.MotorOil);
+                            reportItem.GearOil = vehicleModel.GearOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.GearOil);
+                            reportItem.TransmissionOil = vehicleModel.TransmissionOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.TransmissionOil);
+
+                            OilReport.Add(reportItem);
                         }
                     }
                 }
             }
 
-            return View(mechanics);
+            ViewBag.DtStart = DtStart ?? today.ToShortDateString();
+            ViewBag.DtEnd = DtEnd ?? today.ToShortDateString();
+            ViewBag.MechanicList = AllMechanics;
+            ViewBag.mechanicId = mechanicId ?? 0;
+
+            return View(OilReport);
         }
+
 
     }
 }
-
-
-public class MechanicOilReport
-{
-    public int Id { get; set; }
-    public string Mechanic { get; set; }
-    public string jobService { get; set; }
-    public string Service { get; set; }
-    public int jobId { get; set; }
-    public string MotorOil { get; set; }
-    public string GearOil { get; set; }
-    public string TransmissionOil { get; set; }
-}
-
 

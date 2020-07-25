@@ -694,6 +694,7 @@
     <Compile Include="Models\Class\EmailBuilderClass.cs" />
     <Compile Include="Models\Class\JobPostSaleClass.cs" />
     <Compile Include="Models\Class\JobVehicleClass.cs" />
+    <Compile Include="Models\Class\MechanicOilReport.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\Class\SalesLeadClass.cs" />
     <Compile Include="Models\CoopMember.cs">
@@ -1201,6 +1202,7 @@
     </Content>
     <Content Include="Areas\Personel\Models\InitHRData.sql" />
     <Content Include="Areas\Personel\Models\InitData.sql" />
+    <Content Include="Areas\Personel\Models\SQL\SampleData.SQL" />
     <Content Include="Areas\Personel\Script\CarRentalLogCreate.js" />
     <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
     <Content Include="Areas\Personel\Script\CashTransactions.js" />
@@ -1980,7 +1982,6 @@
     <Content Include="Areas\AutoCare\Views\JobVehicles\Details.cshtml" />
     <Content Include="Areas\AutoCare\Views\JobVehicles\Edit.cshtml" />
     <Content Include="Areas\AutoCare\Views\JobVehicles\Index.cshtml" />
-    <Content Include="Areas\Personel\Views\crLogFuels\History.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_DriverSalaryReqModal.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\_ReturnLogModal.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrevRecords.cshtml" />
@@ -2780,6 +2781,7 @@
     <Content Include="Views\SysAccessUsers\DeleteModule.cshtml" />
     <Content Include="Views\SysAccessUsers\DeleteModuleSubMenu.cshtml" />
     <Content Include="Views\RptGmsAuto\Index.cshtml" />
+    <Content Include="Views\RptGmsAuto\OilReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -65,7 +65,7 @@ namespace JobsV1.Controllers
             ViewBag.PaymentStatus = paymentStatus;
             ViewBag.SrchString = srch;
 
-            return View(jobs.ToList());
+            return View(jobs.OrderByDescending(j=>j.JobDate).ToList());
         }
 
         public string GetJobTotalAmount(int? id)

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<JobsV1.Models.Class.MechanicOilReport>
+@{
+    ViewBag.Title = "Oil Report";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    string sDate = ViewBag.DtStart;
+    string eDate = ViewBag.DtEnd;
+    var mechanicList = ViewBag.MechanicList as IEnumerable<JobsV1.Models.InvItem>;
+}
+
+<h2>Mechanic Oil Report </h2>
+@using (Html.BeginForm())
+{
+<div class="row">
+    <h4 class="col-md-1 control-label"> Filter : </h4>
+    <select name="mechanicId" id="mechanicId" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" value="@ViewBag.mechanicId">
+        <option value="0"> All </option>
+        @foreach (var mechanic in mechanicList)
+        {
+            <option value="@mechanic.Id">  @mechanic.Description.Trim() </option>
+        }
+    </select>
+    <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
+    <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
+    <button class="btn btn-default" style="margin-top:0px;" type="submit"> Filter </button>
+</div>
+}
+
+<h4>
+    Showing @sDate - @eDate
+</h4>
+<table class="table">
+    <tr>
+        <th >
+            Mechanic /<br />JobId
+        </th>
+        <th width="200px">
+            Date
+        </th>
+        <th>
+            Service
+        </th>
+        <th>
+            Vehicle
+        </th>
+        <th>
+            Motor Oil (L)
+        </th>
+        <th>
+            Gear Oil (L)
+        </th>
+        <th>
+            Trans Oil (L)
+        </th>
+    </tr>
+    @foreach (var groupitem in Model.GroupBy(c => c.Mechanic))
+    {
+        decimal total_MotorOil = 0;
+        decimal total_GearOil = 0;
+        decimal total_TransOil = 0;
+
+        <tr>
+            <td colspan="7">
+                @groupitem.Key
+            </td>
+        </tr>
+
+        foreach (var item in groupitem)
+        {
+            total_MotorOil += (Decimal)item.MotorOil;
+            total_GearOil += (Decimal)item.GearOil;
+            total_TransOil += (Decimal)item.TransmissionOil;
+
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.JobSvcDate
+                </td>
+                <td>
+                    @item.jobService
+                </td>
+                <td>
+                    @item.Vehicle
+                </td>
+                <td>
+                    @item.MotorOil L
+                </td>
+                <td>
+                    @item.GearOil L
+                </td>
+                <td>
+                    @item.TransmissionOil L
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td colspan="3">
+            </td>
+            <td>
+                <p class="pull-right"> Total:</p>
+            </td>
+            <td>
+                <b> @total_MotorOil Liters</b>
+            </td>
+            <td>
+                <b>@total_GearOil Liters</b>
+            </td>
+            <td>
+                <b>@total_TransOil Liters</b>
+            </td>
+        </tr>
+
+    }
+</table>
+
+
+@section Scripts{
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
+    <script>
+
+        $(() => {
+            Initialize();
+        });
+
+        function Initialize() {
+            var dtStart = '@ViewBag.DtStart';
+            var dtEnd = '@ViewBag.DtEnd';
+
+            if (dtStart == '') {
+                $('#DtStart').val(moment().format("MM/DD/YYYY"));
+            } else {
+                $('#DtStart').val(moment(dtStart).format("MM/DD/YYYY"));
+            }
+            if (dtEnd == '') {
+                $('#DtEnd').val(moment().format("MM/DD/YYYY"));
+            } else {
+                $('#DtEnd').val(moment(dtEnd).format("MM/DD/YYYY"));
+            }
+        }
+    </script>
+}

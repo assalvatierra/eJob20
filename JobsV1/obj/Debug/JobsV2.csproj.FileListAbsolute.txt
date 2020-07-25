@@ -211,4 +211,3 @@ C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CopyComplet
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.dll
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.pdb
 D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csprojAssemblyReference.cache
-C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csprojAssemblyReference.cache
