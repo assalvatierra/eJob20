@@ -482,7 +482,6 @@
     </Compile>
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
     <Content Include="Areas\AutoCare\Scipts\Appointments\CustomerSearch.js" />
-    <Content Include="Areas\Personel\Models\SQL\SampleData.SQL" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -1202,8 +1201,8 @@
     </Content>
     <Content Include="Areas\Personel\Models\InitHRData.sql" />
     <Content Include="Areas\Personel\Models\InitData.sql" />
-    <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
     <Content Include="Areas\Personel\Script\CarRentalLogCreate.js" />
+    <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
     <Content Include="Areas\Personel\Script\CashTransactions.js" />
     <Content Include="Areas\Personel\Script\CrLogFuel.js" />
     <Content Include="Areas\Personel\Script\CrLogOdoes.js" />
@@ -1300,7 +1299,6 @@
     <Content Include="Content\ModalUser.css" />
     <Content Include="Content\Erp.css" />
     <Content Include="Content\ProductStyle.css" />
-    <Content Include="Content\RptTripLog.css" />
     <Content Include="Content\sortable-theme-bootstrap.css" />
     <Content Include="Content\TableStyles.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -1982,14 +1980,14 @@
     <Content Include="Areas\AutoCare\Views\JobVehicles\Details.cshtml" />
     <Content Include="Areas\AutoCare\Views\JobVehicles\Edit.cshtml" />
     <Content Include="Areas\AutoCare\Views\JobVehicles\Index.cshtml" />
-    <Content Include="Areas\Personel\Views\crLogFuels\PrevRecords.cshtml" />
-    <Content Include="Areas\Personel\Views\crLogFuels\_ReturnLogModal.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalCashRelease\CreateDriverRelease.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\History.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_DriverSalaryReqModal.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrintApproveForm.cshtml" />
-    <Content Include="Areas\Personel\Views\Shared\_PrintLayout.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrevRecords.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\_ReturnLogModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\PrevRecords.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\CreateDriverRelease.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\DriverTripList.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrevRecords.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrintApproveForm.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2782,7 +2780,6 @@
     <Content Include="Views\SysAccessUsers\DeleteModule.cshtml" />
     <Content Include="Views\SysAccessUsers\DeleteModuleSubMenu.cshtml" />
     <Content Include="Views\RptGmsAuto\Index.cshtml" />
-    <Content Include="Views\Shared\_PrintLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
