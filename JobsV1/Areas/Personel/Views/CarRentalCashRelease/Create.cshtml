@@ -39,10 +39,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.crLogDriverId, "crLogDriverId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.crLogDriverId, "Driver", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("crLogDriverId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.crLogDriverId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.crLogClosingId, "crLogClosingId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.crLogClosingId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.crLogClosingId, "", new { @class = "text-danger" })
             </div>
         </div>
 

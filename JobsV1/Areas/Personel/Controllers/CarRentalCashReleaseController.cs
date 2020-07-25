@@ -108,7 +108,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId")] crLogCashRelease crLogCashRelease)
+        public ActionResult Create([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId")] crLogCashRelease crLogCashRelease)
         {
             if (ModelState.IsValid)
             {
@@ -144,7 +144,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId")] crLogCashRelease crLogCashRelease)
+        public ActionResult Edit([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId")] crLogCashRelease crLogCashRelease)
         {
             if (ModelState.IsValid)
             {
