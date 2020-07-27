@@ -12,28 +12,19 @@ namespace JobsV1.Areas.Personel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class crLogUnit
+    public partial class crRptUnitExpense
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public crLogUnit()
+        public crRptUnitExpense()
         {
-            this.crLogTrips = new HashSet<crLogTrip>();
-            this.crLogFuels = new HashSet<crLogFuel>();
-            this.crLogOdoes = new HashSet<crLogOdo>();
             this.CrRptUnits = new HashSet<CrRptUnit>();
         }
     
         public int Id { get; set; }
-        public string Description { get; set; }
-        public Nullable<int> OrderNo { get; set; }
+        public string RptName { get; set; }
+        public int RptNo { get; set; }
         public string Status { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crLogTrip> crLogTrips { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crLogFuel> crLogFuels { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crLogOdo> crLogOdoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CrRptUnit> CrRptUnits { get; set; }
     }

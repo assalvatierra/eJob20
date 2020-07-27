@@ -454,6 +454,16 @@
             <End Role="crLogType" EntitySet="crLogTypes" />
             <End Role="crLogFuel" EntitySet="crLogFuels" />
           </AssociationSet>
+          <EntitySet Name="crRptUnitExpenses" EntityType="CarRentalLogDB.crRptUnitExpense" />
+          <EntitySet Name="CrRptUnits" EntityType="CarRentalLogDB.CrRptUnit" />
+          <AssociationSet Name="crRptUnitExpenseCrRptUnit" Association="CarRentalLogDB.crRptUnitExpenseCrRptUnit">
+            <End Role="crRptUnitExpense" EntitySet="crRptUnitExpenses" />
+            <End Role="CrRptUnit" EntitySet="CrRptUnits" />
+          </AssociationSet>
+          <AssociationSet Name="crLogUnitCrRptUnit" Association="CarRentalLogDB.crLogUnitCrRptUnit">
+            <End Role="crLogUnit" EntitySet="crLogUnits" />
+            <End Role="CrRptUnit" EntitySet="CrRptUnits" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -481,6 +491,7 @@
           <NavigationProperty Name="crLogOdoes" Relationship="CarRentalLogDB.crLogUnitcrLogOdo" FromRole="crLogUnit" ToRole="crLogOdo" />
           <Property Name="OrderNo" Type="Int32" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="3" />
+          <NavigationProperty Name="CrRptUnits" Relationship="CarRentalLogDB.crLogUnitCrRptUnit" FromRole="crLogUnit" ToRole="CrRptUnit" />
         </EntityType>
         <EntityType Name="crLogCompany">
           <Key>
@@ -780,6 +791,51 @@
             </Principal>
             <Dependent Role="crLogFuel">
               <PropertyRef Name="crLogTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crRptUnitExpense">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RptName" Type="String" Nullable="false" MaxLength="30" />
+          <Property Name="RptNo" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="5" />
+          <NavigationProperty Name="CrRptUnits" Relationship="CarRentalLogDB.crRptUnitExpenseCrRptUnit" FromRole="crRptUnitExpense" ToRole="CrRptUnit" />
+        </EntityType>
+        <EntityType Name="CrRptUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="crRptUnitExpense" Relationship="CarRentalLogDB.crRptUnitExpenseCrRptUnit" FromRole="CrRptUnit" ToRole="crRptUnitExpense" />
+          <Property Name="crRptUnitExpenseId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crLogUnit" Relationship="CarRentalLogDB.crLogUnitCrRptUnit" FromRole="CrRptUnit" ToRole="crLogUnit" />
+          <Property Name="crLogUnitId" Type="Int32" Nullable="false" />
+          <Property Name="RptSeqNo" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="crRptUnitExpenseCrRptUnit">
+          <End Type="CarRentalLogDB.crRptUnitExpense" Role="crRptUnitExpense" Multiplicity="1" />
+          <End Type="CarRentalLogDB.CrRptUnit" Role="CrRptUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crRptUnitExpense">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrRptUnit">
+              <PropertyRef Name="crRptUnitExpenseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crLogUnitCrRptUnit">
+          <End Type="CarRentalLogDB.crLogUnit" Role="crLogUnit" Multiplicity="1" />
+          <End Type="CarRentalLogDB.CrRptUnit" Role="CrRptUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CrRptUnit">
+              <PropertyRef Name="crLogUnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
