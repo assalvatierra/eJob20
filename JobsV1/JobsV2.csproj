@@ -349,11 +349,14 @@
     </Compile>
     <Compile Include="Areas\Personel\Controllers\CarRentalCashReleaseController.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalLogController.cs" />
+    <Compile Include="Areas\Personel\Controllers\CarRentalReportController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogCompaniesController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogDriversController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogUnitsController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crRptUnitExpensesController.cs" />
+    <Compile Include="Areas\Personel\Controllers\CrRptUnitsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HomeController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrDtrsController.cs" />
     <Compile Include="Areas\Personel\Controllers\HrPayrollsController.cs" />
@@ -417,6 +420,12 @@
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\CrReports.cs" />
+    <Compile Include="Areas\Personel\Models\CrRptUnit.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crRptUnitExpense.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\HrDtr.cs">
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
@@ -1990,6 +1999,17 @@
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\DriverTripList.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrevRecords.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrintApproveForm.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalReport\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\CrRptUnits\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\CrRptUnits\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\CrRptUnits\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\CrRptUnits\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\CrRptUnits\Index.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
