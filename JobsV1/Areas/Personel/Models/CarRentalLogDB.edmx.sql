@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/23/2020 17:51:26
--- Generated from EDMX file: D:\Projects\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
+-- Date Created: 07/27/2020 16:01:06
+-- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -111,7 +111,7 @@ GO
 -- Creating table 'crLogDrivers'
 CREATE TABLE [dbo].[crLogDrivers] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(20)  NOT NULL,
+    [Name] nvarchar(50)  NOT NULL,
     [contact1] nvarchar(max)  NULL,
     [contact2] nvarchar(max)  NULL,
     [OrderNo] int  NULL,
@@ -226,6 +226,24 @@ CREATE TABLE [dbo].[crLogTypes] (
 );
 GO
 
+-- Creating table 'crRptUnitExpenses'
+CREATE TABLE [dbo].[crRptUnitExpenses] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [RptName] nvarchar(30)  NOT NULL,
+    [RptNo] int  NOT NULL,
+    [Status] nvarchar(5)  NOT NULL
+);
+GO
+
+-- Creating table 'CrRptUnits'
+CREATE TABLE [dbo].[CrRptUnits] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [crRptUnitExpenseId] int  NOT NULL,
+    [crLogUnitId] int  NOT NULL,
+    [RptSeqNo] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -299,6 +317,18 @@ GO
 -- Creating primary key on [Id] in table 'crLogTypes'
 ALTER TABLE [dbo].[crLogTypes]
 ADD CONSTRAINT [PK_crLogTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crRptUnitExpenses'
+ALTER TABLE [dbo].[crRptUnitExpenses]
+ADD CONSTRAINT [PK_crRptUnitExpenses]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CrRptUnits'
+ALTER TABLE [dbo].[CrRptUnits]
+ADD CONSTRAINT [PK_CrRptUnits]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -529,6 +559,36 @@ GO
 CREATE INDEX [IX_FK_crLogTypecrLogFuel]
 ON [dbo].[crLogFuels]
     ([crLogTypeId]);
+GO
+
+-- Creating foreign key on [crRptUnitExpenseId] in table 'CrRptUnits'
+ALTER TABLE [dbo].[CrRptUnits]
+ADD CONSTRAINT [FK_crRptUnitExpenseCrRptUnit]
+    FOREIGN KEY ([crRptUnitExpenseId])
+    REFERENCES [dbo].[crRptUnitExpenses]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crRptUnitExpenseCrRptUnit'
+CREATE INDEX [IX_FK_crRptUnitExpenseCrRptUnit]
+ON [dbo].[CrRptUnits]
+    ([crRptUnitExpenseId]);
+GO
+
+-- Creating foreign key on [crLogUnitId] in table 'CrRptUnits'
+ALTER TABLE [dbo].[CrRptUnits]
+ADD CONSTRAINT [FK_crLogUnitCrRptUnit]
+    FOREIGN KEY ([crLogUnitId])
+    REFERENCES [dbo].[crLogUnits]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogUnitCrRptUnit'
+CREATE INDEX [IX_FK_crLogUnitCrRptUnit]
+ON [dbo].[CrRptUnits]
+    ([crLogUnitId]);
 GO
 
 -- --------------------------------------------------

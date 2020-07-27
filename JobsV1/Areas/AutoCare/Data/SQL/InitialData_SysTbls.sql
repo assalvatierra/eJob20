@@ -462,7 +462,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 87, 87),
 ('jahdielvillosa@gmail.com', 88, 88),
 ('jahdielvillosa@gmail.com', 89, 89),
-('jahdielvillosa@gmail.com', 90, 90);
+('jahdielvillosa@gmail.com', 90, 90),
 
 
 
