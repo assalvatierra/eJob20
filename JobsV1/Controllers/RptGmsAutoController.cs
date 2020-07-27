@@ -10,11 +10,14 @@ using System.Data.Entity;
 
 namespace JobsV1.Controllers
 {
+
+
     public class RptGmsAutoController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
-        private JobOrderClass jobOrderClass = new JobOrderClass();
+        private JobOrderClass jo = new JobOrderClass();
         private DateClass dt = new DateClass();
+        private RptGmsAutoClass rpt = new RptGmsAutoClass();
 
         // GET: RptGmsAuto
         public ActionResult Index()
@@ -55,9 +58,9 @@ namespace JobsV1.Controllers
             ViewBag.JobVehicle = jobVehicle;
             ViewBag.VehicleServiceHistory = vehicleServiceHistory;
             ViewBag.JobServices = jobServices;
-            ViewBag.StartJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
-            ViewBag.EndJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
-            ViewBag.DiscountAmount = jobOrderClass.GetJobDiscountAmount(jobmain.Id);
+            ViewBag.StartJobDate = jo.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
+            ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
+            ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
 
 
             return View(jobmain);
@@ -89,9 +92,9 @@ namespace JobsV1.Controllers
             ViewBag.JobVehicle = jobVehicle;
             ViewBag.VehicleServiceHistory = vehicleServiceHistory;
             ViewBag.JobServices = jobServices;
-            ViewBag.StartJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
-            ViewBag.EndJobDate = jobOrderClass.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
-            ViewBag.DiscountAmount = jobOrderClass.GetJobDiscountAmount(jobmain.Id);
+            ViewBag.StartJobDate = jo.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
+            ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
+            ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
 
 
             return View(jobmain);
@@ -163,7 +166,7 @@ namespace JobsV1.Controllers
             var today = dt.GetCurrentDate();
 
             //get mechanic list
-            var mechanicsId = db.InvItemCategories.Where(c => c.InvItemCatId == 2).Select(c => c.InvItemId).ToList();
+            var mechanicsId = rpt.GetMechanicSALists().Select(c => c.Id).ToList();
             var AllMechanics = db.InvItems.Where(i => mechanicsId.Contains(i.Id)).ToList();
             var mechanics = db.InvItems.Where(i=> mechanicsId.Contains(i.Id)).ToList();
 
@@ -182,34 +185,35 @@ namespace JobsV1.Controllers
             List<MechanicOilReport> OilReport = new List<MechanicOilReport>();
 
             //get jobs of with oil change
-            var jobList = db.JobServices.Where(j => j.Service.Name.Contains("Oil") && j.JobMain.JobStatusId < 5);
+            var jobsvcList = db.JobServices.Where(j => j.Service.Name.Contains("Oil") && j.JobMain.JobStatusId < 5);
 
             //filter date
             if (!DtStart.IsNullOrWhiteSpace() && !DtEnd.IsNullOrWhiteSpace() )
             {
+                //Parse Date
                 DateTime _dtStart = new DateTime();
                 DateTime.TryParse(DtStart, out _dtStart);
                 DateTime _dtEnd = new DateTime();
                 DateTime.TryParse(DtEnd, out _dtEnd);
 
-                jobList = jobList.Where(j => DbFunctions.TruncateTime(j.DtStart) >= _dtStart &&  DbFunctions.TruncateTime(j.DtEnd) <= _dtEnd ).OrderBy(j => j.DtStart);
+                jobsvcList = jobsvcList.Where(j => DbFunctions.TruncateTime(j.DtStart) >= _dtStart &&  DbFunctions.TruncateTime(j.DtEnd) <= _dtEnd ).OrderBy(j => j.DtStart);
             }
             else
             {
-                jobList = jobList.Where(j => today == DbFunctions.TruncateTime(j.DtStart) && today == DbFunctions.TruncateTime(j.DtStart)).OrderBy(j => j.DtStart);
+                jobsvcList = jobsvcList.Where(j => today == DbFunctions.TruncateTime(j.DtStart) && today == DbFunctions.TruncateTime(j.DtStart)).OrderBy(j => j.DtStart);
             }
 
             //get jobs of mechanics
-            foreach (var job in jobList.ToList())
+            foreach (var svc in jobsvcList.ToList())
             {
                 //get jobservice Items
-                var jsItems = db.JobServiceItems.Where(j => j.JobServicesId == job.Id).ToList();
+                var jsItems = db.JobServiceItems.Where(j => j.JobServicesId == svc.Id).ToList();
                 foreach(var item in jsItems)
                 {
                     if (mechanics.Select(m => m.Id).Contains(item.InvItemId))
                     {
                         //get vehicle oil detials
-                        var vehicleQuery = db.JobVehicles.Where(v => v.JobMainId == job.JobMainId).OrderByDescending(c=>c.Id).FirstOrDefault();
+                        var vehicleQuery = db.JobVehicles.Where(v => v.JobMainId == svc.JobMainId).OrderByDescending(c=>c.Id).FirstOrDefault();
                         if (vehicleQuery != null)
                         {
                             var vehicleModel = vehicleQuery.Vehicle.VehicleModel;
@@ -222,8 +226,8 @@ namespace JobsV1.Controllers
                             reportItem.Vehicle = vehicleModel.VehicleBrand.Brand + " " + vehicleModel.Make + " " + vehicle.YearModel 
                                 + " ( " + vehicle.PlateNo + " )";
                             reportItem.Mechanic = item.InvItem.Description;
-                            reportItem.jobService = "("+ job.Service.Name +") " + job.Particulars;
-                            reportItem.Service = job.Service.Name;
+                            reportItem.jobService = "("+ svc.Service.Name +") " + svc.Particulars;
+                            reportItem.Service = svc.Service.Name;
                             reportItem.MotorOil =  vehicleModel.MotorOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.MotorOil);
                             reportItem.GearOil = vehicleModel.GearOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.GearOil);
                             reportItem.TransmissionOil = vehicleModel.TransmissionOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.TransmissionOil);
@@ -233,16 +237,98 @@ namespace JobsV1.Controllers
                     }
                 }
             }
+            var mechanicName = "";
+            if (mechanicId > 0)
+            {
+                var selectedMech = rpt.GetMechanicSALists().Where(m => m.Id == mechanicId).FirstOrDefault();
+                mechanicName = selectedMech.Name + " ( " + selectedMech.Category + " ) ";
+            }
+            else
+            {
+                mechanicName = "All";
+            }
 
             ViewBag.DtStart = DtStart ?? today.ToShortDateString();
             ViewBag.DtEnd = DtEnd ?? today.ToShortDateString();
-            ViewBag.MechanicList = AllMechanics;
+            ViewBag.MechanicList = rpt.GetMechanicSALists();
             ViewBag.mechanicId = mechanicId ?? 0;
+            ViewBag.MechanicName = mechanicName;
 
             return View(OilReport);
         }
 
+        public ActionResult PaymentStatusReport(string DtStart, string DtEnd)
+        {
+            var today = dt.GetCurrentDate();
+            var totalJobs = 0;
+            var countPaid = 0;
+            var countUnpaid = 0;
+            var countTerms = 0;
 
+            //get job list
+            var jobListQuery = db.JobMains.Where(j=>j.JobStatusId < 5);
+
+            //filter date
+            if (!DtStart.IsNullOrWhiteSpace() && !DtEnd.IsNullOrWhiteSpace())
+            {
+                //Parse Date
+                DateTime _dtStart = new DateTime();
+                DateTime.TryParse(DtStart, out _dtStart);
+                DateTime _dtEnd = new DateTime();
+                DateTime.TryParse(DtEnd, out _dtEnd);
+
+                jobListQuery = jobListQuery.Where(j => DbFunctions.TruncateTime(j.JobDate) >= _dtStart && DbFunctions.TruncateTime(j.JobDate) <= _dtEnd);
+            }
+            else
+            {
+                jobListQuery = jobListQuery.Where(j => today == DbFunctions.TruncateTime(j.JobDate) && today == DbFunctions.TruncateTime(j.JobDate));
+            }
+
+            //jobs
+            var jobList = jobListQuery.ToList();
+
+            var jobPaymentReport = new List<rptJobPayments>();
+
+            jobList.ForEach(j =>
+                jobPaymentReport.Add(new rptJobPayments() { 
+                    Id = j.Id,
+                    JobDate = j.JobDate,
+                    JobDesc =  j.Description,
+                    Customer = j.Customer.Name,
+                    Company = jo.GetJobCompany(j.Id),
+                    Amount = jo.GetTotalJobAmount(j.Id) , //get total amount from jobservices
+                    PaymentAmount = jo.GetJobPaymentAmount(j.Id), //get total paid amount from jobservices
+                    PaymentStatus = jo.GetJobPaymentStatus(j.Id), //get total amount from jobservices
+                })
+            );
+
+            foreach(var job in jobPaymentReport)
+            {
+                switch (job.PaymentStatus.Id)
+                {
+                    case 1:
+                        countPaid++;
+                        break;
+                    case 2:
+                        countUnpaid++;
+                        break;
+                    case 3:
+                        countTerms++;
+                        break;
+                }
+            }
+
+            ViewBag.JobsCount = jobPaymentReport.Count();
+            ViewBag.CountPaid = countPaid;
+            ViewBag.CountUnpaid = countUnpaid;
+            ViewBag.CountTerms = countTerms;
+            ViewBag.DtStart = DtStart ?? today.ToShortDateString();
+            ViewBag.DtEnd = DtEnd ?? today.ToShortDateString();
+
+            return View(jobPaymentReport);
+        }
     }
 }
+
+
 

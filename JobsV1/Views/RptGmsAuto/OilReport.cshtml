@@ -4,42 +4,49 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     string sDate = ViewBag.DtStart;
     string eDate = ViewBag.DtEnd;
-    var mechanicList = ViewBag.MechanicList as IEnumerable<JobsV1.Models.InvItem>;
+    var mechanicList = ViewBag.MechanicList as IEnumerable<JobsV1.Models.Class.rptMechanicSAList>;
+    string mechanicName = ViewBag.MechanicName;
 }
 
 <h2>Mechanic Oil Report </h2>
 @using (Html.BeginForm())
 {
-<div class="row">
-    <h4 class="col-md-1 control-label"> Filter : </h4>
-    <select name="mechanicId" id="mechanicId" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" value="@ViewBag.mechanicId">
-        <option value="0"> All </option>
-        @foreach (var mechanic in mechanicList)
-        {
-            <option value="@mechanic.Id">  @mechanic.Description.Trim() </option>
-        }
-    </select>
-    <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
-    <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2" style="margin-right:10px;max-width:140px;" />
-    <button class="btn btn-default" style="margin-top:0px;" type="submit"> Filter </button>
-</div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4 class="col-md-1 col-sm-12 col-xs-12 control-label form-label" style="padding-left:0px;margin-right:-40px;"> Filter: </h4>
+            <div class="col-md-2 col-sm-6 col-xs-12" style="padding-left:0px;">
+                <select name="mechanicId" id="mechanicId" class="form-control col-md-12 col-xs-12"  style="margin-right:10px;margin-bottom:5px;width:100%;" value="@ViewBag.mechanicId">
+                    <option value="0"> All </option>
+                    @foreach (var mechanic in mechanicList.OrderBy(m => m.Category))
+                    {
+                        <option value="@mechanic.Id">  @mechanic.Name.Trim() ( @mechanic.Category ) </option>
+                    }
+                </select>
+            </div>
+            <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2 col-sm-2 col-xs-6" style="margin-right:10px;margin-bottom:5px;max-width:140px;" />
+            <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2 col-sm-2 col-xs-6" style="margin-right:10px;margin-bottom:5px;max-width:140px;" />
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;">
+                <button class="btn btn-default col-lg-2 col-md-2 col-sm-2 col-xs-6" style="margin-top:0px;margin-left:0px;" type="submit"> Filter </button>
+            </div>
+        </div>
+    </div>
 }
 
 <h4>
-    Showing @sDate - @eDate
+    Showing @mechanicName for @sDate - @eDate
 </h4>
 <table class="table">
     <tr>
-        <th >
+        <th>
             Mechanic /<br />JobId
         </th>
         <th width="200px">
             Date
         </th>
-        <th>
+        <th style="min-width:150px;">
             Service
         </th>
-        <th>
+        <th style="min-width:150px;">
             Vehicle
         </th>
         <th>
@@ -119,7 +126,6 @@
 @section Scripts{
     <script src="~/Scripts/Job/DefaultDate.js"></script>
     <script>
-
         $(() => {
             Initialize();
         });
@@ -137,6 +143,13 @@
                 $('#DtEnd').val(moment().format("MM/DD/YYYY"));
             } else {
                 $('#DtEnd').val(moment(dtEnd).format("MM/DD/YYYY"));
+            }
+
+            var mechanicId = parseInt('@ViewBag.mechanicId');
+            if (mechanicId > 0) {
+                $("mechanicId").val(mechanicId);
+            } else {
+                $("mechanicId").val(0);
             }
         }
     </script>

@@ -4,6 +4,7 @@
     ViewBag.Title = "Job Service - Payments";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     decimal PaidTotal = 0;
+    decimal discountTotal = 0;
     var service = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
     var jobDiscount = (Decimal)ViewBag.JobDiscount;
 }
@@ -187,7 +188,7 @@
 
         @foreach (var item in Model.Where(p => p.JobPaymentTypeId == 4))
         {
-            PaidTotal += item.PaymentAmt;
+            discountTotal += item.PaymentAmt;
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.DtPayment)
@@ -208,7 +209,7 @@
                     <a href="#" id="catbtn" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
                     <a href="#" id="catbtn" data-toggle="modal" data-target="#Delete-PermissionModal" onclick="SetDeletePermissionId('@item.Id')"> Delete </a>
                     @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                      @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                 </td>
             </tr>
         }
@@ -219,7 +220,7 @@
                 </p>
             </td>
             <td colspan="2">
-                @PaidTotal.ToString("#,##0.00")
+                @discountTotal.ToString("#,##0.00")
             </td>
         </tr>
     </table>

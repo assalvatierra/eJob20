@@ -1,0 +1,170 @@
+﻿@model IEnumerable<JobsV1.Models.Class.rptJobPayments>
+@{
+    ViewBag.Title = "Job Payment Status Report";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    string sDate = ViewBag.DtStart;
+    string eDate = ViewBag.DtEnd;
+    decimal total_Amount = 0;
+    decimal total_PaymentAmount = 0;
+
+}
+
+<h2>Job Payment Status Report </h2>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4 class="col-md-1 col-sm-1 col-xs-12 control-label form-label"  style="padding-left:0px;margin-right:-40px;"> Filter: </h4>
+            <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2 col-sm-2 col-xs-6" style="margin-right:10px;margin-bottom:5px;max-width:140px;" />
+            <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2 col-sm-2 col-xs-6" style="margin-right:10px;margin-bottom:5px;max-width:140px;" />
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;" >
+                <button class="btn btn-default col-lg-2 col-md-2 col-sm-2 col-xs-6" style="margin-top:0px;margin-left:0px;" type="submit"> Filter </button>
+            </div>
+        </div>
+    </div>
+}
+<h4>
+    Showing Jobs for @sDate - @eDate
+</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            <h3 class="text-center text-success"> Total Paid </h3>
+            <h1 class="text-center text-success">
+                @ViewBag.CountPaid
+            </h1>
+        </th>
+        <th>
+            <h3 class="text-center text-warning"> Total Unpaid </h3>
+            <h1 class="text-center text-warning">
+                @ViewBag.CountUnpaid
+            </h1>
+        </th>
+        <th>
+            <h3 class="text-center text-info"> Total Terms </h3>
+            <h1 class="text-center text-info">
+                @ViewBag.CountTerms
+            </h1>
+        </th>
+        <th>
+            <h3 class="text-center"> Total Jobs </h3>
+            <h1 class="text-center">
+                @ViewBag.JobsCount
+            </h1>
+        </th>
+    </tr>
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            JobId
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Customer
+        </th>
+        <th style="min-width:200px;">
+            Job Description
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Payment
+        </th>
+        <th>
+            Amount
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        total_Amount += item.Amount;
+        total_PaymentAmount += item.PaymentAmount;
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.JobDate.ToShortDateString()
+            </td>
+            <td>
+                @item.Customer
+            </td>
+            <td>
+                @{ 
+                    var desc = item.JobDesc;
+                    if(desc.Length > 32)
+                    {
+                        desc = desc.Substring(0, 32) + "...";
+                    }
+                }
+                @Html.ActionLink(desc, "JobServices", "JobOrder", new { JobMainId = item.Id }, new { target = "blank" })
+            </td>
+            <td>
+                @item.PaymentStatus.Status
+            </td>
+            <td class="text-success">
+                @if (item.PaymentAmount != 0)
+                {
+                    @item.PaymentAmount.ToString("N0")
+                }
+            </td>
+            <td>
+                @item.Amount.ToString("N0")
+            </td>
+        </tr>
+    }
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="7">
+                <p class="text-center"> No Jobs Found </p>
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td colspan="5">
+            <p class="pull-right">
+                Total
+            </p>
+        </td>
+        <td>
+            <span class="text-success">@total_PaymentAmount.ToString("N0")</span>
+        </td>
+        <td>
+            <span>@total_Amount.ToString("N0")</span>
+        </td>
+    </tr>
+</table>
+
+
+@section Scripts{
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
+    <script>
+        $(() => {
+            Initialize();
+        });
+
+        function Initialize() {
+            var dtStart = '@ViewBag.DtStart';
+            var dtEnd = '@ViewBag.DtEnd';
+
+            if (dtStart == '') {
+                $('#DtStart').val(moment().format("MM/DD/YYYY"));
+            } else {
+                $('#DtStart').val(moment(dtStart).format("MM/DD/YYYY"));
+            }
+            if (dtEnd == '') {
+                $('#DtEnd').val(moment().format("MM/DD/YYYY"));
+            } else {
+                $('#DtEnd').val(moment(dtEnd).format("MM/DD/YYYY"));
+            }
+        }
+    </script>
+}

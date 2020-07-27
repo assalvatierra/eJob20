@@ -1186,7 +1186,7 @@ order by x.jobid
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
             ViewBag.AssignedTo = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
-            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", GetLastJobPaymentStatus((int)jobid));
+            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", jo.GetLastJobPaymentStatusId((int)jobid));
             ViewBag.SiteConfig = SITECONFIG;
 
             return View(jobMain);
@@ -1434,20 +1434,6 @@ order by x.jobid
         }
 
 
-        public int GetLastJobPaymentStatus(int jobId)
-        {
-            var tempStatus = db.JobMainPaymentStatus.Where(j => j.JobMainId == jobId);
-
-            if(tempStatus.FirstOrDefault() != null)
-            {
-               return tempStatus.OrderByDescending(j => j.Id).FirstOrDefault().JobPaymentStatusId;
-            }
-
-            //unpaid if no records
-            return 2; 
-        }
-
-
         public bool EditJobPaymentStatus(int id, int jobId)
         {
             try
@@ -1463,7 +1449,7 @@ order by x.jobid
                 else
                 {
                     //check if prev status is not current status
-                    if(GetLastJobPaymentStatus(jobId) != id)
+                    if(jo.GetLastJobPaymentStatusId(jobId) != id)
                     {
                         //add job payment status
                         AddJobPaymentStatus(id, jobId);

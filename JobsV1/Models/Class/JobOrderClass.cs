@@ -419,6 +419,65 @@ order by x.jobid
             return 0;
         }
 
+        public decimal GetJobPaymentAmount(int id)
+        {
+            var paymentList = db.JobPayments.Where(j => j.JobMainId == id).ToList();
+            decimal totalPayment = 0;
+
+            foreach (var payment in paymentList)
+            {
+                totalPayment += payment.PaymentAmt;
+            }
+
+            return totalPayment;
+        }
+
+
+        public decimal GetTotalJobAmount(int id)
+        {
+            var services = db.JobServices.Where(j => j.JobMainId == id).ToList();
+            decimal totalAmount = 0;
+
+            foreach (var svc in services)
+            {
+                totalAmount += svc.ActualAmt ?? 0;
+            }
+
+            return totalAmount;
+        }
+
+        public JobPaymentStatus GetJobPaymentStatus(int id)
+        {
+            return db.JobPaymentStatus.Find(GetLastJobPaymentStatusId(id));
+
+        }
+
+        public int GetLastJobPaymentStatusId(int jobId)
+        {
+            var tempStatus = db.JobMainPaymentStatus.Where(j => j.JobMainId == jobId);
+
+            if (tempStatus.FirstOrDefault() != null)
+            {
+                return tempStatus.OrderByDescending(j => j.Id).FirstOrDefault().JobPaymentStatusId;
+            }
+
+            //unpaid if no records
+            return 2;
+        }
+
+
+        public string GetJobCompany(int jobId)
+        {
+            var company = db.JobEntMains.Where(j => j.JobMainId == jobId);
+
+            if (company.FirstOrDefault() != null)
+            {
+                return company.OrderByDescending(j => j.Id).FirstOrDefault().CustEntMain.Name;
+            }
+
+            //if no records
+            return "Personal Account";
+        }
 
     }
 }

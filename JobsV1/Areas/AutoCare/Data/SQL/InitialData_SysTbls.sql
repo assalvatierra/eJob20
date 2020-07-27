@@ -384,6 +384,13 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 81, 81),
 ('assalvatierra@gmail.com', 82, 82),
 ('assalvatierra@gmail.com', 83, 83),
+('assalvatierra@gmail.com', 84, 84),
+('assalvatierra@gmail.com', 85, 85),
+('assalvatierra@gmail.com', 86, 86),
+('assalvatierra@gmail.com', 87, 87),
+('assalvatierra@gmail.com', 88, 88),
+('assalvatierra@gmail.com', 89, 89),
+('assalvatierra@gmail.com', 90, 90),
 
 ('jahdielvillosa@gmail.com', 20, 20),
 ('jahdielvillosa@gmail.com', 21, 21),
@@ -449,6 +456,13 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 81, 81),
 ('jahdielvillosa@gmail.com', 82, 82),
 ('jahdielvillosa@gmail.com', 83, 83),
+('jahdielvillosa@gmail.com', 84, 84),
+('jahdielvillosa@gmail.com', 85, 85),
+('jahdielvillosa@gmail.com', 86, 86),
+('jahdielvillosa@gmail.com', 87, 87),
+('jahdielvillosa@gmail.com', 88, 88),
+('jahdielvillosa@gmail.com', 89, 89),
+('jahdielvillosa@gmail.com', 90, 90);
 
 
 
@@ -482,4 +496,17 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 -- Post Sale --
 ('Demo@gmail.com', 83, 83); 
 
-	
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
+('Reports','GMS AutoCare Reports',0,'RptGmsAuto','OilReport','',20,1);
+
+--GMS Auto Report
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('RP112','GMS Auto Reports','Reports','A','/Images/Erp/icons/icons-report.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (88,21);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Oil Report' ,'',88,'RptGmsAuto','OilReport','',21,881);	        -- id: 62
+
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Payments Status Report' ,'Payments Status Report',88,'RptGmsAuto','JobStatusReport','',21,882);	        -- id: 62
+		

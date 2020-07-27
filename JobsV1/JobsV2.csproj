@@ -696,6 +696,7 @@
     <Compile Include="Models\Class\JobVehicleClass.cs" />
     <Compile Include="Models\Class\MechanicOilReport.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
+    <Compile Include="Models\Class\RptGmsAutoClass.cs" />
     <Compile Include="Models\Class\SalesLeadClass.cs" />
     <Compile Include="Models\CoopMember.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
@@ -2782,6 +2783,7 @@
     <Content Include="Views\SysAccessUsers\DeleteModuleSubMenu.cshtml" />
     <Content Include="Views\RptGmsAuto\Index.cshtml" />
     <Content Include="Views\RptGmsAuto\OilReport.cshtml" />
+    <Content Include="Views\RptGmsAuto\PaymentStatusReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
