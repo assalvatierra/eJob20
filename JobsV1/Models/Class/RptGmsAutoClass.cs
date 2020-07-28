@@ -27,6 +27,35 @@ namespace JobsV1.Models.Class
 
     }
 
+    public class rptReferralJobs
+    {
+        public int Id { get; set; }
+        public DateTime JobDate { get; set; }
+        public string JobDesc { get; set; }
+        public string Customer { get; set; }
+        public string Company { get; set; }
+        public JobPaymentStatus PaymentStatus { get; set; }
+        public Decimal Amount { get; set; }
+        public Decimal PaymentAmount { get; set; }
+
+    }
+
+
+    public class AutoCareMonitorJobs
+    {
+        public int Id { get; set; }
+        public DateTime Jobdate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Customer { get; set; }
+        public string Company { get; set; }
+        public string Vehicle { get; set; }
+        public List<string> Services { get; set; }
+        public string AssignedBay { get; set; }
+        public int OrderNo { get; set; }
+        public List<string> AssignedItems { get; set; }
+    }
+
     public class RptGmsAutoClass
     {
         private JobDBContainer db = new JobDBContainer();
@@ -47,6 +76,12 @@ namespace JobsV1.Models.Class
             );
 
             return MechSAList;
+        }
+
+        public String GetJobAssignedBay(int jobmainId)
+        {
+
+            return "";
         }
 
     }

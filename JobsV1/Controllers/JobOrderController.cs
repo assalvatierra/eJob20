@@ -118,7 +118,6 @@ namespace JobsV1.Controllers
         private JobOrderClass jo = new JobOrderClass();
         private JobVehicleClass jvc = new JobVehicleClass();
 
-
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
         {
@@ -1230,23 +1229,25 @@ order by x.jobid
                     trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Edit Saved", jobMain.Id.ToString());
 
                     //add job post record when job is closed (4 = CLOSED)
-                    if (jobMain.JobStatusId == 4)
-                    {
-                        if (CreateJobPostSalesRecord(jobMain.Id))
-                        {
-                            return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("", "Unable to Add Job Post Sale Schedule");
-                        }
+                    //if (jobMain.JobStatusId == 4)
+                    //{
+                    //    if (CreateJobPostSalesRecord(jobMain.Id))
+                    //    {
+                    //        //return to job service
+                    //    }
+                    //    else
+                    //    {
+                    //        ModelState.AddModelError("", "Unable to Add Job Post Sale Schedule");
+                    //    }
 
-                    }
-                    else
-                    {
-                        return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
-                    }
-                        
+                    //}
+                    //else
+                    //{
+                    //    return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
+                    //}
+
+                    return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
+
                 }
             }
 
@@ -2720,9 +2721,9 @@ order by x.jobid
                 //job trail
                 trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CLOSED", id.ToString());
 
-                if(CreateJobPostSalesRecord(id))
-                    return "OK";
-                return "Error";
+                //if(CreateJobPostSalesRecord(id))
+                return "OK";
+                //return "Error";
             }
             catch (Exception ex)
             {
@@ -3583,6 +3584,70 @@ order by x.jobid
         }
 
         #endregion
+
+        #region Jobs Monitor
+
+        public ActionResult JobsMonitor()
+        {
+            List<AutoCareMonitorJobs> jobList = new List<AutoCareMonitorJobs>();
+
+            IQueryable<Models.JobMain> jobMains = db.JobMains.Include(j => j.Customer).Include(j => j.Branch).Include(j => j.JobStatus).Include(j => j.JobThru).OrderBy(d => d.JobDate);
+            jobMains = (IQueryable<Models.JobMain>)jobMains.Where(d => d.JobStatusId == JOBRESERVATION || d.JobStatusId == JOBCONFIRMED || d.JobStatusId == JOBINQUIRY);
+
+            var p = jobMains.Select(s => s.Id);
+
+            DateTime today = dt.GetCurrentDateTime();
+
+            var jobsvcQuery = db.JobServices.Where(w => p.Contains(w.JobMainId)).ToList().OrderBy(s => s.DtStart);
+
+            //get jobs from today
+            var jobsvc = jobsvcQuery.Where(w => DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0 || DateTime.Compare(w.DtEnd.Value.Date, today.Date) <= 0).OrderBy(s => s.DtStart).ToList();
+
+            var bayCategoryIds = db.InvItemCategories.Where(c => c.InvItemCatId == 1).Select(c => c.InvItemId).ToList();
+
+            //get inventory items assigned to category 1
+            foreach (var job in jobsvc.GroupBy(s=>s.JobMainId))
+            {
+                var jobMainDetails = db.JobMains.Find(job.Key);
+                AutoCareMonitorJobs _tempjobMonitor = new AutoCareMonitorJobs();
+                _tempjobMonitor.Id = jobMainDetails.Id;
+                _tempjobMonitor.Customer = jobMainDetails.Customer.Name;
+                _tempjobMonitor.Company = jo.GetJobCompany(jobMainDetails.Id);
+                _tempjobMonitor.Vehicle = jo.GetJobVehicle(jobMainDetails.Id);
+                _tempjobMonitor.Jobdate = TempJobDate(jobMainDetails.Id);
+                _tempjobMonitor.Services = new List<string>();
+                _tempjobMonitor.AssignedItems = new List<string>();
+
+                foreach (var svc in job)
+                {
+                    var svcItems = svc.JobServiceItems.ToList();
+                    var service = svc.Particulars + " ( " + svc.Service.Name + " ) ";
+                    _tempjobMonitor.Services.Add(service);
+
+                    foreach (var item in svcItems)
+                    {
+                        //find bay category of item 
+                        if (bayCategoryIds.Contains(item.InvItemId))
+                        {
+                            //assign job to bay
+                            _tempjobMonitor.AssignedBay = item.InvItem.Description;
+                            _tempjobMonitor.OrderNo = item.InvItem.OrderNo ?? 999;
+                        }
+                        else
+                        {
+                            _tempjobMonitor.AssignedItems.Add(item.InvItem.Description);
+                        }
+                    }
+                }
+
+                jobList.Add(_tempjobMonitor);
+            }
+
+            //get assigned jobs for each inventory item
+            return View(jobList.OrderBy(j=> j.OrderNo));
+        }
+        #endregion
+
 
         public ActionResult ErrorPage()
         {

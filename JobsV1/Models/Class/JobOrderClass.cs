@@ -479,5 +479,24 @@ order by x.jobid
             return "Personal Account";
         }
 
+        public string GetJobVehicle(int jobId)
+        {
+            var jobvehicleQuery = db.JobVehicles.Where(j => j.JobMainId == jobId);
+            if (jobvehicleQuery.FirstOrDefault() != null) {
+                var vehicleString = "";
+                var vehicle = jobvehicleQuery.OrderByDescending(c => c.Id).FirstOrDefault().Vehicle;
+
+                vehicleString += vehicle.VehicleModel.VehicleBrand.Brand + " ";
+                vehicleString += vehicle.VehicleModel.Make + " ";
+                vehicleString += vehicle.VehicleModel.Variant;
+                vehicleString += " ( "+ vehicle.YearModel + " ) ";
+
+                return vehicleString;
+            }
+
+            //if no records
+            return "NA";
+        }
+
     }
 }

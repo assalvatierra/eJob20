@@ -139,7 +139,7 @@
                 $("#act-edit-assigned").val(data["Assigned"]);
                 $("#act-edit-code").val(data["SalesCode"]);
                 $("#act-edit-remarks").val(data["Remarks"]);
-                $("#act-edit-amount").val(data["Amount"]);
+                $("#act-edit-amount").val(data["Amount"] == '' ? data["Amount"] : 0);
                 $("#act-edit-supplierId").val(data["CustEntMainId"]);
                 $("#act-edit-type").val(data["Type"]);
                 $("#act-edit-activityType").val(data["ActivityType"]);

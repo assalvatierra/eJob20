@@ -1,0 +1,100 @@
+﻿@model IEnumerable<JobsV1.Models.Class.AutoCareMonitorJobs>
+@{
+    ViewBag.Title = "Jobs Monitor";
+    Layout = "~/Views/Shared/_MonitorLayout.cshtml";
+}
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    h1, h2, h3 {
+        font-family: 'Archivo Black', sans-serif;
+    }
+
+    .container{
+        width:100%;
+        padding:0px 20px;
+    }
+
+    .monitor-job {
+        background-color: dodgerblue;
+        padding: 0px;
+        box-shadow: 1px 1px 5px 1px lightgray;
+        margin: 5px 0px;
+        border-radius:10px;
+    }
+
+    .monitor-job-item {
+        color:white;
+        height:100%;
+    }
+
+    .monitor-job-desc {
+        background-color: white;
+        color: black;
+        border-radius:10px;
+    }
+
+    .text-header {
+        color:dodgerblue;
+    }
+
+</style>
+<div class="col-lg-12" style="margin-top:-45px;">
+    <div class="col-lg-2">
+    <img src="~/Images/AutoCare/GMS_AutoCare_logo.jpg" width="240" />
+    </div>
+    <div class="col-lg-10">
+        <h1>GMS AutoCare Center & Auto Supply Davao </h1>
+        <p>  </p>
+    </div>
+</div>
+<div>
+    <hr />
+    <h1 class="col-lg-9 "> JOBS FOR TODAY </h1>
+    <h2 class="col-lg-3 text-header pull-right" id="date-time"> Date Time </h2>
+</div>
+<div>
+    <div>
+        @foreach(var item in Model){
+            <div class="monitor-job col-lg-12">
+                <div class="monitor-job-item col-lg-3">
+                    <h3>@item.AssignedBay</h3>
+                </div>
+                <div class="col-lg-9 monitor-job-desc">
+                    <div class="col-lg-12">
+                        <h3> <span class="text-success">@item.Customer / @item.Company</span> - @item.Vehicle</h3>
+                    </div>
+                    <div class="col-lg-12">
+                        <h4 style="color:white;font-weight:bold;">
+                            @foreach (var svc in item.Services)
+                            {
+                                <b class="btn btn-primary btn-arrow-right">
+                                    @svc.ToString()
+                                </b> <span>&#187;</span>
+                            }
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(() => {
+            $("#date-time").text(moment().format("MMM DD YYYY hh:mm A"));   
+            //initialize time
+            setInterval(function () {   
+                //console.log('time updating');        
+                $("#date-time").text(moment().format("MMM DD YYYY hh:mm A"));   
+            }, 10000)
+
+        });
+
+    </script>
+    
+    }

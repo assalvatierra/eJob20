@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data;
 
 namespace JobsV1.CustomHelper
 {
     public static class ErpHelper
     {
+        static SysAccessLayer dal = new SysAccessLayer();
+
         #region HTML custom helpers
         public static IHtmlString Menu(this HtmlHelper helper, string rootUrl, string target, string text, int MenuId, string username)
         {
@@ -62,10 +63,12 @@ namespace JobsV1.CustomHelper
             string htmlString = "<span>";
             htmlString += "<img src='" + rootUrl + service.IconPath.TrimStart('/') + "' class='ModulePageIcon' alt='' />";
             htmlString += "</span>";
-            htmlString += "<span>";
+            htmlString += "<span style='float:left;'>";
             htmlString += "<h2>" + service.Description + "</h2>";
             htmlString += "<p>" + service.Remarks + "</p>";
             htmlString += "</span>";
+            htmlString += "<img src='" + dal.getSysSetting("ICON")  + "' class='pull-right'  width='250' style='margin:10px;' />";
+
             return new HtmlString(htmlString);
         }
 
@@ -123,6 +126,7 @@ namespace JobsV1.CustomHelper
             return new HtmlString(htmlString);
         }
 
+     
         #endregion
     }
 }

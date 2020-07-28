@@ -24,7 +24,8 @@ namespace JobsV1.Controllers
             List<JobServices> validPostSales = new List<JobServices>();
 
             //get job services after the supplier interval
-            var jobserviceList = db.JobServices.Where(j => j.JobMain.JobStatusId == 4).Where(j => j.DtStart > DbFunctions.AddDays(j.DtStart, -200) ).ToList();
+            var jobserviceList = db.JobServices.Where(j => j.JobMain.JobStatusId == 4)
+                .Where(j => j.DtStart > DbFunctions.AddDays(j.DtStart, -200) ).ToList();
 
             foreach (var svc in jobserviceList)
             {

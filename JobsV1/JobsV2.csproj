@@ -417,6 +417,12 @@
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\CrReports.cs" />
+    <Compile Include="Areas\Personel\Models\CrRptUnit.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crRptUnitExpense.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\HrDtr.cs">
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
@@ -1370,6 +1376,7 @@
     <Content Include="Images\AutoCare\autocare-car-back-blur.png" />
     <Content Include="Images\AutoCare\autocare-car-back.png" />
     <Content Include="Images\AutoCare\background-login.png" />
+    <Content Include="Images\AutoCare\GMS_AutoCare_logo.jpg" />
     <Content Include="Images\AutoCare\icons-cash-register.png" />
     <Content Include="Images\AutoCare\icons-cashier.png" />
     <Content Include="Images\AutoCare\icons-call.png" />
@@ -2784,6 +2791,10 @@
     <Content Include="Views\RptGmsAuto\Index.cshtml" />
     <Content Include="Views\RptGmsAuto\OilReport.cshtml" />
     <Content Include="Views\RptGmsAuto\PaymentStatusReport.cshtml" />
+    <Content Include="Views\JobOrder\JobsMonitor.cshtml" />
+    <Content Include="Views\Shared\_PrintLayout.cshtml" />
+    <Content Include="Views\Shared\_MonitorLayout.cshtml" />
+    <Content Include="Views\RptGmsAuto\ReferralReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -17,7 +17,7 @@
                 <th colspan="4" >
                     Vehicle Info
                 </th>
-                <td colspan="4">
+                <td colspan="5">
                     Previous Transaction
                 </td>
                 <th colspan="3" >
@@ -104,7 +104,6 @@
                         {
                             @jobvehicle.Vehicle.VehicleModel.Variant
                         }
-
                     </td>
                     <td>
                         @jobvehicle.Mileage.ToString("#,##0")
@@ -117,7 +116,6 @@
                     </td>
                     <td>
                        @Html.ActionLink(item.Service.Name + " - " + item.Particulars , "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null)
-                       
                     </td>
                     <td>
                         @DateTime.Parse(item.DtStart.ToString()).ToString("MMM dd, yyyy")
@@ -125,7 +123,7 @@
 
                     @if (item.JobPostSales.FirstOrDefault() == null)
                     {
-                        <td>
+                        <td colspan="4">
                             @Html.ActionLink("Create", "Create", new { id = item.Id })
                         </td>
                     }

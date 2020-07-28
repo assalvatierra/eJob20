@@ -327,6 +327,27 @@ namespace JobsV1.Controllers
 
             return View(jobPaymentReport);
         }
+
+
+
+        public ActionResult ReferralReport(string DtStart, string DtEnd, int? mechanicId)
+        {
+            List<rptReferralJobs> refJobs = new List<rptReferralJobs>();
+            var today = dt.GetCurrentDate();
+
+            //get mechanic list
+            var mechanicsId = rpt.GetMechanicSALists().Select(c => c.Id).ToList();
+            var AllMechanics = db.InvItems.Where(i => mechanicsId.Contains(i.Id)).ToList();
+            var mechanics = db.InvItems.Where(i => mechanicsId.Contains(i.Id)).ToList();
+
+            ViewBag.DtStart = DtStart ?? today.ToShortDateString();
+            ViewBag.DtEnd = DtEnd ?? today.ToShortDateString();
+            ViewBag.MechanicList = rpt.GetMechanicSALists();
+            ViewBag.mechanicId = mechanicId ?? 0;
+
+            return View(refJobs);
+        }
+
     }
 }
 
