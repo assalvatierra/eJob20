@@ -41,7 +41,7 @@
                     Mileage
                 </th>
                 <th>
-                    JobId
+                    Date
                 </th>
                 <th>
                     Customer
@@ -50,7 +50,7 @@
                     Service
                 </th>
                 <th>
-                    Date
+                    Contact
                 </th>
                 <th></th>
                 <th>
@@ -109,7 +109,7 @@
                         @jobvehicle.Mileage.ToString("#,##0")
                     </td>
                     <td>
-                        @item.JobMain.Id
+                        @DateTime.Parse(item.DtStart.ToString()).ToString("MMM dd, yyyy")
                     </td>
                     <td>
                         @item.JobMain.Customer.Name
@@ -118,7 +118,7 @@
                        @Html.ActionLink(item.Service.Name + " - " + item.Particulars , "JobServices", "JobOrder", new { JobMainId = item.JobMainId }, null)
                     </td>
                     <td>
-                        @DateTime.Parse(item.DtStart.ToString()).ToString("MMM dd, yyyy")
+                        @item.JobMain.CustContactNumber / @item.JobMain.CustContactEmail
                     </td>
 
                     @if (item.JobPostSales.FirstOrDefault() == null)

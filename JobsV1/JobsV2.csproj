@@ -384,6 +384,7 @@
     <Compile Include="Areas\Personel\Models\crCashReqStatus.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\CrDataLayer.cs" />
     <Compile Include="Areas\Personel\Models\crDriverSummary.cs" />
     <Compile Include="Areas\Personel\Models\crLogCashRelease.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
@@ -2011,6 +2012,7 @@
     <Content Include="Areas\Personel\Views\CrRptUnits\Details.cshtml" />
     <Content Include="Areas\Personel\Views\CrRptUnits\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\CrRptUnits\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\Shared\_PrintLayout.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

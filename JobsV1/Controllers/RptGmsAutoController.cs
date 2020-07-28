@@ -328,24 +328,94 @@ namespace JobsV1.Controllers
             return View(jobPaymentReport);
         }
 
-
-
-        public ActionResult ReferralReport(string DtStart, string DtEnd, int? mechanicId)
+        public ActionResult ReferralReport(string DtStart, string DtEnd, int? agentId)
         {
-            List<rptReferralJobs> refJobs = new List<rptReferralJobs>();
+            //holds the report
+            List<rptReferralJobs> refJobReport = new List<rptReferralJobs>();
             var today = dt.GetCurrentDate();
 
             //get mechanic list
-            var mechanicsId = rpt.GetMechanicSALists().Select(c => c.Id).ToList();
-            var AllMechanics = db.InvItems.Where(i => mechanicsId.Contains(i.Id)).ToList();
-            var mechanics = db.InvItems.Where(i => mechanicsId.Contains(i.Id)).ToList();
+            var refAgentId = rpt.GetReferralAgentLists().Select(c => c.Id).ToList();
+            var refAgents = db.InvItems.Where(i => refAgentId.Contains(i.Id)).ToList();
+
+            if (agentId != null && agentId != 0)
+            {
+                refAgents = refAgents.Where(c => c.Id == agentId).ToList();
+            }
+
+            //all 
+            if (agentId == 0)
+            {
+                refAgents = db.InvItems.Where(i => refAgentId.Contains(i.Id)).ToList();
+            }
+
+            //get jobs 
+            var jobsvcList = db.JobServices.Where(j => j.JobMain.JobStatusId < 5);
+
+            //filter date
+            if (!DtStart.IsNullOrWhiteSpace() && !DtEnd.IsNullOrWhiteSpace())
+            {
+                //Parse Date
+                DateTime _dtStart = new DateTime();
+                DateTime.TryParse(DtStart, out _dtStart);
+                DateTime _dtEnd = new DateTime();
+                DateTime.TryParse(DtEnd, out _dtEnd);
+
+                jobsvcList = jobsvcList.Where(j => DbFunctions.TruncateTime(j.DtStart) >= _dtStart && DbFunctions.TruncateTime(j.DtEnd) <= _dtEnd).OrderBy(j => j.DtStart);
+            }
+            else
+            {
+                jobsvcList = jobsvcList.Where(j => today == DbFunctions.TruncateTime(j.DtStart) && today == DbFunctions.TruncateTime(j.DtStart)).OrderBy(j => j.DtStart);
+            }
+
+            //get jobs of agents
+            foreach (var svc in jobsvcList.ToList())
+            {
+                //get jobservice Items
+                var jsItems = db.JobServiceItems.Where(j => j.JobServicesId == svc.Id).ToList();
+                foreach (var item in jsItems)
+                {
+                    if (refAgents.Select(m => m.Id).Contains(item.InvItemId))
+                    {
+                        var jobId = item.JobService.JobMainId;
+                        var jobMain = item.JobService.JobMain;
+
+                        rptReferralJobs reportItem = new rptReferralJobs();
+                        reportItem.Id = jobMain.Id;
+                        reportItem.JobDate = (DateTime)svc.DtStart;
+                        reportItem.JobDesc = jobMain.Description;
+                        reportItem.Service = item.JobService.Particulars + "( "+ item.JobService.Service.Name + " )";
+                        reportItem.Customer = jobMain.Customer.Name;
+                        reportItem.Company = jo.GetJobCompany(jobId);
+                        reportItem.Amount = svc.ActualAmt ?? 0;
+                        reportItem.JobStatus = jobMain.JobStatus.Status;
+                        reportItem.PaymentStatus = jo.GetJobPaymentStatus(jobId).Status;
+                        reportItem.PaymentAmount = jo.GetJobPaymentAmount(jobId);
+                        reportItem.ReferralAgent = item.InvItem.Description;
+
+                        refJobReport.Add(reportItem);
+                    }
+                }
+            }
+
+            var mechanicName = "";
+            if (agentId > 0)
+            {
+                var selectedMech = rpt.GetReferralAgentLists().Where(m => m.Id == agentId).FirstOrDefault();
+                mechanicName = selectedMech.Name + " ( " + selectedMech.Category + " ) ";
+            }
+            else
+            {
+                mechanicName = "All";
+            }
 
             ViewBag.DtStart = DtStart ?? today.ToShortDateString();
             ViewBag.DtEnd = DtEnd ?? today.ToShortDateString();
-            ViewBag.MechanicList = rpt.GetMechanicSALists();
-            ViewBag.mechanicId = mechanicId ?? 0;
+            ViewBag.RefAgentList = rpt.GetReferralAgentLists();
+            ViewBag.refAgentId = agentId ?? 0;
+            ViewBag.refAgentName = mechanicName;
 
-            return View(refJobs);
+            return View(refJobReport.OrderBy(r=>r.JobDate));
         }
 
     }

@@ -63,7 +63,7 @@
                 <!--List for Inv Item Categories-->
                 @foreach (var cat in item.InvItemCategories as IEnumerable<JobsV1.Models.InvItemCategory>)
                 {
-                    if (cat.InvItemCat.Name.Contains("Mechanic") || cat.InvItemCat.Name.Contains("Service Advisor"))
+                    if (cat.InvItemCatId == 2 || cat.InvItemCatId == 3 || cat.InvItemCatId == 4)
                     {
                         isCommiAllowed = true;
                     }
