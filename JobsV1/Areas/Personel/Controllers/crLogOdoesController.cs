@@ -13,6 +13,7 @@ namespace JobsV1.Areas.Personel.Controllers
     public class crLogOdoesController : Controller
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
+        private CrDataLayer dl = new CrDataLayer();
 
         // GET: Personel/crLogOdoes
         public ActionResult Index()
@@ -39,8 +40,8 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogOdoes/Create
         public ActionResult Create()
         {
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description");
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name");
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
             return View();
         }
 
@@ -58,8 +59,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crLogOdo.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogOdo.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogOdo.crLogUnitId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogOdo.crLogDriverId);
             return View(crLogOdo);
         }
 
@@ -75,8 +76,8 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crLogOdo.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogOdo.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogOdo.crLogUnitId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogOdo.crLogDriverId);
             return View(crLogOdo);
         }
 
@@ -93,8 +94,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crLogOdo.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogOdo.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogOdo.crLogUnitId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogOdo.crLogDriverId);
             return View(crLogOdo);
         }
 

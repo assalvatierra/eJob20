@@ -13,7 +13,9 @@ namespace JobsV1.Areas.Personel.Controllers
 {
     public class CrRptUnitsController : Controller
     {
-        private CarRentalLogDBContainer db = new CarRentalLogDBContainer(); 
+        private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
+        private CrDataLayer dl = new CrDataLayer();
+
         // GET: Personel/CrRptUnits
         public ActionResult Index()
         {
@@ -39,7 +41,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/CrRptUnits/Create
         public ActionResult Create()
         {
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description");
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
             ViewBag.crRptUnitExpenseId = new SelectList(db.crRptUnitExpenses, "Id", "RptName");
             return View();
         }
@@ -58,7 +60,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crRptUnit.crLogUnitId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crRptUnit.crLogUnitId);
             ViewBag.crRptUnitExpenseId = new SelectList(db.crRptUnitExpenses, "Id", "RptName", crRptUnit.crRptUnitExpenseId);
             return View(crRptUnit);
         }
@@ -75,7 +77,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crRptUnit.crLogUnitId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crRptUnit.crLogUnitId);
             ViewBag.crRptUnitExpenseId = new SelectList(db.crRptUnitExpenses, "Id", "RptName", crRptUnit.crRptUnitExpenseId);
             return View(crRptUnit);
         }
@@ -93,7 +95,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits, "Id", "Description", crRptUnit.crLogUnitId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crRptUnit.crLogUnitId);
             ViewBag.crRptUnitExpenseId = new SelectList(db.crRptUnitExpenses, "Id", "RptName", crRptUnit.crRptUnitExpenseId);
             return View(crRptUnit);
         }

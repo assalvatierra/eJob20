@@ -15,6 +15,7 @@ namespace JobsV1.Areas.Personel.Controllers
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
         private DateClass dt = new DateClass();
+        private CrDataLayer dl = new CrDataLayer();
 
         // GET: Personel/crLogFuels
         public ActionResult Index(int? statusId)
@@ -113,8 +114,8 @@ namespace JobsV1.Areas.Personel.Controllers
             logFuel.odoFillup = 0;
             logFuel.orAmount = 0;
 
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits.OrderBy(c=>c.OrderNo), "Id", "Description");
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(c => c.OrderNo), "Id", "Name");
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type");
             return View(logFuel);
         }
@@ -137,8 +138,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits.OrderBy(c => c.OrderNo), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(c => c.OrderNo), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
             return View(crLogFuel);
         }
@@ -156,8 +157,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 return HttpNotFound();
             }
             ViewBag.LatestStatusId = getLatestStatusId((int)id);
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits.OrderBy(c => c.OrderNo), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(c => c.OrderNo), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
             return View(crLogFuel);
         }
@@ -175,8 +176,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits.OrderBy(c => c.OrderNo), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(c => c.OrderNo), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
             return View(crLogFuel);
         }
@@ -194,8 +195,8 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits.OrderBy(c => c.OrderNo), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(c => c.OrderNo), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
             return View(crLogFuel);
         }
@@ -217,8 +218,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return RedirectToAction("Index", new { statusId = 3 });
             }
-            ViewBag.crLogUnitId = new SelectList(db.crLogUnits.OrderBy(c => c.OrderNo), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(c => c.OrderNo), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
             return View(crLogFuel);
         }

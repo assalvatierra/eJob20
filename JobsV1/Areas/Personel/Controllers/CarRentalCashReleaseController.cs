@@ -16,6 +16,7 @@ namespace JobsV1.Areas.Personel.Controllers
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
         private DateClass dt = new DateClass();
+        private CrDataLayer dl = new CrDataLayer();
 
         // GET: Personel/CarRentalCashRelease
         public ActionResult Index(int? statusId)
@@ -98,7 +99,7 @@ namespace JobsV1.Areas.Personel.Controllers
             crLogCashRelease crtrx = new crLogCashRelease();
             crtrx.DtRelease = System.DateTime.Now;
             
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name");
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id");
             return View(crtrx);
         }
@@ -117,7 +118,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogCashRelease.crLogDriverId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
             return View(crLogCashRelease);
         }
@@ -134,7 +135,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogCashRelease.crLogDriverId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
             return View(crLogCashRelease);
         }
@@ -152,7 +153,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", crLogCashRelease.crLogDriverId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
             return View(crLogCashRelease);
         }
