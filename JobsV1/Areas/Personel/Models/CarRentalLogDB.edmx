@@ -18,6 +18,8 @@
     <EntitySet Name="crLogFuelStatus" EntityType="CarRentalLogDB.Store.crLogFuelStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogCashStatus" EntityType="CarRentalLogDB.Store.crLogCashStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogTypes" EntityType="CarRentalLogDB.Store.crLogTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crRptUnitExpenses" EntityType="CarRentalLogDB.Store.crRptUnitExpenses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CrRptUnits" EntityType="CarRentalLogDB.Store.CrRptUnits" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -78,13 +80,21 @@
       <End Role="crLogType" EntitySet="crLogTypes" />
       <End Role="crLogFuel" EntitySet="crLogFuels" />
     </AssociationSet>
+    <AssociationSet Name="crRptUnitExpenseCrRptUnit" Association="CarRentalLogDB.Store.crRptUnitExpenseCrRptUnit">
+      <End Role="crRptUnitExpense" EntitySet="crRptUnitExpenses" />
+      <End Role="CrRptUnit" EntitySet="CrRptUnits" />
+    </AssociationSet>
+    <AssociationSet Name="crLogUnitCrRptUnit" Association="CarRentalLogDB.Store.crLogUnitCrRptUnit">
+      <End Role="crLogUnit" EntitySet="crLogUnits" />
+      <End Role="CrRptUnit" EntitySet="CrRptUnits" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="crLogDrivers">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="contact1" Type="nvarchar(max)" Nullable="true" />
     <Property Name="contact2" Type="nvarchar(max)" Nullable="true" />
     <Property Name="OrderNo" Type="int" Nullable="true" />
@@ -196,6 +206,24 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crRptUnitExpenses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RptName" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="RptNo" Type="int" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="CrRptUnits">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="crRptUnitExpenseId" Type="int" Nullable="false" />
+    <Property Name="crLogUnitId" Type="int" Nullable="false" />
+    <Property Name="RptSeqNo" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -374,6 +402,30 @@
       </Principal>
       <Dependent Role="crLogFuel">
         <PropertyRef Name="crLogTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crRptUnitExpenseCrRptUnit">
+    <End Role="crRptUnitExpense" Type="CarRentalLogDB.Store.crRptUnitExpenses" Multiplicity="1" />
+    <End Role="CrRptUnit" Type="CarRentalLogDB.Store.CrRptUnits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crRptUnitExpense">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CrRptUnit">
+        <PropertyRef Name="crRptUnitExpenseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogUnitCrRptUnit">
+    <End Role="crLogUnit" Type="CarRentalLogDB.Store.crLogUnits" Multiplicity="1" />
+    <End Role="CrRptUnit" Type="CarRentalLogDB.Store.CrRptUnits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CrRptUnit">
+        <PropertyRef Name="crLogUnitId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -972,6 +1024,26 @@
         <MappingFragment StoreEntitySet="crLogTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crRptUnitExpenses">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crRptUnitExpense)">
+        <MappingFragment StoreEntitySet="crRptUnitExpenses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RptName" ColumnName="RptName" />
+          <ScalarProperty Name="RptNo" ColumnName="RptNo" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CrRptUnits">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.CrRptUnit)">
+        <MappingFragment StoreEntitySet="CrRptUnits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="crRptUnitExpenseId" ColumnName="crRptUnitExpenseId" />
+          <ScalarProperty Name="crLogUnitId" ColumnName="crLogUnitId" />
+          <ScalarProperty Name="RptSeqNo" ColumnName="RptSeqNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
