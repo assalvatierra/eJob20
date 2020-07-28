@@ -506,7 +506,17 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (88,21);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Oil Report' ,'',88,'RptGmsAuto','OilReport','',21,881);	        -- id: 62
-
+-- Payment STatus -- 
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Payments Status Report' ,'Payments Status Report',88,'RptGmsAuto','JobStatusReport','',21,882);	        -- id: 62
+
+-- Payment STatus -- 
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Referral Report' ,'Referral Report',88,'RptGmsAuto','JobStatusReport','',21,883);	        -- id: 62
+
+
+-- Job Monitory --
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Job Monitor' ,'Job Monitor',3,'JobOrder','JobsMonitor','',21,882);	        -- id: 62
+		
 		
