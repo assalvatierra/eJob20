@@ -67,7 +67,7 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             var today = dt.GetCurrentDate();
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
-                .Where(c => DbFunctions.TruncateTime(c.dtFillup) < today).OrderBy(c => c.dtRequest);
+                .Where(c => DbFunctions.TruncateTime(c.dtRequest) <= today).OrderBy(c => c.dtRequest);
 
             List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
 

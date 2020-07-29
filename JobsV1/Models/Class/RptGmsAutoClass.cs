@@ -42,6 +42,7 @@ namespace JobsV1.Models.Class
         public string JobDesc { get; set; }
         public string Service { get; set; }
         public string Customer { get; set; }
+        public string Vehicle { get; set; }
         public string Company { get; set; }
         public string JobStatus { get; set; }
         public string PaymentStatus { get; set; }

@@ -6,6 +6,7 @@
 <style>
     body {
         font-family: 'Nunito', sans-serif;
+        font-weight: 600;
     }
 
     h1, h2, h3 {
@@ -81,7 +82,18 @@
         }
 
     </div>
+
+    <div class="col-lg-12">
+        @if (Model.Count() == 0)
+        {
+            <h1 class="text-center"> No Jobs Found </h1>
+            <p class="text-center"> @Html.ActionLink("Go back to Job Orders", "Index", "JobOrder", null, null) </p>
+        }
+    </div>
 </div>
+<p>
+    @Html.ActionLink("Go to JobOrder", "Index", "JobOrder", null, null)
+</p>
 
 @section Scripts{
     <script>

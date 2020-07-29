@@ -3591,17 +3591,11 @@ order by x.jobid
         {
             List<AutoCareMonitorJobs> jobList = new List<AutoCareMonitorJobs>();
 
-            IQueryable<Models.JobMain> jobMains = db.JobMains.Include(j => j.Customer).Include(j => j.Branch).Include(j => j.JobStatus).Include(j => j.JobThru).OrderBy(d => d.JobDate);
-            jobMains = (IQueryable<Models.JobMain>)jobMains.Where(d => d.JobStatusId == JOBRESERVATION || d.JobStatusId == JOBCONFIRMED || d.JobStatusId == JOBINQUIRY);
-
-            var p = jobMains.Select(s => s.Id);
-
             DateTime today = dt.GetCurrentDateTime();
 
-            var jobsvcQuery = db.JobServices.Where(w => p.Contains(w.JobMainId)).ToList().OrderBy(s => s.DtStart);
-
             //get jobs from today
-            var jobsvc = jobsvcQuery.Where(w => DateTime.Compare(w.DtStart.Value.Date, today.Date) >= 0 || DateTime.Compare(w.DtEnd.Value.Date, today.Date) <= 0).OrderBy(s => s.DtStart).ToList();
+            var jobsvc = db.JobServices.Where(j => DbFunctions.TruncateTime(j.DtStart) <= today.Date && DbFunctions.TruncateTime(j.DtEnd) >= today.Date && j.JobMain.JobStatusId < 4 )
+                .OrderBy(s => s.DtStart).ToList();
 
             var bayCategoryIds = db.InvItemCategories.Where(c => c.InvItemCatId == 1).Select(c => c.InvItemId).ToList();
 

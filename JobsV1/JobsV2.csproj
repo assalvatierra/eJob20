@@ -1312,6 +1312,7 @@
     <Content Include="Content\ModalUser.css" />
     <Content Include="Content\Erp.css" />
     <Content Include="Content\ProductStyle.css" />
+    <Content Include="Content\RptTripLog.css" />
     <Content Include="Content\sortable-theme-bootstrap.css" />
     <Content Include="Content\TableStyles.css" />
     <Content Include="Content\themes\base\accordion.css" />

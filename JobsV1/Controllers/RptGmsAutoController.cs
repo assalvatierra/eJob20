@@ -219,6 +219,15 @@ namespace JobsV1.Controllers
                             var vehicleModel = vehicleQuery.Vehicle.VehicleModel;
                             var vehicle = vehicleQuery.Vehicle;
 
+                            //try parse oil
+                            Decimal motorOil = 0;
+                            Decimal gearOil = 0;
+                            Decimal transOil = 0;
+
+                            Decimal.TryParse(vehicleModel.MotorOil,out motorOil);
+                            Decimal.TryParse(vehicleModel.GearOil, out gearOil);
+                            Decimal.TryParse(vehicleModel.TransmissionOil, out transOil);
+
                             MechanicOilReport reportItem = new MechanicOilReport();
                             reportItem.Id = item.JobService.JobMainId;
                             reportItem.JobSvcDate = DateTime.Parse(item.JobService.DtStart.ToString()).ToShortDateString()
@@ -228,9 +237,9 @@ namespace JobsV1.Controllers
                             reportItem.Mechanic = item.InvItem.Description;
                             reportItem.jobService = "("+ svc.Service.Name +") " + svc.Particulars;
                             reportItem.Service = svc.Service.Name;
-                            reportItem.MotorOil =  vehicleModel.MotorOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.MotorOil);
-                            reportItem.GearOil = vehicleModel.GearOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.GearOil);
-                            reportItem.TransmissionOil = vehicleModel.TransmissionOil.IsNullOrWhiteSpace() ? 0 : Decimal.Parse(vehicleModel.TransmissionOil);
+                            reportItem.MotorOil =  vehicleModel.MotorOil.IsNullOrWhiteSpace() ? 0 : motorOil;
+                            reportItem.GearOil = vehicleModel.GearOil.IsNullOrWhiteSpace() ? 0 : gearOil;
+                            reportItem.TransmissionOil = vehicleModel.TransmissionOil.IsNullOrWhiteSpace() ? 0 : transOil;
 
                             OilReport.Add(reportItem);
                         }
@@ -384,8 +393,9 @@ namespace JobsV1.Controllers
                         reportItem.Id = jobMain.Id;
                         reportItem.JobDate = (DateTime)svc.DtStart;
                         reportItem.JobDesc = jobMain.Description;
-                        reportItem.Service = item.JobService.Particulars + "( "+ item.JobService.Service.Name + " )";
+                        reportItem.Service =  item.JobService.Service.Name;
                         reportItem.Customer = jobMain.Customer.Name;
+                        reportItem.Vehicle = jo.GetJobVehicle(jobId);
                         reportItem.Company = jo.GetJobCompany(jobId);
                         reportItem.Amount = svc.ActualAmt ?? 0;
                         reportItem.JobStatus = jobMain.JobStatus.Status;

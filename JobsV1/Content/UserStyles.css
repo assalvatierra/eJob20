@@ -593,3 +593,26 @@
 .form-group-margin-bot{
     margin-bottom:10px;
 }
+
+/* Report Filters */
+
+.form-filter-div {
+    padding-right: 5px;
+    padding-left: 0px;
+}
+
+.form-filter-input {
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.form-filter-input-select {
+    width: 100%;
+}
+
+.form-filter-label {
+    padding-left: 0px;
+    margin-right: -40px;
+}

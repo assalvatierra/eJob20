@@ -15,11 +15,15 @@
 {
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h4 class="col-md-1 col-sm-1 col-xs-12 control-label form-label"  style="padding-left:0px;margin-right:-40px;"> Filter: </h4>
-            <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2 col-sm-2 col-xs-6" style="margin-right:10px;margin-bottom:5px;max-width:140px;" />
-            <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2 col-sm-2 col-xs-6" style="margin-right:10px;margin-bottom:5px;max-width:140px;" />
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;" >
-                <button class="btn btn-default col-lg-2 col-md-2 col-sm-2 col-xs-6" style="margin-top:0px;margin-left:0px;" type="submit"> Filter </button>
+            <h4 class="col-md-1 col-sm-12 col-xs-12 control-label form-label form-filter-label"> Filter: </h4>
+            <div class=" form-filter-div col-lg-2 col-md-2 col-sm-2 col-xs-6" style="max-width:120px;">
+                <input id="DtStart" name="DtStart" type="text" class="form-control form-filter-input" />
+            </div>
+            <div class="form-filter-div col-lg-2 col-md-2 col-sm-2 col-xs-6" style="max-width:120px;">
+                <input id="DtEnd" name="DtEnd" type="text" class="form-control form-filter-input" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;">
+                <button class="btn btn-default col-lg-2 col-md-2 col-sm-2 col-xs-6 form-filter-input" type="submit"> Filter </button>
             </div>
         </div>
     </div>
@@ -93,7 +97,7 @@
                 @item.JobDate.ToShortDateString()
             </td>
             <td>
-                @item.Customer
+                @item.Customer  <span class="text-muted"> / @item.Company </span>
             </td>
             <td>
                 @{ 
@@ -106,7 +110,25 @@
                 @Html.ActionLink(desc, "JobServices", "JobOrder", new { JobMainId = item.Id }, new { target = "blank" })
             </td>
             <td>
-                @item.PaymentStatus.Status
+                @if (item.PaymentStatus.Status == "Paid")
+                {
+                    <span class="text-success">
+                        @item.PaymentStatus.Status
+                    </span>
+                }
+                else if (item.PaymentStatus.Status == "Unpaid")
+                {
+                    <span class="text-warning">
+                        @item.PaymentStatus.Status
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @item.PaymentStatus.Status
+                    </span>
+                }
+
             </td>
             <td class="text-success">
                 @if (item.PaymentAmount != 0)
