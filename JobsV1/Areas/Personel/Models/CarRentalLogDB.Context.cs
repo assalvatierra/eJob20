@@ -39,5 +39,6 @@ namespace JobsV1.Areas.Personel.Models
         public virtual DbSet<crLogType> crLogTypes { get; set; }
         public virtual DbSet<crRptUnitExpense> crRptUnitExpenses { get; set; }
         public virtual DbSet<CrRptUnit> CrRptUnits { get; set; }
+        public virtual DbSet<crLogPaymentType> crLogPaymentTypes { get; set; }
     }
 }

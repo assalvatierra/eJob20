@@ -410,6 +410,9 @@
     <Compile Include="Areas\Personel\Models\crLogOdo.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\crLogPaymentType.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\CrLogSummary.cs" />
     <Compile Include="Areas\Personel\Models\crLogTrip.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>

@@ -1,4 +1,5 @@
-﻿
+﻿//import { transcode } from "buffer";
+
 
 $(document).ready(function () {
     InitDatePicker();
@@ -89,14 +90,25 @@ function InitReturnLogModal(id) {
 }
 
 function SubmitReturnLog() {
+
+    var isFullTank = false;
+    if ($("#return-isFullTank").val() == "on") {
+        isFullTank = true;
+    }
+
     var data = {
         id: $("#return-LogFuelId").val(),
         date: $("#return-Date").val(),
-        odo: $("#return-Odo").val(),
-        amount: $("#return-Amount").val()
+        odoStart: $("#return-OdoStart").val(),
+        odoEnd: $("#return-OdoStart").val(),
+        amount: $("#return-Amount").val(),
+        remarks: $("#return-Remarks").val(),
+        isFullTank: isFullTank,
+        paymentTypeId: $("#return-PaymentType").val()
     }
 
-    $.post("/Personel/CrLogFuels/SubmitReturnLog", data, (result) => {
+    console.log(data);
+    var res = $.post("/Personel/CrLogFuels/SubmitReturnLog", data, (result) => {
         console.log(result);
         if (result == 'True') {
             window.location.reload();
@@ -104,4 +116,5 @@ function SubmitReturnLog() {
             alert("An Error occured while process your request");
         }
     });
+
 }

@@ -62,3 +62,7 @@ h3 {
 .form-group-sm{
     margin-bottom:10px;
 }
+
+.form-button-margin-left {
+    margin-left:10px
+}

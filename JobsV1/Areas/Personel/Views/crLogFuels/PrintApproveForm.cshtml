@@ -24,40 +24,40 @@
                                     <div class="form-group col-md-12 col-xs-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 col-xs-3 control-label form-label"> Date&nbsp;Request </label>
                                         <div class="col-md-9 col-xs-9 col-xs-9">
-                                            <input type="text" class="form-control" value="@Model.dtRequest.ToShortDateString()" />
+                                            <input type="text" class="form-control form-button-margin-left" value="@Model.dtRequest.ToShortDateString()" />
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12 col-xs-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 col-xs-3 control-label form-label"> Unit </label>
                                         <div class="col-md-9 col-xs-9 col-xs-9">
-                                            <input type="text" class="form-control" value="@Model.crLogUnit.Description" />
+                                            <input type="text" class="form-control form-button-margin-left" value="@Model.crLogUnit.Description" />
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Driver </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control" value="@Model.crLogDriver.Name" />
+                                            <input type="text" class="form-control form-button-margin-left" value="@Model.crLogDriver.Name" />
                                         </div>
                                         <br />
                                     </div>
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Amount </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control" value="@Model.Amount" />
+                                            <input type="text" class="form-control form-button-margin-left" value="@Model.Amount" />
                                         </div>
                                     </div>
 
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Requested&nbsp;By </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control form-button-margin-left" />
                                         </div>
                                     </div>
 
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Released&nbsp;By </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control form-button-margin-left" />
                                         </div>
                                     </div>
 
@@ -67,11 +67,17 @@
                                 <div class="form-group col-md-12 col-xs-12">
                                     <label class="col-md-3 col-xs-3 control-label form-label"> Date&nbsp;Paid </label>
                                     <div class="col-md-9 col-xs-9">
-                                        <input type="text" class="form-control"  />
+                                        <input type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 col-xs-12">
-                                    <label class="col-md-3 col-xs-3 control-label form-label"> ODO </label>
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> ODO&nbsp;Start </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> ODO End  </label>
                                     <div class="col-md-9 col-xs-9">
                                         <input type="text" class="form-control" />
                                     </div>
@@ -100,6 +106,21 @@
                                         <input type="text" class="form-control" />
                                     </div>
                                 </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Payment&nbsp; </label>
+                                    <div class="col-md-9 col-xs-9" style="padding-top:5px;">
+                                        <input type="checkbox" /><span style="margin:5px;"> Cash</span>
+                                        <input type="checkbox" /><span style="margin:5px;"> Credic Card </span>
+                                        <input type="checkbox" /><span style="margin:5px;"> PO</span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-offset-3 col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> &nbsp; </label>
+                                    <div class="col-md-9 col-xs-9" style="padding-left:8px;">
+                                        <input type="checkbox" />
+                                        <span>Full Tank</span>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -125,40 +146,40 @@
                                     <div class="form-group col-md-12 col-xs-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 col-xs-3 control-label form-label"> Date&nbsp;Request </label>
                                         <div class="col-md-9 col-xs-9 col-xs-9">
-                                            <input type="text" class="form-control" value="@Model.dtRequest.ToShortDateString()" />
+                                            <input type="text" class="form-control form-button-margin-left" value="@Model.dtRequest.ToShortDateString()" />
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12 col-xs-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 col-xs-3 control-label form-label"> Unit </label>
                                         <div class="col-md-9 col-xs-9 col-xs-9">
-                                            <input type="text" class="form-control" value="@Model.crLogUnit.Description" />
+                                            <input type="text" class="form-control form-button-margin-left" value="@Model.crLogUnit.Description" />
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Driver </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control" value="@Model.crLogDriver.Name" />
+                                            <input type="text" class="form-control form-button-margin-left" value="@Model.crLogDriver.Name" />
                                         </div>
                                         <br />
                                     </div>
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Amount </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control" value="@Model.Amount" />
+                                            <input type="text" class="form-control form-button-margin-left" value="@Model.Amount" />
                                         </div>
                                     </div>
 
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Requested&nbsp;By </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control form-button-margin-left" />
                                         </div>
                                     </div>
 
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Released&nbsp;By </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control form-button-margin-left" />
                                         </div>
                                     </div>
 
@@ -168,11 +189,17 @@
                                 <div class="form-group col-md-12 col-xs-12">
                                     <label class="col-md-3 col-xs-3 control-label form-label"> Date&nbsp;Paid </label>
                                     <div class="col-md-9 col-xs-9">
-                                        <input type="text" class="form-control"  />
+                                        <input type="text" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 col-xs-12">
-                                    <label class="col-md-3 col-xs-3 control-label form-label"> ODO </label>
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> ODO&nbsp;Start </label>
+                                    <div class="col-md-9 col-xs-9">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> ODO End  </label>
                                     <div class="col-md-9 col-xs-9">
                                         <input type="text" class="form-control" />
                                     </div>
@@ -199,6 +226,21 @@
                                     <label class="col-md-3 col-xs-3 control-label form-label"> Confirmed&nbsp; </label>
                                     <div class="col-md-9 col-xs-9">
                                         <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Payment&nbsp; </label>
+                                    <div class="col-md-9 col-xs-9" style="padding-top:5px;">
+                                        <input type="checkbox" /><span style="margin:5px;"> Cash</span>
+                                        <input type="checkbox" /><span style="margin:5px;"> Credic Card </span>
+                                        <input type="checkbox" /><span style="margin:5px;"> PO</span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-offset-3 col-md-12 col-xs-12">
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> &nbsp; </label>
+                                    <div class="col-md-9 col-xs-9" style="padding-left:8px;">
+                                        <input type="checkbox" />
+                                        <span>Full Tank</span>
                                     </div>
                                 </div>
                             </td>

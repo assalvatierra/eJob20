@@ -47,9 +47,9 @@
         </th>
         @if (StatusId == 4)
         {
-         <th>
-             Date Paid
-         </th>
+            <th>
+                Date Paid
+            </th>
         }
         <th>
             Type
@@ -57,12 +57,24 @@
         <th>
             @Html.DisplayNameFor(model => model.crLogFuel.Amount)
         </th>
-        <th>
-            OR-Amount
-        </th>
-        <th>
-            Odo
-        </th>
+        @if (StatusId == 4)
+        {
+            <th>
+                OR-Amount
+            </th>
+            <th>
+                Odo Start
+            </th>
+            <th>
+                Odo End
+            </th>
+            <th>
+                Payment Type
+            </th>
+            <th>
+                isFullTank
+            </th>
+        }
         <th>
 
         </th>
@@ -90,12 +102,29 @@
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.Amount)
             </td>
+             @if (item.LatestStatusId == 4)
+            {
+          
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.orAmount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
+                @Html.DisplayFor(modelItem => item.crLogFuel.odoStart)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogFuel.odoEnd)
+                @if (item.crLogFuel.odoFillup != 0)
+                {
+                    @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogFuel.crLogPaymentType.Type)
+            </td>
+            <td>
+                @item.crLogFuel.isFullTank
+            </td>
+            }
                 <td>
                @switch (item.LatestStatusId)
                {

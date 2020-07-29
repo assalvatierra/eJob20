@@ -1,4 +1,6 @@
-﻿
+﻿@{ 
+    var paymentTypes = ViewBag.crLogPaymentType as IEnumerable<JobsV1.Areas.Personel.Models.crLogPaymentType>;
+}
 <!-- Modal View of JobService  -->
 
 <!-- Add Item Modal -->
@@ -12,31 +14,61 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group" hidden>
+                        <div class="form-group col-md-12" hidden>
                             <label class="control-label form-label col-md-2"> Id </label>
                             <div class="col-md-10">
                                 <input id="return-LogFuelId" class="form-control form-group-margin-bot" type="text" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label form-label col-md-2"> Date Paid  </label>
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Date&nbsp;Paid  </label>
                             <div class="col-md-10">
                                 <input id="return-Date" class="form-control form-group-margin-bot" type="text" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label form-label col-md-2"> Odo </label>
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Odo&nbsp;Start </label>
                             <div class="col-md-10">
-                                <input id="return-Odo" class="form-control form-group-margin-bot" type="number" onkeypress="return isNumberKey(event)"  />
+                                <input id="return-OdoStart" class="form-control form-group-margin-bot" type="number" value="0" onkeypress="return isNumberKey(event)" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label form-label col-md-2"> Amount </label>
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Odo&nbsp;End </label>
                             <div class="col-md-10">
-                                <input id="return-Amount" class="form-control form-group-margin-bot" type="number" onkeypress="return isNumberKey(event)"  />
+                                <input id="return-OdoEnd" class="form-control form-group-margin-bot" type="number" value="0" onkeypress="return isNumberKey(event)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Fill&nbsp;Amount </label>
+                            <div class="col-md-10">
+                                <input id="return-Amount" class="form-control form-group-margin-bot" type="number" onkeypress="return isNumberKey(event)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Payment&nbsp; </label>
+                            <div class="col-md-10">
+                                <select class="form-control" id="return-PaymentType">
+                                    @foreach (var item in paymentTypes)
+                                    {
+                                        <option value="@item.Id">
+                                            @item.Type
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2">  </label>
+                            <div class="col-md-10">
+                                <input id="return-isFullTank" type="checkbox" onkeypress="return isNumberKey(event)" />
+                                <span>isFullTank</span>
                             </div>
                         </div>
                     </div>

@@ -36,6 +36,8 @@
         <EntityTypeShape EntityType="CarRentalLogDB.CrRptUnit" Width="1.5" PointX="1" PointY="14" />
         <AssociationConnector Association="CarRentalLogDB.crRptUnitExpenseCrRptUnit" />
         <AssociationConnector Association="CarRentalLogDB.crLogUnitCrRptUnit" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogPaymentType" Width="1.5" PointX="4.625" PointY="17.75" />
+        <AssociationConnector Association="CarRentalLogDB.crLogPaymentTypecrLogFuel" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -29,11 +29,16 @@ namespace JobsV1.Areas.Personel.Models
         public int odoFillup { get; set; }
         public decimal orAmount { get; set; }
         public int crLogTypeId { get; set; }
+        public Nullable<int> odoStart { get; set; }
+        public Nullable<int> odoEnd { get; set; }
+        public bool isFullTank { get; set; }
+        public int crLogPaymentTypeId { get; set; }
     
         public virtual crLogUnit crLogUnit { get; set; }
         public virtual crLogDriver crLogDriver { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogFuelStatus> crLogFuelStatus { get; set; }
         public virtual crLogType crLogType { get; set; }
+        public virtual crLogPaymentType crLogPaymentType { get; set; }
     }
 }

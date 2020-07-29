@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -67,7 +68,10 @@ namespace JobsV1.CustomHelper
             htmlString += "<h2>" + service.Description + "</h2>";
             htmlString += "<p>" + service.Remarks + "</p>";
             htmlString += "</span>";
-            htmlString += "<img src='" + dal.getSysSetting("ICON")  + "' class='pull-right Company-Icon'  width='250' style='margin:10px;' />";
+            if (!dal.getSysSetting("ICON").IsNullOrWhiteSpace())
+            {
+                htmlString += "<img src='" + dal.getSysSetting("ICON") + "' class='pull-right Company-Icon'  width='250' style='margin:10px;' />";
+            }
 
             return new HtmlString(htmlString);
         }

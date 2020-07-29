@@ -58,6 +58,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.StatusId = statusId;
+            ViewBag.crLogPaymentType = db.crLogPaymentTypes.ToList();
 
             return View(cCrLogFuel.ToList());
         }
@@ -117,6 +118,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type");
+            ViewBag.crLogPaymentTypeId = new SelectList(db.crLogPaymentTypes, "Id", "Type", 5);
             return View(logFuel);
         }
 
@@ -125,10 +127,11 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId")] crLogFuel crLogFuel)
+        public ActionResult Create([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,isFullTank,crLogPaymentTypeId")] crLogFuel crLogFuel)
         {
             if (ModelState.IsValid)
             {
+                crLogFuel.isFullTank = false;
                 db.crLogFuels.Add(crLogFuel);
                 db.SaveChanges();
 
@@ -139,8 +142,9 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
+            ViewBag.crLogPaymentTypeId = new SelectList(db.crLogPaymentTypes, "Id", "Type", crLogFuel.crLogPaymentTypeId);
             return View(crLogFuel);
         }
 
@@ -158,8 +162,9 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             ViewBag.LatestStatusId = getLatestStatusId((int)id);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
+            ViewBag.crLogPaymentTypeId = new SelectList(db.crLogPaymentTypes, "Id", "Type", crLogFuel.crLogPaymentTypeId);
             return View(crLogFuel);
         }
 
@@ -168,7 +173,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId")] crLogFuel crLogFuel)
+        public ActionResult Edit([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,odoStart,odoEnd,isFullTank,crLogPaymentTypeId")] crLogFuel crLogFuel)
         {
             if (ModelState.IsValid)
             {
@@ -177,8 +182,9 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
+            ViewBag.crLogPaymentTypeId = new SelectList(db.crLogPaymentTypes, "Id", "Type", crLogFuel.crLogPaymentTypeId);
             return View(crLogFuel);
         }
 
@@ -196,8 +202,9 @@ namespace JobsV1.Areas.Personel.Controllers
                 return HttpNotFound();
             }
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
+            ViewBag.crLogPaymentTypeId = new SelectList(db.crLogPaymentTypes, "Id", "Type", crLogFuel.crLogPaymentTypeId);
             return View(crLogFuel);
         }
 
@@ -206,7 +213,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Return([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId")] crLogFuel crLogFuel)
+        public ActionResult Return([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,odoStart,odoEnd,isFullTank,crLogPaymentTypeId")] crLogFuel crLogFuel)
         {
             if (ModelState.IsValid)
             {
@@ -219,8 +226,9 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index", new { statusId = 3 });
             }
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogFuel.crLogUnitId);
-            ViewBag.crLogDriverId = new SelectList(dl.GetUnits(), "Id", "Name", crLogFuel.crLogDriverId);
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogFuel.crLogDriverId);
             ViewBag.crLogTypeId = new SelectList(db.crLogTypes, "Id", "Type", crLogFuel.crLogTypeId);
+            ViewBag.crLogPaymentTypeId = new SelectList(db.crLogPaymentTypes, "Id", "Type", crLogFuel.crLogPaymentTypeId);
             return View(crLogFuel);
         }
 
@@ -340,7 +348,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         [HttpPost]
-        public bool SubmitReturnLog(int? id, string date, int odo, decimal amount)
+        public bool SubmitReturnLog(int? id, string date, int odoStart, int odoEnd, decimal amount, bool isFullTank, int paymentTypeId)
         {
             try
             {
@@ -355,15 +363,18 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 //apply changes
                 crLogFuel.dtFillup = DateTime.Parse(date);
-                crLogFuel.odoFillup = odo;
+                crLogFuel.odoStart = odoStart;
+                crLogFuel.odoEnd = odoEnd;
                 crLogFuel.orAmount = amount;
+                crLogFuel.isFullTank = isFullTank;
+                crLogFuel.crLogPaymentTypeId = paymentTypeId;
 
                 //save changes
                 db.Entry(crLogFuel).State = EntityState.Modified;
                 db.SaveChanges();
 
                 //add odo log
-                AddOdoLog(crLogFuel);
+                //AddOdoLog(crLogFuel);
 
                 return AddLogStatus(id, 4);
             }

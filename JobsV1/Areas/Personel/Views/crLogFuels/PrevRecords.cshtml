@@ -12,17 +12,17 @@
         border: none;
     }
 
-    .td-bg-gray{
-        background-color:lightgray;
+    .td-bg-gray {
+        background-color: lightgray;
     }
 
     .th-bg-gray {
         background-color: gray;
-        color:white;
+        color: white;
     }
 
-    .status-selected{
-        color:black;
+    .status-selected {
+        color: black;
     }
 </style>
 
@@ -48,21 +48,28 @@
         <th>
             Date Paid
         </th>
+        
         <th>
             Type
         </th>
         <th>
             @Html.DisplayNameFor(model => model.crLogFuel.Amount)
         </th>
-        <th>
-            OR-Amount
-        </th>
-        <th>
-            Odo
-        </th>
-        <th>
-            Status
-        </th>
+            <th>
+                OR-Amount
+            </th>
+            <th>
+                Odo Start
+            </th>
+            <th>
+                Odo End
+            </th>
+            <th>
+                Payment Type
+            </th>
+            <th>
+                isFullTank
+            </th>
         <th>
 
         </th>
@@ -78,76 +85,114 @@
             <td>
                 @item.crLogFuel.dtRequest.ToString("MMM dd yyyy")
             </td>
-            <td>
-                @item.crLogFuel.dtRequest.ToString("MMM dd yyyy")
-            </td>
+            @if (item.LatestStatusId == 4)
+            {
+                <td>
+                    @item.crLogFuel.dtFillup.ToString("MMM dd yyyy")
+                </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.crLogType.Type)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.Amount)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogFuel.orAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LatestStatus)
-            </td>
-
-           @if (item.LatestStatusId == 1)
+            @if (item.LatestStatusId == 4)
             {
+
                 <td>
-                    @if (IsAdmin)
-                    {
-                    <span>
-                        <a class="cursor-hand" onclick="ApproveRequest('@item.crLogFuel.Id')"> Approve </a> |
-                        @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
-                    </span>
-                    }
+                    @Html.DisplayFor(modelItem => item.crLogFuel.orAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.crLogFuel.odoStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.crLogFuel.odoEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.crLogFuel.crLogPaymentType.Type)
+                </td>
+                <td>
+                    @item.crLogFuel.isFullTank
                 </td>
             }
-
-           @if (item.LatestStatusId == 2)
-            {
-                <td>
-
-                    @Html.ActionLink("Print", "PrintApproveForm", new { id = item.crLogFuel.Id }) |
-                    @Html.ActionLink("Return", "Return", new { id = item.crLogFuel.Id }) 
-                    @if (IsAdmin)
-                    {
+             @switch (item.LatestStatusId)
+                {
+                    case 1:
+                        if (IsAdmin)
+                        {
+                           <td colspan="6"> </td>
+                        }
+                        else
+                        {
+                           <td colspan="6"> </td>
+                        }
+                        break;
+                    case 2:
+                           <td colspan="6"> </td>
+                        break;
+                    case 3:
+                           <td colspan="6"> </td>
+                        break;
+                    default:
+                    case 4:
+                        
+                        break;
+                }
+               
+            <td>
+                @switch (item.LatestStatusId)
+                {
+                    case 1:
+                        if (IsAdmin)
+                        {
+                            <span>
+                                <a class="cursor-hand" onclick="ApproveRequest('@item.crLogFuel.Id')"> Approve </a>
+                            </span>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id })
+                        }
+                        break;
+                    case 2:
+                        <span>
+                            @Html.ActionLink("Print", "PrintApproveForm", new { id = item.crLogFuel.Id }, new { @target = "_blank" }) |
+                            <a class="cursor-hand" onclick="ApproveRelease('@item.crLogFuel.Id')"> Release </a>
+                        </span>
+                        break;
+                    case 3:
+                        <span>
+                            <a class="cursor-hand" onclick="InitReturnLogModal('@item.crLogFuel.Id')"> Return </a>
+                        </span>
+                        break;
+                    default:
+                    case 4:
+                        <span></span>
+                        break;
+                }
+                @if (IsAdmin)
+                {
                     <span>
                         | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
                         @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
                     </span>
-                    }
-                </td>
-            }
+                }
+            </td>
+        </tr>
+    }
 
-           @if (item.LatestStatusId == 3)
-            {
-                <td>
-                    @if (IsAdmin)
-                    {
-                    <span>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
-                    </span>
-                    }
-                </td>
-            }
-
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="7">
+                <p class="text-center"> No Record Found </p>
+            </td>
         </tr>
     }
 
 </table>
-
 @section Scripts{
     <script>
         function ApproveRequest(id) {
@@ -161,4 +206,4 @@
             });
         }
     </script>
-    }
+}
