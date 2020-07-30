@@ -1,6 +1,7 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,7 @@ namespace JobsV1.CustomHelper
 {
     public static class ErpHelper
     {
+        private static string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
         static SysAccessLayer dal = new SysAccessLayer();
 
         #region HTML custom helpers
@@ -68,7 +70,7 @@ namespace JobsV1.CustomHelper
             htmlString += "<h2>" + service.Description + "</h2>";
             htmlString += "<p>" + service.Remarks + "</p>";
             htmlString += "</span>";
-            if (!dal.getSysSetting("ICON").IsNullOrWhiteSpace())
+            if (SITECONFIG == "AutoCare")
             {
                 htmlString += "<img src='" + dal.getSysSetting("ICON") + "' class='pull-right Company-Icon'  width='250' style='margin:10px;' />";
             }

@@ -923,6 +923,9 @@
     <Compile Include="Models\JobPostSale.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\JobPostSalesStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\JobServiceItem.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1781,6 +1784,7 @@
     <Content Include="Scripts\CustNotif\Activities.js" />
     <Content Include="Scripts\Customer\Vehicle.js" />
     <Content Include="Scripts\dataTables.min.js" />
+    <Content Include="Scripts\Filters\FormInputFilter.js" />
     <Content Include="Scripts\InvItems\Availability.js" />
     <Content Include="Scripts\JobPostSale\PostSale.js" />
     <Content Include="Scripts\Job\CustNotif.js" />
@@ -2020,6 +2024,7 @@
     <Content Include="Areas\Personel\Views\CrRptUnits\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\CrRptUnits\Index.cshtml" />
     <Content Include="Areas\Personel\Views\Shared\_PrintLayout.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\UpdateTripLogOdo.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

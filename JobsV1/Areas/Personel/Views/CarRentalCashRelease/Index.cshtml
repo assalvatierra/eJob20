@@ -37,6 +37,9 @@
             Driver
         </th>
         <th>
+            Type
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th></th>
@@ -53,6 +56,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogCashType.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
@@ -119,7 +125,6 @@
         $(() => {
             FilterStatus('@StatusId');
         });
-
 
         function FilterStatus(statusId) {
             switch (statusId) {

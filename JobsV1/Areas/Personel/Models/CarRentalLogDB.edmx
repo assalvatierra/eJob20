@@ -21,6 +21,7 @@
     <EntitySet Name="crRptUnitExpenses" EntityType="CarRentalLogDB.Store.crRptUnitExpenses" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CrRptUnits" EntityType="CarRentalLogDB.Store.CrRptUnits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPaymentTypes" EntityType="CarRentalLogDB.Store.crLogPaymentTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogCashTypes" EntityType="CarRentalLogDB.Store.crLogCashTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -93,6 +94,10 @@
       <End Role="crLogPaymentType" EntitySet="crLogPaymentTypes" />
       <End Role="crLogFuel" EntitySet="crLogFuels" />
     </AssociationSet>
+    <AssociationSet Name="crLogCashTypecrLogCashRelease" Association="CarRentalLogDB.Store.crLogCashTypecrLogCashRelease">
+      <End Role="crLogCashType" EntitySet="crLogCashTypes" />
+      <End Role="crLogCashRelease" EntitySet="crLogCashReleases" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="crLogDrivers">
     <Key>
@@ -120,6 +125,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="10" />
   </EntityType>
   <EntityType Name="crLogTrips">
     <Key>
@@ -136,6 +142,8 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="crLogClosingId" Type="int" Nullable="true" />
     <Property Name="Addon" Type="decimal" Nullable="false" />
+    <Property Name="OdoStart" Type="int" Nullable="true" />
+    <Property Name="OdoEnd" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="crLogCashReleases">
     <Key>
@@ -147,6 +155,7 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="30" />
     <Property Name="crLogDriverId" Type="int" Nullable="false" />
     <Property Name="crLogClosingId" Type="int" Nullable="true" />
+    <Property Name="crLogCashTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="crLogClosings">
     <Key>
@@ -172,6 +181,7 @@
     <Property Name="odoEnd" Type="int" Nullable="true" />
     <Property Name="isFullTank" Type="bit" Nullable="false" />
     <Property Name="crLogPaymentTypeId" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="crLogOdoes">
     <Key>
@@ -240,6 +250,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crLogCashTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="30" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -457,6 +475,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="crLogCashTypecrLogCashRelease">
+    <End Role="crLogCashType" Type="CarRentalLogDB.Store.crLogCashTypes" Multiplicity="1" />
+    <End Role="crLogCashRelease" Type="CarRentalLogDB.Store.crLogCashReleases" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogCashType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogCashRelease">
+        <PropertyRef Name="crLogCashTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -590,6 +620,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogCompanycrLogTrip" FromRole="crLogCompany" ToRole="crLogTrip" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Status" Type="String" Nullable="true" MaxLength="10" />
         </EntityType>
         <EntityType Name="crLogTrip">
           <Key>
@@ -610,6 +641,8 @@
           <NavigationProperty Name="crLogClosing" Relationship="CarRentalLogDB.crLogClosingcrLogTrip" FromRole="crLogTrip" ToRole="crLogClosing" />
           <Property Name="crLogClosingId" Type="Int32" Nullable="true" />
           <Property Name="Addon" Type="Decimal" Nullable="false" />
+          <Property Name="OdoStart" Type="Int32" Nullable="true" />
+          <Property Name="OdoEnd" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="crLogDrivercrLogTrip">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -730,6 +763,7 @@
           <Property Name="isFullTank" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="crLogPaymentType" Relationship="CarRentalLogDB.crLogPaymentTypecrLogFuel" FromRole="crLogFuel" ToRole="crLogPaymentType" />
           <Property Name="crLogPaymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <Association Name="crLogUnitcrLogFuel">
           <End Type="CarRentalLogDB.crLogUnit" Role="crLogUnit" Multiplicity="1" />
@@ -1010,6 +1044,7 @@
         <MappingFragment StoreEntitySet="crLogCompanies">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1027,6 +1062,8 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="crLogClosingId" ColumnName="crLogClosingId" />
           <ScalarProperty Name="Addon" ColumnName="Addon" />
+          <ScalarProperty Name="OdoStart" ColumnName="OdoStart" />
+          <ScalarProperty Name="OdoEnd" ColumnName="OdoEnd" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1039,6 +1076,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="crLogDriverId" ColumnName="crLogDriverId" />
           <ScalarProperty Name="crLogClosingId" ColumnName="crLogClosingId" />
+          <ScalarProperty Name="crLogCashTypeId" ColumnName="crLogCashTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1066,6 +1104,7 @@
           <ScalarProperty Name="odoEnd" ColumnName="odoEnd" />
           <ScalarProperty Name="isFullTank" ColumnName="isFullTank" />
           <ScalarProperty Name="crLogPaymentTypeId" ColumnName="crLogPaymentTypeId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1142,6 +1181,15 @@
         <MappingFragment StoreEntitySet="crLogPaymentTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogCashTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogCashType)">
+        <MappingFragment StoreEntitySet="crLogCashTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

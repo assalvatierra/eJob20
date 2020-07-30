@@ -90,7 +90,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 ViewBag.crLogUnitList = dl.GetUnits().ToList();
                 ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-                ViewBag.crLogCompanyList = db.crLogCompanies.ToList();
+                ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
             return View(tripLogs);
 
             }
@@ -264,7 +264,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name", crLogTrip.crLogCompanyId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
         }
@@ -283,7 +283,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name", crLogTrip.crLogCompanyId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
         }
@@ -303,7 +303,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name", crLogTrip.crLogCompanyId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
         }
@@ -452,7 +452,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult CopyTrip()
         {
             ViewBag.isSubmitted = false;
-            ViewBag.companyId = new SelectList(db.crLogCompanies, "Id", "Name");
+            ViewBag.companyId = new SelectList(dl.GetCompanies(), "Id", "Name");
             return View(new List<crLogTrip>());
         }
 
@@ -476,12 +476,12 @@ namespace JobsV1.Areas.Personel.Controllers
                         crLogTrips = crLogTrips.Where(c => c.crLogCompanyId == companyId );
                     }
 
-                    ViewBag.companyId = new SelectList(db.crLogCompanies, "Id", "Name");
+                    ViewBag.companyId = new SelectList(dl.GetCompanies(), "Id", "Name");
                     ViewBag.isSubmitted = true;
                     return View(crLogTrips.ToList());
                 }
 
-                ViewBag.companyId = new SelectList(db.crLogCompanies, "Id", "Name");
+                ViewBag.companyId = new SelectList(dl.GetCompanies(), "Id", "Name");
                 ViewBag.isSubmitted = false;
                 return View(new List<crLogTrip>());
             }
@@ -614,7 +614,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.SortBy = sortby?? "Date";
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            ViewBag.crLogCompanyList = db.crLogCompanies.ToList();
+            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
 
             return View();
         }
@@ -667,7 +667,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.SortBy = sortby ?? "Date";
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            ViewBag.crLogCompanyList = db.crLogCompanies.ToList();
+            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
 
             return View();
         }
@@ -776,6 +776,52 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return View(reportResult);
         }
+        
+        public ActionResult UpdateTripLogOdo()
+        {
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name");
+            return View();
+        }
+
+        // POST: Personel/CarRentalLog/UpdateTripLogOdo/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateTripLogOdo(int crLogDriverId, int crLogUnitId, int crLogCompanyId, string Remarks, int? OdoStart, int? OdoEnd)
+        {
+            try
+            {
+
+                //check and find lastest trip
+                var crLogTripLatest = db.crLogTrips.Where(c => c.crLogUnitId == crLogUnitId && c.crLogDriverId == crLogDriverId && c.crLogCompanyId == crLogCompanyId).OrderByDescending(c => c.DtTrip).FirstOrDefault();
+                if (crLogTripLatest == null)
+                {
+                    ModelState.AddModelError("OdoEnd", "No Trips Found");
+                }else
+                {
+                    //update odo and remarks
+                    crLogTripLatest.OdoStart = OdoStart;
+                    crLogTripLatest.OdoEnd = OdoEnd;
+                    crLogTripLatest.Remarks = Remarks;
+
+                    db.Entry(crLogTripLatest).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description",  crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogCompanyId);
+            return View(crLogTripLatest);
+
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
 
         #endregion
     }

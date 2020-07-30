@@ -25,6 +25,8 @@ namespace JobsV1.Areas.Personel.Models
         public string Remarks { get; set; }
         public Nullable<int> crLogClosingId { get; set; }
         public decimal Addon { get; set; }
+        public Nullable<int> OdoStart { get; set; }
+        public Nullable<int> OdoEnd { get; set; }
     
         public virtual crLogDriver crLogDriver { get; set; }
         public virtual crLogUnit crLogUnit { get; set; }

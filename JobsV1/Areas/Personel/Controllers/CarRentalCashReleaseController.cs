@@ -101,6 +101,7 @@ namespace JobsV1.Areas.Personel.Controllers
             
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id");
+            ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description");
             return View(crtrx);
         }
 
@@ -109,7 +110,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId")] crLogCashRelease crLogCashRelease)
+        public ActionResult Create([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId,crLogClosingId,crLogCashTypeId")] crLogCashRelease crLogCashRelease)
         {
             if (ModelState.IsValid)
             {
@@ -120,6 +121,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
+            ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
             return View(crLogCashRelease);
         }
 
@@ -137,6 +139,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
+            ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
             return View(crLogCashRelease);
         }
 
@@ -145,7 +148,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId")] crLogCashRelease crLogCashRelease)
+        public ActionResult Edit([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId,crLogCashTypeId")] crLogCashRelease crLogCashRelease)
         {
             if (ModelState.IsValid)
             {
@@ -155,6 +158,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
             ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
+            ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
             return View(crLogCashRelease);
         }
 
@@ -241,6 +245,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crtrx.crLogClosingId = GenerateClosingId();
                 crtrx.Amount = releaseRequest.Amount;
                 crtrx.Remarks = releaseRequest.Remarks;
+                crtrx.crLogCashTypeId = releaseRequest.CashTypeId;
 
                 db.crLogCashReleases.Add(crtrx);
                 db.SaveChanges();
@@ -389,11 +394,18 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             var cashRelease = db.crLogCashReleases.Find(id);
-            var tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId).ToList();
+            var tripLogs = new List<crLogTrip>();
+            if (cashRelease.crLogClosingId != null)
+            {
+                tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId).ToList();
+            }
+
             if (cashRelease == null)
             {
                 return HttpNotFound();
             }
+
+
             ViewBag.crLogTrips = tripLogs ?? new List<crLogTrip>();
 
             return View(cashRelease);
@@ -442,4 +454,5 @@ public class DriverReleaseRequest
     public decimal Amount { get; set; }
     public ICollection<int> TripIds { get; set; }
     public string Remarks { get; set; }
+    public int CashTypeId { get; set; }
 }

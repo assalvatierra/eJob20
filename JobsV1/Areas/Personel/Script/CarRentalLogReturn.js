@@ -99,9 +99,8 @@ function SubmitReturnLog() {
     var data = {
         id: $("#return-LogFuelId").val(),
         date: $("#return-Date").val(),
-        odoStart: $("#return-OdoStart").val(),
-        odoEnd: $("#return-OdoStart").val(),
-        amount: $("#return-Amount").val(),
+        odo: $("#return-Odo").val(),
+        amount: parseFloat($("#return-Amount").val()),
         remarks: $("#return-Remarks").val(),
         isFullTank: isFullTank,
         paymentTypeId: $("#return-PaymentType").val()

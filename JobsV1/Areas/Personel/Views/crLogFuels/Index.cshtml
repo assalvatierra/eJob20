@@ -57,16 +57,16 @@
         <th>
             @Html.DisplayNameFor(model => model.crLogFuel.Amount)
         </th>
+        <th>
+            Remarks
+        </th>
         @if (StatusId == 4)
         {
             <th>
                 OR-Amount
             </th>
             <th>
-                Odo Start
-            </th>
-            <th>
-                Odo End
+                Odo
             </th>
             <th>
                 Payment Type
@@ -102,6 +102,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.Amount)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogFuel.Remarks)
+            </td>
              @if (item.LatestStatusId == 4)
             {
           
@@ -109,20 +112,20 @@
                 @Html.DisplayFor(modelItem => item.crLogFuel.orAmount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.crLogFuel.odoStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogFuel.odoEnd)
-                @if (item.crLogFuel.odoFillup != 0)
-                {
-                    @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
-                }
+                @Html.DisplayFor(modelItem => item.crLogFuel.odoFillup)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.crLogPaymentType.Type)
             </td>
             <td>
-                @item.crLogFuel.isFullTank
+                @if (item.crLogFuel.isFullTank == true)
+                {
+                    <input type="checkbox" checked="checked" />
+                }
+                else
+                {
+                    <input type="checkbox" />
+                }
             </td>
             }
                 <td>

@@ -33,6 +33,7 @@ namespace JobsV1.Areas.Personel.Models
         public Nullable<int> odoEnd { get; set; }
         public bool isFullTank { get; set; }
         public int crLogPaymentTypeId { get; set; }
+        public string Remarks { get; set; }
     
         public virtual crLogUnit crLogUnit { get; set; }
         public virtual crLogDriver crLogDriver { get; set; }

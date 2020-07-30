@@ -14,6 +14,10 @@ namespace JobsV1.Areas.Personel.Controllers
     public class crLogCompaniesController : Controller
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
+        private List<SelectListItem> StatusList = new List<SelectListItem> {
+                new SelectListItem { Value = "ACT", Text = "Active" },
+                new SelectListItem { Value = "INC", Text = "Inactive" }
+                };
 
         // GET: Personel/crLogCompanies
         public ActionResult Index()
@@ -39,6 +43,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogCompanies/Create
         public ActionResult Create()
         {
+            ViewBag.Status = new SelectList(StatusList, "value", "text");
             return View();
         }
 
@@ -47,7 +52,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] crLogCompany crLogCompany)
+        public ActionResult Create([Bind(Include = "Id,Name,Status")] crLogCompany crLogCompany)
         {
             if (ModelState.IsValid && InputValidation(crLogCompany))
             {
@@ -55,7 +60,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogCompany.Status);
             return View(crLogCompany);
         }
 
@@ -71,6 +76,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogCompany.Status);
             return View(crLogCompany);
         }
 
@@ -79,7 +85,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] crLogCompany crLogCompany)
+        public ActionResult Edit([Bind(Include = "Id,Name,Status")] crLogCompany crLogCompany)
         {
             if (ModelState.IsValid && InputValidation(crLogCompany))
             {
@@ -87,6 +93,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Status = new SelectList(StatusList, "value", "text", crLogCompany.Status);
             return View(crLogCompany);
         }
 

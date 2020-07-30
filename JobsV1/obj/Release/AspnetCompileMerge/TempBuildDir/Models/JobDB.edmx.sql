@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/15/2020 19:17:10
+-- Date Created: 07/30/2020 15:38:11
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -416,6 +416,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_JobPaymentTypeJobPayment]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[JobPayments] DROP CONSTRAINT [FK_JobPaymentTypeJobPayment];
 GO
+IF OBJECT_ID(N'[dbo].[FK_JobPostSalesStatusJobPostSale]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[JobPostSales] DROP CONSTRAINT [FK_JobPostSalesStatusJobPostSale];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -825,6 +828,9 @@ IF OBJECT_ID(N'[dbo].[InvItemCommis]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[JobPaymentTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[JobPaymentTypes];
+GO
+IF OBJECT_ID(N'[dbo].[JobPostSalesStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[JobPostSalesStatus];
 GO
 
 -- --------------------------------------------------
@@ -2204,7 +2210,9 @@ CREATE TABLE [dbo].[JobPostSales] (
     [DtPost] datetime  NOT NULL,
     [DoneBy] nvarchar(50)  NOT NULL,
     [Remarks] nvarchar(150)  NULL,
-    [JobServicesId] int  NOT NULL
+    [JobServicesId] int  NOT NULL,
+    [DtDone] datetime  NULL,
+    [JobPostSalesStatusId] int  NOT NULL
 );
 GO
 
@@ -2245,6 +2253,13 @@ GO
 CREATE TABLE [dbo].[JobPaymentTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Type] nvarchar(20)  NOT NULL
+);
+GO
+
+-- Creating table 'JobPostSalesStatus'
+CREATE TABLE [dbo].[JobPostSalesStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -3059,6 +3074,12 @@ GO
 -- Creating primary key on [Id] in table 'JobPaymentTypes'
 ALTER TABLE [dbo].[JobPaymentTypes]
 ADD CONSTRAINT [PK_JobPaymentTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'JobPostSalesStatus'
+ALTER TABLE [dbo].[JobPostSalesStatus]
+ADD CONSTRAINT [PK_JobPostSalesStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5059,6 +5080,21 @@ GO
 CREATE INDEX [IX_FK_JobPaymentTypeJobPayment]
 ON [dbo].[JobPayments]
     ([JobPaymentTypeId]);
+GO
+
+-- Creating foreign key on [JobPostSalesStatusId] in table 'JobPostSales'
+ALTER TABLE [dbo].[JobPostSales]
+ADD CONSTRAINT [FK_JobPostSalesStatusJobPostSale]
+    FOREIGN KEY ([JobPostSalesStatusId])
+    REFERENCES [dbo].[JobPostSalesStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_JobPostSalesStatusJobPostSale'
+CREATE INDEX [IX_FK_JobPostSalesStatusJobPostSale]
+ON [dbo].[JobPostSales]
+    ([JobPostSalesStatusId]);
 GO
 
 -- --------------------------------------------------

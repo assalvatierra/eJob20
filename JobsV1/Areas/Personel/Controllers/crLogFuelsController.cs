@@ -21,11 +21,11 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Index(int? statusId)
         {
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-7);
+            var DateFilter = today.AddDays(-30);
 
             //get fuel request up to -7 days from today
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest)
-                .Where(c => DbFunctions.TruncateTime(c.dtRequest) > DateFilter);
+                .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= DateFilter);
 
             if (statusId == null)
                 statusId = 1;
@@ -66,9 +66,9 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogFuels
         public ActionResult PrevRecords()
         {
-            var today = dt.GetCurrentDate();
+            var today = dt.GetCurrentDate().AddDays(-60);
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
-                .Where(c => DbFunctions.TruncateTime(c.dtRequest) <= today).OrderBy(c => c.dtRequest);
+                .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= today ).OrderBy(c => c.dtRequest);
 
             List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
 
@@ -83,7 +83,8 @@ namespace JobsV1.Areas.Personel.Controllers
                     LatestStatus = status
                 };
 
-                cCrLogFuel.Add(templog);
+                if(templog.LatestStatusId == 4)
+                    cCrLogFuel.Add(templog);
             }
 
 
@@ -127,7 +128,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,isFullTank,crLogPaymentTypeId")] crLogFuel crLogFuel)
+        public ActionResult Create([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,isFullTank,crLogPaymentTypeId,Remarks")] crLogFuel crLogFuel)
         {
             if (ModelState.IsValid)
             {
@@ -213,7 +214,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Return([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,odoStart,odoEnd,isFullTank,crLogPaymentTypeId")] crLogFuel crLogFuel)
+        public ActionResult Return([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,odoStart,odoEnd,isFullTank,crLogPaymentTypeId,Remarks")] crLogFuel crLogFuel)
         {
             if (ModelState.IsValid)
             {
@@ -348,7 +349,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         [HttpPost]
-        public bool SubmitReturnLog(int? id, string date, int odoStart, int odoEnd, decimal amount, bool isFullTank, int paymentTypeId)
+        public bool SubmitReturnLog(int? id, string date, int odo, decimal amount, bool isFullTank, int paymentTypeId, string remarks)
         {
             try
             {
@@ -363,11 +364,11 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 //apply changes
                 crLogFuel.dtFillup = DateTime.Parse(date);
-                crLogFuel.odoStart = odoStart;
-                crLogFuel.odoEnd = odoEnd;
+                crLogFuel.odoFillup = odo;
                 crLogFuel.orAmount = amount;
                 crLogFuel.isFullTank = isFullTank;
                 crLogFuel.crLogPaymentTypeId = paymentTypeId;
+                crLogFuel.Remarks = remarks;
 
                 //save changes
                 db.Entry(crLogFuel).State = EntityState.Modified;

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/29/2020 19:12:07
+-- Date Created: 07/30/2020 12:48:17
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -71,6 +71,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_crLogPaymentTypecrLogFuel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogFuels] DROP CONSTRAINT [FK_crLogPaymentTypecrLogFuel];
 GO
+IF OBJECT_ID(N'[dbo].[FK_crLogCashTypecrLogCashRelease]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogCashReleases] DROP CONSTRAINT [FK_crLogCashTypecrLogCashRelease];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -121,6 +124,9 @@ GO
 IF OBJECT_ID(N'[dbo].[crLogPaymentTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogPaymentTypes];
 GO
+IF OBJECT_ID(N'[dbo].[crLogCashTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogCashTypes];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -149,7 +155,8 @@ GO
 -- Creating table 'crLogCompanies'
 CREATE TABLE [dbo].[crLogCompanies] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(20)  NOT NULL
+    [Name] nvarchar(20)  NOT NULL,
+    [Status] nvarchar(10)  NULL
 );
 GO
 
@@ -165,7 +172,9 @@ CREATE TABLE [dbo].[crLogTrips] (
     [DriverFee] decimal(18,0)  NOT NULL,
     [Remarks] nvarchar(50)  NULL,
     [crLogClosingId] int  NULL,
-    [Addon] decimal(18,0)  NOT NULL
+    [Addon] decimal(18,0)  NOT NULL,
+    [OdoStart] int  NULL,
+    [OdoEnd] int  NULL
 );
 GO
 
@@ -176,7 +185,8 @@ CREATE TABLE [dbo].[crLogCashReleases] (
     [Amount] decimal(18,0)  NOT NULL,
     [Remarks] nvarchar(30)  NULL,
     [crLogDriverId] int  NOT NULL,
-    [crLogClosingId] int  NULL
+    [crLogClosingId] int  NULL,
+    [crLogCashTypeId] int  NOT NULL
 );
 GO
 
@@ -201,7 +211,8 @@ CREATE TABLE [dbo].[crLogFuels] (
     [odoStart] int  NULL,
     [odoEnd] int  NULL,
     [isFullTank] bit  NOT NULL,
-    [crLogPaymentTypeId] int  NOT NULL
+    [crLogPaymentTypeId] int  NOT NULL,
+    [Remarks] nvarchar(80)  NULL
 );
 GO
 
@@ -270,6 +281,14 @@ GO
 CREATE TABLE [dbo].[crLogPaymentTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Type] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'crLogCashTypes'
+CREATE TABLE [dbo].[crLogCashTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(10)  NOT NULL,
+    [Description] nvarchar(30)  NULL
 );
 GO
 
@@ -364,6 +383,12 @@ GO
 -- Creating primary key on [Id] in table 'crLogPaymentTypes'
 ALTER TABLE [dbo].[crLogPaymentTypes]
 ADD CONSTRAINT [PK_crLogPaymentTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogCashTypes'
+ALTER TABLE [dbo].[crLogCashTypes]
+ADD CONSTRAINT [PK_crLogCashTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -639,6 +664,21 @@ GO
 CREATE INDEX [IX_FK_crLogPaymentTypecrLogFuel]
 ON [dbo].[crLogFuels]
     ([crLogPaymentTypeId]);
+GO
+
+-- Creating foreign key on [crLogCashTypeId] in table 'crLogCashReleases'
+ALTER TABLE [dbo].[crLogCashReleases]
+ADD CONSTRAINT [FK_crLogCashTypecrLogCashRelease]
+    FOREIGN KEY ([crLogCashTypeId])
+    REFERENCES [dbo].[crLogCashTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogCashTypecrLogCashRelease'
+CREATE INDEX [IX_FK_crLogCashTypecrLogCashRelease]
+ON [dbo].[crLogCashReleases]
+    ([crLogCashTypeId]);
 GO
 
 -- --------------------------------------------------
