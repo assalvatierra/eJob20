@@ -160,11 +160,5 @@ namespace JobsV1.Models
         public virtual DbSet<JobMainPaymentStatus> JobMainPaymentStatus { get; set; }
         public virtual DbSet<InvItemCommi> InvItemCommis { get; set; }
         public virtual DbSet<JobPaymentType> JobPaymentTypes { get; set; }
-
-        public System.Data.Entity.DbSet<JobsV1.Areas.Personel.Models.crRptUnitExpense> crRptUnitExpenses { get; set; }
-
-        public System.Data.Entity.DbSet<JobsV1.Areas.Personel.Models.CrRptUnit> CrRptUnits { get; set; }
-
-        public System.Data.Entity.DbSet<JobsV1.Areas.Personel.Models.crLogUnit> crLogUnits { get; set; }
     }
 }
