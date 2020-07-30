@@ -36,7 +36,6 @@
                 @Html.ActionLink("Closed", "Index", new { sortid = 3 }, new { @id = "closed", @class = "btn btn-default" })
                 @Html.ActionLink("Cancelled", "Index", new { sortid = 4 }, new { @id = "cancelled", @class = "btn btn-default" })
             </div>
-            
         </div>
 
         <div class="search-panel">
@@ -142,11 +141,20 @@
                             @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
                             @Html.ActionLink("[ Repair Order ]", "RepairOrder", "RptGmsAuto", new { id = item.Main.Id }, null)
                             @Html.ActionLink("[ Service Billing ]", "ServiceBilling", "RptGmsAuto", new { id = item.Main.Id }, null)
-                            if(isAdmin)
+                            if (isAdmin)
                             {
-                                <a href="#" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))">[ Payment ]</a>
+                                <a class="cursor-hand" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))">[ Payment ]</a>
+                                if (item.Main.JobStatusId == 4)
+                                {
+                                    <a class="cursor-hand" style="margin-bottom:10px;" onclick="checkJobPostSales(@(item.Main.Id))">[ Check Job Post Sale ]</a>
+                                }
+
+                                if (item.Main.JobStatusId == 3)
+                                {
+                                    @Html.ActionLink("[ Close Job ]", "CloseJobStatusFromList", "JobOrder", new { id = item.Main.Id }, null)
+                                }
                             }
-                            
+
 
                         }
 
@@ -302,6 +310,29 @@
 
             InitialFilter(@filterActive);
         });
+
+
+        function checkJobPostSales(jobId) {
+
+            var data = {
+                jobMainId: jobId
+            }
+
+           // console.log( data)
+
+
+            var res = $.post("/JobOrder/CreateJobPostSalesRecord", data, (res) => {
+                console.log("ID: " + jobId + " - " + res)
+                if (res == 'True') {
+                    alert(" Job Post Sale Created ")
+                } else {
+                    alert(" Job Post Sale Already Exists. ")
+                }
+            });
+
+
+           // console.log(res);
+        }
 
     </script>
 

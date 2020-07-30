@@ -14,32 +14,35 @@ namespace JobsV1.Controllers
     public class JobPostSalesController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
-        private DateClass dateClass = new DateClass();
+        private DateClass dt = new DateClass();
 
         // GET: JobPostSales
-        public ActionResult Index()
+        public ActionResult Index(int? serviceId, int? statusId)
         {
-            DateTime today = dateClass.GetCurrentDate().Date;
+            DateTime today = dt.GetCurrentDate().Date;
+            var jobPostSales = db.JobPostSales.Where(j => today > j.DtPost);
 
-            List<JobServices> validPostSales = new List<JobServices>();
-
-            //get job services after the supplier interval
-            var jobserviceList = db.JobServices.Where(j => j.JobMain.JobStatusId == 4)
-                .Where(j => j.DtStart > DbFunctions.AddDays(j.DtStart, -200) ).ToList();
-
-            foreach (var svc in jobserviceList)
+            if (statusId != null)
             {
-                if (svc.SupplierItem.Interval != null)
-                {
-                    var startDate = ((DateTime)svc.DtStart).Date;
-                    if (today >= startDate.AddDays((double)svc.SupplierItem.Interval))
-                    {
-                        validPostSales.Add(svc);
-                    }
-                }
+                jobPostSales = jobPostSales.Where(j => j.JobPostSalesStatusId == statusId);
+            }
+            else
+            {
+                jobPostSales = jobPostSales.Where(j => j.JobPostSalesStatusId < 3);
             }
 
-            return View(validPostSales.OrderByDescending(s=>s.DtStart));
+            if (serviceId == null)
+            {
+                serviceId = 0;
+            }
+            if (serviceId != 0)
+            {
+                jobPostSales = jobPostSales.Where(j => j.JobService.ServicesId == serviceId);
+            }
+
+            ViewBag.StatusId = statusId;
+            ViewBag.Services = db.Services.ToList().OrderBy(s => s.Description);
+            return View(jobPostSales.OrderByDescending(s=>s.DtPost).ToList());
         }
 
         // GET: JobPostSales/Details/5
@@ -69,6 +72,7 @@ namespace JobsV1.Controllers
             JobPostSale jobPostSale = new JobPostSale();
             jobPostSale.DoneBy = HttpContext.User.Identity.Name;
             ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobserviceId);
+            ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status");
             return View(jobPostSale);
         }
 
@@ -77,7 +81,7 @@ namespace JobsV1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DtPost,DoneBy,Remarks,JobServicesId")] JobPostSale jobPostSale)
+        public ActionResult Create([Bind(Include = "Id,DtPost,DoneBy,Remarks,JobServicesId, DtDone, JobPostSalesStatusId")] JobPostSale jobPostSale)
         {
             if (ModelState.IsValid && InputValidation(jobPostSale))
             {
@@ -87,6 +91,7 @@ namespace JobsV1.Controllers
             }
 
             ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobPostSale.JobServicesId);
+            ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status", jobPostSale.JobPostSalesStatusId);
             return View(jobPostSale);
         }
 
@@ -103,6 +108,7 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
             ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobPostSale.JobServicesId);
+            ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status", jobPostSale.JobPostSalesStatusId);
             return View(jobPostSale);
         }
 
@@ -111,15 +117,67 @@ namespace JobsV1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DtPost,DoneBy,Remarks,JobServicesId")] JobPostSale jobPostSale)
+        public ActionResult Edit([Bind(Include = "Id,DtPost,DoneBy,Remarks,JobServicesId, DtDone, JobPostSalesStatusId")] JobPostSale jobPostSale)
         {
             if (ModelState.IsValid && InputValidation(jobPostSale))
             {
+                if (jobPostSale.JobPostSalesStatusId > 2)
+                {
+                    jobPostSale.DtDone = dt.GetCurrentDateTime();
+                    jobPostSale.DoneBy = HttpContext.User.Identity.Name;
+                }
+
                 db.Entry(jobPostSale).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobPostSale.JobServicesId);
+            ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status", jobPostSale.JobPostSalesStatusId);
+            return View(jobPostSale);
+        }
+
+
+        // GET: JobPostSales/Edit/5
+        public ActionResult Update(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            JobPostSale jobPostSale = db.JobPostSales.Find(id);
+            if (jobPostSale == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobPostSale.JobServicesId);
+            ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status", jobPostSale.JobPostSalesStatusId);
+            return View(jobPostSale);
+        }
+
+        // POST: JobPostSales/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(int Id,string Remarks, int JobPostSalesStatusId)
+        {
+            var jobPostSale = db.JobPostSales.Find(Id);
+            if (jobPostSale != null)
+            {
+                if (JobPostSalesStatusId > 2)
+                {
+                    jobPostSale.DtDone = dt.GetCurrentDateTime();
+                    jobPostSale.DoneBy = HttpContext.User.Identity.Name;
+                }
+
+                jobPostSale.JobPostSalesStatusId = JobPostSalesStatusId;
+                jobPostSale.Remarks = Remarks;
+                db.Entry(jobPostSale).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobPostSale.JobServicesId);
+            ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status", jobPostSale.JobPostSalesStatusId);
             return View(jobPostSale);
         }
 
@@ -188,7 +246,7 @@ namespace JobsV1.Controllers
         public ActionResult JobsForServicing()
         {
 
-            DateTime today = dateClass.GetCurrentDate().Date;
+            DateTime today = dt.GetCurrentDate().Date;
             var jobserviceList = db.JobServices.Where(j => today >= (DateTime)DbFunctions.AddDays(DbFunctions.TruncateTime(j.DtStart), j.SupplierItem.Interval));
 
             return View(jobserviceList);

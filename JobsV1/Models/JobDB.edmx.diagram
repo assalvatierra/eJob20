@@ -285,6 +285,8 @@
         <AssociationConnector Association="JobDB.InvItemCommiInvItem" />
         <EntityTypeShape EntityType="JobDB.JobPaymentType" Width="1.5" PointX="18.875" PointY="27" />
         <AssociationConnector Association="JobDB.JobPaymentTypeJobPayment" />
+        <EntityTypeShape EntityType="JobDB.JobPostSalesStatus" Width="1.5" PointX="29.75" PointY="7.125" />
+        <AssociationConnector Association="JobDB.JobPostSalesStatusJobPostSale" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

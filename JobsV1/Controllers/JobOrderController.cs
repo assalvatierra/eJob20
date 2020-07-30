@@ -1231,8 +1231,7 @@ order by x.jobid
                     //add job post record when job is closed(4 = CLOSED)
                     if (jobMain.JobStatusId == 4)
                     {
-                        CreateJobPostSalesRecord(jobMain.Id);
-                       
+                       var record = CreateJobPostSalesRecord(jobMain.Id);
                     }
 
                     return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
@@ -1980,7 +1979,7 @@ order by x.jobid
             ViewBag.JobOrder = Job;
             ViewBag.JobItems = jobServices;
             ViewBag.Providers = providers;
-            ViewBag.JobStatus = Job.JobStatus.Status;
+            ViewBag.JobStatus =   Job.JobStatus.Status;
             ViewBag.Itineraries = db.JobItineraries.Where(d => d.JobMainId == JobMainId).ToList();
             ViewBag.sortid = sortid;
             ViewBag.jobAction = action;
@@ -2643,8 +2642,27 @@ order by x.jobid
             //job trail
             trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CONFIRMED", id.ToString());
 
+            var postSaleRecord = CreateJobPostSalesRecord((int)id);
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
+
+
+        public ActionResult CloseJobStatusFromList(int? id)
+        {
+            var Job = db.JobMains.Find(id);
+            Job.JobStatusId = 4;
+            db.Entry(Job).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //job trail
+            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CONFIRMED", id.ToString());
+
+            var postSaleRecord = CreateJobPostSalesRecord((int)id);
+
+            return RedirectToAction("Index", "JobOrder", new { mainid = id });
+        }
+
+
 
 
         public ActionResult ConfirmJobStatus(int? id)
@@ -2710,7 +2728,7 @@ order by x.jobid
                 //job trail
                 trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CLOSED", id.ToString());
 
-                CreateJobPostSalesRecord(id);
+                var postSaleRecord = CreateJobPostSalesRecord(id);
                 return "OK";
                 //return "Error";
             }
@@ -3523,6 +3541,7 @@ order by x.jobid
         #endregion
 
         #region Job Post Sales
+        [HttpPost]
         public bool CreateJobPostSalesRecord(int jobMainId)
         {
             var jobServiceList = db.JobServices.Where(j=>j.JobMainId == jobMainId).ToList();
@@ -3532,11 +3551,13 @@ order by x.jobid
                 var AddResult = false;
                 foreach (var service in jobServiceList)
                 {
-                    AddResult = AddJobPostSales(service.Id);
-
-                    if (AddResult == false)
+                    if (!IsJobPostSalesExist(service.Id))
                     {
-                        return AddResult;
+                       var res = AddJobPostSales(service.Id);
+                        if (res)
+                        {
+                            AddResult = true;
+                        }
                     }
                 }
 
@@ -3551,25 +3572,46 @@ order by x.jobid
             {
                 var User = HttpContext.User.Identity.Name;
                 var jobServices = db.JobServices.Find(jobServiceId);
-                var PostSalesInterval = jobServices.SupplierItem.Interval == null ? 60 : (int)jobServices.SupplierItem.Interval;
-                var PostSalesDate = ((DateTime)jobServices.DtStart).AddDays(PostSalesInterval);
-
-                JobPostSale postSale = new JobPostSale()
+                var PostSalesInterval = jobServices.SupplierItem.Interval == null ? 0 : (int)jobServices.SupplierItem.Interval;
+                if (PostSalesInterval > 0)
                 {
-                    DtPost = PostSalesDate,
-                    DoneBy = User,
-                    JobServicesId = jobServiceId,
-                    Remarks = ""
-                };
 
-                db.JobPostSales.Add(postSale);
-                db.SaveChanges();
-                return true;
+                    var PostSalesDate = ((DateTime)jobServices.DtStart).AddDays(PostSalesInterval);
+
+                    JobPostSale postSale = new JobPostSale()
+                    {
+                        DtPost = PostSalesDate,
+                        DoneBy = "NA",
+                        JobServicesId = jobServiceId,
+                        Remarks = "",
+                        JobPostSalesStatusId = 1,
+                        DtDone = null
+                    };
+
+                    db.JobPostSales.Add(postSale);
+                    db.SaveChanges();
+
+                    return true;
+                }
+
+                return false;
             }
             catch
             {
                 return false;
             }
+        }
+
+        public bool IsJobPostSalesExist(int jobServiceId)
+        {
+            var jsPostSalesQuery = db.JobPostSales.Where(j => j.JobServicesId == jobServiceId);
+
+            if (jsPostSalesQuery.FirstOrDefault() != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

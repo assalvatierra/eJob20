@@ -2025,6 +2025,9 @@
     <Content Include="Areas\Personel\Views\CrRptUnits\Index.cshtml" />
     <Content Include="Areas\Personel\Views\Shared\_PrintLayout.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\UpdateTripLogOdo.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_DriverPaymentModal.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_DriverCAModal.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\EditCashTrx.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2823,6 +2826,7 @@
     <Content Include="Views\Shared\_PrintLayout.cshtml" />
     <Content Include="Views\Shared\_MonitorLayout.cshtml" />
     <Content Include="Views\RptGmsAuto\ReferralReport.cshtml" />
+    <Content Include="Views\JobPostSales\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
