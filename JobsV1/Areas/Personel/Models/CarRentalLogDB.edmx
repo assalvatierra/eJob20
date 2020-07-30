@@ -549,6 +549,11 @@
             <End Role="crLogPaymentType" EntitySet="crLogPaymentTypes" />
             <End Role="crLogFuel" EntitySet="crLogFuels" />
           </AssociationSet>
+          <EntitySet Name="crLogCashTypes" EntityType="CarRentalLogDB.crLogCashType" />
+          <AssociationSet Name="crLogCashTypecrLogCashRelease" Association="CarRentalLogDB.crLogCashTypecrLogCashRelease">
+            <End Role="crLogCashType" EntitySet="crLogCashTypes" />
+            <End Role="crLogCashRelease" EntitySet="crLogCashReleases" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -655,6 +660,8 @@
           <NavigationProperty Name="crLogClosing" Relationship="CarRentalLogDB.crLogClosingcrLogCashRelease" FromRole="crLogCashRelease" ToRole="crLogClosing" />
           <Property Name="crLogClosingId" Type="Int32" Nullable="true" />
           <NavigationProperty Name="crLogCashStatus" Relationship="CarRentalLogDB.crLogCashReleasecrLogCashStatus" FromRole="crLogCashRelease" ToRole="crLogCashStatus" />
+          <NavigationProperty Name="crLogCashType" Relationship="CarRentalLogDB.crLogCashTypecrLogCashRelease" FromRole="crLogCashRelease" ToRole="crLogCashType" />
+          <Property Name="crLogCashTypeId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="crLogDrivercrLogCashRelease">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -946,6 +953,27 @@
             </Principal>
             <Dependent Role="crLogFuel">
               <PropertyRef Name="crLogPaymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="crLogCashType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" />
+          <Property Name="Description" Type="String" Nullable="true" MaxLength="30" />
+          <NavigationProperty Name="crLogCashReleases" Relationship="CarRentalLogDB.crLogCashTypecrLogCashRelease" FromRole="crLogCashType" ToRole="crLogCashRelease" />
+        </EntityType>
+        <Association Name="crLogCashTypecrLogCashRelease">
+          <End Type="CarRentalLogDB.crLogCashType" Role="crLogCashType" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogCashRelease" Role="crLogCashRelease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogCashType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogCashRelease">
+              <PropertyRef Name="crLogCashTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

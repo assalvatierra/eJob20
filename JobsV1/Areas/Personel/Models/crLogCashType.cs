@@ -12,26 +12,19 @@ namespace JobsV1.Areas.Personel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class crLogCashRelease
+    public partial class crLogCashType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public crLogCashRelease()
+        public crLogCashType()
         {
-            this.crLogCashStatus = new HashSet<crLogCashStatus>();
+            this.crLogCashReleases = new HashSet<crLogCashRelease>();
         }
     
         public int Id { get; set; }
-        public System.DateTime DtRelease { get; set; }
-        public decimal Amount { get; set; }
-        public string Remarks { get; set; }
-        public int crLogDriverId { get; set; }
-        public Nullable<int> crLogClosingId { get; set; }
-        public int crLogCashTypeId { get; set; }
+        public string Code { get; set; }
+        public string Description { get; set; }
     
-        public virtual crLogDriver crLogDriver { get; set; }
-        public virtual crLogClosing crLogClosing { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crLogCashStatus> crLogCashStatus { get; set; }
-        public virtual crLogCashType crLogCashType { get; set; }
+        public virtual ICollection<crLogCashRelease> crLogCashReleases { get; set; }
     }
 }

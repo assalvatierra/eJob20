@@ -392,6 +392,9 @@
     <Compile Include="Areas\Personel\Models\crLogCashStatus.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\crLogCashType.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\crLogClosing.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
