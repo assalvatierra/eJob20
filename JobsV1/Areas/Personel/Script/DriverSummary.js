@@ -28,7 +28,6 @@ function CalculateTotalSalary() {
         DriverId: driverId,
         TripIds: [],
         Remarks: ""
-
     }
 
     //run through each row
@@ -80,6 +79,63 @@ function SubmitSalaryRequestForm() {
         console.log(result);
         if (result == 'True') {
             window.location.href = "../DriverSummary?id=" + logReqData.DriverId + "&reqStatus=1";
+        } else {
+            alert("An error occured while processing your request");
+        }
+    })
+
+}
+
+function CreatePaymentRequest() {
+        $("#Payment-Amount").val(0);
+
+        //show modal
+        $("#DriverPaymentModal").modal("show");
+}
+
+
+function SubmitPaymentForm(driverId) {
+    var data = {
+        DriverId: driverId,
+        Amount: parseFloat($("#Payment-Amount").val()),
+        Remarks: $("#Payment-Remarks").val()
+    }
+    //logReqData.Remarks = $("#ReqForm-Remarks").val();
+    console.log(data);
+
+    $.post("/Personel/CarRentalCashRelease/CreateDriverPayment", data, (result) => {
+        console.log(result);
+        if (result == 'True') {
+            window.location.href = "/Personel/CarRentalLog/DriverSummary?id=" + data.DriverId ;
+        } else {
+            alert("An error occured while processing your request");
+        }
+    })
+
+}
+
+
+function CreateCARequest() {
+    $("#CA-Amount").val(0);
+
+    //show modal
+    $("#DriverCAModal").modal("show");
+}
+
+
+function SubmitCAForm(driverId) {
+    var data = {
+        DriverId: driverId,
+        Amount: parseFloat($("#CA-Amount").val()),
+        Remarks: $("#CA-Remarks").val()
+    }
+    //logReqData.Remarks = $("#ReqForm-Remarks").val();
+    console.log(data);
+
+    $.post("/Personel/CarRentalCashRelease/CreateDriverCA", data, (result) => {
+        console.log(result);
+        if (result == 'True') {
+            window.location.href = "/Personel/CarRentalLog/DriverSummary?id=" + data.DriverId + "&reqStatus=2";
         } else {
             alert("An error occured while processing your request");
         }

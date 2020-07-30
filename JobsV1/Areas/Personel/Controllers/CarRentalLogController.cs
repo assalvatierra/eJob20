@@ -334,19 +334,64 @@ namespace JobsV1.Areas.Personel.Controllers
             return RedirectToAction("Index");
         }
 
+
+        // GET: Personel/CarRentalCashRelease/Edit/5
+        public ActionResult EditCashTrx(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogCashRelease crLogCashRelease = db.crLogCashReleases.Find(id);
+            if (crLogCashRelease == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
+            ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
+            ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
+            return View(crLogCashRelease);
+        }
+
+        // POST: Personel/CarRentalCashRelease/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCashTrx([Bind(Include = "Id,DtRelease,Amount,Remarks,crLogDriverId,crLogClosingId,crLogCashTypeId")] crLogCashRelease crLogCashRelease)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(crLogCashRelease).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("DriverSummary", new { id = crLogCashRelease.crLogDriverId });
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogCashRelease.crLogDriverId);
+            ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogCashRelease.crLogClosingId);
+            ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
+            return View(crLogCashRelease);
+        }
+
         public ActionResult DriverSummary(int id, int? reqStatus)
         {
             crLogDriver driver = db.crLogDrivers.Find(id);
             List<crLogTrip> trips = db.crLogTrips.Where(d => d.crLogDriverId == id && d.crLogClosingId==null).OrderBy(s=>s.DtTrip).ToList();
-            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosingId == null).OrderBy(s=>s.DtRelease).ToList();
+            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogCashTypeId == 2).OrderBy(s=>s.DtRelease).ToList();
+            List<crLogCashRelease> payments = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogCashTypeId == 3).OrderBy(s => s.DtRelease).ToList();
+            List<crLogCashRelease> noStatus = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 1).OrderBy(s => s.DtRelease).ToList();
+
 
             crDriverSummary driversummary = new crDriverSummary();
             driversummary.Driver = driver;
             driversummary.DriverTrips = trips;
             driversummary.DriverCash = cashtrx;
+            driversummary.DriverPayments = payments;
+            driversummary.NoStatus = noStatus;
 
+            ViewBag.DriverId = id;
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
             ViewBag.reqStatus = reqStatus ?? 0;
+            ViewBag.IsAdmin = User.IsInRole("Admin");
             return View(driversummary);
         }
 

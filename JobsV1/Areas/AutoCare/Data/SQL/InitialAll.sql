@@ -359,3 +359,7 @@ insert into JobPaymentStatus([Status]) values
 
 insert into JobPaymentTypes([Type]) values 
 ('Cash'),('Bank'),('Others'),('Discount');
+
+---- JOB POST SALES --------------
+insert into JobPostSalesStatus([Status]) values 
+('For Follow-up'),('Ongoing'),('Closed'),('Rejected');

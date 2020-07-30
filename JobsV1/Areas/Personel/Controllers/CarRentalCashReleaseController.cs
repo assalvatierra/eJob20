@@ -245,7 +245,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crtrx.crLogClosingId = GenerateClosingId();
                 crtrx.Amount = releaseRequest.Amount;
                 crtrx.Remarks = releaseRequest.Remarks;
-                crtrx.crLogCashTypeId = releaseRequest.CashTypeId;
+                crtrx.crLogCashTypeId = 1; //salary
 
                 db.crLogCashReleases.Add(crtrx);
                 db.SaveChanges();
@@ -268,6 +268,70 @@ namespace JobsV1.Areas.Personel.Controllers
                 return false;
             }
         }
+
+
+
+        // POST: Personel/CarRentalCashRelease/CreateDriverRelease
+        [HttpPost]
+        public bool CreateDriverPayment(int DriverId, decimal Amount, string Remarks)
+        {
+            try
+            {
+                crLogCashRelease crtrx = new crLogCashRelease();
+                crtrx.DtRelease = dt.GetCurrentDateTime();
+                crtrx.crLogDriverId = DriverId;
+                crtrx.Amount = Amount;
+                crtrx.Remarks = Remarks;
+                crtrx.crLogCashTypeId = 3; //payment
+                
+
+                db.crLogCashReleases.Add(crtrx);
+                db.SaveChanges();
+
+                //add status
+                AddLogStatus(crtrx.Id, 3);
+
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
+
+        // POST: Personel/CarRentalCashRelease/CreateDriverRelease
+        [HttpPost]
+        public bool CreateDriverCA(int DriverId, decimal Amount, string Remarks)
+        {
+            try
+            {
+
+                crLogCashRelease crtrx = new crLogCashRelease();
+                crtrx.DtRelease = dt.GetCurrentDateTime();
+                crtrx.crLogDriverId = DriverId;
+                crtrx.Amount = Amount;
+                crtrx.Remarks = Remarks;
+                crtrx.crLogCashTypeId = 2; //CA
+
+                db.crLogCashReleases.Add(crtrx);
+                db.SaveChanges();
+
+                //add status
+                AddLogStatus(crtrx.Id, 1);
+
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         //Generate Closing Id
         private int GenerateClosingId()

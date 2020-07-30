@@ -95,11 +95,12 @@
                 }
                 @if (IsAdmin)
                 {
-                    <span>
-                        | @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) 
-                    </span>
+            <span>
+                |
+                @Html.ActionLink("Drivers Summary", "DriverSummary", "CarRentalLog",new { id = item.crLogDriverId }, null) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </span>
                 }
 
             </td>

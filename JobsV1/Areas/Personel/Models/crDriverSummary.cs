@@ -10,6 +10,8 @@ namespace JobsV1.Areas.Personel.Models
         public crLogDriver Driver;
         public List<crLogTrip> DriverTrips;
         public List<crLogCashRelease> DriverCash;
+        public List<crLogCashRelease> DriverPayments;
+        public List<crLogCashRelease> NoStatus;
 
         public crDriverSummary()
         {
