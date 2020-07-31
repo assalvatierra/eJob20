@@ -90,19 +90,14 @@ function InitReturnLogModal(id) {
 }
 
 function SubmitReturnLog() {
-
-    var isFullTank = false;
-    if ($("#return-isFullTank").val() == "on") {
-        isFullTank = true;
-    }
-
+   
     var data = {
         id: $("#return-LogFuelId").val(),
         date: $("#return-Date").val(),
         odo: $("#return-Odo").val(),
         amount: parseFloat($("#return-Amount").val()),
         remarks: $("#return-Remarks").val(),
-        isFullTank: isFullTank,
+        isFullTank: $("#return-isFullTank").prop('checked'),
         paymentTypeId: $("#return-PaymentType").val()
     }
 

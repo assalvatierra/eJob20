@@ -253,7 +253,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks")] crLogTrip crLogTrip)
+        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -293,7 +293,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks")] crLogTrip crLogTrip)
+        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -307,6 +307,7 @@ namespace JobsV1.Areas.Personel.Controllers
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
             return View(crLogTrip);
         }
+
 
         // GET: Personel/CarRentalLog/Delete/5
         public ActionResult Delete(int? id)
@@ -371,6 +372,52 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogCashTypeId = new SelectList(db.crLogCashTypes, "Id", "Description", crLogCashRelease.crLogCashTypeId);
             return View(crLogCashRelease);
         }
+
+
+        // GET: Personel/CarRentalLog/Edit/5
+        public ActionResult EditOdo(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+            if (crLogTrip == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(crLogTrip);
+        }
+
+        // POST: Personel/CarRentalLog/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditOdo(int? id, int? OdoStart, int? OdoEnd)
+        {
+            if (id != null )
+            {
+
+                crLogTrip crLogTrip = db.crLogTrips.Find(id);
+
+                if (crLogTrip == null)
+                    return HttpNotFound();
+                
+                //update odo values
+                crLogTrip.OdoStart = OdoStart;
+                crLogTrip.OdoEnd = OdoEnd;
+
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+           
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
+        }
+
 
         public ActionResult DriverSummary(int id, int? reqStatus)
         {
