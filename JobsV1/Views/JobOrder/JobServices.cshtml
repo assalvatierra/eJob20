@@ -22,7 +22,6 @@
             </div>
 
             <div class="modal-body" id="modal2-content">
-
                 @foreach (var item in providers)
                 {
                     if ((string)item == "Provider not defined.")
@@ -166,7 +165,7 @@
                 Particulars
             </th>
             <th>
-                Supplier Items
+                Items
             </th>
             <th>
                 Supplier
@@ -193,29 +192,45 @@
 
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Particulars)
-                    <br />[Quote: @Html.DisplayFor(modelItem => item.QuotedAmt)]
-                    <br />[Supplier: @Html.DisplayFor(modelItem => item.SupplierAmt)]
-                    <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+                    @if (siteconfig == "AutoCare")
+                    {
 
+                        <span>
+                            @Html.DisplayFor(modelItem => item.Particulars)
+                            <br />[Amount: @Html.DisplayFor(modelItem => item.ActualAmt)]
+                            <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+                        </span>
+                    }
+                    else
+                    {  
+                        <span>
+                            @Html.DisplayFor(modelItem => item.Particulars)
+                            <br />[Quote: @Html.DisplayFor(modelItem => item.ActualAmt)]
+                            <br />[Supplier: @Html.DisplayFor(modelItem => item.SupplierAmt)]
+                            <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+                        </span>
+                    }
+                  
                     @if (siteconfig == "AutoCare" && item.Service.Name.Contains("Change Oil"))
                     {
-                      <br />
-                    <span> 
-                    [
-                        @{Html.RenderAction("GetVehicleOilRemarks");}
-                    ]</span>
+                        <br />
+                        <span>
+                            [
+                            @{Html.RenderAction("GetVehicleOilRemarks");}
+                            ]
+                        </span>
                     }
 
                 </td>
-                <td width="190">
+                <td width="280">
                     @foreach (var svc in item.JobServiceItems)
                     {
                         if (siteconfig == "AutoCare")
                         {
-                            @Html.ActionLink(" [x] ", "JsRemoveItem", new { ItemId = svc.InvItemId, serviceId = item.Id })
-                            @Html.DisplayFor(modelItem => svc.InvItem.Description)
-
+                            <span>
+                                @Html.ActionLink(" [x] ", "JsRemoveItem", new { ItemId = svc.InvItemId, serviceId = item.Id })
+                                @Html.DisplayFor(modelItem => svc.InvItem.Description) ( @Html.DisplayFor(modelItem => svc.InvItem.ItemCode) )
+                            </span>
                             <br />
                         }
 
@@ -235,8 +250,21 @@
                     @Html.ActionLink("Add Item", "BrowseInvItem_withScheduleJS", new { JobServiceId = item.Id })
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Supplier.Name)
-                    <br />[ Make/Model: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
+                    @if (siteconfig == "AutoCare")
+                    {
+                    <span>
+                        @Html.DisplayFor(modelItem => item.Supplier.Name)
+                        <br />[Service:  @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
+                    </span>
+                    }
+                    else
+                    {
+                    <span>
+                        @Html.DisplayFor(modelItem => item.Supplier.Name)
+                        <br />[ Make/Model: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
+                    </span>
+                    }
+                  
                 </td>
                 <td>
                     @if (siteconfig == "Realwheels")

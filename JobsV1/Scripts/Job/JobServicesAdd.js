@@ -23,8 +23,8 @@ $(function () {
         }
     });
 
-    $("#js-Amount").bind("focus blur", function () {
-        $("#js-Amount").select();
-    });
+    //$("#js-Amount").bind("focus blur", function () {
+    //    $("#js-Amount").select();
+    //});
 });
 

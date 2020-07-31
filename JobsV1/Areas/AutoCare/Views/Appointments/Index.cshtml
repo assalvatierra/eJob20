@@ -13,25 +13,19 @@
 </p>
 <table class="table">
     <tr>
-        <th  style="min-width:60px;">
+        <th style="min-width:60px;">
             Date
         </th>
-        <th  style="min-width:80px;">
+        <th style="min-width:120px;">
             Slot
         </th>
-        <th  style="min-width:80px;">
+        <th style="min-width:150px;">
             @Html.DisplayNameFor(model => model.Customer)
         </th>
-        <th  style="min-width:120px;">
+        <th style="min-width:120px;">
             @Html.DisplayNameFor(model => model.Contact)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CustCode)
-        </th>
-        <th  style="min-width:80px;">
-            @Html.DisplayNameFor(model => model.Plate)
-        </th>
-        <th>
+        <th style="min-width:120px;">
             Vehicle
         </th>
         <th>
@@ -41,56 +35,56 @@
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AppointmentStatu.Status)
+            Account
         </th>
         <th>
-            Account 
+            @Html.DisplayNameFor(model => model.AppointmentStatu.Status)
         </th>
+        <th> Status Update </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
 
-    <tr>
-        <td>
-            @DateTime.Parse(item.AppointmentDate).ToString("MMM dd yyyy")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppointmentSlot.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Customer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Contact)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Plate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Unit)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppointmentRequest.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppointmentStatu.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AppointmentAcctType.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @DateTime.Parse(item.AppointmentDate).ToString("MMM dd yyyy")
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AppointmentSlot.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Customer)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Contact)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Unit) <br />
+        @Html.DisplayFor(modelItem => item.Plate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AppointmentRequest.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Remarks)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AppointmentAcctType.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AppointmentStatu.Status)
+    </td>
+    <td>
+        @Html.ActionLink("Accepted", "UpdateStatus", new { id = item.Id, statusId = 2 }) |
+        @Html.ActionLink("Cancelled", "UpdateStatus", new { id = item.Id, statusId = 3 }) 
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
 }
 
 </table>

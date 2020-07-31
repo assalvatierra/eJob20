@@ -4,21 +4,21 @@
     var Schedule = ViewBag.Schedules as JobsV1.Models.Class.ApmntSchedule;
 }
 
-<div id="ApmntFormDate" >
-    <h2>Select Appointment Date</h2>
+<div id="ApmntFormDate" style="display:none;">
     <div class="panel appointment-panel" style="min-width:920px;" >
         <div class="panel-body">
+            <h2>Select Appointment Date</h2>
 
             <table class="table table-bordered">
 
                 <thead>
                     <tr>
-                        <th  style="min-width:120px;">
-                           Appointment Slot
+                        <th style="min-width:120px;">
+                            Appointment Slot
                         </th>
                         @foreach (var apHeader in Schedule.dateLabels)
                         {
-                            <th  style="min-width:80px;">
+                            <th style="min-width:80px;">
                                 @apHeader.DateMonth  @apHeader.Day<br />
                                 @apHeader.DateDay
 
@@ -45,7 +45,7 @@
                                 }
                                 else
                                 {
-                                    <td class="appointment-cell" onclick="SelectSchedule(@item.slot.Id, '@schedule.date' )">
+                                    <td class="appointment-cell" onclick="SelectSchedule(@item.slot.Id, '@item.slot.Description','@schedule.date' )">
                                         @schedule.date.ToString("dd")
                                     </td>
                                 }

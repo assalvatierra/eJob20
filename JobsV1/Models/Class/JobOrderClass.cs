@@ -489,7 +489,8 @@ order by x.jobid
                 vehicleString += vehicle.VehicleModel.VehicleBrand.Brand + " ";
                 vehicleString += vehicle.VehicleModel.Make + " ";
                 vehicleString += vehicle.VehicleModel.Variant;
-                vehicleString += " ( "+ vehicle.YearModel + " ) ";
+                vehicleString += " "+ vehicle.YearModel;
+                vehicleString += " ( " + vehicle.PlateNo + " ) ";
 
                 return vehicleString;
             }

@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using PayPal.Api;
 using System.Configuration;
 using Microsoft.Ajax.Utilities;
+using System.Globalization;
 
 namespace JobsV1.Controllers
 {
@@ -1638,7 +1639,7 @@ order by x.jobid
 
 
 
-                jobServices.DtEnd = ((DateTime)jobServices.DtEnd).Add(new TimeSpan(23, 59, 59));
+                //jobServices.DtEnd = ((DateTime)jobServices.DtEnd).Add(new TimeSpan(23, 59, 59));
                 db.JobServices.Add(jobServices);
                 db.SaveChanges();
 
@@ -1680,7 +1681,6 @@ order by x.jobid
                 return HttpNotFound();
             }
 
-
             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
             var SuppliersActive = db.Suppliers.Where(s => s.Status != "INC").ToList();
 
@@ -1703,7 +1703,7 @@ order by x.jobid
         {
             if (ModelState.IsValid)
             {
-                jobServices.DtEnd = ((DateTime)jobServices.DtEnd).Add(new TimeSpan(23, 59, 59));
+                //jobServices.DtEnd = ((DateTime)jobServices.DtEnd).Add(new TimeSpan(23, 59, 59));
                 db.Entry(jobServices).State = EntityState.Modified;
 
                 DateTime dtSvc = (DateTime)jobServices.DtStart;
@@ -3642,27 +3642,47 @@ order by x.jobid
                 _tempjobMonitor.Jobdate = TempJobDate(jobMainDetails.Id);
                 _tempjobMonitor.Services = new List<string>();
                 _tempjobMonitor.AssignedItems = new List<string>();
+                _tempjobMonitor.AssignedBay = "No Assigned Bay";
 
                 foreach (var svc in job)
                 {
                     var svcItems = svc.JobServiceItems.ToList();
                     var service = svc.Particulars + " ( " + svc.Service.Name + " ) ";
+                    var bayTime = new TimeSpan();
+
                     _tempjobMonitor.Services.Add(service);
+                    _tempjobMonitor.StartDate = (DateTime)svc.DtStart;
+                    _tempjobMonitor.EndDate = (DateTime)svc.DtEnd;
+
+                    //assign expted time done
+                    var timeDiff = _tempjobMonitor.EndDate - today;
+                    if (timeDiff.TotalMinutes <= 0)
+                    {
+                        timeDiff = new TimeSpan(0);
+                    }
+                    _tempjobMonitor.ExpectedTimeDone = timeDiff;
 
                     foreach (var item in svcItems)
                     {
+
                         //find bay category of item 
                         if (bayCategoryIds.Contains(item.InvItemId))
                         {
+                            var bayDateTime = new DateTime();
                             //assign job to bay
                             _tempjobMonitor.AssignedBay = item.InvItem.Description;
                             _tempjobMonitor.OrderNo = item.InvItem.OrderNo ?? 999;
+
                         }
                         else
                         {
                             _tempjobMonitor.AssignedItems.Add(item.InvItem.Description);
                         }
+
+                       
                     }
+
+
                 }
 
                 jobList.Add(_tempjobMonitor);

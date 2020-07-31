@@ -18,6 +18,7 @@ namespace JobsV1.Controllers
         private JobOrderClass jo = new JobOrderClass();
         private DateClass dt = new DateClass();
         private RptGmsAutoClass rpt = new RptGmsAutoClass();
+        private SysAccessLayer dal = new SysAccessLayer();
 
         // GET: RptGmsAuto
         public ActionResult Index()
@@ -61,6 +62,7 @@ namespace JobsV1.Controllers
             ViewBag.StartJobDate = jo.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
             ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
             ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
+            ViewBag.CompanyLogo = dal.getSysSetting("ICON");
 
 
             return View(jobmain);
@@ -95,6 +97,7 @@ namespace JobsV1.Controllers
             ViewBag.StartJobDate = jo.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
             ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
             ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
+            ViewBag.CompanyLogo = dal.getSysSetting("ICON");
 
 
             return View(jobmain);

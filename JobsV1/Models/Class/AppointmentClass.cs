@@ -46,7 +46,7 @@ namespace JobsV1.Models.Class
             ApmntSchedule apSchedules = new ApmntSchedule();
             List<ApmntItemSchedule> rsvdSchedule = new List<ApmntItemSchedule>();
 
-            var today = dateClass.GetCurrentDate();
+            var today = dateClass.GetCurrentDate().AddDays(1);
             var dateInverval = 7;
 
             var appointmentList = db.Appointments.Where(a => a.AppointmentStatusId < 3).ToList();
@@ -105,7 +105,7 @@ namespace JobsV1.Models.Class
         public List<ApmntDateLabel> GetApmntDateLabel()
         {
             List<ApmntDateLabel> dateLabels = new List<ApmntDateLabel>();
-            var today = dateClass.GetCurrentDate();
+            var today = dateClass.GetCurrentDate().AddDays(1);
             var dateInverval = 7;
 
             for (var i = 0; i <= dateInverval; i++ )

@@ -247,6 +247,33 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             return null;
         }
+
+
+        public ActionResult UpdateStatus(int? id, int statusId)
+        {
+            try
+            {
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Appointment appointment = db.Appointments.Find(id);
+                if (appointment == null)
+                {
+                    return HttpNotFound();
+                }
+                appointment.AppointmentStatusId = statusId;
+                db.Entry(appointment).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
     }
 
     public class cAppointmentDetails

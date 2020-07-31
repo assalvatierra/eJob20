@@ -3,34 +3,102 @@
 @{
     ViewBag.Title = "Appointment";
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
+
+    var logoSrc = (String)ViewBag.CompanyLogo;
+
+    var slotDesc = (String)ViewBag.Slot;
+    var slotId = ViewBag.SlotId;
+    var dateString = (String)ViewBag.DateString;
+
 }
 
 <style>
+    body {
+        background-image: url('/Images/AutoCare/Appointment-bg-2.jpg');
+        background-repeat: no-repeat, repeat;
+        background-size: cover;
+    }
+
+    h1 {
+        text-shadow: 1px 1px 3px white;
+    }
+
+    .text-shadow {
+        text-shadow: 1px 1px 3px white;
+        font-weight: bold;
+        font-size: 15px;
+        margin-bottom: 0px;
+    }
+
+
+    .company-details {
+        margin-top: -25px;
+    }
+
+
+    .company-logo {
+        margin-bottom: 25px;
+    }
+
     .control-lable {
         text-align: left;
     }
+
+    .appointment-occupied{
+        cursor:not-allowed;
+    }
 </style>
 
-@Html.Partial("AppSchedules", null, new ViewDataDictionary { { "Schedules", ViewBag.Schedules } })
+<div class="row">
+    <div class="col-lg-12">
+        <img src="@logoSrc" width="270" height="105" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 company-logo" />
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12  company-details">
+            <h1> GMS Autocare Center - Online Appointment </h1>
+            <p class="text-shadow"> Address : Purok 26-A Caimito Bypass Rd., Riverside Maa Davao City </p>
+            <p class="text-shadow"> Tel : 082-228-5825 Smart: 0908-771-9928 Globe: 0956-900-6125   </p>
+            <p class="text-shadow"> Email: info@gmsautocare.com , GMSautocaredavao@gmail.com </p>
+        </div>
+    </div>
+</div>
 
 <br />
-<div class="panel" style="width:500px;display:flex;margin:auto;display:none;" id="ApmntFormDetails">
-    <div class="panel-body" style="width:560px;">
+<div class="panel" style="max-width:550px;display:flex;margin:auto;display:none;" id="ApmntFormDetails">
+    <div class="panel-body" style="max-width:550px;padding-left:50px;">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
 
-            <h2 style="text-align:center;margin-left:-20px;">Appointment Details</h2>
-            <hr />
+            <div class="form-horizontal">
+                <h2 style="text-align: center;">Appointment Details</h2>
+                <hr />
+            </div>
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group" hidden>
                     @Html.LabelFor(model => model.DtEntered, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.DtEntered, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DisplayFor(model => model.DtEntered, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.DtEntered, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DtEntered, "Date", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        <h4 id="date-display">  </h4>
+                        @Html.ValidationMessageFor(model => model.DtEntered, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DtEntered, "Slot", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        <h4 id="slot-display"> </h4>
+                        @Html.ValidationMessageFor(model => model.DtEntered, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
 
                 <div class="form-group" hidden>
                     @Html.LabelFor(model => model.AppointmentDate, "Date", htmlAttributes: new { @class = "control-label col-md-3" })
@@ -54,6 +122,14 @@
                     <div class="col-md-9">
                         @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                         @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CustCode, "Customer Code", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.CustCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "10" } })
+                        <p style="padding:0px;margin:0px;font-size:9px;" class="text-muted"> ( Optional ) </p>
                     </div>
                 </div>
 
@@ -82,27 +158,20 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CustCode, "Customer Code", htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.CustCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "10" } })
-                        @Html.ValidationMessageFor(model => model.CustCode, "", new { @class = "text-danger" })
-                    </div>
-                </div>
 
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Conduction, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
                         @Html.EditorFor(model => model.Conduction, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
-                        @Html.ValidationMessageFor(model => model.Conduction, "", new { @class = "text-danger" })
+                        <p style="padding:0px;margin:0px;font-size:9px;" class="text-muted"> ( Optional ) </p>
                     </div>
                 </div>
 
                 <div class="form-group" hidden>
                     @Html.LabelFor(model => model.Request, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.Request, new { htmlAttributes = new { @class = "form-control" , @maxlength = "80" } })
+                        @Html.EditorFor(model => model.Request, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                         @Html.ValidationMessageFor(model => model.Request, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -120,6 +189,7 @@
                     <div class="col-md-9">
                         @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
                         @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                        <p style="padding:0px;margin:0px;font-size:9px;" class="text-muted"> ( Optional ) </p>
                     </div>
                 </div>
 
@@ -131,9 +201,9 @@
                     </div>
                 </div>
 
-
                 <div class="form-group">
-                    <div class="col-md-offset-8 col-md-3" style="padding-left:5px;">
+                    <div class="col-lg-offset-6 col-md-offset-6 col-sm-offset-5 col-xs-offset-2  col-lg-5 col-md-5 col-sm-6 col-xs-6" style="padding-left:15px;">
+                        <a href="/Appointment" class="btn btn-default"> Go Back </a>
                         <input type="submit" value="Submit" class="btn btn-primary" style="background-color:dodgerblue;" />
                     </div>
                 </div>
@@ -143,25 +213,35 @@
 </div>
 
 
+@Html.Partial("AppSchedules", null, new ViewDataDictionary { { "Schedules", ViewBag.Schedules } })
+
+
 @section Scripts{
     <script src="~/Areas/AutoCare/Scipts/Appointments/AppointmentDate.js"></script>
 
     <script>
-
         $(document).ready(function () {
             if ('@ViewBag.IsNotValid' == 'True') {
                 $("#ApmntFormDate").hide();
                 $("#ApmntFormDetails").show();
+
+                $('#date-display').text('@dateString');
+                $('#slot-display').text('@slotDesc');
+            } else {
+                $("#ApmntFormDate").show();
+                $("#ApmntFormDetails").hide();
             }
         });
 
 
-        function SelectSchedule(slotId, date) {
-            console.log("slotId : " + slotId);
-            console.log("date : " + date);
+        function SelectSchedule(slotId, slot, date) {
+            //console.log("slotId : " + slotId);
+            //console.log("date : " + date);
 
             $("#AppointmentSlotId").val(slotId)
             $('input[name="AppointmentDate"').val(moment(date).format("MM/DD/YYYY"))
+            $('#date-display').text(moment(date).format("MMM DD YYYY"))
+            $('#slot-display').text(slot)
 
             $("#ApmntFormDate").hide();
             $("#ApmntFormDetails").show();

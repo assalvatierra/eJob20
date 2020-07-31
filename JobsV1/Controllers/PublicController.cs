@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models.Class;
+using System.Net;
+using JobsV1.Models;
 
 namespace JobsV1.Controllers
 {
@@ -14,6 +16,8 @@ namespace JobsV1.Controllers
     {
         private AppointmentDBContainer db = new AppointmentDBContainer();
         private AppointmentClass apClass = new AppointmentClass();
+        private SysAccessLayer dal = new SysAccessLayer();
+        private DateClass dt = new DateClass();
 
         // GET: Public
         public ActionResult Index()
@@ -23,14 +27,32 @@ namespace JobsV1.Controllers
 
         public ActionResult Appointment(int? SlotId, string Date)
         {
+            var slotDesc = "";
+            var DateString = "";
+
             Appointment appointment = new Appointment();
-            appointment.AppointmentDate = Date;
+
+            if (SlotId != null  && !Date.IsNullOrWhiteSpace())
+            {
+                appointment.AppointmentSlotId = (int)SlotId;
+                appointment.AppointmentDate = Date;
+
+                slotDesc = db.AppointmentSlots.Find((int)SlotId).Description.ToString();
+                DateString = Date;
+
+            }
+
+            ViewBag.Slot = slotDesc;
+            ViewBag.SlotId = SlotId ?? 0;
+            ViewBag.DateString = DateString;
 
             ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", SlotId);
             ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", 1);
             ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description");
             ViewBag.Schedules = apClass.GetAppoinmentSchedules();
             ViewBag.IsNotValid = false;
+            ViewBag.CompanyLogo = dal.getSysSetting("ICON");
+
             return View(appointment);
         }
 
@@ -42,25 +64,52 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Appointment([Bind(Include = "Id,DtEntered,Customer,Contact,CustCode,Plate,Conduction,Request,Remarks,AppointmentStatusId,AppointmentSlotId,AppointmentDate,AppointmentRequestId,Unit")] Appointment appointment)
         {
-            if (ModelState.IsValid && AppointmentValidation(appointment))
+            try
             {
-                appointment.AppointmentAcctTypeId = 1;
-                db.Appointments.Add(appointment);
-                db.SaveChanges();
-                return RedirectToAction("AppointmentSuccess");
-            }
 
-            ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
-            ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
-            ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description", appointment.AppointmentRequestId);
-            ViewBag.Schedules = apClass.GetAppoinmentSchedules();
-            ViewBag.IsNotValid = true;
-            return View(appointment);
+                var slotDesc = "";
+                var DateString = "";
+                if (ModelState.IsValid && AppointmentValidation(appointment))
+                {
+                    appointment.DtEntered = dt.GetCurrentDateTime();
+
+                    appointment.AppointmentAcctTypeId = 1;
+                    db.Appointments.Add(appointment);
+                    db.SaveChanges();
+                    return RedirectToAction("AppointmentSuccess");
+                }
+
+
+                if (!appointment.AppointmentDate.IsNullOrWhiteSpace())
+                {
+                    slotDesc = db.AppointmentSlots.Find(appointment.AppointmentSlotId).Description.ToString();
+                    DateString = appointment.AppointmentDate;
+                }
+
+                ViewBag.Slot = slotDesc;
+                ViewBag.SlotId = appointment.AppointmentSlotId;
+                ViewBag.DateString = DateString;
+
+                ViewBag.AppointmentSlotId = new SelectList(db.AppointmentSlots, "Id", "Description", appointment.AppointmentSlotId);
+                ViewBag.AppointmentStatusId = new SelectList(db.AppointmentStatus, "Id", "Status", appointment.AppointmentStatusId);
+                ViewBag.AppointmentRequestId = new SelectList(db.AppointmentRequests.OrderBy(a => a.OrderNo), "Id", "Description", appointment.AppointmentRequestId);
+                ViewBag.Schedules = apClass.GetAppoinmentSchedules();
+                ViewBag.IsNotValid = true;
+                ViewBag.CompanyLogo = dal.getSysSetting("ICON");
+                return View(appointment);
+
+            }
+            catch
+            {
+               
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
         }
 
 
         public ActionResult AppointmentSuccess()
         {
+            ViewBag.CompanyLogo = dal.getSysSetting("ICON");
             return View();
         }
 
@@ -76,7 +125,7 @@ namespace JobsV1.Controllers
 
             if (appointment.Contact.IsNullOrWhiteSpace())
             {
-                ModelState.AddModelError("Contact", "Invalid Contact");
+                ModelState.AddModelError("Contact", "Invalid Mobile");
                 isValid = false;
             }
 

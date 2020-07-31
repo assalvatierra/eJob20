@@ -5,6 +5,7 @@
     var VehicleHistory = ViewBag.VehicleServiceHistory as IEnumerable<JobsV1.Models.JobVehicle>;
     var jobServices = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
     var DiscountAmount = (Decimal)ViewBag.DiscountAmount;
+    var logoSrc = (String)ViewBag.CompanyLogo;
 }
 
 <link href="~/Content/GMSReport.css" rel="stylesheet"/>
@@ -12,9 +13,17 @@
     <table class="table" style="min-width:550px;border:none;">
         <tr style="border:none;">
             <td width="60%" style="border:none;" colspan="2">
-                <h1 style="margin: 0px 10px;">
-                    GMS AutoCare Center
-                </h1>
+                @if (logoSrc == "")
+                {
+                    <h1 style="margin: 0px 10px;">
+                        GMS AutoCare Center
+                    </h1>
+                }
+                else
+                {
+                    <img src="~/@logoSrc" width="270" height="90" company-logo" />
+                }
+
                 <div class="rpt-no-line-space">
                     <h2 style="margin:0px;padding-left:10px;padding-top:10px;"> Repair Order </h2>
                     <p> <span class="rpt-jobid"> JOB NO : @Model.Id.ToString("D4") </span></p>
@@ -34,16 +43,16 @@
                         }
                         else
                         {
-                           <span> No Vehicle Assigned </span>
+                            <span> No Vehicle Assigned </span>
                         }
 
                     </h3>
                 </div>
                 <p class="rpt-no-line-space"><b> GMS AutoCare Center </b> ( @Model.Branch.Name ) </p>
-                <p class="rpt-no-line-space rpt-text-small"> Address </p>
-                <p class="rpt-no-line-space rpt-text-small"> Telephone </p>
-                <p class="rpt-no-line-space rpt-text-small"> VAT Reg / TIN </p>
-                <p class="rpt-no-line-space rpt-text-small"> Business Style </p>
+                <p class="rpt-no-line-space rpt-text-small"> Address : @Model.Branch.Address </p>
+                <p class="rpt-no-line-space rpt-text-small"> Telephone : @Model.Branch.Landline </p>
+                <p class="rpt-no-line-space rpt-text-small"> Smart: 0908-771-9928 Globe: 0956-900-6125    </p>
+                <p class="rpt-no-line-space rpt-text-small"> Email : info@gmsautocare.com , GMSautocaredavao@gmail.com  </p>
             </td>
         </tr>
         <tr>

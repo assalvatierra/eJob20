@@ -1387,9 +1387,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\AutoCare\Appointment-bg-wide.jpg" />
+    <Content Include="Images\AutoCare\Appointment-bg.jpeg" />
     <Content Include="Images\AutoCare\autocare-car-back-blur.png" />
     <Content Include="Images\AutoCare\autocare-car-back.png" />
     <Content Include="Images\AutoCare\background-login.png" />
+    <Content Include="Images\AutoCare\Appointment-bg-2.jpg" />
     <Content Include="Images\AutoCare\GMS_AutoCare_logo.jpg" />
     <Content Include="Images\AutoCare\icons-cash-register.png" />
     <Content Include="Images\AutoCare\icons-cashier.png" />
@@ -2028,6 +2031,7 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\_DriverPaymentModal.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_DriverCAModal.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\EditCashTrx.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\EditOdo.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

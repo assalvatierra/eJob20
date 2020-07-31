@@ -66,6 +66,7 @@ namespace JobsV1.Models.Class
         public string AssignedBay { get; set; }
         public int OrderNo { get; set; }
         public List<string> AssignedItems { get; set; }
+        public TimeSpan ExpectedTimeDone { get; set; }
     }
 
     public class RptGmsAutoClass
