@@ -1317,6 +1317,7 @@
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\GMSReport.css" />
+    <Content Include="Content\ImageStyles.css" />
     <Content Include="Content\JobMonitorStyles.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\ModalUser.css" />

@@ -11,7 +11,6 @@
     var dateString = (String)ViewBag.DateString;
 
 }
-
 <style>
     body {
         background-image: url('/Images/AutoCare/Appointment-bg-2.jpg');
@@ -19,7 +18,7 @@
         background-size: cover;
     }
 
-    h1 {
+    h1, h2 {
         text-shadow: 1px 1px 3px white;
     }
 
@@ -33,6 +32,7 @@
 
     .company-details {
         margin-top: -25px;
+        margin-bottom:10px;
     }
 
 
@@ -44,23 +44,30 @@
         text-align: left;
     }
 
-    .appointment-occupied{
-        cursor:not-allowed;
+    .appointment-occupied {
+        cursor: not-allowed;
     }
+
 </style>
 
 <div class="row">
     <div class="col-lg-12">
         <img src="@logoSrc" width="270" height="105" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 company-logo" />
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12  company-details">
-            <h1> GMS Autocare Center - Online Appointment </h1>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 company-details">
+            <h1> GMS Autocare Center </h1>
             <p class="text-shadow"> Address : Purok 26-A Caimito Bypass Rd., Riverside Maa Davao City </p>
             <p class="text-shadow"> Tel : 082-228-5825 Smart: 0908-771-9928 Globe: 0956-900-6125   </p>
             <p class="text-shadow"> Email: info@gmsautocare.com , GMSautocaredavao@gmail.com </p>
         </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="padding-left:10px;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15837.291218371025!2d125.5917241!3d7.0885282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x619dad0338585e66!2sGMS%20Autocare%20Center!5e0!3m2!1sen!2sph!4v1596280587036!5m2!1sen!2sph" width="250" height="120" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
     </div>
 </div>
 
+<div>
+    <h2 class="text-center">  Online Appointment </h2>
+</div>
 <br />
 <div class="panel" style="max-width:550px;display:flex;margin:auto;display:none;" id="ApmntFormDetails">
     <div class="panel-body" style="max-width:550px;padding-left:50px;">
@@ -69,7 +76,7 @@
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h2 style="text-align: center;">Appointment Details</h2>
+                <h2 style="text-align: center;"> Appointment Details</h2>
                 <hr />
             </div>
             <div class="form-horizontal">
@@ -212,6 +219,17 @@
     </div>
 </div>
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
 
 @Html.Partial("AppSchedules", null, new ViewDataDictionary { { "Schedules", ViewBag.Schedules } })
 
@@ -231,6 +249,7 @@
                 $("#ApmntFormDate").show();
                 $("#ApmntFormDetails").hide();
             }
+            $('td:nth-child(2),th:nth-child(2)').hide();
         });
 
 
@@ -246,5 +265,7 @@
             $("#ApmntFormDate").hide();
             $("#ApmntFormDetails").show();
         }
+
+
     </script>
 }

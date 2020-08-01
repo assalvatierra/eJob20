@@ -3648,7 +3648,6 @@ order by x.jobid
                 {
                     var svcItems = svc.JobServiceItems.ToList();
                     var service = svc.Particulars + " ( " + svc.Service.Name + " ) ";
-                    var bayTime = new TimeSpan();
 
                     _tempjobMonitor.Services.Add(service);
                     _tempjobMonitor.StartDate = (DateTime)svc.DtStart;
@@ -3679,9 +3678,38 @@ order by x.jobid
                             _tempjobMonitor.AssignedItems.Add(item.InvItem.Description);
                         }
 
-                       
                     }
 
+
+                    //find last service action of svc
+                    var svcActions = db.JobActions.Where(j => j.JobServicesId == svc.Id).ToList();
+                    if (svcActions.Count() > 0)
+                    {
+                        foreach (var action in svcActions)
+                        {
+                            //assign new action
+                            if (_tempjobMonitor.JobActionStatusId == 0)
+                            {
+                                _tempjobMonitor.JobActionStatus = action.SrvActionItem.Desc;
+                                _tempjobMonitor.JobActionStatusId = action.SrvActionItem.SortNo;
+                            }
+                            else
+                            {
+                                //if action is greater than the current action order, overwrite 
+                                if (_tempjobMonitor.JobActionStatusId < action.SrvActionItem.SortNo)
+                                {
+                                    _tempjobMonitor.JobActionStatus = action.SrvActionItem.Desc;
+                                    _tempjobMonitor.JobActionStatusId = action.SrvActionItem.SortNo;
+                                }
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        //update latest service action
+                        _tempjobMonitor.JobActionStatus = "Pending";
+                    }
 
                 }
 

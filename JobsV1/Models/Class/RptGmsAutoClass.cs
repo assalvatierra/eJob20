@@ -67,6 +67,8 @@ namespace JobsV1.Models.Class
         public int OrderNo { get; set; }
         public List<string> AssignedItems { get; set; }
         public TimeSpan ExpectedTimeDone { get; set; }
+        public string JobActionStatus { get; set; }
+        public int JobActionStatusId { get; set; }
     }
 
     public class RptGmsAutoClass

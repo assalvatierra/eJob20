@@ -370,7 +370,23 @@ insert into SrvActionCodes([CatCode],[SortNo]) values
 ('Confirmed', 1),('On-going', 2),('Releasing', 3),('Done', 4);
 
 insert into SrvActionItems ([Desc],[Remarks],[SortNo],[ServicesId],[SrvActionCodeId]) values 
-('Confirmed', '', 1, 1, 8),('On-going', '', 1, 1, 9),('Releasing', '', 1, 1, 10),('Done', '', 1, 1, 11),
-('Confirmed', '', 1, 2, 8),('On-going', '', 1, 2, 9),('Releasing', '', 1, 2, 10),('Done', '', 1, 2, 11),
-('Confirmed', '', 1, 3, 8),('On-going', '', 1, 3, 9),('Releasing', '', 1, 3, 10),('Done', '', 1, 3, 11);
+('Confirmed', '', 1, 1, 8),('On-going', '', 2, 1, 9),('Releasing', '', 3, 1, 10),('Done', '', 4, 1, 11),
+('Confirmed', '', 1, 2, 8),('On-going', '', 2, 2, 9),('Releasing', '', 3, 2, 10),('Done', '', 4, 2, 11),
+('Confirmed', '', 1, 3, 8),('On-going', '', 2, 3, 9),('Releasing', '', 3, 3, 10),('Done', '', 4, 3, 11),
+('Confirmed', '', 1, 4, 8),('On-going', '', 2, 4, 9),('Releasing', '', 3, 4, 10),('Done', '', 4, 4, 11);
+--('Confirmed', '', 1, 6, 8),('On-going', '', 2, 6, 9),('Releasing', '', 3, 6, 10),('Done', '', 4, 6, 11),
+--('Confirmed', '', 1, 7, 8),('On-going', '', 2, 7, 9),('Releasing', '', 3, 7, 10),('Done', '', 4, 7, 11),
+--('Confirmed', '', 1, 8, 8),('On-going', '', 2, 8, 9),('Releasing', '', 3, 8, 10),('Done', '', 4, 8, 11),
+--('Confirmed', '', 1, 9, 8),('On-going', '', 2, 9, 9),('Releasing', '', 3, 9, 10),('Done', '', 4, 9, 11),
+--('Confirmed', '', 1, 10, 8),('On-going', '', 2, 10, 9),('Releasing', '', 3, 10, 10),('Done', '', 4, 10, 11),
+--('Confirmed', '', 1, 11, 8),('On-going', '', 2, 11, 9),('Releasing', '', 3, 11, 10),('Done', '', 4, 11, 11),
+--('Confirmed', '', 1, 12, 8),('On-going', '', 2, 12, 9),('Releasing', '', 3, 12, 10),('Done', '', 4, 12, 11),
+--('Confirmed', '', 1, 13, 8),('On-going', '', 2, 13, 9),('Releasing', '', 3, 13, 10),('Done', '', 4, 13, 11),
+--('Confirmed', '', 1, 14, 8),('On-going', '', 2, 14, 9),('Releasing', '', 3, 14, 10),('Done', '', 4, 14, 11),
+--('Confirmed', '', 1, 15, 8),('On-going', '', 2, 15, 9),('Releasing', '', 3, 15, 10),('Done', '', 4, 15, 11),
+--('Confirmed', '', 1, 16, 8),('On-going', '', 2, 16, 9),('Releasing', '', 3, 16, 10),('Done', '', 4, 16, 11),
+--('Confirmed', '', 1, 17, 8),('On-going', '', 2, 17, 9),('Releasing', '', 3, 17, 10),('Done', '', 4, 17, 11),
+--('Confirmed', '', 1, 18, 8),('On-going', '', 2, 18, 9),('Releasing', '', 3, 18, 10),('Done', '', 4, 18, 11),
+--('Confirmed', '', 1, 19, 8),('On-going', '', 2, 19, 9),('Releasing', '', 3, 19, 10),('Done', '', 4, 19, 11),
+--('Confirmed', '', 1, 10, 8),('On-going', '', 2, 20, 9),('Releasing', '', 3, 20, 10),('Done', '', 4, 20, 11);
 

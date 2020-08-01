@@ -90,8 +90,6 @@ namespace JobsV1
             bundles.Add(new StyleBundle("~/Content/jobMonitor").Include(
                       "~/Content/JobMonitorStyles.css"
                       ));
-
-
         }
     }
 }
