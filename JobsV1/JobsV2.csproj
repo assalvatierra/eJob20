@@ -1317,6 +1317,7 @@
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\GMSReport.css" />
+    <Content Include="Content\JobMonitorStyles.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\ModalUser.css" />
     <Content Include="Content\Erp.css" />
@@ -2032,6 +2033,7 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\_DriverCAModal.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\EditCashTrx.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\EditOdo.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_LogOdoUpdateModal.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

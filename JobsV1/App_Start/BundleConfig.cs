@@ -87,6 +87,11 @@ namespace JobsV1
                       "~/Content/RptTripLog.css"
                       ));
 
+            bundles.Add(new StyleBundle("~/Content/jobMonitor").Include(
+                      "~/Content/JobMonitorStyles.css"
+                      ));
+
+
         }
     }
 }

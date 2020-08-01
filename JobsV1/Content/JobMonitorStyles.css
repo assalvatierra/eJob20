@@ -1,0 +1,50 @@
+﻿body {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+}
+
+h1, h2, h3 {
+    font-family: 'Archivo Black', sans-serif;
+}
+
+.container {
+    width: 100%;
+    padding: 0px 20px;
+}
+
+.monitor-job {
+    background-color: dodgerblue;
+    padding: 0px;
+    box-shadow: 1px 1px 5px 1px lightgray;
+    margin: 5px 0px;
+    border-radius: 10px;
+}
+
+.monitor-job-item {
+    color: white;
+    height: 100%;
+}
+
+.monitor-job-desc {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+}
+
+.text-header {
+    color: dodgerblue;
+}
+
+
+.current-time {
+    float: right;
+}
+
+
+/* Small Screens */
+@media only screen and (max-width: 780px) {
+
+    .current-time {
+        float: left;
+    }
+}

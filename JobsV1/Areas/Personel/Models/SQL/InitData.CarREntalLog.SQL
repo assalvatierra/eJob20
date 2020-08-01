@@ -48,7 +48,7 @@ insert into crLogPaymentTypes([Type]) values
 ('Cash'), ('Credit Card'),('PO'), ('Others'), ('NA');
 
 insert into crLogCashTypes([Code],[Description]) values 
-('01','Salary'), ('02','CA'),('03','Payment');
+('SAL','Salary'), ('CA','CA'),('PAY','Payment');
 
 --select * from crLogTrips;
 --select * from crLogDrivers;

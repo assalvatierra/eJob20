@@ -3,59 +3,23 @@
     ViewBag.Title = "Jobs Monitor";
     Layout = "~/Views/Shared/_MonitorLayout.cshtml";
 }
-<style>
-    body {
-        font-family: 'Nunito', sans-serif;
-        font-weight: 600;
-    }
-
-    h1, h2, h3 {
-        font-family: 'Archivo Black', sans-serif;
-    }
-
-    .container{
-        width:100%;
-        padding:0px 20px;
-    }
-
-    .monitor-job {
-        background-color: dodgerblue;
-        padding: 0px;
-        box-shadow: 1px 1px 5px 1px lightgray;
-        margin: 5px 0px;
-        border-radius:10px;
-    }
-
-    .monitor-job-item {
-        color:white;
-        height:100%;
-    }
-
-    .monitor-job-desc {
-        background-color: white;
-        color: black;
-        border-radius:10px;
-    }
-
-    .text-header {
-        color:dodgerblue;
-    }
-
-</style>
 <div class="row">
     <div class="col-lg-12" style="margin-top:-45px;">
-        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <img src="~/Images/AutoCare/GMS_AutoCare_logo.jpg" width="240" />
+        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+            <img src="~/Images/AutoCare/GMS_AutoCare_logo.jpg" width="260" height="100" />
         </div>
-        <div class="col-lg-9 col-md-9 col-sm-10 col-xs-12">
-            <h1>GMS AutoCare Center & Auto Supply Davao </h1>
-            <p>  </p>
+        <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12">
+            <h1 style="padding-left:10px;">GMS AutoCare Center & Auto Supply Davao </h1>
         </div>
     </div>
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <hr />
-        <h1 class="col-lg-9 "> JOBS FOR TODAY </h1>
-        <h2 class="col-lg-3 text-header pull-right" id="date-time"> Date Time </h2>
+        <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+            <h1> JOBS FOR TODAY </h1>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12"> 
+            <h2 class="text-header current-time" id="date-time"> Date Time </h2>
+        </div>
     </div>
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div>
@@ -66,12 +30,11 @@
                 var dur_hour = Int32.Parse(svc_durationRem.ToString("hh"));
                 var dur_min = Int32.Parse(svc_durationRem.ToString("mm"));
 
-
                 <div class="monitor-job col-lg-12">
                     <div class="monitor-job-item col-lg-3">
                         <h3>@item.AssignedBay</h3>
                         @*<h4>  @item.StartDate.ToString("(ddd) MMM dd yyyy") - @item.EndDate.ToString("(ddd) MMM dd yyyy") </h4>*@
-                        <h4>
+                        <h4 style="margin-bottom:0;">
                             @if (dur_days != 0)
                             {
                                 <span> @dur_days </span>
@@ -117,8 +80,15 @@
                             }
 
                         </h4>
+                        <div>
+                            @*<h4 class="text-danger no-margin pull-left" style="color:white;margin-right:10px;margin-top:20px;font-size:23px;"> Status </h4>*@
+
+                            <div class="pull-left" style="background-color:mediumseagreen;width:150px;padding:10px;margin:10px 0px;border-radius:5px;">
+                                <h4 class="text-danger no-margin text-center" style="color:white;"> Status </h4>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-9 monitor-job-desc">
+                    <div class="col-lg-9 monitor-job-desc" style="height:100%;">
                         <div class="col-lg-12">
                             <h3> <span class="text-success">@item.Customer / @item.Company</span> - @item.Vehicle</h3>
                         </div>
@@ -153,12 +123,13 @@
         </p>
     </div>
 </div>
+
 @section Scripts{
     <script>
         $(() => {
             $("#date-time").text(moment().format("MMM DD YYYY hh:mm A"));   
             //initialize time
-            setInterval(function () {   
+            setInterval(function() {   
                 console.log('time updating');        
                 window.location.reload();
                 $("#date-time").text(moment().format("MMM DD YYYY hh:mm A"));   

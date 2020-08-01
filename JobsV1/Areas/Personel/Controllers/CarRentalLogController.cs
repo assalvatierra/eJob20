@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
+using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.Personel.Controllers
@@ -16,6 +17,7 @@ namespace JobsV1.Areas.Personel.Controllers
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
         private CrDataLayer dl = new CrDataLayer();
+        private DateClass dt = new DateClass();
 
         // GET: Personel/CarRentalLog
         public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby)
@@ -23,6 +25,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             try
             {
+                var defaultStartDate = dt.GetCurrentDate().AddDays(-30);
                 //Get Logs
                 var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
 
@@ -33,6 +36,10 @@ namespace JobsV1.Areas.Personel.Controllers
                     var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
 
                     crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
+                }
+                else
+                {
+                    crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= defaultStartDate);
                 }
 
                 if (!String.IsNullOrEmpty(unit) && unit != "all" )
@@ -373,52 +380,6 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(crLogCashRelease);
         }
 
-
-        // GET: Personel/CarRentalLog/Edit/5
-        public ActionResult EditOdo(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            crLogTrip crLogTrip = db.crLogTrips.Find(id);
-            if (crLogTrip == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(crLogTrip);
-        }
-
-        // POST: Personel/CarRentalLog/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditOdo(int? id, int? OdoStart, int? OdoEnd)
-        {
-            if (id != null )
-            {
-
-                crLogTrip crLogTrip = db.crLogTrips.Find(id);
-
-                if (crLogTrip == null)
-                    return HttpNotFound();
-                
-                //update odo values
-                crLogTrip.OdoStart = OdoStart;
-                crLogTrip.OdoEnd = OdoEnd;
-
-                db.Entry(crLogTrip).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-           
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
-        }
-
-
         public ActionResult DriverSummary(int id, int? reqStatus)
         {
             crLogDriver driver = db.crLogDrivers.Find(id);
@@ -693,6 +654,121 @@ namespace JobsV1.Areas.Personel.Controllers
 
         }
 
+        #region Odo Update
+
+
+        // GET: Personel/CarRentalLog/Edit/5
+        public ActionResult EditOdo(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+            if (crLogTrip == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(crLogTrip);
+        }
+
+        // POST: Personel/CarRentalLog/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditOdo(int? id, int? OdoStart, int? OdoEnd)
+        {
+            if (id != null)
+            {
+
+                crLogTrip crLogTrip = db.crLogTrips.Find(id);
+
+                if (crLogTrip == null)
+                    return HttpNotFound();
+
+                //update odo values
+                crLogTrip.OdoStart = OdoStart;
+                crLogTrip.OdoEnd = OdoEnd;
+
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+        }
+
+
+        // GET: Personel/CarRentalLog/GetTripOdo/5
+        // id = crLogTripId
+        [HttpGet]
+        public JsonResult GetTripOdo(int? id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+
+            if (crLogTrip == null)
+            {
+                return null;
+            }
+
+            //get trip log
+            var triplog = db.crLogTrips.Find(id);
+
+            TripOdoRequest odoDetails = new TripOdoRequest();
+            odoDetails.Start = triplog.OdoStart ?? 0;
+            odoDetails.End = triplog.OdoEnd ?? 0;
+            odoDetails.Date = triplog.DtTrip.ToShortDateString();
+            odoDetails.Unit = triplog.crLogUnit.Description;
+            odoDetails.Driver = triplog.crLogDriver.Name;
+            odoDetails.Company = triplog.crLogCompany.Name;
+
+
+            return Json(odoDetails, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public bool SetTripOdo(int? Id, int? OdoStart, int? OdoEnd)
+        {
+            if (Id != null)
+            {
+
+                crLogTrip crLogTrip = db.crLogTrips.Find(Id);
+
+                if (crLogTrip == null)
+                    return false;
+
+                //update odo values
+                crLogTrip.OdoStart = OdoStart ?? 0;
+                crLogTrip.OdoEnd = OdoEnd ?? 0;
+
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        private class TripOdoRequest
+        {
+            public string Date { get; set; }
+            public string Driver { get; set; }
+            public string Unit { get; set; }
+            public string Company { get; set; }
+            public int Start { get; set; }
+            public int End { get; set; }
+        }
+
+        #endregion
+
         #region Reports 
         public ActionResult ReportFilter(string reportby, string startDate, string endDate, string unit, string driver, string company, string sortby, string buffer)
         {
@@ -918,3 +994,7 @@ namespace JobsV1.Areas.Personel.Controllers
         #endregion
     }
 }
+
+
+
+

@@ -70,7 +70,7 @@ namespace JobsV1.CustomHelper
             htmlString += "<h2>" + service.Description + "</h2>";
             htmlString += "<p>" + service.Remarks + "</p>";
             htmlString += "</span>";
-            if (SITECONFIG == "AutoCare")
+            if (!dal.getSysSetting("ICON").IsNullOrWhiteSpace())
             {
                 htmlString += "<img src='" + dal.getSysSetting("ICON") + "' class='pull-right Company-Icon'  width='250' style='margin:10px;' />";
             }

@@ -48,25 +48,28 @@
         <th>
             Date Paid
         </th>
-        
+
         <th>
             Type
         </th>
         <th>
             @Html.DisplayNameFor(model => model.crLogFuel.Amount)
         </th>
-            <th>
-                OR-Amount
-            </th>
-            <th>
-                Odo
-            </th>
-            <th>
-                Payment Type
-            </th>
-            <th>
-                isFullTank
-            </th>
+        <th>
+            OR-Amount
+        </th>
+        <th>
+            Odo
+        </th>
+        <th>
+            Payment Type
+        </th>
+        <th>
+            isFullTank
+        </th>
+        <th>
+            Remarks
+        </th>
         <th>
 
         </th>
@@ -141,6 +144,9 @@
                         
                         break;
                 }
+            <td>
+                @item.crLogFuel.Remarks
+            </td>
                
             <td>
                 @switch (item.LatestStatusId)

@@ -363,3 +363,14 @@ insert into JobPaymentTypes([Type]) values
 ---- JOB POST SALES --------------
 insert into JobPostSalesStatus([Status]) values 
 ('For Follow-up'),('Ongoing'),('Closed'),('Rejected');
+
+-------- JOB ACTIONS ----------
+-- 1. Confirmed 2. On-going 3. Releasing 4. Done
+insert into SrvActionCodes([CatCode],[SortNo]) values 
+('Confirmed', 1),('On-going', 2),('Releasing', 3),('Done', 4);
+
+insert into SrvActionItems ([Desc],[Remarks],[SortNo],[ServicesId],[SrvActionCodeId]) values 
+('Confirmed', '', 1, 1, 8),('On-going', '', 1, 1, 9),('Releasing', '', 1, 1, 10),('Done', '', 1, 1, 11),
+('Confirmed', '', 1, 2, 8),('On-going', '', 1, 2, 9),('Releasing', '', 1, 2, 10),('Done', '', 1, 2, 11),
+('Confirmed', '', 1, 3, 8),('On-going', '', 1, 3, 9),('Releasing', '', 1, 3, 10),('Done', '', 1, 3, 11);
+

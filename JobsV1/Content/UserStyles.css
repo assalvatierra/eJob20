@@ -581,6 +581,12 @@
 }
 
 
+.no-margin {
+    margin: 0px;
+}
+
+
+
 .job-payment-add-block {
     background-color: whitesmoke;
     border: 1px solid lightgray;
