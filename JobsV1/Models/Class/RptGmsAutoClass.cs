@@ -32,6 +32,8 @@ namespace JobsV1.Models.Class
         public JobPaymentStatus PaymentStatus { get; set; }
         public Decimal Amount { get; set; }
         public Decimal PaymentAmount { get; set; }
+        public decimal PaintJobAmount { get; set; }
+        public decimal PartsOilsJobAmount { get; set; }
 
     }
 

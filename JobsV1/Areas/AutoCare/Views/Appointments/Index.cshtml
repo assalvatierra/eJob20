@@ -76,12 +76,12 @@
         @Html.DisplayFor(modelItem => item.AppointmentStatu.Status)
     </td>
     <td>
-        @Html.ActionLink("Accepted", "UpdateStatus", new { id = item.Id, statusId = 2 }) |
+        @Html.ActionLink("Accepted", "UpdateStatus", new { id = item.Id, statusId = 2 })&nbsp;|
         @Html.ActionLink("Cancelled", "UpdateStatus", new { id = item.Id, statusId = 3 }) 
     </td>
     <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id })&nbsp;|
+        @Html.ActionLink("Details", "Details", new { id = item.Id })&nbsp;|
         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
     </td>
 </tr>

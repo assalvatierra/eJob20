@@ -311,6 +311,8 @@ namespace JobsV1.Controllers
                     Amount = jo.GetTotalJobAmount(j.Id) , //get total amount from jobservices
                     PaymentAmount = jo.GetJobPaymentAmount(j.Id), //get total paid amount from jobservices
                     PaymentStatus = jo.GetJobPaymentStatus(j.Id), //get total amount from jobservices
+                    PaintJobAmount = GetTotalPaintJobAmount(j.Id),
+                    PartsOilsJobAmount = GetTotalPartsOilsJobAmount(j.Id)
                 })
             );
 
@@ -338,6 +340,64 @@ namespace JobsV1.Controllers
             ViewBag.DtEnd = DtEnd ?? today.ToShortDateString();
 
             return View(jobPaymentReport);
+        }
+
+        public decimal GetTotalPaintJobAmount(int jobMainId)
+        {
+            try
+            {
+                var PaintServicesIds = new List<int>();
+                PaintServicesIds.Add(4);
+                PaintServicesIds.Add(14);
+
+                var services = db.JobServices.Where(s => s.JobMainId == jobMainId).ToList();
+
+                decimal totalPaintAmount = 0;
+
+                foreach (var svc in services)
+                {
+                    if (PaintServicesIds.Contains(svc.ServicesId))
+                    {
+                        totalPaintAmount += svc.ActualAmt ?? 0;
+                    }
+                }
+
+                return totalPaintAmount;
+            }
+            catch
+            {
+                return 0;
+            }
+
+        }
+
+
+        public decimal GetTotalPartsOilsJobAmount(int jobMainId)
+        {
+            try
+            {
+                var PaintServicesIds = new List<int>();
+                PaintServicesIds.Add(4);
+                PaintServicesIds.Add(14);
+
+                var services = db.JobServices.Where(s => s.JobMainId == jobMainId).ToList();
+
+                decimal totalPartsOilsAmount = 0;
+
+                foreach (var svc in services)
+                {
+                    if (!PaintServicesIds.Contains(svc.ServicesId))
+                    {
+                        totalPartsOilsAmount += svc.ActualAmt ?? 0;
+                    }
+                }
+                return totalPartsOilsAmount;
+            }
+            catch
+            {
+                return 0;
+            }
+
         }
 
         public ActionResult ReferralReport(string DtStart, string DtEnd, int? agentId)

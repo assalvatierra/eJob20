@@ -56,12 +56,12 @@
         <th>
             Motor Oil (L)
         </th>
-        <th>
+        @*<th>
             Gear Oil (L)
         </th>
         <th>
             Trans Oil (L)
-        </th>
+        </th>*@
     </tr>
     @foreach (var groupitem in Model.GroupBy(c => c.Mechanic))
     {
@@ -97,12 +97,12 @@
                 <td>
                     @item.MotorOil L
                 </td>
-                <td>
+                @*<td>
                     @item.GearOil L
                 </td>
                 <td>
                     @item.TransmissionOil L
-                </td>
+                </td>*@
             </tr>
         }
 
@@ -115,12 +115,12 @@
             <td>
                 <b> @total_MotorOil Liters</b>
             </td>
-            <td>
+            @*<td>
                 <b>@total_GearOil Liters</b>
             </td>
             <td>
                 <b>@total_TransOil Liters</b>
-            </td>
+            </td>*@
         </tr>
 
     }
