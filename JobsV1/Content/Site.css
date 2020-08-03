@@ -670,6 +670,10 @@ rental-type-wdriver {
         float: left;
         color: royalblue;
     }
+
+    .Company-Icon {
+        display: none;
+    }
 }
 
 /* Small Screens */
@@ -686,9 +690,6 @@ rental-type-wdriver {
         padding-left: 10px;
     }
 
-    .Company-Icon{
-        display:none;
-    }
 
     .CustomBox .nav-submenu-home {
         margin-left:10px;

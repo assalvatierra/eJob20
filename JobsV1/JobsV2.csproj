@@ -1719,6 +1719,8 @@
     <Content Include="Images\Signature\MaeSign.JPG" />
     <Content Include="Images\Signature\RamSign.JPG" />
     <Content Include="Images\SMS.png" />
+    <Content Include="Images\Solid-steel-logo-2020.png" />
+    <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />
     <Content Include="Models\SQL.Job\AddChecklist.SQL" />
     <Content Include="Models\SQL.Job\AsExpenseDB.sql" />
     <Content Include="Models\SQL.CarCoop\CarRentalInitial.sql" />
@@ -2206,7 +2208,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login-AutoCare.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -2834,6 +2836,8 @@
     <Content Include="Views\Shared\_MonitorLayout.cshtml" />
     <Content Include="Views\RptGmsAuto\ReferralReport.cshtml" />
     <Content Include="Views\JobPostSales\Update.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login - Solidsteel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
