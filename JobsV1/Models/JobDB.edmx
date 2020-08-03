@@ -7423,11 +7423,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Make" Type="String" Nullable="false" MaxLength="50" />
           <NavigationProperty Name="VehicleBrand" Relationship="JobDB.VehicleBrandVehicleMake" FromRole="VehicleMake" ToRole="VehicleBrand" />
-          <Property Name="Variant" Type="String" Nullable="false" />
+          <Property Name="Variant" Type="String" Nullable="false" MaxLength="30" />
           <Property Name="VehicleBrandId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="VehicleType" Relationship="JobDB.VehicleTypeVehicleMake" FromRole="VehicleMake" ToRole="VehicleType" />
           <Property Name="VehicleTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="true" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
           <NavigationProperty Name="VehicleTransmission" Relationship="JobDB.VehicleTransmissionVehicleMake" FromRole="VehicleMake" ToRole="VehicleTransmission" />
           <Property Name="VehicleTransmissionId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="VehicleFuel" Relationship="JobDB.VehicleFuelVehicleMake" FromRole="VehicleMake" ToRole="VehicleFuel" />
@@ -7435,9 +7435,9 @@
           <NavigationProperty Name="Vehicles" Relationship="JobDB.VehicleModelVehicle" FromRole="VehicleModel" ToRole="Vehicle" />
           <NavigationProperty Name="VehicleDrive" Relationship="JobDB.VehicleDriveVehicleModel" FromRole="VehicleModel" ToRole="VehicleDrive" />
           <Property Name="VehicleDriveId" Type="Int32" Nullable="false" />
-          <Property Name="MotorOil" Type="String" Nullable="true" />
-          <Property Name="GearOil" Type="String" Nullable="true" />
-          <Property Name="TransmissionOil" Type="String" Nullable="true" />
+          <Property Name="MotorOil" Type="String" Nullable="true" MaxLength="10" />
+          <Property Name="GearOil" Type="String" Nullable="true" MaxLength="10" />
+          <Property Name="TransmissionOil" Type="String" Nullable="true" MaxLength="10" />
         </EntityType>
         <EntityType Name="VehicleBrand">
           <Key>

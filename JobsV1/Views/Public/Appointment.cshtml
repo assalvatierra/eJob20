@@ -52,7 +52,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <img src="@logoSrc" width="270" height="105" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 company-logo" />
+        <img src="@logoSrc" width="270" height="105" class="col-lg-3 col-md-3 col-sm-3 col-xs-12 company-logo" style="max-width:400px;" />
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 company-details">
             <h1> GMS Autocare Center </h1>
             <p class="text-shadow"> Address : Purok 26-A Caimito Bypass Rd., Riverside Maa Davao City </p>
@@ -69,7 +69,7 @@
     <h2 class="text-center">  Online Appointment </h2>
 </div>
 <br />
-<div class="panel" style="max-width:550px;display:flex;margin:auto;display:none;" id="ApmntFormDetails">
+<div class="panel" style="min-width:380px;max-width:550px;display:flex;margin:auto;display:none;" id="ApmntFormDetails">
     <div class="panel-body" style="max-width:550px;padding-left:50px;">
         @using (Html.BeginForm())
         {
@@ -127,7 +127,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Customer, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                        @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
                         @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control", @maxlength = "60" } })
+                        @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
                         @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Plate, "Vehicle Plate", htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.Plate, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
+                        @Html.EditorFor(model => model.Plate, new { htmlAttributes = new { @class = "form-control", @maxlength = "30" } })
                         @Html.ValidationMessageFor(model => model.Plate, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Conduction, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.Conduction, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                        @Html.EditorFor(model => model.Conduction, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
                         <p style="padding:0px;margin:0px;font-size:9px;" class="text-muted"> ( Optional ) </p>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                 <div class="form-group" hidden>
                     @Html.LabelFor(model => model.Request, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
-                        @Html.EditorFor(model => model.Request, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                        @Html.EditorFor(model => model.Request, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
                         @Html.ValidationMessageFor(model => model.Request, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -209,7 +209,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-lg-offset-6 col-md-offset-6 col-sm-offset-5 col-xs-offset-2  col-lg-5 col-md-5 col-sm-6 col-xs-6" style="padding-left:15px;">
+                    <div class="col-lg-offset-6 col-md-offset-6 col-sm-offset-5 col-lg-5 col-md-5 col-sm-7 col-xs-10" style="padding-left:15px;">
                         <a href="/Appointment" class="btn btn-default"> Go Back </a>
                         <input type="submit" value="Submit" class="btn btn-primary" style="background-color:dodgerblue;" />
                     </div>

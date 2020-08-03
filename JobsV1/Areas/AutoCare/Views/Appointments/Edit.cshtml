@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Customer, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4" style="width:320px">
-                @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control", id = "Customer", @maxlength = "40" } })
+                @Html.EditorFor(model => model.Customer, new { htmlAttributes = new { @class = "form-control", id = "Customer", @maxlength = "60" } })
                 @Html.ValidationMessageFor(model => model.Customer, "", new { @class = "text-danger" })
             </div>
             <span style="float:left">
@@ -54,7 +54,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CustCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
+                @Html.EditorFor(model => model.CustCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "10" } })
                 @Html.ValidationMessageFor(model => model.CustCode, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -70,7 +70,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Plate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Plate, new { htmlAttributes = new { @class = "form-control", @maxlength = "10" } })
+                @Html.EditorFor(model => model.Plate, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
                 @Html.ValidationMessageFor(model => model.Plate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -102,7 +102,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "60" } })
                 @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
             </div>
         </div>
