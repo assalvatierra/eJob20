@@ -381,6 +381,7 @@
     </Compile>
     <Compile Include="Areas\Personel\Models\cCrLogCashReleases.cs" />
     <Compile Include="Areas\Personel\Models\cCrLogFuel.cs" />
+    <Compile Include="Areas\Personel\Models\cCrLogReports.cs" />
     <Compile Include="Areas\Personel\Models\crCashReqStatus.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
@@ -2037,6 +2038,10 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\EditCashTrx.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\EditOdo.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_LogOdoUpdateModal.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_VehicleSummaryFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalReport\VehicleTripReport.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalReport\VehicleSummaryReport.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_VehicleTripFilter.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

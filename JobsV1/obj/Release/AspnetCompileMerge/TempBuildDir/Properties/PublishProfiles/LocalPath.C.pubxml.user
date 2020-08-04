@@ -181,7 +181,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/01/2020 19:20:32</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/Appointments/Create.cshtml">
-      <publishTime>08/03/2020 09:39:22</publishTime>
+      <publishTime>08/03/2020 15:16:03</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/Appointments/Delete.cshtml">
       <publishTime>06/19/2020 13:52:38</publishTime>
@@ -190,7 +190,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/29/2020 13:10:12</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/Appointments/Edit.cshtml">
-      <publishTime>08/03/2020 09:39:56</publishTime>
+      <publishTime>08/03/2020 15:16:34</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/Appointments/Index.cshtml">
       <publishTime>08/03/2020 09:40:53</publishTime>
@@ -199,7 +199,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/20/2020 17:47:39</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/Appointments/_ScheduleItemsModal.cshtml">
-      <publishTime>06/27/2020 11:43:52</publishTime>
+      <publishTime>08/03/2020 15:16:47</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/Appointments/_SearchCustomerModal.cshtml">
       <publishTime>06/29/2020 11:42:18</publishTime>
@@ -244,7 +244,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/19/2020 14:19:44</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/VehicleModels/Create.cshtml">
-      <publishTime>07/06/2020 17:42:44</publishTime>
+      <publishTime>08/03/2020 15:56:49</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/VehicleModels/Delete.cshtml">
       <publishTime>06/15/2020 11:13:56</publishTime>
@@ -253,7 +253,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/06/2020 17:34:38</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/VehicleModels/Edit.cshtml">
-      <publishTime>07/06/2020 17:43:03</publishTime>
+      <publishTime>08/03/2020 15:56:40</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/VehicleModels/Index.cshtml">
       <publishTime>07/06/2020 17:39:14</publishTime>
@@ -268,7 +268,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/15/2020 11:07:49</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/Vehicles/Edit.cshtml">
-      <publishTime>06/17/2020 10:41:42</publishTime>
+      <publishTime>08/03/2020 15:56:00</publishTime>
     </File>
     <File Include="Areas/AutoCare/Views/Vehicles/Index.cshtml">
       <publishTime>07/18/2020 15:06:28</publishTime>
@@ -874,10 +874,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/03/2020 13:46:05</publishTime>
+      <publishTime>08/03/2020 16:43:43</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/03/2020 13:46:05</publishTime>
+      <publishTime>08/03/2020 16:43:43</publishTime>
     </File>
     <File Include="bin/de/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -901,10 +901,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>08/03/2020 13:45:48</publishTime>
+      <publishTime>08/03/2020 16:43:30</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>08/03/2020 13:45:48</publishTime>
+      <publishTime>08/03/2020 16:43:30</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -2530,7 +2530,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/02/2020 18:00:03</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/03/2020 13:46:01</publishTime>
+      <publishTime>08/03/2020 16:43:38</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -2539,7 +2539,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:32</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>08/03/2020 10:42:31</publishTime>
+      <publishTime>08/03/2020 13:46:24</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>02/19/2020 17:09:27</publishTime>
@@ -4864,10 +4864,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:35</publishTime>
     </File>
     <File Include="Views/Public/Appointment.cshtml">
-      <publishTime>08/01/2020 19:23:11</publishTime>
+      <publishTime>08/03/2020 15:39:04</publishTime>
     </File>
     <File Include="Views/Public/AppointmentSuccess.cshtml">
-      <publishTime>07/31/2020 17:11:28</publishTime>
+      <publishTime>08/03/2020 15:28:24</publishTime>
     </File>
     <File Include="Views/Public/AppSchedules.cshtml">
       <publishTime>08/01/2020 18:49:28</publishTime>
@@ -4957,10 +4957,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/29/2020 18:04:51</publishTime>
     </File>
     <File Include="Views/RptGmsAuto/RepairOrder.cshtml">
-      <publishTime>07/31/2020 18:32:21</publishTime>
+      <publishTime>08/03/2020 16:39:48</publishTime>
     </File>
     <File Include="Views/RptGmsAuto/ServiceBilling.cshtml">
-      <publishTime>07/31/2020 18:32:13</publishTime>
+      <publishTime>08/03/2020 16:39:53</publishTime>
     </File>
     <File Include="Views/SalesActivities/Create.cshtml">
       <publishTime>03/05/2019 09:53:35</publishTime>

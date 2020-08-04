@@ -1,0 +1,294 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.RptCrVehicleTripLog>
+@{
+    ViewBag.Title = "Car Rental Report - Vehicle Trip Logs";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    int TotalTrips = 0;
+    int TotalOdo = 0;
+    decimal TotalFuel = 0;
+    decimal TotalMaintenance = 0;
+    decimal TotalDriversFee = 0;
+
+    decimal TotalCash = 0;
+    decimal TotalPO = 0;
+    decimal TotalCard = 0;
+
+    var driverList = ViewBag.driverList as IEnumerable<JobsV1.Areas.Personel.Models.crLogDriver>;
+    var unitList = ViewBag.unitList as IEnumerable<JobsV1.Areas.Personel.Models.crLogUnit>;
+}
+
+<h2>Vehicle Trip Logs Report</h2>
+
+<p>
+    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog")
+</p>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+            <h4 class="col-lg-1  control-label form-label form-filter-label"> Filter: </h4>
+
+            <div class="col-lg-4 form-label" style="position:relative;float:left;padding-bottom:10px;padding-left:0;">
+                <a class="cursor-hand" onclick="VehicleSummaryFilter_AddDays(-7)"> Last 7 Days </a> |
+                <a class="cursor-hand" onclick="VehicleSummaryFilter_AddDays(-15)"> Last 15 Days </a> |
+                <a class="cursor-hand" onclick="VehicleSummaryFilter_AddDays(-30)"> Last 30 Days </a>
+            </div>
+
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!-- Driver Filters -->
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-left:0px;">
+                <label class="col-lg-1 col-xs-1" style="padding-left:0px;margin-right:5px;margin-top:5px;"> Driver </label>
+                <select name="driverId" id="driverId" class="form-control col-md-12 col-xs-10 form-filter-input" value="@ViewBag.driverId">
+                    <option value="0"> All </option>
+                    @foreach (var driver in driverList)
+                    {
+                        <option value="@driver.Id"> @driver.Name.Trim() </option>
+                    }
+                </select>
+            </div>
+
+            <!-- Unit Filters -->
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-left:0px;">
+                <label class="col-lg-1 col-xs-1" style="padding-left:0px;margin-right:5px;margin-top:5px;"> Unit </label>
+                <select name="unitId" id="unitId" class="form-control col-md-12 col-xs-10 form-filter-input" value="@ViewBag.unitId">
+                    <option value="0"> All </option>
+                    @foreach (var unit in unitList)
+                    {
+                        <option value="@unit.Id"> @unit.Description.Trim() </option>
+                    }
+                </select>
+            </div>
+
+            <div class=" form-filter-div col-lg-2 col-md-2 col-sm-6 col-xs-12" style="max-width:120px;">
+                <label  class="col-lg-1 col-xs-1" style="padding-left:0px;margin-right:5px;margin-top:5px;"> Start&nbsp;Date </label>
+                <input id="DtStart" name="DtStart" type="text" class="form-control form-filter-input" />
+            </div>
+
+            <div class="form-filter-div col-lg-2 col-md-2 col-sm-6 col-xs-12" style="max-width:120px;">
+                <label class="col-lg-1 col-xs-1" style="padding-left:0px;margin-right:5px;margin-top:5px;"> End&nbsp;Date </label>
+                <input id="DtEnd" name="DtEnd" type="text" class="form-control form-filter-input" />
+            </div>
+
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12" style="padding:0px;">
+                <label> &nbsp; </label>
+                <button type="submit" class="btn btn-default col-lg-2 col-md-2 col-sm-2 col-xs-8 form-filter-input" style="min-width:80px;margin-top:5px;"> Filter </button>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            Unit
+        </th>
+        <th>
+            Driver
+        </th>
+        <th>
+            Company
+        </th>
+        <th>
+            Paid thru
+        </th>
+        <th>
+            Fuel/Maintenance
+        </th>
+        <th>
+            DriversFee
+        </th>
+    </tr>
+
+    @foreach (var item in Model.GroupBy(t => t.Vehicle))
+    {
+        decimal subtotal_mtnc = 0;
+        decimal subtotal_driversFee = 0;
+
+        <tr>
+
+            <td colspan="6">
+                @item.Key.Description
+            </td>
+
+        </tr>
+        foreach (var trip in item.OrderBy(t => t.TripDate))
+        {
+            subtotal_mtnc += trip.FuelMaintenance;
+            subtotal_driversFee += trip.DriversFee;
+
+            switch (trip.PaidThru)
+            {
+                case "Cash":
+                    TotalCash += trip.FuelMaintenance;
+                    break;
+                case "Credit Card":
+                    TotalCard += trip.FuelMaintenance;
+                    break;
+                case "PO":
+                    TotalPO += trip.FuelMaintenance;
+                    break;
+            }
+
+            <tr>
+                <td>
+                    @trip.TripDate.ToShortDateString()
+                </td>
+                <td>
+                    @trip.Driver.Name
+                </td>
+                <td>
+                    @trip.Company.Name
+                </td>
+                <td>
+
+                    @if (trip.PaidThru == "Salary Released")
+                    {
+                        <img src="~/Images/SalesLead/approve-icon.png" width="20" alt="salary released" data-toggle="tooltip" title="salary released" />
+                    }
+                    else
+                    {
+                        @trip.PaidThru
+                    }
+
+
+                </td>
+                <td>
+                    @trip.FuelMaintenance
+                </td>
+                <td>
+                    @trip.DriversFee
+                </td>
+            </tr>
+
+        }
+
+        <tr style="background-color:whitesmoke;">
+            <td colspan="4">
+                <span class="pull-right"> SubTotal </span>
+            </td>
+            <td>
+                @subtotal_mtnc.ToString("N0")
+            </td>
+            <td>
+                @subtotal_driversFee.ToString("N0")
+            </td>
+        </tr>
+
+        TotalTrips++;
+        TotalMaintenance += subtotal_mtnc;
+        TotalDriversFee += subtotal_driversFee;
+
+    }
+
+
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="3">
+           </td>
+            <td >
+                <span class="text-center"> No Trip Found </span>
+            </td>
+        </tr>
+    }
+    else
+    {
+
+
+    <tr style="background-color:whitesmoke;">
+
+
+        <td>
+            <span>
+                Total Cash: @TotalCash.ToString("N0")
+            </span>
+        </td>
+
+        <td>
+            <span>
+                Total Card:  @TotalCard.ToString("N0")
+            </span>
+        </td>
+
+        <td>
+            <span>
+                Total PO: @TotalPO.ToString("N0")
+            </span>
+        </td>
+        <td>
+            <span class="pull-right"> Total </span>
+        </td>
+        <td>
+            <span>
+                @TotalMaintenance.ToString("N0")
+            </span>
+        </td>
+        <td>
+            <span>
+                @TotalDriversFee.ToString("N0")
+            </span>
+        </td>
+    </tr>
+
+    }
+
+</table>
+
+@section Scripts{
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
+    <script>
+        $(() => {
+            Initialize();
+        });
+
+        function Initialize() {
+            var dtStart = '@ViewBag.DtStart';
+            var dtEnd = '@ViewBag.DtEnd';
+
+            if (dtStart == '') {
+                $('#DtStart').val(moment().format("MM/DD/YYYY"));
+            } else {
+                $('#DtStart').val(moment(dtStart).format("MM/DD/YYYY"));
+            }
+            if (dtEnd == '') {
+                $('#DtEnd').val(moment().format("MM/DD/YYYY"));
+            } else {
+                $('#DtEnd').val(moment(dtEnd).format("MM/DD/YYYY"));
+            }
+
+
+            var driverId = parseInt('@ViewBag.driverId');
+            console.log(driverId);
+            if (driverId > 0) {
+                $("#driverId").val(driverId);
+            } else {
+                $("#driverId").val(0);
+            }
+
+
+            var unitId = parseInt('@ViewBag.unitId');
+            console.log(unitId);
+            if (unitId > 0) {
+                $("#unitId").val(unitId);
+            } else {
+                $("#unitId").val(0);
+            }
+        }
+
+
+        function VehicleSummaryFilter_AddDays(days) {
+            console.log("add days")
+            $("#DtStart").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+        }
+
+        $('img[data-toggle="tooltip"]').tooltip({
+            animated: 'fade',
+            placement: 'bottom',
+            html: true
+        });
+    </script>
+}
+    
