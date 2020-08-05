@@ -347,8 +347,7 @@ namespace JobsV1.Controllers
             try
             {
                 var PaintServicesIds = new List<int>();
-                PaintServicesIds.Add(4);
-                PaintServicesIds.Add(14);
+                PaintServicesIds.Add(13);
 
                 var services = db.JobServices.Where(s => s.JobMainId == jobMainId).ToList();
 
@@ -377,8 +376,7 @@ namespace JobsV1.Controllers
             try
             {
                 var PaintServicesIds = new List<int>();
-                PaintServicesIds.Add(4);
-                PaintServicesIds.Add(14);
+                PaintServicesIds.Add(13);
 
                 var services = db.JobServices.Where(s => s.JobMainId == jobMainId).ToList();
 

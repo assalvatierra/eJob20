@@ -27,6 +27,32 @@ namespace JobsV1.Areas.Personel.Models
         public decimal Others { get; set; }
 
     }
+    public class RptCrVehiclePaymentSummary
+    {
+        public int Id { get; set; }
+        public crLogUnit Vehicle { get; set; }
+        public List<RptCrDriverPaymentTrip> DriverList { get; set; }
+    }
+
+
+    public class RptCrDriverPaymentTrip
+    {
+        public crLogDriver Driver { get; set; }
+        public int Trips { get; set; }
+        public int Odo { get; set; }
+        public decimal Fuel { get; set; }
+        public decimal Maintenance { get; set; }
+        public decimal DriversFee { get; set; }
+        public decimal Others { get; set; }
+        public RptCrPaymentTypeSummary PaymentTypeSummary { get; set; }
+    }
+
+    public class RptCrPaymentTypeSummary
+    {
+        public decimal Cash { get; set; }
+        public decimal PO { get; set; }
+        public decimal CreditCard { get; set; }
+    }
 
 
     public class RptCrVehicleTripLog

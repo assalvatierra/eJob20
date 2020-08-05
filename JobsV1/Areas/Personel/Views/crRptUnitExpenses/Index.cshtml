@@ -11,9 +11,10 @@
 </p>
 <p>
     Reports :
-    @Html.ActionLink("Trip Report", "ReportFilter","CarRentalLog",null,null) |
+    @Html.ActionLink("Trip Report", "ReportFilter", "CarRentalLog", null, null) |
     <a href="" data-toggle="modal" data-target="#VehicleSummaryFilter">Vehicle Summary</a> |
-    <a href="" data-toggle="modal" data-target="#VehicleTripFilter">Vehicle TripLog</a>
+    <a href="" data-toggle="modal" data-target="#VehicleTripFilter">Vehicle TripLog</a> |
+    <a href="" data-toggle="modal" data-target="#Vehicle-PaymentSummaryFilter">Vehicle Payment Summary</a>
 </p>
 
 <p>
@@ -51,14 +52,15 @@
             <td>
                 @if (item.CrRptUnits.Count() > 0)
                 {
-                <span>
-                    <a href="" data-toggle="modal" data-target="#ItemVehicleSummaryFilter" onclick="Initial_ItemVehicleSummaryFilter('@item.Id','@item.RptName')">Units Summary</a> |
-                    <a href="" data-toggle="modal" data-target="#ItemVehicleTripFilter" onclick="Initial_ItemVehicleTripFilter('@item.Id','@item.RptName')">Units Trip Logs</a>
-                </span>
+                    <span>
+                        <a href="" data-toggle="modal" data-target="#ItemVehicleSummaryFilter" onclick="Initial_ItemVehicleSummaryFilter('@item.Id','@item.RptName')"> Summary</a> |
+                        <a href="" data-toggle="modal" data-target="#ItemVehicleTripFilter" onclick="Initial_ItemVehicleTripFilter('@item.Id','@item.RptName')"> Trip Logs</a> |
+                        <a href="" data-toggle="modal" data-target="#ItemVehicle-PaymentSummaryFilter" onclick="Initial_ItemVehicle_PaymentSummaryFilter('@item.Id','@item.RptName')"> Payment Summary</a>
+                    </span>
                 }
                 else
                 {
-                <span> No Units Assigned. Please click @Html.ActionLink("Details", "Details", new { id = item.Id }) to assign units </span>
+                    <span> No Units Assigned. Please click @Html.ActionLink("Details", "Details", new { id = item.Id }) to assign units </span>
                 }
             </td>
             <td>
@@ -67,7 +69,7 @@
 
                 @if (item.CrRptUnits.Count() > 0)
                 {
-                   <span> Delete </span>
+                    <span> Delete </span>
                 }
                 else
                 {
@@ -79,16 +81,21 @@
 
 </table>
 
+@Html.Partial("_VehiclePaymentSummaryFilter")
 @Html.Partial("_VehicleSummaryFilter")
 @Html.Partial("_VehicleTripFilter")
+
+@Html.Partial("_ItemVehiclePaymentSummaryFilter")
 @Html.Partial("_ItemVehicleSummaryFilter")
 @Html.Partial("_ItemVehicleTripFilter")
 
 <!-- For perItem Report Redirect -->
+@Html.Hidden("ItemVehiclePaymentSummaryReport", Url.Action("VehiclePaymentSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
 @Html.Hidden("ItemVehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
 @Html.Hidden("ItemVehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
 
 <!-- For Report Redirect -->
+@Html.Hidden("VehiclePaymentSummaryReport", Url.Action("VehiclePaymentSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))
 @Html.Hidden("VehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))
 @Html.Hidden("VehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
 

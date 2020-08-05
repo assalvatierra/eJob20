@@ -107,6 +107,10 @@
         decimal subtotal_mtnc = 0;
         decimal subtotal_driversFee = 0;
 
+        decimal subtotal_cash = 0;
+        decimal subtotal_cc = 0;
+        decimal subtotal_po = 0;
+
         <tr>
 
             <td colspan="6">
@@ -123,12 +127,15 @@
             {
                 case "Cash":
                     TotalCash += trip.FuelMaintenance;
+                    subtotal_cash += trip.FuelMaintenance;
                     break;
                 case "Credit Card":
                     TotalCard += trip.FuelMaintenance;
+                    subtotal_cc += trip.FuelMaintenance;
                     break;
                 case "PO":
                     TotalPO += trip.FuelMaintenance;
+                    subtotal_po += trip.FuelMaintenance;
                     break;
             }
 
@@ -166,7 +173,16 @@
         }
 
         <tr style="background-color:whitesmoke;">
-            <td colspan="4">
+            <td>
+                <span > Cash : @subtotal_cash.ToString("N0")  </span>
+            </td>
+            <td>
+                <span> Card : @subtotal_cc.ToString("N0")  </span>
+            </td>
+            <td>
+                <span> PO : @subtotal_po.ToString("N0")  </span>
+            </td>
+            <td>
                 <span class="pull-right"> SubTotal </span>
             </td>
             <td>
@@ -180,6 +196,7 @@
         TotalTrips++;
         TotalMaintenance += subtotal_mtnc;
         TotalDriversFee += subtotal_driversFee;
+
 
     }
 
@@ -198,7 +215,7 @@
     {
 
 
-    <tr style="background-color:whitesmoke;">
+    <tr style="background-color:whitesmoke;font-size:17px;">
 
 
         <td>

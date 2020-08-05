@@ -24,6 +24,27 @@ function VehicleSummaryFilter_AddDays(days) {
 }
 
 
+/**  Summary Payment Report Filter */
+
+function Submit_Vehicle_PaymentSummaryFilter() {
+
+    var startDate = $("#Vehicle-PaymentSummaryFilter-StartDate").val();
+    var endDate = $("#Vehicle-PaymentSummaryFilter-EndDate").val();
+    var unitId = $("#Vehicle-PaymentSummaryFilter-unitId").val();
+
+    var url = $("#VehiclePaymentSummaryReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+    url = url.replace('_unitId', unitId);
+    //console.log(url)
+    window.location.href = url;
+}
+
+function Vehicle_PaymentSummaryFilter_AddDays(days) {
+    $("#Vehicle-PaymentSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}
+
+
 /**  Trip Report Filter */
 
 function Submit_VehicleTripFilter() {
@@ -71,6 +92,30 @@ function ItemVehicleSummaryFilter_AddDays(days) {
     $("#ItemVehicleSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
 }
 
+
+/** Item Vehicle Payments Summary Report Filter */
+function Initial_ItemVehicle_PaymentSummaryFilter(rptId, rptName) {
+    $("#ItemVehicle-PaymentSummaryFilter-rptName").val(rptName);
+    $("#ItemVehicle-PaymentSummaryFilter-rptId").val(rptId);
+}
+
+function Submit_ItemVehicle_PaymentSummaryFilter() {
+
+    var startDate = $("#ItemVehicle-PaymentSummaryFilter-StartDate").val();
+    var endDate = $("#ItemVehicle-PaymentSummaryFilter-EndDate").val();
+    var rptId = $("#ItemVehicle-PaymentSummaryFilter-rptId").val();
+
+    var url = $("#ItemVehiclePaymentSummaryReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+    url = url.replace('_rptId', rptId);
+    //console.log(url)
+    window.location.href = url;
+}
+
+function ItemVehicle_PaymentSummaryFilter_AddDays(days) {
+    $("#ItemVehicle-PaymentSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}
 
 /**  Vehicle Trip Report Filter */
 

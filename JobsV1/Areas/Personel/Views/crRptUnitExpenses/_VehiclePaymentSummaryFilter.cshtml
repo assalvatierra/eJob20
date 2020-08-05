@@ -1,0 +1,63 @@
+﻿@{
+    var unitList = ViewBag.crLogUnitList as IEnumerable<JobsV1.Areas.Personel.Models.crLogUnit>;
+}
+
+<div class="modal fade" role="dialog" id="Vehicle-PaymentSummaryFilter" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width:470px;">
+            <form method="post" id="Form_VehicleSummaryFilter">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> Vehicle Payment Summary Filter </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Filter&nbsp;Date  </label>
+                            <div class="col-sm-10" style="margin-top:5px;">
+                                <a class="cursor-hand" onclick="Vehicle_PaymentSummaryFilter_AddDays(-7)"> Last 7 Days </a> |
+                                <a class="cursor-hand" onclick="Vehicle_PaymentSummaryFilter_AddDays(-15)"> Last 15 Days </a> |
+                                <a class="cursor-hand" onclick="Vehicle_PaymentSummaryFilter_AddDays(-30)"> Last 30 Days </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Start&nbsp;Date  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtStart" type="text" id="Vehicle-PaymentSummaryFilter-StartDate" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> End&nbsp;Date  </label>
+                            <div class="col-md-10">
+                                <input class="form-control form-group-margin-bot" name="DtEnd" type="text" id="Vehicle-PaymentSummaryFilter-EndDate" />
+                            </div>
+                        </div>
+
+                        <!-- Unit Filters -->
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label class="control-label form-label col-md-2"> Unit </label>
+                            <div class="col-md-10">
+                                <select name="unitId" id="Vehicle-PaymentSummaryFilter-unitId" class="form-control col-md-10 col-xs-10 form-filter-input">
+                                    <option value="0"> All </option>
+                                    @foreach (var unit in unitList)
+                                    {
+                                        <option value="@unit.Id"> @unit.Description.Trim() </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-12 col-sm-12 col-xs-9">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="Submit_Vehicle_PaymentSummaryFilter()">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
