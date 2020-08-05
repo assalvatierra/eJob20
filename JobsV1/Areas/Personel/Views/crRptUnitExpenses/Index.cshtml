@@ -7,10 +7,17 @@
 
 <h2>Unit Expense Report</h2>
 <p>
-    @Html.ActionLink("Back to Report List", "Index", "CrRptUnits", null, null)
+    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog", null, null)
 </p>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    Reports :
+    @Html.ActionLink("Trip Report", "ReportFilter","CarRentalLog",null,null) |
+    <a href="" data-toggle="modal" data-target="#VehicleSummaryFilter">Vehicle Summary</a> |
+    <a href="" data-toggle="modal" data-target="#VehicleTripFilter">Vehicle TripLog</a>
+</p>
+
+<p>
+    @Html.ActionLink("Create New Report", "Create")
 </p>
 <table class="table">
     <tr>
@@ -23,26 +30,72 @@
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
+        <th>
+            Reports
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RptName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RptNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.OrderBy(c => c.RptNo))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RptName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RptNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @if (item.CrRptUnits.Count() > 0)
+                {
+                <span>
+                    <a href="" data-toggle="modal" data-target="#ItemVehicleSummaryFilter" onclick="Initial_ItemVehicleSummaryFilter('@item.Id','@item.RptName')">Units Summary</a> |
+                    <a href="" data-toggle="modal" data-target="#ItemVehicleTripFilter" onclick="Initial_ItemVehicleTripFilter('@item.Id','@item.RptName')">Units Trip Logs</a>
+                </span>
+                }
+                else
+                {
+                <span> No Units Assigned. Please click @Html.ActionLink("Details", "Details", new { id = item.Id }) to assign units </span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+
+                @if (item.CrRptUnits.Count() > 0)
+                {
+                   <span> Delete </span>
+                }
+                else
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
+            </td>
+        </tr>
+    }
 
 </table>
+
+@Html.Partial("_VehicleSummaryFilter")
+@Html.Partial("_VehicleTripFilter")
+@Html.Partial("_ItemVehicleSummaryFilter")
+@Html.Partial("_ItemVehicleTripFilter")
+
+<!-- For perItem Report Redirect -->
+@Html.Hidden("ItemVehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
+@Html.Hidden("ItemVehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
+
+<!-- For Report Redirect -->
+@Html.Hidden("VehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))
+@Html.Hidden("VehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
+
+
+
+@section Scripts{
+    <script src="~/Areas/Personel/Script/RptUnitExpenses.js"></script>
+    <script src="~/Scripts/Filters/FormInputFilter.js"></script>
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
+}

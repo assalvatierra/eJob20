@@ -2,41 +2,51 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4>crRptUnitExpense</h4>
+    <h2> @Html.DisplayFor(model => model.RptName) </h2>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.RptName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.RptName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RptNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RptNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-    </dl>
+    <div class="col-lg-12">
+        <p> Rpt No:  <b>@Html.DisplayFor(model => model.RptNo) </b></p>
+        <p> Status:  <b>@Html.DisplayFor(model => model.Status) </b> </p>
+    </div>
 </div>
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Add Unit Report", "Create", "CrRptUnits", new { rptId = Model.Id }, null) 
 </p>
+<table class="table">
+    <tr>
+        <th>
+           Unit Description
+        </th>
+        <th>
+            SeqNo
+        </th>
+    </tr>
+    @foreach (var item in Model.CrRptUnits.OrderBy(c=>c.RptSeqNo))
+    {
+        <tr>
+            <td>
+                @item.crLogUnit.Description
+            </td>
+            <td>
+                @item.RptSeqNo
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "CrRptUnits", new { id=item.Id },null) |
+                @Html.ActionLink("Delete", "Delete", "CrRptUnits", new { id=item.Id },null)
+            </td>
+        </tr>
+    }
+</table>
+

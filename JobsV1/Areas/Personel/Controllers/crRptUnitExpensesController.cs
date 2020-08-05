@@ -14,6 +14,8 @@ namespace JobsV1.Areas.Personel.Controllers
     public class crRptUnitExpensesController : Controller
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
+        private CrDataLayer dl = new CrDataLayer();
+        private DateClass dt = new DateClass();
         private List<SelectListItem> StatusList = new List<SelectListItem> {
                 new SelectListItem { Value = "ACT", Text = "Active" },
                 new SelectListItem { Value = "INC", Text = "Inactive" }
@@ -23,6 +25,8 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crRptUnitExpenses
         public ActionResult Index()
         {
+            ViewBag.crLogUnitList = dl.GetUnits().ToList();
+            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
             return View(db.crRptUnitExpenses.ToList());
         }
 
@@ -44,8 +48,19 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crRptUnitExpenses/Create
         public ActionResult Create()
         {
+            crRptUnitExpense unitExpense = new crRptUnitExpense();
+
+            if (db.crRptUnitExpenses.ToList().Count() > 0)
+            {
+                unitExpense.RptNo = db.crRptUnitExpenses.OrderByDescending(c => c.Id).FirstOrDefault().RptNo + 1;
+            }
+            else
+            {
+                unitExpense.RptNo = 1;
+            }
+
             ViewBag.Status = new SelectList(StatusList, "value", "text");
-            return View();
+            return View(unitExpense);
         }
 
         // POST: Personel/crRptUnitExpenses/Create

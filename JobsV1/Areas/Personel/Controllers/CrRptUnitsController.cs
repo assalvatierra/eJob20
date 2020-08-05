@@ -39,11 +39,25 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/CrRptUnits/Create
-        public ActionResult Create()
+        public ActionResult Create(int? rptId)
         {
+            var _rptId = rptId ?? 1;
+            CrRptUnit crRptUnit = new CrRptUnit();
+
+            if (db.CrRptUnits.Where(c => c.crRptUnitExpenseId == _rptId).ToList().Count() > 0)
+            {
+                crRptUnit.RptSeqNo = db.CrRptUnits.Where(c => c.crRptUnitExpenseId == _rptId).OrderByDescending(c => c.RptSeqNo).FirstOrDefault().RptSeqNo + 1;
+            }
+            else
+            {
+                crRptUnit.RptSeqNo = 1;
+            }
+
+            ViewBag.UnitExpenseId = _rptId;
+            ViewBag.UnitExpenseName = new SelectList(db.crRptUnitExpenses, "Id", "RptName", _rptId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
-            ViewBag.crRptUnitExpenseId = new SelectList(db.crRptUnitExpenses, "Id", "RptName");
-            return View();
+            ViewBag.crRptUnitExpenseId = new SelectList(db.crRptUnitExpenses, "Id", "RptName", _rptId);
+            return View(crRptUnit);
         }
 
         // POST: Personel/CrRptUnits/Create
@@ -57,7 +71,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 db.CrRptUnits.Add(crRptUnit);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "crRptUnitExpenses", new { id = crRptUnit.crRptUnitExpenseId });
             }
 
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crRptUnit.crLogUnitId);
@@ -77,6 +91,11 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+
+            var _rptId = crRptUnit.crRptUnitExpenseId;
+
+            ViewBag.UnitExpenseId = _rptId;
+            ViewBag.UnitExpenseName = new SelectList(db.crRptUnitExpenses, "Id", "RptName", _rptId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crRptUnit.crLogUnitId);
             ViewBag.crRptUnitExpenseId = new SelectList(db.crRptUnitExpenses, "Id", "RptName", crRptUnit.crRptUnitExpenseId);
             return View(crRptUnit);
@@ -93,7 +112,7 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 db.Entry(crRptUnit).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "crRptUnitExpenses", new { id = crRptUnit.crRptUnitExpenseId });
             }
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crRptUnit.crLogUnitId);
             ViewBag.crRptUnitExpenseId = new SelectList(db.crRptUnitExpenses, "Id", "RptName", crRptUnit.crRptUnitExpenseId);
@@ -123,7 +142,7 @@ namespace JobsV1.Areas.Personel.Controllers
             CrRptUnit crRptUnit = db.CrRptUnits.Find(id);
             db.CrRptUnits.Remove(crRptUnit);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "crRptUnitExpenses", new { id = crRptUnit.crRptUnitExpenseId });
         }
 
         protected override void Dispose(bool disposing)

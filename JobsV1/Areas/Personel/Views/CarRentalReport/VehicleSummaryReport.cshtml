@@ -14,7 +14,7 @@
 <h2>Vehicle Summary Report</h2>
 
 <p>
-    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog")
+    @Html.ActionLink("Back to Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
 
 @using (Html.BeginForm())
@@ -97,7 +97,7 @@
 
             <tr>
                 <td>
-                    @Html.ActionLink(item.Vehicle.Description, "VehicleTripReport", new { DtStart = @ViewBag.DtStart, DtEnd = @ViewBag.DtEnd, initId = item.Vehicle.Id, driverId = trip.Driver.Id })
+                    @Html.ActionLink(item.Vehicle.Description, "VehicleTripReport", new { DtStart = @ViewBag.DtStart, DtEnd = @ViewBag.DtEnd, unitId = item.Vehicle.Id, driverId = trip.Driver.Id })
                 </td>
                 <td>
                     @trip.Driver.Name

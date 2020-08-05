@@ -1238,6 +1238,7 @@
     <Content Include="Areas\Personel\Script\DriverSummary.js" />
     <Content Include="Areas\Personel\Script\ProdCreate.js" />
     <Content Include="Areas\Personel\Script\ProdList.js" />
+    <Content Include="Areas\Personel\Script\RptUnitExpenses.js" />
     <Content Include="Areas\Personel\Script\SupList.js" />
     <Content Include="Areas\Products\Models\InitData.sql" />
     <Content Include="Areas\Products\Models\ProdDB.Context.tt">
@@ -2042,6 +2043,10 @@
     <Content Include="Areas\Personel\Views\CarRentalReport\VehicleTripReport.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalReport\VehicleSummaryReport.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_VehicleTripFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\_ItemVehicleSummaryFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\_ItemVehicleTripFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\_VehicleTripFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\_VehicleSummaryFilter.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
