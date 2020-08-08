@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using JobsV1.Models.Class;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
@@ -15,9 +16,10 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private DateClass dt = new DateClass();
+        private JobPostSaleClass jps = new JobPostSaleClass();
 
         // GET: JobPostSales
-        public ActionResult Index(int? serviceId, int? statusId)
+        public ActionResult Index2(int? serviceId, int? statusId)
         {
             DateTime today = dt.GetCurrentDate().Date;
             var jobPostSales = db.JobPostSales.Where(j => today > j.DtPost);
@@ -40,10 +42,23 @@ namespace JobsV1.Controllers
                 jobPostSales = jobPostSales.Where(j => j.JobService.ServicesId == serviceId);
             }
 
-            ViewBag.StatusId = statusId;
+            ViewBag.ServiceId = serviceId ?? 0;
+            ViewBag.StatusId = statusId ?? 0;
             ViewBag.Services = db.Services.ToList().OrderBy(s => s.Description);
             return View(jobPostSales.OrderByDescending(s=>s.DtPost).ToList());
         }
+
+        // GET: JobPostSales
+        public ActionResult Index(int? serviceId, int? statusId)
+        {
+            var postSales = jps.GetJobsPostSalesPending(serviceId, statusId).GroupBy(c=>c.Id).Select(c=>c.First()).ToList();
+
+            ViewBag.ServiceId = serviceId ?? 0;
+            ViewBag.StatusId = statusId ?? 0;
+            ViewBag.Services = db.Services.ToList().OrderBy(s => s.Description);
+            return View(postSales);
+        }
+
 
         // GET: JobPostSales/Details/5
         public ActionResult Details(int? id)
@@ -71,7 +86,8 @@ namespace JobsV1.Controllers
 
             JobPostSale jobPostSale = new JobPostSale();
             jobPostSale.DoneBy = HttpContext.User.Identity.Name;
-            ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobserviceId);
+            jobPostSale.JobServicesId = jobserviceId;
+
             ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status");
             return View(jobPostSale);
         }
@@ -90,7 +106,6 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobPostSale.JobServicesId);
             ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status", jobPostSale.JobPostSalesStatusId);
             return View(jobPostSale);
         }
@@ -164,6 +179,7 @@ namespace JobsV1.Controllers
             var jobPostSale = db.JobPostSales.Find(Id);
             if (jobPostSale != null)
             {
+                //update post sales 
                 if (JobPostSalesStatusId > 2)
                 {
                     jobPostSale.DtDone = dt.GetCurrentDateTime();
@@ -176,6 +192,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+           
             ViewBag.JobServicesId = new SelectList(db.JobServices, "Id", "Particulars", jobPostSale.JobServicesId);
             ViewBag.JobPostSalesStatusId = new SelectList(db.JobPostSalesStatus, "Id", "Status", jobPostSale.JobPostSalesStatusId);
             return View(jobPostSale);

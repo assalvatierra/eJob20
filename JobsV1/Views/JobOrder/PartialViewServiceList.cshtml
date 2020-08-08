@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<JobsV1.Controllers.cJobService>
+@{ 
 
+    var siteconfig = ViewBag.SiteConfig;
+    var isAdmin = ViewBag.IsAdmin;
+}
 <div>
 
 @foreach (var item in Model)
@@ -22,9 +26,12 @@
             <span style="font-weight:600;color:darkblue;">@item.Service.Particulars</span>
             <span style="font:bold 11px;color:darkblue;">&nbsp;[item: @item.Service.SupplierItem.Description]</span>
             <span>
-
-                @Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Service.Id }) |
-                @Html.ActionLink("Details", "JobServiceDetails", new { id = item.Service.Id }) |
+                @if(isAdmin){
+                    <span>
+                    @*@Html.ActionLink("Edit", "JobServiceEdit", new { id = item.Service.Id }) |
+                    @Html.ActionLink("Details", "JobServiceDetails", new { id = item.Service.Id })*@ 
+                    </span>
+                }
                 @*@Html.ActionLink("Delete", "JobSvcDelete", new { id = item.Service.Id })*@
             </span>
 
@@ -54,9 +61,15 @@
                         -
                     </span>
 
-                    @Html.ActionLink("Text Form", "TextMessage", new { id = item.Service.Id })
-                    <span> | </span>
-                    @Html.ActionLink("Send Notification", "Notification", new { id = item.Service.Id })
+                    if (siteconfig == "Realwheels")
+                    {
+
+                        @Html.ActionLink("Text Form", "TextMessage", new { id = item.Service.Id })
+                        <span> | </span>
+                        @Html.ActionLink("Send Notification", "Notification", new { id = item.Service.Id })
+
+                    }
+
                 }
 
             </p>

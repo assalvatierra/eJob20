@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/30/2020 15:38:11
+-- Date Created: 08/08/2020 19:39:50
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -2046,7 +2046,8 @@ GO
 CREATE TABLE [dbo].[CustEntDocuments] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [SupDocumentId] int  NOT NULL,
-    [CustEntMainId] int  NOT NULL
+    [CustEntMainId] int  NOT NULL,
+    [IsApproved] int  NULL
 );
 GO
 
@@ -2163,16 +2164,16 @@ GO
 CREATE TABLE [dbo].[VehicleModels] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Make] nvarchar(50)  NOT NULL,
-    [Variant] nvarchar(max)  NOT NULL,
+    [Variant] nvarchar(30)  NOT NULL,
     [VehicleBrandId] int  NOT NULL,
     [VehicleTypeId] int  NOT NULL,
-    [Remarks] nvarchar(max)  NULL,
+    [Remarks] nvarchar(50)  NULL,
     [VehicleTransmissionId] int  NOT NULL,
     [VehicleFuelId] int  NOT NULL,
     [VehicleDriveId] int  NOT NULL,
-    [MotorOil] nvarchar(max)  NULL,
-    [GearOil] nvarchar(max)  NULL,
-    [TransmissionOil] nvarchar(max)  NULL
+    [MotorOil] nvarchar(10)  NULL,
+    [GearOil] nvarchar(10)  NULL,
+    [TransmissionOil] nvarchar(10)  NULL
 );
 GO
 

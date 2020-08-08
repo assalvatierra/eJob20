@@ -531,3 +531,24 @@ SELECT DISTINCT jv.*, ISNULL(js.DtStart, jm.JobDate), js.Particulars, js.Remarks
           LEFT JOIN JobServices js ON js.JobMainId = jv.JobMainId
           LEFT JOIN JobMains jm ON jm.Id = jv.JobMainId 
           WHERE jv.VehicleId = 10 AND jm.JobStatusId <= 4  ORDER BY DtStart DESC ;
+
+          
+-- job post sale query --
+SELECT DISTINCT jobPostSalePending.Id FROM (
+
+    SELECT JobServiceId = js.Id, Customer = cu.Name, Mobile = jm.CustContactNumber, Email = jm.CustContactEmail, Service = s.Name,
+        jm.JobDate, Vehicle = jm.Description, postSaleId = jps.Id, js.*, SupplierItem = si.Description, si.Interval, 
+        FollowUpDate = DATEADD(DAY, ISNULL(si.Interval, 0), js.DtStart), PostSalesStatus = ps.Status, 
+        jps.JobPostSalesStatusId, jps.DoneBy, PostSaleRemarks = jps.Remarks 
+        FROM JobMains jm 
+        LEFT JOIN JobServices js ON js.JobMainId = jm.Id 
+        LEFT JOIN Services s ON js.ServicesId = s.Id
+        LEFT JOIN SupplierItems si ON js.SupplierItemId = si.Id
+        LEFT JOIN JobPostSales jps ON js.Id = jps.JobServicesId 
+        LEFT JOIN JobPostSalesStatus ps ON jps.JobPostSalesStatusId = ps.Id 
+        LEFT JOIN Customers cu ON jm.CustomerId = cu.Id 
+        WHERE JobStatusId = 4 AND ISNULL(si.Interval, 0) > 0 
+        AND convert(datetime, GETDATE()) >= DATEADD(DAY, ISNULL(si.Interval, 0), js.DtStart) 
+        AND ISNULL(jps.JobPostSalesStatusId, 0) < 3
+
+    ) as jobPostSalePending

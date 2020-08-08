@@ -1,0 +1,28 @@
+﻿@{
+    var statusList = ViewBag.statusList as IEnumerable<JobsV1.Models.JobPaymentStatus>;
+
+}
+
+<!-- Edit Payment Status Modal -->
+<div class="modal fade" id="EditPaymentStatusModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Edit Permission </h4>
+            </div>
+            <div class="modal-body" id="modal-content">
+                <div class="list-group" id="categorylist">
+                    @foreach (var status in statusList)
+                    {
+                        <a  onclick="UpdatePaymentStatus('@ViewBag.JobMainId','@status.Id')" class="list-group-item"> @status.Status </a>
+
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -343,7 +343,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
 
-        // GET: Personel/CarRentalCashRelease/Edit/5
+        // GET: Personel/CarRentalLog/EditCashTrx/5
         public ActionResult EditCashTrx(int? id)
         {
             if (id == null)
@@ -361,7 +361,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(crLogCashRelease);
         }
 
-        // POST: Personel/CarRentalCashRelease/Edit/5
+        // POST: Personel/CarRentalLog/EditCashTrx/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -380,12 +380,41 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(crLogCashRelease);
         }
 
+
+        // GET: Personel/CarRentalLog/EditCashTrx/5
+        public ActionResult CloseCashTrx(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogCashRelease crLogCashRelease = db.crLogCashReleases.Find(id);
+            if (crLogCashRelease == null)
+            {
+                return HttpNotFound();
+            }
+            try
+            {
+                //create closing Id
+
+                crLogCashRelease.crLogClosingId = generateClosingTrx();
+                db.Entry(crLogCashRelease).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("DriverSummary", new { id = crLogCashRelease.crLogDriverId });
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
         public ActionResult DriverSummary(int id, int? reqStatus)
         {
             crLogDriver driver = db.crLogDrivers.Find(id);
             List<crLogTrip> trips = db.crLogTrips.Where(d => d.crLogDriverId == id && d.crLogClosingId==null).OrderBy(s=>s.DtTrip).ToList();
-            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogCashTypeId == 2).OrderBy(s=>s.DtRelease).ToList();
-            List<crLogCashRelease> payments = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogCashTypeId == 3).OrderBy(s => s.DtRelease).ToList();
+            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 2).OrderBy(s=>s.DtRelease).ToList();
+            List<crLogCashRelease> payments = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 3).OrderBy(s => s.DtRelease).ToList();
             List<crLogCashRelease> noStatus = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 1).OrderBy(s => s.DtRelease).ToList();
 
 

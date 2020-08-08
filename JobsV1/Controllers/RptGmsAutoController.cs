@@ -23,14 +23,12 @@ namespace JobsV1.Controllers
         // GET: RptGmsAuto
         public ActionResult Index()
         {
-
             return View();
         }
 
         // GET: RptGmsAuto
         public ActionResult PageNotFound()
         {
-
             return View();
         }
 
@@ -63,11 +61,10 @@ namespace JobsV1.Controllers
             ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
             ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
             ViewBag.CompanyLogo = dal.getSysSetting("ICON");
-
+            ViewBag.CompanyAccountType = jo.GetCompanyAccountType(jobmain.Id);
 
             return View(jobmain);
         }
-
 
         // Service Billing
         // id : jobMainId
@@ -98,12 +95,11 @@ namespace JobsV1.Controllers
             ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
             ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
             ViewBag.CompanyLogo = dal.getSysSetting("ICON");
+            ViewBag.CompanyAccountType = jo.GetCompanyAccountType(jobmain.Id);
 
 
             return View(jobmain);
         }
-
-
 
         [HttpGet]
         public string GetVehicleOilRemarks(int id)
@@ -161,8 +157,6 @@ namespace JobsV1.Controllers
                 return "Oil : N/A ";
             }
         }
-
-
 
         public ActionResult OilReport(string DtStart, string DtEnd, int? mechanicId)
         {
@@ -312,7 +306,9 @@ namespace JobsV1.Controllers
                     PaymentAmount = jo.GetJobPaymentAmount(j.Id), //get total paid amount from jobservices
                     PaymentStatus = jo.GetJobPaymentStatus(j.Id), //get total amount from jobservices
                     PaintJobAmount = GetTotalPaintJobAmount(j.Id),
-                    PartsOilsJobAmount = GetTotalPartsOilsJobAmount(j.Id)
+                    PartsOilsJobAmount = GetTotalPartsOilsJobAmount(j.Id),
+                    DiscountAmount = jo.GetJobDiscountAmount(j.Id)
+                    
                 })
             );
 
@@ -369,7 +365,6 @@ namespace JobsV1.Controllers
             }
 
         }
-
 
         public decimal GetTotalPartsOilsJobAmount(int jobMainId)
         {

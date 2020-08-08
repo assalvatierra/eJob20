@@ -43,6 +43,7 @@
             <th> Job Date </th>
             <th width="180px"> Description </th>
             <th> Customer </th>
+            <th> Type </th>
             <th> JobStatus </th>
             <th> Paid / Amount </th>
             <th> Payment </th>
@@ -57,6 +58,7 @@
                 <td> @item.JobDate.ToShortDateString() </td>
                 <td> @item.Description </td>
                 <td> @item.Customer.Name </td>
+                <td> @{ Html.RenderAction("GetCompanyAccountType", new { id = item.Id }); } </td>
                 <td> @item.JobStatus.Status </td>
                 <td>
                     <span class="text-success"> @{ Html.RenderAction("GetJobTotalPaidAmount", new { id = item.Id }); } </span>

@@ -17,6 +17,7 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public int SupDocumentId { get; set; }
         public int CustEntMainId { get; set; }
+        public Nullable<int> IsApproved { get; set; }
     
         public virtual SupDocument SupDocument { get; set; }
         public virtual CustEntMain CustEntMain { get; set; }

@@ -2852,6 +2852,9 @@
     <Content Include="Views\JobPostSales\Update.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Login - Solidsteel.cshtml" />
+    <Content Include="Views\JobPostSales\Index2.cshtml" />
+    <Content Include="Views\Cashier\_EditPaymentStatus.cshtml" />
+    <Content Include="Views\JobOrder\_PermissionModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

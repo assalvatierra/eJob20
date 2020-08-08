@@ -7,30 +7,82 @@
     decimal discountTotal = 0;
     var service = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
     var jobDiscount = (Decimal)ViewBag.JobDiscount;
+    var JobStatus = ViewBag.JobStatus as JobsV1.Models.JobStatus;
+    var PaymentStatus = ViewBag.JobPaymentStatus as JobsV1.Models.JobPaymentStatus;
+    var JobMain = @ViewBag.JobOrder as JobsV1.Models.JobMain;
+    var Company = ViewBag.Company;
 }
-
-<h3>Job Order: @ViewBag.JobOrder.Customer.Name</h3>
-
-<div>
-    <p>
-        Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
-        <br />Description: @ViewBag.JobOrder.Description
-        <br />Status:
-
-        @if (ViewBag.JobStatus == "RESERVATION")
+<div class="row" style="margin-left:2px;min-width:500px;margin-top:20px;margin-bottom:10px;">
+    <h2 class="no-margin">
+        @JobMain.Customer.Name / @Company
+    </h2>
+    <h3 class="pull-left no-margin text-muted">
+        Job #: @JobMain.Id.ToString("D4")
+    </h3>
+    <p class="pull-right " style="margin-right:20px;font-size:20px;margin-top:-20px;">
+        Status :
+        @if (PaymentStatus.Id == 1)
         {
-            <text>
-                RESERVED
-            </text>
+            <span class="label label-success"> @PaymentStatus.Status  </span>
+        }
+        else if (PaymentStatus.Id == 2)
+        {
+            <span class="label label-default"> @PaymentStatus.Status  </span>
+        }
+        else if (PaymentStatus.Id == 3)
+        {
+            <span class="label label-primary"> @PaymentStatus.Status  </span>
         }
         else
         {
-            @ViewBag.JobStatus
+            <span class="label label-default"> @PaymentStatus.Status  </span>
         }
-
     </p>
 </div>
+<p>
+    Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
+    <br />Description: @ViewBag.JobOrder.Description
 
+
+    @if (JobStatus.Id == 1)
+    {
+        <span class="label label-default pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:10px;">
+            @JobStatus.Status
+        </span>
+    }
+    else if (JobStatus.Id == 2)
+    {
+        <span class="label label-info pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:10px;">
+            RESERVED
+        </span>
+    }
+    else if (JobStatus.Id == 3)
+    {
+        <span class="label label-success pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:10px;">
+            @JobStatus.Status
+        </span>
+    }
+    else if (JobStatus.Id == 4)
+    {
+        <span class="label label-primary" style="margin-bottom:5px;margin-top:-5px;font-size:10px;">
+            @JobStatus.Status
+        </span>
+    }
+    else
+    {
+        <span class="label label-warning pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:10px;">
+            @JobStatus.Status
+        </span>
+    }
+    <br />
+    <span>
+        Account Type: @{ Html.RenderAction("GetCompanyAccountType", new { id = JobMain.Id }); }
+    </span>
+
+</p>
+<p>
+    <a href="#" id="catbtn" data-toggle="modal" data-target="#EditPaymentStatusModal"> Update Payment Status </a>
+</p>
 <table class="table">
     <tr>
         <td> Date </td>
@@ -209,7 +261,7 @@
                     <a href="#" id="catbtn" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
                     <a href="#" id="catbtn" data-toggle="modal" data-target="#Delete-PermissionModal" onclick="SetDeletePermissionId('@item.Id')"> Delete </a>
                     @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                      @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                 </td>
             </tr>
         }
@@ -274,12 +326,30 @@
 </p>
 
 @Html.Partial("_PermissionModal")
+@Html.Partial("_EditPaymentStatus")
 
 
 @section Scripts{
     <script src="~/Scripts/Cashier/CashierPayments.js"></script>
     <script>
+        function UpdatePaymentStatus(jobId, statusId) {
+            var JobId = parseInt(jobId);
+            var StatusId = parseInt(statusId);
 
+            var data = {
+                id : JobId,
+                statusId : StatusId
+            }
+
+            $.post("/Cashier/UpdatePaymentStatus", data, (result) => {
+
+                if (result == 'True') {
+                   window.location.reload();
+                } else {
+                    alert("Unable to update payment status.");
+                }
+            })
+        }
     </script>
 
 }

@@ -496,16 +496,17 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 -- Post Sale --
 ('Demo@gmail.com', 83, 83); 
 
+--GMS Auto Report
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 ('Reports','GMS AutoCare Reports',0,'RptGmsAuto','OilReport','',20,1);
 
---GMS Auto Report
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
 ('RP112','GMS Auto Reports','Reports','A','/Images/Erp/icons/icons-report.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (88,21);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Oil Report' ,'',88,'RptGmsAuto','OilReport','',21,881);	        -- id: 62
+
 -- Payment STatus -- 
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Payments Status Report' ,'Payments Status Report',88,'RptGmsAuto','JobStatusReport','',21,882);	        -- id: 62
@@ -519,4 +520,19 @@ values 	('Referral Report' ,'Referral Report',88,'RptGmsAuto','JobStatusReport',
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Job Monitor' ,'Job Monitor',3,'JobOrder','JobsMonitor','',21,882);	        -- id: 62
 		
+
+
+		
+--Trip Logs --
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
+('Trip Logs','Trip Logs',0,'Personel/CarRentalLog','Index','',20,21);
+
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('TL1001','Car Rental Trip Logs','Trip Logs','A','/Images/Erp/icons/icons-report.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (88,21);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Oil Report' ,'',88,'RptGmsAuto','OilReport','',21,881);	        -- id: 62
+
+
 		

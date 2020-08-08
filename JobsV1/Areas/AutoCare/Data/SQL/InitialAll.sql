@@ -60,14 +60,51 @@ values	('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'),
 
 -- ----- Auto shop ------
 insert into Services([Name],[Description],[Status]) values
-	('Change Oil','Change Oil','1'),
-	('Under Chassis','Alignment, bushing, etc ','1'),
-	('Body repair','Painting','1'),
-	('Other','Other types of services','1');
+	('Change Oil (5T KM)' ,'Change Oil 5KM' ,'1'),
+	('Change Oil (10T KM)','Change Oil 10KM','1'),
+	('Change Oil (20T KM)','Change Oil 20KM','1'),
+	('Purely Change Oil'  ,'Change Oil Only','1'),
+	('Replace Brake Pads' ,'Change Oil Only','1'),
+	('Clutch Package'     ,'Remove/Replace Clutch','1'),
+	('Replace Alternator' ,'Remove/Replace Fuel Filter','1'),
+	('Replace Alternator Pulley' ,'Remove/Replace Fuel Filter','1'),
+	('Painting Jobs (Details)' ,'Remove/Replace Fuel Filter','1'),
+	('Painting Jobs (Details)' ,'Remove/Replace Fuel Filter','1'),
+	('Other' ,'Specify','1'),
+	('Replace Spark Plug' ,'Remove/Replace Spark plug','1'),
+	('Check Brakes' ,'Open/Check-Clean All Brakes','1'),
+	('Tire Supply' ,'Specify','1'),
+	('Tire Services' ,'Specify','1'),
+	('Gear Oil' ,'Replaced Gear Oil','1'),
+	('Transmission Oil' ,'Replace Transmission Oil','1'),
+	('ATF Oil','Replaced ATF Oil','1');
 
 insert into SrvActionCodes([CatCode],[SortNo]) values
 ('Arrangement',1),('Partial Payment',2),('Notification',3),('OnGoing',4),('Billing',5),('Full Payment',6),('Closing',7);
 
+-------- JOB ACTIONS ----------
+-- 1. Confirmed 2. On-going 3. Releasing 4. Done
+insert into SrvActionCodes([CatCode],[SortNo]) values 
+('Confirmed', 8),('On-going', 9),('Releasing', 10),('Done', 11);
+
+insert into SrvActionItems ([Desc],[Remarks],[SortNo],[ServicesId],[SrvActionCodeId]) values 
+('Confirmed', '', 1, 1, 8),('On-going', '', 2, 1, 9),('Releasing', '', 3, 1, 10),('Done', '', 4, 1, 11),
+('Confirmed', '', 1, 2, 8),('On-going', '', 2, 2, 9),('Releasing', '', 3, 2, 10),('Done', '', 4, 2, 11),
+('Confirmed', '', 1, 3, 8),('On-going', '', 2, 3, 9),('Releasing', '', 3, 3, 10),('Done', '', 4, 3, 11),
+('Confirmed', '', 1, 4, 8),('On-going', '', 2, 4, 9),('Releasing', '', 3, 4, 10),('Done', '', 4, 4, 11),
+('Confirmed', '', 1, 6, 8),('On-going', '', 2, 6, 9),('Releasing', '', 3, 6, 10),('Done', '', 4, 6, 11),
+('Confirmed', '', 1, 7, 8),('On-going', '', 2, 7, 9),('Releasing', '', 3, 7, 10),('Done', '', 4, 7, 11),
+('Confirmed', '', 1, 8, 8),('On-going', '', 2, 8, 9),('Releasing', '', 3, 8, 10),('Done', '', 4, 8, 11),
+('Confirmed', '', 1, 9, 8),('On-going', '', 2, 9, 9),('Releasing', '', 3, 9, 10),('Done', '', 4, 9, 11),
+('Confirmed', '', 1, 10, 8),('On-going', '', 2, 10, 9),('Releasing', '', 3, 10, 10),('Done', '', 4, 10, 11),
+('Confirmed', '', 1, 11, 8),('On-going', '', 2, 11, 9),('Releasing', '', 3, 11, 10),('Done', '', 4, 11, 11),
+('Confirmed', '', 1, 12, 8),('On-going', '', 2, 12, 9),('Releasing', '', 3, 12, 10),('Done', '', 4, 12, 11),
+('Confirmed', '', 1, 13, 8),('On-going', '', 2, 13, 9),('Releasing', '', 3, 13, 10),('Done', '', 4, 13, 11),
+('Confirmed', '', 1, 14, 8),('On-going', '', 2, 14, 9),('Releasing', '', 3, 14, 10),('Done', '', 4, 14, 11),
+('Confirmed', '', 1, 15, 8),('On-going', '', 2, 15, 9),('Releasing', '', 3, 15, 10),('Done', '', 4, 15, 11),
+('Confirmed', '', 1, 16, 8),('On-going', '', 2, 16, 9),('Releasing', '', 3, 16, 10),('Done', '', 4, 16, 11),
+('Confirmed', '', 1, 17, 8),('On-going', '', 2, 17, 9),('Releasing', '', 3, 17, 10),('Done', '', 4, 17, 11),
+('Confirmed', '', 1, 18, 8),('On-going', '', 2, 18, 9),('Releasing', '', 3, 18, 10),('Done', '', 4, 18, 11);
 
 
 -- ----------------------------------------------
@@ -108,7 +145,8 @@ values
 ('Commuter','',1,1,2,2,1),
 ('Fortuner','G',1,2,2,2,2),
 ('Monterosports','GLX',3,2,1,2,2),
-('Vios','G',1,4,1,1,1);
+('Vios','G',1,4,1,1,1),
+('City','AT',6,4,2,2,1);
 
 
 
@@ -121,6 +159,7 @@ values
 INSERT INTO Countries( Code, Name) VALUES ( 'PH', 'Philippines');
 insert into SupplierTypes(Description) values
 	('Repair Shop'),('Machine Shop'),('Installer');
+
 insert Into Suppliers([Name],[Contact1],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId],[Code] ) values('<< New Supplier >>','--',' ', '--','1','1','ACT',1,'SUP01');
 insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address],[Details],[Email],[CityId],[SupplierTypeId],[Status],[CountryId],[Code] )
 	values('Auto Repair Sub-1','(082) 223-22222','(082 223-6565)','0912-564-7777','AutoRepair.com','Davao', '','subcon.supply@gmail.com','1','1','ACT',1,'SUP02'),
@@ -128,7 +167,34 @@ insert Into Suppliers([Name],[Contact1],[Contact2],[Contact3],[Website],[Address
 	      ('Parts Supply','(0086) 11236548','(0086 11238840)','-','partsdavao.com','Davao City', '','partsdavao@gmail.com','1','1','ACT',1,'SUP04');
 
 insert into SupplierItems([Description],[SupplierId],[Remarks],[InCharge],[Status],[Interval]) values 
-	('Default','1','Item by supplier','Supplier','ACT',30);
+	('Default','1','Item by supplier','Supplier','ACT',90),
+	('Change Oil (Semi Synthetic)','2',' ',NULL,'ACT',90),
+	('Replaced Brake Pads (Front)','2',' ',NULL,'ACT',90),
+	('Check Engine','3',' ',NULL,'ACT',NULL),
+	('Aircon Repair','3',' ',NULL,'ACT',NULL),
+	('Body/Painting Works','2',' ',NULL,'ACT',90),
+	('Others','2',' ',NULL,'ACT',90),
+	('Change Oil (Fully Synthetic)','2',' ',NULL,'ACT',150),
+	('Open/Clean Brakes','2',' ',NULL,'ACT',90),
+	('Replaced Battery (Std)','2',' ',NULL,'ACT',360),
+	('Replaced Drive Belt / Fan Belt','2',' ',NULL,'ACT',180),
+	('Replaced Spark Plug','2',' ',NULL,'ACT',180),
+	('Replaced Fuel Filter','2',' ',NULL,'ACT',360),
+	('Aircon A/C Cleaning','2',' ',NULL,'ACT',360),
+	('Differential Oil / Gear Oil','2',' ',NULL,'ACT',360),
+	('Replace Bearing','4',' ',NULL,'ACT',180),
+	('Ball Joint','4',' ',NULL,'ACT',NULL),
+	('Tire Rod End','4',' ',NULL,'ACT',NULL),
+	('Air Cleaner Element','4',' ',NULL,'ACT',180),
+	('Cabin Air Filter','4',' ',NULL,'ACT',360),
+	('Engine Coolant','4',' ',NULL,'ACT',180),
+	('Brake Fluid','4',' ',NULL,'ACT',NULL),
+	('Clutch Fluid','4',' ',NULL,'ACT',360),
+	('Suspension System','2',' ',NULL,'ACT',NULL),
+	('Tire','4',' ',NULL,'ACT',360),
+	('Manual transmission fluid','3',' ',NULL,'ACT',360),
+	('Replaced Brake Pads (Rear)','4',' ',NULL,'ACT',180),
+	('Replace Brake Lining','4',' ',NULL,'ACT',360);
 
 insert into SupplierUnits([Unit])
 values ('Meter'),('Inch'),('Feet'),('Box'),('Package');
@@ -247,8 +313,6 @@ values (3000,2500,2250,100,5,1,300), --grandia
 	   (3500,2500,2250,100,5,7,300), --honda
 	   (2500,2500,2250,100,5,8,300); --pickup
 
-
-
 insert into CarUnitMetas(carUnitId,PageTitle,MetaDesc,HomeDesc)
 values
 	-- Van -- 
@@ -364,29 +428,50 @@ insert into JobPaymentTypes([Type]) values
 insert into JobPostSalesStatus([Status]) values 
 ('For Follow-up'),('Ongoing'),('Closed'),('Rejected');
 
--------- JOB ACTIONS ----------
--- 1. Confirmed 2. On-going 3. Releasing 4. Done
-insert into SrvActionCodes([CatCode],[SortNo]) values 
-('Confirmed', 1),('On-going', 2),('Releasing', 3),('Done', 4);
 
-insert into SrvActionItems ([Desc],[Remarks],[SortNo],[ServicesId],[SrvActionCodeId]) values 
-('Confirmed', '', 1, 1, 8),('On-going', '', 2, 1, 9),('Releasing', '', 3, 1, 10),('Done', '', 4, 1, 11),
-('Confirmed', '', 1, 2, 8),('On-going', '', 2, 2, 9),('Releasing', '', 3, 2, 10),('Done', '', 4, 2, 11),
-('Confirmed', '', 1, 3, 8),('On-going', '', 2, 3, 9),('Releasing', '', 3, 3, 10),('Done', '', 4, 3, 11),
-('Confirmed', '', 1, 4, 8),('On-going', '', 2, 4, 9),('Releasing', '', 3, 4, 10),('Done', '', 4, 4, 11);
---('Confirmed', '', 1, 6, 8),('On-going', '', 2, 6, 9),('Releasing', '', 3, 6, 10),('Done', '', 4, 6, 11),
---('Confirmed', '', 1, 7, 8),('On-going', '', 2, 7, 9),('Releasing', '', 3, 7, 10),('Done', '', 4, 7, 11),
---('Confirmed', '', 1, 8, 8),('On-going', '', 2, 8, 9),('Releasing', '', 3, 8, 10),('Done', '', 4, 8, 11),
---('Confirmed', '', 1, 9, 8),('On-going', '', 2, 9, 9),('Releasing', '', 3, 9, 10),('Done', '', 4, 9, 11),
---('Confirmed', '', 1, 10, 8),('On-going', '', 2, 10, 9),('Releasing', '', 3, 10, 10),('Done', '', 4, 10, 11),
---('Confirmed', '', 1, 11, 8),('On-going', '', 2, 11, 9),('Releasing', '', 3, 11, 10),('Done', '', 4, 11, 11),
---('Confirmed', '', 1, 12, 8),('On-going', '', 2, 12, 9),('Releasing', '', 3, 12, 10),('Done', '', 4, 12, 11),
---('Confirmed', '', 1, 13, 8),('On-going', '', 2, 13, 9),('Releasing', '', 3, 13, 10),('Done', '', 4, 13, 11),
---('Confirmed', '', 1, 14, 8),('On-going', '', 2, 14, 9),('Releasing', '', 3, 14, 10),('Done', '', 4, 14, 11),
---('Confirmed', '', 1, 15, 8),('On-going', '', 2, 15, 9),('Releasing', '', 3, 15, 10),('Done', '', 4, 15, 11),
---('Confirmed', '', 1, 16, 8),('On-going', '', 2, 16, 9),('Releasing', '', 3, 16, 10),('Done', '', 4, 16, 11),
---('Confirmed', '', 1, 17, 8),('On-going', '', 2, 17, 9),('Releasing', '', 3, 17, 10),('Done', '', 4, 17, 11),
---('Confirmed', '', 1, 18, 8),('On-going', '', 2, 18, 9),('Releasing', '', 3, 18, 10),('Done', '', 4, 18, 11),
---('Confirmed', '', 1, 19, 8),('On-going', '', 2, 19, 9),('Releasing', '', 3, 19, 10),('Done', '', 4, 19, 11),
---('Confirmed', '', 1, 10, 8),('On-going', '', 2, 20, 9),('Releasing', '', 3, 20, 10),('Done', '', 4, 20, 11);
+----- CUSTOMER VEHICLES -----
+insert into Vehicles([VehicleModelId],[YearModel],[PlateNo],[Conduction],[EngineNo],[ChassisNo],[Color],[CustomerId],[CustEntMainId],[Remarks]) values
+(1,'2015','ABC 1234'		,'123-3456' ,'PLS-23423-234','090-234234-3244'	,'White'	,2,2, NULL),
+(2,'2016','QWE 9872'		,'523-1233'	,NULL			,NULL				,'Red'		,2,2,NULL),
+(3,'2018','TEMP 2342-39872'	,'523-1233'	,NULL			,'328-198337-3534'	,'Gray'		,3,2,NULL),
+(4,'2019','TEMP 1234-98756'	,NULL		,NULL			,NULL				,'White'	,4,3,NULL),
+(5,'2017','TEMP 6454-11132'	,NULL		,NULL			,NULL				,'Black'	,5,4,NULL),
+(6,'2018','LPL 5858'		,NULL		,NULL			,NULL				,'LightGray',6,5,NULL);
 
+
+---- SAMPLE JOBS ----
+insert into JobMains ([JobDate],[CustomerId],[Description],[NoOfPax],[NoOfDays],[JobRemarks],[JobStatusId],[StatusRemarks],[BranchId],[JobThruId],[AgreedAmt],[CustContactEmail],[CustContactNumber],[AssignedTo]) values
+('06/27/2020', 2, 'Toyota GL Grandia 2015 (ABC 1234) Mileage:7460 '		, 1, 1, 'NA', 4, 'NA', 1, 1, 2500 ,'Demo@gmail.com', '0932-654-6878'	, 'Demo@gmail.com'),
+('07/16/2020', 3, 'Toyota Commuter 2018 (TEMP 2342-39872) Mileage:5460 ', 1, 1, 'NA', 4, 'NA', 1, 1, 4500 ,'Demo@gmail.com', '09123658875'		, 'Demo@gmail.com'),
+('07/21/2020', 4, 'Toyota Fortuner 2019 (TEMP 1234-98756) Mileage:3655 ', 1, 1, 'NA', 3, 'NA', 1, 3, 10000,'Demo@gmail.com', '+63987 225 2787'	, 'Demo@gmail.com'),
+('07/27/2020', 5, 'Toyota Vios 2018 (LPL 5858) Mileage:2855 '			, 1, 1, 'NA', 2, 'NA', 1, 2, 7500 ,'Demo@gmail.com', '0985-117-1255'	, 'Demo@gmail.com'),
+('08/07/2020', 2, 'Toyota Super Grandia 2016 (QWE 9872) Mileage:6445 '	, 1, 1, 'NA', 1, 'NA', 1, 1, 4800 ,'Demo@gmail.com', '0932-654-6878'	, 'Demo@gmail.com');
+
+insert into JobVehicles([JobMainId],[Mileage],[VehicleId]) values
+(1,'7460',1),
+(2,'5460',3),
+(3,'3655',4),
+(4,'2855',5),
+(5,'6445',2)
+;
+
+insert into JobServices([jobMainId],[ServicesId],[SupplierId],[Particulars],[QuotedAmt],[SupplierAmt],[ActualAmt],[Remarks],[SupplierItemId],[DtStart],[DtEnd]) values 
+(1,  1, 1, 'Change Oil'			, 2500, 0, 2500, ''	, 2 , '06/27/2020', '06/30/2020'),
+(2, 15, 3, 'Replace Tires'		, 2000, 0, 2000, ''	, 25, '07/17/2020', '07/18/2020'),
+(2, 13, 3, 'Replace Break Pads' , 2500, 0, 2500, ''	, 22, '07/17/2020', '07/19/2020'),
+(3,  7, 2, 'Replace Alternator' , 7500, 0, 2500, ''	, 7 , '07/21/2020', '07/26/2020'),
+(3,  2, 2, 'Change Oil'			, 7500, 0, 2500, ''	, 2 , '07/22/2020', '07/24/2020'),
+(4, 17, 1, 'Transmission Oil'	, 1500, 0, 1500, '' , 15, '07/28/2020', '07/30/2020'),
+(4, 16, 1, 'Change Gear Oil'	, 2000, 0, 2000, '' , 8 , '07/28/2020', '07/30/2020'),
+(5, 18, 1, 'ATF Oil'			, 2000, 0, 2000, '' , 15, '07/28/2020', '07/30/2020');
+
+
+insert into SupDocuments([Description]) values
+('Business Permit'),('BIR Form 137'), ('Mayors Permit'), ('Building Permit');
+
+insert into CustEntDocuments([CustEntMainId],[SupDocumentId],[IsApproved]) values 
+(1, 1, null ), (1, 2, null), (1, 3, null), (1, 4, null),
+(2, 1, null ), (5, 2, null), (2, 3, null), (2, 4, null),
+(3, 1, null ), (4, 2, null), (3, 3, null), (3, 4, null),
+(4, 1, null ), (3, 2, null), (4, 3, null), (4, 4, null),
+(5, 1, null ), (2, 2, null), (5, 3, null), (5, 4, null);

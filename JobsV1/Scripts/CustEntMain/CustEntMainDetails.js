@@ -527,3 +527,18 @@ $("#ac-name").on("input", () => {
     $("#ac-name-group").removeClass("has-warning has-feedback");
     $("#ac-name-warning").hide();
 });
+
+
+
+/****  Company Documents Approval   ****/
+
+function ApproveCompanyDocs(documentId) {
+    $.post("/CustEntMains/ApproveDocument", { id: documentId }, (res) => {
+        console.log(res);
+        if (res == 'True') {
+            window.location.reload();
+        } else {
+            alert("An error has occured. Unable to update document status.");
+        }
+    })
+}

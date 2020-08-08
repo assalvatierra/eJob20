@@ -86,10 +86,36 @@
         <h3>Documents</h3>
         @foreach (var doc in ViewBag.CustDocuments as IEnumerable<JobsV1.Models.CustEntDocuments>)
         {
-            <text>
-                @doc.SupDocument.Description
-                <a href="#" onclick="PromptRemoveDocument('@doc.SupDocument.Description', @doc.Id, @Model.Id)"> x </a><br />
-            </text>
+            <span>
+                @if (doc.IsApproved == 1)
+                {
+                    <img src="~/Images/SalesLead/approve-icon.png" width="12" />
+                }
+                @doc.SupDocument.Description 
+                
+                @if (ViewBag.IsAdmin)
+                {
+                    if (doc.IsApproved != 1)
+                    {
+                        <a class="cursor-hand" onclick="ApproveCompanyDocs('@doc.Id')">&nbsp;[ Approve ] </a>
+                    }
+                    
+                }
+                @if (doc.IsApproved != 1)
+                {
+                     
+                    <a href="#" onclick="PromptRemoveDocument('@doc.SupDocument.Description', @doc.Id, @Model.Id)">&nbsp;[ x ] </a> 
+                }
+                else
+                {
+                    if (ViewBag.IsAdmin)
+                    {
+                        <a href="#" onclick="PromptRemoveDocument('@doc.SupDocument.Description', @doc.Id, @Model.Id)">&nbsp;[ x ] </a> 
+                    }
+                    
+                }
+            <br />
+            </span>
         }
 
         <a href="#" id="catbtn" data-toggle="modal" data-target="#createDocuments">Edit</a>

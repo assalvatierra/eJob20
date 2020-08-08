@@ -55,7 +55,6 @@ namespace JobsV1.Controllers
                 jobs = jobs.Where(j => j.Id.ToString() == srch ||
                         j.Description.ToLower().Contains(srch.ToLower()) ||
                         j.Customer.Name.ToLower().Contains(srch.ToLower()));
-
             }
 
             //order
@@ -64,6 +63,7 @@ namespace JobsV1.Controllers
             ViewBag.JobStatus = jobStatus;
             ViewBag.PaymentStatus = paymentStatus;
             ViewBag.SrchString = srch;
+            ViewBag.IsAdmin = User.IsInRole("Admin");
 
             return View(jobs.OrderByDescending(j=>j.JobDate).ToList());
         }
@@ -87,6 +87,7 @@ namespace JobsV1.Controllers
                 }
 
                 //subtract discounted amount
+                //note: discount amount is negative number
                 total += jo.GetJobDiscountAmount((int)id);
 
                 return total.ToString("#,##0.00");
@@ -113,6 +114,19 @@ namespace JobsV1.Controllers
             }
 
             return totalPaidAmount.ToString("#,##0.00");
+        }
+
+        public string GetCompanyAccountType(int id)
+        {
+            try
+            {
+                var company = db.JobEntMains.Where(c => c.JobMainId == id).OrderByDescending(c => c.Id).FirstOrDefault().CustEntMain;
+
+                return company.CustEntAccountType.Name;
+            }
+            catch {
+                return "";
+            }
         }
 
         private IQueryable<JobMain> GetFilteredJobPayment(IQueryable<JobMain> jobs, int? paymentStatus)
@@ -186,8 +200,13 @@ namespace JobsV1.Controllers
 
             ViewBag.JobServices= services;
             ViewBag.JobOrder = Job;
-            ViewBag.JobStatus = Job.JobStatus.Status;
+            ViewBag.Company = jo.GetJobCompany(Job.Id);
+            ViewBag.JobStatus = Job.JobStatus;
+            ViewBag.JobPaymentStatus = Job.JobMainPaymentStatus.OrderByDescending(p=>p.Id).FirstOrDefault().JobPaymentStatu
+                ?? new JobsV1.Models.JobPaymentStatus() { Status = "NA" };
             ViewBag.JobDiscount = jo.GetJobDiscountAmount((int)id);
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+            ViewBag.statusList = db.JobPaymentStatus.ToList();
 
             var jobPayments = db.JobPayments.Where(d => d.JobMainId == id );
             return View(jobPayments.ToList());
@@ -378,8 +397,11 @@ namespace JobsV1.Controllers
                 //check if payment type is (PaymentTypeID = 4) Discount
                 if (jobPayment.JobPaymentTypeId == 4)
                 {
-                    //multiply by -1 to subtract from total amount
-                    jobPayment.PaymentAmt = (-1) * (jobPayment.PaymentAmt);
+                    if (jobPayment.PaymentAmt > 0)
+                    {
+                        //multiply by -1 to subtract from total amount
+                        jobPayment.PaymentAmt = (-1) * (jobPayment.PaymentAmt);
+                    }
                 }
 
                 db.Entry(jobPayment).State = EntityState.Modified;
@@ -437,6 +459,39 @@ namespace JobsV1.Controllers
                 return true;
             }
             return false;
+        }
+
+        [HttpPost]
+        public bool UpdatePaymentStatus(int? id, int? statusId)
+        {
+            try
+            {
+                if (id == null || statusId == null)
+                {
+                    return false;
+
+                }
+
+                var job = db.JobMains.Find(id);
+                if (job == null)
+                {
+                    return false;
+                }
+
+                //add payment status to job
+                JobMainPaymentStatus paymentStatus = new JobMainPaymentStatus();
+                paymentStatus.JobMainId = (int)id;
+                paymentStatus.JobPaymentStatusId = (int)statusId;
+
+                db.JobMainPaymentStatus.Add(paymentStatus);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

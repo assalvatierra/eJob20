@@ -404,15 +404,16 @@ order by x.jobid
         public decimal GetJobDiscountAmount(int jobId)
         {
             //get job discount payments of job
-            var jobpayments = db.JobPayments.Where(p => p.JobMainId == jobId && p.JobPaymentTypeId == 4).ToList();
-            if (jobpayments.Count != 0)
+            var jobPaymentDiscounts = db.JobPayments.Where(p => p.JobMainId == jobId && p.JobPaymentTypeId == 4).ToList();
+            if (jobPaymentDiscounts.Count != 0)
             {
                 decimal totalDiscount = 0;
 
                 //get total discount
-                jobpayments.ForEach(p =>
-                    totalDiscount += p.PaymentAmt
-                    );
+                foreach (var payment in jobPaymentDiscounts)
+                {
+                    totalDiscount += payment.PaymentAmt;
+                }
 
                 return totalDiscount;
             }
@@ -421,7 +422,7 @@ order by x.jobid
 
         public decimal GetJobPaymentAmount(int id)
         {
-            var paymentList = db.JobPayments.Where(j => j.JobMainId == id).ToList();
+            var paymentList = db.JobPayments.Where(j => j.JobMainId == id && j.JobPaymentTypeId < 4).ToList();
             decimal totalPayment = 0;
 
             foreach (var payment in paymentList)
@@ -442,6 +443,10 @@ order by x.jobid
             {
                 totalAmount += svc.ActualAmt ?? 0;
             }
+
+            //subtract discounted amount
+            //note: discount amount is negative number
+            totalAmount = totalAmount + GetJobDiscountAmount(id);
 
             return totalAmount;
         }
@@ -497,6 +502,21 @@ order by x.jobid
 
             //if no records
             return "NA";
+        }
+
+
+        public string GetCompanyAccountType(int id)
+        {
+            try
+            {
+                var company = db.JobEntMains.Where(c => c.JobMainId == id).OrderByDescending(c => c.Id).FirstOrDefault().CustEntMain;
+
+                return company.CustEntAccountType.Name;
+            }
+            catch
+            {
+                return " ";
+            }
         }
 
     }

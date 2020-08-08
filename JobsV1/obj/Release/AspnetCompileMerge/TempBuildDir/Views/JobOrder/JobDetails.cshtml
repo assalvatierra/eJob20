@@ -162,7 +162,8 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Back to Job Details", "JobServices", new { JobMainId = ViewBag.mainid })
 </div>
 
 @Html.Partial("_SearchCompanyModal", null, new ViewDataDictionary { { "CompanyList", ViewBag.CompanyList } })

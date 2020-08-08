@@ -119,10 +119,37 @@
                         <span style="font:500 10px;color:darkblue;">
                              @item.Main.Description
                         </span>
-                        <span>
 
-                            [ @item.Main.JobStatus.Status ]
-                        </span>
+                        @if (item.Main.JobStatusId == 1)
+                        {
+                            <span class="label label-default pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
+                                 @item.Main.JobStatus.Status 
+                            </span>
+                        }
+                        else if (item.Main.JobStatusId == 2)
+                        {
+                            <span class="label label-info pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
+                                 @item.Main.JobStatus.Status 
+                            </span>
+                        }
+                        else if (item.Main.JobStatusId == 3)
+                        {
+                            <span class="label label-success pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
+                                 @item.Main.JobStatus.Status 
+                            </span>
+                        }
+                        else if (item.Main.JobStatusId == 4)
+                        {
+                            <span class="label label-primary pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
+                                 @item.Main.JobStatus.Status 
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="label label-warning pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
+                                 @item.Main.JobStatus.Status 
+                            </span>
+                        }
 
                     </div>
                     <div>
@@ -137,25 +164,14 @@
 
                         @if (siteconfig == "AutoCare")
                         {
-
                             @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
-                            @Html.ActionLink("[ Repair Order ]", "RepairOrder", "RptGmsAuto", new { id = item.Main.Id }, null)
-                            @Html.ActionLink("[ Service Billing ]", "ServiceBilling", "RptGmsAuto", new { id = item.Main.Id }, null)
-                            if (isAdmin)
+
+                            if (item.Main.JobStatusId == 4)
                             {
-                                <a class="cursor-hand" style="margin-bottom:10px;" onclick="showPaymentModal(@(item.Main.Id))">[ Payment ]</a>
-                                if (item.Main.JobStatusId == 4)
-                                {
-                                    <a class="cursor-hand" style="margin-bottom:10px;" onclick="checkJobPostSales(@(item.Main.Id))">[ Check Job Post Sale ]</a>
-                                }
+                                @Html.ActionLink("[ Repair Order ]", "RepairOrder", "RptGmsAuto", new { id = item.Main.Id }, null)
+                                @Html.ActionLink("[ Service Billing ]", "ServiceBilling", "RptGmsAuto", new { id = item.Main.Id }, null)
 
-                                if (item.Main.JobStatusId == 3)
-                                {
-                                    @Html.ActionLink("[ Close Job ]", "CloseJobStatusFromList", "JobOrder", new { id = item.Main.Id }, null)
-                                }
                             }
-
-
                         }
 
                         @if (siteconfig == "Realwheels")

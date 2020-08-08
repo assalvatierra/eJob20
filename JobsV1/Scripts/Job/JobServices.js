@@ -120,3 +120,187 @@ function ajaxSendMail(jobid) {
         }
     });
 }
+
+
+
+
+//Set Payment Id for edit
+function SetEditJobPermissionId(id) {
+    $("#EditJob-Pass-warning").hide();
+    $("#EditJob-Pass-Id").val(id);
+    $("#EditJob-Pass-Input").val("");
+}
+
+//Check admin pass to edit
+function CheckEditJobPermission() {
+    //reset
+    $("#EditJob-Pass-warning").hide();
+
+    //check permission
+    $.get("/JobOrder/CheckAdminPermission", { pass: $("#EditJob-Pass-Input").val() }, (result) => {
+        console.log(result);
+        if (result == 'True') {
+            var paymentId = $("#EditJob-Pass-Id").val();
+            //redirect to Edit
+            window.location.href = "/JobOrder/JobDetails?jobid=" + paymentId;
+        } else {
+            $("#EditJob-Pass-warning").show();
+        }
+    })
+}
+
+
+
+
+//Set Payment Id for edit
+function SetEditPermissionId(id) {
+    $("#Edit-Pass-Id").val(id);
+    $("#Edit-Pass-Input").val("");
+    $("#Edit-Pass-warning").hide();
+    //$("#Edit-Pass-Input").focus();
+}
+
+//Check admin pass to edit
+function CheckEditPermission() {
+    //reset
+    $("#Edit-Pass-warning").hide();
+
+    //check permission
+    $.get("/JobOrder/CheckAdminPermission", { pass: $("#Edit-Pass-Input").val() }, (result) => {
+        console.log(result);
+        if (result == 'True') {
+            var paymentId = $("#Edit-Pass-Id").val();
+            //redirect to Edit
+            window.location.href = "/JobOrder/JobServiceEdit/" + paymentId;
+        } else {
+            $("#Edit-Pass-warning").show();
+        }
+    })
+}
+
+
+//Set Payment Id for delete
+function SetDeletePermissionId(id) {
+    $("#Delete-Pass-Id").val(id);
+    $("#Delete-Pass-Input").val("");
+    $("#Delete-Pass-warning").hide();
+    //$("#Delete-Pass-Input").focus();
+}
+
+//Check admin pass to delete
+function CheckDeletePermission() {
+    //reset
+    $("#Delete-Pass-warning").hide();
+
+    //check permission
+    $.get("/JobOrder/CheckAdminPermission", { pass: $("#Delete-Pass-Input").val() }, (result) => {
+        console.log(result);
+        if (result == 'True') {
+
+            if (confirm("Do you want to delete this service?")) {
+
+                var svcId = $("#Delete-Pass-Id").val();
+
+                $.post("/JobOrder/ConfirmJobSvcDelete", { id : svcId }, (resDelete) => {
+                    if (resDelete == 'True') {
+                        //redirect to Edit
+                        window.location.href = "/JobOrder/JobServices?JobMainId=" + svcId;
+                    } else {
+                        $("#Delete-Pass-warning").show();
+                    }
+                });
+            }
+
+
+        } else {
+            $("#Delete-Pass-warning").show();
+        }
+
+    })
+}
+
+
+
+
+//Check admin pass to delete
+function DeleteConfirmation(id) {
+    
+    //check permission
+    if (confirm("Do you want to delete this service?")) {
+
+        var svcId = parseInt(id);
+
+        $.post("/JobOrder/ConfirmJobSvcDelete", { id : svcId }, (resDelete) => {
+            if (resDelete == 'True') {
+                //redirect to Edit
+                window.location.href = "/JobOrder/JobServices?JobMainId=" + svcId;
+            } else {
+                $("#Delete-Pass-warning").show();
+            }
+        });
+    }
+}
+
+
+//On Enter submit
+$('#EditJob-Pass-Input').keypress(function (e) {
+    var key = e.which;
+    if (key == 13)  // the enter key code
+    {
+        $('#EditJob-Proceed').click();
+        return false;
+    }
+});
+
+//On Enter submit
+$('#Edit-Pass-Input').keypress(function (e) {
+    var key = e.which;
+    if (key == 13)  // the enter key code
+    {
+        $('#Edit-Proceed').click();
+        return false;
+    }
+});
+
+
+//On Enter submit
+$('#Delete-Pass-Input').keypress(function (e) {
+    var key = e.which;
+    if (key == 13)  // the enter key code
+    {
+        $('#Delete-Proceed').click();
+        return false;
+    }
+});
+
+
+function ResetWarning() {
+    $("#Edit-Pass-warning").show();
+    $("#EditJob-Pass-warning").show();
+    $("#Delete-Pass-warning").show();
+}
+
+
+//Close and Print Job 
+function CloseAndPrintService(Id) {
+     $.post("/JobOrder/AjaxCloseJobStatus", { id: Id }, (res) => {
+        //console.log(res);
+        if (res == 'True') {
+
+            var url = $("#ServiceBillingUrl").val();
+            url = url.replace('_id', Id);
+
+            //open service billing
+            //window.open(url);
+
+
+            //reload current page
+            window.location.href = url ;
+        } else {
+            alert('Unable to close the job. Please try editing the job instead.');
+        }
+   });
+
+    //console.log(response);
+
+}

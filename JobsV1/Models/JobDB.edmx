@@ -1891,6 +1891,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SupDocumentId" Type="int" Nullable="false" />
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
+    <Property Name="IsApproved" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="CustNotifs">
     <Key>
@@ -2007,16 +2008,16 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Make" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="Variant" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Variant" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="VehicleBrandId" Type="int" Nullable="false" />
     <Property Name="VehicleTypeId" Type="int" Nullable="false" />
-    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="VehicleTransmissionId" Type="int" Nullable="false" />
     <Property Name="VehicleFuelId" Type="int" Nullable="false" />
     <Property Name="VehicleDriveId" Type="int" Nullable="false" />
-    <Property Name="MotorOil" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="GearOil" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="TransmissionOil" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="MotorOil" Type="nvarchar" Nullable="true" MaxLength="10" />
+    <Property Name="GearOil" Type="nvarchar" Nullable="true" MaxLength="10" />
+    <Property Name="TransmissionOil" Type="nvarchar" Nullable="true" MaxLength="10" />
   </EntityType>
   <EntityType Name="VehicleBrands">
     <Key>
@@ -7160,6 +7161,7 @@
           <Property Name="SupDocumentId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CustEntMain" Relationship="JobDB.CustEntMainCustEntDocuments" FromRole="CustEntDocuments" ToRole="CustEntMain" />
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
+          <Property Name="IsApproved" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="CustEntDocumentsSupDocument">
           <End Type="JobDB.CustEntDocuments" Role="CustEntDocuments" Multiplicity="*" />
@@ -9023,6 +9025,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SupDocumentId" ColumnName="SupDocumentId" />
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

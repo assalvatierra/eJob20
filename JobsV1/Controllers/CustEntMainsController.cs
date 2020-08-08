@@ -1020,9 +1020,67 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return "OK";
             }
-            catch (Exception ex)
+            catch
             {
                 return "Error";
+            }
+        }
+
+        public bool ApproveDocument(int? id)
+        {
+            try
+            {
+                if (id == null || id == 0)
+                {
+                    return false;
+                }
+
+                var comDocument = db.CustEntDocuments.Find(id);
+                if (comDocument == null)
+                {
+                    return false;
+                }
+
+                comDocument.IsApproved = 1;
+
+                db.Entry(comDocument).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch {
+                return false;
+
+            }
+        }
+
+
+        public bool DisApproveDocument(int? id)
+        {
+            try
+            {
+                if (id == null || id == 0)
+                {
+                    return false;
+                }
+
+                var comDocument = db.CustEntDocuments.Find(id);
+                if (comDocument == null)
+                {
+                    return false;
+                }
+
+                comDocument.IsApproved = 0;
+
+                db.Entry(comDocument).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+
             }
         }
 

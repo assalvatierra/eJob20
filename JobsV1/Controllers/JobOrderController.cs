@@ -1230,10 +1230,10 @@ order by x.jobid
                     trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Edit Saved", jobMain.Id.ToString());
 
                     //add job post record when job is closed(4 = CLOSED)
-                    if (jobMain.JobStatusId == 4)
-                    {
-                       var record = CreateJobPostSalesRecord(jobMain.Id);
-                    }
+                    //if (jobMain.JobStatusId == 4)
+                    //{
+                    //   var record = CreateJobPostSalesRecord(jobMain.Id);
+                    //}
 
                     return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
 
@@ -1310,7 +1310,7 @@ order by x.jobid
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name",2);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
-            ViewBag.AssignedTo = new SelectList(dbc.getUsers(), "UserName", "UserName");
+            ViewBag.AssignedTo = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName");
             ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", 2);
             ViewBag.SiteConfig = SITECONFIG;
 
@@ -1842,6 +1842,55 @@ order by x.jobid
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobServices.JobMainId});
         }
 
+
+        public bool ConfirmJobSvcDelete(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return false;
+                }
+
+
+                JobServices jobServices = db.JobServices.Find(id);
+
+                if (jobServices == null)
+                {
+                    return false;
+                }
+
+                int jId = jobServices.JobMainId;
+
+                //remove jobservice pickup on job service pickups
+                JobServicePickup jobpickup = db.JobServicePickups.Where(j => j.JobServicesId == id).FirstOrDefault();
+
+                if (jobpickup != null)
+                {
+                    db.JobServicePickups.Remove(jobpickup);
+                    db.SaveChanges();
+                }
+
+
+                //remove jobservice items
+                var jobitems = db.JobServiceItems.Where(i => i.JobServicesId == id).ToList();
+                if (jobitems != null)
+                {
+                    db.JobServiceItems.RemoveRange(jobitems);
+                    db.SaveChanges();
+                }
+
+                db.JobServices.Remove(jobServices);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public ActionResult notify() {
             DBClasses dbc = new DBClasses();
             dbc.addNotification("Job Order","Test");
@@ -1979,7 +2028,8 @@ order by x.jobid
             ViewBag.JobOrder = Job;
             ViewBag.JobItems = jobServices;
             ViewBag.Providers = providers;
-            ViewBag.JobStatus =   Job.JobStatus.Status;
+            ViewBag.JobStatus = Job.JobStatus.Status;
+            ViewBag.JobStatusId = Job.JobStatusId;
             ViewBag.Itineraries = db.JobItineraries.Where(d => d.JobMainId == JobMainId).ToList();
             ViewBag.sortid = sortid;
             ViewBag.jobAction = action;
@@ -2642,7 +2692,7 @@ order by x.jobid
             //job trail
             trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CONFIRMED", id.ToString());
 
-            var postSaleRecord = CreateJobPostSalesRecord((int)id);
+            //var postSaleRecord = CreateJobPostSalesRecord((int)id);
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
 
@@ -2657,7 +2707,7 @@ order by x.jobid
             //job trail
             trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CONFIRMED", id.ToString());
 
-            var postSaleRecord = CreateJobPostSalesRecord((int)id);
+            //var postSaleRecord = CreateJobPostSalesRecord((int)id);
 
             return RedirectToAction("Index", "JobOrder", new { mainid = id });
         }
@@ -2677,7 +2727,34 @@ order by x.jobid
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
         }
-        
+
+
+        public bool AjaxCloseJobStatus(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return false;
+                }
+
+                var Job = db.JobMains.Find(id);
+                Job.JobStatusId = 4;
+                db.Entry(Job).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //job trail
+                trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CLOSED", id.ToString());
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+          
+        }
+
         public ActionResult ReserveJobStatus(int? id)
         {
             var Job = db.JobMains.Find(id);
@@ -2728,7 +2805,7 @@ order by x.jobid
                 //job trail
                 trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CLOSED", id.ToString());
 
-                var postSaleRecord = CreateJobPostSalesRecord(id);
+                //var postSaleRecord = CreateJobPostSalesRecord(id);
                 return "OK";
                 //return "Error";
             }
@@ -3720,6 +3797,19 @@ order by x.jobid
             return View(jobList.OrderBy(j=> j.OrderNo));
         }
         #endregion
+
+
+        [HttpGet]
+        public bool CheckAdminPermission(string pass)
+        {
+            var adminPass = "Admin123!";
+
+            if (adminPass == pass)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
         public ActionResult ErrorPage()

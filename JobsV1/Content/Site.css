@@ -661,6 +661,10 @@ rental-type-wdriver {
         margin-left: 15px;
         margin-top: 10px;
     }
+
+    .modal-dialog {
+        max-width: 500px;
+    }
 }
 
 /* Medium Screens */
@@ -673,6 +677,10 @@ rental-type-wdriver {
 
     .Company-Icon {
         display: none;
+    }
+
+    .modal-dialog {
+        max-width: 500px;
     }
 }
 
@@ -693,6 +701,11 @@ rental-type-wdriver {
 
     .CustomBox .nav-submenu-home {
         margin-left:10px;
+    }
+
+
+    .modal-dialog {
+        width: 340px;
     }
 }
 

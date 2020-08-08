@@ -6,6 +6,7 @@
     var jobServices = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
     var DiscountAmount = (Decimal)ViewBag.DiscountAmount;
     var logoSrc = (String)ViewBag.CompanyLogo;
+    var AcctType = ViewBag.CompanyAccountType;
 }
 
 <link href="~/Content/GMSReport.css" rel="stylesheet" />
@@ -152,7 +153,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td colspan="2" style="border:none;">
+                                    <td  style="border:none;border-right:1px solid black;">
                                         <div class="rpt-bordered-bot">
                                             <p class="text-muted">Chassis NO/Serial No: </p>
                                             <p>
@@ -164,6 +165,15 @@
                                                 {
                                                     <br />
                                                 }
+                                            </p>
+                                        </div>
+                                    </td>
+
+                                    <td style="border:none;">
+                                        <div class="rpt-bordered-bot">
+                                            <p class="text-muted">Acct type: </p>
+                                            <p>
+                                              <span>@AcctType </span>
                                             </p>
                                         </div>
                                     </td>
@@ -407,7 +417,7 @@
                     <!-- Discount Amount -->
                     @if (DiscountAmount != 0)
                     {
-                         TotalAmount += DiscountAmount; 
+                        TotalAmount += DiscountAmount; 
                         <tr class="rpt-tr-border-none">
                             <td colspan="3">
                             </td>
