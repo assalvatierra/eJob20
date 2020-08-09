@@ -5,6 +5,7 @@
     var VehicleHistory = ViewBag.VehicleServiceHistory as IEnumerable<JobsV1.Models.JobVehicle>;
     var jobServices = ViewBag.JobServices as IEnumerable<JobsV1.Models.JobServices>;
     var DiscountAmount = (Decimal)ViewBag.DiscountAmount;
+    var PaymentAmount = (Decimal)ViewBag.PaymentAmount;
     var logoSrc = (String)ViewBag.CompanyLogo;
     var AcctType = ViewBag.CompanyAccountType;
 }
@@ -465,22 +466,6 @@
                     </tr>
 
 
-                    <!-- Discount Amount -->
-                    @if(DiscountAmount != 0)
-                    {
-                        TotalAmount += DiscountAmount; 
-                        <tr class="rpt-tr-border-none">
-                            <td colspan="3">
-                            </td>
-                            <td>
-                                Discount
-                            </td>
-                            <td>
-                                @DiscountAmount.ToString("#,##0.00")  &nbsp;
-                            </td>
-                        </tr>
-                    }
-
                     <!-- Total Amount -->
                     <tr class="rpt-tr-border-none">
                         <td colspan="3">
@@ -493,6 +478,38 @@
                         </td>
                     </tr>
 
+                    <!-- Discount Amount -->
+                    @if (DiscountAmount != 0)
+                    {
+                        //TotalAmount += DiscountAmount;
+                        <tr class="rpt-tr-border-none">
+                            <td colspan="3">
+                            </td>
+                            <td>
+                                Discount
+                            </td>
+                            <td>
+                                @DiscountAmount.ToString("#,##0.00")  &nbsp;
+                            </td>
+                        </tr>
+                    }
+
+                    @if (PaymentAmount != 0)
+                    {
+
+                        <!-- Paid Amount -->
+                        <tr class="rpt-tr-border-none">
+                            <td colspan="3">
+                            </td>
+                            <td>
+                                <b>PAID AMOUNT</b>
+                            </td>
+                            <td>
+                                <b>@PaymentAmount.ToString("#,##0.00")</b>
+                            </td>
+                        </tr>
+
+                    }
                     <!-- Total Amount -->
                     <tr class="rpt-tr-border-none">
                         <td colspan="4">

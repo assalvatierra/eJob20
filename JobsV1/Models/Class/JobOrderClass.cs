@@ -398,57 +398,79 @@ order by x.jobid
                 return maxDate;
             else
                 return minDate;
-
         }
 
         public decimal GetJobDiscountAmount(int jobId)
         {
-            //get job discount payments of job
-            var jobPaymentDiscounts = db.JobPayments.Where(p => p.JobMainId == jobId && p.JobPaymentTypeId == 4).ToList();
-            if (jobPaymentDiscounts.Count != 0)
+            try
             {
-                decimal totalDiscount = 0;
-
-                //get total discount
-                foreach (var payment in jobPaymentDiscounts)
+                //get job discount payments of job
+                var jobPaymentDiscounts = db.JobPayments.Where(p => p.JobMainId == jobId && p.JobPaymentTypeId == 4).ToList();
+                if (jobPaymentDiscounts.Count != 0)
                 {
-                    totalDiscount += payment.PaymentAmt;
-                }
+                    decimal totalDiscount = 0;
 
-                return totalDiscount;
+                    //get total discount
+                    foreach (var payment in jobPaymentDiscounts)
+                    {
+                        totalDiscount += payment.PaymentAmt;
+                    }
+
+                    return totalDiscount;
+                }
+                return 0;
             }
-            return 0;
+            catch { 
+                return 0; 
+            }
         }
 
         public decimal GetJobPaymentAmount(int id)
         {
-            var paymentList = db.JobPayments.Where(j => j.JobMainId == id && j.JobPaymentTypeId < 4).ToList();
-            decimal totalPayment = 0;
-
-            foreach (var payment in paymentList)
+            try
             {
-                totalPayment += payment.PaymentAmt;
-            }
+                var paymentList = db.JobPayments.Where(j => j.JobMainId == id && j.JobPaymentTypeId < 4).ToList();
+                decimal totalPayment = 0;
 
-            return totalPayment;
+                foreach (var payment in paymentList)
+                {
+                    totalPayment += payment.PaymentAmt;
+                }
+
+
+                //subtract discounted amount
+                //note: discount amount is negative number
+                totalPayment = totalPayment + GetJobDiscountAmount(id);
+
+                return totalPayment;
+            }
+            catch
+            {
+                return 0;
+            }
+           
         }
 
 
         public decimal GetTotalJobAmount(int id)
         {
-            var services = db.JobServices.Where(j => j.JobMainId == id).ToList();
-            decimal totalAmount = 0;
-
-            foreach (var svc in services)
+            try
             {
-                totalAmount += svc.ActualAmt ?? 0;
+                var services = db.JobServices.Where(j => j.JobMainId == id).ToList();
+                decimal totalAmount = 0;
+
+                foreach (var svc in services)
+                {
+                    totalAmount += svc.ActualAmt ?? 0;
+                }
+
+                //subtract discounted amount
+                //note: discount amount is negative number
+                //totalAmount = totalAmount + GetJobDiscountAmount(id);
+
+                return totalAmount;
             }
-
-            //subtract discounted amount
-            //note: discount amount is negative number
-            totalAmount = totalAmount + GetJobDiscountAmount(id);
-
-            return totalAmount;
+            catch { return 0; }
         }
 
         public JobPaymentStatus GetJobPaymentStatus(int id)

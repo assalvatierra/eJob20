@@ -910,10 +910,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/08/2020 21:47:02</publishTime>
+      <publishTime>08/09/2020 14:24:27</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/08/2020 21:47:02</publishTime>
+      <publishTime>08/09/2020 14:24:26</publishTime>
     </File>
     <File Include="bin/de/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -937,10 +937,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>08/08/2020 21:46:25</publishTime>
+      <publishTime>08/09/2020 14:24:16</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>08/08/2020 21:46:25</publishTime>
+      <publishTime>08/09/2020 14:24:16</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -2572,7 +2572,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/02/2020 18:00:03</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/08/2020 21:46:57</publishTime>
+      <publishTime>08/09/2020 14:24:24</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -2581,7 +2581,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:32</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>08/08/2020 21:41:57</publishTime>
+      <publishTime>08/09/2020 14:20:00</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>02/19/2020 17:09:27</publishTime>
@@ -3838,10 +3838,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/16/2020 12:49:15</publishTime>
     </File>
     <File Include="Views/Cashier/Index.cshtml">
-      <publishTime>08/08/2020 17:42:36</publishTime>
+      <publishTime>08/09/2020 14:24:05</publishTime>
     </File>
     <File Include="Views/Cashier/JobPaymentDetails.cshtml">
-      <publishTime>08/08/2020 17:44:40</publishTime>
+      <publishTime>08/09/2020 13:33:50</publishTime>
     </File>
     <File Include="Views/Cashier/_EditPaymentStatus.cshtml">
       <publishTime>08/08/2020 17:09:08</publishTime>
@@ -4489,7 +4489,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/20/2019 15:39:54</publishTime>
     </File>
     <File Include="Views/JobOrder/Index.cshtml">
-      <publishTime>08/08/2020 18:23:42</publishTime>
+      <publishTime>08/09/2020 09:45:31</publishTime>
     </File>
     <File Include="Views/JobOrder/IndexOld.cshtml">
       <publishTime>06/03/2020 13:25:49</publishTime>
@@ -4531,7 +4531,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/16/2020 16:52:28</publishTime>
     </File>
     <File Include="Views/JobOrder/JobServices.cshtml">
-      <publishTime>08/08/2020 21:02:23</publishTime>
+      <publishTime>08/09/2020 09:42:50</publishTime>
     </File>
     <File Include="Views/JobOrder/JobsMonitor.cshtml">
       <publishTime>08/01/2020 19:58:13</publishTime>
@@ -5002,16 +5002,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2020 17:24:44</publishTime>
     </File>
     <File Include="Views/RptGmsAuto/PaymentStatusReport.cshtml">
-      <publishTime>08/08/2020 18:14:11</publishTime>
+      <publishTime>08/09/2020 13:57:07</publishTime>
     </File>
     <File Include="Views/RptGmsAuto/ReferralReport.cshtml">
       <publishTime>08/04/2020 19:59:52</publishTime>
     </File>
     <File Include="Views/RptGmsAuto/RepairOrder.cshtml">
-      <publishTime>08/08/2020 21:44:24</publishTime>
+      <publishTime>08/09/2020 14:19:09</publishTime>
     </File>
     <File Include="Views/RptGmsAuto/ServiceBilling.cshtml">
-      <publishTime>08/08/2020 21:44:19</publishTime>
+      <publishTime>08/09/2020 14:19:19</publishTime>
     </File>
     <File Include="Views/SalesActivities/Create.cshtml">
       <publishTime>03/05/2019 09:53:35</publishTime>

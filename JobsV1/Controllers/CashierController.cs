@@ -72,23 +72,14 @@ namespace JobsV1.Controllers
         {
             try
             {
-
-                if (id == null)
+                if(id == null || id == 0)
                 {
                     return "0.00";
                 }
-                var jobservices = db.JobServices.Where(j => j.JobMainId == id).ToList();
 
                 decimal total = 0;
 
-                foreach (var svc in jobservices)
-                {
-                    total += (decimal)svc.ActualAmt;
-                }
-
-                //subtract discounted amount
-                //note: discount amount is negative number
-                total += jo.GetJobDiscountAmount((int)id);
+                total = jo.GetTotalJobAmount((int)id);
 
                 return total.ToString("#,##0.00");
             }
@@ -98,31 +89,46 @@ namespace JobsV1.Controllers
             }
         }
 
-        public string GetJobTotalPaidAmount(int id)
+        public string GetJobTotalPaidAmount(int? id)
         {
-            decimal totalPaidAmount = 0;
-            var jobpayments = db.JobPayments.Where(p => p.JobMainId == id).ToList();
-            if (jobpayments != null)
+            if (id == null || id == 0)
             {
-                foreach (var payment in jobpayments)
-                {
-                    if(payment.JobPaymentTypeId != 4)
-                    {
-                        totalPaidAmount += payment.PaymentAmt;
-                    }
-                }
+                return "0.00";
             }
+
+            decimal totalPaidAmount = 0;
+
+            totalPaidAmount = jo.GetJobPaymentAmount((int)id);
 
             return totalPaidAmount.ToString("#,##0.00");
         }
 
-        public string GetCompanyAccountType(int id)
+
+        public string GetTotalDiscount(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return "0.00";
+            }
+
+            decimal totalDiscountAmount = 0;
+
+            totalDiscountAmount = Math.Abs(jo.GetJobDiscountAmount((int)id));
+
+            return totalDiscountAmount.ToString("#,##0.00");
+        }
+
+
+        public string GetCompanyAccountType(int? id)
         {
             try
             {
-                var company = db.JobEntMains.Where(c => c.JobMainId == id).OrderByDescending(c => c.Id).FirstOrDefault().CustEntMain;
+                if (id == null )
+                {
+                    return "";
+                }
 
-                return company.CustEntAccountType.Name;
+                return jo.GetCompanyAccountType((int)id);
             }
             catch {
                 return "";

@@ -89,7 +89,8 @@
             <br />
             @if (isAdmin)
             {
-                <span> <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
+                @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+                <span> | <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
             }
             else
             {
@@ -102,10 +103,10 @@
 
                 <span>
                     <a data-toggle="modal" data-target="#AddVehicleModal" class="cursor-hand"> Vehicle </a>
+                    | @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, new { target = "_blank" })
                     @if (jobstatusId == 4)
                     {
                         <span>
-                            | @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, new { target = "_blank" })
                             | @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = ViewBag.JobOrder.Id }, new { target = "_blank" })
                         </span>
                     }
@@ -310,7 +311,8 @@
                         if (isAdmin)
                         {
                             <p>
-                                 <a href="" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
+                                @Html.ActionLink("Admin Edit", "JobServiceEdit", new { id = item.Id }) |
+                                <a href="" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
                                 <a href="" data-toggle="modal" data-target="#Delete-PermissionModal" onclick="SetDeletePermissionId('@item.Id')"> Delete </a>
                             </p>
                         }

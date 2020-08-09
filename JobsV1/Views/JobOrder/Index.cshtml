@@ -164,11 +164,11 @@
 
                         @if (siteconfig == "AutoCare")
                         {
-                            @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null)
+                            @Html.ActionLink("[ Job Details ]", "JobServices", new { JobMainId = item.Main.Id }, null) 
 
+                            @Html.ActionLink("[ Repair Order ]", "RepairOrder", "RptGmsAuto", new { id = item.Main.Id }, null)
                             if (item.Main.JobStatusId == 4)
                             {
-                                @Html.ActionLink("[ Repair Order ]", "RepairOrder", "RptGmsAuto", new { id = item.Main.Id }, null)
                                 @Html.ActionLink("[ Service Billing ]", "ServiceBilling", "RptGmsAuto", new { id = item.Main.Id }, null)
 
                             }
@@ -185,7 +185,7 @@
                             @Html.ActionLink("[ Text Confirmation ]", "TextConfirmation", new { id = item.Main.Id }, null)
 
                         }
-
+                        
                         <!--
     Html.ActionLink("[ Send Email ]", "SendEmail", new { jobId = item.Main.Id , mailType = "CLIENT" }, null)
       -->

@@ -60,6 +60,7 @@ namespace JobsV1.Controllers
             ViewBag.StartJobDate = jo.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
             ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
             ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
+            ViewBag.PaymentAmount = jo.GetJobPaymentAmount(jobmain.Id);
             ViewBag.CompanyLogo = dal.getSysSetting("ICON");
             ViewBag.CompanyAccountType = jo.GetCompanyAccountType(jobmain.Id);
 
@@ -94,8 +95,10 @@ namespace JobsV1.Controllers
             ViewBag.StartJobDate = jo.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
             ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
             ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
+            ViewBag.PaymentAmount = jo.GetJobPaymentAmount(jobmain.Id);
             ViewBag.CompanyLogo = dal.getSysSetting("ICON");
             ViewBag.CompanyAccountType = jo.GetCompanyAccountType(jobmain.Id);
+
 
 
             return View(jobmain);

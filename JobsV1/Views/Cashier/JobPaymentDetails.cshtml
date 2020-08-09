@@ -115,18 +115,6 @@
         </tr>
     }
 
-    @if (jobDiscount != 0)
-    {
-        <tr>
-            <td colspan="2">
-                <p class="pull-right">Discount:   </p>
-            </td>
-            <td>
-                @jobDiscount.ToString("#,##0.00")
-            </td>
-        </tr>
-    }
-
     <tr>
         <td colspan="2">
             <p class="pull-right">Total Amount:   </p>
@@ -198,6 +186,21 @@
             </td>
         </tr>
     }
+
+    @if (jobDiscount != 0)
+    {
+        PaidTotal += jobDiscount;
+        <tr>
+            <td colspan="4">
+                <p class="pull-right no-margin ">Discount:   </p>
+            </td>
+            <td>
+                @jobDiscount.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
+    }
+
     <tr>
         <td colspan="4">
             <p class="pull-right">

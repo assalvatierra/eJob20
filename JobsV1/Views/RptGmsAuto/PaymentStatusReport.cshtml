@@ -88,6 +88,9 @@
             Painting
         </th>
         <th>
+            Discount
+        </th>
+        <th>
             Paid Amount
         </th>
         <th>
@@ -98,6 +101,7 @@
     {
         total_Amount += item.Amount;
         total_PaymentAmount += item.PaymentAmount;
+        total_Discount += item.DiscountAmount;
 
         total_AmountOil += item.PartsOilsJobAmount;
         total_AmountPaint += item.PaintJobAmount;
@@ -152,6 +156,9 @@
             <td class="text-warning">
                 @item.PaintJobAmount.ToString("N0")
             </td>
+            <td class="text-muted">
+                @item.DiscountAmount.ToString("N0")
+            </td>
             <td class="text-success">
                 @item.PaymentAmount.ToString("N0")
             </td>
@@ -182,6 +189,9 @@
         <td>
             <!-- Parts and Oils Unpaid -->
             <span class="text-warning">@total_AmountPaint.ToString("N0")</span>
+        </td>
+        <td>
+            <span class="text-muted">@total_Discount.ToString("N0")</span>
         </td>
         <td>
             <span class="text-success">@total_PaymentAmount.ToString("N0")</span>

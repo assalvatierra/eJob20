@@ -45,7 +45,8 @@
             <th> Customer </th>
             <th> Type </th>
             <th> JobStatus </th>
-            <th> Paid / Amount </th>
+            <th> Discount </th>
+            <th width="200"> Paid / Amount </th>
             <th> Payment </th>
             <th></th>
         </tr>
@@ -60,6 +61,7 @@
                 <td> @item.Customer.Name </td>
                 <td> @{ Html.RenderAction("GetCompanyAccountType", new { id = item.Id }); } </td>
                 <td> @item.JobStatus.Status </td>
+                <td>  @{ Html.RenderAction("GetTotalDiscount", new { id = item.Id }); } </td>
                 <td>
                     <span class="text-success"> @{ Html.RenderAction("GetJobTotalPaidAmount", new { id = item.Id }); } </span>
                     <span> / </span>
