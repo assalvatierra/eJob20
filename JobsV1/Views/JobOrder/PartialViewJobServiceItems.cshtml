@@ -1,11 +1,16 @@
 ﻿@model IEnumerable<JobsV1.Models.JobServiceItem>
-@{ int SvcId = Convert.ToInt32(ViewData["svcId1"]);  }
+@{ int SvcId = Convert.ToInt32(ViewData["svcId1"]);
+    var isAdmin = ViewBag.IsAdmin;
+    var jobStatusId = Convert.ToInt32(ViewData["jobStatusId"]);
+    }
 
 <div class="section">
-    <span>Inventory </span>
+    <span> Assigned </span>
     <span>&#187;</span>
     <span>
-        @Html.ActionLink("Edit List", "InventoryItemList", new { serviceId = @SvcId })
+        @if (jobStatusId < 4) {
+            <span> [ @Html.ActionLink("Edit List", "InventoryItemList", new { serviceId = @SvcId }) ]</span>
+        }
     </span>
 
     <div style="padding-left:1.5em;" >
@@ -19,8 +24,10 @@
                 </span>
             </div>
         }
-        [
-            @Html.ActionLink("ADD ITEM", "BrowseInvItem_withSchedule", new { JobServiceId = @SvcId })
-        ]
+        
+        @if (jobStatusId < 4) {
+            <span>[ @Html.ActionLink("ADD ITEM", "BrowseInvItem_withSchedule", new { JobServiceId = @SvcId }) ]</span>
+        }
+        
     </div>
 </div>

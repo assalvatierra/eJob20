@@ -84,7 +84,14 @@
             
              <td>
                  @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = item.Id }, new { target = "_blank" }) |
-                 @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = item.Id }, new { target = "_blank" }) |
+
+                 @if(item.StatusRemarks == "CLOSED")
+                 {
+                 <span>
+                     @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = item.Id }, new { target = "_blank" }) |
+                 </span>
+                 }
+
                  @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = item.Id }, null)
              </td>
         </tr>

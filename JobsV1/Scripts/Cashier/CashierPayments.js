@@ -3,7 +3,7 @@
 /* Cashier Payments
  * 
  */
-
+var ADMINPASS = "Admin123!";
 $(() => {
     //$("#AddPayment-Amount").focus();
 });
@@ -85,18 +85,27 @@ function CheckEditPermission() {
     $("#Edit-Pass-warning").hide();
 
     //check permission
-    $.get("/Cashier/CheckAdminPermission", { pass: $("#Edit-Pass-Input").val() }, (result) => {
-        console.log(result);
-        if (result == 'True') {
+    //$.get("/Cashier/CheckAdminPermission", { pass: $("#Edit-Pass-Input").val() }, (result) => {
+    //    console.log(result);
+    //    if (result == 'True') {
 
-            var paymentId = $("#Edit-Pass-Id").val();
-            //redirect to Edit
-            window.location.href = "/Cashier/EditPayment/" + paymentId;
-        } else {
-            $("#Edit-Pass-warning").show();
-        }
+    //        var paymentId = $("#Edit-Pass-Id").val();
+    //        //redirect to Edit
+    //        window.location.href = "/Cashier/EditPayment/" + paymentId;
+    //    } else {
+    //        $("#Edit-Pass-warning").show();
+    //    }
 
-    })
+    //})
+
+    if ($("#Edit-Pass-Input").val() == ADMINPASS) {
+
+        var paymentId = $("#Edit-Pass-Id").val();
+        //redirect to Edit
+        window.location.href = "/Cashier/EditPayment/" + paymentId;
+    } else {
+        $("#Edit-Pass-warning").show();
+    }
 }
 
 //Set Payment Id for delete
@@ -113,18 +122,27 @@ function CheckDeletePermission() {
     $("#Delete-Pass-warning").hide();
 
     //check permission
-    $.get("/Cashier/CheckAdminPermission", { pass: $("#Delete-Pass-Input").val() }, (result) => {
-        console.log(result);
-        if (result == 'True') {
+    //$.get("/Cashier/CheckAdminPermission", { pass: $("#Delete-Pass-Input").val() }, (result) => {
+    //    console.log(result);
+    //    if (result == 'True') {
 
-            var paymentId = $("#Delete-Pass-Id").val();
-            //redirect to Edit
-            window.location.href = "/Cashier/Delete/" + paymentId;
-        } else {
-            $("#Delete-Pass-warning").show();
-        }
+    //        var paymentId = $("#Delete-Pass-Id").val();
+    //        //redirect to Edit
+    //        window.location.href = "/Cashier/Delete/" + paymentId;
+    //    } else {
+    //        $("#Delete-Pass-warning").show();
+    //    }
 
-    })
+    //})
+
+    if ($("#Delete-Pass-Input").val() == ADMINPASS) {
+
+        var paymentId = $("#Delete-Pass-Id").val();
+        //redirect to Edit
+        window.location.href = "/Cashier/Delete/" + paymentId;
+    } else {
+        $("#Delete-Pass-warning").show();
+    }
 }
 
 function ResetWarning() {
@@ -154,4 +172,21 @@ $('#Delete-Pass-Input').keypress(function (e) {
     }
 });   
 
+function UpdatePaymentStatus(jobId, statusId) {
+    var JobId = parseInt(jobId);
+    var StatusId = parseInt(statusId);
 
+    var data = {
+        id: JobId,
+        statusId: StatusId
+    }
+
+    $.post("/Cashier/UpdatePaymentStatus", data, (result) => {
+
+        if (result == 'True') {
+            window.location.reload();
+        } else {
+            alert("Unable to update payment status.");
+        }
+    })
+}

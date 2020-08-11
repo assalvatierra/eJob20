@@ -4,7 +4,7 @@
  *  load sending overlay animation / gif
  */
 
-
+var ADMINPASS = "Admin123!"
 
 function jobActionDisplay(action) {
     alert(action);
@@ -137,16 +137,24 @@ function CheckEditJobPermission() {
     $("#EditJob-Pass-warning").hide();
 
     //check permission
-    $.get("/JobOrder/CheckAdminPermission", { pass: $("#EditJob-Pass-Input").val() }, (result) => {
-        console.log(result);
-        if (result == 'True') {
-            var paymentId = $("#EditJob-Pass-Id").val();
-            //redirect to Edit
-            window.location.href = "/JobOrder/JobDetails?jobid=" + paymentId;
-        } else {
-            $("#EditJob-Pass-warning").show();
-        }
-    })
+    //$.get("/JobOrder/CheckAdminPermission", { pass: $("#EditJob-Pass-Input").val() }, (result) => {
+    //    console.log(result);
+    //    if (result == 'True') {
+    //        var paymentId = $("#EditJob-Pass-Id").val();
+    //        //redirect to Edit
+    //        window.location.href = "/JobOrder/JobDetails?jobid=" + paymentId;
+    //    } else {
+    //        $("#EditJob-Pass-warning").show();
+    //    }
+    //})
+
+    if ($("#EditJob-Pass-Input").val() == ADMINPASS) {
+        var paymentId = $("#EditJob-Pass-Id").val();
+        //redirect to Edit
+        window.location.href = "/JobOrder/JobDetails?jobid=" + paymentId;
+    } else {
+        $("#EditJob-Pass-warning").show();
+    }
 }
 
 
@@ -166,16 +174,25 @@ function CheckEditPermission() {
     $("#Edit-Pass-warning").hide();
 
     //check permission
-    $.get("/JobOrder/CheckAdminPermission", { pass: $("#Edit-Pass-Input").val() }, (result) => {
-        console.log(result);
-        if (result == 'True') {
+    //$.get("/JobOrder/CheckAdminPermission", { pass: $("#Edit-Pass-Input").val() }, (result) => {
+    //    console.log(result);
+    //    if (result == 'True') {
+    //        var paymentId = $("#Edit-Pass-Id").val();
+    //        //redirect to Edit
+    //        window.location.href = "/JobOrder/JobServiceEdit/" + paymentId;
+    //    } else {
+    //        $("#Edit-Pass-warning").show();
+    //    }
+    //})
+
+        if ($("#Edit-Pass-Input").val() == ADMINPASS) {
             var paymentId = $("#Edit-Pass-Id").val();
             //redirect to Edit
             window.location.href = "/JobOrder/JobServiceEdit/" + paymentId;
         } else {
             $("#Edit-Pass-warning").show();
         }
-    })
+    
 }
 
 
@@ -193,30 +210,48 @@ function CheckDeletePermission() {
     $("#Delete-Pass-warning").hide();
 
     //check permission
-    $.get("/JobOrder/CheckAdminPermission", { pass: $("#Delete-Pass-Input").val() }, (result) => {
-        console.log(result);
-        if (result == 'True') {
+    //$.get("/JobOrder/CheckAdminPermission", { pass: $("#Delete-Pass-Input").val() }, (result) => {
+    //    console.log(result);
+    //    if (result == 'True') {
 
-            if (confirm("Do you want to delete this service?")) {
+    //        if (confirm("Do you want to delete this service?")) {
 
-                var svcId = $("#Delete-Pass-Id").val();
+    //            var svcId = $("#Delete-Pass-Id").val();
 
-                $.post("/JobOrder/ConfirmJobSvcDelete", { id : svcId }, (resDelete) => {
-                    if (resDelete == 'True') {
-                        //redirect to Edit
-                        window.location.href = "/JobOrder/JobServices?JobMainId=" + svcId;
-                    } else {
-                        $("#Delete-Pass-warning").show();
-                    }
-                });
-            }
+    //            $.post("/JobOrder/ConfirmJobSvcDelete", { id : svcId }, (resDelete) => {
+    //                if (resDelete == 'True') {
+    //                    //redirect to Edit
+    //                    window.location.href = "/JobOrder/JobServices?JobMainId=" + svcId;
+    //                } else {
+    //                    $("#Delete-Pass-warning").show();
+    //                }
+    //            });
+    //        }
 
 
-        } else {
-            $("#Delete-Pass-warning").show();
+    //    } else {
+    //        $("#Delete-Pass-warning").show();
+    //    }
+
+    //})
+
+    if ($("#Delete-Pass-Input").val() == ADMINPASS) {
+        if (confirm("Do you want to delete this service?")) {
+
+            var svcId = $("#Delete-Pass-Id").val();
+
+            $.post("/JobOrder/ConfirmJobSvcDelete", { id : svcId }, (resDelete) => {
+                if (resDelete == 'True') {
+                    //redirect to Edit
+                    window.location.href = "/JobOrder/JobServices?JobMainId=" + svcId;
+                } else {
+                    $("#Delete-Pass-warning").show();
+                }
+            });
         }
-
-    })
+    } else {
+        $("#Delete-Pass-warning").show();
+    }
 }
 
 
@@ -275,9 +310,9 @@ $('#Delete-Pass-Input').keypress(function (e) {
 
 
 function ResetWarning() {
-    $("#Edit-Pass-warning").show();
-    $("#EditJob-Pass-warning").show();
-    $("#Delete-Pass-warning").show();
+    $("#Edit-Pass-warning").hide();
+    $("#EditJob-Pass-warning").hide();
+    $("#Delete-Pass-warning").hide();
 }
 
 

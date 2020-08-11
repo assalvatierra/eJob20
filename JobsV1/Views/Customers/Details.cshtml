@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Customer Details";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    var siteConfig = ViewBag.SiteConfig;
+
 }
 
     <div class="row col-sm-12">
@@ -64,13 +67,14 @@
             </div>
         </div>
     </div>
-
-    <div class="col-lg-12" id="VehiclesTable">
-        <hr />
-        @{Html.RenderPartial("PartialView_Vehicles", (List<JobsV1.Models.Vehicle>)ViewBag.CustomerVehicles, new ViewDataDictionary { { "customerId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList } });}
-    
-    </div>
-
+    @if (siteConfig == "AutoCare")
+    {
+        <div class="col-lg-12" id="VehiclesTable">
+            <hr />
+            @{Html.RenderPartial("PartialView_Vehicles", (List<JobsV1.Models.Vehicle>)ViewBag.CustomerVehicles, new ViewDataDictionary { { "customerId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList }, { "IsAllowedVehicles", ViewBag.IsAllowedVehicles } } );}
+        
+        </div>
+    }
     <!-- Add Hidden on class for SolidSteel-->
     <div class="col-lg-12" id="jobList" style="margin:0px 15px;">
        

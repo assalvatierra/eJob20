@@ -67,4 +67,15 @@ namespace JobsV1.Areas.Personel.Models
         public string PaidThru { get; set; }
     }
 
+    public class RptCrDriverTripSummary
+    {
+        public int Id { get; set; }
+        public int Count { get; set; }
+        public crLogDriver Driver { get; set; }
+        public string Dates { get; set; }
+        public int TotalDays { get; set; }
+        public decimal Salary { get; set; }
+        public decimal CA { get; set; }
+        public decimal Payment { get; set; }
+    }
 }

@@ -6,7 +6,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using Antlr.Runtime.Tree;
 using JobsV1.Areas.Personel.Models;
+using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.Personel.Controllers
@@ -15,6 +17,8 @@ namespace JobsV1.Areas.Personel.Controllers
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
         private CrDataLayer dl = new CrDataLayer();
+        private crDriverData dd = new crDriverData();
+        private DateClass dt = new DateClass();
 
         private const int EXPENSE_FUEL = 1;
         private const int EXPENSE_MAINTENANCE = 2;
@@ -259,7 +263,6 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(vehicleSummaries);
         }
 
-
         public decimal GetUnitTripExpenses(int unitId, int driversId, int ExpenseTypeId, DateTime sDate, DateTime eDate)
         {
             //get trip expenses with returned (closed) status (cashstatusId = 4)
@@ -299,7 +302,6 @@ namespace JobsV1.Areas.Personel.Controllers
                     return 0;
             }
         }
-
 
         public RptCrPaymentTypeSummary GetUnitTripPayments(int unitId, int driversId, DateTime sDate, DateTime eDate)
         {
@@ -343,7 +345,6 @@ namespace JobsV1.Areas.Personel.Controllers
                 return new RptCrPaymentTypeSummary() { Cash = 0, CreditCard = 0, PO = 0 };
             }
         }
-
 
         public ActionResult VehicleTripReport(string DtStart, string DtEnd, int? driverId, int? unitId, int? rptId)
         {
@@ -491,6 +492,88 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
             return vehicleExpenses;
+        }
+
+        public ActionResult DriverSummaryReport(string DtStart, string DtEnd, int? driverId, int? rptId)
+        {
+            List<RptCrDriverTripSummary> driverTripSummaries = new List<RptCrDriverTripSummary>();
+
+            int count = 0;
+
+            DateTime sDate = new DateTime();
+            DateTime eDate = new DateTime();
+
+            if (!DateTime.TryParse(DtStart, out sDate) || !DateTime.TryParse(DtEnd, out eDate))
+            {
+                sDate = dt.GetCurrentDate();
+                eDate = dt.GetCurrentDate();
+            }
+
+            TimeSpan duration = new TimeSpan(23, 59, 0); //11:59:0 PM
+            eDate = eDate.Add(duration);
+
+            //get trip logs
+            var tripLogs = db.crLogTrips.Where(t => t.DtTrip >= sDate && t.DtTrip <= eDate);
+
+            if (driverId != null && driverId != 0)
+            {
+                tripLogs = tripLogs.Where(t => t.crLogDriverId == driverId);
+            }
+
+            //if report is generated from unit expenses reports
+            if (rptId != null)
+            {
+                //get unitId List on report
+                var unitReport = db.crRptUnitExpenses.Find(rptId);
+                if (unitReport == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var unitList = unitReport.CrRptUnits.Select(c => c.crLogUnitId).ToList();
+
+                tripLogs = tripLogs.Where(t => unitList.Contains(t.crLogUnitId));
+            }
+
+            foreach (var tripGroup in tripLogs.ToList().GroupBy(t=>t.crLogDriver))
+            {
+
+                //sample dates
+                var _sDate = DateTime.Parse("07/01/2020");
+                var _eDate = DateTime.Parse("08/30/2020");
+
+                int DaysCount = 0;
+                decimal TotalSalary = 0;
+                count++;
+
+                RptCrDriverTripSummary driverTrip = new RptCrDriverTripSummary();
+                driverTrip.Driver = tripGroup.Key;
+                driverTrip.Id = driverTrip.Driver.Id;
+                driverTrip.Count = count;
+
+                foreach (var trip in tripGroup.OrderBy(c=>c.DtTrip))
+                {
+                    if (trip.crLogClosingId == null)
+                    {
+                        TotalSalary += trip.DriverFee;
+                        DaysCount++;
+                    }
+                }
+
+                driverTrip.Salary = TotalSalary;
+                driverTrip.CA = dd.GetDriverCA_FromDates(_sDate, _eDate, driverTrip.Id);
+                driverTrip.Payment = dd.GetDriverPayments_FromDates(_sDate, _eDate, driverTrip.Id);
+                driverTrip.TotalDays = DaysCount;
+                driverTripSummaries.Add(driverTrip);
+            }
+
+
+            ViewBag.DtStart = DtStart;
+            ViewBag.DtEnd = DtEnd;
+            ViewBag.driverId = driverId ?? 0;
+            ViewBag.driverList = dl.GetDrivers().ToList();
+
+            return View(driverTripSummaries);
         }
     }
 }

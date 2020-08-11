@@ -96,7 +96,7 @@ function ajax_loadContent() {
     };
 
     //request data from server using ajax call
-    $.ajax({
+   var res = $.ajax({
         url: 'Customers/TableResult?search='+query+'&status='+status+'&sort='+sort,
         type: "GET",
         data: JSON.stringify(data),
@@ -109,7 +109,9 @@ function ajax_loadContent() {
             console.log(data);
             LoadTable(data);
         }
-    });
+   });
+
+    console.log(res);
 }
 
 

@@ -211,8 +211,9 @@ namespace JobsV1.Controllers
             ViewBag.JobPaymentStatus = Job.JobMainPaymentStatus.OrderByDescending(p=>p.Id).FirstOrDefault().JobPaymentStatu
                 ?? new JobsV1.Models.JobPaymentStatus() { Status = "NA" };
             ViewBag.JobDiscount = jo.GetJobDiscountAmount((int)id);
-            ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.statusList = db.JobPaymentStatus.ToList();
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+            ViewBag.isOwner = User.IsInRole("Owner");
 
             var jobPayments = db.JobPayments.Where(d => d.JobMainId == id );
             return View(jobPayments.ToList());

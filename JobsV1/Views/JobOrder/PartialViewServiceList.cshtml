@@ -39,18 +39,26 @@
         @*@Html.Partial("PartialViewSrvActionItems", item.SvcActions, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })*@
 
 
-        <div id="col@(item.Service.Id)" class="jobservice-items panel-collapse collapse in">
+    <div id="col@(item.Service.Id)" class="jobservice-items panel-collapse collapse in">
 
-            @Html.Partial("PartialViewJobServiceItems", item.SvcItems, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
-            @Html.Partial("PartialViewServiceSupPo", item.SupplierPos, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id } })
-        </div>
+        @Html.Partial("PartialViewJobServiceItems", item.SvcItems, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id }, { "jobStatusId", item.Service.JobMain.JobStatusId } })
+        @if (siteconfig == "Realwheels")
+        {
+            @Html.Partial("PartialViewServiceSupPo", item.SupplierPos, new ViewDataDictionary(this.ViewData) { { "svcId1", item.Service.Id }, { "jobStatusId", item.Service.JobMain.JobStatusId } })
+        }
+
+    </div>
 
         <div class="jobservice-pickup">
             <p>
                 <!-- Add Pickup Details -->
                 @{JobsV1.Models.JobServicePickup pickup = item.Service.JobServicePickups.FirstOrDefault();}
+                @if (siteconfig == "Realwheels")
+                {
+                    @Html.ActionLink("Pickup Details", "InitServicePickup", new { id = item.Service.Id })
+                }
 
-                @Html.ActionLink("Pickup Details", "InitServicePickup", new { id = item.Service.Id })
+
                 @if (pickup != null)
                 {
                     <span>

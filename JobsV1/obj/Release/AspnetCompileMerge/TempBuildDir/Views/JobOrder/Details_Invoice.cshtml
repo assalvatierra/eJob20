@@ -80,21 +80,28 @@
             Account : 
         </th>
 
-        <td><!--Company-->
-            @*@Model.Customer.Name /*@ 
+        <td>
+            <!--Company-->
+            @*@Model.Customer.Name /*@
             @ViewBag.JobName
             <br />@ViewBag.custCompany
             <br />
-             
-            @if (Model.NoOfPax != 0) { 
-                <text>  Pax: @Html.DisplayFor(model => model.NoOfPax) | </text>
+
+            @if (Model.NoOfPax != 0)
+            {
+                <text>  Pax: @Html.DisplayFor(model => model.NoOfPax)  </text>
             }
-            
-            Days: @Html.DisplayFor(model => model.NoOfDays)
+
+
+            @if (Model.NoOfDays != 0)
+            {
+                <text> | Days: @Html.DisplayFor(model => model.NoOfDays) </text>
+            }
+
             <br />
             @if (Model.JobRemarks != null)
             {
-                <text> Remarks: </text>
+                <text>  Remarks: </text>
             }
             @Html.DisplayFor(model => model.JobRemarks)
         </td>
@@ -118,7 +125,7 @@
     {
         dContractAmt += (item.SupplierAmt == null ? 0 : (decimal)item.SupplierAmt);
         dQuotedAmt += (item.SupplierAmt == null ? 0 : (decimal)item.QuotedAmt);
-        JobsV1.Models.JobServicePickup pickup = item.JobServicePickups.FirstOrDefault(); 
+        JobsV1.Models.JobServicePickup pickup = item.JobServicePickups.FirstOrDefault();
 
         <tr>
             <td style="white-space:nowrap">
@@ -148,10 +155,10 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.QuotedAmt)
+                @Decimal.Parse(item.QuotedAmt.ToString()).ToString("##,###.00")
             </td>
         </tr>
-    }
+                    }
 
 </table>
 
@@ -187,11 +194,11 @@
 }
 
 <!--Total Amount, Bank Details and Paypal Button-->
-<div class="jumbotron" >
+<div class="jumbotron"  >
        
     <table style="width: 100%; table-layout: auto; ">
         <tr>
-            <td style="width:70%;padding:10px;">
+            <td style="width:62%;padding:10px;">
 
                 <div >
                     <h2>Summary</h2>
@@ -217,19 +224,19 @@
                 </div>
             </td>
 
-            <td style="width:30%;">
-                <div style="font:normal 14px arial,verdana;border:1px dotted black; padding:15px;">
-                    <p><b>For Payment</b></p>
-                    <p>
+            <td style="width:38%;">
+                <div class="invoice-bank-details" style="font:normal 14px arial,verdana;border:1px dotted black;">
+                    <p class="font-small"><b>For Payment</b></p>
+                    <p class="font-small">
                         @ViewBag.BankName
                         ( @ViewBag.BankBranch )
                     </p>
-                    <p>Account: @ViewBag.AccName</p>                        
-                    <p style="font-weight:bold;">Account No.: @ViewBag.AccNum</p>
+                    <p class="font-small">Account: @ViewBag.AccName</p>                        
+                    <p  class="font-small" style="font-weight:bold;">Account No.: @ViewBag.AccNum</p>
 
-                    <p style="margin:20px;text-align:center;"> </p>
-                    <p>Click Here for Paypal Payment: </p>
-                    <div id="paypal-button"></div>
+                    <p class="font-small" style="margin:20px;text-align:center;"> </p>
+                    <p class="font-small paypal-text">Click Here for Paypal Payment: </p>
+                    <div class="paypal-text" id="paypal-button"></div>
                 </div>
             </td>
 

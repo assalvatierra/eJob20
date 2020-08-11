@@ -24,7 +24,7 @@
 <div class="col-md-12">
     <table class="table">
         <tr>
-            <th>
+            <th style="min-width:200px;">
                 @Html.ActionLink("Vehicle", "Index", new { sortby = "Vehicle" })
             </th>
             <th>
@@ -33,13 +33,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.PlateNo)
             </th>
-            <th>
+            <th hidden>
                 @Html.DisplayNameFor(model => model.Conduction)
             </th>
-            <th>
+            <th hidden>
                 @Html.DisplayNameFor(model => model.EngineNo)
             </th>
-            <th>
+            <th hidden>
                 @Html.DisplayNameFor(model => model.ChassisNo)
             </th>
             <th>
@@ -48,13 +48,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.Remarks)
             </th>
-            <th>
+            <th style="min-width:150px;">
                 @Html.ActionLink("Customer", "Index", new { sortby = "Customer" })
             </th>
-            <th>
+            <th style="min-width:150px;">
                 @Html.ActionLink("Company", "Index", new { sortby = "Company" })
             </th>
-            <th></th>
+            <th style="min-width:150px;"></th>
         </tr>
 
         @foreach (var item in Model)
@@ -69,13 +69,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PlateNo)
                 </td>
-                <td>
+                <td hidden>
                     @Html.DisplayFor(modelItem => item.Conduction)
                 </td>
-                <td>
+                <td hidden>
                     @Html.DisplayFor(modelItem => item.EngineNo)
                 </td>
-                <td>
+                <td hidden>
                     @Html.DisplayFor(modelItem => item.ChassisNo)
                 </td>
                 <td>

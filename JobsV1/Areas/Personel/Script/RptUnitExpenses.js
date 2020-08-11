@@ -141,3 +141,57 @@ function Submit_ItemVehicleTripFilter() {
 function ItemVehicleTripFilter_AddDays(days) {
     $("#ItemVehicleTripFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
 }
+
+
+
+/**  Driver Trip Report Filter */
+
+function Initial_DriverSummaryFilter(rptId, rptName) {
+    $("#DriverSummaryFilter-rptName").val(rptName);
+    $("#DriverSummaryFilter-rptId").val(rptId);
+}
+
+function Submit_DriverSummaryFilter() {
+
+    var startDate = $("#DriverSummaryFilter-StartDate").val();
+    var endDate = $("#DriverSummaryFilter-EndDate").val();
+    var driverId = $("#DriverSummaryFilter-driverId").val();
+
+    var url = $("#DriverSummaryReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+    url = url.replace('_driverId', driverId);
+
+    window.location.href = url;
+}
+
+function DriverSummaryFilter_AddDays(days) {
+    $("#DriverSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}
+
+
+
+/** Item Driver Trip Report Filter */
+
+function Initial_ItemDriverSummaryFilter(rptId, rptName) {
+    $("#ItemDriverSummaryFilter-rptName").val(rptName);
+    $("#ItemDriverSummaryFilter-rptId").val(rptId);
+}
+
+function Submit_ItemDriverSummaryFilter() {
+
+    var startDate = $("#ItemDriverSummaryFilter-StartDate").val();
+    var endDate = $("#ItemDriverSummaryFilter-EndDate").val();
+    var rptId = $("#ItemDriverSummaryFilter-rptId").val();
+
+    var url = $("#ItemDriverSummaryReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+    url = url.replace('_rptId', rptId);
+
+    window.location.href = url;
+}
+
+function ItemDriverSummaryFilter_AddDays(days) {
+    $("#ItemDriverSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}

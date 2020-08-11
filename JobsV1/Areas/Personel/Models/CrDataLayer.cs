@@ -26,5 +26,7 @@ namespace JobsV1.Areas.Personel.Models
         {
             return db.crLogCompanies.Where(c => c.Status != "INC");
         }
+
+
     }
 }

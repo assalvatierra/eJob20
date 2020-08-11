@@ -47,6 +47,8 @@ namespace JobsV1.Controllers
                 new SelectListItem { Value = "EXCLUSIVE", Text = "Exclusive" }
                 };
 
+        private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+
         public ActionResult Index()
         {
             ViewBag.IsAdmin = User.IsInRole("Admin");
@@ -66,14 +68,22 @@ namespace JobsV1.Controllers
             List<cCompanyList> custList = new List<cCompanyList>();
             var user = HttpContext.User.Identity.Name;
 
-            //handle user roles
-            if (User.IsInRole("Admin"))
+            if(SITECONFIG == "AutoCare")
             {
                 custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
             }
             else
             {
-                custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+                //handle user roles
+                if (User.IsInRole("Admin"))
+                {
+                    custList = comdb.generateCompanyList(search, searchCat, status, sort, "admin");
+                }
+                else
+                {
+                    custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
+                }
+
             }
 
             //custList = comdb.generateCompanyList(search, searchCat, status, sort, user);
@@ -108,6 +118,7 @@ namespace JobsV1.Controllers
             //check previlages
             var isAdmin = User.IsInRole("Admin");
             var isAssigned = custEntMain.AssignedTo == user ? true : false;
+            var isServiceAdvisor = User.IsInRole("ServiceAdvisor");
 
             //check jobcount
             var jobcount = db.JobEntMains.Where(s => s.CustEntMainId == id).Count();
@@ -126,13 +137,14 @@ namespace JobsV1.Controllers
             ViewBag.Documents = GetDocumentList((int)id);
             ViewBag.CustDocuments = db.CustEntDocuments.Where(c=>c.CustEntMainId == id).ToList();
             ViewBag.CompanyId = id;
-            ViewBag.isAllowedHistory = isAdmin || isAssigned ? true : false ;
+            ViewBag.isAllowedHistory = isAdmin || isAssigned ? true : false;
+            ViewBag.IsAllowedVehicles = isAdmin || isAssigned || isServiceAdvisor ? true : false;
             ViewBag.IsAdmin = isAdmin;
             ViewBag.HaveJob = jobcount != 0 ? true : false;
             ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustEntMainId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
             ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make).ToList();
             ViewBag.CompanyContacts = db.Customers.Where(c => companyContactEntity.Contains(c.Id)).OrderBy(c=>c.Name).ToList();
-            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            ViewBag.SiteConfig = SITECONFIG;
 
             custEntMain.AssignedTo = comdb.removeSpecialChar(custEntMain.AssignedTo);
 

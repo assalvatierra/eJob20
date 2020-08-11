@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<JobsV1.Models.SupplierPoDtl>
-@{ int SvcId = Convert.ToInt32(ViewData["svcId1"]);  }
+@{ int SvcId = Convert.ToInt32(ViewData["svcId1"]);
+   var jobStatusId = Convert.ToInt32(ViewData["jobStatusId"]);
+    }
 
 <div>
     <span>Supplier Items</span>
@@ -27,7 +29,17 @@
             </div>
         }
 
-    <div>[@Html.ActionLink("ADD PO", "InitializePO", new { srcId  = SvcId })]</div>
+    <div>
+        
+        @if (jobStatusId < 4)
+        {
+        <span>
+           [ @Html.ActionLink("ADD PO", "InitializePO", new { srcId = SvcId }) ]
+        </span>
+        }
+
+       
+    </div>
 
     </div>
 </div>

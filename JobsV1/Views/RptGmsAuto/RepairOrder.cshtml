@@ -321,7 +321,7 @@
                         </td>
                     </tr>
                     <!-- Services History items-->
-                    @foreach (var history in VehicleHistory)
+                    @foreach (var history in VehicleHistory.OrderBy(h=>h.JobMain.JobDate))
                     {
                         <tr>
                             <td style="padding-top:5px;border:none">

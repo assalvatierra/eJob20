@@ -170,12 +170,12 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="dtRequest" Type="datetime" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="crLogUnitId" Type="int" Nullable="false" />
     <Property Name="crLogDriverId" Type="int" Nullable="false" />
     <Property Name="dtFillup" Type="datetime" Nullable="false" />
     <Property Name="odoFillup" Type="int" Nullable="false" />
-    <Property Name="orAmount" Type="decimal" Nullable="false" />
+    <Property Name="orAmount" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="crLogTypeId" Type="int" Nullable="false" />
     <Property Name="odoStart" Type="int" Nullable="true" />
     <Property Name="odoEnd" Type="int" Nullable="true" />
@@ -747,14 +747,14 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="dtRequest" Type="DateTime" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="2" />
           <NavigationProperty Name="crLogUnit" Relationship="CarRentalLogDB.crLogUnitcrLogFuel" FromRole="crLogFuel" ToRole="crLogUnit" />
           <Property Name="crLogUnitId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="crLogDriver" Relationship="CarRentalLogDB.crLogDrivercrLogFuel" FromRole="crLogFuel" ToRole="crLogDriver" />
           <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
           <Property Name="dtFillup" Type="DateTime" Nullable="false" />
           <Property Name="odoFillup" Type="Int32" Nullable="false" />
-          <Property Name="orAmount" Type="Decimal" Nullable="false" />
+          <Property Name="orAmount" Type="Decimal" Nullable="false" Scale="2" />
           <NavigationProperty Name="crLogFuelStatus" Relationship="CarRentalLogDB.crLogFuelcrLogFuelStatus" FromRole="crLogFuel" ToRole="crLogFuelStatus" />
           <NavigationProperty Name="crLogType" Relationship="CarRentalLogDB.crLogTypecrLogFuel" FromRole="crLogFuel" ToRole="crLogType" />
           <Property Name="crLogTypeId" Type="Int32" Nullable="false" />

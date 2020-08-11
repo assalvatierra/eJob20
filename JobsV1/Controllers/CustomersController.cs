@@ -27,6 +27,9 @@ namespace JobsV1.Controllers
                 new SelectListItem { Value = "TRN", Text = "Transferred" }
                 };
 
+        private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+
+
         // GET: Customers
         public  ActionResult Index(string status, string search)
         {
@@ -68,9 +71,14 @@ namespace JobsV1.Controllers
             ViewBag.custId = (int)id;
             PartialView_CustSocial((int)id);
             ViewBag.HaveJob = db.JobMains.Where(j => j.CustomerId == id).FirstOrDefault() != null ? true : false;
-            ViewBag.SiteConfig = ConfigurationManager.AppSettings["SiteConfig"].ToString();
+            ViewBag.SiteConfig = SITECONFIG;
             ViewBag.CustomerVehicles = db.Vehicles.Where(v => v.CustomerId == id).OrderBy(v=>v.VehicleModel.VehicleBrand.Brand).ToList();
             ViewBag.VehicleModelList = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make).ToList();
+
+            //check previlages
+            var isAdmin = User.IsInRole("Admin");
+            var isServiceAdvisor = User.IsInRole("ServiceAdvisor");
+            ViewBag.IsAllowedVehicles = isAdmin || isServiceAdvisor ? true : false;
 
             return View(customer);
         }
@@ -444,14 +452,21 @@ namespace JobsV1.Controllers
             List<CustomerList> custList = new List<CustomerList>();
             var user = HttpContext.User.Identity.Name;
 
-            //handle user roles
-            if (User.IsInRole("Admin"))
+            if (SITECONFIG == "AutoCare")
             {
                 custList = custdb.GetCustomerAdminList(search, status, sort);
             }
             else
             {
-                custList = custdb.GetCustomerList(search, status, sort, user);
+                //handle user roles
+                if (User.IsInRole("Admin"))
+                {
+                    custList = custdb.GetCustomerAdminList(search, status, sort);
+                }
+                else
+                {
+                    custList = custdb.GetCustomerList(search, status, sort, user);
+                }
             }
 
             //convert list to json object

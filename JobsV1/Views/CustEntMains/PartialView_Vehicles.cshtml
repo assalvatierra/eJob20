@@ -3,6 +3,7 @@
     int companyId = Convert.ToInt32(ViewData["companyId"]);
     var vehicleModels = ViewData["VehicleModelList"] as IEnumerable<JobsV1.Models.VehicleModel>;
     var contactList = ViewData["CompanyContacts"] as IEnumerable<JobsV1.Models.Customer>;
+    bool isAllowedVehicles = ViewBag.isAllowedVehicles;
 }
 
 <div>
@@ -34,9 +35,14 @@
                 <td> @item.Color </td>
                 <td> @item.Remarks </td>
                 <td>
-                    <a id="catbtn" class="cursor-pointer" data-toggle="modal" data-target="#EditVehicleModal" style="margin-bottom:10px;" onclick="ShowEditVehicleModal('@item.Id')"> Edit </a> | 
-                    @Html.ActionLink("Services", "VehicleServices", new { id = item.Id, companyId = companyId }) |
-                    <a id="catbtn" class="cursor-pointer"  data-toggle="modal" data-target="#DeleteVehicleModal" style="margin-bottom:10px;" onclick="ShowDeleteVehicleModal('@item.Id')"> Delete</a>
+                    @if (isAllowedVehicles)
+                    {
+                    <span>
+                        <a id="catbtn" class="cursor-pointer" data-toggle="modal" data-target="#EditVehicleModal" style="margin-bottom:10px;" onclick="ShowEditVehicleModal('@item.Id')"> Edit </a> |
+                        @Html.ActionLink("Services", "VehicleServices", new { id = item.Id, companyId = companyId }) |
+                        <a id="catbtn" class="cursor-pointer" data-toggle="modal" data-target="#DeleteVehicleModal" style="margin-bottom:10px;" onclick="ShowDeleteVehicleModal('@item.Id')"> Delete</a>
+                    </span>
+                    }
                 </td>
             </tr>
         }

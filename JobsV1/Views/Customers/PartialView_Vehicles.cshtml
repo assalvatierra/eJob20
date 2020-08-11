@@ -2,6 +2,7 @@
 @{
     int customerid = Convert.ToInt32(ViewData["customerId"]);
     var vehicleModels = ViewData["VehicleModelList"] as IEnumerable<JobsV1.Models.VehicleModel>;
+    bool IsAllowedVehicles = ViewBag.IsAllowedVehicles ?? false;
 }
 
 <div>
@@ -32,9 +33,14 @@
                 <td> @item.Color </td>
                 <td> @item.Remarks </td>
                 <td>
-                    <a id="catbtn" href="#" data-toggle="modal" data-target="#EditVehicleModal" style="margin-bottom:10px;" onclick="ShowEditVehicleModal('@item.Id')"> Edit </a> | 
-                    @Html.ActionLink("Services", "VehicleServices", new { id = item.Id, customerId = customerid }) |
-                    <a id="catbtn" href="#" data-toggle="modal" data-target="#DeleteVehicleModal" style="margin-bottom:10px;" onclick="ShowDeleteVehicleModal('@item.Id')"> Delete</a>
+                    @if (IsAllowedVehicles)
+                    {
+                    <span>
+                        <a id="catbtn" href="#" data-toggle="modal" data-target="#EditVehicleModal" style="margin-bottom:10px;" onclick="ShowEditVehicleModal('@item.Id')"> Edit </a> |
+                        @Html.ActionLink("Services", "VehicleServices", new { id = item.Id, customerId = customerid }) |
+                        <a id="catbtn" href="#" data-toggle="modal" data-target="#DeleteVehicleModal" style="margin-bottom:10px;" onclick="ShowDeleteVehicleModal('@item.Id')"> Delete</a>
+                    </span>
+                    }
                 </td>
             </tr>
         }

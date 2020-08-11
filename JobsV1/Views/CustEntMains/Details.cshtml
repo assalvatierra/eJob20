@@ -4,6 +4,8 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     int customerid = Model.Id;
+    bool IsAllowedVehicles = ViewBag.isAllowedVehicles;
+    string siteConfig = ViewBag.SiteConfig;
 }
 <div class="row">
     <h3>Company Details</h3>
@@ -325,12 +327,15 @@
 
     </table>
 </div>
-
-
-<div class="row" id="VehiclesTable">
-    @{Html.RenderPartial("PartialView_Vehicles", (List<JobsV1.Models.Vehicle>)ViewBag.CustomerVehicles, 
-      new ViewDataDictionary { { "companyId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList }, { "CompanyContacts", ViewBag.CompanyContacts } });}
-</div>
+@if (siteConfig == "AutoCare")
+{
+    <div class="row" id="VehiclesTable">
+        @{Html.RenderPartial("PartialView_Vehicles", (List<JobsV1.Models.Vehicle>)ViewBag.CustomerVehicles,
+                              new ViewDataDictionary { { "companyId", Model.Id }, { "VehicleModelList", ViewBag.VehicleModelList },
+                                  { "CompanyContacts", ViewBag.CompanyContacts },{ "IsAllowedVehicles", ViewBag.IsAllowedVehicles } });}
+   
+    </div>
+}
 
 
 <!-- Job List-->
@@ -388,7 +393,15 @@
                 <td> @job.PaymentStatus </td>
                 <td>
                     @Html.ActionLink("Repair Order", "RepairOrder", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) | 
-                    @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) | 
+
+                    @if (job.Status == "CLOSED")
+                    {
+                    <span>
+                        @Html.ActionLink("Service Billing", "ServiceBilling", "RptGmsAuto", new { id = job.Id }, new { target = "_blank" }) |
+                    </span>
+                    }
+
+
                     @Html.ActionLink("Job Details", "JobServices", "JobOrder", new { JobMainId = job.Id }, null)
                 </td>
             </tr>

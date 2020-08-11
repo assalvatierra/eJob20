@@ -7,6 +7,7 @@
     decimal _drivertrips = 0;
     decimal _drivercash = 0;
     decimal _driverpayment = 0;
+    decimal _driverbalance = 0;
 
     var reqStatus = (int)ViewBag.reqStatus;
     var IsAdmin = (bool)ViewBag.IsAdmin;
@@ -35,6 +36,23 @@
         <strong> CA Request Added!</strong> Click here to go Request Transactions and request for approval
     </div>
 </a>
+
+
+
+<a  id="closeTRx-success-message" hidden>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong> CA and Payments Closed!</strong> All Cash Advance and Payment Transactions are now closed.
+    </div>
+</a>
+
+<a id="closeTRx-error-message" hidden>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong> Error!</strong> Unable to close all CA and Payments Transactions
+    </div>
+</a>
+
 
 <h3>Trips</h3>
 <table class="table" id="summary-table">
@@ -115,81 +133,107 @@
         <td> <a class="cursor-hand" onclick="CreateSalaryRequest()"> Create Salary Request </a> </td>
     </tr>
 
-    @foreach (var item in Model.DriverCash)
+</table>
+
+
+
+<h4> CA and Payments </h4>
+<p>
+    <a class="cursor-hand" onclick="CreateCARequest()"> Create CA Request </a> |
+    <a class="cursor-hand" onclick="CreatePaymentRequest()"> Create Payment </a> 
+</p>
+<table class="table" id="CAPayments-table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Cash
+        </th>
+        <th>
+            Payments
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.DriverTrx)
     {
-        _drivercash += item.Amount;
+
 
         <tr>
             <td>
                 @item.DtRelease.ToShortDateString()
             </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogCashType.Description)
+            </td>
+            <td>
+                <!-- CA -->
+                @if (item.crLogCashTypeId == 2)
+                {
+                    _drivercash += item.Amount;
+                    <span> -@item.Amount.ToString("N0")</span>
+                }
+            </td>
+            <td>
+                <!-- Payments -->
+                @if (item.crLogCashTypeId == 3)
+                {
+                    _driverpayment += item.Amount;
+                    <span> @item.Amount.ToString("N0")</span>
+                }
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
-            <td colspan="3">
-                CA
-            </td>
             <td>
-                <span> - @item.Amount.ToString("N0")</span>
-            </td>
-            <td></td>
-            <td colspan="2">
                 @if (IsAdmin)
                 {
                     <span>
-                        @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;|&nbsp;
-                        @Html.ActionLink("Close", "CloseCashTrx", new { id = item.Id })
+                        @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;
                     </span>
                 }
             </td>
         </tr>
     }
-    <tr>
-        <td colspan="5" align="right">Total Driver's CA</td>
-        <td> - @_drivercash.ToString("N0")</td>
-        <td></td>
-        <td> <a class="cursor-hand" onclick="CreateCARequest()"> Create CA Request </a>  </td>
-    </tr>
 
-    <!-- Drivers CA -->
-    @foreach (var item in Model.DriverPayments)
-    {
-        _driverpayment += item.Amount;
-
-        <tr>
-            <td>
-                @item.DtRelease.ToShortDateString()
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td colspan="3">
-                Payment
-            </td>
-            <td>
-                @item.Amount.ToString("N0")
-            </td>
-            <td></td>
-            <td colspan="2">
-                @if (IsAdmin)
-                {
-                <span>
-                    @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;|&nbsp;
-                    @Html.ActionLink("Close", "CloseCashTrx", new { id = item.Id })
-                </span>
-                }
-            </td>
-        </tr>
+    @{
+        _driverbalance = _driverpayment - _drivercash;
     }
     <tr>
-        <td colspan="5" align="right">Total Driver's Payment</td>
-        <td>@_driverpayment.ToString("N0")</td>
-        <td></td>
-        <td> <a class="cursor-hand" onclick="CreatePaymentRequest()"> Create Payment </a>  </td>
+        <td colspan="2" align="right">Total</td>
+        <td>-@_drivercash.ToString("N0")</td>
+        <td> @_driverpayment.ToString("N0") </td>
+        <td><span class="text-muted"> Balance: </span> @_driverbalance.ToString("N0") </td>
+        <td>
+            @if (IsAdmin)
+            {
+                if (_driverbalance == 0)
+                {
+                    <span>
+                        @*<a class="cursor-hand" onclick="CloseAllCAPayments()"> Close All CA & Payments </a>*@
+
+                        @Html.ActionLink("Close All CA & Payments ", "CloseCashBalance", new { id = ViewBag.DriverId })
+                    </span>
+                }
+                else
+                {
+                    <span> Please settle the balance to Close</span>
+                }
+            }
+
+        </td>
     </tr>
 </table>
 
-@if(Model.NoStatus.Count() > 0)
+@if (Model.NoStatus.Count() > 0)
 {
     <h3>Trips w/ no status</h3>
     <table class="table" id="summary-table">
@@ -228,7 +272,7 @@
                     @Html.DisplayFor(modelItem => item.Remarks)
                 </td>
                 <td colspan="3">
-                  NA
+                    NA
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Amount)
@@ -237,10 +281,10 @@
                 <td colspan="2">
                     @if (IsAdmin)
                     {
-                    <span>
-                        @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;|&nbsp;
-                        @Html.ActionLink("Close", "CloseCashTrx", new { id = item.Id })
-                    </span>
+                        <span>
+                            @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;|&nbsp;
+                            @Html.ActionLink("Close", "CloseCashTrx", new { id = item.Id })
+                        </span>
                     }
                 </td>
             </tr>
@@ -285,6 +329,17 @@
 
             if ('@reqStatus' == '2') {
                 $("#ca-success-message").show();
+            }
+
+
+            if ('@reqStatus' == '4') {
+                $("#closeTRx-success-message").show();
+            }
+
+
+
+            if ('@reqStatus' == '5') {
+                $("#closeTRx-error-message").show();
             }
         }
 

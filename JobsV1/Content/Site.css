@@ -85,9 +85,18 @@ textarea {
     td    { page-break-inside:avoid; page-break-after:auto }
     thead { display:table-header-group }
     tfoot { display:table-footer-group }
+    .paypal-text { display:none;}
 }
 
+.invoice-bank-details {
+    padding: 15px;
+    padding-left: 20px;
+    width:300px;
+}
 
+.font-small {
+    font-size: 14px !important;
+}
 
 .userTable {
     border-top: none;

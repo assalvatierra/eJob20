@@ -11,6 +11,8 @@
     var PaymentStatus = ViewBag.JobPaymentStatus as JobsV1.Models.JobPaymentStatus;
     var JobMain = @ViewBag.JobOrder as JobsV1.Models.JobMain;
     var Company = ViewBag.Company;
+    var isOwner = ViewBag.IsOwner;
+
 }
 <div class="row" style="margin-left:2px;min-width:500px;margin-top:20px;margin-bottom:10px;">
     <h2 class="no-margin">
@@ -81,7 +83,10 @@
 
 </p>
 <p>
-    <a href="#" id="catbtn" data-toggle="modal" data-target="#EditPaymentStatusModal"> Update Payment Status </a>
+    @if ((JobStatus.Id < 4 || PaymentStatus.Id > 1) || isOwner)
+    {
+        <a href="#" id="catbtn" data-toggle="modal" data-target="#EditPaymentStatusModal"> Update Payment Status </a>
+    }
 </p>
 <table class="table">
     <tr>
@@ -126,7 +131,10 @@
 </table>
 
 <h3>Payment Details</h3>
-@Html.ActionLink("Add Payment", "AddPayment", new { id = ViewBag.JobMainId })
+@if ((JobStatus.Id < 4 || PaymentStatus.Id > 1) || isOwner)
+{
+    @Html.ActionLink("Add Payment", "AddPayment", new { id = ViewBag.JobMainId })
+}
 
 <table class="table">
     <tr>
@@ -155,7 +163,7 @@
         PaidTotal += item.PaymentAmt;
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DtPayment)
+                @item.DtPayment.ToString("MMM dd yyyy")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Bank.BankName)
@@ -170,10 +178,25 @@
                 @item.PaymentAmt.ToString("#,##0.00")
             </td>
             <td>
-                <a href="#" id="catbtn" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
-                <a href="#" id="catbtn" data-toggle="modal" data-target="#Delete-PermissionModal" onclick="SetDeletePermissionId('@item.Id')"> Delete </a>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                @if (JobStatus.Id < 4 || PaymentStatus.Id > 1)
+                {
+                    <span>
+                        <a href="#" id="catbtn" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
+                        <a href="#" id="catbtn" data-toggle="modal" data-target="#Delete-PermissionModal" onclick="SetDeletePermissionId('@item.Id')"> Delete </a>
+                    </span>
+                }
+                else
+                {
+                    if (isOwner)
+                    {
+                        <span>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </span>
+                    }
+                }
+
+
             </td>
         </tr>
     }
@@ -246,7 +269,7 @@
             discountTotal += item.PaymentAmt;
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DtPayment)
+                    @item.DtPayment.ToString("MMM dd yyyy")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Bank.BankName)
@@ -261,10 +284,23 @@
                     @item.PaymentAmt.ToString("#,##0.00")
                 </td>
                 <td>
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
-                    <a href="#" id="catbtn" data-toggle="modal" data-target="#Delete-PermissionModal" onclick="SetDeletePermissionId('@item.Id')"> Delete </a>
-                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    @if (JobStatus.Id < 4 || PaymentStatus.Id > 1)
+                    {
+                        <span>
+                            <a href="#" id="catbtn" data-toggle="modal" data-target="#Edit-PermissionModal" onclick="SetEditPermissionId('@item.Id')"> Edit </a> |
+                            <a href="#" id="catbtn" data-toggle="modal" data-target="#Delete-PermissionModal" onclick="SetDeletePermissionId('@item.Id')"> Delete </a>
+                        </span>
+                    }
+                    else
+                    {
+                        if (isOwner)
+                        {
+                            <span>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </span>
+                        }
+                    }
                 </td>
             </tr>
         }
@@ -283,7 +319,7 @@
 }
 
 
-<div class="row job-payment-add-block">
+<div class="row job-payment-add-block" id="easy-access-payment">
     <div class="col-md-12">
         <h4> Add Payment </h4>
     </div>
@@ -335,24 +371,13 @@
 @section Scripts{
     <script src="~/Scripts/Cashier/CashierPayments.js"></script>
     <script>
-        function UpdatePaymentStatus(jobId, statusId) {
-            var JobId = parseInt(jobId);
-            var StatusId = parseInt(statusId);
-
-            var data = {
-                id : JobId,
-                statusId : StatusId
+        $(() => {
+            var jobStatusId = parseInt('@JobStatus.Id');
+            var paymentStatusId = parseInt('@PaymentStatus.Id');
+            if (jobStatusId == 4 && paymentStatusId == 1) {
+                $("#easy-access-payment").hide();
             }
 
-            $.post("/Cashier/UpdatePaymentStatus", data, (result) => {
-
-                if (result == 'True') {
-                   window.location.reload();
-                } else {
-                    alert("Unable to update payment status.");
-                }
-            })
-        }
+        });
     </script>
-
 }

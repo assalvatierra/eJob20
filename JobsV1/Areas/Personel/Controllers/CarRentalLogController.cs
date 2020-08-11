@@ -18,6 +18,7 @@ namespace JobsV1.Areas.Personel.Controllers
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
         private CrDataLayer dl = new CrDataLayer();
         private DateClass dt = new DateClass();
+        private crDriverData dd = new crDriverData();
 
         // GET: Personel/CarRentalLog
         public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby)
@@ -409,27 +410,104 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+        public bool CloselogCashRelease(crLogCashRelease crLogCashRelease)
+        {
+            if (crLogCashRelease == null)
+            {
+                return false;
+            }
+            try
+            {
+                //create closing Id
+                crLogCashRelease.crLogClosingId = generateClosingTrx();
+                db.Entry(crLogCashRelease).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /*  id = DriverId
+         *  reqStatus = 1 ( Salary Request added)
+         *              2 ( CA Request added)
+         *              3 ( Payment added)
+         *              4 ( Closed All CA & Payments Success )
+         *              5 ( Closed All CA & Payments Error )
+         * 
+         */
         public ActionResult DriverSummary(int id, int? reqStatus)
         {
             crLogDriver driver = db.crLogDrivers.Find(id);
             List<crLogTrip> trips = db.crLogTrips.Where(d => d.crLogDriverId == id && d.crLogClosingId==null).OrderBy(s=>s.DtTrip).ToList();
-            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 2).OrderBy(s=>s.DtRelease).ToList();
+            List<crLogCashRelease> cashAdvance = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 2).OrderBy(s=>s.DtRelease).ToList();
             List<crLogCashRelease> payments = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 3).OrderBy(s => s.DtRelease).ToList();
             List<crLogCashRelease> noStatus = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 1).OrderBy(s => s.DtRelease).ToList();
+            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId != 1).OrderBy(s => s.DtRelease).ToList();
 
 
             crDriverSummary driversummary = new crDriverSummary();
             driversummary.Driver = driver;
             driversummary.DriverTrips = trips;
-            driversummary.DriverCash = cashtrx;
+            driversummary.DriverCash = cashAdvance;
             driversummary.DriverPayments = payments;
             driversummary.NoStatus = noStatus;
+            driversummary.DriverTrx = cashtrx;
 
             ViewBag.DriverId = id;
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
             ViewBag.reqStatus = reqStatus ?? 0;
             ViewBag.IsAdmin = User.IsInRole("Admin");
             return View(driversummary);
+        }
+
+        public ActionResult CloseCashBalance(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            crLogDriver driver = db.crLogDrivers.Find(id);
+            List<crLogCashRelease> cashAdvance = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 2).OrderBy(s => s.DtRelease).ToList();
+            List<crLogCashRelease> payments = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 3).OrderBy(s => s.DtRelease).ToList();
+            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId != 1).OrderBy(s => s.DtRelease).ToList();
+
+            decimal totalCA = 0;
+            decimal totalPayments = 0;
+            decimal Balance = 0;
+
+            foreach (var cash in cashAdvance)
+            {
+                totalCA += cash.Amount;
+            }
+
+            foreach (var cash in payments)
+            {
+                totalPayments += cash.Amount;
+            }
+
+            //when balance is Payments >= totalCA
+            if (totalPayments >= totalCA)
+            {
+                //close all trx
+                foreach (var trx in cashtrx)
+                {
+                    //close
+                    var result = CloselogCashRelease(trx);
+
+                    if (!result)
+                    {
+                        return RedirectToAction("DriverSummary", new {  id, reqStatus = 5 });
+                    }
+                }
+            }
+
+            return RedirectToAction("DriverSummary", new { id, reqStatus = 4 });
         }
 
         public ActionResult PaytoClose(int id, decimal amount)

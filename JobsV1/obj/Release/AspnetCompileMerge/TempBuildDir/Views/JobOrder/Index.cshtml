@@ -157,7 +157,10 @@
                     </div>
 
                     <p>
-                        @Html.ActionLink("[ Add New Service ]", "JobServiceAdd", new { JobMainId = item.Main.Id }, null)
+                        @if (item.Main.JobStatusId < 4)
+                        {
+                            @Html.ActionLink("[ Add New Service ]", "JobServiceAdd", new { JobMainId = item.Main.Id }, null)
+                        }
                     </p>
 
                     <p style="cursor:pointer;">

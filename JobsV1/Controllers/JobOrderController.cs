@@ -1602,7 +1602,7 @@ order by x.jobid
 
                     string OilString = MotorOil + GearOil + TransmissionOil;
 
-                    return OilString;
+                    return MotorOil;
 
                 }
 
@@ -1942,7 +1942,6 @@ order by x.jobid
             return View(jobServicePickup);
         }
 
-
         [HttpPost, ActionName("JobServicePickup")]
         public ActionResult JobServicePickup([Bind(Include = "Id,JobServicesId,JsDate,JsTime,JsLocation,ClientName,ClientContact,ProviderName,ProviderContact")] JobServicePickup jobServicePickup)
         {
@@ -1960,7 +1959,8 @@ order by x.jobid
             return View(jobServicePickup);
 
         }
-        
+
+        //[Authorize(Roles = "Admin,ServiceAdvisor")]
         public ActionResult JobServices(int? JobMainId, int? serviceId, int? sortid, string action)
         {
 
@@ -2019,7 +2019,14 @@ order by x.jobid
                 isAllowedPayment = true;
             }
 
+
+            //check previlages
+            var isAdmin = User.IsInRole("Admin");
+            var isServiceAdvisor = User.IsInRole("ServiceAdvisor");
+
             ViewBag.IsAdmin = isAllowedPayment;
+            ViewBag.IsAllowedEdit = isAdmin || isServiceAdvisor ? true : false;
+            ViewBag.isOwner = User.IsInRole("Owner");
             ViewBag.JobMainId = (int)JobMainId;
             ViewBag.JobOrder = Job;
             ViewBag.JobItems = jobServices;
@@ -3795,7 +3802,6 @@ order by x.jobid
         #endregion
 
 
-        [HttpGet]
         public bool CheckAdminPermission(string pass)
         {
             var adminPass = "Admin123!";
