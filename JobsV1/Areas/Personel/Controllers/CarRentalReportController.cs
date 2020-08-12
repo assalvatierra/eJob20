@@ -567,7 +567,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 driverTripSummaries.Add(driverTrip);
             }
 
-
+            ViewBag.rptId = rptId;
             ViewBag.DtStart = DtStart;
             ViewBag.DtEnd = DtEnd;
             ViewBag.driverId = driverId ?? 0;

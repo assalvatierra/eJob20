@@ -8,7 +8,7 @@
     decimal TotalPayments = 0;
 
     var driverList = ViewBag.driverList as IEnumerable<JobsV1.Areas.Personel.Models.crLogDriver>;
-
+    int count = 0;
 
 }
 
@@ -84,17 +84,17 @@
     </tr>
     @foreach (var driver in Model.OrderBy(d=>d.Driver.Name))
     {
-
+        count++;
         TotalSalary += driver.Salary;
         TotalCA += driver.CA;
         TotalPayments += driver.Payment;
 
         <tr>
             <td>
-                @driver.Count
+                @count
             </td>
             <td>
-                @Html.ActionLink(driver.Driver.Name, "DriverSummary", "CarRentalLog", new { id = driver.Id }, null)
+                @Html.ActionLink(driver.Driver.Name, "DriverSummary", "CarRentalLog", new { id = driver.Id, DtStart = ViewBag.DtStart, DtEnd = ViewBag.DtEnd, rptId = ViewBag.rptId }, null)
             </td>
             <td>
                 @if (driver.TotalDays > 1)

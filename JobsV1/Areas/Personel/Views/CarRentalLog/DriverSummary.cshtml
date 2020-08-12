@@ -8,7 +8,7 @@
     decimal _drivercash = 0;
     decimal _driverpayment = 0;
     decimal _driverbalance = 0;
-
+    int tripCount = 0;
     var reqStatus = (int)ViewBag.reqStatus;
     var IsAdmin = (bool)ViewBag.IsAdmin;
 }
@@ -39,7 +39,7 @@
 
 
 
-<a  id="closeTRx-success-message" hidden>
+<a id="closeTRx-success-message" hidden>
     <div class="alert alert-success alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <strong> CA and Payments Closed!</strong> All Cash Advance and Payment Transactions are now closed.
@@ -53,6 +53,39 @@
     </div>
 </a>
 
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+            <h4 class="col-lg-1  control-label form-label form-filter-label"> Filter: </h4>
+
+            <div class="col-lg-4 form-label" style="position:relative;float:left;padding-bottom:10px;padding-left:0;">
+                <a class="cursor-hand" onclick="DriverSummaryFilter_AddDays(-7)"> Last 7 Days </a> |
+                <a class="cursor-hand" onclick="DriverSummaryFilter_AddDays(-15)"> Last 15 Days </a> |
+                <a class="cursor-hand" onclick="DriverSummaryFilter_AddDays(-30)"> Last 30 Days </a>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class=" form-filter-div col-lg-2 col-md-2 col-sm-2 col-xs-6" style="max-width:120px;">
+                <label class="col-lg-1 col-xs-1" style="padding-left:0px;margin-right:5px;margin-top:5px;"> Start&nbsp;Date </label>
+                <input id="DtStart" name="DtStart" type="text" class="form-control form-filter-input" />
+            </div>
+            <div class="form-filter-div col-lg-2 col-md-2 col-sm-2 col-xs-6" style="max-width:120px;">
+                <label class="col-lg-1 col-xs-1" style="padding-left:0px;margin-right:5px;margin-top:5px;"> End&nbsp;Date </label>
+                <input id="DtEnd" name="DtEnd" type="text" class="form-control form-filter-input" />
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12" style="padding:0px;">
+                <label> &nbsp; </label>
+                <button type="submit" class="btn btn-default col-lg-2 col-md-2 col-sm-2 col-xs-8 form-filter-input" style="min-width:80px;margin-top:5px;"> Filter </button>
+            </div>
+        </div>
+
+    </div>
+}
+
+<p class="text-muted" id="show-date-text" hidden> Showing @ViewBag.rptName trips from @ViewBag.DtStart to @ViewBag.DtEnd  </p>
 
 <h3>Trips</h3>
 <table class="table" id="summary-table">
@@ -83,8 +116,11 @@
 
     @foreach (var item in Model.DriverTrips)
     {
-        _drivertrips += item.DriverFee;
-
+        if (item.DriverFee > 0 && item.DriverFee != null)
+        {
+            _drivertrips += item.DriverFee;
+        }
+        tripCount++;
         <tr name="summary-data">
             <td name="date">
                 @item.DtTrip.ToShortDateString()
@@ -106,7 +142,7 @@
                 @item.Expenses.ToString("N0")
             </td>
             <td name="driversFee">
-                @item.DriverFee.ToString("N0")
+                @item.DriverFee
             </td>
             <td>
                 <input type="checkbox" class="item-checkbox" onclick="OnSelectCheckBox(this)" />
@@ -122,16 +158,51 @@
             </td>
         </tr>
     }
+    @if (Model.DriverTrips.Count() > 0)
+    {
+        <tr>
+            <td>
+                Trip Count:
+                @if (tripCount > 1)
+                {
+                    <span>
+                        @tripCount Days
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @tripCount Day
+                    </span>
+                }
+            </td>
+            <td colspan="4" align="right">Total Driver's fee</td>
+            <td>@_drivertrips.ToString("N0")</td>
+            <td>
+                <span id="Total-Selected-DriverFee"> 0 </span>
 
-    <tr>
-        <td colspan="5" align="right">Total Driver's fee</td>
-        <td>@_drivertrips.ToString("N0")</td>
-        <td>
-            <span id="Total-Selected-DriverFee"> 0 </span>
+            </td>
+            <td> <a class="cursor-hand" onclick="CreateSalaryRequest()"> Create Salary Request </a> </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <span class="pull-right"> Total Selected </span>
+            </td>
+            <td></td>
+            <td colspan="2">
+                <span id="Total-Selected-Count"> </span>
+            </td>
+        </tr>
 
-        </td>
-        <td> <a class="cursor-hand" onclick="CreateSalaryRequest()"> Create Salary Request </a> </td>
-    </tr>
+    }
+    else
+    {
+        <tr>
+            <td colspan="8">
+                <p class="text-center"> No trips found </p>
+            </td>
+        </tr>
+    }
 
 </table>
 
@@ -140,7 +211,7 @@
 <h4> CA and Payments </h4>
 <p>
     <a class="cursor-hand" onclick="CreateCARequest()"> Create CA Request </a> |
-    <a class="cursor-hand" onclick="CreatePaymentRequest()"> Create Payment </a> 
+    <a class="cursor-hand" onclick="CreatePaymentRequest()"> Create Payment </a>
 </p>
 <table class="table" id="CAPayments-table">
     <tr>
@@ -151,7 +222,7 @@
             Description
         </th>
         <th>
-            Cash
+            CA
         </th>
         <th>
             Payments
@@ -179,7 +250,7 @@
                 @if (item.crLogCashTypeId == 2)
                 {
                     _drivercash += item.Amount;
-                    <span> -@item.Amount.ToString("N0")</span>
+                    <span> @item.Amount.ToString("N0")</span>
                 }
             </td>
             <td>
@@ -207,30 +278,43 @@
     @{
         _driverbalance = _driverpayment - _drivercash;
     }
-    <tr>
-        <td colspan="2" align="right">Total</td>
-        <td>-@_drivercash.ToString("N0")</td>
-        <td> @_driverpayment.ToString("N0") </td>
-        <td><span class="text-muted"> Balance: </span> @_driverbalance.ToString("N0") </td>
-        <td>
-            @if (IsAdmin)
-            {
-                if (_driverbalance == 0)
-                {
-                    <span>
-                        @*<a class="cursor-hand" onclick="CloseAllCAPayments()"> Close All CA & Payments </a>*@
 
-                        @Html.ActionLink("Close All CA & Payments ", "CloseCashBalance", new { id = ViewBag.DriverId })
-                    </span>
-                }
-                else
+    @if (Model.DriverTrx.Count() > 0)
+    {
+        <tr>
+            <td colspan="2" align="right">Total</td>
+            <td> @_drivercash.ToString("N0")</td>
+            <td> @_driverpayment.ToString("N0") </td>
+            <td><span class="text-muted"> Balance: </span> @_driverbalance.ToString("N0") </td>
+            <td>
+                @if (IsAdmin)
                 {
-                    <span> Please settle the balance to Close</span>
-                }
-            }
+                    if (_driverbalance == 0)
+                    {
+                        <span>
+                            @*<a class="cursor-hand" onclick="CloseAllCAPayments()"> Close All CA & Payments </a>*@
 
-        </td>
-    </tr>
+                            @Html.ActionLink("Close All CA & Payments ", "CloseCashBalance", new { id = ViewBag.DriverId })
+                        </span>
+                    }
+                    else
+                    {
+                        <span> Please settle the balance to Close</span>
+                    }
+                }
+
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td colspan="6">
+                <p class="text-center"> No cash transaction found </p>
+            </td>
+        </tr>
+    }
+
 </table>
 
 @if (Model.NoStatus.Count() > 0)
@@ -311,12 +395,14 @@
 @Html.Partial("_DriverCAModal")
 
 @section Scripts{
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
     <script src="~/Areas/Personel/Script/DriverSummary.js"></script>
     <script src="~/Scripts/Filters/FormInputFilter.js"></script>
     <script>
 
         $(() => {
             Initialize();
+            Initialize_Date();
         })
 
         function Initialize() {
@@ -343,6 +429,39 @@
             }
         }
 
-    </script>
 
+        function Initialize_Date() {
+            var dtStart = '@ViewBag.DtStart';
+            var dtEnd = '@ViewBag.DtEnd';
+
+            if (dtStart == '') {
+                $('#DtStart').val(moment().format("MM/DD/YYYY"));
+            } else {
+                $('#DtStart').val(moment(dtStart).format("MM/DD/YYYY"));
+            }
+            if (dtEnd == '') {
+                $('#DtEnd').val(moment().format("MM/DD/YYYY"));
+            } else {
+                $('#DtEnd').val(moment(dtEnd).format("MM/DD/YYYY"));
+            }
+
+            if (dtStart  != '' && dtEnd != '') {
+                $("#show-date-text").show();
+            }
+
+            var driverId = parseInt('@ViewBag.driverId');
+            console.log(driverId);
+            if (driverId > 0) {
+                $("#driverId").val(driverId);
+            } else {
+                $("#driverId").val(0);
+            }
+        }
+
+        function DriverSummaryFilter_AddDays(days) {
+            console.log("add days")
+            $("#DtStart").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+        }
+
+    </script>
 }

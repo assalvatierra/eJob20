@@ -32,6 +32,7 @@ function CalculateTotalSalary() {
 
     //run through each row
     var TotalSalary = 0;
+    var TotalSelected = 0;
     $('#summary-table tr[name="summary-data"]').each(function (i, row) {
 
         // reference all the stuff you need first
@@ -43,12 +44,18 @@ function CalculateTotalSalary() {
         console.log($tripId + " - " + $driverfee + " - " + $checkedBoxStatus);
 
         if ($checkedBoxStatus) {
-            TotalSalary = TotalSalary + parseInt($driverfee);
-            jsonReqData.TripIds.push($tripId);
+            if (parseFloat($driverfee) > 0 ) {
+
+                TotalSalary = TotalSalary + parseFloat($driverfee);
+                jsonReqData.TripIds.push($tripId);
+
+            }
+            TotalSelected++;
         }
     });
 
     $("#Total-Selected-DriverFee").text(TotalSalary);
+    $("#Total-Selected-Count").text(TotalSelected);
 
     //update json object of amount
     jsonReqData.Amount = TotalSalary;

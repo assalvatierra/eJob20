@@ -26,7 +26,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             try
             {
-                var defaultStartDate = dt.GetCurrentDate().AddDays(-30);
+                var defaultStartDate = dt.GetCurrentDate();
                 //Get Logs
                 var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
 
@@ -62,26 +62,26 @@ namespace JobsV1.Areas.Personel.Controllers
                 switch (sortby)
                 {
                     case "Unit":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description);
+                        crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
                         break;
                     case "Company":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name);
+                        crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogDriver.OrderNo);
                         break;
                     case "Driver":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.Name);
+                        crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.OrderNo).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip));
                         break;
                     case "Date":
-                        crLogTrips = crLogTrips.OrderBy(c => c.DtTrip);
+                        crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
                         break;
                     case "Date-Desc":
-                        crLogTrips = crLogTrips.OrderByDescending(c => c.DtTrip);
+                        crLogTrips = crLogTrips.OrderByDescending(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
                         break;
                     default:
-                        crLogTrips = crLogTrips.OrderBy(c => c.DtTrip);
+                        crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c=>c.crLogCompany.Name).ThenBy(c=>c.crLogDriver.OrderNo);
                         break;
                 }
 
-                var tripLogs = crLogTrips.ToList();
+                var tripLogs = crLogTrips.ToList();  
 
                 //get summary
                 var logSummary = GetCrLogSummary(tripLogs);
@@ -439,14 +439,44 @@ namespace JobsV1.Areas.Personel.Controllers
          *              5 ( Closed All CA & Payments Error )
          * 
          */
-        public ActionResult DriverSummary(int id, int? reqStatus)
+        public ActionResult DriverSummary(int id, int? reqStatus, string DtStart, string DtEnd, int? rptId)
         {
+            DateTime sDate = new DateTime();
+            DateTime eDate = new DateTime();
+            var today = dt.GetCurrentDate();
+
             crLogDriver driver = db.crLogDrivers.Find(id);
             List<crLogTrip> trips = db.crLogTrips.Where(d => d.crLogDriverId == id && d.crLogClosingId==null).OrderBy(s=>s.DtTrip).ToList();
-            List<crLogCashRelease> cashAdvance = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 2).OrderBy(s=>s.DtRelease).ToList();
-            List<crLogCashRelease> payments = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 3).OrderBy(s => s.DtRelease).ToList();
-            List<crLogCashRelease> noStatus = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 1).OrderBy(s => s.DtRelease).ToList();
-            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId != 1).OrderBy(s => s.DtRelease).ToList();
+
+            if (DateTime.TryParse(DtStart, out sDate) && DateTime.TryParse(DtEnd, out eDate))
+            {
+                TimeSpan duration = new TimeSpan(23, 59, 0); //11:59:0 PM
+                eDate = eDate.Add(duration);
+
+                trips = trips.Where(d => d.DtTrip >= sDate && d.DtTrip <= eDate).ToList();
+            }
+
+
+            //if report is generated from unit expenses reports
+            if (rptId != null)
+            {
+                //get unitId List on report
+                var unitReport = db.crRptUnitExpenses.Find(rptId);
+                if (unitReport == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var unitList = unitReport.CrRptUnits.Select(c => c.crLogUnitId).ToList();
+
+                trips = trips.Where(t => unitList.Contains(t.crLogUnitId)).ToList();
+            }
+
+            var driverCashReleases = db.crLogCashReleases;
+            List<crLogCashRelease> cashAdvance = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 2).OrderBy(s=>s.DtRelease).ToList();
+            List<crLogCashRelease> payments = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 3).OrderBy(s => s.DtRelease).ToList();
+            List<crLogCashRelease> noStatus = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 1).OrderBy(s => s.DtRelease).ToList();
+            List<crLogCashRelease> cashtrx = driverCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId != 1).OrderBy(s => s.DtRelease).ToList();
 
 
             crDriverSummary driversummary = new crDriverSummary();
@@ -457,6 +487,17 @@ namespace JobsV1.Areas.Personel.Controllers
             driversummary.NoStatus = noStatus;
             driversummary.DriverTrx = cashtrx;
 
+
+            var rptName = "";
+            if (rptId != null)
+            {
+                rptName = db.crRptUnitExpenses.Find(rptId).RptName;
+            }
+
+            ViewBag.rptId = rptId ?? 0;
+            ViewBag.rptName = rptName;
+            ViewBag.DtStart = DtStart;
+            ViewBag.DtEnd = DtEnd;
             ViewBag.DriverId = id;
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
             ViewBag.reqStatus = reqStatus ?? 0;
