@@ -338,7 +338,7 @@ namespace JobsV1.Models
             return input.Substring(0,idx);
 
             }
-            catch (Exception ex)
+            catch 
             {
                 return input;
             }

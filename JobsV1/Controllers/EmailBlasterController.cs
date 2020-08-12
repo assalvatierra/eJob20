@@ -189,7 +189,7 @@ namespace JobsV1.Controllers
             var recipients = db.Customers.Where(c=>c.Status == "ACT").ToList();
 
             List<BlasterRecipients> blasterRecipients = new List<BlasterRecipients>();
-            int count = 0;
+            //int count = 0;
             foreach (var recipient in recipients)
             {
                 //get categories of recipients
@@ -271,7 +271,7 @@ namespace JobsV1.Controllers
             var recipients = db.Customers.Where(c => c.Status == "ACT").ToList();
 
             List<BlasterRecipients> blasterRecipients = new List<BlasterRecipients>();
-            int count = 0;
+            //int count = 0;
             foreach (var recipient in recipients)
             {
                 //get categories of recipients

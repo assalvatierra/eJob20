@@ -23,6 +23,77 @@ namespace JobsV1.Controllers
         // GET: Cashier
         public ActionResult Index(string srch, int? paymentStatus, int? jobStatus)
         {
+            List<CashierJobList> cashierJobLists = new List<CashierJobList>();
+
+            CheckAdminPermission("na");
+
+            var jobs = db.JobMains.Where(j => j.JobStatusId < 5);
+
+            //job status filters
+            if (jobStatus != null)
+            {
+                if (jobStatus > 1)
+                    jobs = jobs.Where(j => j.JobStatusId == (int)jobStatus);
+            }
+            else
+            {
+                //default
+                jobs = jobs.Where(j => j.JobStatusId == 4);
+            }
+
+            var tempPaymentStatus = paymentStatus ?? 2;
+
+            //job payment status filter
+            jobs = GetFilteredJobPayment(jobs, tempPaymentStatus);
+
+            //remove whitespace
+
+
+            //Search
+            if (!srch.IsNullOrWhiteSpace())
+            {
+                srch = srch.Trim();
+
+                jobs = jobs.Where(j => j.Id.ToString() == srch ||
+                        j.Description.ToLower().Contains(srch.ToLower()) ||
+                        j.Customer.Name.ToLower().Contains(srch.ToLower()));
+            }
+
+            //order
+            jobs = jobs.OrderBy(j => j.JobDate);
+
+            var cashierJobs = jobs.OrderByDescending(j => j.JobDate).ToList();
+
+            foreach (var job in cashierJobs)
+            {
+                CashierJobList cashierjob = new CashierJobList();
+                cashierjob.Id = job.Id;
+                cashierjob.JobDate = job.JobDate;
+                cashierjob.JobDesc = job.Description;
+                cashierjob.Customer = job.Customer.Name;
+                cashierjob.Company = jo.GetJobCompany(job.Id);
+                cashierjob.Type = jo.GetCompanyAccountType(job.Id);
+                cashierjob.JobStatus = job.JobStatus;
+                cashierjob.Discount = jo.GetJobDiscountAmount(job.Id);
+                cashierjob.PaidAmount = jo.GetJobPaymentAmount(job.Id);
+                cashierjob.JobAmount = jo.GetTotalJobAmount(job.Id);
+                cashierjob.PaymentStatus = jo.GetJobPaymentStatus(job.Id);
+
+                cashierJobLists.Add(cashierjob);
+            }
+
+            ViewBag.JobStatus = jobStatus;
+            ViewBag.PaymentStatus = paymentStatus;
+            ViewBag.SrchString = srch;
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+
+            return View(cashierJobLists);
+        }
+
+
+        // GET: Cashier
+        public ActionResult Index2(string srch, int? paymentStatus, int? jobStatus)
+        {
             CheckAdminPermission("na");
 
             var jobs = db.JobMains.Where(j => j.JobStatusId < 5);

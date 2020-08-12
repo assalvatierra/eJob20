@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Models.JobMain>
+﻿@model IEnumerable<JobsV1.Models.Class.CashierJobList>
 @{
     ViewBag.Title = "Cashier";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
@@ -57,25 +57,18 @@
             <tr>
                 <td> @item.Id </td>
                 <td> @item.JobDate.ToShortDateString() </td>
-                <td> @item.Description </td>
-                <td> @item.Customer.Name </td>
-                <td> @{ Html.RenderAction("GetCompanyAccountType", new { id = item.Id }); } </td>
+                <td> @item.JobDesc </td>
+                <td> @item.Customer </td>
+                <td> @item.Type </td>
                 <td> @item.JobStatus.Status </td>
-                <td>  @{ Html.RenderAction("GetTotalDiscount", new { id = item.Id }); } </td>
+                <td> @item.Discount </td>
                 <td>
-                    <span class="text-success"> @{ Html.RenderAction("GetJobTotalPaidAmount", new { id = item.Id }); } </span>
+                    <span class="text-success"> @item.PaidAmount </span>
                     <span> / </span>
-                    @{ Html.RenderAction("GetJobTotalAmount", new { id = item.Id }); }
+                    <span> @item.JobAmount </span>
                 </td>
                 <td>
-                    @if (item.JobMainPaymentStatus.FirstOrDefault() != null)
-                    {
-                        @item.JobMainPaymentStatus.OrderByDescending(s => s.Id).FirstOrDefault().JobPaymentStatu.Status
-                    }
-                    else
-                    {
-                        <p>N/A</p>
-                    }
+                    @item.PaymentStatus.Status
                 </td>
                 <td>
                     @Html.ActionLink("Recieve Payment", "JobPaymentDetails", new { id = item.Id }) |

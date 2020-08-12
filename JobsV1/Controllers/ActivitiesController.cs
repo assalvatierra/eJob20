@@ -86,7 +86,7 @@ namespace JobsV1.Controllers
             var user = HttpContext.User.Identity.Name;
             DateTime startDate = new DateTime();
             DateTime endDate = new DateTime();
-            var isAdmin = false;
+            //var isAdmin = false;
 
             //handle date when null
             if (sdate != null && edate != null)

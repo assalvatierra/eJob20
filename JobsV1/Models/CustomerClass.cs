@@ -190,7 +190,7 @@ namespace JobsV1.Models
                         });
                     }
                 }
-            } catch (Exception ex) { }
+            } catch  { }
 
             return FilesList;
         }
@@ -352,7 +352,7 @@ namespace JobsV1.Models
                     custcategory =  db.CustCategories.Where(cat => cat.Id == custcat.CustCategoryId).FirstOrDefault();
 
                 }
-                catch (Exception ex)
+                catch 
                 {
                     custcategory = new CustCategory
                     {
@@ -368,7 +368,7 @@ namespace JobsV1.Models
                     company =  db.CustEntMains.Where(co => co.Id == companyEntity.CustEntMainId).FirstOrDefault();
 
                 }
-                catch (Exception ex)
+                catch 
                 {
                     company = new CustEntMain
                     {
@@ -600,7 +600,7 @@ namespace JobsV1.Models
 
                 companyName = custEnt.CustEntMain != null ? custEnt.CustEntMain.Name : "NA";
             }
-            catch (Exception ex)
+            catch
             { }
 
             return companyName;

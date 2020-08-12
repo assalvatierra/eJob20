@@ -61,7 +61,6 @@ namespace JobsV1.Models.Class
             catch (Exception ex)
             {
                 throw ex;
-                return null;
             }
         }
 

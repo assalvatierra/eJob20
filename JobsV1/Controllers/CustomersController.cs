@@ -150,7 +150,7 @@ namespace JobsV1.Controllers
                 return customer.Id.ToString();
 
             }
-            catch (Exception ex)
+            catch 
             {
                 return "0";
             }
@@ -300,7 +300,7 @@ namespace JobsV1.Controllers
                     var RecentCompany = db.CustEntities.Where(s => s.CustomerId == id).OrderByDescending(s => s.Id).FirstOrDefault();
                     ViewBag.custposition = RecentCompany.Position;
                 }
-                catch (Exception ex)
+                catch
                 {
                     ViewBag.custposition = "N/A";
                 }
@@ -520,7 +520,7 @@ namespace JobsV1.Controllers
 
                 return "OK : ";
             }
-            catch (Exception ex)
+            catch
             {
                 return "Cannot Process adding new social details.";
             }
@@ -537,7 +537,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Customers" , new { id = customerid });
             }
-            catch (Exception ex)
+            catch
             {
                 return RedirectToAction("Details", "Customers");
             }

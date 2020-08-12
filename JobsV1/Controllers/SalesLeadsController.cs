@@ -180,7 +180,7 @@ namespace JobsV1.Controllers
                 }
             }
 
-            if (leadId != null)
+            if (leadId != 0)
             {
                 var Id = (int)leadId;
                 var salesLeads = db.SalesLeads.Include(s => s.Customer)
@@ -218,7 +218,7 @@ namespace JobsV1.Controllers
                 }
             }
 
-            if (leadId != null)
+            if (leadId != 0)
             {
                 var Id = (int)leadId;
                 var salesLeads = db.SalesLeads.Include(s => s.Customer)
@@ -416,7 +416,7 @@ namespace JobsV1.Controllers
             {
                 return custEnt.CustEntMainId.ToString();
             }
-            catch (Exception ex)
+            catch 
             {
                 return "1"; //default
             }

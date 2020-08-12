@@ -537,7 +537,7 @@ namespace JobsV1.Controllers
         [HttpPost]
         public bool CreateAddress(int custEntMainId, string line1, string line2, string line3, string line4, string isBilling, string isPrimary )
         {
-            if (custEntMainId != null)
+            if (custEntMainId != 0)
             {
 
                 CustEntAddress address = new CustEntAddress();
@@ -653,7 +653,7 @@ namespace JobsV1.Controllers
 
                 return "200";
             }
-            catch (Exception ex)
+            catch 
             {
                 return "500";
             }
@@ -780,7 +780,6 @@ namespace JobsV1.Controllers
             catch (Exception ex)
             {
                 throw ex;
-                return false;
             }
         }
 

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/08/2020 19:39:50
+-- Date Created: 08/12/2020 15:44:55
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -919,7 +919,7 @@ CREATE TABLE [dbo].[JobServices] (
     [Particulars] nvarchar(80)  NULL,
     [QuotedAmt] decimal(18,0)  NULL,
     [SupplierAmt] decimal(18,0)  NULL,
-    [ActualAmt] decimal(18,0)  NULL,
+    [ActualAmt] decimal(18,2)  NULL,
     [Remarks] nvarchar(80)  NULL,
     [SupplierItemId] int  NOT NULL,
     [DtStart] datetime  NULL,
@@ -1046,7 +1046,7 @@ CREATE TABLE [dbo].[JobPayments] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [JobMainId] int  NOT NULL,
     [DtPayment] datetime  NOT NULL,
-    [PaymentAmt] decimal(18,0)  NOT NULL,
+    [PaymentAmt] decimal(18,2)  NOT NULL,
     [Remarks] nvarchar(max)  NULL,
     [BankId] int  NOT NULL,
     [JobPaymentTypeId] int  NOT NULL
@@ -1731,7 +1731,7 @@ CREATE TABLE [dbo].[CashExpenses] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [JobMainId] int  NOT NULL,
     [DtExpense] datetime  NOT NULL,
-    [Amount] decimal(18,0)  NOT NULL,
+    [Amount] decimal(18,2)  NOT NULL,
     [Remarks] nvarchar(80)  NULL,
     [RecievedBy] nvarchar(30)  NULL,
     [ReleasedBy] nvarchar(30)  NULL
@@ -1761,7 +1761,7 @@ GO
 -- Creating table 'JobExpenses'
 CREATE TABLE [dbo].[JobExpenses] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Amount] decimal(18,0)  NOT NULL,
+    [Amount] decimal(18,2)  NOT NULL,
     [Remarks] nvarchar(80)  NOT NULL,
     [JobMainId] int  NOT NULL,
     [ExpensesId] int  NOT NULL,

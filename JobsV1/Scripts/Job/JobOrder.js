@@ -147,8 +147,6 @@ function jobPayments(data, jobId) {
         //clear table contents except header
         $("#paymentList").find("tr:gt(0)").remove();
 
-
-
         //populate table content
         for (var x = 0; x < temp.length; x++) {
             var content = "<tr>";

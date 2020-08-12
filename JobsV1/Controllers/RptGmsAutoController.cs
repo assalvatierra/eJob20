@@ -269,7 +269,6 @@ namespace JobsV1.Controllers
         public ActionResult PaymentStatusReport(string DtStart, string DtEnd)
         {
             var today = dt.GetCurrentDate();
-            var totalJobs = 0;
             var countPaid = 0;
             var countUnpaid = 0;
             var countTerms = 0;

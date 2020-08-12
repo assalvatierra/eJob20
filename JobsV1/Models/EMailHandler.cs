@@ -549,7 +549,7 @@ namespace JobsV1.Models
                 replacements.Add("<%To%>", clientMail);
                 replacements.Add("<%From%>", md.From);
 
-                string body, message;
+                string body;
                 //get job details
 
                 //send email in /joborder
@@ -702,7 +702,7 @@ namespace JobsV1.Models
                 replacements.Add("<%To%>", clientMail);
                 replacements.Add("<%From%>", md.From);
 
-                string body, message;
+                string body;
                 //get job details
 
                 //send email in /joborder
@@ -718,7 +718,7 @@ namespace JobsV1.Models
 
                 //mail content for client inquiries
                 var services = "";
-                var destinations = "";
+                //var destinations = "";
                 
                 //get date today
                 DateClass dt = new DateClass();

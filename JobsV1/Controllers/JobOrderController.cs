@@ -118,6 +118,7 @@ namespace JobsV1.Controllers
         private DateClass dt = new DateClass();
         private JobOrderClass jo = new JobOrderClass();
         private JobVehicleClass jvc = new JobVehicleClass();
+        private SysAccessLayer sal = new SysAccessLayer();
 
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
@@ -601,8 +602,6 @@ order by x.jobid
             ViewBag.today = today;
             today = getDateTimeToday().Date;
 
-            decimal totalRate = 0;
-            decimal totalPayment = 0;
 
             foreach (var main in jobMains)
             {
@@ -2060,7 +2059,7 @@ order by x.jobid
                 Where(j => j.Description == rName).
                 FirstOrDefault();
             
-            if (id == null)
+            if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -2453,7 +2452,7 @@ order by x.jobid
         {
             string sData = "\n";
             decimal totalAmount = 0;
-            Models.JobServiceItem svcpu;
+            //Models.JobServiceItem svcpu;
             Models.JobMain jobmain = db.JobMains.Find(id);
             var svc = db.JobServices.Where(j=>j.JobMainId == id).ToList();
             string custName = jobmain.Branch.Name;
@@ -2556,7 +2555,7 @@ order by x.jobid
         {
             string sData = "\nBooking Details";
             decimal totalAmount = 0;
-            Models.JobServiceItem svcpu;
+            //Models.JobServiceItem svcpu;
             Models.JobMain jobmain = db.JobMains.Find(id);
             var svc = db.JobServices.Where(j => j.JobMainId == id).ToList();
             string custName = jobmain.Branch.Name;
@@ -2906,9 +2905,7 @@ order by x.jobid
         #region Daily Status Updates
         public ActionResult DailyUpdateList() {
 
-            string Message = "";
 
-               
                var updates = db.Database.SqlQuery<DailyUpdate>(@"
                     
                     select
@@ -3747,7 +3744,7 @@ order by x.jobid
                         //find bay category of item 
                         if (bayCategoryIds.Contains(item.InvItemId))
                         {
-                            var bayDateTime = new DateTime();
+                            //var bayDateTime = new DateTime();
                             //assign job to bay
                             _tempjobMonitor.AssignedBay = item.InvItem.Description;
                             _tempjobMonitor.OrderNo = item.InvItem.OrderNo ?? 999;
@@ -3801,16 +3798,18 @@ order by x.jobid
         }
         #endregion
 
-
-        public bool CheckAdminPermission(string pass)
+        [HttpGet]
+        public JsonResult CheckAdminPermission(string pass)
         {
-            var adminPass = "Admin123!";
+            var DBAdminPass = sal.getSysSetting("ADMINPASS");
+            //var adminPass = "Admin123!";
 
-            if (adminPass == pass)
+            if (DBAdminPass.Equals(pass))
             {
-                return true;
+                return Json(true,JsonRequestBehavior.AllowGet);
             }
-            return false;
+
+            return Json(false, JsonRequestBehavior.AllowGet);
         }
 
 

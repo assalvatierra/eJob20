@@ -295,7 +295,7 @@ namespace JobsV1.Controllers
                 db.Entry(rsv).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            catch (Exception ex){
+            catch {
                 return 1;
             }
             return 0;

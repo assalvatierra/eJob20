@@ -313,7 +313,7 @@ namespace JobsV1.Controllers
         public decimal getServiceIncome(int jobid, string serviceType)
         {
             decimal total = 0;
-            int count = 0;
+            //int count = 0;
 
             var carRentalServices = db.JobServices.Where(s => s.JobMainId == jobid).ToList();
             List<int> svcIds = new List<int>();

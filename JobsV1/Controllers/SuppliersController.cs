@@ -559,7 +559,6 @@ namespace JobsV1.Controllers
                     }
 
                 }
-                return "False";
             }
             catch
             {
@@ -683,7 +682,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
 
             }
-            catch (Exception ex)
+            catch 
             { }
 
             return RedirectToAction("Details", "Suppliers", new { id = supId });

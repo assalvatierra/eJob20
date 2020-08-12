@@ -882,7 +882,7 @@ namespace JobsV1.Controllers
                             {
                                 sDriver = svcitem.JobServicePickups.FirstOrDefault().ProviderName.Trim();
                             }
-                            catch (Exception e)
+                            catch
                             {
                                 sDriver = "";
                             }
@@ -1074,7 +1074,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch 
             {
                 return false;
             }
@@ -1290,7 +1290,7 @@ namespace JobsV1.Controllers
             try
             {
                 return (bool)db.JobExpenses.Where(s => s.JobServicesId == jsId && s.ExpensesId == expenseId).FirstOrDefault().ForRelease;
-            } catch (Exception ex)
+            } catch 
             { return false; }
         }
 

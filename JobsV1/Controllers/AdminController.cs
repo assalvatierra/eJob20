@@ -100,7 +100,7 @@ namespace JobsV1.Controllers
                 UpdateCompanyAssign(user,companyId);
                 return "200";
             }
-            catch (Exception ex)
+            catch 
             {
                 return "500";
             }
@@ -116,7 +116,7 @@ namespace JobsV1.Controllers
                 db.CustEntAssigns.Remove(record);
                 db.SaveChanges();
                 return "200";
-            } catch (Exception ex)
+            } catch 
             {
                 return "500";
             }

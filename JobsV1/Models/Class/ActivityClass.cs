@@ -52,7 +52,7 @@ namespace JobsV1.Models.Class
                 int idx = input.IndexOf(ch);
                 return input.Substring(0, idx);
             }
-            catch (Exception ex)
+            catch
             {
                 return input;
             }

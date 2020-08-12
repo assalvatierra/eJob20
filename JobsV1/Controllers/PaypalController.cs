@@ -82,7 +82,7 @@ namespace JobsV1.Controllers
             JobMain jobOrder = db.JobMains.Find(1);
             string clientName = jobOrder.Description;
             EMailHandler mail = new EMailHandler();
-            string siteRedirect = "https://realwheelsdavao.com/reservation/";
+            //string siteRedirect = "https://realwheelsdavao.com/reservation/";
             
             /* Handle transaction request from paypal webhook events 
             switch (ev.event_type)

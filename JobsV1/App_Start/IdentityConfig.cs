@@ -62,7 +62,7 @@ namespace JobsV1
                 SmtpServer.Send(msg);           //send message
                 
             }
-            catch (Exception ex)
+            catch 
             {
                 await Task.FromResult(0);
             }

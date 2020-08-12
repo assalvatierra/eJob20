@@ -136,25 +136,28 @@ function CheckEditJobPermission() {
     //reset
     $("#EditJob-Pass-warning").hide();
 
-    //check permission
-    //$.get("/JobOrder/CheckAdminPermission", { pass: $("#EditJob-Pass-Input").val() }, (result) => {
-    //    console.log(result);
-    //    if (result == 'True') {
-    //        var paymentId = $("#EditJob-Pass-Id").val();
-    //        //redirect to Edit
-    //        window.location.href = "/JobOrder/JobDetails?jobid=" + paymentId;
-    //    } else {
-    //        $("#EditJob-Pass-warning").show();
-    //    }
-    //})
+    var passInput = $("#EditJob-Pass-Input").val();
+    console.log(passInput);
 
-    if ($("#EditJob-Pass-Input").val() == ADMINPASS) {
-        var paymentId = $("#EditJob-Pass-Id").val();
-        //redirect to Edit
-        window.location.href = "/JobOrder/JobDetails?jobid=" + paymentId;
-    } else {
-        $("#EditJob-Pass-warning").show();
-    }
+    //check permission
+    var res = $.get("/JobOrder/CheckAdminPermission", { pass: passInput }, (result) => {
+        console.log(result);
+        if (result) {
+            var paymentId = $("#EditJob-Pass-Id").val();
+            //redirect to Edit
+            window.location.href = "/JobOrder/JobDetails?jobid=" + paymentId;
+        } else {
+            $("#EditJob-Pass-warning").show();
+        }
+    })
+    console.log(res);
+    //if ($("#EditJob-Pass-Input").val() == ADMINPASS) {
+    //    var paymentId = $("#EditJob-Pass-Id").val();
+    //    //redirect to Edit
+    //    window.location.href = "/JobOrder/JobDetails?jobid=" + paymentId;
+    //} else {
+    //    $("#EditJob-Pass-warning").show();
+    //}
 }
 
 

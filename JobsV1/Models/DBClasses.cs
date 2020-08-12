@@ -916,7 +916,7 @@ namespace JobsV1.Models
                 return input.Substring(0, idx);
 
             }
-            catch (Exception ex)
+            catch
             {
                 return input;
             }
@@ -1082,7 +1082,7 @@ namespace JobsV1.Models
             try { 
                 released = (bool)db.JobExpenses.Where(s => s.JobServicesId == jsId && s.ExpensesId == statusId).FirstOrDefault().ForRelease;
             }
-            catch (Exception ex)
+            catch
             {}
 
             return released;
@@ -1095,7 +1095,7 @@ namespace JobsV1.Models
             {
                 released = (bool)db.JobExpenses.Where(s => s.JobServicesId == jsId && s.ExpensesId == statusId).FirstOrDefault().IsReleased;
             }
-            catch (Exception ex)
+            catch
             { }
 
             return released;

@@ -115,6 +115,7 @@ Values
 ('Bay','Bay','~/Images/CarRental/Repair101.png','BAY'),
 ('Mechanic','Mechanic','~/Images/CarRental/Repair101.png','MECHANIC'),
 ('Service Advisor','Service Advisor','~/Images/CarRental/Repair101.png','SERVICEADVISOR'),
+('Referal Agent','Other Types','~/Images/CarRental/Repair101.png','AGENT'),
 ('Others','Other Types','~/Images/CarRental/Repair101.png','OTHER');
 
 
@@ -126,11 +127,21 @@ values
 ('B1.1011','Bay 1 ( Slot 10-11 am )','','','',102), 
 ('B2.0809','Bay 2 ( Slot 8-9 am )','','','',103), 
 ('B2.0910','Bay 2 ( Slot 9-10 am )','','','',104), 
-('B2.1011','Bay 2 ( Slot 10-11 am )','','','',105); 
+('B2.1011','Bay 2 ( Slot 10-11 am )','','','',105),
+ 
+('MECH.01','John','Mechanic','0911-989-9833','',200),
+('MECH.02','James','Mechanic','0978-788-1234','',200),
 
-insert into InvItemCategories([InvItemId],[InvItemCatId])
-values
-(1,1);
+('SADV.02','Mike','Advisor','09123665488 / 0931-989-9895','',300),
+
+('REFA.02','Luke','Agent','0923-656-7899 / 0971-322-1122','',400),
+('REFA.02','Len','Agent','09456-989-9898','',400); 
+
+insert into InvItemCategories([InvItemId],[InvItemCatId]) values
+(1,1),(2,1),(3,1),(4,1),(5,1),(6,1),	--bays
+(7,2),(8,2),	--mechanics
+(9,3),			--service advisors
+(10,4),(10,5);	--referal agents
 
 -- ----- Auto shop (Vehicle) ------
 insert into VehicleBrands ([Brand]) values('Toyota'),('Nissan'),('Mitsubishi'),('Isuzu'),('Hyundai'),('Honda'),('Ford');
@@ -461,9 +472,9 @@ insert into JobServices([jobMainId],[ServicesId],[SupplierId],[Particulars],[Quo
 (2, 13, 3, 'Replace Break Pads' , 2500, 0, 2500, ''	, 22, '07/17/2020', '07/19/2020'),
 (3,  7, 2, 'Replace Alternator' , 7500, 0, 2500, ''	, 7 , '07/21/2020', '07/26/2020'),
 (3,  2, 2, 'Change Oil'			, 7500, 0, 2500, ''	, 2 , '07/22/2020', '07/24/2020'),
-(4, 17, 1, 'Transmission Oil'	, 1500, 0, 1500, '' , 15, '07/28/2020', '07/30/2020'),
-(4, 16, 1, 'Change Gear Oil'	, 2000, 0, 2000, '' , 8 , '07/28/2020', '07/30/2020'),
-(5, 18, 1, 'ATF Oil'			, 2000, 0, 2000, '' , 15, '07/28/2020', '07/30/2020');
+(4, 17, 1, 'Transmission Oil'	, 1500, 0, 1500, '' , 15, '08/10/2020', '08/15/2020'),
+(4, 16, 1, 'Change Gear Oil'	, 2000, 0, 2000, '' , 8 , '08/12/2020', '07/16/2020'),
+(5, 18, 1, 'ATF Oil'			, 2000, 0, 2000, '' , 15, '08/12/2020', '07/18/2020');
 
 
 insert into SupDocuments([Description]) values
@@ -475,3 +486,6 @@ insert into CustEntDocuments([CustEntMainId],[SupDocumentId],[IsApproved]) value
 (3, 1, null ), (4, 2, null), (3, 3, null), (3, 4, null),
 (4, 1, null ), (3, 2, null), (4, 3, null), (4, 4, null),
 (5, 1, null ), (2, 2, null), (5, 3, null), (5, 4, null);
+
+insert into JobMainPaymentStatus ([JobMainId],[JobPaymentStatusId]) values 
+(1,2),(2,2),(3,2),(4,2),(5,2);

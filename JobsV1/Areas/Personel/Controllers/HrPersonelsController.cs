@@ -473,7 +473,7 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             HrPayroll payroll = db.HrPayrolls.Find(id);
             decimal totalSalary = 0;
-            decimal totalAllowance = 0;
+            //decimal totalAllowance = 0;
             decimal totalDeductions = 0;
 
             //get list of dtr with the payroll id

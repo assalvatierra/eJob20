@@ -520,7 +520,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             decimal totalCA = 0;
             decimal totalPayments = 0;
-            decimal Balance = 0;
+            //decimal Balance = 0;
 
             foreach (var cash in cashAdvance)
             {

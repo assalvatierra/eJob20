@@ -763,7 +763,7 @@
     <Property Name="Particulars" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="QuotedAmt" Type="decimal" Nullable="true" />
     <Property Name="SupplierAmt" Type="decimal" Nullable="true" />
-    <Property Name="ActualAmt" Type="decimal" Nullable="true" />
+    <Property Name="ActualAmt" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="SupplierItemId" Type="int" Nullable="false" />
     <Property Name="DtStart" Type="datetime" Nullable="true" />
@@ -890,7 +890,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="JobMainId" Type="int" Nullable="false" />
     <Property Name="DtPayment" Type="datetime" Nullable="false" />
-    <Property Name="PaymentAmt" Type="decimal" Nullable="false" />
+    <Property Name="PaymentAmt" Type="decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
     <Property Name="BankId" Type="int" Nullable="false" />
     <Property Name="JobPaymentTypeId" Type="int" Nullable="false" />
@@ -1575,7 +1575,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="JobMainId" Type="int" Nullable="false" />
     <Property Name="DtExpense" Type="datetime" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="RecievedBy" Type="nvarchar" Nullable="true" MaxLength="30" />
     <Property Name="ReleasedBy" Type="nvarchar" Nullable="true" MaxLength="30" />
@@ -1605,7 +1605,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="JobMainId" Type="int" Nullable="false" />
     <Property Name="ExpensesId" Type="int" Nullable="false" />
@@ -4530,7 +4530,7 @@
           <NavigationProperty Name="Service" Relationship="JobDB.ServicesJobServices" FromRole="JobServices" ToRole="Services" />
           <Property Name="QuotedAmt" Type="Decimal" Nullable="true" />
           <Property Name="SupplierAmt" Type="Decimal" Nullable="true" />
-          <Property Name="ActualAmt" Type="Decimal" Nullable="true" />
+          <Property Name="ActualAmt" Type="Decimal" Nullable="true" Precision="18" Scale="2" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="SupplierItem" Relationship="JobDB.SupplierItemJobServices" FromRole="JobServices" ToRole="SupplierItem" />
           <Property Name="SupplierItemId" Type="Int32" Nullable="false" />
@@ -4888,7 +4888,7 @@
           <NavigationProperty Name="JobMain" Relationship="JobDB.JobMainJobPayment" FromRole="JobPayment" ToRole="JobMain" />
           <Property Name="JobMainId" Type="Int32" Nullable="false" />
           <Property Name="DtPayment" Type="DateTime" Nullable="false" />
-          <Property Name="PaymentAmt" Type="Decimal" Nullable="false" />
+          <Property Name="PaymentAmt" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Remarks" Type="String" Nullable="true" />
           <NavigationProperty Name="Bank" Relationship="JobDB.BankJobPayment" FromRole="JobPayment" ToRole="Bank" />
           <Property Name="BankId" Type="Int32" Nullable="false" />
@@ -6468,7 +6468,7 @@
           <NavigationProperty Name="JobMain" Relationship="JobDB.CashExpenseJobMain" FromRole="CashExpense" ToRole="JobMain" />
           <Property Name="JobMainId" Type="Int32" Nullable="false" />
           <Property Name="DtExpense" Type="DateTime" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Remarks" Type="String" MaxLength="80" Nullable="true" />
           <Property Name="RecievedBy" Type="String" Nullable="true" MaxLength="30" />
           <Property Name="ReleasedBy" Type="String" Nullable="true" MaxLength="30" />
@@ -6525,7 +6525,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="JobMainId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Expens" Relationship="JobDB.ExpensesJobExpenses" FromRole="JobExpenses" ToRole="Expenses" />

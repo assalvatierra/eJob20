@@ -600,7 +600,7 @@ namespace JobsV1.Controllers
 
                 return View(sysMenu.ToList());
             }
-            catch (Exception ex)
+            catch 
             { }
 
             return View(db.SysMenus.ToList());

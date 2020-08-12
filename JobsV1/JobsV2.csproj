@@ -706,6 +706,7 @@
     <Compile Include="Models\Class\ActionTrailClass.cs" />
     <Compile Include="Models\Class\ActivityClass.cs" />
     <Compile Include="Models\Class\AppointmentClass.cs" />
+    <Compile Include="Models\Class\CashierClass.cs" />
     <Compile Include="Models\Class\CompanyClass.cs" />
     <Compile Include="Models\Class\CustEntCode.cs" />
     <Compile Include="Models\Class\CustNotifClass.cs" />
@@ -2226,7 +2227,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login-AutoCare.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -2854,7 +2855,7 @@
     <Content Include="Views\Shared\_MonitorLayout.cshtml" />
     <Content Include="Views\RptGmsAuto\ReferralReport.cshtml" />
     <Content Include="Views\JobPostSales\Update.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login-def.cshtml" />
     <Content Include="Views\Account\Login - Solidsteel.cshtml" />
     <Content Include="Views\JobPostSales\Index2.cshtml" />
     <Content Include="Views\Cashier\_EditPaymentStatus.cshtml" />

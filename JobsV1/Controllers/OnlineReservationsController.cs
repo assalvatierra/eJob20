@@ -219,7 +219,7 @@ namespace JobsV1.Controllers
 
                 return "300";
             }
-            catch (Exception ex)
+            catch
             {
                 return "error";
             }
@@ -236,7 +236,7 @@ namespace JobsV1.Controllers
                 string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
                 string ajdavaoEmail = "ajdavao88@gmail.com";
                 string adminEmail   = "travel.realbreeze@gmail.com";
-                string testadminEmail = "realbreezemark@gmail.com";
+                //string testadminEmail = "realbreezemark@gmail.com";
 
                 mailResult = email.SendMailOnlineReserve(id, reservation.Email, "CLIENT", svcType); //send email to client first
                // mailResult = email.SendMailOnlineReserve(id, testadminEmail, "ADMIN", svcType);     //send email to client first
@@ -260,7 +260,7 @@ namespace JobsV1.Controllers
                 string companyEmail = "reservation.realwheels@gmail.com"; //realwheelsemail
                 string ajdavaoEmail = "ajdavao88@gmail.com";
                 string adminEmail = "travel.realbreeze@gmail.com";
-                string testadminEmail = "realbreezemark@gmail.com";
+                //string testadminEmail = "realbreezemark@gmail.com";
 
                 mailResult = email.SendMailOnlineInquire(id, reservation.Email, "CLIENT", svcType); //send email to client first
                 //mailResult = email.SendMailOnlineInquire(id, testadminEmail, "ADMIN", svcType);     //send email to client first
