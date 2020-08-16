@@ -56,7 +56,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // GET: AutoCare/VehicleModels/Create
         public ActionResult Create()
         {
-            ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands, "Id", "Brand");
+            ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands.OrderBy(v=>v.Brand), "Id", "Brand");
             ViewBag.VehicleTypeId = new SelectList(db.VehicleTypes, "Id", "Type");
             ViewBag.VehicleTransmissionId = new SelectList(db.VehicleTransmissions, "Id", "Type");
             ViewBag.VehicleFuelId = new SelectList(db.VehicleFuels, "Id", "Fuel");
@@ -81,7 +81,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                 }
             }
 
-            ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands, "Id", "Brand", vehicleModel.VehicleBrandId);
+            ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands.OrderBy(v => v.Brand), "Id", "Brand", vehicleModel.VehicleBrandId);
             ViewBag.VehicleTypeId = new SelectList(db.VehicleTypes, "Id", "Type", vehicleModel.VehicleTypeId);
             ViewBag.VehicleTransmissionId = new SelectList(db.VehicleTransmissions, "Id", "Type", vehicleModel.VehicleTransmissionId);
             ViewBag.VehicleFuelId = new SelectList(db.VehicleFuels, "Id", "Fuel", vehicleModel.VehicleFuelId);
@@ -101,7 +101,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands, "Id", "Brand", vehicleModel.VehicleBrandId);
+            ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands.OrderBy(v => v.Brand), "Id", "Brand", vehicleModel.VehicleBrandId);
             ViewBag.VehicleTypeId = new SelectList(db.VehicleTypes, "Id", "Type", vehicleModel.VehicleTypeId);
             ViewBag.VehicleTransmissionId = new SelectList(db.VehicleTransmissions, "Id", "Type", vehicleModel.VehicleTransmissionId);
             ViewBag.VehicleFuelId = new SelectList(db.VehicleFuels, "Id", "Fuel", vehicleModel.VehicleFuelId);
@@ -125,7 +125,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands, "Id", "Brand", vehicleModel.VehicleBrandId);
+            ViewBag.VehicleBrandId = new SelectList(db.VehicleBrands.OrderBy(v => v.Brand), "Id", "Brand", vehicleModel.VehicleBrandId);
             ViewBag.VehicleTypeId = new SelectList(db.VehicleTypes, "Id", "Type", vehicleModel.VehicleTypeId);
             ViewBag.VehicleTransmissionId = new SelectList(db.VehicleTransmissions, "Id", "Type", vehicleModel.VehicleTransmissionId);
             ViewBag.VehicleFuelId = new SelectList(db.VehicleFuels, "Id", "Fuel", vehicleModel.VehicleFuelId);

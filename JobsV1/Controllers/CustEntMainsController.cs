@@ -327,8 +327,9 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(StatusList, "value", "text");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
-            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
+            ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", 1); //default regular
 
+            ViewBag.isOwner = User.IsInRole("Owner");
             return View(main);
         }
 
@@ -390,6 +391,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.isOwner = User.IsInRole("Owner");
 
             return View(custEntMain);
         }
@@ -452,6 +454,26 @@ namespace JobsV1.Controllers
             return isValid;
         }
 
+        
+        public bool ClauseValidation(CustEntClauses clauses)
+        {
+            bool isValid = true;
+
+            if (clauses.Title.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Title", "Invalid Clause Title");
+                isValid = false;
+            }
+
+            if (clauses.Desc1.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Desc1", "Invalid Clause Description");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
 
         // GET: CustEntMains/Edit/5
         public ActionResult Edit(int? id)
@@ -471,6 +493,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.isOwner = User.IsInRole("Owner");
             return View(custEntMain);
         }
 
@@ -495,6 +518,7 @@ namespace JobsV1.Controllers
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
+            ViewBag.isOwner = User.IsInRole("Owner");
             return View(custEntMain);
         }
 
@@ -615,6 +639,9 @@ namespace JobsV1.Controllers
             clause.Desc2 = "";
             clause.Desc3 = "";
             clause.EncodedBy = HttpContext.User.Identity.Name;
+
+            ViewBag.CompanyId = companyId;
+
             return View(clause);
         }
 
@@ -625,7 +652,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateClause([Bind(Include = "Id,CustEntMainId,Title,ValidStart,ValidEnd,Desc1,Desc2,Desc3,DtEncoded,EncodedBy")] CustEntClauses custEntClauses)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && ClauseValidation(custEntClauses))
             {
                 db.CustEntClauses.Add(custEntClauses);
                 db.SaveChanges();

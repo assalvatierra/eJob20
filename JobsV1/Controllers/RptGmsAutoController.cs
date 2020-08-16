@@ -57,8 +57,8 @@ namespace JobsV1.Controllers
             ViewBag.JobVehicle = jobVehicle;
             ViewBag.VehicleServiceHistory = vehicleServiceHistory;
             ViewBag.JobServices = jobServices;
-            ViewBag.StartJobDate = jo.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
-            ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
+            ViewBag.StartJobDate = jo.GetMinMaxServiceDate((int)id, "min").ToString("MMM dd yyyy");
+            ViewBag.EndJobDate = jo.GetMinMaxServiceDate((int)id, "max").ToString("MMM dd yyyy");
             ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
             ViewBag.PaymentAmount = jo.GetJobPaymentAmount(jobmain.Id);
             ViewBag.CompanyLogo = dal.getSysSetting("ICON");
@@ -92,8 +92,8 @@ namespace JobsV1.Controllers
             ViewBag.JobVehicle = jobVehicle;
             ViewBag.VehicleServiceHistory = vehicleServiceHistory;
             ViewBag.JobServices = jobServices;
-            ViewBag.StartJobDate = jo.GetMinMaxJobDate((int)id, "min").ToString("MMM dd yyyy");
-            ViewBag.EndJobDate = jo.GetMinMaxJobDate((int)id, "max").ToString("MMM dd yyyy");
+            ViewBag.StartJobDate = jo.GetMinMaxServiceDate((int)id, "min").ToString("MMM dd yyyy");
+            ViewBag.EndJobDate = jo.GetMinMaxServiceDate((int)id, "max").ToString("MMM dd yyyy");
             ViewBag.DiscountAmount = jo.GetJobDiscountAmount(jobmain.Id);
             ViewBag.PaymentAmount = jo.GetJobPaymentAmount(jobmain.Id);
             ViewBag.CompanyLogo = dal.getSysSetting("ICON");

@@ -678,7 +678,6 @@ namespace JobsV1.Controllers
 
         #endregion
 
-
         #region Searh Modal 
 
         [HttpGet]
@@ -700,6 +699,25 @@ namespace JobsV1.Controllers
             return Json(activityList.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
+
+        #region Search Activities
+        public ActionResult SearchActivities(string srchCode)
+        {
+
+            var customerActs = db.CustEntActivities.Where(c => c.SalesCode.Contains(srchCode)).OrderByDescending(c=>c.Date).ToList();
+
+            var supplierActs = db.SupplierActivities.Where(c => c.Code.Contains(srchCode)).OrderByDescending(c => c.DtActivity).ToList();
+
+            cActivitySearchResult activitySearchResult = new cActivitySearchResult();
+            activitySearchResult.CustEntActivities = customerActs;
+            activitySearchResult.SupplierActivities = supplierActs;
+
+            ViewBag.srchCode = srchCode;
+
+            return View(activitySearchResult);
+
+        }
         #endregion
     }
 

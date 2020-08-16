@@ -383,11 +383,16 @@ values (2,'John Doe','0995-987-4561','(082) 333 6588','johndoe@gmail.com','','',
 	   (3,'Elise Rhodes','0909-545-1335','(082) 235 1112','eliserhodes@gmail.com','','','','','','Procurement','Accounting',1),
 	   (4,'Mike De Guzman','0915-587-9512','(082) 545 3212','mike.dg@gmail.com','','','','','','Sales','Sales',1);
 
+insert into SupplierActivityTypes([Type],[Points]) values 
+('Procurement', 5), ('Job Order', 8), ('Meeting', 3), ('Others', 2), ('Revision', 1);
+
 insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType])
-values ('CO-001','1/25/2020 4:17:58 PM','johndoe@gmail.com','Meeting',2,2000,'Bidding Only','Quotation'),
-	   ('CO-001','1/26/2020 3:30:00 PM','mark@gmail.com','Sales Meeting',2,2000,'Bidding Only','Quotation'),
-	   ('CO-001','1/12/2020 1:30:00 PM','mike@gmail.com','Sales Meeting',3,2000,'Firm Inquiry','Quotation'),
-	   ('CO-001','1/21/2020 1:00:20 PM','johndoe@gmail.com','Sales Meeting',4,2000,'Bidding Only','Quotation');
+values ('CO-001','7/25/2020 4:17:58 PM','johndoe@gmail.com','Meeting',2,2000,'Bidding Only','Procurement'),
+	   ('CO-001','7/26/2020 3:30:00 PM','mark@gmail.com','Sales Meeting',2,2000,'Bidding Only','Meeting'),
+	   ('CO-001','7/20/2020 3:30:00 PM','mike@gmail.com','Sales Meeting',3,2000,'Others','Meeting'),
+	   ('CO-001','7/30/2020 11:10:00 AM','mike@gmail.com','Sales Meeting',3,2000,'Firm Inquiry','Meeting'),
+	   ('CO-001','8/12/2020 1:30:00 PM','mike@gmail.com','Sales Meeting',3,2000,'Buying Inquiry','Job Order'),
+	   ('CO-001','7/21/2020 1:00:20 PM','johndoe@gmail.com','Sales Meeting',4,2000,'Bidding Only','Revision');
 
 insert into SupDocuments([Description]) values 
 	   ('Business Registration'),('Tax Registration'), ('Import Export Registration');
@@ -563,23 +568,26 @@ values
 	   ('Fire Protection','Images/Customers/Category/star-filled-40.png'),
 	   ('Well Drilling Works','Images/Customers/Category/star-filled-40.png'); 
 
+insert into CustEntAccountTypes ([Name],[SysCode]) values
+('Regular','REG01');
+
 --insert into CustEntMains([Name],[Address],[Contact1],[Contact2])
 --values ('NEW (not yet defined)',' ',' ',' ');
 
 insert into Customers(Name, Email, Contact1, Contact2, Remarks, Status) 
 values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test User','ACT');
 
-insert into CustEntMains(Name,Code, Address, Contact1, Contact2, iconPath, Website, Remarks, CityId, Status, AssignedTo, Mobile, Exclusive) 
-values ('Google.Inc','COP-001','Davao City','888-9888','888-9881','','google.com','',5,'ACT','jecca.realbreeze@gmail.com','09126659987','PUBLIC'),
-	   ('Acer.Inc.Ph','COP-002','Quezon City','111-9878','','','acer.com.ph','',5,'ACT','jecca.realbreeze@gmail.com','0915-123-6548','PUBLIC'),
-	   ('Silicon Valley','COP-003','Makati City','321-6689','888-3215','','jecca.realbreeze@gmail.com','',5,'ACT','silicon.valley@gmail.com','0912-654-9879','PUBLIC'),
-	   ('HP Davao','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',5,'ACT','jahdielvillosa@gmail.com','0999-987-9858','PUBLIC'),
+insert into CustEntMains(Name,Code, Address, Contact1, Contact2, iconPath, Website, Remarks, CityId, Status, AssignedTo, Mobile, Exclusive, CustEntAccountTypeId) 
+values ('Google.Inc','COP-001','Davao City','888-9888','888-9881','','google.com','',5,'ACT','jecca.realbreeze@gmail.com','09126659987','PUBLIC', 1),
+	   ('Acer.Inc.Ph','COP-002','Quezon City','111-9878','','','acer.com.ph','',5,'ACT','jecca.realbreeze@gmail.com','0915-123-6548','PUBLIC', 1),
+	   ('Silicon Valley','COP-003','Makati City','321-6689','888-3215','','jecca.realbreeze@gmail.com','',5,'ACT','silicon.valley@gmail.com','0912-654-9879','PUBLIC', 1),
+	   ('HP Davao','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',5,'ACT','jahdielvillosa@gmail.com','0999-987-9858','PUBLIC', 1),
 	   
 	   -- Priority -- Exclusive
-	   ('AYES Food Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jahdielvillosa@gmail.com','0999-987-9858','EXCLUSIVE'),
-	   ('San Miguel Brewery Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jecca.realbreeze@gmail.com','0999-987-9858','EXCLUSIVE'),
-	   ('Coca-cola Corp.','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jecca.realbreeze@gmail.com','0999-987-9858','EXCLUSIVE'),
-	   ('SM Megamalls','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jahdielvillosa@gmail.com','0999-987-9858','EXCLUSIVE')
+	   ('AYES Food Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jahdielvillosa@gmail.com','0999-987-9858','EXCLUSIVE', 1),
+	   ('San Miguel Brewery Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jecca.realbreeze@gmail.com','0999-987-9858','EXCLUSIVE', 1),
+	   ('Coca-cola Corp.','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jecca.realbreeze@gmail.com','0999-987-9858','EXCLUSIVE', 1),
+	   ('SM Megamalls','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jahdielvillosa@gmail.com','0999-987-9858','EXCLUSIVE', 1)
 	   ;
 
 insert into CustEntAssigns(Assigned, Remarks, CustEntMainId, Date)

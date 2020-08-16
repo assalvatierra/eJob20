@@ -12,17 +12,15 @@
 <h3>Customer Activities</h3>
 
 <!-- Search -->
-<div class="row">
-    <div class="col-lg-6">
-        <div class="input-group">
-            <span> Filter: </span>
-            <input type="text" class="form-control" name="DtStart" placeholder="Date From" style="width: 150px;"> -
-            <input type="text" class="form-control" name="DtEnd" placeholder="Date To" style="width: 150px;">
-            <span class="input-group-btn" style="width:0%;">
-                <button class="btn btn-default" style="margin-top:0px;" type="button" onclick="Search()">Go!</button>
-            </span>
-        </div>
-    </div><!-- /.col-lg-6 -->
+<div class="row" style="margin-left:0px;">
+
+
+    <div class="col-md-8 col-xs-8" style="padding:0px;margin-bottom:10px;">
+        <h4 class="col-md-2 col-xs-2 control-label" style="width:10%;padding-left:0px;">Filter: </h4>
+        <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2 col-xs-2" style="margin-right:10px;max-width:140px;" />
+        <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2 col-xs-2" style="margin-right:10px;max-width:140px;" />
+        <div class="col-md-2 col-xs-2"><button class="btn btn-default" style="margin-top:0px;" onclick="Search()"> Search </button></div>
+    </div>
 </div>
 <br />
 <div class="panel panel-default">
@@ -167,13 +165,11 @@
 
 
 
-<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
-<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
-<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
-<script src="~/Scripts/Job/DefaultDate.js"></script>
-<script src="~/Scripts/Activities/SearchByCode.js"></script>
-<script type="text/javascript">
+@section Scripts{
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
+    <script src="~/Scripts/Activities/SearchByCode.js"></script>
+
+    <script type="text/javascript">
         $(document).ready(Initialize());
 
         function Initialize() {
@@ -532,4 +528,6 @@
     }
 
 
-</script>
+    </script>
+
+}

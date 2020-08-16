@@ -120,6 +120,28 @@ namespace JobsV1.Models.Class
             }
         }
 
+        public int GetVehiclePrevOdo(int vehicleId)
+        {
+            try
+            {
+                var vehicleOdoRecords = db.JobVehicles.Where(j => j.VehicleId == vehicleId).ToList();
 
+                if (vehicleOdoRecords.Count() > 0)
+                {
+                    var lastRecord = vehicleOdoRecords.OrderByDescending(j => j.Id).FirstOrDefault();
+
+                    return lastRecord.Mileage;
+                }
+                else
+                {
+                    //no prev records
+                    return 0;
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
     }
 }

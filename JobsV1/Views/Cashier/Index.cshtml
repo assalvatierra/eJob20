@@ -58,7 +58,7 @@
                 <td> @item.Id </td>
                 <td> @item.JobDate.ToShortDateString() </td>
                 <td> @item.JobDesc </td>
-                <td> @item.Customer </td>
+                <td> @item.Customer <span class="text-muted"> / @item.Company </span> </td>
                 <td> @item.Type </td>
                 <td> @item.JobStatus.Status </td>
                 <td> @item.Discount </td>
@@ -68,7 +68,15 @@
                     <span> @item.JobAmount </span>
                 </td>
                 <td>
-                    @item.PaymentStatus.Status
+                    @if (item.PaymentStatus.Id == 1)
+                    {
+                        <span class="text-success"> @item.PaymentStatus.Status </span>
+                    }
+                    else
+                    {
+                        <span class="text-warning"> @item.PaymentStatus.Status </span>
+                    }
+
                 </td>
                 <td>
                     @Html.ActionLink("Recieve Payment", "JobPaymentDetails", new { id = item.Id }) |
@@ -85,7 +93,6 @@
                 </td>
             </tr>
         }
-
 
     </tbody>
 </table>

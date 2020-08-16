@@ -72,7 +72,7 @@ namespace JobsV1.CustomHelper
             htmlString += "</span>";
             if (!dal.getSysSetting("ICON").IsNullOrWhiteSpace())
             {
-                htmlString += "<img src='" + dal.getSysSetting("ICON") + "' class='pull-right Company-Icon'  width='250' style='margin:10px;' />";
+                htmlString += "<img src='" + dal.getSysSetting("ICON") + "' class='pull-right Company-Icon'  width='200' style='margin:10px;' />";
             }
 
             return new HtmlString(htmlString);

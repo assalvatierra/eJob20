@@ -552,3 +552,16 @@ SELECT DISTINCT jobPostSalePending.Id FROM (
         AND ISNULL(jps.JobPostSalesStatusId, 0) < 3
 
     ) as jobPostSalePending
+
+
+Select job.Id FROM (
+
+select j.Id from JobMains j 
+
+LEFT JOIN Customers c ON j.CustomerId = c.Id
+LEFT JOIN JobEntMains jem ON j.Id = jem.JobMainId 
+LEFT JOIN CustEntMains cem ON jem.CustEntMainId = cem.Id
+
+WHERE cem.Name LIKE '%Mark%' OR c.Name LIKE '%Mark%' OR j.Description LIKE '%Mark%'
+
+) as job

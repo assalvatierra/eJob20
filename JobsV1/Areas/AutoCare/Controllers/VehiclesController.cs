@@ -84,8 +84,8 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").OrderBy(s => s.Name).ToList();
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name");
-            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name");
+            ViewBag.CustomerId = new SelectList(db.Customers.OrderBy(c => c.Name), "Id", "Name");
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains.OrderBy(c => c.Name), "Id", "Name");
             return View();
         }
 
@@ -133,8 +133,8 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").OrderBy(s => s.Name).ToList();
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
-            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
+            ViewBag.CustomerId = new SelectList(db.Customers.OrderBy(c=>c.Name), "Id", "Name", vehicle.CustomerId);
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains.OrderBy(c=>c.Name), "Id", "Name", vehicle.CustEntMainId);
             return View(vehicle);
         }
 
@@ -181,7 +181,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
             {
                 return HttpNotFound();
             }
-            var Vehicles = db.VehicleModels
+            var Vehicles = db.VehicleModels.OrderBy(v => v.VehicleBrand.Brand).ThenBy(v => v.Make)
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
@@ -190,8 +190,8 @@ namespace JobsV1.Areas.AutoCare.Controllers
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
-            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);
+            ViewBag.CustomerId = new SelectList(db.Customers.OrderBy(c=>c.Name), "Id", "Name", vehicle.CustomerId);
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains.OrderBy(c=>c.Name), "Id", "Name", vehicle.CustEntMainId);
             return View(vehicle);
         }
 

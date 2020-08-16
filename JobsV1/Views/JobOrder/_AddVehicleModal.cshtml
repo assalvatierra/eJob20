@@ -1,6 +1,4 @@
-﻿
-<!-- Modal View of JobService  -->
-
+﻿<!-- Modal View of JobService  -->
 <!-- Add Item Modal -->
 <div class="modal fade" id="AddVehicleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -38,8 +36,8 @@
 
                     <div class="form-group col-md-12">
                         <label class="control-label text-muted col-md-2 modal-text-label"> Milage </label>
-                        <div class="col-md-7"> 
-                         <input class="form-control" type="number" value="0" id="addVehicle-Mileage" onkeypress="return isNumber(event)">
+                        <div class="col-md-7">
+                            <input class="form-control" type="number" value="0" id="addVehicle-Mileage" onkeypress="return isNumber(event)">
                         </div>
                     </div>
                 </div>
@@ -47,10 +45,41 @@
             <div class="modal-footer">
                 @if (ViewBag.VehicleList != null)
                 {
-                    
-                    <button type="button" class="btn btn-default" onclick="AddJobVehicle(@ViewBag.JobMainId)"> Submit </button>
+
+                    <button type="button" class="btn btn-primary" onclick="AddJobVehicle(@ViewBag.JobMainId)"> Submit </button>
                 }
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Add Item Modal -->
+<div class="modal fade" id="AddVehicleConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> The entered mileage  is lower than the previous vehicle mileage </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding-left:20px;">
+
+                    <p>
+                        Entered Mileage: <span id="input-mileage">  </span>
+                    </p>
+                    <p>
+                        Previous Mileage: <span id="prev-mileage"> </span>
+                    </p>
+                    <p>
+                        Do you want to change the Entered Mileage?
+                    </p>
+                   
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="ShowAddVehicleModal()">Change</button>
+                <button type="button" class="btn btn-default" onclick="submit_VehicleAndMileage(@ViewBag.JobMainId)"> Proceed </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

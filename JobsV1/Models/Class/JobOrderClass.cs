@@ -89,6 +89,61 @@ namespace JobsV1.Models
             return data;
         }
 
+
+        //GET : return list of ONGOING jobs
+        public List<cJobOrder> getSearchJobData(string srch)
+        {
+            var searched = getJobSearchList(srch).Select(s => s.Id);
+
+            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => searched.Contains(j.Id))
+                .Include(j => j.Customer)
+                .Include(j => j.Branch)
+                .Include(j => j.JobStatus)
+                .Include(j => j.JobThru)
+                ;
+
+            var data = new List<cJobOrder>();
+
+            DateTime today = new DateTime();
+            today = dt.GetCurrentDate();
+
+            foreach (var main in jobMains)
+            {
+                cJobOrder joTmp = new cJobOrder();
+                joTmp.Main = main;
+                joTmp.Services = new List<cJobService>();
+                joTmp.Main.AgreedAmt = 0;
+                joTmp.Payment = 0;
+                joTmp.Company = GetJobCompany(main.Id);
+
+
+                List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
+                foreach (var svc in joSvc)
+                {
+                    cJobService cjoTmp = new cJobService();
+                    cjoTmp.Service = svc;
+                    var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
+                    cjoTmp.SvcActionsDone = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
+                    cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
+                    cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
+                    cjoTmp.SvcItems = db.JobServiceItems.Where(d => d.JobServicesId == svc.Id).Include(d => d.InvItem);
+                    cjoTmp.SupplierPos = db.SupplierPoDtls.Where(d => d.JobServicesId == svc.Id).Include(i => i.SupplierPoHdr);
+                    joTmp.Main.AgreedAmt += svc.ActualAmt;
+
+                    joTmp.Services.Add(cjoTmp);
+                }
+
+                //get min job date
+                joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
+
+                joTmp.Payment += GetJobPaymentAmount(main.Id);
+
+                data.Add(joTmp);
+            }
+
+            return data;
+        }
+
         //GET : get the date of the job based on the date today
         public DateTime TempJobDate(int mainId)
         {
@@ -324,6 +379,36 @@ order by x.jobid
 
 
         //Get Job Order Listing based on the sort
+        public List<cJobConfirmed> getJobSearchList(string srch)
+        {
+            List<cJobConfirmed> joblist = new List<cJobConfirmed>();
+            string sql = "";
+            int srchId = 0;
+
+            if (Int32.TryParse(srch.TrimStart('0'), out srchId))
+            {
+                sql = @"select j.Id from JobMains j WHERE j.id = " + srchId + " ";
+            }
+            else
+            {
+                sql =  " select j.Id from JobMains j "+
+                       " LEFT JOIN Customers c ON j.CustomerId = c.Id "+
+                       " LEFT JOIN JobEntMains jem ON j.Id = jem.JobMainId "+
+                       " LEFT JOIN CustEntMains cem ON jem.CustEntMainId = cem.Id "+
+                       " WHERE cem.Name LIKE '%"+ srch + "%' OR c.Name LIKE '%"+ srch + "%' OR j.Description LIKE '%"+ srch + "%' ";
+            }
+
+            //terminator
+            sql += ";";
+
+            joblist = db.Database.SqlQuery<cJobConfirmed>(sql).ToList();
+
+            return joblist;
+
+        }
+
+
+        //Get Job Order Listing based on the sort
         public List<cJobOrderListing> GetJobOrderOnProgress(int sortid)
         {
             List<cJobOrderListing> joblist = new List<cJobOrderListing>();
@@ -389,6 +474,58 @@ order by x.jobid
                 {
                     maxDate = svcDtEnd;
                 }
+            }
+
+            //return main.JobDate;
+            if (getType.ToLower() == "min")
+                return minDate;
+            else if (getType.ToLower() == "max")
+                return maxDate;
+            else
+                return minDate;
+        }
+
+
+        //GET : the lastest date of the job based on the date today
+        public DateTime GetMinMaxServiceDate(int mainId, string getType)
+        {
+            var count = 1;
+
+            //update jobdate
+            var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
+
+            DateTime minDate = main.JobDate;
+            DateTime maxDate = main.JobDate;
+
+            //loop though all jobservices in the jobmain
+            //to get the latest date
+            foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
+            {
+
+                var svcDtStart = (DateTime)svc.DtStart;
+                var svcDtEnd = (DateTime)svc.DtEnd;
+                //get min date
+
+                if (count == 1)
+                {
+                    //set 1st service as start date
+                    minDate = svcDtStart;
+                    maxDate = svcDtEnd;
+                }
+
+                // minDate >= (DateTime)svc.DtStart;
+                if (DateTime.Compare(minDate, svcDtStart.Date) >= 0)
+                {
+                    minDate = svcDtStart; //if minDate > Dtstart
+                }
+
+                //get max date
+                if (DateTime.Compare(maxDate, svcDtEnd.Date) <= 0)
+                {
+                    maxDate = svcDtEnd;
+                }
+
+                count++;
             }
 
             //return main.JobDate;

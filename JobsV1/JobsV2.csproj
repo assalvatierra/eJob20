@@ -1400,6 +1400,11 @@
     <Content Include="Images\AutoCare\background-login.png" />
     <Content Include="Images\AutoCare\Appointment-bg-2.jpg" />
     <Content Include="Images\AutoCare\GMS_AutoCare_logo.jpg" />
+    <Content Include="Images\AutoCare\item-icon-mechanic.png" />
+    <Content Include="Images\AutoCare\item-icon-user-black.png" />
+    <Content Include="Images\AutoCare\item-icon-agent-male.png" />
+    <Content Include="Images\AutoCare\item-icon-car-service.png" />
+    <Content Include="Images\AutoCare\item-icon-consult.png" />
     <Content Include="Images\AutoCare\icons-cash-register.png" />
     <Content Include="Images\AutoCare\icons-cashier.png" />
     <Content Include="Images\AutoCare\icons-call.png" />
@@ -1656,6 +1661,7 @@
     <Content Include="Images\Erp\icons\icons-move.png" />
     <Content Include="Images\Erp\icons\icons-notification.png" />
     <Content Include="Images\Erp\icons\icons-package.png" />
+    <Content Include="Images\Erp\icons\icons-search.png" />
     <Content Include="Images\Erp\icons\icons-suv-2.png" />
     <Content Include="Images\Erp\icons\icons-technical.png" />
     <Content Include="Images\Erp\icons\icons-trolley.png" />
@@ -1821,7 +1827,7 @@
     <Content Include="Scripts\Job\CustomerReport.js" />
     <Content Include="Scripts\Job\CashExpenses.js" />
     <Content Include="Scripts\Job\JobExpense.js" />
-    <Content Include="Scripts\Job\CustEntClause.js" />
+    <Content Include="Scripts\CustEntMain\CustEntClause.js" />
     <Content Include="Scripts\CustEntMain\CompanyDetails.js" />
     <Content Include="Scripts\Job\OnlineReservation.js" />
     <Content Include="Scripts\Job\PortalCustomer.js" />
@@ -2227,7 +2233,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login-autocare.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -2856,10 +2862,11 @@
     <Content Include="Views\RptGmsAuto\ReferralReport.cshtml" />
     <Content Include="Views\JobPostSales\Update.cshtml" />
     <Content Include="Views\Account\Login-def.cshtml" />
-    <Content Include="Views\Account\Login - Solidsteel.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\JobPostSales\Index2.cshtml" />
     <Content Include="Views\Cashier\_EditPaymentStatus.cshtml" />
     <Content Include="Views\JobOrder\_PermissionModal.cshtml" />
+    <Content Include="Views\Activities\SearchActivities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

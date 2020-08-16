@@ -6,15 +6,15 @@
 
 <h2>CreateClause</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>CustEntClauses</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+        <div class="form-group" hidden>
             @Html.LabelFor(model => model.CustEntMainId, "CustEntMainId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("CustEntMainId", null, htmlAttributes: new { @class = "form-control" })
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             @Html.LabelFor(model => model.DtEncoded, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DtEncoded, new { htmlAttributes = new { @class = "form-control" } })
@@ -78,7 +78,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             @Html.LabelFor(model => model.EncodedBy, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EncodedBy, new { htmlAttributes = new { @class = "form-control" } })
@@ -95,12 +95,10 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <p>@Html.ActionLink("Back to Details", "Details", new { id = ViewBag.CompanyId })</p>
+    <p>@Html.ActionLink("Back to List", "Index")</p>
 </div>
 
-
-<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
-<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"> </script>
-<script src="~/Scripts/DateRangePicker/daterangepicker.js"> </script>
-<script src="~/Scripts/Job/CustEntClause.js"></script>
+@section Scripts{
+    <script src="~/Scripts/CustEntMain/CustEntClause.js"></script>
+}

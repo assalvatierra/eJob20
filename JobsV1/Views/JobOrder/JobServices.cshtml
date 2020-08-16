@@ -11,6 +11,7 @@
     var jobstatusId = ViewBag.JobStatusId;
     var isOwner = ViewBag.IsOwner;
     bool isAllowedEdit = ViewBag.IsAllowedEdit;
+    var jobOrder = ViewBag.JobOrder as JobsV1.Models.JobMain;
 }
 
 
@@ -51,12 +52,13 @@
         <p>
 
             <!-- Vehicle -->
-            Date: @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
+            <span class="text-muted" style="margin-right:42px;"> Date:</span>&nbsp; @ViewBag.JobOrder.JobDate.ToString("dd/MMM/yyyy")
             <span id="jobVehicleText" style="margin:0;">
-                <br />Description: @ViewBag.JobOrder.Description &nbsp;
+                <br /><span class="text-muted">Description:</span>&nbsp; @ViewBag.JobOrder.Description &nbsp;
             </span>
-            <br />Encoder: @ViewBag.JobEncoder.user - @ViewBag.JobEncoder.dtTrail
-            <br />Status:
+            <br /><span class="text-muted" style="margin-right:22px;">Contact:</span>&nbsp; @jobOrder.CustContactEmail / @jobOrder.CustContactNumber &nbsp;
+            <br /><span class="text-muted" style="margin-right:20px;">Encoder:</span>&nbsp; @ViewBag.JobEncoder.user - @ViewBag.JobEncoder.dtTrail
+            <br /><span class="text-muted" style="margin-right:35px;">Status:</span>
 
             @if (ViewBag.JobStatus == "RESERVATION")
             {
@@ -68,6 +70,8 @@
             {
                 @ViewBag.JobStatus
             }
+
+            <br /><span class="text-muted" style="margin-right:35px;">Payment: @ViewBag.PaymentStatus </span>
 
             @if (isAllowedEdit)
             {
@@ -95,20 +99,30 @@
             @if (jobstatusId < 4 && isAllowedEdit)
             {
 
-                if (isOwner)
-                {
-                    @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
-                    <span> | </span>
-                }
 
                 if (isAdmin)
                 {
-                    @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null) <span> | </span>
-                    <span> <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
+
+                    if (isOwner)
+                    {
+                        @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+                        <span> | </span>
+                    }
+                    else
+                    {
+
+                        @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null) <span> | </span>
+                        <span> <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
+                    }
                 }
                 else
                 {
 
+                    if (isOwner)
+                    {
+                        @Html.ActionLink("Admin Edit", "JobDetails", "JobOrder", new { jobid = ViewBag.JobOrder.Id }, null)
+                        <span> | </span>
+                    }
                     <span> <a href="" data-toggle="modal" data-target="#EditJob-PermissionModal" onclick="SetEditJobPermissionId('@ViewBag.JobMainId')"> Edit </a> |</span>
                 }
 
@@ -210,7 +224,7 @@
             <th style="min-width:200px">
                 Particulars
             </th>
-            <th style="min-width:150px">
+            <th style="min-width:200px">
 
                 @if (siteconfig == "AutoCare")
                 {
@@ -232,7 +246,7 @@
                     <span> Supplier </span>
                 }
             </th>
-            <th style="min-width:200px"></th>
+            <th style="min-width:100px"></th>
         </tr>
 
         @foreach (var item in Model)
@@ -259,8 +273,8 @@
 
                         <span>
                             @Html.DisplayFor(modelItem => item.Particulars)
-                            <br />[Amount: @Html.DisplayFor(modelItem => item.ActualAmt)]
-                            <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+                            <br /><span class="text-muted">Amount:</span> @Html.DisplayFor(modelItem => item.ActualAmt)
+                            <br /><span class="text-muted">Remarks:</span> @Html.DisplayFor(modelItem => item.Remarks)
                         </span>
                     }
                     else
@@ -293,6 +307,12 @@
                                 @if (isAllowedEdit && jobstatusId < 4)
                                 {
                                     @Html.ActionLink(" [x] ", "JsRemoveItem", new { ItemId = svc.InvItemId, serviceId = item.Id });
+                                }
+
+                                @foreach (var iconpath in svc.InvItem.InvItemCategories)
+                                {
+                                    <img src=@Url.Content(@iconpath.InvItemCat.ImgPath) alt="service item" height="15"
+                                         title=@iconpath.InvItemCat.ImgPath />
                                 }
 
                                 @Html.DisplayFor(modelItem => svc.InvItem.Description) ( @Html.DisplayFor(modelItem => svc.InvItem.ItemCode) )

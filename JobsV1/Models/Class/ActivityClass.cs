@@ -38,6 +38,14 @@ namespace JobsV1.Models.Class
         public decimal TotalProcurement { get; set; }
         public decimal TotalJobOrder { get; set; }
     }
+
+
+    public class cActivitySearchResult
+    {
+        public List<CustEntActivity> CustEntActivities { get; set; }
+        public List<SupplierActivity> SupplierActivities { get; set; }
+    }
+
     public class cUserActivity : CustEntActivity
     {
         public string Company { get; set; }

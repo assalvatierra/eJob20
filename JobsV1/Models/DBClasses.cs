@@ -723,7 +723,6 @@ namespace JobsV1.Models
 
         }
 
-
         public List<cJobConfirmed> getJobConfirmedList(int sortid)
         {
             List<cJobConfirmed> joblist = new List<cJobConfirmed>();

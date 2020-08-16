@@ -1,28 +1,26 @@
-﻿@model IEnumerable<JobsV1.Models.CustEntActivity>
+﻿@model JobsV1.Models.Class.cActivitySearchResult
 
 @{
-    ViewBag.Title = "Daily Activities";
+    ViewBag.Title = "Search Activities";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
-<br />
-<div style="padding:10px 0px;">
-    <h2>Customer Activities</h2>
-</div>
 
+<h2>Activities History</h2>
+<p>
+    @Html.ActionLink("Back to Activities List", "Index")
+</p>
 <div class="col-md-12 col-xs-12" style="padding:0px;">
     <div class="col-md-8 col-xs-8" style="padding:0px;margin-bottom:10px;">
-        <h4 class="col-md-2 col-xs-2 control-label" style="width:10%;padding-left:0px;">Filter: </h4>
-        <input id="DtStart" name="DtStart" type="text" class="form-control col-md-2 col-xs-5" style="margin-right:10px;max-width:140px;" />
-        <input id="DtEnd" name="DtEnd" type="text" class="form-control col-md-2 col-xs-5" style="margin-right:10px;max-width:140px;" />
-        <button class="btn btn-default" style="margin-top:0px;" onclick="Filter()"> Filter </button>
+        <h3><span class="text-muted">Search Results for activity code </span> @ViewBag.SrchCode</h3>
     </div>
 
-    <div class="col-lg-offset-1 col-md-3 col-xs-3" style="padding:0px;">
+    <div class="col-lg-offset-1 col-md-3 col-xs-3" style="padding:15px 0px;">
         <button class="btn btn-default search-group pull-right" style="margin-top:0px;" id="srch-btn" onclick="SubmitActivityCode()">Search</button>
-        <input class="form-control search-cat pull-right" id="srch-field" type="search" placeholder="Search Code"  value="@ViewBag.SrchCode" />
+        <input class="form-control search-cat pull-right" id="srch-field" type="search" placeholder="Search Code" value="@ViewBag.SrchCode"/>
     </div>
 
 </div>
+
 
 <h4>Company Activities</h4>
 
@@ -40,8 +38,9 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.CustEntActivities)
     {
+
         <tr>
             <td>
                 @DateTime.Parse(item.Date.ToString()).ToString("MMM dd yyyy")
@@ -93,6 +92,14 @@
             </td>
         </tr>
     }
+    @if (Model.CustEntActivities.Count() == 0)
+    {
+        <tr>
+            <td colspan="10">
+                <p class="text-center"> No Activity Found </p>
+            </td>
+        </tr>
+    }
 </table>
 
 
@@ -110,7 +117,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in ViewBag.SupplierActivities as IOrderedEnumerable<JobsV1.Models.SupplierActivity>)
+    @foreach (var item in Model.SupplierActivities)
     {
         <tr>
             <td>
@@ -157,9 +164,16 @@
             </td>
         </tr>
     }
+    @if (Model.SupplierActivities.Count() == 0)
+    {
+        <tr>
+            <td colspan="8">
+                <p class="text-center"> No Activity Found </p>
+            </td>
+        </tr>
+    }
 </table>
 
-@Html.Partial("_SalesCodeModal")
 
 <!-- For Report Redirect -->
 @Html.Hidden("SearchResult", Url.Action("SearchActivities", "Activities", new { srchCode = "_srchCode" }))
@@ -187,7 +201,6 @@
                 return false;
             }
         });   
-
     </script>
 
 }

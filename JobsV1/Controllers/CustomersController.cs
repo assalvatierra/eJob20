@@ -39,7 +39,7 @@ namespace JobsV1.Controllers
             customerDetailList = custdb.getCustomerList(status,search);
 
             ViewBag.status = status;
-
+            ViewBag.SiteConfig = SITECONFIG;
             return View(customerDetailList.OrderBy(s=>s.Name));
         }
         

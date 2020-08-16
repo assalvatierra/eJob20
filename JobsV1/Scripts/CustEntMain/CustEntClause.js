@@ -17,8 +17,8 @@ function InitDatePicker()
 
     $('input[name="ValidStart"]').daterangepicker(
     {
-        timePicker: false,
-        timePickerIncrement: 1,
+        timePicker: true,
+        timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
@@ -50,8 +50,8 @@ function InitDatePicker()
 
     $('input[name="ValidEnd"]').daterangepicker(
     {
-        timePicker: false,
-        timePickerIncrement: 1,
+            timePicker: true,
+        timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {

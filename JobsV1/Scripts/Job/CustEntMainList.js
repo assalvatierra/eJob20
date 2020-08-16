@@ -193,7 +193,7 @@ function LoadTable(data) {
 
         content = "<tr>";
 
-        content += "<td class='table-name-col'><b>" + temp[x]["Name"] + "</b></td>";
+        content += "<td class='table-name-col'><b><a href='/CustEntMains/Details/" + temp[x]["Id"] +"'> " + temp[x]["Name"] + "</a></b></td>";
         content += "<td>" + code + "</td>";
         content += "<td>" + website + "</td>";
         content += "<td>" + City + "</td>";

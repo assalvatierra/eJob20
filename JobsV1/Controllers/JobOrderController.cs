@@ -14,6 +14,7 @@ using PayPal.Api;
 using System.Configuration;
 using Microsoft.Ajax.Utilities;
 using System.Globalization;
+using System.Web.Helpers;
 
 namespace JobsV1.Controllers
 {
@@ -137,8 +138,14 @@ namespace JobsV1.Controllers
             {
                 Session["FilterID"] = 1;
             }
-            
+
+
             var data = getJobData((int)sortid); // get job list data
+            
+            if (!search.IsNullOrWhiteSpace())
+            {
+                data = jo.getSearchJobData(search);
+            }
 
             List<Customer> customers = db.Customers.ToList();
             ViewBag.companyList = customers;
@@ -158,16 +165,14 @@ namespace JobsV1.Controllers
             ViewBag.SrchValue = search;
 
             //SEARCH
-            if (search != null)
-            {
-                //var srchData = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) ||
-                //d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower()) || d.Company.ToLower().ToString().Contains(search.ToLower()));
-
-                var srchData = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) ||
-                d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower()) || d.Company.ToLower().ToString().Contains(search.ToLower()));
-                if (srchData != null)
-                    data = srchData.ToList();
-            }
+            //if (search != null)
+            //{
+                
+            //    var srchData = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) ||
+            //    d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower()) || d.Company.ToLower().ToString().Contains(search.ToLower()));
+            //    if (srchData != null)
+            //        data = srchData.ToList();
+            //}
 
             if (sortid == 1)
             {
@@ -271,23 +276,7 @@ namespace JobsV1.Controllers
                     joTmp.Main.JobDate = MinJobDate(joTmp.Main.Id);
                 }
 
-                //add payments
-                //List<Models.JobPayment> jobPayment = db.JobPayments.Where(d => d.JobMainId == main.Id).ToList();
-                //foreach (var payment in jobPayment)
-                //{
-                //    add payments except discount (JobPaymentTypeId = 4)
-                //    if (payment.JobPaymentTypeId != 4)
-                //    { 
-                //        joTmp.Payment += payment.PaymentAmt;
-                //    }
-                //}
-
                 joTmp.Payment += jo.GetJobPaymentAmount(main.Id);
-
-                //add discounts
-                //subtract discount amount
-                //joTmp.Main.AgreedAmt += jo.GetJobDiscountAmount(main.Id);
-
 
                 data.Add(joTmp);
             }
@@ -1224,11 +1213,6 @@ order by x.jobid
                     //job trail
                     trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Edit Saved", jobMain.Id.ToString());
 
-                    //add job post record when job is closed(4 = CLOSED)
-                    //if (jobMain.JobStatusId == 4)
-                    //{
-                    //   var record = CreateJobPostSalesRecord(jobMain.Id);
-                    //}
 
                     return RedirectToAction("JobServices", new { JobMainId = jobMain.Id });
 
@@ -1383,6 +1367,23 @@ order by x.jobid
                 ModelState.AddModelError("Description", "Invalid Description");
                 isValid = false;
             }
+
+
+            if (jobMain.CustContactNumber.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("CustContactNumber", "Invalid Contact Number");
+                isValid = false;
+            }
+            else
+            {
+                if (jobMain.CustContactNumber.Length < 11)
+                {
+                    ModelState.AddModelError("CustContactNumber", "Invalid Contact Number");
+                    isValid = false;
+                }
+
+            }
+
 
 
             return isValid;
@@ -1973,6 +1974,10 @@ order by x.jobid
                     sortid = 1;
             }
 
+            if (JobMainId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
             var Job = db.JobMains.Where(d => d.Id == JobMainId).FirstOrDefault();
 
@@ -2038,6 +2043,7 @@ order by x.jobid
             ViewBag.user = HttpContext.User.Identity.Name;
             ViewBag.Vehicles = jvc.GetCustomerVehicleList((int)JobMainId);
             ViewBag.JobVehicle = jvc.GetJobVehicle((int)JobMainId);
+            ViewBag.PaymentStatus = jo.GetJobPaymentStatus((int)JobMainId);
             ViewBag.SiteConfig = SITECONFIG;
 
             var veh = jvc.GetCustomerVehicleList((int)JobMainId);
@@ -2596,9 +2602,6 @@ order by x.jobid
                     sData += "\nDescription:" + svi.Particulars;
                     sData += "\nVehicle:" + svi.SupplierItem.Description;
 
-                    //sData += "\nRate:P" + quoted.ToString("##,###.00");
-                    //totalAmount += (decimal)svi.QuotedAmt;
-
                     totalAmount += quoted;
                     
                     //check pickup details
@@ -2807,7 +2810,6 @@ order by x.jobid
                 //job trail
                 trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CLOSED", id.ToString());
 
-                //var postSaleRecord = CreateJobPostSalesRecord(id);
                 return "OK";
                 //return "Error";
             }
@@ -3612,6 +3614,20 @@ order by x.jobid
             catch 
             {
                 return false;
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetVehiclePrevOdo(int? vehicleId)
+        {
+            if (vehicleId == null || vehicleId == 0)
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var prevOdo = jvc.GetVehiclePrevOdo((int)vehicleId);
+                return Json(prevOdo, JsonRequestBehavior.AllowGet);
             }
         }
 
