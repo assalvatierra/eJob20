@@ -63,6 +63,7 @@ namespace JobsV1.Controllers
             ViewBag.PaymentAmount = jo.GetJobPaymentAmount(jobmain.Id);
             ViewBag.CompanyLogo = dal.getSysSetting("ICON");
             ViewBag.CompanyAccountType = jo.GetCompanyAccountType(jobmain.Id);
+            ViewBag.ReferralAgent = jo.GetJobReferralAgent(jobmain.Id);
 
             return View(jobmain);
         }
@@ -98,8 +99,7 @@ namespace JobsV1.Controllers
             ViewBag.PaymentAmount = jo.GetJobPaymentAmount(jobmain.Id);
             ViewBag.CompanyLogo = dal.getSysSetting("ICON");
             ViewBag.CompanyAccountType = jo.GetCompanyAccountType(jobmain.Id);
-
-
+            ViewBag.ReferralAgent = jo.GetJobReferralAgent(jobmain.Id);
 
             return View(jobmain);
         }
@@ -272,6 +272,9 @@ namespace JobsV1.Controllers
             var countPaid = 0;
             var countUnpaid = 0;
             var countTerms = 0;
+            decimal PartsOilsTotal = 0;
+            decimal PaintingTotal = 0;
+            decimal OtherSvcTotal = 0;
 
             //get job list
             var jobListQuery = db.JobMains.Where(j=>j.JobStatusId < 5);
@@ -297,22 +300,50 @@ namespace JobsV1.Controllers
 
             var jobPaymentReport = new List<rptJobPayments>();
 
-            jobList.ForEach(j =>
-                jobPaymentReport.Add(new rptJobPayments() { 
-                    Id = j.Id,
-                    JobDate = j.JobDate,
-                    JobDesc =  j.Description,
-                    Customer = j.Customer.Name,
-                    Company = jo.GetJobCompany(j.Id),
-                    Amount = jo.GetTotalJobAmount(j.Id) , //get total amount from jobservices
-                    PaymentAmount = jo.GetJobPaymentAmount(j.Id), //get total paid amount from jobservices
-                    PaymentStatus = jo.GetJobPaymentStatus(j.Id), //get total amount from jobservices
-                    PaintJobAmount = GetTotalPaintJobAmount(j.Id),
-                    PartsOilsJobAmount = GetTotalPartsOilsJobAmount(j.Id),
-                    DiscountAmount = jo.GetJobDiscountAmount(j.Id)
+            //jobList.ForEach(j =>
+            //    jobPaymentReport.Add(new rptJobPayments() { 
+            //        Id = j.Id,
+            //        JobDate = j.JobDate,
+            //        JobDesc =  j.Description,
+            //        Customer = j.Customer.Name,
+            //        Company = jo.GetJobCompany(j.Id),
+            //        Amount = jo.GetTotalJobAmount(j.Id) , //get total amount from jobservices
+            //        PaymentAmount = jo.GetJobPaymentAmount(j.Id), //get total paid amount from jobservices
+            //        PaymentStatus = jo.GetJobPaymentStatus(j.Id), //get total amount from jobservices
+            //        PaintJobAmount = GetTotalPaintJobAmount(j.Id),
+            //        PartsOilsJobAmount = GetTotalPartsOilsJobAmount(j.Id),
+            //        DiscountAmount = jo.GetJobDiscountAmount(j.Id)
                     
-                })
-            );
+            //    })
+            //);
+
+            foreach (var job in jobList)
+            {
+                var paintingAmount = GetTotalPaintJobAmount(job.Id);
+                var partsOilsAmount = GetTotalPartsOilsJobAmount(job.Id);
+                var othersAmount = GetOtherSvcJobAmount(job.Id);
+
+                jobPaymentReport.Add(new rptJobPayments()
+                {
+                    Id = job.Id,
+                    JobDate = job.JobDate,
+                    JobDesc = job.Description,
+                    Customer = job.Customer.Name,
+                    Company = jo.GetJobCompany(job.Id),
+                    Amount = jo.GetTotalJobAmount(job.Id), //get total amount from jobservices
+                    PaymentAmount = jo.GetJobPaymentAmount(job.Id), //get total paid amount from jobservices
+                    PaymentStatus = jo.GetJobPaymentStatus(job.Id), //get total amount from jobservices
+                    PaintJobAmount = paintingAmount,
+                    PartsOilsJobAmount = partsOilsAmount,
+                    DiscountAmount = jo.GetJobDiscountAmount(job.Id),
+                    OtherSvcsJobAmount = othersAmount
+
+                });
+
+                PaintingTotal += paintingAmount;
+                PartsOilsTotal += partsOilsAmount;
+                OtherSvcTotal += othersAmount;
+            }
 
             foreach(var job in jobPaymentReport)
             {
@@ -336,6 +367,10 @@ namespace JobsV1.Controllers
             ViewBag.CountTerms = countTerms;
             ViewBag.DtStart = DtStart ?? today.ToShortDateString();
             ViewBag.DtEnd = DtEnd ?? today.ToShortDateString();
+            ViewBag.PartsOils = PartsOilsTotal;
+            ViewBag.Painting = PaintingTotal;
+            ViewBag.OtherSvcs = OtherSvcTotal;
+
 
             return View(jobPaymentReport);
         }
@@ -344,8 +379,11 @@ namespace JobsV1.Controllers
         {
             try
             {
-                var PaintServicesIds = new List<int>();
-                PaintServicesIds.Add(13);
+                //get service Ids of parts or oils in svcGroups (Oils = 1, Parts = 2)
+                var PaintingGroupIds = db.SvcGroups.Where(s => s.SvcDetailId == 3).ToList().Select(s => s.ServicesId);
+
+                //var PaintServicesIds = new List<int>();
+                //PaintServicesIds.Add(13);
 
                 var services = db.JobServices.Where(s => s.JobMainId == jobMainId).ToList();
 
@@ -353,7 +391,7 @@ namespace JobsV1.Controllers
 
                 foreach (var svc in services)
                 {
-                    if (PaintServicesIds.Contains(svc.ServicesId))
+                    if (PaintingGroupIds.Contains(svc.ServicesId))
                     {
                         totalPaintAmount += svc.ActualAmt ?? 0;
                     }
@@ -372,8 +410,8 @@ namespace JobsV1.Controllers
         {
             try
             {
-                var PaintServicesIds = new List<int>();
-                PaintServicesIds.Add(13);
+                //get service Ids of parts or oils in svcGroups (Oils = 1, Parts = 2)
+                var PartsOilsGroupIds = db.SvcGroups.Where(s => s.SvcDetailId == 1 || s.SvcDetailId == 2).ToList().Select(s=>s.ServicesId);
 
                 var services = db.JobServices.Where(s => s.JobMainId == jobMainId).ToList();
 
@@ -381,7 +419,35 @@ namespace JobsV1.Controllers
 
                 foreach (var svc in services)
                 {
-                    if (!PaintServicesIds.Contains(svc.ServicesId))
+                    if (PartsOilsGroupIds.Contains(svc.ServicesId))
+                    {
+                        totalPartsOilsAmount += svc.ActualAmt ?? 0;
+                    }
+                }
+                return totalPartsOilsAmount;
+            }
+            catch
+            {
+                return 0;
+            }
+
+        }
+
+
+        public decimal GetOtherSvcJobAmount(int jobMainId)
+        {
+            try
+            {
+                //get service Ids of parts or oils in svcGroups (Oils = 1, Parts = 2)
+                var OtherSvcGroupIds = db.SvcGroups.Where(s => s.SvcDetailId == 4).ToList().Select(s => s.ServicesId);
+
+                var services = db.JobServices.Where(s => s.JobMainId == jobMainId).ToList();
+
+                decimal totalPartsOilsAmount = 0;
+
+                foreach (var svc in services)
+                {
+                    if (OtherSvcGroupIds.Contains(svc.ServicesId))
                     {
                         totalPartsOilsAmount += svc.ActualAmt ?? 0;
                     }

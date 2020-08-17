@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="JobDB.Supplier" Width="1.5" PointX="60.125" PointY="4.375" />
         <EntityTypeShape EntityType="JobDB.Customer" Width="1.5" PointX="4.75" PointY="5.125" />
         <EntityTypeShape EntityType="JobDB.JobType" Width="1.5" PointX="26.5" PointY="10.25" />
-        <EntityTypeShape EntityType="JobDB.Services" Width="1.5" PointX="31.75" PointY="28.125" />
+        <EntityTypeShape EntityType="JobDB.Services" Width="1.5" PointX="31.75" PointY="27.625" />
         <AssociationConnector Association="JobDB.JobMainJobType" />
         <EntityTypeShape EntityType="JobDB.JobServices" Width="1.5" PointX="32.5" PointY="10.125" />
         <AssociationConnector Association="JobDB.JobMainJobSupplier" />
@@ -100,7 +100,7 @@
         <AssociationConnector Association="JobDB.CustomerCustSalesCategory" />
         <AssociationConnector Association="JobDB.SalesStatusCodeSalesStatus" />
         <AssociationConnector Association="JobDB.SalesLeadSalesStatus" />
-        <EntityTypeShape EntityType="JobDB.SrvActionCode" Width="1.5" PointX="33.75" PointY="27.375" />
+        <EntityTypeShape EntityType="JobDB.SrvActionCode" Width="1.5" PointX="36" PointY="29.625" />
         <EntityTypeShape EntityType="JobDB.SrvActionItem" Width="1.5" PointX="33.75" PointY="29.625" />
         <EntityTypeShape EntityType="JobDB.JobAction" Width="1.5" PointX="31.75" PointY="30.75" />
         <AssociationConnector Association="JobDB.JobServicesJobAction" />
@@ -287,6 +287,10 @@
         <AssociationConnector Association="JobDB.JobPaymentTypeJobPayment" />
         <EntityTypeShape EntityType="JobDB.JobPostSalesStatus" Width="1.5" PointX="29.75" PointY="7.125" />
         <AssociationConnector Association="JobDB.JobPostSalesStatusJobPostSale" />
+        <EntityTypeShape EntityType="JobDB.SvcGroup" Width="1.5" PointX="33.75" PointY="27" />
+        <EntityTypeShape EntityType="JobDB.SvcDetail" Width="1.5" PointX="36" PointY="27" />
+        <AssociationConnector Association="JobDB.ServicesSvcGroup" />
+        <AssociationConnector Association="JobDB.SvcDetailSvcGroup" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

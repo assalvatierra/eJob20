@@ -1,5 +1,6 @@
 ﻿using JobsV1.Controllers;
 using JobsV1.Models.Class;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -671,6 +672,42 @@ order by x.jobid
                 var company = db.JobEntMains.Where(c => c.JobMainId == id).OrderByDescending(c => c.Id).FirstOrDefault().CustEntMain;
 
                 return company.CustEntAccountType.Name;
+            }
+            catch
+            {
+                return " ";
+            }
+        }
+
+
+        public string GetJobReferralAgent(int id)
+        {
+            try
+            {
+                var  services = db.JobServices.Where(s => s.JobMainId == id).ToList();
+                var referralAgent = "";
+
+                foreach (var svc in services)
+                {
+                    var svcItems = svc.JobServiceItems.ToList();
+                    foreach (var item in svcItems)
+                    {
+                        var itemCats = item.InvItem.InvItemCategories.ToList();
+
+                        foreach(var category in itemCats)
+                        {
+                            //Service Advisor = 4
+                            if (category.InvItemCatId == 4)
+                            {
+                                referralAgent += item.InvItem.Description + " ";
+                            }
+                        }
+                    }
+                   
+                }
+
+
+                return referralAgent;
             }
             catch
             {

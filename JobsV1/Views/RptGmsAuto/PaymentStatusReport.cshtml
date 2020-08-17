@@ -7,34 +7,73 @@
     decimal total_Amount = 0;
     decimal total_AmountOil = 0;
     decimal total_AmountPaint = 0;
+    decimal total_AmountOthers = 0;
     decimal total_PaymentAmount = 0;
     decimal total_Discount = 0;
+    decimal PartsOils = ViewBag.PartsOils;
+    decimal Painting = ViewBag.Painting;
+    decimal OtherSvcs = ViewBag.OtherSvcs;
 
 }
+<div class="row" style="margin-top:10px;">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <h2>Job Payment Status Report </h2>
 
-<h2>Job Payment Status Report </h2>
-
-@using (Html.BeginForm())
-{
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h4 class="col-md-1 col-sm-12 col-xs-12 control-label form-label form-filter-label"> Filter: </h4>
-            <div class=" form-filter-div col-lg-2 col-md-2 col-sm-2 col-xs-6" style="max-width:120px;">
-                <input id="DtStart" name="DtStart" type="text" class="form-control form-filter-input" />
+        @using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h4 class="col-md-2 col-md-2 col-sm-2 col-xs-12 control-label form-label form-filter-label"> Filter: </h4>
+                    <div class=" form-filter-div col-lg-3 col-md-3 col-sm-3 col-xs-6" style="max-width:120px;">
+                        <input id="DtStart" name="DtStart" type="text" class="form-control form-filter-input" />
+                    </div>
+                    <div class="form-filter-div col-lg-3 col-md-3 col-sm-3 col-xs-6" style="max-width:120px;">
+                        <input id="DtEnd" name="DtEnd" type="text" class="form-control form-filter-input" />
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
+                        <button class="btn btn-default form-filter-input" type="submit"> Filter </button>
+                    </div>
+                </div>
             </div>
-            <div class="form-filter-div col-lg-2 col-md-2 col-sm-2 col-xs-6" style="max-width:120px;">
-                <input id="DtEnd" name="DtEnd" type="text" class="form-control form-filter-input" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;">
-                <button class="btn btn-default col-lg-2 col-md-2 col-sm-2 col-xs-6 form-filter-input" type="submit"> Filter </button>
-            </div>
-        </div>
+        }
+        <h4>
+            Showing Jobs for @sDate - @eDate
+        </h4>
     </div>
-}
-<h4>
-    Showing Jobs for @sDate - @eDate
-</h4>
 
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+        <table class="table" style="margin-top:20px;">
+            <tr>
+                <th>
+                    <h3 class="text-center"> Parts & Oils </h3>
+                    <h1 class="text-center">
+                        @PartsOils.ToString("N0")
+                    </h1>
+                </th>
+                <th>
+                    <h3 class="text-center"> Painting </h3>
+                    <h1 class="text-center">
+                        @Painting.ToString("N0")
+                    </h1>
+                </th>
+                <th>
+                    <h3 class="text-center"> Others </h3>
+                    <h1 class="text-center">
+                        @OtherSvcs.ToString("N0")
+                    </h1>
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<!-- Charts
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:20px 0px;" >
+    <canvas id="myChart-JobsCount" width="300" height="100"></canvas>
+</div>
+     -->
 <table class="table">
     <tr>
         <th>
@@ -88,6 +127,9 @@
             Painting
         </th>
         <th>
+            Others
+        </th>
+        <th>
             Discount
         </th>
         <th>
@@ -105,6 +147,7 @@
 
         total_AmountOil += item.PartsOilsJobAmount;
         total_AmountPaint += item.PaintJobAmount;
+        total_AmountOthers += item.OtherSvcsJobAmount;
 
 
         <tr>
@@ -118,9 +161,9 @@
                 @item.Customer  <span class="text-muted"> / @item.Company </span>
             </td>
             <td>
-                @{ 
+                @{
                     var desc = item.JobDesc;
-                    if(desc.Length > 32)
+                    if (desc.Length > 32)
                     {
                         desc = desc.Substring(0, 32) + "...";
                     }
@@ -149,12 +192,15 @@
 
             </td>
             <!-- Parts and Oils -->
-            <td class="text-warning">
+            <td>
                 @item.PartsOilsJobAmount.ToString("N0")
             </td>
             <!-- Paintings -->
-            <td class="text-warning">
+            <td>
                 @item.PaintJobAmount.ToString("N0")
+            </td>
+            <td>
+                @item.OtherSvcsJobAmount.ToString("N0")
             </td>
             <td class="text-muted">
                 @item.DiscountAmount.ToString("N0")
@@ -175,36 +221,46 @@
             </td>
         </tr>
     }
+    else
+    {
 
-    <tr>
-        <td colspan="5">
-            <p class="pull-right">
-                Total
-            </p>
-        </td>
-        <td>
-            <!-- Parts and Oils Unpaid -->
-            <span class="text-warning">@total_AmountOil.ToString("N0")</span>
-        </td>
-        <td>
-            <!-- Parts and Oils Unpaid -->
-            <span class="text-warning">@total_AmountPaint.ToString("N0")</span>
-        </td>
-        <td>
-            <span class="text-muted">@total_Discount.ToString("N0")</span>
-        </td>
-        <td>
-            <span class="text-success">@total_PaymentAmount.ToString("N0")</span>
-        </td>
-        <td>
-            <span>@total_Amount.ToString("N0")</span>
-        </td>
-    </tr>
+
+        <tr>
+            <td colspan="5">
+                <p class="pull-right">
+                    Total
+                </p>
+            </td>
+            <td>
+                <!-- Parts and Oils -->
+                <span>@total_AmountOil.ToString("N0")</span>
+            </td>
+            <td>
+                <!-- Paints -->
+                <span>@total_AmountPaint.ToString("N0")</span>
+            </td>
+            <td>
+                <!-- Others -->
+                <span>@total_AmountOthers.ToString("N0")</span>
+            </td>
+            <td>
+                <span class="text-muted">@total_Discount.ToString("N0")</span>
+            </td>
+            <td>
+                <span class="text-success">@total_PaymentAmount.ToString("N0")</span>
+            </td>
+            <td>
+                <span>@total_Amount.ToString("N0")</span>
+            </td>
+        </tr>
+
+    }
 </table>
 
 
 @section Scripts{
     <script src="~/Scripts/Job/DefaultDate.js"></script>
+    <script src="~/Scripts/Chartjs/Chart.js"></script>
     <script>
         $(() => {
             Initialize();
@@ -225,5 +281,39 @@
                 $('#DtEnd').val(moment(dtEnd).format("MM/DD/YYYY"));
             }
         }
+
+
+        // Line graph sample
+        var ctx_bar = document.getElementById('myChart-JobsCount').getContext('2d');
+        var myChart = new Chart(ctx_bar, {
+            type: 'pie',
+            data: {
+                labels: ['Paid', 'Unpaid', 'Terms'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [@ViewBag.CountPaid, @ViewBag.CountUnPaid, @ViewBag.CountTerms],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+            //options: {
+            //    scales: {
+            //        yAxes: [{
+            //            ticks: {
+            //                beginAtZero: true
+            //            }
+            //        }]
+            //    }
+            //}
+        });
     </script>
 }

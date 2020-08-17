@@ -17,6 +17,7 @@
             <th> Conduction </th>
             <th> Engine No </th>
             <th> Chassis No </th>
+            <th> Fuel </th>
             <th> Color </th>
             <th> Remarks </th>
             <th></th>
@@ -30,6 +31,7 @@
                 <td> @item.Conduction </td>
                 <td> @item.EngineNo </td>
                 <td> @item.ChassisNo </td>
+                <td> @item.VehicleModel.VehicleFuel.Fuel </td>
                 <td> @item.Color </td>
                 <td> @item.Remarks </td>
                 <td>
@@ -72,8 +74,8 @@
                                 @foreach (var vehicle in vehicleModels.OrderBy(v=>v.VehicleBrand.Brand).ThenBy(v => v.Make))
                                 {
                                     <option value="@vehicle.Id">
-                                        @vehicle.VehicleBrand.Brand @vehicle.Make  @vehicle.Variant @vehicle.VehicleTransmission.Type
-                                    </option>
+                                        @vehicle.VehicleBrand.Brand @vehicle.Make  @vehicle.Variant @vehicle.VehicleTransmission.Type @vehicle.VehicleFuel.Fuel
+                                    </option> 
                                 }
                             </select>
                         </div>

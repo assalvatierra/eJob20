@@ -267,12 +267,16 @@
                                             <p>
                                                 @if (JobVehicle.VehicleId != 0)
                                                 {
-                                                    <span> @JobVehicle.Vehicle.Remarks &nbsp;</span>
+
+                                                    if (!String.IsNullOrWhiteSpace(JobVehicle.Vehicle.Remarks))
+                                                    {
+                                                        <span> @JobVehicle.Vehicle.Remarks &nbsp; / </span>
+                                                    }
+
                                                 }
-                                                else
-                                                {
-                                                    <br />
-                                                }
+
+                                                @ViewBag.ReferralAgent
+
                                             </p>
                                         </div>
                                     </td>
@@ -382,11 +386,19 @@
                             <td valign="top">
                                 @foreach (var item in services.JobServiceItems)
                                 {
-                                    if (@item.InvItem.InvItemCategories.FirstOrDefault() != null)
+                                    if (item.InvItem.InvItemCategories.FirstOrDefault() != null)
                                     {
+                                        var itemCategory = item.InvItem.InvItemCategories.FirstOrDefault();
+
                                         <span> @item.InvItem.InvItemCategories.FirstOrDefault().InvItemCat.Name : </span>
+
+                                        if (itemCategory.InvItemCatId != 4)
+                                        {
+                                            <span> @item.InvItem.Description </span><br />
+                                        }
                                     }
-                                    <span> @item.InvItem.Description </span><br />
+
+
                                 }
                             </td>
                             <td valign="top">
@@ -473,43 +485,6 @@
                 </table>
             </td>
         </tr>
-
-        @*<tr>
-                <td colspan="3" style="padding:0px;">
-                    <table class="rpt-table">
-                        <tr>
-                            <td>
-                                <div style="height:50px;">
-                                    <p> <b> SERVICE START </b> </p>
-                                    <p>
-                                        @ViewBag.StartJobDate
-                                        <br />
-                                    </p>
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:50px;">
-                                    <p> <b> SERVICE END </b> </p>
-                                    <p>
-                                        @ViewBag.EndJobDate
-                                        <br />
-                                    </p>
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:50px;">
-                                    <p> <b>  JOB CONTROLLER SIGNATURE & NAME </b> </p>
-                                    <p>
-                                        <br />
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>*@
 
         <tr>
             <td colspan="3" style="padding:0px;">

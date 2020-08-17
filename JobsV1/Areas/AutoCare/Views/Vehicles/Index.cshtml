@@ -43,6 +43,9 @@
                 @Html.DisplayNameFor(model => model.ChassisNo)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.VehicleModel.VehicleFuel.Fuel)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Color)
             </th>
             <th>
@@ -77,6 +80,9 @@
                 </td>
                 <td hidden>
                     @Html.DisplayFor(modelItem => item.ChassisNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleModel.VehicleFuel.Fuel)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Color)

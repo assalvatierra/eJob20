@@ -79,7 +79,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
-                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type
+                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type + " " +s.VehicleFuel.Fuel
                   });
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
@@ -128,7 +128,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
-                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type
+                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type + " " + s.VehicleFuel.Fuel
                   });
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
@@ -185,7 +185,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
-                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type
+                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type + " " + s.VehicleFuel.Fuel
                   });
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
@@ -215,7 +215,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
-                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type
+                      Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type + " " + s.VehicleFuel.Fuel
                   });
 
             ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
@@ -311,7 +311,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
-                      Text = s.VehicleModel.VehicleBrand.Brand + " " + s.VehicleModel.Make + " " + s.VehicleModel.Variant + " " + s.VehicleModel.VehicleTransmission.Type
+                      Text = s.VehicleModel.VehicleBrand.Brand + " " + s.VehicleModel.Make + " " + s.VehicleModel.Variant + " " + s.VehicleModel.VehicleTransmission.Type + " " + s.VehicleModel.VehicleFuel.Fuel
                   });
 
             ViewBag.JobDesc = jobVehicle.JobMain.Description + " - " + jobVehicle.JobMain.Customer.Name;
@@ -346,7 +346,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                   .Select(s => new SelectListItem
                   {
                       Value = s.Id.ToString(),
-                      Text = s.VehicleModel.VehicleBrand.Brand + " " + s.VehicleModel.Make + " " + s.VehicleModel.Variant + " " + s.VehicleModel.VehicleTransmission.Type
+                      Text = s.VehicleModel.VehicleBrand.Brand + " " + s.VehicleModel.Make + " " + s.VehicleModel.Variant + " " + s.VehicleModel.VehicleTransmission.Type + " " + s.VehicleModel.VehicleFuel.Fuel
                   });
 
             ViewBag.VehicleId = new SelectList(Vehicles, "Value", "Text");

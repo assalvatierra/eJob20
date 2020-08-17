@@ -643,6 +643,7 @@
     <Compile Include="Controllers\SupplierPoDtlsController.cs" />
     <Compile Include="Controllers\SupplierPoHdrsController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
+    <Compile Include="Controllers\SvcGroupsController.cs" />
     <Compile Include="Controllers\SysAccessUsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1096,6 +1097,12 @@
     <Compile Include="Models\SupplierUnit.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SvcDetail.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SvcGroup.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SysAccessLayer.cs" />
     <Compile Include="Models\SysAccessRole.cs">
       <DependentUpon>SysDB.tt</DependentUpon>
@@ -1317,6 +1324,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.slate.css" />
+    <Content Include="Content\Chart.min.css" />
     <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -1794,6 +1802,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Cashier\CashierJobList.js" />
     <Content Include="Scripts\Cashier\CashierPayments.js" />
+    <Content Include="Scripts\Chartjs\Chart.js" />
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\CustEntMain\CustEntMainDetails.js" />
     <Content Include="Scripts\CustEntMain\CustEntVehicle.js" />
@@ -2861,12 +2870,18 @@
     <Content Include="Views\Shared\_MonitorLayout.cshtml" />
     <Content Include="Views\RptGmsAuto\ReferralReport.cshtml" />
     <Content Include="Views\JobPostSales\Update.cshtml" />
-    <Content Include="Views\Account\Login-def.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login-solidsteel.cshtml" />
     <Content Include="Views\JobPostSales\Index2.cshtml" />
     <Content Include="Views\Cashier\_EditPaymentStatus.cshtml" />
     <Content Include="Views\JobOrder\_PermissionModal.cshtml" />
     <Content Include="Views\Activities\SearchActivities.cshtml" />
+    <Content Include="Views\SvcGroups\Create.cshtml" />
+    <Content Include="Views\SvcGroups\Delete.cshtml" />
+    <Content Include="Views\SvcGroups\Details.cshtml" />
+    <Content Include="Views\SvcGroups\Edit.cshtml" />
+    <Content Include="Views\SvcGroups\Index.cshtml" />
+    <Content Include="Views\SvcGroups\AddService.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -82,6 +82,19 @@ insert into Services([Name],[Description],[Status]) values
 insert into SrvActionCodes([CatCode],[SortNo]) values
 ('Arrangement',1),('Partial Payment',2),('Notification',3),('OnGoing',4),('Billing',5),('Full Payment',6),('Closing',7);
 
+-- SVC Group / Details --
+insert into SvcDetails([Name]) values 
+('Oils'),('Parts'),('Painting'),('Others');
+
+insert into SvcGroups([ServicesId],[SvcDetailId]) values 
+(1, 1), (2, 1), (3, 1), (4, 1), 
+(5, 2), (6, 2), (7, 2), (8, 2), 
+(9, 3), (10, 3),
+(11, 4), 
+(12, 2), (13, 2), (14, 2), (15, 2), 
+(16, 1), (17, 1), (18, 1);
+
+
 -------- JOB ACTIONS ----------
 -- 1. Confirmed 2. On-going 3. Releasing 4. Done
 insert into SrvActionCodes([CatCode],[SortNo]) values 
@@ -489,3 +502,4 @@ insert into CustEntDocuments([CustEntMainId],[SupDocumentId],[IsApproved]) value
 
 insert into JobMainPaymentStatus ([JobMainId],[JobPaymentStatusId]) values 
 (1,2),(2,2),(3,2),(4,2),(5,2);
+

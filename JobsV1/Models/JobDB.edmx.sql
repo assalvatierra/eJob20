@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/12/2020 15:44:55
+-- Date Created: 08/17/2020 13:35:17
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -419,6 +419,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_JobPostSalesStatusJobPostSale]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[JobPostSales] DROP CONSTRAINT [FK_JobPostSalesStatusJobPostSale];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ServicesSvcGroup]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SvcGroups] DROP CONSTRAINT [FK_ServicesSvcGroup];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SvcDetailSvcGroup]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SvcGroups] DROP CONSTRAINT [FK_SvcDetailSvcGroup];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -831,6 +837,12 @@ IF OBJECT_ID(N'[dbo].[JobPaymentTypes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[JobPostSalesStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[JobPostSalesStatus];
+GO
+IF OBJECT_ID(N'[dbo].[SvcGroups]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SvcGroups];
+GO
+IF OBJECT_ID(N'[dbo].[SvcDetails]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SvcDetails];
 GO
 
 -- --------------------------------------------------
@@ -2264,6 +2276,21 @@ CREATE TABLE [dbo].[JobPostSalesStatus] (
 );
 GO
 
+-- Creating table 'SvcGroups'
+CREATE TABLE [dbo].[SvcGroups] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ServicesId] int  NOT NULL,
+    [SvcDetailId] int  NOT NULL
+);
+GO
+
+-- Creating table 'SvcDetails'
+CREATE TABLE [dbo].[SvcDetails] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(40)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3081,6 +3108,18 @@ GO
 -- Creating primary key on [Id] in table 'JobPostSalesStatus'
 ALTER TABLE [dbo].[JobPostSalesStatus]
 ADD CONSTRAINT [PK_JobPostSalesStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SvcGroups'
+ALTER TABLE [dbo].[SvcGroups]
+ADD CONSTRAINT [PK_SvcGroups]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SvcDetails'
+ALTER TABLE [dbo].[SvcDetails]
+ADD CONSTRAINT [PK_SvcDetails]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5096,6 +5135,36 @@ GO
 CREATE INDEX [IX_FK_JobPostSalesStatusJobPostSale]
 ON [dbo].[JobPostSales]
     ([JobPostSalesStatusId]);
+GO
+
+-- Creating foreign key on [ServicesId] in table 'SvcGroups'
+ALTER TABLE [dbo].[SvcGroups]
+ADD CONSTRAINT [FK_ServicesSvcGroup]
+    FOREIGN KEY ([ServicesId])
+    REFERENCES [dbo].[Services]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ServicesSvcGroup'
+CREATE INDEX [IX_FK_ServicesSvcGroup]
+ON [dbo].[SvcGroups]
+    ([ServicesId]);
+GO
+
+-- Creating foreign key on [SvcDetailId] in table 'SvcGroups'
+ALTER TABLE [dbo].[SvcGroups]
+ADD CONSTRAINT [FK_SvcDetailSvcGroup]
+    FOREIGN KEY ([SvcDetailId])
+    REFERENCES [dbo].[SvcDetails]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SvcDetailSvcGroup'
+CREATE INDEX [IX_FK_SvcDetailSvcGroup]
+ON [dbo].[SvcGroups]
+    ([SvcDetailId]);
 GO
 
 -- --------------------------------------------------

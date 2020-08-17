@@ -1,0 +1,57 @@
+﻿@model IEnumerable<JobsV1.Models.SvcGroup>
+
+@{
+    ViewBag.Title = "Service Groups";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+    <h2>Service Groups</h2>
+
+<p>
+    @Html.ActionLink("Create Group", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th style="width:150px;">
+            Service Group
+        </th>
+        <th>
+            Service
+        </th>
+        <th>
+            Description
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.GroupBy(s => s.SvcDetail))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Key.Name)
+            </td>
+            <td></td>
+            <td></td>
+            <td>  @Html.ActionLink("Add Service", "AddService", new { id = item.Key.Id }) </td>
+        </tr>
+        foreach (var detail in item)
+        {
+            <tr>
+                <td>
+                  
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => detail.Service.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => detail.Service.Description)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = detail.Id }) |*@
+                    @Html.ActionLink("Remove", "Delete", new { id = detail.Id })
+                </td>
+            </tr>
+        }
+    }
+
+</table>

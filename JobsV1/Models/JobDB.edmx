@@ -142,6 +142,8 @@
     <EntitySet Name="InvItemCommis" EntityType="JobDB.Store.InvItemCommis" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobPaymentTypes" EntityType="JobDB.Store.JobPaymentTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobPostSalesStatus" EntityType="JobDB.Store.JobPostSalesStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SvcGroups" EntityType="JobDB.Store.SvcGroups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SvcDetails" EntityType="JobDB.Store.SvcDetails" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -677,6 +679,14 @@
     <AssociationSet Name="JobPostSalesStatusJobPostSale" Association="JobDB.Store.JobPostSalesStatusJobPostSale">
       <End Role="JobPostSalesStatus" EntitySet="JobPostSalesStatus" />
       <End Role="JobPostSale" EntitySet="JobPostSales" />
+    </AssociationSet>
+    <AssociationSet Name="ServicesSvcGroup" Association="JobDB.Store.ServicesSvcGroup">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="SvcGroup" EntitySet="SvcGroups" />
+    </AssociationSet>
+    <AssociationSet Name="SvcDetailSvcGroup" Association="JobDB.Store.SvcDetailSvcGroup">
+      <End Role="SvcDetail" EntitySet="SvcDetails" />
+      <End Role="SvcGroup" EntitySet="SvcGroups" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -2105,6 +2115,21 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SvcGroups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServicesId" Type="int" Nullable="false" />
+    <Property Name="SvcDetailId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SvcDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3714,6 +3739,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ServicesSvcGroup">
+    <End Role="Services" Type="JobDB.Store.Services" Multiplicity="1" />
+    <End Role="SvcGroup" Type="JobDB.Store.SvcGroups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SvcGroup">
+        <PropertyRef Name="ServicesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SvcDetailSvcGroup">
+    <End Role="SvcDetail" Type="JobDB.Store.SvcDetails" Multiplicity="1" />
+    <End Role="SvcGroup" Type="JobDB.Store.SvcGroups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SvcDetail">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SvcGroup">
+        <PropertyRef Name="SvcDetailId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4391,6 +4440,16 @@
             <End Role="JobPostSalesStatus" EntitySet="JobPostSalesStatus" />
             <End Role="JobPostSale" EntitySet="JobPostSales" />
           </AssociationSet>
+          <EntitySet Name="SvcGroups" EntityType="JobDB.SvcGroup" />
+          <EntitySet Name="SvcDetails" EntityType="JobDB.SvcDetail" />
+          <AssociationSet Name="ServicesSvcGroup" Association="JobDB.ServicesSvcGroup">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="SvcGroup" EntitySet="SvcGroups" />
+          </AssociationSet>
+          <AssociationSet Name="SvcDetailSvcGroup" Association="JobDB.SvcDetailSvcGroup">
+            <End Role="SvcDetail" EntitySet="SvcDetails" />
+            <End Role="SvcGroup" EntitySet="SvcGroups" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -4503,6 +4562,7 @@
           <NavigationProperty Name="JobServices" Relationship="JobDB.ServicesJobServices" FromRole="Services" ToRole="JobServices" />
           <NavigationProperty Name="SrvActionItems" Relationship="JobDB.ServicesSrvActionItem" FromRole="Services" ToRole="SrvActionItem" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="5" />
+          <NavigationProperty Name="SvcGroups" Relationship="JobDB.ServicesSvcGroup" FromRole="Services" ToRole="SvcGroup" />
         </EntityType>
         <Association Name="JobMainJobType">
           <End Type="JobDB.JobMain" Role="JobMain" Multiplicity="1" />
@@ -7697,6 +7757,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SvcGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Service" Relationship="JobDB.ServicesSvcGroup" FromRole="SvcGroup" ToRole="Services" />
+          <Property Name="ServicesId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SvcDetail" Relationship="JobDB.SvcDetailSvcGroup" FromRole="SvcGroup" ToRole="SvcDetail" />
+          <Property Name="SvcDetailId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SvcDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="40" />
+          <NavigationProperty Name="SvcGroups" Relationship="JobDB.SvcDetailSvcGroup" FromRole="SvcDetail" ToRole="SvcGroup" />
+        </EntityType>
+        <Association Name="ServicesSvcGroup">
+          <End Type="JobDB.Services" Role="Services" Multiplicity="1" />
+          <End Type="JobDB.SvcGroup" Role="SvcGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SvcGroup">
+              <PropertyRef Name="ServicesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SvcDetailSvcGroup">
+          <End Type="JobDB.SvcDetail" Role="SvcDetail" Multiplicity="1" />
+          <End Type="JobDB.SvcGroup" Role="SvcGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SvcDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SvcGroup">
+              <PropertyRef Name="SvcDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9263,6 +9365,23 @@
         <MappingFragment StoreEntitySet="JobPostSalesStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SvcGroups">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SvcGroup)">
+        <MappingFragment StoreEntitySet="SvcGroups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ServicesId" ColumnName="ServicesId" />
+          <ScalarProperty Name="SvcDetailId" ColumnName="SvcDetailId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SvcDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SvcDetail)">
+        <MappingFragment StoreEntitySet="SvcDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -507,11 +507,11 @@ insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (88,21);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Oil Report' ,'',88,'RptGmsAuto','OilReport','',21,881);	        -- id: 62
 
--- Payment STatus -- 
+-- Payment Status -- 
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Payments Status Report' ,'Payments Status Report',88,'RptGmsAuto','JobStatusReport','',21,882);	        -- id: 62
 
--- Payment STatus -- 
+-- Referral Report-- 
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Referral Report' ,'Referral Report',88,'RptGmsAuto','JobStatusReport','',21,883);	        -- id: 62
 
@@ -520,8 +520,6 @@ values 	('Referral Report' ,'Referral Report',88,'RptGmsAuto','JobStatusReport',
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Job Monitor' ,'Job Monitor',3,'JobOrder','JobsMonitor','',21,882);	        -- id: 62
 		
-
-
 		
 --Trip Logs --
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
@@ -533,6 +531,11 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (88,21);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Oil Report' ,'',88,'RptGmsAuto','OilReport','',21,881);	        -- id: 62
+
+
+-- Job service Group --
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Service Group' ,'',6,'SvcGroups','Index','',21,66);	        -- id: 62
 
 
 		

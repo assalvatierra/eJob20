@@ -161,5 +161,7 @@ namespace JobsV1.Models
         public virtual DbSet<InvItemCommi> InvItemCommis { get; set; }
         public virtual DbSet<JobPaymentType> JobPaymentTypes { get; set; }
         public virtual DbSet<JobPostSalesStatus> JobPostSalesStatus { get; set; }
+        public virtual DbSet<SvcGroup> SvcGroups { get; set; }
+        public virtual DbSet<SvcDetail> SvcDetails { get; set; }
     }
 }

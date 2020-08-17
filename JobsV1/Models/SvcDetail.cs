@@ -12,25 +12,17 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Services
+    public partial class SvcDetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Services()
+        public SvcDetail()
         {
-            this.JobServices = new HashSet<JobServices>();
-            this.SrvActionItems = new HashSet<SrvActionItem>();
             this.SvcGroups = new HashSet<SvcGroup>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<JobServices> JobServices { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SrvActionItem> SrvActionItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SvcGroup> SvcGroups { get; set; }
     }

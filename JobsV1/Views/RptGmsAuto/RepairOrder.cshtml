@@ -270,12 +270,11 @@
                                             <p>
                                                 @if (JobVehicle.VehicleId != 0)
                                                 {
-                                                    <span> @JobVehicle.Vehicle.Remarks &nbsp;</span>
+                                                    if(!String.IsNullOrWhiteSpace(JobVehicle.Vehicle.Remarks)) { 
+                                                        <span> @JobVehicle.Vehicle.Remarks &nbsp; / </span> 
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    <br />
-                                                }
+                                                @ViewBag.ReferralAgent
                                             </p>
                                         </div>
                                     </td>
@@ -432,11 +431,19 @@
                             <td valign="top" style="margin-right:5px;">
                                 @foreach (var item in services.JobServiceItems)
                                 {
-                                    if (@item.InvItem.InvItemCategories.FirstOrDefault() != null)
+                                    if (item.InvItem.InvItemCategories.FirstOrDefault() != null)
                                     {
-                                        <span> @item.InvItem.InvItemCategories.FirstOrDefault().InvItemCat.Name : </span>
+                                        var itemCategory = item.InvItem.InvItemCategories.FirstOrDefault();
+
+
+                                        if (itemCategory.InvItemCatId != 4)
+                                        {
+                                            <span> @item.InvItem.InvItemCategories.FirstOrDefault().InvItemCat.Name : </span>
+                                            <span> @item.InvItem.Description </span><br />
+                                        }
                                     }
-                                    <span> @item.InvItem.Description </span><br />
+
+
                                 }
                             </td>
                             <td valign="top" style="margin-right:5px;">

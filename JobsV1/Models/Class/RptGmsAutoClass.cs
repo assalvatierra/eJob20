@@ -30,11 +30,12 @@ namespace JobsV1.Models.Class
         public string Customer { get; set; }
         public string Company { get; set; }
         public JobPaymentStatus PaymentStatus { get; set; }
-        public Decimal Amount { get; set; }
-        public Decimal PaymentAmount { get; set; }
-        public Decimal DiscountAmount { get; set; }
+        public decimal Amount { get; set; }
+        public decimal PaymentAmount { get; set; }
+        public decimal DiscountAmount { get; set; }
         public decimal PaintJobAmount { get; set; }
         public decimal PartsOilsJobAmount { get; set; }
+        public decimal OtherSvcsJobAmount { get; set; }
 
     }
 

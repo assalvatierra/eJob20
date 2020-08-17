@@ -18,6 +18,7 @@
             <th> Conduction </th>
             <th> Engine No </th>
             <th> Chassis No </th>
+            <th> Fuel </th>
             <th> Color </th>
             <th> Remarks </th>
             <th></th>
@@ -26,12 +27,13 @@
         {
             <tr>
                 <td> @item.Customer.Name </td>
-                <td> @item.VehicleModel.VehicleBrand.Brand @item.VehicleModel.Make @item.VehicleModel.Variant  @item.VehicleModel.VehicleTransmission.Type</td>
+                <td> @item.VehicleModel.VehicleBrand.Brand @item.VehicleModel.Make @item.VehicleModel.Variant @item.VehicleModel.VehicleTransmission.Type </td>
                 <td> @item.YearModel </td>
                 <td> @item.PlateNo </td>
                 <td> @item.Conduction </td>
                 <td> @item.EngineNo </td>
                 <td> @item.ChassisNo </td>
+                <td> @item.VehicleModel.VehicleFuel.Fuel  </td>
                 <td> @item.Color </td>
                 <td> @item.Remarks </td>
                 <td>
@@ -87,7 +89,7 @@
                                 @foreach (var vehicle in vehicleModels)
                                 {
                                     <option value="@vehicle.Id">
-                                        @vehicle.VehicleBrand.Brand @vehicle.Make  @vehicle.Variant @vehicle.VehicleTransmission.Type
+                                        @vehicle.VehicleBrand.Brand @vehicle.Make  @vehicle.Variant @vehicle.VehicleTransmission.Type @vehicle.VehicleFuel.Fuel
                                     </option>
                                 }
                             </select>
