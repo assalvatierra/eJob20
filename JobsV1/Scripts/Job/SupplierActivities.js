@@ -15,7 +15,7 @@ function InitDatePicker() {
 
     $('input[name="DtActivity"]').daterangepicker(
     {
-        timePicker: false,
+        timePicker: true,
         timePickerIncrement: 1,
         singleDatePicker: true,
         showDropdowns: true,

@@ -17,7 +17,7 @@ function InitDatePicker()
 
     $('input[name="Date"]').daterangepicker(
     {
-        timePicker: false,
+        timePicker: true,
         timePickerIncrement: 1,
         singleDatePicker: true,
         showDropdowns: true,

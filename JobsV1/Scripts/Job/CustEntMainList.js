@@ -187,13 +187,11 @@ function LoadTable(data) {
         var Exclusive = temp[x]["Exclusive"] != null ? temp[x]["Exclusive"] : "PUBLIC";
         var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : "--";
 
-
         website = "<a href='https://" + website + "' target='_blank' >" + website.substring(0, 15) + "... </a>";
         
-
         content = "<tr>";
 
-        content += "<td class='table-name-col'><b><a href='/CustEntMains/Details/" + temp[x]["Id"] +"'> " + temp[x]["Name"] + "</a></b></td>";
+        content += "<td class='table-name-col'><b><a " + temp[x]["Id"] +"'> " + temp[x]["Name"] + "</a></b></td>";
         content += "<td>" + code + "</td>";
         content += "<td>" + website + "</td>";
         content += "<td>" + City + "</td>";

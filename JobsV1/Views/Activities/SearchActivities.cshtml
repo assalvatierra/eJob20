@@ -49,7 +49,7 @@
                 @Html.DisplayFor(modelItem => item.ProjectName)
             </td>
             <td>
-                <a style="cursor:pointer;" onclick="SearchCodeActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>
+                <span>  @Html.DisplayFor(modelItem => item.SalesCode) </span>
             </td>
             <td>
                 @(((Decimal)item.Amount).ToString("N0"))

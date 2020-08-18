@@ -96,94 +96,25 @@ values
 -- Dumping data for table Countries( Code, Name)
 -- 
 INSERT INTO Countries( Code, Name) VALUES ( 'AF', 'Afghanistan'),
- ( 'AL', 'Albania'),
- ( 'DZ', 'Algeria'),
-( 'DS', 'American Samoa'),
-( 'AD', 'Andorra'),
-( 'AO', 'Angola'),
-( 'AI', 'Anguilla'),
-( 'AQ', 'Antarctica'),
-( 'AG', 'Antigua and Barbuda'),
-( 'AR', 'Argentina'),
-( 'AM', 'Armenia'),
-( 'AW', 'Aruba'),
-( 'AU', 'Australia'),
-( 'AT', 'Austria'),
-( 'AZ', 'Azerbaijan'),
-( 'BS', 'Bahamas'),
-( 'BH', 'Bahrain'),
-( 'BD', 'Bangladesh'),
-( 'BB', 'Barbados'),
-( 'BY', 'Belarus'),
-( 'BE', 'Belgium'),
-( 'BZ', 'Belize'),
-( 'BJ', 'Benin'),
-( 'BM', 'Bermuda'),
-( 'BT', 'Bhutan'),
-( 'BO', 'Bolivia'),
-( 'BA', 'Bosnia and Herzegovina'),
-( 'BW', 'Botswana'),
-( 'BV', 'Bouvet Island'),
-( 'BR', 'Brazil'),
-( 'IO', 'British Indian Ocean Territory'),
-( 'BN', 'Brunei Darussalam'),
-( 'BG', 'Bulgaria'),
-( 'BF', 'Burkina Faso'),
-( 'BI', 'Burundi'),
-( 'KH', 'Cambodia'),
-( 'CM', 'Cameroon'),
-( 'CA', 'Canada'),
-( 'CV', 'Cape Verde'),
-( 'KY', 'Cayman Islands'),
-( 'CF', 'Central African Republic'),
-( 'TD', 'Chad'),
-( 'CL', 'Chile'),
-( 'CN', 'China'),
-( 'CX', 'Christmas Island'),
-( 'CC', 'Cocos (Keeling) Islands'),
-( 'CO', 'Colombia'),
-( 'KM', 'Comoros'),
-( 'CD', 'Democratic Republic of the Congo'),
-( 'CG', 'Republic of Congo'),
-( 'CK', 'Cook Islands'),
-( 'CR', 'Costa Rica'),
-( 'HR', 'Croatia (Hrvatska)'),
-( 'CU', 'Cuba'),
-( 'CY', 'Cyprus'),
-( 'CZ', 'Czech Republic'),
-( 'DK', 'Denmark'),
-( 'DJ', 'Djibouti'),
-( 'DM', 'Dominica'),
-( 'DO', 'Dominican Republic'),
-( 'TP', 'East Timor'),
-( 'EC', 'Ecuador'),
-( 'EG', 'Egypt'),
-( 'SV', 'El Salvador'),
-( 'GQ', 'Equatorial Guinea'),
-( 'ER', 'Eritrea'),
-( 'EE', 'Estonia'),
-( 'ET', 'Ethiopia'),
-( 'FK', 'Falkland Islands (Malvinas)'),
-( 'FO', 'Faroe Islands'),
-( 'FJ', 'Fiji'),
-( 'FI', 'Finland'),
-( 'FR', 'France'),
-( 'FX', 'France, Metropolitan'),
-( 'GF', 'French Guiana'),
-( 'PF', 'French Polynesia'),
-( 'TF', 'French Southern Territories'),
-( 'GA', 'Gabon'),
-( 'GM', 'Gambia'),
-( 'GE', 'Georgia'),
-( 'DE', 'Germany'),
-( 'GH', 'Ghana'),
-( 'GI', 'Gibraltar'),
-( 'GK', 'Guernsey'),
-( 'GR', 'Greece'),
-( 'GL', 'Greenland'),
-( 'GD', 'Grenada'),
-( 'GP', 'Guadeloupe'),
-( 'GU', 'Guam'),
+( 'AL', 'Albania'),( 'DZ', 'Algeria'),( 'DS', 'American Samoa'),( 'AD', 'Andorra'),
+( 'AO', 'Angola'),( 'AI', 'Anguilla'),( 'AQ', 'Antarctica'),( 'AG', 'Antigua and Barbuda'),
+( 'AR', 'Argentina'),( 'AM', 'Armenia'),( 'AW', 'Aruba'),( 'AU', 'Australia'),
+( 'AT', 'Austria'),( 'AZ', 'Azerbaijan'),( 'BS', 'Bahamas'),( 'BH', 'Bahrain'),( 'BD', 'Bangladesh'),
+( 'BB', 'Barbados'),( 'BY', 'Belarus'),( 'BE', 'Belgium'),( 'BZ', 'Belize'),( 'BJ', 'Benin'),
+( 'BM', 'Bermuda'),( 'BT', 'Bhutan'),( 'BO', 'Bolivia'),( 'BA', 'Bosnia and Herzegovina'),
+( 'BW', 'Botswana'),( 'BV', 'Bouvet Island'),( 'BR', 'Brazil'),( 'IO', 'British Indian Ocean Territory'),
+( 'BN', 'Brunei Darussalam'),( 'BG', 'Bulgaria'),( 'BF', 'Burkina Faso'),( 'BI', 'Burundi'),
+( 'KH', 'Cambodia'),( 'CM', 'Cameroon'),( 'CA', 'Canada'),( 'CV', 'Cape Verde'),( 'KY', 'Cayman Islands'),
+( 'CF', 'Central African Republic'),( 'TD', 'Chad'),( 'CL', 'Chile'),( 'CN', 'China'),( 'CX', 'Christmas Island'),
+( 'CC', 'Cocos (Keeling) Islands'),( 'CO', 'Colombia'),( 'KM', 'Comoros'),( 'CD', 'Democratic Republic of the Congo'),
+( 'CG', 'Republic of Congo'),( 'CK', 'Cook Islands'),( 'CR', 'Costa Rica'),( 'HR', 'Croatia (Hrvatska)'),
+( 'CU', 'Cuba'),( 'CY', 'Cyprus'),( 'CZ', 'Czech Republic'),( 'DK', 'Denmark'),( 'DJ', 'Djibouti'),( 'DM', 'Dominica'),
+( 'DO', 'Dominican Republic'),( 'TP', 'East Timor'),( 'EC', 'Ecuador'),( 'EG', 'Egypt'),( 'SV', 'El Salvador'),
+( 'GQ', 'Equatorial Guinea'),( 'ER', 'Eritrea'),( 'EE', 'Estonia'),( 'ET', 'Ethiopia'),( 'FK', 'Falkland Islands (Malvinas)'),
+( 'FO', 'Faroe Islands'),( 'FJ', 'Fiji'),( 'FI', 'Finland'),( 'FR', 'France'),( 'FX', 'France, Metropolitan'),( 'GF', 'French Guiana'),
+( 'PF', 'French Polynesia'),( 'TF', 'French Southern Territories'),( 'GA', 'Gabon'),( 'GM', 'Gambia'),( 'GE', 'Georgia'),
+( 'DE', 'Germany'),( 'GH', 'Ghana'),( 'GI', 'Gibraltar'),( 'GK', 'Guernsey'),( 'GR', 'Greece'),( 'GL', 'Greenland'),
+( 'GD', 'Grenada'),( 'GP', 'Guadeloupe'),( 'GU', 'Guam'),
 ( 'GT', 'Guatemala'),
 ( 'GN', 'Guinea'),
 ( 'GW', 'Guinea-Bissau'),
@@ -386,13 +317,6 @@ values (2,'John Doe','0995-987-4561','(082) 333 6588','johndoe@gmail.com','','',
 insert into SupplierActivityTypes([Type],[Points]) values 
 ('Procurement', 5), ('Job Order', 8), ('Meeting', 3), ('Others', 2), ('Revision', 1);
 
-insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType])
-values ('CO-001','7/25/2020 4:17:58 PM','johndoe@gmail.com','Meeting',2,2000,'Bidding Only','Procurement'),
-	   ('CO-001','7/26/2020 3:30:00 PM','mark@gmail.com','Sales Meeting',2,2000,'Bidding Only','Meeting'),
-	   ('CO-001','7/20/2020 3:30:00 PM','mike@gmail.com','Sales Meeting',3,2000,'Others','Meeting'),
-	   ('CO-001','7/30/2020 11:10:00 AM','mike@gmail.com','Sales Meeting',3,2000,'Firm Inquiry','Meeting'),
-	   ('CO-001','8/12/2020 1:30:00 PM','mike@gmail.com','Sales Meeting',3,2000,'Buying Inquiry','Job Order'),
-	   ('CO-001','7/21/2020 1:00:20 PM','johndoe@gmail.com','Sales Meeting',4,2000,'Bidding Only','Revision');
 
 insert into SupDocuments([Description]) values 
 	   ('Business Registration'),('Tax Registration'), ('Import Export Registration');
@@ -578,16 +502,16 @@ insert into Customers(Name, Email, Contact1, Contact2, Remarks, Status)
 values('Juan Dela Cruz','johndoe@gmail.com','09950753794','09950753794','Test User','ACT');
 
 insert into CustEntMains(Name,Code, Address, Contact1, Contact2, iconPath, Website, Remarks, CityId, Status, AssignedTo, Mobile, Exclusive, CustEntAccountTypeId) 
-values ('Google.Inc','COP-001','Davao City','888-9888','888-9881','','google.com','',5,'ACT','jecca.realbreeze@gmail.com','09126659987','PUBLIC', 1),
-	   ('Acer.Inc.Ph','COP-002','Quezon City','111-9878','','','acer.com.ph','',5,'ACT','jecca.realbreeze@gmail.com','0915-123-6548','PUBLIC', 1),
-	   ('Silicon Valley','COP-003','Makati City','321-6689','888-3215','','jecca.realbreeze@gmail.com','',5,'ACT','silicon.valley@gmail.com','0912-654-9879','PUBLIC', 1),
-	   ('HP Davao','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',5,'ACT','jahdielvillosa@gmail.com','0999-987-9858','PUBLIC', 1),
+values ('Google.Inc','COP-001','Davao City','888-9888','888-9881','','google.com','',5,'ACT','admin@gmail.com','09126659987','PUBLIC', 1),
+	   ('Acer.Inc.Ph','COP-002','Quezon City','111-9878','','','acer.com.ph','',5,'ACT','demo@gmail.com','0915-123-6548','PUBLIC', 1),
+	   ('Silicon Valley','COP-003','Makati City','321-6689','888-3215','','admin@gmail.com','',5,'ACT','silicon.valley@gmail.com','0912-654-9879','PUBLIC', 1),
+	   ('HP Davao','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',5,'ACT','demo@gmail.com','0999-987-9858','PUBLIC', 1),
 	   
 	   -- Priority -- Exclusive
-	   ('AYES Food Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jahdielvillosa@gmail.com','0999-987-9858','EXCLUSIVE', 1),
-	   ('San Miguel Brewery Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jecca.realbreeze@gmail.com','0999-987-9858','EXCLUSIVE', 1),
-	   ('Coca-cola Corp.','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jecca.realbreeze@gmail.com','0999-987-9858','EXCLUSIVE', 1),
-	   ('SM Megamalls','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','jahdielvillosa@gmail.com','0999-987-9858','EXCLUSIVE', 1)
+	   ('AYES Food Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','demo@gmail.com','0999-987-9858','EXCLUSIVE', 1),
+	   ('San Miguel Brewery Corp','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','demo@gmail.com','0999-987-9858','EXCLUSIVE', 1),
+	   ('Coca-cola Corp.','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','demo@gmail.com','0999-987-9858','EXCLUSIVE', 1),
+	   ('SM Megamalls','COP-004','Davao City','0916-232-1134','','','hpe.com.ph','',1,'PRI','demo@gmail.com','0999-987-9858','EXCLUSIVE', 1)
 	   ;
 
 insert into CustEntAssigns(Assigned, Remarks, CustEntMainId, Date)
@@ -606,11 +530,9 @@ values	(1,3),(2,2),
 insert into CustEntCats(CustEntMainId,CustCategoryId)
 values (1,2),(2,3),(3,5),(4,2),(5,1); 
 
-insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,Type)
-values	(1,'1/20/2020','jecca.realbreeze@gmail.com','building a project', 'SO-002',50000,'Sales','Meeting Lunch - Sales Activity','Sales'),
-		(1,'2/05/2020','jahdielvillosa@gmail.com','building a project', 'SO-002',50000,'Sales','Presentation','Quotation'),
-		(2,'1/28/2020','jecca.realbreeze@gmail.com','Supplier Materials', 'SO-005',25000,'Sales','Meeting','Meeting'),
-		(3,'1/21/2020','jecca.realbreeze@gmail.com','Davao Bridge', 'SO-009',75000,'Sales','Initial Meeting','Meeting');
+insert into CustEntActStatus([Status]) values 
+('Open'),('For Client Comment'),('For Meeting'),('Awarded'),('Close');
+
 
 update CustCategories set iconPath = 'Images/Customers/Category/star-filled-40.png' where Id = 1; 
 update CustCategories set iconPath = 'Images/Customers/Category/Active-30.png' where Id = 2; 
@@ -1078,9 +1000,31 @@ values	('Fuel'		 ,'',10,1),
 
 
 --------- ACTIVITES ------------------
-insert into CustEntActivities( Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type)
-values	('06/05/2020', 'jahdielvillosa@gmail.com', '','',0,'Inquiry','', 2 ,'Meeting'),
-		('06/20/2020', 'jahdielvillosa@gmail.com', '','',2500,'Bidding Inquiry','', 2 ,'Meeting'),
-		('07/12/2020', 'jahdielvillosa@gmail.com', '','',6500,'Bidding Inquiry','', 3 ,'Meeting'),
-		('07/15/2020', 'jahdielvillosa@gmail.com', '','SC-001',3500,'Firm Inquiry','', 2,'Meeting' ),
-		('07/16/2020', 'jahdielvillosa@gmail.com', '','',25000,'Others','', 3 ,'Sales'); 
+--insert into CustEntActStatus([Status]) values 
+--('Open'),('For Client Comment'),('For Meeting'),('Awarded'),('Close');
+
+insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Type,ActivityType,Remarks)
+values	(1,'1/20/2020','demo@gmail.com','building a project', 'SO-002'	,50000	,'Open'			,'Bidding Only'	,'Quotation','Meeting Lunch - Sales Activity'),
+		(1,'2/05/2020','demo@gmail.com','building a project', 'SO-002'	,50000	,'Awarded'		,'Bidding Only'	,'Quotation','Presentation'),
+		(2,'1/27/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,25000	,'For Meeting'	,'Others'		,'Meeting'	,' '),
+		(2,'2/18/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,28000	,'For Meeting'	,'Others'		,'Meeting'	,'For Meeting'),
+		(2,'3/05/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,29000	,'For Meeting'	,'Others'		,'Meeting'	,'For Client Comment'),
+		(3,'1/21/2020','demo@gmail.com','Davao Bridge'		, 'SO-009'	,75000	,'Awarded'		,'Firm Inquiry'	,'Quotation','Initial Meeting'),
+		(3,'2/21/2020','demo@gmail.com','Davao Bridge'		, 'SO-009'	,75000	,'For Meeting'	,'Firm Inquiry'	,'Meeting'	,'Initial Meeting');
+
+insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Type,ActivityType, Remarks)
+values	(2,'06/05/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,0		,'Open'			,'Bidding Only'		,'Quotation',''),
+		(3,'06/20/2020', 'demo@gmail.com', 'Buidling C'		,'SC-013'	,2500	,'For Meeting'	,'Others'			,'Quotation',''),
+		(2,'07/12/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,6500	,'For Meeting'	,'Others'			,'Meeting'	,''),
+		(2,'07/15/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,3500	,'For Meeting'	,'Others'			,'Meeting'	,''),
+		(3,'07/16/2020', 'demo@gmail.com', 'Buidling C'		,'SC-013'	,25000	,'Closed'		,'Buying Inquiry'	,'Sales'	,''); 
+
+
+		
+insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType])
+values ('CO-001','7/25/2020 4:17:58 PM','admin@gmail.com','Meeting'			,2,2000,'Bidding Only'	,'Procurement'),
+	   ('CO-001','7/26/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,2,2000,'Bidding Only'	,'Meeting'),
+	   ('CO-002','7/20/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Others'		,'Meeting'),
+	   ('CO-002','7/30/2020 9:10:00 AM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Firm Inquiry'	,'Meeting'),
+	   ('CO-002','8/12/2020 1:30:00 PM','admin@gmail.com','Sales Meeting'	,3,2000,'Buying Inquiry','Job Order'),
+	   ('CO-003','7/21/2020 1:00:20 PM','admin@gmail.com','Sales Meeting'	,4,2000,'Bidding Only'	,'Revision');

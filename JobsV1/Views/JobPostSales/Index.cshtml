@@ -170,7 +170,7 @@
 @section Scripts{
     <script>
         $(() => {
-            InitialFilter(parseInt('@ViewBag.StatusId'));
+            InitialFilter(parseInt('@ViewBag.Status'));
         });
         function InitialFilter(filter) {
             $("#filter-group").children("a").removeClass("active");

@@ -188,7 +188,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                       Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type + " " + s.VehicleFuel.Fuel
                   });
 
-            ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
+            ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text", vehicle.VehicleModelId);
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers.OrderBy(c=>c.Name), "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains.OrderBy(c=>c.Name), "Id", "Name", vehicle.CustEntMainId);
@@ -218,7 +218,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
                       Text = s.VehicleBrand.Brand + " " + s.Make + " " + s.Variant + " " + s.VehicleTransmission.Type + " " + s.VehicleFuel.Fuel
                   });
 
-            ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text");
+            ViewBag.VehicleModelId = new SelectList(Vehicles, "Value", "Text", vehicle.VehicleModelId);
             ViewBag.CustomerList = db.Customers.Where(c => c.Status == "ACT").ToList();
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", vehicle.CustomerId);
             ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", vehicle.CustEntMainId);

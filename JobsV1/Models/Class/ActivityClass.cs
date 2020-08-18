@@ -46,6 +46,40 @@ namespace JobsV1.Models.Class
         public List<SupplierActivity> SupplierActivities { get; set; }
     }
 
+    public class cActivityPostSales
+    {
+        public string SalesCode { get; set; }
+        public DateTime ActivityDate { get; set; }
+        public string ProjectName { get; set; }
+        public string Status { get; set; }
+        public string ActivityType { get; set; }
+        public decimal Amount { get; set; }
+        public int CompanyId { get; set; }
+        public string Company { get; set; }
+    }
+
+
+    public class cActivityActiveList
+    {
+        public string SalesCode { get; set; }
+        public DateTime ActivityDate { get; set; }
+        public string ProjectName { get; set; }
+        public string Status  { get; set; }
+        public string ActivityType { get; set; }
+        public decimal Amount { get; set; }
+        public int CompanyId  { get; set; }
+        public string Company { get; set; }
+
+        public IEnumerable<string> StatusDoneList { get; set; }
+        public IEnumerable<string> StatusList { get; set; }
+    }
+
+    public class cActStatusList
+    {
+        public string Status { get; set; }
+        public bool IsDone { get; set; }
+    }
+
     public class cUserActivity : CustEntActivity
     {
         public string Company { get; set; }
@@ -419,6 +453,113 @@ namespace JobsV1.Models.Class
 
             return performance;
         }
+        #endregion
+
+        #region Activity Post Sales 
+        public List<cActivityPostSales> GetActivityPostSales(string status, string user, string role)
+        {
+
+            List<cActivityPostSales> activity = new List<cActivityPostSales>();
+
+            //sql query with comma separated item list
+            string sql =
+               @" 
+               SELECT *, cem.Name as Company FROM (
+                    SELECT c.SalesCode,
+                    ActivityDate = ( SELECT TOP 1 ca.Date FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    CompanyId    = ( SELECT TOP 1 ca.CustEntMainId FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    ProjectName  = ( SELECT TOP 1 ca.ProjectName FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    Status       = ( SELECT TOP 1 ca.Status FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    ActivityType = ( SELECT TOP 1 ca.ActivityType FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
+                    from CustEntActivities c
+                    Group by c.SalesCode 
+                ) as act
+
+                LEFT JOIN CustEntMains cem ON cem.Id = act.CompanyId
+
+                WHERE convert(datetime, GETDATE()) >= CASE WHEN
+                    act.ActivityType = 'Quotation' THEN
+                      DATEADD(DAY, ISNULL(7, 0), act.ActivityDate) 
+                    ELSE 
+                      DATEADD(DAY, ISNULL(92, 0), act.ActivityDate) 
+                    END 
+                ";
+
+            if (String.IsNullOrWhiteSpace(status))
+            {
+                sql += " AND act.Status != 'Close'";
+            }
+            else
+            {
+                sql += " AND act.Status = '" + status + "'";
+            }
+
+            if (role != "Admin")
+            {
+                sql += " AND (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = '"+ user +"') ";
+            }
+        
+
+            sql += " ORDER BY act.ActivityType DESC, act.ActivityDate";
+
+            activity = db.Database.SqlQuery<cActivityPostSales>(sql).ToList();
+
+            return activity;
+        }
+
+
+        #endregion
+
+
+        #region Activity Post Sales 
+        public List<cActivityActiveList> GetActiveActivities(string status, string user, string role)
+        {
+
+            List<cActivityActiveList> activity = new List<cActivityActiveList>();
+
+            //sql query with comma separated item list
+            string sql =
+               @" 
+               SELECT *, cem.Name as Company FROM (
+                    SELECT c.SalesCode,
+                    ActivityDate = ( SELECT TOP 1 ca.Date FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    CompanyId    = ( SELECT TOP 1 ca.CustEntMainId FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    ProjectName  = ( SELECT TOP 1 ca.ProjectName FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    Status       = ( SELECT TOP 1 ca.Status FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    ActivityType = ( SELECT TOP 1 ca.ActivityType FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
+                    from CustEntActivities c
+                    Group by c.SalesCode 
+                ) as act
+
+                LEFT JOIN CustEntMains cem ON cem.Id = act.CompanyId
+
+                WHERE 
+                ";
+
+            if (String.IsNullOrWhiteSpace(status))
+            {
+                sql += " act.Status != 'Close'";
+            }
+            else
+            {
+                sql += " act.Status = '" + status + "'";
+            }
+
+            if (role != "Admin")
+            {
+                sql += " AND ( (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = '" + user + "') )";
+            }
+
+            sql += " ORDER BY act.ActivityDate";
+
+            activity = db.Database.SqlQuery<cActivityActiveList>(sql).ToList();
+
+            return activity;
+        }
+
+
         #endregion
     }
 }

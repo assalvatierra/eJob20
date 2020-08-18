@@ -395,10 +395,10 @@ SELECT c.Id,c.Name, c.Contact1, c.Contact2 , c.Status,
 	   FROM Customers c
 	   INNER JOIN CustEntities cen ON cen.CustomerId = c.Id                                          
 	   LEFT JOIN CustEntMains cem ON cem.Id = cen.CustEntMainId 
-	   WHERE (cem.Exclusive = 'PUBLIC' OR cem.Exclusive = '') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'jahdielvillosa@gmail.com')     
+	   WHERE (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'demo@gmail.com')     
 
 SELECT * FROM CustEntMains cem 
-WHERE (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'jahdielvillosa@gmail.com')     
+WHERE (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'demo@gmail.com')     
 
 -- Cust Notification Recipients --	                                       
 SELECT *,	
@@ -565,3 +565,70 @@ LEFT JOIN CustEntMains cem ON jem.CustEntMainId = cem.Id
 WHERE cem.Name LIKE '%Mark%' OR c.Name LIKE '%Mark%' OR j.Description LIKE '%Mark%'
 
 ) as job
+
+
+
+
+---Company/Customer Activities Post Sales ---
+Select c.* from CustEntActivities c
+
+
+-- GET SalesCodes
+SELECT act.*, cem.Name as Company,cem.AssignedTo, cem.Exclusive FROM (
+ 
+SELECT c.SalesCode,
+ActivityDate = ( SELECT TOP 1 ca.Date FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+CompanyId    = ( SELECT TOP 1 ca.CustEntMainId FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+ProjectName  = ( SELECT TOP 1 ca.ProjectName FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+Status       = ( SELECT TOP 1 ca.Status FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+ActivityType = ( SELECT TOP 1 ca.ActivityType FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
+from CustEntActivities c
+
+Group by c.SalesCode 
+) as act 
+LEFT JOIN CustEntMains cem ON cem.Id = act.CompanyId
+
+-- Filter activities not closed
+WHERE act.Status != 'Close' AND convert(datetime, GETDATE()) >= CASE WHEN
+    act.ActivityType = 'Quotation' THEN
+      DATEADD(DAY, ISNULL(7, 0), act.ActivityDate) 
+    ELSE 
+      DATEADD(DAY, ISNULL(92, 0), act.ActivityDate) 
+    END
+
+    AND (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'admin@gmail.com')     
+
+ORDER BY act.ActivityType DESC, act.ActivityDate;
+
+
+
+
+
+-- FOR ACTIVE ACTIVITY STATUS LIST ---
+SELECT act.*,cem.Name as Company, cem.AssignedTo, cem.Exclusive FROM (
+ 
+SELECT c.SalesCode,
+ActivityDate = ( SELECT TOP 1 ca.Date FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+CompanyId    = ( SELECT TOP 1 ca.CustEntMainId FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+ProjectName  = ( SELECT TOP 1 ca.ProjectName FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+Status       = ( SELECT TOP 1 ca.Status FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+ActivityType = ( SELECT TOP 1 ca.ActivityType FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
+from CustEntActivities c
+
+Group by c.SalesCode 
+) as act 
+LEFT JOIN CustEntMains cem ON cem.Id = act.CompanyId
+
+-- Filter activities not closed
+WHERE act.Status != 'Close' AND convert(datetime, GETDATE()) >= CASE WHEN
+    act.ActivityType = 'Quotation' THEN
+      DATEADD(DAY, ISNULL(7, 0), act.ActivityDate) 
+    ELSE 
+      DATEADD(DAY, ISNULL(92, 0), act.ActivityDate) 
+    END
+
+    AND (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'admin@gmail.com')     
+
+ORDER BY act.ActivityDate;

@@ -225,7 +225,7 @@
                                     <div id="supItem-@invItems.Id">
                                         @foreach (var supItem in invItems.SalesLeadQuotedItems)
                                         {
-                                            <p style="margin:3px 20px;">
+                                            @*<p style="margin:3px 20px;">
                                                 @supItem.SupplierItemRate.SupplierInvItem.Supplier.Name <span>- P</span>
                                                 @if (supItem.SupplierItemRate.ItemRate != null)
                                                 {
@@ -239,7 +239,7 @@
                                                 </span>
                                                 <span> ) </span>
                                                 <a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>
-                                            </p>
+                                            </p>*@
                                         }
                                     </div>
 

@@ -2882,6 +2882,8 @@
     <Content Include="Views\SvcGroups\Edit.cshtml" />
     <Content Include="Views\SvcGroups\Index.cshtml" />
     <Content Include="Views\SvcGroups\AddService.cshtml" />
+    <Content Include="Views\Activities\StatusActivities.cshtml" />
+    <Content Include="Views\Activities\ActivitiesPostSales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

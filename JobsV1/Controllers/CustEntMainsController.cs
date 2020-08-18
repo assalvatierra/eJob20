@@ -490,7 +490,7 @@ namespace JobsV1.Controllers
 
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.Status = new SelectList(StatusList, "value", "text", custEntMain.Status);
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntMain.AssignedTo);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers(), "UserName", "UserName", custEntMain.AssignedTo);
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text", custEntMain.Exclusive);
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", custEntMain.CustEntAccountTypeId);
             ViewBag.isOwner = User.IsInRole("Owner");

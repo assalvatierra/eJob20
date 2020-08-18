@@ -1,0 +1,104 @@
+﻿﻿@model IEnumerable<JobsV1.Models.Class.cActivityPostSales>
+@{
+    ViewBag.Title = "Activities Post Sales";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Customer Activities Post Sales </h2>
+
+
+<div class="filter-panel">
+    <div class="sort-panel">
+        <div class="btn-group" id="filter-group">
+            <button class="btn btn-default disabled">
+                Status:
+            </button>
+            @Html.ActionLink("Default", "StatusActivities", null, new { @id = "default", @class = "btn btn-default" })
+            @Html.ActionLink("Open", "StatusActivities", new { status = "Open" }, new { @id = "Open", @class = "btn btn-default" })
+            @Html.ActionLink("For Client Comment", "StatusActivities", new { status = "For Client Comment" }, new { @id = "ForComment", @class = "btn btn-default" })
+            @Html.ActionLink("For Meeting", "StatusActivities", new { status = "For Meeting" }, new { @id = "Meeting", @class = "btn btn-default" })
+            @Html.ActionLink("Awarded", "StatusActivities", new { status = "Awarded" }, new { @id = "Awarded", @class = "btn btn-default" })
+            @Html.ActionLink("Closed", "StatusActivities", new { status = "Close" }, new { @id = "Close", @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Sales Code
+        </th>
+        <th>
+            Company
+        </th>
+        <th>
+            Project
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.SalesCode, "SearchActivities", new { srchCode = item.SalesCode })
+            </td>
+            <td>
+                @Html.ActionLink(item.Company, "Details", "CustEntMains", new { id = item.CompanyId }, null)
+            </td>
+            <td>
+                @item.ProjectName
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td>
+                @item.ActivityType
+            </td>
+            <td>
+                @Html.ActionLink("Add Activity", "Index", "CustEntMains", new { id = item.CompanyId }, null)
+            </td>
+        </tr>
+    }
+</table>
+
+
+@section Scripts{
+    <script>
+        $(() => {
+            InitialFilter(parseInt('@ViewBag.Status'));
+        });
+
+        function InitialFilter(filter) {
+            $("#filter-group").children("a").removeClass("active");
+            switch (filter) {
+                case "Open":
+                    $("#Open").addClass("active");
+                    break;
+                case "For Client Comment":
+                    $("#ForComment").addClass("active");
+                    break;
+                case "For Meeting":
+                    $("#ForMeeting").addClass("active");
+                    break;
+                case "Awarded":
+                    $("#Awarded").addClass("active");
+                    break;
+                case "Close":
+                    $("#Close").addClass("active");
+                    break;
+                default:
+                    $("#default").addClass("active");
+                    break;
+            }
+
+        }
+    </script>
+}
