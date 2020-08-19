@@ -5,22 +5,45 @@
 
 .PanelContainer-main {
     font-family: 'Nunito', sans-serif !important;
-    background-color: white;
+    /*background-color: white;*/
     color: black;
-    border: 1px solid lightgray;
+    /*border: 1px solid lightgray;*/
     margin-left: 5px;
     display: inline-flex;
     flex-flow: column;
     width: auto;
-    min-width:1170px;
+    min-width:380px;
     margin-bottom: 20px;
-    padding: 0px 30px 20px 30px;
+    /*padding: 0px 30px 20px 30px;*/
     border-radius: 2px;
     transition-duration: 1s;
 }
 
-.PanelContainer-main:hover{
-    /*box-shadow: 0 10px 10px rgb(210,210,210);*/
+
+.container-content {
+    background-color: white;
+    padding: 0px 20px;
+    background-color: white;
+    border: solid 1px #c8c8c8;
+    margin-left: 5px;
+    margin-right:-5px;
+    border-radius: 2px;
+}
+
+.container-module {
+    height: 110px;
+    min-width: 380px;
+    margin-top: 10px;
+    float: left;
+    width: 100%;
+}
+
+.container-menu {
+    float: left;
+    width: 100%;
+    min-width: 380px;
+    margin-top: 0px;
+    margin-bottom:5px;
 }
 
 h2 {
@@ -331,4 +354,14 @@ span {
 
 .modal-text-label {
     padding-top: 10px;
+}
+
+
+/* Small Screens */
+@media only screen and (max-width: 420px) {
+
+    .container-content {
+        margin-top:175px;
+    }
+
 }

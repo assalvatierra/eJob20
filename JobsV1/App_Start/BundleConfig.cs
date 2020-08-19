@@ -91,6 +91,10 @@ namespace JobsV1
             bundles.Add(new StyleBundle("~/Content/jobMonitor").Include(
                       "~/Content/JobMonitorStyles.css"
                       ));
+
+            //Bundling and Minification
+            //see https://docs.microsoft.com/en-us/aspnet/mvc/overview/performance/bundling-and-minification
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

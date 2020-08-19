@@ -1006,6 +1006,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 report.DtTrip = trip.DtTrip;
                 report.Rate = rate;
                 report.Running = runningRate;
+                report.OdoStart = trip.OdoStart ?? 0;
+                report.OdoEnd = trip.OdoEnd ?? 0;
 
                 reportResult.Add(report);
             }
@@ -1040,6 +1042,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 report.DtTrip = trip.DtTrip;
                 report.Rate = trip.DriverFee;
                 report.Running = runningRate;
+                report.OdoStart = trip.OdoStart ?? 0;
+                report.OdoEnd = trip.OdoEnd ?? 0;
 
                 reportResult.Add(report);
             }
@@ -1076,6 +1080,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 report.DtTrip = trip.DtTrip;
                 report.Rate = rate;
                 report.Running = runningRate;
+                report.OdoStart = trip.OdoStart ?? 0;
+                report.OdoEnd = trip.OdoEnd ?? 0;
 
                 reportResult.Add(report);
             }

@@ -456,7 +456,7 @@ namespace JobsV1.Models.Class
         #endregion
 
         #region Activity Post Sales 
-        public List<cActivityPostSales> GetActivityPostSales(string status, string user, string role)
+        public List<cActivityPostSales> GetActivityPostSales(string status, string srch, string user, string role)
         {
 
             List<cActivityPostSales> activity = new List<cActivityPostSales>();
@@ -499,9 +499,14 @@ namespace JobsV1.Models.Class
             {
                 sql += " AND (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = '"+ user +"') ";
             }
+
+            if (!String.IsNullOrWhiteSpace(srch))
+            {
+                sql += " AND ( act.SalesCode Like '%"+ srch + "%' OR cem.Name LIKE '%" + srch + "%' OR act.ProjectName LIKE '%" + srch + "%' ) ";
+            }
         
 
-            sql += " ORDER BY act.ActivityType DESC, act.ActivityDate";
+            sql += " ORDER BY CASE WHEN act.ActivityType = 'Quotation' then 1 else 2 end, act.ActivityType DESC, act.ActivityDate";
 
             activity = db.Database.SqlQuery<cActivityPostSales>(sql).ToList();
 

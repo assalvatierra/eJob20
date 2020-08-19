@@ -87,25 +87,32 @@
             <section class="content-wrapper main-content clear-fix">
 
                 <div class="container">
-                    <div class="row">
-                        <div class="CustomBox" style="height:110px;width:100%;min-width:380px;">
-                            <div class="pull-left" style="width:100%;"> @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)</div>
-                            @*<div style="display:flex;top:-70px;float:right;padding:15px;height:inherit;" >
-                                <img src="~/Images/Solid-Steel-Logo-2020.png" class="pull-right" width="250" />
-                            </div>*@
+                    @*<div class="row">
+                        <div class="CustomBox" style="height:110px;display: inline-block;min-width:380px;">
+                            <div class="pull-left" style="display: inline-block;"> @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)</div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="row">
-                        <div style="vertical-align:top;min-width:300px;">
+                        @*<div style="vertical-align:top;min-width:300px;">
                             <div class="CustomBox" style="float:left;width:100%;min-width:380px;">
                                 @Html.Menu2(Url.Content("~/"), "" , "", ROOTMENUID, USERNAME)
                             </div>
                             <div class="PanelContainer">
                                 @RenderSection("LeftInfo", required: false)
                             </div>
-                        </div>
-                        <div >
-                            <div class="PanelContainer-main">
+                        </div>*@
+
+                        <div class="PanelContainer-main" style="padding:0px;background-color:#eff3f6;border:none;min-width:95%;">
+
+                            <div class="CustomBox container-module">
+                                <div class="pull-left" style="width:100%;"> @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)</div>
+                            </div>
+
+                            <div class="CustomBox container-menu">
+                                @Html.Menu2(Url.Content("~/"), "", "", ROOTMENUID, USERNAME)
+                            </div>
+
+                            <div class="container-content">
                                 @RenderBody()
                             </div>
                         </div>
@@ -118,7 +125,7 @@
     <footer>
         <div class="content-wrapper">
             <div class="container" >
-                <p>&copy; @DateTime.Now.Year - SolidSteelServer.com   </p>
+                <p>&copy; @DateTime.Now.Year - SolidSteelServer.com </p>
             </div>
         </div>
     </footer>

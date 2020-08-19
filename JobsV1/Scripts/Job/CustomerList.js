@@ -143,7 +143,6 @@ function LoadTable(data) {
         content += "<td >" + contact1 + "</td>";
         content += "<td >" + contact2 + "</td>";
         content += "<td >" + company              + "</td>";
-        //content += "<td >" + jobcount             + "</td>";
         content += "<td >" + temp[x]["Status"]    + "</td>";
         content += "<td >" + "<a href='Customers/Details/" + temp[x]["Id"] + "'>Details</a> "
                 + "</td>";

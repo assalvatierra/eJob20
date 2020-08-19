@@ -721,7 +721,7 @@ namespace JobsV1.Controllers
         #endregion
 
         #region Activites Post Sales
-        public ActionResult ActivitiesPostSales(string status)
+        public ActionResult ActivitiesPostSales(string status, string srch)
         {
             var Activities = new List<cActivityPostSales>();
 
@@ -731,12 +731,12 @@ namespace JobsV1.Controllers
             //handle user roles
             if (User.IsInRole(role))
             {
-                Activities = ac.GetActivityPostSales(status, user, role);
+                Activities = ac.GetActivityPostSales(status, srch, user, role);
             }
             else
             {
                 role = "NotAdmin";
-                Activities = ac.GetActivityPostSales(status, user, role);
+                Activities = ac.GetActivityPostSales(status, srch, user, role);
             }
 
 

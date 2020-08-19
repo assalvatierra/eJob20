@@ -599,7 +599,7 @@ WHERE act.Status != 'Close' AND convert(datetime, GETDATE()) >= CASE WHEN
 
     AND (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'admin@gmail.com')     
 
-ORDER BY act.ActivityType DESC, act.ActivityDate;
+ORDER BY CASE WHEN act.ActivityType = 'Quotation' then 1 else 2 end, act.ActivityType DESC, act.ActivityDate;
 
 
 

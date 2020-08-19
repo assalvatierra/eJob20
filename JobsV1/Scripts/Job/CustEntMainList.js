@@ -167,32 +167,34 @@ function LoadTable(data) {
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
-        Address = temp[x]["Address"] != null ? temp[x]["Address"] : "--";
-        company = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
+        Address = temp[x]["Address"] != null ? temp[x]["Address"] : " ";
+        company = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : " ";
         website = temp[x]["Website"] != null ? temp[x]["Website"] : " ";
-        contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : "--";
-        contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : "--";
-        mobile = temp[x]["Mobile"] != null ? temp[x]["Mobile"] : "--";
-        City = temp[x]["City"] != null ? temp[x]["City"] : "--";
-        Assigned = temp[x]["AssignedTo"] != null ? temp[x]["AssignedTo"] : "--";
+        contact1 = temp[x]["Contact1"] != null ? temp[x]["Contact1"] : " ";
+        contact2 = temp[x]["Contact2"] != null ? temp[x]["Contact2"] : " ";
+        mobile = temp[x]["Mobile"] != null ? temp[x]["Mobile"] : " ";
+        City = temp[x]["City"] != null ? temp[x]["City"] : " ";
+        Assigned = temp[x]["AssignedTo"] != null ? temp[x]["AssignedTo"] : " ";
 
-        var categories = temp[x]["Category"] != null ? temp[x]["Category"] : "--";
-        var Status = temp[x]["Status"] != null ? temp[x]["Status"] : "--";
-        var email = temp[x]["ContactEmail"] != null ? temp[x]["ContactEmail"] : "--";
+        var categories = temp[x]["Category"] != null ? temp[x]["Category"] : " ";
+        var Status = temp[x]["Status"] != null ? temp[x]["Status"] : " ";
+        var email = temp[x]["ContactEmail"] != null ? temp[x]["ContactEmail"] : " ";
         var code = temp[x]["Code"] != null ? temp[x]["Code"] : " ";
 
-        var ContactPersons = temp[x]["ContactName"] != null ? temp[x]["ContactName"] : "--";
-        var ContactPosition = temp[x]["ContactPosition"] != null ? temp[x]["ContactPosition"] : "--";
-        var ContactMobileEmail = temp[x]["ContactMobileEmail"] != null ? temp[x]["ContactMobileEmail"] : "--";
+        var ContactPersons = temp[x]["ContactName"] != null ? temp[x]["ContactName"] : " ";
+        var ContactPosition = temp[x]["ContactPosition"] != null ? temp[x]["ContactPosition"] : " ";
+        var ContactMobileEmail = temp[x]["ContactMobileEmail"] != null ? temp[x]["ContactMobileEmail"] : " ";
         var Exclusive = temp[x]["Exclusive"] != null ? temp[x]["Exclusive"] : "PUBLIC";
-        var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : "--";
+        var IsAssigned = temp[x]["IsAssigned"] != null ? temp[x]["IsAssigned"] : " ";
 
-        website = "<a href='https://" + website + "' target='_blank' >" + website.substring(0, 15) + "... </a>";
+        if (website.length > 10) {
+            website = "<a href='https://" + website + "' target='_blank' >" + website.substring(0, 15) + "... </a>";
+        }
         
         content = "<tr>";
 
         content += "<td class='table-name-col'><b><a " + temp[x]["Id"] +"'> " + temp[x]["Name"] + "</a></b></td>";
-        content += "<td>" + code + "</td>";
+        //content += "<td>" + code + "</td>";
         content += "<td>" + website + "</td>";
         content += "<td>" + City + "</td>";
         content += "<td>" + categories + "</td>";
@@ -226,7 +228,7 @@ function LoadTable(data) {
         }
         content += "</td>";
 
-         //Contact Person Positions
+         //Contact Person Email and Number
         content += "<td>";
         for (var contact = 0; contact < ContactMobileEmail.length; contact++) {
             if (typeof ContactMobileEmail[contact] === "undefined") {

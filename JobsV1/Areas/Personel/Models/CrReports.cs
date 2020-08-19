@@ -17,6 +17,8 @@ namespace JobsV1.Areas.Personel.Models
             public string Remarks { get; set; }
             public decimal Rate { get; set; }
             public decimal Running { get; set; }
+            public int OdoStart { get; set; }
+            public int OdoEnd { get; set; }
         }
 
         public class ReportByDriver
@@ -29,6 +31,8 @@ namespace JobsV1.Areas.Personel.Models
             public string Remarks { get; set; }
             public decimal Rate { get; set; }
             public decimal Running { get; set; }
+            public int OdoStart { get; set; }
+            public int OdoEnd { get; set; }
         }
 
         public class ReportByUnit
@@ -41,6 +45,8 @@ namespace JobsV1.Areas.Personel.Models
             public string Remarks { get; set; }
             public decimal Rate { get; set; }
             public decimal Running { get; set; }
+            public int OdoStart { get; set; }
+            public int OdoEnd { get; set; }
         }
     }
 }

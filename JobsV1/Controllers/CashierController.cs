@@ -20,7 +20,7 @@ namespace JobsV1.Controllers
         private ActionTrailClass trail = new ActionTrailClass();
         private JobOrderClass jo = new JobOrderClass();
 
-        // GET: Cashier
+        // GET: Cashier 
         public ActionResult Index(string srch, int? paymentStatus, int? jobStatus)
         {
             List<CashierJobList> cashierJobLists = new List<CashierJobList>();

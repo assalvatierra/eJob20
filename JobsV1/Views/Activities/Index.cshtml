@@ -53,7 +53,10 @@
                 <a style="cursor:pointer;" onclick="SearchCodeActivities('@item.SalesCode')">  @Html.DisplayFor(modelItem => item.SalesCode) </a>
             </td>
             <td>
-                @(((Decimal)item.Amount).ToString("N0"))
+                @if (item.Amount != null)
+                {
+                    @(((Decimal)item.Amount).ToString("N0"))
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
@@ -100,13 +103,13 @@
 
 <table class="table">
     <tr>
-        <th> Date    </th>
+        <th style="min-width:120px;"> Date    </th>
         <th> Code  </th>
         <th> Amount  </th>
         <th> Suppliers  </th>
         <th> Type </th>
         <th> Remarks </th>
-        <th> AssignedTo </th>
+        <th> Assigned</th>
         <th></th>
     </tr>
 
@@ -120,7 +123,10 @@
                 <a style="cursor:pointer;" onclick="SearchCodeSupActivities('@item.Code')">  @Html.DisplayFor(modelItem => item.Code) </a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                @if (item.Amount != null)
+                {
+                    @(((Decimal)item.Amount).ToString("N0"))
+                }
             </td>
             <td>
                 @Html.ActionLink(item.Supplier.Name, "Records", "SupplierActivities", new { id = item.SupplierId }, null)

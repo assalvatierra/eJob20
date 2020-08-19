@@ -4,24 +4,32 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Customer Activities Post Sales </h2>
+@*<h2>Customer Activities Post Sales </h2>*@
 
 
-<div class="filter-panel">
-    <div class="sort-panel">
-        <div class="btn-group" id="filter-group">
-            <button class="btn btn-default disabled">
-                Status:
-            </button>
-            @Html.ActionLink("Default", "StatusActivities", null, new { @id = "default", @class = "btn btn-default" })
-            @Html.ActionLink("Open", "StatusActivities", new { status = "Open" }, new { @id = "Open", @class = "btn btn-default" })
-            @Html.ActionLink("For Client Comment", "StatusActivities", new { status = "For Client Comment" }, new { @id = "ForComment", @class = "btn btn-default" })
-            @Html.ActionLink("For Meeting", "StatusActivities", new { status = "For Meeting" }, new { @id = "Meeting", @class = "btn btn-default" })
-            @Html.ActionLink("Awarded", "StatusActivities", new { status = "Awarded" }, new { @id = "Awarded", @class = "btn btn-default" })
-            @Html.ActionLink("Closed", "StatusActivities", new { status = "Close" }, new { @id = "Close", @class = "btn btn-default" })
+    <div class="filter-panel">
+        <div class="col-md-8 col-xs-8 no-padding">
+            <div class="btn-group" id="filter-group" style="min-width:650px;">
+                <button class="btn btn-default disabled">
+                    Status:
+                </button>
+                @Html.ActionLink("Default", "ActivitiesPostSales", null, new { @id = "default", @class = "btn btn-default" })
+                @Html.ActionLink("Open", "ActivitiesPostSales", new { status = "Open" }, new { @id = "Open", @class = "btn btn-default" })
+                @Html.ActionLink("For Client Comment", "ActivitiesPostSales", new { status = "For Client Comment" }, new { @id = "ForComment", @class = "btn btn-default" })
+                @Html.ActionLink("For Meeting", "ActivitiesPostSales", new { status = "For Meeting" }, new { @id = "Meeting", @class = "btn btn-default" })
+                @Html.ActionLink("Awarded", "ActivitiesPostSales", new { status = "Awarded" }, new { @id = "Awarded", @class = "btn btn-default" })
+                @Html.ActionLink("Closed", "ActivitiesPostSales", new { status = "Close" }, new { @id = "Close", @class = "btn btn-default" })
+            </div>
         </div>
+
+        <div class="col-lg-offset-1 col-md-3 col-xs-3" style="padding:5px 0px;min-width:240px;">
+            @using (Html.BeginForm())
+            {
+                <button class="btn btn-default search-group pull-right" type="submit" style="margin-top:0px;">Search</button>
+                <input class="form-control search-cat pull-right" name="srch" id="srch-field" type="search" placeholder="Search here" value="@ViewBag.SrchCode" />
+            }
+            </div>
     </div>
-</div>
 
 <table class="table">
     <tr>
@@ -34,13 +42,16 @@
         <th>
             Project
         </th>
+        <th width="120">
+            Last Update
+        </th>
         <th>
             Status
         </th>
         <th>
             Type
         </th>
-        <th>
+        <th width="100">
 
         </th>
     </tr>
@@ -55,6 +66,9 @@
             </td>
             <td>
                 @item.ProjectName
+            </td>
+            <td>
+                @item.ActivityDate.ToString("MMM dd yyyy")
             </td>
             <td>
                 @item.Status
