@@ -225,6 +225,16 @@ insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (17,17);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Vehicles' ,'',17,'AutoCare/Vehicles','Index','',21,171),	--72
 		('Vehicle Models' ,'',17,'AutoCare/VehicleModels','Index','',21,172);	 -- id: 73
+		
+--Trip Logs --
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
+('Trip Logs','Trip Logs',0,'Personel/CarRentalLog','Index','',20,21);
+
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('TL1001','Car Rental Trip Logs','Trip Logs','A','/Images/Erp/icons/icons-report.png');
+
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Trip Logs' ,'',88,'AutoCare/Vehicles','Index','',21,171);	 -- id: 73
 
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 

@@ -1206,7 +1206,7 @@
       <DependentUpon>AppointmentDB.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\AutoCare\Data\SQL\InitialAll.sql" />
-    <Content Include="Areas\AutoCare\Data\SQL\InitialData_SysTbls.sql" />
+    <Content Include="Areas\AutoCare\Data\SQL\InitialData_AutoCare.sql" />
     <Content Include="Areas\AutoCare\Scipts\Appointments\AppointmentDate.js" />
     <Content Include="Areas\Personel\Models\CarRentalLogDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1773,6 +1773,7 @@
     <Content Include="Models\SQL.Job\InitTestData.sql" />
     <Content Include="Models\SQL.SolidSteel\InitialAll.sql" />
     <Content Include="Models\SQL.SolidSteel\Countries.sql" />
+    <Content Include="Models\SQL.SolidSteel\InitialData_Solid.sql" />
     <Content Include="Models\SQL.Sys\InitialData_SysTbls.sql" />
     <Content Include="Models\SysDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -660,6 +660,27 @@ rental-type-wdriver {
         margin-right: 10px;
     }
 }
+
+/* Tablet 1080p Screens */
+@media only screen and (max-width: 1100px) {
+
+    .nav-submenu-home {
+        margin-right: 10px;
+    }
+
+    .container {
+        padding-left: 0px;
+        margin-left:5px;
+    }
+
+    .form-horizontal {
+        display: flex;
+        flex-direction: column;
+        margin:auto;
+        padding-left: 30px;
+    }
+}
+
 @media only screen and (max-width: 990px) {
 
     .nav-submenu-home {
