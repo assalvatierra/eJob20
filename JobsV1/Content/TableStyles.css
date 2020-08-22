@@ -28,6 +28,12 @@
     margin-left: 5px;
     margin-right:-5px;
     border-radius: 2px;
+    padding-bottom:20px;
+}
+
+.container-content .row {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .container-module {
@@ -362,6 +368,12 @@ span {
 
     .container-content {
         margin-top:175px;
+    }
+
+
+    .container-module, .container-menu, .container-content {
+        margin-left: 0px;
+
     }
 
 }

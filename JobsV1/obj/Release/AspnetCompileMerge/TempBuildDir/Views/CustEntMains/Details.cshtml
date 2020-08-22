@@ -16,22 +16,40 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-6">
-
+    <div class="col-lg-12 no-padding">
         <h1> @Html.DisplayFor(model => model.Name) ( <span id="status"> </span> ) </h1>
+    </div>
+    <div class="col-lg-6 no-padding">
+        <P>
+            @if (ViewBag.isAllowedHistory)
+            {
+                @Html.ActionLink(" View Activity History ", "Index", "CustEntActivities", new { id = Model.Id }, new { @class = "btn btn-default btn-xs" })
+            }
+        </P>
 
-        @if (ViewBag.isAllowedHistory)
-        {
-            @Html.ActionLink("<View History> ", "Index", "CustEntActivities", new { id = Model.Id }, null)
-        }
-
-        <h5> <b>Telephone:</b> @Html.DisplayFor(model => model.Contact1) </h5>
-        <h5> <b>Fax:</b> @Html.DisplayFor(model => model.Contact2) </h5>
-        <h5> <b>Mobile:</b> @Html.DisplayFor(model => model.Mobile) </h5>
-        <h5> <b>Website:</b><a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> </h5>
-        <h5> <b>City:</b> @ViewBag.City </h5>
-        <h5>
-            <b>Status:</b>
+        <p class="no-margin"> 
+            <b class="text-muted" style="margin-right:20px;">Telephone:</b> 
+            @Html.DisplayFor(model => model.Contact1)
+        </p>
+        <p class="no-margin"> 
+            <b class="text-muted" style="margin-right:64px;">Fax:</b> 
+            a
+            @Html.DisplayFor(model => model.Contact2)
+        </p>
+        <p class="no-margin"> 
+            <b class="text-muted" style="margin-right:43px;">Mobile:</b> 
+            @Html.DisplayFor(model => model.Mobile) 
+        </p>
+        <p class="no-margin"> 
+            <b class="text-muted" style="margin-right:32px;">Website:</b>
+            <a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> 
+        </p>
+        <p class="no-margin"> 
+            <b class="text-muted" style="margin-right:59px;">City:</b>
+            @ViewBag.City 
+        </p>
+        <p class="no-margin">
+            <b class="text-muted" style="margin-right:44px;">Status:</b>
 
             @switch (Html.DisplayFor(model => model.Status).ToString())
             {
@@ -60,37 +78,37 @@
                     <text> PRIORITY </text>;
                     break;
             }
-        </h5>
-        <h5>
-            <b>Exclusivity:</b>
+        </p>
+        <p class="no-margin">
+            <b class="text-muted" style="margin-right:18px;">Exclusivity:</b>
             <span>
                 @Html.DisplayFor(model => model.Exclusive)
             </span>
-        </h5>
-        <h5>
-            <b>Type:</b>
+        </p>
+        <p class="no-margin">
+            <b class="text-muted" style="margin-right:55px;">Type:</b>
             <span>
                 @Html.DisplayFor(model => model.CustEntAccountType.Name)
             </span>
-        </h5>
-        <h5>
-            <b>Assigned To:</b>
+        </p>
+        <p class="no-margin">
+            <b class="text-muted" style="margin-right:9px;">Assigned To:</b>
             <span>
                 @Html.DisplayFor(model => model.AssignedTo)
             </span>
-            <p>
+            <p  style="padding-left:9px;">
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 @if (ViewBag.IsAdmin)
                 {
-                    @Html.ActionLink("<View History> ", "AssignedRecords", new { companyId = Model.Id })
+                    @Html.ActionLink(" View Assigned History ", "AssignedRecords", new { companyId = Model.Id }, new { @class="btn btn-default btn-xs" })
                 }
 
             </p>
-        </h5>
+        </p>
         @* <h5>Address: @Html.DisplayFor(model => model.Address) </h5>*@
     </div>
 
-    <div class="col-lg-6" style="margin-top:80px;">
+    <div class="col-lg-6" style="margin-top:0px;">
         <h3>Documents</h3>
         @foreach (var doc in ViewBag.CustDocuments as IEnumerable<JobsV1.Models.CustEntDocuments>)
         {

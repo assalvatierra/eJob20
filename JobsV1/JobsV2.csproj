@@ -1439,6 +1439,8 @@
     <Content Include="Images\CarRental\Ads\placeholder.png" />
     <Content Include="Images\CarRental\Ads\Realwheelsdava-FB.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavao-2019.png" />
+    <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner-sm.jpg" />
+    <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner-xs.jpg" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.jpg" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner3.png" />
@@ -1957,7 +1959,7 @@
     <Content Include="Areas\AutoCare\Data\AppointmentDB.edmx.diagram">
       <DependentUpon>AppointmentDB.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\AutoCare\Views\Home\Index.cshtml" />
+    <Content Include="Areas\AutoCare\Views\Home\Dashboard.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\Create.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\Delete.cshtml" />
     <Content Include="Areas\AutoCare\Views\Appointments\Details.cshtml" />

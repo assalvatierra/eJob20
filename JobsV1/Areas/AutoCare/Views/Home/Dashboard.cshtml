@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Gms AutoCare Dashboard";
+}
+<style>
+    .panel{
+        border:1px solid lightgray;
+        padding:20px;
+    }
+</style>
+
+<h2> Dashboard </h2>
+
+<div class="panel">
+    <h2 class="pull-left">Jobs Count</h2>    
+    <button class="btn btn-default pull-right" onclick="GetJobsCountData()"> Update </button>
+    <canvas id="myChart-bar" width="300" height="100"></canvas>
+
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/Chartjs/Chart.js"></script>
+    <script>
+        $(() => {
+            //initial
+            GetJobsCountData();
+        });
+        function Update_dash_jobsCount(dataResult) {
+            //prep labels
+            var data_labels = [];
+            var data_set = [];
+            var data_color = [];
+
+            for (var i = 0; i < dataResult.length; i++) {
+
+                //get label
+                var dateString = moment(dataResult[i].Date).format("MMM DD");
+                //console.log(dateString);
+                data_labels.push(dateString);
+
+                //update data
+                data_set.push(dataResult[i].Total);
+
+                data_color.push('rgba(54, 162, 235, 1)'); //blue
+            }
+
+
+            //Chart.defaults.scale.gridLines.drawOnChartArea = false;
+
+            // Line graph sample
+            var ctx_bar = document.getElementById('myChart-bar').getContext('2d');
+            var myChart = new Chart(ctx_bar, {
+                type: 'bar',
+                data: {
+                    labels: data_labels,
+                    datasets: [{
+                        label: ' Jobs Count',
+                        data: data_set,
+                        backgroundColor: data_color
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            }
+                        }],
+
+                        xAxes: [{
+                            gridLines: {
+                                drawOnChartArea: false
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        function GetJobsCountData() {
+            $.get('/AutoCare/Home/GetJobsCount', null, (result) => {
+                console.log(result);
+                Update_dash_jobsCount(result);
+            });
+        }
+
+    </script>
+
+} 

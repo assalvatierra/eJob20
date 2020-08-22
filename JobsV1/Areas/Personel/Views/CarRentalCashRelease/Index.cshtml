@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var StatusId = (int)ViewBag.StatusId;
     var IsAdmin = (bool)ViewBag.IsAdmin;
+    decimal TotalAmount = 0;
 }
 
 <h2>Cash Transaction</h2>
@@ -47,6 +48,7 @@
 
     @foreach (var item in Model)
     {
+        TotalAmount += item.Amount;
         <tr>
             <td>
                 @item.DtRelease.ToShortDateString()
@@ -113,6 +115,19 @@
         <tr>
             <td>
                 <p class="text-center"> No Records Found </p>
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td>
+                <span class="pull-right">Total:</span>
+            </td>
+            <td>
+                @TotalAmount.ToString("#,##0.00")
+            </td>
+            <td colspan="4">
             </td>
         </tr>
     }

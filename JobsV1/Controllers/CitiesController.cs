@@ -12,9 +12,9 @@ namespace JobsV1.Controllers
 {
     public class CitiesController : Controller
     {
-        private JobDBContainer db = new JobDBContainer();
+        private JobDBContainer db = new JobDBContainer();  
 
-        // GET: Cities
+        // GET: Cities  
         public ActionResult Index()
         {
             return View(db.Cities.ToList().OrderBy(s=>s.Name));

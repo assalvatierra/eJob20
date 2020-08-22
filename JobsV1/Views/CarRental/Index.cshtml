@@ -41,7 +41,7 @@
 
         @if (ViewBag.isAuthorize == 1)
         {
-            @Html.ActionLink("Reservation", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success btn-lg btn-rsv" })
+            @Html.ActionLink("Reservation", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success btn-lg rsv-call-btn rsv-call-text" })
 
             <br />
         }
@@ -130,14 +130,14 @@
 </div>
 
 <!--Page Description / Articles-->
-<div class="row">
+<div class="row" style="padding-left:5px;">
     <div class="col-md-12">
         @{Html.RenderPartial("Partial_content_1");}
     </div>
 </div>
 
 
-<div class="row">
+<div class="row" style="padding-left:15px;">
     <div class="col-md-12">
         @{Html.RenderPartial("Articles"); }
     </div>

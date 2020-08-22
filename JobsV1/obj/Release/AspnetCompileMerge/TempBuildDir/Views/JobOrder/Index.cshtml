@@ -116,40 +116,42 @@
                             ]*@
 
                         <br />
-                        <span style="font:500 10px;color:darkblue;">
+                        
+                        <span class="joblist-description" style="font:500 10px;color:darkblue;">
                              @item.Main.Description
                         </span>
-
-                        @if (item.Main.JobStatusId == 1)
-                        {
-                            <span class="label label-default pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
-                                 @item.Main.JobStatus.Status 
-                            </span>
-                        }
-                        else if (item.Main.JobStatusId == 2)
-                        {
-                            <span class="label label-info pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
-                                 @item.Main.JobStatus.Status 
-                            </span>
-                        }
-                        else if (item.Main.JobStatusId == 3)
-                        {
-                            <span class="label label-success pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
-                                 @item.Main.JobStatus.Status 
-                            </span>
-                        }
-                        else if (item.Main.JobStatusId == 4)
-                        {
-                            <span class="label label-primary pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
-                                 @item.Main.JobStatus.Status 
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="label label-warning pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
-                                 @item.Main.JobStatus.Status 
-                            </span>
-                        }
+                        <div class="joblist-status pull-right">
+                            @if (item.Main.JobStatusId == 1)
+                            {
+                                <span class="label label-default">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                            else if (item.Main.JobStatusId == 2)
+                            {
+                                <span class="label label-info">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                            else if (item.Main.JobStatusId == 3)
+                            {
+                                <span class="label label-success">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                            else if (item.Main.JobStatusId == 4)
+                            {
+                                <span class="label label-primary">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="label label-warning pull-right" style="margin-bottom:5px;margin-top:-5px;font-size:15px;">
+                                    @item.Main.JobStatus.Status
+                                </span>
+                            }
+                        </div>
 
                     </div>
                     <div>
