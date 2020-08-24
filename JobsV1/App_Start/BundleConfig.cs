@@ -42,7 +42,8 @@ namespace JobsV1
                       "~/Content/site.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/TableStyles.css",
-                      "~/Content/Chart.min.css"
+                      "~/Content/Chart.min.css",
+                      "~/Content/CarRental.css"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

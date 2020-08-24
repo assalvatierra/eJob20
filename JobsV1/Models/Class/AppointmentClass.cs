@@ -121,5 +121,24 @@ namespace JobsV1.Models.Class
 
             return dateLabels;
         }
+
+
+        public int GetActiveAppt()
+        {
+            try
+            {
+
+                var today = dateClass.GetCurrentDate().AddDays(-7);
+                var appointments = db.Appointments.OrderByDescending(a => a.AppointmentDate).Where(a => a.AppointmentStatusId < 3);
+                var activeAptCount = appointments.ToList().Where(a => DateTime.Parse(a.AppointmentDate).Date >= today.Date).Count();
+
+                return activeAptCount;
+
+            }
+            catch
+            {
+                return 0;
+            }
+        }
     }
 }

@@ -429,7 +429,7 @@ values	('01/05/2020', 'demo@gmail.com', '','',0,'Inquiry','', 2 ,'Meeting'),
 
 --------- APPOINTMENT ----------------
 insert into AppointmentStatus([Status]) values 
-('NEW'),('ACCEPTED'),('CANCELLED');
+('NEW'),('ACCEPTED'),('CANCELLED'),('CLOSED');
 
 insert into AppointmentSlots([Description]) values
 ('09-10 am Daily'),('10-11 am Daily'),('11-12 nn Daily');

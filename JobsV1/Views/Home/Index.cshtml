@@ -35,7 +35,7 @@
 </div>
 
 <div class="container">
-    @foreach (var t in ViewBag.EntServices)
+    @foreach (var t in ViewBag.EntServices as IEnumerable<JobsV1.Models.SysService>)
     {
         <div class="col-sm-4 module" style="text-align:center;">
             <a href="@Url.Action("Service", "Module", new { id = @t.Id })">
@@ -53,7 +53,13 @@
                 }
             </a>
             <p>
-                <h3> @t.Description </h3>
+                <h3>
+                    @t.Description
+                    @if (t.SysCode == "AP119")
+                    {
+                        <span id="@t.SysCode" class="label label-success" style="border-radius:25px;"> </span>
+                    }
+                </h3>
             </p>
         </div>
     }
@@ -70,5 +76,27 @@
          //       // Image doesn't exist - do something else.
 
          //   })
+
+        $(() => {
+            UpdateAppointmentCount();
+        });
+
+        function UpdateAppointmentCount() {
+            var res = $.get("/Home/GetActiveAppt", null, (result) => {
+                var jsonData = JSON.parse(result);
+                console.log(jsonData);
+                console.log("appt Count: " + jsonData);
+
+                if (jsonData > 0) {
+                    //show count
+                    $("#AP119").show();
+                    $("#AP119").text(jsonData)
+                } else {
+                    $("#AP119").hide();
+                }
+          });
+
+          console.log(res);
+        }
     </script>
     }

@@ -23,7 +23,7 @@ namespace JobsV1.Areas.AutoCare.Controllers
         // GET: AutoCare/Appointments
         public ActionResult Index()
         {
-            var today = date.GetCurrentDate();
+            var today = date.GetCurrentDate().AddDays(-7);
             var appointments = db.Appointments.Include(a => a.AppointmentSlot).Include(a => a.AppointmentStatu)
                 .OrderByDescending(a=>a.AppointmentDate).Where(a=>a.AppointmentStatusId < 3);
             return View(appointments.ToList().Where(a => DateTime.Parse(a.AppointmentDate).Date >= today.Date));
@@ -272,6 +272,26 @@ namespace JobsV1.Areas.AutoCare.Controllers
             catch
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetActiveAppt()
+        {
+            try
+            {
+
+            var today = date.GetCurrentDate().AddDays(-7);
+            var appointments = db.Appointments.Include(a => a.AppointmentSlot).Include(a => a.AppointmentStatu)
+                .OrderByDescending(a => a.AppointmentDate).Where(a => a.AppointmentStatusId < 3);
+             var activeAptCount = appointments.ToList().Where(a => DateTime.Parse(a.AppointmentDate).Date >= today.Date).Count();
+
+            return Json(activeAptCount.ToString(),JsonRequestBehavior.AllowGet);
+
+            }
+            catch
+            {
+                return Json("0", JsonRequestBehavior.AllowGet);
             }
         }
     }

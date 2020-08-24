@@ -1324,6 +1324,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.slate.css" />
+    <Content Include="Content\CarRental.css" />
     <Content Include="Content\Chart.min.css" />
     <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.css" />
@@ -1438,6 +1439,11 @@
     <Content Include="Images\CarRental\Ads\Paypal-disabled.PNG" />
     <Content Include="Images\CarRental\Ads\placeholder.png" />
     <Content Include="Images\CarRental\Ads\Realwheelsdava-FB.png" />
+    <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-wide.jpg" />
+    <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg.jpg" />
+    <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-md.jpg" />
+    <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-sm.jpg" />
+    <Content Include="Images\CarRental\Banner\RealWheelsBanner2020.jpg" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavao-2019.png" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner-sm.jpg" />
     <Content Include="Images\CarRental\Banner\RealwheelsDavaoBanner-xs.jpg" />
@@ -2815,7 +2821,6 @@
     <Content Include="Views\CarRental\ArticlesView\Article1.cshtml" />
     <Content Include="Views\CustNotifs\CreateNotifRecipients.cshtml" />
     <Content Include="Views\Shared\Menu.cshtml" />
-    <Content Include="Views\Shared\_ModuleLayout_NoMenu.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\NewSeatCapacity.cshtml" />
     <Content Include="Views\CarRental\CarViews\Tags\2020-SUV-Rental.cshtml" />
     <Content Include="Views\CarRental\CarViews\Tags\2020-SelfDrive-Rental.cshtml" />
@@ -2887,6 +2892,7 @@
     <Content Include="Views\SvcGroups\AddService.cshtml" />
     <Content Include="Views\Activities\StatusActivities.cshtml" />
     <Content Include="Views\Activities\ActivitiesPostSales.cshtml" />
+    <Content Include="Views\Shared\_LayoutHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

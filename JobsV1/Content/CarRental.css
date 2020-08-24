@@ -1,0 +1,300 @@
+﻿
+
+
+/* CarRental Home Styles */
+
+/* home page fonts */
+
+
+.home-page-header {
+    font-family: 'Oxygen', 'sans-serif';
+}
+
+.home-page-p {
+    font-family: 'Lato','sans-serif';
+    font-size: 18px;
+}
+
+.body-content-white {
+    background-color: white;
+    padding-left: 0px;
+    padding-right: 0px;
+    box-shadow: 1px 1px 20px lightgray;
+}
+
+.rental-banner {
+    background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 490px;
+    min-width: 400px;
+    color: white;
+    padding-left: 20px;
+}
+
+.main-page-full-banner {
+    display: flex;
+    width: 100%;
+    background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-color: rgb(6,105,178);
+    height: 480px;
+    min-width: 400px;
+    color: white;
+    padding: 60px;
+    margin-bottom: 0px;
+}
+
+    .main-page-full-banner > div {
+        width: 42%;
+    }
+
+        .main-page-full-banner > div > h1 {
+            font-size: 45px;
+        }
+
+        .main-page-full-banner > div > p {
+            /*background-color: black;*/
+            /*padding: 20px;*/
+            width: 80%;
+        }
+
+.contact-container {
+    padding-left: 35px;
+    padding-right: 35px;
+}
+
+.contact-container-full {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:#393a3d;
+    margin:0px;
+    padding:20px;
+    color:white;
+}
+
+.car-container {
+    padding: 10px 30px;
+}
+
+.car-primary {
+    background-color: white;
+    border: 1px solid lightgray;
+    height: 550px;
+    transition: 0.5s;
+}
+
+    .car-primary:hover {
+        box-shadow: 0px 0px 10px 1px dodgerblue;
+        z-index: 20;
+        border-color: dodgerblue;
+    }
+
+.car-container-details{
+    margin:5px;
+    padding:20px;
+    border-radius:5px;
+    box-shadow:1px 1px 10px lightgray;
+    display:flex;
+    flex-direction:column;
+    align-content:center;
+}
+
+.carrental-car-img {
+    margin: auto 0px;
+    width: 100%;
+    height: 230px;
+    border-radius:5px;
+}
+
+.carrental-car-title {
+    color: #393a3d;
+    font-weight: 600;
+}
+
+.carrental-car-price {
+    color: forestgreen;
+    font-weight: 600;
+    font-size:20px;
+}
+
+
+.form-label {
+    margin-top: 5px;
+}
+
+.form-group-margin {
+    margin-bottom: 15px;
+}
+
+
+.contact-us-items {
+    padding: 6px 23px;
+}
+
+
+.rsvr-btn {
+    width: 100%;
+    margin: auto;
+}
+
+    
+
+/* PC 1080p Screens */
+@media only screen and (max-width: 1200px) {
+
+}
+
+/* Tablet 1080p Screens */
+@media only screen and (max-width: 1100px) {
+
+
+    .rental-banner {
+        background-image: url('/Images/CarRental/Banner/RealwheelsDavaoBanner.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 550px;
+        min-width: 600px;
+    }
+
+
+    .main-page-full-banner {
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
+        height: 360px;
+        padding: 20px;
+    }
+
+        .main-page-full-banner > div {
+            width: 50%;
+        }
+
+            .main-page-full-banner > div > h1 {
+                font-size: 50px;
+            }
+
+    .carrental-car-img {
+        width: 50%;
+    }
+
+
+    .carrental-car-img {
+        width: 98%;
+    }
+
+}
+
+@media only screen and (max-width: 990px) {
+
+    .rental-banner {
+        background-image: url('/Images/CarRental/Banner/RealwheelsDavaoBanner-sm.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 500px;
+        min-width: 600px;
+    }
+
+    .main-page-full-banner {
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
+        height: 360px;
+    }
+
+    .body-content-white {
+        margin-left: 10px;
+    }
+
+
+    .car-container-details{
+        flex-direction:row;
+    }
+
+    .carrental-car-img {
+        width: 50%;
+    }
+
+}
+
+/* Medium Screens */
+@media only screen and (max-width: 800px) {
+
+
+    .main-page-full-banner {
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
+        height: 360px;
+    }
+
+        .main-page-full-banner > div > h1 {
+            font-size: 30px;
+            padding-top:30px;
+        }
+
+    .body-content-white {
+        margin-left: 10px;
+    }
+}
+
+/* Small Screens */
+@media only screen and (max-width: 420px) {
+   
+    .rental-banner {
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-sm.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 600px;
+        min-width: 370px;
+    }
+
+    .main-page-full-banner {
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-sm.jpg');
+        height: 600px;
+        padding: 20px;
+        margin-left:-5px;
+        width:80%;
+    }
+
+        .main-page-full-banner > div {
+            min-width: 360px;
+        }
+
+            .main-page-full-banner > div > h1 {
+                font-size: 40px;
+                padding-top:0px;
+            }
+
+            .main-page-full-banner > div > p {
+                margin-top: 20px;
+                width: 90%;
+            }
+
+    .carrental-car-img {
+        width: 98%;
+    }
+
+    .contact-us-items{
+        width:100%;
+    }
+
+    .body-content-white {
+        margin-left:-5px;
+    }
+
+    .carrental-car-img {
+        height: 200px;
+    }
+
+    .car-container-details {
+        flex-direction: column;
+    }
+    .car-container {
+        padding: 15px;
+    }
+
+
+}
+

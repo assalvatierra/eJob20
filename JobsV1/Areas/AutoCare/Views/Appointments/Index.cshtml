@@ -77,7 +77,8 @@
     </td>
     <td>
         @Html.ActionLink("Accepted", "UpdateStatus", new { id = item.Id, statusId = 2 })&nbsp;|
-        @Html.ActionLink("Cancelled", "UpdateStatus", new { id = item.Id, statusId = 3 }) 
+        @Html.ActionLink("Cancelled", "UpdateStatus", new { id = item.Id, statusId = 3 })&nbsp;|
+        @Html.ActionLink("Close", "UpdateStatus", new { id = item.Id, statusId = 4 })
     </td>
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.Id })&nbsp;|

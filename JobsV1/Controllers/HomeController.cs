@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobsV1.Models.Class;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,7 @@ namespace JobsV1.Controllers
     public class HomeController : Controller
     {
         JobsV1.SysAccessLayer sysdb = new SysAccessLayer();
+        AppointmentClass apt = new AppointmentClass();
 
         [Authorize]
         [HandleError(View = "Error")]
@@ -79,8 +81,22 @@ namespace JobsV1.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public JsonResult GetActiveAppt()
+        {
+            try
+            {
+                return Json(apt.GetActiveAppt().ToString(), JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json("0", JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #region Dynamic SiteMap 
-       // [Route("sitemap.xml")]
+        // [Route("sitemap.xml")]
         public ActionResult SitemapXml()
         {
             string currentUrl = Request.Url.AbsoluteUri;
