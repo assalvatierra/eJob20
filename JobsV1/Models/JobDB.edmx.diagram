@@ -252,9 +252,9 @@
         <AssociationConnector Association="JobDB.CustNotifRecipientCustNotifActivity" />
         <EntityTypeShape EntityType="JobDB.CustEntActStatus" Width="1.5" PointX="19.125" PointY="0.875" />
         <EntityTypeShape EntityType="JobDB.CustEntActType" Width="1.5" PointX="21" PointY="0.875" />
-        <EntityTypeShape EntityType="JobDB.SupplierActStatus" Width="1.5" PointX="69.25" PointY="6.25" />
+        <EntityTypeShape EntityType="JobDB.SupplierActStatus" Width="1.5" PointX="69.5" PointY="6.125" />
         <EntityTypeShape EntityType="JobDB.CustEntActivityType" Width="1.5" PointX="21" PointY="2.625" />
-        <EntityTypeShape EntityType="JobDB.SupplierActivityType" Width="1.5" PointX="67.125" PointY="6.25" />
+        <EntityTypeShape EntityType="JobDB.SupplierActivityType" Width="1.5" PointX="67.375" PointY="6" />
         <EntityTypeShape EntityType="JobDB.JobVehicle" Width="1.5" PointX="21" PointY="12.125" />
         <EntityTypeShape EntityType="JobDB.Vehicle" Width="1.5" PointX="15.125" PointY="10.25" />
         <AssociationConnector Association="JobDB.VehicleJobVehicle" />
@@ -291,6 +291,7 @@
         <EntityTypeShape EntityType="JobDB.SvcDetail" Width="1.5" PointX="36" PointY="27" />
         <AssociationConnector Association="JobDB.ServicesSvcGroup" />
         <AssociationConnector Association="JobDB.SvcDetailSvcGroup" />
+        <AssociationConnector Association="JobDB.SupplierActStatusSupplierActivity" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

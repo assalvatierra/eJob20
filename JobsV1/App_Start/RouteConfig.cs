@@ -93,6 +93,24 @@ namespace JobsV1
                 url: "Articles/NewSeatCapacity",
                 defaults: new { controller = "CarRental", action = "ArticleView", article = "NewSeatCapacity" }
             );
+
+            routes.MapRoute(
+                name: "Article/SUVRental",
+                url: "Articles/SUVRental",
+                defaults: new { controller = "CarRental", action = "ArticleView", article = "SUVRental" }
+            );
+
+            routes.MapRoute(
+                name: "Article/VisitDavao",
+                url: "Articles/VisitDavao",
+                defaults: new { controller = "CarRental", action = "ArticleView", article = "VisitDavao" }
+            );
+
+            routes.MapRoute(
+                name: "Article/WhyBook",
+                url: "Articles/WhyBook",
+                defaults: new { controller = "CarRental", action = "ArticleView", article = "WhyBook" }
+            );
             #endregion
 
             /********************************

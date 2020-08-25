@@ -8,11 +8,20 @@
 
 .home-page-header {
     font-family: 'Oxygen', 'sans-serif';
+    font-weight:800;
+    margin-bottom:50px;
 }
 
 .home-page-p {
     font-family: 'Lato','sans-serif';
     font-size: 18px;
+    line-height:1.7;
+}
+
+.home-services-p > p {
+    font-family: 'Lato','sans-serif';
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .body-content-white {
@@ -65,6 +74,10 @@
 .contact-container {
     padding-left: 35px;
     padding-right: 35px;
+}
+
+.contact-container div div p {
+    margin-bottom:2px;
 }
 
 .contact-container-full {
@@ -133,7 +146,10 @@
 
 
 .contact-us-items {
-    padding: 6px 23px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-top: 10px;
 }
 
 
@@ -142,11 +158,92 @@
     margin: auto;
 }
 
-    
+.home-company-desc {
+    /*background-color: #393a3d;*/
+    margin: 20px -26px;
+    padding: 50px;
+}
 
+.home-company-desc p {
+    color:black;
+}
+
+    .home-company-desc h2 {
+        color: black;
+    }
+    .home-company-desc p a {
+        color: black;
+        text-decoration: underline;
+    }
+
+.home-services-img {
+    margin: 20px;
+    width: 80%;
+}
+
+.home-heading {
+    font-weight:600;
+}
+
+.home-panel {
+    /*border:1px solid lightgray;*/
+    padding: 30px;
+    min-height: 200px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px lightgray;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items:center;
+}
+
+    .home-panel a h4 {
+        font-weight:600;
+    }
+
+    .home-panel ul{
+        padding-left:20px;
+    }
+
+.home-vehicle-type-img {
+    height: 150px;
+    width: 150px;
+}
+
+.home-article-list {
+    color: white;
+    padding: 30px;
+}
+
+.home-article-item {
+    width: 280px;
+    border: 1px solid lightgray;
+    margin: 35px;
+    padding: 15px;
+    /*box-shadow: 0px 0px 8px 2px b;*/
+    background-color: white;
+    color:black;
+}
+
+.home-article-container {
+    background-color: #393a3d;
+    /*margin-left: -25px;*/
+    width: 100%;
+}
+
+.sitemap-section {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding: 20px;
+    width: 100%;
+}
+
+.footer-details {
+    padding: 20px 50px;
+}
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {
-
 }
 
 /* Tablet 1080p Screens */
@@ -177,13 +274,10 @@
                 font-size: 50px;
             }
 
-    .carrental-car-img {
-        width: 50%;
-    }
-
 
     .carrental-car-img {
         width: 98%;
+        height:200px;
     }
 
 }
@@ -215,6 +309,7 @@
 
     .carrental-car-img {
         width: 50%;
+        max-width:270px;
     }
 
 }
@@ -236,6 +331,12 @@
     .body-content-white {
         margin-left: 10px;
     }
+
+    .home-article-item {
+        margin: 0px;
+        margin-left:15px;
+        margin-top: 15px;
+    }
 }
 
 /* Small Screens */
@@ -254,12 +355,13 @@
         background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-sm.jpg');
         height: 600px;
         padding: 20px;
-        margin-left:-5px;
-        width:80%;
+        margin-left: -5px;
+        width: 100%;
     }
 
         .main-page-full-banner > div {
             min-width: 360px;
+            margin-left: 10px;
         }
 
             .main-page-full-banner > div > h1 {
@@ -274,6 +376,8 @@
 
     .carrental-car-img {
         width: 98%;
+        max-width: 370px;
+        height:220px;
     }
 
     .contact-us-items{
@@ -284,9 +388,6 @@
         margin-left:-5px;
     }
 
-    .carrental-car-img {
-        height: 200px;
-    }
 
     .car-container-details {
         flex-direction: column;
@@ -294,7 +395,22 @@
     .car-container {
         padding: 15px;
     }
+    .contact-container div div{
+        margin-top:50px;
+    }
 
 
+    .home-article-list {
+        /*width:100%;*/
+    }
+    .home-article-item {
+        margin: 0px;
+        margin-top: 10px;
+    }
+
+
+    .footer-details {
+        padding: 20px 15px;
+    }
 }
 

@@ -525,6 +525,12 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
                 case "NewSeatCapacity":
                     return View("~/Views/CarRental/ArticlesView/NewSeatCapacity.cshtml");
+                case "SUVRental":
+                    return View("~/Views/CarRental/ArticlesView/SUVRental.cshtml");
+                case "VisitDavao":
+                    return View("~/Views/CarRental/ArticlesView/VisitDavao.cshtml");
+                case "WhyBook":
+                    return View("~/Views/CarRental/ArticlesView/WhyBook.cshtml");
                 default:
                     return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
             }

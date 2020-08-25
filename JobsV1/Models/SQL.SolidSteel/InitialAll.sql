@@ -317,6 +317,8 @@ values (2,'John Doe','0995-987-4561','(082) 333 6588','johndoe@gmail.com','','',
 insert into SupplierActivityTypes([Type],[Points]) values 
 ('Procurement', 5), ('Job Order', 8), ('Meeting', 3), ('Others', 2), ('Revision', 1);
 
+insert into SupplierActStatus([Status]) values 
+('Open'),('In-Progress'),('Cancelled'),('Closed');
 
 insert into SupDocuments([Description]) values 
 	   ('Business Registration'),('Tax Registration'), ('Import Export Registration');
@@ -1021,10 +1023,10 @@ values	(2,'06/05/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,0		,'Open'			
 
 
 		
-insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType])
-values ('CO-001','7/25/2020 4:17:58 PM','admin@gmail.com','Meeting'			,2,2000,'Bidding Only'	,'Procurement'),
-	   ('CO-001','7/26/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,2,2000,'Bidding Only'	,'Meeting'),
-	   ('CO-002','7/20/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Others'		,'Meeting'),
-	   ('CO-002','7/30/2020 9:10:00 AM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Firm Inquiry'	,'Meeting'),
-	   ('CO-002','8/12/2020 1:30:00 PM','admin@gmail.com','Sales Meeting'	,3,2000,'Buying Inquiry','Job Order'),
-	   ('CO-003','7/21/2020 1:00:20 PM','admin@gmail.com','Sales Meeting'	,4,2000,'Bidding Only'	,'Revision');
+insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType],[SupplierActStatusId])
+values ('CO-001','7/25/2020 4:17:58 PM','admin@gmail.com','Meeting'			,2,2000,'Bidding Only'	,'Procurement', 1),
+	   ('CO-001','7/26/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,2,2000,'Bidding Only'	,'Meeting', 1),
+	   ('CO-002','7/20/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Others'		,'Meeting', 1),
+	   ('CO-002','7/30/2020 9:10:00 AM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Firm Inquiry'	,'Meeting', 1),
+	   ('CO-002','8/12/2020 1:30:00 PM','admin@gmail.com','Sales Meeting'	,3,2000,'Buying Inquiry','Job Order', 1),
+	   ('CO-003','7/21/2020 1:00:20 PM','admin@gmail.com','Sales Meeting'	,4,2000,'Bidding Only'	,'Revision', 1);

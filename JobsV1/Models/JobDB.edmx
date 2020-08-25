@@ -688,6 +688,10 @@
       <End Role="SvcDetail" EntitySet="SvcDetails" />
       <End Role="SvcGroup" EntitySet="SvcGroups" />
     </AssociationSet>
+    <AssociationSet Name="SupplierActStatusSupplierActivity" Association="JobDB.Store.SupplierActStatusSupplierActivity">
+      <End Role="SupplierActStatus" EntitySet="SupplierActStatus" />
+      <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -1862,6 +1866,7 @@
     <Property Name="Amount" Type="decimal" Nullable="true" />
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="ActivityType" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="SupplierActStatusId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SupDocuments">
     <Key>
@@ -3763,6 +3768,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SupplierActStatusSupplierActivity">
+    <End Role="SupplierActStatus" Type="JobDB.Store.SupplierActStatus" Multiplicity="1" />
+    <End Role="SupplierActivity" Type="JobDB.Store.SupplierActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SupplierActStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierActivity">
+        <PropertyRef Name="SupplierActStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4449,6 +4466,10 @@
           <AssociationSet Name="SvcDetailSvcGroup" Association="JobDB.SvcDetailSvcGroup">
             <End Role="SvcDetail" EntitySet="SvcDetails" />
             <End Role="SvcGroup" EntitySet="SvcGroups" />
+          </AssociationSet>
+          <AssociationSet Name="SupplierActStatusSupplierActivity" Association="JobDB.SupplierActStatusSupplierActivity">
+            <End Role="SupplierActStatus" EntitySet="SupplierActStatus" />
+            <End Role="SupplierActivity" EntitySet="SupplierActivities" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -7139,6 +7160,8 @@
           <Property Name="Amount" Type="Decimal" Nullable="true" />
           <Property Name="Type" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="ActivityType" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="SupplierActStatu" Relationship="JobDB.SupplierActStatusSupplierActivity" FromRole="SupplierActivity" ToRole="SupplierActStatus" />
+          <Property Name="SupplierActStatusId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="SupplierSupplierActivity">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -7374,6 +7397,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="String" Nullable="false" />
+          <NavigationProperty Name="SupplierActivities" Relationship="JobDB.SupplierActStatusSupplierActivity" FromRole="SupplierActStatus" ToRole="SupplierActivity" />
         </EntityType>
         <EntityType Name="CustEntActivityType">
           <Key>
@@ -7796,6 +7820,18 @@
             </Principal>
             <Dependent Role="SvcGroup">
               <PropertyRef Name="SvcDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SupplierActStatusSupplierActivity">
+          <End Type="JobDB.SupplierActStatus" Role="SupplierActStatus" Multiplicity="1" />
+          <End Type="JobDB.SupplierActivity" Role="SupplierActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierActStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierActivity">
+              <PropertyRef Name="SupplierActStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9084,6 +9120,7 @@
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+          <ScalarProperty Name="SupplierActStatusId" ColumnName="SupplierActStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

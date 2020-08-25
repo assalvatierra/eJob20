@@ -24,15 +24,125 @@
     <div>
         <h1>Davao Car Rental and Tours</h1>
         <p class="lead">Contact us for inquiries and reservation</p>
-         @Html.ActionLink(" Request for Quote", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success", @style = "font-size:20px;" })
+        @Html.ActionLink(" Request for Quote", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success", @style = "font-size:20px;" })
         @*<a class="btn btn-success" style="font-size:20px;">
-            Request for Quote
-        </a>*@
+                Request for Quote
+            </a>*@
     </div>
 
 </div>
 
-<div class="row">
+
+<div class="row" style="margin:40px 0px;">
+
+    <div class="col-md-1" style="height:0px;width:0px:">
+        <p>
+            <img src="~/Images/CarRental/honda-city-car-rental.PNG" width="0" alt="Realwheels Car Rental" title="Realwheels Car Rental" /> &nbsp;
+        </p>
+    </div>
+
+    <div class="col-md-12 contact-container">
+        <div class="col-md-12" >
+            <h1 class="text-center" style="padding-bottom:30px;font-weight:600;">
+                Contact Us
+            </h1>
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <div class="contact-us-items">
+                <img src="~/Images/Icons/icons-ask-question.png" width="70" />
+                <h3> Customer Service </h3>
+                <p> For general inquiries : </p>
+                <p>
+                    <a href="mailto:inquiries.realwheels@gmail.com">
+                        inquiries.realwheels@gmail.com
+                    </a>
+                </p>
+                <p>
+                    <a href="tel:+63822971831">
+                        <strong>LandLine:</strong> (+63) 82 333-5157
+                    </a>
+                </p>
+                <p>
+                    <a href="tel:+639954508517">
+                        <strong>Globe:</strong> (+63) 995-450-8517
+                    </a>
+                </p>
+                <p>
+                    <a href="tel:+639193812657">
+                        <strong>Smart:</strong> (+63) 919-381-2657
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+            <div class="contact-us-items">
+                <img src="~/Images/Icons/icons-company.png" width="70" />
+                <h3> Corporate Office </h3>
+                <p>
+                    Door 1, Travelers Inn Bldg.,
+                </p>
+                <p>  Matina Crossing Rd., Matina Pangi, </p>
+                <p>
+                    Davao City, 8000
+                </p>
+            </div>
+        </div>
+
+
+        <div class="col-md-3 col-sm-12">
+            <div class="contact-us-items">
+                <img src="~/Images/Icons/icons-group-task.png" width="70" />
+                <h3> Corporate Sales Team </h3>
+                <p>
+                    Business to Business
+                </p>
+                <p>
+                    <a href="mailto:inquiries.realwheels@gmail.com">
+                        Request a Quote
+                    </a>
+                </p>
+                <p>
+                    Monday – Saturday
+                </p>
+                <p>
+                    9:00 AM – 6:00 PM
+                </p>
+                <p>
+                    <a href="tel:+639954508517">
+                        <strong>Globe:</strong> (+63) 995-450-8517
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+            <div class="contact-us-items">
+                <img src="~/Images/Icons/icons-connect.png" width="70" />
+                <h3> Connect With Us </h3>
+                <p>
+                    <a href="https://www.facebook.com/RealWheelsDavao" target="_blank"> <img src="~/Images/Icons/icons-facebook.png" width="50" /></a>
+
+                    <a  href="viber://chat?number=639954508517">
+                        <img src="~/Images/Icons/viber-original.png" width="50" />
+                    </a>
+
+                    <a  href="https://wa.me/639954508517">
+                        <img src="~/Images/Icons/whatsapp-original.png" width="50" />
+                    </a>
+
+                </p>
+                <p>
+                    <div class="fb-like" data-href="https://www.facebook.com/RealWheelsDavao/" data-width="300" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row" hidden>
     <div class="col-md-12 contact-container">
         <h3> Contact Us </h3>
         <a class="btn btn-primary contact-us-items " href="https://goo.gl/maps/Q5QBmS8mEWn">
@@ -51,7 +161,8 @@
 
         <a class="btn btn-primary contact-us-items " href="tel:+63822971831">
             <strong>LandLine:</strong> (+63) 82 333-5157
-        </a>
+        </a> 
+
         <a class="btn btn-primary contact-us-items " href="tel:+639193812657">
             <strong>Smart:</strong> (+63) 919-381-2657
         </a>
@@ -85,7 +196,7 @@
     {
         <div class="col-md-4 car-primary">
             <h2>@Html.DisplayFor(modelItem => item.Description)</h2>
-            <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
+            <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description" loading="lazy" >
 
             <p>&nbsp</p>
             <div>
@@ -109,69 +220,67 @@
 
 <!-- Car Selection -->
 <div class="row car-container">
+    <div class="col-md-12">
+        <h1 class="text-center" style="padding-bottom:30px;font-weight:600;">
+           Our Fleet
+        </h1>
+    </div>
+
     @foreach (var item in Model)
     {
-    <div class="col-md-4 no-padding">
-        <div class="car-container-details">
-            <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
-            <div class="col-lg-12">
-                <h2 class="carrental-car-title">@Html.DisplayFor(modelItem => item.Description)</h2>
-                <p>
-                    <b>@Html.DisplayFor(modelItem => item.Remarks)</b> -
-                    @{
-                        string metaDesc = item.CarUnitMetas.FirstOrDefault().MetaDesc;
-                        string metaShow = metaDesc;
-                        int icnt = 100;
-                        if (metaDesc.Length > icnt)
-                        {
-                            metaShow = metaDesc.Substring(0, icnt) + "...";
-                        }
-                        else
-                        {
-                            metaShow = metaDesc.PadRight(icnt);
-                        }
-
-                    }
-                    @metaShow
-                    @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = item.Id }, null )
-                </p>
-                <div class="col-md-12 col-xs-12 no-padding">
-                    <div class="col-md-6 col-xs-12 no-padding">
-                        <p class="text-muted">Price Starts at </p>
-                        <p class="carrental-car-price">
-                            @if (item.CarRates.FirstOrDefault() != null)
+        <div class="col-md-4 no-padding">
+            <div class="car-container-details">
+                <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
+                <div class="col-lg-12">
+                    <h2 class="carrental-car-title">@Html.DisplayFor(modelItem => item.Description)</h2>
+                    <p>
+                        <b>@Html.DisplayFor(modelItem => item.Remarks)</b> -
+                        @{
+                            string metaDesc = item.CarUnitMetas.FirstOrDefault().MetaDesc;
+                            string metaShow = metaDesc;
+                            int icnt = 95;
+                            if (metaDesc.Length > icnt)
                             {
-                                @item.CarRates.FirstOrDefault().Daily.ToString("#,##0.00")
+                                metaShow = metaDesc.Substring(0, icnt) + "...";
                             }
-                        </p>
-                    </div>
-                    <div class="col-md-6 col-xs-12 no-padding">
-                        <p class="text-muted"> <img src="~/Images/CarRental/Driver102.png" width="15" /> &nbsp; With Driver </p>
-                        <p class="text-muted"> <img src="~/Images/CarRental/icon-gas.png" width="15" />  &nbsp; Renters Fuel </p>
+                            else
+                            {
+                                metaShow = metaDesc.PadRight(icnt);
+                            }
+
+                        }
+                        @metaShow
+                        @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = item.Id }, null)
+                    </p>
+                    <div class="col-md-12 col-xs-12 no-padding">
+                        <div class="col-md-6 col-xs-12 no-padding">
+                            <p class="text-muted">Price Starts at </p>
+                            <p class="carrental-car-price">
+                                @if (item.CarRates.FirstOrDefault() != null)
+                                {
+                                    @item.CarRates.FirstOrDefault().Daily.ToString("#,##0.00")
+                                }
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-xs-12 no-padding">
+                            <p class="text-muted"> <img src="~/Images/CarRental/Driver102.png" width="15" /> &nbsp; With Driver </p>
+                            <p class="text-muted"> <img src="~/Images/CarRental/icon-gas.png" width="15" />  &nbsp; Renters Fuel </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     }
 </div>
 
 
 <!--Page Description / Articles-->
-<div class="row" style="padding:25px;">
+<div class="row">
     <div class="col-md-12">
         @{Html.RenderPartial("Partial_content_1");}
     </div>
 
 </div>
-
-
-<div class="row" style="padding:35px;">
-    <div class="col-md-12">
-        @{Html.RenderPartial("Articles"); }
-    </div>
-</div>
-
 
 @Html.Action("MobileModalView")
 

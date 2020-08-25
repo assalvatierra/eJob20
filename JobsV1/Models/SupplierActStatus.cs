@@ -14,7 +14,16 @@ namespace JobsV1.Models
     
     public partial class SupplierActStatus
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SupplierActStatus()
+        {
+            this.SupplierActivities = new HashSet<SupplierActivity>();
+        }
+    
         public int Id { get; set; }
         public string Status { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierActivity> SupplierActivities { get; set; }
     }
 }

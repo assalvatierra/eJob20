@@ -23,7 +23,9 @@ namespace JobsV1.Models
         public Nullable<decimal> Amount { get; set; }
         public string Type { get; set; }
         public string ActivityType { get; set; }
+        public int SupplierActStatusId { get; set; }
     
         public virtual Supplier Supplier { get; set; }
+        public virtual SupplierActStatus SupplierActStatu { get; set; }
     }
 }

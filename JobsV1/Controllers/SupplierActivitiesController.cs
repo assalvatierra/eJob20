@@ -171,6 +171,7 @@ namespace JobsV1.Controllers
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", id);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
             ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type");
+            ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status");
 
             SupplierActivity supAct = new SupplierActivity();
             supAct.DtActivity = date.GetCurrentDateTime();
@@ -183,7 +184,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RecordsCreate([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType")] SupplierActivity supplierActivity)
+        public ActionResult RecordsCreate([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType,SupplierActStatusId")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {
@@ -196,6 +197,7 @@ namespace JobsV1.Controllers
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
             ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
+            ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
             return View(supplierActivity);
         }
 
@@ -212,10 +214,13 @@ namespace JobsV1.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
             ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
+            ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+
             ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
         }
@@ -225,7 +230,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RecordsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType")] SupplierActivity supplierActivity)
+        public ActionResult RecordsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType,SupplierActStatusId")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {
@@ -234,10 +239,13 @@ namespace JobsV1.Controllers
                 //return RedirectToAction("Index");
                 return RedirectToAction("Records", new { id = supplierActivity.SupplierId });
             }
+
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
             ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
+            ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+
             return View(supplierActivity);
         }
     }
