@@ -70,6 +70,15 @@
             /*padding: 20px;*/
             width: 80%;
         }
+.banner-services {
+    margin-bottom: 10px;
+    margin-left: -10px;
+}
+
+.banner-services div {
+    width: 50px;
+    margin: 2px;
+}
 
 .contact-container {
     padding-left: 35px;
@@ -280,6 +289,12 @@
         height:200px;
     }
 
+
+    .banner-services {
+        margin-left: -20px;
+    }
+
+
 }
 
 @media only screen and (max-width: 990px) {
@@ -312,6 +327,7 @@
         max-width:270px;
     }
 
+
 }
 
 /* Medium Screens */
@@ -321,10 +337,13 @@
     .main-page-full-banner {
         background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
         height: 360px;
+        padding-left:20px;
     }
 
         .main-page-full-banner > div > h1 {
             font-size: 30px;
+            padding-top:30px;
+            margin-top:10px;
             padding-top:30px;
         }
 
@@ -337,6 +356,15 @@
         margin-left:15px;
         margin-top: 15px;
     }
+
+    .banner-services {
+        margin-left: -10px;
+    }
+
+        .banner-services div {
+            width: 45px;
+            margin: 2px;
+        }
 }
 
 /* Small Screens */
@@ -367,11 +395,13 @@
             .main-page-full-banner > div > h1 {
                 font-size: 40px;
                 padding-top:0px;
+                margin-top:0px;
             }
 
             .main-page-full-banner > div > p {
                 margin-top: 20px;
                 width: 90%;
+                font-size:15px;
             }
 
     .carrental-car-img {
@@ -412,5 +442,16 @@
     .footer-details {
         padding: 20px 15px;
     }
+
+
+    .banner-services  {
+        margin-left:-10px;
+    }
+
+    .banner-services div {
+        width: 45px;
+        margin: 2px;
+    }
+
 }
 
