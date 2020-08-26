@@ -114,6 +114,9 @@
         webkit-filter: drop-shadow(5px 5px 3px black);
         filter: drop-shadow(5px 5px 5px black);
     }
+.banner-btn-green {
+    background-color: #0CE40C;
+}
 
 .contact-container {
     padding-left: 35px;
@@ -164,8 +167,9 @@
 .carrental-car-img {
     margin: auto 0px;
     width: 100%;
-    height: 230px;
+    max-height:300px;
     border-radius:5px;
+    /*padding:10px 5px;*/
 }
 
 .carrental-car-title {
@@ -174,9 +178,28 @@
 }
 
 .carrental-car-price {
-    color: forestgreen;
+    color: #0D6F06;
     font-weight: 600;
+    font-size: 20px;
+}
+
+.vehicle-types-title {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.home-services-h {
+    font-weight: 400;
     font-size:20px;
+    padding:10px 0px;
+}
+
+.home-muted-p {
+    color: #6E6E6E;
+}
+
+.carrental-car-price-desc {
+    color: #6E6E6E;
 }
 
 
@@ -333,8 +356,8 @@
 
 
     .carrental-car-img {
-        width: 98%;
-        height:200px;
+        width: 280px;
+        height:250px;
     }
 
 
@@ -371,8 +394,8 @@
     }
 
     .carrental-car-img {
-        width: 50%;
-        max-width:270px;
+        width: 100%;
+        height: 218px;
     }
 
     .banner-services-items img {
@@ -417,6 +440,10 @@
             width: 45px;
             margin: 2px;
         }
+
+    .mobile-text-link {
+        padding: 10px;
+    }
 }
 
 /* Small Screens */
@@ -459,9 +486,9 @@
             }
 
     .carrental-car-img {
-        width: 98%;
-        max-width: 370px;
-        height:220px;
+        /*width: 100%;*/
+        width: 240px;
+        height: 180px;
     }
 
     .contact-us-items{
@@ -481,6 +508,10 @@
     }
     .contact-container div div{
         margin-top:50px;
+    }
+
+    .mobile-text-link{
+        padding:0px;
     }
 
 
@@ -518,6 +549,11 @@
     .banner-services div {
         width: 45px;
         margin: 2px;
+    }
+
+
+    .mobile-text-link {
+        padding: 5px;
     }
 
 }

@@ -3,8 +3,10 @@
 
 @{
     //title and description defined in controller
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 <!-- For Facebook share/like link -->
+@*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 <script>
     window.fbAsyncInit = function () {
         FB.init({
@@ -15,101 +17,218 @@
         });
     };
 </script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<div id="fb-root"></div>*@
+@*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=596694584162008&autoLogAppEvents=1" nonce="e2XOPjWp"></script>*@
 
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=596694584162008&autoLogAppEvents=1" nonce="e2XOPjWp"></script>
+<div class="main-page-full-banner">
+    <div class="title-container">
+        <h1>Davao Car Rental and Tours</h1>
+        <p class="lead banner-message">Contact us for inquiries and reservation</p>
+        <div class="col-md-12 no-padding">
 
-<!-- Banner -->
-<div class="jumbotron row rental-banner">
-    <div class="col-md-8">
-        <h1 style="font-size:36px;">Davao Car Rental and Tours</h1>
-        <p class="lead">Contact us for inquiries and reservation</p>
-
-        <a class="btn btn-primary btn-lg" href="https://goo.gl/maps/Q5QBmS8mEWn" style="padding:13px 21px;">
-            Location
-        </a>
-        <a class="btn btn-primary " href="viber://chat?number=639954508517" style="padding:6px 23px;">
-            <img src="~/Images/Icons/viber-original.png" width="25" />
-            <p style="font-size:10px;margin-bottom:0px;">Viber</p>
-        </a>
-        <a class="btn btn-primary " href="https://wa.me/639954508517">
-            <img src="~/Images/Icons/whatsapp-original.png" width="25" />
-            <p style="font-size:10px;;margin-bottom:0px;">WhatsApp</p>
-        </a>
-        <br />
-
-        @if (ViewBag.isAuthorize == 1)
-        {
-            @Html.ActionLink("Reservation", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success btn-lg rsv-call-btn rsv-call-text" })
-
-            <br />
-        }
-
-        @*<a class="btn btn-primary rsv-call-btn rsv-call-text" href="tel:+63822971831">
-                <strong>LandLine:</strong> (+63) 82 297 1831
-            </a><br />*@
-
-        <a class="btn btn-primary rsv-call-btn rsv-call-text" href="tel:+63822971831">
-            <strong>LandLine:</strong> (+63) 82 333-5157
-        </a><br />
-        <a class="btn btn-primary rsv-call-btn rsv-call-text" href="tel:+639193812657">
-            <strong>Smart:</strong> (+63) 919-381-2657
-        </a><br />
-        <a class="btn btn-primary rsv-call-btn rsv-call-text" href="tel:+639954508517">
-            <strong>Globe:</strong> (+63) 995-450-8517
-        </a><br />
-        <a class="btn btn-primary rsv-call-btn rsv-call-text" href="skype:+639954508517?call">
-            <strong>Skype:</strong> (+63) 995-450-8517
-        </a><br />
-        <a class="btn btn-primary rsv-call-btn rsv-call-text" href="mailto:inquiries.realwheels@gmail.com">
-            <strong>Email:</strong> inquiries.realwheels@gmail.com
-        </a><br />
-
+            @Html.ActionLink(" Request for Quote", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success", @style = "font-size:20px;" })
+        </div>
     </div>
-    <div class="col-md-4">
-    </div>
-    <div class="col-md-1">
+
+</div>
+
+@*<div class="col-md-12 no-padding banner-services-container">
+        <div class="banner-services">
+            <span class="pull-left banner-services-items">
+                <img src="~/Images/CarRental/Home/icons8-airplane-landing-48.png" class="center-block" />
+                <p class="text-center"> Airport Transfer  </p>
+            </span>
+            <span class="pull-left banner-services-items">
+                <img src="~/Images/CarRental/Home/icons8-city-60.png" class="center-block" />
+                <p class="text-center">City Tour  </p>
+            </span>
+            <span class="pull-left banner-services-items">
+                <img src="~/Images/CarRental/Home/icons8-vip-50.png" class="center-block" />
+                <p class="text-center">Corporate Travel </p>
+            </span>
+            <span class="pull-left banner-services-items">
+                <img src="~/Images/CarRental/Home/icons8-briefcase-60.png" class="center-block" />
+                <p class="text-center"> Business Trip  </p>
+            </span>
+            <span class="pull-left banner-services-items">
+                <img src="~/Images/CarRental/Home/icons8-beach-48.png" class="center-block" />
+                <p class="text-center"> Out of Town </p>
+            </span>
+            <span class="pull-left banner-services-items">
+                <img src="~/Images/CarRental/Home/icons8-people-in-car-side-view-50.png" class="center-block" />
+                <p class="text-center"> Self Drive  </p>
+            </span>
+            <span class="pull-left banner-services-items">
+                <img src="~/Images/CarRental/Home/icons8-event-48.png" class="center-block" />
+                <p class="text-center"> Special Occasions  </p>
+            </span>
+        </div>
+    </div>*@
+
+
+<div class="row" style="margin:40px 0px;">
+    <div class="col-md-1" style="height:0px;width:0px:">
         <p>
-            <img src="~/Images/CarRental/honda-city-car-rental.PNG" width="0" alt="Realwheels Car Rental" title="Realwheels Car Rental" /> &nbsp;
+            <img src="~/Images/CarRental/honda-city-car-rental.PNG" width="0" alt="Realwheels Car Rental Davao" title="Realwheels Car Rental Davao" /> &nbsp;
         </p>
     </div>
+
+    <div class="col-md-12 contact-container">
+        <div class="col-md-12">
+            <h1 class="text-center" style="padding-bottom:30px;font-weight:600;">
+                Contact Us
+            </h1>
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <div class="contact-us-items">
+                <img src="~/Images/Icons/icons-ask-question.png" width="70" alt="Question Customer Service" />
+                <p class="home-services-h"> Customer Service </p>
+                <p> For general inquiries : </p>
+                <p class="mobile-text-link">
+                    <a href="mailto:inquiries.realwheels@gmail.com">
+                        inquiries.realwheels@gmail.com
+                    </a>
+                </p>
+                <p class="mobile-text-link">
+                    <a href="tel:+63822971831">
+                        <strong>LandLine:</strong> (+63) 82 333-5157
+                    </a>
+                </p>
+                <p class="mobile-text-link">
+                    <a href="tel:+639954508517">
+                        <strong>Globe:</strong> (+63) 995-450-8517
+                    </a>
+                </p>
+                <p class="mobile-text-link">
+                    <a href="tel:+639193812657">
+                        <strong>Smart:</strong> (+63) 919-381-2657
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+            <div class="contact-us-items">
+                <img src="~/Images/Icons/icons-company.png" width="70" alt="Contact Us Company" />
+                <span class="home-services-h"> Corporate Office </span>
+                <p>
+                    Door 1, Travelers Inn Bldg.,
+                </p>
+                <p>  Matina Crossing Rd., Matina Pangi, </p>
+                <p>
+                    Davao City, 8000
+                </p>
+            </div>
+        </div>
+
+
+        <div class="col-md-3 col-sm-12">
+            <div class="contact-us-items">
+                <img src="~/Images/Icons/icons-group-task.png" width="70" alt="Contact Us Corporate Sales Team" />
+                <p class="home-services-h"> Corporate Sales Team </p>
+                <p>
+                    Business to Business
+                </p>
+                <p>
+                    <a href="mailto:inquiries.realwheels@gmail.com">
+                        Request a Quote
+                    </a>
+                </p>
+                <p>
+                    Monday – Saturday
+                </p>
+                <p>
+                    9:00 AM – 6:00 PM
+                </p>
+                <p>
+                    <a href="tel:+639954508517">
+                        <strong>Globe:</strong> (+63) 995-450-8517
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+            <div class="contact-us-items">
+                <img src="~/Images/Icons/icons-connect.png" width="70" alt="Contact Us Connect With Us" />
+                <p class="home-services-h"> Connect With Us </p>
+                <p>
+                    <a href="https://www.facebook.com/RealWheelsDavao" rel="noreferrer" target="_blank"> <img src="~/Images/Icons/icons-facebook.png" width="50" alt="Real Wheels Davao Facebook Link" /></a>
+
+                    <a href="viber://chat?number=639954508517">
+                        <img src="~/Images/Icons/viber-original.png" width="48" alt="Real Wheels Davao Viber Call Us " />
+                    </a>
+
+                    <a href="https://wa.me/639954508517">
+                        <img src="~/Images/Icons/whatsapp-original.png" width="48" alt="Real Wheels Davao WhatsApp Call Us" />
+                    </a>
+
+                </p>
+                @*<p>
+                    <div class="fb-like" data-href="https://www.facebook.com/RealWheelsDavao/" data-width="300" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+                </p>*@
+            </div>
+        </div>
+
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-5 ">
-        <!-- Payment Icons
-            <b>We accept payments in</b>
-            <p class="right">
-                <div style="background-image:url('https://realwheelsdavao.com/Images/CarRental/paymentIcons/BDO.png');background-position:center;background-repeat:no-repeat;background-size:50px;display:block;width:50px;height:40px;margin-right:5px;" class="pull-left" alt="BDO" title="BDO" >  &nbsp; </div>
-                <div style="background-image:url('https://realwheelsdavao.com/Images/CarRental/paymentIcons/Bpi.png');background-position:center;background-repeat:no-repeat;background-size:50px;display:block;width:50px;height:40px;margin-right:5px;" class="pull-left" alt="BPI" title="BPI">  &nbsp; </div>
-                <div style="background-image:url('https://realwheelsdavao.com/Images/CarRental/paymentIcons/paypal.png');background-position:center;background-repeat:no-repeat;background-size:30px;display:block;width:50px;height:40px;margin-right:5px;" class="pull-left" alt="Paypal" title="Paypal">  &nbsp; </div>
-                <div style="background-image:url('https://realwheelsdavao.com/Images/CarRental/paymentIcons/visa.png');background-position:center;background-repeat:no-repeat;background-size:40px;display:block;width:40px;height:40px;margin-right:5px;" class="pull-left" alt="Paypal-VISA" title="Paypal-VISA">  &nbsp; </div>
-                <div style="background-image:url('https://realwheelsdavao.com/Images/CarRental/paymentIcons/mastercard.png');background-position:center;background-repeat:no-repeat;background-size:40px;display:block;width:40px;height:40px;margin-right:5px;" class="pull-left" alt="Paypal-MASTERCARD" title="Paypal-MASTERCARD">  &nbsp; </div>
-                <div style="background-image:url('https://realwheelsdavao.com/Images/CarRental/paymentIcons/american-express.png');background-position:center;background-repeat:no-repeat;background-size:40px;display:block;width:40px;height:40px;margin-right:5px;" class="pull-left" alt="Paypal-AMERICAN EXPRESS" title="Paypal-AMERICAN EXPRESS">  &nbsp; </div>
-                <div style="background-image:url('https://realwheelsdavao.com/Images/CarRental/paymentIcons/discover.png');background-position:center;background-repeat:no-repeat;background-size:40px;display:block;width:40px;height:40px;margin-right:5px;" class="pull-left" alt="Paypal-DISCOVER" title="Paypal-DISCOVER">  &nbsp; </div>
 
+@*<div class="row" hidden>
+        <div class="col-md-12 contact-container">
+            <h3> Contact Us </h3>
+            <a class="btn btn-primary contact-us-items " href="https://goo.gl/maps/Q5QBmS8mEWn">
+                Location
+            </a>
+
+            <a class="btn btn-primary contact-us-items " href="viber://chat?number=639954508517">
+                <img src="~/Images/Icons/viber-original.png" width="18" />
+                <span style="font-size:12px;margin-bottom:0px;">Viber</span>
+            </a>
+
+            <a class="btn btn-primary contact-us-items " href="https://wa.me/639954508517">
+                <img src="~/Images/Icons/whatsapp-original.png" width="18" />
+                <span style="font-size:12px;margin-bottom:0px;">WhatsApp</span>
+            </a>
+
+            <a class="btn btn-primary contact-us-items " href="tel:+63822971831">
+                <strong>LandLine:</strong> (+63) 82 333-5157
+            </a>
+
+            <a class="btn btn-primary contact-us-items " href="tel:+639193812657">
+                <strong>Smart:</strong> (+63) 919-381-2657
+            </a>
+            <a class="btn btn-primary contact-us-items " href="tel:+639954508517">
+                <strong>Globe:</strong> (+63) 995-450-8517
+            </a>
+            <a class="btn btn-primary contact-us-items " href="skype:+639954508517?call">
+                <strong>Skype:</strong> (+63) 995-450-8517
+            </a>
+            <a class="btn btn-primary contact-us-items " href="mailto:inquiries.realwheels@gmail.com">
+                <strong>Email:</strong> inquiries.realwheels@gmail.com
+            </a>
+
+        </div>
+        <div class="col-md-1">
+            <p>
+                <img src="~/Images/CarRental/honda-city-car-rental.PNG" width="0" alt="Realwheels Car Rental" title="Realwheels Car Rental" /> &nbsp;
             </p>
-            -->
-    </div>
+        </div>
 
-    <div class="col-lg-5"></div>
-
-    <!-- Facebook Like -->
-    <div class="col-lg-2">
-        <b>Follow us on Facebook</b>
-        <div class="fb-like" data-href="https://www.facebook.com/RealWheelsDavao/" data-width="300" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
-        @*<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FRealWheelsDavao%2F&width=300&layout=standard&action=like&size=small&share=true&height=35&appId=596694584162008" width="300" height="35" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>*@
-    </div>
-</div>
+        <div class="col-lg-2">
+                <b>Follow us on Facebook</b>
+                <div class="fb-like" data-href="https://www.facebook.com/RealWheelsDavao/" data-width="300" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+            </div>
+    </div>*@
 
 <!-- Car Selection -->
-<div class="row">
+@*<div class="row" style="padding:15px;" hidden>
     @foreach (var item in Model)
     {
         <div class="col-md-4 car-primary">
             <h2>@Html.DisplayFor(modelItem => item.Description)</h2>
-            <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
+            <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description" loading="lazy">
+
             <p>&nbsp</p>
             <div>
                 <table class="table-no-border">
@@ -127,22 +246,72 @@
             </div>
         </div>
     }
+</div>*@
+
+
+<!-- Car Selection -->
+<div class="row car-container">
+    <div class="col-md-12">
+        <h1 class="text-center" style="padding-bottom:30px;font-weight:600;">
+            Our Fleet
+        </h1>
+    </div>
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 no-padding">
+            <div class="car-container-details">
+                <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
+                <div class="col-lg-12">
+                    <h2 class="carrental-car-title">@Html.DisplayFor(modelItem => item.Description)</h2>
+                    <p>
+                        <b>@Html.DisplayFor(modelItem => item.Remarks)</b> -
+                        @{
+                            string metaDesc = item.CarUnitMetas.FirstOrDefault().MetaDesc;
+                            string metaShow = metaDesc;
+                            int icnt = 85;
+                            if (metaDesc.Length > icnt)
+                            {
+                                metaShow = metaDesc.Substring(0, icnt) + "...";
+                            }
+                            else
+                            {
+                                metaShow = metaDesc.PadRight(icnt);
+                            }
+
+                        }
+                        @metaShow
+                        @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = item.Id }, null)
+                    </p>
+                    <div class="col-md-12 col-xs-12 no-padding">
+                        <div class="col-md-6 col-xs-12 no-padding">
+                            <p class="text-muted carrental-car-price-desc">Price Starts at </p>
+                            <p class="carrental-car-price">
+                                @if (item.CarRates.FirstOrDefault() != null)
+                                {
+                                    @item.CarRates.FirstOrDefault().Daily.ToString("#,##0.00")
+                                }
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-xs-12 no-padding">
+                            <p class="text-muted carrental-car-price-desc"> <img src="~/Images/CarRental/Driver102.png" width="15" alt="vehicle for rent with driver" /> &nbsp; With Driver </p>
+                            <p class="text-muted carrental-car-price-desc"> <img src="~/Images/CarRental/icon-gas.png" width="15"  alt="vehicle for rent renters fuel" />  &nbsp; Renters Fuel </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
+
 <!--Page Description / Articles-->
-<div class="row" style="padding-left:5px;">
+<div class="row">
     <div class="col-md-12">
         @{Html.RenderPartial("Partial_content_1");}
     </div>
+
 </div>
-
-
-<div class="row" style="padding-left:15px;">
-    <div class="col-md-12">
-        @{Html.RenderPartial("Articles"); }
-    </div>
-</div>
-
 
 @Html.Action("MobileModalView")
 

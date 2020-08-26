@@ -9,7 +9,7 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,39 +27,35 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:description" content="@ViewBag.Description" />
     <meta name="twitter:title" content="@ViewBag.Title" />
-    <script type="text/javascript" src="~/Scripts/Modal.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+    @*<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">*@
+    @*<link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">*@
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/css/DateRangePicker")
-    @Styles.Render("~/Content/themes/base/css")
+    @*@Scripts.Render("~/bundles/modernizr")*@
+    @*@Styles.Render("~/Content/css/DateRangePicker")*@
+    @*@Styles.Render("~/Content/themes/base/css")*@
 
 </head>
 
 
 <body onresize="toggleScreen()" onload="toggleScreen()">
-    <!-- Facebook sdk -->
-    @*<div id="fb-root"></div>
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="YCuHQl4n"></script>
-    *@
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" name="navbar-header" aria-label="navigation header">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand" id="navbar-title">@ViewBag.NavBarTitle</a>
+                <a href="/" class="navbar-brand" id="navbar-title" name="RealWheels-Home">@ViewBag.NavBarTitle</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/" name="Home">Home</a></li>
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Control Panel", "Index", "Home")</li>
-                       
+
                     }
                     <li>@Html.ActionLink("About", "About")</li>
                     <li>@Html.ActionLink("Contact", "Contact")</li>
@@ -70,29 +66,6 @@
         </div>
     </div>
 
-    <div id="overlay">
-        <div class="overlay-msg">
-            <div class="spinner"></div>
-        </div>
-    </div>
-
-    <div id="overlay2">
-        <div class="overlay-msg2">
-            <div>
-                <img src="~/Images/GIF/gif-sending-mail.gif" style="border-radius:250px;width:150px;" />
-                <br />
-                <p style="color:white;text-align:center;"> Please wait ... </p>
-            </div>
-        </div>
-    </div>
-
-    @*<div class="main-page-full-banner">
-        <div>
-            <h1 >Davao Car Rental and Tours</h1>
-            <p class="lead">Contact us for inquiries and reservation</p>
-        </div>
-    </div>*@
-
     <div class="container body-content-white">
         @RenderBody()
 
@@ -101,14 +74,14 @@
             <p class="text-center">&copy; @DateTime.Now.Year - RealWheelsDavao.com  </p>
         </footer>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/DateRangePicker")
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @*@Scripts.Render("~/bundles/jqueryui")*@
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @*@Scripts.Render("~/bundles/DateRangePicker")*@
+    <script type="text/javascript" src="~/Scripts/Modal.js"></script>
     @RenderSection("scripts", required: false)
 
-    <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-    <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
+    @*<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>*@
 
 </body>
 </html>
