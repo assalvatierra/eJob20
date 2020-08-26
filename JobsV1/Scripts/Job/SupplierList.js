@@ -263,6 +263,7 @@ function ProductsTable(data) {
     //populate table content
     for (var x = 0; x < temp.length; x++) {
         var product = temp[x]["Name"].toString();
+        var particulars = temp[x]["Particulars"] != null ? temp[x]["Particulars"] : "--";
         var supplier = temp[x]["Supplier"] != null ? temp[x]["Supplier"] : "--";
         var supplierId = temp[x]["SupplierId"] != null ? temp[x]["SupplierId"] : "--";
 
@@ -289,11 +290,11 @@ function ProductsTable(data) {
             content += "<td>" + dtEntered + "</td>";
             content += "<td>" + dtValidFrom + "</td>";
             content += "<td>" + dtValidTo + "</td>";
-            content += "<td>" + remarks + "</td>";
+            content += "<td>" + particulars + "</td>";
 
             content += "<td>" +
                 "<a href='/Suppliers/Details/" + supplierId + "'>Details</a> | " +
-                "<a href='/Suppliers/InvItems/" + supplierId + "'>InvProduct</a>  | " +
+                "<a href='/Suppliers/InvItems/" + supplierId + "'>InvProduct</a>  " +
                 "</td>";       
             content += "</tr>";
 

@@ -65,6 +65,7 @@ namespace JobsV1.Models
         public string DtValidFrom { get; set; }
         public string DtValidTo { get; set; }
         public string Remarks { get; set; }
+        public string Particulars { get; set; }
         public int   IsValid { get; set; }
     }
 
@@ -277,12 +278,12 @@ namespace JobsV1.Models
             //sql query with comma separated item list
             string sql =
                 "SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id )," +
-                "sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status, " +
-                "IsValid = IIF(convert(datetime, sir.DtValidTo) < convert(datetime, GETDATE()), 1, 0) "+
-                "FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id "+
-                "LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId "+
-                "LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id "+
-                "LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods ";
+                " sir.Particulars, sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status, " +
+                " IsValid = IIF(convert(datetime, sir.DtValidTo) < convert(datetime, GETDATE()), 1, 0) "+
+                " FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id "+
+                " LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId "+
+                " LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id "+
+                " LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods ";
 
             //get products 6 months before the validfrom
             sql += "WHERE (ISNULL(prods.ItemRate,'0') = '0') OR  convert(datetime, prods.DtValidFrom) > convert(datetime, DATEADD(DAY, -180, GETDATE())) ";

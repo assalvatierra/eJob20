@@ -292,6 +292,9 @@
         <AssociationConnector Association="JobDB.ServicesSvcGroup" />
         <AssociationConnector Association="JobDB.SvcDetailSvcGroup" />
         <AssociationConnector Association="JobDB.SupplierActStatusSupplierActivity" />
+        <EntityTypeShape EntityType="JobDB.CustEntActPostSale" Width="1.5" PointX="19.125" PointY="2.625" />
+        <EntityTypeShape EntityType="JobDB.CustEntActPostSaleStatus" Width="1.5" PointX="19.125" PointY="5.875" />
+        <AssociationConnector Association="JobDB.CustEntActPostSaleStatusCustEntActPostSale" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

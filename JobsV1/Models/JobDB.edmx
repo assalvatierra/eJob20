@@ -144,6 +144,8 @@
     <EntitySet Name="JobPostSalesStatus" EntityType="JobDB.Store.JobPostSalesStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SvcGroups" EntityType="JobDB.Store.SvcGroups" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SvcDetails" EntityType="JobDB.Store.SvcDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntActPostSales" EntityType="JobDB.Store.CustEntActPostSales" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntActPostSaleStatus" EntityType="JobDB.Store.CustEntActPostSaleStatus" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -691,6 +693,10 @@
     <AssociationSet Name="SupplierActStatusSupplierActivity" Association="JobDB.Store.SupplierActStatusSupplierActivity">
       <End Role="SupplierActStatus" EntitySet="SupplierActStatus" />
       <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntActPostSaleStatusCustEntActPostSale" Association="JobDB.Store.CustEntActPostSaleStatusCustEntActPostSale">
+      <End Role="CustEntActPostSaleStatus" EntitySet="CustEntActPostSaleStatus" />
+      <End Role="CustEntActPostSale" EntitySet="CustEntActPostSales" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -2135,6 +2141,24 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="CustEntActPostSales">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="By" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="DateEncoded" Type="datetime" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="SalesCode" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="CustEntActPostSaleStatusId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntActPostSaleStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3780,6 +3804,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustEntActPostSaleStatusCustEntActPostSale">
+    <End Role="CustEntActPostSaleStatus" Type="JobDB.Store.CustEntActPostSaleStatus" Multiplicity="1" />
+    <End Role="CustEntActPostSale" Type="JobDB.Store.CustEntActPostSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntActPostSaleStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntActPostSale">
+        <PropertyRef Name="CustEntActPostSaleStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4470,6 +4506,12 @@
           <AssociationSet Name="SupplierActStatusSupplierActivity" Association="JobDB.SupplierActStatusSupplierActivity">
             <End Role="SupplierActStatus" EntitySet="SupplierActStatus" />
             <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+          </AssociationSet>
+          <EntitySet Name="CustEntActPostSales" EntityType="JobDB.CustEntActPostSale" />
+          <EntitySet Name="CustEntActPostSaleStatus" EntityType="JobDB.CustEntActPostSaleStatus" />
+          <AssociationSet Name="CustEntActPostSaleStatusCustEntActPostSale" Association="JobDB.CustEntActPostSaleStatusCustEntActPostSale">
+            <End Role="CustEntActPostSaleStatus" EntitySet="CustEntActPostSaleStatus" />
+            <End Role="CustEntActPostSale" EntitySet="CustEntActPostSales" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -7835,6 +7877,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CustEntActPostSale">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="By" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="DateEncoded" Type="DateTime" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="SalesCode" Type="String" Nullable="false" MaxLength="40" />
+          <NavigationProperty Name="CustEntActPostSaleStatu" Relationship="JobDB.CustEntActPostSaleStatusCustEntActPostSale" FromRole="CustEntActPostSale" ToRole="CustEntActPostSaleStatus" />
+          <Property Name="CustEntActPostSaleStatusId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustEntActPostSaleStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="CustEntActPostSales" Relationship="JobDB.CustEntActPostSaleStatusCustEntActPostSale" FromRole="CustEntActPostSaleStatus" ToRole="CustEntActPostSale" />
+        </EntityType>
+        <Association Name="CustEntActPostSaleStatusCustEntActPostSale">
+          <End Type="JobDB.CustEntActPostSaleStatus" Role="CustEntActPostSaleStatus" Multiplicity="1" />
+          <End Type="JobDB.CustEntActPostSale" Role="CustEntActPostSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntActPostSaleStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntActPostSale">
+              <PropertyRef Name="CustEntActPostSaleStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9419,6 +9493,26 @@
         <MappingFragment StoreEntitySet="SvcDetails">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActPostSales">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActPostSale)">
+        <MappingFragment StoreEntitySet="CustEntActPostSales">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="By" ColumnName="By" />
+          <ScalarProperty Name="DateEncoded" ColumnName="DateEncoded" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="SalesCode" ColumnName="SalesCode" />
+          <ScalarProperty Name="CustEntActPostSaleStatusId" ColumnName="CustEntActPostSaleStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActPostSaleStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActPostSaleStatus)">
+        <MappingFragment StoreEntitySet="CustEntActPostSaleStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

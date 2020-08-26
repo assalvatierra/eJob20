@@ -56,6 +56,9 @@ namespace JobsV1.Models.Class
         public decimal Amount { get; set; }
         public int CompanyId { get; set; }
         public string Company { get; set; }
+        public string AssignedTo { get; set; }
+        public string Remarks { get; set; }
+        public CustEntActPostSale ActPostSale { get; set; }
     }
 
 
@@ -471,7 +474,9 @@ namespace JobsV1.Models.Class
                     ProjectName  = ( SELECT TOP 1 ca.ProjectName FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
                     Status       = ( SELECT TOP 1 ca.Status FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
                     ActivityType = ( SELECT TOP 1 ca.ActivityType FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
-                    Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
+                    Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    AssignedTo   = ( SELECT TOP 1 ca.Assigned FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+                    Remarks      = ( SELECT TOP 1 ca.Remarks FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
                     from CustEntActivities c
                     Group by c.SalesCode 
                 ) as act

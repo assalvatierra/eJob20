@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/25/2020 14:56:45
+-- Date Created: 08/26/2020 18:37:42
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -425,6 +425,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SvcDetailSvcGroup]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SvcGroups] DROP CONSTRAINT [FK_SvcDetailSvcGroup];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierActStatusSupplierActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierActivities] DROP CONSTRAINT [FK_SupplierActStatusSupplierActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntActPostSaleStatusCustEntActPostSale]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntActPostSales] DROP CONSTRAINT [FK_CustEntActPostSaleStatusCustEntActPostSale];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -843,6 +849,12 @@ IF OBJECT_ID(N'[dbo].[SvcGroups]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SvcDetails]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SvcDetails];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntActPostSales]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntActPostSales];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntActPostSaleStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntActPostSaleStatus];
 GO
 
 -- --------------------------------------------------
@@ -2292,6 +2304,24 @@ CREATE TABLE [dbo].[SvcDetails] (
 );
 GO
 
+-- Creating table 'CustEntActPostSales'
+CREATE TABLE [dbo].[CustEntActPostSales] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [By] nvarchar(80)  NOT NULL,
+    [DateEncoded] datetime  NOT NULL,
+    [Remarks] nvarchar(80)  NULL,
+    [SalesCode] nvarchar(40)  NOT NULL,
+    [CustEntActPostSaleStatusId] int  NOT NULL
+);
+GO
+
+-- Creating table 'CustEntActPostSaleStatus'
+CREATE TABLE [dbo].[CustEntActPostSaleStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] nvarchar(20)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3121,6 +3151,18 @@ GO
 -- Creating primary key on [Id] in table 'SvcDetails'
 ALTER TABLE [dbo].[SvcDetails]
 ADD CONSTRAINT [PK_SvcDetails]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntActPostSales'
+ALTER TABLE [dbo].[CustEntActPostSales]
+ADD CONSTRAINT [PK_CustEntActPostSales]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntActPostSaleStatus'
+ALTER TABLE [dbo].[CustEntActPostSaleStatus]
+ADD CONSTRAINT [PK_CustEntActPostSaleStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5181,6 +5223,21 @@ GO
 CREATE INDEX [IX_FK_SupplierActStatusSupplierActivity]
 ON [dbo].[SupplierActivities]
     ([SupplierActStatusId]);
+GO
+
+-- Creating foreign key on [CustEntActPostSaleStatusId] in table 'CustEntActPostSales'
+ALTER TABLE [dbo].[CustEntActPostSales]
+ADD CONSTRAINT [FK_CustEntActPostSaleStatusCustEntActPostSale]
+    FOREIGN KEY ([CustEntActPostSaleStatusId])
+    REFERENCES [dbo].[CustEntActPostSaleStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntActPostSaleStatusCustEntActPostSale'
+CREATE INDEX [IX_FK_CustEntActPostSaleStatusCustEntActPostSale]
+ON [dbo].[CustEntActPostSales]
+    ([CustEntActPostSaleStatusId]);
 GO
 
 -- --------------------------------------------------

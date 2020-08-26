@@ -10,7 +10,7 @@
     <div class="filter-panel">
         <div class="col-md-8 col-xs-8 no-padding">
             <div class="btn-group" id="filter-group" style="min-width:650px;">
-                <button class="btn btn-default disabled">
+                @*<button class="btn btn-default disabled">
                     Status:
                 </button>
                 @Html.ActionLink("Default", "ActivitiesPostSales", null, new { @id = "default", @class = "btn btn-default" })
@@ -18,7 +18,16 @@
                 @Html.ActionLink("For Client Comment", "ActivitiesPostSales", new { status = "For Client Comment" }, new { @id = "ForComment", @class = "btn btn-default" })
                 @Html.ActionLink("For Meeting", "ActivitiesPostSales", new { status = "For Meeting" }, new { @id = "Meeting", @class = "btn btn-default" })
                 @Html.ActionLink("Awarded", "ActivitiesPostSales", new { status = "Awarded" }, new { @id = "Awarded", @class = "btn btn-default" })
-                @Html.ActionLink("Closed", "ActivitiesPostSales", new { status = "Close" }, new { @id = "Close", @class = "btn btn-default" })
+                @Html.ActionLink("Closed", "ActivitiesPostSales", new { status = "Close" }, new { @id = "Close", @class = "btn btn-default" })*@
+
+                <button class="btn btn-default disabled">
+                    Status:
+                </button>
+                @Html.ActionLink("Default"      , "ActivitiesPostSales"   , null                , new { @id = "Default", @class = "btn btn-default" })
+                @Html.ActionLink("To Follow-Up" , "ActivitiesPostSales"   , new { statusId = 1 }, new { @id = "FollowUp", @class = "btn btn-default" })
+                @Html.ActionLink("On Going"     , "ActivitiesPostSales"   , new { statusId = 2 }, new { @id = "OnGoing", @class = "btn btn-default" })
+                @Html.ActionLink("Rejected"     , "ActivitiesPostSales"   , new { statusId = 3 }, new { @id = "Rejected", @class = "btn btn-default" })
+                @Html.ActionLink("Closed"       , "ActivitiesPostSales"   , new { statusId = 4 }, new { @id = "Closed", @class = "btn btn-default" })
             </div>
         </div>
 
@@ -32,6 +41,14 @@
     </div>
 
 <table class="table">
+    <tr>
+        <th colspan="6" style="background-color:white">
+            Customer Activity
+        </th>
+        <th colspan="4">
+            Post Sale Info
+        </th>
+    </tr>
     <tr>
         <th>
             Sales Code
@@ -51,35 +68,78 @@
         <th>
             Type
         </th>
-        <th width="100">
 
+        <th>
+            By
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th width="100">
+            Status
+        </th>
+
+        <th>
+            Action
         </th>
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
+    <tr>
+        <td>
+            @Html.ActionLink(item.SalesCode, "SearchActivities", new { srchCode = item.SalesCode })
+        </td>
+        <td>
+            @Html.ActionLink(item.Company, "Details", "CustEntMains", new { id = item.CompanyId }, null)
+        </td>
+        <td>
+            @item.ProjectName
+        </td>
+        @*<td>
+                @{
+                    string str = item.AssignedTo;
+                    string assigned = str.Substring(0, str.LastIndexOf("@") );
+                }
+                @assigned.ToString()
+            </td>*@
+        <td>
+            @item.ActivityDate.ToString("MMM dd yyyy")
+        </td>
+        <td>
+            @item.Status
+        </td>
+        <td style="border-right:1px solid lightgray;">
+            @item.ActivityType
+        </td>
+        @*<td>
+                @item.Remarks
+            </td>*@
+        @if (item.ActPostSale.CustEntActPostSaleStatu != null)
+        {
             <td>
-                @Html.ActionLink(item.SalesCode, "SearchActivities", new { srchCode = item.SalesCode })
+                 @{
+                     string str = item.ActPostSale.By;
+                     string assigned = str.Substring(0, str.LastIndexOf("@") );
+                }
+                @assigned.ToString()
             </td>
             <td>
-                @Html.ActionLink(item.Company, "Details", "CustEntMains", new { id = item.CompanyId }, null)
+                @item.ActPostSale.Remarks
             </td>
             <td>
-                @item.ProjectName
+                @item.ActPostSale.CustEntActPostSaleStatu.Status
             </td>
-            <td>
-                @item.ActivityDate.ToString("MMM dd yyyy")
+
+        }
+        else
+        {
+            <td colspan="3">
             </td>
-            <td>
-                @item.Status
-            </td>
-            <td>
-                @item.ActivityType
-            </td>
-            <td>
-                @Html.ActionLink("Add Activity", "Index", "CustEntMains", new { id = item.CompanyId }, null)
-            </td>
-        </tr>
+        }
+        <td>
+            @Html.ActionLink("Update", "ActivitiesPostSale_Create", "Activities", new { salesCode = item.SalesCode }, null)
+        </td>
+    </tr>
     }
 </table>
 
@@ -87,29 +147,51 @@
 @section Scripts{
     <script>
         $(() => {
-            InitialFilter(parseInt('@ViewBag.Status'));
+            InitialFilter(parseInt('@ViewBag.StatusId'));
         });
+
+        //function InitialFilter(filter) {
+        //    $("#filter-group").children("a").removeClass("active");
+        //    switch (filter) {
+        //        case "Open":
+        //            $("#Open").addClass("active");
+        //            break;
+        //        case "For Client Comment":
+        //            $("#ForComment").addClass("active");
+        //            break;
+        //        case "For Meeting":
+        //            $("#ForMeeting").addClass("active");
+        //            break;
+        //        case "Awarded":
+        //            $("#Awarded").addClass("active");
+        //            break;
+        //        case "Close":
+        //            $("#Close").addClass("active");
+        //            break;
+        //        default:
+        //            $("#Default").addClass("active");
+        //            break;
+        //    }
+
+        //}
 
         function InitialFilter(filter) {
             $("#filter-group").children("a").removeClass("active");
             switch (filter) {
-                case "Open":
-                    $("#Open").addClass("active");
+                case 1:
+                    $("#FollowUp").addClass("active");
                     break;
-                case "For Client Comment":
-                    $("#ForComment").addClass("active");
+                case 2:
+                    $("#OnGoing").addClass("active");
                     break;
-                case "For Meeting":
-                    $("#ForMeeting").addClass("active");
+                case 3:
+                    $("#Rejected").addClass("active");
                     break;
-                case "Awarded":
-                    $("#Awarded").addClass("active");
-                    break;
-                case "Close":
-                    $("#Close").addClass("active");
+                case 4:
+                    $("#Closed").addClass("active");
                     break;
                 default:
-                    $("#default").addClass("active");
+                    $("#Default").addClass("active");
                     break;
             }
 

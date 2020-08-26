@@ -743,6 +743,12 @@
     <Compile Include="Models\CustEntActivityType.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustEntActPostSale.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustEntActPostSaleStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustEntActStatus.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1828,6 +1834,7 @@
     <Content Include="Properties\PublishProfiles\ftp.myasp.net.pubxml.user" />
     <Content Include="Properties\PublishProfiles\ftp.Somee.com.pubxml.user" />
     <Content Include="Properties\PublishProfiles\LocalPath.C.pubxml.user" />
+    <Content Include="Scripts\Activities\PostSaleCreate.js" />
     <Content Include="Scripts\Activities\Performance.js" />
     <Content Include="Scripts\Activities\Activities.js" />
     <Content Include="Scripts\Activities\SearchByCode.js" />
@@ -2927,6 +2934,8 @@
     <Content Include="Views\CarRental\ArticlesView\WhyBook.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\VisitDavao.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\SUVRental.cshtml" />
+    <Content Include="Views\SupplierActivities\CreateFromPostSale.cshtml" />
+    <Content Include="Views\Activities\ActivitiesPostSale_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

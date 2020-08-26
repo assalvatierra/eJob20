@@ -163,5 +163,7 @@ namespace JobsV1.Models
         public virtual DbSet<JobPostSalesStatus> JobPostSalesStatus { get; set; }
         public virtual DbSet<SvcGroup> SvcGroups { get; set; }
         public virtual DbSet<SvcDetail> SvcDetails { get; set; }
+        public virtual DbSet<CustEntActPostSale> CustEntActPostSales { get; set; }
+        public virtual DbSet<CustEntActPostSaleStatus> CustEntActPostSaleStatus { get; set; }
     }
 }

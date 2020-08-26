@@ -378,6 +378,7 @@ SELECT * FROM CustEntActivities
 
 -- Supplier Products
 SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id ),
+                sir.p,
                 sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status ,
 				IsValid =  IIF(convert(datetime, sir.DtValidTo) < convert(datetime, GETDATE()), 1 , 0)
                 FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id 
@@ -574,7 +575,7 @@ Select c.* from CustEntActivities c
 
 
 -- GET SalesCodes
-SELECT act.*, cem.Name as Company,cem.AssignedTo, cem.Exclusive FROM (
+SELECT act.*, cem.Name as Company, cem.Exclusive FROM (
  
 SELECT c.SalesCode,
 ActivityDate = ( SELECT TOP 1 ca.Date FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
@@ -582,12 +583,28 @@ CompanyId    = ( SELECT TOP 1 ca.CustEntMainId FROM CustEntActivities ca WHERE c
 ProjectName  = ( SELECT TOP 1 ca.ProjectName FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
 Status       = ( SELECT TOP 1 ca.Status FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
 ActivityType = ( SELECT TOP 1 ca.ActivityType FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
-Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
-from CustEntActivities c
+Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+AssignedTo   = ( SELECT TOP 1 ca.Assigned FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+Remarks      = ( SELECT TOP 1 ca.Remarks FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
 
+from CustEntActivities c
 Group by c.SalesCode 
 ) as act 
 LEFT JOIN CustEntMains cem ON cem.Id = act.CompanyId
+
+-- revised
+SELECT act.*, cem.Name as Company, cem.Exclusive FROM (
+ 
+SELECT c.SalesCode, cap.Date 
+from CustEntActivities c
+ OUTER APPLY ( SELECT TOP 1 ca.* FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ) as cap
+
+Group by c.SalesCode
+
+) as act 
+
+LEFT JOIN CustEntMains cem ON cap.Id = act.CompanyId
+
 
 -- Filter activities not closed
 WHERE act.Status != 'Close' AND convert(datetime, GETDATE()) >= CASE WHEN

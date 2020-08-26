@@ -721,7 +721,7 @@ namespace JobsV1.Controllers
         #endregion
 
         #region Activites Post Sales
-        public ActionResult ActivitiesPostSales(string status, string srch)
+        public ActionResult ActivitiesPostSales(string status, string srch, int? statusId)
         {
             var Activities = new List<cActivityPostSales>();
 
@@ -741,13 +741,78 @@ namespace JobsV1.Controllers
 
 
             Activities.ForEach(a => {
-                a.Company = db.CustEntMains.Find(a.CompanyId) != null ? db.CustEntMains.Find(a.CompanyId).Name : "N/A";
+                a.ActPostSale = GetLastActPostSale(a.SalesCode);
             });
 
+            if (statusId != null)
+            {
+                Activities = Activities.Where(a => a.ActPostSale.CustEntActPostSaleStatusId == statusId).ToList();
+            }
+            else
+            {
+                Activities = Activities.Where(a => a.ActPostSale.CustEntActPostSaleStatusId < 3).ToList();
+            }
 
             ViewBag.Status = status;
+            ViewBag.StatusId = statusId;
             return View(Activities);
         }
+
+        public CustEntActPostSale GetLastActPostSale(string salesCode)
+        {
+            CustEntActPostSale actPostSale = new CustEntActPostSale();
+
+            var lastPostSale = db.CustEntActPostSales.Where(c => c.SalesCode == salesCode);
+
+            if (lastPostSale.FirstOrDefault() != null)
+            {
+               var lastest = lastPostSale.OrderByDescending(c => c.DateEncoded).FirstOrDefault();
+                actPostSale = lastest;
+            }
+            else
+            {
+                actPostSale = new CustEntActPostSale()
+                {
+                    CustEntActPostSaleStatusId = 1
+                };
+            }
+
+            return actPostSale;
+        }
+
+
+        // GET: CustEntActivities/Create
+        public ActionResult ActivitiesPostSale_Create(string salesCode)
+        {
+            ViewBag.CustEntActPostSaleStatusId = new SelectList(db.CustEntActPostSaleStatus, "Id", "Status");
+
+            CustEntActPostSale postSale = new CustEntActPostSale();
+            postSale.SalesCode = salesCode;
+            postSale.DateEncoded = dt.GetCurrentDateTime();
+            postSale.By = HttpContext.User.Identity.Name;
+
+            return View(postSale);
+        }
+
+
+        // POST: JobPostSales/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ActivitiesPostSale_Create([Bind(Include = "Id,By,DateEncoded,Remarks,SalesCode,CustEntActPostSaleStatusId")] CustEntActPostSale custEntActPostSale)
+        {
+            if (ModelState.IsValid)
+            {
+                db.CustEntActPostSales.Add(custEntActPostSale);
+                db.SaveChanges();
+                return RedirectToAction("ActivitiesPostSales");
+            }
+
+            ViewBag.CustEntActPostSaleStatusId = new SelectList(db.CustEntActPostSaleStatus, "Id", "Status");
+            return View(custEntActPostSale);
+        }
+
         #endregion
 
         #region Activity Status tracking 
