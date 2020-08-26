@@ -36,7 +36,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
-    height: 490px;
+    height: 500px;
     min-width: 400px;
     color: white;
     padding-left: 20px;
@@ -45,40 +45,75 @@
 .main-page-full-banner {
     display: flex;
     width: 100%;
-    background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg.jpg');
+    background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg-ws.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: rgb(6,105,178);
-    height: 480px;
+    height: 490px;
     min-width: 400px;
     color: white;
     padding: 60px;
+    padding-bottom:0px;
     margin-bottom: 0px;
 }
 
-    .main-page-full-banner > div {
-        width: 42%;
+    .main-page-full-banner > .title-container {
+        width: 50%;
+        height:60%;
     }
 
-        .main-page-full-banner > div > h1 {
+        .main-page-full-banner > .title-container > h1 {
             font-size: 45px;
         }
 
-        .main-page-full-banner > div > p {
+        .main-page-full-banner > .title-container > p {
             /*background-color: black;*/
             /*padding: 20px;*/
             width: 80%;
         }
+
 .banner-services {
-    margin-bottom: 10px;
-    margin-left: -10px;
+    margin-top:-200px;
+    padding:10px;
+    margin-bottom: 0px;
+    margin-left: 00px;
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    background-color: rgb(6,105,178);
+    color:white;
 }
 
-.banner-services div {
-    width: 50px;
-    margin: 2px;
+.banner-services-container {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    margin-bottom:20px;
 }
+
+.banner-services-items {
+    min-width: 50px;
+    /*margin: 8px;*/
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+}
+
+    .banner-services-items p {
+        font-size: 12px;
+        font-weight:600;
+        padding-top: 10px;
+        text-shadow: 2px 2px 3px black;
+    }
+
+    .banner-services-items img {
+        width:45px;
+        webkit-filter: drop-shadow(5px 5px 3px black);
+        filter: drop-shadow(5px 5px 5px black);
+    }
 
 .contact-container {
     padding-left: 35px;
@@ -167,21 +202,34 @@
     margin: auto;
 }
 
+.desc-p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #424242;
+}
+
+.desc-a {
+    color: #424242;
+    text-decoration: underline;
+}
+
 .home-company-desc {
     /*background-color: #393a3d;*/
     margin: 20px -26px;
     padding: 50px;
 }
 
-.home-company-desc p {
-    color:black;
-}
+    .home-company-desc p {
+        font-size: 18px;
+        line-height: 1.7;
+        color: #424242;
+    }
 
     .home-company-desc h2 {
         color: black;
     }
     .home-company-desc p a {
-        color: black;
+        color: #424242;
         text-decoration: underline;
     }
 
@@ -270,16 +318,16 @@
 
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md-ws.jpg');
         height: 360px;
         padding: 20px;
     }
 
-        .main-page-full-banner > div {
+        .main-page-full-banner > .title-container {
             width: 50%;
         }
 
-            .main-page-full-banner > div > h1 {
+            .main-page-full-banner > .title-container > h1 {
                 font-size: 50px;
             }
 
@@ -291,7 +339,7 @@
 
 
     .banner-services {
-        margin-left: -20px;
+        margin-left: 0px;
     }
 
 
@@ -309,7 +357,7 @@
     }
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md-ws.jpg');
         height: 360px;
     }
 
@@ -327,6 +375,10 @@
         max-width:270px;
     }
 
+    .banner-services-items img {
+        width: 35px;
+    }
+
 
 }
 
@@ -335,16 +387,16 @@
 
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md-ws.jpg');
         height: 360px;
         padding-left:20px;
     }
 
-        .main-page-full-banner > div > h1 {
+        .main-page-full-banner > .title-container > h1 {
             font-size: 30px;
-            padding-top:30px;
-            margin-top:10px;
-            padding-top:30px;
+            padding-top: 30px;
+            margin-top: 10px;
+            padding-top: 30px;
         }
 
     .body-content-white {
@@ -380,28 +432,30 @@
     }
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-sm.jpg');
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-sm-ws.jpg');
         height: 600px;
         padding: 20px;
         margin-left: -5px;
         width: 100%;
+        flex-flow: column;
     }
 
-        .main-page-full-banner > div {
+        .main-page-full-banner > .title-container {
             min-width: 360px;
             margin-left: 10px;
+            margin-bottom: 10px;
         }
 
-            .main-page-full-banner > div > h1 {
+            .main-page-full-banner > .title-container > h1 {
                 font-size: 40px;
-                padding-top:0px;
-                margin-top:0px;
+                padding-top: 0px;
+                margin-top: 0px;
             }
 
-            .main-page-full-banner > div > p {
+            .main-page-full-banner > .title-container > p {
                 margin-top: 20px;
                 width: 90%;
-                font-size:15px;
+                font-size: 15px;
             }
 
     .carrental-car-img {
@@ -443,6 +497,19 @@
         padding: 20px 15px;
     }
 
+    
+    .banner-services-items {
+        width: 50px;
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-start;
+        margin-left:-20px;
+    }
+
+    .banner-services-items p {
+        font-size: 8px;
+        padding-top: 10px;
+    }
 
     .banner-services  {
         margin-left:-10px;

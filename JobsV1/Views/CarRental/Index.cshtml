@@ -21,49 +21,49 @@
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=596694584162008&autoLogAppEvents=1" nonce="e2XOPjWp"></script>
 
 <div class="main-page-full-banner">
-    <div>
+    <div class="title-container">
         <h1>Davao Car Rental and Tours</h1>
         <p class="lead banner-message">Contact us for inquiries and reservation</p>
-        @*<a class="btn btn-success" style="font-size:20px;">
-                Request for Quote
-            </a>*@
-    <div class="col-md-12 no-padding banner-services" >
-        <div class="pull-left" >
-            <img src="~/Images/CarRental/Home/icons8-airplane-landing-48.png" class="center-block" width="24" />
-            <p class="text-center" style="font-size:9px;padding-top:10px;"> Airport Transfer  </p>
-        </div>
-        <div class="pull-left">
-            <img src="~/Images/CarRental/Home/icons8-city-24.png" class="center-block" width="24" />
-            <p class="text-center" style="font-size:9px;padding-top:10px;">City Tour  </p>
-        </div>
-        <div class="pull-left">
-            <img src="~/Images/CarRental/Home/icons8-vip-24.png" class="center-block" width="24" />
-            <p class="text-center" style="font-size:9px;padding-top:10px;"> Corporate Travel </p>
-        </div>
-        <div class="pull-left">
-            <img src="~/Images/CarRental/Home/icons8-briefcase-24.png" class="center-block" width="24" />
-            <p class="text-center" style="font-size:9px;padding-top:10px;"> Business Trip  </p>
-        </div>
-        <div class="pull-left">
-            <img src="~/Images/CarRental/Home/icons8-beach-24.png" class="center-block" width="24" />
-            <p class="text-center" style="font-size:9px;padding-top:10px;"> Out of Town </p>
-        </div>
-        <div class="pull-left">
-            <img src="~/Images/CarRental/Home/icons8-people-in-car-side-view-30.png" class="center-block" width="24" />
-            <p class="text-center" style="font-size:9px;padding-top:10px;"> Self Drive  </p>
-        </div>
-        <div class="pull-left">
-            <img src="~/Images/CarRental/Home/icons8-event-accepted-tentatively-24.png" class="center-block" width="24" />
-            <p class="text-center" style="font-size:9px;padding-top:10px;"> Special Occasions  </p>
-        </div>
-    </div>
-    <div class="col-md-12 no-padding">
+        <div class="col-md-12 no-padding">
 
-        @Html.ActionLink(" Request for Quote", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success", @style = "font-size:20px;" })
-    </div>
+            @Html.ActionLink(" Request for Quote", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-success", @style = "font-size:20px;" })
+        </div>
     </div>
 
 </div>
+
+@*<div class="col-md-12 no-padding banner-services-container">
+    <div class="banner-services">
+        <span class="pull-left banner-services-items">
+            <img src="~/Images/CarRental/Home/icons8-airplane-landing-48.png" class="center-block" />
+            <p class="text-center"> Airport Transfer  </p>
+        </span>
+        <span class="pull-left banner-services-items">
+            <img src="~/Images/CarRental/Home/icons8-city-60.png" class="center-block" />
+            <p class="text-center">City Tour  </p>
+        </span>
+        <span class="pull-left banner-services-items">
+            <img src="~/Images/CarRental/Home/icons8-vip-50.png" class="center-block" />
+            <p class="text-center">Corporate Travel </p>
+        </span>
+        <span class="pull-left banner-services-items">
+            <img src="~/Images/CarRental/Home/icons8-briefcase-60.png" class="center-block" />
+            <p class="text-center"> Business Trip  </p>
+        </span>
+        <span class="pull-left banner-services-items">
+            <img src="~/Images/CarRental/Home/icons8-beach-48.png" class="center-block" />
+            <p class="text-center"> Out of Town </p>
+        </span>
+        <span class="pull-left banner-services-items">
+            <img src="~/Images/CarRental/Home/icons8-people-in-car-side-view-50.png" class="center-block" />
+            <p class="text-center"> Self Drive  </p>
+        </span>
+        <span class="pull-left banner-services-items">
+            <img src="~/Images/CarRental/Home/icons8-event-48.png" class="center-block" />
+            <p class="text-center"> Special Occasions  </p>
+        </span>
+    </div>
+</div>*@
 
 
 <div class="row" style="margin:40px 0px;">
@@ -75,7 +75,7 @@
     </div>
 
     <div class="col-md-12 contact-container">
-        <div class="col-md-12" >
+        <div class="col-md-12">
             <h1 class="text-center" style="padding-bottom:30px;font-weight:600;">
                 Contact Us
             </h1>
@@ -156,11 +156,11 @@
                 <p>
                     <a href="https://www.facebook.com/RealWheelsDavao" target="_blank"> <img src="~/Images/Icons/icons-facebook.png" width="50" /></a>
 
-                    <a  href="viber://chat?number=639954508517">
+                    <a href="viber://chat?number=639954508517">
                         <img src="~/Images/Icons/viber-original.png" width="50" />
                     </a>
 
-                    <a  href="https://wa.me/639954508517">
+                    <a href="https://wa.me/639954508517">
                         <img src="~/Images/Icons/whatsapp-original.png" width="50" />
                     </a>
 
@@ -194,7 +194,7 @@
 
         <a class="btn btn-primary contact-us-items " href="tel:+63822971831">
             <strong>LandLine:</strong> (+63) 82 333-5157
-        </a> 
+        </a>
 
         <a class="btn btn-primary contact-us-items " href="tel:+639193812657">
             <strong>Smart:</strong> (+63) 919-381-2657
@@ -229,7 +229,7 @@
     {
         <div class="col-md-4 car-primary">
             <h2>@Html.DisplayFor(modelItem => item.Description)</h2>
-            <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description" loading="lazy" >
+            <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description" loading="lazy">
 
             <p>&nbsp</p>
             <div>
@@ -255,7 +255,7 @@
 <div class="row car-container">
     <div class="col-md-12">
         <h1 class="text-center" style="padding-bottom:30px;font-weight:600;">
-           Our Fleet
+            Our Fleet
         </h1>
     </div>
 

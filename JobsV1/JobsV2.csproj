@@ -1516,6 +1516,15 @@
     <Content Include="Images\CarRental\glgrandia\Toyota-Grandia-side.jpg" />
     <Content Include="Images\CarRental\glgrandia\Toyota-Grandia.jpg" />
     <Content Include="Images\CarRental\Home\icons-facebook-gray.png" />
+    <Content Include="Images\CarRental\Home\icons8-airplane-landing-24.png" />
+    <Content Include="Images\CarRental\Home\icons8-airplane-landing-48.png" />
+    <Content Include="Images\CarRental\Home\icons8-beach-24.png" />
+    <Content Include="Images\CarRental\Home\icons8-briefcase-24.png" />
+    <Content Include="Images\CarRental\Home\icons8-city-24.png" />
+    <Content Include="Images\CarRental\Home\icons8-event-accepted-tentatively-24.png" />
+    <Content Include="Images\CarRental\Home\icons8-people-in-car-side-view-30.png" />
+    <Content Include="Images\CarRental\Home\icons8-vip-24.png" />
+    <Content Include="Images\CarRental\Home\icons8-vip-corparate.png" />
     <Content Include="Images\CarRental\Home\undraw_businesswoman.png" />
     <Content Include="Images\CarRental\Home\undraw_Map_light.png" />
     <Content Include="Images\CarRental\Home\undraw_off_road.png" />
