@@ -526,7 +526,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/21/2020 17:03:16</publishTime>
     </File>
     <File Include="Areas/Personel/Views/crLogFuels/Edit.cshtml">
-      <publishTime>07/30/2020 12:33:39</publishTime>
+      <publishTime>08/27/2020 13:43:38</publishTime>
     </File>
     <File Include="Areas/Personel/Views/crLogFuels/Index.cshtml">
       <publishTime>08/04/2020 10:59:05</publishTime>
@@ -928,10 +928,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/26/2020 19:25:15</publishTime>
+      <publishTime>08/27/2020 13:47:21</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/26/2020 19:25:15</publishTime>
+      <publishTime>08/27/2020 13:47:21</publishTime>
     </File>
     <File Include="bin/de/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -955,10 +955,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>08/26/2020 18:58:26</publishTime>
+      <publishTime>08/27/2020 13:43:56</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>08/26/2020 18:58:26</publishTime>
+      <publishTime>08/27/2020 13:43:56</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -1132,7 +1132,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:30</publishTime>
     </File>
     <File Include="Content/CarRental.css">
-      <publishTime>08/26/2020 15:41:48</publishTime>
+      <publishTime>08/27/2020 12:00:55</publishTime>
     </File>
     <File Include="Content/Chart.min.css">
       <publishTime>08/17/2020 14:40:52</publishTime>
@@ -1755,6 +1755,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Images/CarRental/grandiaPrimary.png">
       <publishTime>03/05/2019 09:53:31</publishTime>
     </File>
+    <File Include="Images/CarRental/Home/Car-Rental-Service-Business-Travel.jpg">
+      <publishTime>08/27/2020 12:05:10</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Car-Rental-Service-For-Hire.jpg">
+      <publishTime>08/27/2020 12:05:10</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Car-Rental-Service-Out-Of-Town.jpg">
+      <publishTime>08/27/2020 12:05:10</publishTime>
+    </File>
     <File Include="Images/CarRental/Home/icons-facebook-gray.png">
       <publishTime>08/25/2020 18:32:29</publishTime>
     </File>
@@ -1805,6 +1814,54 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Images/CarRental/Home/vehicle-type-van.jpg">
       <publishTime>08/25/2020 18:16:09</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.jpg">
+      <publishTime>08/27/2020 11:39:16</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.webp">
+      <publishTime>08/27/2020 12:18:18</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Honda-City.jpg">
+      <publishTime>08/27/2020 11:39:16</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Honda-City.webp">
+      <publishTime>08/27/2020 12:18:18</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Nissan-Premium.jpg">
+      <publishTime>08/27/2020 11:39:16</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Nissan-Premium.webp">
+      <publishTime>08/27/2020 12:18:18</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-GL-Grandia.jpg">
+      <publishTime>08/27/2020 11:39:16</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-GL-Grandia.webp">
+      <publishTime>08/27/2020 12:18:18</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg">
+      <publishTime>08/27/2020 11:39:16</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.webp">
+      <publishTime>08/27/2020 12:18:18</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.jpg">
+      <publishTime>08/27/2020 11:39:14</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.webp">
+      <publishTime>08/27/2020 12:18:18</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Rush.jpg">
+      <publishTime>08/27/2020 11:39:16</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Rush.webp">
+      <publishTime>08/27/2020 12:18:18</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg">
+      <publishTime>08/27/2020 11:39:16</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.webp">
+      <publishTime>08/27/2020 12:18:18</publishTime>
     </File>
     <File Include="Images/CarRental/honda-city-car-rental.PNG">
       <publishTime>03/05/2019 09:53:31</publishTime>
@@ -2734,7 +2791,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/02/2020 18:00:03</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/26/2020 19:25:08</publishTime>
+      <publishTime>08/27/2020 13:47:17</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>03/05/2019 09:53:32</publishTime>
@@ -2743,7 +2800,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:32</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>08/26/2020 19:24:22</publishTime>
+      <publishTime>08/27/2020 12:18:55</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>02/19/2020 17:09:27</publishTime>
@@ -3934,7 +3991,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:33</publishTime>
     </File>
     <File Include="Views/CarRental/Index.cshtml">
-      <publishTime>08/26/2020 15:51:34</publishTime>
+      <publishTime>08/27/2020 11:52:46</publishTime>
     </File>
     <File Include="Views/CarRental/Index1.cshtml">
       <publishTime>04/11/2019 18:16:15</publishTime>
@@ -3952,7 +4009,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/26/2020 14:53:52</publishTime>
     </File>
     <File Include="Views/CarRental/Partial_content_1.cshtml">
-      <publishTime>08/26/2020 15:09:04</publishTime>
+      <publishTime>08/27/2020 12:05:50</publishTime>
     </File>
     <File Include="Views/CarRental/RateConfig.cshtml">
       <publishTime>03/05/2019 09:53:33</publishTime>
@@ -5575,7 +5632,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2019 09:53:35</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/26/2020 18:59:09</publishTime>
+      <publishTime>08/27/2020 13:47:07</publishTime>
     </File>
     <File Include="WebService.asmx">
       <publishTime>03/05/2019 09:53:35</publishTime>

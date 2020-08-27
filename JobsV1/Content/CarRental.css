@@ -114,9 +114,19 @@
         webkit-filter: drop-shadow(5px 5px 3px black);
         filter: drop-shadow(5px 5px 5px black);
     }
+
 .banner-btn-green {
-    background-color: #0CE40C;
+    color: #0669B2;
+    background-color: #F2EC41;
+    border-color: #F2EC41;
 }
+
+
+    .banner-btn-green:hover {
+        color: #0669B2;
+        background-color: #EEEC9C;
+        border-color: #EEEC9C;
+    }
 
 .contact-container {
     padding-left: 35px;
@@ -335,14 +345,14 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: 100%;
-        height: 550px;
+        height: 600px;
         min-width: 600px;
     }
 
 
     .main-page-full-banner {
         background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md-ws.jpg');
-        height: 360px;
+        height: 480px;
         padding: 20px;
     }
 

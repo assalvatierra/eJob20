@@ -174,7 +174,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,odoStart,odoEnd,isFullTank,crLogPaymentTypeId")] crLogFuel crLogFuel)
+        public ActionResult Edit([Bind(Include = "Id,dtRequest,Amount,crLogUnitId,crLogDriverId,dtFillup,odoFillup,orAmount,crLogTypeId,odoStart,odoEnd, isFullTank, crLogPaymentTypeId, Remarks")] crLogFuel crLogFuel)
         {
             if (ModelState.IsValid)
             {
