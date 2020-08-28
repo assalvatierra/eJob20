@@ -74,9 +74,10 @@
                         {
                             if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
                             {
-                                <span style="font-weight:800; color: gray">
-                                    @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
-                                </span>
+                        <span style="font-weight:800; color: gray">
+                            @*@Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>*@
+                            @salesstat.Name  &nbsp;>
+                        </span>
                             }
                             else
                             {
@@ -126,8 +127,8 @@
                         @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
                         [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
                         @Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |
-                        @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })  |
-                        @Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })
+                        @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })  
+                        @*@Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })*@
                         ]
 
                         @foreach (var salescat in item.SalesLeadCategories)
@@ -225,7 +226,7 @@
                                     <div id="supItem-@invItems.Id">
                                         @foreach (var supItem in invItems.SalesLeadQuotedItems)
                                         {
-                                            @*<p style="margin:3px 20px;">
+                                            <p style="margin:3px 20px;">
                                                 @supItem.SupplierItemRate.SupplierInvItem.Supplier.Name <span>- P</span>
                                                 @if (supItem.SupplierItemRate.ItemRate != null)
                                                 {
@@ -239,7 +240,7 @@
                                                 </span>
                                                 <span> ) </span>
                                                 <a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>
-                                            </p>*@
+                                            </p>
                                         }
                                     </div>
 
@@ -279,44 +280,46 @@
                 <h4 class="modal-title">Select Item</h4>
             </div>
             <div class="modal-body" id="modal2-content">
-                <!--Start of Modal Body-->
-                <div class="form-group col-md-12 hidden">
-                    <b class="col-md-2 "> SupId: </b>
-                    <div class="col-md-10">
-                        <input type="text" maxlength="5" class="form-control" id="supItem-supId" />
+                <div class="row">
+                    <!--Start of Modal Body-->
+                    <div class="form-group col-md-12 hidden">
+                        <b class="col-md-2 "> SupId: </b>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="5" class="form-control" id="supItem-supId" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group col-md-12">
-                    <b class="col-md-2"> Items: </b>
-                    <div class="col-md-7">
-                        <select name="InvItems" class="form-control" id="supItem-Items">
-                            @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
-                            {
-                                <option value="@item.Id"> @item.Description </option>
-                            }
-                        </select>
-                    </div>
-                </div><br /><br />
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2"> Items: </b>
+                        <div class="col-md-7">
+                            <select name="InvItems" class="form-control" id="supItem-Items">
+                                @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+                                {
+                                    <option value="@item.Id"> @item.Description </option>
+                                }
+                            </select>
+                        </div>
+                    </div><br /><br />
 
-                <div class="form-group col-md-12">
-                    <b class="col-md-2 "> Rate: </b>
-                    <div class="col-md-10">
-                        <input type="number" value="0" maxlength="25" class="form-control" id="supItem-Rate" onkeypress='validate(event)' />
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Rate: </b>
+                        <div class="col-md-10">
+                            <input type="number" value="0" maxlength="25" class="form-control" id="supItem-Rate" onkeypress='validate(event)' />
+                        </div>
                     </div>
-                </div>
-                <br /><br />
+                    <br /><br />
 
-                <div class="form-group col-md-12">
-                    <b class="col-md-2 "> Remarks: </b>
-                    <div class="col-md-10">
-                        <input type="text" maxlength="20" class="form-control" id="supItem-Remarks" />
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Remarks: </b>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" class="form-control" id="supItem-Remarks" />
+                        </div>
                     </div>
+                    <!--End of Modal Body-->
                 </div>
-                <!--End of Modal Body-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_AddSalesLeadItem()"> Submit </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="ajax_AddSalesLeadItem()"> Submit </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
@@ -368,7 +371,7 @@
                 <!--End of Modal Body-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ajax_EditLeadItem()"> Save Changes </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="ajax_EditLeadItem()"> Save Changes </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
@@ -393,7 +396,6 @@
     </p>
 </div>
 
-<script src="~/Scripts/jquery-3.3.1.js"></script>
 @section scripts
 {
     <script type="text/javascript">

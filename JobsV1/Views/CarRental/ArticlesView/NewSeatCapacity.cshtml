@@ -2,15 +2,22 @@
 @{
     ViewBag.Title = "Car Rental Seating Capacity";
 }
+<style>
+    .img-bg-car {
+        background-image: url('/Images/CarRental/Home/Article/Article-Car-Dashboard.jpg');
+        background-size:100%;
+        color:white;
+        text-shadow:1px 1px 1px black;
+    }
+</style>
 
-
-<div class="jumbotron">
+<div class="jumbotron img-bg-car no-margin" style="padding:0.8vw;" >
     <h1> Car Rental Seating Capacity </h1>
     <h3> New normal </h3>
 </div>
 
 <!-- Article Content -->
-<article>
+<article style="background-color:white;padding:20px 0px 50px 0px;">
     <div class="container">
         <div class="col-lg-8 col-md-10 mx-auto">
             <h2>Seating Capacity of vehicles in Davao City</h2>
@@ -56,7 +63,7 @@
                 Digos to Davao - departure time: 8am - 20-25 passengers point to point
             </p>
             <p>
-               Though some mass transport is going to resume anytime soon, there are still restrictions and health screening before traveling various areas in Davao and Mindanao.
+                Though some mass transport is going to resume anytime soon, there are still restrictions and health screening before traveling various areas in Davao and Mindanao.
             </p>
 
             <h2>Covid update in Davao June 4, 2020</h2>
@@ -67,11 +74,33 @@
                 Davao Oriental: 17
                 Davao Del Sur: 14
                 Davao De Oro: 3
-                Davao Occidental: 2 
+                Davao Occidental: 2
 
             </p>
 
         </div>
+
+
+
+        <!-- Left : Related Articles -->
+        <div class="col-lg-4 col-md-2 mx-auto" style="margin:100px auto">
+            <h4> Related Articles </h4>
+            <ul>
+                @*<li>
+                    <a href="/Articles/NewSeatCapacity"> New Seating Capacity </a>
+                </li>*@
+                <li>
+                    <a href="/Articles/SUVRental"> SUV Rental </a>
+                </li>
+                <li>
+                    <a href="/Articles/VisitDavao"> Visit Davao</a>
+                </li>
+                <li>
+                    <a href="/Articles/WhyBook"> Why Book With Us </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     </div>
 

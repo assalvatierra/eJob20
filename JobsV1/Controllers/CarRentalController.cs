@@ -566,6 +566,11 @@ namespace JobsV1.Controllers
             return PartialView("Articles");
         }
 
+        public ActionResult FAQ()
+        {
+            return View();
+        }
+
 
 
 

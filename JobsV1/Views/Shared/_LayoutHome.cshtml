@@ -15,9 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
+    <meta name="theme-color" content="#FFFFFF" />
     <meta name="description" content="@ViewBag.Description" />
     <link rel="canonical" href="@ViewBag.CanonicalURL" />
     <link rel="next" href="https://realwheelsdavao.com/page/2/" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/Images/CarRental/Home/vehicle-type-sedan.jpg">
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="@ViewBag.Title" />
@@ -74,11 +77,20 @@
             <p class="text-center">&copy; @DateTime.Now.Year - RealWheelsDavao.com  </p>
         </footer>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     @*@Scripts.Render("~/bundles/jquery")*@
     @*@Scripts.Render("~/bundles/jqueryui")*@
-    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @Scripts.Render("~/bundles/bootstrap")
     @*@Scripts.Render("~/bundles/DateRangePicker")*@
     <script type="text/javascript" src="~/Scripts/Modal.js"></script>
+    <script type="text/javascript" src="~/serviceworker.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/serviceworker.js')
+                .then(function () { console.log('Service Worker Registered'); });
+        }
+    </script>
     @RenderSection("scripts", required: false)
 
     @*<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>*@

@@ -295,6 +295,23 @@
         <EntityTypeShape EntityType="JobDB.CustEntActPostSale" Width="1.5" PointX="19.125" PointY="2.625" />
         <EntityTypeShape EntityType="JobDB.CustEntActPostSaleStatus" Width="1.5" PointX="19.125" PointY="5.875" />
         <AssociationConnector Association="JobDB.CustEntActPostSaleStatusCustEntActPostSale" />
+        <AssociationConnector Association="JobDB.SupplierItemRateSalesLeadQuotedItem" ManuallyRouted="true" >
+          <ConnectorPoint PointX="53.875" PointY="8.43724609375" />
+          <ConnectorPoint PointX="31.5" PointY="8.43724609375" />
+          <ConnectorPoint PointX="31.5" PointY="29.25" />
+          <ConnectorPoint PointX="31.458333333333332" PointY="29.25" />
+          <ConnectorPoint PointX="31.291666666666668" PointY="29.25" />
+          <ConnectorPoint PointX="23.598954583333331" PointY="29.25" />
+          <ConnectorPoint PointX="23.432287916666667" PointY="29.25" />
+          <ConnectorPoint PointX="10.958333333333334" PointY="29.25" />
+          <ConnectorPoint PointX="10.791666666666666" PointY="29.25" />
+          <ConnectorPoint PointX="7.30975865033332" PointY="29.25" />
+          <ConnectorPoint PointX="7.30975865033332" PointY="33.625" />
+          <ConnectorPoint PointX="10.25" PointY="33.625" />
+          <ConnectorPoint PointX="10.25" PointY="38" />
+          <ConnectorPoint PointX="10" PointY="38" />
+          <ConnectorPoint PointX="10" PointY="38.375" />
+        </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

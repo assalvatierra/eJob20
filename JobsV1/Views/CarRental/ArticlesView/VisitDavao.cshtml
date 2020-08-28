@@ -2,14 +2,21 @@
 @{
     ViewBag.Title = "Article1";
 }
+<style>
+    .img-bg-car {
+        background-image: url('/Images/CarRental/Home/Article/Article-car-sunset.jpg');
+        background-size: 100%;
+        color: white;
+        text-shadow: 1px 1px 1px black;
+    }
+</style>
 
-
-<div class="jumbotron">
-    <h1> Rent a Van and enjoy your visit in Davao </h1>
+<div class="jumbotron img-bg-car no-margin">
+    <h1> Rent a Van and visit Davao City </h1>
 </div>
 
 <!-- Article Content -->
-<article>
+<article style="background-color:white;padding:20px 0px 50px 0px;">
     <div class="container">
         <div class="col-lg-8 col-md-10 mx-auto">
             <h3>Rent a Van and enjoy your visit in Davao </h3>
@@ -46,8 +53,8 @@
                     <a href="/Articles/SUVRental"> SUV Rental </a>
                 </li>
                 @*<li>
-                    <a href="/Articles/VisitDavao"> Visit Davao</a>
-                </li>*@
+                        <a href="/Articles/VisitDavao"> Visit Davao</a>
+                    </li>*@
                 <li>
                     <a href="/Articles/WhyBook"> Why Book With Us </a>
                 </li>

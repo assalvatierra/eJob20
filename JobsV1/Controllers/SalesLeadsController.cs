@@ -10,6 +10,7 @@ using JobsV1.Models;
 using JobsV1.Models.Class;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
 {
@@ -290,22 +291,35 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo")] SalesLead salesLead, int CompanyId)
+        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo")] SalesLead salesLead, int? CompanyId)
         {
-            if (ModelState.IsValid && salesLead.EnteredBy != null)
+            if (ModelState.IsValid && SalesLeadValidation(salesLead))
             {
-                //int compId = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault().Id; //get lastest company id
-                db.SalesLeads.Add(salesLead);
-                db.SaveChanges();
+                if (CompanyId != null)
+                {
+                    //int compId = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault().Id; //get lastest company id
+                    db.SalesLeads.Add(salesLead);
+                    db.SaveChanges();
 
-                AddSalesStatus(salesLead.Id, 1);    //NEW Lead Status
-                addCompany(CompanyId, salesLead.Id);
-                return RedirectToAction("Index", new { sortid = 5 , leadid = salesLead.Id});
+                    AddSalesStatus(salesLead.Id, 1);    //NEW Lead Status
+                    addCompany((int)CompanyId, salesLead.Id);
+
+                    return RedirectToAction("Index", new { sortid = 5 , leadid = salesLead.Id});
+
+                }
+                else
+                {
+
+                    ModelState.AddModelError("CustomerId", "Invalid Company");
+                }
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
 
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
+            ViewBag.CompanyList = db.CustEntMains.ToList();
             return View(salesLead);
         }
 
@@ -348,7 +362,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo")] SalesLead salesLead, int CompanyId)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && SalesLeadValidation(salesLead))
             {
                 db.Entry(salesLead).State = EntityState.Modified;
                 db.SaveChanges();
@@ -360,6 +374,9 @@ namespace JobsV1.Controllers
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
+            ViewBag.CustomerList = db.Customers.ToList();
+            ViewBag.leadId = salesLead.Id;
             return View(salesLead);
         }
 
@@ -405,6 +422,43 @@ namespace JobsV1.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        public bool SalesLeadValidation(SalesLead salesLead)
+        {
+            bool isValid = true;
+
+            if (salesLead.Date == null)
+            {
+                ModelState.AddModelError("Date", "Invalid Date");
+                isValid = false;
+            }
+
+            if (salesLead.Details.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Details", "Invalid Description");
+                isValid = false;
+            }
+
+
+            if (salesLead.CustPhone.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("CustPhone", "Invalid Contact Number");
+                isValid = false;
+            }
+            else
+            {
+                if (salesLead.CustPhone.Length < 11)
+                {
+                    ModelState.AddModelError("CustPhone", "Invalid Contact Number");
+                    isValid = false;
+                }
+
+            }
+
+            return isValid;
+        }
+
 
         //Get Company Id 
         //Param : id - SalesLead ID

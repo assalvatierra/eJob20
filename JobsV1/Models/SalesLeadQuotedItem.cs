@@ -19,5 +19,6 @@ namespace JobsV1.Models
         public int SupplierItemRateId { get; set; }
     
         public virtual SalesLeadItems SalesLeadItem { get; set; }
+        public virtual SupplierItemRate SupplierItemRate { get; set; }
     }
 }

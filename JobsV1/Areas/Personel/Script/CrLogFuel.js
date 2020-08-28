@@ -26,9 +26,9 @@ function InitDatePicker()
         }
     );
 
-    if (ddd1 == "") {
-        //$('input[name="dtRequest"]').val(moment().format());
-    }
+    //if (ddd1 == "") {
+    //    //$('input[name="dtRequest"]').val(moment().format());
+    //}
 
     //Date 2
     var ddd2 = $('input[name="dtFillup"]').val();
@@ -50,8 +50,8 @@ function InitDatePicker()
         }
     );
 
-    if (ddd2 == "") {
-        $('input[name="dtFillup"]').val(moment().format("MM/DD/YYYY hh:mm tt"));
-    }
+    //if (ddd2 == "") {
+    //    //$('input[name="dtFillup"]').val(moment().format("MM/DD/YYYY hh:mm tt"));
+    //}
 
 }

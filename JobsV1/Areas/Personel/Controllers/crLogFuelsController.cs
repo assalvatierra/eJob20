@@ -115,6 +115,8 @@ namespace JobsV1.Areas.Personel.Controllers
             logFuel.Amount = 0;
             logFuel.odoFillup = 0;
             logFuel.orAmount = 0;
+            logFuel.dtRequest = dt.GetCurrentDateTime();
+            logFuel.dtFillup = dt.GetCurrentDateTime();
 
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");

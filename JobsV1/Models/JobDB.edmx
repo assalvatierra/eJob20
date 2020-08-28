@@ -698,6 +698,10 @@
       <End Role="CustEntActPostSaleStatus" EntitySet="CustEntActPostSaleStatus" />
       <End Role="CustEntActPostSale" EntitySet="CustEntActPostSales" />
     </AssociationSet>
+    <AssociationSet Name="SupplierItemRateSalesLeadQuotedItem" Association="JobDB.Store.SupplierItemRateSalesLeadQuotedItem">
+      <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
+      <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -3816,6 +3820,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SupplierItemRateSalesLeadQuotedItem">
+    <End Role="SupplierItemRate" Type="JobDB.Store.SupplierItemRates" Multiplicity="1" />
+    <End Role="SalesLeadQuotedItem" Type="JobDB.Store.SalesLeadQuotedItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SupplierItemRate">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadQuotedItem">
+        <PropertyRef Name="SupplierItemRateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4512,6 +4528,10 @@
           <AssociationSet Name="CustEntActPostSaleStatusCustEntActPostSale" Association="JobDB.CustEntActPostSaleStatusCustEntActPostSale">
             <End Role="CustEntActPostSaleStatus" EntitySet="CustEntActPostSaleStatus" />
             <End Role="CustEntActPostSale" EntitySet="CustEntActPostSales" />
+          </AssociationSet>
+          <AssociationSet Name="SupplierItemRateSalesLeadQuotedItem" Association="JobDB.SupplierItemRateSalesLeadQuotedItem">
+            <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
+            <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -6987,6 +7007,7 @@
           <Property Name="TradeTerm" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="Tolerance" Type="String" Nullable="true" MaxLength="80" />
           <Property Name="DtEntered" Type="String" Nullable="true" MaxLength="30" />
+          <NavigationProperty Name="SalesLeadQuotedItems" Relationship="JobDB.SupplierItemRateSalesLeadQuotedItem" FromRole="SupplierItemRate" ToRole="SalesLeadQuotedItem" />
         </EntityType>
         <Association Name="SupplierInvItemSupplierItemRate">
           <End Type="JobDB.SupplierInvItem" Role="SupplierInvItem" Multiplicity="1" />
@@ -7078,6 +7099,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="SalesLeadItem" Relationship="JobDB.SalesLeadItemsSalesLeadQuotedItem" FromRole="SalesLeadQuotedItem" ToRole="SalesLeadItems" />
           <Property Name="SalesLeadItemsId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SupplierItemRate" Relationship="JobDB.SupplierItemRateSalesLeadQuotedItem" FromRole="SalesLeadQuotedItem" ToRole="SupplierItemRate" />
           <Property Name="SupplierItemRateId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="SalesLeadItemsSalesLeadQuotedItem">
@@ -7906,6 +7928,18 @@
             </Principal>
             <Dependent Role="CustEntActPostSale">
               <PropertyRef Name="CustEntActPostSaleStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SupplierItemRateSalesLeadQuotedItem">
+          <End Type="JobDB.SupplierItemRate" Role="SupplierItemRate" Multiplicity="1" />
+          <End Type="JobDB.SalesLeadQuotedItem" Role="SalesLeadQuotedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierItemRate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesLeadQuotedItem">
+              <PropertyRef Name="SupplierItemRateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

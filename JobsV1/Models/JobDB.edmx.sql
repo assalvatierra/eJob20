@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/26/2020 18:37:42
+-- Date Created: 08/28/2020 18:18:25
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -5238,6 +5238,21 @@ GO
 CREATE INDEX [IX_FK_CustEntActPostSaleStatusCustEntActPostSale]
 ON [dbo].[CustEntActPostSales]
     ([CustEntActPostSaleStatusId]);
+GO
+
+-- Creating foreign key on [SupplierItemRateId] in table 'SalesLeadQuotedItems'
+ALTER TABLE [dbo].[SalesLeadQuotedItems]
+ADD CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem]
+    FOREIGN KEY ([SupplierItemRateId])
+    REFERENCES [dbo].[SupplierItemRates]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierItemRateSalesLeadQuotedItem'
+CREATE INDEX [IX_FK_SupplierItemRateSalesLeadQuotedItem]
+ON [dbo].[SalesLeadQuotedItems]
+    ([SupplierItemRateId]);
 GO
 
 -- --------------------------------------------------

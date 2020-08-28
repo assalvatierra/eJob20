@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select Item for <span id="modal-supitems-title"> s</span></h4>
+                <h4 class="modal-title">Select Supplier Rate for <span id="modal-supitems-title"> s</span></h4>
             </div>
             <div class="modal-body" id="SupItems-modal-content">
 
@@ -82,12 +82,14 @@
             content = '<a class="list-group-item skills" id="supItemDesc" data-toggle="modal" data-target="#selectSupplier" data-dismiss="modal" onclick="AddSupItemRate(' + temp[x]["Id"] + ',' + itemLeadId + ')" > '
                 + temp[x]["SupplierName"] + ' - '
                 + temp[x]["Rate"] + ' per '
-                + temp[x]["Unit"] + ' ( '
+                + temp[x]["Unit"] + ' <br /> Validity:  '
                 + temp[x]["ValidStart"] + ' - '
-                + temp[x]["ValidEnd"] + ' )' +
+                + temp[x]["ValidEnd"] + ' ' +
                 ' </a> ';
-
-            $(content).appendTo("#SupItems-modal-content");
+            if ( moment(temp[x]["ValidEnd"]).diff(moment() , 'days') > 0 )
+            {
+                $(content).appendTo("#SupItems-modal-content");
+            }
         }
     }
 
