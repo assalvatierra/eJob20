@@ -12,16 +12,20 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CustEntActStatus
+    public partial class CustEntActActionCodes
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CustEntActStatus()
+        public CustEntActActionCodes()
         {
             this.CustEntActivities = new HashSet<CustEntActivity>();
         }
     
         public int Id { get; set; }
-        public string Status { get; set; }
+        public string Name { get; set; }
+        public string Desc { get; set; }
+        public string SysCode { get; set; }
+        public string IconPath { get; set; }
+        public int DefaultActStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustEntActivity> CustEntActivities { get; set; }

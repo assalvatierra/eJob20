@@ -382,9 +382,9 @@
 
 @{ decimal _balance = (_drivertrips + _driverpayment - _drivercash); }
 <h3>Driver's Balance: @_balance </h3>
-<h4>
+@*<h4>
     @Html.ActionLink("Pay and Close", "PaytoClose", new { id = Model.Driver.Id, amount = _balance })
-</h4>
+</h4>*@
 <br />
 <p>
     @Html.ActionLink("Go to Trip Log", "Index") | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease")

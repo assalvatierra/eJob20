@@ -78,6 +78,7 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status");
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
             ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type");
+            ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status");
 
             CustEntActivity activity = new CustEntActivity();
             activity.Amount = 0;
@@ -92,7 +93,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType")] CustEntActivity custEntActivity)
+        public ActionResult Create([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,CustEntActStatusId")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
@@ -107,6 +108,7 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
             ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
+            ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", custEntActivity.CustEntActStatusId);
             return View(custEntActivity);
         }
 
@@ -127,6 +129,8 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
             ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
+            ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", custEntActivity.CustEntActStatusId);
+
             ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }
@@ -136,7 +140,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType")] CustEntActivity custEntActivity)
+        public ActionResult Edit([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,CustEntActStatusId")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
@@ -149,6 +153,8 @@ namespace JobsV1.Controllers
             ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
             ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
+            ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", custEntActivity.CustEntActStatusId);
+
             ViewBag.Id = custEntActivity.CustEntMainId;
             return View(custEntActivity);
         }

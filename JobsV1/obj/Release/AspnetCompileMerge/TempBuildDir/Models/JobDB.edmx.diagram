@@ -24,7 +24,7 @@
         <AssociationConnector Association="JobDB.DestinationJobItinerary" />
         <EntityTypeShape EntityType="JobDB.JobPickup" Width="1.5" PointX="26.5" PointY="21.625" />
         <AssociationConnector Association="JobDB.JobMainJobPickup" />
-        <EntityTypeShape EntityType="JobDB.Branch" Width="1.5" PointX="23" PointY="1.25" />
+        <EntityTypeShape EntityType="JobDB.Branch" Width="1.5" PointX="25.125" PointY="1.375" />
         <EntityTypeShape EntityType="JobDB.City" Width="1.5" PointX="43.625" PointY="1.375" />
         <AssociationConnector Association="JobDB.CityBranch" />
         <AssociationConnector Association="JobDB.CitySupplier" />
@@ -250,10 +250,10 @@
         <EntityTypeShape EntityType="JobDB.CustNotifRecipientList" Width="1.875" PointX="3.875" PointY="21.625" />
         <AssociationConnector Association="JobDB.NotifRecipientCustNotifRecipient" />
         <AssociationConnector Association="JobDB.CustNotifRecipientCustNotifActivity" />
-        <EntityTypeShape EntityType="JobDB.CustEntActStatus" Width="1.5" PointX="19.125" PointY="0.875" />
-        <EntityTypeShape EntityType="JobDB.CustEntActType" Width="1.5" PointX="21" PointY="0.875" />
+        <EntityTypeShape EntityType="JobDB.CustEntActStatus" Width="1.5" PointX="19.375" PointY="0.875" />
+        <EntityTypeShape EntityType="JobDB.CustEntActType" Width="1.5" PointX="23.25" PointY="0.875" />
         <EntityTypeShape EntityType="JobDB.SupplierActStatus" Width="1.5" PointX="69.5" PointY="6.125" />
-        <EntityTypeShape EntityType="JobDB.CustEntActivityType" Width="1.5" PointX="21" PointY="2.625" />
+        <EntityTypeShape EntityType="JobDB.CustEntActivityType" Width="1.5" PointX="23.25" PointY="2.625" />
         <EntityTypeShape EntityType="JobDB.SupplierActivityType" Width="1.5" PointX="67.375" PointY="6" />
         <EntityTypeShape EntityType="JobDB.JobVehicle" Width="1.5" PointX="21" PointY="12.125" />
         <EntityTypeShape EntityType="JobDB.Vehicle" Width="1.5" PointX="15.125" PointY="10.25" />
@@ -292,15 +292,15 @@
         <AssociationConnector Association="JobDB.ServicesSvcGroup" />
         <AssociationConnector Association="JobDB.SvcDetailSvcGroup" />
         <AssociationConnector Association="JobDB.SupplierActStatusSupplierActivity" />
-        <EntityTypeShape EntityType="JobDB.CustEntActPostSale" Width="1.5" PointX="19.125" PointY="2.625" />
-        <EntityTypeShape EntityType="JobDB.CustEntActPostSaleStatus" Width="1.5" PointX="19.125" PointY="5.875" />
+        <EntityTypeShape EntityType="JobDB.CustEntActPostSale" Width="1.5" PointX="17" PointY="5.875" />
+        <EntityTypeShape EntityType="JobDB.CustEntActPostSaleStatus" Width="1.5" PointX="19.375" PointY="5.875" />
         <AssociationConnector Association="JobDB.CustEntActPostSaleStatusCustEntActPostSale" />
         <AssociationConnector Association="JobDB.SupplierItemRateSalesLeadQuotedItem" ManuallyRouted="true" >
-          <ConnectorPoint PointX="53.875" PointY="8.43724609375" />
-          <ConnectorPoint PointX="31.5" PointY="8.43724609375" />
-          <ConnectorPoint PointX="31.5" PointY="29.25" />
+          <ConnectorPoint PointX="53.875" PointY="10.912903645833334" />
+          <ConnectorPoint PointX="45.748847184499574" PointY="31.893961785724525" />
+          <ConnectorPoint PointX="45.688652815500426" PointY="32.049378695095974" />
+          <ConnectorPoint PointX="31.458333333333332" PointY="68.790893060302707" />
           <ConnectorPoint PointX="31.458333333333332" PointY="29.25" />
-          <ConnectorPoint PointX="31.291666666666668" PointY="29.25" />
           <ConnectorPoint PointX="23.598954583333331" PointY="29.25" />
           <ConnectorPoint PointX="23.432287916666667" PointY="29.25" />
           <ConnectorPoint PointX="10.958333333333334" PointY="29.25" />
@@ -312,6 +312,11 @@
           <ConnectorPoint PointX="10" PointY="38" />
           <ConnectorPoint PointX="10" PointY="38.375" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="JobDB.CustEntActActionCodes" Width="1.5" PointX="19.375" PointY="3.125" />
+        <AssociationConnector Association="JobDB.CustEntActStatusCustEntActivity" />
+        <EntityTypeShape EntityType="JobDB.CustEntActActionStatus" Width="1.5" PointX="21.125" PointY="2" />
+        <AssociationConnector Association="JobDB.CustEntActActionStatusCustEntActivity" />
+        <AssociationConnector Association="JobDB.CustEntActActionCodesCustEntActivity" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

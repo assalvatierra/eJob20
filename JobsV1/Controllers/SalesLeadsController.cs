@@ -30,6 +30,7 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbclasses = new DBClasses();
         private SalesLeadClass sldb = new SalesLeadClass();
+        private DateClass date = new DateClass();
 
         // GET: SalesLeads
         public ActionResult Index(int? sortid, int? leadId, int? companyId)
@@ -291,7 +292,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo")] SalesLead salesLead, int? CompanyId)
+        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo,SalesCode")] SalesLead salesLead, int? CompanyId)
         {
             if (ModelState.IsValid && SalesLeadValidation(salesLead))
             {
@@ -304,12 +305,19 @@ namespace JobsV1.Controllers
                     AddSalesStatus(salesLead.Id, 1);    //NEW Lead Status
                     addCompany((int)CompanyId, salesLead.Id);
 
+                    if (!salesLead.SalesCode.IsNullOrWhiteSpace())
+                    {
+                        //if sales code is not null
+                        //find customer activities with the same sales code
+                        //and add this SalesLead ID to the CustEntActivity entries
+                        UpdateCustActivities(salesLead.Id, salesLead.SalesCode);
+                    }
+
                     return RedirectToAction("Index", new { sortid = 5 , leadid = salesLead.Id});
 
                 }
                 else
                 {
-
                     ModelState.AddModelError("CustomerId", "Invalid Company");
                 }
             }
@@ -360,7 +368,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo")] SalesLead salesLead, int CompanyId)
+        public ActionResult Edit([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo,SalesCode")] SalesLead salesLead, int CompanyId)
         {
             if (ModelState.IsValid && SalesLeadValidation(salesLead))
             {
@@ -714,6 +722,159 @@ namespace JobsV1.Controllers
             return View(customer);
         }
 
+        #endregion
+
+
+        #region Customer Activity 
+        public bool UpdateCustActivities(int salesLeadId, string salesCode)
+        {
+            try
+            {
+
+                //find all customer activites with the same sales code
+                var custActivities = db.CustEntActivities.Where(c => c.SalesCode == salesCode).ToList();
+
+                //update salesLeadId
+                foreach (var act in custActivities)
+                {
+                    act.SalesLeadId = salesLeadId;
+
+                    db.Entry(act).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public ActionResult ListCustActivityCodes(int? id, string salesCode, string projectName, decimal amount, int? companyId)
+        {
+            if (id != null || companyId != null || !salesCode.IsNullOrWhiteSpace())
+            {
+                var actActionCodes = db.CustEntActActionCodes.ToList();
+                ViewBag.SalesLeadId = id;
+                ViewBag.SalesCode = salesCode;
+                ViewBag.ProjectName = projectName;
+                ViewBag.Amount = amount;
+                ViewBag.CompanyId = companyId;
+
+                return View(actActionCodes);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+        public ActionResult AddCustActivityCode(int? slId, int ActCodeId, string salesCode, string projectName, decimal amount, int? companyId)
+        {
+            try
+            {
+                if (slId != null || companyId != null || !salesCode.IsNullOrWhiteSpace())
+                {
+
+                    CustEntActivity activity = new CustEntActivity();
+                    activity.Date = date.GetCurrentDateTime();
+                    activity.Assigned = User.Identity.Name;
+                    activity.SalesCode = salesCode;
+                    activity.ProjectName = projectName;
+                    activity.Amount = amount;
+                    activity.SalesLeadId = slId;
+
+                    var actCodeDefault = db.CustEntActActionCodes.Find(ActCodeId);
+
+                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
+                    ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status");
+                    ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
+                    ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type");
+
+                    ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status");
+                    ViewBag.CustEntActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
+                    ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Name", ActCodeId);
+
+                    ViewBag.Id = slId;
+
+                    return View(activity);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCustActivityCode([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId")] CustEntActivity custEntActivity)
+        {
+            if (ModelState.IsValid)
+            {
+                custEntActivity.Amount = Decimal.Parse(custEntActivity.Amount.ToString());
+                db.CustEntActivities.Add(custEntActivity);
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = custEntActivity.SalesLeadId });
+            }
+
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
+
+            ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", custEntActivity.CustEntActStatusId);
+            ViewBag.CustEntActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", custEntActivity.CustEntActActionStatusId);
+            ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Name", custEntActivity.CustEntActActionCodesId);
+
+            ViewBag.Id = custEntActivity.SalesLeadId;
+
+            return View(custEntActivity);
+        }
+
+        public ActionResult CustActivityDone(int id)
+        {
+            //db.Database.ExecuteSqlCommand("update SalesActivities set SalesActStatusId=2 where Id=" + id);
+            //var slid = db.SalesActivities.Where(s => s.Id == id).FirstOrDefault().SalesLeadId;
+
+            var custAct = db.CustEntActivities.Find(id);
+            custAct.CustEntActActionStatusId = 2;
+
+            db.Entry(custAct).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", new { leadId = custAct.SalesLeadId });
+        }
+
+        public ActionResult CustActivityRemove(int id)
+        {
+            //var slid = db.SalesActivities.Where(s => s.Id == id).FirstOrDefault().SalesLeadId;
+            //db.Database.ExecuteSqlCommand("DELETE FROM SalesActivities where Id=" + id);
+
+            var custAct = db.CustEntActivities.Find(id);
+
+            custAct.CustEntActActionStatusId = 3;
+
+            db.Entry(custAct).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //db.CustEntActivities.Remove(custAct);
+            //db.SaveChanges();
+
+            return RedirectToAction("Index", new { leadId = custAct.SalesLeadId });
+        }
+
+        public ActionResult CustActivitiesPartial(string salesCode)
+        {
+            var activities = db.CustEntActivities.Where(c => c.SalesCode == salesCode).ToList();
+
+            return View(activities);
+        }
         #endregion
 
         #region SalesLeadFiles

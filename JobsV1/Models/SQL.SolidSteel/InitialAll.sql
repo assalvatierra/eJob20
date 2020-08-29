@@ -39,7 +39,7 @@ values
 -- ------------------------------------------------------------
 
 insert into SalesStatusCodes([SeqNo],[Name])
-values (1,'NEW'), (2,'ASSESMENT'), (3, 'PROPOSAL SENT'), (4, 'NEGOTIATION'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
+values (1,'NEW'), (2,'QOUTATION'), (3, 'PROCUREMENT'), (4, 'CHECKING'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
 
 insert into SalesActCodes([Name],[Desc],[SysCode],[iconPath],[DefaultActStatus])
 values 
@@ -49,9 +49,6 @@ values
 ('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
 ('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
 ('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2); 
-
-insert into SalesStatusCodes([SeqNo],[Name])
-values (1,'NEW'), (2,'ASSESMENT'), (3, 'PROPOSAL SENT'), (4, 'NEGOTIATION'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
 
 insert into SalesActStatus([Name])
 values ('REQUEST'),('DONE'),('SUSPEND');
@@ -536,6 +533,20 @@ insert into CustEntActStatus([Status]) values
 ('Open'),('For Client Comment'),('For Meeting'),('Awarded'),('Close');
 
 
+insert into CustEntActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus])
+values 
+('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
+('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1),   
+('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1),   
+('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
+('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
+('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',3),   
+('AWARDED','Awarded', 'AWARDED','~/Images/SalesLead/meeting102.jpg',4),   
+('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2); 
+
+insert into CustEntActActionStatus([ActionStatus])
+values ('REQUEST'),('DONE'),('SUSPEND');
+
 update CustCategories set iconPath = 'Images/Customers/Category/star-filled-40.png' where Id = 1; 
 update CustCategories set iconPath = 'Images/Customers/Category/Active-30.png' where Id = 2; 
 update CustCategories set iconPath = 'Images/Customers/Category//suspended-64.png' where Id = 3; 
@@ -1005,21 +1016,21 @@ values	('Fuel'		 ,'',10,1),
 --insert into CustEntActStatus([Status]) values 
 --('Open'),('For Client Comment'),('For Meeting'),('Awarded'),('Close');
 
-insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Type,ActivityType,Remarks)
-values	(1,'1/20/2020','demo@gmail.com','building a project', 'SO-002'	,50000	,'Open'			,'Bidding Only'	,'Quotation','Meeting Lunch - Sales Activity'),
-		(1,'2/05/2020','demo@gmail.com','building a project', 'SO-002'	,50000	,'Awarded'		,'Bidding Only'	,'Quotation','Presentation'),
-		(2,'1/27/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,25000	,'For Meeting'	,'Others'		,'Meeting'	,' '),
-		(2,'2/18/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,28000	,'For Meeting'	,'Others'		,'Meeting'	,'For Meeting'),
-		(2,'3/05/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,29000	,'For Meeting'	,'Others'		,'Meeting'	,'For Client Comment'),
-		(3,'1/21/2020','demo@gmail.com','Davao Bridge'		, 'SO-009'	,75000	,'Awarded'		,'Firm Inquiry'	,'Quotation','Initial Meeting'),
-		(3,'2/21/2020','demo@gmail.com','Davao Bridge'		, 'SO-009'	,75000	,'For Meeting'	,'Firm Inquiry'	,'Meeting'	,'Initial Meeting');
+insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Type,ActivityType,Remarks,CustEntActStatusId,CustEntActActionCodesId,CustEntActActionStatusId)
+values	(1,'1/20/2020','demo@gmail.com','building a project', 'SO-002'	,50000	,'Open'			,'Bidding Only'	,'Quotation','Meeting Lunch - Sales Activity', 1, 1, 1),
+		(1,'2/05/2020','demo@gmail.com','building a project', 'SO-002'	,50000	,'Awarded'		,'Bidding Only'	,'Quotation','Presentation'		, 1, 1, 1),
+		(2,'1/27/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,25000	,'For Meeting'	,'Others'		,'Meeting'	,' '				, 1, 1, 1),
+		(2,'2/18/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,28000	,'For Meeting'	,'Others'		,'Meeting'	,'For Meeting'		, 1, 1, 1),
+		(2,'3/05/2020','demo@gmail.com','Supplier Materials', 'SO-005'	,29000	,'For Meeting'	,'Others'		,'Meeting'	,'For Client Comment', 1, 1, 1),
+		(3,'1/21/2020','demo@gmail.com','Davao Bridge'		, 'SO-009'	,75000	,'Awarded'		,'Firm Inquiry'	,'Quotation','Initial Meeting'	, 1, 1, 1),
+		(3,'2/21/2020','demo@gmail.com','Davao Bridge'		, 'SO-009'	,75000	,'For Meeting'	,'Firm Inquiry'	,'Meeting'	,'Initial Meeting'	, 1, 1, 1);
 
-insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Type,ActivityType, Remarks)
-values	(2,'06/05/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,0		,'Open'			,'Bidding Only'		,'Quotation',''),
-		(3,'06/20/2020', 'demo@gmail.com', 'Buidling C'		,'SC-013'	,2500	,'For Meeting'	,'Others'			,'Quotation',''),
-		(2,'07/12/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,6500	,'For Meeting'	,'Others'			,'Meeting'	,''),
-		(2,'07/15/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,3500	,'For Meeting'	,'Others'			,'Meeting'	,''),
-		(3,'07/16/2020', 'demo@gmail.com', 'Buidling C'		,'SC-013'	,25000	,'Closed'		,'Buying Inquiry'	,'Sales'	,''); 
+insert into CustEntActivities(CustEntMainId,Date,Assigned,ProjectName,SalesCode,Amount,Status,Type,ActivityType,Remarks,CustEntActStatusId,CustEntActActionCodesId,CustEntActActionStatusId)
+values	(2,'06/05/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,0		,'Open'			,'Bidding Only'		,'Quotation','', 1, 1, 1),
+		(3,'06/20/2020', 'demo@gmail.com', 'Buidling C'		,'SC-013'	,2500	,'For Meeting'	,'Others'			,'Quotation','', 1, 1, 1),
+		(2,'07/12/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,6500	,'For Meeting'	,'Others'			,'Meeting'	,'', 1, 1, 1),
+		(2,'07/15/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,3500	,'For Meeting'	,'Others'			,'Meeting'	,'', 1, 1, 1),
+		(3,'07/16/2020', 'demo@gmail.com', 'Buidling C'		,'SC-013'	,25000	,'Closed'		,'Buying Inquiry'	,'Sales'	,'', 1, 1, 1); 
 
 
 		

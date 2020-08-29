@@ -14,6 +14,14 @@ namespace JobsV1.Models
     
     public partial class CustEntActivity
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustEntActivity()
+        {
+            this.CustEntActStatusId = 1;
+            this.CustEntActActionStatusId = 1;
+            this.CustEntActActionCodesId = 1;
+        }
+    
         public int Id { get; set; }
         public System.DateTime Date { get; set; }
         public string Assigned { get; set; }
@@ -25,7 +33,14 @@ namespace JobsV1.Models
         public int CustEntMainId { get; set; }
         public string Type { get; set; }
         public string ActivityType { get; set; }
+        public Nullable<int> SalesLeadId { get; set; }
+        public int CustEntActStatusId { get; set; }
+        public int CustEntActActionStatusId { get; set; }
+        public int CustEntActActionCodesId { get; set; }
     
         public virtual CustEntMain CustEntMain { get; set; }
+        public virtual CustEntActStatus CustEntActStatu { get; set; }
+        public virtual CustEntActActionStatus CustEntActActionStatu { get; set; }
+        public virtual CustEntActActionCodes CustEntActActionCode { get; set; }
     }
 }

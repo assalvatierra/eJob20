@@ -738,6 +738,12 @@
     <Compile Include="Models\CustEntAccountType.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustEntActActionCodes.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustEntActActionStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustEntActivity.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1749,6 +1755,8 @@
     <Content Include="Images\SalesLead\Email102.jpg" />
     <Content Include="Images\SalesLead\GreenArrow.png" />
     <Content Include="Images\SalesLead\high-importance.png" />
+    <Content Include="Images\SalesLead\Awarded.png" />
+    <Content Include="Images\SalesLead\Closed.png" />
     <Content Include="Images\SalesLead\Longterm.png" />
     <Content Include="Images\SalesLead\meeting101.jpg" />
     <Content Include="Images\SalesLead\meeting101.png" />
@@ -2931,6 +2939,11 @@
     <Content Include="Views\Activities\ActivitiesPostSale_Create.cshtml" />
     <Content Include="Views\Offline\Index.cshtml" />
     <Content Include="Views\CarRental\FAQ.cshtml" />
+    <Content Include="Views\SalesLeads\_AddActivityModal.cshtml" />
+    <Content Include="Views\SalesLeads\AddCustActivityCode.cshtml" />
+    <Content Include="Views\SalesLeads\ListCustActivityCodes.cshtml" />
+    <Content Include="Views\SalesLeads\CustActivitiesPartial.cshtml" />
+    <Content Include="Views\Shared\_PartialLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

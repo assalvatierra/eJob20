@@ -146,6 +146,8 @@
     <EntitySet Name="SvcDetails" EntityType="JobDB.Store.SvcDetails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntActPostSales" EntityType="JobDB.Store.CustEntActPostSales" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntActPostSaleStatus" EntityType="JobDB.Store.CustEntActPostSaleStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntActActionCodes" EntityType="JobDB.Store.CustEntActActionCodes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustEntActActionStatus" EntityType="JobDB.Store.CustEntActActionStatus" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -702,6 +704,18 @@
       <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
       <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
     </AssociationSet>
+    <AssociationSet Name="CustEntActStatusCustEntActivity" Association="JobDB.Store.CustEntActStatusCustEntActivity">
+      <End Role="CustEntActStatus" EntitySet="CustEntActStatus" />
+      <End Role="CustEntActivity" EntitySet="CustEntActivities" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntActActionStatusCustEntActivity" Association="JobDB.Store.CustEntActActionStatusCustEntActivity">
+      <End Role="CustEntActActionStatus" EntitySet="CustEntActActionStatus" />
+      <End Role="CustEntActivity" EntitySet="CustEntActivities" />
+    </AssociationSet>
+    <AssociationSet Name="CustEntActActionCodesCustEntActivity" Association="JobDB.Store.CustEntActActionCodesCustEntActivity">
+      <End Role="CustEntActActionCodes" EntitySet="CustEntActActionCodes" />
+      <End Role="CustEntActivity" EntitySet="CustEntActivities" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -1149,6 +1163,7 @@
     <Property Name="AssignedTo" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="CustPhone" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="CustEmail" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="SalesCode" Type="nvarchar" Nullable="true" MaxLength="40" />
   </EntityType>
   <EntityType Name="SalesStatusCodes">
     <Key>
@@ -1908,6 +1923,10 @@
     <Property Name="CustEntMainId" Type="int" Nullable="false" />
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="ActivityType" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="SalesLeadId" Type="int" Nullable="true" />
+    <Property Name="CustEntActStatusId" Type="int" Nullable="false" DefaultValue="1" />
+    <Property Name="CustEntActActionStatusId" Type="int" Nullable="false" />
+    <Property Name="CustEntActActionCodesId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CustEntDocuments">
     <Key>
@@ -2163,6 +2182,24 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="CustEntActActionCodes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Desc" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="SysCode" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="IconPath" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="DefaultActStatus" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustEntActActionStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ActionStatus" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3832,6 +3869,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CustEntActStatusCustEntActivity">
+    <End Role="CustEntActStatus" Type="JobDB.Store.CustEntActStatus" Multiplicity="1" />
+    <End Role="CustEntActivity" Type="JobDB.Store.CustEntActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntActStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntActivity">
+        <PropertyRef Name="CustEntActStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustEntActActionStatusCustEntActivity">
+    <End Role="CustEntActActionStatus" Type="JobDB.Store.CustEntActActionStatus" Multiplicity="1" />
+    <End Role="CustEntActivity" Type="JobDB.Store.CustEntActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntActActionStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntActivity">
+        <PropertyRef Name="CustEntActActionStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustEntActActionCodesCustEntActivity">
+    <End Role="CustEntActActionCodes" Type="JobDB.Store.CustEntActActionCodes" Multiplicity="1" />
+    <End Role="CustEntActivity" Type="JobDB.Store.CustEntActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustEntActActionCodes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustEntActivity">
+        <PropertyRef Name="CustEntActActionCodesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4532,6 +4605,20 @@
           <AssociationSet Name="SupplierItemRateSalesLeadQuotedItem" Association="JobDB.SupplierItemRateSalesLeadQuotedItem">
             <End Role="SupplierItemRate" EntitySet="SupplierItemRates" />
             <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
+          </AssociationSet>
+          <EntitySet Name="CustEntActActionCodes" EntityType="JobDB.CustEntActActionCodes" />
+          <AssociationSet Name="CustEntActStatusCustEntActivity" Association="JobDB.CustEntActStatusCustEntActivity">
+            <End Role="CustEntActStatus" EntitySet="CustEntActStatus" />
+            <End Role="CustEntActivity" EntitySet="CustEntActivities" />
+          </AssociationSet>
+          <EntitySet Name="CustEntActActionStatus" EntityType="JobDB.CustEntActActionStatus" />
+          <AssociationSet Name="CustEntActActionStatusCustEntActivity" Association="JobDB.CustEntActActionStatusCustEntActivity">
+            <End Role="CustEntActActionStatus" EntitySet="CustEntActActionStatus" />
+            <End Role="CustEntActivity" EntitySet="CustEntActivities" />
+          </AssociationSet>
+          <AssociationSet Name="CustEntActActionCodesCustEntActivity" Association="JobDB.CustEntActActionCodesCustEntActivity">
+            <End Role="CustEntActActionCodes" EntitySet="CustEntActActionCodes" />
+            <End Role="CustEntActivity" EntitySet="CustEntActivities" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -5494,6 +5581,7 @@
           <NavigationProperty Name="SalesLeadLinks" Relationship="JobDB.SalesLeadSalesLeadLink" FromRole="SalesLead" ToRole="SalesLeadLink" />
           <NavigationProperty Name="SalesLeadCompanies" Relationship="JobDB.SalesLeadSalesLeadCompany" FromRole="SalesLead" ToRole="SalesLeadCompany" />
           <NavigationProperty Name="SalesLeadItems" Relationship="JobDB.SalesLeadSalesLeadItems" FromRole="SalesLead" ToRole="SalesLeadItems" />
+          <Property Name="SalesCode" Type="String" Nullable="true" MaxLength="40" />
         </EntityType>
         <EntityType Name="SalesStatusCode">
           <Key>
@@ -7298,6 +7386,13 @@
           <Property Name="CustEntMainId" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="ActivityType" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="SalesLeadId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="CustEntActStatu" Relationship="JobDB.CustEntActStatusCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntActStatus" />
+          <Property Name="CustEntActStatusId" Type="Int32" Nullable="false" DefaultValue="1" />
+          <NavigationProperty Name="CustEntActActionStatu" Relationship="JobDB.CustEntActActionStatusCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntActActionStatus" />
+          <Property Name="CustEntActActionStatusId" Type="Int32" Nullable="false" DefaultValue="1" />
+          <NavigationProperty Name="CustEntActActionCode" Relationship="JobDB.CustEntActActionCodesCustEntActivity" FromRole="CustEntActivity" ToRole="CustEntActActionCodes" />
+          <Property Name="CustEntActActionCodesId" Type="Int32" Nullable="false" DefaultValue="1" />
         </EntityType>
         <EntityType Name="CustEntDocuments">
           <Key>
@@ -7447,6 +7542,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="30" />
+          <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntActStatusCustEntActivity" FromRole="CustEntActStatus" ToRole="CustEntActivity" />
         </EntityType>
         <EntityType Name="CustEntActType">
           <Key>
@@ -7943,6 +8039,62 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CustEntActActionCodes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Desc" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="SysCode" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="IconPath" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="DefaultActStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntActActionCodesCustEntActivity" FromRole="CustEntActActionCodes" ToRole="CustEntActivity" />
+        </EntityType>
+        <Association Name="CustEntActStatusCustEntActivity">
+          <End Type="JobDB.CustEntActStatus" Role="CustEntActStatus" Multiplicity="1" />
+          <End Type="JobDB.CustEntActivity" Role="CustEntActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntActStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntActivity">
+              <PropertyRef Name="CustEntActStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CustEntActActionStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionStatus" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntActActionStatusCustEntActivity" FromRole="CustEntActActionStatus" ToRole="CustEntActivity" />
+        </EntityType>
+        <Association Name="CustEntActActionStatusCustEntActivity">
+          <End Type="JobDB.CustEntActActionStatus" Role="CustEntActActionStatus" Multiplicity="1" />
+          <End Type="JobDB.CustEntActivity" Role="CustEntActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntActActionStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntActivity">
+              <PropertyRef Name="CustEntActActionStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CustEntActActionCodesCustEntActivity">
+          <End Type="JobDB.CustEntActActionCodes" Role="CustEntActActionCodes" Multiplicity="1" />
+          <End Type="JobDB.CustEntActivity" Role="CustEntActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustEntActActionCodes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustEntActivity">
+              <PropertyRef Name="CustEntActActionCodesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8431,6 +8583,7 @@
           <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
           <ScalarProperty Name="CustPhone" ColumnName="CustPhone" />
           <ScalarProperty Name="CustEmail" ColumnName="CustEmail" />
+          <ScalarProperty Name="SalesCode" ColumnName="SalesCode" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -9263,6 +9416,10 @@
           <ScalarProperty Name="CustEntMainId" ColumnName="CustEntMainId" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+          <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
+          <ScalarProperty Name="CustEntActStatusId" ColumnName="CustEntActStatusId" />
+          <ScalarProperty Name="CustEntActActionStatusId" ColumnName="CustEntActActionStatusId" />
+          <ScalarProperty Name="CustEntActActionCodesId" ColumnName="CustEntActActionCodesId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -9547,6 +9704,26 @@
         <MappingFragment StoreEntitySet="CustEntActPostSaleStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActActionCodes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActActionCodes)">
+        <MappingFragment StoreEntitySet="CustEntActActionCodes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="SysCode" ColumnName="SysCode" />
+          <ScalarProperty Name="IconPath" ColumnName="IconPath" />
+          <ScalarProperty Name="DefaultActStatus" ColumnName="DefaultActStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustEntActActionStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CustEntActActionStatus)">
+        <MappingFragment StoreEntitySet="CustEntActActionStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ActionStatus" ColumnName="ActionStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

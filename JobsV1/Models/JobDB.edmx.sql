@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/28/2020 18:18:25
+-- Date Created: 08/29/2020 16:28:57
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -431,6 +431,18 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntActPostSaleStatusCustEntActPostSale]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntActPostSales] DROP CONSTRAINT [FK_CustEntActPostSaleStatusCustEntActPostSale];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierItemRateSalesLeadQuotedItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SupplierItemRateSalesLeadQuotedItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntActStatusCustEntActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntActivities] DROP CONSTRAINT [FK_CustEntActStatusCustEntActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntActActionStatusCustEntActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntActivities] DROP CONSTRAINT [FK_CustEntActActionStatusCustEntActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustEntActActionCodesCustEntActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustEntActivities] DROP CONSTRAINT [FK_CustEntActActionCodesCustEntActivity];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -855,6 +867,12 @@ IF OBJECT_ID(N'[dbo].[CustEntActPostSales]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CustEntActPostSaleStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustEntActPostSaleStatus];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntActActionCodes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntActActionCodes];
+GO
+IF OBJECT_ID(N'[dbo].[CustEntActActionStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustEntActActionStatus];
 GO
 
 -- --------------------------------------------------
@@ -1304,7 +1322,8 @@ CREATE TABLE [dbo].[SalesLeads] (
     [Price] decimal(18,0)  NOT NULL,
     [AssignedTo] nvarchar(80)  NULL,
     [CustPhone] nvarchar(20)  NULL,
-    [CustEmail] nvarchar(80)  NULL
+    [CustEmail] nvarchar(80)  NULL,
+    [SalesCode] nvarchar(40)  NULL
 );
 GO
 
@@ -2063,7 +2082,11 @@ CREATE TABLE [dbo].[CustEntActivities] (
     [Remarks] nvarchar(250)  NULL,
     [CustEntMainId] int  NOT NULL,
     [Type] nvarchar(20)  NULL,
-    [ActivityType] nvarchar(30)  NULL
+    [ActivityType] nvarchar(30)  NULL,
+    [SalesLeadId] int  NULL,
+    [CustEntActStatusId] int  NOT NULL,
+    [CustEntActActionStatusId] int  NOT NULL,
+    [CustEntActActionCodesId] int  NOT NULL
 );
 GO
 
@@ -2319,6 +2342,24 @@ GO
 CREATE TABLE [dbo].[CustEntActPostSaleStatus] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Status] nvarchar(20)  NOT NULL
+);
+GO
+
+-- Creating table 'CustEntActActionCodes'
+CREATE TABLE [dbo].[CustEntActActionCodes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(20)  NOT NULL,
+    [Desc] nvarchar(80)  NOT NULL,
+    [SysCode] nvarchar(20)  NOT NULL,
+    [IconPath] nvarchar(80)  NOT NULL,
+    [DefaultActStatus] int  NOT NULL
+);
+GO
+
+-- Creating table 'CustEntActActionStatus'
+CREATE TABLE [dbo].[CustEntActActionStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ActionStatus] nvarchar(20)  NOT NULL
 );
 GO
 
@@ -3163,6 +3204,18 @@ GO
 -- Creating primary key on [Id] in table 'CustEntActPostSaleStatus'
 ALTER TABLE [dbo].[CustEntActPostSaleStatus]
 ADD CONSTRAINT [PK_CustEntActPostSaleStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntActActionCodes'
+ALTER TABLE [dbo].[CustEntActActionCodes]
+ADD CONSTRAINT [PK_CustEntActActionCodes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustEntActActionStatus'
+ALTER TABLE [dbo].[CustEntActActionStatus]
+ADD CONSTRAINT [PK_CustEntActActionStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5253,6 +5306,51 @@ GO
 CREATE INDEX [IX_FK_SupplierItemRateSalesLeadQuotedItem]
 ON [dbo].[SalesLeadQuotedItems]
     ([SupplierItemRateId]);
+GO
+
+-- Creating foreign key on [CustEntActStatusId] in table 'CustEntActivities'
+ALTER TABLE [dbo].[CustEntActivities]
+ADD CONSTRAINT [FK_CustEntActStatusCustEntActivity]
+    FOREIGN KEY ([CustEntActStatusId])
+    REFERENCES [dbo].[CustEntActStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntActStatusCustEntActivity'
+CREATE INDEX [IX_FK_CustEntActStatusCustEntActivity]
+ON [dbo].[CustEntActivities]
+    ([CustEntActStatusId]);
+GO
+
+-- Creating foreign key on [CustEntActActionStatusId] in table 'CustEntActivities'
+ALTER TABLE [dbo].[CustEntActivities]
+ADD CONSTRAINT [FK_CustEntActActionStatusCustEntActivity]
+    FOREIGN KEY ([CustEntActActionStatusId])
+    REFERENCES [dbo].[CustEntActActionStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntActActionStatusCustEntActivity'
+CREATE INDEX [IX_FK_CustEntActActionStatusCustEntActivity]
+ON [dbo].[CustEntActivities]
+    ([CustEntActActionStatusId]);
+GO
+
+-- Creating foreign key on [CustEntActActionCodesId] in table 'CustEntActivities'
+ALTER TABLE [dbo].[CustEntActivities]
+ADD CONSTRAINT [FK_CustEntActActionCodesCustEntActivity]
+    FOREIGN KEY ([CustEntActActionCodesId])
+    REFERENCES [dbo].[CustEntActActionCodes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustEntActActionCodesCustEntActivity'
+CREATE INDEX [IX_FK_CustEntActActionCodesCustEntActivity]
+ON [dbo].[CustEntActivities]
+    ([CustEntActActionCodesId]);
 GO
 
 -- --------------------------------------------------

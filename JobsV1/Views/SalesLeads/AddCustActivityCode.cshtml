@@ -6,10 +6,10 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     <h4>CustEntActivity</h4>
     <hr />
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" hidden>
         @Html.LabelFor(model => model.SalesCode, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.SalesCode, new { htmlAttributes = new { @class = "form-control", @maxlength = 30 } })
@@ -63,14 +63,6 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CustEntActStatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("CustEntActStatusId", null, htmlAttributes: new { @class = "form-control", @id = "CustEntActStatusId" })
-            @Html.ValidationMessageFor(model => model.CustEntActActionStatusId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
         @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("Type", null, htmlAttributes: new { @class = "form-control" })
@@ -86,6 +78,47 @@
         </div>
     </div>
 
+    <div class="form-group" hidden>
+        @Html.LabelFor(model => model.CustEntMainId, "CustEntMainId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("CustEntMainId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CustEntMainId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" hidden>
+        @Html.LabelFor(model => model.SalesLeadId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.SalesLeadId, new { htmlAttributes = new { @class = "form-control", @maxlength = 250 } })
+            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CustEntActActionCodesId, "ActionCode", htmlAttributes: new { @class = "control-label col-md-2" }) 
+        <div class="col-md-10">
+            @Html.DropDownList("CustEntActActionCodesId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CustEntActActionCodesId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CustEntActActionStatusId, "ActionStatus", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("CustEntActActionStatusId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CustEntActActionStatusId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CustEntActStatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("CustEntActStatusId", null, htmlAttributes: new { @class = "form-control", @id = "CustEntActStatusId" })
+            @Html.ValidationMessageFor(model => model.CustEntActActionStatusId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
     <div class="form-group">
         @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -94,13 +127,6 @@
         </div>
     </div>
 
-    <div class="form-group hidden">
-        @Html.LabelFor(model => model.CustEntMainId, "CustEntMainId", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("CustEntMainId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CustEntMainId, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -119,6 +145,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/CustEntMain/CustEntActivities.js"></script>
     <script>
+        
         //Sync Old Status Field to New StatusField with ID on select 
         $('#CustEntActStatusId').on('change', () => {
             console.log("status changes");
