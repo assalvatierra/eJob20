@@ -45,7 +45,7 @@
 .main-page-full-banner {
     display: flex;
     width: 100%;
-    background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg-ws.jpg');
+    background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -74,8 +74,8 @@
         }
 
 .banner-services {
-    margin-top:-200px;
-    padding:10px;
+    margin-top: 0px;
+    padding: 10px;
     margin-bottom: 0px;
     margin-left: 00px;
     width: 100%;
@@ -83,15 +83,15 @@
     flex-flow: row;
     align-items: flex-start;
     justify-content: space-evenly;
-    background-color: rgb(6,105,178);
-    color:white;
+    /*background-color: rgb(6,105,178);*/
+    background-color: #424242;
+    color: white;
 }
 
 .banner-services-container {
     display: flex;
     align-items: flex-end;
     width: 100%;
-    margin-bottom:20px;
 }
 
 .banner-services-items {
@@ -99,7 +99,8 @@
     /*margin: 8px;*/
     display: flex;
     flex-flow: column;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    align-items:flex-start;
 }
 
     .banner-services-items p {
@@ -115,17 +116,89 @@
         filter: drop-shadow(5px 5px 5px black);
     }
 
+        .banner-services-items img:hover {
+            webkit-filter: drop-shadow(2px 2px 3px dodgerblue);
+            filter: drop-shadow(2px 2px 3px dodgerblue);
+        }
+
 .banner-btn-green {
     color: #0669B2;
     background-color: #F2EC41;
     border-color: #F2EC41;
+    font-size:20px;
+    margin:15px 0px;
 }
-
 
     .banner-btn-green:hover {
         color: #0669B2;
-        background-color: #EEEC9C;
-        border-color: #EEEC9C;
+        background-color: #cfcb30;
+        border-color: #cfcb30;
+    }
+
+.Selected-Active {
+    border-color: dodgerblue !important;
+    box-shadow: 1px 1px 10px dodgerblue !important;
+}
+
+.linkable-container {
+    margin-top: 0px;
+    width: 100%;
+}
+
+.linkable-heading {
+    font-size: 30px;
+    text-shadow: 2px 2px 3px black;
+    margin-top: 15px;
+    color: white;
+}
+
+.linkable-heading-Fleet {
+    margin-left: -22px;
+    margin-right: 160px;
+}
+
+.linkable-heading:hover {
+    color: dodgerblue;
+    cursor:pointer;
+}
+
+.banner-fleet-items {
+    margin:5px;
+}
+
+    .banner-fleet-items img {
+        width:50px;
+        margin:5px;
+    }
+
+        .banner-fleet-items img:hover {
+            border: 2px solid dodgerblue;
+        }
+
+    .banner-fleet-items p {
+        margin: 5px;
+        font-weight: 600;
+        text-shadow: 2px 2px 3px black;
+    }
+
+.fleet-circle {
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.scroll-text{
+    color:white;
+    cursor:pointer;
+}
+
+    .scroll-text:hover {
+        color: dodgerblue;
+        cursor: pointer;
+    }
+
+
+    .scroll-text:active {
+        color: white;
     }
 
 .contact-container {
@@ -339,6 +412,12 @@
     width: 100%;
 }
 
+
+.show-on-mobile {
+    display: none;
+}
+
+
 .footer-details {
     padding: 20px 50px;
 }
@@ -361,7 +440,7 @@
 
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md-ws.jpg');
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
         height: 480px;
         padding: 20px;
     }
@@ -403,7 +482,7 @@
     }
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md-ws.jpg');
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
         height: 360px;
         /*width:360px;*/
     }
@@ -434,7 +513,7 @@
 
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md-ws.jpg');
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
         height: 360px;
         padding-left:20px;
     }
@@ -456,10 +535,6 @@
         margin-top: 15px;
     }
 
-    .banner-services {
-        margin-left: -10px;
-    }
-
         .banner-services div {
             width: 45px;
             margin: 2px;
@@ -467,6 +542,12 @@
 
     .mobile-text-link {
         padding: 10px;
+    }
+
+
+    .linkable-heading-Fleet {
+        margin-left:10px;
+        margin-right: 160px;
     }
 }
 
@@ -492,7 +573,7 @@
     }
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-sm-ws.jpg');
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-sm.jpg');
         background-position: center;
         background-repeat: no-repeat;
         background-size: 100%;
@@ -571,13 +652,28 @@
         padding: 20px 15px;
     }
 
-    
+    .banner-services-container{
+        flex-flow:column;
+    }
+
+    .linkable-container {
+        width: 105%;
+    }
+
+    .hidden-on-mobile{
+        display:none !important ;
+    }
+
+    .show-on-mobile {
+        display: flex !important;
+    }
+
     .banner-services-items {
         width: 50px;
         display: flex;
         flex-flow: column;
         justify-content: flex-start;
-        margin-left:-20px;
+        margin-left: -20px;
     }
 
     .banner-services-items p {
@@ -606,6 +702,10 @@
 
     .more-links-section a button h3 {
        font-size:20px;
+    }
+
+    .banner-btn-green {
+        margin: 5px 0px;
     }
 
 

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<JobsV1.Models.CarUnit> 
+@{
+    ViewBag.Title = "Price List Table";
+}
+
+
+<div class="jumbotron" style="margin-bottom:0px;">
+    <h1> Price List Table </h1>
+    <a href="/"> Go back home </a>
+</div>
+<div style="background-color:white;">
+        <div style="padding:10px;">
+            <h2>
+                Car Rental Rates
+            </h2>
+            <p>
+                Driver and Fuel Included, 
+           
+                <b> Within Davao City Only</b>
+            </p>
+            <table class="table" style="width:100%;">
+                <tr>
+                    <th>
+                        Unit/Vehicle
+                    </th>
+                    <th>
+                        Daily
+                    </th>
+                    <th>
+                        Weekly
+                    </th>
+                    <th>
+                        Monthly
+                    </th>
+                    <th>
+                        SelfDrive
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Remarks ( @item.Description )
+                        </td>
+                        <td>
+                            @item.CarRates.Where(c => c.CarUnitId == item.Id).FirstOrDefault().Daily
+                        </td>
+                        <td>
+                            @item.CarRates.Where(c => c.CarUnitId == item.Id).FirstOrDefault().Weekly
+                        </td>
+                        <td>
+                            @item.CarRates.Where(c => c.CarUnitId == item.Id).FirstOrDefault().Monthly
+                        </td>
+                        <td>
+                            @if (item.SelfDrive == 0)
+                            {
+                                <img src="~/Images/SalesLead/approve-icon.png" width="20" />
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+            <div>
+                <h3>Requirements For Self-Drive Car Rentals</h3>
+                <p>
+                    Another option for renting a vehicle is <em>Self-drive.</em> You will drive the vehicle yourself and have a
+                    more private travel around the city at your own time and convenience. For booking and reservation,
+                    the following documents will be needed ( email scanned copies to Inquiries.RealWheels@Gmail.com )
+                    <ol>
+                        <li>) Valid Driver's License</li>
+                        <li>) At least two(2) Valid IDs ( Government issued IDs )</li>
+                        <li>) Proof of residence ( for renter's residing in Philippines )</li>
+                        <li>) Rental contract / Hotel Booking/reservation ( for renter's residing outside Philippines )</li>
+                    </ol>
+                    for self-drive option, vehicles are limited to the following types: SUV and Sedans
+                </p>
+            </div>
+        </div>
+
+
+</div>

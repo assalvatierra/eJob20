@@ -1552,6 +1552,11 @@
     <Content Include="Images\CarRental\Home\vehicle-type-sedan.jpg" />
     <Content Include="Images\CarRental\Home\vehicle-type-suv.jpg" />
     <Content Include="Images\CarRental\Home\vehicle-type-van.jpg" />
+    <Content Include="Images\CarRental\Home\Vehicles\Fleet-mpv-sm.jpg" />
+    <Content Include="Images\CarRental\Home\Vehicles\Fleet-pickup-sm.jpg" />
+    <Content Include="Images\CarRental\Home\Vehicles\Fleet-sedan-sm.jpg" />
+    <Content Include="Images\CarRental\Home\Vehicles\Fleet-suv-sm.jpg" />
+    <Content Include="Images\CarRental\Home\Vehicles\Fleet-van-sm.jpg" />
     <Content Include="Images\CarRental\Home\Vehicles\Realwheel-Davao-512.jpg" />
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Davao-Ford-Everest.jpg" />
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Davao-Honda-City.jpg" />
@@ -1561,6 +1566,7 @@
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Davao-Toyota-Innova.jpg" />
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Davao-Toyota-Rush.jpg" />
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Toyota-Grandia-Tourer.jpg" />
+    <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-2.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-city-2018-back.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-city-2018.jpg" />
     <Content Include="Images\CarRental\hondacity\honda-city-front.jpg" />
@@ -2944,6 +2950,7 @@
     <Content Include="Views\SalesLeads\ListCustActivityCodes.cshtml" />
     <Content Include="Views\SalesLeads\CustActivitiesPartial.cshtml" />
     <Content Include="Views\Shared\_PartialLayout.cshtml" />
+    <Content Include="Views\CarRental\PriceList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

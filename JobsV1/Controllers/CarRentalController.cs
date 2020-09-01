@@ -571,6 +571,14 @@ namespace JobsV1.Controllers
             return View();
         }
 
+        public ActionResult PriceList()
+        {
+            var carUnits = db.CarUnits.ToList().OrderBy(c=>c.Remarks);
+
+            return View(carUnits);
+        }
+
+
 
 
 
