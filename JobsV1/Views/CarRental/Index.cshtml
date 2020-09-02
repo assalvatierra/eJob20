@@ -20,7 +20,7 @@
     <div id="fb-root"></div>*@
 @*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=596694584162008&autoLogAppEvents=1" nonce="e2XOPjWp"></script>*@
 
-<div class="main-page-full-banner">
+<div class="main-page-full-banner" id="Home">
     <div class="title-container">
         <h1>Davao Car Rental and Tours</h1>
         <p class="lead banner-message">Contact us for inquiries and reservation</p>
@@ -36,17 +36,17 @@
 
 
 <div class="linkable-container">
-    <div class="col-md-12 no-padding banner-services-container"  >
-        <div class="banner-services" style="padding-top:30px"   >
+    <div class="col-md-12 no-padding banner-services-container">
+        <div class="banner-services" style="padding-top:30px">
             <span class="pull-left banner-services-items hidden-on-mobile" style="margin-left:20px;margin-right:120px;">
-                <a href="#Services" class="btn btn-warning banner-btn-green scroll"> Our Services </a>
+                <a href="#Services" class="banner-services-header scroll-text"> Our Services </a>
             </span>
             <a href="#Services-airport" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-airplane-landing-48.png" class="center-block"  alt="services airport transfer" />
+                <img src="~/Images/CarRental/Home/icons8-airplane-landing-48.png" class="center-block" alt="services airport transfer" />
                 <p class="text-center"> Airport Transfer  </p>
             </a>
             <a href="#Services-cityTour" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-city-60.png" class="center-block"  alt="services city tour" />
+                <img src="~/Images/CarRental/Home/icons8-city-60.png" class="center-block" alt="services city tour" />
                 <p class="text-center">City Tour  </p>
             </a>
             <a href="#Services-corporate" class="pull-left banner-services-items scroll-text">
@@ -58,15 +58,15 @@
                 <p class="text-center"> Business Trip  </p>
             </a>
             <a href="#Services-outOfTown" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-beach-48.png" class="center-block"  alt="services out of town" />
+                <img src="~/Images/CarRental/Home/icons8-beach-48.png" class="center-block" alt="services out of town" />
                 <p class="text-center"> Out of Town </p>
             </a>
             <a href="#Services-selfDrive" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-people-in-car-side-view-50.png" class="center-block"  alt="services self drive" />
+                <img src="~/Images/CarRental/Home/icons8-people-in-car-side-view-50.png" class="center-block" alt="services self drive" />
                 <p class="text-center"> Self Drive  </p>
             </a>
-            <a  href="#Services-special" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-event-48.png" class="center-block"  alt="services special occassion" />
+            <a href="#Services-special" class="pull-left banner-services-items scroll-text">
+                <img src="~/Images/CarRental/Home/icons8-event-48.png" class="center-block" alt="services special occassion" />
                 <p class="text-center"> Special Occasions  </p>
             </a>
         </div>
@@ -75,26 +75,26 @@
     <div class="col-md-12 no-padding banner-services-container">
         <div class="banner-services">
             <span class="pull-left banner-services-items hidden-on-mobile linkable-heading-Fleet">
-                <a href="#Fleet" class="btn btn-warning banner-btn-green scroll"> Our Fleet </a>
+                <a href="#Fleet" class="banner-services-header scroll-text"> Our Fleet </a>
             </span>
             <a href="#CarUnit-1" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-1')">
-                <img src="~/Images/CarRental/Home/Vehicles/Fleet-van-sm.jpg" class="center-block fleet-circle" alt="fleet van" />
+                <img src="~/Images/CarRental/Home/icon-van.png" class="center-block fleet-vehicle-icon" alt="fleet van" />
                 <p class="text-center"> VAN  </p>
             </a>
             <a href="#CarUnit-3" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-3')">
-                <img src="~/Images/CarRental/Home/Vehicles/Fleet-suv-sm.jpg" class="center-block fleet-circle" alt="fleet suv" />
+                <img src="~/Images/CarRental/Home/icon-suv.png" class="center-block fleet-vehicle-icon" alt="fleet suv" />
                 <p class="text-center"> SUV </p>
             </a>
             <a href="#CarUnit-4" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-4')">
-                <img src="~/Images/CarRental/Home/Vehicles/Fleet-mpv-sm.jpg" class="center-block fleet-circle" alt="fleet mpv" />
+                <img src="~/Images/CarRental/Home/icon-mpv.png" class="center-block fleet-vehicle-icon" alt="fleet mpv" />
                 <p class="text-center"> MPV</p>
             </a>
             <a href="#CarUnit-5" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-5')">
-                <img src="~/Images/CarRental/Home/Vehicles/Fleet-sedan-sm.jpg" class="center-block fleet-circle"  alt="fleet sedan"/>
+                <img src="~/Images/CarRental/Home/icon-sedan.png" class="center-block fleet-vehicle-icon" alt="fleet sedan" />
                 <p class="text-center"> SEDAN </p>
             </a>
             <a href="#CarUnit-6" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-6')">
-                <img src="~/Images/CarRental/Home/Vehicles/Fleet-pickup-sm.jpg" class="center-block fleet-circle" alt="fleet pickup" />
+                <img src="~/Images/CarRental/Home/icon-pickup.png" class="center-block fleet-vehicle-icon" alt="fleet pickup" />
                 <p class="text-center"> PICKUP </p>
             </a>
         </div>
@@ -294,7 +294,7 @@
 
     @foreach (var item in Model)
     {
-        <div class="col-md-4 no-padding" id="CarUnit-@item.Id" >
+        <div class="col-md-4 no-padding" id="CarUnit-@item.Id">
             <div class="car-container-details">
                 <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
                 <div class="col-lg-12">
@@ -350,3 +350,4 @@
 
 @Html.Action("MobileModalView")
 
+<a href="#Home" id="BackToTop" style="display: block;" name="Back-to-Top"> <span> Back To Top </span></a>

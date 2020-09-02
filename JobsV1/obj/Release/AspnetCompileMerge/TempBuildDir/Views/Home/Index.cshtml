@@ -78,25 +78,38 @@
          //   })
 
         $(() => {
+            $("#AP119").hide();
             UpdateAppointmentCount();
         });
 
         function UpdateAppointmentCount() {
+            var resText = "";
             var res = $.get("/Home/GetActiveAppt", null, (result) => {
                 var jsonData = JSON.parse(result);
-                console.log(jsonData);
+                //console.log(jsonData);
                 console.log("appt Count: " + jsonData);
 
                 if (jsonData > 0) {
                     //show count
+                    $("#AP119").text(jsonData);
                     $("#AP119").show();
-                    $("#AP119").text(jsonData)
                 } else {
                     $("#AP119").hide();
                 }
+
+                resText = jsonData;
+
           });
 
-          console.log(res);
+            //console.log(res);
+            //console.log("res " + resText)
+            //console.log("response und:" +( res["responseText"] === undefined));
+            //console.log("response null:" +( res["responseText"] == null ));
+            //console.log("response:" +( res["responseText"] == ""));
+
+            //if (res["responseText"] == null) {
+            //    $("#AP119").hide();
+            //}
         }
     </script>
     }

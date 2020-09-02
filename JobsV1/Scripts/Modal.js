@@ -19,7 +19,7 @@
                 footer.style.display = "none";
             }
         }
-    }
+};
 
     $(document).ready(function () {
 
@@ -42,6 +42,8 @@
             //prevent the page from jumping down to our section.
             event.preventDefault();
         });
+
+        BackToTop();
     });
 
 function HighlightSelectedCar(carId) {
@@ -57,7 +59,19 @@ function HighlightSelectedCar(carId) {
     if (carId == "CarUnit-4") {
         $("#CarUnit-8").children('.car-container-details').addClass("Selected-Active");
     }
-}
+};
 
-
-
+//Back to Top Btn
+function BackToTop() {
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 100) {
+            $('#BackToTop').fadeIn();
+        } else {
+            $('#BackToTop').fadeOut();
+        }
+    });
+    $('#BackToTop').click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+    });
+};

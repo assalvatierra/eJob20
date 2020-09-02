@@ -88,6 +88,10 @@
     color: white;
 }
 
+.banner-services:hover {
+    background-color: #343434;
+}
+
 .banner-services-container {
     display: flex;
     align-items: flex-end;
@@ -172,7 +176,9 @@
     }
 
         .banner-fleet-items img:hover {
-            border: 2px solid dodgerblue;
+            /*border: 2px solid dodgerblue;*/
+            webkit-filter: drop-shadow(2px 2px 3px dodgerblue);
+            filter: drop-shadow(2px 2px 3px dodgerblue);
         }
 
     .banner-fleet-items p {
@@ -181,14 +187,25 @@
         text-shadow: 2px 2px 3px black;
     }
 
+.banner-services-header{
+    font-size:28px;
+    margin-top:10px;
+}
+
 .fleet-circle {
     border-radius: 50%;
     border: 2px solid white;
 }
 
-.scroll-text{
-    color:white;
-    cursor:pointer;
+.fleet-vehicle-icon {
+    width: 100px;
+    webkit-filter: drop-shadow(5px 5px 3px black);
+    filter: drop-shadow(5px 5px 5px black);
+}
+
+.scroll-text {
+    color: white;
+    cursor: pointer;
 }
 
     .scroll-text:hover {
@@ -421,8 +438,51 @@
 .footer-details {
     padding: 20px 50px;
 }
+
+#BackToTop {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    background-color: dodgerblue;
+    text-indent: -9999px;
+    display: none;
+    -webkit-border-radius: 60px;
+    -moz-border-radius: 60px;
+    border-radius: 60px;
+    box-shadow:1px 1px 5px gray;
+   
+}
+
+    #BackToTop span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -8px;
+        margin-top: -12px;
+        height: 0;
+        width: 0;
+        border: 8px solid transparent;
+        border-bottom-color: #ffffff;
+    }
+
+    #BackToTop:hover {
+        background-color: #e74c3c;
+        opacity: 1;
+        filter: "alpha(opacity=100)";
+        -ms-filter: "alpha(opacity=100)";
+    }
+
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {
+
+    .main-page-full-banner {
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
+        height: 480px;
+        padding: 20px;
+    }
 }
 
 /* Tablet 1080p Screens */
@@ -485,6 +545,14 @@
         background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
         height: 360px;
         /*width:360px;*/
+    }
+
+        .main-page-full-banner > .title-container  > h1{
+            font-size:30px;
+        }
+
+    .linkable-heading-Fleet{
+        margin-left:10px;
     }
 
     .body-content-white {
@@ -656,6 +724,7 @@
         flex-flow:column;
     }
 
+
     .linkable-container {
         width: 105%;
     }
@@ -673,7 +742,9 @@
         display: flex;
         flex-flow: column;
         justify-content: flex-start;
-        margin-left: -20px;
+        align-items:center;
+        margin-left: 0px;
+        padding-right: 0px;
     }
 
     .banner-services-items p {
@@ -706,6 +777,11 @@
 
     .banner-btn-green {
         margin: 5px 0px;
+    }
+
+    #BackToTop {
+        right: 10px;
+        bottom: 120px;
     }
 
 

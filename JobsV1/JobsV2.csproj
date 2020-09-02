@@ -1534,6 +1534,11 @@
     <Content Include="Images\CarRental\Home\Car-Rental-Service-Business-Travel.jpg" />
     <Content Include="Images\CarRental\Home\Car-Rental-Service-For-Hire.jpg" />
     <Content Include="Images\CarRental\Home\Car-Rental-Service-Out-Of-Town.jpg" />
+    <Content Include="Images\CarRental\Home\icon-mpv.png" />
+    <Content Include="Images\CarRental\Home\icon-pickup.png" />
+    <Content Include="Images\CarRental\Home\icon-sedan.png" />
+    <Content Include="Images\CarRental\Home\icon-suv.png" />
+    <Content Include="Images\CarRental\Home\icon-van.png" />
     <Content Include="Images\CarRental\Home\icons-facebook-gray.png" />
     <Content Include="Images\CarRental\Home\icons8-airplane-landing-48.png" />
     <Content Include="Images\CarRental\Home\icons8-beach-48.png" />
