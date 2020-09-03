@@ -2956,6 +2956,7 @@
     <Content Include="Views\SalesLeads\CustActivitiesPartial.cshtml" />
     <Content Include="Views\Shared\_PartialLayout.cshtml" />
     <Content Include="Views\CarRental\PriceList.cshtml" />
+    <Content Include="Views\SalesLeads\Status.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

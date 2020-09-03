@@ -419,6 +419,21 @@ values	('Fuel'		 ,'',10,1),
 
 
 --------- ACTIVITES ------------------
+
+insert into CustEntActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus])
+values 
+('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
+('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1),   
+('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1),   
+('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
+('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
+('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',3),   
+('AWARDED','Awarded', 'AWARDED','~/Images/SalesLead/meeting102.jpg',4),   
+('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2); 
+
+insert into CustEntActActionStatus([ActionStatus])
+values ('REQUEST'),('DONE'),('SUSPEND');
+
 insert into CustEntActivities( Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type)
 values	('01/05/2020', 'demo@gmail.com', '','',0,'Inquiry','', 2 ,'Meeting'),
 		('01/20/2020', 'demo@gmail.com', '','',2500,'Bidding Inquiry','', 2 ,'Meeting'),

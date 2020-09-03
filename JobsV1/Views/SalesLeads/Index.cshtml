@@ -152,7 +152,7 @@
                             @Html.DisplayFor(modelItem => item.Remarks)
                         </span>
                         <br />
-
+                       
                         <!-- Activities-->
                         @if (!String.IsNullOrWhiteSpace(item.SalesCode))
                         {
@@ -165,14 +165,13 @@
                         }
                         else
                         {
-
-                            if (item.SalesActivities.Count() > 0)
-                            {
-                                <span style="font:bold 8px, arial, verdana; color:maroon ;" hidden>
-                                    Activities<br />
+                                var salesCode = item.SalesCode ?? "";
+                                @*@String.IsNullOrWhiteSpace(item.SalesCode)*@
+                                <span style="font:bold 8px, arial, verdana; color:maroon ;">
+                                    Activities <br />
                                 </span>
 
-                                <span style="font:bold 8px, arial, verdana; color: royalblue;" hidden>
+                                <span style="font:bold 8px, arial, verdana; color: royalblue;">
                                     @foreach (var tmpAct in item.SalesActivities)
                                     {
                                         if (tmpAct.SalesActStatusId == 1)
@@ -211,7 +210,7 @@
                                         }
                                     }
                                 </span>
-                            }
+                            
 
                             <span>[ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]</span>
                         }

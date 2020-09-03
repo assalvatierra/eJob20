@@ -293,9 +293,12 @@ values ('PRIORITY','Images/Customers/Category/star-filled-40.png'),
 	   ('TOUR','Images/Customers/Category/star-filled-40.png'),
 	   ('CLIENT','Images/Customers/Category/Active-30.png'),
 	   ('COMPANY','Images/Customers/Category/star-filled-40.png'); 
+	   
+insert into CustEntAccountTypes ([Name],[SysCode]) values
+('Regular','Company');
 
-insert into CustEntMains([Name],[Address],[Contact1],[Contact2])
-values ('NEW (not yet defined)',' ',' ',' ');
+insert into CustEntMains([Name],[Address],[Contact1],[Contact2],[CustEntAccountTypeId])
+values ('NEW (not yet defined)',' ',' ',' ',1);
 
 insert into SalesStatusCodes([SeqNo],[Name])
 values (1,'NEW'), (2,'ASSESMENT'), (3, 'PROPOSAL SENT'), (4, 'NEGOTIATION'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
@@ -556,10 +559,10 @@ insert into CustCats(CustomerId, CustCategoryId)
 values(3,2),(3,1);
 
 --- CustEntMains ----
-insert into CustEntMains(Name, Address, Contact1, Contact2, iconPath,AssignedTo) 
-values	('Acer Phils Inc.','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com'),
-		('Hp Enterprise','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com'),
-		('Honda Motors Inc.','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com');
+insert into CustEntMains(Name, Address, Contact1, Contact2, iconPath,AssignedTo, CustEntAccountTypeId) 
+values	('Acer Phils Inc.','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com',1),
+		('Hp Enterprise','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com',1),
+		('Honda Motors Inc.','Davao City','09950753794','09950753794','Images/Customers/Company/organization-40.png','jahdielvillosa@gmail.com',1);
 
 insert into CustEntAssigns(Assigned, Remarks, Date, CustEntMainId)
 values  ('jahdielsvillosa@gmail.com','','2/13/2020',2),
@@ -575,16 +578,30 @@ update CustCategories set iconPath = 'Images/Customers/Category//suspended-64.pn
 update CustCategories set iconPath = 'Images/Customers/Category/cancel-40.png' where Id = 4;  
 
 --- CustEntMains : Activities ---
-insert into CustEntActivities (Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type, ActivityType)
-values	('03-05-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Firm Inquiry', 'Quotation'),
-		('03-08-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Indicated Price', 'Quotation'),
-		('03-10-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 0, 'Open', 'N/A', 2, 'Buying Inquiry', 'Meeting'),
-		('03-15-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 230000, 'Close', 'N/A', 2, 'Buying Inquiry', 'Sales'),
+insert into CustEntActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus])
+values 
+('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
+('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1),   
+('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1),   
+('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
+('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
+('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',3),   
+('AWARDED','Awarded', 'AWARDED','~/Images/SalesLead/meeting102.jpg',4),   
+('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2); 
 
-		('03-07-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 0, 'Open', 'N/A', 3, 'Bidding Only', 'Meeting'),
-		('03-12-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 3, 'Buying Inquiry', 'Sales'),
+insert into CustEntActActionStatus([ActionStatus])
+values ('REQUEST'),('DONE'),('SUSPEND');
 
-		('03-18-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 4, 'Buying Inquiry', 'Sales');
+insert into CustEntActivities (Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type, ActivityType, SalesLeadId, CustEntActActionStatusId, CustEntActActionCodesId)
+values	('03-05-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Firm Inquiry', 'Quotation', null, 1, 1),
+		('03-08-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Indicated Price', 'Quotation', null, 1, 1),
+		('03-10-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 0, 'Open', 'N/A', 2, 'Buying Inquiry', 'Meeting', null, 1, 1),
+		('03-15-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 230000, 'Close', 'N/A', 2, 'Buying Inquiry', 'Sales', null, 1, 1),
+
+		('03-07-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 0, 'Open', 'N/A', 3, 'Bidding Only', 'Meeting', null, 1, 1),
+		('03-12-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 3, 'Buying Inquiry', 'Sales', null, 1, 1),
+
+		('03-18-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 4, 'Buying Inquiry', 'Sales', null, 1, 1);
 
 
 

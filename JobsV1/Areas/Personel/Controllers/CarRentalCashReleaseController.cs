@@ -185,6 +185,10 @@ namespace JobsV1.Areas.Personel.Controllers
             if (DeleteStatusRecords(id))
             {
                 crLogCashRelease crLogCashRelease = db.crLogCashReleases.Find(id);
+
+                //remove closing id on trip logs
+                RemoveTripClosingId(crLogCashRelease);
+
                 db.crLogCashReleases.Remove(crLogCashRelease);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -194,6 +198,28 @@ namespace JobsV1.Areas.Personel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+        }
+
+        public bool RemoveTripClosingId(crLogCashRelease crLogCashRelease)
+        {
+            try
+            {
+                var trips = db.crLogTrips.Where(c => c.crLogClosingId == crLogCashRelease.crLogClosingId).ToList();
+
+                foreach (var item in trips)
+                {
+                    item.crLogClosingId = null;
+                    db.Entry(item).State = EntityState.Modified;
+                }
+
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+           
         }
 
         public ActionResult DriverSummary(int id)

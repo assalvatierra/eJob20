@@ -108,6 +108,7 @@
             @Html.LabelFor(model => model.crLogClosingId, "crLogClosingId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.crLogClosingId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.crLogClosingId)
             </div>
         </div>
 

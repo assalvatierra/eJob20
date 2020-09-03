@@ -650,6 +650,11 @@ rental-type-wdriver {
     display: inline;
 }
 
+.link-white{
+    color:white;
+    font-size:10px;
+}
+
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {
     .nav-submenu-home {
