@@ -592,32 +592,32 @@ values
 insert into CustEntActActionStatus([ActionStatus])
 values ('REQUEST'),('DONE'),('SUSPEND');
 
-insert into CustEntActivities (Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type, ActivityType, SalesLeadId, CustEntActActionStatusId, CustEntActActionCodesId)
-values	('03-05-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Firm Inquiry', 'Quotation', null, 1, 1),
-		('03-08-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Indicated Price', 'Quotation', null, 1, 1),
-		('03-10-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 0, 'Open', 'N/A', 2, 'Buying Inquiry', 'Meeting', null, 1, 1),
-		('03-15-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 230000, 'Close', 'N/A', 2, 'Buying Inquiry', 'Sales', null, 1, 1),
+insert into CustEntActivities (Date, Assigned, ProjectName, SalesCode, Amount, Status, Remarks, CustEntMainId, Type, ActivityType, SalesLeadId, CustEntActActionStatusId, CustEntActActionCodesId, CustEntActStatusId)
+values	('03-05-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Firm Inquiry', 'Quotation', null, 1, 1, 1),
+		('03-08-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 250000, 'Open', 'N/A', 2, 'Indicated Price', 'Quotation', null, 1, 1, 1),
+		('03-10-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 0, 'Open', 'N/A', 2, 'Buying Inquiry', 'Meeting', null, 1, 1, 1),
+		('03-15-2020', 'jahdielvillosa@gmail.com', 'Test001 Proj', 'TP001', 230000, 'Close', 'N/A', 2, 'Buying Inquiry', 'Sales', null, 1, 1, 1),
 
-		('03-07-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 0, 'Open', 'N/A', 3, 'Bidding Only', 'Meeting', null, 1, 1),
-		('03-12-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 3, 'Buying Inquiry', 'Sales', null, 1, 1),
+		('03-07-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 0, 'Open', 'N/A', 3, 'Bidding Only', 'Meeting', null, 1, 1, 1),
+		('03-12-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 3, 'Buying Inquiry', 'Sales', null, 1, 1, 1),
 
-		('03-18-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 4, 'Buying Inquiry', 'Sales', null, 1, 1);
+		('03-18-2020', 'jahdielvillosa@gmail.com', 'Test002 Proj', 'TP002', 230000, 'Open', 'N/A', 4, 'Buying Inquiry', 'Sales', null, 1, 1, 1);
 
 
 
 insert into CarCategories (Description, Remarks)
-values ('Rental','');
+values ('Van',''),('SUV',''),('MPV',''),('Sedan',''),('Pickup','');
 
 insert into CarUnits ( Description, Remarks, CarCategoryId , SelfDrive, SortOrder) 
 values 
 	   ('Van (14 seater)','Nissan Premium'		,1,1,1),
 	   ('Van (10 seater)','Gl Grandia'			,1,1,2),
-	   ('SUV'            ,'Ford Everest'		,1,0,3),
-	   ('MPV/AUV/MiniVan','Toyota Innova'		,1,0,4),
-	   ('Sedan'          ,'Honda City'			,1,0,5),
-	   ('Pickup'         ,'Pickups'				,1,0,6),
+	   ('SUV'            ,'Ford Everest'		,2,0,3),
+	   ('MPV/AUV/MiniVan','Toyota Innova'		,3,0,4),
+	   ('Sedan'          ,'Honda City'			,4,0,5),
+	   ('Pickup'         ,'Pickups'				,5,0,6),
 	   ('Van (14 seater)','GL Grandia Tourer'	,1,1,1),
-	   ('MPV'			 ,'Toyota Rush'			,1,0,3);
+	   ('MPV'			 ,'Toyota Rush'			,3,0,3);
 
 insert into CarImages ( CarUnitId, ImgUrl, Remarks, SysCode)
 values (1,'glgrandia/Toyota-Grandia-side.jpg'    ,'','MAIN'),
@@ -638,6 +638,17 @@ values (1,'CarDetail_van'),
 	   (6,'CarDetail_pickup'),
 	   (7,'CarDetail_tourer'),
 	   (8,'CarDetail_mpv');
+
+insert into CarDetails(CarUnitId,Fuel,Class,Transmission,Usage,Passengers,Remarks) 
+values	(1,'2.5/3.0 Diesel ','Van','5 speed MT/AT','','Driver + 14 persons ','3-6 trolleys'),
+		(2,'2.5 Diesel','Van','5 speed MT/AT','','Driver + 10-12 persons ','2-4 trolleys'),
+		(3,'2.2 Diesel','SUV','6 speed AT','','Driver + 5-7 persons ','2-4 trolleys'),
+		(4,'2.5 Diesel','MPV','MT','','Driver + 5-7 persons','2-4 trolleys'),
+		(5,'1.5 Diesel','Sedan','AT','','Driver + 4 persons','2 trolleys'),
+		(6,'2.5 Diesel','Pickup','MT','','Driver + 4 persons',' '),
+		(7,'2.8 Diesel','Van','6 Speed MT/AT','','Driver + 14 persons','2-4 trolleys'),
+		(8,'2.5 Diesel','MPV','MT','','Driver + 5-7 persons','2-4 trolleys')
+;
 
 insert into CarRates (Daily,Weekly,Monthly,KmFree,KmRate,CarUnitId,OtRate)
 values (3000,2500,2250,100,5,1,300), --grandia
@@ -697,8 +708,8 @@ values
 
 	-- Toyota Rush -- 
 	(8, 'Toyota Rush for Rent in Davao City, Reliable rental company in Davao City',
-	'Nissan Urvan Premium is comfortable 10-14 seater van for business, tour and family travel needs. Very few rent-a-car company in Davao offers this type of vehicle',
-	'Highroof van that can accommodate 14pax with individual reclining seats. No jump seats. Very few rent-a-car company in Davao offers this type of vehicle.'
+	'MPV/AUV - Toyota Innova - for rent in Davao City for your travel needs. Open for SelfDrive or with driver rental option.',
+	'Toyota Innova is a versatile vehicle for family and business use. Accommodates like a small van or SUV yet rides like a car.'
 	);
 
 	Insert into CarRatePackages (Description,Remarks,DailyMeals,DailyRoom,DaysMin, Status)

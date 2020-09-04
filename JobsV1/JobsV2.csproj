@@ -668,6 +668,9 @@
     <Compile Include="Models\CarDestination.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CarDetail.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CarImage.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1452,6 +1455,7 @@
     <Content Include="Images\CarRental\Ads\Paypal-disabled.PNG" />
     <Content Include="Images\CarRental\Ads\placeholder.png" />
     <Content Include="Images\CarRental\Ads\Realwheelsdava-FB.png" />
+    <Content Include="Images\CarRental\Banner\Banner-Default.jpg" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-wide.jpg" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-ws.jpg" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg.jpg" />
@@ -1572,6 +1576,7 @@
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Davao-Toyota-Rush.jpg" />
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Toyota-Grandia-Tourer.jpg" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-2.jpg" />
+    <Content Include="Images\CarRental\Home\Vehicles\RealWheelsDavao-CarRental.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-city-2018-back.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-city-2018.jpg" />
     <Content Include="Images\CarRental\hondacity\honda-city-front.jpg" />
@@ -1733,16 +1738,21 @@
     <Content Include="Images\Icons\car-rental.png" />
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
+    <Content Include="Images\Icons\icon-ask-question-100.png" />
+    <Content Include="Images\Icons\icon-class.PNG" />
+    <Content Include="Images\Icons\icon-fuel.PNG" />
+    <Content Include="Images\Icons\icon-passenger.PNG" />
+    <Content Include="Images\Icons\icon-transmission.PNG" />
     <Content Include="Images\Icons\icons-ask-question.png" />
+    <Content Include="Images\Icons\icons-call-96.png" />
     <Content Include="Images\Icons\icons-callback.png" />
     <Content Include="Images\Icons\icons-company.png" />
     <Content Include="Images\Icons\icons-connect.png" />
     <Content Include="Images\Icons\icons-facebook.png" />
     <Content Include="Images\Icons\icons-group-task.png" />
-    <Content Include="Images\Icons\icons-valet-parking.png" />
-    <Content Include="Images\Icons\icons-call-96.png" />
     <Content Include="Images\Icons\icons-new-post-90.png" />
     <Content Include="Images\Icons\icons-sms-96.png" />
+    <Content Include="Images\Icons\icons-valet-parking.png" />
     <Content Include="Images\Icons\settings-black.png" />
     <Content Include="Images\Icons\settings-red.png" />
     <Content Include="Images\Icons\skype-logo.png" />

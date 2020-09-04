@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/29/2020 16:28:57
+-- Date Created: 09/04/2020 14:41:37
 -- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -443,6 +443,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustEntActActionCodesCustEntActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CustEntActivities] DROP CONSTRAINT [FK_CustEntActActionCodesCustEntActivity];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CarDetailCarUnit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CarDetails] DROP CONSTRAINT [FK_CarDetailCarUnit];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -873,6 +876,9 @@ IF OBJECT_ID(N'[dbo].[CustEntActActionCodes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CustEntActActionStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CustEntActActionStatus];
+GO
+IF OBJECT_ID(N'[dbo].[CarDetails]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CarDetails];
 GO
 
 -- --------------------------------------------------
@@ -2363,6 +2369,19 @@ CREATE TABLE [dbo].[CustEntActActionStatus] (
 );
 GO
 
+-- Creating table 'CarDetails'
+CREATE TABLE [dbo].[CarDetails] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Fuel] nvarchar(30)  NOT NULL,
+    [Class] nvarchar(20)  NULL,
+    [Transmission] nvarchar(40)  NULL,
+    [Usage] nvarchar(30)  NULL,
+    [Passengers] nvarchar(30)  NULL,
+    [Remarks] nvarchar(50)  NULL,
+    [CarUnitId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3216,6 +3235,12 @@ GO
 -- Creating primary key on [Id] in table 'CustEntActActionStatus'
 ALTER TABLE [dbo].[CustEntActActionStatus]
 ADD CONSTRAINT [PK_CustEntActActionStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CarDetails'
+ALTER TABLE [dbo].[CarDetails]
+ADD CONSTRAINT [PK_CarDetails]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5351,6 +5376,21 @@ GO
 CREATE INDEX [IX_FK_CustEntActActionCodesCustEntActivity]
 ON [dbo].[CustEntActivities]
     ([CustEntActActionCodesId]);
+GO
+
+-- Creating foreign key on [CarUnitId] in table 'CarDetails'
+ALTER TABLE [dbo].[CarDetails]
+ADD CONSTRAINT [FK_CarDetailCarUnit]
+    FOREIGN KEY ([CarUnitId])
+    REFERENCES [dbo].[CarUnits]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CarDetailCarUnit'
+CREATE INDEX [IX_FK_CarDetailCarUnit]
+ON [dbo].[CarDetails]
+    ([CarUnitId]);
 GO
 
 -- --------------------------------------------------

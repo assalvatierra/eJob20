@@ -439,6 +439,8 @@
     padding: 20px 50px;
 }
 
+/* Floating Back to Top Button */
+
 #BackToTop {
     position: fixed;
     right: 30px;
@@ -475,9 +477,140 @@
         -ms-filter: "alpha(opacity=100)";
     }
 
+/* Price Listing */
+
+.pricelist-group {
+    display: flex;
+    flex-flow: row;
+    margin: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+}
+
+.pricelist-container {
+    display: flex;
+    flex-flow: row;
+    margin: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+}
+
+
+.pricelist-category {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: dodgerblue;
+}
+
+    .pricelist-category h4 {
+        display: flex;
+        margin: auto;
+        font-weight: 600;
+        color: white;
+    }
+
+.pricelist-carDetails {
+    margin: 0px 10px;
+    width: 300px;
+}
+
+.pricelist-carRates {
+    flex: 1;
+    margin: 0px 10px;
+    min-width: 300px;
+}
+
+.pricelist-carDetails h4 {
+    font-weight: 600;
+}
+
+.table-carDetails {
+    width: 100%;
+}
+
+    .table-carDetails tr {
+    }
+
+        .table-carDetails tr th {
+            padding: 0px 5px;
+            border-bottom: 4px solid dodgerblue;
+        }
+
+        .table-carDetails tr td {
+            padding: 5px;
+            border-bottom: 1px solid lightgray;
+        }
+
+.pricelist-carDetails-label {
+    color: dodgerblue;
+}
+
+.pricelist-carDetails-value {
+    color: gray;
+}
+
+.pricelist-carDetails-btn-text {
+    font-weight: 600;
+}
+
+
+.pricelist-carDetails-btn {
+    background-color: dodgerblue;
+}
+
+.pricelist-carDetails-btn-tr {
+    border-bottom: none !important;
+}
+
+.priceList-contact-details {
+    background-color: #373737;
+    width: 100%;
+    padding: 50px 20px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+    .priceList-contact-details h3 {
+        color: white;
+        font-size: 35px;
+    }
+
+    .priceList-contact-details p {
+        color: white;
+        font-size: 25px;
+    }
+
+    .priceList-contact-details a {
+        margin-bottom: 15px;
+    }
+
+        .priceList-contact-details a button {
+            color: black;
+            font-size: 20px;
+        }
+
+
+.priceList-CarDesc {
+    font-size: 20px;
+}
+
+.CarRental-Banner-Default {
+    background-image: url(../Images/CarRental/Banner/Banner-Default.jpg);
+    background-repeat: no-repeat;
+}
+
+.rate-header{
+    float:right;
+}
+
+
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {
-
     .main-page-full-banner {
         background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
         height: 480px;
@@ -617,6 +750,18 @@
         margin-left:10px;
         margin-right: 160px;
     }
+
+    .pricelist-carDetails{
+        width:250px;
+    }
+
+    .pricelist-carImg {
+        width: 200px;
+    }
+
+    .pricelist-carImg img {
+        width: 100%;
+    }
 }
 
 /* Small Screens */
@@ -706,10 +851,14 @@
     }
 
 
+    .home-article-container {
+        width: 105%;
+    }
 
     .home-article-list {
-        /*width:100%;*/
+        width:100%;
     }
+
     .home-article-item {
         margin: 0px;
         margin-top: 10px;
@@ -779,11 +928,61 @@
         margin: 5px 0px;
     }
 
+
     #BackToTop {
         right: 10px;
         bottom: 120px;
     }
 
+    /*PriceList */
+    .pricelist-container{
+        flex-flow:column;
+    }
+
+
+    .priceList-contact-details h3 {
+        color: white;
+        font-size: 20px;
+    }
+
+    .priceList-contact-details p {
+        color: white;
+        font-size: 15px;
+        border: 1px solid dodgerblue;
+        border-radius:5px;
+        padding:10px;
+    }
+
+    .priceList-CarDesc {
+        font-size:25px;
+    }
+
+    .pricelist-carImg img{
+        width:100%;
+        padding-left:10px;
+    }
+
+    .pricelist-carDetails-btn{
+        width:100%;
+    }
+
+    .priceList-contact-details {
+        margin-left: -8px;
+        width: 111%;
+    }
+
+    .pricelist-category {
+        margin-left: -8px;
+        width: 111%;
+    }
+
+    .CarRental-Banner-Default{
+        margin-left:10px;
+    }
+
+    .rate-header {
+        float: left;
+    }
 
 }
 

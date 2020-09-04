@@ -1,83 +1,209 @@
-﻿@model IEnumerable<JobsV1.Models.CarUnit> 
+﻿@model IEnumerable<JobsV1.Models.CarUnit>
 @{
     ViewBag.Title = "Price List Table";
 }
 
 
-<div class="jumbotron" style="margin-bottom:0px;">
+<div class="jumbotron CarRental-Banner-Default" style="margin-bottom: 0px; " id="Home">
     <h1> Price List Table </h1>
+    <p> Rates are subject to change without prior notice </p>
     <a href="/"> Go back home </a>
 </div>
+
 <div style="background-color:white;">
-        <div style="padding:10px;">
-            <h2>
-                Car Rental Rates
-            </h2>
-            <p>
-                Driver and Fuel Included, 
-           
-                <b> Within Davao City Only</b>
-            </p>
-            <table class="table" style="width:100%;">
-                <tr>
-                    <th>
-                        Unit/Vehicle
-                    </th>
-                    <th>
-                        Daily
-                    </th>
-                    <th>
-                        Weekly
-                    </th>
-                    <th>
-                        Monthly
-                    </th>
-                    <th>
-                        SelfDrive
-                    </th>
-                </tr>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @item.Remarks ( @item.Description )
-                        </td>
-                        <td>
-                            @item.CarRates.Where(c => c.CarUnitId == item.Id).FirstOrDefault().Daily
-                        </td>
-                        <td>
-                            @item.CarRates.Where(c => c.CarUnitId == item.Id).FirstOrDefault().Weekly
-                        </td>
-                        <td>
-                            @item.CarRates.Where(c => c.CarUnitId == item.Id).FirstOrDefault().Monthly
-                        </td>
-                        <td>
-                            @if (item.SelfDrive == 0)
-                            {
-                                <img src="~/Images/SalesLead/approve-icon.png" width="20" />
-                            }
-                        </td>
-                    </tr>
-                }
+    @foreach (var unitType in Model.GroupBy(c => c.CarCategory).OrderBy(c => c.Key.Id))
+    {
 
-            </table>
-
-            <div>
-                <h3>Requirements For Self-Drive Car Rentals</h3>
-                <p>
-                    Another option for renting a vehicle is <em>Self-drive.</em> You will drive the vehicle yourself and have a
-                    more private travel around the city at your own time and convenience. For booking and reservation,
-                    the following documents will be needed ( email scanned copies to Inquiries.RealWheels@Gmail.com )
-                    <ol>
-                        <li>) Valid Driver's License</li>
-                        <li>) At least two(2) Valid IDs ( Government issued IDs )</li>
-                        <li>) Proof of residence ( for renter's residing in Philippines )</li>
-                        <li>) Rental contract / Hotel Booking/reservation ( for renter's residing outside Philippines )</li>
-                    </ol>
-                    for self-drive option, vehicles are limited to the following types: SUV and Sedans
-                </p>
-            </div>
+        <div class="pricelist-category">
+            <h4> @unitType.Key.Description </h4>
         </div>
 
+        foreach (var unit in unitType.ToList().OrderBy(c => c.SortOrder))
+        {
+
+            var carDetails = unit.CarDetails.Where(c => c.CarUnitId == unit.Id).FirstOrDefault();
+            var carRates = @unit.CarRates;
+            <div class="pricelist-container">
+
+                <div class="pricelist-carImg">
+                    <img src="~/Images/CarRental/@unit.CarImages.FirstOrDefault().ImgUrl" width="250" />
+                </div>
+
+                <div class="pricelist-carDetails">
+
+                    <table class="table-carDetails">
+                        <tr>
+                            <th>
+                                <h4 class="priceList-CarDesc"> @unit.Remarks </h4>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class="pricelist-carDetails-icon" width="20" src="~/Images/Icons/icon-fuel.png" />
+                                <span class="pricelist-carDetails-label">
+                                    Fuel:
+                                </span>
+                                <span class="pricelist-carDetails-value">
+                                    @if (carDetails == null)
+                                    {
+                                        <span> null </span>
+                                    }
+                                    else
+                                    {
+                                        <span> @carDetails.Fuel </span>
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class="pricelist-carDetails-icon" width="20" src="~/Images/Icons/icon-class.png" />
+                                <span class="pricelist-carDetails-label">
+                                    Class:
+                                </span>
+                                <span class="pricelist-carDetails-value">
+                                    @if (carDetails == null)
+                                    {
+                                        <span> null </span>
+                                    }
+                                    else
+                                    {
+                                        <span> @carDetails.Class </span>
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class="pricelist-carDetails-icon" width="20" src="~/Images/Icons/icon-transmission.png" />
+                                <span class="pricelist-carDetails-label">
+                                    Transmission:
+                                </span>
+                                <span class="pricelist-carDetails-value">
+                                    @if (carDetails == null)
+                                    {
+                                        <span> null </span>
+                                    }
+                                    else
+                                    {
+                                        <span> @carDetails.Transmission </span>
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class="pricelist-carDetails-icon" width="20" src="~/Images/Icons/icon-passenger.png" />
+                                <span class="pricelist-carDetails-label">
+                                    Passengers:
+                                </span>
+                                <span class="pricelist-carDetails-value">
+                                    @if (carDetails == null)
+                                    {
+                                        <span> null </span>
+                                    }
+                                    else
+                                    {
+                                        <span> @carDetails.Passengers </span>
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="pricelist-carRates">
+                    <table class="table-carDetails">
+                        <tr>
+                            <th>
+                                <h4 class="rate-header"> RATES </h4>
+                            </th>
+                        </tr>
+
+                        @foreach (var rate in carRates)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="pricelist-carDetails-label">
+                                        Daily:
+                                    </span>
+                                    <span class="pricelist-carDetails-value">
+                                        Php @rate.Daily.ToString("#,###.00")
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="pricelist-carDetails-label">
+                                        Weekly:
+                                    </span>
+                                    <span class="pricelist-carDetails-value">
+                                        Php @rate.Weekly.ToString("#,###.00")
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="pricelist-carDetails-label">
+                                        Monthly:
+                                    </span>
+                                    <span class="pricelist-carDetails-value">
+                                        Php @rate.Monthly.ToString("#,###.00")
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pricelist-carDetails-btn-tr">
+                                    @if (unit.Id == 6)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        <a href="#ContactUs">
+                                            <button class="btn  btn-primary pull-right pricelist-carDetails-btn">
+                                                <span class="pricelist-carDetails-btn-text"> Contact Us</span>
+                                            </button>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+
+            </div>
+
+        }
+    }
 
 </div>
+<div class="priceList-contact-details" id="ContactUs">
+    <img src="~/Images/Icons/icon-ask-question-100.png" width="100" />
+    <h3> For Inquiries and Reservations </h3>
+    <p class="mobile-text-link">
+        <a href="mailto:inquiries.realwheels@gmail.com">
+            <strong>Email:</strong> inquiries.realwheels@gmail.com
+        </a>
+    </p>
+    <p class="mobile-text-link">
+        <a href="tel:+63822971831">
+            <strong>LandLine:</strong> (+63) 82 333-5157
+        </a>
+    </p>
+    <p class="mobile-text-link">
+        <a href="tel:+639954508517">
+            <strong>Globe:</strong> (+63) 995-450-8517
+        </a>
+    </p>
+    <p class="mobile-text-link">
+        <a href="tel:+639193812657">
+            <strong>Smart:</strong> (+63) 919-381-2657
+        </a>
+    </p>
+</div>
+
+
+@Html.Action("MobileModalView")
+
+<a href="#Home" id="BackToTop" style="display: block;" name="Back-to-Top"> <span> Back To Top </span></a>

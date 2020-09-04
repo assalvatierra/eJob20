@@ -148,6 +148,7 @@
     <EntitySet Name="CustEntActPostSaleStatus" EntityType="JobDB.Store.CustEntActPostSaleStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntActActionCodes" EntityType="JobDB.Store.CustEntActActionCodes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntActActionStatus" EntityType="JobDB.Store.CustEntActActionStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CarDetails" EntityType="JobDB.Store.CarDetails" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -715,6 +716,10 @@
     <AssociationSet Name="CustEntActActionCodesCustEntActivity" Association="JobDB.Store.CustEntActActionCodesCustEntActivity">
       <End Role="CustEntActActionCodes" EntitySet="CustEntActActionCodes" />
       <End Role="CustEntActivity" EntitySet="CustEntActivities" />
+    </AssociationSet>
+    <AssociationSet Name="CarDetailCarUnit" Association="JobDB.Store.CarDetailCarUnit">
+      <End Role="CarDetail" EntitySet="CarDetails" />
+      <End Role="CarUnit" EntitySet="CarUnits" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1925,8 +1930,8 @@
     <Property Name="ActivityType" Type="nvarchar" Nullable="true" MaxLength="30" />
     <Property Name="SalesLeadId" Type="int" Nullable="true" />
     <Property Name="CustEntActStatusId" Type="int" Nullable="false" DefaultValue="1" />
-    <Property Name="CustEntActActionStatusId" Type="int" Nullable="false" />
-    <Property Name="CustEntActActionCodesId" Type="int" Nullable="false" />
+    <Property Name="CustEntActActionStatusId" Type="int" Nullable="false" DefaultValue="1" />
+    <Property Name="CustEntActActionCodesId" Type="int" Nullable="false" DefaultValue="1" />
   </EntityType>
   <EntityType Name="CustEntDocuments">
     <Key>
@@ -2200,6 +2205,19 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ActionStatus" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="CarDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fuel" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="Class" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Transmission" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="Usage" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="Passengers" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="CarUnitId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3905,6 +3923,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CarDetailCarUnit">
+    <End Role="CarDetail" Type="JobDB.Store.CarDetails" Multiplicity="*" />
+    <End Role="CarUnit" Type="JobDB.Store.CarUnits" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="CarUnit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CarDetail">
+        <PropertyRef Name="CarUnitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4620,6 +4650,11 @@
             <End Role="CustEntActActionCodes" EntitySet="CustEntActActionCodes" />
             <End Role="CustEntActivity" EntitySet="CustEntActivities" />
           </AssociationSet>
+          <EntitySet Name="CarDetails" EntityType="JobDB.CarDetail" />
+          <AssociationSet Name="CarDetailCarUnit" Association="JobDB.CarDetailCarUnit">
+            <End Role="CarDetail" EntitySet="CarDetails" />
+            <End Role="CarUnit" EntitySet="CarUnits" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -5175,6 +5210,7 @@
           <NavigationProperty Name="CarRateUnitPackages" Relationship="JobDB.CarUnitCarRateUnitPackage" FromRole="CarUnit" ToRole="CarRateUnitPackage" />
           <NavigationProperty Name="CarUnitMetas" Relationship="JobDB.CarUnitCarUnitMeta" FromRole="CarUnit" ToRole="CarUnitMeta" />
           <Property Name="SortOrder" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="CarDetails" Relationship="JobDB.CarDetailCarUnit" FromRole="CarUnit" ToRole="CarDetail" />
         </EntityType>
         <Association Name="CarCategoryCarUnit">
           <End Type="JobDB.CarCategory" Role="CarCategory" Multiplicity="1" />
@@ -8095,6 +8131,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CarDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fuel" Type="String" Nullable="false" MaxLength="30" />
+          <Property Name="Class" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="Transmission" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="Usage" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="Passengers" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
+          <NavigationProperty Name="CarUnit" Relationship="JobDB.CarDetailCarUnit" FromRole="CarDetail" ToRole="CarUnit" />
+          <Property Name="CarUnitId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CarDetailCarUnit">
+          <End Type="JobDB.CarDetail" Role="CarDetail" Multiplicity="*" />
+          <End Type="JobDB.CarUnit" Role="CarUnit" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="CarUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CarDetail">
+              <PropertyRef Name="CarUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9724,6 +9786,20 @@
         <MappingFragment StoreEntitySet="CustEntActActionStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ActionStatus" ColumnName="ActionStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CarDetail)">
+        <MappingFragment StoreEntitySet="CarDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fuel" ColumnName="Fuel" />
+          <ScalarProperty Name="Class" ColumnName="Class" />
+          <ScalarProperty Name="Transmission" ColumnName="Transmission" />
+          <ScalarProperty Name="Usage" ColumnName="Usage" />
+          <ScalarProperty Name="Passengers" ColumnName="Passengers" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CarUnitId" ColumnName="CarUnitId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -578,6 +578,26 @@ namespace JobsV1.Controllers
             return View(carUnits);
         }
 
+        public CarDetail GetCarDetail(int id)
+        {
+            try
+            {
+                return db.CarDetails.Where(c => c.CarUnitId == id).FirstOrDefault();
+            }
+            catch
+            {
+                return new CarDetail()
+                {
+                    Class = " N/A ",
+                    Fuel = " N/A ",
+                    Passengers = " N/A ",
+                    Transmission = " N/A ",
+                    Usage = " N/A ",
+                    Remarks = " N/A "
+                };
+            }
+        }
+
 
 
 
