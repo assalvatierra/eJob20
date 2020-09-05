@@ -111,7 +111,9 @@
         <th> Code  </th>
         <th> Amount  </th>
         <th> Suppliers  </th>
+        <th> Activity </th>
         <th> Type </th>
+        <th> Status </th>
         <th> Remarks </th>
         <th> AssignedTo </th>
         <th></th>
@@ -133,7 +135,13 @@
                 @Html.ActionLink(item.Supplier.Name, "Records", "SupplierActivities", new { id = item.SupplierId }, null)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.ActivityType)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierActStatu.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)

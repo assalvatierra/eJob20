@@ -16,7 +16,6 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Post Sales','Activities Post Sales',0,'Activities','ActivitiesPostSales','',20,10)
 ;
 
-
 insert into EntBusinesses([Name],[ShortName],[BussRegNo],[User]) values
 ('Real Breeze Davao','RBD','11-2233','abel');
 
@@ -189,7 +188,6 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 34, 34),
 ('assalvatierra@gmail.com', 35, 35),
 ('assalvatierra@gmail.com', 36, 36),
-('assalvatierra@gmail.com', 37, 37),
 
 ('jahdielvillosa@gmail.com', 11, 11),
 ('jahdielvillosa@gmail.com', 12, 12),
@@ -217,7 +215,6 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 34, 34),
 ('jahdielvillosa@gmail.com', 35, 35),
 ('jahdielvillosa@gmail.com', 36, 36),
-('jahdielvillosa@gmail.com', 37, 37),
 
 
 ('Demo@gmail.com', 11, 11),
@@ -245,5 +242,4 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('Demo@gmail.com', 33, 33),
 ('Demo@gmail.com', 34, 34),
 ('Demo@gmail.com', 35, 35),
-('Demo@gmail.com', 36, 36),
-('Demo@gmail.com', 37, 37); 
+('Demo@gmail.com', 36, 36); 

@@ -77,6 +77,21 @@ namespace JobsV1.Models.Class
         public IEnumerable<string> StatusList { get; set; }
     }
 
+    public class cSupActivityActiveList
+    {
+        public int SupId { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public int StatusId { get; set; }
+        public string Activity { get; set; }
+        public string ActType { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime DtActivity { get; set; }
+
+        public IEnumerable<string> StatusDoneList { get; set; }
+        public IEnumerable<string> StatusList { get; set; }
+    }
+
     public class cActStatusList
     {
         public string Status { get; set; }
@@ -522,7 +537,7 @@ namespace JobsV1.Models.Class
         #endregion
 
 
-        #region Activity Post Sales 
+        #region Activity Status
         public List<cActivityActiveList> GetActiveActivities(string status, string user, string role)
         {
 
@@ -568,6 +583,48 @@ namespace JobsV1.Models.Class
 
             return activity;
         }
+
+
+        public List<cSupActivityActiveList> GetSupActiveActivities(string status, string user, string role)
+        {
+
+            List<cSupActivityActiveList> activity = new List<cSupActivityActiveList>();
+
+            //sql query with comma separated item list
+            string sql =
+               @" 
+               SELECT act.*, sup.Name FROM (
+                    SELECT s.Code, 
+                        DtActivity = ( SELECT TOP 1 su.DtActivity FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ),
+                        SupId = ( SELECT TOP 1 su.SupplierId FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ),
+                        StatusId = ( SELECT TOP 1 su.SupplierActStatusId FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ),
+                        Activity = ( SELECT TOP 1 su.ActivityType FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ) ,
+                        ActType = ( SELECT TOP 1 su.Type FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ) ,
+                        Amount = ( SELECT TOP 1 ISNULL(su.Amount,0) FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ) 
+                        FROM SupplierActivities s 
+                        GROUP BY s.Code
+                    ) as act 
+                    LEFT JOIN Suppliers sup ON sup.Id = act.SupId
+                    WHERE 
+                ";
+
+            if (String.IsNullOrWhiteSpace(status))
+            {
+                sql += " act.StatusId < 3 ";
+            }
+            else
+            {
+                sql += " act.StatusId = '" + status + "'";
+            }
+
+            sql += " ORDER BY act.DtActivity";
+
+            activity = db.Database.SqlQuery<cSupActivityActiveList>(sql).ToList();
+
+            return activity;
+        }
+
+
 
 
         #endregion

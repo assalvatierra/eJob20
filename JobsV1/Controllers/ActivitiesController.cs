@@ -845,6 +845,40 @@ namespace JobsV1.Controllers
 
             ViewBag.Status = status;
             return View(Activities);
+
+
+        }
+
+        public ActionResult SupStatusActivities(string status)
+        {
+
+            var Activities = new List<cSupActivityActiveList>();
+
+            var user = HttpContext.User.Identity.Name;
+            var role = "Admin";
+
+            //handle user roles
+            if (User.IsInRole(role))
+            {
+                Activities = ac.GetSupActiveActivities(status, user, role);
+            }
+            else
+            {
+                role = "NotAdmin";
+                Activities = ac.GetSupActiveActivities(status, user, role);
+            }
+
+            //role = "Admin";
+
+            Activities.ForEach(a => {
+                a.StatusDoneList = db.SupplierActivities.Where(c => c.Code == a.Code).ToList().Select(c => c.SupplierActStatu.Status);
+                a.StatusList = db.SupplierActStatus.ToList().Select(c => c.Status);
+            });
+
+            ViewBag.Status = status;
+            return View(Activities);
+
+
         }
 
         #endregion

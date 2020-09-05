@@ -12,7 +12,7 @@
             <button class="btn btn-default disabled">
                 Status:
             </button>
-            @Html.ActionLink("Default", "StatusActivities", null, new { @id = "default", @class = "btn btn-default" })
+            @Html.ActionLink("Active", "StatusActivities", null, new { @id = "default", @class = "btn btn-default" })
             @Html.ActionLink("Open", "StatusActivities", new { status = "Open" }, new { @id = "Open", @class = "btn btn-default" })
             @Html.ActionLink("For Client Comment", "StatusActivities", new { status = "For Client Comment" }, new { @id = "ForComment", @class = "btn btn-default" })
             @Html.ActionLink("For Meeting", "StatusActivities", new { status = "For Meeting" }, new { @id = "ForMeeting", @class = "btn btn-default" })
@@ -27,16 +27,21 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.ActionLink(item.SalesCode, "SearchActivities", new { srchCode = item.SalesCode }) 
-                <span> - </span>
-           
-                @Html.ActionLink(item.Company, "Details", "CustEntMains", new { id = item.CompanyId }, null)
-                <span> | </span>
-                <span class="text-muted"> @item.ProjectName </span>
-                <span class="text-success">( @item.Amount.ToString("N0") )</span>
+            <td style="min-width:200px;">
+                <p style="margin-bottom:0px;">
+                    @Html.ActionLink(item.SalesCode, "SearchActivities", new { srchCode = item.SalesCode })
+                    <span> - </span>
+
+                    @Html.ActionLink(item.Company, "Details", "CustEntMains", new { id = item.CompanyId }, null)
+                    <span> | </span>
+                    <span class="text-muted"> @item.ProjectName </span>
+                    <span class="text-success">( @item.Amount.ToString("N0") )</span>
+                </p>
+                <p class="text-muted">
+                    Last Activity: @item.ActivityDate.ToString("MMM dd yyyy")
+                </p>
             </td>
-            <td width="500">
+            <td style="min-width:500px;" >
                 <div class="col-lg-12">
                     @{ 
                         var doneList = item.StatusDoneList;
@@ -46,25 +51,25 @@
 
                         if (doneList.Contains(status))
                         {
-                            <span class="btn btn-success btn-arrow-right" style="margin-right:10px;">
+                            <span class="btn btn-success btn-arrow-right" style="margin-right:10px;cursor:initial;">
                                 <span style="color:white;font-size:9px;"> @status </span>
                             </span>
                         }
                         else
                         {
-                            <span class="btn btn-primary btn-arrow-right" style="margin-right:10px;">
+                            <span class="btn btn-primary btn-arrow-right" style="margin-right:10px;cursor:initial;">
                                 <span style="color:white;font-size:9px;">
                                     @status
                                 </span>
                             </span>
                         }
                     }
-                        
                 </div>
             </td>
         </tr>
     }
 </table>
+
 
 
 @section Scripts{
@@ -95,7 +100,6 @@
                     $("#default").addClass("active");
                     break;
             }
-
         }
     </script>
 }

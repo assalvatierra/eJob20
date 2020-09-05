@@ -625,27 +625,39 @@ ORDER BY CASE WHEN act.ActivityType = 'Quotation' then 1 else 2 end, act.Activit
 -- FOR ACTIVE ACTIVITY STATUS LIST ---
 SELECT act.*,cem.Name as Company, cem.AssignedTo, cem.Exclusive FROM (
  
-SELECT c.SalesCode,
-ActivityDate = ( SELECT TOP 1 ca.Date FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
-CompanyId    = ( SELECT TOP 1 ca.CustEntMainId FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
-ProjectName  = ( SELECT TOP 1 ca.ProjectName FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
-Status       = ( SELECT TOP 1 ca.Status FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
-ActivityType = ( SELECT TOP 1 ca.ActivityType FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
-Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
-from CustEntActivities c
+    SELECT c.SalesCode,
+    ActivityDate = ( SELECT TOP 1 ca.Date FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+    CompanyId    = ( SELECT TOP 1 ca.CustEntMainId FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+    ProjectName  = ( SELECT TOP 1 ca.ProjectName FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+    Status       = ( SELECT TOP 1 ca.Status FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+    ActivityType = ( SELECT TOP 1 ca.ActivityType FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC ),
+    Amount       = ( SELECT TOP 1 ca.Amount FROM CustEntActivities ca WHERE ca.SalesCode = c.SalesCode ORDER BY Date DESC )
+    from CustEntActivities c
 
-Group by c.SalesCode 
-) as act 
+    Group by c.SalesCode 
+    ) as act 
 LEFT JOIN CustEntMains cem ON cem.Id = act.CompanyId
 
 -- Filter activities not closed
-WHERE act.Status != 'Close' AND convert(datetime, GETDATE()) >= CASE WHEN
-    act.ActivityType = 'Quotation' THEN
-      DATEADD(DAY, ISNULL(7, 0), act.ActivityDate) 
-    ELSE 
-      DATEADD(DAY, ISNULL(92, 0), act.ActivityDate) 
-    END
-
+WHERE act.Status != 'Close' 
     AND (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = 'admin@gmail.com')     
 
 ORDER BY act.ActivityDate;
+
+
+------ Supplier Activity status --------
+SELECT act.*, sup.Name FROM (
+    SELECT s.Code, 
+        DtActivity = ( SELECT TOP 1 su.DtActivity FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ),
+        SupId = ( SELECT TOP 1 su.SupplierId FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ),
+        StatusId = ( SELECT TOP 1 su.SupplierActStatusId FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ),
+        Activity = ( SELECT TOP 1 su.ActivityType FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ) ,
+        ActType = ( SELECT TOP 1 su.Type FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ) ,
+        Amount = ( SELECT TOP 1 su.Amount FROM SupplierActivities su WHERE su.Code = s.Code ORDER BY DtActivity DESC ) 
+        FROM SupplierActivities s 
+        GROUP BY s.Code
+    ) as act 
+    LEFT JOIN Suppliers sup ON sup.Id = act.SupId
+    WHERE act.StatusId < 3 
+
+
