@@ -1456,6 +1456,7 @@
     <Content Include="Images\CarRental\Ads\placeholder.png" />
     <Content Include="Images\CarRental\Ads\Realwheelsdava-FB.png" />
     <Content Include="Images\CarRental\Banner\Banner-Default.jpg" />
+    <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-3.jpg" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-wide.jpg" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-ws.jpg" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg.jpg" />
@@ -1739,6 +1740,7 @@
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
     <Content Include="Images\Icons\icon-ask-question-100.png" />
+    <Content Include="Images\Icons\icon-car-badge.png" />
     <Content Include="Images\Icons\icon-class.PNG" />
     <Content Include="Images\Icons\icon-fuel.PNG" />
     <Content Include="Images\Icons\icon-passenger.PNG" />
@@ -1746,11 +1748,14 @@
     <Content Include="Images\Icons\icons-ask-question.png" />
     <Content Include="Images\Icons\icons-call-96.png" />
     <Content Include="Images\Icons\icons-callback.png" />
+    <Content Include="Images\Icons\icons-car-dealership.png" />
+    <Content Include="Images\Icons\icons-car-rental.png" />
     <Content Include="Images\Icons\icons-company.png" />
     <Content Include="Images\Icons\icons-connect.png" />
     <Content Include="Images\Icons\icons-facebook.png" />
     <Content Include="Images\Icons\icons-group-task.png" />
     <Content Include="Images\Icons\icons-new-post-90.png" />
+    <Content Include="Images\Icons\icons-sale-price-tag.png" />
     <Content Include="Images\Icons\icons-sms-96.png" />
     <Content Include="Images\Icons\icons-valet-parking.png" />
     <Content Include="Images\Icons\settings-black.png" />
@@ -2139,6 +2144,8 @@
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Davao-Toyota-Innova.webp" />
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Davao-Toyota-Rush.webp" />
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Toyota-Grandia-Tourer.webp" />
+    <Content Include="Areas\Personel\Views\CarRentalReport\VehicleExpenseLogsReport.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\_ItemVehicleExpenseFilter.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -2968,6 +2975,11 @@
     <Content Include="Views\CarRental\PriceList.cshtml" />
     <Content Include="Views\SalesLeads\Status.cshtml" />
     <Content Include="Views\Activities\SupStatusActivities.cshtml" />
+    <Content Include="Views\CarRental\Index_Services.cshtml" />
+    <Content Include="Views\CarRental\Index_About.cshtml" />
+    <Content Include="Views\CarRental\Index_Contact.cshtml" />
+    <Content Include="Views\CarRental\Index_Footer.cshtml" />
+    <Content Include="Views\CarRental\Featured.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

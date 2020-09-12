@@ -128,7 +128,7 @@ namespace JobsV1.Controllers
 
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name", supplier.CityId);
             ViewBag.SupplierTypeId = new SelectList(db.SupplierTypes, "Id", "Description");
-            //ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryName);
+            ViewBag.CountryId = new SelectList(db.Countries, "Id", "Name", supplier.CountryId);
             ViewBag.Status = new SelectList(StatusList, "value", "text", supplier.Status);
 
             //return View(supplier);
@@ -173,9 +173,9 @@ namespace JobsV1.Controllers
 
                 return supplier.Id.ToString();
             }
-            catch (Exception ex)
+            catch 
             {
-                return ex.ToString();
+                return "0";
             }
         }
 
@@ -494,7 +494,7 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateSupContactForm([Bind(Include = "Id,SupplierId,Name,Mobile,Landline,SkypeId,Details,ViberId,WhatsApp,SupplierContactStatusId,Remarks,WeChat,Position,Department")] SupplierContact supplierContact)
         {
-            if (CreateContactValidation(supplierContact))
+            if (ModelState.IsValid && CreateContactValidation(supplierContact))
             {
                 if (supplierContact.SupplierId != 0)
                 {

@@ -57,7 +57,8 @@
                     <a href="" data-toggle="modal" data-target="#ItemVehicleSummaryFilter" onclick="Initial_ItemVehicleSummaryFilter('@item.Id','@item.RptName')"> Summary</a> |
                     <a href="" data-toggle="modal" data-target="#ItemVehicleTripFilter" onclick="Initial_ItemVehicleTripFilter('@item.Id','@item.RptName')"> Trip Logs</a> |
                     <a href="" data-toggle="modal" data-target="#ItemVehicle-PaymentSummaryFilter" onclick="Initial_ItemVehicle_PaymentSummaryFilter('@item.Id','@item.RptName')"> Payment Summary</a> |
-                    <a href="" data-toggle="modal" data-target="#ItemDriverSummaryFilter" onclick="Initial_ItemDriverSummaryFilter('@item.Id','@item.RptName')"> Driver Summary</a> 
+                    <a href="" data-toggle="modal" data-target="#ItemDriverSummaryFilter" onclick="Initial_ItemDriverSummaryFilter('@item.Id','@item.RptName')"> Driver Summary </a>|
+                    <a href="" data-toggle="modal" data-target="#ItemVehicleExpenseFilter" onclick="Initial_ItemVehicleExpenseFilter('@item.Id','@item.RptName')"> Expense Logs </a>
                 </span>
                 }
                 else
@@ -92,12 +93,14 @@
 @Html.Partial("_ItemVehicleSummaryFilter")
 @Html.Partial("_ItemVehicleTripFilter")
 @Html.Partial("_ItemDriverSummaryFilter")
+@Html.Partial("_ItemVehicleExpenseFilter")
 
 <!-- For perItem Report Redirect -->
 @Html.Hidden("ItemVehiclePaymentSummaryReport", Url.Action("VehiclePaymentSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
 @Html.Hidden("ItemVehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
 @Html.Hidden("ItemVehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
 @Html.Hidden("ItemDriverSummaryReport", Url.Action("DriverSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId" }))
+@Html.Hidden("ItemVehicleExpenseReport", Url.Action("VehicleExpenseLogsReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", rptId = "_rptId", typeId = "_typeId" }))
 
 <!-- For Report Redirect -->
 @Html.Hidden("VehiclePaymentSummaryReport", Url.Action("VehiclePaymentSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))

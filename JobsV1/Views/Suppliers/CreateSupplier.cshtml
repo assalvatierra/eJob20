@@ -14,7 +14,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" , @id = "create-Name", @maxlength = "60" } })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" , @id = "create-Name", @maxlength = "50" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -24,7 +24,7 @@
             Code
         </b>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @id = "create-Code", @maxlength = "30" } })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @id = "create-Code", @maxlength = "25" } })
             @Html.ValidationMessageFor(model => model.Contact1, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -34,7 +34,7 @@
             Telephone
         </b>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @id = "create-Contact1", @maxlength = "30" } })
+            @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @id = "create-Contact1", @maxlength = "25" } })
             @Html.ValidationMessageFor(model => model.Contact1, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -54,7 +54,7 @@
             Mobile
         </b>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Contact3, new { htmlAttributes = new { @class = "form-control", @id = "create-Contact3", @maxlength = "30" } })
+            @Html.EditorFor(model => model.Contact3, new { htmlAttributes = new { @class = "form-control", @id = "create-Contact3", @maxlength = "25" } })
             @Html.ValidationMessageFor(model => model.Contact3, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -62,7 +62,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "create-Email", @maxlength = "30" } })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "create-Email", @maxlength = "40" } })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -78,7 +78,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", @id = "create-Website" } })
+            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", @id = "create-Website", @maxlength = "70" } })
             @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -87,7 +87,7 @@
         @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
 
-            @Html.TextAreaFor(model => model.Details, 10, 40, new { htmlAttributes = new { @class = "form-control", @maxlength = "250", @id = "create-Details" } })
+            @Html.TextAreaFor(model => model.Details, 10, 40, new { htmlAttributes = new { @class = "form-control", @maxlength = "240", @id = "create-Details" } })
             @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -229,7 +229,11 @@
                     console.log(data);
                     var supplierId = data["responseText"];
                     //redirect in creating new contact
-                    location.href = '/Suppliers/CreateSupContactForm/' + supplierId;
+                    if (supplierId != "0") {
+                        location.href = '/Suppliers/CreateSupContactForm/' + supplierId;
+                    } else {
+                        alert("Unable to create supplier")
+                    }
           }
        });
     }

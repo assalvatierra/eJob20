@@ -1,0 +1,77 @@
+﻿@{
+    var unitList = ViewBag.crLogUnitList as IEnumerable<JobsV1.Areas.Personel.Models.crLogUnit>;
+
+    var paymentTypeList = ViewBag.paymentTypeList as IEnumerable<JobsV1.Areas.Personel.Models.crLogPaymentType>;
+}
+
+<div class="modal fade" role="dialog" id="ItemVehicleExpenseFilter" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width:470px;">
+            <form method="post" id="Form_VehicleSummaryFilter">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">  Expense Logs Filter </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Filter&nbsp;Date  </label>
+                            <div class="col-sm-10" style="margin-top:5px;">
+                                <a class="cursor-hand" onclick="ItemVehicle_VehicleExpenseFilter_AddDays(-7)"> Last 7 Days </a> |
+                                <a class="cursor-hand" onclick="ItemVehicle_VehicleExpenseFilter_AddDays(-15)"> Last 15 Days </a> |
+                                <a class="cursor-hand" onclick="ItemVehicle_VehicleExpenseFilter_AddDays(-30)"> Last 30 Days </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> Start&nbsp;Date  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtStart" type="text" id="ItemVehicle-VehicleExpenseFilter-StartDate" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-md-2"> End&nbsp;Date  </label>
+                            <div class="col-md-10">
+                                <input class="form-control form-group-margin-bot" name="DtEnd" type="text" id="ItemVehicle-VehicleExpenseFilter-EndDate" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-md-12" >
+                            <label class="control-label form-label col-md-2"> Type </label>
+                            <select id="ItemVehicle-VehicleExpenseFilter-typeId" class="col-md-10 form-control" style="margin-left:15px;">
+                                <option value="0"> All </option>
+                                @foreach (var paymentType in paymentTypeList)
+                                {
+                                    <option value="@paymentType.Id"> @paymentType.Type </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Report  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="rptName" type="text" id="ItemVehicle-VehicleExpenseFilter-rptName" readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12" hidden>
+                            <label class="control-label form-label col-sm-2"> Report  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="rptId" type="text" id="ItemVehicle-VehicleExpenseFilter-rptId" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-12 col-sm-12 col-xs-9">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="Submit_ItemVehicle_VehicleExpenseFilter()">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

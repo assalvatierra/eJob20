@@ -45,26 +45,27 @@
 .main-page-full-banner {
     display: flex;
     width: 100%;
-    background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg.jpg');
+    background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg-3.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: rgb(6,105,178);
-    height: 490px;
+    height: 310px;
     min-width: 400px;
     color: white;
-    padding: 60px;
+    padding: 30px;
     padding-bottom:0px;
     margin-bottom: 0px;
 }
 
     .main-page-full-banner > .title-container {
-        width: 50%;
+        width: 40%;
         height:60%;
     }
 
         .main-page-full-banner > .title-container > h1 {
             font-size: 45px;
+            margin-top:0px;
         }
 
         .main-page-full-banner > .title-container > p {
@@ -159,6 +160,7 @@
 .linkable-heading-Fleet {
     margin-left: -22px;
     margin-right: 160px;
+    margin-top:20px;
 }
 
 .linkable-heading:hover {
@@ -608,7 +610,151 @@
     float:right;
 }
 
+/* Home - Featured Items */
+.featured-container {
+    display: flex;
+    flex-flow: column;
+}
 
+.featured-title{
+    margin:0px 10px;
+    padding-left:20px;
+}
+
+.featured-item-list {
+    display: flex;
+    flex-flow: row;
+    margin: 0px 20px;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.featured-item-box {
+    border: 1px solid lightgray;
+    width: 250px;
+    height: 170px;
+    margin: 0px 10px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+    .featured-item-box img {
+        width:130px;
+    }
+
+    .featured-item-box-p {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+.text-price {
+    color: forestgreen;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.featured-text-link {
+    font-size: 15px;
+    font-weight: 600;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.featured-item-box-header {
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.no-margin-bottom{
+    margin-bottom:0px;
+}
+/* End of Home - Featured Items */
+
+/* Main Links */
+.main-links-container{
+    display:flex;
+    flex-flow:row;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    margin-top:10px;
+}
+
+.main-links-items {
+    display: flex;
+    flex-flow: column;
+    justify-content:center;
+    align-items:center;
+   
+}
+
+    .main-links-items:hover {
+        webkit-filter: drop-shadow(2px 2px 3px skyblue);
+        filter: drop-shadow(2px 2px 3px skyblue);
+    }
+
+
+.main-links-items a {
+    /*border: 1px solid lightgray;*/
+    min-width: 300px;
+    min-height: 150px;
+    margin: 5px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+     color:black;
+}
+
+
+    .main-links-items a:hover {
+        color: dodgerblue;
+    }
+
+
+/* Featured Page */
+.featured-page-section{
+    margin:15px;
+    padding:10px;
+}
+
+.page-featured-item-list {
+    display: flex;
+    flex-flow: row;
+    margin: 0px 20px;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap:wrap;
+}
+
+.page-featured-item-box {
+    border: 1px solid lightgray;
+    width: 320px;
+    /*margin: 0px 10px;*/
+    padding: 10px;
+    /*border-radius: 5px;*/
+}
+
+    .page-featured-item-box img {
+        width: 130px;
+    }
+
+.page-featured-item-box-p {
+    font-size: 13px;
+    font-weight: 600;
+
+}
+
+.featured-page-section{
+    font-size:18px;
+}
+/*  Start of Mobile View Adjustments */
 /* PC 1080p Screens */
 @media only screen and (max-width: 1200px) {
     .main-page-full-banner {
@@ -633,17 +779,17 @@
 
 
     .main-page-full-banner {
-        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');
-        height: 480px;
+        background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg-3.jpg');
+        height: 265px;
         padding: 20px;
     }
 
         .main-page-full-banner > .title-container {
-            width: 50%;
+            width: 45%;
         }
 
             .main-page-full-banner > .title-container > h1 {
-                font-size: 50px;
+                font-size: 35px;
             }
 
 
@@ -659,6 +805,10 @@
 
     .banner-services {
         margin-left: 0px;
+    }
+
+    .featured-item-box {
+        height: 200px;
     }
 
 
@@ -704,6 +854,21 @@
 
     .banner-services-items img {
         width: 35px;
+    }
+
+    .featured-item-box {
+        height: 300px;
+        margin:2px;
+        padding:15px;
+    }
+
+
+    .featured-item-box div .col-xs-6 {
+       padding-right:2px;
+    }
+
+    .featured-item-box div div p {
+        font-size: 12px;
     }
 
 
@@ -762,6 +927,13 @@
     .pricelist-carImg img {
         width: 100%;
     }
+
+    .featured-text-link{
+        margin-right:20px;
+        margin-top:0px;
+    }
+
+
 }
 
 /* Small Screens */
@@ -983,6 +1155,44 @@
     .rate-header {
         float: left;
     }
+
+    .featured-item-list{
+        flex-flow:column;
+    }
+
+
+    .featured-item-box {
+       display:flex;
+       flex-flow:column;
+       height:280px;
+       padding:0px 10px;
+       margin-top:10px;
+       width:98%;
+    }
+
+    .text-price{
+        margin:0px;
+    }
+
+    .featured-title{
+        text-align:center;
+    }
+
+    .featured-item-box-header{
+        margin-top:10px;
+    }
+
+
+    .featured-item-box div div .featured-item-box-p {
+        text-align:center;
+        font-size:15px;
+        margin-bottom:5px;
+    }
+
+    .featured-item-box div div .img-thumbnail {
+        margin-bottom: 10px;
+    }
+
 
 }
 

@@ -27,13 +27,13 @@ namespace JobsV1.Areas.Personel.Models
         public decimal Others { get; set; }
 
     }
+
     public class RptCrVehiclePaymentSummary
     {
         public int Id { get; set; }
         public crLogUnit Vehicle { get; set; }
         public List<RptCrDriverPaymentTrip> DriverList { get; set; }
     }
-
 
     public class RptCrDriverPaymentTrip
     {

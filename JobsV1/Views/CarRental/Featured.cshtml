@@ -1,0 +1,272 @@
+﻿@model IEnumerable<JobsV1.Models.CarUnit>
+@{
+    ViewBag.Title = "Featured Vehicles";
+}
+
+
+<div class="jumbotron CarRental-Banner-Default" style="margin-bottom: 0px; " id="Home">
+    <h1> Featured Vehicles </h1>
+    <p> Rates are subject to change without prior notice </p>
+    <a href="/"> Go back home </a>
+</div>
+
+<div style="background-color:white;">
+
+    <!-- Premium Section -->
+    <div class="featured-page-section" id="Premium" >
+        <h2 > Premium Vehicles </h2>
+        <p> Experience the luxury of comfort and space. Try the latest development from Toyota, The Toyota Grandia Tourer 2020. </p>
+    </div>
+
+    <!-- Featured Items -->
+    <div class="page-featured-container">
+        <div class="page-featured-item-list">
+
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 3,500.00 </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Latest Items Section -->
+    <div class="featured-page-section" id="Latest">
+        <h2> Latest vehicles </h2>
+        <p>
+            Experience peace of mind while you travel. We love the feeling of staying in a clean and fresh cabin and away from trouble and breakdowns along the road. Extra bucks will surely make your day.
+            @*Items: Toyota Grandia Tourer 2020, Toyota Hilux 2020, Innova 2020, Innova 2019, Rush 2019*@
+        </p>
+    </div>
+
+    <!-- Featured Items -->
+    <div class="page-featured-container">
+        <div class="page-featured-item-list">
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 3,500.00 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="Toyota Hilux" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Hilux 2020 </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 3,500.00 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Innova 2020 </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 2,500.00 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/innova/toyotainnova_front.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Innova 2019 </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 2,500.00 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Rush.jpg" class="center-block img-thumbnail" alt="Toyota Rush" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Rush </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 2,500.00 </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Cheapest Vehicles -->
+    <div class="featured-page-section" id="Cheapest">
+        <h2> Cheapest vehicles </h2>
+        <p>
+            Older vehicles are priced lower. But it doesn’t mean maintenance is forgotten. Older models get more attention in terms of maintenance. If you are afraid of having breakdown along the road while renting the vehicle, Real Wheels is more afraid due to additional effort and loss aside from inconvenience to both parties.
+            @* Items: Toyota Innova 2013, Toyota Innova 2015, Toyota Fortuner 2011*@
+        </p>
+    </div>
+
+    <!-- Featured Items -->
+    <div class="page-featured-container">
+        <div class="page-featured-item-list">
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/CarViews/ToyotaInnova/Toyota-innova.png" class="center-block img-thumbnail" alt="Toyota Innova" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Innova 2013 </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 2,500.00 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/CarViews/ToyotaInnova/toyotainnova2015.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Innova 2015 </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 2,500.00 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/fortuner/Toyota-Fortuner.jpg" class="center-block img-thumbnail" alt="Toyota Fortuner" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Fortuner 2011 </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 2,500.00 </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="featured-page-section" id="OffRoad">
+        <h2> Rough road / Off road</h2>
+        <p>
+            If you know you are going to difficult terrain, you must have the right vehicle to avoid getting stuck in the mud or nowhere. Vehicles with special offroading features are recommended for rough terrain and offroads. This will surely save your day.
+            Toyota Hilux G 4x4 AT 2020 - The Latest, Toyota Fortuner V 4x4 2011- The tank
+        </p>
+    </div>
+
+
+    <!-- Featured Items -->
+    <div class="page-featured-container">
+        <div class="page-featured-item-list">
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="Toyota Hilux" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Hilux 2020 </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 3,500.00 </p>
+                    </div>
+                </div>
+            </div>
+            <div class="page-featured-item-box">
+                <div class="col-md-12 no-margin no-padding">
+                    <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                        <img src="~/Images/CarRental/fortuner/Toyota-Fortuner.jpg" class="center-block img-thumbnail" alt="Toyota Fortuner" />
+                    </div>
+                    <div class="col-md-6 col-xs-6 no-padding">
+                        <p class="featured-item-box-p"> Toyota Fortuner 2011 </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
+                        <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                        <p class="text-price">P 2,500.00 </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+<div class="priceList-contact-details" id="ContactUs">
+    <img src="~/Images/Icons/icon-ask-question-100.png" width="100" />
+    <h3> For Inquiries and Reservations </h3>
+    <p class="mobile-text-link">
+        <a href="mailto:inquiries.realwheels@gmail.com">
+            <strong>Email:</strong> inquiries.realwheels@gmail.com
+        </a>
+    </p>
+    <p class="mobile-text-link">
+        <a href="tel:+63822971831">
+            <strong>LandLine:</strong> (+63) 82 333-5157
+        </a>
+    </p>
+    <p class="mobile-text-link">
+        <a href="tel:+639954508517">
+            <strong>Globe:</strong> (+63) 995-450-8517
+        </a>
+    </p>
+    <p class="mobile-text-link">
+        <a href="tel:+639193812657">
+            <strong>Smart:</strong> (+63) 919-381-2657
+        </a>
+    </p>
+</div>
+
+
+@Html.Action("MobileModalView")
+
+<a href="#Home" id="BackToTop" style="display: block;" name="Back-to-Top"> <span> Back To Top </span></a>
+
+
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/Modal.js"></script>
+    <script>
+        $(() => {
+
+            setTimeout(function () {
+               
+                $('html,body').animate({
+                    scrollTop: $(window).scrollTop() - 50
+                });
+
+                var link = $(location).attr('hash');
+
+                $(link).children('h2').addClass('text-primary');
+            }, 300);
+
+
+        });
+       
+    </script>
+}

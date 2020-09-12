@@ -578,6 +578,11 @@ namespace JobsV1.Controllers
             return View(carUnits);
         }
 
+        public ActionResult Featured()
+        {
+            return View();
+        }
+
         public CarDetail GetCarDetail(int id)
         {
             try

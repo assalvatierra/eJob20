@@ -28,5 +28,10 @@ namespace JobsV1.Areas.Personel.Models
         }
 
 
+        public IQueryable<crLogPaymentType> GetCrLogPaymentTypes()
+        {
+            return db.crLogPaymentTypes;
+        }
+
     }
 }

@@ -5,79 +5,215 @@
     //title and description defined in controller
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
-<!-- For Facebook share/like link -->
-@*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-    <script>
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '596694584162008',
-                autoLogAppEvents: true,
-                xfbml: true,
-                version: 'v7.0'
-            });
-        };
-    </script>
-    <div id="fb-root"></div>*@
-@*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0&appId=596694584162008&autoLogAppEvents=1" nonce="e2XOPjWp"></script>*@
 
-    <div class="main-page-full-banner" id="Home">
-        <div class="title-container">
-            <h1>Davao Car Rental and Tours</h1>
-            <p class="lead banner-message">Contact us for inquiries and reservation</p>
-            <div class="col-md-12 no-padding">
+<div class="main-page-full-banner" id="Home">
+    <div class="title-container">
+        <h1>Davao Car Rental and Tours</h1>
+        <p class="lead banner-message no-margin">
+            Your trusted travel partner.
+            Contact us for inquiries and reservation
+        </p>
+        <div class="col-md-12 no-padding no-margin">
+            @Html.ActionLink(" Request for Quote", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-warning banner-btn-green " })
 
-                @Html.ActionLink(" Request for Quote", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-warning banner-btn-green " })
-                <br />
-                <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green scroll"> Price List Table </a>
+            <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green scroll"> Price List Table </a>
+        </div>
+        <div style="height:0px;width:0px;">
+            <p>
+                <img src="~/Images/CarRental/honda-city-car-rental.PNG" width="0" alt="" title="Realwheels Car Rental Davao" style="color:white;" /> &nbsp;
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Items -->
+<div class="featured-container">
+    <div class="featured-title">
+        <h4 style="font-weight:600;"> FEATURED </h4>
+    </div>
+    <div class="featured-item-list">
+        <!-- Items -->
+        <div class="featured-item-box">
+            <div class="col-md-12 no-margin no-padding">
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Premium"> Premium </a> </p>
             </div>
-            <div style="height:0px;width:0px;">
-                <p>
-                    <img src="~/Images/CarRental/honda-city-car-rental.PNG" width="0" alt="" title="Realwheels Car Rental Davao" style="color:white;" /> &nbsp;
-                </p>
+            <div class="col-md-12 no-margin no-padding">
+                <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+                    <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <p class="text-price pull-left">P 3,500.00 </p>
+                <a href="/CarRental/Featured#Premium" class="pull-right featured-text-link"> More Items &#8594</a>
             </div>
         </div>
 
+        <div class="featured-item-box">
+            <div class="col-md-12 no-margin no-padding">
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Latest"> Latest </a></p>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+                    <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer  </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <p class="text-price pull-left">P 3,500.00 </p>
+                <a href="/CarRental/Featured#Latest" class="pull-right featured-text-link"> More Items &#8594</a>
+            </div>
+        </div>
+
+        <div class="featured-item-box">
+            <div class="col-md-12 col-sm-12 no-margin no-padding">
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Cheapest">  Cheapest </a></p>
+            </div>
+            <div class="col-md-12  no-margin no-padding">
+                <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
+                    <img src="~/Images/CarRental/CarViews/ToyotaInnova/Toyota-innova.png" class="center-block img-thumbnail" alt="fleet van" />
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+                    <p class="featured-item-box-p no-margin"> Toyota Innova 2013 </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <p class="text-price pull-left">P 2,500.00 </p>
+                <a href="/CarRental/Featured#Cheapest" class="pull-right featured-text-link"> More Items &#8594</a>
+            </div>
+        </div>
+
+        <div class="featured-item-box">
+            <div class="col-md-12 no-margin no-padding">
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#OffRoad"> Off Road </a></p>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="fleet van" />
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+                    <p class="featured-item-box-p no-margin"> Toyota Hilux 2020 </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5 Seater  </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <p class="text-price pull-left">P 3,500.00 </p>
+                <a href="/CarRental/Featured#OffRoad" class="pull-right featured-text-link"> More Items &#8594</a>
+            </div>
+        </div>
     </div>
 
+    <hr class="col-md-12" style="margin-left:-15px;margin-bottom:0px;" />
+</div>
+
+@*<div class="featured-container">
+        <div class="featured-title">
+            <h2> Featured </h2>
+        </div>
+        <div class="featured-item-list">
+
+            <div class="featured-item-box">
+                <p class="text-center featured-item-box-header "> Special  </p>
+                <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block" alt="fleet van" />
+                <p class="text-center featured-item-box-p"> Toyota Grandia Tourer  </p>
+                <p class="text-center text-price"> P 3,500.00  </p>
+            </div>
+
+            <div class="featured-item-box">
+                <p class="text-center featured-item-box-header "> Latest  </p>
+                <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block" alt="fleet van" />
+                <p class="text-center featured-item-box-p"> Toyota Grandia Tourer  </p>
+                <p class="text-center text-price"> P 3,500.00  </p>
+            </div>
+
+            <div class="featured-item-box">
+                <p class="text-center featured-item-box-header "> Cheapest  </p>
+                <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block" alt="fleet van" />
+                <p class="text-center featured-item-box-p"> Toyota Grandia Tourer  </p>
+                <p class="text-center text-price"> P 3,500.00  </p>
+            </div>
+
+
+            <div class="featured-item-box">
+                <p class="text-center featured-item-box-header "> Cheapest  </p>
+                <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block" alt="fleet van" />
+                <p class="text-center featured-item-box-p"> Toyota Grandia Tourer  </p>
+                <p class="text-center text-price"> P 3,500.00  </p>
+            </div>
+
+        </div>
+    </div>*@
+
+
+<!-- Home Page Links -->
+
+<div class="main-links-container">
+    <div class="main-links-items">
+        <a href="#ServicesNav">
+            <img src="~/Images/Icons/icons-car-rental.png" width="70" alt="Car Rental Services" />
+            <h2> Services </h2>
+        </a>
+    </div>
+    <div class="main-links-items">
+        <a href="#FleetNav">
+            <img src="~/Images/Icons/icons-car-dealership.png" width="70" alt="Car Delearship Fleet" />
+            <h2> Our Fleet </h2>
+           
+        </a>
+    </div>
+    <div class="main-links-items">
+        <a href="~/CarRental/PriceList">
+            <img src="~/Images/Icons/icons-sale-price-tag.png" width="70" alt="Rental Price Tag" />
+            <h2> Rental Prices </h2>
+        </a>
+    </div>
+    <div class="main-links-items">
+        <a href="#Contact">
+            <img src="~/Images/Icons/icons-group-task.png" width="70" alt="Contact Us Company" />
+            <h2> Contact Us </h2>
+        </a>
+    </div>
+    <div class="main-links-items">
+        <a href="#About">
+            <img src="~/Images/Icons/icons-company.png" width="70" alt="Contact Us Company" />
+            <h2> About Us </h2>
+        </a>
+    </div>
+    <div class="main-links-items">
+        <a href="#Connect">
+            <img src="~/Images/Icons/icons-connect.png" width="70" alt="Contact Us Company" />
+            <h2> Connect With Us </h2>
+        </a>
+    </div>
+</div>
+
+<div class="main-links-container hidden-on-mobile">
+    <h3 class="no-margin">
+        Contact Us :
+        <a href="tel:+639954508517"> +63 995-450-8517 </a> /
+        <a href="mailto:inquiries.realwheels@gmail.com">inquiries.realwheels@gmail.com</a>
+    </h3>
+</div>
+
+@{Html.RenderPartial("Index_Services");}
+
+<!-- Car Selection -->
 
 <div class="linkable-container">
-    <div class="col-md-12 no-padding banner-services-container">
-        <div class="banner-services" style="padding-top:30px">
-            <span class="pull-left banner-services-items hidden-on-mobile" style="margin-left:20px;margin-right:120px;">
-                <a href="#Services" class="banner-services-header scroll-text"> Our Services </a>
-            </span>
-            <a href="#Services-airport" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-airplane-landing-48.png" class="center-block" alt="services airport transfer" />
-                <p class="text-center"> Airport Transfer  </p>
-            </a>
-            <a href="#Services-cityTour" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-city-60.png" class="center-block" alt="services city tour" />
-                <p class="text-center">City Tour  </p>
-            </a>
-            <a href="#Services-corporate" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-vip-50.png" class="center-block" alt="services vip travel" />
-                <p class="text-center">Corporate Travel </p>
-            </a>
-            <a href="#Services-business" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-briefcase-60.png" class="center-block" alt="services business trip" />
-                <p class="text-center"> Business Trip  </p>
-            </a>
-            <a href="#Services-outOfTown" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-beach-48.png" class="center-block" alt="services out of town" />
-                <p class="text-center"> Out of Town </p>
-            </a>
-            <a href="#Services-selfDrive" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-people-in-car-side-view-50.png" class="center-block" alt="services self drive" />
-                <p class="text-center"> Self Drive  </p>
-            </a>
-            <a href="#Services-special" class="pull-left banner-services-items scroll-text">
-                <img src="~/Images/CarRental/Home/icons8-event-48.png" class="center-block" alt="services special occassion" />
-                <p class="text-center"> Special Occasions  </p>
-            </a>
-        </div>
-    </div>
 
-    <div class="col-md-12 no-padding banner-services-container">
+    <div class="col-md-12 no-padding banner-services-container" id="FleetNav">
         <div class="banner-services">
             <span class="pull-left banner-services-items hidden-on-mobile linkable-heading-Fleet">
                 <a href="#Fleet" class="banner-services-header scroll-text"> Our Fleet </a>
@@ -108,182 +244,6 @@
 
 
 
-<div class="row" style="margin:40px 0px;">
- 
-    <div class="col-md-12 contact-container">
-        <div class="col-md-12">
-            <h1 class="text-center" style="padding-bottom:30px;font-weight:600;margin-top:50px;">
-                Contact Us
-            </h1>
-        </div>
-        <div class="col-md-3 col-sm-12">
-            <div class="contact-us-items">
-                <img src="~/Images/Icons/icons-ask-question.png" width="70" alt="Question Customer Service" />
-                <p class="home-services-h"> Customer Service </p>
-                <p> For general inquiries : </p>
-                <p class="mobile-text-link">
-                    <a href="mailto:inquiries.realwheels@gmail.com">
-                        inquiries.realwheels@gmail.com
-                    </a>
-                </p>
-                <p class="mobile-text-link">
-                    <a href="tel:+63822971831">
-                        <strong>LandLine:</strong> (+63) 82 333-5157
-                    </a>
-                </p>
-                <p class="mobile-text-link">
-                    <a href="tel:+639954508517">
-                        <strong>Globe:</strong> (+63) 995-450-8517
-                    </a>
-                </p>
-                <p class="mobile-text-link">
-                    <a href="tel:+639193812657">
-                        <strong>Smart:</strong> (+63) 919-381-2657
-                    </a>
-                </p>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-12">
-            <div class="contact-us-items">
-                <img src="~/Images/Icons/icons-company.png" width="70" alt="Contact Us Company" />
-                <span class="home-services-h"> Corporate Office </span>
-                <p>
-                    Door 1, Travelers Inn Bldg.,
-                </p>
-                <p>  Matina Crossing Rd., Matina Pangi, </p>
-                <p>
-                    Davao City, 8000
-                </p>
-            </div>
-        </div>
-
-
-        <div class="col-md-3 col-sm-12">
-            <div class="contact-us-items">
-                <img src="~/Images/Icons/icons-group-task.png" width="70" alt="Contact Us Corporate Sales Team" />
-                <p class="home-services-h"> Corporate Sales Team </p>
-                <p>
-                    Business to Business
-                </p>
-                <p>
-                    <a href="mailto:inquiries.realwheels@gmail.com">
-                        Request a Quote
-                    </a>
-                </p>
-                <p>
-                    Monday – Saturday
-                </p>
-                <p>
-                    9:00 AM – 6:00 PM
-                </p>
-                <p>
-                    <a href="tel:+639954508517">
-                        <strong>Globe:</strong> (+63) 995-450-8517
-                    </a>
-                </p>
-            </div>
-        </div>
-
-        <div class="col-md-3 col-sm-12">
-            <div class="contact-us-items">
-                <img src="~/Images/Icons/icons-connect.png" width="70" alt="Contact Us Connect With Us" />
-                <p class="home-services-h"> Connect With Us </p>
-                <p>
-                    <a href="https://www.facebook.com/RealWheelsDavao" rel="noreferrer" target="_blank"> <img src="~/Images/Icons/icons-facebook.png" width="50" alt="Real Wheels Davao Facebook Link" /></a>
-
-                    <a href="viber://chat?number=639954508517">
-                        <img src="~/Images/Icons/viber-original.png" width="48" alt="Real Wheels Davao Viber Call Us " />
-                    </a>
-
-                    <a href="https://wa.me/639954508517">
-                        <img src="~/Images/Icons/whatsapp-original.png" width="48" alt="Real Wheels Davao WhatsApp Call Us" />
-                    </a>
-
-                </p>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-@*<div class="row" hidden>
-        <div class="col-md-12 contact-container">
-            <h3> Contact Us </h3>
-            <a class="btn btn-primary contact-us-items " href="https://goo.gl/maps/Q5QBmS8mEWn">
-                Location
-            </a>
-
-            <a class="btn btn-primary contact-us-items " href="viber://chat?number=639954508517">
-                <img src="~/Images/Icons/viber-original.png" width="18" />
-                <span style="font-size:12px;margin-bottom:0px;">Viber</span>
-            </a>
-
-            <a class="btn btn-primary contact-us-items " href="https://wa.me/639954508517">
-                <img src="~/Images/Icons/whatsapp-original.png" width="18" />
-                <span style="font-size:12px;margin-bottom:0px;">WhatsApp</span>
-            </a>
-
-            <a class="btn btn-primary contact-us-items " href="tel:+63822971831">
-                <strong>LandLine:</strong> (+63) 82 333-5157
-            </a>
-
-            <a class="btn btn-primary contact-us-items " href="tel:+639193812657">
-                <strong>Smart:</strong> (+63) 919-381-2657
-            </a>
-            <a class="btn btn-primary contact-us-items " href="tel:+639954508517">
-                <strong>Globe:</strong> (+63) 995-450-8517
-            </a>
-            <a class="btn btn-primary contact-us-items " href="skype:+639954508517?call">
-                <strong>Skype:</strong> (+63) 995-450-8517
-            </a>
-            <a class="btn btn-primary contact-us-items " href="mailto:inquiries.realwheels@gmail.com">
-                <strong>Email:</strong> inquiries.realwheels@gmail.com
-            </a>
-
-        </div>
-        <div class="col-md-1">
-            <p>
-                <img src="~/Images/CarRental/honda-city-car-rental.PNG" width="0" alt="Realwheels Car Rental" title="Realwheels Car Rental" /> &nbsp;
-            </p>
-        </div>
-
-        <div class="col-lg-2">
-                <b>Follow us on Facebook</b>
-                <div class="fb-like" data-href="https://www.facebook.com/RealWheelsDavao/" data-width="300" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
-            </div>
-    </div>*@
-
-<!-- Car Selection -->
-@*<div class="row" style="padding:15px;" hidden>
-        @foreach (var item in Model)
-        {
-            <div class="col-md-4 car-primary">
-                <h2>@Html.DisplayFor(modelItem => item.Description)</h2>
-                <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description" loading="lazy">
-
-                <p>&nbsp</p>
-                <div>
-                    <table class="table-no-border">
-                        <tr>
-                            <th>
-                                @Html.DisplayFor(modelItem => item.Remarks)  &nbsp;
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                @Html.Action("CarRate", new { unitid = int.Parse(@Html.DisplayFor(modelItem => item.Id).ToString()) })
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        }
-    </div>*@
-
-
-<!-- Car Selection -->
 
 <div class="row car-container">
     <div class="col-md-12" id="Fleet">
@@ -344,9 +304,70 @@
 </div>
 
 
+<hr class="col-md-12" style="margin-left:-15px;" />
+
+<div class="col-md-12" style="margin:50px 0px;">
+    <h2 class="home-heading text-center" style="margin-bottom:30px;">Types of Vehicles for Rent</h2>
+    <p class="text-center" style="margin-bottom:20px;padding:10px;">
+        As a rent-a-car company, <a href="https://realwheelsdavao.com">Real Wheels Davao</a> offers wide variety of affordable vehicles
+        suitable for your travel needs.
+    </p>
+    <div class="col-md-3">
+        <div class="home-panel">
+            <img src="~/Images/CarRental/Home/vehicle-type-van.jpg" class="home-vehicle-type-img" loading="lazy" alt="Car-rental-vehicle-van" title="Car Rental Vehicle Van" />
+            <a href="~/CarRental/van-for-rent"><span class="vehicle-types-title">Van for rent</span></a>
+            <ul>
+                <li> Toyota Hiace GL Grandia Tourer</li>
+                <li> Nissan Urvan Premium</li>
+                <li> Toyota Super Grandia</li>
+                <li> Toyota Grandia GL </li>
+                <li> Toyota Hiace Commuter </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="home-panel ">
+            <img src="~/Images/CarRental/Home/vehicle-type-suv.jpg" class="home-vehicle-type-img" loading="lazy" alt="Car-rental-vehicle-suv-mpv" title="Car Rental Vehicle SUV MPV" />
+            <a href="~/CarRental/suvpickup4x4-rental-rates">
+                <span class="vehicle-types-title"> SUV / MPV for rent</span>
+            </a>
+            <ul>
+                <li> Ford Everest </li>
+                <li> Mitsubishi Montero Sport </li>
+                <li> Toyota Fortuner </li>
+                <li> Toyota Innova </li>
+                <li> Toyota Rush </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="home-panel">
+            <img src="~/Images/CarRental/Home/vehicle-type-sedan.jpg" class="home-vehicle-type-img" loading="lazy" alt="Car-rental-vehicle-Sedan" title="Car Rental Business Sedan" />
+            <a href="~/CarRental/sedan-rental"><span class="vehicle-types-title">Sedan for rent</span></a>
+            <ul>
+                <li> Honda City</li>
+                <li> Toyota Vios </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="home-panel">
+            <img src="~/Images/CarRental/Home/vehicle-type-pickup.jpg" class="home-vehicle-type-img" loading="lazy" alt="Car-rental-vehicle-pickup" title="Car Rental Vehicle Pickup" />
+            <a href="~/carrental/pickup-rental"><span class="vehicle-types-title">Pickup for rent</span></a>
+            <ul>
+                <li> Toyota Hilux 2020 </li>
+                <li> Mitsubishi Strada </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
 <!--Page Description / Articles-->
 
-@{Html.RenderPartial("Partial_content_1");}
+@{Html.RenderPartial("Index_Contact");}
+@{Html.RenderPartial("Index_About");}
+@{Html.RenderPartial("Index_Footer");}
 
 @Html.Action("MobileModalView")
 

@@ -1,25 +1,24 @@
-﻿@model IEnumerable<JobsV1.Areas.Personel.Models.RptCrVehiclePaymentSummary>
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogFuel>
 @{
-    ViewBag.Title = "Car Rental Report - Vehicle Summary Report";
+    ViewBag.Title = "Car Rental Report - Expense Logs Report";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
-    int TotalTrips = 0;
-    int TotalOdo = 0;
-    decimal TotalFuel = 0;
-    decimal TotalMaintenance = 0;
-    decimal TotalDriversFee = 0;
-    decimal TotalCash = 0;
-    decimal TotalCC = 0;
-    decimal TotalPO = 0;
 
+    int TotalCount = 0;
+    decimal TotalReqAmount = 0;
+    decimal TotalFillAmount = 0;
 
     var unitList = ViewBag.unitList as IEnumerable<JobsV1.Areas.Personel.Models.crLogUnit>;
+    var paymentTypeList = ViewBag.paymentTypeList as IEnumerable<JobsV1.Areas.Personel.Models.crLogPaymentType>;
 }
 
-<h2>Vehicle Payment Summary Report</h2>
+
+<h2> Expense Logs Report</h2>
+
 
 <p>
     @Html.ActionLink("Back to Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
+
 
 @using (Html.BeginForm())
 {
@@ -46,6 +45,17 @@
                 </select>
             </div>
 
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="padding-left:0px;">
+                <label class="col-lg-1 col-xs-1" style="padding-left:0px;margin-right:5px;margin-top:5px;"> Type </label>
+                <select name="typeId" id="typeId" class="form-control col-md-12 col-xs-10 form-filter-input" value="@ViewBag.typeId">
+                    <option value="0"> All </option>
+                    @foreach (var paymentType in paymentTypeList)
+                    {
+                        <option value="@paymentType.Id"> @paymentType.Type </option>
+                    }
+                </select>
+            </div>
+
             <div class=" form-filter-div col-lg-2 col-md-2 col-sm-2 col-xs-6" style="max-width:120px;">
                 <label class="col-lg-1 col-xs-1" style="padding-left:0px;margin-right:5px;margin-top:5px;"> Start&nbsp;Date </label>
                 <input id="DtStart" name="DtStart" type="text" class="form-control form-filter-input" />
@@ -67,134 +77,76 @@
 <table class="table">
     <tr>
         <th>
+            Date Fillup
+        </th>
+        <th>
             Unit
         </th>
         <th>
             Driver
         </th>
         <th>
-            Total Trips
+            Type
         </th>
         <th>
-            Total Odo
+            Req Amount
         </th>
         <th>
-            Total Fuel
-        </th>
-        <th>
-            Total Maintenance
-        </th>
-        <th>
-            Total DriversFee
-        </th>
-        <th>
-            Total Cash
-        </th>
-        <th>
-            Total CreditCard
-        </th>
-        <th>
-            Total PO
+            Fillup Amount
         </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        foreach (var trip in item.DriverList)
-        {
-            TotalTrips += trip.Trips;
-            TotalOdo += trip.Odo;
-            TotalFuel += trip.Fuel;
-            TotalMaintenance += trip.Maintenance;
-            TotalDriversFee += trip.DriversFee;
+        TotalCount += 1;
 
-            //payment types total
-            TotalCash += trip.PaymentTypeSummary.Cash;
-            TotalCC += trip.PaymentTypeSummary.CreditCard;
-            TotalPO += trip.PaymentTypeSummary.PO;
+        TotalReqAmount += item.Amount;
+        TotalFillAmount += item.orAmount;
 
-            <tr>
-                <td>
-                    @Html.ActionLink(item.Vehicle.Description, "VehicleTripReport", new { DtStart = @ViewBag.DtStart, DtEnd = @ViewBag.DtEnd, unitId = item.Vehicle.Id, driverId = trip.Driver.Id })
-                </td>
-                <td>
-                    @trip.Driver.Name
-                </td>
-                <td>
-                    @trip.Trips
-                </td>
-                <td>
-                    @trip.Odo
-                </td>
-                <td>
-                    @trip.Fuel
-                </td>
-                <td>
-                    @trip.Maintenance
-                </td>
-                <td>
-                    @trip.DriversFee
-                </td>
-                <td>
-                    @trip.PaymentTypeSummary.Cash
-                </td>
-                <td>
-                    @trip.PaymentTypeSummary.CreditCard
-                </td>
-                <td>
-                    @trip.PaymentTypeSummary.PO
-                </td>
-            </tr>
-        }
+        <tr>
+            <td>
+                @item.dtFillup.ToShortDateString()
+            </td>
+            <td>
+                @Html.ActionLink(item.crLogUnit.Description, "VehicleTripReport", new { DtStart = @ViewBag.DtStart, DtEnd = @ViewBag.DtEnd, unitId = item.crLogUnit.Id, driverId = item.crLogDriverId })
+            </td>
+            <td>
+                @item.crLogDriver.Name
+            </td>
+            <td>
+                @item.crLogPaymentType.Type
+            </td>
+            <td>
+                @item.Amount
+            </td>
+            <td>
+                @item.orAmount
+            </td>
+        </tr>
+
     }
 
     <tr style="background-color:whitesmoke;">
-        <td colspan="2">
-            Total
-        </td>
         <td>
-            <span>
-                @TotalTrips.ToString("N0")
+            Count : @TotalCount.ToString("N0")
+        </td>
+        <td colspan="3">
+            <span class="pull-right">
+                Total :
             </span>
         </td>
         <td>
             <span>
-                @TotalOdo.ToString("N0")
+                @TotalReqAmount.ToString("#,##0.00")
             </span>
         </td>
         <td>
             <span>
-                @TotalFuel.ToString("N0")
-            </span>
-        </td>
-        <td>
-            <span >
-                @TotalMaintenance.ToString("N0")
-            </span>
-        </td>
-        <td>
-            <span >
-                @TotalDriversFee.ToString("N0")
-            </span>
-        </td>
-        <td>
-            <span>
-                @TotalCash.ToString("N0")
-            </span>
-        </td>
-        <td>
-            <span >
-                @TotalCC.ToString("N0")
-            </span>
-        </td>
-        <td>
-            <span >
-                @TotalPO.ToString("N0")
+                @TotalFillAmount.ToString("#,##0.00")
             </span>
         </td>
     </tr>
 </table>
-
 
 @section Scripts{
     <script src="~/Scripts/Job/DefaultDate.js"></script>
@@ -225,6 +177,15 @@
             } else {
                 $("#unitId").val(0);
             }
+
+
+            var typeId = parseInt('@ViewBag.typeId');
+            console.log(typeId);
+            if (typeId > 0) {
+                $("#typeId").val(typeId);
+            } else {
+                $("#typeId").val(0);
+            }
         }
 
 
@@ -235,4 +196,3 @@
 
     </script>
 }
-    

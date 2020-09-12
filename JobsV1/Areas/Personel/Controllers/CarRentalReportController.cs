@@ -259,8 +259,66 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.DtEnd = DtEnd;
             ViewBag.unitId = unitId;
             ViewBag.unitList = dl.GetUnits().ToList();
+            ViewBag.rptId = rptId;
 
             return View(vehicleSummaries);
+        }
+
+        public ActionResult VehicleExpenseLogsReport(string DtStart, string DtEnd, int? unitId, int? rptId, int? typeId)
+        {
+
+            DateTime sDate = new DateTime();
+            DateTime eDate = new DateTime();
+
+            if (!DateTime.TryParse(DtStart, out sDate) || !DateTime.TryParse(DtEnd, out eDate))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            TimeSpan duration = new TimeSpan(23, 59, 0); //11:59:0 PM
+            eDate = eDate.Add(duration);
+
+            //get expenses logs
+            var expensesLogs = db.crLogFuels.Where(t => t.dtFillup >= sDate && t.dtFillup <= eDate);
+
+            if (unitId != null && unitId != 0)
+            {
+                expensesLogs = expensesLogs.Where(t => t.crLogUnitId == unitId);
+            }
+
+            if (rptId != null)
+            {
+                //get unitId List on report
+                var unitReport = db.crRptUnitExpenses.Find(rptId);
+                if (unitReport == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var unitList = unitReport.CrRptUnits.Select(c => c.crLogUnitId).ToList();
+
+                expensesLogs = expensesLogs.Where(t => unitList.Contains(t.crLogUnitId));
+            }
+
+            var res = (typeId != null && typeId != 0);
+
+            if (typeId != null && typeId != 0)
+            {
+                expensesLogs = expensesLogs.Where(e=>e.crLogPaymentTypeId == typeId);
+            }
+
+            List<crLogFuel> ExpenseLogsList = new List<crLogFuel>();
+
+            ExpenseLogsList = expensesLogs.ToList();
+
+            ViewBag.DtStart = DtStart;
+            ViewBag.DtEnd = DtEnd;
+            ViewBag.unitId = unitId;
+            ViewBag.unitList = dl.GetUnits().ToList();
+            ViewBag.rptId = rptId;
+            ViewBag.paymentTypeList = dl.GetCrLogPaymentTypes().ToList();
+
+            return View(ExpenseLogsList);
         }
 
         public decimal GetUnitTripExpenses(int unitId, int driversId, int ExpenseTypeId, DateTime sDate, DateTime eDate)

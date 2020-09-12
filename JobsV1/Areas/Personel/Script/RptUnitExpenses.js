@@ -195,3 +195,32 @@ function Submit_ItemDriverSummaryFilter() {
 function ItemDriverSummaryFilter_AddDays(days) {
     $("#ItemDriverSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
 }
+
+
+
+/** Item Driver Trip Report Filter */
+
+function Initial_ItemVehicleExpenseFilter(rptId, rptName) {
+    $("#ItemVehicle-VehicleExpenseFilter-rptName").val(rptName);
+    $("#ItemVehicle-VehicleExpenseFilter-rptId").val(rptId);
+}
+
+function Submit_ItemVehicle_VehicleExpenseFilter() {
+
+    var startDate = $("#ItemVehicle-VehicleExpenseFilter-StartDate").val();
+    var endDate = $("#ItemVehicle-VehicleExpenseFilter-EndDate").val();
+    var rptId = $("#ItemVehicle-VehicleExpenseFilter-rptId").val();
+    var typeId = $("#ItemVehicle-VehicleExpenseFilter-typeId").val();
+
+    var url = $("#ItemVehicleExpenseReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+    url = url.replace('_rptId', rptId);
+    url = url.replace('_typeId', typeId);
+
+    window.location.href = url;
+}
+
+function ItemVehicle_VehicleExpenseFilter_AddDays(days) {
+    $("#ItemVehicle-VehicleExpenseFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}

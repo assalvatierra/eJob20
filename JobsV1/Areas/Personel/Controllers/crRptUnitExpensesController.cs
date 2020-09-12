@@ -27,6 +27,8 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             ViewBag.crLogUnitList = dl.GetUnits().ToList();
             ViewBag.crLogDriverList = dl.GetDrivers().ToList();
+            ViewBag.paymentTypeList = dl.GetCrLogPaymentTypes().ToList();
+
             return View(db.crRptUnitExpenses.ToList());
         }
 

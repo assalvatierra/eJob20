@@ -87,7 +87,7 @@
         <div class="form-group  ">
             <b class="col-md-2 control-label"> Position </b>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
                 @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -95,7 +95,7 @@
         <div class="form-group  ">
             <b class="col-md-2 control-label"> Department </b>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Department, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.EditorFor(model => model.Department, new { htmlAttributes = new { @class = "form-control", @maxlength = "40" } })
                 @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger" })
             </div>
         </div>
