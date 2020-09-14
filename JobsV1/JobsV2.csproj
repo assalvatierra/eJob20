@@ -1344,6 +1344,7 @@
     <Content Include="Content\Chart.min.css" />
     <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.css" />
+    <Content Include="Content\flickity.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\GMSReport.css" />
     <Content Include="Content\ImageStyles.css" />
@@ -1714,6 +1715,7 @@
     <Content Include="Images\Erp\icons\icons-package.png" />
     <Content Include="Images\Erp\icons\icons-search.png" />
     <Content Include="Images\Erp\icons\icons-suv-2.png" />
+    <Content Include="Images\Erp\icons\icons-suv.png" />
     <Content Include="Images\Erp\icons\icons-technical.png" />
     <Content Include="Images\Erp\icons\icons-trolley.png" />
     <Content Include="Images\Erp\icons\icons-accounting.png" />
@@ -1740,9 +1742,15 @@
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
     <Content Include="Images\Icons\icon-ask-question-100.png" />
+    <Content Include="Images\Icons\icon-call-blk.png" />
+    <Content Include="Images\Icons\icon-call-white.png" />
     <Content Include="Images\Icons\icon-car-badge.png" />
     <Content Include="Images\Icons\icon-class.PNG" />
+    <Content Include="Images\Icons\icon-email-blk.png" />
+    <Content Include="Images\Icons\icons-search.png" />
+    <Content Include="Images\Icons\icon-email-white.png" />
     <Content Include="Images\Icons\icon-fuel.PNG" />
+    <Content Include="Images\Icons\icon-office-phone.png" />
     <Content Include="Images\Icons\icon-passenger.PNG" />
     <Content Include="Images\Icons\icon-transmission.PNG" />
     <Content Include="Images\Icons\icons-ask-question.png" />
@@ -1877,6 +1885,7 @@
     <Content Include="Scripts\Customer\Vehicle.js" />
     <Content Include="Scripts\dataTables.min.js" />
     <Content Include="Scripts\Filters\FormInputFilter.js" />
+    <Content Include="Scripts\Flicky.2.2.1.js" />
     <Content Include="Scripts\InvItems\Availability.js" />
     <Content Include="Scripts\JobPostSale\PostSale.js" />
     <Content Include="Scripts\Job\CustNotif.js" />

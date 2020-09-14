@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 
+
 <div class="main-page-full-banner" id="Home">
     <div class="title-container">
         <h1>Davao Car Rental and Tours</h1>
@@ -26,24 +27,36 @@
     </div>
 </div>
 
+<div class="featured-container hidden-on-mobile" style="background-color:#3b3b3b;color:white;">
+    <p class="no-margin" style="padding:5px 30px;">
+        <spaan> Contact Us : </spaan>
+
+        <img src="~/Images/Icons/icon-call-white.png" alt="call us" width="20" style="margin:0px 5px;" />
+        <a href="tel:+639954508517" class="contact-us-link"> +63 995-450-8517 </a>
+        &nbsp;
+        <img src="~/Images/Icons/icon-email-white.png" alt="call us" width="20" style="margin:0px 5px;" />
+        <a href="mailto:inquiries.realwheels@gmail.com" class="contact-us-link">inquiries.realwheels@gmail.com</a>
+    </p>
+</div>
+
 <!-- Featured Items -->
-<div class="featured-container">
+<div class="featured-container hidden-on-mobile">
     <div class="featured-title">
         <h4 style="font-weight:600;"> FEATURED </h4>
     </div>
     <div class="featured-item-list">
-        <!-- Items -->
+        <!-- Premium -->
         <div class="featured-item-box">
             <div class="col-md-12 no-margin no-padding">
                 <p class="featured-item-box-header"><a href="/CarRental/Featured#Premium"> Premium </a> </p>
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
-                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.jpg" class="center-block img-thumbnail" alt="Ford Everest" />
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
-                    <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer </p>
-                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
+                    <p class="featured-item-box-p no-margin"> Ford Everest </p>
+                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
                     <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
 
                 </div>
@@ -55,6 +68,7 @@
         </div>
 
         <div class="featured-item-box">
+            <!-- Latest -->
             <div class="col-md-12 no-margin no-padding">
                 <p class="featured-item-box-header"><a href="/CarRental/Featured#Latest"> Latest </a></p>
             </div>
@@ -75,6 +89,7 @@
         </div>
 
         <div class="featured-item-box">
+            <!-- Cheapest -->
             <div class="col-md-12 col-sm-12 no-margin no-padding">
                 <p class="featured-item-box-header"><a href="/CarRental/Featured#Cheapest">  Cheapest </a></p>
             </div>
@@ -95,6 +110,7 @@
         </div>
 
         <div class="featured-item-box">
+            <!-- OffRoad -->
             <div class="col-md-12 no-margin no-padding">
                 <p class="featured-item-box-header"><a href="/CarRental/Featured#OffRoad"> Off Road </a></p>
             </div>
@@ -117,6 +133,108 @@
 
     <hr class="col-md-12" style="margin-left:-15px;margin-bottom:0px;" />
 </div>
+
+
+
+<!-- Flickity HTML init -->
+<div class="carousel js-flickity show-on-mobile-only" style="margin-bottom:30px;">
+    <!-- images from unsplash.com -->
+    <div class="carousel-cell">
+        <div class="featured-item-box">
+            <div class="col-md-12 no-margin no-padding">
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Premium"> Premium </a> </p>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <div class="col-md-6 col-sm-12 col-xs-6" style="padding-left:0px;">
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.jpg" class="center-block img-thumbnail" alt="Ford Everest" />
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-6 no-padding">
+                    <p class="featured-item-box-p no-margin"> Ford Everest </p>
+                    <p class="featured-item-box-p text-muted no-margin"> 5-7 Seater  </p>
+                    <p class="featured-item-box-p text-muted no-margin"> Driver + Fuel  </p>
+
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <p class="text-price pull-left">P 3,500.00 </p>
+                <a href="/CarRental/Featured#Premium" class="pull-right featured-text-link"> More Items &#8594</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="carousel-cell">
+        <!-- Latest -->
+        <div class="featured-item-box">
+            <div class="col-md-12 no-margin no-padding">
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Latest"> Latest </a></p>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <div class="col-md-6 col-sm-12 col-xs-6" style="padding-left:0px;">
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-6 no-padding">
+                    <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer  </p>
+                    <p class="featured-item-box-p text-muted no-margin">  10-14 Seater  </p>
+                    <p class="featured-item-box-p text-muted no-margin">  Driver + Fuel  </p>
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <p class="text-price pull-left">P 3,500.00 </p>
+                <a href="/CarRental/Featured#Latest" class="pull-right featured-text-link"> More Items &#8594</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="carousel-cell">
+        <!-- Cheapest -->
+        <div class="featured-item-box">
+            <div class="col-md-12 col-sm-12 no-margin no-padding">
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Cheapest">  Cheapest </a></p>
+            </div>
+            <div class="col-md-12  no-margin no-padding">
+                <div class="col-md-6 col-sm-12 col-xs-6" style="padding-left:0px;">
+                    <img src="~/Images/CarRental/CarViews/ToyotaInnova/Toyota-innova.png" class="center-block img-thumbnail" alt="fleet van" />
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-6 no-padding">
+                    <p class="featured-item-box-p no-margin"> Toyota Innova 2013 </p>
+                    <p class="featured-item-box-p text-muted no-margin"> 5-7 Seater  </p>
+                    <p class="featured-item-box-p text-muted no-margin"> Driver + Fuel  </p>
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <p class="text-price pull-left">P 2,500.00 </p>
+                <a href="/CarRental/Featured#Cheapest" class="pull-right featured-text-link"> More Items &#8594</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="carousel-cell">
+        <!-- OffRoad -->
+        <div class="featured-item-box">
+            <div class="col-md-12 no-margin no-padding">
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#OffRoad"> Off Road </a></p>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <div class="col-md-6 col-sm-12 col-xs-6" style="padding-left:0px;">
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="fleet van" />
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-6 no-padding">
+                    <p class="featured-item-box-p no-margin"> Toyota Hilux 2020 </p>
+                    <p class="featured-item-box-p text-muted no-margin">  5 Seater  </p>
+                    <p class="featured-item-box-p text-muted no-margin">  Driver + Fuel  </p>
+                </div>
+            </div>
+            <div class="col-md-12 no-margin no-padding">
+                <p class="text-price pull-left">P 3,500.00 </p>
+                <a href="/CarRental/Featured#OffRoad" class="pull-right featured-text-link"> More Items &#8594</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 
 @*<div class="featured-container">
         <div class="featured-title">
@@ -170,7 +288,7 @@
         <a href="#FleetNav">
             <img src="~/Images/Icons/icons-car-dealership.png" width="70" alt="Car Delearship Fleet" />
             <h2> Our Fleet </h2>
-           
+
         </a>
     </div>
     <div class="main-links-items">
@@ -200,9 +318,11 @@
 </div>
 
 <div class="main-links-container hidden-on-mobile">
-    <h3 class="no-margin">
-        Contact Us :
-        <a href="tel:+639954508517"> +63 995-450-8517 </a> /
+    <h3 class="no-margin center-block">
+
+        <img src="~/Images/Icons/icon-call-blk.png" alt="call us" width="30" style="margin:5px;" />
+        <a href="tel:+639954508517"> +63 995-450-8517 </a> or
+        <img src="~/Images/Icons/icon-email-blk.png" alt="call us" width="30" style="margin:5px;" />
         <a href="mailto:inquiries.realwheels@gmail.com">inquiries.realwheels@gmail.com</a>
     </h3>
 </div>
@@ -372,3 +492,13 @@
 @Html.Action("MobileModalView")
 
 <a href="#Home" id="BackToTop" style="display: block;" name="Back-to-Top"> <span> Back To Top </span></a>
+
+@section Scripts{
+    <script>
+        var flkty = new Flickity('.main-gallery', {
+            // options
+            cellAlign: 'left',
+            contain: true
+        });
+    </script>
+}

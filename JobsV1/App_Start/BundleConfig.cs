@@ -30,6 +30,9 @@ namespace JobsV1
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/flickity").Include(
+                      "~/Scripts/Flicky.2.2.1.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/ModalUser.css",
@@ -91,6 +94,10 @@ namespace JobsV1
 
             bundles.Add(new StyleBundle("~/Content/jobMonitor").Include(
                       "~/Content/JobMonitorStyles.css"
+                      ));
+
+            bundles.Add(new StyleBundle("~/Content/flickity").Include(
+                      "~/Content/flickity.css"
                       ));
 
             //Bundling and Minification

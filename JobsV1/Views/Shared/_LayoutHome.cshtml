@@ -34,7 +34,8 @@
     <meta name="twitter:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg">
     @*<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">*@
     @*<link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">*@
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css") 
+    @Styles.Render("~/Content/flickity")
     @*@Scripts.Render("~/bundles/modernizr")*@
     @*@Styles.Render("~/Content/css/DateRangePicker")*@
     @*@Styles.Render("~/Content/themes/base/css")*@
@@ -66,7 +67,7 @@
                     <li>@Html.ActionLink("Contact", "Contact")</li>
 
                 </ul>
-                @Html.Partial("_LoginPartial")
+                @*@Html.Partial("_LoginPartial")*@
             </div>
         </div>
     </div>
@@ -83,6 +84,7 @@
     @*@Scripts.Render("~/bundles/jquery")*@
     @*@Scripts.Render("~/bundles/jqueryui")*@
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/flickity")
     @*@Scripts.Render("~/bundles/DateRangePicker")*@
     <script type="text/javascript" src="~/Scripts/Modal.js"></script>
     <script type="text/javascript" src="~/serviceworker.js"></script>
