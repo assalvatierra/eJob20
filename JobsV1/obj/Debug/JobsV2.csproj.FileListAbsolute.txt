@@ -212,3 +212,4 @@ C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CopyComp
 C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.dll
 C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.pdb
 C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csprojAssemblyReference.cache
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csprojAssemblyReference.cache

@@ -858,11 +858,11 @@
     }
     /* arrow color */
     .flickity-prev-next-button .arrow {
-        fill: white;
+        fill: #424242;
     }
 
     .flickity-prev-next-button.no-svg {
-        color: white;
+        color: #424242;
     }
     /* closer to edge */
     .flickity-prev-next-button.previous {
