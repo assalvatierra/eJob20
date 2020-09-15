@@ -604,8 +604,11 @@ namespace JobsV1.Controllers
         }
 
 
+        public ActionResult BookingRequest()
+        {
 
-
+            return View();
+        }
 
         #region Dynamic SiteMap 
         // [Route("sitemap.xml")]

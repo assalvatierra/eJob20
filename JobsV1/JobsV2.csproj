@@ -571,6 +571,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CarBookingRequestsController.cs" />
     <Compile Include="Controllers\CarCoopController.cs" />
     <Compile Include="Controllers\CarDestinationsController.cs" />
     <Compile Include="Controllers\CarRatePackagesController.cs" />
@@ -660,6 +661,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Branch.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarBookingRequest.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CarCategory.cs">
@@ -1340,6 +1344,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.slate.css" />
+    <Content Include="Content\CarBooking.css" />
     <Content Include="Content\CarRental.css" />
     <Content Include="Content\Chart.min.css" />
     <Content Include="Content\datatables.min.css" />
@@ -2992,6 +2997,12 @@
     <Content Include="Views\CarRental\Index_Contact.cshtml" />
     <Content Include="Views\CarRental\Index_Footer.cshtml" />
     <Content Include="Views\CarRental\Featured.cshtml" />
+    <Content Include="Views\CarRental\BookingRequest.cshtml" />
+    <Content Include="Views\CarBookingRequests\Create.cshtml" />
+    <Content Include="Views\CarBookingRequests\Delete.cshtml" />
+    <Content Include="Views\CarBookingRequests\Details.cshtml" />
+    <Content Include="Views\CarBookingRequests\Edit.cshtml" />
+    <Content Include="Views\CarBookingRequests\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

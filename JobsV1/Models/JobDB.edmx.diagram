@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
 
-      <Diagram DiagramId="ef40c35eef7a48f9afcf5346ba52fb5c" Name="Diagram1" ZoomLevel="63" >
+      <Diagram DiagramId="ef40c35eef7a48f9afcf5346ba52fb5c" Name="Diagram1" ZoomLevel="93" >
 
         <EntityTypeShape EntityType="JobDB.JobMain" Width="1.5" PointX="23.375" PointY="11.625" />
         <EntityTypeShape EntityType="JobDB.Supplier" Width="1.5" PointX="60.125" PointY="4.375" />
@@ -222,7 +222,7 @@
         <AssociationConnector Association="JobDB.SalesLeadItemsSalesLeadQuotedItem" />
         <EntityTypeShape EntityType="JobDB.CustSocialAcc" Width="1.5" PointX="1.125" PointY="5.625" />
         <AssociationConnector Association="JobDB.CustomerCustSocialAcc" />
-        <EntityTypeShape EntityType="JobDB.AdminEmail" Width="1.5" PointX="10.125" PointY="43.625" />
+        <EntityTypeShape EntityType="JobDB.AdminEmail" Width="1.5" PointX="9.75" PointY="43.875" />
         <EntityTypeShape EntityType="JobDB.Country" Width="1.5" PointX="69.875" PointY="3.875" />
         <EntityTypeShape EntityType="JobDB.SupplierContactStatus" Width="1.5" PointX="65.375" PointY="6" />
         <AssociationConnector Association="JobDB.SupplierContactStatusSupplierContact" />
@@ -319,6 +319,7 @@
         <AssociationConnector Association="JobDB.CustEntActActionCodesCustEntActivity" />
         <EntityTypeShape EntityType="JobDB.CarDetail" Width="1.5" PointX="74.375" PointY="20.625" />
         <AssociationConnector Association="JobDB.CarDetailCarUnit" />
+        <EntityTypeShape EntityType="JobDB.CarBookingRequest" Width="1.5" PointX="9.75" PointY="46.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

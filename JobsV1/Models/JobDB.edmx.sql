@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/04/2020 14:41:37
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 09/15/2020 15:49:48
+-- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -11,6 +11,8 @@ GO
 USE [aspnet-JobsV1-20160528101923];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+
+
 GO
 
 -- --------------------------------------------------
@@ -879,6 +881,9 @@ IF OBJECT_ID(N'[dbo].[CustEntActActionStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[CarDetails]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CarDetails];
+GO
+IF OBJECT_ID(N'[dbo].[CarBookingRequests]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CarBookingRequests];
 GO
 
 -- --------------------------------------------------
@@ -2382,6 +2387,20 @@ CREATE TABLE [dbo].[CarDetails] (
 );
 GO
 
+-- Creating table 'CarBookingRequests'
+CREATE TABLE [dbo].[CarBookingRequests] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtEncoded] datetime  NOT NULL,
+    [DtBooking] datetime  NOT NULL,
+    [Name] nvarchar(80)  NOT NULL,
+    [Mobile] nvarchar(30)  NOT NULL,
+    [Email] nvarchar(60)  NOT NULL,
+    [Unit] nvarchar(60)  NOT NULL,
+    [Destinations] nvarchar(80)  NOT NULL,
+    [Duration] nvarchar(20)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3241,6 +3260,12 @@ GO
 -- Creating primary key on [Id] in table 'CarDetails'
 ALTER TABLE [dbo].[CarDetails]
 ADD CONSTRAINT [PK_CarDetails]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CarBookingRequests'
+ALTER TABLE [dbo].[CarBookingRequests]
+ADD CONSTRAINT [PK_CarBookingRequests]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
