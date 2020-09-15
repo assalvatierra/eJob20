@@ -1581,6 +1581,7 @@
     <Content Include="Images\CarRental\Home\Vehicles\RealWheelsDavao-CarRental.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-city-2018-back.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-city-2018.jpg" />
+    <Content Include="Images\CarRental\hondacity\Honda-City-Default.jpg" />
     <Content Include="Images\CarRental\hondacity\honda-city-front.jpg" />
     <Content Include="Images\CarRental\hondacity\hondaCity_frontview.jpg" />
     <Content Include="Images\CarRental\hondacity\hondacity_interior.jpg" />
@@ -1590,8 +1591,11 @@
     <Content Include="Images\CarRental\icon-meal.png" />
     <Content Include="Images\CarRental\icon-sleep.png" />
     <Content Include="Images\CarRental\innova\Toyota-Innova-2019-BackSeat.png" />
+    <Content Include="Images\CarRental\innova\toyota-innova-2020-sm.jpg" />
+    <Content Include="Images\CarRental\innova\toyota-innova-2020.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-back-seat.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-front-seat.jpg" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-sm.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova.jpg" />
     <Content Include="Images\CarRental\innova\toyotainnova_front.jpg" />
     <Content Include="Images\CarRental\innova\toyotainnova_interior.jpg" />
@@ -1897,6 +1901,7 @@
     <Content Include="Scripts\Job\JobServicesAdd.js" />
     <Content Include="Scripts\Job\JobVehicle.js" />
     <Content Include="Scripts\Job\JobPayment.js" />
+    <Content Include="Scripts\Job\Scroll.js" />
     <Content Include="Scripts\Job\ServicesEdit.js" />
     <Content Include="Scripts\Job\TripListing.js" />
     <Content Include="Scripts\Job\SupplierActivities.js" />

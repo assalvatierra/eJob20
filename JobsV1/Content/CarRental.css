@@ -632,6 +632,13 @@
     padding-left:20px;
 }
 
+    .featured-title p {
+        font-weight: 500;
+        font-size: 18px;
+        margin-bottom: 0px;
+        margin-top: 10px;
+    }
+
 .featured-item-list {
     display: flex;
     flex-flow: row;
@@ -659,8 +666,12 @@
         font-weight: 600;
     }
 
+.featured-item-desc-muted {
+    color: #4B4848;
+}
+
 .text-price {
-    color: forestgreen;
+    color: #0D5E0D;
     font-size: 16px;
     font-weight: 700;
     padding: 5px;
@@ -783,10 +794,12 @@
     font-size:18px;
 }
 
+.page-featured-contact-us{
+    margin-left:20px;
+}
 
 
 /* Carousel */
-
 .carousel {
     background: white;
 }
