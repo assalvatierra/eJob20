@@ -861,6 +861,7 @@
     <Compile Include="Models\ExpensesCategory.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GoogleReCaptcha.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvCarGateControl.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
@@ -1878,6 +1879,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\BookingRequest\DtBooking.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Cashier\CashierJobList.js" />

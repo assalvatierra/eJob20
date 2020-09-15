@@ -537,8 +537,8 @@ namespace JobsV1.Controllers
         }
 
 
-                    //Handle Google Captcha
-                    public int IsReCaptchValid(string gresponse)
+        //Handle Google Captcha
+        public int IsReCaptchValid(string gresponse)
         {
             var result = false;
             var captchaResponse = gresponse;
@@ -606,10 +606,24 @@ namespace JobsV1.Controllers
 
         public ActionResult BookingRequest()
         {
-
             return View();
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateGoogleCaptcha]
+        public ActionResult BookingRequest([Bind(Include = "Id,DtEncoded,DtBooking,Name,Mobile,Email,Unit,Destinations,Duration")] CarBookingRequest carBookingRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                db.CarBookingRequests.Add(carBookingRequest);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(carBookingRequest);
+        }
         #region Dynamic SiteMap 
         // [Route("sitemap.xml")]
         public ActionResult SitemapXml()

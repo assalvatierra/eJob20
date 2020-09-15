@@ -1,15 +1,16 @@
 ﻿@model JobsV1.Models.CarBookingRequest
+@using JobsV1.Models
 
 <link href="~/Content/CarBooking.css" rel="stylesheet">
 
 <div class="booking-container">
-   
+
     <div class="booking-title">
         <h2> Booking Request </h2>
         @Html.ActionLink("Back to Home", "Index")
         <hr />
     </div>
-   
+
     <div class="booking-form">
         @using (Html.BeginForm())
         {
@@ -86,10 +87,19 @@
                     <div class="booking-terms">
                         <p>
                             <input type="checkbox" />
-                        Accept Terms and Conditions 
+                            Accept Terms and Conditions
                         </p>
                     </div>
                 </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.GoogleCaptcha()
+                        @Html.InvalidGoogleCaptchaLabel("Captcha is not valid !")
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -104,3 +114,7 @@
     </div>
 
 </div>
+
+@section Scripts{
+    <script src="~/Scripts/BookingRequest/DtBooking.js"></script>
+    }
