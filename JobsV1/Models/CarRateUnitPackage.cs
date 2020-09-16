@@ -27,6 +27,7 @@ namespace JobsV1.Models
         public decimal FuelLonghaul { get; set; }
         public decimal FuelDaily { get; set; }
         public Nullable<decimal> DailyAddon { get; set; }
+        public string Status { get; set; }
     
         public virtual CarRatePackage CarRatePackage { get; set; }
         public virtual CarUnit CarUnit { get; set; }

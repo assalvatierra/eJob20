@@ -41,7 +41,7 @@
         <br />
 
         <!-- Number of Days, Fuel and Meals-->
-        <div class="form-horizontal">
+        <div class="form-horizontal" hidden>
 
                 <div class="col-lg-4">
                     <h4  class="text-primary"> &nbsp;&nbsp; Days </h4>
@@ -56,9 +56,7 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <!--
-                  Html.DropDownList("MealsAcc", null, htmlAttributes: new { class = "form-control", id = "rsv-meal" })
-                    -->
+                  
                     <h4 class="text-primary"> Driver Meals & Accomodation </h4>
                     <div class="col-lg-5" style="margin-right:-20px;">
                         <img src="~/Images/CarRental/icon-meal.png" width="40"/> 
@@ -73,9 +71,6 @@
                </div>
 
                 <div class="col-lg-4">
-                    <!--
-                    Html.DropDownList("Fuel", null, htmlAttributes: new { class = "form-control", id = "rsv-fuel" })
-                    -->
                     <h4 class="text-primary">Fuel Charges</h4>
                     <div class="col-lg-3" style="margin-right:-30px;">
                         <img src="~/Images/CarRental/icon-gas.png"  width="40"/>
@@ -89,8 +84,9 @@
                 </div>
 
         </div>
+
         <!-- Car selection list -->
-        <div class="col-lg-12 carent" id="btn-rentalUnit" style="margin-top:100px;">
+        <div class="col-lg-12 carent" id="btn-rentalUnit">
             @foreach (var carList in ViewBag.CarUnitList as IEnumerable<JobsV1.Models.CarUnit>)
             {
                 <label class="btn col-md-4 car-selection isSelfDrive@(carList.SelfDrive)" id="car@(carList.Id)" style="width:180px;height:200px;">

@@ -307,45 +307,48 @@ namespace JobsV1.Controllers
         }
 
         // GET: CarReservations/Create
-        public ActionResult FormRenter(int? id, int days, int rentType, int meals, int fuel, int pkg)
+        public ActionResult FormRenter()
         {
             DateTime today = DateTime.Now;
             today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
 
-            int Authorize = HttpContext.User.Identity.Name == "" ? 0 : 1;
-            PackageTable PackageSummary = carRsv.getPackageSummary((int)id, days, rentType, meals, fuel, pkg, Authorize);
+            //int Authorize = HttpContext.User.Identity.Name == "" ? 0 : 1;
+            //PackageTable PackageSummary = carRsv.getPackageSummary((int)id, days, rentType, meals, fuel, pkg, Authorize);
+            var default_DtStart = today.AddDays(2).ToString();
+            var default_DtEnd   = today.AddDays(4).ToString();
 
             CarReservation reservation = new CarReservation();
-            reservation.DtTrx       = today;
-            reservation.DtStart     = today.AddDays(2).ToString();
-            reservation.DtEnd       = today.AddDays(4).ToString();
-            reservation.JobRefNo    = 0;
-            reservation.SelfDrive   = 0;  //with driver = 0, self drive = 1;
-            reservation.EstHrPerDay = 10;
-            reservation.EstKmTravel = 100;
-            reservation.Destinations = db.CarRatePackages.Find(pkg).Description;
-            reservation.UseFor = db.CarRatePackages.Find(pkg).Description;
-            reservation.BaseRate    = PackageSummary.Rate.ToString();
+            reservation.DtTrx        = today;
+            reservation.DtStart      = default_DtStart;
+            reservation.DtEnd        = default_DtEnd;
+            reservation.JobRefNo     = 0;
+            reservation.SelfDrive    = 1;  //with driver = 0, self drive = 1;
+            reservation.EstHrPerDay  = 10;
+            reservation.EstKmTravel  = 100;
+            reservation.Destinations = "Within Davao City Area Only";
+            reservation.UseFor       = "N/A";
+            //reservation.BaseRate     = PackageSummary.Rate.ToString();
             
             //get previous id
-            CarReservation lastId = db.CarReservations.ToList().OrderByDescending(c => c.Id).LastOrDefault();
+            //CarReservation lastId = db.CarReservations.ToList().OrderByDescending(c => c.Id).LastOrDefault();
 
-            CarRatePackage selfDrive = db.CarRatePackages.Find(1);
+            //CarRatePackage selfDrive = db.CarRatePackages.Find(1);
 
-            ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
             //get last reservation id
-            ViewBag.RsvId = lastId != null ?  lastId.Id + 1 : 1 ;
-            ViewBag.id = id;
-            ViewBag.fuel = fuel;
-            ViewBag.meals = meals;
-            ViewBag.pkgId = pkg;
+            //ViewBag.RsvId = lastId != null ?  lastId.Id + 1 : 1 ;
+            //ViewBag.id = id;
 
-            ViewBag.DtStart = today.AddDays(2);
-            ViewBag.DtEnd = today.AddDays(3);
+            ViewBag.fuel = 0;
+            ViewBag.meals = 0;
+            ViewBag.pkgId = 0;
+
+            ViewBag.DtStart = default_DtStart;
+            ViewBag.DtEnd   = default_DtEnd;
 
             //except self drive package
-            ViewBag.PackagesDesc = db.CarRatePackages.Find(pkg).Description;
-
+            //ViewBag.PackagesDesc = db.CarRatePackages.Find(pkg).Description;
+            ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description");
+            ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
             return View(reservation);
         }
 
@@ -354,9 +357,10 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateGoogleCaptcha]
         public ActionResult FormRenter([Bind(Include = "Id,DtTrx,CarUnitId,DtStart,LocStart,DtEnd,LocEnd,BaseRate,Destinations,UseFor,RenterName,RenterCompany,RenterEmail,RenterMobile,RenterAddress,RenterFbAccnt,RenterLinkedInAccnt,EstHrPerDay,EstKmTravel,JobRefNo,SelfDrive")] CarReservation carReservation, int packageid, int mealAcc, int fuel, string host)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && ReservationValidation(carReservation))
             {
                 db.CarReservations.Add(carReservation);
                 db.SaveChanges();
@@ -383,6 +387,7 @@ namespace JobsV1.Controllers
             }
 
             ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", carReservation.CarUnitId);
+            ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
             ViewBag.id = carReservation.CarUnitId;
             ViewBag.carRatesPackages = db.CarRateUnitPackages.ToList();
             ViewBag.CarUnitList = db.CarUnits.ToList();
@@ -390,6 +395,62 @@ namespace JobsV1.Controllers
             ViewBag.Packages = db.CarRatePackages.ToList();
 
             return View(carReservation);
+        }
+
+        public bool ReservationValidation(CarReservation carReservation)
+        {
+            bool isValid = true;
+
+            if (carReservation.Destinations.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Destinations", "Invalid Destinations");
+                isValid = false;
+            }
+
+            if (carReservation.RenterName.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("RenterName", "Invalid Renter Email");
+                isValid = false;
+            }
+
+            if (carReservation.RenterEmail.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("RenterEmail", "Invalid Renter Email");
+                isValid = false;
+            }
+
+            if (carReservation.RenterMobile.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("RenterMobile", "Invalid Renter Mobile");
+                isValid = false;
+            }
+            
+            if (carReservation.BaseRate.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("CarUnitId", "Please select a unit.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        public string GetUnitDefaultPkgPrice(int unitId)
+        {
+            try
+            {
+                //var defaultPkg = db.CarRateUnitPackages.Where(c => c.CarUnitId == unitId && c.Status == "DEFAULT").FirstOrDefault();
+                var defaultPkg = db.CarRates.Where(c => c.CarUnitId == unitId ).FirstOrDefault();
+                if (defaultPkg != null)
+                {
+                    return defaultPkg.Daily.ToString();
+                }
+
+                return "0";
+            }
+            catch
+            {
+                return "0";
+            }
         }
 
 
@@ -606,6 +667,7 @@ namespace JobsV1.Controllers
 
         public ActionResult BookingRequest()
         {
+            ViewBag.Unit = new SelectList(db.CarUnits, "Id", "Description");
             return View();
         }
 
@@ -615,15 +677,86 @@ namespace JobsV1.Controllers
         [ValidateGoogleCaptcha]
         public ActionResult BookingRequest([Bind(Include = "Id,DtEncoded,DtBooking,Name,Mobile,Email,Unit,Destinations,Duration")] CarBookingRequest carBookingRequest)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && BookingReqValidation(carBookingRequest))
             {
                 db.CarBookingRequests.Add(carBookingRequest);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("BookingSuccess");
             }
 
+            ViewBag.Unit = new SelectList(db.CarUnits, "Id", "Description", carBookingRequest.Unit);
             return View(carBookingRequest);
         }
+
+        public ActionResult BookingSuccess()
+        {
+            return View();
+        }
+
+        public string GetUnitRate(int? unitId)
+        {
+            try
+            {
+                if (unitId != null)
+                {
+                    var rate = db.CarRates.Where(c => c.CarUnitId == unitId).FirstOrDefault().Daily;
+
+                    return rate.ToString();
+                }
+                else
+                {
+                    return "No Rate Available";
+                }
+            }
+            catch
+            {
+                return "No Rate Available";
+            }
+        }
+
+        public bool BookingReqValidation(CarBookingRequest carBooking)
+        {
+            bool isValid = true;
+
+            if (carBooking.Name.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Name", "Invalid Name");
+                isValid = false;
+            }
+
+            if (carBooking.Mobile.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Mobile", "Invalid Mobile");
+                isValid = false;
+            }
+
+            if (carBooking.Email.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Email", "Invalid Email");
+                isValid = false;
+            } 
+
+            if (carBooking.Unit.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Unit", "Invalid Unit");
+                isValid = false;
+            }
+
+            if (carBooking.Destinations.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Destinations", "Invalid Destination");
+                isValid = false;
+            }
+
+            if (carBooking.Duration.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Duration", "Invalid Duration");
+                isValid = false;
+            }  
+
+            return isValid;
+        }
+
         #region Dynamic SiteMap 
         // [Route("sitemap.xml")]
         public ActionResult SitemapXml()

@@ -15,8 +15,9 @@
             Contact us for inquiries and reservation
         </p>
         <div class="col-md-12 no-padding no-margin">
-            @Html.ActionLink(" Request for Quote", "CarReserve", "CarRental", new { id = 1 }, new { @class = "btn btn-warning banner-btn-green " })
-
+            @Html.ActionLink(" Request for Quote", "FormRenter", "CarRental", new { id = 1 }, new { @class = "btn btn-warning banner-btn-green " })
+            @*@Html.ActionLink(" Request for Quote", "BookingRequest", "CarRental", null, new { @class = "btn btn-warning banner-btn-green " })*@
+                        
             <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green scroll"> Price List Table </a>
         </div>
         <div style="height:0px;width:0px;">

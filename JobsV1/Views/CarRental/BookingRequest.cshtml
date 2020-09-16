@@ -55,21 +55,22 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
+                        @*@Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.DropDownList("Unit", null, htmlAttributes: new { @class = "form-control", id="UnitDropdown" })
                         @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Destinations, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Destinations,"Destination", htmlAttributes: new { @class = "control-label col-md-2 booking-label-adj" }) 
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Destinations, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Destinations, new { htmlAttributes = new { @class = "form-control", @placeholder = "ex. Davao City " } })
                         @Html.ValidationMessageFor(model => model.Destinations, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.DtBooking, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.DtBooking,"Date", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.DtBooking, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.DtBooking, "", new { @class = "text-danger" })
@@ -79,15 +80,26 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", @placeholder = "ex. 2 Days " } })
                         @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="col-md-offset-2 col-md-10">
+                
+                <div class="form-group">
+                    <span class="control-label col-md-2"><b> Rate</b> </span>
+                    <div class="col-md-10">
+                       <input id="Rate" type="text" class="form-control"  readonly/>
+                    </div>
+                </div>
+
+                <div class="col-md-offset-2 col-md-12 no-padding">
                     <div class="booking-terms">
                         <p>
-                            <input type="checkbox" />
-                            Accept Terms and Conditions
+                            @*<input type="checkbox" />*@
+                            <b> Terms and Conditions</b>
+                            <ul>
+                                <li> Term 1 </li>
+                            </ul>
                         </p>
                     </div>
                 </div>
@@ -103,7 +115,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Proceed" class="btn btn-primary" style="width:40%;" />
+                        <input type="submit" value="Proceed" class="btn btn-primary" style="width:50%;" />
                         <input value="Cancel" class="btn btn-default" style="width:20%;" />
                     </div>
                 </div>
@@ -117,4 +129,19 @@
 
 @section Scripts{
     <script src="~/Scripts/BookingRequest/DtBooking.js"></script>
-    }
+    <script>
+        $('#UnitDropdown').change(() => {
+            console.log("get rate");
+            getUnitRate();
+        });
+
+        function getUnitRate() {
+            var unitID = $('#UnitDropdown option:selected').val();
+            $.get("~/CarRental/GetUnitRate", { unitId : unitID }, (result) => {
+                console.log(result);
+                $("#Rate").text(result);
+            });
+        }
+       
+    </script>
+ }

@@ -1,20 +1,47 @@
 ﻿@model JobsV1.Models.CarReservation
+@using JobsV1.Models
+<link href="~/Content/CarBooking.css" rel="stylesheet">
 
+<div class="booking-container">
+    <div class="col-lg-12">
+        <h1> Reservation Request </h1>
+        @Html.ActionLink("Back to Home", "Index")
+    </div>
 
-
-<div class="modal-body row" id="formRenter" style="padding:0px;">
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
+        <div class="col-lg-12 car-unit-select" id="btn-rentalUnit">
+            <hr />
+            <h3> Unit Select </h3>
+            <div class="col-md-12 col-xs-12 no-padding">
+                @foreach (var carList in ViewBag.CarUnitList as IEnumerable<JobsV1.Models.CarUnit>)
+                {
+
+                    <span class="btn btn-default rsv-unit-item" onclick="selectUnit(this, @carList.Id)">
+                        <input type="radio" name="cars" value="@carList.Description" id="unit-@(carList.Id)" />
+                        <img src="~/Images/CarRental/@carList.CarImages.Where(c => c.CarUnitId == carList.Id).First().ImgUrl" width="50" />
+                        <b class="unit-desc">@carList.Description </b>
+
+                        <b class="text-success">
+                            &nbsp; P @{Html.RenderAction("GetUnitDefaultPkgPrice", new { unitId = carList.Id });}
+                        </b>
+                    </span>
+
+                }
+                @Html.ValidationMessageFor(model => model.CarUnitId, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-horizontal col-md-12">
+            <hr />
             <h3>Usage Details</h3>
             <p>Fields with * are required.</p>
-             <label style="color:orangered;display:none" id="dtls-warning-usage"></label>
-            <hr />
+            <label style="color:orangered;display:none" id="dtls-warning-usage"></label>
+
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group" style="display:none">
+            <div class="form-group" hidden>
                 <label class="control-label col-md-2"> Trans.Date* </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.DtTrx, new { htmlAttributes = new { @class = "form-control" } })
@@ -22,7 +49,7 @@
                 </div>
             </div>
 
-            <div class="form-group" style="display:none">
+            <div class="form-group" hidden>
                 <label class="control-label col-md-2"> Vehicle* </label>
                 <div class="col-md-10">
                     @Html.DropDownList("CarUnitId", null, htmlAttributes: new { @class = "form-control", @id = "rnt-carUnit" })
@@ -30,8 +57,8 @@
                 </div>
             </div>
 
-            <div class="form-group" >
-                <label class="control-label col-md-2"> Start Date* </label>
+            <div class="form-group">
+                <label class="control-label col-md-2"> Start&nbsp;Date* </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.DtStart, new { htmlAttributes = new { @class = "form-control", @id = "rnt-startDate" } })
                     @Html.ValidationMessageFor(model => model.DtStart, "", new { @class = "text-danger" })
@@ -39,38 +66,30 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2"> Pick-Up </label>
+                <label class="control-label col-md-2"> Pick&nbsp;Up </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.LocStart, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.LocStart, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group" >
-                <label class="control-label col-md-2"> Date End* </label>
+            <div class="form-group">
+                <label class="control-label col-md-2"> Date&nbsp;End* </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.DtEnd, new { htmlAttributes = new { @class = "form-control", @id = "rnt-endDate" } })
                     @Html.ValidationMessageFor(model => model.DtEnd, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group" >
-                <label class="control-label col-md-2"> Drop-Off </label>
+            <div class="form-group">
+                <label class="control-label col-md-2"> Drop&nbsp;Off </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.LocEnd, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.LocEnd, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group" style="display:none">
-                <label class="control-label col-md-2"> Base Rate* </label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.BaseRate, new { htmlAttributes = new { @class = "form-control", @id = "rnt-baseRate" } })
-                    @Html.ValidationMessageFor(model => model.BaseRate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group" style="display:none">
+            <div class="form-group">
                 <label class="control-label col-md-2"> Destination* </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Destinations, new { htmlAttributes = new { @class = "form-control", @id = "rnt-destination" } })
@@ -78,8 +97,16 @@
                 </div>
             </div>
 
-            <div class="form-group" style="display:none">
-                <label class="control-label col-md-2"> Used for* </label>
+            <div class="form-group" hidden>
+                <label class="control-label col-md-2"> Rate </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BaseRate, new { htmlAttributes = new { @class = "form-control", @id = "rnt-baseRate", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.BaseRate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" hidden>
+                <label class="control-label col-md-2"> Usedfor* </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.UseFor, new { htmlAttributes = new { @class = "form-control", @id = "rnt-usedfor" } })
                     @Html.ValidationMessageFor(model => model.UseFor, "", new { @class = "text-danger" })
@@ -87,15 +114,15 @@
             </div>
 
 
-            <div class="form-group" style="display:none">
+            <div class="form-group" hidden>
                 @Html.LabelFor(model => model.EstHrPerDay, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10" disabled="disabled">
-                    @Html.EditorFor(model => model.EstHrPerDay, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
+                    @Html.EditorFor(model => model.EstHrPerDay, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.EstHrPerDay, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group" style="display:none">
+            <div class="form-group" hidden>
                 @Html.LabelFor(model => model.EstKmTravel, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.EstKmTravel, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -103,16 +130,19 @@
                 </div>
             </div>
 
-            <h3>Renter Details</h3>
-            <p>Fields with * are required.
-                <label style="color:orangered;display:none" id="dtls-warning"></label>
-            </p>
+            <!-- Renter Details -->
             <hr />
+            <h3>Renter Details</h3>
+            <p>
+                Fields with * are required.
+                @*<label style="color:orangered;display:none" id="dtls-warning"></label>*@
+            </p>
 
-            <div class="form-group"   >
+
+            <div class="form-group">
                 <label class="control-label col-md-2"> Name* </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RenterName, new { htmlAttributes = new { @class = "form-control" , @id = "rnt-name" } })
+                    @Html.EditorFor(model => model.RenterName, new { htmlAttributes = new { @class = "form-control", @id = "rnt-name" } })
                     @Html.ValidationMessageFor(model => model.RenterName, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -125,7 +155,7 @@
                 </div>
             </div>
 
-            <div class="form-group"  >
+            <div class="form-group">
                 <label class="control-label col-md-2"> Email* </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.RenterEmail, new { htmlAttributes = new { @class = "form-control", @id = "rnt-email" } })
@@ -133,7 +163,7 @@
                 </div>
             </div>
 
-            <div class="form-group" >
+            <div class="form-group">
                 <label class="control-label col-md-2"> Mobile* </label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.RenterMobile, new { htmlAttributes = new { @class = "form-control", @id = "rnt-mobile" } })
@@ -165,21 +195,7 @@
                 </div>
             </div>
 
-            <!--Captcha validation-->
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <div id="ReCaptchContainer"></div> 
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Submit" class="btn btn-default disabled" id="submit-btn" onclick="LoadOverlay();" />
-                </div>
-            </div>
-
-            <div class="form-group" style="visibility:hidden;height:0px;">
+            <div class="form-group" hidden>
                 <label class="control-label col-md-2">JobRefNo</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.JobRefNo, new { htmlAttributes = new { @class = "form-control" } })
@@ -187,7 +203,7 @@
                 </div>
             </div>
 
-            <div class="form-group" style="visibility:hidden;height:0px;">
+            <div class="form-group" hidden>
                 <label class="control-label col-md-2">SelfDrive</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.SelfDrive, new { htmlAttributes = new { @class = "form-control" } })
@@ -195,16 +211,48 @@
                 </div>
             </div>
 
-            <!--
-            Hidden
-            -->
-            <div style="display:none;">
-                <input type="text" name="packageid" id="dtls-packageId" value="@ViewBag.pkgId" />
-                <input type="text" name="mealAcc" id="dtls-mealsAcc" value="@ViewBag.meals" />
-                <input type="text" name="fuel" id="dtls-fuel" value="@ViewBag.fuel" />
+            <div class="form-group" hidden>
+                <label class="control-label col-md-2">PackageId</label>
+                <div class="col-md-2">
+                    <input class="form-control" type="text" name="packageid" id="dtls-packageId" value="@ViewBag.pkgId" />
+                </div>
+            </div>
+
+            <div class="form-group" hidden>
+                <label class="control-label col-md-2">Meals By</label>
+                <div class="col-md-2">
+                    <input class="form-control" type="text" name="mealAcc" id="dtls-mealsAcc" value="@ViewBag.meals" />
+                </div>
+            </div>
+
+            <div class="form-group" hidden>
+                <label class="control-label col-md-2">Fuel By </label>
+                <div class="col-md-2">
+                    <input class="form-control" type="text" name="fuel" id="dtls-fuel" value="@ViewBag.fuel" />
+                </div>
+            </div>
+
+            <!--Captcha validation-->
+            @*<div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div id="ReCaptchContainer"></div>
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.GoogleCaptcha()
+                    @Html.InvalidGoogleCaptchaLabel("Captcha is not valid !")
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-primary" style="width:50%;" />
+                    <input value="Cancel" class="btn btn-default" style="width:20%;" />
+                </div>
             </div>
             <br />
-
         </div>
     }
 
@@ -212,14 +260,38 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/CarRental/FormRenter.js"></script>
+    <script type="text/javascript" src="~/Scripts/CarRental/FormRenterValid.js"></script>
+    <script>
+        $(".rsv-unit-item").click(() => {
+            $(this).children('input').prop("checked", true);
+        });
 
+        function selectUnit(e, unitId) {
+            $(e).addClass("unit-selected").siblings().removeClass('unit-selected');
+
+            $("#unit-" + unitId).prop("checked", true)
+            console.log("Selected Unit: " + unitId);
+            $("#rnt-carUnit").val(unitId);
+            getUnitRate(unitId);
+        }
+
+        function getUnitRate(unitID) {
+            //var unitID = $('#UnitDropdown option:selected').val();
+            $.get("/CarRental/GetUnitRate", { unitId: unitID }, (result) => {
+                console.log("rate: " + result);
+                $("#rnt-baseRate").val(result);
+            });
+        }
+
+    </script>
 }
 
-<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="~/Scripts/Job/FormRenter.js"></script>
-<script type="text/javascript" src="~/Scripts/CarRental/FormRenterValid.js"></script>
+@*<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>*@
+@*<script type="text/javascript" src="~/Scripts/Job/FormRenter.js"></script>
+    <script type="text/javascript" src="~/Scripts/CarRental/FormRenterValid.js"></script>*@
 
-<!--Google Recaptcha-->
+<!--Google Recaptcha
 <script type="text/javascript">
 
     var renderRecaptcha = function () {
@@ -236,7 +308,7 @@
         if (response !== '') {
             ajaxValidationResponse(response);
             captchaflag = true;
-        } 
+        }
         checkRenterDetails();
 
     };
@@ -249,8 +321,8 @@
             (response.length === 0) ? (message = 'Captcha verification failed') : (message = 'Success!');
         }
 
-        console.log("submit: "+message);
-       
+        console.log("submit: " + message);
+
     });
 
 
@@ -277,14 +349,13 @@
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                //console.log('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-                //alert("jqxhr:" + jqXHR.responseText);
 
                 alert('Captcha validation failed. Please reload the page and try again.');
             }
         });
     }
-</script>  
-
-<!--Refere reCaptcha API-->
+</script>
+    -->
+<!--Refere reCaptcha API
 <script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit" async defer></script>
+    -->

@@ -3,22 +3,85 @@
 .booking-container {
     background-color:white;
     padding:10px;
-    width:600px;
+    max-width: 530px;
     display:flex;
     align-content:center;
-/*    align-items:center; */
     flex-direction:column;
     margin:auto;
+    margin-top:10px;
 }
 
 .booking-form{
-    margin-left:30px;
+   margin-left:30px;
+
 }
 
+.control-label{
+    display:flex;
+    align-content:flex-end;
+}
+
+
 .booking-terms {
-    color:#4a4a4a;
+    color: #4a4a4a;
 }
 
 .booking-title{
     margin-left:30px;
 }
+
+.booking-success-container {
+    display:flex;
+    margin:auto;
+    align-content:center;
+    align-items:center;
+    flex-flow:column;
+    padding:50px;
+    background-color:white;
+    max-width:600px;
+}
+
+
+.booking-success-container h2 {
+    color: forestgreen;
+}
+
+.rsv-unit-item{
+    display:flex;
+    flex-flow:row;
+    flex-wrap:wrap;
+    align-content:center;
+    align-items:center;
+}
+
+
+    .rsv-unit-item img {
+        margin-right: 15px;
+        margin-left: 10px;
+    }
+
+    .rsv-unit-item .unit-desc{
+        display:flex;
+        flex:1;
+        font-size:12px;
+    }
+
+    .unit-selected {
+        background-color: dodgerblue;
+        color: white;
+    }
+
+
+        .unit-selected:hover {
+            background-color: #389cfe;
+            color: white;
+        }
+
+        .unit-selected:active {
+            background-color: #1879d8;
+            color: white;
+        }
+
+        .unit-selected .text-success {
+            color: #b8f3b8;
+        }

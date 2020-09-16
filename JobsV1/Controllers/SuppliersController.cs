@@ -46,7 +46,7 @@ namespace JobsV1.Controllers
         }
 
         //Ajax - Table Result 
-        //GET the list of suppliers
+        //GET the list of suppliers 
         public string TableResultProducts(string search, string category, string status, string sort)
         {
             //get supplier list

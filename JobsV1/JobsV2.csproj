@@ -1762,6 +1762,7 @@
     <Content Include="Images\Icons\icons-call-96.png" />
     <Content Include="Images\Icons\icons-car-dealership.png" />
     <Content Include="Images\Icons\icons-car-rental.png" />
+    <Content Include="Images\Icons\icons-checked-144.png" />
     <Content Include="Images\Icons\icons-company.png" />
     <Content Include="Images\Icons\icons-connect.png" />
     <Content Include="Images\Icons\icons-group-task.png" />
@@ -2287,7 +2288,7 @@
     <Content Include="Scripts\Job\CarGateControl.js" />
     <Content Include="Scripts\Job\CarMaintenance.js" />
     <Content Include="Scripts\Job\Itinerary.js" />
-    <Content Include="Scripts\Job\FormRenter.js" />
+    <Content Include="Scripts\CarRental\FormRenter.js" />
     <Content Include="Scripts\Job\PO.js" />
     <Content Include="Scripts\Job\Product.js" />
     <Content Include="Scripts\Job\Reporting.js" />
@@ -3005,6 +3006,7 @@
     <Content Include="Views\CarBookingRequests\Details.cshtml" />
     <Content Include="Views\CarBookingRequests\Edit.cshtml" />
     <Content Include="Views\CarBookingRequests\Index.cshtml" />
+    <Content Include="Views\CarRental\BookingSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

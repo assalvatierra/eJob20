@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/15/2020 15:49:48
+-- Date Created: 09/16/2020 13:31:06
 -- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -11,8 +11,6 @@ GO
 USE [aspnet-JobsV1-20160528101923];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-
-
 GO
 
 -- --------------------------------------------------
@@ -1657,7 +1655,8 @@ CREATE TABLE [dbo].[CarRateUnitPackages] (
     [DailyRate] decimal(18,0)  NOT NULL,
     [FuelLonghaul] decimal(18,0)  NOT NULL,
     [FuelDaily] decimal(18,0)  NOT NULL,
-    [DailyAddon] decimal(18,0)  NULL
+    [DailyAddon] decimal(18,0)  NULL,
+    [Status] nvarchar(max)  NOT NULL
 );
 GO
 
