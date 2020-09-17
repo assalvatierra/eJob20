@@ -131,7 +131,7 @@
     background-color: #F2EC41;
     border-color: #F2EC41;
     font-size:20px;
-    margin:15px 0px;
+    margin:5px 0px 0px 0px;
 }
 
     .banner-btn-green:hover {
@@ -845,6 +845,64 @@
         filter: none;
     }
 
+.page-contact-container {
+    display: flex;
+    margin: auto;
+    align-content: center;
+    align-items: flex-start;
+    flex-flow: row;
+    padding: 20px;
+    background-color: white;
+    min-width: 300px;
+}
+
+/* Generic Page Container */
+.page-container {
+    display: flex;
+    margin: auto;
+    align-content: center;
+    align-items: flex-start;
+    flex-flow: column;
+    padding: 20px;
+    background-color: white;
+    min-width: 300px;
+}
+
+.banner-default {
+    margin-top: 0px;
+    padding: 30px 20px;
+    margin-bottom: 30px;
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    /*background-color: rgb(6,105,178);*/
+    background-color: #424242;
+    color: white;
+}
+
+.banner-default-header{
+    display:flex;
+    align-content:flex-start;
+    align-items:flex-start;
+    font-size:28px;
+    margin-left:20px;
+}
+
+.container-desc {
+   padding:20px;
+   margin:20px 0px;
+}
+
+.container-desc h2{
+    font-size:30px;
+}
+
+.container-desc p{
+    font-size: 15px;
+}
+
 @media screen and ( min-width: 768px ) {
     .carousel-cell {
         height: 400px;
@@ -1333,5 +1391,12 @@
     .show-on-mobile-only {
         display: block;
     }
+
+
+    .page-contact-container {
+      padding:0px;
+        flex-flow: column;
+    }
+
 }
 

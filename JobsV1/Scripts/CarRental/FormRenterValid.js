@@ -118,10 +118,10 @@ function checkRenterDetails() {
 
 
     //check if captcha input is valid
-    if (!captchaflag) {
-        $('#submit-btn').removeClass('disabled');
-        $('#dtls-warning').text("Please check the Captcha form.");
-    }
+    //if (!captchaflag) {
+    //    $('#submit-btn').removeClass('disabled');
+    //    $('#dtls-warning').text("Please check the Captcha form.");
+    //}
 
 
     //validate inputs if null or empty
@@ -151,7 +151,7 @@ function checkRenterDetails() {
         }
     }
 
-    if (flag == true && captchaflag) {
+    if (flag == true) {
         $('#submit-btn').removeClass('disabled');
         $('#submit-btn').removeClass('btn-default');
         $('#submit-btn').addClass('btn-primary');
@@ -228,7 +228,7 @@ function rentDateFilter() {
         if (+Date.parse(Ssdate) <= +Date.parse(Sedate)) {
             flag = true;
         } else if (+Date.parse(Sedate) < +Date.parse(Stoday)) {
-            $('input[name="DtEnd"]').val(Stoday);
+            $('input[name="DtEnd"]').val(moment(Stoday).format("MM/DD/YYYY"));
             flag = false;
         } else {
             //display warning message - invalid date start and date end
@@ -237,12 +237,26 @@ function rentDateFilter() {
 
         //start date is less than today
     } else if (+Date.parse(Ssdate) < +Date.parse(Stoday)) {
-        $('input[name="DtStart"]').val(Stoday);
+        $('input[name="DtStart"]').val(moment(Stoday).format("MM/DD/YYYY"));
         flag = false;
     }
 
     //check renter details;
     checkRenterDetails();
+
+    //update days count
+    var daysCount = 0;
+    daysCount = Math.round(moment(edate).diff(moment(sdate), 'days', true));
+
+    if (daysCount == 0) {
+        daysCount = 1;
+    } else if (daysCount > 0) {
+        daysCount = daysCount + 1;
+    }
+    else {
+        daysCount = 0;
+    }
+    $("#rnt-noDays").val(daysCount);
 
     //generate warning message
     return DateTimeWarning(flag);

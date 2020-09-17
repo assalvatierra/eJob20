@@ -4,7 +4,7 @@
 
 <div class="booking-container">
     <div class="col-lg-12">
-        <h1> Reservation Request </h1>
+        <h1> @ViewBag.rsvTypeDesc Request </h1>
         @Html.ActionLink("Back to Home", "Index")
     </div>
 
@@ -18,7 +18,6 @@
             <div class="col-md-12 col-xs-12 no-padding">
                 @foreach (var carList in ViewBag.CarUnitList as IEnumerable<JobsV1.Models.CarUnit>)
                 {
-
                     <span class="btn btn-default rsv-unit-item" onclick="selectUnit(this, @carList.Id)">
                         <input type="radio" name="cars" value="@carList.Description" id="unit-@(carList.Id)" />
                         <img src="~/Images/CarRental/@carList.CarImages.Where(c => c.CarUnitId == carList.Id).First().ImgUrl" width="50" />
@@ -46,6 +45,14 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.DtTrx, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.DtTrx, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" hidden>
+                <label class="control-label col-md-2"> Type </label>
+                <div class="col-md-10">
+                    @Html.DropDownList("CarResTypeId", null, htmlAttributes: new { @class = "form-control", @id = "rnt-rsvType" })
+                    @Html.ValidationMessageFor(model => model.CarUnitId, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -97,6 +104,14 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label class="control-label col-md-2"> No&nbsp;Days* </label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NoDays, new { htmlAttributes = new { @class = "form-control", @id = "rnt-noDays" } })
+                    @Html.ValidationMessageFor(model => model.Destinations, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
             <div class="form-group" hidden>
                 <label class="control-label col-md-2"> Rate </label>
                 <div class="col-md-10">
@@ -112,7 +127,6 @@
                     @Html.ValidationMessageFor(model => model.UseFor, "", new { @class = "text-danger" })
                 </div>
             </div>
-
 
             <div class="form-group" hidden>
                 @Html.LabelFor(model => model.EstHrPerDay, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -234,10 +248,10 @@
 
             <!--Captcha validation-->
             @*<div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div id="ReCaptchContainer"></div>
-                    </div>
-                </div>*@
+            <div class="col-md-offset-2 col-md-10">
+                <div id="ReCaptchContainer"></div>
+            </div>
+        </div>*@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -263,6 +277,12 @@
     <script type="text/javascript" src="~/Scripts/CarRental/FormRenter.js"></script>
     <script type="text/javascript" src="~/Scripts/CarRental/FormRenterValid.js"></script>
     <script>
+        $(() => {
+            //Initial
+            selectUnit(null, @ViewBag.id);
+            $("#unit-@ViewBag.id").parent().addClass("unit-selected");
+        });
+
         $(".rsv-unit-item").click(() => {
             $(this).children('input').prop("checked", true);
         });

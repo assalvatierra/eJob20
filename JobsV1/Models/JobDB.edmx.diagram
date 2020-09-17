@@ -319,7 +319,8 @@
         <AssociationConnector Association="JobDB.CustEntActActionCodesCustEntActivity" />
         <EntityTypeShape EntityType="JobDB.CarDetail" Width="1.5" PointX="74.375" PointY="20.625" />
         <AssociationConnector Association="JobDB.CarDetailCarUnit" />
-        <EntityTypeShape EntityType="JobDB.CarBookingRequest" Width="1.5" PointX="9.75" PointY="46.75" />
+        <EntityTypeShape EntityType="JobDB.CarResType" Width="1.5" PointX="68.875" PointY="29.625" />
+        <AssociationConnector Association="JobDB.CarResTypeCarReservation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

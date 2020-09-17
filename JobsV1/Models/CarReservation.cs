@@ -41,9 +41,12 @@ namespace JobsV1.Models
         public Nullable<int> EstKmTravel { get; set; }
         public Nullable<int> JobRefNo { get; set; }
         public Nullable<int> SelfDrive { get; set; }
+        public int CarResTypeId { get; set; }
+        public string NoDays { get; set; }
     
         public virtual CarUnit CarUnit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CarResPackage> CarResPackages { get; set; }
+        public virtual CarResType CarResType { get; set; }
     }
 }

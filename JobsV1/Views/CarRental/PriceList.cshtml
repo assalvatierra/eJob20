@@ -1,13 +1,20 @@
 ﻿@model IEnumerable<JobsV1.Models.CarUnit>
 @{
-    ViewBag.Title = "Price List Table";
+    ViewBag.Title = "Car Rental Price - Davao City";
+    ViewBag.Description =
+    @"Car Rental price in Davao City. Check our price when renting a car in Davao. We give the most reasonable price 
+    according to its class.";
 }
 
-
 <div class="jumbotron CarRental-Banner-Default" style="margin-bottom: 0px; " id="Home">
-    <h1> Price List Table </h1>
-    <p> Rates are subject to change without prior notice </p>
-    <a href="/"> Go back home </a>
+    <h1> Car Rental Price </h1>
+    <div style="max-width:530px;">
+        <p style="font-size:16px;margin-bottom:0px;">
+            Car Rental rate will vary depending on unit category, destinations and duration. Special rates and discounts
+            is available for companies, regular renters and long term rentals.
+        </p>
+        <a href="/"> Go back home </a>
+    </div>
 </div>
 
 <div style="background-color:white;">

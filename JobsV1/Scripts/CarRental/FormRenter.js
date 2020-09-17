@@ -15,7 +15,7 @@ function InitDatePicker() {
     $('input[name="DtTrx"]').daterangepicker(
     {
         timePicker: true,
-        timePickerIncrement: 30,
+        timePickerIncrement: 1,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
@@ -30,15 +30,16 @@ function InitDatePicker() {
 
     $('input[name="DtTrx"]').val(ddd1);
 
-    var ddd1 = $('input[name="DtStart"]').val();
+    //Start Date
+    var ddd2 = $('input[name="DtStart"]').val();
     $('input[name="DtStart"]').daterangepicker(
     {
-        timePicker: true,
+        timePicker: false,
         timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'MM/DD/YYYY h:mm A'
+            format: 'MM/DD/YYYY'
         }
     },
     function (start, end, label) {
@@ -47,25 +48,27 @@ function InitDatePicker() {
     }
     );
 
-    $('input[name="DtStart"]').val(ddd1);
+    $('input[name="DtStart"]').val(moment(ddd2).format("MM/DD/YYYY"));
 
-    var ddd1 = $('input[name="DtEnd"]').val();
+    //Date End
+
+    var ddd3 = $('input[name="DtEnd"]').val();
     $('input[name="DtEnd"]').daterangepicker(
     {
-        timePicker: true,
+        timePicker: false,
         timePickerIncrement: 30,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'MM/DD/YYYY h:mm A'
+            format: 'MM/DD/YYYY'
         }
     },
     function (start, end, label) {
         //alert(start.format('YYYY-MM-DD h:mm A'));
 
-    }
+        }
     );
 
-    $('input[name="DtEnd"]').val(ddd1);
+    $('input[name="DtEnd"]').val(moment(ddd3).format("MM/DD/YYYY"));
 }
 

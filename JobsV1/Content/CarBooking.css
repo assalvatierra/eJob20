@@ -31,14 +31,16 @@
 }
 
 .booking-success-container {
-    display:flex;
-    margin:auto;
-    align-content:center;
-    align-items:center;
-    flex-flow:column;
-    padding:50px;
-    background-color:white;
-    max-width:600px;
+    display: flex;
+    margin: auto;
+    align-content: center;
+    align-items: center;
+    flex-flow: column;
+    padding: 50px;
+    background-color: white;
+    max-width: 800px;
+    min-width: 300px;
+    margin-top: 10px;
 }
 
 
@@ -85,3 +87,19 @@
         .unit-selected .text-success {
             color: #b8f3b8;
         }
+
+
+/* Reservation Error Page */
+
+.reservation-error-container {
+    display: flex;
+    margin: auto;
+    align-content: center;
+    align-items: center;
+    flex-flow: column;
+    padding: 50px;
+    background-color: white;
+    max-width: 800px;
+    min-width: 300px;
+    margin-top:10px;
+}

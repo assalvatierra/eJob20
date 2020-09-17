@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/16/2020 13:31:06
+-- Date Created: 09/17/2020 14:36:51
 -- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -446,6 +446,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CarDetailCarUnit]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CarDetails] DROP CONSTRAINT [FK_CarDetailCarUnit];
 GO
+IF OBJECT_ID(N'[dbo].[FK_CarResTypeCarReservation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CarReservations] DROP CONSTRAINT [FK_CarResTypeCarReservation];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -880,8 +883,8 @@ GO
 IF OBJECT_ID(N'[dbo].[CarDetails]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CarDetails];
 GO
-IF OBJECT_ID(N'[dbo].[CarBookingRequests]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[CarBookingRequests];
+IF OBJECT_ID(N'[dbo].[CarResTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CarResTypes];
 GO
 
 -- --------------------------------------------------
@@ -1167,7 +1170,9 @@ CREATE TABLE [dbo].[CarReservations] (
     [EstHrPerDay] int  NULL,
     [EstKmTravel] int  NULL,
     [JobRefNo] int  NULL,
-    [SelfDrive] int  NULL
+    [SelfDrive] int  NULL,
+    [CarResTypeId] int  NOT NULL,
+    [NoDays] nvarchar(20)  NOT NULL
 );
 GO
 
@@ -1656,7 +1661,7 @@ CREATE TABLE [dbo].[CarRateUnitPackages] (
     [FuelLonghaul] decimal(18,0)  NOT NULL,
     [FuelDaily] decimal(18,0)  NOT NULL,
     [DailyAddon] decimal(18,0)  NULL,
-    [Status] nvarchar(max)  NOT NULL
+    [Status] nvarchar(10)  NULL
 );
 GO
 
@@ -2386,17 +2391,10 @@ CREATE TABLE [dbo].[CarDetails] (
 );
 GO
 
--- Creating table 'CarBookingRequests'
-CREATE TABLE [dbo].[CarBookingRequests] (
+-- Creating table 'CarResTypes'
+CREATE TABLE [dbo].[CarResTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [DtEncoded] datetime  NOT NULL,
-    [DtBooking] datetime  NOT NULL,
-    [Name] nvarchar(80)  NOT NULL,
-    [Mobile] nvarchar(30)  NOT NULL,
-    [Email] nvarchar(60)  NOT NULL,
-    [Unit] nvarchar(60)  NOT NULL,
-    [Destinations] nvarchar(80)  NOT NULL,
-    [Duration] nvarchar(20)  NOT NULL
+    [Type] nvarchar(20)  NOT NULL
 );
 GO
 
@@ -3262,9 +3260,9 @@ ADD CONSTRAINT [PK_CarDetails]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'CarBookingRequests'
-ALTER TABLE [dbo].[CarBookingRequests]
-ADD CONSTRAINT [PK_CarBookingRequests]
+-- Creating primary key on [Id] in table 'CarResTypes'
+ALTER TABLE [dbo].[CarResTypes]
+ADD CONSTRAINT [PK_CarResTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5415,6 +5413,21 @@ GO
 CREATE INDEX [IX_FK_CarDetailCarUnit]
 ON [dbo].[CarDetails]
     ([CarUnitId]);
+GO
+
+-- Creating foreign key on [CarResTypeId] in table 'CarReservations'
+ALTER TABLE [dbo].[CarReservations]
+ADD CONSTRAINT [FK_CarResTypeCarReservation]
+    FOREIGN KEY ([CarResTypeId])
+    REFERENCES [dbo].[CarResTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CarResTypeCarReservation'
+CREATE INDEX [IX_FK_CarResTypeCarReservation]
+ON [dbo].[CarReservations]
+    ([CarResTypeId]);
 GO
 
 -- --------------------------------------------------

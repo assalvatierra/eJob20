@@ -571,7 +571,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\CarBookingRequestsController.cs" />
     <Compile Include="Controllers\CarCoopController.cs" />
     <Compile Include="Controllers\CarDestinationsController.cs" />
     <Compile Include="Controllers\CarRatePackagesController.cs" />
@@ -663,9 +662,6 @@
     <Compile Include="Models\Branch.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CarBookingRequest.cs">
-      <DependentUpon>JobDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CarCategory.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -695,6 +691,9 @@
     </Compile>
     <Compile Include="Models\CarReserve.cs" />
     <Compile Include="Models\CarResPackage.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarResType.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CarUnit.cs">
@@ -2631,7 +2630,7 @@
     <Content Include="Views\CarRental\FormReservation.cshtml" />
     <Content Include="Views\CarRental\FormPackages.cshtml" />
     <Content Include="Views\CarRental\FormSummary.cshtml" />
-    <Content Include="Views\CarRental\FormRenter.cshtml" />
+    <Content Include="Views\CarRental\ReservationRequest.cshtml" />
     <Content Include="Views\CarRental\FormThankYou.cshtml" />
     <Content Include="Views\CarRatePackages\Create.cshtml" />
     <Content Include="Views\CarRatePackages\Delete.cshtml" />
@@ -3000,13 +2999,9 @@
     <Content Include="Views\CarRental\Index_Contact.cshtml" />
     <Content Include="Views\CarRental\Index_Footer.cshtml" />
     <Content Include="Views\CarRental\Featured.cshtml" />
-    <Content Include="Views\CarRental\BookingRequest.cshtml" />
-    <Content Include="Views\CarBookingRequests\Create.cshtml" />
-    <Content Include="Views\CarBookingRequests\Delete.cshtml" />
-    <Content Include="Views\CarBookingRequests\Details.cshtml" />
-    <Content Include="Views\CarBookingRequests\Edit.cshtml" />
-    <Content Include="Views\CarBookingRequests\Index.cshtml" />
-    <Content Include="Views\CarRental\BookingSuccess.cshtml" />
+    <Content Include="Views\CarRental\ReservationError.cshtml" />
+    <Content Include="Views\Index_Footer.cshtml" />
+    <Content Include="Views\CarRental\Index_Booking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

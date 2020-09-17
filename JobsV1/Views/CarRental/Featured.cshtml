@@ -1,19 +1,26 @@
 ﻿@model IEnumerable<JobsV1.Models.CarUnit>
 @{
-    ViewBag.Title = "Featured Vehicles";
+    ViewBag.Title = "Car Rental - Featured Vehicles - Davao City";
+    ViewBag.Description =
+    @"Davao Car Rental- reserve the best car that fits your need. Available categories: premium cars, 
+    latest cars, cheapest cars.";
 }
 
 
 <div class="jumbotron CarRental-Banner-Default" style="margin-bottom: 0px; " id="Home">
-    <h1> Featured Vehicles </h1>
-    <p> Rates are subject to change without prior notice </p>
-    <a href="/"> Go back home </a>
+    <h1 style="font-size:40px;">  Car Rental - Featured Vehicles </h1>
+    <div style="max-width:540px;">
+        <p style="font-size:16px;margin-bottom:0px;">  Check the kind of vehicle you need to rent. We have 
+        different classifications for you to choose. Reserve the right one. </p>
+        <a href="/"> Go back home </a>
+    </div>
 </div>
 
 <div style="background-color:white;">
+
     <div id="Premium">
         <!-- Premium Section -->
-        <div class="featured-page-section"  style="margin-top:0px;">
+        <div class="featured-page-section" style="margin-top:0px;">
             <div class="featured-page-title-section">
                 <h2 class="featured-page-title">
                     Premium Vehicles
@@ -33,7 +40,7 @@
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -43,7 +50,7 @@
 
         <div class="featured-page-section" id="Premium" style="margin-top:0px;">
             <p>
-                Experience the comfort of Ford Everest. 
+                Experience the comfort of Ford Everest.
             </p>
         </div>
 
@@ -58,7 +65,7 @@
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Ford Everest </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -67,8 +74,8 @@
         </div>
 
         <div class="page-featured-contact-us">
-            <a href="#ContactUs"> 
-                <button class="btn btn-primary"> 
+            <a href="#ContactUs">
+                <button class="btn btn-primary">
                     <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
                     Contact Us
                 </button>
@@ -77,7 +84,7 @@
     </div>
     <div id="Latest">
         <!-- Latest Items Section -->
-        <div class="featured-page-section" >
+        <div class="featured-page-section">
 
             <div class="featured-page-title-section">
                 <h2 class="featured-page-title"> Latest vehicles </h2>
@@ -99,7 +106,7 @@
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -112,7 +119,7 @@
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Hilux 4x4 2020 </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -126,7 +133,7 @@
                             <p class="featured-item-box-p"> Toyota Innova 2020 </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
-                            <p class="text-price">P 2,500.00 </p>
+                            <p class="text-price">P 3,000.00 </p>
                         </div>
                     </div>
                 </div>
@@ -139,7 +146,7 @@
                             <p class="featured-item-box-p"> Toyota Innova 2019 </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
-                            <p class="text-price">P 2,500.00 </p>
+                            <p class="text-price">P 3,000.00 </p>
                         </div>
                     </div>
                 </div>
@@ -152,7 +159,7 @@
                             <p class="featured-item-box-p"> Toyota Rush </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
-                            <p class="text-price">P 2,500.00 </p>
+                            <p class="text-price">P 3,000.00 </p>
                         </div>
                     </div>
                 </div>
@@ -172,7 +179,7 @@
 
     <div id="Cheapest">
         <!-- Cheapest Vehicles -->
-        <div class="featured-page-section" >
+        <div class="featured-page-section">
             <div class="featured-page-title-section">
                 <h2 class="featured-page-title"> Cheapest vehicles </h2>
             </div>
@@ -276,6 +283,62 @@
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
                             <p class="text-price">P 2,500.00 </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-featured-contact-us">
+            <a href="#ContactUs">
+                <button class="btn btn-primary">
+                    <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
+                    Contact Us
+                </button>
+            </a>
+        </div>
+    </div>
+
+
+    <div id="HighRoof">
+
+        <div class="featured-page-section">
+            <div class="featured-page-title-section">
+                <h2 class="featured-page-title"> Big Vans / High Roof / Long wheelbase </h2>
+            </div>
+            <p>
+               We opt for better comfort and luxury of space. We offer bigger vans for more fresh air to breath.
+
+            </p>
+        </div>
+
+
+        <!-- Featured Items -->
+        <div class="page-featured-container">
+            <div class="page-featured-item-list">
+                <div class="page-featured-item-box">
+                    <div class="col-md-12 no-margin no-padding">
+                        <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                            <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                        </div>
+                        <div class="col-md-6 col-xs-6 no-padding">
+                            <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-15 Seater  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <p class="text-price">P 3,500.00 </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-featured-item-box">
+                    <div class="col-md-12 no-margin no-padding">
+                        <div class="col-md-6 col-xs-6" style="padding-left:0px;">
+                            <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Nissan-Premium.jpg" class="center-block img-thumbnail" alt="Nissan Premium" />
+                        </div>
+                        <div class="col-md-6 col-xs-6 no-padding">
+                            <p class="featured-item-box-p"> Nissan Premium NV350</p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-15 Seater  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>

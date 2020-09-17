@@ -81,11 +81,13 @@ function ApproveRelease(id) {
     });
 }
 
-function InitReturnLogModal(id) {
+function InitReturnLogModal(id, desc, amount) {
     $("#return-LogFuelId").val(id);
     $("#return-Odo").val(0);
     $("#return-Amount").val("0.00");
     $("#return-Date").val(moment().format("MM/DD/YYYY hh:mm A"));
+    $("#return-Desc").text(desc);
+    $("#return-ReqAmount").text(amount);
     $("#ReturnLogModal").modal("show");
 }
 

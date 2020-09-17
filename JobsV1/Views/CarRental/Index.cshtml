@@ -15,10 +15,11 @@
             Contact us for inquiries and reservation
         </p>
         <div class="col-md-12 no-padding no-margin">
-            @Html.ActionLink(" Request for Quote", "FormRenter", "CarRental", new { id = 1 }, new { @class = "btn btn-warning banner-btn-green " })
-            @*@Html.ActionLink(" Request for Quote", "BookingRequest", "CarRental", null, new { @class = "btn btn-warning banner-btn-green " })*@
-                        
+            @Html.ActionLink(" Request for Quote", "ReservationRequest", "CarRental", new { id = 1, rsvType = 2 }, new { @class = "btn btn-warning banner-btn-green " })
             <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green scroll"> Price List Table </a>
+            <br />
+
+            @Html.ActionLink(" Online Reservation ", "ReservationRequest", "CarRental", new { id = 1, rsvType = 1 }, new { @class = "btn btn-warning banner-btn-green no-margin" })
         </div>
         <div style="height:0px;width:0px;">
             <p>
@@ -30,7 +31,7 @@
 
 <div class="featured-container hidden-on-mobile" style="background-color:#3b3b3b;color:white;">
     <p class="no-margin" style="padding:5px 30px;">
-        <spaan> Contact Us : </spaan>
+        <span> Contact Us : </span>
 
         <img src="~/Images/Icons/icon-call-white.png" alt="call us" width="20" style="margin:0px 5px;" />
         <a href="tel:+639954508517" class="contact-us-link"> Globe: +63 995-450-8517 </a>
@@ -46,7 +47,7 @@
 <!-- Featured Items -->
 <div class="featured-container hidden-on-mobile">
     <div class="featured-title">
-        <p > FEATURED </p>
+        <p> FEATURED </p>
     </div>
     <div class="featured-item-list">
         <!-- Premium -->
@@ -60,10 +61,12 @@
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Ford Everest </p>
-                    <p class="featured-item-box-p featured-item-desc-muted no-margin"> 
-                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5-7 Seater  </p>
-                    <p class="featured-item-box-p featured-item-desc-muted no-margin"> 
-                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> Driver + Fuel  </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5-7 Seater
+                    </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> Driver + Fuel
+                    </p>
 
                 </div>
             </div>
@@ -84,10 +87,12 @@
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer  </p>
-                    <p class="featured-item-box-p featured-item-desc-muted no-margin"> 
-                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 10-14 Seater  </p>
-                    <p class="featured-item-box-p featured-item-desc-muted no-margin"> 
-                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> Driver + Fuel  </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 10-14 Seater
+                    </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> Driver + Fuel
+                    </p>
                 </div>
             </div>
             <div class="col-md-12 no-margin no-padding">
@@ -107,10 +112,12 @@
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Innova 2013 </p>
-                    <p class="featured-item-box-p featured-item-desc-muted no-margin"> 
-                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5-7 Seater  </p>
-                    <p class="featured-item-box-p featured-item-desc-muted no-margin"> 
-                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> Driver + Fuel  </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5-7 Seater
+                    </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> Driver + Fuel
+                    </p>
                 </div>
             </div>
             <div class="col-md-12 no-margin no-padding">
@@ -130,10 +137,12 @@
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Hilux 4x4 2020 </p>
-                    <p class="featured-item-box-p featured-item-desc-muted no-margin"> 
-                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5 Seater  </p>
-                    <p class="featured-item-box-p featured-item-desc-muted no-margin"> 
-                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> Driver + Fuel  </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5 Seater
+                    </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> Driver + Fuel
+                    </p>
                 </div>
             </div>
             <div class="col-md-12 no-margin no-padding">
@@ -456,6 +465,8 @@
 
 @{Html.RenderPartial("Index_Contact");}
 @{Html.RenderPartial("Index_About");}
+@{Html.RenderPartial("Index_Booking");}
+@{Html.RenderPartial("Articles"); }
 @{Html.RenderPartial("Index_Footer");}
 
 @Html.Action("MobileModalView")
@@ -471,6 +482,6 @@
                 contain: true
             });
         });
-        
+
     </script>
 }

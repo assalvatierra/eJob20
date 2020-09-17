@@ -149,7 +149,7 @@
     <EntitySet Name="CustEntActActionCodes" EntityType="JobDB.Store.CustEntActActionCodes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustEntActActionStatus" EntityType="JobDB.Store.CustEntActActionStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CarDetails" EntityType="JobDB.Store.CarDetails" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CarBookingRequests" EntityType="JobDB.Store.CarBookingRequests" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CarResTypes" EntityType="JobDB.Store.CarResTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -722,6 +722,10 @@
       <End Role="CarDetail" EntitySet="CarDetails" />
       <End Role="CarUnit" EntitySet="CarUnits" />
     </AssociationSet>
+    <AssociationSet Name="CarResTypeCarReservation" Association="JobDB.Store.CarResTypeCarReservation">
+      <End Role="CarResType" EntitySet="CarResTypes" />
+      <End Role="CarReservation" EntitySet="CarReservations" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -1005,6 +1009,8 @@
     <Property Name="EstKmTravel" Type="int" Nullable="true" />
     <Property Name="JobRefNo" Type="int" Nullable="true" />
     <Property Name="SelfDrive" Type="int" Nullable="true" />
+    <Property Name="CarResTypeId" Type="int" Nullable="false" />
+    <Property Name="NoDays" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <EntityType Name="CarImages">
     <Key>
@@ -1493,7 +1499,7 @@
     <Property Name="FuelLonghaul" Type="decimal" Nullable="false" />
     <Property Name="FuelDaily" Type="decimal" Nullable="false" />
     <Property Name="DailyAddon" Type="decimal" Nullable="true" />
-    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="10" />
   </EntityType>
   <EntityType Name="CarResPackages">
     <Key>
@@ -2221,19 +2227,12 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="CarUnitId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="CarBookingRequests">
+  <EntityType Name="CarResTypes">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DtEncoded" Type="datetime" Nullable="false" />
-    <Property Name="DtBooking" Type="datetime" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
-    <Property Name="Mobile" Type="nvarchar" Nullable="false" MaxLength="30" />
-    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="60" />
-    <Property Name="Unit" Type="nvarchar" Nullable="false" MaxLength="60" />
-    <Property Name="Destinations" Type="nvarchar" Nullable="false" MaxLength="80" />
-    <Property Name="Duration" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3951,6 +3950,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="CarResTypeCarReservation">
+    <End Role="CarResType" Type="JobDB.Store.CarResTypes" Multiplicity="1" />
+    <End Role="CarReservation" Type="JobDB.Store.CarReservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarResType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CarReservation">
+        <PropertyRef Name="CarResTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4671,7 +4682,11 @@
             <End Role="CarDetail" EntitySet="CarDetails" />
             <End Role="CarUnit" EntitySet="CarUnits" />
           </AssociationSet>
-          <EntitySet Name="CarBookingRequests" EntityType="JobDB.CarBookingRequest" />
+          <EntitySet Name="CarResTypes" EntityType="JobDB.CarResType" />
+          <AssociationSet Name="CarResTypeCarReservation" Association="JobDB.CarResTypeCarReservation">
+            <End Role="CarResType" EntitySet="CarResTypes" />
+            <End Role="CarReservation" EntitySet="CarReservations" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -5316,6 +5331,9 @@
           <NavigationProperty Name="CarResPackages" Relationship="JobDB.CarReservationCarResPackage" FromRole="CarReservation" ToRole="CarResPackage" />
           <Property Name="JobRefNo" Type="Int32" Nullable="true" />
           <Property Name="SelfDrive" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="CarResType" Relationship="JobDB.CarResTypeCarReservation" FromRole="CarReservation" ToRole="CarResType" />
+          <Property Name="CarResTypeId" Type="Int32" Nullable="false" />
+          <Property Name="NoDays" Type="String" Nullable="false" MaxLength="20" />
         </EntityType>
         <Association Name="CarUnitCarReservation">
           <End Type="JobDB.CarUnit" Role="CarUnit" Multiplicity="1" />
@@ -6453,7 +6471,7 @@
           <Property Name="FuelDaily" Type="Decimal" Nullable="false" />
           <NavigationProperty Name="CarResPackages" Relationship="JobDB.CarRateUnitPackageCarResPackage" FromRole="CarRateUnitPackage" ToRole="CarResPackage" />
           <Property Name="DailyAddon" Type="Decimal" Nullable="true" />
-          <Property Name="Status" Type="String" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="true" MaxLength="10" />
         </EntityType>
         <Association Name="CarRatePackageCarRateUnitPackage">
           <End Type="JobDB.CarRatePackage" Role="CarRatePackage" Multiplicity="1" />
@@ -8175,20 +8193,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CarBookingRequest">
+        <EntityType Name="CarResType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DtEncoded" Type="DateTime" Nullable="false" />
-          <Property Name="DtBooking" Type="DateTime" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
-          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="30" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="60" />
-          <Property Name="Unit" Type="String" Nullable="false" MaxLength="60" />
-          <Property Name="Destinations" Type="String" Nullable="false" MaxLength="80" />
-          <Property Name="Duration" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" />
+          <NavigationProperty Name="CarReservations" Relationship="JobDB.CarResTypeCarReservation" FromRole="CarResType" ToRole="CarReservation" />
         </EntityType>
+        <Association Name="CarResTypeCarReservation">
+          <End Type="JobDB.CarResType" Role="CarResType" Multiplicity="1" />
+          <End Type="JobDB.CarReservation" Role="CarReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarResType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CarReservation">
+              <PropertyRef Name="CarResTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8498,6 +8522,8 @@
           <ScalarProperty Name="EstKmTravel" ColumnName="EstKmTravel" />
           <ScalarProperty Name="JobRefNo" ColumnName="JobRefNo" />
           <ScalarProperty Name="SelfDrive" ColumnName="SelfDrive" />
+          <ScalarProperty Name="CarResTypeId" ColumnName="CarResTypeId" />
+          <ScalarProperty Name="NoDays" ColumnName="NoDays" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -9836,18 +9862,11 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CarBookingRequests">
-      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CarBookingRequest)">
-        <MappingFragment StoreEntitySet="CarBookingRequests">
+    <EntitySetMapping Name="CarResTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.CarResType)">
+        <MappingFragment StoreEntitySet="CarResTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="DtEncoded" ColumnName="DtEncoded" />
-          <ScalarProperty Name="DtBooking" ColumnName="DtBooking" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Unit" ColumnName="Unit" />
-          <ScalarProperty Name="Destinations" ColumnName="Destinations" />
-          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
