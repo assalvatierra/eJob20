@@ -1,5 +1,11 @@
 ﻿@model JobsV1.Models.CarReservation
 @using JobsV1.Models
+@{
+    ViewBag.Title = "Car Rental Reservation";
+    ViewBag.Description =
+    @"Car Rental online reservation.";
+}
+
 <link href="~/Content/CarBooking.css" rel="stylesheet">
 
 <div class="booking-container">
@@ -248,10 +254,10 @@
 
             <!--Captcha validation-->
             @*<div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div id="ReCaptchContainer"></div>
-            </div>
-        </div>*@
+                    <div class="col-md-offset-2 col-md-10">
+                        <div id="ReCaptchContainer"></div>
+                    </div>
+                </div>*@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -262,8 +268,8 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Submit" class="btn btn-primary" style="width:50%;" />
-                    <input value="Cancel" class="btn btn-default" style="width:20%;" />
+                    <input type="submit" value="Submit" class="btn btn-primary" style="width:50%;" onclick="LoadingSubmit()" />
+                    
                 </div>
             </div>
             <br />
@@ -304,78 +310,9 @@
             });
         }
 
+        function LoadingSubmit() {
+            $("#overlay").show();
+        }
+
     </script>
 }
-
-@*<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>*@
-@*<script type="text/javascript" src="~/Scripts/Job/FormRenter.js"></script>
-    <script type="text/javascript" src="~/Scripts/CarRental/FormRenterValid.js"></script>*@
-
-<!--Google Recaptcha
-<script type="text/javascript">
-
-    var renderRecaptcha = function () {
-        grecaptcha.render('ReCaptchContainer', {
-            'sitekey': '6LdjKIgUAAAAAAkNJ8O2EYia89srVY6YMPf4nzWo',
-            'callback': reCaptchaCallback,
-            theme: 'light', //light or dark
-            type: 'image',// image or audio
-            size: 'normal'//normal or compact
-        });
-    };
-
-    var reCaptchaCallback = function (response) {
-        if (response !== '') {
-            ajaxValidationResponse(response);
-            captchaflag = true;
-        }
-        checkRenterDetails();
-
-    };
-
-    jQuery('#submit-btn').click(function (e) {
-
-        var message = 'Please checck the checkbox';
-        if (typeof (grecaptcha) != 'undefined') {
-            var response = grecaptcha.getResponse();
-            (response.length === 0) ? (message = 'Captcha verification failed') : (message = 'Success!');
-        }
-
-        console.log("submit: " + message);
-
-    });
-
-
-    function ajaxValidationResponse(response) {
-        var data = {
-            response: response
-        }
-        var serviceURL = '/CarRental/IsReCaptchValid';
-
-        $.ajax({
-            type: "POST",
-            url: serviceURL,
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function () {
-                if (data) {
-                    captchaflag = true;
-                    console.log('s-success');
-                } else {
-                    captchaflag = false;
-                    console.log('s-failed');
-                    alert('Captcha validation failed. Please reload the page and try again.');
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-
-                alert('Captcha validation failed. Please reload the page and try again.');
-            }
-        });
-    }
-</script>
-    -->
-<!--Refere reCaptcha API
-<script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit" async defer></script>
-    -->

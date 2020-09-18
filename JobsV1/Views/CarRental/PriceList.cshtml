@@ -41,7 +41,7 @@
                     <table class="table-carDetails">
                         <tr>
                             <th>
-                                <h4 class="priceList-CarDesc"> @unit.Remarks </h4>
+                                <h4 class="priceList-CarDesc"> @Html.ActionLink(unit.Remarks, "CarDetail", "CarRental", new { unitid = unit.Id }, null) </h4>
                             </th>
                         </tr>
                         <tr>
@@ -116,6 +116,14 @@
                                 </span>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td>
+                                <span class="pricelist-carDetails-value pull-right">
+                                    <a href="/CarRental/Featured"> See featured Items </a>
+                                </span>
+                            </td>
+                        </tr>
                     </table>
                 </div>
 
@@ -161,18 +169,12 @@
                             </tr>
                             <tr>
                                 <td class="pricelist-carDetails-btn-tr">
-                                    @if (unit.Id == 6)
-                                    {
+                                    <a href="#ContactUs" class="btn btn-primary pull-right pricelist-carDetails-btn">
+                                         Contact Us
+                                    </a>
+                                    @Html.ActionLink(" Reserve this Unit ", "ReservationRequest", "CarRental", new { id = unit.Id, rsvType = 1 }, new { @class = "btn btn-primary pull-right pricelist-carDetails-btn" })
+                                    @Html.ActionLink(" Request a Quote ", "ReservationRequest", "CarRental", new { id = unit.Id, rsvType = 2 }, new { @class = "btn btn-primary pull-right pricelist-carDetails-btn" })
 
-                                    }
-                                    else
-                                    {
-                                        <a href="#ContactUs">
-                                            <button class="btn  btn-primary pull-right pricelist-carDetails-btn">
-                                                <span class="pricelist-carDetails-btn-text"> Contact Us</span>
-                                            </button>
-                                        </a>
-                                    }
                                 </td>
                             </tr>
                         }

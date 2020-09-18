@@ -375,26 +375,69 @@ namespace JobsV1.Controllers
                 
                     //add reservation package
                     addCarResPackage(carReservation.Id, packageid, mealAcc, fuel);
-                
+
                     //Filter email using url
-                
+
                     //sent email 
                     var adminEmail = "travel.realbreeze@gmail.com";
-                    //sendMail(carReservation.Id, adminEmail, "ADMIN" ,carReservation.RenterName);
+                    var emailResponse = "";
+                    var adminEmailList = db.AdminEmails.ToList();
 
-                    //adminEmail = "reservation.realwheels@gmail.com";
-                    //sendMail(carReservation.Id, adminEmail, "ADMIN", carReservation.RenterName);
-
-                    //adminEmail = "ajdavao88@gmail.com";
-                    //sendMail(carReservation.Id, adminEmail, "ADMIN", carReservation.RenterName);
+                    foreach (var emails in adminEmailList)
+                    {
+                        emailResponse = SendRsvEmail(carReservation.Id, emails.Email, "ADMIN", carReservation.RenterName);
+                        if (emailResponse != "success")
+                        {
+                            return RedirectToAction("ReservationError", new { msg = emailResponse });
+                        }
+                    }
 
                     //client email
-                    //sendMail(carReservation.Id, carReservation.RenterEmail, "CLIENT-PENDING", carReservation.RenterName);
+                    emailResponse = SendRsvEmail(carReservation.Id, carReservation.RenterEmail, "CLIENT", carReservation.RenterName);
+                    if (emailResponse != "success")
+                    {
+                        return RedirectToAction("ReservationError", new { msg = emailResponse });
+                    }
+
+
+                    //realbreeze email
+                    //emailResponse = adminEmail = "travel.realbreeze@gmail.com";
+                    //sendMail(carReservation.Id, adminEmail, "ADMIN", carReservation.RenterName);
+                    //if (emailResponse != "success")
+                    //{
+                    //    return RedirectToAction("ReservationError", new { msg = emailResponse });
+                    //}
+
+                    ////realwheels reservation email
+                    //emailResponse = adminEmail = "reservation.realwheels@gmail.com";
+                    //sendMail(carReservation.Id, adminEmail, "ADMIN", carReservation.RenterName);
+                    //if (emailResponse != "success")
+                    //{
+                    //    return RedirectToAction("ReservationError", new { msg = emailResponse });
+                    //}
+
+                    ////ajdavao email
+                    //emailResponse = adminEmail = "ajdavao88@gmail.com";
+                    //sendMail(carReservation.Id, adminEmail, "ADMIN", carReservation.RenterName);
+                    //if (emailResponse != "success")
+                    //{
+                    //    return RedirectToAction("ReservationError", new { msg = emailResponse });
+                    //}
 
                     //FOR TESTING
-                    adminEmail = "jahdielsvillosa@gmail.com";
-                    sendMail(carReservation.Id, adminEmail, "ADMIN", carReservation.RenterName);
-                    sendMail(carReservation.Id, carReservation.RenterEmail, "CLIENT-PENDING", carReservation.RenterName);
+
+                    //var adminEmail = "jahdielsvillosa@gmail.com";
+                    //emailResponse = SendRsvEmail(carReservation.Id, adminEmail, "ADMIN", carReservation.RenterName);
+                    //if (emailResponse != "success")
+                    //{
+                    //    return RedirectToAction("ReservationError", new { msg = emailResponse });
+                    //}
+
+                    //emailResponse = SendRsvEmail(carReservation.Id, carReservation.RenterEmail, "CLIENT", carReservation.RenterName);
+                    //if (emailResponse != "success")
+                    //{
+                    //    return RedirectToAction("ReservationError", new { msg = emailResponse });
+                    //}
 
                     return RedirectToAction("FormThankYou", new { rsvId = carReservation.Id});
                 }
@@ -405,6 +448,7 @@ namespace JobsV1.Controllers
                 ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", carReservation.CarUnitId);
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", carReservation.CarResTypeId);
                 ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
+
                 ViewBag.id = carReservation.CarUnitId;
                 ViewBag.fuel = 0;
                 ViewBag.meals = 0;
@@ -506,8 +550,9 @@ namespace JobsV1.Controllers
             }
         }
 
-        public ActionResult ReservationError()
+        public ActionResult ReservationError(string msg)
         {
+            ViewBag.Msg = msg;
             return View();
         }
 
@@ -550,7 +595,14 @@ namespace JobsV1.Controllers
             EMailHandler mail = new EMailHandler();
             return mail.SendMail(jobId, renterEmail, mailType, recipientName, "https://realwheelsdavao.com/reservation/");
         }
-        
+
+        public string SendRsvEmail(int jobId, string renterEmail, string mailType, string recipientName)
+        {
+            EMailHandler mail = new EMailHandler();
+            return mail.SendMailRsvRequest(jobId, renterEmail, mailType, recipientName, "CAR");
+        }
+
+
         public ActionResult CarView(string carDesc)
         {
             switch (carDesc)

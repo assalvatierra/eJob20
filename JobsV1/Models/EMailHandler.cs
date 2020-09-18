@@ -30,7 +30,7 @@ namespace JobsV1.Models
                 MailDefinition md = new MailDefinition();
                 // md.From = "admin@realwheelsdavao.com";      //sender mail
                 md.From = "Realwheels.Reservation@RealWheelsDavao.com";      //sender mail
-                md.IsBodyHtml = true;                       //set true to enable use of html tags 
+                md.IsBodyHtml = true;             //set true to enable use of html tags 
                 md.Subject = " Reservation";      //mail title
 
                 ListDictionary replacements = new ListDictionary();
@@ -44,7 +44,7 @@ namespace JobsV1.Models
 
                 string company = getCompany(jobId);
 
-                    //encode white space
+                //encode white space
                 string jobDesc = System.Web.HttpUtility.UrlPathEncode(job.Description);
 
                 md.Subject = renterName + ": NEW "+ job.Branch.Name  + " Reservation";   //mail title
@@ -194,11 +194,11 @@ namespace JobsV1.Models
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message
-                return "success";
+                return "Success";
             }
             catch (Exception ex)
             {
-                return "error: " + ex;
+                return "error: " + ex.Message;
             }
         }
         
@@ -1046,6 +1046,94 @@ namespace JobsV1.Models
                 " </div></div>";
 
             return Email(body, email, subject);
+        }
+
+        /**
+         * CLIENT - SEND EMAIL FOR ONLINE RESERVATION PAYMENT SUCCESS
+         * Send email to client after payment reservation success
+         **/
+        public string SendMailRsvRequest(int reservationId, string email, string emailType, string recipientName, string svcType)
+        {
+            try
+            {
+                var reservation = db.CarReservations.Find(reservationId);
+                var CarRespkg = db.CarResPackages;
+                //var product = pdb.SmProducts.Where(s => s.Code == reservation.ProductCode).FirstOrDefault();
+
+                //buld email subject / title
+                string subject = reservation.CarResType.Type + " Request ";
+
+                if (emailType == "ADMIN")
+                {
+                    subject = reservation.CarResType.Type + " Request by " + recipientName;
+                }
+
+                //build email body
+                string message = "<p> Your " + reservation.CarResType.Type + " Request is being processed, our agents to contact you via call or email.</p>";
+                string title = " <h1> " + reservation.CarResType.Type + " Request </h1> ";
+
+                if (svcType == "CAR")
+                {
+                    message += "<div style='margin:10px auto;text-align:left;padding-left:200px;background-color:white;width:400px;min-width:160px;'> " +
+                                "<h2> Request Details </h2><span style='font-size:15px;'>" +
+                                "<b> Unit Type : </b> " + reservation.CarUnit.Description + "<br />" +
+                                "<b> Rate: </b> " + reservation.BaseRate + "<br />" +
+                                "<b> Date Start: </b> " + reservation.DtStart + "<br />" +
+                                "<b> Date End: </b> " + reservation.DtEnd + "<br />" +
+                                "<b> No of Days: </b> " + reservation.NoDays + "<br />" +
+                                "<b> Pickup: </b> " + reservation.LocStart + "<br />" +
+                                "<b> DropOff: </b> " + reservation.LocEnd + "<br /><br />" +
+
+                                "<b> Name: </b> " + reservation.RenterName + "<br />" +
+                                "<b> Company: </b>  " + reservation.RenterCompany + "<br />" +
+                                "<b> Contact No.: </b> " + reservation.RenterMobile + "<br />" +
+                                "<b> Email: </b> " + reservation.RenterEmail + "<br />" +
+                                "<b> Address: </b>  " + reservation.RenterAddress + "<br />" +
+                                "<b> FB: </b>  " + reservation.RenterFbAccnt + "<br />" +
+                                "<b> Linkedln: </b>  " + reservation.RenterLinkedInAccnt + "<br />" +
+                                "</span></div>";
+                }
+                else
+                {   //TOUR DEFAULT
+                    message += "<div style='margin:10px auto;text-align:left;padding-left:200px;background-color:white;width:400px;min-width:160px;'> " +
+                                "<h2> Reservation Details </h2><span style='font-size:15px;'>" +
+                                //"<b> Product : </b> " + product.Name + "<br />" +
+                                //"<b> Code: </b> " + reservation.ProductCode + "<br />" +
+                                //"<b> Date: </b> " + reservation.DtStart.ToString("MMM dd yyyy (ddd)") + "<br />" +
+                                //"<b> Name: </b> " + reservation.Name + "<br />" +
+                                //"<b> Contact No.: </b> " + reservation.ContactNum + "<br />" +
+                                //"<b> Email: </b> " + reservation.Email + "<br />" +
+                                //"<b> Pickup: </b>  " + reservation.PickupDtls + "<br />" +
+                                //"<b> No. Pax: </b>  " + reservation.Qty + "<br />" +
+                                "</span></div>";
+                }
+
+                //FOR ADMIN , Add button to view details
+                if (emailType == "ADMIN")
+                {
+                    message += "<div style='text-align:center;padding-left:220px;'><a href='https://realwheelsdavao.com/OnlineReservations/Details/" + reservationId + "' >" +
+                        "<div style='background-color: dodgerblue; width: 120px; padding: 10px; color: white;text-align:center;'> " +
+                        " View Details " +
+                        "</div></a></div>";
+                    title = " <h1> " + reservation.CarResType.Type + " : " + reservation.CarUnit.Description + "</h1> <h3>  ADMIN COPY </h3>";
+                }
+
+                string body = "" +
+                    " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
+                    " <div style='background-color:white;min-width:200px;width:600px;;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>" +
+                    //" <img src='http://realbreezedavaotours.com/wp-content/uploads/2019/07/Realbreeze_logo.png' width='170px' >" +
+                    title +
+                    message +
+                    " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
+                    " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
+                    " </div></div>";
+
+                return Email(body, email, subject);
+            }
+            catch (Exception ex)
+            {
+                return "Error " + ex.Message;
+            }
         }
 
         private string Email(string emailBody, string recipientEmail, string emailSubject )

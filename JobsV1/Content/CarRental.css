@@ -303,7 +303,10 @@
     justify-content: space-evenly;
     align-items:center;
     align-content:center;
-    
+}
+
+.more-links-section button {
+    margin-top:20px;
 }
 
 .home-muted-p {
@@ -359,6 +362,7 @@
     /*background-color: #393a3d;*/
     margin: 20px 0px;
     padding: 50px;
+    padding-bottom: 10px;
 }
 
     .home-company-desc p {
@@ -431,6 +435,26 @@
     width: 100%;
 }
 
+.home-booking-option-container{
+    border:1px solid lightgray;
+    padding:20px;
+    margin:25px;
+}
+    .home-booking-option-container ol li {
+        margin-bottom: 5px;
+        font-size:16px;
+    }
+
+    .home-booking-option-container p a{
+       margin-left:0px;
+    }
+
+
+.call-button-link {
+/*    color: gray;*/
+    margin: 10px;
+}
+
 .sitemap-section {
     border-top: 1px solid lightgray;
     border-bottom: 1px solid lightgray;
@@ -451,8 +475,19 @@
     padding: 20px 50px;
 }
 
-/* Floating Back to Top Button */
+.footer-details-p {
+    margin-bottom: 2px;
+}
 
+.footer-call-link {
+    color: #6e6e6e;
+}
+
+    .footer-call-link:hover {
+        color: #337ab7;
+    }
+
+/* Floating Back to Top Button */
 #BackToTop {
     position: fixed;
     right: 30px;
@@ -466,8 +501,7 @@
     -webkit-border-radius: 60px;
     -moz-border-radius: 60px;
     border-radius: 60px;
-    box-shadow:1px 1px 5px gray;
-   
+    box-shadow: 1px 1px 5px gray;
 }
 
     #BackToTop span {
@@ -563,13 +597,9 @@
     color: gray;
 }
 
-.pricelist-carDetails-btn-text {
-    font-weight: 600;
-}
-
-
 .pricelist-carDetails-btn {
     background-color: dodgerblue;
+    margin:5px;
 }
 
 .pricelist-carDetails-btn-tr {
@@ -900,7 +930,7 @@
 }
 
 .container-desc p{
-    font-size: 15px;
+    font-size: 16px;
 }
 
 @media screen and ( min-width: 768px ) {
@@ -1111,7 +1141,7 @@
     }
 
     .pricelist-carDetails{
-        width:250px;
+        width:100%;
     }
 
     .pricelist-carImg {
@@ -1234,6 +1264,22 @@
     .footer-details {
         padding: 20px 15px;
     }
+
+    .footer-details-p {
+        margin-bottom: 20px;
+    }
+
+    .footer-call-link {
+        color: #6e6e6e;
+        border: 1px solid gray;
+        border-radius: 5px;
+        padding: 8px;
+    }
+
+        .footer-call-link:hover {
+            color: #337ab7;
+            border: 1px solid #337ab7;
+        }
 
     .banner-services-container{
         flex-flow:column;
@@ -1398,5 +1444,19 @@
         flex-flow: column;
     }
 
+    .home-booking-option-container {
+        margin: 5px;
+    }
+
+    .home-booking-option-container ol li {
+        margin-bottom: 15px;
+    }
+
+    .home-company-desc {
+        /*background-color: #393a3d;*/
+        margin: 10px 0px;
+        padding: 15px;
+        padding-bottom: 0px;
+    }
 }
 

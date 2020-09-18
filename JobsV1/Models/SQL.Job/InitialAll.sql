@@ -1090,37 +1090,37 @@ values
 ( 8, 9,  0,  900, 500, 1000 , 'ACTIVE'), --govgen
 ( 8, 10, 0,    0, 1400, 2500 , 'ACTIVE'), --Mati
 ( 8, 11, 1000, 2000, 500, 1000 , 'ACTIVE'), --Davao Oriental
-( 4, 12, 1500, 2500, 500, 1000 , 'ACTIVE'), --Agusan del sur
-( 4, 13, 2000, 2500, 500, 1000 , 'ACTIVE'), --Agusan del Norte
-( 4, 14, 1500, 2500, 500, 1000 , 'ACTIVE'), --Surigao del sur
-( 4, 15, 2500, 3500, 500, 1000 , 'ACTIVE'), --Surigao del Norte
+( 8, 12, 1500, 2500, 500, 1000 , 'ACTIVE'), --Agusan del sur
+( 8, 13, 2000, 2500, 500, 1000 , 'ACTIVE'), --Agusan del Norte
+( 8, 14, 1500, 2500, 500, 1000 , 'ACTIVE'), --Surigao del sur
+( 8, 15, 2500, 3500, 500, 1000 , 'ACTIVE'), --Surigao del Norte
 
-( 4, 16,    0,    0, 500,1000 , 'ACTIVE'), --Marilog
-( 4, 17,    0,  400, 500,1000 , 'ACTIVE'), --Buda
-( 4, 18,    0,  900, 500,1000 , 'ACTIVE'), --Valencia
-( 4, 19, 1000, 1500, 500,1000 , 'ACTIVE'), --Malaybalay
-( 4, 20, 1000, 2000, 500,1000 , 'ACTIVE'), --Manolo fortich
-( 4, 21, 1500, 2500, 500,1000 , 'ACTIVE'), --Cagayan
-( 4, 22, 2000, 3000, 500,1000 , 'ACTIVE'), --Misamis
-( 4, 23, 2000, 3000, 500,1000 , 'ACTIVE'), --Iligan
+( 8, 16,    0,    0, 500,1000 , 'ACTIVE'), --Marilog
+( 8, 17,    0,  400, 500,1000 , 'ACTIVE'), --Buda
+( 8, 18,    0,  900, 500,1000 , 'ACTIVE'), --Valencia
+( 8, 19, 1000, 1500, 500,1000 , 'ACTIVE'), --Malaybalay
+( 8, 20, 1000, 2000, 500,1000 , 'ACTIVE'), --Manolo fortich
+( 8, 21, 1500, 2500, 500,1000 , 'ACTIVE'), --Cagayan
+( 8, 22, 2000, 3000, 500,1000 , 'ACTIVE'), --Misamis
+( 8, 23, 2000, 3000, 500,1000 , 'ACTIVE'), --Iligan
 
-( 4, 24, 0,   0, 500,1000 , 'ACTIVE'), --Santa Cruz, davao del sur
-( 4, 25, 0,   0, 500,1000 , 'ACTIVE'), --Digos, davao del sur
-( 4, 26, 0,   0, 500,   0 , 'ACTIVE'), --davao del sur
-( 4, 27, 0,   0, 500,2500 , 'ACTIVE'), --Malita
-( 4, 28, 500, 1000, 500,1000 , 'ACTIVE'), --Don Marcelino
-( 4, 29, 500,    0, 500,2000 , 'ACTIVE'), --General Santos
-( 4, 30, 500, 1400, 500,1000 , 'ACTIVE'), --Saranggani
-( 4, 31, 500, 1500, 500,1000 , 'ACTIVE'), --Koronadal
-( 4, 32, 500, 1500, 500,1000 , 'ACTIVE'), --Isulan
-( 4, 33, 500, 1500, 500,1000 , 'ACTIVE'), --Sultan Kudarat
-( 4, 34,   0,    0, 500,2500 , 'ACTIVE'), --Kidapawan 
-( 4, 35, 500, 1000, 500,1000 , 'ACTIVE'), --Ilomavis
-( 4, 36, 500, 1000, 500,1000 , 'ACTIVE'), --Kabacan
-( 4, 37, 1000, 1200, 500,1000 , 'ACTIVE'), --Arakan
-( 4, 38, 1000, 1500, 500,1000 , 'ACTIVE'), --Midsayap
-( 4, 39, 1500, 2000, 500,1000 , 'ACTIVE'), --Cotabato City
-( 4, 40, 1500, 2000, 500,1000 , 'ACTIVE'); --North Cotabato
+( 8, 24, 0,   0, 500,1000 , 'ACTIVE'), --Santa Cruz, davao del sur
+( 8, 25, 0,   0, 500,1000 , 'ACTIVE'), --Digos, davao del sur
+( 8, 26, 0,   0, 500,   0 , 'ACTIVE'), --davao del sur
+( 8, 27, 0,   0, 500,2500 , 'ACTIVE'), --Malita
+( 8, 28, 500, 1000, 500,1000 , 'ACTIVE'), --Don Marcelino
+( 8, 29, 500,    0, 500,2000 , 'ACTIVE'), --General Santos
+( 8, 30, 500, 1400, 500,1000 , 'ACTIVE'), --Saranggani
+( 8, 31, 500, 1500, 500,1000 , 'ACTIVE'), --Koronadal
+( 8, 32, 500, 1500, 500,1000 , 'ACTIVE'), --Isulan
+( 8, 33, 500, 1500, 500,1000 , 'ACTIVE'), --Sultan Kudarat
+( 8, 34,   0,    0, 500,2500 , 'ACTIVE'), --Kidapawan 
+( 8, 35, 500, 1000, 500,1000 , 'ACTIVE'), --Ilomavis
+( 8, 36, 500, 1000, 500,1000 , 'ACTIVE'), --Kabacan
+( 8, 37, 1000, 1200, 500,1000 , 'ACTIVE'), --Arakan
+( 8, 38, 1000, 1500, 500,1000 , 'ACTIVE'), --Midsayap
+( 8, 39, 1500, 2000, 500,1000 , 'ACTIVE'), --Cotabato City
+( 8, 40, 1500, 2000, 500,1000 , 'ACTIVE'); --North Cotabato
 
 --add car rate groups
 insert into RateGroups (GroupName) 
