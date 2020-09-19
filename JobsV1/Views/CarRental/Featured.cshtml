@@ -2,17 +2,26 @@
 @{
     ViewBag.Title = "Car Rental - Featured Vehicles - Davao City";
     ViewBag.Description =
-    @"Davao Car Rental- reserve the best car that fits your need. Available categories: premium cars, 
-    latest cars, cheapest cars.";
+    @"Davao Car Rental- reserve the best car that fits your need. Available categories: premium cars,
+latest cars, cheapest cars.";
 }
 
 
 <div class="jumbotron CarRental-Banner-Default" style="margin-bottom: 0px; " id="Home">
     <h1 style="font-size:40px;">  Car Rental - Featured Vehicles </h1>
     <div style="max-width:540px;">
-        <p style="font-size:16px;margin-bottom:0px;">  Check the kind of vehicle you need to rent. We have 
-        different classifications for you to choose. Reserve the right one. </p>
-        <a href="/"> Go back home </a>
+        <p style="font-size:16px;margin-bottom:0px;">
+            Check the kind of vehicle you need to rent. We have
+            different classifications for you to choose. Reserve the right one.
+        </p>
+        <a href="/" class="btn btn-default">
+            <img src="~/Images/Icons/icons-home.png" width="18" style="margin-right:5px;" alt="price" />
+            Go back home
+        </a>
+        <a href="/CarRental/PriceList" class="btn btn-default">
+            <img src="~/Images/Icons/icons-peso-symbol.png" width="18" style="margin-right:5px;" alt="price" />
+            Go to Vehicles Price List
+        </a>
     </div>
 </div>
 
@@ -36,12 +45,20 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 7, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 7, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> AT/MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver </p>
+                            <br />
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)
+                            </p>
                             <p class="text-price">P 3,500.00 </p>
+
                         </div>
                     </div>
                 </div>
@@ -61,11 +78,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.jpg" class="center-block img-thumbnail" alt="Ford Everest" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 3, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 3, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Ford Everest </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> AT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <br />
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)
+                            </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -74,11 +98,13 @@
         </div>
 
         <div class="page-featured-contact-us">
-            <a href="#ContactUs">
-                <button class="btn btn-primary">
-                    <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
-                    Contact Us
-                </button>
+            <a href="#ContactUs" class="btn btn-primary">
+                <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" alt="contact" />
+                Contact Us
+            </a>
+            <a href="/CarRental/PriceList" class="btn btn-default">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" style="margin-right:5px;" alt="price" />
+                See Similar Priced Units
             </a>
         </div>
     </div>
@@ -102,11 +128,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 7, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 7, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> AT/MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-14 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <br />
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)
+                            </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -115,11 +148,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="Toyota Hilux" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 6, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 6, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Hilux 4x4 2020 </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <br />
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)
+                            </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -128,11 +168,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/innova/toyota-innova-2020-sm.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 4, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 4, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Innova 2020 </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" style="width:15px;" /> Self Drive  </p>
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)
+                            </p>
                             <p class="text-price">P 3,000.00 </p>
                         </div>
                     </div>
@@ -141,11 +188,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 4, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 4, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Innova 2019 </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" style="width:15px;" /> Self Drive  </p>
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)
+                            </p>
                             <p class="text-price">P 3,000.00 </p>
                         </div>
                     </div>
@@ -154,11 +208,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Rush.jpg" class="center-block img-thumbnail" alt="Toyota Rush" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 8, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 8, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Rush </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" style="width:15px;" /> Self Drive  </p>
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 8 }, null)
+                            </p>
                             <p class="text-price">P 3,000.00 </p>
                         </div>
                     </div>
@@ -168,11 +229,13 @@
         </div>
 
         <div class="page-featured-contact-us">
-            <a href="#ContactUs">
-                <button class="btn btn-primary">
-                    <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
-                    Contact Us
-                </button>
+            <a href="#ContactUs" class="btn btn-primary">
+                <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
+                Contact Us
+            </a>
+            <a href="/CarRental/PriceList" class="btn btn-default">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" style="margin-right:5px;" alt="price" />
+                See Similar Priced Units
             </a>
         </div>
     </div>
@@ -196,11 +259,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/CarViews/ToyotaInnova/Toyota-innova.png" class="center-block img-thumbnail" alt="Toyota Innova" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 4, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 4, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Innova 2013 </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver or</p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" style="width:15px;" /> Self Drive  </p>
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)
+                            </p>
                             <p class="text-price">P 2,500.00 </p>
                         </div>
                     </div>
@@ -208,12 +278,19 @@
                 <div class="page-featured-item-box">
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
-                            <img src="~/Images/CarRental/CarViews/ToyotaInnova/toyotainnova2015.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                            <img src="~/Images/CarRental/CarViews/ToyotaInnova/toyotainnova2015.jpg" class="center-block img-thumbnail" alt="Toyota Innova 2015" style="height:100px;" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 4, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 4, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Innova 2015 </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver or</p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" style="width:15px;" /> Self Drive  </p>
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)
+                            </p>
                             <p class="text-price">P 2,500.00 </p>
                         </div>
                     </div>
@@ -222,11 +299,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/fortuner/Toyota-Fortuner.jpg" class="center-block img-thumbnail" alt="Toyota Fortuner" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 3, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 3, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Fortuner 2011 </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver or  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" style="width:15px;" /> Self Drive  </p>
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)
+                            </p>
                             <p class="text-price">P 2,500.00 </p>
                         </div>
                     </div>
@@ -235,11 +319,13 @@
         </div>
 
         <div class="page-featured-contact-us">
-            <a href="#ContactUs">
-                <button class="btn btn-primary">
-                    <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
-                    Contact Us
-                </button>
+            <a href="#ContactUs" class="btn btn-primary">
+                <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
+                Contact Us
+            </a>
+            <a href="/CarRental/PriceList" class="btn btn-default">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" style="margin-right:5px;" alt="price" />
+                See Similar Priced Units
             </a>
         </div>
     </div>
@@ -264,11 +350,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="Toyota Hilux" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 3, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 3, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Hilux 4x4 2020 </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <br />
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)
+                            </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -277,11 +370,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/fortuner/Toyota-Fortuner.jpg" class="center-block img-thumbnail" alt="Toyota Fortuner" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 3, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 3, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Fortuner 2011 </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 5-7 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> Driver + Fuel  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver or  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" style="width:15px;" /> Self Drive  </p>
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)
+                            </p>
                             <p class="text-price">P 2,500.00 </p>
                         </div>
                     </div>
@@ -290,11 +390,13 @@
         </div>
 
         <div class="page-featured-contact-us">
-            <a href="#ContactUs">
-                <button class="btn btn-primary">
-                    <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
-                    Contact Us
-                </button>
+            <a href="#ContactUs" class="btn btn-primary">
+                <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
+                Contact Us
+            </a>
+            <a href="/CarRental/PriceList" class="btn btn-default">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" style="margin-right:5px;" alt="price" />
+                See Similar Priced Units
             </a>
         </div>
     </div>
@@ -306,25 +408,28 @@
             <div class="featured-page-title-section">
                 <h2 class="featured-page-title"> Big Vans / High Roof / Long wheelbase </h2>
             </div>
-            <p>
-               We opt for better comfort and luxury of space. We offer bigger vans for more fresh air to breath.
-
-            </p>
+            <p> We opt for better comfort and luxury of space. We offer bigger vans for more fresh air to breath. </p>
         </div>
 
-
-        <!-- Featured Items -->
+        <!-- High Roof Items -->
         <div class="page-featured-container">
             <div class="page-featured-item-list">
                 <div class="page-featured-item-box">
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 7, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 3, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> AT/MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-15 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <br />
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)
+                            </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -333,11 +438,18 @@
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6" style="padding-left:0px;">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Nissan-Premium.jpg" class="center-block img-thumbnail" alt="Nissan Premium" />
+                            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 2, rsvType = 1 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 3, rsvType = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Nissan Premium NV350</p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" style="width:15px;" /> AT/MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" style="width:15px;" /> 10-15 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" style="width:15px;" /> With Driver  </p>
+                            <br />
+                            <p class="page-featured-text-link">
+                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 2 }, null)
+                            </p>
                             <p class="text-price">P 3,500.00 </p>
                         </div>
                     </div>
@@ -346,39 +458,47 @@
         </div>
 
         <div class="page-featured-contact-us">
-            <a href="#ContactUs">
-                <button class="btn btn-primary">
-                    <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
-                    Contact Us
-                </button>
+            <a href="#ContactUs" class="btn btn-primary">
+                <img src="~/Images/Icons/icon-call-white.png" width="18" style="margin-right:5px;" />
+                Contact Us
+            </a>
+            <a href="/CarRental/PriceList" class="btn btn-default">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" style="margin-right:5px;" alt="price" />
+                See Similar Priced Units
             </a>
         </div>
     </div>
     <br />
 </div>
-<div class="priceList-contact-details" id="ContactUs">
-    <img src="~/Images/Icons/icon-ask-question-100.png" width="100" />
-    <h3> For Inquiries and Reservations </h3>
-    <p class="mobile-text-link">
-        <a href="mailto:inquiries.realwheels@gmail.com">
-            <strong>Email:</strong> inquiries.realwheels@gmail.com
-        </a>
-    </p>
-    <p class="mobile-text-link">
-        <a href="tel:+63822971831">
-            <strong>LandLine:</strong> (+63) 82 333-5157
-        </a>
-    </p>
-    <p class="mobile-text-link">
-        <a href="tel:+639954508517">
-            <strong>Globe:</strong> (+63) 995-450-8517
-        </a>
-    </p>
-    <p class="mobile-text-link">
-        <a href="tel:+639193812657">
-            <strong>Smart:</strong> (+63) 919-381-2657
-        </a>
-    </p>
+
+@*<div class="priceList-contact-details" id="ContactUs">
+        <img src="~/Images/Icons/icon-ask-question-100.png" width="100" />
+        <h3> For Inquiries and Reservations </h3>
+        <p class="mobile-text-link">
+            <a href="mailto:inquiries.realwheels@gmail.com">
+                <strong>Email:</strong> inquiries.realwheels@gmail.com
+            </a>
+        </p>
+        <p class="mobile-text-link">
+            <a href="tel:+63822971831">
+                <strong>LandLine:</strong> (+63) 82 333-5157
+            </a>
+        </p>
+        <p class="mobile-text-link">
+            <a href="tel:+639954508517">
+                <strong>Globe:</strong> (+63) 995-450-8517
+            </a>
+        </p>
+        <p class="mobile-text-link">
+            <a href="tel:+639193812657">
+                <strong>Smart:</strong> (+63) 919-381-2657
+            </a>
+        </p>
+    </div>*@
+
+
+<div id="ContactUs">
+    @{Html.RenderPartial("Index_Footer");}
 </div>
 
 
@@ -393,7 +513,7 @@
         $(() => {
 
             setTimeout(function () {
-               
+
                 $('html,body').animate({
                     scrollTop: $(window).scrollTop() - 50
                 });
@@ -402,9 +522,7 @@
 
                 $(link).children('h2').addClass('text-primary');
             }, 300);
-
-
         });
-       
+
     </script>
 }

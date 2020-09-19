@@ -156,7 +156,6 @@
 </div>
 
 
-
 <!-- Flickity HTML init -->
 <div class="carousel js-flickity show-on-mobile-only" style="margin-bottom:30px;">
     <!-- images from unsplash.com -->
@@ -257,6 +256,12 @@
 
 <div class="main-links-container">
     <div class="main-links-items">
+        <a href="#About">
+            <img src="~/Images/Icons/icons-company.png" width="70" alt="Contact Us Company" />
+            <h2> About Us </h2>
+        </a>
+    </div>
+    <div class="main-links-items">
         <a href="#ServicesNav">
             <img src="~/Images/Icons/icons-car-rental.png" width="70" alt="Car Rental Services" />
             <h2> Services </h2>
@@ -282,15 +287,9 @@
         </a>
     </div>
     <div class="main-links-items">
-        <a href="#About">
-            <img src="~/Images/Icons/icons-company.png" width="70" alt="Contact Us Company" />
-            <h2> About Us </h2>
-        </a>
-    </div>
-    <div class="main-links-items">
-        <a href="#Connect">
-            <img src="~/Images/Icons/icons-connect.png" width="70" alt="Contact Us Company" />
-            <h2> Connect With Us </h2>
+        <a href="#Booking">
+            <img src="~/Images/Icons/icons-connect.png" width="70" alt="Booking and Reservation" />
+            <h2> Booking  </h2>
         </a>
     </div>
 </div>
@@ -304,6 +303,8 @@
         <a href="mailto:inquiries.realwheels@gmail.com">inquiries.realwheels@gmail.com</a>
     </h3>
 </div>
+
+@{Html.RenderPartial("Index_About");}
 
 @{Html.RenderPartial("Index_Services");}
 
@@ -395,6 +396,10 @@
                             <p class="text-muted carrental-car-price-desc"> <img src="~/Images/CarRental/icon-gas.png" width="15" alt="vehicle for rent renters fuel" />  &nbsp; Renters Fuel </p>
                         </div>
                     </div>
+                    <div class="col-md-12 col-xs-12 no-padding">
+                        @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = item.Id, rsvType = 1 }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Request a Quote", "ReservationRequest", "CarRental", new { id = item.Id, rsvType = 2 }, new { @class = "btn btn-default" })
+                    </div>
                 </div>
             </div>
         </div>
@@ -464,7 +469,6 @@
 <!--Page Description / Articles-->
 
 @{Html.RenderPartial("Index_Contact");}
-@{Html.RenderPartial("Index_About");}
 @{Html.RenderPartial("Index_Booking");}
 @{Html.RenderPartial("Articles"); }
 @{Html.RenderPartial("Index_Footer");}

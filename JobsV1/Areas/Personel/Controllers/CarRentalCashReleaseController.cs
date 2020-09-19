@@ -22,7 +22,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Index(int? statusId)
         {
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-7);
+            var DateFilter = today.AddDays(-30);
             if (statusId == null)
                 statusId = 1;
 
