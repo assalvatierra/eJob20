@@ -1712,6 +1712,7 @@
     <Content Include="Images\Erp\icons\icons-business.png" />
     <Content Include="Images\Erp\icons\icons-callback.png" />
     <Content Include="Images\Erp\icons\icons-employee.png" />
+    <Content Include="Images\Erp\icons\icons-log.png" />
     <Content Include="Images\Erp\icons\icons-masterlist.png" />
     <Content Include="Images\Erp\icons\icons-products.png" />
     <Content Include="Images\Erp\icons\icons-report.png" />

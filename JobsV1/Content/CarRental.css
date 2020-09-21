@@ -223,6 +223,7 @@
 .contact-container {
     padding-left: 35px;
     padding-right: 35px;
+    margin-bottom: 50px;
 }
 
 .contact-container div div p {
@@ -233,10 +234,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color:#393a3d;
-    margin:0px;
-    padding:20px;
-    color:white;
+    background-color: #393a3d;
+    margin: 0px;
+    padding: 20px;
+    color: white;
 }
 
 .car-container {
@@ -290,10 +291,19 @@
     font-size: 20px;
 }
 
+.home-services {
+    padding-bottom:50px;
+}
+
 .home-services-h {
     font-weight: 400;
     font-size:20px;
     padding:10px 0px;
+}
+
+.home-services-img {
+    margin: 20px;
+    width: 80%;
 }
 
 .more-links-section {
@@ -379,10 +389,6 @@
         text-decoration: underline;
     }
 
-.home-services-img {
-    margin: 20px;
-    width: 80%;
-}
 
 .home-heading {
     font-weight:600;
@@ -644,6 +650,7 @@
 .CarRental-Banner-Default {
     background-image: url(../Images/CarRental/Banner/Banner-Default.jpg);
     background-repeat: no-repeat;
+    background-color:white;
 }
 
 .rate-header{
@@ -707,13 +714,16 @@
     padding: 2px;
     border-radius: 5px;
     margin-top: 10px;
+    margin-left:10px;
 }
 .featured-text-link {
     font-size: 15px;
     font-weight: 600;
     padding: 5px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    margin-left: 5px;
 }
 
 
@@ -736,6 +746,7 @@
     flex-wrap:wrap;
     justify-content:space-around;
     margin-top:10px;
+    padding-top:30px;
 }
 
 .main-links-items {
@@ -892,10 +903,23 @@
     padding: 20px;
     background-color: white;
     min-width: 300px;
+    font-size:18px;
+    line-height:1.7;
 }
 
 .contact-page-numbers {
     margin:10px 0px;
+}
+
+/* About Page */
+.about-page-banner {
+    margin: auto 20px;
+    width: 100%;
+}
+
+.about-page-content {
+    font-size: 18px;
+    line-height:1.7;
 }
 
 
@@ -907,6 +931,7 @@
     align-items: flex-start;
     flex-flow: column;
     padding: 20px;
+    padding-bottom: 50px;
     background-color: white;
     min-width: 300px;
 }
@@ -920,7 +945,6 @@
     flex-flow: row;
     align-items: flex-start;
     justify-content: flex-start;
-    /*background-color: rgb(6,105,178);*/
     background-color: #424242;
     color: white;
 }
@@ -1166,8 +1190,8 @@
     }
 
     .featured-text-link{
-        margin-right:20px;
-        margin-top:0px;
+        margin-right:0px;
+        margin-top:-2px;
     }
 
 
@@ -1487,6 +1511,31 @@
         margin: 10px 0px;
         padding: 15px;
         padding-bottom: 0px;
+    }
+
+    .page-container {
+        padding: 0px;
+    }
+
+    .about-page-banner{
+        width:92%;
+    }
+
+    .featured-page-section{
+        margin-left:-8px;
+        width:111%;
+    }
+
+    .page-featured-contact-us a{
+        width:100%;
+    }
+
+    .banner-btn-green{
+        width:220px;
+    }
+
+    .main-links-items a{
+        min-height:50px;
     }
 }
 

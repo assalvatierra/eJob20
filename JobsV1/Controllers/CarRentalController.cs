@@ -348,8 +348,9 @@ namespace JobsV1.Controllers
 
                 return View(reservation);
             }
-            catch
+            catch (Exception ex)
             {
+                //throw  ex;
                 return RedirectToAction("ReservationError");
             }
         }
