@@ -1170,7 +1170,7 @@ namespace JobsV1.Models
             }
             catch (Exception ex)
             {
-                return "error: " + ex;
+                return "error: " + ex.Message;
             }
         }
         

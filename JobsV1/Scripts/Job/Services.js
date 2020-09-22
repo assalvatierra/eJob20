@@ -17,7 +17,7 @@ function InitDatePicker()
 
     $('input[name="DtStart"]').daterangepicker(
     {
-        timePicker: true,
+        timePicker: false,
         timePickerIncrement: 10,
         singleDatePicker: true,
         showDropdowns: true,
@@ -50,7 +50,7 @@ function InitDatePicker()
 
     $('input[name="DtEnd"]').daterangepicker(
     {
-        timePicker: true,
+        timePicker: false,
         timePickerIncrement: 10,
         singleDatePicker: true,
         showDropdowns: true,

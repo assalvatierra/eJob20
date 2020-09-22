@@ -340,7 +340,7 @@ namespace JobsV1.Controllers
                 ViewBag.DtEnd   = default_DtEnd;
                 ViewBag.rsvTypeId = rsvType;
                 ViewBag.rsvTypeDesc = rsvTypeDesc;
-                ViewBag.id = id;
+                ViewBag.carId = id ?? 1;
 
                 ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", rsvTypeId);
@@ -348,7 +348,7 @@ namespace JobsV1.Controllers
 
                 return View(reservation);
             }
-            catch (Exception ex)
+            catch
             {
                 //throw  ex;
                 return RedirectToAction("ReservationError");
@@ -368,8 +368,13 @@ namespace JobsV1.Controllers
                 int packageid = GetUnitDefaultPkgId(carReservation.CarUnitId);
                 int mealAcc = 0;
                 int fuel = 0;
-
-                if (ModelState.IsValid && ReservationValidation(carReservation))
+                var isValid = ModelState.IsValid;
+                var isReserveValid = ReservationValidation(carReservation);
+                var errors = ModelState
+                            .Where(x => x.Value.Errors.Count > 0)
+                            .Select(x => new { x.Key, x.Value.Errors })
+                            .ToArray();
+                if (isReserveValid)
                 {
                     db.CarReservations.Add(carReservation);
                     db.SaveChanges();
@@ -450,7 +455,7 @@ namespace JobsV1.Controllers
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", carReservation.CarResTypeId);
                 ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
 
-                ViewBag.id = carReservation.CarUnitId;
+                ViewBag.carId = carReservation.CarUnitId;
                 ViewBag.fuel = 0;
                 ViewBag.meals = 0;
                 ViewBag.pkgId = packageid;

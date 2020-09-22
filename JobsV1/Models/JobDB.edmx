@@ -998,13 +998,13 @@
     <Property Name="BaseRate" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Destinations" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UseFor" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="RenterName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="RenterCompany" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="RenterEmail" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="RenterMobile" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="RenterAddress" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="RenterFbAccnt" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="RenterLinkedInAccnt" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RenterName" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="RenterCompany" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="RenterEmail" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="RenterMobile" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="RenterAddress" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="RenterFbAccnt" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="RenterLinkedInAccnt" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="EstHrPerDay" Type="int" Nullable="true" />
     <Property Name="EstKmTravel" Type="int" Nullable="true" />
     <Property Name="JobRefNo" Type="int" Nullable="true" />
@@ -5319,13 +5319,13 @@
           <Property Name="BaseRate" Type="String" Nullable="false" />
           <Property Name="Destinations" Type="String" Nullable="false" />
           <Property Name="UseFor" Type="String" Nullable="false" />
-          <Property Name="RenterName" Type="String" Nullable="false" />
-          <Property Name="RenterCompany" Type="String" Nullable="true" />
-          <Property Name="RenterEmail" Type="String" Nullable="false" />
-          <Property Name="RenterMobile" Type="String" Nullable="false" />
-          <Property Name="RenterAddress" Type="String" Nullable="true" />
-          <Property Name="RenterFbAccnt" Type="String" Nullable="true" />
-          <Property Name="RenterLinkedInAccnt" Type="String" Nullable="true" />
+          <Property Name="RenterName" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="RenterCompany" Type="String" Nullable="true" MaxLength="50" />
+          <Property Name="RenterEmail" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="RenterMobile" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="RenterAddress" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="RenterFbAccnt" Type="String" Nullable="true" MaxLength="50" />
+          <Property Name="RenterLinkedInAccnt" Type="String" Nullable="true" MaxLength="50" />
           <Property Name="EstHrPerDay" Type="Int32" Nullable="true" />
           <Property Name="EstKmTravel" Type="Int32" Nullable="true" />
           <NavigationProperty Name="CarResPackages" Relationship="JobDB.CarReservationCarResPackage" FromRole="CarReservation" ToRole="CarResPackage" />

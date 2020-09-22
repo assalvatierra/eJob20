@@ -4,6 +4,7 @@
     ViewBag.Title = "Car Rental Reservation";
     ViewBag.Description =
     @"Car Rental online reservation.";
+    ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 }
 
 <link href="~/Content/CarBooking.css" rel="stylesheet">
@@ -82,7 +83,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Pick&nbsp;Up </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.LocStart, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.LocStart, new { htmlAttributes = new { @class = "form-control", @maxlength = "30" } })
                     @Html.ValidationMessageFor(model => model.LocStart, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -98,7 +99,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Drop&nbsp;Off </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.LocEnd, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.LocEnd, new { htmlAttributes = new { @class = "form-control", @maxlength = "30" } })
                     @Html.ValidationMessageFor(model => model.LocEnd, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -106,7 +107,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Destination* </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Destinations, new { htmlAttributes = new { @class = "form-control", @id = "rnt-destination" } })
+                    @Html.EditorFor(model => model.Destinations, new { htmlAttributes = new { @class = "form-control", @id = "rnt-destination", @maxlength = "50" } })
                     @Html.ValidationMessageFor(model => model.Destinations, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -114,7 +115,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> No&nbsp;Days* </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.NoDays, new { htmlAttributes = new { @class = "form-control", @id = "rnt-noDays" } })
+                    @Html.EditorFor(model => model.NoDays, new { htmlAttributes = new { @class = "form-control", @id = "rnt-noDays", @maxlength = "2" } })
                     @Html.ValidationMessageFor(model => model.Destinations, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -163,7 +164,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Name* </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RenterName, new { htmlAttributes = new { @class = "form-control", @id = "rnt-name" } })
+                    @Html.EditorFor(model => model.RenterName, new { htmlAttributes = new { @class = "form-control", @id = "rnt-name", @maxlength = "30" } })
                     @Html.ValidationMessageFor(model => model.RenterName, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -171,7 +172,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Company </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RenterCompany, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.RenterCompany, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
                     @Html.ValidationMessageFor(model => model.RenterCompany, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -179,7 +180,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Email* </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RenterEmail, new { htmlAttributes = new { @class = "form-control", @id = "rnt-email" } })
+                    @Html.EditorFor(model => model.RenterEmail, new { htmlAttributes = new { @class = "form-control", @id = "rnt-email", @maxlength = "30" } })
                     @Html.ValidationMessageFor(model => model.RenterEmail, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -187,7 +188,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Mobile* </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RenterMobile, new { htmlAttributes = new { @class = "form-control", @id = "rnt-mobile" } })
+                    @Html.EditorFor(model => model.RenterMobile, new { htmlAttributes = new { @class = "form-control", @id = "rnt-mobile", @maxlength = "20" } })
                     @Html.ValidationMessageFor(model => model.RenterMobile, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -195,7 +196,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Address </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RenterAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.RenterAddress, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
                     @Html.ValidationMessageFor(model => model.RenterAddress, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -203,7 +204,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Facebook </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RenterFbAccnt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.RenterFbAccnt, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
                     @Html.ValidationMessageFor(model => model.RenterFbAccnt, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -211,7 +212,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2"> Linkedln </label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.RenterLinkedInAccnt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.RenterLinkedInAccnt, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
                     @Html.ValidationMessageFor(model => model.RenterLinkedInAccnt, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -286,8 +287,8 @@
     <script>
         $(() => {
             //Initial
-            selectUnit(null, @ViewBag.id);
-            $("#unit-@ViewBag.id").parent().addClass("unit-selected");
+            selectUnit(null, @ViewBag.carId);
+            $("#unit-@ViewBag.carId").parent().addClass("unit-selected");
         });
 
         $(".rsv-unit-item").click(() => {

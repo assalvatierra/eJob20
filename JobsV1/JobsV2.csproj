@@ -3008,6 +3008,7 @@
     <Content Include="Views\CarRental\ReservationError.cshtml" />
     <Content Include="Views\Index_Footer.cshtml" />
     <Content Include="Views\CarRental\Index_Booking.cshtml" />
+    <Content Include="Views\Shared\_ModuleLayout_NoMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

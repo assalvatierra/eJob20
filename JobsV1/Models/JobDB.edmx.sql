@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/17/2020 14:36:51
--- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
+-- Date Created: 09/22/2020 14:45:13
+-- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -1160,13 +1160,13 @@ CREATE TABLE [dbo].[CarReservations] (
     [BaseRate] nvarchar(max)  NOT NULL,
     [Destinations] nvarchar(max)  NOT NULL,
     [UseFor] nvarchar(max)  NOT NULL,
-    [RenterName] nvarchar(max)  NOT NULL,
-    [RenterCompany] nvarchar(max)  NULL,
-    [RenterEmail] nvarchar(max)  NOT NULL,
-    [RenterMobile] nvarchar(max)  NOT NULL,
-    [RenterAddress] nvarchar(max)  NULL,
-    [RenterFbAccnt] nvarchar(max)  NULL,
-    [RenterLinkedInAccnt] nvarchar(max)  NULL,
+    [RenterName] nvarchar(80)  NOT NULL,
+    [RenterCompany] nvarchar(50)  NULL,
+    [RenterEmail] nvarchar(50)  NOT NULL,
+    [RenterMobile] nvarchar(20)  NOT NULL,
+    [RenterAddress] nvarchar(80)  NULL,
+    [RenterFbAccnt] nvarchar(50)  NULL,
+    [RenterLinkedInAccnt] nvarchar(50)  NULL,
     [EstHrPerDay] int  NULL,
     [EstKmTravel] int  NULL,
     [JobRefNo] int  NULL,

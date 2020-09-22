@@ -15,11 +15,13 @@
             Contact us for inquiries and reservation
         </p>
         <div class="col-md-12 no-padding no-margin">
-            @Html.ActionLink(" Request for Quote", "ReservationRequest", "CarRental", new { id = 1, rsvType = 2 }, new { @class = "btn btn-warning banner-btn-green " })
-            <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green scroll"> Price List Table </a>
+            <a href="/CarRental/PriceQuote" class="btn btn-warning banner-btn-green"> Request for Quote </a>
+            <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green"> Price List Table </a>
             <br />
+            <a href="/CarRental/Reservation" class="btn btn-warning banner-btn-green no-margin"> Online Reservation </a>
 
-            @Html.ActionLink(" Online Reservation ", "ReservationRequest", "CarRental", new { id = 1, rsvType = 1 }, new { @class = "btn btn-warning banner-btn-green no-margin" })
+            @* @Html.ActionLink(" Request for Quote", "ReservationRequest", "CarRental", new { id = 1, rsvType = 2 }, new { @class = "btn btn-warning banner-btn-green " })*@
+            @*  @Html.ActionLink(" Online Reservation ", "ReservationRequest", "CarRental", new { id = 1, rsvType = 1 }, new { @class = "btn btn-warning banner-btn-green no-margin" })*@
         </div>
         <div style="height:0px;width:0px;">
             <p>

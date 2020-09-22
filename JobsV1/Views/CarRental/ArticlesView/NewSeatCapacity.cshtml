@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Car Rental Seating Capacity";
+    ViewBag.Description = "Car Rental Seating Capacity";
+    ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 }
 <style>
     .img-bg-car {
@@ -86,9 +88,6 @@
         <div class="col-lg-4 col-md-2 mx-auto" style="margin:100px auto">
             <h4> Related Articles </h4>
             <ul>
-                @*<li>
-                    <a href="/Articles/NewSeatCapacity"> New Seating Capacity </a>
-                </li>*@
                 <li>
                     <a href="/Articles/SUVRental"> SUV Rental </a>
                 </li>
@@ -102,7 +101,6 @@
         </div>
     </div>
 
-    </div>
 
 </article>
 <hr />

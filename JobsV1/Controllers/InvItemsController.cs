@@ -119,10 +119,10 @@ namespace JobsV1.Controllers
                 db.InvItems.Add(invItem);
                 db.SaveChanges();
 
-                if (SITECONFIG == "RealWheels")
-                {
+                //if (SITECONFIG == "RealWheels")
+                //{
                     addDefaultCategory(invItem.Id);
-                }
+                //}
 
                 return RedirectToAction("Index");
             }

@@ -943,26 +943,44 @@ order by x.jobid
         [HttpGet]
         public string getMoreItems()
         {
-            //get items list of order number greater than 110
-            var InvItems = db.InvItems.Where(s => s.OrderNo > 110).Include(s=>s.InvItemCategories).ToList().OrderBy(s => s.OrderNo);
-            List<cjobItems> items = new List<cjobItems>();
-
-            foreach ( var inv in InvItems)
+            try
             {
-                var invIcon = db.InvItemCategories.Where(s => s.InvItemId == inv.Id).FirstOrDefault();
-                var imglength = invIcon.InvItemCat.ImgPath.Length;
-                items.Add(new cjobItems {
-                    Id = inv.Id,
-                    itemCode = inv.ItemCode,
-                    Name = inv.Description,
-                    remarks = inv.Remarks,
-                    orderNo = (int)inv.OrderNo,
-                    icon = invIcon.InvItemCat.ImgPath.Remove(0,1)
-                });
-            }
+
+                //get items list of order number greater than 110
+                var InvItems = db.InvItems.Where(s => s.OrderNo > 110).Include(s=>s.InvItemCategories).ToList().OrderBy(s => s.OrderNo);
+                List<cjobItems> items = new List<cjobItems>();
+
+                foreach ( var inv in InvItems)
+                {
+                    var invIcon = db.InvItemCategories.Where(s => s.InvItemId == inv.Id).FirstOrDefault();
+                    var imgIconPath = "";
+                    if (invIcon == null)
+                    {
+                        imgIconPath = "//Images/CarRental/suv-101.png";
+                    }
+                    else
+                    {
+                        imgIconPath = invIcon.InvItemCat.ImgPath;
+                    }
+
+                    items.Add(new cjobItems {
+                        Id = inv.Id,
+                        itemCode = inv.ItemCode,
+                        Name = inv.Description,
+                        remarks = inv.Remarks,
+                        orderNo = (int)inv.OrderNo,
+                        icon = imgIconPath.Remove(0,1)
+                    });
+                }
             
-            //convert list to json object
-            return JsonConvert.SerializeObject(items, Formatting.Indented);
+                //convert list to json object
+                return JsonConvert.SerializeObject(items, Formatting.Indented);
+
+            }
+            catch
+            {
+                return JsonConvert.SerializeObject("Unable to Retrieve items", Formatting.Indented);
+            }
         }
         
         public ActionResult BrowseInvItem_withScheduleJS(int JobServiceId)

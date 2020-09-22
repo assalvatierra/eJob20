@@ -1,0 +1,84 @@
+﻿@using JobsV1.CustomHelper
+
+@{ 
+    var ROOTMENUID = Session["ROOTMENUID"] != null ? (int)Session["ROOTMENUID"] : 1;
+    var USERNAME = (string)Session["USERNAME"] != null ? (string)Session["USERNAME"] : null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title </title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">     <!-- Google Fonts : Nunito Regular -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css/DateRangePicker")
+    @Styles.Render("~/Content/themes/base/css")
+    <style>
+        .CustomBox div span{
+            float:left;
+        }
+    </style>
+</head>
+<body>
+   
+    <!--Top Nav Bar-->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" id="navbar-title">@ViewBag.NavBarTitle</a>
+                @*@Html.ActionLink("AJ88", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Home", "Index", "MepuMain")</li>*@
+                    <li><a href="/">Home</a></li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Control Panel", "Index", "Home")</li>
+                        @*
+                            <li>@Html.ActionLink("Jobs", "JobTable", "JobMains", new { span = 30 }, null)</li>
+                            <li>@Html.ActionLink("Accounting", "Index", "AsMain", new { Area = "Accounting", span = 30 }, null)</li>
+                        *@
+                    }
+                    <li>@Html.ActionLink("About", "About")</li>
+                    <li>@Html.ActionLink("Contact", "Contact")</li>
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container">
+         <div class="row">
+             @RenderBody()
+          </div>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="container" >
+                <p>&copy; @DateTime.Now.Year - Realwheelsdavao.com </p>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/DateRangePicker")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+<script type="text/javascript">
+    var RootUrl = '@Url.Content("~/")';
+</script>
