@@ -2415,7 +2415,7 @@
     <Content Include="Views\JobMains\JobTable.cshtml" />
     <Content Include="Views\JobMains\JobLeads.cshtml" />
     <Content Include="Views\CarRental\Index.cshtml" />
-    <Content Include="Views\CarRental\Reservation.cshtml" />
+    <Content Include="Views\CarRental\Reservation_old.cshtml" />
     <Content Include="Views\CarRental\RateConfig.cshtml" />
     <Content Include="Views\CarRental\LookupDestination.cshtml" />
     <Content Include="Views\CarRental\LookupDestinationPartialView.cshtml" />
@@ -3009,6 +3009,8 @@
     <Content Include="Views\Index_Footer.cshtml" />
     <Content Include="Views\CarRental\Index_Booking.cshtml" />
     <Content Include="Views\Shared\_ModuleLayout_NoMenu.cshtml" />
+    <Content Include="Views\CarRental\Reservation.cshtml" />
+    <Content Include="Views\CarRental\PriceQuote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

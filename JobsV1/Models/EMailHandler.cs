@@ -1068,6 +1068,12 @@ namespace JobsV1.Models
                     subject = reservation.CarResType.Type + " Request by " + recipientName;
                 }
 
+                var isSelfDrive = "Self Drive";
+                if (reservation.SelfDrive == 0)
+                {
+                    isSelfDrive = "With Driver";
+                }
+
                 //build email body
                 string message = "<p> Your " + reservation.CarResType.Type + " Request is being processed, our agents to contact you via call or email.</p>";
                 string title = " <h1> " + reservation.CarResType.Type + " Request </h1> ";
@@ -1082,7 +1088,9 @@ namespace JobsV1.Models
                                 "<b> Date End: </b> " + reservation.DtEnd + "<br />" +
                                 "<b> No of Days: </b> " + reservation.NoDays + "<br />" +
                                 "<b> Pickup: </b> " + reservation.LocStart + "<br />" +
-                                "<b> DropOff: </b> " + reservation.LocEnd + "<br /><br />" +
+                                "<b> DropOff: </b> " + reservation.LocEnd + "<br />" +
+                                "<b> Destination: </b> " + reservation.Destinations + "<br />" +
+                                "<b> Rental Type: </b> " + isSelfDrive + "<br /><br />" +
 
                                 "<b> Name: </b> " + reservation.RenterName + "<br />" +
                                 "<b> Company: </b>  " + reservation.RenterCompany + "<br />" +
@@ -1115,17 +1123,19 @@ namespace JobsV1.Models
                         "<div style='background-color: dodgerblue; width: 120px; padding: 10px; color: white;text-align:center;'> " +
                         " View Details " +
                         "</div></a></div>";
-                    title = " <h1> " + reservation.CarResType.Type + " : " + reservation.CarUnit.Description + "</h1> <h3>  ADMIN COPY </h3>";
+                    title = "<h1> " + reservation.CarResType.Type + " : " + reservation.CarUnit.Description + "</h1> <h3>  ADMIN COPY </h3>";
                 }
 
                 string body = "" +
                     " <div style='background-color:#f4f4f4;padding:20px' align='center'>" +
                     " <div style='background-color:white;min-width:200px;width:600px;;margin:30px;padding:30px;text-align:center;color:#555555;font:normal 300 16px/21px 'Helvetica Neue',Arial'>" +
                     //" <img src='http://realbreezedavaotours.com/wp-content/uploads/2019/07/Realbreeze_logo.png' width='170px' >" +
+                    " <h3 align='center'> Realwheels Davao </h3>  " +
                     title +
                     message +
                     " <p> This is an auto-generated email. DO NOT REPLY TO THIS MESSAGE </p> " +
                     " <p> For further inquiries kindly email us through inquiries.realwheels@gmail.com or dial(+63) 082 333 5157. </p> " +
+                    " <p style='text-align:center;'> www.realwheelsdavao.com </p>" +
                     " </div></div>";
 
                 return Email(body, email, subject);

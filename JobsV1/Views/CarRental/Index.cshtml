@@ -15,13 +15,11 @@
             Contact us for inquiries and reservation
         </p>
         <div class="col-md-12 no-padding no-margin">
-            <a href="/CarRental/PriceQuote" class="btn btn-warning banner-btn-green"> Request for Quote </a>
+            @Html.ActionLink(" Request for Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-warning banner-btn-green " })
             <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green"> Price List Table </a>
             <br />
-            <a href="/CarRental/Reservation" class="btn btn-warning banner-btn-green no-margin"> Online Reservation </a>
+            @Html.ActionLink(" Online Reservation ", "Reservation", "CarRental", null, new { @class = "btn btn-warning banner-btn-green no-margin" })
 
-            @* @Html.ActionLink(" Request for Quote", "ReservationRequest", "CarRental", new { id = 1, rsvType = 2 }, new { @class = "btn btn-warning banner-btn-green " })*@
-            @*  @Html.ActionLink(" Online Reservation ", "ReservationRequest", "CarRental", new { id = 1, rsvType = 1 }, new { @class = "btn btn-warning banner-btn-green no-margin" })*@
         </div>
         <div style="height:0px;width:0px;">
             <p>
@@ -49,21 +47,21 @@
 </div>
 
 <!-- Featured Items -->
-<div class="featured-container hidden-on-mobile">
+<div class="featured-container hidden-on-mobile" aria-hidden="false">
     <div class="featured-title">
         <p> FEATURED </p>
     </div>
     <div class="featured-item-list">
         <!-- Premium -->
-        <div class="featured-item-box">
+        <div class="featured-item-box" >
             <div class="col-md-12 no-margin no-padding">
                 <p class="featured-item-box-header"><a href="/CarRental/Featured#Premium"> Premium </a> </p>
             </div>
             <div class="col-md-12 no-margin no-padding">
-                <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
+                <div class="col-md-5 col-sm-12 col-xs-12" style="padding-left:0px;">
                     <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.jpg" class="center-block img-thumbnail" alt="Ford Everest" />
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+                <div class="col-md-7 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Ford Everest </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5-7 Seater
@@ -71,10 +69,14 @@
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
                     </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                    </p>
+
                 </div>
             </div>
             <div class="col-md-12 no-margin no-padding">
-                <p class="text-price pull-left">P 3,500.00 </p>
+                <p class="text-price pull-left">P 3,000.00 </p>
                 <a href="/CarRental/Featured#Premium" class="pull-right featured-text-link"> More Items &#8594</a>
             </div>
         </div>
@@ -85,16 +87,19 @@
                 <p class="featured-item-box-header"><a href="/CarRental/Featured#Latest"> Latest </a></p>
             </div>
             <div class="col-md-12 no-margin no-padding">
-                <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
+                <div class="col-md-5 col-sm-12 col-xs-12" style="padding-left:0px;">
                     <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+                <div class="col-md-7 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 10-14 Seater
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
+                    </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width" })
                     </p>
                 </div>
             </div>
@@ -110,16 +115,19 @@
                 <p class="featured-item-box-header"><a href="/CarRental/Featured#Cheapest">  Cheapest </a></p>
             </div>
             <div class="col-md-12  no-margin no-padding">
-                <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
+                <div class="col-md-5 col-sm-12 col-xs-12" style="padding-left:0px;">
                     <img src="~/Images/CarRental/innova/Toyota-Innova-sm.jpg" class="center-block img-thumbnail" alt="fleet van" />
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+                <div class="col-md-7 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Innova 2013 </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5-7 Seater
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
+                    </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
                     </p>
                 </div>
             </div>
@@ -135,16 +143,19 @@
                 <p class="featured-item-box-header"><a href="/CarRental/Featured#OffRoad"> Off Road </a></p>
             </div>
             <div class="col-md-12 no-margin no-padding">
-                <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left:0px;">
+                <div class="col-md-5 col-sm-12 col-xs-12" style="padding-left:0px;">
                     <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="fleet van" />
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+                <div class="col-md-7 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Hilux 4x4 2020 </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5 Seater
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
+                    </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin">
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width" })
                     </p>
                 </div>
             </div>
@@ -160,7 +171,7 @@
 
 
 <!-- Flickity HTML init : carousel view -->
-<div class="carousel js-flickity show-on-mobile-only" style="margin-bottom:60px;">
+<div class="carousel js-flickity show-on-mobile-only" style="margin-bottom:60px;" aria-hidden="false">
     <!-- images from unsplash.com -->
     <div class="carousel-cell">
         <div class="featured-item-box">
@@ -175,6 +186,9 @@
                     <p class="featured-item-box-p no-margin"> Ford Everest </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin"> 5-7 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin"> With Driver  </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width no-margin" })
+                    </p>
                 </div>
             </div>
             <div class="col-md-12 no-margin no-padding">
@@ -198,6 +212,9 @@
                     <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  10-14 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  With Driver  </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width no-margin" })
+                    </p>
                 </div>
             </div>
             <div class="col-md-12 no-margin no-padding">
@@ -221,6 +238,9 @@
                     <p class="featured-item-box-p no-margin"> Toyota Innova 2013 </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin"> 5-7 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin"> With Driver  </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width no-margin" })
+                    </p>
                 </div>
             </div>
             <div class="col-md-12 no-margin no-padding">
@@ -245,6 +265,9 @@
                     <p class="featured-item-box-p no-margin"> Toyota Hilux 4x4 2020 </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  5 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  With Driver </p>
+                    <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width no-margin" })
+                    </p>
                 </div>
             </div>
             <div class="col-md-12 no-margin no-padding">
@@ -260,7 +283,7 @@
 <div class="main-links-container hidden-on-mobile">
     <div class="main-links-items">
         <a href="#About">
-            <img class="hidden-on-mobile" src="~/Images/Icons/icons-company.png" width="70" alt="Contact Us Company" />
+            <img class="hidden-on-mobile" src="~/Images/Icons/icons-company.png" width="100" height="100" alt="Contact Us Company" />
             <h2> About Us </h2>
         </a>
     </div>
@@ -272,7 +295,7 @@
     </div>
     <div class="main-links-items">
         <a href="#FleetNav">
-            <img class="hidden-on-mobile" src="~/Images/Icons/icons-car-dealership.png" width="70" alt="Car Delearship Fleet"  />
+            <img class="hidden-on-mobile" src="~/Images/Icons/icons-car-dealership.png" width="70"  alt="Car Delearship Fleet"  />
             <h2> Our Fleet </h2>
 
         </a>
@@ -365,7 +388,7 @@
         <div class="col-md-4 no-padding" id="CarUnit-@item.Id">
             <div class="car-container-details">
                 <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description" >
-                <div class="col-lg-12 no-padding">
+                <div class="col-lg-12 carrental-car-details">
                     <h2 class="carrental-car-title">
 
                         @Html.ActionLink(item.Description, "CarDetail", "CarRental", new { unitid = item.Id }, null)
@@ -406,8 +429,8 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-xs-12 no-padding">
-                        @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = item.Id, rsvType = 1 }, new { @class = "btn btn-primary" })
-                        @Html.ActionLink("Request a Quote", "ReservationRequest", "CarRental", new { id = item.Id, rsvType = 2 }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = item.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Request a Quote", "PriceQuote", "CarRental", new { id = item.Id }, new { @class = "btn btn-default" })
                     </div>
                 </div>
             </div>

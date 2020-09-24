@@ -181,7 +181,7 @@
 
             <div class="col-lg-12 details-container" style="display:none;">
                 <h1 class="text-primary text-center">Book Now! </h1>
-                @Html.ActionLink("Cost Estimate and Reservation", "FormRenter", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
+                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
                 <p class="text-info text-center" style="font-size:12px;color:gray;">
                     Note: availability of the vehicle will depend on the date of reservation.
                 </p>
@@ -202,8 +202,8 @@
             </div>
 
             <div style="margin-bottom:15px;margin-top:10px;">
-                @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 1, rsvType = 1 }, new { @class = "list-group-item details-container-list" })
-                @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 1, rsvType = 2 }, new { @class = "list-group-item details-container-list" })
+                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list" })
+                @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list" })
             </div>
 
 

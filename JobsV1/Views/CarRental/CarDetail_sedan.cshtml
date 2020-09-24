@@ -161,8 +161,8 @@
         </div>
 
         <div style="margin-bottom:15px;margin-top:10px;">
-            @Html.ActionLink("Reserve this Unit", "ReservationRequest", "CarRental", new { id = 5, rsvType = 1 }, new { @class = "list-group-item details-container-list" })
-            @Html.ActionLink("Request Quote", "ReservationRequest", "CarRental", new { id = 5, rsvType = 2 }, new { @class = "list-group-item details-container-list" })
+            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list" })
+            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list" })
         </div>
         <a href="@Url.Action("CarDetail", "CarRental",new { unitid = 1 },null)" class="list-group-item  details-container-list">  Van (10 seater)   </a>
         <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list">  Van (14 seater)   </a>

@@ -39,30 +39,38 @@
         @Html.ActionLink("Previous", "Index", new { filter = 2 })
 
 </p>
-<table class="table">
+<table class="table" style="border:none;">
 
 @foreach (var item in Model)
 {
 
     <tr class="cust-rsvr-item">
-        <td class="col-sm-2 cust-rsvr-date ">
-            <center>@item.DtTrx.ToShortDateString()</center>
-            <br />
-            <p>
-                @int.Parse(item.BaseRate).ToString("N0")php
-            </p>
+        <td class="col-sm-2 cust-rsvr-date" style="min-width:100px;">
+
+            <center>@item.DtTrx.ToString("MMM dd yyyy")</center>
         </td>
 
         <td class="col-sm-4">
-            <p><label class="cust-rsvr-rdate" >
-                 @Html.DisplayFor(modelItem => item.DtStart) - @Html.DisplayFor(modelItem => item.DtEnd) 
-            </label></p>
+            <p>
+
+                <span style="color:gray;"> Travel Date : </span>
+                <label class="cust-rsvr-rdate">
+                    @Html.DisplayFor(modelItem => item.DtStart) - @Html.DisplayFor(modelItem => item.DtEnd)
+                </label>
+            </p>
             <p> <span style="color:gray;"> Reservation No: </span> @Html.DisplayFor(modelItem => item.Id) </p>
 
-            <p> <span style="color:gray;"> Destination: </span> @Html.DisplayFor(modelItem => item.Destinations) - @Html.DisplayFor(modelItem => item.UseFor) </p>
+            <p> <span style="color:gray;"> Rate: </span>   P @int.Parse(item.BaseRate).ToString("N0")</p>
 
-            <p> <span style="color:gray;"> Vehicle: </span>@Html.DisplayFor(modelItem => item.CarUnit.Description) -
-                @if (@Html.DisplayFor(modelItem => item.SelfDrive).ToString() ==  "1")
+            <p> <span style="color:gray;"> Destination: </span> @Html.DisplayFor(modelItem => item.Destinations) </p>
+
+            <p> <span style="color:gray;"> Vehicle: </span>@Html.DisplayFor(modelItem => item.CarUnit.Description)
+                
+            </p>
+
+            <p>
+                <span style="color:gray;"> Rental Type: </span>
+                @if (@Html.DisplayFor(modelItem => item.SelfDrive).ToString() == "1")
                 {
                     <span> Self Drive</span>
                 }
@@ -71,7 +79,8 @@
                     <span> With Driver </span>
                 }
             </p>
-            <p>
+          
+            @*<p>
                 <span style="color:gray;"> Meals & Accomodation: </span>
                 @if (@Html.DisplayFor(modelItem => item.CarResPackages.Where(s => s.CarReservationId == item.Id).FirstOrDefault().DrvMealByClient).ToString() == "0")
                 {
@@ -92,7 +101,7 @@
                 {
                     <span>Included in the Package</span>
                 }
-            </p>
+            </p>*@
         </td>
 
         <td class="col-sm-4">
@@ -105,6 +114,12 @@
             <p> <span style="color:gray;"> Company: </span> @Html.DisplayFor(modelItem => item.RenterCompany) </p>
             <p> <span style="color:gray;"> Contact Info: </span> @Html.DisplayFor(modelItem => item.RenterEmail) / @Html.DisplayFor(modelItem => item.RenterMobile) </p>
            
+            <p>
+                <span style="color:gray;">
+                    Package Info: <br />
+                </span> @Html.DisplayFor(modelItem => item.CarResPackages.FirstOrDefault().CarRateUnitPackage.CarRatePackage.Description) - 
+                P @Html.DisplayFor(modelItem => item.CarResPackages.FirstOrDefault().CarRateUnitPackage.DailyRate)
+            </p>
         </td>
         <td class="col-sm-3">
             <p> <span style="color:black;"> Job Details: </span></p>

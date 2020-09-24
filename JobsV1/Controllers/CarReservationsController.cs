@@ -31,23 +31,25 @@ namespace JobsV1.Controllers
         {
 
             ViewBag.PackageList = db.CarRateUnitPackages.ToList(); 
-            var carReservations = db.CarReservations.Include(c => c.CarUnit).Include(c=>c.CarResPackages);
+            var carReservations = db.CarReservations.Where(c=>c.JobRefNo == 0).Include(c => c.CarUnit).Include(c=>c.CarResPackages).ToList();
             
-            DateTime today = DateTime.Today;
+            //add 7 days allowance 
+            DateTime today = DateTime.Today.AddDays(-7);
             today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
             
             switch (filter)
             {
                 case 1: //OnGoing
-                    carReservations = carReservations.Where(c => DateTime.Compare(c.DtTrx, today) >= 0);   //get 1 month before all entries
+                    carReservations = carReservations.Where(c => DateTime.Compare(DateTime.Parse(c.DtStart), today) >= 0).ToList();   //get 1 month before all entries
 
                     break;
                 case 2: //prev
-                    carReservations = carReservations.Where(c => DateTime.Compare(c.DtTrx, today) < 0);
+                    today = DateTime.Today;
+                    carReservations = carReservations.Where(c => DateTime.Compare(DateTime.Parse(c.DtStart), today) < 0).ToList();
 
                     break;
                 default:
-                    carReservations = carReservations.Where(c => DateTime.Compare(c.DtTrx, today) >= 0);   //get 1 month before all entries
+                    carReservations = carReservations.Where(c => DateTime.Compare(DateTime.Parse(c.DtStart), today) >= 0).ToList();   //get 1 month before all entries
                     break;
             }
             

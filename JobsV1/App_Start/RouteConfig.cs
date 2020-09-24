@@ -131,17 +131,6 @@ namespace JobsV1
                 defaults: new { controller = "CarReservations", action = "ReservationRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
             );
 
-            routes.MapRoute(
-               name: "ReservationRequest",
-               url: "CarRental/Reservation/{id}",
-               defaults: new { controller = "CarRental", action = "ReservationRequest", id = "id", rsvType = 1 }
-           );
-
-            routes.MapRoute(
-               name: "QuotationRequest",
-               url: "CarRental/PriceQuote/{id}",
-               defaults: new { controller = "CarRental", action = "ReservationRequest", id = "id", rsvType = 2 }
-           );
 
 
             /********************************

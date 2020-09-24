@@ -173,8 +173,8 @@ according to its class.";
                                     <a href="#ContactUs" class="btn btn-primary pull-right pricelist-carDetails-btn">
                                         Contact Us
                                     </a>
-                                    @Html.ActionLink(" Reserve this Unit ", "ReservationRequest", "CarRental", new { id = unit.Id, rsvType = 1 }, new { @class = "btn btn-primary pull-right pricelist-carDetails-btn" })
-                                    @Html.ActionLink(" Request a Quote ", "ReservationRequest", "CarRental", new { id = unit.Id, rsvType = 2 }, new { @class = "btn btn-primary pull-right pricelist-carDetails-btn" })
+                                    @Html.ActionLink(" Reserve this Unit ", "Reservation", "CarRental", new { id = unit.Id }, new { @class = "btn btn-primary pull-right pricelist-carDetails-btn" })
+                                    @Html.ActionLink(" Request a Quote ", "PriceQuote", "CarRental", new { id = unit.Id }, new { @class = "btn btn-primary pull-right pricelist-carDetails-btn" })
 
                                 </td>
                             </tr>
