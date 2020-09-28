@@ -16,19 +16,19 @@
         </p>
         <div class="col-md-12 no-padding no-margin">
             @Html.ActionLink(" Request for Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-warning banner-btn-green " })
-            <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green"> Price List Table </a>
+            <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green" title="Price List Table"> Price List Table </a>
             <br />
             @Html.ActionLink(" Online Reservation ", "Reservation", "CarRental", null, new { @class = "btn btn-warning banner-btn-green no-margin" })
 
         </div>
-        <div style="height:0px;width:0px;">
-            <p>
-                <img src="~/Images/CarRental/hondacity/Honda-City-Default.jpg" width="0" alt="" title="Realwheels Car Rental Davao" style="color:white;" /> &nbsp;
-            </p>
-        </div>
     </div>
 </div>
 
+<div style="height:0px;width:0px;">
+    <p>
+        <img src="~/Images/CarRental/hondacity/Honda-City-Default.jpg" width="0" alt=" realwheels car rental davao" title="Realwheels Car Rental Davao" style="color:white;" /> &nbsp;
+    </p>
+</div>
 <!-- Banner Contact Details -->
 
 <div class="featured-container hidden-on-mobile" style="background-color:#3b3b3b;color:white;">
@@ -36,13 +36,13 @@
         <span> Contact Us : </span>
 
         <img src="~/Images/Icons/icon-call-white.png" alt="call us" width="20" style="margin:0px 5px;" />
-        <a href="tel:+639954508517" class="contact-us-link"> Globe: +63 995-450-8517 </a>
+        <a href="tel:+639954508517" class="contact-us-link" title="Globe Number"> Globe: +63 995-450-8517 </a>
         &nbsp;
         <img src="~/Images/Icons/icon-call-white.png" alt="call us" width="20" style="margin:0px 5px;" />
-        <a href="tel:+639292113987" class="contact-us-link"> Smart: +63 929-211-3987 </a>
+        <a href="tel:+639292113987" class="contact-us-link" title="Smart Number"> Smart: +63 929-211-3987 </a>
         &nbsp;
         <img src="~/Images/Icons/icon-email-white.png" alt="email us" width="20" style="margin:0px 5px;" />
-        <a href="mailto:inquiries.realwheels@gmail.com" class="contact-us-link">inquiries.realwheels@gmail.com</a>
+        <a href="mailto:inquiries.realwheels@gmail.com" class="contact-us-link" title="inquiry email">inquiries.realwheels@gmail.com</a>
     </p>
 </div>
 
@@ -53,9 +53,9 @@
     </div>
     <div class="featured-item-list">
         <!-- Premium -->
-        <div class="featured-item-box" >
+        <div class="featured-item-box">
             <div class="col-md-12 no-margin no-padding">
-                <p class="featured-item-box-header"><a href="/CarRental/Featured#Premium"> Premium </a> </p>
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Premium" title="Premium featured"> Premium </a> </p>
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <div class="col-md-5 col-sm-12 col-xs-12" style="padding-left:0px;">
@@ -84,7 +84,7 @@
         <div class="featured-item-box">
             <!-- Latest -->
             <div class="col-md-12 no-margin no-padding">
-                <p class="featured-item-box-header"><a href="/CarRental/Featured#Latest"> Latest </a></p>
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Latest" title="Latest Features"> Latest </a></p>
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <div class="col-md-5 col-sm-12 col-xs-12" style="padding-left:0px;">
@@ -112,7 +112,7 @@
         <div class="featured-item-box">
             <!-- Cheapest -->
             <div class="col-md-12 col-sm-12 no-margin no-padding">
-                <p class="featured-item-box-header"><a href="/CarRental/Featured#Cheapest">  Cheapest </a></p>
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Cheapest" title="Cheapest Title">  Cheapest </a></p>
             </div>
             <div class="col-md-12  no-margin no-padding">
                 <div class="col-md-5 col-sm-12 col-xs-12" style="padding-left:0px;">
@@ -133,14 +133,14 @@
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <p class="text-price pull-left">P 2,500.00 </p>
-                <a href="/CarRental/Featured#Cheapest" class="pull-right featured-text-link"> More Items &#8594</a>
+                <a href="/CarRental/Featured#Cheapest" class="pull-right featured-text-link" title="More Items"> More Items &#8594</a>
             </div>
         </div>
 
         <div class="featured-item-box">
             <!-- OffRoad -->
             <div class="col-md-12 no-margin no-padding">
-                <p class="featured-item-box-header"><a href="/CarRental/Featured#OffRoad"> Off Road </a></p>
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#OffRoad" title="Off Road Featured"> Off Road </a></p>
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <div class="col-md-5 col-sm-12 col-xs-12" style="padding-left:0px;">
@@ -161,7 +161,7 @@
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <p class="text-price pull-left">P 3,500.00 </p>
-                <a href="/CarRental/Featured#OffRoad" class="pull-right featured-text-link"> More Items &#8594</a>
+                <a href="/CarRental/Featured#OffRoad" class="pull-right featured-text-link" title="More Items"> More Items &#8594</a>
             </div>
         </div>
     </div>
@@ -176,11 +176,11 @@
     <div class="carousel-cell">
         <div class="featured-item-box">
             <div class="col-md-12 no-margin no-padding">
-                <p class="featured-item-box-header"><a href="/CarRental/Featured#Premium"> Premium </a> </p>
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Premium" title="Premium Featured"> Premium </a> </p>
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <div class="col-md-6 col-sm-12 col-xs-6" style="padding-left:0px;">
-                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.jpg" class="center-block img-thumbnail" alt="Ford Everest"  />
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.jpg" class="center-block img-thumbnail" alt="Ford Everest" />
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-6 no-padding">
                     <p class="featured-item-box-p no-margin"> Ford Everest </p>
@@ -193,7 +193,7 @@
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <p class="text-price pull-left">P 3,500.00 </p>
-                <a href="/CarRental/Featured#Premium" class="pull-right featured-text-link"> More Items &#8594</a>
+                <a href="/CarRental/Featured#Premium" class="pull-right featured-text-link" title="More Items"> More Items &#8594</a>
             </div>
         </div>
     </div>
@@ -202,11 +202,11 @@
         <!-- Latest -->
         <div class="featured-item-box">
             <div class="col-md-12 no-margin no-padding">
-                <p class="featured-item-box-header"><a href="/CarRental/Featured#Latest"> Latest </a></p>
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Latest" title="Latest Featured"> Latest </a></p>
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <div class="col-md-6 col-sm-12 col-xs-6" style="padding-left:0px;">
-                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer"  />
+                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-6 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer  </p>
@@ -219,7 +219,7 @@
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <p class="text-price pull-left">P 3,500.00 </p>
-                <a href="/CarRental/Featured#Latest" class="pull-right featured-text-link"> More Items &#8594</a>
+                <a href="/CarRental/Featured#Latest" class="pull-right featured-text-link" title="More Items"> More Items &#8594</a>
             </div>
         </div>
     </div>
@@ -228,11 +228,11 @@
         <!-- Cheapest -->
         <div class="featured-item-box">
             <div class="col-md-12 col-sm-12 no-margin no-padding">
-                <p class="featured-item-box-header"><a href="/CarRental/Featured#Cheapest">  Cheapest </a></p>
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#Cheapest" title="Cheapest Featured">  Cheapest </a></p>
             </div>
             <div class="col-md-12  no-margin no-padding">
                 <div class="col-md-6 col-sm-12 col-xs-6" style="padding-left:0px;">
-                    <img src="~/Images/CarRental/innova/Toyota-Innova-sm.jpg" class="center-block img-thumbnail" alt="fleet van"  />
+                    <img src="~/Images/CarRental/innova/Toyota-Innova-sm.jpg" class="center-block img-thumbnail" alt="fleet van" />
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-6 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Innova 2013 </p>
@@ -245,7 +245,7 @@
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <p class="text-price pull-left">P 2,500.00 </p>
-                <a href="/CarRental/Featured#Cheapest" class="pull-right featured-text-link"> More Items &#8594</a>
+                <a href="/CarRental/Featured#Cheapest" class="pull-right featured-text-link" title="More Items"> More Items &#8594</a>
             </div>
         </div>
     </div>
@@ -255,7 +255,7 @@
         <!-- OffRoad -->
         <div class="featured-item-box">
             <div class="col-md-12 no-margin no-padding">
-                <p class="featured-item-box-header"><a href="/CarRental/Featured#OffRoad"> Off Road </a></p>
+                <p class="featured-item-box-header"><a href="/CarRental/Featured#OffRoad" title="Off Road Featured"> Off Road </a></p>
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <div class="col-md-6 col-sm-12 col-xs-6" style="padding-left:0px;">
@@ -272,7 +272,7 @@
             </div>
             <div class="col-md-12 no-margin no-padding">
                 <p class="text-price pull-left">P 3,500.00 </p>
-                <a href="/CarRental/Featured#OffRoad" class="pull-right featured-text-link"> More Items &#8594</a>
+                <a href="/CarRental/Featured#OffRoad" class="pull-right featured-text-link" title="More Items"> More Items &#8594</a>
             </div>
         </div>
     </div>
@@ -282,39 +282,39 @@
 
 <div class="main-links-container hidden-on-mobile">
     <div class="main-links-items">
-        <a href="#About">
-            <img class="hidden-on-mobile" src="~/Images/Icons/icons-company.png" width="100" height="100" alt="Contact Us Company" />
+        <a href="#About" title="About Us Company">
+            <img class="hidden-on-mobile" src="~/Images/Icons/icons-company.png" width="100" height="100" alt="About Us Company" />
             <h2> About Us </h2>
         </a>
     </div>
     <div class="main-links-items">
-        <a href="#ServicesNav">
-            <img class="hidden-on-mobile" src="~/Images/Icons/icons-car-rental.png" width="70" alt="Car Rental Services"  />
+        <a href="#ServicesNav" title="Car Rental Services">
+            <img class="hidden-on-mobile" src="~/Images/Icons/icons-car-rental.png" width="70" alt="Car Rental Services" />
             <h2> Services </h2>
         </a>
     </div>
     <div class="main-links-items">
-        <a href="#FleetNav">
-            <img class="hidden-on-mobile" src="~/Images/Icons/icons-car-dealership.png" width="70"  alt="Car Delearship Fleet"  />
+        <a href="#FleetNav" title="Our Fleet Dealership">
+            <img class="hidden-on-mobile" src="~/Images/Icons/icons-car-dealership.png" width="70" alt="Car Delearship Fleet" />
             <h2> Our Fleet </h2>
 
         </a>
     </div>
     <div class="main-links-items">
-        <a href="~/CarRental/PriceList">
+        <a href="~/CarRental/PriceList" title="Price List">
             <img class="hidden-on-mobile" src="~/Images/Icons/icons-sale-price-tag.png" width="70" alt="Rental Price Tag" />
             <h2> Rental Prices </h2>
         </a>
     </div>
     <div class="main-links-items">
-        <a href="#Contact">
-            <img class="hidden-on-mobile" src="~/Images/Icons/icons-group-task.png" width="70" alt="Contact Us Company"  />
+        <a href="#Contact" title="Contact Us">
+            <img class="hidden-on-mobile" src="~/Images/Icons/icons-group-task.png" width="70" alt="Contact Us Company" />
             <h2> Contact Us </h2>
         </a>
     </div>
     <div class="main-links-items">
-        <a href="#Booking">
-            <img class="hidden-on-mobile" src="~/Images/Icons/icons-connect.png" width="70" alt="Booking and Reservation"  />
+        <a href="#Booking" title="Booking ang Reservation">
+            <img class="hidden-on-mobile" src="~/Images/Icons/icons-connect.png" width="70" alt="Booking and Reservation" />
             <h2> Booking  </h2>
         </a>
     </div>
@@ -324,11 +324,10 @@
 
 <div class="main-links-container hidden-on-mobile">
     <h3 class="no-margin center-block">
-
         <img src="~/Images/Icons/icon-call-blk.png" alt="call us" width="30" style="margin:5px;" loading="lazy" />
-        <a href="tel:+639954508517"> +63 995-450-8517 </a> or
+        <a href="tel:+639954508517" title="Globe Mobile"> +63 995-450-8517 </a> or
         <img src="~/Images/Icons/icon-email-blk.png" alt="call us" width="30" style="margin:5px;" loading="lazy" />
-        <a href="mailto:inquiries.realwheels@gmail.com">inquiries.realwheels@gmail.com</a>
+        <a href="mailto:inquiries.realwheels@gmail.com" title="Email Us">inquiries.realwheels@gmail.com</a>
     </h3>
 </div>
 
@@ -347,25 +346,25 @@
     <div class="col-md-12 no-padding banner-services-container" id="FleetNav">
         <div class="banner-services">
             <span class="pull-left banner-services-items hidden-on-mobile linkable-heading-Fleet">
-                <a href="#Fleet" class="banner-services-header scroll-text"> Our Fleet </a>
+                <a href="#Fleet" class="banner-services-header scroll-text" title="Go to our fleet"> Our Fleet </a>
             </span>
-            <a href="#CarUnit-1" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-1')">
+            <a href="#CarUnit-1" class="pull-left banner-fleet-items scroll-text" title="Show Van Vehicles" onclick="HighlightSelectedCar('CarUnit-1')">
                 <img src="~/Images/CarRental/Home/icon-van.png" class="center-block fleet-vehicle-icon" alt="fleet van" />
                 <p class="text-center"> VAN  </p>
             </a>
-            <a href="#CarUnit-3" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-3')">
+            <a href="#CarUnit-3" class="pull-left banner-fleet-items scroll-text" title="Show SUV Vehicles" onclick="HighlightSelectedCar('CarUnit-3')">
                 <img src="~/Images/CarRental/Home/icon-suv.png" class="center-block fleet-vehicle-icon" alt="fleet suv" />
                 <p class="text-center"> SUV </p>
             </a>
-            <a href="#CarUnit-4" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-4')">
+            <a href="#CarUnit-4" class="pull-left banner-fleet-items scroll-text" title="Show MPV Vehicles" onclick="HighlightSelectedCar('CarUnit-4')">
                 <img src="~/Images/CarRental/Home/icon-mpv.png" class="center-block fleet-vehicle-icon" alt="fleet mpv" />
                 <p class="text-center"> MPV</p>
             </a>
-            <a href="#CarUnit-5" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-5')">
+            <a href="#CarUnit-5" class="pull-left banner-fleet-items scroll-text" title="Show Sedan Vehicles" onclick="HighlightSelectedCar('CarUnit-5')">
                 <img src="~/Images/CarRental/Home/icon-sedan.png" class="center-block fleet-vehicle-icon" alt="fleet sedan" />
                 <p class="text-center"> SEDAN </p>
             </a>
-            <a href="#CarUnit-6" class="pull-left banner-fleet-items scroll-text" onclick="HighlightSelectedCar('CarUnit-6')">
+            <a href="#CarUnit-6" class="pull-left banner-fleet-items scroll-text" title="Show Pickup Vehicles" onclick="HighlightSelectedCar('CarUnit-6')">
                 <img src="~/Images/CarRental/Home/icon-pickup.png" class="center-block fleet-vehicle-icon" alt="fleet pickup" />
                 <p class="text-center"> PICKUP </p>
             </a>
@@ -378,22 +377,22 @@
 <!-- Fleet Vehicles For Rent -->
 <div class="row car-container">
     <div class="col-md-12" id="Fleet">
-        <h1 class="text-center" style="padding-bottom:30px;font-weight:600;">
+        <h2 class="text-center" style="padding-bottom:30px;font-weight:600;">
             Our Fleet
-        </h1>
+        </h2>
     </div>
 
     @foreach (var item in Model)
     {
         <div class="col-md-4 no-padding" id="CarUnit-@item.Id">
             <div class="car-container-details">
-                <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description" >
+                <img src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
                 <div class="col-lg-12 carrental-car-details">
-                    <h2 class="carrental-car-title">
+                    <h3 class="carrental-car-title">
 
                         @Html.ActionLink(item.Description, "CarDetail", "CarRental", new { unitid = item.Id }, null)
                         @*@Html.DisplayFor(modelItem => item.Description)*@
-                    </h2>
+                    </h3>
                     <p>
                         <b>@Html.DisplayFor(modelItem => item.Remarks)</b> -
                         @{
@@ -444,13 +443,13 @@
 <div class="col-md-12 hidden-on-mobile" style="margin:50px 0px;">
     <h2 class="home-heading text-center" style="margin-bottom:30px;">Types of Vehicles for Rent</h2>
     <p class="text-center" style="margin-bottom:20px;padding:10px;">
-        As a rent-a-car company, <a href="https://realwheelsdavao.com">Real Wheels Davao</a> offers wide variety of affordable vehicles
+        As a rent-a-car company, <a href="https://realwheelsdavao.com" title="Go to RealwheelsDavao.com">Real Wheels Davao</a> offers wide variety of affordable vehicles
         suitable for your travel needs.
     </p>
     <div class="col-md-3">
         <div class="home-panel">
             <img src="~/Images/CarRental/Home/vehicle-type-van.jpg" class="home-vehicle-type-img" alt="Car-rental-vehicle-van" title="Car Rental Vehicle Van" />
-            <a href="~/CarRental/van-for-rent"><span class="vehicle-types-title">Van for rent</span></a>
+            <a href="~/CarRental/van-for-rent" title="Show Van Details"><span class="vehicle-types-title">Van for rent</span></a>
             <ul>
                 <li> Toyota Hiace GL Grandia Tourer</li>
                 <li> Nissan Urvan Premium</li>
@@ -463,7 +462,7 @@
     <div class="col-md-3">
         <div class="home-panel ">
             <img src="~/Images/CarRental/Home/vehicle-type-suv.jpg" class="home-vehicle-type-img" alt="Car-rental-vehicle-suv-mpv" title="Car Rental Vehicle SUV MPV" />
-            <a href="~/CarRental/suvpickup4x4-rental-rates">
+            <a href="~/CarRental/suvpickup4x4-rental-rates" title="Show Van Details">
                 <span class="vehicle-types-title"> SUV / MPV for rent</span>
             </a>
             <ul>
@@ -478,7 +477,9 @@
     <div class="col-md-3">
         <div class="home-panel">
             <img src="~/Images/CarRental/Home/vehicle-type-sedan.jpg" class="home-vehicle-type-img" alt="Car-rental-vehicle-Sedan" title="Car Rental Business Sedan" />
-            <a href="~/CarRental/sedan-rental"><span class="vehicle-types-title">Sedan for rent</span></a>
+            <a href="~/CarRental/sedan-rental" title="Show Sedan Details">
+                <span class="vehicle-types-title">Sedan for rent</span>
+            </a>
             <ul>
                 <li> Honda City</li>
                 <li> Toyota Vios </li>
@@ -488,7 +489,9 @@
     <div class="col-md-3">
         <div class="home-panel">
             <img src="~/Images/CarRental/Home/vehicle-type-pickup.jpg" class="home-vehicle-type-img" alt="Car-rental-vehicle-pickup" title="Car Rental Vehicle Pickup" />
-            <a href="~/carrental/pickup-rental"><span class="vehicle-types-title">Pickup for rent</span></a>
+            <a href="~/carrental/pickup-rental" title="Show Pickup Details">
+                <span class="vehicle-types-title">Pickup for rent</span>
+            </a>
             <ul>
                 <li> Toyota Hilux 2020 </li>
                 <li> Mitsubishi Strada </li>
@@ -520,7 +523,7 @@
 
 <!-- Floating Move to up Button -->
 
-<a href="#Home" id="BackToTop" style="display: block;" name="Back-to-Top"> <span> Back To Top </span></a>
+<a href="#Home" id="BackToTop"  title="Back to Top" style="display: block;" name="Back-to-Top"> <span> Back To Top </span></a>
 
 @section Scripts{
     <!-- For Carousel using flickity js -->

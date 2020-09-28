@@ -343,6 +343,13 @@ namespace JobsV1.Controllers
                 ViewBag.rsvTypeDesc = rsvTypeDesc;
                 ViewBag.carId = id ?? 1;
 
+                var unit = "";
+                if (id != null)
+                {
+                    unit = db.CarUnits.Find(id).Description;
+                }
+
+                ViewBag.Unit = unit + " ";
                 ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", rsvTypeId);
                 ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
@@ -426,6 +433,8 @@ namespace JobsV1.Controllers
                 ViewBag.rsvTypeId = rsvTypeId;
                 ViewBag.rsvTypeDesc = rsvTypeDesc;
 
+                var unit = db.CarUnits.Find(carReservation.CarUnitId).Description;
+                ViewBag.Unit = unit + " ";
 
                 return View(carReservation);
             }
@@ -473,6 +482,13 @@ namespace JobsV1.Controllers
                 ViewBag.rsvTypeDesc = rsvTypeDesc;
                 ViewBag.carId = id ?? 1;
 
+                var unit = "";
+                if (id != null)
+                {
+                    unit = db.CarUnits.Find(id).Description;
+                }
+
+                ViewBag.Unit = unit + " ";
                 ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", rsvTypeId);
                 ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
@@ -556,6 +572,9 @@ namespace JobsV1.Controllers
                 ViewBag.rsvTypeId = rsvTypeId;
                 ViewBag.rsvTypeDesc = rsvTypeDesc;
 
+                var unit = db.CarUnits.Find(carReservation.CarUnitId).Description;
+
+                ViewBag.Unit = unit + " ";
 
                 return View(carReservation);
             }
@@ -606,6 +625,14 @@ namespace JobsV1.Controllers
                 ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", rsvTypeId);
                 ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
+
+                var unit = "";
+                if (id != null)
+                {
+                    unit = db.CarUnits.Find(id).Description;
+                }
+
+                ViewBag.Unit = unit + " ";
 
                 return View(reservation);
             }
@@ -686,6 +713,9 @@ namespace JobsV1.Controllers
                 ViewBag.rsvTypeId = rsvTypeId;
                 ViewBag.rsvTypeDesc = rsvTypeDesc;
 
+                var unit = db.CarUnits.Find(carReservation.CarUnitId).Description;
+
+                ViewBag.Unit = unit + " ";
 
                 return View(carReservation);
             }

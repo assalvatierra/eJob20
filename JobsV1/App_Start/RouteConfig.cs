@@ -34,6 +34,29 @@ namespace JobsV1
                 namespaces: new[] { "JobsV1.Controllers" }
             );
 
+
+            routes.MapRoute(
+                name: "Account/About",
+                url: "Account/About",
+                defaults: new { controller = "CarRental", action = "About", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+            routes.MapRoute( 
+                name: "Account/Contact",
+                url: "Account/Contact",
+                defaults: new { controller = "CarRental", action = "Contact", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "page/2",
+                url: "page/2",
+                defaults: new { controller = "CarRental", action = "PriceList", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+
             #region CarRental links
             /********************************
             * Car Rental w/ Articles
@@ -49,11 +72,6 @@ namespace JobsV1
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 2 }
             );
             routes.MapRoute(
-                name: "ToyotaTourer-for-rent",
-                url: "CarRental/ToyotaTourer-for-rent",
-                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 7 }
-            );
-            routes.MapRoute(
                 name: "suvpickup4x4-rental-rates",
                 url: "CarRental/suvpickup4x4-rental-rates",
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 3 }
@@ -65,14 +83,25 @@ namespace JobsV1
             );
             routes.MapRoute(
                 name: "Sedan-rental",
-                url: "carrental/sedan-rental",
+                url: "CarRental/sedan-rental",
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
             );
             routes.MapRoute(
                 name: "Pickup-rental",
-                url: "carrental/pickup-rental",
+                url: "CarRental/pickup-rental",
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 6 }
             );
+            routes.MapRoute(
+                name: "ToyotaTourer-for-rent",
+                url: "CarRental/ToyotaTourer-for-rent",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 7 }
+            );
+            routes.MapRoute(
+                name: "rush-rental",
+                url: "CarRental/suvpickup4x4-rental-rates",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 8 }
+            );
+
 
             #endregion
 
@@ -120,7 +149,7 @@ namespace JobsV1
                 name: "JobOrderInvoice",
                 url: "invoice/{id}/{month}/{day}/{year}/{rName}",
                 defaults: new { controller = "JobOrder", action = "BookingRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
-            );
+            );  
 
             /********************************
             * Car Rental Reservation
@@ -131,7 +160,23 @@ namespace JobsV1
                 defaults: new { controller = "CarReservations", action = "ReservationRedirect", id = "id", month = "month", day = "day", year = "year", rName = "rName" }
             );
 
+            routes.MapRoute(
+               name: "Reservation-Reserve",
+               url: "CarRental/Reservation",
+               defaults: new { controller = "CarRental", action = "ReservationRequest", id = "id", rsvType = 1 }
+           );
 
+            routes.MapRoute(
+               name: "Reservation-PriceQuote",
+               url: "CarRental/PriceQuote",
+               defaults: new { controller = "CarRental", action = "ReservationRequest", id = "id", rsvType = 2 }
+           );
+
+            routes.MapRoute(
+               name: "Reservation-FormRenter",
+               url: "CarRental/FormRenter/{id}",
+               defaults: new { controller = "CarRental", action = "ReservationRequest", id = "id", rsvType = 2 }
+           );
 
             /********************************
             * landing/home page
@@ -217,6 +262,14 @@ namespace JobsV1
                 url: "carrental/pickup-rental",
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 6 }
             );
+
+
+            routes.MapRoute(
+                name: "rush-rental",
+                url: "carrental/suvpickup4x4-rental-rates",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 8 }
+            );
+
 
             #endregion
 

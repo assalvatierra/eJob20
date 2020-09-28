@@ -1,12 +1,23 @@
 ﻿@model JobsV1.Models.CarUnit
 
 @{
-    ViewBag.Title = "Davao Car Rental Van Details - RealWheelsDavao";
-    ViewBag.Description = "Van Rental Davao. For company use, travel and tours, VIP transfers and all types of occasion. Contact us for van rental inquiries and reservations.";
+    if (ViewBag.Id == 1)
+    {
+        ViewBag.Title = "Davao Car Rental Van Details - RealWheelsDavao";
+        ViewBag.Description = "Van Rental Davao. For company use, travel and tours, VIP transfers and all types of occasion. Contact us for van rental inquiries and reservations.";
+        
+    }
+    else
+    {
+        ViewBag.Title = "Nissan Premium Van Rental Davao - RealWheelsDavao";
+        ViewBag.Description = "Nissan Premium Van Rental Davao. For company use, travel and tours, VIP transfers and all types of occasion. Contact us for van rental inquiries and reservations.";
+
+    }
+
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 }
 
-@Styles.Render("~/Content/css/Site")
+    @Styles.Render("~/Content/css/Site")
 
     <div class="container details-article-container">
         <div class="col-lg-12 col-xs-12">

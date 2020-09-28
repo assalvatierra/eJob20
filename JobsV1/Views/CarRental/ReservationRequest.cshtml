@@ -1,9 +1,9 @@
 ﻿@model JobsV1.Models.CarReservation
 @using JobsV1.Models
 @{
-    ViewBag.Title = "Car Rental Reservation";
+    ViewBag.Title = ViewBag.Unit + "Car Rental Reservation";
     ViewBag.Description =
-    @"Car Rental online reservation.";
+    @"Car Rental online reservation " + ViewBag.Unit;
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 }
 
