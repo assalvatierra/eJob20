@@ -429,8 +429,18 @@ namespace JobsV1.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult About()
+        {
+            return RedirectToAction("About", "CarRental", null);
+        }
+
+        public ActionResult Contact()
+        {
+            return RedirectToAction("Contact", "CarRental", null);
+        }
+
         #region Helpers
-        // Used for XSRF protection when adding external logins
+            // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
         private IAuthenticationManager AuthenticationManager

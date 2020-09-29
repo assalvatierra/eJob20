@@ -3,7 +3,7 @@
 @{
     if (ViewBag.Id == 1)
     {
-        ViewBag.Title = "Davao Car Rental Van Details - RealWheelsDavao";
+        ViewBag.Title = "Davao Van Rental Van Details - RealWheelsDavao";
         ViewBag.Description = "Van Rental Davao. For company use, travel and tours, VIP transfers and all types of occasion. Contact us for van rental inquiries and reservations.";
         
     }
@@ -22,7 +22,7 @@
     <div class="container details-article-container">
         <div class="col-lg-12 col-xs-12">
             <div class="col-lg-8 col-xs-12 details-title">
-                <h2> Van Rental (10-14 Seater) </h2>
+                <h1> Van Rental (10-14 Seater) </h1>
             </div>
         </div>
 
@@ -41,35 +41,35 @@
                 <h2>VAN</h2>
                 <article>
                     <p>
-                        <a href="http://RealWheelsDavao.com/CarRental/van-for-rent">VAN</a> is the most popular vehicle transporting people for both company and family use. It can
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">VAN</a> is the most popular vehicle transporting people for both company and family use. It can
                         comfortably accommodate 10-14 pax with enough luggage.
                         <br />
 
                         <h2>Rent-A-Car</h2>
-                        <a href="http://RealWheelsDavao.com/CarRental/van-for-rent">VAN</a> is top choice for rent-a-car business for conventions, city tours and all types of
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">VAN</a> is top choice for rent-a-car business for conventions, city tours and all types of
                         occasions. Top models use by rent-a-car companies are:
 
-                        <a href="http://RealWheelsDavao.com/CarRental/van-for-rent">Toyota GL Grandia</a> is a 10-12 seater van and as of this time, top choice due to
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">Toyota GL Grandia</a> is a 10-12 seater van and as of this time, top choice due to
                         its known reliability and toughness. This model is the all-time favorite in
                         rent-a-car business because it can accommodate most of the client needs.
 
-                        <a href="http://RealWheelsDavao.com/CarRental/van-for-rent">Toyota Super Grandia</a> is a 10 seater executive van that built for comfort. You
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">Toyota Super Grandia</a> is a 10 seater executive van that built for comfort. You
                         expect 2 captain seats and other well padded leather seats at the back. Commonly
                         used to VIP and hire profile guests of rent-a-car company.
 
-                        <a href="http://RealWheelsDavao.com/CarRental/van-for-rent">Nissan Urvan Premium</a> is another contender for van rentals (rent-a-car) due to its
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">Nissan Urvan Premium</a> is another contender for van rentals (rent-a-car) due to its
                         capacity which accommodates up to 14 pax and still got extra room for luggages.
                         It's a highroof van that makes it even bigger and have extra head space that
                         makes the van more ventilated and refreshing compared to other regular vans.
 
-                        <a href="http://RealWheelsDavao.com/CarRental/ToyotaTourer-for-rent">Toyota GL Grandia Tourer 2020</a> is 14 seater executive van with a high room and spacious interior.
+                        <a href="https://RealWheelsDavao.com/CarRental/ToyotaTourer-for-rent">Toyota GL Grandia Tourer 2020</a> is 14 seater executive van with a high room and spacious interior.
                         It prioritize comfort and safety to its passengers which seats can recline individually
                         except for the last row, which can fold up to create cargo room. It is also a highroof van
                         making it well ventilated and more spacious than other van.
                     </p>
                     <h2>VAN rental</h2>
                     <p>
-                        <a href="http://RealWheelsDavao.com/CarRental/van-for-rent">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
                         occasions and any kind of business trips. VIP guests are welcome with special
                         attention from the company. Short term and Long term van rental with special
                         arrangements, terms and rates are open for negotiation.
@@ -172,7 +172,7 @@
             </div>
 
             <div class="col-lg-12 details-container dtls-gallery">
-                <h1 class="text-primary">Gallery</h1>
+                <h3 class="text-primary">Gallery</h3>
 
                 @if (ViewBag.Id == 1)
                 {
@@ -191,7 +191,7 @@
             </div>
 
             <div class="col-lg-12 details-container" style="display:none;">
-                <h1 class="text-primary text-center">Book Now! </h1>
+                <h3 class="text-primary text-center">Book Now! </h3>
                 @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
                 <p class="text-info text-center" style="font-size:12px;color:gray;">
                     Note: availability of the vehicle will depend on the date of reservation.

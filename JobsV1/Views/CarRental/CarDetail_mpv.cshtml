@@ -1,8 +1,9 @@
 ﻿@model JobsV1.Models.CarUnit
 
 @{
-    ViewBag.Title = "Davao Car Rental Details MPV/AUV - RealWheelsDavao";
-    ViewBag.Description = "Davao Car Rental Details MPV/AUV";
+    ViewBag.Title = "MPV/AUV Davao Car Rental Details - RealWheelsDavao";
+    ViewBag.Description = "Davao Car Rental Details MPV/AUV Car Rental. Available for use within Davao City or Out of Town, " +
+                " Rental Tours, Business Meetings, Corporate Rental, Airport Pickup/DropOff, Family Use and more.";
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 }
 
@@ -11,7 +12,7 @@
 
         <div class="col-lg-12 col-xs-12">
             <div class="col-lg-8 col-xs-12 details-title">
-                <h2>MPV/AUV Rental </h2>
+                <h2>MPV/AUV Car Rental </h2>
             </div>
         </div>
 
@@ -51,7 +52,7 @@
                         driver would be a great way to enjoy the Innova.
                     </p>
                     <p>
-                        <a href="http://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
+                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
                         is the best MPV/AUV vehicle in the Philippines. With the Innova, you are
                         provided with generous space while having the luxury of comfort. Toyota innova has enough luggage space
                         to accommodate your family's luggages and built tough to give you the right confidence while maintains
@@ -65,17 +66,17 @@
                         Rent-A-car
                     </h3>
                     <p>
-                        <a href="http://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
-                        is a multipurpose, versatile vehicle and is one of the favorites in<a href="http://RealWheelsDavao.com"> car rental (rent-a-car) companies</a>
-                        business. Rent-a-car companies like <a href="http://RealWheelsDavao.com">Real Wheels Davao</a> choose Toyota Innova due to
+                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
+                        is a multipurpose, versatile vehicle and is one of the favorites in<a href="https://RealWheelsDavao.com"> car rental (rent-a-car) companies</a>
+                        business. Rent-a-car companies like <a href="https://RealWheelsDavao.com">Real Wheels Davao</a> choose Toyota Innova due to
                         its reliabiliy, comfort and space that could serve well their guests.
                     </p>
                     <h3>
                         Innova for Rent
                     </h3>
                     <p>
-                        <a href="http://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
-                        is offered for selfDrive and with driver option by the <a href="http://RealWheelsDavao.com"> car rental company</a>. SelfDrive
+                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
+                        is offered for selfDrive and with driver option by the <a href="https://RealWheelsDavao.com"> car rental company</a>. SelfDrive
                         rental is limited within Davao City areas only. Adjacent cities are considered for long term rentals.
                         With driver option rental is offered in convenient and flexible options. Fuel and Driver's meals/accommodation
                         is flexible and can be discussed openly.
@@ -162,7 +163,7 @@
             </div>
 
             <div class="col-lg-12 details-container dtls-gallery">
-                <h1 class="text-primary">Gallery</h1>
+                <span class="text-lg text-primary">Gallery</span>
                 <a href="~/Images/CarRental/innova/toyota-innova.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova.jpg" alt="toyota-innova-car-rental-davao" /></a>
                 <a href="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" alt="toyota-innova-car-rental-davao" /></a>
                 <a href="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" alt="toyota-innova-car-rental-davao" /></a>
@@ -170,7 +171,7 @@
             </div>
 
             <div class="col-lg-12 details-container" style="display:none;">
-                <h1 class="text-primary text-center">Book Now! </h1>
+                <span class="text-lg text-primary text-center">Book Now! </span>
                 @Html.ActionLink("Cost Estimate and Reservation", "FormRenter", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
                 <p class="text-info text-center" style="font-size:12px;color:gray;">
                     Note: availability of the vehicle will depend on the date of reservation.

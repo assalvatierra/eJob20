@@ -34,13 +34,18 @@ namespace JobsV1.Controllers
         public ActionResult Index()
         {
             //SEO part
-            ViewBag.Title = "Davao Car Rental | Van, Sedan, AUV/MPV/SUV Rentals | Real Wheels Rent A Car Davao | Start Your Journey With Us! ";
-            ViewBag.Description = @"Rent a Car company offering affordable selfdrive or with driver car rental service in Davao City, Philippines.
-                 We offer -Grandia/Super/Premium, MPV / AUV and SUV for rent, Innova rentals, sedan rentals, 4x4 rentals, pickup rentals and van rentals in the City.
-                 We offer daily, weekly, monthly rental and affordable rates for long term rentals.
-                 We also partnered to several car rentals in Davao for us to provide a reliable and quality service.
-                 ";
+            //ViewBag.Title = "Davao Car Rental | Van, Sedan, AUV/MPV/SUV Rentals | Real Wheels Rent A Car Davao | Start Your Journey With Us! ";
+            //ViewBag.Description = @"Rent a Car company offering affordable selfdrive or with driver car rental service in Davao City, Philippines.
+            //     We offer -Grandia/Super/Premium, MPV / AUV and SUV for rent, Innova rentals, sedan rentals, 4x4 rentals, pickup rentals and van rentals in the City.
+            //     We offer daily, weekly, monthly rental and affordable rates for long term rentals.
+            //     We also partnered to several car rentals in Davao for us to provide a reliable and quality service.
+            //     ";
 
+            //revised
+            ViewBag.Title = "Davao Car Rental | Real Wheels Rent A Car Davao ";
+            ViewBag.Description = @"Rent a Car company offering affordable selfdrive or with driver car rental service in Davao City, Philippines.
+                 We offer Grandia/Super/Premium, MPV / AUV and SUV for rent, Innova rentals, sedan rentals, 4x4 rentals, pickup rentals and van rentals in the City.
+                 ";
             ViewBag.CanonicalURL = "https://realwheelsdavao.com/";
 
             //End of SEO

@@ -1,8 +1,8 @@
 ﻿@model JobsV1.Models.CarUnit
 
 @{
-    ViewBag.Title = "Davao Car Rental Details Pick-up - RealWheelsDavao";
-    ViewBag.Description = "Davao Car Rental Details Pick-up";
+    ViewBag.Title = "Pick-up Car Rental Davao - RealWheelsDavao";
+    ViewBag.Description = "Davao Car Rental Details Pick-up. Available within Davao City, Out of Town, Corporate Travels, Off-Roads and more.";
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 }
 
@@ -13,7 +13,7 @@
     <div class="container details-article-container">
         <div class="col-lg-12 col-xs-12">
             <div class="col-lg-8 col-xs-12 details-title">
-                <h2> Pick-Up Rental </h2>
+                <h2> Pick-Up Car Rental </h2>
             </div>
         </div>
 
@@ -118,7 +118,7 @@
             </div>
 
             <div class="col-lg-12 details-container dtls-gallery">
-                <h1 class="text-primary">Gallery</h1>
+                <span class="text-lg text-primary">Gallery</span>
                 <a href="~/Images/CarRental/pickup/pickup_front.jpg" target="_blank">
                     <img class="img-thumbnail" src="~/Images/CarRental/pickup/pickup_front.jpg" alt="pickup-car-rental-davao" />
                 </a>
@@ -131,7 +131,7 @@
             </div>
 
             <div class="col-lg-12 details-container" style="display:none;">
-                <h1 class="text-primary text-center">Book Now! </h1>
+                <span class="text-lg text-primary text-center">Book Now! </span>
                 @Html.ActionLink("Cost Estimate and Reservation", "FormRenter", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
                 <p class="text-info text-center" style="font-size:12px;color:gray;">
                     Note: availability of the vehicle will depend on the date of reservation.

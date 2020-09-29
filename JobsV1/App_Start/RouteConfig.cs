@@ -36,20 +36,6 @@ namespace JobsV1
 
 
             routes.MapRoute(
-                name: "Account/About",
-                url: "Account/About",
-                defaults: new { controller = "CarRental", action = "About", id = UrlParameter.Optional },
-                namespaces: new[] { "JobsV1.Controllers" }
-            );
-
-            routes.MapRoute( 
-                name: "Account/Contact",
-                url: "Account/Contact",
-                defaults: new { controller = "CarRental", action = "Contact", id = UrlParameter.Optional },
-                namespaces: new[] { "JobsV1.Controllers" }
-            );
-
-            routes.MapRoute(
                 name: "page/2",
                 url: "page/2",
                 defaults: new { controller = "CarRental", action = "PriceList", id = UrlParameter.Optional },
@@ -102,6 +88,12 @@ namespace JobsV1
                 defaults: new { controller = "CarRental", action = "CarDetail", unitid = 8 }
             );
 
+            //duplicate redirect
+            routes.MapRoute(
+                name: "Sedan-carrental",
+                url: "carrental/sedan-rental",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
+            );
 
             #endregion
 
