@@ -75,7 +75,8 @@ namespace JobsV1.Models
             items.Add("realwheelsdavao.com/CarRental/FAQ");
             items.Add("realwheelsdavao.com/CarRental/PriceList");
             items.Add("realwheelsdavao.com/CarRental/Featured");
-            items.Add("realwheelsdavao.com/CarRental/ReservationRequest");
+            items.Add("realwheelsdavao.com/CarRental/Reservation");
+            items.Add("realwheelsdavao.com/CarRental/PriceQuote");
             items.Add("realwheelsdavao.com/Articles/NewSeatCapacity");
             items.Add("realwheelsdavao.com/Articles/VisitDavao");
             items.Add("realwheelsdavao.com/Articles/SUVRental");

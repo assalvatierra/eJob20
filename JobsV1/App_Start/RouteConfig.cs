@@ -28,6 +28,13 @@ namespace JobsV1
                 );
 
             routes.MapRoute(
+               name: "sitemapXML",
+               url: "sitemap.xml",
+               defaults: new { controller = "Home", action = "SitemapXml", id = UrlParameter.Optional },
+               namespaces: new[] { "JobsV1.Controllers" }
+               );
+
+            routes.MapRoute(
                 name: "Home",
                 url: "Home/",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
@@ -155,19 +162,19 @@ namespace JobsV1
             routes.MapRoute(
                name: "Reservation-Reserve",
                url: "CarRental/Reservation",
-               defaults: new { controller = "CarRental", action = "ReservationRequest", id = "id", rsvType = 1 }
+               defaults: new { controller = "CarRental", action = "Reservation", id = "id", rsvType = 1 }
            );
 
             routes.MapRoute(
                name: "Reservation-PriceQuote",
                url: "CarRental/PriceQuote",
-               defaults: new { controller = "CarRental", action = "ReservationRequest", id = "id", rsvType = 2 }
+               defaults: new { controller = "CarRental", action = "PriceQuote", id = "id", rsvType = 2 }
            );
 
             routes.MapRoute(
                name: "Reservation-FormRenter",
                url: "CarRental/FormRenter/{id}",
-               defaults: new { controller = "CarRental", action = "ReservationRequest", id = "id", rsvType = 2 }
+               defaults: new { controller = "CarRental", action = "Reservation", id = "id", rsvType = 1 }
            );
 
             /********************************

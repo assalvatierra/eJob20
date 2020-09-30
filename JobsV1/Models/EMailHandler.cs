@@ -198,6 +198,7 @@ namespace JobsV1.Models
             }
             catch (Exception ex)
             {
+                throw ex;
                 return "error: " + ex.Message;
             }
         }

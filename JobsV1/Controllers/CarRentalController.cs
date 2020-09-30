@@ -43,8 +43,7 @@ namespace JobsV1.Controllers
 
             //revised
             ViewBag.Title = "Davao Car Rental | Real Wheels Rent A Car Davao ";
-            ViewBag.Description = @"Rent a Car company offering affordable selfdrive or with driver car rental service in Davao City, Philippines.
-                 We offer Grandia/Super/Premium, MPV / AUV and SUV for rent, Innova rentals, sedan rentals, 4x4 rentals, pickup rentals and van rentals in the City.
+            ViewBag.Description = @"Rent A Car company offering affordable self drive or with driver car rental service in Davao City, Philippines. Van, MPV, SUV, Innova, sedan and pickup rental.
                  ";
             ViewBag.CanonicalURL = "https://realwheelsdavao.com/";
 
