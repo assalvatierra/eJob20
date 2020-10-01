@@ -194,7 +194,7 @@ namespace JobsV1.Models
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message
-                return "Success";
+                return "success";
             }
             catch (Exception ex)
             {

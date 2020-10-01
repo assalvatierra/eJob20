@@ -3254,14 +3254,14 @@ order by x.jobid
             string mailResult = "";
 
             //Send invoice
-            //mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
-            //mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
-            //mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+            mailResult = mail.SendMail(jobId, ajdavaoEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+            mailResult = mail.SendMail(jobId, companyEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
+            mailResult = mail.SendMail(jobId, adminEmail, "ADMIN-INVOICE-SENT", clientName, siteRedirect);
 
             //client
             mailResult = mail.SendMail(jobId, jobOrder.CustContactEmail, mailType, clientName, siteRedirect);
             
-            mailResult = mailResult == "Success" ? "Email is sent successfully." : "Our System cannot send the email to the client.";
+            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client.";
             return mailResult;
         }
 
@@ -3301,7 +3301,7 @@ order by x.jobid
                 }
 
             }
-            mailResult = mailResult == "Success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again later. " ;
+            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again later. " ;
             return mailResult;
         }
 
@@ -3328,7 +3328,7 @@ order by x.jobid
             //client
             mailResult = mail.SendMail(reservationId, reservation.Email, "CLIENT-PAYMENT-SUCCESS", clientName, siteRedirect);
 
-            mailResult = mailResult == "Success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
+            mailResult = mailResult == "success" ? "Email is sent successfully." : "Our System cannot send the email to the client. Please try again.";
         }
 
         public void SendEmailAdmin(int jobId, string mailType)
