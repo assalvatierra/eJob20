@@ -352,6 +352,7 @@ rental-type-wdriver {
         border:1px solid lightgray; 
         box-shadow: 0px 0px 3px 1px lightgray; 
         border-radius:10px;
+        background-color:white;
     }
     .ads-desc-img-box{
         border-radius:10px;
@@ -372,6 +373,7 @@ rental-type-wdriver {
          min-width:300px;
          border:1px solid lightgray;
          box-shadow: 0px 0px 3px 1px lightgray;
+         background-color:white;
     }
     .ads-tech-details > hr{
          margin-top:10px;
@@ -387,6 +389,7 @@ rental-type-wdriver {
          min-width:300px;
          border:1px solid lightgray;
          box-shadow: 0px 0px 3px 1px lightgray;
+         background-color:white;
     }
     
     .ads-link > hr{
@@ -434,6 +437,7 @@ rental-type-wdriver {
         margin:5px;
         box-shadow: 0px 0px 3px 1px lightgray;
         border-radius:5px;
+        background-color:white;
     }
     
     .ads-listing-item{
@@ -443,6 +447,7 @@ rental-type-wdriver {
         box-shadow: 0px 0px 3px 1px lightgray;
         border-radius:10px;
         min-width:300px;
+        background-color:white;
     }
    
     .ads-listing-img{

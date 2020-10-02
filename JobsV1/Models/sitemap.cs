@@ -120,6 +120,27 @@ namespace JobsV1.Models
                     items.Add("realwheelsdavao.com/CarRental/pickup-rental");
                     items.Add("realwheelsdavao.com/CarRental/ToyotaTourer-for-rent");
 
+            //ads
+
+            items.Add("realwheelsdavao.com/ads/toyota-avanza-1-3e-at/");
+            items.Add("realwheelsdavao.com/ads/toyota-hiace-gl-grandia/");
+            items.Add("realwheelsdavao.com/ads/4x4-rental-suv-for-rent-davao/");
+            items.Add("realwheelsdavao.com/ads/rent-a-car-davao-city-self-drive/");
+            items.Add("realwheelsdavao.com/ads/rent-a-car-suv-for-rent-davao-city/");
+            items.Add("realwheelsdavao.com/ad-tag/rent-a-car-davao-city/");
+            items.Add("realwheelsdavao.com/ad-tag/car-rental-davao/");
+            items.Add("realwheelsdavao.com/ads/honda-city-automatic/");
+            items.Add("realwheelsdavao.com/ad-tag/davao-rent-a-car/");
+            items.Add("realwheelsdavao.com/ad-tag/van-for-rent-davao-city/");
+            items.Add("realwheelsdavao.com/ads/");
+            items.Add("realwheelsdavao.com/ad-category/others/");
+            items.Add("realwheelsdavao.com/ad-category/vans/");
+            items.Add("realwheelsdavao.com/ad-category/sedans/");
+            items.Add("realwheelsdavao.com/ads/innovacar-for-rent-davao-city/");
+            items.Add("realwheelsdavao.com/ads/page/2/");
+            items.Add("realwheelsdavao.com/ads/4x4-rental-pickup-for-rent-davao/");
+            items.Add("realwheelsdavao.com/ads/page/1/");
+
             return items;
 
         }

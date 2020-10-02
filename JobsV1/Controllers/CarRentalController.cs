@@ -449,12 +449,40 @@ namespace JobsV1.Controllers
             }
         }
 
+        [HttpPost]
+        public string Set_Reservation(int? id)
+        {
+            if (id != null)
+            {
+
+                Session["Reservation_UnitId"] = id;
+                return "Ok";
+            }
+
+            return "Error";
+        }
+
 
         // GET: CarRental/Reservation
         public ActionResult Reservation(int? id)
         {
             try
             {
+                var unitId = Session["Reservation_UnitId"] as int?;
+                if (unitId == null)
+                {
+                    unitId = 1;
+                }
+
+                if (id != null)
+                {
+                    Session["Reservation_UnitId"] = id;
+                    return RedirectToAction("Reservation");
+                }
+
+                //override id param
+                id = unitId;
+
                 var rsvType = 1;
                 DateTime today = DateTime.Now;
                 today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
@@ -595,6 +623,22 @@ namespace JobsV1.Controllers
         {
             try
             {
+                //UnitId Stored to session 
+                var unitId = Session["Reservation_UnitId"] as int?;
+                if (unitId == null)
+                {
+                    unitId = 1;
+                }
+
+                if (id != null)
+                {
+                    Session["Reservation_UnitId"] = id;
+                    return RedirectToAction("PriceQuote");
+                }
+
+                //override id param
+                id = unitId;
+
                 var rsvType = 2;
                 DateTime today = DateTime.Now;
                 today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");

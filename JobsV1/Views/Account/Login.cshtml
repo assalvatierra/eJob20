@@ -5,44 +5,63 @@
     ViewBag.NoIndex = "noindex";
 }
 <style>
-    /*body {
+    body {
         background-image: url("../../Images/AutoCare/background-login.png");
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: cover; /* Resize the background image to cover the entire container */
     }
-    */
+
 </style>
-        <section id="loginForm" style="width:45%;background-color:#dde0e8;color:black;min-width:360px">
+
+    <div class="login-panel">
+        <section id="loginForm" class="login-body">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
             <div class="row">
                 @Html.AntiForgeryToken()
-                   <h3 class="text-center"> Login </h3>
-                <hr />
-                <div class="col-lg-12">
+
+                <div class="col-lg-12 login-header">
+                    <h3 class="col-md-4 col-sm-4 col-xs-12">Login</h3>
+                    <div class="col-md-8 col-sm-8  col-xs-12">
+                        <div class="top-icons-holder">
+                            <span class="top-icons">
+                                <img src="~/Images/AutoCare/icons-gear.png" width="40" height="40" />
+                            </span>
+                            <span class="top-icons">
+                                <img src="~/Images/AutoCare/icons-wrench.png" width="40" height="40" />
+                            </span>
+                            <span class="top-icons">
+                                <img src="~/Images/AutoCare/icons-paint-sprayer.png" width="40" height="40" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 login-body-content">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
-                        <label class="col-md-2 control-label"> Email </label>
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
-                            <p>
-                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                            </p>
+                        <div class="input-group login-form">
+                            <span class="input-group-addon form-icon"> <img src="~/Images/AutoCare/icons-user.png" />  </span>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control login-form-input", @placeholder = "Email" })
+
                         </div>
+                        <p>
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </p>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-2 control-label"> Password </label>
-                        <div class="col-md-10">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                            <p>
-                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                            </p>
+                        <div class="input-group login-form">
+                            <span class="input-group-addon form-icon"> <img src="~/Images/AutoCare/icons-key.png" height="24" />  </span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control login-form-input", @placeholder = "Password" })
+
                         </div>
+                        <p>
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </p>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
+                        <div class="col-md-offset-2 col-md-12"  style="margin-left:20px;">
                             <div class="checkbox">
                                 @Html.CheckBoxFor(m => m.RememberMe)
                                 @Html.LabelFor(m => m.RememberMe, new {  @class="login-remember-text" })
@@ -50,7 +69,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
+                        <div class="col-md-offset-8 col-md-2">
                             <input type="submit" value="Log in" class="btn btn-primary" style="background-color:dodgerblue;" />
                         </div>
                     </div>
@@ -67,6 +86,7 @@
             </div>
             }
         </section>
+    </div>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }

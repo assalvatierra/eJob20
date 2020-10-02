@@ -2343,7 +2343,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login-autocare.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -2970,7 +2970,7 @@
     <Content Include="Views\Shared\_MonitorLayout.cshtml" />
     <Content Include="Views\RptGmsAuto\ReferralReport.cshtml" />
     <Content Include="Views\JobPostSales\Update.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login-default.cshtml" />
     <Content Include="Views\Account\Login-solidsteel.cshtml" />
     <Content Include="Views\JobPostSales\Index2.cshtml" />
     <Content Include="Views\Cashier\_EditPaymentStatus.cshtml" />
@@ -3011,6 +3011,7 @@
     <Content Include="Views\Shared\_ModuleLayout_NoMenu.cshtml" />
     <Content Include="Views\CarRental\Reservation.cshtml" />
     <Content Include="Views\CarRental\PriceQuote.cshtml" />
+    <Content Include="Views\CarRental\CarDetail_van_premium.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -45,7 +45,7 @@
 
             @if (@ViewBag.isAuthorize == 1)
             {
-                @Html.ActionLink("Cost Estimate and Reservation", "CarReserve", "CarRental", new { id = item.CarUnitId }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Cost Estimate and Reservation", "PriceQuote", "CarRental", new { id = item.CarUnitId }, new { @class = "btn btn-primary" })
             }
             @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = item.CarUnitId }, new { @class = "btn btn-primary" })
     </td></tr>

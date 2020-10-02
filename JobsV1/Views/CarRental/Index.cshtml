@@ -428,6 +428,8 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-xs-12 no-padding">
+                        @*  <button class="btn btn-primary" onclick="Request_Reservation('@item.Id')">Reserve this Unit</button>
+                            <button class="btn btn-default" onclick="Request_PriceQuote('@item.Id')">Request a Quote</button>*@
                         @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = item.Id }, new { @class = "btn btn-primary" })
                         @Html.ActionLink("Request a Quote", "PriceQuote", "CarRental", new { id = item.Id }, new { @class = "btn btn-default" })
                     </div>
@@ -489,7 +491,7 @@
     <div class="col-md-3">
         <div class="home-panel">
             <img src="~/Images/CarRental/Home/vehicle-type-pickup.jpg" class="home-vehicle-type-img" alt="Car-rental-vehicle-pickup" title="Car Rental Vehicle Pickup" />
-            <a href="~/carrental/pickup-rental" title="Show Pickup Details">
+            <a href="~/CarRental/pickup-rental" title="Show Pickup Details">
                 <span class="vehicle-types-title">Pickup for rent</span>
             </a>
             <ul>
@@ -535,6 +537,31 @@
                 contain: true
             });
         });
+
+        function Request_Reservation(unitId) {
+            $.post("/CarRental/Set_Reservation", { id : parseInt(unitId) }, (response) => {
+                console.log(response);
+                if (response == "Ok") {
+                    console.log("Response is ok. redirecting to reservation page")
+                    window.location.href = "/CarRental/Reservation";
+                } else {
+                    alert('Reservation is not available. Please try again later.');
+                }
+            });
+        }
+
+
+        function Request_PriceQuote(unitId) {
+            $.post("/CarRental/Set_Reservation", { id: parseInt(unitId) }, (response) => {
+                console.log(response);
+                if (response == "Ok") {
+                    console.log("Response is ok. redirecting to reservation page")
+                    window.location.href = "/CarRental/PriceQuote";
+                } else {
+                    alert('Price Quotation is not available. Please try again later.');
+                }
+            });
+        }
 
     </script>
 }
