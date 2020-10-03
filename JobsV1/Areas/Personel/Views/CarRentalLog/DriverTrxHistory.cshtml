@@ -1,0 +1,62 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogCashRelease>
+
+@{
+    ViewBag.Title = "Drivers Cash Transactions Histor";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2> @ViewBag.Driver Transactions History </h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var log in Model)
+    {
+    <tr>
+        <td>
+            @log.DtRelease
+        </td>
+        <td>
+            @log.crLogCashType.Description
+        </td>
+        <td>
+            @if (log.crLogCashStatus.OrderByDescending(c => c.dtStatus).FirstOrDefault() != null)
+            {
+                @log.crLogCashStatus.OrderByDescending(c => c.dtStatus).FirstOrDefault().crCashReqStatu.Status
+            }
+        </td>
+        <td>
+            @log.Amount
+        </td>
+        <td>
+            @log.Remarks
+        </td>
+        <td>
+            @Html.ActionLink("Trip Logs", "DriverTripList", "CarRentalCashRelease", new { id = log.Id }, null) |
+            @Html.ActionLink("Print", "PrintApproveForm", new { id = log.Id }, new { @target = "_blank" }) 
+        </td>
+    </tr>
+    }
+
+</table>
+
+<p>
+    @Html.ActionLink("Back to Drivers Summary", "DriverSummary", new { id = ViewBag.DriverId }) 
+</p>

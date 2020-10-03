@@ -502,6 +502,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
             ViewBag.reqStatus = reqStatus ?? 0;
             ViewBag.IsAdmin = User.IsInRole("Admin");
+
             return View(driversummary);
         }
 
@@ -637,6 +638,21 @@ namespace JobsV1.Areas.Personel.Controllers
             db.SaveChanges();
 
             return ctrx.Id;
+        }
+
+        public ActionResult DriverTrxHistory(int? id)
+        {
+            if (id != null)
+            {
+                var cashLogs = db.crLogCashReleases.Where(c=> c.crLogDriverId == id).ToList();
+                
+                ViewBag.DriverId = id;
+                ViewBag.Driver = db.crLogDrivers.Find(id).Name;
+
+                return View(cashLogs.OrderByDescending(c=>c.DtRelease));
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
 

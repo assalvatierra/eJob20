@@ -529,6 +529,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.tripLogErr = tripLogErr;
             ViewBag.DtRelease = cashRelease.DtRelease;
             ViewBag.Driver = cashRelease.crLogDriver.Name;
+            ViewBag.DriverId = cashRelease.crLogDriver.Id;
             ViewBag.Amount = cashRelease.Amount;
             ViewBag.Remarks = cashRelease.Remarks;
             return View(tripLogs);

@@ -61,13 +61,17 @@ namespace JobsV1.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            return View();
+
+            return RedirectToAction("About","CarRental",null);
+            //return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-            return View();
+
+            return RedirectToAction("Contact", "CarRental", null);
+            //return View();
         }
 
         public PartialViewResult MobileModalView()

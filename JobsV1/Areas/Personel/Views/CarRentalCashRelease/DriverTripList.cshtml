@@ -5,11 +5,13 @@
 
     decimal amount = (decimal)ViewBag.Amount;
     string tripLogErr = (string)ViewBag.tripLogErr;
+    decimal TotalAmount = 0;
 }
 
 <h2>Driver Trip List</h2>
 <p>
-    @Html.ActionLink("Back to Cash Transactions", "Index")
+    @Html.ActionLink("Back to Cash Transactions", "Index") |
+    @Html.ActionLink("Driver Summary", "DriveSummary", "CarRental", new { id = ViewBag.DriverId }, null) 
 </p>
 
 <h2> @ViewBag.Driver </h2>
@@ -29,6 +31,7 @@
 
     @foreach (var log in Model)
     {
+        TotalAmount += log.DriverFee;
         <tr>
             <td> @log.DtTrip.ToShortDateString() </td>
             <td> @log.crLogCompany.Name </td>
@@ -36,7 +39,16 @@
             <td> @log.Rate </td>
             <td> @log.DriverFee </td>
         </tr>
+
     }
+    <tr>
+        <td colspan="4">
+            <p class="pull-right"> Total </p>
+        </td>
+        <td>
+            @TotalAmount.ToString("N0")
+        </td>
+    </tr>
     @if(tripLogErr.Length > 0)
     {
         <tr>
