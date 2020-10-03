@@ -4,8 +4,9 @@
 
     ViewBag.Title = "Nissan Premium Van Rental Davao - RealWheelsDavao";
     ViewBag.Description = "Nissan Premium Van Rental Davao. For company use, travel and tours, VIP transfers and all types of occasion. Contact us for van rental inquiries and reservations.";
-
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
+
+    //Keyword : Van Premium Car Rental
 }
 
     @Styles.Render("~/Content/css/Site")
@@ -26,18 +27,18 @@
                 <h2>VAN</h2>
                 <article>
                     <p>
-                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">VAN</a> is the most popular vehicle transporting people for both company and family use. It can
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Van For Rent Davao">VAN</a> is the most popular vehicle transporting people for both company and family use. It can
                         comfortably accommodate 10-14 pax with enough luggage.
                         <br />
 
-                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">Nissan Urvan Premium</a> is another contender for van rentals (rent-a-car) due to its
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Affordable Van For Rent Davao">Nissan Urvan Premium</a> is another contender for van rentals (rent-a-car) due to its
                         capacity which accommodates up to 14 pax and still got extra room for luggages.
                         It's a highroof van that makes it even bigger and have extra head space that
                         makes the van more ventilated and refreshing compared to other regular vans.
 
                     <h2>VAN rental</h2>
                     <p>
-                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
+                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Van For Rent Davao">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
                         occasions and any kind of business trips. Short term and Long term van rental with special
                         arrangements, terms and rates are open for negotiation.
                     </p>
@@ -140,15 +141,15 @@
 
             <div class="col-lg-12 details-container dtls-gallery">
                 <h3 class="text-primary">Gallery</h3>
-                    <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2018.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2018.jpg" alt="nissan-premium-car-rental-davao" /></a>
-                    <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-front-seat.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-front-seat.jpg" alt="nissan-premium-car-rental-davao" /></a>
-                    <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back-seat.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back-seat.jpg" alt="nissan-premium-car-rental-davao" /></a>
-                    <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back.jpg" alt="nissan-premium-car-rental-davao" /></a>
+                    <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2018.jpg" target="_blank"  title="Nissan Premium For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2018.jpg" alt="nissan-premium-car-rental-davao" /></a>
+                    <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-front-seat.jpg" target="_blank" title="Nissan Premium Side For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-front-seat.jpg" alt="nissan-premium-car-rental-davao" /></a>
+                    <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back-seat.jpg" target="_blank" title="Nissan Premium Back Seat For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back-seat.jpg" alt="nissan-premium-car-rental-davao" /></a>
+                    <a href="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back.jpg" target="_blank" title="Nissan Premium Back For Rent"><img class="img-thumbnail" src="~/Images/CarRental/nissanPremium/Nissan-Premium-2019-back.jpg" alt="nissan-premium-car-rental-davao" /></a>
             </div>
 
             <div class="col-lg-12 details-container" style="display:none;">
                 <h3 class="text-primary text-center">Book Now! </h3>
-                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 2 }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
+                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 2 }, new { @class = "btn btn-primary col-lg-12 rsvr-btn", @title="Request Reservations" })
                 <p class="text-info text-center" style="font-size:12px;color:gray;">
                     Note: availability of the vehicle will depend on the date of reservation.
                 </p>
@@ -169,19 +170,19 @@
             </div>
 
             <div style="margin-bottom:15px;margin-top:10px;">
-                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list" })
-                @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list" })
+                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list", @title = "Request Reservations" })
+                @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list", @title = "Request Reservations" })
             </div>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 }, null)" class="list-group-item  details-container-list ">  Van (10 seater)         </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 }, null)" class="list-group-item  details-container-list active">  Van (14 seater)   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list">  SUV      </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list">  MPV      </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list">  Sedan    </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list">  Pickup   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (10 seater) </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list active" title="Van Details">  Van (14 seater)   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list" title="SUV Details">  SUV   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list" title="MPV Details">  MPV   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list" title="Sedan Details">  Sedan   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list" title="Pickup Details">  Pickup   </a>
         </div>
 
     </div>
 
 <p>
-    @Html.ActionLink("Back to Home", "Index")
+    @Html.ActionLink("Back to Home", "Index", null, new { @title="Back to Home" })
 </p>

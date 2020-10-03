@@ -5,6 +5,8 @@
     ViewBag.Description = "Davao Car Rental Details MPV/AUV Car Rental. Available for use within Davao City or Out of Town, " +
                 " Rental Tours, Business Meetings, Corporate Rental, Airport Pickup/DropOff, Family Use and more.";
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
+
+    //Keyword : MPV Car Rental
 }
 
 @Styles.Render("~/Content/css/Site")
@@ -52,7 +54,7 @@
                         driver would be a great way to enjoy the Innova.
                     </p>
                     <p>
-                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
+                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent" title="View Toyota Innova Details">Toyota innova</a>&nbsp;
                         is the best MPV/AUV vehicle in the Philippines. With the Innova, you are
                         provided with generous space while having the luxury of comfort. Toyota innova has enough luggage space
                         to accommodate your family's luggages and built tough to give you the right confidence while maintains
@@ -66,7 +68,7 @@
                         Rent-A-car
                     </h3>
                     <p>
-                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
+                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent"  title="View Toyota Innova Details">Toyota innova</a>&nbsp;
                         is a multipurpose, versatile vehicle and is one of the favorites in<a href="https://RealWheelsDavao.com"> car rental (rent-a-car) companies</a>
                         business. Rent-a-car companies like <a href="https://RealWheelsDavao.com">Real Wheels Davao</a> choose Toyota Innova due to
                         its reliabiliy, comfort and space that could serve well their guests.
@@ -75,7 +77,7 @@
                         Innova for Rent
                     </h3>
                     <p>
-                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent">Toyota innova</a>&nbsp;
+                        <a href="https://realwheelsdavao.com/CarRental/toyota-innova-for-rent"  title="View Toyota Innova Details">Toyota innova</a>&nbsp;
                         is offered for selfDrive and with driver option by the <a href="https://RealWheelsDavao.com"> car rental company</a>. SelfDrive
                         rental is limited within Davao City areas only. Adjacent cities are considered for long term rentals.
                         With driver option rental is offered in convenient and flexible options. Fuel and Driver's meals/accommodation
@@ -164,15 +166,15 @@
 
             <div class="col-lg-12 details-container dtls-gallery">
                 <span class="text-lg text-primary">Gallery</span>
-                <a href="~/Images/CarRental/innova/toyota-innova.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova.jpg" alt="toyota-innova-car-rental-davao" /></a>
-                <a href="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" alt="toyota-innova-car-rental-davao" /></a>
-                <a href="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" alt="toyota-innova-car-rental-davao" /></a>
-                <a href="~/Images/CarRental/innova/toyotainnova_interior.jpg" target="_blank"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyotainnova_interior.jpg" alt="toyota-innova-car-rental-davao" /></a>
+                <a href="~/Images/CarRental/innova/toyota-innova.jpg" target="_blank" title="toyota innova"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova.jpg" alt="toyota-innova-car-rental-davao" /></a>
+                <a href="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" target="_blank" title="toyota innova seat"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova-front-seat.jpg" alt="toyota-innova-car-rental-davao" /></a>
+                <a href="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" target="_blank" title="toyota back innova"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyota-innova-back-seat.jpg" alt="toyota-innova-car-rental-davao" /></a>
+                <a href="~/Images/CarRental/innova/toyotainnova_interior.jpg" target="_blank" title="toyota innova interior"><img class="img-thumbnail" src="~/Images/CarRental/innova/toyotainnova_interior.jpg" alt="toyota-innova-car-rental-davao" /></a>
             </div>
 
             <div class="col-lg-12 details-container" style="display:none;">
                 <span class="text-lg text-primary text-center">Book Now! </span>
-                @Html.ActionLink("Cost Estimate and Reservation", "PriceQuote", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
+                @Html.ActionLink("Cost Estimate and Reservation", "PriceQuote", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn", @title ="Cost Estimate Quotation" })
                 <p class="text-info text-center" style="font-size:12px;color:gray;">
                     Note: availability of the vehicle will depend on the date of reservation.
                 </p>
@@ -192,15 +194,15 @@
             </div>
 
             <div style="margin-bottom:15px;margin-top:10px;">
-                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "list-group-item details-container-list" })
-                @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "list-group-item details-container-list" })
+                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "list-group-item details-container-list", @title = "Reserve Toyota Innova" })
+                @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "list-group-item details-container-list", @title = "Request Quote for Toyota Innova" })
             </div>
-            <a href="@Url.Action("CarDetail", "CarRental",new { unitid = 1 },null)" class="list-group-item  details-container-list">  Van (10 seater)   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list">  Van (14 seater)   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list ">  SUV   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list active">  MPV   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list">  Sedan   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list">  Pickup   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (10 seater)   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (14 seater)   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list" title="SUV Details">  SUV   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list active" title="MPV Details">  MPV   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list" title="Sedan Details">  Sedan   </a>
+            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list" title="PIckup Details">  Pickup   </a>
         </div>
     </div>
 

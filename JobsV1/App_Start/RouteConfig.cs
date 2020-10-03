@@ -41,20 +41,6 @@ namespace JobsV1
                 namespaces: new[] { "JobsV1.Controllers" }
             );
 
-            routes.MapRoute(
-                name: "Home/About",
-                url: "Home/About",
-                defaults: new { controller = "CarRental", action = "About", id = UrlParameter.Optional },
-                namespaces: new[] { "JobsV1.Controllers" }
-            );
-
-            routes.MapRoute(
-                name: "Home/Contact",
-                url: "Home/Contact",
-                defaults: new { controller = "CarRental", action = "Contact", id = UrlParameter.Optional },
-                namespaces: new[] { "JobsV1.Controllers" }
-            );
-
 
             routes.MapRoute(
                 name: "page/2",

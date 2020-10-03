@@ -1,13 +1,31 @@
 ﻿
 @{
-    ViewBag.Title = "FAQ - RealWheels Davao";
+    ViewBag.Title = "Frequently Asked Questions - RealWheels Davao";
     ViewBag.Description =
-        @"Frequently Asked Questions in RealWheels Car Rental Davao";
+        @"Frequently Asked Questions in RealWheels Car Rental Davao. For Booking and Reservations email us at inquiries.realwheelsdavao.com. Book Now!";
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 }
-<div class="jumbotron">
-    <h2 style="font-size:50px;">FAQs</h2>
-    <h2 class="text-muted"> Frequently Asked Questions </h2>
+<style>
+    .img-bg-car {
+        background-image: url('/Images/CarRental/Home/Article/Article-car-sunset.jpg');
+        background-size: 100%;
+        color: white;
+        text-shadow: 1px 1px 1px black;
+        height: 230px;
+        margin-bottom: 20px;
+    }
+</style>
+<div class="jumbotron img-bg-car no-margin">
+    <h1 class="text-muted"> Frequently Asked Questions </h1>
+    <h2>
+        For inquiries and reservations, email us at
+        <a href="mailto:inquiries.realwheels@gmail.com" title="Request A Quote">
+            inquiries.realwheels@gmail.com
+        </a> or call us :
+        <a href="tel:+639954508517" title="Call Us Globe Mobile">
+            <strong>Globe:</strong> (+63) 995-450-8517
+        </a>
+    </h2>
 </div>
 
 <div class="panel panel-default">
@@ -18,7 +36,7 @@
             </a>
         </h3>
     </div>
-    <div class="panel-collapse collapse" id="FAQ1">
+    <div class="panel-collapse  in" id="FAQ1">
         <div class="panel-body">
             <p>
                 Another option for renting a vehicle is <em>Self-drive.</em> You will drive the vehicle yourself and have a
@@ -47,8 +65,13 @@
     <div class="panel-collapse collapse" id="FAQ2">
         <div class="panel-body">
             <p>
-               Yes, we accept bank transfer thru BDO / BPI or Paypal. 
+                Yes, we accept bank transfer thru BDO / BPI via Paypal.
             </p>
         </div>
     </div>
+</div>
+
+
+<div id="ContactUs">
+    @{Html.RenderPartial("Index_Footer");}
 </div>

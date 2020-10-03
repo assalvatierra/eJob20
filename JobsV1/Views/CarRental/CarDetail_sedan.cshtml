@@ -5,6 +5,8 @@
     ViewBag.Description = @"Cheap Davao Car Rental Sedan. For Family Use, 
                             business meetings or airport transfers within the Davao City.";
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
+
+    //Keyword : Sedan Car Rental
 }
 
 
@@ -142,7 +144,7 @@
 
         <div class="col-lg-12 details-container" style="display:none;">
             <span class="text-lg text-primary text-center">Book Now! </span>
-            @Html.ActionLink("Cost Estimate and Reservation", "PriceQuote", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn" })
+            @Html.ActionLink("Cost Estimate and Reservation", "PriceQuote", "CarRental", new { id = @ViewBag.Id }, new { @class = "btn btn-primary col-lg-12 rsvr-btn", @title = "Request Price Quotation" })
             <p class="text-info text-center" style="font-size:12px;color:gray;">
                 Note: availability of the vehicle will depend on the date of reservation.
             </p>
@@ -162,15 +164,15 @@
         </div>
 
         <div style="margin-bottom:15px;margin-top:10px;">
-            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list" })
-            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list" })
+            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list", @title="Request Reservation" })
+            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list", @title = "Request Quotation" })
         </div>
-        <a href="@Url.Action("CarDetail", "CarRental",new { unitid = 1 },null)" class="list-group-item  details-container-list">  Van (10 seater)   </a>
-        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list">  Van (14 seater)   </a>
-        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list">  SUV   </a>
-        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list">  MPV   </a>
-        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list active">  Sedan   </a>
-        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list">  Pickup   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (10 seater) </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (14 seater)   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list" title="SUV Details">  SUV   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list" title="MPV Details">  MPV   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list active" title="Sedan Details">  Sedan   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list" title="Pickup Details">  Pickup   </a>
     </div>
 </div>
 <div>

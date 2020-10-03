@@ -2171,6 +2171,7 @@
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Toyota-Grandia-Tourer.webp" />
     <Content Include="Areas\Personel\Views\CarRentalReport\VehicleExpenseLogsReport.cshtml" />
     <Content Include="Areas\Personel\Views\crRptUnitExpenses\_ItemVehicleExpenseFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\DriverTrxHistory.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

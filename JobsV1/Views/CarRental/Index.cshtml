@@ -4,6 +4,8 @@
 @{
     //title and description defined in controller
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
+
+    //Keyword : Davao car rental
 }
 
 
@@ -15,10 +17,10 @@
             Contact us for inquiries and reservation
         </p>
         <div class="col-md-12 no-padding no-margin">
-            @Html.ActionLink(" Request for Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-warning banner-btn-green " })
+            @Html.ActionLink(" Request for Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-warning banner-btn-green ", @title = "Click to Request for Quotation" })
             <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green" title="Price List Table"> Price List Table </a>
             <br />
-            @Html.ActionLink(" Online Reservation ", "Reservation", "CarRental", null, new { @class = "btn btn-warning banner-btn-green no-margin" })
+            @Html.ActionLink(" Online Reservation ", "Reservation", "CarRental", null, new { @class = "btn btn-warning banner-btn-green no-margin", @title = "Click to Reserve" })
 
         </div>
     </div>
@@ -70,7 +72,7 @@
                         <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width", @title = "Click to Reserve" })
                     </p>
 
                 </div>
@@ -99,7 +101,7 @@
                         <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width", @title = "Click to Reserve" })
                     </p>
                 </div>
             </div>
@@ -127,7 +129,7 @@
                         <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width", @title = "Click to Reserve" })
                     </p>
                 </div>
             </div>
@@ -155,7 +157,7 @@
                         <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width", @title = "Click to Reserve" })
                     </p>
                 </div>
             </div>
@@ -187,7 +189,7 @@
                     <p class="featured-item-box-p featured-item-desc-muted no-margin"> 5-7 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin"> With Driver  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width no-margin" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width no-margin", @title = "Click to Reserve" })
                     </p>
                 </div>
             </div>
@@ -213,7 +215,7 @@
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  10-14 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  With Driver  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width no-margin" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width no-margin", @title = "Click to Reserve" })
                     </p>
                 </div>
             </div>
@@ -239,7 +241,7 @@
                     <p class="featured-item-box-p featured-item-desc-muted no-margin"> 5-7 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin"> With Driver  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width no-margin" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width no-margin", @title = "Click to Reserve" })
                     </p>
                 </div>
             </div>
@@ -266,7 +268,7 @@
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  5 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  With Driver </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width no-margin" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width no-margin", @title ="Click to Reserve" })
                     </p>
                 </div>
             </div>
@@ -390,7 +392,7 @@
                 <div class="col-lg-12 carrental-car-details">
                     <h3 class="carrental-car-title">
 
-                        @Html.ActionLink(item.Description, "CarDetail", "CarRental", new { unitid = item.Id }, null)
+                        @Html.ActionLink(item.Description, "CarDetail", "CarRental", new { unitid = item.Id }, new { @title = "View Vehicle Details" })
                         @*@Html.DisplayFor(modelItem => item.Description)*@
                     </h3>
                     <p>
@@ -410,7 +412,7 @@
 
                         }
                         @metaShow
-                        @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = item.Id }, null)
+                        @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = item.Id }, new { @title = "View Vehicle Details" })
                     </p>
                     <div class="col-md-12 col-xs-12 no-padding">
                         <div class="col-md-6 col-xs-12 no-padding">
@@ -430,8 +432,8 @@
                     <div class="col-md-12 col-xs-12 no-padding">
                         @*  <button class="btn btn-primary" onclick="Request_Reservation('@item.Id')">Reserve this Unit</button>
                             <button class="btn btn-default" onclick="Request_PriceQuote('@item.Id')">Request a Quote</button>*@
-                        @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = item.Id }, new { @class = "btn btn-primary" })
-                        @Html.ActionLink("Request a Quote", "PriceQuote", "CarRental", new { id = item.Id }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = item.Id }, new { @class = "btn btn-primary", @title = "Click to Reserve" })
+                        @Html.ActionLink("Request a Quote", "PriceQuote", "CarRental", new { id = item.Id }, new { @class = "btn btn-default", @title = "Click to Request Quotation" })
                     </div>
                 </div>
             </div>
@@ -537,31 +539,5 @@
                 contain: true
             });
         });
-
-        function Request_Reservation(unitId) {
-            $.post("/CarRental/Set_Reservation", { id : parseInt(unitId) }, (response) => {
-                console.log(response);
-                if (response == "Ok") {
-                    console.log("Response is ok. redirecting to reservation page")
-                    window.location.href = "/CarRental/Reservation";
-                } else {
-                    alert('Reservation is not available. Please try again later.');
-                }
-            });
-        }
-
-
-        function Request_PriceQuote(unitId) {
-            $.post("/CarRental/Set_Reservation", { id: parseInt(unitId) }, (response) => {
-                console.log(response);
-                if (response == "Ok") {
-                    console.log("Response is ok. redirecting to reservation page")
-                    window.location.href = "/CarRental/PriceQuote";
-                } else {
-                    alert('Price Quotation is not available. Please try again later.');
-                }
-            });
-        }
-
     </script>
 }
