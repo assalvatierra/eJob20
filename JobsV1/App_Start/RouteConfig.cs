@@ -141,6 +141,70 @@ namespace JobsV1
             );
             #endregion
 
+            #region Services
+
+            /********************************
+            * Services
+            ********************************/
+
+            routes.MapRoute(
+                name: "Services/Airport-Hotel-Transfer",
+                url: "Services/Airport-Hotel-Transfer",
+                defaults: new { controller = "CarRental", action = "Services", service = "Airport-Hotel-Transfer" }
+            );
+
+            routes.MapRoute(
+                name: "Services/Business-Trip",
+                url: "Services/Business-Trip",
+                defaults: new { controller = "CarRental", action = "Services", service = "Business-Trip" }
+            );
+
+            routes.MapRoute(
+                name: "Services/City-Tour-Car-Rental",
+                url: "Services/City-Tour-Car-Rental",
+                defaults: new { controller = "CarRental", action = "Services", service = "City-Tour-Car-Rental" }
+            );
+
+            routes.MapRoute(
+                name: "Services/Corporate-Travel",
+                url: "Services/Corporate-Travel",
+                defaults: new { controller = "CarRental", action = "Services", service = "Corporate-Travel" }
+            );
+
+            routes.MapRoute(
+                name: "Services/Out-Of-Town-Trip",
+                url: "Services/Out-Of-Town-Trip",
+                defaults: new { controller = "CarRental", action = "Services", service = "Out-Of-Town-Trip" }
+            );
+
+            routes.MapRoute(
+                name: "Services/Self-Drive",
+                url: "Services/Self-Drive",
+                defaults: new { controller = "CarRental", action = "Services", service = "Self-Drive" }
+            );
+
+            routes.MapRoute(
+                name: "Services/Special-Occasion",
+                url: "Services/Special-Occasion",
+                defaults: new { controller = "CarRental", action = "Services", service = "Special-Occasion" }
+            );
+
+            routes.MapRoute(
+                name: "Services/Cargo-Delivery",
+                url: "Services/Cargo-Delivery",
+                defaults: new { controller = "CarRental", action = "Services", service = "Cargo-Delivery" }
+            );
+
+
+            routes.MapRoute(
+                name: "Services/Employee-Shuttle",
+                url: "Services/Employee-Shuttle",
+                defaults: new { controller = "CarRental", action = "Services", service = "Employee-Shuttle" }
+            );
+
+
+            #endregion
+
             /********************************
             * invoice
             ********************************/

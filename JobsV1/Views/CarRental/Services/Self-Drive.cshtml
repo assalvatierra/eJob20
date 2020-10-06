@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Self Drive - Car Rental Davao";
+    ViewBag.Description = "This service is driving the vehicle as your own. You can use it as a company vehicle or as personal use. ";
+    ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
+
+    //Keyword : City Tour Car Rental Davao
+}
+<style>
+    .img-bg-car {
+        background-image: url('/Images/CarRental/Home/Article/Article-car-beach.jpg');
+        background-size: 100%;
+        color: white;
+        text-shadow: 1px 1px 1px black;
+    }
+</style>
+
+<div class="jumbotron img-bg-car no-margin">
+    <h1> Self Drive - Car Rental Davao </h1>
+</div>
+
+<!-- Article Content -->
+<article class="service service-page-container">
+    <div class="container">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h3> Self Drive Rental </h3>
+            <hr />
+            <div class="col-md-12">
+                <p>
+                    This service is driving the vehicle as your own. You can use it as a company vehicle or as personal use. The absence of car rental driver
+                    gives you greater privacy while roaming around the city. Though the car rental company may have some limitations for this type of service.
+                </p>
+            </div>
+        </div>
+
+        <!-- Left : Related Articles -->
+        <div class="col-lg-4 col-md-2 mx-auto" style="margin:100px auto">
+            <h4> Services </h4>
+            <ul>
+                <li>
+                    <a href="/Services/Airport-Hotel-Transfer"> Airport Hotel Transfer </a>
+                </li>
+                <li>
+                    <a href="/Services/Business-Trip"> Business Trip </a>
+                </li>
+                <li>
+                    <a href="/Services/City-Tour-Car-Rental"> City Tour Car Rental </a>
+                </li>
+                <li>
+                    <a href="/Services/Corporate-Travel"> Corporate Travel </a>
+                </li>
+                <li>
+                    <a href="/Services/Self-Drive"> Self Drive </a>
+                </li>
+                <li>
+                    <a href="/Services/Special Occasion"> Special Ocassion </a>
+                </li>
+                <li>
+                    <a href="/Services/Cargo-Delivery"> Cargo Delivery </a>
+                </li>
+                <li>
+                    <a href="/Services/Shuttle-Service"> Shuttle Service </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</article>
+<hr />
+
+
+<div id="ContactUs">
+    @{Html.RenderPartial("Index_Footer");}
+</div>

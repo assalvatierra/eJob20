@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "City Tour Package - Car Rental Davao";
+    ViewBag.Description = "City Tour Car Rental Davao.  This service is multi-point destinations with 10 hours use of the vehicle.";
+    ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
+
+    //Keyword : City Tour Car Rental Davao
+}
+<style>
+    .img-bg-car {
+        background-image: url('/Images/CarRental/Home/Article/Article-car-beach.jpg');
+    }
+</style>
+
+<div class="jumbotron img-bg-car no-margin">
+    <h1> City Tour - Car Rental Davao </h1>
+</div>
+
+<!-- Article Content -->
+<article class="service service-page-container">
+    <div class="container">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h3 class="service-page-title"> Davao City Tour Car Rental Package </h3>
+            <hr />
+
+            <div class="col-md-12">
+                <p>
+                    This service is multi-point destinations with 10 hours use of the vehicle. The package usually includes driver's fee and fuel cost. Car rental
+                    package is either based on the client's itinerary or the common tour itinerary that includes top tourist destinations in Davao. So if  you're not
+                    sure where to go, taking this package will put things in place. Real Wheels Car Rental is ready to provide a quality transportation for family
+                    and group tours. They offer the top car rental tour packages: Davao City Tour, Davao country-side tour, samal tour, Buda Tour, Mati Tour,
+                    Surigao tour and more.
+                </p>
+            </div>
+        </div>
+
+        <!-- Left : Related Articles -->
+        <div class="col-lg-4 col-md-2 mx-auto" style="margin:100px auto">
+            <h4> Services </h4>
+            <ul>
+                <li>
+                    <a href="/Services/Airport-Hotel-Transfer"> Airport Hotel Transfer </a>
+                </li>
+                <li>
+                    <a href="/Services/Business-Trip"> Business Trip </a>
+                </li>
+                <li>
+                    <a href="/Services/City-Tour-Car-Rental"> City Tour Car Rental </a>
+                </li>
+                <li>
+                    <a href="/Services/Corporate-Travel"> Corporate Travel </a>
+                </li>
+                <li>
+                    <a href="/Services/Self-Drive"> Self Drive </a>
+                </li>
+                <li>
+                    <a href="/Services/Special Occasion"> Special Ocassion </a>
+                </li>
+                <li>
+                    <a href="/Services/Cargo-Delivery"> Cargo Delivery </a>
+                </li>
+                <li>
+                    <a href="/Services/Employee-Shuttle"> Employee-Shuttle </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</article>
+<hr />
+
+
+<div id="ContactUs">
+    @{Html.RenderPartial("Index_Footer");}
+</div>

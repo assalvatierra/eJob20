@@ -1006,7 +1006,6 @@ namespace JobsV1.Controllers
             }
         }
 
-
         public ActionResult ArticleView(string article)
         {
             switch (article)
@@ -1026,10 +1025,35 @@ namespace JobsV1.Controllers
             }
         }
 
+        public ActionResult Services(string service)
+        {
+            switch (service)
+            {
+                case "Airport-Hotel-Transfer":
+                    return View("~/Views/CarRental/Services/Airport-Hotel-Transfer.cshtml");
+                case "City-Tour-Car-Rental":
+                    return View("~/Views/CarRental/Services/City-Tour-Car-Rental.cshtml");
+                case "Corporate-Travel":
+                    return View("~/Views/CarRental/Services/Corporate-Travel.cshtml");
+                case "Business-Trip":
+                    return View("~/Views/CarRental/Services/Business-Trip.cshtml");
+                case "Out-Of-Town-Trip":
+                    return View("~/Views/CarRental/Services/Out-Of-Town-Trip.cshtml");
+                case "Self-Drive":
+                    return View("~/Views/CarRental/Services/Self-Drive.cshtml");
+                case "Special-Occasion":
+                    return View("~/Views/CarRental/Services/Special-Occasion.cshtml");
+                case "Cargo-Delivery":
+                    return View("~/Views/CarRental/Services/Cargo-Delivery.cshtml");
+                case "Employee-Shuttle":
+                    return View("~/Views/CarRental/Services/Employee-Shuttle.cshtml");
+                default:
+                    return View("~/Views/CarRental/Services/Airport-Hotel-Transfer.cshtml");
+            }
+        }
 
         public PartialViewResult Articles()
         {
-
             return PartialView("Articles");
         }
 

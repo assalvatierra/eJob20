@@ -56,7 +56,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand" id="navbar-title" name="RealWheels-Home">@ViewBag.NavBarTitle</a>
+                <a href="/" class="navbar-brand" id="navbar-title" name="RealWheels-Home" title="RealwheelsDavao.com">@ViewBag.NavBarTitle</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -66,8 +66,8 @@
                         <li>@Html.ActionLink("Control Panel", "Index", "Home")</li>
 
                     }
-                    <li>@Html.ActionLink("About", "About")</li>
-                    <li>@Html.ActionLink("Contact", "Contact")</li>
+                    <li>@Html.ActionLink("About", "About", null, new { @title="About Us" })</li>
+                    <li>@Html.ActionLink("Contact", "Contact", null, new { @title = "Contact Us" })</li>
 
                 </ul>
                 @*@Html.Partial("_LoginPartial")*@

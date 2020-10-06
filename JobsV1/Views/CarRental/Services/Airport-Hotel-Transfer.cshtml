@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Corporate travels - Car Rental Davao";
+    ViewBag.Description = "Corporate travels Car Rental Davao. his includes vip transfers, meetings, events, conventions and other corporate related trips.";
+    ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
+
+    //Keyword : Airport Hotel Transfer Davao
+}
+<style>
+    .img-bg-car {
+        background-image: url('/Images/CarRental/Home/Article/Article-car-beach.jpg');
+    }
+
+</style>
+
+<div class="jumbotron img-bg-car no-margin">
+    <h1> Corporate Travel Car Rental Davao </h1>
+</div>
+
+<!-- Article Content -->
+<article class="service service-page-container" >
+    <div class="container">
+        <div class="col-lg-8 col-md-10 mx-auto service-page-desc">
+            <h2 class="service-page-title"> Corporate Travel </h2>
+            <hr />
+
+            <div class="col-md-12">
+                <p class="service-page-desc">
+                    This service is for the wide variety of corporate travel needs. This includes vip transfers, meetings, events, conventions and other corporate
+                    related trips. Real Wheels car rental in Davao is a trusted travel partner which aims to properly represent your company and align with your
+                    company’s missions and goals. We offer special rates for companies for long term car rentals and partnerships with flexible terms and conditions.
+                </p>
+            </div>
+        </div>
+
+        <!-- Left : Related Articles -->
+        <div class="col-lg-4 col-md-2 mx-auto" style="margin:100px auto">
+            <h4> Services </h4>
+            <ul>
+                <li>
+                    <a href="/Services/Airport-Hotel-Transfer"> Airport Hotel Transfer </a>
+                </li>
+                <li>
+                    <a href="/Services/Business-Trip"> Business Trip </a>
+                </li>
+                <li>
+                    <a href="/Services/City-Tour-Car-Rental"> City Tour Car Rental </a>
+                </li>
+                <li>
+                    <a href="/Services/Corporate-Travel"> Corporate Travel </a>
+                </li>
+                <li>
+                    <a href="/Services/Self-Drive"> Self Drive </a>
+                </li>
+                <li>
+                    <a href="/Services/Special Occasion"> Special Ocassion </a>
+                </li>
+                <li>
+                    <a href="/Services/Cargo-Delivery"> Cargo Delivery </a>
+                </li>
+                <li>
+                    <a href="/Services/Employee-Shuttle">Employee-Shuttle </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</article>
+<hr />
+
+
+<div id="ContactUs">
+    @{Html.RenderPartial("Index_Footer");}
+</div>

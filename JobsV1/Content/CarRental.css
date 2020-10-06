@@ -933,6 +933,32 @@
     line-height:1.7;
 }
 
+/* Services Page */
+.img-bg-car {
+    background-image: url('/Images/CarRental/Home/Article/Article-car-beach.jpg');
+    background-size: 100%;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+}
+
+.service-page-container {
+    background-color: white;
+    padding: 20px 0px 50px 0px;
+}
+
+.img-bg-car h1 {
+    font-size: 38px;
+}
+
+.service-page-title {
+    margin-left: 15px;
+}
+
+.service-page-desc {
+    line-height: 30px;
+    font-size:18px;
+}
+
 
 /* Generic Page Container */
 .page-container {

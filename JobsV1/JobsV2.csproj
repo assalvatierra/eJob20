@@ -1545,6 +1545,9 @@
     <Content Include="Images\CarRental\Home\Car-Rental-Service-Business-Travel.jpg" />
     <Content Include="Images\CarRental\Home\Car-Rental-Service-For-Hire.jpg" />
     <Content Include="Images\CarRental\Home\Car-Rental-Service-Out-Of-Town.jpg" />
+    <Content Include="Images\CarRental\Home\email-bw.JPG" />
+    <Content Include="Images\CarRental\Home\email-md-w.JPG" />
+    <Content Include="Images\CarRental\Home\email-sm-w.JPG" />
     <Content Include="Images\CarRental\Home\icon-mpv.png" />
     <Content Include="Images\CarRental\Home\icon-pickup.png" />
     <Content Include="Images\CarRental\Home\icon-sedan.png" />
@@ -3013,6 +3016,15 @@
     <Content Include="Views\CarRental\Reservation.cshtml" />
     <Content Include="Views\CarRental\PriceQuote.cshtml" />
     <Content Include="Views\CarRental\CarDetail_van_premium.cshtml" />
+    <Content Include="Views\CarRental\Services\Airport-Hotel-Transfer.cshtml" />
+    <Content Include="Views\CarRental\Services\City-Tour-Car-Rental.cshtml" />
+    <Content Include="Views\CarRental\Services\Corporate-Travel.cshtml" />
+    <Content Include="Views\CarRental\Services\Business-Trip.cshtml" />
+    <Content Include="Views\CarRental\Services\Out-Of-Town-Trip.cshtml" />
+    <Content Include="Views\CarRental\Services\Self-Drive.cshtml" />
+    <Content Include="Views\CarRental\Services\Special-Occasion.cshtml" />
+    <Content Include="Views\CarRental\Services\Cargo-Delivery.cshtml" />
+    <Content Include="Views\CarRental\Services\Employee-Shuttle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

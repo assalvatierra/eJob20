@@ -50,7 +50,7 @@
         </td>
         <td>
             @Html.ActionLink("Trip Logs", "DriverTripList", "CarRentalCashRelease", new { id = log.Id }, null) |
-            @Html.ActionLink("Print", "PrintApproveForm", new { id = log.Id }, new { @target = "_blank" }) 
+            @Html.ActionLink("Print", "PrintApproveForm", "CarRentalCashRelease", new { id = log.Id }, new { @target = "_blank" }) 
         </td>
     </tr>
     }
