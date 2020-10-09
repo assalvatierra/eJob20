@@ -387,14 +387,21 @@
     @foreach (var item in Model)
     {
         <div class="col-md-4 no-padding" id="CarUnit-@item.Id">
-            <div class="car-container-details"  itemprop="itemListElement" itemscope itemtype ="http://schema.org/Product">
+            <div class="car-container-details" itemprop="itemListElement"  itemscope itemtype="http://schema.org/Product">
                 <img itemprop="image" src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
                 <div class="col-lg-12 carrental-car-details">
                     <h3 class="carrental-car-title" itemprop="name">
-
                         @Html.ActionLink(item.Description, "CarDetail", "CarRental", new { unitid = item.Id }, new { @title = "View Vehicle Details" })
-                        @*@Html.DisplayFor(modelItem => item.Description)*@
                     </h3>
+                    <meta itemprop="description" content="@item.Description" />
+                    <meta itemprop="name" content="@item.Description" />
+                    <span class="hidden" itemprop="position"> @item.Id </span>
+                    @*<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                        <meta content="90" itemprop="ratingValue" />
+                        <meta content="50" itemprop="reviewCount" />
+                        <meta content="100" itemprop="bestRating" />
+                        <meta content="0" itemprop="worstRating" />
+                    </div>*@
                     <p>
                         <b>@Html.DisplayFor(modelItem => item.Remarks)</b> -
                         @{
@@ -415,20 +422,26 @@
                         @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = item.Id }, new { @title = "View Vehicle Details" })
                     </p>
                     <div class="col-md-12 col-xs-12 no-padding">
-                        <div class="col-md-6 col-xs-12 no-padding">
+                        <div class="col-md-6 col-xs-12 no-padding" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
                             <p class="text-muted carrental-car-price-desc">Price Starts at </p>
-                            <p class="carrental-car-price" itemprop="offers">
+                            <p class="carrental-car-price">
                                 @if (item.CarRates.FirstOrDefault() != null)
                                 {
-                                    <span itemprop="price"> 
+                                    <span itemprop="price">
                                         @item.CarRates.FirstOrDefault().Daily.ToString("#,##0.00")
                                     </span>
+                                    <meta itemprop="priceCurrency" content="Php" />
+                                    <meta itemprop="brand" content="@item.Description" />
+                                    <meta itemprop="priceValidUntil" content="12/30/2021" />
+                                    <link itemprop="url" href="https://realwheelsdavao.com/CarRental/Reservation" content="https://realwheelsdavao.com/CarRental/Reservation" />
+                                    <link itemprop="availability" href="https://realwheelsdavao.com/CarRental/Reservation" />
+
                                 }
                             </p>
                         </div>
                         <div class="col-md-6 col-xs-12 no-padding">
-                            <p class="text-muted carrental-car-price-desc" itemprop="offers"> <img src="~/Images/CarRental/Driver102.png" width="15" alt="vehicle for rent with driver" /> &nbsp; With Driver </p>
-                            <p class="text-muted carrental-car-price-desc" itemprop="offers"> <img src="~/Images/CarRental/icon-gas.png" width="15" alt="vehicle for rent renters fuel" />  &nbsp; Renters Fuel </p>
+                            <p class="text-muted carrental-car-price-desc"> <img src="~/Images/CarRental/Driver102.png" width="15" alt="vehicle for rent with driver" /> &nbsp; With Driver </p>
+                            <p class="text-muted carrental-car-price-desc"> <img src="~/Images/CarRental/icon-gas.png" width="15" alt="vehicle for rent renters fuel" />  &nbsp; Renters Fuel </p>
                         </div>
                     </div>
                     <div class="col-md-12 col-xs-12 no-padding">

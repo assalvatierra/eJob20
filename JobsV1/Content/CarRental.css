@@ -959,6 +959,19 @@
     font-size:18px;
 }
 
+.service-img {
+    padding: 20px;
+}
+
+
+.service-vehicle-img {
+    height: 200px;
+    width: 100%;
+}
+
+
+
+
 
 /* Generic Page Container */
 .page-container {
@@ -1006,6 +1019,7 @@
 .container-desc p{
     font-size: 16px;
 }
+
 
 @media screen and ( min-width: 768px ) {
     .carousel-cell {

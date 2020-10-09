@@ -1542,6 +1542,13 @@
     <Content Include="Images\CarRental\Home\Article\Article-Seating-Capacity.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-SUV-rental-Davao.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Why-Visit-Davao.jpg" />
+    <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-service.png" />
+    <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-tracking.png" />
+    <Content Include="Images\CarRental\Home\Article\CargoDelivery\door-to-door-delivery.png" />
+    <Content Include="Images\CarRental\Home\Article\CargoDelivery\exclusive-cargo-delivery.png" />
+    <Content Include="Images\CarRental\Home\Article\CargoDelivery\logistics-service.png" />
+    <Content Include="Images\CarRental\Home\Article\CargoDelivery\mindanao-cargo-delivery.png" />
+    <Content Include="Images\CarRental\Home\Article\CargoDelivery\schedule-delivery.png" />
     <Content Include="Images\CarRental\Home\Car-Rental-Service-Business-Travel.jpg" />
     <Content Include="Images\CarRental\Home\Car-Rental-Service-For-Hire.jpg" />
     <Content Include="Images\CarRental\Home\Car-Rental-Service-Out-Of-Town.jpg" />

@@ -7,58 +7,156 @@
             <span class="pull-left">
                 <a href="#Fleet" class="banner-default-header scroll-text" title="Booking and Reservations"> Booking and Reservation</a>
             </span>
-            <!-- Add Links Below--> 
+            <!-- Add Links Below-->
         </div>
     </div>
 </div>
 
-<div id="Booking" class="container-desc" itemscope itemtype="https://schema.org/HowTo">
-    <h2 class="text-center" style="font-weight:600;" itemprop="name">
-        How To Book Car Rental?
-    </h2>
-    @*<h3>The Process: </h3>*@
-    <img src="~/Images/CarRental/Home/booking-process.png"  class="hidden-on-mobile" style="width:100%;" 
-         alt="Car Rental Booking Process" /> 
-    <div class="show-on-mobile-only">
-        <meta itemprop="position" content="1" />
-        <ol>
-            <li itemprop="text"> Connect with customer representative </li>
-            <li itemprop="text"> Discuss needed vehicle and availability </li>
-            <li itemprop="text"> Submit required information and documents  </li>
-            <li itemprop="text"> Receive your booking confirmation.</li>
-        </ol>
+    <div itemscope itemtype="https://schema.org/HowTo" class="hidden">
+        <meta itemprop="name" content="How To Book A Car Rental Vehicle" />
+        <div itemprop="step" itemscope itemtype="https://schema.org/HowToSection">
+            <meta itemprop="name" content="How To Book A Car Rental Vehicle" />
+            <meta itemprop="position" content="1" />
+
+            <div itemscope itemtype="https://schema.org/HowToStep">
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToStep">
+                    <meta itemprop="name" content="Connect with customer representative" />
+                    <meta itemprop="position" content="1" />
+
+                    <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                        <meta itemprop="position" content="1" />
+                        <div itemprop="text">The process starts when you connect, via call or sms,  to our customer representative to check your needed vehicle and availability of the desired unit.</div>
+                    </div>
+                    <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                        <meta itemprop="position" content="2" />
+                        <div itemprop="text"> Call us at Globe: +63 995-450-8517 or Smart: +63 929-211-3987.</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div itemscope itemtype="https://schema.org/HowToStep">
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToStep">
+                    <meta itemprop="name" content="Discuss needed vehicle and availability" />
+                    <meta itemprop="position" content="2" />
+
+                    <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                        <meta itemprop="position" content="1" />
+                        <div itemprop="text">Make a reservation by providing the following needed information: <b>Rental Date, Personal details, Destinations and desired vehicle.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
+
+
+<div id="Booking" class="container-desc" itemscope itemtype="https://schema.org/HowTo">
+    <meta itemprop="name" content="How To Book Car Rental?" />
+    <meta itemprop="totalTime" content="PT10M" />
+    <meta itemprop="tool" content="Phone / Computer" />
+    <meta itemprop="supply" content="none" />
+    <meta itemprop="description" content="Steps on Booking Car Rental" />
+
+
+    <div itemprop="step" itemscope itemtype="https://schema.org/HowToSection">
+        <h2 class="text-center" style="font-weight:600;" itemprop="name">
+            How To Book Car Rental?
+        </h2>
+        <meta itemprop="supply" content="0" />
+        <meta itemprop="position" content="1" />
+        <img src="~/Images/CarRental/Home/booking-process.png" class="hidden-on-mobile" style="width:100%;"
+             alt="Car Rental Booking Process" />
+
+        <div class="show-on-mobile-only">
+            <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToStep">
+                <meta itemprop="name" content="Car Rental Booking Process" />
+                <meta itemprop="position" content="1" />
+                <meta itemprop="url" content="https://realwheelsdavao.com/#Booking" />
+                <meta itemprop="image" content="https://realwheelsdavao.com/Images/CarRental/Home/Car-Rental-Service-Business-Travel.jpg" />
+
+
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="1" />
+                    <div itemprop="text"> Connect with customer representative</div>
+                </div>
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="2" />
+                    <div itemprop="text"> Discuss needed vehicle and availability </div>
+                </div>
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="3" />
+                    <div itemprop="text"> Submit required information and documents  </div>
+                </div>
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="4" />
+                    <div itemprop="text"> Receive your booking confirmation.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Another How to -->
     <div style="margin: 25px;">
         <p style="font-size:20px;">We support the following option to make reservations (1) Phone (2) Chat (3) Web</p>
     </div>
     <!-- Thru phone -->
     <div class="home-booking-option-container" itemprop="step" itemscope itemtype="https://schema.org/HowToSection">
-        <h3 itemprop="name"> 1.) Phone</h3>
+        <meta itemprop="name" content="Booking through call or text" />
         <meta itemprop="position" content="2" />
+        <h3> 1.) Phone</h3>
         <p>
-            <meta itemprop="position" content="1" />
             <a itemprop="text" href="tel:+639954508517" title="Globe Mobile Number" class="call-button-link btn btn-default">
-                <img src="~/Images/Icons/icon-call-blk.png" loading="lazy" width="20" alt="call us" />
+                <img itemprop="image" src="~/Images/Icons/icon-call-blk.png" loading="lazy" width="20" alt="call us" />
                 Globe: +63 995-450-8517
             </a>
-            <meta itemprop="position" content="1" />
             <a href="tel:+639292113987" title="Smart Mobile Number" class="call-button-link btn btn-default">
                 <img src="~/Images/Icons/icon-call-blk.png" loading="lazy" width="20" alt="call us" />
                 Smart: +63 929-211-3987
             </a>
-
         </p>
-        <meta itemprop="position" content="1" />
         <p>
             Reservations and booking is directly done through a customer representative who gets important information through a call or text.
         </p>
-        <meta itemprop="position" content="1" />
-        <ol itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
-            <li itemprop="text">  The process starts when you connect, via call or sms,  to our customer representative to check your needed vehicle and availability of the desired unit.</li>
-            <li itemprop="text">  Make a reservation by providing the following  needed information: <b>Rental Date, Personal details, Destinations and desired vehicle.</b></li>
-            <li itemprop="text">  Once all information is captured, the internal process will start by encoding the data to our internal system, approval, assignment of unit, assignment of driver (if necessary).</li>
-            <li itemprop="text">  Clients and drivers will receive notification for the confirmation of the car rental booking.</li>
-        </ol>
+        <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToStep">
+            <meta itemprop="name" content="Booking through call or text" />
+            <meta itemprop="position" content="1" />
+            <div class="hidden">
+
+                <div class="hidden" itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="1" />
+                    <div itemprop="text">Call us at Globe: +63 995-450-8517 or Smart: +63 929-211-3987</div>
+                </div>
+
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="2" />
+                    <div itemprop="text">The process starts when you connect, via call or sms,  to our customer representative to check your needed vehicle and availability of the desired unit.</div>
+                </div>
+
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="2" />
+                    <div itemprop="text">Make a reservation by providing the following needed information: <b>Rental Date, Personal details, Destinations and desired vehicle.</b></div>
+                </div>
+
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="3" />
+                    <div itemprop="text">Once all information is captured, the internal process will start by encoding the data to our internal system, approval, assignment of unit, assignment of driver (if necessary).</div>
+                </div>
+
+                <div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToDirection">
+                    <meta itemprop="position" content="4" />
+                    <div itemprop="text">Clients and drivers will receive notification for the confirmation of the car rental booking.</div>
+                </div>
+            </div>
+
+            <ol>
+                <li>  The process starts when you connect, via call or sms,  to our customer representative to check your needed vehicle and availability of the desired unit.</li>
+                <li>  Make a reservation by providing the following  needed information: <b>Rental Date, Personal details, Destinations and desired vehicle.</b></li>
+                <li>  Once all information is captured, the internal process will start by encoding the data to our internal system, approval, assignment of unit, assignment of driver (if necessary).</li>
+                <li>  Clients and drivers will receive notification for the confirmation of the car rental booking.</li>
+            </ol>
+        </div>
     </div>
 
     <!-- Thru Chat IM-->
@@ -75,7 +173,7 @@
                 <img src="~/Images/Icons/viber-original.png" width="20" loading="lazy" alt="call viber link" />
                 Viber
             </a>
-            <a href="https://wa.me/639954508517"  title="WhatsApp Link" class="btn btn-default call-button-link">
+            <a href="https://wa.me/639954508517" title="WhatsApp Link" class="btn btn-default call-button-link">
                 <img src="~/Images/Icons/whatsapp-original.png" width="20" loading="lazy" alt="call whatsapp link" />
                 WhatsApp
             </a>
@@ -93,21 +191,20 @@
 
     <!-- Thru Reservation Link-->
     <div class="home-booking-option-container">
-         <h3>
+        <h3>
             3.) Online
-         </h3>
-         <p>
-             Reservations can be done through online.
-         </p>
+        </h3>
+        <p>
+            Reservations can be done through online.
+        </p>
         <ol>
             <li> Process starts by following the link : <a href="/CarRental/Reservation" title="Reservation request" class="btn btn-default call-button-link"> Click here to reserve. </a> </li>
-            <li> When the page shows up, select the desired vehicle to rent, number of people boarding the vehicle and duration (in days) of rent.</b></li>
+            <li> When the page shows up, select the desired vehicle to rent, number of people boarding the vehicle and duration (in days) of rent.</li>
             <li> Submit your entries to start processing your request.</li>
             <li> Once the needed information is complete, the management will approve and reservation officer will confirm and send your booking confirmation by email or sms.</li>
         </ol>
     </div>
 </div>
-
 
 <div id="Quotation" class="container-desc" style="padding: 0px 30px;">
     <h2 class="text-center" style="font-weight:600;">
@@ -116,7 +213,6 @@
     <p style="margin:20px;">
         We give special rates for corporate use and long term rentals. Feel free to send your request and we are willing to discuss how we may be able to provide and support your business goals.
     </p>
-
     <div class="col-md-12 more-links-section">
         <a href="/CarRental/PriceQuote" title="Facebook Link" class="btn btn-default"><h3 style="margin:10px;"> Request a Quote </h3> </a>
     </div>
