@@ -1043,7 +1043,7 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/Services/Self-Drive.cshtml");
                 case "Special-Occasion":
                     return View("~/Views/CarRental/Services/Special-Occasion.cshtml");
-                case "Cargo-Delivery":
+                case "cargo-delivery-services":
                     return View("~/Views/CarRental/Services/Cargo-Delivery.cshtml");
                 case "Employee-Shuttle":
                     return View("~/Views/CarRental/Services/Employee-Shuttle.cshtml");

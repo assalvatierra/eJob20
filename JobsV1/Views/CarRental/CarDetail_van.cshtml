@@ -1,185 +1,221 @@
 ﻿@model JobsV1.Models.CarUnit
 
 @{
-    ViewBag.Title = "Davao Van Rental Van Details - RealWheelsDavao";
-    ViewBag.Description = "Van Rental Davao. For company use, travel and tours, VIP transfers and all types of occasion. Contact us for van rental inquiries and reservations.";
-    
+    ViewBag.Title = "Toyota Grandia Van For Rent Davao";
+    ViewBag.Description = "Toyota Grandia Van For Rent Davao. For company use, travel and tours, VIP transfers and all types of occasion. Contact us for van rental inquiries and reservations.";
+
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 }
 
 
-    <div class="container details-article-container">
-        <div class="col-lg-12 col-xs-12">
-            <div class="col-lg-8 col-xs-12 details-title">
-                <h1> Van Rental (10-14 Seater) </h1>
-            </div>
+<div class="container details-article-container">
+    <div class="col-lg-12 col-xs-12">
+        <div class="col-lg-8 col-xs-12 details-title">
+            <h1> Van Rental (10-14 Seater) </h1>
         </div>
-
-        <div class="col-lg-8 col-xs-12">
-           @* <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Frealwheelsdavao.com%2FCarRental%2Fvan-for-rent&layout=button_count&size=large&mobile_iframe=true&width=85&height=28&appId" width="120" height="28" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>*@
-            <div class="col-lg-12 details-container">
-
-                <img src="~/Images/CarRental/glgrandia/Toyota-Grandia-side.jpg" class="center-block img-responsive details-img" alt="glgrandia-car-rental-davao" />
-               
-                <h2>VAN</h2>
-                <article>
-                    <p>
-                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Van for rent davao">VAN</a> is the most popular vehicle transporting people for both company and family use. It can
-                        comfortably accommodate 10-14 pax with enough luggage.
-                        <br />
-
-                        <h2>Rent-A-Car</h2>
-                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Van for rent davao">VAN</a> is top choice for rent-a-car business for conventions, city tours and all types of
-                        occasions. Top models use by rent-a-car companies are:
-
-                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="GL Grandia Van for rent davao">Toyota GL Grandia</a> is a 10-12 seater van and as of this time, top choice due to
-                        its known reliability and toughness. This model is the all-time favorite in
-                        rent-a-car business because it can accommodate most of the client needs.
-
-                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Toyota Super Grandia Van for rent davao">Toyota Super Grandia</a> is a 10 seater executive van that built for comfort. You
-                        expect 2 captain seats and other well padded leather seats at the back. Commonly
-                        used to VIP and hire profile guests of rent-a-car company.
-
-                        <a href="https://RealWheelsDavao.com/CarRental/ToyotaTourer-for-rent" title="Toyota Tourer Van for rent davao">Toyota GL Grandia Tourer 2020</a> is 14 seater executive van with a high room and spacious interior.
-                        It prioritize comfort and safety to its passengers which seats can recline individually
-                        except for the last row, which can fold up to create cargo room. It is also a highroof van
-                        making it well ventilated and more spacious than other van.
-                    </p>
-                    <h2>VAN rental</h2>
-                    <p>
-                        <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Van for rent davao">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
-                        occasions and any kind of business trips. VIP guests are welcome with special
-                        attention from the company. Short term and Long term van rental with special
-                        arrangements, terms and rates are open for negotiation.
-                    </p>
-                </article>
-            </div>
-
-            <div class="col-lg-12 details-container">
-                <h3 class="text-primary">Base Rate</h3>
-                <table class="table">
-                    <tr>
-                        <td>1-6 Days</td>
-                        <td>@ViewBag.dailyRate.ToString("N0") php</td>
-                    </tr>
-                    <tr>
-                        <td>7-21 Days</td>
-                        <td>@ViewBag.weeklyRate.ToString("N0") php</td>
-                    </tr>
-                    <tr>
-                        <td>22 and Above</td>
-                        <td>@ViewBag.monthlyRate.ToString("N0") php</td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="col-lg-12 details-container">
-                <h3 class="text-primary">  Available Vans for rent:</h3>
-                <table class="table">
-
-                    <tr>
-                        <td><strong>Toyota Super Grandia</strong></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2.5/3.0 Diesel
-                            <br /> 5 speed Manual/Automatic Transmission
-                        </td>
-                        <td>
-                            Driver + 10-12 persons
-                            <br /> 2-4 trolleys
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>Toyota GL Grandia</strong></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2.5/3.0 Diesel
-                            <br /> 5 speed Manual/Automatic Transmission
-                        </td>
-                        <td>
-                            Driver + 10-12 persons
-                            <br />  2-4 trolleys
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><strong>Toyota GL Grandia Tourer</strong></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2.8 Diesel
-                            <br /> 6-speed Automatic Transmission
-                        </td>
-                        <td>
-                            Driver + 14 persons
-                            <br />  2-4 trolleys
-                        </td>
-                    </tr>
-
-                </table>
-
-            </div>
-
-            <div class="col-lg-12 details-container">
-                <h3 class="text-primary"> Services </h3>
-                <button class="btn btn-default btn-sm dtls-services"> With Driver </button>
-                <button class="btn btn-default btn-sm dtls-services"> Airport Pickup / Drop-off </button>
-                <button class="btn btn-default btn-sm dtls-services"> Hotel Pickup / Drop-off </button>
-                <button class="btn btn-default btn-sm dtls-services"> City Tour </button>
-                <button class="btn btn-default btn-sm dtls-services"> Out of town tour</button>
-            </div>
-
-            <div class="col-lg-12 details-container dtls-gallery">
-                <h3 class="text-primary">Gallery</h3>
-                    <a href="~/Images/CarRental/glgrandia/Toyota-Grandia.jpg" target="_blank" title="Toyota Grandia"><img class="img-thumbnail dtls-gallery-img" src="~/Images/CarRental/glgrandia/Toyota-Grandia.jpg" alt="glgrandia-car-rental-davao" /></a>
-                    <a href="~/Images/CarRental/glgrandia/Toyota-Grandia-seats.jpg" target="_blank" title="Toyota Grandia Seats"><img class="img-thumbnail" src="~/Images/CarRental/glgrandia/Toyota-Grandia-seats.jpg" alt="glgrandia-car-rental-davao" /></a>
-                    <a href="~/Images/CarRental/glgrandia/Toyota-Grandia-front-seats.jpg" target="_blank" title="Toyota Grandia Front Seats"><img class="img-thumbnail" src="~/Images/CarRental/glgrandia/Toyota-Grandia-front-seats.jpg" alt="glgrandia-car-rental-davao" /></a>
-                    <a href="~/Images/CarRental/glgrandia/Toyota-Grandia-side.jpg" target="_blank" title="Toyota Grandia Side"><img class="img-thumbnail" src="~/Images/CarRental/glgrandia/Toyota-Grandia-side.jpg" alt="glgrandia-car-rental-davao" /></a>
-            </div>
-
-            <div class="col-lg-12 details-container" style="display:none;">
-                <h3 class="text-primary text-center">Book Now! </h3>
-                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "btn btn-primary col-lg-12 rsvr-btn", @title="Request Reservation" })
-                <p class="text-info text-center" style="font-size:12px;color:gray;">
-                    Note: availability of the vehicle will depend on the date of reservation.
-                </p>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-xs-12 no-padding details-nav">
-
-            <div class="col-lg-12 col-xs-12 no-padding" style="display:flex;">
-                <div class="col-md-12 col-xs-12 details-article-price">
-                    <span class="text-muted">
-                        Rate Starts at
-                    </span>
-                    <span class="text-success">
-                        P3,000
-                    </span>
-                </div>
-            </div>
-
-            <div style="margin-bottom:15px;margin-top:10px;">
-                @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list", @title = "Request Reservation" })
-                @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list", @title = "Request Quotation" })
-            </div>
-
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 },null)" class="list-group-item  details-container-list active" title="Van Details">  Van (10 seater) </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (14 seater)   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list" title="SUV Details">  SUV   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list" title="MPV Details">  MPV   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list" title="Sedan Details">  Sedan   </a>
-            <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list" title="Pickup Details">  Pickup   </a>
-        </div>
-
     </div>
+
+    <div class="col-lg-8 col-xs-12">
+        @* <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Frealwheelsdavao.com%2FCarRental%2Fvan-for-rent&layout=button_count&size=large&mobile_iframe=true&width=85&height=28&appId" width="120" height="28" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>*@
+        <div class="col-lg-12 details-container">
+
+            <img src="~/Images/CarRental/glgrandia/Toyota-Grandia-side.jpg" class="center-block img-responsive details-img" alt="glgrandia-car-rental-davao" />
+
+            <h2>VAN</h2>
+            <article>
+                <p>
+                    <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Van for rent davao">VAN</a> is the most popular vehicle transporting people for both company and family use. It can
+                    comfortably accommodate 10-14 pax with enough luggage.
+                    <br />
+
+                    <h2>Rent-A-Car</h2>
+                    <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Van for rent davao">VAN</a> is top choice for rent-a-car business for conventions, city tours and all types of
+                    occasions. Top models use by rent-a-car companies are:
+
+                    <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="GL Grandia Van for rent davao">Toyota GL Grandia</a> is a 10-12 seater van and as of this time, top choice due to
+                    its known reliability and toughness. This model is the all-time favorite in
+                    rent-a-car business because it can accommodate most of the client needs.
+
+                    <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Toyota Super Grandia Van for rent davao">Toyota Super Grandia</a> is a 10 seater executive van that built for comfort. You
+                    expect 2 captain seats and other well padded leather seats at the back. Commonly
+                    used to VIP and hire profile guests of rent-a-car company.
+
+                    <a href="https://RealWheelsDavao.com/CarRental/ToyotaTourer-for-rent" title="Toyota Tourer Van for rent davao">Toyota GL Grandia Tourer 2020</a> is 14 seater executive van with a high room and spacious interior.
+                    It prioritize comfort and safety to its passengers which seats can recline individually
+                    except for the last row, which can fold up to create cargo room. It is also a highroof van
+                    making it well ventilated and more spacious than other van.
+                </p>
+                <h2>VAN rental</h2>
+                <p>
+                    <a href="https://RealWheelsDavao.com/CarRental/van-for-rent" title="Van for rent davao">Vans</a> are offered as with driver car rental/van rental. It can cater all types of family
+                    occasions and any kind of business trips. VIP guests are welcome with special
+                    attention from the company. Short term and Long term van rental with special
+                    arrangements, terms and rates are open for negotiation.
+                </p>
+            </article>
+        </div>
+
+        <div class="col-lg-12 details-container">
+            <h3 class="text-primary">Base Rate</h3>
+            <table class="table">
+                <tr>
+                    <td>1-6 Days</td>
+                    <td>@ViewBag.dailyRate.ToString("N0") php</td>
+                </tr>
+                <tr>
+                    <td>7-21 Days</td>
+                    <td>@ViewBag.weeklyRate.ToString("N0") php</td>
+                </tr>
+                <tr>
+                    <td>22 and Above</td>
+                    <td>@ViewBag.monthlyRate.ToString("N0") php</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-lg-12 details-container">
+            <h3 class="text-primary">  Available Vans for rent:</h3>
+            <table class="table">
+
+                <tr>
+                    <td><strong>Toyota Super Grandia</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        2.5/3.0 Diesel
+                        <br /> 5 speed Manual/Automatic Transmission
+                    </td>
+                    <td>
+                        Driver + 10-12 persons
+                        <br /> 2-4 trolleys
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Toyota GL Grandia</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        2.5/3.0 Diesel
+                        <br /> 5 speed Manual/Automatic Transmission
+                    </td>
+                    <td>
+                        Driver + 10-12 persons
+                        <br />  2-4 trolleys
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Toyota GL Grandia Tourer</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        2.8 Diesel
+                        <br /> 6-speed Automatic Transmission
+                    </td>
+                    <td>
+                        Driver + 14 persons
+                        <br />  2-4 trolleys
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="col-lg-12 details-container">
+            <h3 class="text-primary"> Services </h3>
+            <button class="btn btn-default btn-sm dtls-services"> With Driver </button>
+            <button class="btn btn-default btn-sm dtls-services"> Airport Pickup / Drop-off </button>
+            <button class="btn btn-default btn-sm dtls-services"> Hotel Pickup / Drop-off </button>
+            <button class="btn btn-default btn-sm dtls-services"> City Tour </button>
+            <button class="btn btn-default btn-sm dtls-services"> Out of town tour</button>
+        </div>
+
+        <div class="col-lg-12 details-container dtls-gallery">
+            <p class="text-lg text-primary">Gallery</p>
+            <a href="~/Images/CarRental/glgrandia/Toyota-Grandia.jpg" target="_blank" title="Toyota Grandia"><img class="img-thumbnail dtls-gallery-img" src="~/Images/CarRental/glgrandia/Toyota-Grandia.jpg" alt="glgrandia-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/glgrandia/Toyota-Grandia-seats.jpg" target="_blank" title="Toyota Grandia Seats"><img class="img-thumbnail" src="~/Images/CarRental/glgrandia/Toyota-Grandia-seats.jpg" alt="glgrandia-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/glgrandia/Toyota-Grandia-front-seats.jpg" target="_blank" title="Toyota Grandia Front Seats"><img class="img-thumbnail" src="~/Images/CarRental/glgrandia/Toyota-Grandia-front-seats.jpg" alt="glgrandia-car-rental-davao" /></a>
+            <a href="~/Images/CarRental/glgrandia/Toyota-Grandia-side.jpg" target="_blank" title="Toyota Grandia Side"><img class="img-thumbnail" src="~/Images/CarRental/glgrandia/Toyota-Grandia-side.jpg" alt="glgrandia-car-rental-davao" /></a>
+        </div>
+
+        <div class="col-lg-12 details-container" style="display:none;">
+            <h3 class="text-primary text-center">Book Now! </h3>
+            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "btn btn-primary col-lg-12 rsvr-btn", @title = "Request Reservation" })
+            <p class="text-info text-center" style="font-size:12px;color:gray;">
+                Note: availability of the vehicle will depend on the date of reservation.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-12 no-padding details-nav">
+
+        <div class="col-lg-12 col-xs-12 no-padding" style="display:flex;">
+            <div class="col-md-12 col-xs-12 details-article-price">
+                <span class="text-muted">
+                    Rate Starts at
+                </span>
+                <span class="text-success">
+                    P3,000
+                </span>
+            </div>
+        </div>
+
+        <div style="margin-bottom:15px;margin-top:10px;">
+            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list", @title = "Request Reservation" })
+            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 1 }, new { @class = "list-group-item details-container-list", @title = "Request Quotation" })
+        </div>
+
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 },null)" class="list-group-item  details-container-list active" title="Van Details">  Van (10 seater) </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 2 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (14 seater)   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 3 },null)" class="list-group-item  details-container-list" title="SUV Details">  SUV   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 4 },null)" class="list-group-item  details-container-list" title="MPV Details">  MPV   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 5 },null)" class="list-group-item  details-container-list" title="Sedan Details">  Sedan   </a>
+        <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 6 },null)" class="list-group-item  details-container-list" title="Pickup Details">  Pickup   </a>
+    </div>
+
+</div>
 
 <p>
     @Html.ActionLink("Back to Home", "Index")
 </p>
+
+
+<!-- Google Micro Data-->
+<div>
+    <div itemtype="http://schema.org/Product" itemscope>
+        <meta itemprop="mpn" content="925872" />
+        <meta itemprop="name" content="Toyota Grandia Van For Rent Davao City" />
+        <link itemprop="image" href="~/Images/CarRental/glgrandia/Toyota-Grandia.jpg" />
+        <meta itemprop="description" content="Toyota Grandia Van For Rent Davao City, Philippines. Affordable and Cheap Rates." />
+        <div itemprop="offers" itemtype="http://schema.org/Offer" itemscope>
+            <link itemprop="url" href="https://realwheelsdavao.com/CarRental/van-for-rent" />
+            <meta itemprop="availability" content="https://schema.org/InStock" />
+            <meta itemprop="priceCurrency" content="PHP" />
+            <meta itemprop="itemCondition" content="https://schema.org/UsedCondition" />
+            <meta itemprop="price" content="3500" />
+            <meta itemprop="priceValidUntil" content="2021-12-31" />
+        </div>
+        <div itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
+            <meta itemprop="reviewCount" content="90" />
+            <meta itemprop="ratingValue" content="4.5" />
+        </div>
+        <div itemprop="review" itemtype="http://schema.org/Review" itemscope>
+            <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
+                <meta itemprop="name" content="John" />
+            </div>
+            <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
+                <meta itemprop="ratingValue" content="4" />
+                <meta itemprop="bestRating" content="5" />
+            </div>
+        </div>
+        <meta itemprop="sku" content="0446310786" />
+        <div itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
+            <meta itemprop="name" content="Toyota" />
+        </div>
+    </div>
+</div>

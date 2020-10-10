@@ -190,9 +190,9 @@ namespace JobsV1
             );
 
             routes.MapRoute(
-                name: "Services/Cargo-Delivery",
-                url: "Services/Cargo-Delivery",
-                defaults: new { controller = "CarRental", action = "Services", service = "Cargo-Delivery" }
+                name: "cargo-delivery-services",
+                url: "cargo-delivery-services",
+                defaults: new { controller = "CarRental", action = "Services", service = "cargo-delivery-services" }
             );
 
 

@@ -1,9 +1,9 @@
 ﻿@model JobsV1.Models.CarUnit
 
 @{
-    ViewBag.Title = "Sedan Car Rental Davao - RealWheelsDavao";
-    ViewBag.Description = @"Cheap Davao Car Rental Sedan. For Family Use, 
-                            business meetings or airport transfers within the Davao City.";
+    ViewBag.Title = "Honda City Sedan Car Rental Davao - RealWheelsDavao";
+    ViewBag.Description = @"Cheap Honda City Car Rental Sedan in Davao. For Family Use,
+                    business meetings or airport transfers within the Davao City.";
     ViewBag.CanonicalURL = Context.Request.Url.AbsoluteUri;
 
     //Keyword : Sedan Car Rental
@@ -11,7 +11,7 @@
 
 
 <div class="container details-article-container">
-    <div class="col-lg-12 col-xs-12" >
+    <div class="col-lg-12 col-xs-12">
         <div class="col-lg-8 col-xs-12 details-title">
             <h2>Sedan Car Rental </h2>
         </div>
@@ -19,7 +19,7 @@
 
     <div class="col-lg-8 col-xs-12">
         <div class="col-lg-12 details-container">
-            <img src="~/Images/CarRental/hondacity/Honda-city-2018.jpg" class="center-block img-responsive details-img" alt="honda-city-car-rental-davao"/>
+            <img src="~/Images/CarRental/hondacity/Honda-city-2018.jpg" class="center-block img-responsive details-img" alt="honda-city-car-rental-davao" />
 
             <h2>Sedan</h2>
             <article>
@@ -110,7 +110,7 @@
                         <br /> Automatic Transmission
                     </td>
                     <td>
-                        Driver + 4 persons 
+                        Driver + 4 persons
                         <br /> 2 trolleys
                     </td>
                 </tr>
@@ -131,13 +131,16 @@
         </div>
 
         <div class="col-lg-12 details-container dtls-gallery">
-            <span class="text-lg text-primary">Gallery</span>
+            <p class="text-lg text-primary"> Gallery </p>
             <a href="~/Images/CarRental/hondacity/Honda-city-2018.jpg" target="_blank">
-                <img class="img-thumbnail" src="~/Images/CarRental/hondacity/Honda-city-2018.jpg" alt="honda-city-car-rental-davao"  /></a>
+                <img class="img-thumbnail" src="~/Images/CarRental/hondacity/Honda-city-2018.jpg" alt="honda-city-car-rental-davao" />
+            </a>
             <a href="~/Images/CarRental/hondacity/Honda-city-2018-back.jpg" target="_blank">
-                <img class="img-thumbnail" src="~/Images/CarRental/hondacity/Honda-city-2018-back.jpg"  alt="honda-city-car-rental-davao"  /></a>
+                <img class="img-thumbnail" src="~/Images/CarRental/hondacity/Honda-city-2018-back.jpg" alt="honda-city-car-rental-davao" />
+            </a>
             <a href="~/Images/CarRental/hondacity/hondacity_interior.jpg" target="_blank">
-                <img class="img-thumbnail" src="~/Images/CarRental/hondacity/hondacity_interior.jpg"  alt="honda-city-car-rental-davao" /></a>
+                <img class="img-thumbnail" src="~/Images/CarRental/hondacity/hondacity_interior.jpg" alt="honda-city-car-rental-davao" />
+            </a>
         </div>
 
         <div class="col-lg-12 details-container" style="display:none;">
@@ -162,7 +165,7 @@
         </div>
 
         <div style="margin-bottom:15px;margin-top:10px;">
-            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list", @title="Request Reservation" })
+            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list", @title = "Request Reservation" })
             @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 5 }, new { @class = "list-group-item details-container-list", @title = "Request Quotation" })
         </div>
         <a href="@Url.Action("CarDetail", "CarRental", new { unitid = 1 },null)" class="list-group-item  details-container-list" title="Van Details">  Van (10 seater) </a>
@@ -177,4 +180,40 @@
     <p>
         @Html.ActionLink("Back to Home", "Index")
     </p>
+</div>
+
+
+<!-- Google Micro Data-->
+<div>
+    <div itemtype="http://schema.org/Product" itemscope>
+        <meta itemprop="mpn" content="925872" />
+        <meta itemprop="name" content="Honda City Sedan For Rent Davao City" />
+        <link itemprop="image" href="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Honda-City.jpg" />
+        <meta itemprop="description" content="Honda City Sedan For Rent Rental Davao City, Philippines. Affordable and Cheap Rates." />
+        <div itemprop="offers" itemtype="http://schema.org/Offer" itemscope>
+            <link itemprop="url" href="https://realwheelsdavao.com/CarRental/van-for-rent" />
+            <meta itemprop="availability" content="https://schema.org/InStock" />
+            <meta itemprop="priceCurrency" content="PHP" />
+            <meta itemprop="itemCondition" content="https://schema.org/UsedCondition" />
+            <meta itemprop="price" content="2500" />
+            <meta itemprop="priceValidUntil" content="2021-12-31" />
+        </div>
+        <div itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
+            <meta itemprop="reviewCount" content="56" />
+            <meta itemprop="ratingValue" content="4.5" />
+        </div>
+        <div itemprop="review" itemtype="http://schema.org/Review" itemscope>
+            <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
+                <meta itemprop="name" content="John" />
+            </div>
+            <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
+                <meta itemprop="ratingValue" content="4" />
+                <meta itemprop="bestRating" content="5" />
+            </div>
+        </div>
+        <meta itemprop="sku" content="0000321" />
+        <div itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
+            <meta itemprop="name" content="Honda" />
+        </div>
+    </div>
 </div>

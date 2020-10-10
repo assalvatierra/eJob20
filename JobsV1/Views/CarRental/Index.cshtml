@@ -268,7 +268,7 @@
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  5 Seater  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">  With Driver </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin" style="padding:0px 5px;">
-                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width no-margin", @title ="Click to Reserve" })
+                        @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width no-margin", @title = "Click to Reserve" })
                     </p>
                 </div>
             </div>
@@ -377,7 +377,7 @@
 
 
 <!-- Fleet Vehicles For Rent -->
-<div class="row car-container" itemscope itemtype="https://schema.org/ItemList">
+<div class="row car-container">
     <div class="col-md-12" id="Fleet">
         <h2 class="text-center" style="padding-bottom:30px;font-weight:600;">
             Our Fleet
@@ -387,21 +387,36 @@
     @foreach (var item in Model)
     {
         <div class="col-md-4 no-padding" id="CarUnit-@item.Id">
-            <div class="car-container-details" itemprop="itemListElement"  itemscope itemtype="http://schema.org/Product">
+            <div class="car-container-details" >
                 <img itemprop="image" src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
                 <div class="col-lg-12 carrental-car-details">
-                    <h3 class="carrental-car-title" itemprop="name">
+                    <h3 class="carrental-car-title" >
                         @Html.ActionLink(item.Description, "CarDetail", "CarRental", new { unitid = item.Id }, new { @title = "View Vehicle Details" })
                     </h3>
-                    <meta itemprop="description" content="@item.Description" />
-                    <meta itemprop="name" content="@item.Description" />
-                    <span class="hidden" itemprop="position"> @item.Id </span>
-                    @*<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                        <meta content="90" itemprop="ratingValue" />
-                        <meta content="50" itemprop="reviewCount" />
-                        <meta content="100" itemprop="bestRating" />
-                        <meta content="0" itemprop="worstRating" />
+                    @*<meta itemprop="description" content="@item.Description @item.Remarks Car For Rent Davao City, Philippines, afforadable rates." />
+                    <meta itemprop="name" content="@item.Description @item.Remarks For Rent Davao" />
+                    <meta itemprop="sku" content="@item.Id" />
+                    <div itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
+                        <meta itemprop="name" content="@item.Remarks" />
+                    </div>
+
+                    <meta itemprop="mpn" content="@item.Id" />
+
+                    <div itemprop="review" itemtype="http://schema.org/Review" itemscope>
+                        <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
+                            <meta itemprop="name" content="John" />
+                        </div>
+                        <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
+                            <meta itemprop="ratingValue" content="4" />
+                            <meta itemprop="bestRating" content="5" />
+                        </div>
+                    </div>
+
+                    <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                        <meta itemprop="reviewCount" content="89" />
+                        <meta itemprop="ratingValue" content="4.4" />
                     </div>*@
+
                     <p>
                         <b>@Html.DisplayFor(modelItem => item.Remarks)</b> -
                         @{
@@ -422,20 +437,20 @@
                         @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = item.Id }, new { @title = "View Vehicle Details" })
                     </p>
                     <div class="col-md-12 col-xs-12 no-padding">
-                        <div class="col-md-6 col-xs-12 no-padding" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                        <div class="col-md-6 col-xs-12 no-padding">
                             <p class="text-muted carrental-car-price-desc">Price Starts at </p>
                             <p class="carrental-car-price">
                                 @if (item.CarRates.FirstOrDefault() != null)
                                 {
-                                    <span itemprop="price">
+                                    <span>
                                         @item.CarRates.FirstOrDefault().Daily.ToString("#,##0.00")
                                     </span>
-                                    <meta itemprop="priceCurrency" content="Php" />
-                                    <meta itemprop="brand" content="@item.Description" />
-                                    <meta itemprop="priceValidUntil" content="12/30/2021" />
+                                    <!--<meta itemprop="priceCurrency" content="Php" />
+                                    <meta itemprop="price" content="@item.CarRates.FirstOrDefault().Daily" />-->
+                                    @*<meta itemprop="brand" content=" @item.Description" />*@
+                                    <!--<meta itemprop="priceValidUntil" content="12/30/2021" />
                                     <link itemprop="url" href="https://realwheelsdavao.com/CarRental/Reservation" content="https://realwheelsdavao.com/CarRental/Reservation" />
-                                    <link itemprop="availability" href="https://realwheelsdavao.com/CarRental/Reservation" />
-
+                                    <link itemprop="availability" href="https://schema.org/InStock" />-->
                                 }
                             </p>
                         </div>
@@ -542,7 +557,48 @@
 
 <!-- Floating Move to up Button -->
 
-<a href="#Home" id="BackToTop"  title="Back to Top" style="display: block;" name="Back-to-Top"> <span> Back To Top </span></a>
+<a href="#Home" id="BackToTop" title="Back to Top" style="display: block;" name="Back-to-Top"> <span> Back To Top </span></a>
+
+
+
+<!-- Google Micro Data-->
+<div>
+    <div itemtype="http://schema.org/Product" itemscope>
+        <meta itemprop="mpn" content="00001" />
+        <meta itemprop="name" content="Car Rental Davao" />
+        <link itemprop="image" href="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" />
+        <meta itemprop="description" content="Car Rental Davao City, Philippines. Affordable and Cheap  SUV, MPV, Sedan, Van for rent rates." />
+        <div itemprop="offers" itemtype="http://schema.org/Offer" itemscope>
+            <link itemprop="url" href="https://realwheelsdavao.com/CarRental/van-for-rent" />
+            <meta itemprop="availability" content="https://schema.org/InStock" />
+            <meta itemprop="priceCurrency" content="PHP" />
+            <meta itemprop="itemCondition" content="https://schema.org/UsedCondition" />
+            <meta itemprop="lowPrice" content="2500" />
+            <meta itemprop="highPrice" content="3500" />
+            <meta itemprop="price" content="3500" />
+            <meta itemprop="priceValidUntil" content="2021-12-31" />
+        </div>  
+        <div itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
+            <meta itemprop="reviewCount" content="90" />
+            <meta itemprop="ratingValue" content="4.5" />
+        </div>
+        <div itemprop="review" itemtype="http://schema.org/Review" itemscope>
+            <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
+                <meta itemprop="name" content="John" />
+            </div>
+            <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
+                <meta itemprop="ratingValue" content="4" />
+                <meta itemprop="bestRating" content="5" />
+            </div>
+        </div>
+        <meta itemprop="sku" content="0000001" />
+        <div itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
+            <meta itemprop="name" content="Realwheels" />
+        </div>
+    </div>
+</div>
+
+
 
 @section Scripts{
     <!-- For Carousel using flickity js -->

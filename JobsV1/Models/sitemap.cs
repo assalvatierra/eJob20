@@ -81,6 +81,9 @@ namespace JobsV1.Models
             items.Add("realwheelsdavao.com/Articles/VisitDavao");
             items.Add("realwheelsdavao.com/Articles/SUVRental");
 
+            //services
+            items.Add("realwheelsdavao.com/cargo-delivery-services");
+
             return items;
         }
         /*
