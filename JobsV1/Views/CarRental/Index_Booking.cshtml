@@ -60,13 +60,16 @@
 
     <!-- Another How to -->
     <div style="margin: 25px;">
-        <p style="font-size:20px;">We support the following option to make reservations (1) Phone (2) Chat (3) Web</p>
+        <p style="font-size:20px;">We support the following option to make reservations 
+            <a href="#booking-call"> (1) Phone </a>
+            <a href="#booking-chat">(2) Chat </a>
+            <a href="Reservation/">(3) Web</a></p>
     </div>
     <!-- Thru phone -->
     <div class="home-booking-option-container" itemprop="step" itemscope itemtype="https://schema.org/HowToSection">
         <meta itemprop="name" content="Booking through call or text" />
         <meta itemprop="position" content="2" />
-        <h3> 1.) Phone</h3>
+        <h3 id="booking-call"> 1.) Phone</h3>
         <p>
             <a itemprop="text" href="tel:+639954508517" title="Globe Mobile Number" class="call-button-link btn btn-default">
                 <img itemprop="image" src="~/Images/Icons/icon-call-blk.png" loading="lazy" width="20" alt="call us" />
@@ -84,7 +87,7 @@
             <meta itemprop="name" content="Booking through call or text" />
             <meta itemprop="position" content="1" />
             <meta itemprop="url" content="https://realwheelsdavao.com/#Booking" />
-            <img class="hidden" itemprop="image" src="~/Images/Icons/icon-call-blk.png" /> 
+            <img class="hidden" itemprop="image" src="~/Images/Icons/icon-call-blk.png" />
 
             <div class="hidden">
 
@@ -125,7 +128,7 @@
 
     <!-- Thru Chat IM-->
     <div class="home-booking-option-container">
-        <h3>
+        <h3 id="booking-chat">
             2.) Chat and other Instant messaging platforms
         </h3>
         <p>
@@ -162,7 +165,8 @@
             Reservations can be done through online.
         </p>
         <ol>
-            <li> Process starts by following the link : <a href="/CarRental/Reservation" title="Reservation request" class="btn btn-default call-button-link"> Click here to reserve. </a> </li>
+            <li> Process starts by following the link : 
+            <a href="/CarRental/Reservation" title="Reservation request" class="btn btn-warning call-button-link" style="font-size:18px;"> Click Here For Reservation </a> </li>
             <li> When the page shows up, select the desired vehicle to rent, number of people boarding the vehicle and duration (in days) of rent.</li>
             <li> Submit your entries to start processing your request.</li>
             <li> Once the needed information is complete, the management will approve and reservation officer will confirm and send your booking confirmation by email or sms.</li>
@@ -182,3 +186,11 @@
     </div>
 </div>
 
+<div class="col-md-12 more-links-section">
+    <a href="#About" class="btn btn-primary links-section-wide" title="About"> About Car Rental </a>
+    <a href="#ServicesNav" class="btn btn-primary links-section-wide" title="Services"> Check Our Services </a>
+    <a href="#FleetNav" class="btn btn-primary links-section-wide" title="Fleet"> Check Our Fleet </a>
+    @*<a href="#Booking" class="btn btn-primary links-section-wide" title="Book"> How to Book </a>*@
+    <a href="#Contact" class="btn btn-primary links-section-wide" title="Contact"> Contact Us </a>
+    <a href="/CarRental/PriceList" class="btn btn-warning links-section-wide" title="Prices"> Car Rental Prices </a>
+</div>

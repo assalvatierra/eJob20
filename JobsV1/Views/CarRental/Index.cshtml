@@ -17,12 +17,19 @@
             Contact us for inquiries and reservation
         </p>
         <div class="col-md-12 no-padding no-margin">
-            @Html.ActionLink(" Request for Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-warning banner-btn-green ", @title = "Click to Request for Quotation" })
-            <a href="/CarRental/PriceList" class="btn btn-warning banner-btn-green" title="Price List Table"> Price List Table </a>
+            @Html.ActionLink(" Request for Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-default banner-btn-green ", @title = "Click to Request for Quotation" })
+            <a href="/CarRental/PriceList" class="btn btn-default banner-btn-green" title="Price List Table"> Price List Table </a>
             <br />
-            @Html.ActionLink(" Online Reservation ", "Reservation", "CarRental", null, new { @class = "btn btn-warning banner-btn-green no-margin", @title = "Click to Reserve" })
-
+            @Html.ActionLink(" Online Reservation ", "Reservation", "CarRental", null, new { @class = "btn btn-default banner-btn-green no-margin", @title = "Click to Reserve" })
         </div>
+    </div>
+    <div class="video-container" id="banner-wrapper">
+        <video title="Realwheels Car Rental Davao" preload="auto" volume="5"  autoplay="autoplay" id="video_background"  controls="controls" onclick="this.play()">
+            <source src="~/Images/CarRental/Home/Video/Realwheels-ads-video.mp4" type="video/mp4">
+            Your browser does not support the video.
+        </video>
+
+        <img id="image_background" class="image-after-video" src="~/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg" />
     </div>
 </div>
 
@@ -387,35 +394,35 @@
     @foreach (var item in Model)
     {
         <div class="col-md-4 no-padding" id="CarUnit-@item.Id">
-            <div class="car-container-details" >
+            <div class="car-container-details">
                 <img itemprop="image" src="~/CarRental/MainImage/@Html.DisplayFor(modelItem => item.Id)" class="carrental-car-img" alt="@item.Description" title="@item.Description">
                 <div class="col-lg-12 carrental-car-details">
-                    <h3 class="carrental-car-title" >
+                    <h3 class="carrental-car-title">
                         @Html.ActionLink(item.Description, "CarDetail", "CarRental", new { unitid = item.Id }, new { @title = "View Vehicle Details" })
                     </h3>
                     @*<meta itemprop="description" content="@item.Description @item.Remarks Car For Rent Davao City, Philippines, afforadable rates." />
-                    <meta itemprop="name" content="@item.Description @item.Remarks For Rent Davao" />
-                    <meta itemprop="sku" content="@item.Id" />
-                    <div itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
-                        <meta itemprop="name" content="@item.Remarks" />
-                    </div>
-
-                    <meta itemprop="mpn" content="@item.Id" />
-
-                    <div itemprop="review" itemtype="http://schema.org/Review" itemscope>
-                        <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
-                            <meta itemprop="name" content="John" />
+                        <meta itemprop="name" content="@item.Description @item.Remarks For Rent Davao" />
+                        <meta itemprop="sku" content="@item.Id" />
+                        <div itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
+                            <meta itemprop="name" content="@item.Remarks" />
                         </div>
-                        <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
-                            <meta itemprop="ratingValue" content="4" />
-                            <meta itemprop="bestRating" content="5" />
-                        </div>
-                    </div>
 
-                    <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                        <meta itemprop="reviewCount" content="89" />
-                        <meta itemprop="ratingValue" content="4.4" />
-                    </div>*@
+                        <meta itemprop="mpn" content="@item.Id" />
+
+                        <div itemprop="review" itemtype="http://schema.org/Review" itemscope>
+                            <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
+                                <meta itemprop="name" content="John" />
+                            </div>
+                            <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
+                                <meta itemprop="ratingValue" content="4" />
+                                <meta itemprop="bestRating" content="5" />
+                            </div>
+                        </div>
+
+                        <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                            <meta itemprop="reviewCount" content="89" />
+                            <meta itemprop="ratingValue" content="4.4" />
+                        </div>*@
 
                     <p>
                         <b>@Html.DisplayFor(modelItem => item.Remarks)</b> -
@@ -470,6 +477,17 @@
         </div>
     }
 </div>
+
+
+<div class="col-md-12 more-links-section">
+    <a href="#About" class="btn btn-primary links-section-wide" title="About"> About Car Rental </a>
+    <a href="#ServicesNav" class="btn btn-primary links-section-wide" title="Services"> Check Our Services </a>
+    @*<a href="#FleetNav" class="btn btn-primary links-section-wide" title="Fleet"> Check Our Fleet </a>*@
+    <a href="#Booking" class="btn btn-primary links-section-wide" title="Book"> How to Book </a>
+    <a href="#Contact" class="btn btn-primary links-section-wide" title="Contact"> Contact Us </a>
+    <a href="/CarRental/PriceList" class="btn btn-warning links-section-wide" title="Prices"> Car Rental Prices </a>
+</div>
+
 
 
 <hr class="col-md-12 hidden-on-mobile" style="margin-left:-15px;" />
@@ -562,7 +580,7 @@
 
 
 <!-- Google Micro Data-->
-<div>
+<div class="hidden">
     <div itemtype="http://schema.org/Product" itemscope>
         <meta itemprop="mpn" content="00001" />
         <meta itemprop="name" content="Car Rental Davao" />
@@ -577,7 +595,7 @@
             <meta itemprop="highPrice" content="3500" />
             <meta itemprop="price" content="3500" />
             <meta itemprop="priceValidUntil" content="2021-12-31" />
-        </div>  
+        </div>
         <div itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
             <meta itemprop="reviewCount" content="90" />
             <meta itemprop="ratingValue" content="4.5" />
@@ -596,6 +614,25 @@
             <meta itemprop="name" content="Realwheels" />
         </div>
     </div>
+
+    <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <h3 itemprop="name">What are the requirements for Self Drive rental?</h3>
+        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <div itemprop="text">
+                <p>
+                    For booking and reservation,
+                    the following documents will be needed ( email scanned copies to Inquiries.RealWheels@Gmail.com )
+                    <ol>
+                        <li>) Valid Driver's License</li>
+                        <li>) At least two(2) Valid IDs ( Government issued IDs )</li>
+                        <li>) Proof of residence ( for renter's residing in Philippines )</li>
+                        <li>) Rental contract / Hotel Booking/reservation ( for renter's residing outside Philippines )</li>
+                    </ol>
+                    for self-drive option, vehicles are limited to the following types: SUV and Sedans
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -609,6 +646,22 @@
                 cellAlign: 'left',
                 contain: true
             });
+
+           
+            
         });
+
+        var video = $('#video_background');
+        var image = $('#image_background');
+
+        video.on('ended', function () {
+            $(this).fadeOut('200', function () {//$(this) refers to video
+                image.fadeIn('200');
+                //$(".main-page-full-banner").css("height", "200px");
+            });
+        });
+
+       
+
     </script>
 }
