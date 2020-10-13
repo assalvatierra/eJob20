@@ -35,7 +35,7 @@
                 {
                     <span class="btn btn-default rsv-unit-item" onclick="selectUnit(this, @carList.Id)">
                         <input type="radio" name="cars" value="@carList.Description" id="unit-@(carList.Id)" />
-                        <img src="~/Images/CarRental/@carList.CarImages.Where(c => c.CarUnitId == carList.Id).First().ImgUrl" width="50" />
+                        <img src="~/Images/CarRental/@carList.CarImages.Where(c => c.CarUnitId == carList.Id).First().ImgUrl" width="50" alt="@carList.Description Car Rental" />
                         <b class="unit-desc">@carList.Description </b>
 
                         <b class="text-success">

@@ -24,12 +24,12 @@
         </div>
     </div>
     <div class="video-container" id="banner-wrapper">
-        <video title="Realwheels Car Rental Davao" preload="auto" volume="5"  autoplay="autoplay" id="video_background"  controls="controls" onclick="this.play()">
+        <video title="Realwheels Car Rental Davao" preload="auto" volume="5"  autoplay="autoplay" playsInline  id="video_background"  controls="controls" onclick="this.play()">
             <source src="~/Images/CarRental/Home/Video/Realwheels-ads-video.mp4" type="video/mp4">
             Your browser does not support the video.
         </video>
 
-        <img id="image_background" class="image-after-video" src="~/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg" />
+        <img id="image_background" class="image-after-video" src="~/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg" alt="Realwheels Car Rental  Davao" />
     </div>
 </div>
 
@@ -73,10 +73,10 @@
                 <div class="col-md-7 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Ford Everest </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5-7 Seater
+                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" class="featured-sm-icon" /> 5-7 Seater
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
+                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" class="featured-sm-icon" /> With Driver
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width", @title = "Click to Reserve" })
@@ -102,10 +102,10 @@
                 <div class="col-md-7 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Grandia Tourer  </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 10-14 Seater
+                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" class="featured-sm-icon" /> 10-14 Seater
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
+                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" class="featured-sm-icon" /> With Driver
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width", @title = "Click to Reserve" })
@@ -130,10 +130,10 @@
                 <div class="col-md-7 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Innova 2013 </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5-7 Seater
+                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" class="featured-sm-icon" /> 5-7 Seater
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
+                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" class="featured-sm-icon" /> With Driver
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width", @title = "Click to Reserve" })
@@ -158,10 +158,10 @@
                 <div class="col-md-7 col-sm-12 col-xs-12 no-padding">
                     <p class="featured-item-box-p no-margin"> Toyota Hilux 4x4 2020 </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" style="width:15px;" /> 5 Seater
+                        <img src="~/Images/Icons/icon-passenger.png" alt="passenger" class="featured-sm-icon" /> 5 Seater
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
-                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" style="width:15px;" /> With Driver
+                        <img src="~/Images/Icons/icons-valet-parking.png" alt="parking" class="featured-sm-icon" /> With Driver
                     </p>
                     <p class="featured-item-box-p featured-item-desc-muted no-margin">
                         @Html.ActionLink("Reserve", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width", @title = "Click to Reserve" })
@@ -400,30 +400,6 @@
                     <h3 class="carrental-car-title">
                         @Html.ActionLink(item.Description, "CarDetail", "CarRental", new { unitid = item.Id }, new { @title = "View Vehicle Details" })
                     </h3>
-                    @*<meta itemprop="description" content="@item.Description @item.Remarks Car For Rent Davao City, Philippines, afforadable rates." />
-                        <meta itemprop="name" content="@item.Description @item.Remarks For Rent Davao" />
-                        <meta itemprop="sku" content="@item.Id" />
-                        <div itemprop="brand" itemtype="http://schema.org/Brand" itemscope>
-                            <meta itemprop="name" content="@item.Remarks" />
-                        </div>
-
-                        <meta itemprop="mpn" content="@item.Id" />
-
-                        <div itemprop="review" itemtype="http://schema.org/Review" itemscope>
-                            <div itemprop="author" itemtype="http://schema.org/Person" itemscope>
-                                <meta itemprop="name" content="John" />
-                            </div>
-                            <div itemprop="reviewRating" itemtype="http://schema.org/Rating" itemscope>
-                                <meta itemprop="ratingValue" content="4" />
-                                <meta itemprop="bestRating" content="5" />
-                            </div>
-                        </div>
-
-                        <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                            <meta itemprop="reviewCount" content="89" />
-                            <meta itemprop="ratingValue" content="4.4" />
-                        </div>*@
-
                     <p>
                         <b>@Html.DisplayFor(modelItem => item.Remarks)</b> -
                         @{
@@ -452,12 +428,6 @@
                                     <span>
                                         @item.CarRates.FirstOrDefault().Daily.ToString("#,##0.00")
                                     </span>
-                                    <!--<meta itemprop="priceCurrency" content="Php" />
-                                    <meta itemprop="price" content="@item.CarRates.FirstOrDefault().Daily" />-->
-                                    @*<meta itemprop="brand" content=" @item.Description" />*@
-                                    <!--<meta itemprop="priceValidUntil" content="12/30/2021" />
-                                    <link itemprop="url" href="https://realwheelsdavao.com/CarRental/Reservation" content="https://realwheelsdavao.com/CarRental/Reservation" />
-                                    <link itemprop="availability" href="https://schema.org/InStock" />-->
                                 }
                             </p>
                         </div>
@@ -467,8 +437,6 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-xs-12 no-padding">
-                        @*  <button class="btn btn-primary" onclick="Request_Reservation('@item.Id')">Reserve this Unit</button>
-                            <button class="btn btn-default" onclick="Request_PriceQuote('@item.Id')">Request a Quote</button>*@
                         @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = item.Id }, new { @class = "btn btn-primary", @title = "Click to Reserve", @itemprop = "url" })
                         @Html.ActionLink("Request a Quote", "PriceQuote", "CarRental", new { id = item.Id }, new { @class = "btn btn-default", @title = "Click to Request Quotation", @itemprop = "url" })
                     </div>

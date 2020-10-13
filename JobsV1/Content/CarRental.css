@@ -46,15 +46,16 @@
     display: flex;
     width: 100%;
     /*background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg-3.jpg');*/
+    background-image: linear-gradient(90deg, green, blue);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
-    background-color: rgb(6,105,178);
+    /*background-color: rgb(6,105,178);*/
     height: 303px;
     min-width: 400px;
     color: white;
     /*padding: 30px;*/
-    padding-bottom:0px;
+    padding-bottom: 0px;
     margin-bottom: 0px;
 }
 
@@ -193,6 +194,18 @@
     margin:15px 0px;
 }
 
+.text-h1-container{
+    padding-bottom:30px;
+}
+
+.text-h1 {
+    font-size: 40px;
+    margin: 15px 0px;
+    color: black;
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+
 .text-md {
     font-size: 23px;
     margin: 12px 0px;
@@ -222,6 +235,10 @@
 .banner-services-header{
     font-size:28px;
     margin-top:10px;
+}
+
+.banner-sm-icon {
+    margin-right: 5px;
 }
 
 .fleet-circle {
@@ -700,12 +717,26 @@
 .CarRental-Banner-Default {
     background-image: url(../Images/CarRental/Banner/Banner-Default.jpg);
     background-repeat: no-repeat;
-    background-color:white;
+    background-color: white;
+    margin-bottom: 0px;
 }
 
-.rate-header{
-    float:right;
-}
+    .CarRental-Banner-Default h1 {
+        font-size: 40px;
+    }
+
+    .CarRental-Banner-Default div{
+        max-width:540px;
+    }
+
+    .CarRental-Banner-Default p {
+        font-size: 16px;
+        margin-bottom: 0px;
+    }
+
+    .rate-header {
+        float: right;
+    }
 
 /* Home - Featured Items */
 .featured-container {
@@ -752,6 +783,14 @@
         font-size: 13px;
         font-weight: 600;
     }
+
+.featured-sm-icon {
+    width:15px !important;
+}
+
+.no-padding-left{
+    padding-left:0px;
+}
 
 .featured-item-desc-muted {
     color: #4B4848;
@@ -840,6 +879,14 @@
 .featured-page-section p {
     margin: 20px;
     /*    padding:10px;*/
+}
+
+.no-margin-top{
+    margin-top:0px;
+}
+
+.btn-sm-icon{
+    margin-right:5px;
 }
 
 .featured-page-title-section {
@@ -1409,7 +1456,11 @@
 
     .image-after-video {
         margin-top: -30px;
-        height:150px;
+        height:108%;
+    }
+
+    .booking-rsv-btn{
+        margin-left:-20px;
     }
 
     .carrental-car-img {
