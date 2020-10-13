@@ -46,11 +46,11 @@
     display: flex;
     width: 100%;
     /*background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg-3.jpg');*/
-    background-image: linear-gradient(90deg, green, blue);
+    /*background-image: linear-gradient(90deg, green, blue);*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100%;
-    /*background-color: rgb(6,105,178);*/
+    background-color: rgb(6,105,178);
     height: 303px;
     min-width: 400px;
     color: white;
@@ -1159,7 +1159,7 @@
         /*background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-md.jpg');*/
         background-image: none;
         height: 480px;
-        padding: 20px;
+        /*padding: 20px;*/
     }
 
 
@@ -1198,7 +1198,7 @@
         /*background-image: url('/Images/CarRental/Banner/RealWheelsBanner2020-lg-3.jpg');*/
         background-image: none;
         height: 400px;
-        padding: 20px;
+        padding: 0px;
     }
 
         .main-page-full-banner > .title-container {
