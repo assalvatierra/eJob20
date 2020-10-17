@@ -3038,6 +3038,7 @@
     <Content Include="Views\CarRental\Services\Special-Occasion.cshtml" />
     <Content Include="Views\CarRental\Services\Cargo-Delivery.cshtml" />
     <Content Include="Views\CarRental\Services\Employee-Shuttle.cshtml" />
+    <Content Include="Views\CarRental\Services\Shuttle-Service.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

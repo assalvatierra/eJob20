@@ -24,12 +24,12 @@
         </div>
     </div>
     <div class="video-container" id="banner-wrapper">
-        <video title="Realwheels Car Rental Davao" preload="auto" volume="5"  autoplay="autoplay" playsInline  id="video_background"  controls="controls" onclick="this.play()">
+        @*<video title="Realwheels Car Rental Davao" preload="auto" volume="5"  autoplay="autoplay" playsInline  id="video_background"  controls="controls" onclick="this.play()">
             <source src="~/Images/CarRental/Home/Video/Realwheels-ads-video.mp4" type="video/mp4">
             Your browser does not support the video.
-        </video>
+        </video>*@
 
-        <img id="image_background" class="image-after-video" src="~/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg" alt="Realwheels Car Rental  Davao" />
+        <img class="image-after-video" src="~/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg" alt="Realwheels Car Rental  Davao" />
     </div>
 </div>
 
@@ -613,19 +613,6 @@
                 // options
                 cellAlign: 'left',
                 contain: true
-            });
-
-           
-            
-        });
-
-        var video = $('#video_background');
-        var image = $('#image_background');
-
-        video.on('ended', function () {
-            $(this).fadeOut('200', function () {//$(this) refers to video
-                image.fadeIn('200');
-                //$(".main-page-full-banner").css("height", "200px");
             });
         });
 

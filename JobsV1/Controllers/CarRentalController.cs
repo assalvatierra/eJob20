@@ -1051,8 +1051,8 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/Services/Special-Occasion.cshtml");
                 case "cargo-delivery-services":
                     return View("~/Views/CarRental/Services/Cargo-Delivery.cshtml");
-                case "Employee-Shuttle":
-                    return View("~/Views/CarRental/Services/Employee-Shuttle.cshtml");
+                case "shuttle-service":
+                    return View("~/Views/CarRental/Services/Shuttle-Service.cshtml");
                 default:
                     return View("~/Views/CarRental/Services/Airport-Hotel-Transfer.cshtml");
             }

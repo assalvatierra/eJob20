@@ -197,9 +197,9 @@ namespace JobsV1
 
 
             routes.MapRoute(
-                name: "Services/Employee-Shuttle",
-                url: "Services/Employee-Shuttle",
-                defaults: new { controller = "CarRental", action = "Services", service = "Employee-Shuttle" }
+                name: "shuttle-service-davao",
+                url: "shuttle-service-davao",
+                defaults: new { controller = "CarRental", action = "Services", service = "shuttle-service" }
             );
 
 
@@ -226,6 +226,13 @@ namespace JobsV1
             routes.MapRoute(
                name: "Reservation-Reserve",
                url: "CarRental/Reservation",
+               defaults: new { controller = "CarRental", action = "Reservation", id = "id", rsvType = 1 }
+           );
+
+
+            routes.MapRoute(
+               name: "Reservation-Reserve-dup",
+               url: "CarRental/CarRental/Reservation",
                defaults: new { controller = "CarRental", action = "Reservation", id = "id", rsvType = 1 }
            );
 
@@ -462,7 +469,7 @@ namespace JobsV1
 
 
             /*******************************
-             * Custom from ajdavaocarrental / Page 2
+             * Custom from ajdavaocarrental / Page 2/ad-tag/rent-a-car-davao-city/
              ********************************/
 
             routes.MapRoute(
@@ -551,6 +558,7 @@ namespace JobsV1
               url: "ad-category/pickup/",
               defaults: new { controller = "CarRental", action = "CarView", carDesc = "ads-listing-pickup" }
             );
+
             /*******************************
              * Custom from ajdavaocarrental / ad-tags
              ********************************/
@@ -565,6 +573,7 @@ namespace JobsV1
               url: "ad-tag/davao-rent-a-car/",
               defaults: new { controller = "CarRental", action = "CarView", carDesc = "tag-davao-rent-a-car" }
             );
+
             routes.MapRoute(
               name: "ad-tag/rent-a-car-davao-city/",
               url: "ad-tag/rent-a-car-davao-city/",
