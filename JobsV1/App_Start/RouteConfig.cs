@@ -102,6 +102,47 @@ namespace JobsV1
             //    defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
             //);
 
+            //error on search
+            routes.MapRoute(
+                name: "ad-tag/car-rental-davao/Fix",
+                url: "ad-tag/car-rental-davao/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+            routes.MapRoute(
+                name: "ads/honda-city-automatic/Fix",
+                url: "ads/honda-city-automatic/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
+            );
+            routes.MapRoute(
+                name: "ad-tag/davao-rent-a-car/Fix",
+                url: "ad-tag/davao-rent-a-car/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+            routes.MapRoute(
+                name: "ad-category/vans/Fix",
+                url: "ad-category/vans/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+
+            routes.MapRoute(
+                name: "ad-category/sedans/Fix",
+                url: "ad-category/sedans/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 5 }
+            );
+
+            routes.MapRoute(
+                name: "ads/innovacar-for-rent-davao-city/Fix",
+                url: "ads/innovacar-for-rent-davao-city/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+
+            routes.MapRoute(
+                name: "ads/page/2/Fix",
+                url: "ads/page/2/",
+                defaults: new { controller = "CarRental", action = "CarDetail", unitid = 1 }
+            );
+
+
             #endregion
 
             #region Car Rental Articles
@@ -197,8 +238,8 @@ namespace JobsV1
 
 
             routes.MapRoute(
-                name: "shuttle-service-davao",
-                url: "shuttle-service-davao",
+                name: "shuttle-service",
+                url: "shuttle-service",
                 defaults: new { controller = "CarRental", action = "Services", service = "shuttle-service" }
             );
 

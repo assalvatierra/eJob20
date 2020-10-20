@@ -1549,6 +1549,9 @@
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\logistics-service.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\mindanao-cargo-delivery.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\schedule-delivery.png" />
+    <Content Include="Images\CarRental\Home\Article\ShuttleService\secure-car-vector.jpg" />
+    <Content Include="Images\CarRental\Home\Article\ShuttleService\shuttle-car-safe.jpg" />
+    <Content Include="Images\CarRental\Home\Article\ShuttleService\shuttle-car-service.jpg" />
     <Content Include="Images\CarRental\Home\car-rental-comfortable-travel.jpg" />
     <Content Include="Images\CarRental\Home\car-rental-flexible.jpg" />
     <Content Include="Images\CarRental\Home\car-rental-safe.jpg" />

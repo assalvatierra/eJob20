@@ -111,7 +111,6 @@ namespace JobsV1.Models
         }
 
     */
-
         public List<string> GetCarList()
         {
             List<string> items = new List<string>();
