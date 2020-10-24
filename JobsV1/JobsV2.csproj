@@ -499,6 +499,10 @@
       <DependentUpon>HrisDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\PersonnelClass.cs" />
+    <Content Include="App_Data\ARDB-2020.mdf" />
+    <Content Include="App_Data\ARDB-2020_log.ldf">
+      <DependentUpon>ARDB-2020.mdf</DependentUpon>
+    </Content>
     <Content Include="Areas\AutoCare\Scipts\Appointments\CustomerSearch.js" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
@@ -568,6 +572,11 @@
     </Compile>
     <Compile Include="Areas\Products\Models\SupplierClass.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
+    <Compile Include="Areas\Receivables\Controllers\ArAccountsController.cs" />
+    <Compile Include="Areas\Receivables\Controllers\ArPaymentsController.cs" />
+    <Compile Include="Areas\Receivables\Controllers\ArTransactionsController.cs" />
+    <Compile Include="Areas\Receivables\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Receivables\ReceivablesAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -1292,6 +1301,8 @@
     <Content Include="Areas\Products\Script\ProductRate.js" />
     <Content Include="Areas\Products\Script\SupList.js" />
     <Content Include="Areas\Products\Script\ProdList.js" />
+    <Content Include="Areas\Receivables\Scripts\Payments\Payments.js" />
+    <Content Include="Areas\Receivables\Scripts\Transactions\Transaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\EntityFramework.dll" />
@@ -2191,6 +2202,26 @@
     <Content Include="Areas\Personel\Views\CarRentalReport\VehicleExpenseLogsReport.cshtml" />
     <Content Include="Areas\Personel\Views\crRptUnitExpenses\_ItemVehicleExpenseFilter.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\DriverTrxHistory.cshtml" />
+    <Content Include="Areas\Receivables\Views\web.config" />
+    <Content Include="Areas\Receivables\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Receivables\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\Create.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\Delete.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\Details.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\Edit.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\Index.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArAccounts\Create.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArAccounts\Delete.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArAccounts\Details.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArAccounts\Edit.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArAccounts\Index.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\CreateAccTrans.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArPayments\Create.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArPayments\Delete.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArPayments\Details.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArPayments\Edit.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArPayments\Index.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArPayments\CreateTransPayment.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -3057,7 +3088,27 @@
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
     <Folder Include="Areas\Products\Views\Home\" />
+    <Folder Include="Areas\Receivables\Data\" />
+    <Folder Include="Areas\Receivables\Views\Home\" />
     <Folder Include="Views\CustomHelper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArDBLayer\ArDBLayer.csproj">
+      <Project>{7afe168f-5afe-4d9b-9edc-55658f5e1a7c}</Project>
+      <Name>ArDBLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArInterfaces\ArInterfaces.csproj">
+      <Project>{8d86ba9c-d048-4484-a858-b3623587bceb}</Project>
+      <Name>ArInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArModels\ArModels.csproj">
+      <Project>{4b968b7d-9789-48b5-b8be-d5ed78c36ff7}</Project>
+      <Name>ArModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArServices\ArServices.csproj">
+      <Project>{70d3d823-762f-42b8-9d38-e5b7bf24b351}</Project>
+      <Name>ArServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

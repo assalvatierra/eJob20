@@ -1,0 +1,107 @@
+﻿@model ArModels.Models.ArTransaction
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var transPayments = ViewBag.Payments as IEnumerable<ArModels.Models.ArTransPayment>;
+}
+
+<h2>Transaction Details</h2>
+
+<div class="col-md-12">
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+    <hr />
+    <div class="col-md-6">
+        <p>
+            <h3> @Model.Description / @Model.ArAccount.Name / @Model.ArAccount.Company </h3>
+        </p>
+        <p>
+            <b class="text-muted"> Invoice Id: </b>
+            <span> @Model.InvoiceId </span>
+        </p>
+        <p>
+            <b class="text-muted"> Invoice Date: </b>
+            <span> @Model.DtInvoice.ToString("MMM dd yyyy") </span>
+        </p>
+        <p>
+            <b class="text-muted"> Amount: </b>
+            <span> @Model.Amount </span>
+        </p>
+        <p>
+            <b class="text-muted"> Due Date: </b>
+            <span> @Model.DtDue.ToString("MMM dd yyyy") </span>
+        </p>
+    </div>
+    <div class="col-md-6">
+        <br /><br /><br />
+        <p>
+            <b class="text-muted"> Encoded Date: </b>
+            <span> @Model.DtEncoded </span>
+        </p>
+        <p>
+            <b class="text-muted"> Interval: </b>
+            <span> @Model.Interval </span>
+        </p>
+        <p>
+            <b class="text-muted"> Is Repeating: </b>
+            <span> @Model.IsRepeating </span>
+        </p>
+        <p>
+            <b class="text-muted"> Remarks: </b>
+            <span> @Model.Remarks </span>
+        </p>
+    </div>
+</div>
+
+<hr />
+<h3>
+    Payments
+</h3>
+<p>
+
+    @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = Model.Id }, null) 
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            By
+        </th>
+        <th>
+            Reference
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th>
+            Amount
+        </th>
+    </tr>
+    @foreach (var payments in transPayments)
+    {
+        <tr>
+            <td>
+                @payments.ArPayment.DtPayment.ToShortDateString()
+            </td>
+            <td>
+                @payments.ArPayment.ArAccount.Name
+            </td>
+            <td>
+                @payments.ArPayment.Reference
+            </td>
+            <td>
+                @payments.ArPayment.Remarks
+            </td>
+            <td>
+                @payments.ArPayment.Amount.ToString("N0")
+            </td>
+        </tr>
+    }
+
+</table>

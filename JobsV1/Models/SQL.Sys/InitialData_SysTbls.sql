@@ -20,7 +20,9 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Master List','Master List',0,'Cities','Index','span=30',20,14),
 ('Admin','Admin',0,'Admin','UserList','',20,15),
 ('Activities','Activities',0,'Activities','Index','',20,16),
-('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17)
+('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17),
+('Trip Logs','Trip Logs',0,'Personel/CarRentalLog','Index','',20,18),
+('Receivables','Receivable Transactions',0,'Receivables/ArTransactions','Index','',20,19)
 ;
 
 
@@ -227,14 +229,22 @@ values 	('Vehicles' ,'',17,'AutoCare/Vehicles','Index','',21,171),	--72
 		('Vehicle Models' ,'',17,'AutoCare/VehicleModels','Index','',21,172);	 -- id: 73
 		
 --Trip Logs --
-insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
-('Trip Logs','Trip Logs',0,'Personel/CarRentalLog','Index','',20,21);
-
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('TL1001','Car Rental Trip Logs','Trip Logs','A','/Images/Erp/icons/icons-report.png');
+('TL1001','Trip Logs','Trip Logs','A','/Images/Erp/icons/icons-report.png');
 
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (18,18);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Trip Logs' ,'',88,'AutoCare/Vehicles','Index','',21,171);	 -- id: 73
+values 	('Trip Logs' ,'',18,'AutoCare/Vehicles','Index','',21,151);	 -- id: 73
+
+
+-- Receivables --
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('AR001','Recievables','Receivables and Collections','A','/Images/Erp/icons/icons-report.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (19,19);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Receivables' ,'',19,'Receivables/ArTransactions','Index','',21,191),	 -- id: 73
+	    ('Accounts' ,'',19,'Receivables/ArAccounts','Index','',21,192);	 -- id: 73
 
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
@@ -260,6 +270,8 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com',15,15), 
 ('assalvatierra@gmail.com',16,16), 
 ('assalvatierra@gmail.com',17,17), 
+('assalvatierra@gmail.com',18,18), 
+('assalvatierra@gmail.com',19,19), 
 
 ('jahdielvillosa@gmail.com',1,1), 
 ('jahdielvillosa@gmail.com',2,2), 
@@ -278,18 +290,20 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com',15,15),
 ('jahdielvillosa@gmail.com',16,16),
 ('jahdielvillosa@gmail.com',17,17), 
+('jahdielvillosa@gmail.com',18,18), 
+('jahdielvillosa@gmail.com',19,19), 
 
 ('Demo@gmail.com',1,1), 
 ('Demo@gmail.com',3,3), 
 ('Demo@gmail.com',5,5), 
 ('Demo@gmail.com',6,6), 
-('Demo@gmail.com',17,17); 
+('Demo@gmail.com',17,17),
+('Demo@gmail.com', 18, 18),
+('Demo@gmail.com', 19, 19); 
 
 
 
 insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
-('assalvatierra@gmail.com', 18, 18),
-('assalvatierra@gmail.com', 19, 19),
 ('assalvatierra@gmail.com', 20, 20),
 ('assalvatierra@gmail.com', 21, 21),
 ('assalvatierra@gmail.com', 22, 22),
@@ -344,9 +358,13 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 71, 71),
 ('assalvatierra@gmail.com', 72, 72),
 ('assalvatierra@gmail.com', 73, 73),
+('assalvatierra@gmail.com', 74, 74),
+('assalvatierra@gmail.com', 75, 75),
+('assalvatierra@gmail.com', 76, 76),
+('assalvatierra@gmail.com', 77, 77),
+('assalvatierra@gmail.com', 78, 78),
+('assalvatierra@gmail.com', 79, 79),
 
-('jahdielvillosa@gmail.com', 18, 18),
-('jahdielvillosa@gmail.com', 19, 19),
 ('jahdielvillosa@gmail.com', 20, 20),
 ('jahdielvillosa@gmail.com', 21, 21),
 ('jahdielvillosa@gmail.com', 22, 22),
@@ -401,10 +419,13 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 71, 71),
 ('jahdielvillosa@gmail.com', 72, 72),
 ('jahdielvillosa@gmail.com', 73, 73),
+('jahdielvillosa@gmail.com', 74, 74),
+('jahdielvillosa@gmail.com', 75, 75),
+('jahdielvillosa@gmail.com', 76, 76),
+('jahdielvillosa@gmail.com', 77, 77),
+('jahdielvillosa@gmail.com', 78, 78),
 
 
-('Demo@gmail.com', 18, 18),
-('Demo@gmail.com', 19, 19),
 ('Demo@gmail.com', 20, 20),
 ('Demo@gmail.com', 21, 21),
 ('Demo@gmail.com', 26, 26),
