@@ -415,6 +415,12 @@
     <Compile Include="Areas\Personel\Models\crLogOdo.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\crLogPassenger.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogPassStatus.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\crLogPaymentType.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
@@ -3093,19 +3099,19 @@
     <Folder Include="Views\CustomHelper\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArDBLayer\ArDBLayer.csproj">
+    <ProjectReference Include="..\..\Receivable20\ArDBLayer\ArDBLayer.csproj">
       <Project>{7afe168f-5afe-4d9b-9edc-55658f5e1a7c}</Project>
       <Name>ArDBLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArInterfaces\ArInterfaces.csproj">
+    <ProjectReference Include="..\..\Receivable20\ArInterfaces\ArInterfaces.csproj">
       <Project>{8d86ba9c-d048-4484-a858-b3623587bceb}</Project>
       <Name>ArInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArModels\ArModels.csproj">
+    <ProjectReference Include="..\..\Receivable20\ArModels\ArModels.csproj">
       <Project>{4b968b7d-9789-48b5-b8be-d5ed78c36ff7}</Project>
       <Name>ArModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArServices\ArServices.csproj">
+    <ProjectReference Include="..\..\Receivable20\ArServices\ArServices.csproj">
       <Project>{70d3d823-762f-42b8-9d38-e5b7bf24b351}</Project>
       <Name>ArServices</Name>
     </ProjectReference>

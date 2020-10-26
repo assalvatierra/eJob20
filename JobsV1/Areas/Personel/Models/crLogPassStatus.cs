@@ -12,32 +12,17 @@ namespace JobsV1.Areas.Personel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class crLogTrip
+    public partial class crLogPassStatus
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public crLogTrip()
+        public crLogPassStatus()
         {
             this.crLogPassengers = new HashSet<crLogPassenger>();
         }
     
         public int Id { get; set; }
-        public int crLogDriverId { get; set; }
-        public int crLogUnitId { get; set; }
-        public int crLogCompanyId { get; set; }
-        public System.DateTime DtTrip { get; set; }
-        public decimal Rate { get; set; }
-        public decimal Expenses { get; set; }
-        public decimal DriverFee { get; set; }
-        public string Remarks { get; set; }
-        public Nullable<int> crLogClosingId { get; set; }
-        public decimal Addon { get; set; }
-        public Nullable<int> OdoStart { get; set; }
-        public Nullable<int> OdoEnd { get; set; }
+        public string Status { get; set; }
     
-        public virtual crLogDriver crLogDriver { get; set; }
-        public virtual crLogUnit crLogUnit { get; set; }
-        public virtual crLogCompany crLogCompany { get; set; }
-        public virtual crLogClosing crLogClosing { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogPassenger> crLogPassengers { get; set; }
     }
