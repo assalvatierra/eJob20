@@ -68,7 +68,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 var currentUser = HttpContext.User.Identity.Name;
 
                 ar.TransactionMgr.AddTransaction(arTransaction);
-                ar.ActionMgr.AddAction(1, today, currentUser, arTransaction.Id);
+                //ar.ActionMgr.AddAction(1, today, currentUser, arTransaction.Id);
 
                 //new account
                 if (arTransaction.ArAccountId == 1)

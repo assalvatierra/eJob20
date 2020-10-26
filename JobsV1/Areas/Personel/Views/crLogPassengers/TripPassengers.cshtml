@@ -9,7 +9,9 @@
 <h2>@tripDetails.DtTrip.ToString("MMM dd yyyy")- @tripDetails.crLogCompany.Name / @tripDetails.crLogUnit.Description / @tripDetails.crLogDriver.Name </h2>
 <h2>Passenger List</h2>
 
-
+<p>
+    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog")
+</p>
 <p>
     @Html.ActionLink("Create New", "CreatePassTrip", new { id = ViewBag.tripId })
 </p>

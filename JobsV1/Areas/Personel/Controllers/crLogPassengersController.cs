@@ -292,6 +292,9 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             try
             {
+
+                List<SelectListItem> tripLogList = new List<SelectListItem> {};
+
                 if (!srchDate.IsNullOrWhiteSpace())
                 {
                     var tempDate = DateTime.Parse(srchDate);
@@ -320,14 +323,31 @@ namespace JobsV1.Areas.Personel.Controllers
 
                     }
 
+                    //get valid trips 
+                    tripLogList = GetActivePassTripLogs((int)companyId);
+
+                    ViewBag.tripId = new SelectList(tripLogList, "Value", "Text");
 
                     return View(filteredLogs);
                 }
 
-                List<SelectListItem> tripLogList = new List<SelectListItem> {
-                        new SelectListItem { Value = "1", Text = "NA" },
-                    };
+                ViewBag.companyId = new SelectList(dl.GetCompanies(), "Id", "Name");
+                ViewBag.tripId = new SelectList(tripLogList, "Value", "Text");
+                ViewBag.isSubmitted = false;
+                return View(new List<crLogTrip>());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public List<SelectListItem> GetActivePassTripLogs(int companyId)
+        {
+            try
+            {
+                List<SelectListItem> tripLogList = new List<SelectListItem> { };
+                //Create List of 
                 var today = dt.GetCurrentDate();
                 var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today);
 
@@ -338,28 +358,26 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 foreach (var logs in scrLogTrips.ToList())
                 {
-                    //if (GetTripPassengersCount(logs.Id) == 0)
-                    //{
-                        tripLogList.Add(new SelectListItem { Value = logs.Id.ToString(), 
-                            Text = logs.DtTrip.ToShortDateString() + " - " + logs.crLogDriver.Name + " / " + logs.crLogUnit.Description + " / " + logs.crLogCompany });
-                    //}
+                    if (GetTripPassengersCount(logs.Id) == 0)
+                    {
+                        tripLogList.Add(new SelectListItem
+                        {
+                            Value = logs.Id.ToString(),
+                            Text = logs.DtTrip.ToShortDateString() + " - " + logs.crLogDriver.Name + " / " + logs.crLogUnit.Description + " / " + logs.crLogCompany.Name
+                        });
+                    }
                 }
+
                 if (tripLogList == null)
                 {
-                    tripLogList = new List<SelectListItem> {
-                        new SelectListItem { Value = "0", Text = "NA" },
-                    };
+                    tripLogList = new List<SelectListItem> {};
                 }
 
-
-                ViewBag.companyId = new SelectList(dl.GetCompanies(), "Id", "Name");
-                ViewBag.tripId = new SelectList(tripLogList, "Value", "Text");
-                ViewBag.isSubmitted = false;
-                return View(new List<crLogTrip>());
+                return tripLogList;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                return new List<SelectListItem> {};
             }
         }
 

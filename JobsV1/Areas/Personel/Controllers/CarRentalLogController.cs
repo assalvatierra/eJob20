@@ -708,7 +708,50 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
-        public bool CopyTripSubmit(int?  id, string copyDate)
+
+        public bool CopyTripSubmit_old(int? id, string copyDate)
+        {
+            try
+            {
+                if (copyDate.IsNullOrWhiteSpace() || id == null)
+                {
+                    return false;
+                }
+
+                var cDate = DateTime.ParseExact(copyDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+                //find logs by id
+                var cLogTrip = db.crLogTrips.Find(id);
+
+                if (cLogTrip == null)
+                {
+                    return false;
+                }
+
+                crLogTrip newCrLogTrip = new crLogTrip();
+                newCrLogTrip.crLogCompanyId = cLogTrip.crLogCompanyId;
+                newCrLogTrip.crLogDriverId = cLogTrip.crLogDriverId;
+                newCrLogTrip.crLogUnitId = cLogTrip.crLogUnitId;
+                newCrLogTrip.DriverFee = cLogTrip.DriverFee;
+                newCrLogTrip.Expenses = cLogTrip.Expenses;
+                newCrLogTrip.Rate = cLogTrip.Rate;
+                newCrLogTrip.Remarks = cLogTrip.Remarks;
+                newCrLogTrip.Addon = cLogTrip.Addon;
+                newCrLogTrip.DtTrip = cDate.AddTicks(cLogTrip.DtTrip.TimeOfDay.Ticks);
+
+                db.crLogTrips.Add(newCrLogTrip);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
+            }
+        }
+
+        public bool CopyTripSubmit(int?  id, string copyDate, int? copyPassengers)
         {
             try
             {
@@ -741,14 +784,62 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.crLogTrips.Add(newCrLogTrip);
                 db.SaveChanges();
 
+                if (copyPassengers == 1)
+                {
+                    CopyPassTripSubmit((int)id, newCrLogTrip.Id);
+                }
+
                 return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
+            }
+        }
+
+
+        public bool CopyPassTripSubmit(int id, int destTripId)
+        {
+            try
+            {
+                //find logs by id
+                var cLogTrip = db.crLogTrips.Find(id);
+
+                if (cLogTrip == null)
+                {
+                    return false;
+                }
+
+                //get list of passengers from log trip id
+                var passengersList = db.crLogPassengers.Where(p => p.crLogTripId == id).ToList();
+
+                if (passengersList != null)
+                {
+                    foreach (var pass in passengersList)
+                    {
+                        crLogPassenger copy_pass = pass;
+                        copy_pass.timeContacted = " ";
+                        copy_pass.timeBoarded = " ";
+                        copy_pass.timeDelivered = " ";
+                        copy_pass.Remarks = " ";
+                        copy_pass.crLogPassStatusId = 1;     //new status
+                        copy_pass.crLogTripId = (int)destTripId;  //new trip log
+
+                        db.crLogPassengers.Add(copy_pass);
+                    }
+                    db.SaveChanges();
+
+                    return true;
+                }
+                return false;
             }
             catch
             {
                 return false;
             }
-
         }
+
 
         public IQueryable<crLogTrip> GetFilteredTripLogs(string startDate, string endDate, string unit, string driver, string company, string sortby)
         {

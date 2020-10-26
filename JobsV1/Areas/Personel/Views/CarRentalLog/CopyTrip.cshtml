@@ -124,10 +124,14 @@
                 <h4 class="modal-title"> Set Date for the Copied Logs</h4>
             </div>
             <div class="modal-body">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Date:</label>
-                        <input type="text" class="form-control" id="copiedLogDate" name="copiedLogDate">
-                    </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Date:</label>
+                    <input type="text" class="form-control" id="copiedLogDate" name="copiedLogDate">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Copy Passengers:</label>
+                    <input type="checkbox" style="margin-left:20px;margin-top:2px;" id="copiedPass" name="copiedPass">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -153,15 +157,24 @@
 
         function SubmitCopyLogs() {
             let cDate = $("#copiedLogDate").val();
+            let cPass = $("#copiedPass").prop('checked');
+            let cPassRes = 0;
             let count = 0;
+
+            if (cPass == true) {
+                cPassRes = 1;
+            }
+
             console.log(cDate);
+            console.log(cPass + " : " + cPassRes);
+
 
             $('#LogsTable  tr:gt(0)').each(function () {
                 var current_row = $(this);
                 var selected_Id = current_row.find("td:eq(0)").children('input:checked').val();
                 console.log(selected_Id);
                 //submit and copy logs to new logs
-                ajax_CopyLogs(selected_Id, cDate);
+                ajax_CopyLogs(selected_Id, cDate, cPassRes);
                 count++;
             });
 
@@ -175,8 +188,8 @@
         }
 
         //submit log id and date to copy selected logs to a new logs
-        function ajax_CopyLogs(id, cDate) {
-           var res = $.post("/Personel/CarRentalLog/CopyTripSubmit", { id : id, copyDate: cDate }, (result) => {
+        function ajax_CopyLogs(id, cDate, cPass) {
+            var res = $.post("/Personel/CarRentalLog/CopyTripSubmit", { id: id, copyDate: cDate, copyPassengers: cPass }, (result) => {
                console.log("result:" + result);
                return result;
            });

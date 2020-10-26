@@ -57,7 +57,7 @@
                 @{Html.RenderAction("GetTripPassengersCount", new { id = item.Id });}
             </td>
             <td>
-                <button class="btn btn-primary" onclick="ShowCopyLogsModal()">
+                <button class="btn btn-primary" onclick="ShowCopyLogsModal(this,@item.Id)">
                     Copy 
                 </button>
             </td>
@@ -107,25 +107,23 @@
 
 <!-- Copied Logs Date -->
 <div class="modal fade" role="dialog" id="CopiedLogDateModal">
-    <div class="modal-dialog" style="width:300px;">
+    <div class="modal-dialog" style="width:400px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"> Set Trip for the Copied Passenger Trips</h4>
             </div>
 
-            <div class="form-group">
-                <label class="col-form-label">Trip:</label>
-                <div class="col-md-10" style="padding-left:0px;">
-                    @Html.DropDownList("tripId", null, htmlAttributes: new { @class = "form-control", name = "copiedTripLog" })
-
-                    @*@foreach (var trip in ViewBag.tripId as IEnumerable<JobsV1.Areas.Personel.Models.crLogFuel>)
-                    {
-                        <select class="form-control" name="copiedTripLog">
-                            <option value="@trip.Id">
-                            </option>
-                        </select>
-                    }*@
+            <div class="modal-body">
+                <div class="row" style="margin-left:0px;">
+                    <form class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="col-form-label">Company:</label>
+                            <div class="col-md-10" style="padding-left:0px;margin-top:10px;">
+                                @Html.DropDownList("tripId", null, htmlAttributes: new { @class = "form-control", id = "copiedTripLog" })
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
@@ -141,6 +139,8 @@
 
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
     <script>
+        var SELECTED_ID = 0;
+       
         $(document).ready(() => {
             if ('@ViewBag.isSubmitted' == 'False') {
                 $("#FindLogDateModal").modal("show");
@@ -180,28 +180,39 @@
            });
         }
 
-        function ShowCopyLogsModal() {
+        function ShowCopyLogsModal(e, id) {
             $("#CopiedLogDateModal").modal("show");
 
             var findLogDate = $("#findLogDate").val();
-            $("#copiedLogDate").val(moment(findLogDate).add(1,'days').format("MM/DD/YYYY"));
+            $("#copiedLogDate").val(moment(findLogDate).add(1, 'days').format("MM/DD/YYYY"));
+
+            //set selectedID 
+            SetSelectedID(id);
+
+            $(e).addClass('disabled');
         }
 
-        function SubmitPassCopyLogs(selected_Id) {
+        function SetSelectedID(selected_Id) {
+            this.SELECTED_ID = selected_Id;
+        }
+
+        function SubmitPassCopyLogs() {
             let cTripLogId = $("#copiedTripLog").val();
 
-            console.log(cTripLogId);
+            console.log("selected_Id : " + SELECTED_ID);
+            console.log("cTripLogId : " + cTripLogId);
 
-            //copy log
-            // $.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id: id, destTripId: cTripLogId }, (result) => {
-            //    console.log("result:" + result);
+             $.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id: SELECTED_ID, destTripId: cTripLogId }, (result) => {
+                console.log("result:" + result);
 
-            //     if (result == "True") {
-            //        alert("Copying Done !");
-            //    } else {
-            //        alert("An Error occured while copying.");
-            //    }
-            //});
+                 if (result == "True") {
+                     alert("Copying Done !");
+                     //close modal
+                     $("#CopiedLogDateModal").modal("hide");
+                } else {
+                    alert("An Error occured while copying.");
+                }
+            });
 
         }
 
