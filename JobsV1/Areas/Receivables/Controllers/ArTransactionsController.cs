@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArModels.Models;
 using ArServices;
+using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Areas.Receivables.Controllers
@@ -15,6 +16,7 @@ namespace JobsV1.Areas.Receivables.Controllers
     public class ArTransactionsController : Controller
     {
         private ReceivableFactory ar = new ReceivableFactory();
+        private DateClass dateClass = new DateClass();
 
         // GET: ArTransactions
         public ActionResult Index()
@@ -62,8 +64,11 @@ namespace JobsV1.Areas.Receivables.Controllers
         {
             if (ModelState.IsValid && InputValidation(arTransaction))
             {
+                var today = dateClass.GetCurrentDateTime();
+                var currentUser = HttpContext.User.Identity.Name;
 
                 ar.TransactionMgr.AddTransaction(arTransaction);
+                ar.ActionMgr.AddAction(1, today, currentUser, arTransaction.Id);
 
                 //new account
                 if (arTransaction.ArAccountId == 1)

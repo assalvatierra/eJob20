@@ -22,6 +22,8 @@
     <EntitySet Name="CrRptUnits" EntityType="CarRentalLogDB.Store.CrRptUnits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPaymentTypes" EntityType="CarRentalLogDB.Store.crLogPaymentTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogCashTypes" EntityType="CarRentalLogDB.Store.crLogCashTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogPassengers" EntityType="CarRentalLogDB.Store.crLogPassengers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogPassStatus" EntityType="CarRentalLogDB.Store.crLogPassStatus" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -97,6 +99,14 @@
     <AssociationSet Name="crLogCashTypecrLogCashRelease" Association="CarRentalLogDB.Store.crLogCashTypecrLogCashRelease">
       <End Role="crLogCashType" EntitySet="crLogCashTypes" />
       <End Role="crLogCashRelease" EntitySet="crLogCashReleases" />
+    </AssociationSet>
+    <AssociationSet Name="crLogPassStatuscrLogPassenger" Association="CarRentalLogDB.Store.crLogPassStatuscrLogPassenger">
+      <End Role="crLogPassStatus" EntitySet="crLogPassStatus" />
+      <End Role="crLogPassenger" EntitySet="crLogPassengers" />
+    </AssociationSet>
+    <AssociationSet Name="crLogTripcrLogPassenger" Association="CarRentalLogDB.Store.crLogTripcrLogPassenger">
+      <End Role="crLogTrip" EntitySet="crLogTrips" />
+      <End Role="crLogPassenger" EntitySet="crLogPassengers" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="crLogDrivers">
@@ -258,6 +268,32 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="10" />
     <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="crLogPassengers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="Contact" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="PassAddress" Type="nvarchar" Nullable="true" MaxLength="180" />
+    <Property Name="PickupPoint" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="PickupTime" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="DropPoint" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="DropTime" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="timeContacted" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="timeBoarded" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="timeDelivered" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="crLogPassStatusId" Type="int" Nullable="false" />
+    <Property Name="crLogTripId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crLogPassStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="10" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -484,6 +520,30 @@
       </Principal>
       <Dependent Role="crLogCashRelease">
         <PropertyRef Name="crLogCashTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogPassStatuscrLogPassenger">
+    <End Role="crLogPassStatus" Type="CarRentalLogDB.Store.crLogPassStatus" Multiplicity="1" />
+    <End Role="crLogPassenger" Type="CarRentalLogDB.Store.crLogPassengers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogPassStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogPassenger">
+        <PropertyRef Name="crLogPassStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="crLogTripcrLogPassenger">
+    <End Role="crLogTrip" Type="CarRentalLogDB.Store.crLogTrips" Multiplicity="1" />
+    <End Role="crLogPassenger" Type="CarRentalLogDB.Store.crLogPassengers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogTrip">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogPassenger">
+        <PropertyRef Name="crLogTripId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1035,7 +1095,7 @@
           <Property Name="DropPoint" Type="String" Nullable="false" MaxLength="150" />
           <Property Name="DropTime" Type="String" Nullable="false" MaxLength="10" />
           <Property Name="timeContacted" Type="String" Nullable="false" MaxLength="10" />
-          <Property Name="timeBoarded" Type="String" Nullable="false" MaxLength="10" />
+          <Property Name="timeBoarded" Type="String" MaxLength="10" Nullable="false" />
           <Property Name="timeDelivered" Type="String" Nullable="false" MaxLength="10" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="150" />
           <NavigationProperty Name="crLogPassStatu" Relationship="CarRentalLogDB.crLogPassStatuscrLogPassenger" FromRole="crLogPassenger" ToRole="crLogPassStatus" />
@@ -1254,6 +1314,34 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogPassengers">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogPassenger)">
+        <MappingFragment StoreEntitySet="crLogPassengers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="PassAddress" ColumnName="PassAddress" />
+          <ScalarProperty Name="PickupPoint" ColumnName="PickupPoint" />
+          <ScalarProperty Name="PickupTime" ColumnName="PickupTime" />
+          <ScalarProperty Name="DropPoint" ColumnName="DropPoint" />
+          <ScalarProperty Name="DropTime" ColumnName="DropTime" />
+          <ScalarProperty Name="timeContacted" ColumnName="timeContacted" />
+          <ScalarProperty Name="timeBoarded" ColumnName="timeBoarded" />
+          <ScalarProperty Name="timeDelivered" ColumnName="timeDelivered" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="crLogPassStatusId" ColumnName="crLogPassStatusId" />
+          <ScalarProperty Name="crLogTripId" ColumnName="crLogTripId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogPassStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogPassStatus)">
+        <MappingFragment StoreEntitySet="crLogPassStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
