@@ -2265,6 +2265,8 @@
     <Content Include="Areas\Personel\Views\crLogPassengers\CopyPassTrip.cshtml" />
     <Content Include="Areas\Personel\Views\CrLogPassengerList\Index.cshtml" />
     <Content Include="Areas\Personel\Views\CrLogPassengerList\TransferPassenger.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\EditPassTrip.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\DeletePassTrip.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

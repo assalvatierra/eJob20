@@ -64,4 +64,4 @@ insert into crLogCashReleases([DtRelease],[Amount],[Remarks],[crLogDriverId],[cr
 ('10/31/2020', 1500, '', 1, null, 2);
 
 insert into crLogPassStatus([Status]) values 
-('For Pickup'),('Contacted'),('Boarded'),('Dropped');
+('For Pickup'),('Contacted'),('Boarded'),('Dropped'),('Declined'),('Failed');
