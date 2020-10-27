@@ -1,0 +1,51 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
+
+@{
+    ViewBag.Title = "Passenger transfer";
+}
+
+<h3>Select where to transfer the passenger</h3>
+<h2>
+    @ViewBag.pass.Name
+</h2>
+
+<table class="table">
+    <tr>
+        <th>&nbsp;</th>
+        <th>
+            Driver
+        </th>
+        <th>
+            Unit Description
+        </th>
+        <th>
+            Passengers
+        </th>
+        <th>
+            Trip Date
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.ActionLink("Select", "ExecuteTransfer", new { passId = @ViewBag.pass.Id, tripId = item.Id})
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+        </td>
+        <td>
+            @item.crLogPassengers.Count()
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtTrip)
+        </td>
+    </tr>
+    }
+
+</table>

@@ -1,37 +1,95 @@
 ﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Passenger Manifest";
 }
 
-<h2>Index</h2>
+<h2>Passenger Manifest</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.crLogDriver.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.crLogUnit.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DtTrip)
-        </th>
-    </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+        <th>
+            Driver: @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+        </th>
+        <th>
+            Unit: @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+        </th>
+        <th>
+            Date: @Html.DisplayFor(modelItem => item.DtTrip)
+        </th>
+    </tr>
+    <tr>
+        <td colspan="3">
+            @{ int passcnt = 0;}
+            <table style="border:3px solid cadetblue;">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>##</th>
+                    <th>Name And Contact</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>STATUS</th>
+                    <th>Contacted</th>
+                    <th>Boarded</th>
+                    <th>Delivered</th>
+                    <th>Options</th>
+
+                </tr>
+
+                @foreach (var pass in item.crLogPassengers)
+                {
+                    passcnt++;
+
+            <tr>
+                <td>&nbsp;</td>
+                <td>(@passcnt)&nbsp;</td>
+                <td>
+                    @pass.Name / @pass.Contact &nbsp;
+                </td>
+                <td>
+                    [ @pass.PickupTime / @pass.PickupPoint ] &nbsp;
+                </td>
+                <td>
+                    [ @pass.DropTime / @pass.DropPoint ] &nbsp;
+                </td>
+                <td style="text-align:center;color:darkslateblue;">
+                    @pass.crLogPassStatu.Status
+                </td>
+
+                @{
+                    var sContacted = pass.timeContacted.Trim() == "" ? "--:--" : pass.timeContacted;
+                    var sBoarded = pass.timeBoarded.Trim() == "" ? "--:--" : pass.timeBoarded;
+                    var sDelivered = pass.timeDelivered.Trim() == "" ? "--:--" : pass.timeDelivered;
+                }
+
+                <td style="text-align:center;">
+                    @sContacted &nbsp;
+                </td>
+                <td style="text-align:center;">
+                    @sBoarded &nbsp;
+                </td>
+                <td style="text-align:center;">
+                    @sDelivered
+                </td>
+
+                <td>
+                    &nbsp;[ @Html.ActionLink("Transfer", "TransferPassenger", new { id = pass.Id }) ]
+                </td>
+
+            </tr>
+                }
+
+                <tr><td colspan="4">&nbsp</td></tr>
+            </table>
+
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.crLogUnit.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DtTrip)
+
+    </tr>
+    <tr>
+        <td colspan="6">
+               &nbsp;
         </td>
     </tr>
 }

@@ -19,7 +19,35 @@ namespace JobsV1.Areas.Personel.Controllers
                 .Include(d=>d.crLogPassengers)
                 .ToList();
 
+
+            //last trip transaction
+            //transfer passenger
+            //cancel passenger
+
             return View(crTrip);
         }
+
+        public ActionResult TransferPassenger(int id)
+        {
+            List<crLogTrip> crTrip = db.crLogTrips
+                .Where(d => d.crLogPassengers.Count() > 0)
+                .ToList();
+
+            ViewBag.Pass = db.crLogPassengers.Find(id);
+
+            return View(crTrip);
+        }
+
+        public ActionResult ExecuteTransfer(int passId, int tripId)
+        {
+            crLogPassenger pass = db.crLogPassengers.Find(passId);
+            pass.crLogTripId = tripId;
+            db.SaveChanges();
+
+            return RedirectToAction("index");
+        }
+
+
+
     }
 }

@@ -49,6 +49,22 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ArDBLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RealSysMods\Receivables\ArDBLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="ArInterfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RealSysMods\Receivables\ArInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ArModels, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RealSysMods\Receivables\ArModels.dll</HintPath>
+    </Reference>
+    <Reference Include="ArServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RealSysMods\Receivables\ArServices.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -354,6 +370,7 @@
     <Compile Include="Areas\Personel\Controllers\crLogDriversController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
+    <Compile Include="Areas\Personel\Controllers\CrLogPassengerListController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogPassengersController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogUnitsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crRptUnitExpensesController.cs" />
@@ -2246,6 +2263,8 @@
     <Content Include="Areas\Personel\Views\crLogPassengers\DriversTripPassengers.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengers\CreatePassTrip.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengers\CopyPassTrip.cshtml" />
+    <Content Include="Areas\Personel\Views\CrLogPassengerList\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\CrLogPassengerList\TransferPassenger.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -3116,24 +3135,6 @@
     <Folder Include="Areas\Receivables\Data\" />
     <Folder Include="Areas\Receivables\Views\Home\" />
     <Folder Include="Views\CustomHelper\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArDBLayer\ArDBLayer.csproj">
-      <Project>{7afe168f-5afe-4d9b-9edc-55658f5e1a7c}</Project>
-      <Name>ArDBLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArInterfaces\ArInterfaces.csproj">
-      <Project>{8d86ba9c-d048-4484-a858-b3623587bceb}</Project>
-      <Name>ArInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArModels\ArModels.csproj">
-      <Project>{4b968b7d-9789-48b5-b8be-d5ed78c36ff7}</Project>
-      <Name>ArModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArServices\ArServices.csproj">
-      <Project>{70d3d823-762f-42b8-9d38-e5b7bf24b351}</Project>
-      <Name>ArServices</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
