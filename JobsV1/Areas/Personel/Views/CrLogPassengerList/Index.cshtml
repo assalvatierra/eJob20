@@ -1,0 +1,39 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.crLogDriver.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.crLogUnit.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtTrip)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DtTrip)
+        </td>
+    </tr>
+}
+
+</table>
