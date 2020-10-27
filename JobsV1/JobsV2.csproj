@@ -354,6 +354,7 @@
     <Compile Include="Areas\Personel\Controllers\crLogDriversController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogPassengersController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogUnitsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crRptUnitExpensesController.cs" />
     <Compile Include="Areas\Personel\Controllers\CrRptUnitsController.cs" />
@@ -1271,6 +1272,7 @@
     <Content Include="Areas\Personel\Script\CarRentalLogCreate.js" />
     <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
     <Content Include="Areas\Personel\Script\CashTransactions.js" />
+    <Content Include="Areas\Personel\Script\CreatePassengerTime.js" />
     <Content Include="Areas\Personel\Script\CrLogFuel.js" />
     <Content Include="Areas\Personel\Script\CrLogOdoes.js" />
     <Content Include="Areas\Personel\Script\CarRentalLog.js" />
@@ -1371,6 +1373,7 @@
     <Content Include="Content\GMSReport.css" />
     <Content Include="Content\ImageStyles.css" />
     <Content Include="Content\JobMonitorStyles.css" />
+    <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\ModalUser.css" />
     <Content Include="Content\Erp.css" />
@@ -1816,6 +1819,12 @@
     <Content Include="Images\Icons\icons-search.png" />
     <Content Include="Images\Icons\icons-sms-96.png" />
     <Content Include="Images\Icons\icons-valet-parking.png" />
+    <Content Include="Images\Icons\Receivables\Receivables-1st-reminder.png" />
+    <Content Include="Images\Icons\Receivables\Receivables-2nd-reminder.png" />
+    <Content Include="Images\Icons\Receivables\Receivables-new-bill.png" />
+    <Content Include="Images\Icons\Receivables\Receivables-paid-bill.png" />
+    <Content Include="Images\Icons\Receivables\Receivables-received.png" />
+    <Content Include="Images\Icons\Receivables\Receivables-sent.png" />
     <Content Include="Images\Icons\settings-black.png" />
     <Content Include="Images\Icons\settings-red.png" />
     <Content Include="Images\Icons\skype-logo.png" />
@@ -2228,12 +2237,22 @@
     <Content Include="Areas\Receivables\Views\ArPayments\Edit.cshtml" />
     <Content Include="Areas\Receivables\Views\ArPayments\Index.cshtml" />
     <Content Include="Areas\Receivables\Views\ArPayments\CreateTransPayment.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\TripPassengers.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\DriversTripPassengers.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\CreatePassTrip.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\CopyPassTrip.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
     <Content Include="Scripts\jquery.tablesort.min.js" />
+    <Content Include="Scripts\jquery.timepicker.js" />
     <Content Include="Scripts\Personnel\Payroll.js" />
     <Content Include="Scripts\Products\ProdCreate.js" />
     <Content Include="Scripts\Reporting\UnitIncome.js" />
@@ -3099,19 +3118,19 @@
     <Folder Include="Views\CustomHelper\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Receivable20\ArDBLayer\ArDBLayer.csproj">
+    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArDBLayer\ArDBLayer.csproj">
       <Project>{7afe168f-5afe-4d9b-9edc-55658f5e1a7c}</Project>
       <Name>ArDBLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Receivable20\ArInterfaces\ArInterfaces.csproj">
+    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArInterfaces\ArInterfaces.csproj">
       <Project>{8d86ba9c-d048-4484-a858-b3623587bceb}</Project>
       <Name>ArInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Receivable20\ArModels\ArModels.csproj">
+    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArModels\ArModels.csproj">
       <Project>{4b968b7d-9789-48b5-b8be-d5ed78c36ff7}</Project>
       <Name>ArModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Receivable20\ArServices\ArServices.csproj">
+    <ProjectReference Include="..\..\..\..\source\repos\Receivable20\ArServices\ArServices.csproj">
       <Project>{70d3d823-762f-42b8-9d38-e5b7bf24b351}</Project>
       <Name>ArServices</Name>
     </ProjectReference>

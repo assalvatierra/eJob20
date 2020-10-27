@@ -231,3 +231,12 @@ D:\Projects\eJob20\JobsV1\bin\ArInterfaces.pdb
 D:\Projects\eJob20\JobsV1\bin\ArModels.pdb
 D:\Projects\eJob20\JobsV1\bin\ArModels.dll.config
 D:\Projects\eJob20\JobsV1\bin\ArServices.pdb
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArDBLayer.dll
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArInterfaces.dll
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArModels.dll
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArServices.dll
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArDBLayer.pdb
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArInterfaces.pdb
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArModels.pdb
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArModels.dll.config
+C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArServices.pdb

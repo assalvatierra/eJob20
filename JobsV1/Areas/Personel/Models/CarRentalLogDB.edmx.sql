@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/11/2020 14:09:05
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
+-- Date Created: 10/26/2020 13:22:27
+-- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -74,6 +74,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_crLogCashTypecrLogCashRelease]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogCashReleases] DROP CONSTRAINT [FK_crLogCashTypecrLogCashRelease];
 GO
+IF OBJECT_ID(N'[dbo].[FK_crLogPassStatuscrLogPassenger]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogPassengers] DROP CONSTRAINT [FK_crLogPassStatuscrLogPassenger];
+GO
+IF OBJECT_ID(N'[dbo].[FK_crLogTripcrLogPassenger]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogPassengers] DROP CONSTRAINT [FK_crLogTripcrLogPassenger];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -126,6 +132,12 @@ IF OBJECT_ID(N'[dbo].[crLogPaymentTypes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[crLogCashTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogCashTypes];
+GO
+IF OBJECT_ID(N'[dbo].[crLogPassengers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogPassengers];
+GO
+IF OBJECT_ID(N'[dbo].[crLogPassStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogPassStatus];
 GO
 
 -- --------------------------------------------------
@@ -292,6 +304,32 @@ CREATE TABLE [dbo].[crLogCashTypes] (
 );
 GO
 
+-- Creating table 'crLogPassengers'
+CREATE TABLE [dbo].[crLogPassengers] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(150)  NOT NULL,
+    [Contact] nvarchar(50)  NULL,
+    [PassAddress] nvarchar(180)  NULL,
+    [PickupPoint] nvarchar(150)  NOT NULL,
+    [PickupTime] nvarchar(10)  NOT NULL,
+    [DropPoint] nvarchar(150)  NOT NULL,
+    [DropTime] nvarchar(10)  NOT NULL,
+    [timeContacted] nvarchar(10)  NOT NULL,
+    [timeBoarded] nvarchar(10)  NOT NULL,
+    [timeDelivered] nvarchar(10)  NOT NULL,
+    [Remarks] nvarchar(150)  NULL,
+    [crLogPassStatusId] int  NOT NULL,
+    [crLogTripId] int  NOT NULL
+);
+GO
+
+-- Creating table 'crLogPassStatus'
+CREATE TABLE [dbo].[crLogPassStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] nvarchar(10)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -389,6 +427,18 @@ GO
 -- Creating primary key on [Id] in table 'crLogCashTypes'
 ALTER TABLE [dbo].[crLogCashTypes]
 ADD CONSTRAINT [PK_crLogCashTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogPassengers'
+ALTER TABLE [dbo].[crLogPassengers]
+ADD CONSTRAINT [PK_crLogPassengers]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogPassStatus'
+ALTER TABLE [dbo].[crLogPassStatus]
+ADD CONSTRAINT [PK_crLogPassStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -679,6 +729,36 @@ GO
 CREATE INDEX [IX_FK_crLogCashTypecrLogCashRelease]
 ON [dbo].[crLogCashReleases]
     ([crLogCashTypeId]);
+GO
+
+-- Creating foreign key on [crLogPassStatusId] in table 'crLogPassengers'
+ALTER TABLE [dbo].[crLogPassengers]
+ADD CONSTRAINT [FK_crLogPassStatuscrLogPassenger]
+    FOREIGN KEY ([crLogPassStatusId])
+    REFERENCES [dbo].[crLogPassStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogPassStatuscrLogPassenger'
+CREATE INDEX [IX_FK_crLogPassStatuscrLogPassenger]
+ON [dbo].[crLogPassengers]
+    ([crLogPassStatusId]);
+GO
+
+-- Creating foreign key on [crLogTripId] in table 'crLogPassengers'
+ALTER TABLE [dbo].[crLogPassengers]
+ADD CONSTRAINT [FK_crLogTripcrLogPassenger]
+    FOREIGN KEY ([crLogTripId])
+    REFERENCES [dbo].[crLogTrips]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogTripcrLogPassenger'
+CREATE INDEX [IX_FK_crLogTripcrLogPassenger]
+ON [dbo].[crLogPassengers]
+    ([crLogTripId]);
 GO
 
 -- --------------------------------------------------

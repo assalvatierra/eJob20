@@ -1,24 +1,23 @@
 ﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
 
 @{
-    ViewBag.Title = "Trip Log";
+    ViewBag.Title = " Copy Passenger Trip Log";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Copy Trip Log</h2>
+<h2>Copy Passenger Trip Log</h2>
 <p>
     @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog") 
 </p>
 <p>
-    @Html.ActionLink("Search Again", "CopyTrip", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Search Again", "CopyPassTrip", null, new { @class = "btn btn-default" })
 
-    <button class="btn btn-primary" onclick="ShowCopyLogsModal()">
+    @*<button class="btn btn-primary" onclick="ShowCopyLogsModal()">
         Copy Selected
-    </button>
+    </button>*@
 </p>
 <table class="table" id="LogsTable">
     <tr>
-        <th></th>
         <th>
             Date
         </th>
@@ -29,23 +28,18 @@
             Description
         </th>
         <th>
-            Rate
+            Passengers 
         </th>
         <th>
-            Addon
-        </th>
-        <th>
-            Expense
-        </th>
-        <th>
-            Driver
+
         </th>
     </tr>
 
     @foreach (var item in Model)
     {
+       
         <tr>
-            <td class="td-checkbox"> <input type="checkbox" value="@item.Id" checked /> </td>
+            @*<td class="td-checkbox"> <input type="checkbox" value="@item.Id" checked /> </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.DtTrip)
             </td>
@@ -60,16 +54,12 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Rate)
+                @{Html.RenderAction("GetTripPassengersCount", new { id = item.Id });}
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Addon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Expenses)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DriverFee)
+                <button class="btn btn-primary" onclick="ShowCopyLogsModal(this,@item.Id)">
+                    Copy 
+                </button>
             </td>
         </tr>
     }
@@ -87,7 +77,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"> Find Logs by Date</h4>
+                    <h4 class="modal-title"> Find Passenger Trips by Date</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row" style="margin-left:10px;">
@@ -117,25 +107,28 @@
 
 <!-- Copied Logs Date -->
 <div class="modal fade" role="dialog" id="CopiedLogDateModal">
-    <div class="modal-dialog" style="width:300px;">
+    <div class="modal-dialog" style="width:400px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"> Set Date for the Copied Logs</h4>
+                <h4 class="modal-title"> Set Trip for the Copied Passenger Trips</h4>
             </div>
+
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Date:</label>
-                    <input type="text" class="form-control" id="copiedLogDate" name="copiedLogDate">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Copy Passengers:</label>
-                    <input type="checkbox" style="margin-left:20px;margin-top:2px;" id="copiedPass" name="copiedPass">
+                <div class="row" style="margin-left:0px;">
+                    <form class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="col-form-label">Company:</label>
+                            <div class="col-md-10" style="padding-left:0px;margin-top:10px;">
+                                @Html.DropDownList("tripId", null, htmlAttributes: new { @class = "form-control", id = "copiedTripLog" })
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" value="Create" class="btn btn-primary" onclick="SubmitCopyLogs()">Submit</button>
+                <button type="submit" value="Create" class="btn btn-primary" onclick="SubmitPassCopyLogs()">Submit</button>
             </div>
         </div>
     </div>
@@ -146,6 +139,8 @@
 
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
     <script>
+        var SELECTED_ID = 0;
+       
         $(document).ready(() => {
             if ('@ViewBag.isSubmitted' == 'False') {
                 $("#FindLogDateModal").modal("show");
@@ -157,24 +152,15 @@
 
         function SubmitCopyLogs() {
             let cDate = $("#copiedLogDate").val();
-            let cPass = $("#copiedPass").prop('checked');
-            let cPassRes = 0;
             let count = 0;
-
-            if (cPass == true) {
-                cPassRes = 1;
-            }
-
             console.log(cDate);
-            console.log(cPass + " : " + cPassRes);
-
 
             $('#LogsTable  tr:gt(0)').each(function () {
                 var current_row = $(this);
                 var selected_Id = current_row.find("td:eq(0)").children('input:checked').val();
                 console.log(selected_Id);
                 //submit and copy logs to new logs
-                ajax_CopyLogs(selected_Id, cDate, cPassRes);
+                ajax_CopyLogs(selected_Id, cDate);
                 count++;
             });
 
@@ -184,22 +170,50 @@
             } else {
                 alert("No Items were selected");
             }
-
         }
 
         //submit log id and date to copy selected logs to a new logs
-        function ajax_CopyLogs(id, cDate, cPass) {
-            var res = $.post("/Personel/CarRentalLog/CopyTripSubmit", { id: id, copyDate: cDate, copyPassengers: cPass }, (result) => {
+        function ajax_CopyLogs(id, cDate) {
+           var res = $.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id : id, copyDate: cDate }, (result) => {
                console.log("result:" + result);
                return result;
            });
         }
 
-        function ShowCopyLogsModal() {
+        function ShowCopyLogsModal(e, id) {
             $("#CopiedLogDateModal").modal("show");
 
             var findLogDate = $("#findLogDate").val();
-            $("#copiedLogDate").val(moment(findLogDate).add(1,'days').format("MM/DD/YYYY"));
+            $("#copiedLogDate").val(moment(findLogDate).add(1, 'days').format("MM/DD/YYYY"));
+
+            //set selectedID 
+            SetSelectedID(id);
+
+            $(e).addClass('disabled');
+        }
+
+        function SetSelectedID(selected_Id) {
+            this.SELECTED_ID = selected_Id;
+        }
+
+        function SubmitPassCopyLogs() {
+            let cTripLogId = $("#copiedTripLog").val();
+
+            console.log("selected_Id : " + SELECTED_ID);
+            console.log("cTripLogId : " + cTripLogId);
+
+             $.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id: SELECTED_ID, destTripId: cTripLogId }, (result) => {
+                console.log("result:" + result);
+
+                 if (result == "True") {
+                     alert("Copying Done !");
+                     //close modal
+                     $("#CopiedLogDateModal").modal("hide");
+                } else {
+                    alert("An Error occured while copying.");
+                }
+            });
+
         }
 
 

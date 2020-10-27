@@ -16,6 +16,10 @@ namespace JobsV1
                         "~/Scripts/jquery-ui-{version}.js"
                         ));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquerytimepicker").Include(
+                        "~/Scripts/jquery.timepicker.js"
+                        ));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
                         "~/Scripts/cleave.min.js"
@@ -82,6 +86,10 @@ namespace JobsV1
 
             bundles.Add(new StyleBundle("~/Content/css/DateRangePicker").Include(
                     "~/Content/daterangepicker.css"
+                ));
+
+            bundles.Add(new StyleBundle("~/Content/css/jquerytimepicker").Include(
+                    "~/Content/jquery.timepicker.css"
                 ));
 
             bundles.Add(new StyleBundle("~/Content/TableStyles").Include(
