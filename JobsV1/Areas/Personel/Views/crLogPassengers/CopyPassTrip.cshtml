@@ -54,7 +54,10 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @{Html.RenderAction("GetTripPassengersCount", new { id = item.Id });}
+                <a href="~/Personel/crLogPassengers/TripPassengers/@item.Id" title="See Passengers list" target="_blank">
+
+                    @{Html.RenderAction("GetTripPassengersCount", new { id = item.Id });}
+                </a>
             </td>
             <td>
                 <button class="btn btn-primary" onclick="ShowCopyLogsModal(this,@item.Id)">
@@ -110,15 +113,15 @@
     <div class="modal-dialog" style="width:400px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"> Set Trip for the Copied Passenger Trips</h4>
+                <button type="button" class="close" onclick="Cancel_SubmitPassCopyLogs()" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Select Ongoing Trip</h4>
             </div>
 
             <div class="modal-body">
                 <div class="row" style="margin-left:0px;">
                     <form class="col-md-12 col-xs-12">
                         <div class="form-group">
-                            <label class="col-form-label">Company:</label>
+                            <label class="col-form-label">Select Trip:</label>
                             <div class="col-md-10" style="padding-left:0px;margin-top:10px;">
                                 @Html.DropDownList("tripId", null, htmlAttributes: new { @class = "form-control", id = "copiedTripLog" })
                             </div>
@@ -127,7 +130,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="Cancel_SubmitPassCopyLogs()">Close</button>
                 <button type="submit" value="Create" class="btn btn-primary" onclick="SubmitPassCopyLogs()">Submit</button>
             </div>
         </div>
@@ -140,6 +143,7 @@
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
     <script>
         var SELECTED_ID = 0;
+        var SelectObj = HTMLElement;
        
         $(document).ready(() => {
             if ('@ViewBag.isSubmitted' == 'False') {
@@ -188,8 +192,9 @@
 
             //set selectedID 
             SetSelectedID(id);
+            $(SelectObj).addClass('disabled');
 
-            $(e).addClass('disabled');
+            SelectObj = e; 
         }
 
         function SetSelectedID(selected_Id) {
@@ -209,13 +214,18 @@
                      alert("Copying Done !");
                      //close modal
                      $("#CopiedLogDateModal").modal("hide");
+                     //$(SelectObj).addClass('disabled');
                 } else {
-                    alert("An Error occured while copying.");
+                     alert("An Error occured while copying.");
+                     $(SelectObj).removeClass('disabled');
                 }
             });
 
         }
 
+        function Cancel_SubmitPassCopyLogs() {
+            $(SelectObj).removeClass('disabled');
+        }
 
     </script>
 }

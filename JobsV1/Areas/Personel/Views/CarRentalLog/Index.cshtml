@@ -156,6 +156,9 @@
         <th>
             Odo End
         </th>
+        <th>
+            Passengers
+        </th>
         <th></th>
     </tr>
     @{
@@ -206,6 +209,9 @@
             </td>
             <td class="trip-OdoEnd">
                 @item.OdoEnd
+            </td>
+            <td>
+                @{Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id });}
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

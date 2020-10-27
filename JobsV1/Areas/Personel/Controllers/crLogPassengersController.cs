@@ -6,11 +6,13 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using ArModels.Models;
 using JobsV1.Areas.Personel.Models;
 using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 
 namespace JobsV1.Areas.Personel.Controllers
 {
@@ -34,10 +36,20 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            //get list of pasengers per trip
+            var crLogPassengers = db.crLogPassengers.Where(c=>c.crLogTripId == id).Include(c => c.crLogPassStatu).Include(c => c.crLogTrip);
+
+            //sort by pickup time  DateTime.ParseExact(c.PickupTime, "HH:mm tt", CultureInfo.InvariantCulture)
+           
+            var sorted_Passengers = crLogPassengers.ToList()
+                .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                .ToList();
+
             ViewBag.tripId = (int)id;
             ViewBag.TripDetails = db.crLogTrips.Find(id);
-            var crLogPassengers = db.crLogPassengers.Where(c=>c.crLogTripId == id).Include(c => c.crLogPassStatu).Include(c => c.crLogTrip);
-            return View(crLogPassengers.ToList());
+            ViewBag.tripList = GetPrevTripLogs_withPass(dt.GetCurrentDate()) ?? new List<crLogTrip>();
+            return View(sorted_Passengers);
         }
 
 
@@ -50,14 +62,42 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             var today = dt.GetCurrentDate();
-            var tripToday = db.crLogTrips.Where(c => c.crLogDriverId == id && c.DtTrip == today).FirstOrDefault();
+
+            var tripToday = db.crLogTrips.Where(c => c.crLogDriverId == id && DbFunctions.TruncateTime(c.DtTrip) == today.Date).FirstOrDefault();
             if (tripToday == null)
             {
                 return View(new List<crLogPassenger>());
             }
 
             var crLogPassengers = db.crLogPassengers.Where(c => c.crLogTripId == tripToday.Id);
-            return View(crLogPassengers.ToList());
+            ViewBag.TripId = tripToday.Id;
+            ViewBag.Driver = tripToday.crLogDriver.Name;
+            ViewBag.UnitDetails = tripToday.crLogUnit.Description;
+
+            if (tripToday != null)
+            {
+                ViewBag.TripDetails = tripToday.DtTrip.ToString("MMM dd yyyy") + " - " + tripToday.crLogCompany.Name;
+            }
+            else
+            {
+
+                ViewBag.TripDetails = "No trip found";
+            }
+
+            var sorted_Passengers = crLogPassengers.ToList()
+                .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                .ToList();
+
+            return View(sorted_Passengers);
+        }
+
+        [HttpGet]
+        public string GetTripPassList(int id)
+        {
+            var passengers = db.crLogPassengers.Where(c => c.crLogTripId == id).Select(c => new { c.Id, c.Name, c.PassAddress, c.PickupPoint, c.PickupTime, c.crLogPassStatu.Status }).ToList();
+
+            //return Json(passengers, JsonRequestBehavior.AllowGet);
+            return JsonConvert.SerializeObject(passengers, Formatting.Indented);
         }
 
         // GET: Personel/crLogPassengers/Details/5
@@ -113,6 +153,8 @@ namespace JobsV1.Areas.Personel.Controllers
             passenger.timeContacted = " ";
             passenger.timeBoarded = " ";
             passenger.timeDelivered = " ";
+            passenger.PickupTime = "1:00 PM";
+            passenger.timeDelivered = "6:00 PM";
 
             ViewBag.tripId = id;
             ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status");
@@ -134,6 +176,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("TripPassengers" , new { id = crLogPassenger.crLogTripId });
             }
 
+            ViewBag.tripId = crLogPassenger.crLogTripId;
             ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status", crLogPassenger.crLogPassStatusId);
             ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "Remarks", crLogPassenger.crLogTripId);
             return View(crLogPassenger);
@@ -175,6 +218,44 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(crLogPassenger);
         }
 
+        // GET: Personel/crLogPassengers/EditPasstrip/5
+        public ActionResult EditPasstrip(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogPassenger crLogPassenger = db.crLogPassengers.Find(id);
+            if (crLogPassenger == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.tripId = crLogPassenger.crLogTripId;
+            ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status", crLogPassenger.crLogPassStatusId);
+            ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "Remarks", crLogPassenger.crLogTripId);
+            return View(crLogPassenger);
+        }
+
+        // POST: Personel/crLogPassengers/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPasstrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId")] crLogPassenger crLogPassenger)
+        {
+            if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
+            {
+                db.Entry(crLogPassenger).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("TripPassengers", new { id = crLogPassenger.crLogTripId });
+            }
+            ViewBag.tripId = crLogPassenger.crLogTripId;
+            ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status", crLogPassenger.crLogPassStatusId);
+            ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "Remarks", crLogPassenger.crLogTripId);
+            return View(crLogPassenger);
+        }
+
+
         // GET: Personel/crLogPassengers/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -199,6 +280,34 @@ namespace JobsV1.Areas.Personel.Controllers
             db.crLogPassengers.Remove(crLogPassenger);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+
+        // GET: Personel/crLogPassengers/Delete/5
+        public ActionResult DeletePassTrip(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogPassenger crLogPassenger = db.crLogPassengers.Find(id);
+            if (crLogPassenger == null)
+            {
+                return HttpNotFound();
+            }
+            return View(crLogPassenger);
+        }
+
+        // POST: Personel/crLogPassengers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePassTrip(int id)
+        {
+            crLogPassenger crLogPassenger = db.crLogPassengers.Find(id);
+            db.crLogPassengers.Remove(crLogPassenger);
+            db.SaveChanges();
+            return RedirectToAction("TripPassengers", new { id = crLogPassenger.crLogTripId });
         }
 
         protected override void Dispose(bool disposing)
@@ -381,6 +490,32 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+
+        public List<crLogTrip> GetPrevTripLogs_withPass(DateTime dtTrip)
+        {
+            try
+            {
+                //Create List of 
+                var today = dt.GetCurrentDate();
+                var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= dtTrip);
+                var tripsWithPass = new List<crLogTrip>();
+
+                foreach (var logs in scrLogTrips.ToList())
+                {
+                    if (GetTripPassengersCount(logs.Id) >= 0)
+                    {
+                        tripsWithPass.Add(logs);
+                    }
+                }
+
+                return tripsWithPass;
+            }
+            catch
+            {
+                return new List<crLogTrip>();
+            }
+        }
+
         //CopyPassTripSubmit
 
         public bool CopyPassTripSubmit(int? id, int? destTripId)
@@ -438,6 +573,72 @@ namespace JobsV1.Areas.Personel.Controllers
             catch
             {
                 return 0;
+            }
+        }
+
+        public bool PassengerStatusUpdate(int id, int actId, string time)
+        {
+            try
+            {
+                var passenger = db.crLogPassengers.Find(id);
+                passenger.crLogPassStatusId = actId;
+
+                switch (actId)
+                {
+                    case 4:
+                        passenger.timeContacted = time;
+                        break;
+                    case 5:
+                        passenger.timeBoarded = time;
+                        break;
+                    case 6:
+                        passenger.timeDelivered = time;
+                        break;
+                }
+
+                db.Entry(passenger).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
+            }
+        }
+
+
+        public bool PassErrorStatusUpdate(int id, int actId, string time, string reason)
+        {
+            try
+            {
+                var passenger = db.crLogPassengers.Find(id);
+                passenger.crLogPassStatusId = actId;
+                passenger.Remarks = reason;
+
+                switch (actId)
+                {
+                    case 4:
+                        passenger.timeContacted = time;
+                        break;
+                    case 5:
+                        passenger.timeBoarded = time;
+                        break;
+                    case 6:
+                        passenger.timeDelivered = time;
+                        break;
+                }
+
+
+                db.Entry(passenger).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 

@@ -628,3 +628,59 @@
     text-shadow: 1px 1px  white;
 }
 
+/* circle for status */
+.status-circle-green {
+    background: #0ee626;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.status-circle-gray {
+    background: gray;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.status-circle-orange {
+    background: #fe5500;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.status-circle-red {
+    background: #fa0808;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.badge-primary{
+    background: #0874e9;
+}
+
+.badge-info {
+    background: #03a5e2;
+}
+
+.badge-success {
+    background: #06a727;
+}
+
+.badge-warning {
+    background: #e55602;
+}
+
+.badge-danger {
+    background: #e40000;
+}
