@@ -40,6 +40,9 @@
         <th>
             Driver
         </th>
+        <th>
+            Passengers
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -70,6 +73,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DriverFee)
+            </td>
+            <td>
+                @{Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id });}
             </td>
         </tr>
     }

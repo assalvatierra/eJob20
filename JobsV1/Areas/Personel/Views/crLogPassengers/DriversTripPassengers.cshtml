@@ -1,50 +1,486 @@
 ﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogPassenger>
 
 @{
-    ViewBag.Title = "Drivers_TripPassengers";
+    ViewBag.Title = "Drivers Trip Passengers";
+    int TripId = (int)ViewBag.TripId;
 }
+<div class="col-md-12">
+    <h3>  @ViewBag.Driver / @ViewBag.UnitDetails </h3>
+    <h4> <span class="text-muted">Trip :</span> @ViewBag.TripDetails  </h4>
+    <h4> Trip Passengers </h4>
+    <button class="btn btn-default" onclick="GetPassengerList()">
+        Refresh
+    </button>
+    <p style="display:flex;justify-content:space-evenly;">
+        <button type="button" class="btn btn-primary" style="margin-left:15px;">
+            For Pickup <span class="badge badge-light">9</span>
+            <span class="sr-only">passengers</span>
+        </button>
+        @*<button type="button" class="btn btn-info">
+                Boarded <span class="badge badge-light">9</span>
+                <span class="sr-only">unread messages</span>
+            </button>*@
+        <button type="button" class="btn btn-info" style="margin-left:5px;">
+            Boarded <span class="badge badge-light">0</span>
+            <span class="sr-only">passengers</span>
+        </button>
+        <button type="button" class="btn btn-warning" style="margin-left:5px;">
+            Missed <span class="badge badge-light">0</span>
+            <span class="sr-only">passengers</span>
+        </button>
+    </p>
+</div>
+<div class="col-md-12">
+    <div class="list-group text-md" id="passengers">
+        @foreach (var item in Model)
+        {
 
-<h2>Drivers_TripPassengers</h2>
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowPassengerAction(@item.Id,'@item.Name','@item.Contact')">
+                <div style="display:flex;justify-content:space-between;">
+                    <h5 class="mb-1" style="font-weight:600;">
+                        @Html.DisplayFor(modelItem => item.PickupTime) -
+                        @Html.DisplayFor(modelItem => item.PickupPoint)
+                    </h5>
+                    <div class="pull-right" style="margin-top:0px;margin-left:5px;">
+                        @if (item.crLogPassStatusId == 3)
+                        {
+                            <span class="badge badge-secondary"> @item.crLogPassStatu.Status </span>
+                        }
+                        @if (item.crLogPassStatusId == 4)
+                        {
+                            <span class="badge badge-primary"> @item.crLogPassStatu.Status </span>
+                        }
+                        @if (item.crLogPassStatusId == 5)
+                        {
+                            <span class="badge badge-info"> @item.crLogPassStatu.Status </span>
+                        }
+                        @if (item.crLogPassStatusId == 6)
+                        {
+                            <span class="badge badge-success"> @item.crLogPassStatu.Status </span>
+                        }
+                        @if (item.crLogPassStatusId == 7)
+                        {
+                            <span class="badge badge-warning"> @item.crLogPassStatu.Status </span>
+                        }
+                        @if (item.crLogPassStatusId == 8)
+                        {
+                            <span class="badge badge-danger"> @item.crLogPassStatu.Status </span>
+                        }
+                    </div>
+                </div>
+                <p class="mb-1" style="font-size:19px;"> @item.Name - @item.Contact </p>
+            </a>
+        }
+    </div>
+</div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Contact)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PassAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PickupPoint)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contact)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PassAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PickupPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogPassStatu.Status)
-            </td>
-            <td>
-                <button class="btn btn-default"> Status </button>
-            </td>
-        </tr>
-    }
+<!-- Passenger Action -->
+<div class="modal fade" role="dialog" id="PassDetailsModal">
+    <div class="modal-dialog" style="width:330px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="Cancel_SubmitPassCopyLogs()" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title"> Passenger Actions </h5>
+            </div>
 
-</table>
+            <div class="modal-body">
+                <div class="row" style="padding:10px;">
+                    <div style="display:flex;justify-content:center;flex-direction:column;">
+                        <h3 id="passDetails-name" style="margin-top:0px;display:flex;justify-content:center;"> Customer Name </h3>
+                        <a href="tel:09" id="passDetails-contact" class="btn btn-default" style="padding:10px 30px;margin-bottom:10px;">
+                            <img src="~/Images/Icons/icon-call-blk.png" width="16" style="margin-right:5px;" />
+                            <span id="passDetails-contact-text"> 0912-345-6789</span>
+                        </a>
+                    </div>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(4)">
+                        <div style="display:flex;justify-content:center;">
+                            <h5 class="mb-1" style="font-weight:600;">
+                                CONTACTED
+                            </h5>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(5)">
+                        <div style="display:flex;justify-content:center;">
+                            <h5 class="mb-1" style="font-weight:600;">
+                                BOARDED
+                            </h5>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(6)">
+                        <div style="display:flex;justify-content:center;">
+                            <h5 class="mb-1" style="font-weight:600;">
+                                DELIVERED
+                            </h5>
+                        </div>
+                    </a>
+
+                </div>
+
+                <input id="PassId" type="text" value="0" hidden />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Confirm Action -->
+<div class="modal fade" role="dialog" id="ConfirmActionModal">
+    <div class="modal-dialog" style="width:330px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="Cancel_SubmitPassCopyLogs()" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title"> Passenger Status </h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="row" style="padding:10px;">
+                    <div style="display:flex;justify-content:center;flex-direction:column;">
+                        <h3 id="confirm-passDetails-name" style="margin-top:0px;display:flex;justify-content:center;">
+                            Customer Name Contacted ?
+                        </h3>
+                    </div>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" style="margin-top:20px;" onclick="ConfirmActionStatus()">
+                        <div style="display:flex;justify-content:center;">
+                            <h5 class="mb-1" style="font-weight:600;">
+                                YES
+                            </h5>
+                        </div>
+                    </a>
+
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowDeclinedModal()">
+                        <div style="display:flex;justify-content:center;">
+                            <h5 class="mb-1" style="font-weight:600;">
+                                YES, but declined
+                            </h5>
+                        </div>
+                    </a>
+
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowFailedModal()">
+                        <div style="display:flex;justify-content:center;">
+                            <h5 class="mb-1" style="font-weight:600;">
+                                NO
+                            </h5>
+                        </div>
+                    </a>
+                </div>
+                <input id="confirmActionId" type="text" value="0" hidden />
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Declined Action -->
+<div class="modal fade" role="dialog" id="DeclinedActionModal">
+    <div class="modal-dialog" style="width:330px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Declined Action </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row" style="padding:10px;">
+                    <div style="display:flex;justify-content:center;flex-direction:column;">
+                        <h3 style="margin-top:0px;display:flex;justify-content:center;">
+                            State reason
+                        </h3>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                            Passenger has private service
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                            Passenger on rest day
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                            Passenger commuted
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                            Passenger declined
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                            Passenger unspecified reason
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Failed Action -->
+<div class="modal fade" role="dialog" id="FailedActionModal">
+    <div class="modal-dialog" style="width:330px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Failed Action </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row" style="padding:10px;">
+                    <div style="display:flex;justify-content:center;flex-direction:column;">
+                        <h3 style="margin-top:0px;display:flex;justify-content:center;">
+                            Please provide a reason
+                        </h3>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger not anwering text/call
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger not on the pickup location
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger did not arrive on time
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger will be late
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger is absent / on-leave / rest day
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Unspecified reason
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Failed Action -->
+<div class="modal fade" role="dialog" id="ModalFailed">
+    <div class="modal-dialog" style="width:330px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Failed Action </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row" style="padding:10px;">
+                    <div style="display:flex;justify-content:center;flex-direction:column;">
+                        <h3 style="margin-top:0px;display:flex;justify-content:center;">
+                           Please provide a reason
+                        </h3>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger not anwering text/call
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger not on the pickup location
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger did not arrive on time
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger will be late
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Passenger is absent / on-leave / rest day
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                            Unspecified reason
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        function GetPassengerList() {
+            var tripId = @TripId;
+            // get driver list of passengers
+
+            var res = $.post("/Personel/crLogPassengers/GetTripPassList", { id: tripId }, (result) => {
+                console.log("result:" + result);
+
+                if (result == "True") {
+                    //populate list
+
+                } else {
+
+                    alert("An Error occured while getting passenger list.");
+                }
+            });
+        }
+
+        function ShowPassengerAction(passId, passName, passContact) {
+            $("#PassDetailsModal").modal('show');
+            $("#passDetails-name").text(passName);
+            $("#passDetails-contact-text").text(passContact);
+            $("#passDetails-contact").attr("href", "tel:" + passContact);
+
+            $("#PassId").val(passId);
+            //confirmation
+        }
+
+
+        function ShowConfirmAction(actionId) {
+            $("#ConfirmActionModal").modal('show');
+            $("#PassDetailsModal").modal('hide');
+
+            var passName = $("#passDetails-name").text();
+            var action = "Contacted ";
+            switch (actionId) {
+                case 4:
+                    action = "Contacted ";
+                    break;
+                case 5:
+                    action = "Boarded ";
+                    break;
+                case 6:
+                    action = "Delivered ";
+                    break;
+                default:
+                    action = "Contacted ";
+                    break;
+
+            }
+
+            $("#confirmActionId").val(actionId);
+
+            $("#confirm-passDetails-name").text(" Is " + passName + " " + action + " ?");
+
+        }
+
+        function ConfirmActionStatus() {
+            var actId = $("#confirmActionId").val();
+            var passId = $("#PassId").val();
+
+            var d = new Date();
+            var timeNow = d.toLocaleTimeString();
+
+
+            console.log("actId : " + actId);
+            console.log("passId : " + passId);
+            console.log("time : " + timeNow);
+
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow }, (result) => {
+                console.log("result:" + result);
+
+                if (result == "True") {
+                    //alert("Pasenger Status Done!");
+
+                    //close modal
+                    $("#ConfirmActionModal").modal("hide");
+                } else {
+
+                    alert("An Error occured while updating status.");
+                }
+            });
+        }
+
+        function CancelActionStatus() {
+            var reason = $("#confirmAction_No").find(":selected").text();
+            $("#ConfirmActionModal").modal('hide');
+            console.log("passId : " + passId);
+        }
+
+        //Declined
+        function ShowDeclinedModal() {
+            $("#ConfirmActionModal").modal('hide');
+            $("#DeclinedActionModal").modal('show');
+            //$("#ConfirmActionModal").modal('hide');
+        }
+
+        function ConfirmDeclinedAction(e) {
+            var reason = $(e).text().trim();
+            console.log("reason: " + reason);
+            $("#DeclinedActionModal").modal('hide');
+
+            var actId = $("#confirmActionId").val();
+            var passId = $("#PassId").val();
+
+            var d = new Date();
+            var timeNow = d.toLocaleTimeString();
+
+            console.log("actId : " + actId);
+            console.log("passId : " + passId);
+            console.log("time : " + timeNow);
+
+            var res = $.post("/Personel/crLogPassengers/PassErrorStatusUpdate", { id: passId, actId: actId, time: timeNow }, (result) => {
+                console.log("result:" + result);
+
+                if (result == "True") {
+                    //alert("Pasenger Status Done!");
+
+                    //close modal
+                    $("#DeclinedActionModal").modal("hide");
+                } else {
+
+                    alert("An Error occured while updating status.");
+                }
+            });
+        }
+
+
+        function ShowFailedModal() {
+            $("#ConfirmActionModal").modal('hide');
+            $("#FailedActionModal").modal('show');
+        }
+        function ConfirmFailedAction(e) {
+            var reason = $(e).text().trim();
+            console.log("reason: " + reason);
+            $("#FailedActionModal").modal('hide');
+
+            var actId = $("#confirmActionId").val();
+            var passId = $("#PassId").val();
+
+            var d = new Date();
+            var timeNow = d.toLocaleTimeString();
+
+            console.log("actId : " + actId);
+            console.log("passId : " + passId);
+            console.log("time : " + timeNow);
+
+
+            var res = $.post("/Personel/crLogPassengers/PassErrorStatusUpdate", { id: passId, actId: actId, time: timeNow , reason : reason }, (result) => {
+                console.log("result:" + result);
+
+                if (result == "True") {
+                    //alert("Pasenger Status Done!");
+
+                    //close modal
+                    $("#FailedActionModal").modal("hide");
+                } else {
+
+                    alert("An Error occured while updating status.");
+                }
+            });
+        }
+    </script>
+}

@@ -4,6 +4,7 @@
     ViewBag.Title = "Passenger List";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var tripDetails = ViewBag.TripDetails as JobsV1.Areas.Personel.Models.crLogTrip;
+    var tripId = ViewBag.tripId ?? 0;
 }
 
 <h2>@tripDetails.DtTrip.ToString("MMM dd yyyy")- @tripDetails.crLogCompany.Name / @tripDetails.crLogUnit.Description / @tripDetails.crLogDriver.Name </h2>
@@ -13,10 +14,17 @@
     @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog")
 </p>
 <p>
-    @Html.ActionLink("Create New", "CreatePassTrip", new { id = ViewBag.tripId })
+    @Html.ActionLink("Add Passenger", "CreatePassTrip", new { id = tripId })
+
+    <a href="" onclick="ShowCopyLogsModal(this, @tripId)">
+        Copy
+    </a>
 </p>
 <table class="table">
     <tr>
+        <th>
+            Status
+        </th>
         <th>
             Passenger
         </th>
@@ -48,18 +56,49 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name) - 
-                @Html.DisplayFor(modelItem => item.Contact)<br />
+                @if (item.timeContacted.Length > 2)
+                {
+                    <span class="status-circle-green"> </span>
+                }
+                else
+                {
+                    <span class="status-circle-gray"> </span>
+                }
 
-                @Html.DisplayFor(modelItem => item.PassAddress)
+                @if (item.timeBoarded.Length > 2)
+                {
+                    <span class="status-circle-green"> </span>
+                }
+                else
+                {
+                    <span class="status-circle-gray"> </span>
+                }
+
+                @if (item.timeDelivered.Length > 2)
+                {
+                    <span class="status-circle-green"> </span>
+                }
+                else
+                {
+                    <span class="status-circle-gray"> </span>
+                }
+                @*<span class="status-circle-gray"> </span>
+                    <span class="status-circle-green"> </span>
+                    <span class="status-circle-orange"> </span>
+                    <span class="status-circle-red"> </span>*@
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PickupPoint) -
-                @Html.DisplayFor(modelItem => item.PickupTime)
+                @Html.DisplayFor(modelItem => item.Name) -
+                @Html.DisplayFor(modelItem => item.Contact)<br />
+                <span class="text-muted"> @Html.DisplayFor(modelItem => item.PassAddress)</span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DropPoint) -
-                @Html.DisplayFor(modelItem => item.DropTime)
+                @Html.DisplayFor(modelItem => item.PickupTime) -
+                @Html.DisplayFor(modelItem => item.PickupPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DropTime) -
+                @Html.DisplayFor(modelItem => item.DropPoint)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.timeContacted)
@@ -77,7 +116,7 @@
                 @Html.DisplayFor(modelItem => item.crLogPassStatu.Status)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Edit", "EditPassTrip", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
@@ -85,3 +124,139 @@
     }
 
 </table>
+
+
+<!-- Copied Logs Date -->
+<div class="modal fade" role="dialog" id="CopiedLogDateModal">
+    <div class="modal-dialog" style="width:400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="Cancel_SubmitPassCopyLogs()" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Select Ongoing Trip</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row" style="margin-left:0px;">
+                    <form class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="col-form-label">Select Trip:</label>
+                            <div class="list-group ">
+                                @foreach (var trip in ViewBag.tripList as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>)
+                                {
+
+                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">
+                                           asd
+                                        </h5>
+                                        <small> </small>
+                                    </div>
+                                    <p class="mb-1"> asd </p>
+                                    <small> asd </small>
+                                </a>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Cancel_SubmitPassCopyLogs()">Close</button>
+                <button type="submit" value="Create" class="btn btn-primary" onclick="SubmitPassCopyLogs()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
+    <script>
+        var SELECTED_ID = 0;
+        var SelectObj = HTMLElement;
+
+        $(document).ready(() => {
+            if ('@ViewBag.isSubmitted' == 'False') {
+                $("#FindLogDateModal").modal("show");
+            }
+            $("#findLogDate").val(moment().add(-1,'days').format("MM/DD/YYYY"));
+            $("#copiedLogDate").val(moment().format("MM/DD/YYYY"));
+        });
+
+
+        function SubmitCopyLogs() {
+            let cDate = $("#copiedLogDate").val();
+            let count = 0;
+            console.log(cDate);
+
+            $('#LogsTable  tr:gt(0)').each(function () {
+                var current_row = $(this);
+                var selected_Id = current_row.find("td:eq(0)").children('input:checked').val();
+                console.log(selected_Id);
+                //submit and copy logs to new logs
+                ajax_CopyLogs(selected_Id, cDate);
+                count++;
+            });
+
+            if (count > 0) {
+                alert("Copying Done !");
+                window.location.href = "../CarRentalLog/";
+            } else {
+                alert("No Items were selected");
+            }
+        }
+
+        //submit log id and date to copy selected logs to a new logs
+        function ajax_CopyLogs(id, cDate) {
+           var res = $.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id : id, copyDate: cDate }, (result) => {
+               console.log("result:" + result);
+               return result;
+           });
+        }
+
+        function ShowCopyLogsModal(e, id) {
+            $("#CopiedLogDateModal").modal("show");
+
+            var findLogDate = $("#findLogDate").val();
+            $("#copiedLogDate").val(moment(findLogDate).add(1, 'days').format("MM/DD/YYYY"));
+
+            //set selectedID
+            SetSelectedID(id);
+            $(SelectObj).addClass('disabled');
+
+            SelectObj = e;
+        }
+
+        function SetSelectedID(selected_Id) {
+            this.SELECTED_ID = selected_Id;
+        }
+
+        function SubmitPassCopyLogs() {
+            let cTripLogId = $("#copiedTripLog").val();
+
+            console.log("selected_Id : " + SELECTED_ID);
+            console.log("cTripLogId : " + cTripLogId);
+
+             $.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id: SELECTED_ID, destTripId: cTripLogId }, (result) => {
+                console.log("result:" + result);
+
+                 if (result == "True") {
+                     alert("Copying Done !");
+                     //close modal
+                     $("#CopiedLogDateModal").modal("hide");
+                     //$(SelectObj).addClass('disabled');
+                } else {
+                     alert("An Error occured while copying.");
+                     $(SelectObj).removeClass('disabled');
+                }
+            });
+
+        }
+
+        function Cancel_SubmitPassCopyLogs() {
+            $(SelectObj).removeClass('disabled');
+        }
+
+    </script>
+}
