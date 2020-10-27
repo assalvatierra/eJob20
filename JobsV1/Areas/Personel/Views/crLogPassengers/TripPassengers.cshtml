@@ -58,12 +58,12 @@
             <td>
                 @if (item.timeContacted.Length > 2)
                 {
-                    if (item.crLogPassStatusId == 7)
+                    if (item.crLogPassStatusId == 5)
                     {
                         //declined
                         <span class="status-circle-orange"> </span>
                     }
-                    else if (item.crLogPassStatusId == 8)
+                    else if (item.crLogPassStatusId == 6)
                     {
                         //failed
                         <span class="status-circle-red"> </span>
@@ -81,12 +81,12 @@
 
                 @if (item.timeBoarded.Length > 2)
                 {
-                    if (item.crLogPassStatusId == 7)
+                    if (item.crLogPassStatusId == 5)
                     {
                         //declined
                         <span class="status-circle-orange"> </span>
                     }
-                    else if (item.crLogPassStatusId == 8)
+                    else if (item.crLogPassStatusId == 6)
                     {
                         //failed
                         <span class="status-circle-red"> </span>

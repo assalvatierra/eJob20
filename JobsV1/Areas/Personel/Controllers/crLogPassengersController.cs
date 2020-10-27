@@ -511,9 +511,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return tripsWithPass;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
                 return new List<crLogTrip>();
             }
         }
@@ -578,23 +577,35 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
-        public bool PassengerStatusUpdate(int id, int actId, string time)
+        public bool PassengerStatusUpdate(int id, int actId, string time, string reason)
         {
             try
             {
                 var passenger = db.crLogPassengers.Find(id);
                 passenger.crLogPassStatusId = actId;
+                passenger.Remarks = reason;
 
                 switch (actId)
                 {
-                    case 4:
+                    case 2:
+                        //Contacted
                         passenger.timeContacted = time;
                         break;
-                    case 5:
+                    case 3:
+                        //boarded
                         passenger.timeBoarded = time;
                         break;
-                    case 6:
+                    case 4:
+                        //dropped
                         passenger.timeDelivered = time;
+                        break;
+                    case 5:
+                        //declined
+                        passenger.timeContacted = time;
+                        break;
+                    case 6:
+                        //failed
+                        passenger.timeContacted = time;
                         break;
                 }
 
@@ -610,39 +621,6 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
-
-        public bool PassErrorStatusUpdate(int id, int actId, string time, string reason)
-        {
-            try
-            {
-                var passenger = db.crLogPassengers.Find(id);
-                passenger.crLogPassStatusId = actId;
-                passenger.Remarks = reason;
-
-                switch (actId)
-                {
-                    case 4:
-                        passenger.timeContacted = time;
-                        break;
-                    case 5:
-                        passenger.timeBoarded = time;
-                        break;
-                    case 6:
-                        passenger.timeDelivered = time;
-                        break;
-                }
-
-
-                db.Entry(passenger).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
 
     }
 }
