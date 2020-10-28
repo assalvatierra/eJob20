@@ -34,9 +34,9 @@
         Refresh List
     </button>
 
-    @*<button class="btn btn-default" onclick="GetPassengerList()" style="width:100%;">
+    <button class="btn btn-default" onclick="GetPassengerList()" style="width:100%;" hidden>
         Get List
-    </button>*@
+    </button>
 </div>
 
 <div class="col-md-12" style="padding-right:0px;">
@@ -45,7 +45,7 @@
         {
            
 
-            <a href="#" class="list-group-item" onclick="ShowPassengerAction(@item.Id,'@item.Name','@item.Contact', '@item.crLogPassStatusId')">
+            <a href="#" class="list-group-item closeLink" onclick="ShowPassengerAction(@item.Id,'@item.Name','@item.Contact', '@item.crLogPassStatusId')">
                 <div class="driverTripPass-pickup">
                     <h5 class="mb-1">
                         @Html.DisplayFor(modelItem => item.PickupTime) -
@@ -84,7 +84,7 @@
                         }
                     </div>
                 </div>
-                <p class="mb-1" style="font-size:19px;">
+                <p class="mb-1" style="font-size:19px;margin-bottom:-5px;">
                     <span hidden>
                         @try
                         {
@@ -283,6 +283,10 @@
                     <span>
                         @item.Name - @item.Contact
                     </span>
+                    
+                </p>
+                <p class="no-padding no-margin">
+                    <small style="font-size:13px;">Destination: @item.DropTime - @item.DropPoint </small>
 
                 </p>
             </a>
@@ -348,27 +352,27 @@
                             <span id="passDetails-contact-text"> 0912-345-6789</span>
                         </a>
                     </div>
-                    <a href="#" id="passDetails-contacted" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(2)">
+                    <button  id="passDetails-contacted" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(2)">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 CONTACTED
                             </h5>
                         </div>
-                    </a>
-                    <a href="#" id="passDetails-board" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(3)">
+                    </button>
+                    <button  id="passDetails-board" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(3)">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 BOARDED
                             </h5>
                         </div>
-                    </a>
-                    <a href="#" id="passDetails-drop" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(4)">
+                    </button>
+                    <button  id="passDetails-drop" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(4)">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 DROPPED
                             </h5>
                         </div>
-                    </a>
+                    </button>
 
                 </div>
 
@@ -398,29 +402,29 @@
                             Customer Name Contacted ?
                         </h3>
                     </div>
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" style="margin-top:20px;" onclick="ConfirmActionStatus()">
+                    <button class="list-group-item list-group-item-action flex-column align-items-start active" style="margin-top:20px;" onclick="ConfirmActionStatus()">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 YES
                             </h5>
                         </div>
-                    </a>
+                    </button>
 
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowDeclinedModal()">
+                    <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowDeclinedModal()">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 YES, but declined
                             </h5>
                         </div>
-                    </a>
+                    </button>
 
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowFailedModal()">
+                    <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowFailedModal()">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 NO
                             </h5>
                         </div>
-                    </a>
+                    </button>
                 </div>
                 <input id="confirmActionId" type="text" value="0" hidden />
             </div>
@@ -449,21 +453,21 @@
                         </h3>
                     </div>
                     <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
                             Passenger has private service
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
                             Passenger on rest day
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
                             Passenger commuted
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
                             Passenger declined
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
                             Passenger unspecified reason
-                        </a>
+                        </button>
                     </div>
 
                 </div>
@@ -493,24 +497,24 @@
                         </h3>
                     </div>
                     <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger not anwering text/call
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger not on the pickup location
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger did not arrive on time
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger will be late
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger is absent / on-leave / rest day
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Unspecified reason
-                        </a>
+                        </button>
                     </div>
 
                 </div>
@@ -541,24 +545,24 @@
                         </h3>
                     </div>
                     <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger not anwering text/call
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger not on the pickup location
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger did not arrive on time
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger will be late
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Passenger is absent / on-leave / rest day
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                        </button>
+                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
                             Unspecified reason
-                        </a>
+                        </button>
                     </div>
 
                 </div>
@@ -585,17 +589,26 @@
                 if (parsedResult.length > 0) {
                     //populate list
                     for (var i = 0; i < parsedResult.length; i++) {
-                        var passDetails = '<a href="#" class="list-group-item"  onclick="ShowPassengerAction(' + parsedResult[i]["Id"] + ',"' + parsedResult[i]["Name"] + '","' + parsedResult[i]["Contact"] + '", "' + parsedResult[i]["crLogPassStatusId"]+'")"> '
+
+                        var action = '<button class="list-group-item" onclick="ShowPassengerAction(' + parsedResult[i]["Id"] + ',\'' + parsedResult[i]["Name"] + '\',\'' + parsedResult[i]["Contact"] + '\', ' + parsedResult[i]["crLogPassStatusId"] +')\"> ';
+
+                        var passDetails = '  ' + action
                             + '<div class="driverTripPass-pickup">'
                             + ' <h5 class="mb-1">'
                             + parsedResult[i]["PickupTime"] + ' - ' + parsedResult[i]["PickupPoint"]
                             + '</h5>'
-                            + '<div class="pull-right"> <span class="badge badge-primary">' + parsedResult[i]["Status"] + '</span></div>'
+                            + '<div class="pull-right"> <span class="badge ' + GetBadgeColor(parsedResult[i]["crLogPassStatusId"]) +'">'
+                            + parsedResult[i]["Status"] +
+                            '</span></div>'
                             + '</div> '
                             + '<p class="mb-1" style="font-size:19px;">'
+                            + GetStatusColors(parsedResult[i]["crLogPassStatusId"], parsedResult[i]["PickupTime"])
                             + parsedResult[i]["Name"] + ' - ' + parsedResult[i]["Contact"]
                             + '</p>'
-                            + '</a>';
+                            + '<p class="mb-1" style="font-size:13px;"> Destination : '
+                            + parsedResult[i]["DropTime"] + ' - ' + parsedResult[i]["DropPoint"]
+                            + '</p>'
+                            + '</button>';
 
                         $("#passengers-list").append(passDetails);
                     }
@@ -603,6 +616,63 @@
                     console.log("Unable to update")
                 }
             });
+        }
+
+        function GetBadgeColor(statusId) {
+            switch (statusId) {
+                case 1:
+                    return "badge-secondary";
+                case 2:
+                    return "badge-primary";
+                case 3:
+                    return "badge-info";
+                case 4:
+                    return "badge-success";
+                case 5:
+                    return "badge-warning";
+                case 6:
+                    return "badge-danger"; 
+                default:
+                    return "badge-secondary";
+            }
+        }
+
+
+        function GetStatusColors(statusId, Pickuptime) {
+            var DtimeNow = new Date();
+
+            var timePickup = moment(Pickuptime, ['h:m a', 'H:m']);
+            var timeNow = DtimeNow.getTime();
+
+            console.log("Pickuptime : " + Pickuptime);
+            console.log("Pickuptime : " + timePickup);
+            console.log("timeNow : " + timeNow);
+            console.log(timeNow > timePickup)
+
+            if (statusId == 3) {
+                return '<span class="status-circle-info"> </span>  ';
+            }
+
+            if (statusId == 4) {
+                 return '<span class="status-circle-success"> </span>  ';
+            }
+
+            if (statusId == 2) {
+                if (timeNow > timePickup) {
+                    return '<span class="status-circle-danger"> </span>  ';
+                } else {
+                    return '<span class="status-circle-gray"> </span>  ';
+                }
+            }
+
+            if (statusId == 6) {
+                return '<span class="status-circle-warning"> </span>  ';
+            }
+
+            if (statusId == 7) {
+                return '<span class="status-circle-danger"> </span>  ';
+            }
+            return '<span class="status-circle-gray"> </span>  ';
         }
 
         function ShowPassengerAction(passId, passName, passContact, statusId) {
@@ -639,6 +709,7 @@
                 $("#passDetails-board").addClass('disabled');
                 $("#passDetails-contacted").addClass('disabled');
             }
+            return false;
         }
 
 
@@ -660,7 +731,7 @@
                     action = "Delivered ";
                     break;
                 default:
-                    action = "Contacted ";
+                    action = "Contacted "; 
                     break;
 
             }
@@ -670,6 +741,8 @@
             $("#confirmActionId").val(actionId);
 
             $("#confirm-passDetails-name").text(" Is " + passName + " " + action + " ?");
+
+            return false;
 
         }
 
@@ -703,12 +776,14 @@
                 }
             });
             console.log(res);
+            return false;
         }
 
         function CancelActionStatus() {
             var reason = $("#confirmAction_No").find(":selected").text();
             $("#ConfirmActionModal").modal('hide');
             console.log("passId : " + passId);
+            return false;
         }
 
         //Declined
@@ -716,6 +791,7 @@
             $("#ConfirmActionModal").modal('hide');
             $("#DeclinedActionModal").modal('show');
             //$("#ConfirmActionModal").modal('hide');
+            return false;
         }
 
         function ConfirmDeclinedAction(e) {
@@ -749,12 +825,14 @@
                     alert("An Error occured while updating status.");
                 }
             });
+            return false;
         }
 
 
         function ShowFailedModal() {
             $("#ConfirmActionModal").modal('hide');
             $("#FailedActionModal").modal('show');
+            return false;
         }
         function ConfirmFailedAction(e) {
             var reason = $(e).text().trim();
@@ -789,6 +867,11 @@
                     alert("An Error occured while updating status.");
                 }
             });
+            return false;
         }
+
+        $('.closeLink').click(function (e) {
+            return false;
+        });
     </script>
 }
