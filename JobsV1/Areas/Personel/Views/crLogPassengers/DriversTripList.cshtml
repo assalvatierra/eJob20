@@ -1,0 +1,36 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
+
+@{
+    ViewBag.Title = "Drivers Trip List";
+    var timeNow = DateTime.Now.TimeOfDay;
+}
+<div class="col-md-12">
+    <h3>  @ViewBag.Driver  </h3>
+    <p class="text-muted">
+        Ongoin and previous trips in the Last 7 days
+    </p>
+</div>
+
+<div class="col-md-12" style="padding-right:0px;">
+    <div class="list-group text-md" id="passengers">
+        @foreach (var item in Model)
+        {
+           
+
+            <a href="/mod/110/driver/trip/@item.Id" class="list-group-item list-group-item-action flex-column align-items-start" >
+                <span style="display:flex;justify-content:space-between;">
+                    <span class="mb-1" style="font-weight:300;color:black;font-size:16px;">
+                        @item.DtTrip.ToString("MMM dd") -
+                        @item.crLogCompany.Name / @item.crLogUnit.Description
+                    </span>
+                    @if (@item.crLogPassengers.Count() > 0)
+                    {
+                        <span class="pull-right" style="margin-top:0px;margin-left:5px;">
+                            <span class=" badge badge-primary"> @item.crLogPassengers.Count()</span>
+                        </span>
+                    }
+                </span>
+            </a>
+        }
+    </div>
+</div>

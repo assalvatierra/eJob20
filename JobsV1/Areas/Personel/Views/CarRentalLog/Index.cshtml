@@ -27,12 +27,11 @@
     @Html.ActionLink("Cash Transactions", "Index", "CarRentalCashRelease") |
     @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) |
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses") |
-    @Html.ActionLink("Passengers", "Index", "crLogPassengers")
+    @Html.ActionLink("Passengers", "Index", "crLogPassengerList")
 </p>
 <p>
     @Html.ActionLink("Add New Trip", "Create") |
     @Html.ActionLink("Copy Trip", "CopyTrip") |
-    @Html.ActionLink("Copy Passenger Trip", "CopyPassTrip", "crLogPassengers",null, null) |
     @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
     @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease")
 </p>
@@ -219,7 +218,8 @@
                 <a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a> |
                 @Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId }) |
                 @Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null) |
-                @Html.ActionLink("Drivers Passengers", "DriversTripPassengers", "crLogPassengers", new { id = item.crLogDriverId }, null)
+                @Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)
+                
             </td>
         </tr>
     }

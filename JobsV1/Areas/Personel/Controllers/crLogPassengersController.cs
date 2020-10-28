@@ -51,8 +51,29 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(sorted_Passengers);
         }
 
+        // GET: Personel/DriversTripPassengers/{driversId}
+        public ActionResult DriversTripList(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-        // GET: Personel/crLogPassengers
+            var today = dt.GetCurrentDate();
+
+            var driverTrips = db.crLogTrips.Where(c=>c.crLogDriverId == id).OrderByDescending(c=>c.DtTrip).ToList();
+            if (driverTrips == null)
+            {
+                ViewBag.Driver = db.crLogDrivers.Find(id).Name;
+                return View(new List<crLogTrip>());
+            }
+
+            ViewBag.Driver = db.crLogDrivers.Find(id).Name;
+            return View(driverTrips);
+        }
+
+
+        // GET: Personel/DriversTripPassengers/{tripId}
         public ActionResult DriversTripPassengers(int? id)
         {
             if (id == null)
@@ -62,9 +83,11 @@ namespace JobsV1.Areas.Personel.Controllers
 
             var today = dt.GetCurrentDate();
 
-            var tripToday = db.crLogTrips.Where(c => c.crLogDriverId == id && DbFunctions.TruncateTime(c.DtTrip) == today.Date).FirstOrDefault();
+            var tripToday = db.crLogTrips.Find(id);
             if (tripToday == null)
             {
+                ViewBag.TripId = 0;
+                ViewBag.Driver = tripToday.crLogDriver.Name;
                 return View(new List<crLogPassenger>());
             }
 
@@ -88,6 +111,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.TripDetails = tripDetails;
             ViewBag.TripId = tripToday.Id;
             ViewBag.Driver = tripToday.crLogDriver.Name;
+            ViewBag.DriversId = tripToday.crLogDriverId;
             ViewBag.UnitDetails = tripToday.crLogUnit.Description;
             return View(sorted_Passengers);
         }
@@ -95,7 +119,7 @@ namespace JobsV1.Areas.Personel.Controllers
         [HttpGet]
         public string GetTripPassList(int id)
         {
-            var passengers = db.crLogPassengers.Where(c => c.crLogTripId == id).Select(c => new { c.Id, c.Name, c.PassAddress, c.PickupPoint, c.PickupTime, c.crLogPassStatu.Status }).ToList();
+            var passengers = db.crLogPassengers.Where(c => c.crLogTripId == id).Select(c => new { c.Id, c.Name, c.Contact, c.PassAddress, c.PickupPoint, c.PickupTime, c.crLogPassStatu.Status, c.crLogPassStatusId }).ToList();
 
             //return Json(passengers, JsonRequestBehavior.AllowGet);
             return JsonConvert.SerializeObject(passengers, Formatting.Indented);
@@ -497,6 +521,7 @@ namespace JobsV1.Areas.Personel.Controllers
             try
             {
                 //Create List of 
+                var today = dt.GetCurrentDate();
                 var today_seven_days_before = dt.GetCurrentDate().AddDays(-7);
                 var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today_seven_days_before).ToList();
                 var tripsWithPass = new List<crLogTrip>();
@@ -614,13 +639,24 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return true;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+               
                 return false;
             }
         }
 
+        public ActionResult DriversPortal()
+        {
+            ViewBag.DriversId = new SelectList(db.crLogDrivers.ToList(), "Id", "Name");
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult DriversPortal(int DriversId)
+        {
+            ViewBag.DriversId = new SelectList(db.crLogDrivers.ToList(), "Id", "Name");
+            return RedirectToAction("DriversTripList", new { id = DriversId });
+        }
     }
 }

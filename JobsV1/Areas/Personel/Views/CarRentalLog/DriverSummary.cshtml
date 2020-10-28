@@ -394,7 +394,9 @@
     }
 </p>
 <p>
-    @Html.ActionLink("Go to Trip Log", "Index") | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease")
+    @Html.ActionLink("Go to Trip Log", "Index") | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease") |
+
+    @Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = ViewBag.DriverId }, null)
 </p>
 
 @Html.Partial("_DriverSalaryReqModal")

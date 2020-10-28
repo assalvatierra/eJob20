@@ -665,6 +665,16 @@
     margin-top: 5px;
 }
 
+
+.status-circle-lightblue {
+    background: #0abfe0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+}
+
 .badge-primary{
     background: #0874e9;
 }
@@ -684,3 +694,49 @@
 .badge-danger {
     background: #e40000;
 }
+
+/* Driver Passenger list */
+
+.driverTripPass-pickup {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .driverTripPass-pickup h5 {
+        font-weight: 300;
+        color: black;
+        font-size: 16px;
+    }
+
+    .driverTripPass-pickup div {
+        margin-top: 0px;
+        margin-left: 5px;
+    }
+
+.driverTripPass-summary {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+    .driverTripPass-summary button {
+        margin-left: 5px;
+        flex: 1;
+    }
+
+.driverTripPass-action-pass {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+    .driverTripPass-action-pass h3 {
+        margin-top: 0px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .driverTripPass-action-pass a {
+        padding: 10px 30px;
+        margin-bottom: 10px;
+    }

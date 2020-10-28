@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var tripDetails = ViewBag.TripDetails as JobsV1.Areas.Personel.Models.crLogTrip;
     var tripId = ViewBag.tripId ?? 0;
+    var timeNow = DateTime.Now.TimeOfDay;
 }
 
 <h2>@tripDetails.DtTrip.ToString("MMM dd yyyy")- @tripDetails.crLogCompany.Name / @tripDetails.crLogUnit.Description / @tripDetails.crLogDriver.Name </h2>
@@ -19,6 +20,21 @@
     <a href="#" onclick="ShowCopyLogsModal(@tripId)">
         Copy Trip
     </a>
+</p>
+<p>
+    <span style="margin-right:10px;">Time : @DateTime.Now.ToString("hh:mm tt")</span>
+    <span style="margin-right:10px;">
+        <span class="status-circle-green"> </span> Done
+    </span>
+    <span style="margin-right:10px;">
+        <span class="status-circle-lightblue"> </span> Declined
+    </span>
+    <span style="margin-right:10px;">
+        <span class="status-circle-orange"> </span> Late 
+    </span>
+    <span style="margin-right:10px;">
+        <span class="status-circle-red">  </span> Failed
+    </span>
 </p>
 <table class="table">
     <tr>
@@ -37,7 +53,7 @@
         <th>
             Contacted
         </th>
-        <th>
+        <th width="80">
             Boarded
         </th>
         <th>
@@ -56,59 +72,128 @@
     {
         <tr>
             <td>
-                @if (item.timeContacted.Length > 2)
+                @try
                 {
-                    if (item.crLogPassStatusId == 5)
+
+                    <!-- Contact -->
+                    if (item.timeContacted.Length > 2)
                     {
-                        //declined
-                        <span class="status-circle-orange"> </span>
-                    }
-                    else if (item.crLogPassStatusId == 6)
-                    {
-                        //failed
-                        <span class="status-circle-red"> </span>
+
+
+                        if (item.crLogPassStatusId == 5)
+                        {
+                            //declined
+                            <span class="status-circle-lightblue"> </span>
+                        }
+                        else if (item.crLogPassStatusId == 6)
+                        {
+                            //failed
+                            <span class="status-circle-red"> </span>
+                        }
+                        else
+                        {
+                            //success
+                            <span class="status-circle-green"> </span>
+                        }
                     }
                     else
                     {
-                        //success
-                        <span class="status-circle-green"> </span>
-                    }
-                }
-                else
-                {
-                    <span class="status-circle-gray"> </span>
-                }
+                        //not yet contacted
+                        if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
+                        {
+                            //handle late boarding
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else
+                        {
+                            <span class="status-circle-gray"> </span>
+                        }
+                    } <!-- End of Contact -->
 
-                @if (item.timeBoarded.Length > 2)
-                {
-                    if (item.crLogPassStatusId == 5)
+                    <!-- Boarding -->
+                    if (item.timeBoarded.Length > 2)
                     {
-                        //declined
-                        <span class="status-circle-orange"> </span>
-                    }
-                    else if (item.crLogPassStatusId == 6)
-                    {
-                        //failed
-                        <span class="status-circle-red"> </span>
+                        if (DateTime.Parse(item.timeBoarded).TimeOfDay >= timeNow)
+                        {
+                            //handle late boarding
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else
+                        {
+                            if (item.crLogPassStatusId == 5)
+                            {
+                                //declined
+                                <span class="status-circle-lightblue"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 6)
+                            {
+                                //failed
+                                <span class="status-circle-red"> </span>
+                            }
+                            else
+                            {
+                                //success
+                                <span class="status-circle-green"> </span>
+                            }
+                        }
                     }
                     else
                     {
-                        //success
-                        <span class="status-circle-green"> </span>
+                        //not yet boarded
+                        if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
+                        {
+                            //handle late boarding
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else
+                        {
+                            <span class="status-circle-gray"> </span>
+                        }
+                    } <!-- End of Boarding -->
+                    <!-- Drop Off -->
+                    if (item.timeDelivered.Length > 2)
+                    {
+                        if (DateTime.Parse(item.timeDelivered).TimeOfDay >= timeNow)
+                        {
+                            //handle late boarding
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else
+                        {
+                            if (item.crLogPassStatusId == 5)
+                            {
+                                //declined
+                                <span class="status-circle-lightblue"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 6)
+                            {
+                                //failed
+                                <span class="status-circle-red"> </span>
+                            }
+                            else
+                            {
+                                //success
+                                <span class="status-circle-green"> </span>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //not yet dropped
+                        if (DateTime.Parse(item.DropTime).TimeOfDay <= timeNow)
+                        {
+                            //handle late boarding
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else
+                        {
+                            <span class="status-circle-gray"> </span>
+                        }
                     }
                 }
-                else
+                catch
                 {
-                    <span class="status-circle-gray"> </span>
-                }
-
-                @if (item.timeDelivered.Length > 2)
-                {
-                    <span class="status-circle-green"> </span>
-                }
-                else
-                {
-                    <span class="status-circle-gray"> </span>
+                    <span> Error </span>
                 }
 
             </td>
@@ -157,27 +242,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" onclick="Cancel_SubmitPassCopyLogs()" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"> Select Ongoing Trip</h4>
+                <h4 class="modal-title"> Select Previous Trip</h4>
             </div>
 
             <div class="modal-body">
                 <div style="margin-left:0px;">
-                    <form>
+                    <form>  
                         <div class="form-group">
-                            <label class="col-form-label">Select Trip:</label>
                             <div class="list-group ">
                                 @foreach (var trip in ViewBag.tripList as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>)
                                 {
+                                    if (trip.Id != tripId)
+                                    {
+                                        <a href="#" class="list-group-item" onclick="SelectTripToCopy(@trip.Id)" style="display:flex;justify-content:space-between">
+                                            @trip.DtTrip.ToString("MMM dd") - @trip.crLogCompany.Name / @trip.crLogDriver.Name / @trip.crLogUnit.Description
+                                            <div style="display:inline-block;">
+                                                <span class="badge badge-primary badge-pill" title="Passengers">
+                                                    @trip.crLogPassengers.Count()
+                                                </span>
+                                            </div>
 
-                                <a href="#" class="list-group-item" onclick="SelectTripToCopy(@trip.Id)" style="display:flex;justify-content:space-between">
-                                    @trip.DtTrip.ToString("MMM dd") - @trip.crLogCompany.Name / @trip.crLogDriver.Name / @trip.crLogUnit.Description
-                                    <div style="display:inline-block;">
-                                        <span class="badge badge-primary badge-pill" title="Passengers" >
-                                            @trip.crLogPassengers.Count()
-                                        </span>
-                                    </div>
+                                        </a>
+                                    }
 
-                                </a>
                                 }
                                 @if (ViewBag.tripList == null)
                                 {
