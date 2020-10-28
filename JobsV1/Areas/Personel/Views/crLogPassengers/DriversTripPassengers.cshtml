@@ -3,67 +3,63 @@
 @{
     ViewBag.Title = "Drivers Trip Passengers";
     int TripId = (int)ViewBag.TripId;
+    int ForPickupCount = 0;
+    int ContactedCount = 0;
+    int BoardedCount = 0;
+    int FailedCount = 0;
+    int DeclinedCount = 0;
+    int DroppedCount = 0;
 }
 <div class="col-md-12">
     <h3>  @ViewBag.Driver / @ViewBag.UnitDetails </h3>
     <h4> <span class="text-muted">Trip :</span> @ViewBag.TripDetails  </h4>
-    <h4> Trip Passengers </h4>
-    <button class="btn btn-default" onclick="GetPassengerList()">
-        Refresh
-    </button>
-    <p style="display:flex;justify-content:space-evenly;">
-        <button type="button" class="btn btn-primary" style="margin-left:15px;">
-            For Pickup <span class="badge badge-light">9</span>
-            <span class="sr-only">passengers</span>
-        </button>
-        @*<button type="button" class="btn btn-info">
-                Boarded <span class="badge badge-light">9</span>
-                <span class="sr-only">unread messages</span>
-            </button>*@
-        <button type="button" class="btn btn-info" style="margin-left:5px;">
-            Boarded <span class="badge badge-light">0</span>
-            <span class="sr-only">passengers</span>
-        </button>
-        <button type="button" class="btn btn-warning" style="margin-left:5px;">
-            Missed <span class="badge badge-light">0</span>
-            <span class="sr-only">passengers</span>
-        </button>
-    </p>
+
+    @*<button class="btn btn-default" onclick="GetPassengerList()">
+            Refresh
+        </button>*@
+
 </div>
-<div class="col-md-12">
+
+<div class="col-md-12" style="padding-right:0px;">
     <div class="list-group text-md" id="passengers">
         @foreach (var item in Model)
         {
 
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowPassengerAction(@item.Id,'@item.Name','@item.Contact')">
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowPassengerAction(@item.Id,'@item.Name','@item.Contact', '@item.crLogPassStatusId')">
                 <div style="display:flex;justify-content:space-between;">
-                    <h5 class="mb-1" style="font-weight:600;">
+                    <h5 class="mb-1" style="font-weight:300;color:black;font-size:16px;">
                         @Html.DisplayFor(modelItem => item.PickupTime) -
                         @Html.DisplayFor(modelItem => item.PickupPoint)
                     </h5>
                     <div class="pull-right" style="margin-top:0px;margin-left:5px;">
+                        @if (item.crLogPassStatusId == 1)
+                        {
+                            ForPickupCount += 1;
+                            <span class="badge badge-secondary"> @item.crLogPassStatu.Status </span>
+                        }
+                        @if (item.crLogPassStatusId == 2)
+                        {
+                            ContactedCount += 1;
+                            <span class="badge badge-primary"> @item.crLogPassStatu.Status </span>
+                        }
                         @if (item.crLogPassStatusId == 3)
                         {
-                            <span class="badge badge-secondary"> @item.crLogPassStatu.Status </span>
+                            BoardedCount += 1;
+                            <span class="badge badge-info"> @item.crLogPassStatu.Status </span>
                         }
                         @if (item.crLogPassStatusId == 4)
                         {
-                            <span class="badge badge-primary"> @item.crLogPassStatu.Status </span>
+                            DroppedCount += 1;
+                            <span class="badge badge-success"> @item.crLogPassStatu.Status </span>
                         }
                         @if (item.crLogPassStatusId == 5)
                         {
-                            <span class="badge badge-info"> @item.crLogPassStatu.Status </span>
+                            DeclinedCount += 1;
+                            <span class="badge badge-warning"> @item.crLogPassStatu.Status </span>
                         }
                         @if (item.crLogPassStatusId == 6)
                         {
-                            <span class="badge badge-success"> @item.crLogPassStatu.Status </span>
-                        }
-                        @if (item.crLogPassStatusId == 7)
-                        {
-                            <span class="badge badge-warning"> @item.crLogPassStatu.Status </span>
-                        }
-                        @if (item.crLogPassStatusId == 8)
-                        {
+                            FailedCount += 1;
                             <span class="badge badge-danger"> @item.crLogPassStatu.Status </span>
                         }
                     </div>
@@ -74,6 +70,32 @@
     </div>
 </div>
 
+
+<div class="col-md-12">
+    <h3>Summary</h3>
+    <p style="display:flex;justify-content:flex-start;flex-wrap:wrap;">
+        <button type="button" class="btn btn-primary" style="margin-left:5px;">
+            For Pickup <span class="badge badge-light">@ForPickupCount</span>
+            <span class="sr-only">passengers</span>
+        </button>
+        <button type="button" class="btn btn-info" style="margin-left:5px;flex:1;">
+            Boarded <span class="badge badge-light">@BoardedCount</span>
+            <span class="sr-only">passengers</span>
+        </button>
+        <button type="button" class="btn btn-success" style="margin-left:5px;">
+            Dropped <span class="badge badge-light">@DroppedCount</span>
+            <span class="sr-only">passengers</span>
+        </button>
+        <button type="button" class="btn btn-warning" style="margin-left:5px;">
+            Declined <span class="badge badge-light">@DeclinedCount</span>
+            <span class="sr-only">passengers</span>
+        </button>
+        <button type="button" class="btn btn-danger" style="margin-left:5px;flex:1;">
+            Missed <span class="badge badge-light">@FailedCount</span>
+            <span class="sr-only">passengers</span>
+        </button>
+    </p>
+</div>
 
 <!-- Passenger Action -->
 <div class="modal fade" role="dialog" id="PassDetailsModal">
@@ -93,24 +115,24 @@
                             <span id="passDetails-contact-text"> 0912-345-6789</span>
                         </a>
                     </div>
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(4)">
+                    <a href="#" id="passDetails-contacted" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(2)">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 CONTACTED
                             </h5>
                         </div>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(5)">
+                    <a href="#" id="passDetails-board" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(3)">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 BOARDED
                             </h5>
                         </div>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(6)">
+                    <a href="#" id="passDetails-drop" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(4)">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
-                                DELIVERED
+                                DROPPED
                             </h5>
                         </div>
                     </a>
@@ -176,7 +198,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Declined Action -->
 <div class="modal fade" role="dialog" id="DeclinedActionModal">
@@ -283,7 +304,7 @@
                 <div class="row" style="padding:10px;">
                     <div style="display:flex;justify-content:center;flex-direction:column;">
                         <h3 style="margin-top:0px;display:flex;justify-content:center;">
-                           Please provide a reason
+                            Please provide a reason
                         </h3>
                     </div>
                     <div class="list-group">
@@ -325,20 +346,19 @@
             var tripId = @TripId;
             // get driver list of passengers
 
-            var res = $.post("/Personel/crLogPassengers/GetTripPassList", { id: tripId }, (result) => {
-                console.log("result:" + result);
-
-                if (result == "True") {
+            var res = $.get("/Personel/crLogPassengers/GetTripPassList", { id: tripId }, (result) => {
+                var parsedResult = JSON.parse(result)
+                console.log(parsedResult);
+                if (parsedResult.length > 0) {
                     //populate list
 
                 } else {
-
-                    alert("An Error occured while getting passenger list.");
+                    console.log("Unable to update")
                 }
             });
         }
 
-        function ShowPassengerAction(passId, passName, passContact) {
+        function ShowPassengerAction(passId, passName, passContact, statusId) {
             $("#PassDetailsModal").modal('show');
             $("#passDetails-name").text(passName);
             $("#passDetails-contact-text").text(passContact);
@@ -346,6 +366,32 @@
 
             $("#PassId").val(passId);
             //confirmation
+            console.log("setting passid :" + passId);
+
+            //reset status
+            $("#passDetails-drop").removeClass('disabled');
+            $("#passDetails-board").removeClass('disabled');
+            $("#passDetails-contacted").removeClass('disabled');
+
+            //filter status
+            if (statusId == 1) {
+                $("#passDetails-board").addClass('disabled');
+                $("#passDetails-drop").addClass('disabled');
+            } else if (statusId == 2) {
+                $("#passDetails-contacted").addClass('disabled');
+                $("#passDetails-drop").addClass('disabled');
+            } else if (statusId == 3) {
+                $("#passDetails-contacted").addClass('disabled');
+                $("#passDetails-board").addClass('disabled');
+            } else if (statusId == 4) {
+                $("#passDetails-drop").addClass('disabled');
+                $("#passDetails-board").addClass('disabled');
+                $("#passDetails-contacted").addClass('disabled');
+            } else {
+                $("#passDetails-drop").addClass('disabled');
+                $("#passDetails-board").addClass('disabled');
+                $("#passDetails-contacted").addClass('disabled');
+            }
         }
 
 
@@ -353,16 +399,17 @@
             $("#ConfirmActionModal").modal('show');
             $("#PassDetailsModal").modal('hide');
 
+
             var passName = $("#passDetails-name").text();
             var action = "Contacted ";
             switch (actionId) {
-                case 4:
+                case 2:
                     action = "Contacted ";
                     break;
-                case 5:
+                case 3:
                     action = "Boarded ";
                     break;
-                case 6:
+                case 4:
                     action = "Delivered ";
                     break;
                 default:
@@ -371,6 +418,8 @@
 
             }
 
+            console.log("action: "+action);
+
             $("#confirmActionId").val(actionId);
 
             $("#confirm-passDetails-name").text(" Is " + passName + " " + action + " ?");
@@ -378,30 +427,34 @@
         }
 
         function ConfirmActionStatus() {
+
+            console.log("Updating status");
             var actId = $("#confirmActionId").val();
             var passId = $("#PassId").val();
 
             var d = new Date();
-            var timeNow = d.toLocaleTimeString();
+            //remove seconds from time string
+            var timeNow = d.toLocaleTimeString().match(/\d{2}:\d{2}|[AMP]+/g).join(' ');;
 
 
             console.log("actId : " + actId);
             console.log("passId : " + passId);
             console.log("time : " + timeNow);
 
-            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow }, (result) => {
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: " " }, (result) => {
                 console.log("result:" + result);
 
                 if (result == "True") {
-                    //alert("Pasenger Status Done!");
-
                     //close modal
                     $("#ConfirmActionModal").modal("hide");
+                    //reload page
+                    location.reload();
                 } else {
 
                     alert("An Error occured while updating status.");
                 }
             });
+            console.log(res);
         }
 
         function CancelActionStatus() {
@@ -422,17 +475,17 @@
             console.log("reason: " + reason);
             $("#DeclinedActionModal").modal('hide');
 
-            var actId = $("#confirmActionId").val();
+            var actId = 5; //declined
             var passId = $("#PassId").val();
 
             var d = new Date();
-            var timeNow = d.toLocaleTimeString();
+            var timeNow = d.toLocaleTimeString().match(/\d{2}:\d{2}|[AMP]+/g).join(' ');
 
             console.log("actId : " + actId);
             console.log("passId : " + passId);
             console.log("time : " + timeNow);
 
-            var res = $.post("/Personel/crLogPassengers/PassErrorStatusUpdate", { id: passId, actId: actId, time: timeNow }, (result) => {
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: reason  }, (result) => {
                 console.log("result:" + result);
 
                 if (result == "True") {
@@ -440,6 +493,8 @@
 
                     //close modal
                     $("#DeclinedActionModal").modal("hide");
+                    //reload page
+                    location.reload();
                 } else {
 
                     alert("An Error occured while updating status.");
@@ -457,18 +512,18 @@
             console.log("reason: " + reason);
             $("#FailedActionModal").modal('hide');
 
-            var actId = $("#confirmActionId").val();
+            var actId = 6; //failed
             var passId = $("#PassId").val();
 
             var d = new Date();
-            var timeNow = d.toLocaleTimeString();
+            var timeNow = d.toLocaleTimeString().match(/\d{2}:\d{2}|[AMP]+/g).join(' ');;
 
             console.log("actId : " + actId);
             console.log("passId : " + passId);
             console.log("time : " + timeNow);
 
 
-            var res = $.post("/Personel/crLogPassengers/PassErrorStatusUpdate", { id: passId, actId: actId, time: timeNow , reason : reason }, (result) => {
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason : reason }, (result) => {
                 console.log("result:" + result);
 
                 if (result == "True") {
@@ -476,6 +531,9 @@
 
                     //close modal
                     $("#FailedActionModal").modal("hide");
+
+                    //reload page
+                    location.reload();
                 } else {
 
                     alert("An Error occured while updating status.");
