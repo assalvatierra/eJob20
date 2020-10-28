@@ -19,7 +19,6 @@ namespace JobsV1.Areas.Personel.Controllers
                 .Include(d=>d.crLogPassengers)
                 .ToList();
 
-
             //last trip transaction
             //transfer passenger
             //cancel passenger

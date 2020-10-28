@@ -5,6 +5,7 @@
 }
 
 <h2>Passenger Manifest</h2>
+<h4>as Of: @System.DateTime.Now</h4>
 
 <table class="table">
 
@@ -38,12 +39,75 @@
 
                 </tr>
 
-                @foreach (var pass in item.crLogPassengers)
+                @foreach (var pass in item.crLogPassengers.OrderByDescending(s=>s.PickupTime))
                 {
                     passcnt++;
 
             <tr>
-                <td>&nbsp;</td>
+                <td>
+                    &nbsp;
+                    @if (pass.timeContacted.Trim().Length > 2)
+                    {
+                        <span class="status-circle-green"> </span>
+                    }
+                    else
+                    {
+                        DateTime dt0 = System.DateTime.Now;
+                        string st1 = pass.PickupTime;
+                        DateTime dt1 = new DateTime(
+                            dt0.Year, dt0.Month, dt0.Day,
+                            int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                            int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                            0).AddHours(-1);
+
+                        if (DateTime.Compare(dt0, dt1) <= 0)
+                        {
+                            <span class="status-circle-gray"> </span>
+                        }
+                        else
+                        {
+                            <span class="status-circle-red"> </span>
+                        }
+
+                    }
+
+                    @if (pass.timeBoarded.Trim().Length > 2)
+                    {
+                        <span class="status-circle-green"> </span>
+                    }
+                    else
+                    {
+
+                        DateTime dt0 = System.DateTime.Now;
+                        string st1 = pass.PickupTime;
+                        DateTime dt1 = new DateTime(
+                            dt0.Year, dt0.Month, dt0.Day,
+                            int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                            int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                            0);
+
+                        if (DateTime.Compare(dt0, dt1) <= 0)
+                        {
+                            <span class="status-circle-gray"> </span>
+                        }
+                        else
+                        {
+                            <span class="status-circle-red"> </span>
+                        }
+
+                    }
+
+                    @if (pass.timeDelivered.Length > 2)
+                    {
+                        <span class="status-circle-green"> </span>
+                    }
+                    else
+                    {
+                        <span class="status-circle-gray"> </span>
+                    }
+                    &nbsp;
+
+                </td>
                 <td>(@passcnt)&nbsp;</td>
                 <td>
                     @pass.Name / @pass.Contact &nbsp;

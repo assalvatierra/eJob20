@@ -239,4 +239,3 @@ C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArInterfaces.pdb
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArModels.pdb
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArModels.dll.config
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\ArServices.pdb
-D:\Projects\eJob20\JobsV1\obj\Debug\JobsV2.csprojAssemblyReference.cache
