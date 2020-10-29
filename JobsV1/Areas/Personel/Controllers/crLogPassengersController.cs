@@ -45,6 +45,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
                 .ToList();
 
+            ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             ViewBag.tripId = (int)id;
             ViewBag.TripDetails = db.crLogTrips.Find(id);
             ViewBag.tripList = GetPrevTripLogs_withPass() ?? new List<crLogTrip>();
@@ -108,6 +109,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
                 .ToList();
 
+            ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             ViewBag.TripDetails = tripDetails;
             ViewBag.TripId = tripToday.Id;
             ViewBag.Driver = tripToday.crLogDriver.Name;

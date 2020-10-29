@@ -10,7 +10,8 @@
     int FailedCount = 0;
     int DeclinedCount = 0;
     int DroppedCount = 0;
-    var timeNow = DateTime.Now.TimeOfDay;
+    DateTime datetimeNow = ViewBag.DateTimeNow;
+    TimeSpan timeNow = datetimeNow.TimeOfDay;
 }
 
 <div class="col-md-12">
@@ -26,70 +27,114 @@
         {
             @ViewBag.TripDetails
         }
-
-
     </h4>
 
     <button class="btn btn-default" onclick="location.reload()" style="width:105%;">
-        Refresh List
+        Refresh List - @datetimeNow.ToString("hh:mm tt")
     </button>
 
-    <button class="btn btn-default" onclick="GetPassengerList()" style="width:100%;" hidden>
+    @*<button class="btn btn-default" onclick="GetPassengerList()" style="width:100%;" hidden>
         Get List
-    </button>
+    </button>*@
 </div>
 
 <div class="col-md-12" style="padding-right:0px;">
     <div class="list-group text-md" id="passengers-list">
         @foreach (var item in Model)
         {
-           
 
-            <a href="#" class="list-group-item closeLink" onclick="ShowPassengerAction(@item.Id,'@item.Name','@item.Contact', '@item.crLogPassStatusId')">
-                <div class="driverTripPass-pickup">
-                    <h5 class="mb-1">
-                        @Html.DisplayFor(modelItem => item.PickupTime) -
-                        @Html.DisplayFor(modelItem => item.PickupPoint)
-                    </h5>
-                    <div class="pull-right">
-                        @if (item.crLogPassStatusId == 1)
-                        {
-                            ForPickupCount += 1;
-                            <span class="badge badge-secondary"> @item.crLogPassStatu.Status </span>
-                        }
-                        @if (item.crLogPassStatusId == 2)
-                        {
-                            ContactedCount += 1;
-                            <span class="badge badge-primary"> @item.crLogPassStatu.Status </span>
-                        }
-                        @if (item.crLogPassStatusId == 3)
-                        {
-                            BoardedCount += 1;
-                            <span class="badge badge-info"> @item.crLogPassStatu.Status </span>
-                        }
-                        @if (item.crLogPassStatusId == 4)
-                        {
-                            DroppedCount += 1;
-                            <span class="badge badge-success"> @item.crLogPassStatu.Status </span>
-                        }
-                        @if (item.crLogPassStatusId == 5)
-                        {
-                            DeclinedCount += 1;
-                            <span class="badge badge-warning"> @item.crLogPassStatu.Status </span>
-                        }
-                        @if (item.crLogPassStatusId == 6)
-                        {
-                            FailedCount += 1;
-                            <span class="badge badge-danger"> @item.crLogPassStatu.Status </span>
-                        }
-                    </div>
+         DateTime tripDt = item.crLogTrip.DtTrip;
+
+        <a href="#" class="list-group-item closeLink" onclick="ShowPassengerAction(@item.Id,'@item.Name','@item.Contact', '@item.crLogPassStatusId')">
+            <div class="driverTripPass-pickup">
+                <h5 class="mb-1">
+                    @Html.DisplayFor(modelItem => item.PickupTime) -
+                    @Html.DisplayFor(modelItem => item.PickupPoint)
+                </h5>
+                <div class="pull-right">
+                    @if (item.crLogPassStatusId == 1)
+                    {
+                        ForPickupCount += 1;
+                        <span class="badge badge-secondary"> @item.crLogPassStatu.Status </span>
+                    }
+                    @if (item.crLogPassStatusId == 2)
+                    {
+                        ContactedCount += 1;
+                        <span class="badge badge-primary"> @item.crLogPassStatu.Status </span>
+                    }
+                    @if (item.crLogPassStatusId == 3)
+                    {
+                        BoardedCount += 1;
+                        <span class="badge badge-info"> @item.crLogPassStatu.Status </span>
+                    }
+                    @if (item.crLogPassStatusId == 4)
+                    {
+                        DroppedCount += 1;
+                        <span class="badge badge-success"> @item.crLogPassStatu.Status </span>
+                    }
+                    @if (item.crLogPassStatusId == 5)
+                    {
+                        DeclinedCount += 1;
+                        <span class="badge badge-warning"> @item.crLogPassStatu.Status </span>
+                    }
+                    @if (item.crLogPassStatusId == 6)
+                    {
+                        FailedCount += 1;
+                        <span class="badge badge-danger"> @item.crLogPassStatu.Status </span>
+                    }
                 </div>
-                <p class="mb-1" style="font-size:19px;margin-bottom:-5px;">
-                    <span hidden>
-                        @try
+            </div>
+            <p class="mb-1" style="font-size:19px;margin-bottom:-5px;">
+                
+                <span hidden>
+                    @try
+                    {
+                        <!-- Contact -->
+                        if (item.timeContacted.Length > 2 && item.crLogPassStatusId == 2)
                         {
-                            <!-- Contact -->
-                            if (item.timeContacted.Length > 2 && item.crLogPassStatusId == 2)
+                            if (item.crLogPassStatusId == 5)
+                            {
+                                //declined
+                                <span class="status-circle-lightblue"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 6)
+                            {
+                                //failed
+                                <span class="status-circle-red"> </span>
+                            }
+                            else
+                            {
+                                //success
+                                <span class="status-circle-green"> </span>
+                            }
+                        }
+                        else
+                        {
+                            if (item.crLogPassStatusId == 1)
+                            {
+                                //not yet contacted
+                                if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
+                                {
+                                    //handle late boarding
+                                    <span class="status-circle-orange"> </span>
+                                }
+                                else
+                                {
+
+                                    <span class="status-circle-gray"> </span>
+                                }
+                            }
+                        } <!-- End of Contact -->
+
+                        <!-- Boarding -->
+                        if (item.timeBoarded.Length > 2 && item.crLogPassStatusId == 3)
+                        {
+                            if (DateTime.Parse(item.timeBoarded).TimeOfDay >= timeNow)
+                            {
+                                //handle late boarding
+                                <span class="status-circle-orange"> </span>
+                            }
+                            else
                             {
                                 if (item.crLogPassStatusId == 5)
                                 {
@@ -107,196 +152,229 @@
                                     <span class="status-circle-green"> </span>
                                 }
                             }
-                            else
+                        }
+                        else
+                        {
+                            //not yet boarded
+                            if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
                             {
-                                if (item.crLogPassStatusId == 1)
-                                {
-                                    //not yet contacted
-                                    if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
-                                    {
-                                        //handle late boarding
-                                        <span class="status-circle-orange"> </span>
-                                    }
-                                    else
-                                    {
-
-                                        <span class="status-circle-gray"> </span>
-                                    }
-                                }
-                            } <!-- End of Contact -->
-
-                            <!-- Boarding -->
-                            if (item.timeBoarded.Length > 2 && item.crLogPassStatusId == 3)
-                            {
-                                if (DateTime.Parse(item.timeBoarded).TimeOfDay >= timeNow)
-                                {
-                                    //handle late boarding
-                                    <span class="status-circle-orange"> </span>
-                                }
-                                else
-                                {
-                                    if (item.crLogPassStatusId == 5)
-                                    {
-                                        //declined
-                                        <span class="status-circle-lightblue"> </span>
-                                    }
-                                    else if (item.crLogPassStatusId == 6)
-                                    {
-                                        //failed
-                                        <span class="status-circle-red"> </span>
-                                    }
-                                    else
-                                    {
-                                        //success
-                                        <span class="status-circle-green"> </span>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                //not yet boarded
-                                if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
-                                {
-                                    //handle late boarding
-                                    <span class="status-circle-orange"> </span>
-                                }
-                            } <!-- End of Boarding -->
-                            <!-- Drop Off -->
-                            if (item.timeDelivered.Length > 2 && item.crLogPassStatusId == 3)
-                            {
-                                if (DateTime.Parse(item.timeDelivered).TimeOfDay >= timeNow)
-                                {
-                                    //handle late boarding
-                                    <span class="status-circle-orange"> </span>
-                                }
-                                else
-                                {
-                                    if (item.crLogPassStatusId == 5)
-                                    {
-                                        //declined
-                                        <span class="status-circle-lightblue"> </span>
-                                    }
-                                    else if (item.crLogPassStatusId == 6)
-                                    {
-                                        //failed
-                                        <span class="status-circle-red"> </span>
-                                    }
-                                    else
-                                    {
-                                        //success
-                                        <span class="status-circle-green"> </span>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                //not yet dropped
-                                if (DateTime.Parse(item.DropTime).TimeOfDay <= timeNow)
-                                {
-                                    //handle late boarding
-                                    <span class="status-circle-orange"> </span>
-                                }
-                            }
-
-                            if (item.crLogPassStatusId == 5)
-                            {
-                                //declined
+                                //handle late boarding
                                 <span class="status-circle-orange"> </span>
                             }
-
-                            if (item.crLogPassStatusId == 6)
+                        } <!-- End of Boarding -->
+                        <!-- Drop Off -->
+                        if (item.timeDelivered.Length > 2 && item.crLogPassStatusId == 3)
+                        {
+                            if (DateTime.Parse(item.timeDelivered).TimeOfDay >= timeNow)
                             {
-                                //declined
-                                <span class="status-circle-red"> </span>
-                            }
-                        }
-                        catch
-                        {
-                            <span> Error </span>
-                        }
-                    </span>
-
-                    <span>
-                        @if (item.timeContacted.Trim().Length > 2)
-                        {
-                            <span class="status-circle-green"> </span>
-                        }
-                        else
-                        {
-                            DateTime dt0 = System.DateTime.Now;
-                            string st1 = item.PickupTime;
-                            DateTime dt1 = new DateTime(
-                                dt0.Year, dt0.Month, dt0.Day,
-                                int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
-                                int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
-                                0).AddHours(-1);
-
-                            if (DateTime.Compare(dt0, dt1) <= 0)
-                            {
-                                <span class="status-circle-gray"> </span>
+                                //handle late boarding
+                                <span class="status-circle-orange"> </span>
                             }
                             else
                             {
-                                <span class="status-circle-red"> </span>
+                                if (item.crLogPassStatusId == 5)
+                                {
+                                    //declined
+                                    <span class="status-circle-lightblue"> </span>
+                                }
+                                else if (item.crLogPassStatusId == 6)
+                                {
+                                    //failed
+                                    <span class="status-circle-red"> </span>
+                                }
+                                else
+                                {
+                                    //success
+                                    <span class="status-circle-green"> </span>
+                                }
                             }
-
-                        }
-
-                        @if (item.timeBoarded.Trim().Length > 2)
-                        {
-                            <span class="status-circle-green"> </span>
                         }
                         else
                         {
-
-                            DateTime dt0 = System.DateTime.Now;
-                            string st1 = item.PickupTime;
-                            DateTime dt1 = new DateTime(
-                                dt0.Year, dt0.Month, dt0.Day,
-                                int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
-                                int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
-                                0);
-
-                            if (DateTime.Compare(dt0, dt1) <= 0)
+                            //not yet dropped
+                            if (DateTime.Parse(item.DropTime).TimeOfDay <= timeNow)
                             {
-                                <span class="status-circle-gray"> </span>
+                                //handle late boarding
+                                <span class="status-circle-orange"> </span>
                             }
-                            else
-                            {
-                                <span class="status-circle-red"> </span>
-                            }
-
                         }
 
-                        @if (item.timeDelivered.Length > 2)
+                        if (item.crLogPassStatusId == 5)
                         {
-                            <span class="status-circle-green"> </span>
+                            //declined
+                            <span class="status-circle-orange"> </span>
+                        }
+
+                        if (item.crLogPassStatusId == 6)
+                        {
+                            //declined
+                            <span class="status-circle-red"> </span>
+                        }
+                    }
+                    catch
+                    {
+                        <span> Error </span>
+                    }
+                </span>
+
+                <span>
+                    @if (item.timeContacted.Trim().Length > 2)
+                    {
+                        if (item.crLogPassStatusId == 5)
+                        {
+                            //declined
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else if (item.crLogPassStatusId == 6)
+                        {
+                            //failed
+                            <span class="status-circle-red"> </span>
                         }
                         else
+                        {
+                            //success
+                            <span class="status-circle-green"> </span>
+                        }
+                    }
+                    else
+                    {
+                        DateTime dt0 = datetimeNow;
+                        string st1 = item.PickupTime;
+                        DateTime dt1 = new DateTime(
+                            tripDt.Year, tripDt.Month, tripDt.Day,
+                            int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                            int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                            0).AddHours(-1);
+
+                        if (DateTime.Compare(dt0, dt1) <= 0)
                         {
                             <span class="status-circle-gray"> </span>
                         }
-                        &nbsp;
+                        else
+                        {
+                            <span class="status-circle-red"> </span>
+                        }
 
-                    </span>
+                    }
 
-                    <span>
-                        @item.Name - @item.Contact
-                    </span>
-                    
-                </p>
+                    @if (item.timeBoarded.Trim().Length > 2)
+                    {
+                        if (item.crLogPassStatusId == 5)
+                        {
+                            //declined
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else if (item.crLogPassStatusId == 6)
+                        {
+                            //failed
+                            <span class="status-circle-red"> </span>
+                        }
+                        else
+                        {
+                            //success
+                            <span class="status-circle-green"> </span>
+                        }
+                    }
+                    else
+                    {
+
+                        DateTime dt0 = datetimeNow;
+                        string st1 = item.PickupTime;
+                        DateTime dt1 = new DateTime(
+                            tripDt.Year, tripDt.Month, tripDt.Day,
+                            int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                            int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                            0);
+
+                        if (DateTime.Compare(dt0, dt1) <= 0)
+                        {
+                            <span class="status-circle-gray"> </span>
+                        }
+                        else
+                        {
+                            <span class="status-circle-red"> </span>
+                        }
+
+                    }
+
+                    @if (item.timeDelivered.Length > 2)
+                    {
+
+                        if (item.crLogPassStatusId == 5)
+                        {
+                            //declined
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else if (item.crLogPassStatusId == 6)
+                        {
+                            //failed
+                            <span class="status-circle-red"> </span>
+                        }
+                        else
+                        {
+                            //success
+                            <span class="status-circle-green"> </span>
+                        }
+                    }
+                    else
+                    {
+                        DateTime dt0 = datetimeNow;
+                        string st1 = item.DropTime;
+                        DateTime dt1 = new DateTime(
+                            tripDt.Year, tripDt.Month, tripDt.Day,
+                            int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                            int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                            0);
+
+                        if (DateTime.Compare(dt0, dt1) <= 0)
+                        {
+                            <span class="status-circle-gray"> </span>
+                        }
+                        else
+                        {
+                            <span class="status-circle-red"> </span>
+                        }
+
+                    }
+                    &nbsp;
+
+                </span>
+
+                <span>
+                    @item.Name - @item.Contact
+                </span>
+
+            </p>
+            <p class="no-padding no-margin">
+                <small style="font-size:13px;color:gray;">Destination: @item.DropTime - @item.DropPoint </small>
+
+            </p>
+
+            @if (item.crLogPassStatusId == 5)
+            {
+                //declined
                 <p class="no-padding no-margin">
-                    <small style="font-size:13px;">Destination: @item.DropTime - @item.DropPoint </small>
+                    <small style="font-size:13px;color:red;">Destination: @item.Remarks </small>
 
                 </p>
-            </a>
+            }
+            else if (item.crLogPassStatusId == 6)
+            {
+                //failed
+                <p class="no-padding no-margin">
+                    <small style="font-size:13px;color:orange;">Destination:  @item.Remarks </small>
+
+                </p>
+            }
+
+        </a>
         }
     </div>
 </div>
 
 @if (TripId != 0)
 {
-    <div class="col-md-12">
+    <div class="col-md-12" style="margin-right:0px;padding-right:0px;">
         <h3>Summary</h3>
         <p class="driverTripPass-summary">
             <button type="button" class="btn btn-primary" >

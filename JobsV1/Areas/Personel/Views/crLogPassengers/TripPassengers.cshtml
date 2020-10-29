@@ -5,7 +5,9 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var tripDetails = ViewBag.TripDetails as JobsV1.Areas.Personel.Models.crLogTrip;
     var tripId = ViewBag.tripId ?? 0;
-    var timeNow = DateTime.Now.TimeOfDay;
+    DateTime datetimeNow = ViewBag.DateTimeNow;
+    TimeSpan timeNow = datetimeNow.TimeOfDay;
+
 }
 
 <h2>@tripDetails.DtTrip.ToString("MMM dd yyyy")- @tripDetails.crLogCompany.Name / @tripDetails.crLogUnit.Description / @tripDetails.crLogDriver.Name </h2>
@@ -22,7 +24,7 @@
     </a>
 </p>
 <p>
-    <span style="margin-right:10px;">Time : @DateTime.Now.ToString("hh:mm tt")</span>
+    <span style="margin-right:10px;">Time : @datetimeNow.ToString("hh:mm tt")</span>
     <span style="margin-right:10px;">
         <span class="status-circle-green"> </span> Done
     </span>
@@ -74,6 +76,7 @@
             <td>
                 @try
                 {
+                    DateTime tripDt = item.crLogTrip.DtTrip;
 
                     <!-- Contact -->
                     if (item.timeContacted.Length > 2)
@@ -98,8 +101,9 @@
                     }
                     else
                     {
+                        TimeSpan add1Hour = TimeSpan.FromHours(1);
                         //not yet contacted
-                        if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
+                        if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow.Add(add1Hour))
                         {
                             //handle late boarding
                             <span class="status-circle-orange"> </span>
