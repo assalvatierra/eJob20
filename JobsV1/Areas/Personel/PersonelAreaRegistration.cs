@@ -35,11 +35,32 @@ namespace JobsV1.Areas.Personel
                 new string[] { "JobsV1.Areas.Personel.Controllers" }
             );
 
+            context.MapRoute(
+                "mod-company-trip",
+                "mod/110/company/trip/{id}",
+                new { controller = "CrLogPassengerList", action = "TripPortal", id = UrlParameter.Optional },
+                new string[] { "JobsV1.Areas.Personel.Controllers" }
+            );
+
 
             context.MapRoute(
                 "mod-trip-admin",
                 "mod/110/admin",
                 new { controller = "crLogPassengerList", action = "Index" },
+                new string[] { "JobsV1.Areas.Personel.Controllers" }
+            );
+
+            context.MapRoute(
+                "mod-trip-admin-with-id",
+                "mod/110/admin/{id}",
+                new { controller = "crLogPassengerList", action = "Index", companyId = UrlParameter.Optional },
+                new string[] { "JobsV1.Areas.Personel.Controllers" }
+            );
+
+            context.MapRoute(
+                "mod-trip-admin-with-date",
+                "mod/110/admin/{companyId}/{dtMonth}/{dtDay}/{dtYear}",
+                new { controller = "crLogPassengerList", action = "Index", companyId = UrlParameter.Optional, dtMonth = UrlParameter.Optional, dtDay = UrlParameter.Optional, dtYear = UrlParameter.Optional },
                 new string[] { "JobsV1.Areas.Personel.Controllers" }
             );
 

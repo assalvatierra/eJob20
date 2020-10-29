@@ -60,9 +60,11 @@ namespace JobsV1.Areas.Personel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var today = dt.GetCurrentDate();
+            var today = dt.GetCurrentDate().AddDays(-7);
 
-            var driverTrips = db.crLogTrips.Where(c=>c.crLogDriverId == id).OrderByDescending(c=>c.DtTrip).ToList();
+            var driverTrips = db.crLogTrips.Where(c=>c.crLogDriverId == id &&
+                 DbFunctions.TruncateTime(c.DtTrip) >= today )
+                .OrderByDescending(c=>c.DtTrip).ToList();
             if (driverTrips == null)
             {
                 ViewBag.Driver = db.crLogDrivers.Find(id).Name;

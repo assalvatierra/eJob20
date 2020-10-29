@@ -1,0 +1,31 @@
+﻿
+
+@model IEnumerable<JobsV1.Areas.Personel.Controllers.crLogTripPortalClass>
+
+@{
+    ViewBag.Title = "Company Trip Portal";
+
+    var timeNow = DateTime.Now.TimeOfDay;
+}
+<div class="col-md-12">
+    <h3>  @ViewBag.Company  </h3>
+    <p class="text-muted">
+        Ongoing and previous trips in the Last 7 days
+    </p>
+</div>
+
+<div class="col-md-12" style="padding-right:0px;">
+    <div class="list-group text-md" id="passengers">
+        @foreach (var item in Model)
+        {
+            var itemDate = DateTime.Parse(item.Date);
+            <a href="/mod/110/admin?companyId=@item.companyId&dtMonth=@itemDate.Month&dtDay=@itemDate.Day&dtYear=@itemDate.Year" class="list-group-item list-group-item-action flex-column align-items-start">
+                <span style="display:flex;justify-content:space-between;">
+                   <span>
+                       @DateTime.Parse(item.Date).ToString("MMM dd yyyy")
+                   </span>
+                </span>
+            </a>
+        }
+    </div>
+</div>

@@ -354,7 +354,7 @@
             {
                 //declined
                 <p class="no-padding no-margin">
-                    <small style="font-size:13px;color:red;">Destination: @item.Remarks </small>
+                    <small style="font-size:13px;color:orange;"> @item.Remarks </small>
 
                 </p>
             }
@@ -362,7 +362,7 @@
             {
                 //failed
                 <p class="no-padding no-margin">
-                    <small style="font-size:13px;color:orange;">Destination:  @item.Remarks </small>
+                    <small style="font-size:13px;color:red;"> @item.Remarks </small>
 
                 </p>
             }
@@ -437,14 +437,14 @@
                             </h5>
                         </div>
                     </button>
-                    <button  id="passDetails-board" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(3)">
+                    <button id="passDetails-board" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(3)">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 BOARDED
                             </h5>
                         </div>
                     </button>
-                    <button  id="passDetails-drop" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowConfirmAction(4)">
+                    <button  id="passDetails-drop" class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmActionStatus_Dropped(4)">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 DROPPED
@@ -488,7 +488,7 @@
                         </div>
                     </button>
 
-                    <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ShowDeclinedModal()">
+                    <button class="list-group-item list-group-item-action flex-column align-items-start" id="ConfirmAction-Decline" onclick="ShowDeclinedModal()">
                         <div style="display:flex;justify-content:center;">
                             <h5 class="mb-1" style="font-weight:600;">
                                 YES, but declined
@@ -657,6 +657,13 @@
 @section Scripts{
     <script>
 
+        $(() => {
+            window.setInterval(function () {
+                //reload page every one minute
+                location.reload();
+            }, 60000);
+        });
+
         function GetPassengerList() {
             var tripId = @TripId;
             // get driver list of passengers
@@ -768,6 +775,7 @@
             $("#passDetails-board").removeClass('disabled');
             $("#passDetails-contacted").removeClass('disabled');
 
+            $("#ConfirmAction-Decline").show();
             //filter status
             if (statusId == 1) {
                 $("#passDetails-board").addClass('disabled');
@@ -775,6 +783,7 @@
             } else if (statusId == 2) {
                 $("#passDetails-contacted").addClass('disabled');
                 $("#passDetails-drop").addClass('disabled');
+                $("#ConfirmAction-Decline").hide();
             } else if (statusId == 3) {
                 $("#passDetails-contacted").addClass('disabled');
                 $("#passDetails-board").addClass('disabled');
@@ -828,6 +837,40 @@
 
             console.log("Updating status");
             var actId = $("#confirmActionId").val();
+            var passId = $("#PassId").val();
+
+            var d = new Date();
+            //remove seconds from time string
+            var timeNow = d.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', hour12: true });
+
+
+
+            console.log("actId : " + actId);
+            console.log("passId : " + passId);
+            console.log("time : " + timeNow);
+
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: " " }, (result) => {
+                console.log("result:" + result);
+
+                if (result == "True") {
+                    //close modal
+                    $("#ConfirmActionModal").modal("hide");
+                    //reload page
+                    location.reload();
+                } else {
+
+                    alert("An Error occured while updating status.");
+                }
+            });
+            console.log(res);
+            return false;
+        }
+
+
+        function ConfirmActionStatus_Dropped(ActId) {
+
+            console.log("Updating status");
+            var actId = ActId;
             var passId = $("#PassId").val();
 
             var d = new Date();
