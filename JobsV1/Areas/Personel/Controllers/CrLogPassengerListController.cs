@@ -103,9 +103,11 @@ namespace JobsV1.Areas.Personel.Controllers
 
             for (var i = 0; i< daysCount; i++)
             {
+                var adjustedDate = today.AddDays(-i);
                 crLogTripPortals.Add(new crLogTripPortalClass() { 
                     companyId = (int)id,
-                    Date = today.AddDays(-i).ToShortDateString()
+                    Date = today.AddDays(-i).ToShortDateString(),
+                    VehicleCount = db.crLogTrips.Where(c=>c.crLogCompanyId == id && c.DtTrip == adjustedDate).Count()
                 });
             }
             
@@ -119,5 +121,6 @@ namespace JobsV1.Areas.Personel.Controllers
     {
         public int companyId { get; set; }
         public string Date { get; set; }
+        public int VehicleCount { get; set; }
     }
 }

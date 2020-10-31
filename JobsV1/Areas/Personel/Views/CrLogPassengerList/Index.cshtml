@@ -35,7 +35,7 @@
         {
             <tr>
                 <th colspan="3">
-                    @Html.DisplayFor(modelItem => item.crLogCompany.Name)
+                    <a href="/mod/110/company/trip/@item.crLogCompanyId">  @Html.DisplayFor(modelItem => item.crLogCompany.Name)</a>
                 </th>
             </tr>
         }
@@ -75,7 +75,7 @@
                         DateTime tripDt = pass.crLogTrip.DtTrip;
 
                         <tr>
-                            <td>
+                            <td style="padding-top:20px;">
                                 &nbsp;
                                 @if (pass.timeContacted.Trim().Length > 2)
                                 {
@@ -197,7 +197,7 @@
                             </td>
                             <td>(@passcnt)&nbsp;</td>
                             <td>
-                                @pass.Name / @pass.Contact &nbsp;
+                                @pass.Name / @pass.Contact&nbsp;
                             </td>
                             <td>
                                 [ @pass.PickupTime / @pass.PickupPoint ] &nbsp;

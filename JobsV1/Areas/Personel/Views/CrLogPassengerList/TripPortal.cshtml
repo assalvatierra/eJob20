@@ -19,11 +19,15 @@
         @foreach (var item in Model)
         {
             var itemDate = DateTime.Parse(item.Date);
-            <a href="/mod/110/admin?companyId=@item.companyId&dtMonth=@itemDate.Month&dtDay=@itemDate.Day&dtYear=@itemDate.Year" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="/mod/110/admin/@item.companyId/@itemDate.Month/@itemDate.Day/@itemDate.Year" class="list-group-item list-group-item-action flex-column align-items-start">
                 <span style="display:flex;justify-content:space-between;">
-                   <span>
-                       @DateTime.Parse(item.Date).ToString("MMM dd yyyy")
-                   </span>
+                    <span>
+                        @DateTime.Parse(item.Date).ToString("MMM dd yyyy")
+                    </span>
+                    <span class="pull-right" style="margin-top:0px;margin-left:5px;">
+                        <span style="font-size:13px;"> Vehicles : </span>
+                        <span class=" badge badge-primary"> @item.VehicleCount </span>
+                    </span>
                 </span>
             </a>
         }
