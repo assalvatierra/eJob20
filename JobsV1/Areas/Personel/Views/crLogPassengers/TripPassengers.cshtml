@@ -20,7 +20,7 @@
     @Html.ActionLink("Add Passenger", "CreatePassTrip", new { id = tripId }) |
 
     <a href="#" onclick="ShowCopyLogsModal(@tripId)">
-        Copy Trip
+        Copy Passengers
     </a>
 </p>
 <p>
@@ -32,7 +32,7 @@
         <span class="status-circle-lightblue"> </span> Declined
     </span>
     <span style="margin-right:10px;">
-        <span class="status-circle-orange"> </span> Late 
+        <span class="status-circle-orange"> </span> Late
     </span>
     <span style="margin-right:10px;">
         <span class="status-circle-red">  </span> Failed
@@ -320,7 +320,7 @@
 
             <div class="modal-body">
                 <div style="margin-left:0px;">
-                    <form>  
+                    <form>
                         <div class="form-group">
                             <div class="list-group ">
                                 @foreach (var trip in ViewBag.tripList as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>)
@@ -352,7 +352,38 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Cancel_SubmitPassCopyLogs()">Close</button>
-                <button type="submit" value="Create" class="btn btn-primary" onclick="SubmitPassCopyLogs()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Copied Logs Date -->
+<div class="modal fade" role="dialog" id="CopiedTripPassengersModal">
+    <div class="modal-dialog" style="min-width:330px;max-width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Select Passengers to Copy</h4>
+            </div>
+
+            <div class="modal-body">
+                <div style="margin-left:0px;">
+                    <form>
+                        <div class="form-group">
+                           <table class="table" id="CopyFrom-TripPassengerList">
+                               <tr>
+                                   <th> Passenger </th>
+                                   <th> Copy </th>
+                               </tr>
+                           </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" value="Create" class="btn btn-primary" onclick="SubmitPassCopy()">Submit</button>
             </div>
         </div>
     </div>
@@ -364,6 +395,8 @@
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
     <script>
         var SELECTED_ID = 0;
+        var TRIP_ID = 0;
+        var PASS_LIST = [];
 
         $(document).ready(() => {
             //Initialize
@@ -376,8 +409,19 @@
             SetSelectedID(id);
         }
 
+        function ShowTripPassengersModal(id) {
+            $("#CopiedTripPassengersModal").modal("show");
+
+            //set Trip Id
+            SetSelectedTripID(id);
+        }
+
         function SetSelectedID(selected_Id) {
             this.SELECTED_ID = selected_Id;
+        }
+
+        function SetSelectedTripID(trip_Id) {
+            this.TRIP_ID = trip_Id;
         }
 
         //submit
@@ -385,19 +429,55 @@
             console.log("selected_Id : " + SELECTED_ID);
             console.log("tripId : " + source_tripId);
 
-            $.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id: source_tripId, destTripId: SELECTED_ID}, (result) => {
-                console.log("result:" + result);
+            ShowTripPassengersModal(source_tripId);
+            GetPassengerList(source_tripId);
+            //$.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id: source_tripId, destTripId: SELECTED_ID }, (result) => {
+            //    console.log("result:" + result);
 
-                if (result == "True") {
-                    alert("Copying Done !");
-                    //close modal
-                    $("#CopiedTripLogModal").modal("hide");
-                    location.reload();
+            //    if (result == "True") {
+            //        alert("Copying Done !");
+            //        //close modal
+            //        $("#CopiedTripLogModal").modal("hide");
+            //        location.reload();
+            //    } else {
+            //        alert("An Error occured while copying.");
+            //    }
+            //});
+
+        }
+
+        //get list if passengers
+        function GetPassengerList(tripId) {
+            $.get("/Personel/crLogPassengers/GetPassengerList", { id: tripId }, (result) => {
+            
+                var passengers = JSON.parse(result);
+                if (passengers.length > 0) {
+                    console.log(passengers);
+                    //show data
+                    CopyTripPassengers();
+
+                    //add data to table
+                    for (var i = 0; i < passengers.length; i++) {
+                        var psgr = "<tr>" +
+                            + "<td>" + passengers[i]["Id"] + "</td>"
+                            + "<td>" + passengers[i]["Name"] + "</td>"
+                            + "<td> <input type='checkbox' > </td>"
+                            + "</tr>";
+                            
+                        $("#CopyFrom-TripPassengerList").append(psgr);
+                    }
+                   
+
                 } else {
                     alert("An Error occured while copying.");
                 }
             });
+        }
 
+        function CopyTripPassengers() {
+            console.log("selected_Id : " + SELECTED_ID);
+            console.log("tripId : " + TRIP_ID);
+            console.log("Passenger List : " + PASS_LIST);
         }
 
         function Cancel_SubmitPassCopyLogs() {

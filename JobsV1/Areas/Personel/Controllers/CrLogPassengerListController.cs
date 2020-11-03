@@ -25,7 +25,8 @@ namespace JobsV1.Areas.Personel.Controllers
                  DbFunctions.TruncateTime(d.DtTrip) == today)
                 .Include(d=>d.crLogPassengers)
                 .OrderBy(d=>d.crLogCompanyId)
-                .ThenByDescending(d=>d.DtTrip)
+                .ThenByDescending(d => DbFunctions.TruncateTime(d.DtTrip))
+                .ThenBy(d => d.crLogDriver.Name)
                 .ToList();
 
             //last trip transaction
@@ -53,7 +54,8 @@ namespace JobsV1.Areas.Personel.Controllers
                         d.crLogCompanyId == companyId)
                        .Include(d => d.crLogPassengers)
                        .OrderBy(d => d.crLogCompanyId)
-                       .ThenByDescending(d => d.DtTrip)
+                       .ThenByDescending(d => DbFunctions.TruncateTime(d.DtTrip))
+                       .ThenBy(d => d.crLogDriver.Name)
                        .ToList();
 
                     ViewBag.Company = db.crLogCompanies.Find(companyId).Name;

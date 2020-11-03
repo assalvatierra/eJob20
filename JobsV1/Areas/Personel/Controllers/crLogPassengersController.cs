@@ -662,5 +662,17 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.DriversId = new SelectList(db.crLogDrivers.ToList(), "Id", "Name");
             return RedirectToAction("DriversTripList", new { id = DriversId });
         }
+
+        public string GetPassengerList(int? id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            var passengerList = db.crLogPassengers.Where(c => c.crLogTripId == id).ToList().Select(c=> new { c.Id, c.Name });
+
+            return JsonConvert.SerializeObject(passengerList, Formatting.Indented);
+        }
     }
 }
