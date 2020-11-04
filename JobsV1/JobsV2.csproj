@@ -1289,6 +1289,7 @@
     <Content Include="Areas\Personel\Script\CarRentalLogCreate.js" />
     <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
     <Content Include="Areas\Personel\Script\CashTransactions.js" />
+    <Content Include="Areas\Personel\Script\CopyPassengers.js" />
     <Content Include="Areas\Personel\Script\CreatePassengerTime.js" />
     <Content Include="Areas\Personel\Script\CrLogFuel.js" />
     <Content Include="Areas\Personel\Script\CrLogOdoes.js" />

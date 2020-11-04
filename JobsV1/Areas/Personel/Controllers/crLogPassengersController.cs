@@ -674,5 +674,30 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return JsonConvert.SerializeObject(passengerList, Formatting.Indented);
         }
+
+        [HttpPost]
+        public bool CopyTripPassengers(int destTripId, int passengerId)
+        {
+            try
+            {
+                var CopiedPassenger = db.crLogPassengers.Find(passengerId);
+                CopiedPassenger.crLogTripId = destTripId;
+                CopiedPassenger.crLogPassStatusId = 1;
+                CopiedPassenger.timeBoarded = " ";
+                CopiedPassenger.timeContacted = " ";
+                CopiedPassenger.timeDelivered = " ";
+                CopiedPassenger.Remarks = " ";
+
+                db.crLogPassengers.Add(CopiedPassenger);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+               
+                return false;
+            }
+        }
     }
 }

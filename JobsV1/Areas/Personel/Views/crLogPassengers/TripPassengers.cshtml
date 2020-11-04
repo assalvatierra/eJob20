@@ -351,7 +351,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="Cancel_SubmitPassCopyLogs()">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
             </div>
         </div>
     </div>
@@ -374,7 +374,9 @@
                            <table class="table" id="CopyFrom-TripPassengerList">
                                <tr>
                                    <th> Passenger </th>
-                                   <th> Copy </th>
+                                   <th>
+                                       <input type="checkbox" onclick="SelectAllCheckBox();" id="select-all-checkbox" /> Copy All
+                                   </th>
                                </tr>
                            </table>
                         </div>
@@ -393,95 +395,5 @@
 @section Scripts{
 
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
-    <script>
-        var SELECTED_ID = 0;
-        var TRIP_ID = 0;
-        var PASS_LIST = [];
-
-        $(document).ready(() => {
-            //Initialize
-        });
-
-        function ShowCopyLogsModal(id) {
-            $("#CopiedTripLogModal").modal("show");
-
-            //set selectedID
-            SetSelectedID(id);
-        }
-
-        function ShowTripPassengersModal(id) {
-            $("#CopiedTripPassengersModal").modal("show");
-
-            //set Trip Id
-            SetSelectedTripID(id);
-        }
-
-        function SetSelectedID(selected_Id) {
-            this.SELECTED_ID = selected_Id;
-        }
-
-        function SetSelectedTripID(trip_Id) {
-            this.TRIP_ID = trip_Id;
-        }
-
-        //submit
-        function SelectTripToCopy(source_tripId) {
-            console.log("selected_Id : " + SELECTED_ID);
-            console.log("tripId : " + source_tripId);
-
-            ShowTripPassengersModal(source_tripId);
-            GetPassengerList(source_tripId);
-            //$.post("/Personel/crLogPassengers/CopyPassTripSubmit", { id: source_tripId, destTripId: SELECTED_ID }, (result) => {
-            //    console.log("result:" + result);
-
-            //    if (result == "True") {
-            //        alert("Copying Done !");
-            //        //close modal
-            //        $("#CopiedTripLogModal").modal("hide");
-            //        location.reload();
-            //    } else {
-            //        alert("An Error occured while copying.");
-            //    }
-            //});
-
-        }
-
-        //get list if passengers
-        function GetPassengerList(tripId) {
-            $.get("/Personel/crLogPassengers/GetPassengerList", { id: tripId }, (result) => {
-            
-                var passengers = JSON.parse(result);
-                if (passengers.length > 0) {
-                    console.log(passengers);
-                    //show data
-                    CopyTripPassengers();
-
-                    //add data to table
-                    for (var i = 0; i < passengers.length; i++) {
-                        var psgr = "<tr>" +
-                            + "<td>" + passengers[i]["Id"] + "</td>"
-                            + "<td>" + passengers[i]["Name"] + "</td>"
-                            + "<td> <input type='checkbox' > </td>"
-                            + "</tr>";
-                            
-                        $("#CopyFrom-TripPassengerList").append(psgr);
-                    }
-                   
-
-                } else {
-                    alert("An Error occured while copying.");
-                }
-            });
-        }
-
-        function CopyTripPassengers() {
-            console.log("selected_Id : " + SELECTED_ID);
-            console.log("tripId : " + TRIP_ID);
-            console.log("Passenger List : " + PASS_LIST);
-        }
-
-        function Cancel_SubmitPassCopyLogs() {
-        }
-
-    </script>
+    <script src="~/Areas/Personel/Script/CopyPassengers.js"> </script>
 }
