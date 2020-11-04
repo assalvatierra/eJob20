@@ -202,6 +202,12 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 db.crLogPassengers.Add(crLogPassenger);
                 db.SaveChanges();
+
+                //check passenger
+                if (CheckPassengerNameOnMaster(crLogPassenger))
+                {
+                    SavePassengerToMasterList(crLogPassenger);
+                }
                 return RedirectToAction("TripPassengers" , new { id = crLogPassenger.crLogTripId });
             }
 
@@ -697,6 +703,81 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                
                 return false;
+            }
+        }
+
+        public bool CheckPassengerNameOnMaster(crLogPassenger passenger)
+        {
+            var isNotEncoded = db.crLogPassengerMasters.Where(p => passenger.Name == p.Name);
+            if (isNotEncoded.FirstOrDefault() == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool SavePassengerToMasterList(crLogPassenger passenger)
+        {
+            try
+            {
+                if (passenger == null)
+                {
+                    return false;
+                }
+
+                crLogPassengerMaster passengerMaster = new crLogPassengerMaster();
+                passengerMaster.Name = passenger.Name;
+                passengerMaster.Contact = passenger.Contact;
+                passengerMaster.PassAddress = passenger.PassAddress;
+                passengerMaster.PickupPoint = passenger.PickupPoint;
+                passengerMaster.PickupTime = passenger.PickupTime;
+                passengerMaster.DropPoint = passenger.DropPoint;
+                passengerMaster.DropTime = passenger.DropTime;
+
+                db.crLogPassengerMasters.Add(passengerMaster);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
+            }
+        }
+
+
+        public ActionResult CheckAddPassengerToMasterList(int? passId)
+        {
+            try
+            {
+                if (passId == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var passenger = db.crLogPassengers.Find(passId);
+
+                if (passenger == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //check passenger
+                if (CheckPassengerNameOnMaster(passenger))
+                {
+                    SavePassengerToMasterList(passenger);
+                }
+
+                return RedirectToAction("Index","crLogPassengerMasters",null);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
     }

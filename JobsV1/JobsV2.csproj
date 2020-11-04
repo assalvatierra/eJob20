@@ -371,6 +371,7 @@
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
     <Compile Include="Areas\Personel\Controllers\CrLogPassengerListController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogPassengerMastersController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogPassengersController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogUnitsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crRptUnitExpensesController.cs" />
@@ -434,6 +435,9 @@
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogPassenger.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogPassengerMaster.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogPassStatus.cs">
@@ -2271,6 +2275,11 @@
     <Content Include="Areas\Personel\Views\crLogPassengers\DriversPortal.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengers\DriversTripList.cshtml" />
     <Content Include="Areas\Personel\Views\CrLogPassengerList\TripPortal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerMasters\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerMasters\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerMasters\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerMasters\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerMasters\Index.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

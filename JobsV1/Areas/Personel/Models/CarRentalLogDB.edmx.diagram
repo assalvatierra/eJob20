@@ -44,6 +44,7 @@
         <EntityTypeShape EntityType="CarRentalLogDB.crLogPassStatus" Width="1.5" PointX="1.25" PointY="7.75" />
         <AssociationConnector Association="CarRentalLogDB.crLogPassStatuscrLogPassenger" />
         <AssociationConnector Association="CarRentalLogDB.crLogTripcrLogPassenger" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogPassengerMaster" Width="1.5" PointX="1.25" PointY="9.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

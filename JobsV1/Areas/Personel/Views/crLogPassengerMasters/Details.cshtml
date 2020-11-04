@@ -1,4 +1,4 @@
-﻿@model JobsV1.Areas.Personel.Models.crLogPassenger
+﻿@model JobsV1.Areas.Personel.Models.crLogPassengerMaster
 
 @{
     ViewBag.Title = "Details";
@@ -7,25 +7,9 @@
 <h2>Details</h2>
 
 <div>
-    <h4>crLogPassenger</h4>
+    <h4>crLogPassengerMaster</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.crLogPassStatu.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.crLogPassStatu.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.crLogTrip.Remarks)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.crLogTrip.Remarks)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -83,30 +67,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.timeContacted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.timeContacted)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.timeBoarded)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.timeBoarded)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.timeDelivered)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.timeDelivered)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Remarks)
         </dt>
 
@@ -117,7 +77,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Add to Master List", "CheckAddPassengerToMasterList", new { passId = Model.Id }) |
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

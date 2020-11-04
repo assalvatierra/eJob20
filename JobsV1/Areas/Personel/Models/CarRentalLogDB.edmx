@@ -24,6 +24,7 @@
     <EntitySet Name="crLogCashTypes" EntityType="CarRentalLogDB.Store.crLogCashTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassengers" EntityType="CarRentalLogDB.Store.crLogPassengers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassStatus" EntityType="CarRentalLogDB.Store.crLogPassStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogPassengerMasters" EntityType="CarRentalLogDB.Store.crLogPassengerMasters" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -294,6 +295,20 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="crLogPassengerMasters">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="Contact" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="PassAddress" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="PickupPoint" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="PickupTime" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="DropPoint" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="DropTime" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="150" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -654,6 +669,7 @@
             <End Role="crLogTrip" EntitySet="crLogTrips" />
             <End Role="crLogPassenger" EntitySet="crLogPassengers" />
           </AssociationSet>
+          <EntitySet Name="crLogPassengerMasters" EntityType="CarRentalLogDB.crLogPassengerMaster" />
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -1135,6 +1151,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="crLogPassengerMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" />
+          <Property Name="Contact" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="PassAddress" Type="String" Nullable="false" MaxLength="150" />
+          <Property Name="PickupPoint" Type="String" Nullable="false" MaxLength="150" />
+          <Property Name="PickupTime" Type="String" Nullable="false" MaxLength="150" />
+          <Property Name="DropPoint" Type="String" Nullable="false" MaxLength="150" />
+          <Property Name="DropTime" Type="String" Nullable="false" MaxLength="150" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="150" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1342,6 +1372,21 @@
         <MappingFragment StoreEntitySet="crLogPassStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogPassengerMasters">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogPassengerMaster)">
+        <MappingFragment StoreEntitySet="crLogPassengerMasters">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="PassAddress" ColumnName="PassAddress" />
+          <ScalarProperty Name="PickupPoint" ColumnName="PickupPoint" />
+          <ScalarProperty Name="PickupTime" ColumnName="PickupTime" />
+          <ScalarProperty Name="DropPoint" ColumnName="DropPoint" />
+          <ScalarProperty Name="DropTime" ColumnName="DropTime" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -72,8 +72,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var today = dt.GetCurrentDate();
 
             List<crLogTrip> crTrip = db.crLogTrips
-                .Where(d => d.crLogPassengers.Count() > 0 && 
-                 DbFunctions.TruncateTime(d.DtTrip) >= today)
+                .Where(d => DbFunctions.TruncateTime(d.DtTrip) >= today)
                 .ToList();
 
             ViewBag.Pass = db.crLogPassengers.Find(id);

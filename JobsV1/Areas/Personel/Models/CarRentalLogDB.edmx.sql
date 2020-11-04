@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/26/2020 13:22:27
+-- Date Created: 11/04/2020 16:00:58
 -- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -138,6 +138,9 @@ IF OBJECT_ID(N'[dbo].[crLogPassengers]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[crLogPassStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogPassStatus];
+GO
+IF OBJECT_ID(N'[dbo].[crLogPassengerMasters]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogPassengerMasters];
 GO
 
 -- --------------------------------------------------
@@ -330,6 +333,20 @@ CREATE TABLE [dbo].[crLogPassStatus] (
 );
 GO
 
+-- Creating table 'crLogPassengerMasters'
+CREATE TABLE [dbo].[crLogPassengerMasters] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(150)  NOT NULL,
+    [Contact] nvarchar(50)  NOT NULL,
+    [PassAddress] nvarchar(150)  NOT NULL,
+    [PickupPoint] nvarchar(150)  NOT NULL,
+    [PickupTime] nvarchar(150)  NOT NULL,
+    [DropPoint] nvarchar(150)  NOT NULL,
+    [DropTime] nvarchar(150)  NOT NULL,
+    [Remarks] nvarchar(150)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -439,6 +456,12 @@ GO
 -- Creating primary key on [Id] in table 'crLogPassStatus'
 ALTER TABLE [dbo].[crLogPassStatus]
 ADD CONSTRAINT [PK_crLogPassStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogPassengerMasters'
+ALTER TABLE [dbo].[crLogPassengerMasters]
+ADD CONSTRAINT [PK_crLogPassengerMasters]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
