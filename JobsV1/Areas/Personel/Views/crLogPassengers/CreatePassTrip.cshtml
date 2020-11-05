@@ -6,50 +6,54 @@
 
 <h2>Create Passenger Trip</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Passenger Log</h4>
+        <h4>Passenger</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @maxlength = "120" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger"})
+            <div class="col-md-4" style="width:320px">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @maxlength = "120", @id = "Passenger-textfield" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
+
+            <span style="float:left" class="search-customer-button">
+                <button class="btn btn-default" data-toggle="modal" data-target="#PassengerSearchModal" style="margin-top:0px;float:left;" type="button">Search Passenger</button>
+            </span>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Contact, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @maxlength = "13" } })
-                @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger"})
+                @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @maxlength = "13", @id = "Passenger-contact" } })
+                @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.PassAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PassAddress, new { htmlAttributes = new { @class = "form-control", @maxlength = "180" } })
-                @Html.ValidationMessageFor(model => model.PassAddress, "", new { @class = "text-danger"})
+                @Html.EditorFor(model => model.PassAddress, new { htmlAttributes = new { @class = "form-control", @maxlength = "180", @id = "Passenger-address" } })
+                @Html.ValidationMessageFor(model => model.PassAddress, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.PickupPoint, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PickupPoint, new { htmlAttributes = new { @class = "form-control", @maxlength = "150" } })
-                @Html.ValidationMessageFor(model => model.PickupPoint, "", new { @class = "text-danger"})
+                @Html.EditorFor(model => model.PickupPoint, new { htmlAttributes = new { @class = "form-control", @maxlength = "150", @id = "Passenger-pickupPoint" } })
+                @Html.ValidationMessageFor(model => model.PickupPoint, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.PickupTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PickupTime, new { htmlAttributes = new { @class = "form-control jqtimepicker", @maxlength = "10" } })
+                @Html.EditorFor(model => model.PickupTime, new { htmlAttributes = new { @class = "form-control jqtimepicker", @maxlength = "10", @id = "Passenger-pickupTime" } })
                 @Html.ValidationMessageFor(model => model.PickupTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +61,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DropPoint, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DropPoint, new { htmlAttributes = new { @class = "form-control", @maxlength = "150" } })
+                @Html.EditorFor(model => model.DropPoint, new { htmlAttributes = new { @class = "form-control", @maxlength = "150", @id = "Passenger-dropPoint" } })
                 @Html.ValidationMessageFor(model => model.DropPoint, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -65,8 +69,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DropTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DropTime, new { htmlAttributes = new { @class = "form-control jqtimepicker", @maxlength = "10" } })
-                @Html.ValidationMessageFor(model => model.DropTime, "", new { @class = "text-danger"})
+                @Html.EditorFor(model => model.DropTime, new { htmlAttributes = new { @class = "form-control jqtimepicker", @maxlength = "10", @id = "Passenger-dropTime" } })
+                @Html.ValidationMessageFor(model => model.DropTime, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -117,6 +121,14 @@
                 @Html.ValidationMessageFor(model => model.crLogTripId, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Area, "Area", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Area", null, htmlAttributes: new { @class = "form-control", @id = "Passenger-dropTime" })
+                @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -130,8 +142,8 @@
     @Html.ActionLink("Back to List", "TripPassengers", new { id = ViewBag.tripId })
 </div>
 
+@Html.Partial("_SearchPassengerModal", null, new ViewDataDictionary { { "PassengerList", ViewBag.PassengerList } })
 @section Scripts{
-    
-    <script src="~/Areas/Personel/Script/CreatePassengerTime.js">
-    </script>
-    }
+    <script src="~/Areas/Personel/Script/CreatePassengerTime.js"></script>
+    <script src="~/Areas/Personel/Script/SearchPassenger.js"></script>
+}

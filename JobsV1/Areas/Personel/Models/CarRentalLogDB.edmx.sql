@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/04/2020 16:00:58
+-- Date Created: 11/05/2020 11:03:18
 -- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -141,6 +141,9 @@ IF OBJECT_ID(N'[dbo].[crLogPassStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[crLogPassengerMasters]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogPassengerMasters];
+GO
+IF OBJECT_ID(N'[dbo].[crLogPassengerAreas]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogPassengerAreas];
 GO
 
 -- --------------------------------------------------
@@ -322,7 +325,8 @@ CREATE TABLE [dbo].[crLogPassengers] (
     [timeDelivered] nvarchar(10)  NOT NULL,
     [Remarks] nvarchar(150)  NULL,
     [crLogPassStatusId] int  NOT NULL,
-    [crLogTripId] int  NOT NULL
+    [crLogTripId] int  NOT NULL,
+    [Area] nvarchar(150)  NULL
 );
 GO
 
@@ -338,12 +342,21 @@ CREATE TABLE [dbo].[crLogPassengerMasters] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(150)  NOT NULL,
     [Contact] nvarchar(50)  NOT NULL,
-    [PassAddress] nvarchar(150)  NOT NULL,
+    [PassAddress] nvarchar(150)  NULL,
     [PickupPoint] nvarchar(150)  NOT NULL,
     [PickupTime] nvarchar(150)  NOT NULL,
     [DropPoint] nvarchar(150)  NOT NULL,
     [DropTime] nvarchar(150)  NOT NULL,
-    [Remarks] nvarchar(150)  NULL
+    [Remarks] nvarchar(150)  NULL,
+    [RestDays] nvarchar(150)  NULL,
+    [Area] nvarchar(150)  NULL
+);
+GO
+
+-- Creating table 'crLogPassengerAreas'
+CREATE TABLE [dbo].[crLogPassengerAreas] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(150)  NOT NULL
 );
 GO
 
@@ -462,6 +475,12 @@ GO
 -- Creating primary key on [Id] in table 'crLogPassengerMasters'
 ALTER TABLE [dbo].[crLogPassengerMasters]
 ADD CONSTRAINT [PK_crLogPassengerMasters]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogPassengerAreas'
+ALTER TABLE [dbo].[crLogPassengerAreas]
+ADD CONSTRAINT [PK_crLogPassengerAreas]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

@@ -12,18 +12,9 @@ namespace JobsV1.Areas.Personel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class crLogPassengerMaster
+    public partial class crLogPassengerArea
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Contact { get; set; }
-        public string PassAddress { get; set; }
-        public string PickupPoint { get; set; }
-        public string PickupTime { get; set; }
-        public string DropPoint { get; set; }
-        public string DropTime { get; set; }
-        public string Remarks { get; set; }
-        public string RestDays { get; set; }
-        public string Area { get; set; }
     }
 }

@@ -744,9 +744,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                
                 return false;
             }
         }
@@ -791,9 +791,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return true;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+               
                 return false;
             }
         }

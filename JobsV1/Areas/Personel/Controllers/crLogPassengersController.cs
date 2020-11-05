@@ -182,12 +182,14 @@ namespace JobsV1.Areas.Personel.Controllers
             passenger.timeContacted = " ";
             passenger.timeBoarded = " ";
             passenger.timeDelivered = " ";
-            passenger.PickupTime = "1:00 PM";
-            passenger.DropTime = "6:00 PM";
+            passenger.PickupTime = "7:30 PM";
+            passenger.DropTime = "9:00 PM";
 
             ViewBag.tripId = id;
             ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status");
             ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "DtTrip", id);
+            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a => a.Name), "Name", "Name");
+            ViewBag.PassengerList = GetPassengersNotInTrip(id);
             return View(passenger);
         }
 
@@ -196,7 +198,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreatePassTrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId")] crLogPassenger crLogPassenger)
+        public ActionResult CreatePassTrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area")] crLogPassenger crLogPassenger)
         {
             if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
             {
@@ -214,6 +216,8 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.tripId = crLogPassenger.crLogTripId;
             ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status", crLogPassenger.crLogPassStatusId);
             ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "Remarks", crLogPassenger.crLogTripId);
+            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a => a.Name), "Name", "Name", crLogPassenger.Area);
+            ViewBag.PassengerList = GetPassengersNotInTrip(crLogPassenger.crLogTripId);
             return View(crLogPassenger);
         }
 
@@ -240,7 +244,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId")] crLogPassenger crLogPassenger)
+        public ActionResult Edit([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area")] crLogPassenger crLogPassenger)
         {
             if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
             {
@@ -268,6 +272,8 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.tripId = crLogPassenger.crLogTripId;
             ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status", crLogPassenger.crLogPassStatusId);
             ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "Remarks", crLogPassenger.crLogTripId);
+            ViewBag.PassengerList = db.crLogPassengerMasters.ToList();
+            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a => a.Name), "Name", "Name", crLogPassenger.Area);
             return View(crLogPassenger);
         }
 
@@ -276,7 +282,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPasstrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId")] crLogPassenger crLogPassenger)
+        public ActionResult EditPasstrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area")] crLogPassenger crLogPassenger)
         {
             if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
             {
@@ -287,6 +293,8 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.tripId = crLogPassenger.crLogTripId;
             ViewBag.crLogPassStatusId = new SelectList(db.crLogPassStatus, "Id", "Status", crLogPassenger.crLogPassStatusId);
             ViewBag.crLogTripId = new SelectList(db.crLogTrips, "Id", "Remarks", crLogPassenger.crLogTripId);
+            ViewBag.PassengerList = db.crLogPassengerMasters.ToList();
+            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a => a.Name), "Name", "Name", crLogPassenger.Area);
             return View(crLogPassenger);
         }
 
@@ -495,7 +503,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 var today = dt.GetCurrentDate();
                 var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today);
 
-                if (companyId != null)
+                if (companyId != 0)
                 {
                     scrLogTrips = scrLogTrips.Where(c => c.crLogCompanyId == companyId);
                 }
@@ -737,14 +745,14 @@ namespace JobsV1.Areas.Personel.Controllers
                 passengerMaster.PickupTime = passenger.PickupTime;
                 passengerMaster.DropPoint = passenger.DropPoint;
                 passengerMaster.DropTime = passenger.DropTime;
+                passengerMaster.Area = passenger.Area;
 
                 db.crLogPassengerMasters.Add(passengerMaster);
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
                 return false;
             }
         }
@@ -774,7 +782,74 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return RedirectToAction("Index","crLogPassengerMasters",null);
             }
-            catch(Exception ex)
+            catch 
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+
+        public List<crLogPassengerMaster> GetPassengersNotInTrip(int tripId)
+        {
+
+            //get passengers of the trip 
+            var tripPassengers = db.crLogPassengers.Where(p => p.crLogTripId == tripId)
+                .ToList().Select(p => p.Name);
+
+            //get excluded passengers from masters list 
+            var excludedPassengers = db.crLogPassengerMasters
+                .Where(p => tripPassengers.Contains(p.Name))
+                .ToList().Select(p => p.Id);
+
+            //get passengers not in the excluded list
+            var passengerList = db.crLogPassengerMasters
+                .Where(p => !excludedPassengers.Contains(p.Id))
+                .OrderBy(p => p.Name).ThenBy(p => p.Area)
+                .ToList();
+
+            return passengerList;
+        }
+
+        public string GetPassengerMasterData(int passId)
+        {
+            var passenger = db.crLogPassengerMasters.Find(passId);
+
+            return JsonConvert.SerializeObject(passenger, Formatting.Indented);
+        }
+
+        public ActionResult CopyPassengersFromMaster(int tripId)
+        {
+            try
+            {
+                var tripPassengers = GetPassengersNotInTrip(tripId).Select(p=>p.Id);
+
+                var masterList = db.crLogPassengerMasters.Where(p => tripPassengers.Contains(p.Id) ).ToList();
+
+                foreach (var passengers in masterList)
+                {
+                    crLogPassenger psgr = new crLogPassenger();
+                    psgr.Name = passengers.Name;
+                    psgr.Contact = passengers.Contact;
+                    psgr.PassAddress = passengers.PassAddress;
+                    psgr.PickupPoint = passengers.PickupPoint;
+                    psgr.PickupTime = passengers.PickupTime;
+                    psgr.DropPoint = passengers.DropPoint;
+                    psgr.DropTime = passengers.DropTime;
+                    psgr.Area = passengers.Area;
+                    psgr.Remarks = " ";
+                    psgr.timeBoarded = " ";
+                    psgr.timeContacted = " ";
+                    psgr.timeDelivered = " ";
+                    psgr.crLogPassStatusId = 1;
+                    psgr.crLogTripId = tripId;
+
+                    db.crLogPassengers.Add(psgr);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("TripPassengers", new { id = tripId });
+            }
+            catch (Exception ex)
             {
                 throw ex;
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

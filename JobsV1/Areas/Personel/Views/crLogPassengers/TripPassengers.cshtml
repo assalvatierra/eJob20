@@ -18,10 +18,8 @@
 </p>
 <p>
     @Html.ActionLink("Add Passenger", "CreatePassTrip", new { id = tripId }) |
-
-    <a href="#" onclick="ShowCopyLogsModal(@tripId)">
-        Copy Passengers
-    </a>
+    <a href="#" onclick="ShowCopyLogsModal(@tripId)">  Copy Passengers </a> |
+    @Html.ActionLink("Copy From Master File", "CopyPassengersFromMaster", new { tripId = tripId })
 </p>
 <p>
     <span style="margin-right:10px;">Time : @datetimeNow.ToString("hh:mm tt")</span>

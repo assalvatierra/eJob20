@@ -25,6 +25,7 @@
     <EntitySet Name="crLogPassengers" EntityType="CarRentalLogDB.Store.crLogPassengers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassStatus" EntityType="CarRentalLogDB.Store.crLogPassStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassengerMasters" EntityType="CarRentalLogDB.Store.crLogPassengerMasters" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogPassengerAreas" EntityType="CarRentalLogDB.Store.crLogPassengerAreas" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -288,6 +289,7 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="crLogPassStatusId" Type="int" Nullable="false" />
     <Property Name="crLogTripId" Type="int" Nullable="false" />
+    <Property Name="Area" Type="nvarchar" Nullable="true" MaxLength="150" />
   </EntityType>
   <EntityType Name="crLogPassStatus">
     <Key>
@@ -303,12 +305,21 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
     <Property Name="Contact" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="PassAddress" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="PassAddress" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="PickupPoint" Type="nvarchar" Nullable="false" MaxLength="150" />
     <Property Name="PickupTime" Type="nvarchar" Nullable="false" MaxLength="150" />
     <Property Name="DropPoint" Type="nvarchar" Nullable="false" MaxLength="150" />
     <Property Name="DropTime" Type="nvarchar" Nullable="false" MaxLength="150" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="RestDays" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="Area" Type="nvarchar" Nullable="true" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="crLogPassengerAreas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -670,6 +681,7 @@
             <End Role="crLogPassenger" EntitySet="crLogPassengers" />
           </AssociationSet>
           <EntitySet Name="crLogPassengerMasters" EntityType="CarRentalLogDB.crLogPassengerMaster" />
+          <EntitySet Name="crLogPassengerAreas" EntityType="CarRentalLogDB.crLogPassengerArea" />
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -1118,6 +1130,7 @@
           <Property Name="crLogPassStatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="crLogTrip" Relationship="CarRentalLogDB.crLogTripcrLogPassenger" FromRole="crLogPassenger" ToRole="crLogTrip" />
           <Property Name="crLogTripId" Type="Int32" Nullable="false" />
+          <Property Name="Area" Type="String" Nullable="true" MaxLength="150" />
         </EntityType>
         <EntityType Name="crLogPassStatus">
           <Key>
@@ -1158,12 +1171,21 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" />
           <Property Name="Contact" Type="String" Nullable="false" MaxLength="50" />
-          <Property Name="PassAddress" Type="String" Nullable="false" MaxLength="150" />
+          <Property Name="PassAddress" Type="String" Nullable="true" MaxLength="150" />
           <Property Name="PickupPoint" Type="String" Nullable="false" MaxLength="150" />
           <Property Name="PickupTime" Type="String" Nullable="false" MaxLength="150" />
           <Property Name="DropPoint" Type="String" Nullable="false" MaxLength="150" />
           <Property Name="DropTime" Type="String" Nullable="false" MaxLength="150" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="150" />
+          <Property Name="RestDays" Type="String" Nullable="true" MaxLength="150" />
+          <Property Name="Area" Type="String" Nullable="true" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="crLogPassengerArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1364,6 +1386,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="crLogPassStatusId" ColumnName="crLogPassStatusId" />
           <ScalarProperty Name="crLogTripId" ColumnName="crLogTripId" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1387,6 +1410,16 @@
           <ScalarProperty Name="DropPoint" ColumnName="DropPoint" />
           <ScalarProperty Name="DropTime" ColumnName="DropTime" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="RestDays" ColumnName="RestDays" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogPassengerAreas">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogPassengerArea)">
+        <MappingFragment StoreEntitySet="crLogPassengerAreas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -27,7 +27,8 @@
     @Html.ActionLink("Cash Transactions", "Index", "CarRentalCashRelease") |
     @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) |
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses") |
-    @Html.ActionLink("Passengers", "Index", "crLogPassengerList")
+    @Html.ActionLink("Passengers", "Index", "crLogPassengerList") |
+    @Html.ActionLink("Passenger Master List", "Index", "crLogPassengerMasters")
 </p>
 <p>
     @Html.ActionLink("Add New Trip", "Create") |
@@ -179,7 +180,7 @@
 
         <tr id="trip-@item.Id">
             <td>
-                @item.DtTrip.ToString("MMM dd yyyy")
+                @item.DtTrip.ToString("MMM dd yyyy (ddd)")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)

@@ -10,111 +10,107 @@ using JobsV1.Areas.Personel.Models;
 
 namespace JobsV1.Areas.Personel.Controllers
 {
-    public class crLogPassengerMastersController : Controller
+    public class crLogPassengerAreasController : Controller
     {
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
 
-        // GET: Personel/crLogPassengerMasters
+        // GET: Personel/crLogPassengerAreas
         public ActionResult Index()
         {
-            return View(db.crLogPassengerMasters.ToList().OrderBy(p=>p.Area).ThenByDescending(p=>p.PickupTime));
+            return View(db.crLogPassengerAreas.ToList().OrderBy(a=>a.Name));
         }
 
-        // GET: Personel/crLogPassengerMasters/Details/5
+        // GET: Personel/crLogPassengerAreas/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            crLogPassengerMaster crLogPassengerMaster = db.crLogPassengerMasters.Find(id);
-            if (crLogPassengerMaster == null)
+            crLogPassengerArea crLogPassengerArea = db.crLogPassengerAreas.Find(id);
+            if (crLogPassengerArea == null)
             {
                 return HttpNotFound();
             }
-            return View(crLogPassengerMaster);
+            return View(crLogPassengerArea);
         }
 
-        // GET: Personel/crLogPassengerMasters/Create
+        // GET: Personel/crLogPassengerAreas/Create
         public ActionResult Create()
         {
-            ViewBag.Area = new SelectList(db.crLogPassengerAreas, "Name", "Name");
             return View();
         }
 
-        // POST: Personel/crLogPassengerMasters/Create
+        // POST: Personel/crLogPassengerAreas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,Remarks,RestDays,Area")] crLogPassengerMaster crLogPassengerMaster)
+        public ActionResult Create([Bind(Include = "Id,Name")] crLogPassengerArea crLogPassengerArea)
         {
             if (ModelState.IsValid)
             {
-                db.crLogPassengerMasters.Add(crLogPassengerMaster);
+                db.crLogPassengerAreas.Add(crLogPassengerArea);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a=>a.Name), "Name", "Name", crLogPassengerMaster.Area);
-            return View(crLogPassengerMaster);
+            return View(crLogPassengerArea);
         }
 
-        // GET: Personel/crLogPassengerMasters/Edit/5
+        // GET: Personel/crLogPassengerAreas/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            crLogPassengerMaster crLogPassengerMaster = db.crLogPassengerMasters.Find(id);
-            if (crLogPassengerMaster == null)
+            crLogPassengerArea crLogPassengerArea = db.crLogPassengerAreas.Find(id);
+            if (crLogPassengerArea == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a => a.Name), "Name", "Name", crLogPassengerMaster.Area);
-            return View(crLogPassengerMaster);
+            return View(crLogPassengerArea);
         }
 
-        // POST: Personel/crLogPassengerMasters/Edit/5
+        // POST: Personel/crLogPassengerAreas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,Remarks,RestDays,Area")] crLogPassengerMaster crLogPassengerMaster)
+        public ActionResult Edit([Bind(Include = "Id,Name")] crLogPassengerArea crLogPassengerArea)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(crLogPassengerMaster).State = EntityState.Modified;
+                db.Entry(crLogPassengerArea).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Area = new SelectList(db.crLogPassengerAreas, "Name", "Name", crLogPassengerMaster.Area);
-            return View(crLogPassengerMaster);
+            return View(crLogPassengerArea);
         }
 
-        // GET: Personel/crLogPassengerMasters/Delete/5
+        // GET: Personel/crLogPassengerAreas/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            crLogPassengerMaster crLogPassengerMaster = db.crLogPassengerMasters.Find(id);
-            if (crLogPassengerMaster == null)
+            crLogPassengerArea crLogPassengerArea = db.crLogPassengerAreas.Find(id);
+            if (crLogPassengerArea == null)
             {
                 return HttpNotFound();
             }
-            return View(crLogPassengerMaster);
+            return View(crLogPassengerArea);
         }
 
-        // POST: Personel/crLogPassengerMasters/Delete/5
+        // POST: Personel/crLogPassengerAreas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            crLogPassengerMaster crLogPassengerMaster = db.crLogPassengerMasters.Find(id);
-            db.crLogPassengerMasters.Remove(crLogPassengerMaster);
+            crLogPassengerArea crLogPassengerArea = db.crLogPassengerAreas.Find(id);
+            db.crLogPassengerAreas.Remove(crLogPassengerArea);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

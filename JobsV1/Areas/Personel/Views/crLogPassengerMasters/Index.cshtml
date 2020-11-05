@@ -1,11 +1,15 @@
 ﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogPassengerMaster>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Passenger Master List";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
 
-<h2>Index</h2>
-
+<h2>Passenger Master List</h2>
+<p>
+    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog") |
+    @Html.ActionLink("Passenger Areas", "Index", "crLogPassengerAreas")
+</p>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -31,6 +35,12 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DropTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Area) &nabla;
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RestDays)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Remarks)
@@ -60,6 +70,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DropTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Area)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestDays)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Remarks)
