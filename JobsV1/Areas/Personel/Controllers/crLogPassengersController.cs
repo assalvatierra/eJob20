@@ -546,10 +546,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 foreach (var logs in scrLogTrips)
                 {
-                    if (GetTripPassengersCount(logs.Id) > 0)
-                    {
-                        tripsWithPass.Add(logs);
-                    }
+                   tripsWithPass.Add(logs);
                 }
 
                 return tripsWithPass;
@@ -853,6 +850,25 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 throw ex;
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [HttpPost]
+        public bool TransferPassenger(int tripId, int passId)
+        {
+            try
+            {
+                var passenger = db.crLogPassengers.Find(passId);
+                passenger.crLogTripId = tripId;
+
+                db.Entry(passenger).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

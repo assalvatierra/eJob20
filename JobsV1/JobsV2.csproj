@@ -370,6 +370,7 @@
     <Compile Include="Areas\Personel\Controllers\crLogDriversController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogOdoesController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogPassengerAreasController.cs" />
     <Compile Include="Areas\Personel\Controllers\CrLogPassengerListController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogPassengerMastersController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogPassengersController.cs" />
@@ -435,6 +436,9 @@
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogPassenger.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Personel\Models\crLogPassengerArea.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Areas\Personel\Models\crLogPassengerMaster.cs">
@@ -1304,6 +1308,7 @@
     <Content Include="Areas\Personel\Script\DateRangePicker\package.js" />
     <Content Include="Areas\Personel\Script\CopyTrip.js" />
     <Content Include="Areas\Personel\Script\DriverSummary.js" />
+    <Content Include="Areas\Personel\Script\SearchPassenger.js" />
     <Content Include="Areas\Personel\Script\ProdCreate.js" />
     <Content Include="Areas\Personel\Script\ProdList.js" />
     <Content Include="Areas\Personel\Script\RptUnitExpenses.js" />
@@ -2280,6 +2285,12 @@
     <Content Include="Areas\Personel\Views\crLogPassengerMasters\Details.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengerMasters\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengerMasters\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengers\_SearchPassengerModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerAreas\Create.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerAreas\Delete.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerAreas\Details.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerAreas\Edit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogPassengerAreas\Index.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

@@ -48,7 +48,7 @@
             @Html.DisplayNameFor(model => model.PickupPoint)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DropPoint)
+            &#9660;@Html.DisplayNameFor(model => model.DropPoint)
         </th>
         <th>
             Contacted
@@ -297,6 +297,7 @@
                 @Html.DisplayFor(modelItem => item.crLogPassStatu.Status)
             </td>
             <td>
+                <a href="#" onclick="ShowTranferPassengerModal(@item.Id)"> Transfer </a> | 
                 @Html.ActionLink("Edit", "EditPassTrip", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "DeletePassTrip", new { id = item.Id })
@@ -332,7 +333,6 @@
                                                     @trip.crLogPassengers.Count()
                                                 </span>
                                             </div>
-
                                         </a>
                                     }
 
@@ -349,7 +349,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -369,14 +369,14 @@
                 <div style="margin-left:0px;">
                     <form>
                         <div class="form-group">
-                           <table class="table" id="CopyFrom-TripPassengerList">
-                               <tr>
-                                   <th> Passenger </th>
-                                   <th>
-                                       <input type="checkbox" onclick="SelectAllCheckBox();" id="select-all-checkbox" /> Copy All
-                                   </th>
-                               </tr>
-                           </table>
+                            <table class="table" id="CopyFrom-TripPassengerList">
+                                <tr>
+                                    <th> Passenger </th>
+                                    <th>
+                                        <input type="checkbox" onclick="SelectAllCheckBox();" id="select-all-checkbox" /> Copy All
+                                    </th>
+                                </tr>
+                            </table>
                         </div>
                     </form>
                 </div>
@@ -390,8 +390,78 @@
 </div>
 
 
+<!-- Transfer Passenger to Trip -->
+<div class="modal fade" role="dialog" id="TransferPassengerModal">
+    <div class="modal-dialog" style="min-width:330px;max-width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Select Previous Trip</h4>
+            </div>
+
+            <div class="modal-body">
+                <div style="margin-left:0px;">
+                    <form>
+                        <div class="form-group">
+                            <div class="list-group ">
+                                @foreach (var trip in ViewBag.tripList as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>)
+                                {
+                                    if (trip.Id != tripId)
+                                    {
+                                        <a href="#" class="list-group-item" onclick="SelectTripFor_PassTransfer(@trip.Id)" style="display:flex;justify-content:space-between">
+                                            @trip.DtTrip.ToString("MMM dd") - @trip.crLogCompany.Name / @trip.crLogDriver.Name / @trip.crLogUnit.Description
+                                            <div style="display:inline-block;">
+                                                <span class="badge badge-primary badge-pill" title="Passengers">
+                                                    @trip.crLogPassengers.Count()
+                                                </span>
+                                            </div>
+
+                                        </a>
+                                    }
+
+                                }
+                                @if (ViewBag.tripList == null)
+                                {
+                                    <p>
+                                        No trips found
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
 
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
-    <script src="~/Areas/Personel/Script/CopyPassengers.js"> </script>
+    <script src="~/Areas/Personel/Script/CopyPassengers.js"></script>
+    <script>
+        var TRANFER_PASS_ID = 0;
+        function ShowTranferPassengerModal(PassengerId) {
+            TRANFER_PASS_ID = PassengerId;
+            $("#TransferPassengerModal").modal('show');
+        }
+
+        function SelectTripFor_PassTransfer(TripId) {
+           
+            $.post('/Personel/crLogPassengers/TransferPassenger', { tripId: TripId, passId: TRANFER_PASS_ID }, (response) => {
+               
+                if (response == 'True') {
+                    console.log("Transferring the passenger is DONE");
+                    location.reload();
+                } else {
+                    alert("Error occured while transferring the passenger.");
+                }
+
+            })
+        }
+
+    </script>
 }
