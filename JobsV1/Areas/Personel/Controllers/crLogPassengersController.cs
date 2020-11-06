@@ -49,6 +49,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.tripId = (int)id;
             ViewBag.TripDetails = db.crLogTrips.Find(id);
             ViewBag.tripList = GetPrevTripLogs_withPass() ?? new List<crLogTrip>();
+            ViewBag.passMasters = GetPassengersNotInTrip((int)id);
             return View(sorted_Passengers);
         }
 
@@ -549,6 +550,8 @@ namespace JobsV1.Areas.Personel.Controllers
                    tripsWithPass.Add(logs);
                 }
 
+                tripsWithPass = tripsWithPass.OrderByDescending(c => c.DtTrip).ToList();
+
                 return tripsWithPass;
             }
             catch 
@@ -862,6 +865,44 @@ namespace JobsV1.Areas.Personel.Controllers
                 passenger.crLogTripId = tripId;
 
                 db.Entry(passenger).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool CopyPassengerFromMaster(int tripId, int passId)
+        {
+            try
+            {
+                var passengers = db.crLogPassengerMasters.Find(passId);
+
+                if (passengers == null)
+                {
+                    return false;
+                }
+
+                crLogPassenger psgr = new crLogPassenger();
+                psgr.Name = passengers.Name;
+                psgr.Contact = passengers.Contact;
+                psgr.PassAddress = passengers.PassAddress;
+                psgr.PickupPoint = passengers.PickupPoint;
+                psgr.PickupTime = passengers.PickupTime;
+                psgr.DropPoint = passengers.DropPoint;
+                psgr.DropTime = passengers.DropTime;
+                psgr.Area = passengers.Area;
+                psgr.Remarks = " ";
+                psgr.timeBoarded = " ";
+                psgr.timeContacted = " ";
+                psgr.timeDelivered = " ";
+                psgr.crLogPassStatusId = 1;
+                psgr.crLogTripId = tripId;
+
+                db.crLogPassengers.Add(psgr);
                 db.SaveChanges();
 
                 return true;

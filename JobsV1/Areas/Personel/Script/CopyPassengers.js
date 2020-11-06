@@ -1,8 +1,15 @@
 ﻿/* CopyPassengers.js
  * For Copying Passengers in Trip logs
- */ 
+ */
+
 var SELECTED_ID = 0;
 var TRIP_ID = 0;
+
+//For transferring passenger
+var TRANFER_PASS_ID = 0;
+
+//For Copying passenger from master list
+var TRIP_PASS_FOR_MASTER_ID = 0;
 
 $(document).ready(() => {
     //Initialize
@@ -121,3 +128,53 @@ function SelectAllCheckBox() {
         $(".item-checkbox").prop("checked", true);
     }
 }
+
+
+
+
+function ShowTranferPassengerModal(PassengerId) {
+    TRANFER_PASS_ID = PassengerId;
+    $("#TransferPassengerModal").modal('show');
+}
+
+function SelectTripFor_PassTransfer(TripId) {
+
+    $.post('/Personel/crLogPassengers/TransferPassenger', { tripId: TripId, passId: TRANFER_PASS_ID }, (response) => {
+
+        if (response == 'True') {
+            console.log("Transferring the passenger is DONE");
+            location.reload();
+        } else {
+            alert("Error occured while transferring the passenger.");
+        }
+
+    })
+}
+
+function ShowMasterPassengerModal(tripId) {
+    TRIP_PASS_FOR_MASTER_ID = tripId;
+    $("#ShowMasterPassengerModal").modal('show');
+}
+
+
+function SelectPassMaster(e, PassId) {
+
+    $.post('/Personel/crLogPassengers/CopyPassengerFromMaster', { tripId: TRIP_PASS_FOR_MASTER_ID, passId: PassId }, (response) => {
+
+        if (response == 'True') {
+            console.log("Transferring the passenger is DONE");
+
+            var status = '<span class="badge badge-success badge-pill" title="Passengers"> Copied </div>';
+
+            $(e).children('div').append(status);
+
+        } else {
+            alert("Error occured while transferring the passenger.");
+
+            var status = '<span class="badge badge-danger badge-pill" title="Passengers"> Error </div>';
+
+            $(e).children('div').append(status);
+        }
+    })
+}
+

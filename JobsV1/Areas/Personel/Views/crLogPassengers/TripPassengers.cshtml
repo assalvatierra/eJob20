@@ -19,7 +19,8 @@
 <p>
     @Html.ActionLink("Add Passenger", "CreatePassTrip", new { id = tripId }) |
     <a href="#" onclick="ShowCopyLogsModal(@tripId)">  Copy Passengers </a> |
-    @Html.ActionLink("Copy From Master File", "CopyPassengersFromMaster", new { tripId = tripId })
+    <a href="#" onclick="ShowMasterPassengerModal(@tripId)">  Copy From Master List </a> 
+    @*@Html.ActionLink("Copy From Master File", "CopyPassengersFromMaster", new { tripId = tripId })*@
 </p>
 <p>
     <span style="margin-right:10px;">Time : @datetimeNow.ToString("hh:mm tt")</span>
@@ -297,7 +298,7 @@
                 @Html.DisplayFor(modelItem => item.crLogPassStatu.Status)
             </td>
             <td>
-                <a href="#" onclick="ShowTranferPassengerModal(@item.Id)"> Transfer </a> | 
+                <a href="#" onclick="ShowTranferPassengerModal(@item.Id)"> Transfer </a> |
                 @Html.ActionLink("Edit", "EditPassTrip", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "DeletePassTrip", new { id = item.Id })
@@ -408,7 +409,7 @@
                                 {
                                     if (trip.Id != tripId)
                                     {
-                                        <a href="#" class="list-group-item" onclick="SelectTripFor_PassTransfer(@trip.Id)" style="display:flex;justify-content:space-between">
+                                        <a href="#" class="list-group-item" onclick="SelectTripFor_PassTransfer( @trip.Id)" style="display:flex;justify-content:space-between">
                                             @trip.DtTrip.ToString("MMM dd") - @trip.crLogCompany.Name / @trip.crLogDriver.Name / @trip.crLogUnit.Description
                                             <div style="display:inline-block;">
                                                 <span class="badge badge-primary badge-pill" title="Passengers">
@@ -438,30 +439,54 @@
     </div>
 </div>
 
+
+<!-- Transfer Passenger from Master List -->
+<div class="modal fade" role="dialog" id="ShowMasterPassengerModal">
+    <div class="modal-dialog" style="min-width:330px;max-width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Passenger Master List</h4>
+            </div>
+
+            <div class="modal-body">
+                <div style="margin-left:0px;">
+                    <form>
+                        <div class="form-group">
+                            <p> Select Passengers to Copy </p>
+                            <div class="list-group">
+                                @foreach (var pass in ViewBag.passMasters as IEnumerable<JobsV1.Areas.Personel.Models.crLogPassengerMaster>)
+                                {
+                                    if (pass.Id != tripId)
+                                    {
+                                        <a href="#" class="list-group-item" onclick="SelectPassMaster(this,@pass.Id)" style="display:flex;justify-content:space-between">
+                                            @pass.Name
+                                            <div style="display:inline-block;"> </div>
+                                        </a>
+                                    }
+
+                                }
+                                @if (ViewBag.tripList == null)
+                                {
+                                    <p>
+                                        No trips found
+                                    </p>
+                                }
+                             </div>
+                       </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
 
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
     <script src="~/Areas/Personel/Script/CopyPassengers.js"></script>
-    <script>
-        var TRANFER_PASS_ID = 0;
-        function ShowTranferPassengerModal(PassengerId) {
-            TRANFER_PASS_ID = PassengerId;
-            $("#TransferPassengerModal").modal('show');
-        }
 
-        function SelectTripFor_PassTransfer(TripId) {
-           
-            $.post('/Personel/crLogPassengers/TransferPassenger', { tripId: TripId, passId: TRANFER_PASS_ID }, (response) => {
-               
-                if (response == 'True') {
-                    console.log("Transferring the passenger is DONE");
-                    location.reload();
-                } else {
-                    alert("Error occured while transferring the passenger.");
-                }
-
-            })
-        }
-
-    </script>
 }
