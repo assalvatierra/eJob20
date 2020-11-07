@@ -20,16 +20,18 @@
             <h3> @Model.Description / @Model.ArAccount.Name / @Model.ArAccount.Company </h3>
         </p>
         <p>
+            <h4 class="text-success">
+                Amount:
+                <span> @Model.Amount </span>
+            </h4>
+        </p>
+        <p>
             <b class="text-muted"> Invoice Id: </b>
             <span> @Model.InvoiceId </span>
         </p>
         <p>
             <b class="text-muted"> Invoice Date: </b>
             <span> @Model.DtInvoice.ToString("MMM dd yyyy") </span>
-        </p>
-        <p>
-            <b class="text-muted"> Amount: </b>
-            <span> @Model.Amount </span>
         </p>
         <p>
             <b class="text-muted"> Due Date: </b>

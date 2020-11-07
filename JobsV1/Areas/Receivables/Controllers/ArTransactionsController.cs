@@ -207,13 +207,12 @@ namespace JobsV1.Areas.Receivables.Controllers
         // GET: ArAccounts/Create
         public ActionResult CreateAccTrans(int transId)
         {
-            ArTransaction transaction = new ArTransaction();
-            transaction.Amount = 0;
-            transaction.Interval = 0;
+            ArAccount account = new ArAccount();
+            account.ArAccStatusId = 1;
 
             ViewBag.TransId = transId;
             ViewBag.ArAccStatusId = new SelectList(ar.AccountMgr.GetArAccStatus(), "Id", "Status");
-            return View(transaction);
+            return View(account);
         }
 
         // POST: ArAccounts/Create

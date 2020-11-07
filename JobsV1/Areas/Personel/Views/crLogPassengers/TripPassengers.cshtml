@@ -19,9 +19,16 @@
 <p>
     @Html.ActionLink("Add Passenger", "CreatePassTrip", new { id = tripId }) |
     <a href="#" onclick="ShowCopyLogsModal(@tripId)">  Copy Passengers </a> |
-    <a href="#" onclick="ShowMasterPassengerModal(@tripId)">  Copy From Master List </a> 
+    <a href="#" onclick="ShowMasterPassengerModal(@tripId)">  Copy From Master List </a>
     @*@Html.ActionLink("Copy From Master File", "CopyPassengersFromMaster", new { tripId = tripId })*@
 </p>
+
+<p>
+    Sort :
+    @Html.ActionLink("By Pickup Time", "CreatePassTrip", new { id = tripId , sortBy = "PickupTime" }) |
+    @Html.ActionLink("By Area ", "CreatePassTrip", new { id = tripId , sortBy = "Area"}) 
+</p>
+
 <p>
     <span style="margin-right:10px;">Time : @datetimeNow.ToString("hh:mm tt")</span>
     <span style="margin-right:10px;">
@@ -472,8 +479,8 @@
                                         No trips found
                                     </p>
                                 }
-                             </div>
-                       </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

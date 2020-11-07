@@ -30,7 +30,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/crLogPassengers
-        public ActionResult TripPassengers(int? id)
+        public ActionResult TripPassengers(int? id, string sortBy)
         {
             if (id == null)
             {
@@ -41,15 +41,42 @@ namespace JobsV1.Areas.Personel.Controllers
             var crLogPassengers = db.crLogPassengers.Where(c=>c.crLogTripId == id).Include(c => c.crLogPassStatu).Include(c => c.crLogTrip);
 
             //sort by pickup time
-            var sorted_Passengers = crLogPassengers.ToList()
-                .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
-                .ToList();
+            var sorted_Passengers = crLogPassengers.ToList();
+
+            if(!String.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy == "Area")
+                {
+                    sorted_Passengers = sorted_Passengers
+                         .OrderBy(c => c.Area).ToList();
+                }else if (sortBy == "PickupTime")
+                {
+                    sorted_Passengers = sorted_Passengers
+                         .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ToList();
+                }
+                else
+                {
+                    //default
+                    sorted_Passengers = sorted_Passengers
+                            .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                            .ToList();
+                }
+            }
+            else
+            {
+                //default
+                sorted_Passengers = sorted_Passengers
+                        .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                        .ToList();
+            }
 
             ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             ViewBag.tripId = (int)id;
             ViewBag.TripDetails = db.crLogTrips.Find(id);
             ViewBag.tripList = GetPrevTripLogs_withPass() ?? new List<crLogTrip>();
             ViewBag.passMasters = GetPassengersNotInTrip((int)id);
+
             return View(sorted_Passengers);
         }
 

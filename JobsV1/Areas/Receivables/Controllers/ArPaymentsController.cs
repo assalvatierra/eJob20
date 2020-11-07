@@ -172,12 +172,6 @@ namespace JobsV1.Areas.Receivables.Controllers
         {
             bool isValid = true;
 
-            if (payment.Reference.IsNullOrWhiteSpace())
-            {
-                ModelState.AddModelError("Reference", "Invalid Reference");
-                isValid = false;
-            }
-
             if (payment.Amount < 0)
             {
                 ModelState.AddModelError("Amount", "Invalid Amount");
