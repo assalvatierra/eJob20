@@ -1,0 +1,274 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogPassenger>
+
+@{
+    ViewBag.Title = "Passenger Manifest";
+    DateTime datetimeNow = ViewBag.DateTimeNow;
+    TimeSpan timeNow = datetimeNow.TimeOfDay;
+}
+@if (ViewBag.CompanyId != 0)
+{
+    <a href="/mod/110/company/trip/@ViewBag.CompanyId">
+        <h2> @ViewBag.Company  </h2>
+    </a>
+}
+
+<h2>Passenger List </h2>
+<h4>as Of: @datetimeNow.ToString("MMM dd yyyy hh:mm tt")</h4>
+<p>
+    @if (ViewBag.CompanyId != 0)
+    {
+        @Html.ActionLink("Back to Passengers Manifest", "Index", new { companyId = ViewBag.CompanyId }, null)
+    }
+    else
+    {
+        @Html.ActionLink("Back to Passengers Manifest", "Index", null, null)
+    }
+</p>
+<p>
+    Sort :
+    @if (ViewBag.CompanyId != 0)
+    {
+        @Html.ActionLink("By Pickup Time | ", "PassengersList", new { companyId = ViewBag.CompanyId , sortBy = "PickupTime" })
+        @Html.ActionLink("By Area ", "PassengersList", new { companyId = ViewBag.CompanyId ,sortBy = "Area" })
+    }
+    else
+    { 
+        @Html.ActionLink("By Pickup Time | ", "PassengersList", new { sortBy = "PickupTime" })
+        @Html.ActionLink("By Area ", "PassengersList", new { sortBy = "Area" })
+    }
+</p>
+<p>
+    <span style="margin-right:10px;"></span>
+    <span style="margin-right:10px;">
+        <span class="status-circle-green"> </span> Done
+    </span>
+    <span style="margin-right:10px;">
+        <span class="status-circle-orange"> </span> Declined
+    </span>
+    <span style="margin-right:10px;">
+        <span class="status-circle-red">  </span> Failed
+    </span>
+</p>
+
+<table class="table">
+    <tr>
+        <th>&nbsp;</th>
+        <th>##</th>
+        <th>Name And Contact</th>
+        <th>
+            @if (ViewBag.SortBy == "PickupTime" || ViewBag.SortBy == "")
+            {
+                <span> &#9660; Origin </span>
+            }
+            else
+            {
+                <span> Origin </span>
+            }
+
+        </th>
+        <th width="140">Destination</th>
+        <th>STATUS</th>
+        <th>Contacted</th>
+        <th>Boarded</th>
+        <th>Delivered</th>
+        <th>Driver</th>
+        <th>Unit</th>
+        <th>
+            @if (ViewBag.SortBy == "Area")
+            {
+                <span> &#9660;Area </span>
+            }
+            else
+            {
+                <span> Area </span>
+            }
+
+        </th>
+        <th width="100">Options</th>
+
+    </tr>
+    @{
+        int passcnt = 0;
+    }
+    @foreach (var pass in Model)
+    {
+
+        passcnt++;
+        DateTime tripDt = pass.crLogTrip.DtTrip;
+
+        <tr>
+            <td style="padding-top:20px;min-width:80px;">
+                &nbsp;
+                @if (pass.timeContacted.Trim().Length > 2)
+                {
+                    if (pass.crLogPassStatusId == 5)
+                    {
+                        //declined
+                        <span class="status-circle-orange" title="Passenger Declined"> </span>
+                    }
+                    else if (pass.crLogPassStatusId == 6)
+                    {
+                        //failed
+                        <span class="status-circle-red" title="Driver Failed to Contact Passenger"> </span>
+                    }
+                    else
+                    {
+                        //success
+                        <span class="status-circle-green" title="Passenger Contacted"> </span>
+                    }
+                }
+                else
+                {
+                    DateTime dt0 = datetimeNow;
+                    string st1 = pass.PickupTime;
+                    DateTime dt1 = new DateTime(
+                        tripDt.Year, tripDt.Month, tripDt.Day,
+                        int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                        int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                        0).AddHours(-1);
+
+                    if (DateTime.Compare(dt0, dt1) <= 0)
+                    {
+                        <span class="status-circle-gray" title="Passenger not yet contacted"> </span>
+                    }
+                    else
+                    {
+                        <span class="status-circle-red" title="Driver failed to contact passenger on time"> </span>
+                    }
+
+                }
+
+                @if (pass.timeBoarded.Trim().Length > 2)
+                {
+                    if (pass.crLogPassStatusId == 5)
+                    {
+                        //declined
+                        <span class="status-circle-orange" title="Passenger declined"> </span>
+                    }
+                    else if (pass.crLogPassStatusId == 6)
+                    {
+                        //failed
+                        <span class="status-circle-red" title="Passenger not yet boarded"> </span>
+                    }
+                    else
+                    {
+                        //success
+                        <span class="status-circle-green" title="Passenger is on board"> </span>
+                    }
+                }
+                else
+                {
+                    DateTime dt0 = datetimeNow;
+                    string st1 = pass.PickupTime;
+                    DateTime dt1 = new DateTime(
+                        tripDt.Year, tripDt.Month, tripDt.Day,
+                        int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                        int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                        0);
+
+                    if (DateTime.Compare(dt0, dt1) <= 0)
+                    {
+                        <span class="status-circle-gray" title="Passenger not yet boarded"> </span>
+                    }
+                    else
+                    {
+                        <span class="status-circle-red" title="Failed to board Passenger on pickup time"> </span>
+                    }
+
+                }
+
+                @if (pass.timeDelivered.Length > 2)
+                {
+                    if (pass.crLogPassStatusId == 5)
+                    {
+                        //declined
+                        <span class="status-circle-orange" title="Passenger declined"> </span>
+                    }
+                    else if (pass.crLogPassStatusId == 6)
+                    {
+                        //failed
+                        <span class="status-circle-red" title="Failed to Dropped Passenger"> </span>
+                    }
+                    else
+                    {
+                        //success
+                        <span class="status-circle-green" title="Passenger Dropped"> </span>
+                    }
+                }
+                else
+                {
+                    DateTime dt0 = datetimeNow;
+                    string st1 = pass.DropTime;
+                    DateTime dt1 = new DateTime(
+                        tripDt.Year, tripDt.Month, tripDt.Day,
+                        int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                        int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                        0);
+
+                    if (DateTime.Compare(dt0, dt1) <= 0)
+                    {
+                        <span class="status-circle-gray" title="Passenger not yer dropped"> </span>
+                    }
+                    else
+                    {
+                        <span class="status-circle-red" title="Failed to Dropped passenger on time"> </span>
+                    }
+                }
+                &nbsp;
+
+            </td>
+            <td>(@passcnt)&nbsp;</td>
+            <td>
+                @pass.Name / @pass.Contact&nbsp;
+            </td>
+            <td>
+                [ @pass.PickupTime / @pass.PickupPoint ] &nbsp;
+            </td>
+            <td>
+                [ @pass.DropTime / @pass.DropPoint ] &nbsp;
+            </td>
+            <td style="text-align:center;color:darkslateblue;">
+                @pass.crLogPassStatu.Status
+            </td>
+
+            @{
+                var sContacted = pass.timeContacted.Trim() == "" ? "--:--" : pass.timeContacted;
+                var sBoarded = pass.timeBoarded.Trim() == "" ? "--:--" : pass.timeBoarded;
+                var sDelivered = pass.timeDelivered.Trim() == "" ? "--:--" : pass.timeDelivered;
+            }
+
+            <td style="text-align:center;">
+                @sContacted &nbsp;
+            </td>
+            <td style="text-align:center;">
+                @sBoarded &nbsp;
+            </td>
+            <td style="text-align:center;">
+                @sDelivered
+            </td>
+            <td>
+                @pass.crLogTrip.crLogDriver.Name
+            </td>
+            <td>
+                @pass.crLogTrip.crLogUnit.Description
+            </td>
+            <td>
+                @pass.Area
+            </td>
+            <td>
+                &nbsp;[ @Html.ActionLink("Transfer", "TransferPassenger", new { id = pass.Id }) ]
+            </td>
+
+        </tr>
+
+
+    }
+
+</table>
+
+<script>
+    window.setInterval(function () {
+        //reload page every one minute
+        location.reload();
+    }, 60000);
+</script>

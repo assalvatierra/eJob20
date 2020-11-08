@@ -62,6 +62,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
             }
 
+
             ViewBag.CompanyId = companyId ?? 0;
             ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             return View(crTrip);
@@ -114,6 +115,37 @@ namespace JobsV1.Areas.Personel.Controllers
             
             ViewBag.Company = db.crLogCompanies.Find(id).Name;
             return View(crLogTripPortals);
+        }
+
+        public ActionResult PassengersList(int? companyId, string sortBy)
+        {
+            var today = dt.GetCurrentDate();
+
+            List<crLogPassenger> cPassengers = db.crLogPassengers
+                .Where(p => DbFunctions.TruncateTime(p.crLogTrip.DtTrip) == today).ToList();
+
+            if (sortBy == "PickupTime")
+            {
+                cPassengers = cPassengers.OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                    .ThenBy(c=>c.Area)
+                    .ToList();
+            }else if (sortBy == "Area")
+            {
+                cPassengers = cPassengers.OrderBy(c => c.Area)
+                   .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                   .ToList();
+            }
+            else
+            {
+                cPassengers = cPassengers.OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                  .ThenBy(c => c.Area)
+                  .ToList();
+            }
+            ViewBag.SortBy = sortBy;
+            ViewBag.CompanyId = companyId ?? 0;
+            ViewBag.DateTimeNow = dt.GetCurrentDateTime();
+            return View(cPassengers);
+
         }
 
     }
