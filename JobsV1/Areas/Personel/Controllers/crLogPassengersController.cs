@@ -48,11 +48,14 @@ namespace JobsV1.Areas.Personel.Controllers
                 if (sortBy == "Area")
                 {
                     sorted_Passengers = sorted_Passengers
-                         .OrderBy(c => c.Area).ToList();
+                         .OrderBy(c => c.Area)
+                         .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ToList();
                 }else if (sortBy == "PickupTime")
                 {
                     sorted_Passengers = sorted_Passengers
                          .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ThenBy(c => c.Area)
                          .ToList();
                 }
                 else
@@ -60,6 +63,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     //default
                     sorted_Passengers = sorted_Passengers
                             .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ThenBy(c => c.Area)
                             .ToList();
                 }
             }
@@ -68,13 +72,15 @@ namespace JobsV1.Areas.Personel.Controllers
                 //default
                 sorted_Passengers = sorted_Passengers
                         .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ThenBy(c => c.Area)
                         .ToList();
             }
 
+            ViewBag.SortBy = sortBy;
             ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             ViewBag.tripId = (int)id;
             ViewBag.TripDetails = db.crLogTrips.Find(id);
-            ViewBag.tripList = GetPrevTripLogs_withPass() ?? new List<crLogTrip>();
+            ViewBag.tripList = GetPrevTripLogs_withPass_PrevDay() ?? new List<crLogTrip>();
             ViewBag.passMasters = GetPassengersNotInTrip((int)id);
 
             return View(sorted_Passengers);
@@ -316,6 +322,10 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 db.Entry(crLogPassenger).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //edit master passenger with same name
+                UpdatePassengerMaster(crLogPassenger);
+
                 return RedirectToAction("TripPassengers", new { id = crLogPassenger.crLogTripId });
             }
             ViewBag.tripId = crLogPassenger.crLogTripId;
@@ -324,6 +334,31 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.PassengerList = db.crLogPassengerMasters.ToList();
             ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(a => a.Name), "Name", "Name", crLogPassenger.Area);
             return View(crLogPassenger);
+        }
+
+        public bool UpdatePassengerMaster(crLogPassenger crLogPassenger)
+        {
+            try
+            {
+                var passengerMaster = db.crLogPassengerMasters.Where(c => c.Name == crLogPassenger.Name);
+                if (passengerMaster.FirstOrDefault() != null)
+                {
+                    var passDetails = passengerMaster.FirstOrDefault();
+                    passDetails.PickupPoint = crLogPassenger.PickupPoint;
+                    passDetails.PickupTime = crLogPassenger.PickupTime;
+                    passDetails.DropPoint = crLogPassenger.DropPoint;
+                    passDetails.DropTime = crLogPassenger.DropTime;
+
+                    db.Entry(passDetails).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                return true;
+
+            } catch
+            {
+                return false;
+            }
         }
 
 
@@ -582,6 +617,32 @@ namespace JobsV1.Areas.Personel.Controllers
                 return tripsWithPass;
             }
             catch 
+            {
+                return new List<crLogTrip>();
+            }
+        }
+
+
+        public List<crLogTrip> GetPrevTripLogs_withPass_PrevDay()
+        {
+            try
+            {
+                //Create List of 
+                var today = dt.GetCurrentDate();
+                var today_seven_days_before = dt.GetCurrentDate().AddDays(-1);
+                var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today_seven_days_before).ToList();
+                var tripsWithPass = new List<crLogTrip>();
+
+                foreach (var logs in scrLogTrips)
+                {
+                    tripsWithPass.Add(logs);
+                }
+
+                tripsWithPass = tripsWithPass.OrderByDescending(c => c.DtTrip).ToList();
+
+                return tripsWithPass;
+            }
+            catch
             {
                 return new List<crLogTrip>();
             }

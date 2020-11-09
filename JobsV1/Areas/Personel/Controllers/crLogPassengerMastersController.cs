@@ -38,7 +38,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogPassengerMasters/Create
         public ActionResult Create()
         {
-            ViewBag.Area = new SelectList(db.crLogPassengerAreas, "Name", "Name");
+            ViewBag.Area = new SelectList(db.crLogPassengerAreas.OrderBy(c=>c.Name), "Name", "Name");
             return View();
         }
 

@@ -53,10 +53,30 @@
             Passenger
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PickupPoint)
+            @if (ViewBag.SortBy == "PickupTime")
+            {
+                <text>
+                    &#9660;
+                </text>
+            }
+
+            @Html.ActionLink("PickupPoint", "TripPassengers", new { id = tripId, sortBy = "PickupTime" })
+            <span class="text-primary" id="sort-default-time">
+
+
+            </span>
         </th>
         <th>
-            &#9660;@Html.DisplayNameFor(model => model.DropPoint)
+            @if (ViewBag.SortBy == "Area")
+            {
+                <text>
+                    &#9660;
+                </text>
+            }
+            @Html.ActionLink("Area", "TripPassengers", new { id = tripId, sortBy = "Area" })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DropPoint)
         </th>
         <th>
             Contacted
@@ -274,7 +294,6 @@
                 {
                     <span> Error </span>
                 }
-
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name) -
@@ -284,6 +303,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PickupTime) -
                 @Html.DisplayFor(modelItem => item.PickupPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Area)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DropTime) -
@@ -307,7 +329,7 @@
             <td>
                 <a href="#" onclick="ShowTranferPassengerModal(@item.Id)"> Transfer </a> |
                 @Html.ActionLink("Edit", "EditPassTrip", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
                 @Html.ActionLink("Delete", "DeletePassTrip", new { id = item.Id })
             </td>
         </tr>
@@ -492,7 +514,6 @@
 </div>
 
 @section Scripts{
-
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
     <script src="~/Areas/Personel/Script/CopyPassengers.js"></script>
 

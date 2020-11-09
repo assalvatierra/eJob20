@@ -159,22 +159,26 @@ function ShowMasterPassengerModal(tripId) {
 
 function SelectPassMaster(e, PassId) {
 
-    $.post('/Personel/crLogPassengers/CopyPassengerFromMaster', { tripId: TRIP_PASS_FOR_MASTER_ID, passId: PassId }, (response) => {
+    if (!$(e).prop('disabled')) {
+        $.post('/Personel/crLogPassengers/CopyPassengerFromMaster', { tripId: TRIP_PASS_FOR_MASTER_ID, passId: PassId }, (response) => {
 
-        if (response == 'True') {
-            console.log("Transferring the passenger is DONE");
+            if (response == 'True') {
+                console.log("Transferring the passenger is DONE");
 
-            var status = '<span class="badge badge-success badge-pill" title="Passengers"> Copied </div>';
+                var status = '<span class="badge badge-success badge-pill" title="Passengers"> Copied </div>';
 
-            $(e).children('div').append(status);
+                $(e).children('div').append(status);
+                $(e).prop('disabled', true);
+                $(e).addClass('disabled');
 
-        } else {
-            alert("Error occured while transferring the passenger.");
+            } else {
+                alert("Error occured while transferring the passenger.");
 
-            var status = '<span class="badge badge-danger badge-pill" title="Passengers"> Error </div>';
+                var status = '<span class="badge badge-danger badge-pill" title="Passengers"> Error </div>';
 
-            $(e).children('div').append(status);
-        }
-    })
+                $(e).children('div').append(status);
+            }
+        })
+    }
 }
 
