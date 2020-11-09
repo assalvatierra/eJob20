@@ -23,50 +23,65 @@ namespace JobsV1.Areas.Personel.Controllers
             List<crLogTrip> crTrip = db.crLogTrips
                 .Where(d => d.crLogPassengers.Count() > 0 && 
                  DbFunctions.TruncateTime(d.DtTrip) == today)
-                .Include(d=>d.crLogPassengers)
-                .OrderBy(d=>d.crLogCompanyId)
-                .ThenByDescending(d => DbFunctions.TruncateTime(d.DtTrip))
-                .ThenBy(d => d.crLogDriver.Name)
                 .ToList();
 
             //last trip transaction
             //transfer passenger
             //cancel passenger
+            if (companyId == 0)
+            {
+                companyId = null;
+            }
 
             //filter company
-            if (companyId != null)
+            if (companyId != null )
             {
                 crTrip = crTrip.Where(d => d.crLogCompanyId == companyId)
                     .OrderByDescending(d => d.DtTrip)
                     .ToList();
-                ViewBag.Company = db.crLogCompanies.Find(companyId).Name;
-            }
 
-            if (dtMonth != null && dtDay != null && dtYear != null)
-            {
-                if (companyId != null)
+                if (db.crLogCompanies.Find(companyId) != null)
                 {
-                    var dtfilter = new DateTime((int)dtYear, (int)dtMonth, (int)dtDay);
-
-                    crTrip = db.crLogTrips
-                       .Where(d => d.crLogPassengers.Count() > 0 &&
-                        DbFunctions.TruncateTime(d.DtTrip) == dtfilter &&
-                        d.crLogCompanyId == companyId)
-                       .Include(d => d.crLogPassengers)
-                       .OrderBy(d => d.crLogCompanyId)
-                       .ThenByDescending(d => DbFunctions.TruncateTime(d.DtTrip))
-                       .ThenBy(d => d.crLogDriver.Name)
-                       .ToList();
-
                     ViewBag.Company = db.crLogCompanies.Find(companyId).Name;
                 }
             }
 
+            if (dtMonth != null && dtDay != null && dtYear != null)
+            {
+               var dtfilter = new DateTime((int)dtYear, (int)dtMonth, (int)dtDay);
+
+               var crTrip_dated = db.crLogTrips
+                       .Where(d => d.crLogPassengers.Count() > 0 &&
+                        DbFunctions.TruncateTime(d.DtTrip) == dtfilter)
+                       .OrderBy(d => d.crLogCompanyId)
+                       .ThenByDescending(d => d.DtTrip)
+                       .ThenBy(d => d.crLogDriver.Name)
+                       .ToList();
+
+                if (today == dtfilter)
+                {
+                    ViewBag.DateTimeNow = dt.GetCurrentDateTime();
+                }
+                else
+                {
+
+                    ViewBag.DateTimeNow = dtfilter.AddHours(23).AddMinutes(59);
+                }
+
+                ViewBag.CompanyId = companyId ?? 0;
+                return View(crTrip_dated);
+            }
+
+            crTrip = crTrip.Where(d => d.crLogPassengers.Count() > 0).OrderBy(d => d.crLogCompanyId)
+                       .ThenByDescending(d => d.DtTrip)
+                       .ThenBy(d => d.crLogDriver.Name)
+                       .ToList();
 
             ViewBag.CompanyId = companyId ?? 0;
             ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             return View(crTrip);
         }
+
 
         public ActionResult TransferPassenger(int id)
         {
@@ -109,7 +124,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crLogTripPortals.Add(new crLogTripPortalClass() { 
                     companyId = (int)id,
                     Date = today.AddDays(-i).ToShortDateString(),
-                    VehicleCount = db.crLogTrips.Where(c=>c.crLogCompanyId == id && c.DtTrip == adjustedDate).Count()
+                    VehicleCount = db.crLogTrips.Where(c=>c.crLogCompanyId == id && DbFunctions.TruncateTime(c.DtTrip) == adjustedDate).Count()
                 });
             }
             

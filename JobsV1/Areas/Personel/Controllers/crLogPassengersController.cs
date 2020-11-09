@@ -8,7 +8,6 @@ using System.Net;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using ArModels.Models;
 using JobsV1.Areas.Personel.Models;
 using JobsV1.Models;
 using Microsoft.Ajax.Utilities;

@@ -72,7 +72,7 @@
                         <th style="min-width:150px;">Name And Contact</th>
                         <th style="min-width:100px;">Area</th>
                         <th style="min-width:100px;">Origin</th>
-                        <th style="min-width:100px;">Destination</th>
+                        <th style="min-width:110px;">Destination</th>
                         <th style="min-width:90px;">STATUS</th>
                         <th>Contacted</th>
                         <th>Boarded</th>
@@ -80,147 +80,239 @@
                         <th style="min-width:100px;">Options</th>
                     </tr>
 
-                    @foreach (var pass in item.crLogPassengers.OrderBy(c => c.NextDay).OrderBy(c => c.PickupTime))
+                    @foreach (var pass in item.crLogPassengers.OrderBy(c => c.NextDay).ThenBy(c => c.PickupTime))
                     {
                         passcnt++;
                         DateTime tripDt = pass.crLogTrip.DtTrip;
 
                         <tr>
-                            <td style="padding-top:10px;">
-                                &nbsp;
-                                @if (pass.timeContacted.Trim().Length > 2)
+                            <td style="padding:10px;">
+
+                                @try
                                 {
-                                    if (pass.crLogPassStatusId == 5)
+                                    DateTime dtNow = datetimeNow;
+
+                                    string pt = pass.PickupTime;
+                                    string dt = pass.DropTime;
+
+                                    string tripDt_Pickup_string = tripDt.ToShortDateString() + " " + pass.PickupTime;
+                                    string tripDt_Drop_string = tripDt.ToShortDateString() + " " + pass.DropTime;
+
+                                    DateTime dtPickup = new DateTime();
+                                    DateTime dtBoard = new DateTime();
+                                    DateTime dtDropped = new DateTime();
+
+                                    if (!DateTime.TryParse(tripDt_Pickup_string, out dtPickup))
                                     {
-                                        //declined
-                                        <span class="status-circle-orange" title="Passenger Declined"> </span>
+                                        dtPickup = new DateTime(
+                                               tripDt.Year, tripDt.Month, tripDt.Day,
+                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))) + 12,
+                                               int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
+                                               0);
                                     }
-                                    else if (pass.crLogPassStatusId == 6)
+
+                                    if (!DateTime.TryParse(tripDt_Drop_string, out dtDropped))
                                     {
-                                        //failed
-                                        <span class="status-circle-red" title="Driver Failed to Contact Passenger"> </span>
+                                        dtPickup = new DateTime(
+                                               tripDt.Year, tripDt.Month, tripDt.Day,
+                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))) + 12,
+                                               int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
+                                               0);
                                     }
-                                    else
-                                    {
-                                        //success
-                                        <span class="status-circle-green" title="Passenger Contacted"> </span>
-                                    }
-                                }
-                                else
-                                {
-                                    DateTime dt0 = datetimeNow;
-                                    string st1 = pass.PickupTime;
-                                    DateTime dt1 = new DateTime(
-                                        tripDt.Year, tripDt.Month, tripDt.Day,
-                                        int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
-                                        int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
-                                        0).AddHours(-1);
+
+                                    dtBoard = dtPickup;
 
                                     if (pass.NextDay == true)
                                     {
-                                        dt1.AddDays(1);
+                                        dtPickup = dtPickup.AddDays(1);
+                                        dtBoard = dtBoard.AddDays(1);
+                                        dtDropped = dtDropped.AddDays(1);
                                     }
 
-                                    if (DateTime.Compare(dt0, dt1) <= 0)
+                                    if (dtPickup > dtDropped)
                                     {
-                                        <span class="status-circle-gray" title="Passenger not yet contacted"> </span>
+                                        dtDropped = dtDropped.AddDays(1);
+                                    }
+                                    DateTime TwelveTime = new DateTime(
+                                               tripDt.Year, tripDt.Month, tripDt.Day,
+                                                12, 0, 0);
+
+                                    //adjust time less hour for driver notification
+                                    dtPickup = dtPickup.AddHours(-1);
+
+
+                                    <!-- Contact -->
+                                    if (pass.timeContacted.Length > 2)
+                                    {
+                                        if (pass.crLogPassStatusId == 5)
+                                        {
+                                            //declined
+                                            <span class="status-circle-orange"> </span>
+                                        }
+                                        else if (pass.crLogPassStatusId == 6)
+                                        {
+                                            //failed
+                                            <span class="status-circle-red"> </span>
+                                        }
+                                        else
+                                        {
+                                            //success
+                                            <span class="status-circle-green"> </span>
+                                        }
                                     }
                                     else
                                     {
-                                        <span class="status-circle-red" title="Driver failed to contact passenger on time"> </span>
+                                        //not yet contacted
+                                        if (dtPickup <= dtNow)
+                                        {
+                                            //handle late boarding
+
+                                            if (pass.crLogPassStatusId == 5)
+                                            {
+                                                //declined
+                                                <span class="status-circle-orange"> </span>
+                                            }
+                                            else if (pass.crLogPassStatusId == 6)
+                                            {
+                                                //failed
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                            else
+                                            {
+                                                //handle late boarding
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="status-circle-gray"> </span>
+                                        }
+                                    } <!-- End of Contact -->
+
+                                    <!-- Boarding -->
+                                    if (pass.timeBoarded.Length > 2)
+                                    {
+
+                                        if (dtBoard >= dtNow)
+                                        {
+                                            if (pass.crLogPassStatusId == 5)
+                                            {
+                                                //declined
+                                                <span class="status-circle-orange"> </span>
+                                            }
+                                            else if (pass.crLogPassStatusId == 6)
+                                            {
+                                                //failed
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                            else
+                                            {
+                                                //handle late boarding
+                                                <span class="status-circle-orange"> </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (dtBoard >= dtNow)
+                                            {
+                                                //handle late boarding
+                                                <span class="status-circle-orange"> </span>
+                                            }
+                                            else
+                                            {
+
+                                                //success
+                                                <span class="status-circle-green"> </span>
+
+                                            }
+                                        }
                                     }
+                                    else
+                                    {
 
+                                        if (pass.NextDay == true)
+                                        {
+                                            dtBoard = dtBoard.AddDays(1);
+                                        }
+
+                                        //not yet boarded
+                                        if (dtBoard <= dtNow)
+                                        {
+                                            if (pass.crLogPassStatusId == 5)
+                                            {
+                                                //declined
+                                                <span class="status-circle-orange"> </span>
+                                            }
+                                            else if (pass.crLogPassStatusId == 6)
+                                            {
+                                                //failed
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                            else
+                                            {
+                                                //handle late boarding
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="status-circle-gray"> </span>
+                                        }
+                                    } <!-- End of Boarding -->
+                                    <!-- Drop Off -->
+                                    if (pass.timeDelivered.Length > 2)
+                                    {
+
+
+                                        if (pass.crLogPassStatusId == 5)
+                                        {
+                                            //declined
+                                            <span class="status-circle-orange"> </span>
+                                        }
+                                        else if (pass.crLogPassStatusId == 6)
+                                        {
+                                            //failed
+                                            <span class="status-circle-red"> </span>
+                                        }
+                                        else
+                                        {
+                                           
+                                           //success
+                                           <span class="status-circle-green"> </span>
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        //not yet dropped
+                                        if (dtDropped <= dtNow)
+                                        {
+                                            if (pass.crLogPassStatusId == 5)
+                                            {
+                                                //declined
+                                                <span class="status-circle-orange"> </span>
+                                            }
+                                            else if (pass.crLogPassStatusId == 6)
+                                            {
+                                                //failed
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                            else
+                                            {
+                                                //handle late boarding
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="status-circle-gray"> </span>
+                                        }
+                                    }
                                 }
-
-                                @if (pass.timeBoarded.Trim().Length > 2)
+                                catch
                                 {
-                                    if (pass.crLogPassStatusId == 5)
-                                    {
-                                        //declined
-                                        <span class="status-circle-orange" title="Passenger declined"> </span>
-                                    }
-                                    else if (pass.crLogPassStatusId == 6)
-                                    {
-                                        //failed
-                                        <span class="status-circle-red" title="Passenger not yet boarded"> </span>
-                                    }
-                                    else
-                                    {
-                                        //success
-                                        <span class="status-circle-green" title="Passenger is on board"> </span>
-                                    }
+                                    <span> Error </span>
                                 }
-                                else
-                                {
-                                    DateTime dt0 = datetimeNow;
-                                    string st1 = pass.PickupTime;
-                                    DateTime dt1 = new DateTime(
-                                        tripDt.Year, tripDt.Month, tripDt.Day,
-                                        int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
-                                        int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
-                                        0);
-
-                                    if (pass.NextDay == true)
-                                    {
-                                        dt1.AddDays(1);
-                                    }
-
-
-                                    if (DateTime.Compare(dt0, dt1) <= 0)
-                                    {
-                                        <span class="status-circle-gray" title="Passenger not yet boarded"> </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="status-circle-red" title="Failed to board Passenger on pickup time"> </span>
-                                    }
-
-                                }
-
-                                @if (pass.timeDelivered.Length > 2)
-                                {
-                                    if (pass.crLogPassStatusId == 5)
-                                    {
-                                        //declined
-                                        <span class="status-circle-orange" title="Passenger declined"> </span>
-                                    }
-                                    else if (pass.crLogPassStatusId == 6)
-                                    {
-                                        //failed
-                                        <span class="status-circle-red" title="Failed to Dropped Passenger"> </span>
-                                    }
-                                    else
-                                    {
-                                        //success
-                                        <span class="status-circle-green" title="Passenger Dropped"> </span>
-                                    }
-                                }
-                                else
-                                {
-                                    DateTime dt0 = datetimeNow;
-                                    string st1 = pass.DropTime;
-                                    DateTime dt1 = new DateTime(
-                                        tripDt.Year, tripDt.Month, tripDt.Day,
-                                        int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
-                                        int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
-                                        0);
-
-                                    if (pass.NextDay == true)
-                                    {
-                                        dt1.AddDays(1);
-                                    }
-
-
-                                    if (DateTime.Compare(dt0, dt1) <= 0)
-                                    {
-                                        <span class="status-circle-gray" title="Passenger not yer dropped"> </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="status-circle-red" title="Failed to Dropped passenger on time"> </span>
-                                    }
-                                }
-                                &nbsp;
 
                             </td>
                             <td>(@passcnt)&nbsp;</td>
@@ -282,38 +374,34 @@
 
 <!-- Copied Logs Date -->
 <div class="modal fade" role="dialog" id="ChangeDateModal">
-    <div class="modal-dialog" style="min-width:330px;max-width:500px;">
+    <div class="modal-dialog" style="min-width:330px;max-width:330px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"> Select Trip Date</h4>
             </div>
-
-            @using (Html.BeginForm())
-            {
                 <div class="modal-body">
                     <div style="margin-left:0px;">
 
                         <form>
                             <div class="form-group">
-                                <input type="text" name="dateTrip" />
+                                <input type="datetime" name="DtTrip"  class="form-control" id="DtTrip"/>
                             </div>
                         </form>
-                        <input type="submit" value="Create" class="btn btn-default" />
 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Submit" class="btn btn-default" onclick="SubmitTripDate()" />
                 </div>
-            }
         </div>
     </div>
 </div>
 
 
 @section Scripts{
+
     <script>
         window.setInterval(function () {
             //reload page every one minute
@@ -323,5 +411,45 @@
         function ShowChangeDateModal() {
             $("#ChangeDateModal").modal('show');
         }
+
+        function SubmitTripDate() {
+            var dtTrip = moment($('input[name="DtTrip"]').val());
+            var day = dtTrip.date();
+            var month = dtTrip.month() + 1;
+            var year = dtTrip.year();
+            var companyId = @ViewBag.CompanyId;
+            //console.log(dtTrip.date());
+            //console.log(dtTrip.month());
+            //console.log(dtTrip.year());
+            window.location.href = "/mod/110/admin/" + companyId + "/" + month + "/" + day + "/" + year +"";
+        }
+
+        $(document).ready(function () {
+            InitDatePicker();
+            $('input[name="DtTrip"]').val(moment().format('MM/DD/YYYY'))
+        })
+
+        function InitDatePicker() {
+            var ddd1 = $('input[name="DtTrip"]').val();
+
+            $('input[name="DtTrip"]').daterangepicker(
+                {
+                    timePicker: false,
+                    timePickerIncrement: 1,
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    locale: {
+                        format: 'MM/DD/YYYY'
+                    }
+                },
+                function (start, end, label) {
+                    var today = moment().format('YYYY-MM-DD');
+                    var datepicker = start.format('YYYY-MM-DD');
+
+                }
+            );
+
+        }
+
     </script>
 }
