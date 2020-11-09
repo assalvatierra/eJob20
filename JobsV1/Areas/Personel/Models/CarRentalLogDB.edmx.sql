@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/05/2020 11:03:18
+-- Date Created: 11/09/2020 13:15:42
 -- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -326,7 +326,8 @@ CREATE TABLE [dbo].[crLogPassengers] (
     [Remarks] nvarchar(150)  NULL,
     [crLogPassStatusId] int  NOT NULL,
     [crLogTripId] int  NOT NULL,
-    [Area] nvarchar(150)  NULL
+    [Area] nvarchar(150)  NULL,
+    [NextDay] bit  NOT NULL
 );
 GO
 
@@ -349,7 +350,8 @@ CREATE TABLE [dbo].[crLogPassengerMasters] (
     [DropTime] nvarchar(150)  NOT NULL,
     [Remarks] nvarchar(150)  NULL,
     [RestDays] nvarchar(150)  NULL,
-    [Area] nvarchar(150)  NULL
+    [Area] nvarchar(150)  NULL,
+    [NextDay] bit  NOT NULL
 );
 GO
 

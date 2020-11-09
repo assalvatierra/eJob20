@@ -50,10 +50,12 @@ insert into crLogPaymentTypes([Type]) values
 insert into crLogCashTypes([Code],[Description]) values 
 ('SAL','Salary'), ('CA','CA'),('PAY','Payment');
 
-insert into crLogPassengerMasters ([Name],[Contact],[PassAddress],[PickupPoint],[PickupTime],[DropPoint],[DropTime],[Remarks],[RestDays],[Area]) values 
-('John','0912 654 8798','Matina','Centerpoint, Matina','7:30 PM','MTS','9:30 PM','','Sun,Sat','Matina'),
-('Mark','0923 782 0021','Boulevard','Boulevard','7:40 PM','MTS','9:30 PM','','Sun,Sat','Boulevard'),
-('Mary','0956-979-9143','Catalunan','Catalunan','7:20 PM','MTS','9:30 PM','','Sun,Sat','Catalunan');
+insert into crLogPassengerMasters ([Name],[Contact],[PassAddress],[PickupPoint],[PickupTime],[DropPoint],[DropTime],[Remarks],[RestDays],[Area],[NextDay]) values 
+('John','0912 654 8798','Matina','Centerpoint, Matina','7:30 PM','MTS','9:30 PM','','Sun,Sat','Matina',0),
+('Mark','0923 782 0021','Boulevard','Boulevard','7:40 PM','MTS','9:30 PM','','Sun,Sat','Boulevard',0),
+('Mary','0956-979-9143','Catalunan','Catalunan','7:20 PM','MTS','9:30 PM','','Sun,Sat','Catalunan',0),
+('Lee','0978-977-1321','Mintal','Mintal','7:10 PM','MTS','9:30 PM','','Sun,Sat','Mintal',0),
+('Jerry','0965 889 8789','Cabantian','Cabantian','6:50 PM','MTS','9:30 PM','','Sun,Sat','Cabantian',0);
 
 insert into crLogPassengerAreas ([Name]) values 
 ('Agdao'),('Bunawan'), ('Buhangin'),('Boulevard'),('Calinan'),('Catalunan'),('Matina'),('Mintal'),('Times'),('Toril');

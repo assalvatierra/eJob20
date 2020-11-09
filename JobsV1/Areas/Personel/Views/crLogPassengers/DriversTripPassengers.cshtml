@@ -89,6 +89,7 @@
                 <span hidden>
                     @try
                     {
+                        DateTime dtNow = datetimeNow;
                         <!-- Contact -->
                         if (item.timeContacted.Length > 2 && item.crLogPassStatusId == 2)
                         {
@@ -112,15 +113,28 @@
                         {
                             if (item.crLogPassStatusId == 1)
                             {
+
+                                string st1 = item.PickupTime;
+                                DateTime dtPickup = new DateTime(
+                                    tripDt.Year, tripDt.Month, tripDt.Day,
+                                    int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                                    int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                                    0);
+
+                                if (item.NextDay)
+                                {
+                                    dtPickup.AddDays(1);
+
+                                }
+                                <span> @dtPickup </span>
                                 //not yet contacted
-                                if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
+                                if (dtPickup <= dtNow)
                                 {
                                     //handle late boarding
                                     <span class="status-circle-orange"> </span>
                                 }
                                 else
                                 {
-
                                     <span class="status-circle-gray"> </span>
                                 }
                             }
@@ -129,12 +143,19 @@
                         <!-- Boarding -->
                         if (item.timeBoarded.Length > 2 && item.crLogPassStatusId == 3)
                         {
-                            if (DateTime.Parse(item.timeBoarded).TimeOfDay >= timeNow)
+                            string st1 = item.PickupTime;
+                            DateTime dtBoard = new DateTime(
+                                tripDt.Year, tripDt.Month, tripDt.Day,
+                                int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                                int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                                0);
+
+                            if (item.NextDay == true)
                             {
-                                //handle late boarding
-                                <span class="status-circle-orange"> </span>
+                                dtBoard.AddDays(1);
                             }
-                            else
+
+                            if (dtBoard >= dtNow)
                             {
                                 if (item.crLogPassStatusId == 5)
                                 {
@@ -148,29 +169,121 @@
                                 }
                                 else
                                 {
+                                    //handle late boarding
+                                    <span class="status-circle-orange"> </span>
+                                }
+                            }
+                            else
+                            {
+                                if (dtBoard >= dtNow)
+                                {
+                                    //handle late boarding
+                                    <span class="status-circle-orange"> </span>
+                                }
+                                else
+                                {
+
                                     //success
                                     <span class="status-circle-green"> </span>
+
                                 }
                             }
                         }
                         else
                         {
-                            //not yet boarded
-                            if (DateTime.Parse(item.PickupTime).TimeOfDay <= timeNow)
+
+                            string st1 = item.PickupTime;
+                            DateTime dtBoard = new DateTime(
+                                tripDt.Year, tripDt.Month, tripDt.Day,
+                                int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                                int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                                0);
+
+                            if (item.NextDay == true)
                             {
-                                //handle late boarding
-                                <span class="status-circle-orange"> </span>
+                                dtBoard.AddDays(1);
+                            }
+
+                            //not yet boarded
+                            if (dtBoard <= dtNow)
+                            {
+                                if (item.crLogPassStatusId == 5)
+                                {
+                                    //declined
+                                    <span class="status-circle-lightblue"> </span>
+                                }
+                                else if (item.crLogPassStatusId == 6)
+                                {
+                                    //failed
+                                    <span class="status-circle-red"> </span>
+                                }
+                                else
+                                {
+                                    //handle late boarding
+                                    <span class="status-circle-orange"> </span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="status-circle-gray"> </span>
                             }
                         } <!-- End of Boarding -->
                         <!-- Drop Off -->
                         if (item.timeDelivered.Length > 2 && item.crLogPassStatusId == 3)
                         {
-                            if (DateTime.Parse(item.timeDelivered).TimeOfDay >= timeNow)
+                            string st1 = item.DropTime;
+                            DateTime dtDropped = new DateTime(
+                                tripDt.Year, tripDt.Month, tripDt.Day,
+                                int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                                int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                                0);
+
+                            if (item.NextDay == true)
                             {
-                                //handle late boarding
-                                <span class="status-circle-orange"> </span>
+                                dtDropped.AddDays(1);
+                            }
+
+                            if (item.crLogPassStatusId == 5)
+                            {
+                                //declined
+                                <span class="status-circle-lightblue"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 6)
+                            {
+                                //failed
+                                <span class="status-circle-red"> </span>
                             }
                             else
+                            {
+                                if (dtDropped >= dtNow)
+                                {
+                                    //handle late boarding
+                                    <span class="status-circle-orange"> </span>
+
+                                }
+                                else
+                                {
+                                    //success
+                                    <span class="status-circle-green"> </span>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            string st1 = item.DropTime;
+                            DateTime dtDropped = new DateTime(
+                                tripDt.Year, tripDt.Month, tripDt.Day,
+                                int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
+                                int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
+                                0);
+
+                            if (item.NextDay == true)
+                            {
+                                dtDropped.AddDays(1);
+                            }
+
+                            //not yet dropped
+                            if (dtDropped <= dtNow)
                             {
                                 if (item.crLogPassStatusId == 5)
                                 {
@@ -184,20 +297,16 @@
                                 }
                                 else
                                 {
-                                    //success
-                                    <span class="status-circle-green"> </span>
+                                    //handle late boarding
+                                    <span class="status-circle-orange"> </span>
                                 }
                             }
-                        }
-                        else
-                        {
-                            //not yet dropped
-                            if (DateTime.Parse(item.DropTime).TimeOfDay <= timeNow)
+                            else
                             {
-                                //handle late boarding
-                                <span class="status-circle-orange"> </span>
+                                <span class="status-circle-gray"> </span>
                             }
                         }
+
 
                         if (item.crLogPassStatusId == 5)
                         {
@@ -246,6 +355,11 @@
                             int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                             0).AddHours(-1);
 
+                        if (item.NextDay == true)
+                        {
+                            dt1.AddDays(1);
+                        }
+
                         if (DateTime.Compare(dt0, dt1) <= 0)
                         {
                             <span class="status-circle-gray"> </span>
@@ -286,6 +400,10 @@
                             int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                             0);
 
+                        if (item.NextDay == true)
+                        {
+                            dt1.AddDays(1);
+                        }
                         if (DateTime.Compare(dt0, dt1) <= 0)
                         {
                             <span class="status-circle-gray"> </span>
@@ -326,6 +444,10 @@
                             int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                             0);
 
+                        if (item.NextDay == true)
+                        {
+                            dt1.AddDays(1);
+                        }
                         if (DateTime.Compare(dt0, dt1) <= 0)
                         {
                             <span class="status-circle-gray"> </span>

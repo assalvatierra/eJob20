@@ -29,6 +29,7 @@ namespace JobsV1.Areas.Personel.Models
         public int crLogPassStatusId { get; set; }
         public int crLogTripId { get; set; }
         public string Area { get; set; }
+        public bool NextDay { get; set; }
     
         public virtual crLogPassStatus crLogPassStatu { get; set; }
         public virtual crLogTrip crLogTrip { get; set; }

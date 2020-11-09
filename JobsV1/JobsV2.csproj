@@ -2275,6 +2275,7 @@
     <Content Include="Areas\Personel\Views\crLogPassengerAreas\Details.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengerAreas\Edit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogPassengerAreas\Index.cshtml" />
+    <Content Include="Areas\Personel\Views\CrLogPassengerList\PassengersList.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

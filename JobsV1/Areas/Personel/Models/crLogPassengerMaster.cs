@@ -25,5 +25,6 @@ namespace JobsV1.Areas.Personel.Models
         public string Remarks { get; set; }
         public string RestDays { get; set; }
         public string Area { get; set; }
+        public bool NextDay { get; set; }
     }
 }

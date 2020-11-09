@@ -38,7 +38,8 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             //get list of pasengers per trip
-            var crLogPassengers = db.crLogPassengers.Where(c=>c.crLogTripId == id).Include(c => c.crLogPassStatu).Include(c => c.crLogTrip);
+            var crLogPassengers = db.crLogPassengers.Where(c=>c.crLogTripId == id)
+                .Include(c => c.crLogPassStatu).Include(c => c.crLogTrip);
 
             //sort by pickup time
             var sorted_Passengers = crLogPassengers.ToList();
@@ -49,12 +50,14 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     sorted_Passengers = sorted_Passengers
                          .OrderBy(c => c.Area)
+                         .ThenBy(c => c.NextDay)
                          .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
                          .ToList();
                 }else if (sortBy == "PickupTime")
                 {
                     sorted_Passengers = sorted_Passengers
-                         .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .OrderBy(c => c.NextDay)
+                         .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
                          .ThenBy(c => c.Area)
                          .ToList();
                 }
@@ -62,17 +65,19 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     //default
                     sorted_Passengers = sorted_Passengers
-                            .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .OrderBy(c => c.NextDay)
+                         .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
                          .ThenBy(c => c.Area)
-                            .ToList();
+                         .ToList();
                 }
             }
             else
             {
                 //default
                 sorted_Passengers = sorted_Passengers
-                        .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
-                         .ThenBy(c => c.Area)
+                        .OrderBy(c => c.NextDay)
+                        .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                        .ThenBy(c => c.Area)
                         .ToList();
             }
 
@@ -99,6 +104,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var driverTrips = db.crLogTrips.Where(c=>c.crLogDriverId == id &&
                  DbFunctions.TruncateTime(c.DtTrip) >= today )
                 .OrderByDescending(c=>c.DtTrip).ToList();
+
             if (driverTrips == null)
             {
                 ViewBag.Driver = db.crLogDrivers.Find(id).Name;
@@ -111,7 +117,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
         // GET: Personel/DriversTripPassengers/{tripId}
-        public ActionResult DriversTripPassengers(int? id)
+        public ActionResult DriversTripPassengers(int? id, string sortBy)
         {
             if (id == null)
             {
@@ -141,9 +147,45 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             //sort by time
-            var sorted_Passengers = crLogPassengers.ToList()
-                .OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
-                .ToList();
+            var sorted_Passengers = new List<crLogPassenger>();
+
+            if (!String.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy == "Area")
+                {
+                    sorted_Passengers = crLogPassengers.ToList()
+                         .OrderBy(c => c.Area)
+                         .ThenBy(c => c.NextDay)
+                         .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ToList();
+                }
+                else if (sortBy == "PickupTime")
+                {
+                    sorted_Passengers = crLogPassengers.ToList()
+                         .OrderBy(c => c.NextDay)
+                         .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ThenBy(c => c.Area)
+                         .ToList();
+                }
+                else
+                {
+                    //default
+                    sorted_Passengers = crLogPassengers.ToList()
+                         .OrderBy(c => c.NextDay)
+                         .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ThenBy(c => c.Area)
+                         .ToList();
+                }
+            }
+            else
+            {
+                //default
+                sorted_Passengers = crLogPassengers.ToList()
+                         .OrderBy(c => c.NextDay)
+                         .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                         .ThenBy(c => c.Area)
+                         .ToList();
+            }
 
             ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             ViewBag.TripDetails = tripDetails;
@@ -232,7 +274,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreatePassTrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area")] crLogPassenger crLogPassenger)
+        public ActionResult CreatePassTrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area,NextDay")] crLogPassenger crLogPassenger)
         {
             if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
             {
@@ -316,7 +358,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPasstrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area")] crLogPassenger crLogPassenger)
+        public ActionResult EditPasstrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area,NextDay")] crLogPassenger crLogPassenger)
         {
             if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
             {
@@ -834,6 +876,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 passengerMaster.DropPoint = passenger.DropPoint;
                 passengerMaster.DropTime = passenger.DropTime;
                 passengerMaster.Area = passenger.Area;
+                passengerMaster.NextDay = passenger.NextDay;
 
                 db.crLogPassengerMasters.Add(passengerMaster);
                 db.SaveChanges();
@@ -930,6 +973,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     psgr.timeDelivered = " ";
                     psgr.crLogPassStatusId = 1;
                     psgr.crLogTripId = tripId;
+                    psgr.NextDay = passengers.NextDay;
 
                     db.crLogPassengers.Add(psgr);
                     db.SaveChanges();
@@ -989,6 +1033,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 psgr.timeDelivered = " ";
                 psgr.crLogPassStatusId = 1;
                 psgr.crLogTripId = tripId;
+                psgr.NextDay = passengers.NextDay;
 
                 db.crLogPassengers.Add(psgr);
                 db.SaveChanges();

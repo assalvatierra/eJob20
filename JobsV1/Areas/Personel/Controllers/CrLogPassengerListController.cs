@@ -126,20 +126,22 @@ namespace JobsV1.Areas.Personel.Controllers
 
             if (sortBy == "PickupTime")
             {
-                cPassengers = cPassengers.OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
-                    .ThenBy(c=>c.Area)
+                cPassengers = cPassengers.OrderBy(c => c.NextDay)
+                    .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
                     .ToList();
             }else if (sortBy == "Area")
             {
                 cPassengers = cPassengers.OrderBy(c => c.Area)
-                   .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
-                   .ToList();
+                    .ThenBy(c => c.NextDay)
+                    .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                    .ToList();
             }
             else
             {
-                cPassengers = cPassengers.OrderBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
-                  .ThenBy(c => c.Area)
-                  .ToList();
+                cPassengers = cPassengers.OrderBy(c => c.NextDay)
+                    .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
+                    .ThenBy(c => c.Area)
+                    .ToList();
             }
             ViewBag.SortBy = sortBy;
             ViewBag.CompanyId = companyId ?? 0;

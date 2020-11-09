@@ -134,6 +134,11 @@
                             int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                             0);
 
+                        if (item.NextDay == true)
+                        {
+                            dtPickup.AddDays(1);
+                        }
+
                         //not yet contacted
                         if (dtPickup <= dtNow)
                         {
@@ -155,6 +160,12 @@
                             int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
                             int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                             0);
+
+                        if (item.NextDay == true)
+                        {
+                            dtBoard.AddDays(1);
+                        }
+
                         if (dtBoard >= dtNow)
                         {
                             if (item.crLogPassStatusId == 5)
@@ -198,6 +209,11 @@
                             int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                             0);
 
+                        if (item.NextDay == true)
+                        {
+                            dtBoard.AddDays(1);
+                        }
+
                         //not yet boarded
                         if (dtBoard <= dtNow)
                         {
@@ -232,6 +248,11 @@
                             int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                             0);
 
+                        if (item.NextDay == true)
+                        {
+                            dtDropped.AddDays(1);
+                        }
+
                         if (item.crLogPassStatusId == 5)
                         {
                             //declined
@@ -265,6 +286,13 @@
                             int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
                             int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                             0);
+
+                        if (item.NextDay == true)
+                        {
+                            var res = dtDropped <= dtNow;
+                            dtDropped.AddDays(1);
+                            <span> @dtDropped </span>
+                        }
                         //not yet dropped
                         if (dtDropped <= dtNow)
                         {

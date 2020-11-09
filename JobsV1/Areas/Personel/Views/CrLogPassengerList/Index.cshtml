@@ -11,11 +11,19 @@
         <h2> @ViewBag.Company  </h2>
     </a>
 }
- 
+
 <h2>Passenger Manifest</h2>
-<h4>as Of: @datetimeNow.ToString("MMM dd yyyy hh:mm tt")</h4>
+
+<h4>
+    As Of:
+    <a href="#" onclick="ShowChangeDateModal()">
+        @datetimeNow.ToString("MMM dd yyyy hh:mm tt")
+    </a>
+
+</h4>
+
 <p>
-    @Html.ActionLink("Passengers List", "PassengersList", null ,null)
+    @Html.ActionLink("Passengers List", "PassengersList", null, null)
 </p>
 <p>
     <span style="margin-right:10px;"></span>
@@ -59,26 +67,26 @@
                 @{ int passcnt = 0;}
                 <table style="border:3px solid cadetblue;">
                     <tr>
-                        <th>&nbsp;</th>
+                        <th style="min-width:60px;">&nbsp;</th>
                         <th>##</th>
-                        <th>Name And Contact</th>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>STATUS</th>
+                        <th style="min-width:150px;">Name And Contact</th>
+                        <th style="min-width:100px;">Area</th>
+                        <th style="min-width:100px;">Origin</th>
+                        <th style="min-width:100px;">Destination</th>
+                        <th style="min-width:90px;">STATUS</th>
                         <th>Contacted</th>
                         <th>Boarded</th>
                         <th>Delivered</th>
-                        <th>Options</th>
-
+                        <th style="min-width:100px;">Options</th>
                     </tr>
 
-                    @foreach (var pass in item.crLogPassengers.OrderBy(s => s.PickupTime))
+                    @foreach (var pass in item.crLogPassengers.OrderBy(c => c.NextDay).OrderBy(c => c.PickupTime))
                     {
                         passcnt++;
                         DateTime tripDt = pass.crLogTrip.DtTrip;
 
                         <tr>
-                            <td style="padding-top:20px;">
+                            <td style="padding-top:10px;">
                                 &nbsp;
                                 @if (pass.timeContacted.Trim().Length > 2)
                                 {
@@ -107,6 +115,11 @@
                                         int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
                                         int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                                         0).AddHours(-1);
+
+                                    if (pass.NextDay == true)
+                                    {
+                                        dt1.AddDays(1);
+                                    }
 
                                     if (DateTime.Compare(dt0, dt1) <= 0)
                                     {
@@ -147,6 +160,12 @@
                                         int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                                         0);
 
+                                    if (pass.NextDay == true)
+                                    {
+                                        dt1.AddDays(1);
+                                    }
+
+
                                     if (DateTime.Compare(dt0, dt1) <= 0)
                                     {
                                         <span class="status-circle-gray" title="Passenger not yet boarded"> </span>
@@ -186,6 +205,12 @@
                                         int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
                                         0);
 
+                                    if (pass.NextDay == true)
+                                    {
+                                        dt1.AddDays(1);
+                                    }
+
+
                                     if (DateTime.Compare(dt0, dt1) <= 0)
                                     {
                                         <span class="status-circle-gray" title="Passenger not yer dropped"> </span>
@@ -201,6 +226,9 @@
                             <td>(@passcnt)&nbsp;</td>
                             <td>
                                 @pass.Name / @pass.Contact&nbsp;
+                            </td>
+                            <td>
+                                @pass.Area
                             </td>
                             <td>
                                 [ @pass.PickupTime / @pass.PickupPoint ] &nbsp;
@@ -251,9 +279,49 @@
 
 </table>
 
-<script>
-    window.setInterval(function () {
-        //reload page every one minute
-        location.reload();
-    }, 60000);
-</script>
+
+<!-- Copied Logs Date -->
+<div class="modal fade" role="dialog" id="ChangeDateModal">
+    <div class="modal-dialog" style="min-width:330px;max-width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Select Trip Date</h4>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                <div class="modal-body">
+                    <div style="margin-left:0px;">
+
+                        <form>
+                            <div class="form-group">
+                                <input type="text" name="dateTrip" />
+                            </div>
+                        </form>
+                        <input type="submit" value="Create" class="btn btn-default" />
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        window.setInterval(function () {
+            //reload page every one minute
+            location.reload();
+        }, 60000);
+
+        function ShowChangeDateModal() {
+            $("#ChangeDateModal").modal('show');
+        }
+    </script>
+}

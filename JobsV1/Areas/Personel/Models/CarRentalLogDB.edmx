@@ -290,6 +290,7 @@
     <Property Name="crLogPassStatusId" Type="int" Nullable="false" />
     <Property Name="crLogTripId" Type="int" Nullable="false" />
     <Property Name="Area" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="NextDay" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="crLogPassStatus">
     <Key>
@@ -313,6 +314,7 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="RestDays" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="Area" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="NextDay" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="crLogPassengerAreas">
     <Key>
@@ -1131,6 +1133,7 @@
           <NavigationProperty Name="crLogTrip" Relationship="CarRentalLogDB.crLogTripcrLogPassenger" FromRole="crLogPassenger" ToRole="crLogTrip" />
           <Property Name="crLogTripId" Type="Int32" Nullable="false" />
           <Property Name="Area" Type="String" Nullable="true" MaxLength="150" />
+          <Property Name="NextDay" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="crLogPassStatus">
           <Key>
@@ -1179,6 +1182,7 @@
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="150" />
           <Property Name="RestDays" Type="String" Nullable="true" MaxLength="150" />
           <Property Name="Area" Type="String" Nullable="true" MaxLength="150" />
+          <Property Name="NextDay" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="crLogPassengerArea">
           <Key>
@@ -1387,6 +1391,7 @@
           <ScalarProperty Name="crLogPassStatusId" ColumnName="crLogPassStatusId" />
           <ScalarProperty Name="crLogTripId" ColumnName="crLogTripId" />
           <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="NextDay" ColumnName="NextDay" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1412,6 +1417,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="RestDays" ColumnName="RestDays" />
           <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="NextDay" ColumnName="NextDay" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

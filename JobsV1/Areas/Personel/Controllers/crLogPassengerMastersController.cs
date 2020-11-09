@@ -15,9 +15,36 @@ namespace JobsV1.Areas.Personel.Controllers
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
 
         // GET: Personel/crLogPassengerMasters
-        public ActionResult Index()
+        public ActionResult Index(string sortBy )
         {
-            return View(db.crLogPassengerMasters.ToList().OrderBy(p=>p.Area).ThenByDescending(p=>p.PickupTime));
+            var passengerList = db.crLogPassengerMasters.ToList();
+
+            if (sortBy == "PickupTime")
+            {
+                passengerList = passengerList.OrderBy(p=>p.NextDay)
+                    .ThenBy(p => p.PickupTime)
+                    .ThenBy(p => p.Area)
+                    .ToList();
+            }
+            else if (sortBy == "Name")
+            {
+                passengerList = passengerList.OrderBy(p => p.Name)
+                    .ToList();
+            }
+            else if (sortBy == "PickupTime")
+            {
+                passengerList = passengerList.OrderBy(p => p.Area)
+                    .ThenBy(p => p.NextDay)
+                    .ThenBy(p => p.PickupTime).ToList();
+            }
+            else
+            {
+                passengerList = passengerList.OrderBy(p => p.Area)
+                    .ThenBy(p => p.NextDay)
+                    .ThenBy(p => p.PickupTime).ToList();
+            }
+            ViewBag.SortBy = sortBy;
+            return View(passengerList);
         }
 
         // GET: Personel/crLogPassengerMasters/Details/5
@@ -47,7 +74,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,Remarks,RestDays,Area")] crLogPassengerMaster crLogPassengerMaster)
+        public ActionResult Create([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,Remarks,RestDays,Area,NextDay")] crLogPassengerMaster crLogPassengerMaster)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +108,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,Remarks,RestDays,Area")] crLogPassengerMaster crLogPassengerMaster)
+        public ActionResult Edit([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,Remarks,RestDays,Area,NextDay")] crLogPassengerMaster crLogPassengerMaster)
         {
             if (ModelState.IsValid)
             {

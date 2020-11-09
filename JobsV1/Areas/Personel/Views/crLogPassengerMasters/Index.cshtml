@@ -16,7 +16,15 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @if (ViewBag.SortBy == "Name")
+            {
+                <span>&#9660;</span>
+                @Html.ActionLink("Name", "Index", new { sortBy = "Name" })
+            }
+            else
+            {
+                @Html.ActionLink("Name", "Index", new { sortBy = "Name" })
+            }
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Contact)
@@ -28,7 +36,15 @@
             @Html.DisplayNameFor(model => model.PickupPoint)
         </th>
         <th>
-            &#9660;@Html.DisplayNameFor(model => model.PickupTime)
+            @if (ViewBag.SortBy == "PickupTime")
+            {
+                <span>&#9660;</span>
+                @Html.ActionLink("PickupTime", "Index", new { sortBy = "PickupTime" })
+            }
+            else
+            {
+                @Html.ActionLink("PickupTime", "Index", new { sortBy = "PickupTime" })
+            }
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DropPoint)
@@ -37,7 +53,15 @@
             @Html.DisplayNameFor(model => model.DropTime)
         </th>
         <th>
-            &#9660;@Html.DisplayNameFor(model => model.Area)
+            @if (ViewBag.SortBy == "Area")
+            {
+                <span>&#9660;</span>
+                @Html.ActionLink("Area", "Index", new { sortBy = "Area" })
+            }
+            else
+            {
+                @Html.ActionLink("Area", "Index", new { sortBy = "Area" })
+            }
         </th>
         <th>
             @Html.DisplayNameFor(model => model.RestDays)
