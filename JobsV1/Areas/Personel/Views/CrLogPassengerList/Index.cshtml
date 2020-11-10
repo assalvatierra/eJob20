@@ -16,15 +16,13 @@
 
 <h4>
     As Of:
-    <a href="#" onclick="ShowChangeDateModal()">
-        @datetimeNow.ToString("MMM dd yyyy hh:mm tt")
-    </a>
+    <button class="btn btn-default" href="#" onclick="ShowChangeDateModal()">
+        @datetimeNow.ToString("MMM dd yyyy")
+    </button> -
+    @Html.ActionLink("See Passengers List", "PassengersList", null, new { @class = "btn btn-default" })
 
 </h4>
 
-<p>
-    @Html.ActionLink("Passengers List", "PassengersList", null, null)
-</p>
 <p>
     <span style="margin-right:10px;"></span>
     <span style="margin-right:10px;">
@@ -49,7 +47,7 @@
                     <a href="/mod/110/company/trip/@item.crLogCompanyId">  @Html.DisplayFor(modelItem => item.crLogCompany.Name)</a>
                 </th>
             </tr>
-        }
+        } 
 
         <tr>
             <th>
@@ -63,21 +61,21 @@
             </th>
         </tr>
         <tr>
-            <td colspan="3">
+            <td colspan="3" style="padding:0px;">
                 @{ int passcnt = 0;}
-                <table style="border:3px solid cadetblue;">
+                <table style="border:1px solid lightgray;" class="table">
                     <tr>
                         <th style="min-width:60px;">&nbsp;</th>
                         <th>##</th>
                         <th style="min-width:150px;">Name And Contact</th>
                         <th style="min-width:100px;">Area</th>
                         <th style="min-width:100px;">Origin</th>
-                        <th style="min-width:110px;">Destination</th>
-                        <th style="min-width:90px;">STATUS</th>
+                        <th style="min-width:90px;">Destination</th>
+                        <th style="min-width:120px;">STATUS</th>
                         <th>Contacted</th>
                         <th>Boarded</th>
                         <th>Delivered</th>
-                        <th style="min-width:100px;">Options</th>
+                        <th>Remarks</th>
                     </tr>
 
                     @foreach (var pass in item.crLogPassengers.OrderBy(c => c.NextDay).ThenBy(c => c.PickupTime))
@@ -85,7 +83,7 @@
                         passcnt++;
                         DateTime tripDt = pass.crLogTrip.DtTrip;
 
-                        <tr>
+                        <tr >
                             <td style="padding:10px;">
 
                                 @try
@@ -315,21 +313,56 @@
                                 }
 
                             </td>
-                            <td>(@passcnt)&nbsp;</td>
-                            <td>
-                                @pass.Name / @pass.Contact&nbsp;
+                            <td>(@passcnt)</td>
+                            <td style="padding:5px;">
+                                <span style="font-weight:600;"> @pass.Name</span> <br />
+                                <span class="text-muted" style="font-size:12px;"> @pass.Contact</span>
                             </td>
-                            <td>
-                                @pass.Area
+                            <td style="padding:5px;">
+                                <span class="text-muted"> @pass.Area </span>
                             </td>
-                            <td>
-                                [ @pass.PickupTime / @pass.PickupPoint ] &nbsp;
+                            <td style="padding:5px;">
+                                
+                                <span style="font-weight:500;color:#1a1a1a;">@pass.PickupTime</span> <br /> 
+                                <span class="text-muted">@pass.PickupPoint</span>
+
+                                @if (pass.NextDay == true)
+                                {
+                                    <span>(+1)</span>
+                                }
+                               
                             </td>
-                            <td>
-                                [ @pass.DropTime / @pass.DropPoint ] &nbsp;
+                            <td style="padding:5px;">
+                                <span> @pass.DropTime</span> <br />
+                                <span class="text-muted">@pass.DropPoint </span>
                             </td>
                             <td style="text-align:center;color:darkslateblue;">
-                                @pass.crLogPassStatu.Status
+                                @*  @pass.crLogPassStatu.Status*@
+
+                                @if (pass.crLogPassStatusId == 1)
+                                {
+                                    <span class="badge badge-secondary"> @pass.crLogPassStatu.Status </span>
+                                }
+                                @if (pass.crLogPassStatusId == 2)
+                                {
+                                    <span class="badge badge-primary"> @pass.crLogPassStatu.Status </span>
+                                }
+                                @if (pass.crLogPassStatusId == 3)
+                                {
+                                    <span class="badge badge-info"> @pass.crLogPassStatu.Status </span>
+                                }
+                                @if (pass.crLogPassStatusId == 4)
+                                {
+                                    <span class="badge badge-success"> @pass.crLogPassStatu.Status </span>
+                                }
+                                @if (pass.crLogPassStatusId == 5)
+                                {
+                                    <span class="badge badge-warning"> @pass.crLogPassStatu.Status </span>
+                                }
+                                @if (pass.crLogPassStatusId == 6)
+                                {
+                                    <span class="badge badge-danger"> @pass.crLogPassStatu.Status </span>
+                                }
                             </td>
 
                             @{
@@ -339,17 +372,16 @@
                             }
 
                             <td style="text-align:center;">
-                                @sContacted &nbsp;
+                                <span class="text-muted">@sContacted</span>
                             </td>
                             <td style="text-align:center;">
-                                @sBoarded &nbsp;
+                                <span class="text-muted"> @sBoarded</span>
                             </td>
                             <td style="text-align:center;">
-                                @sDelivered
+                                <span class="text-muted">@sDelivered</span>
                             </td>
-
-                            <td>
-                                &nbsp;[ @Html.ActionLink("Transfer", "TransferPassenger", new { id = pass.Id }) ]
+                            <td style="padding:5px;">
+                                @pass.Remarks
                             </td>
 
                         </tr>
@@ -363,7 +395,7 @@
 
         </tr>
         <tr>
-            <td colspan="6">
+            <td colspan="12">
                 &nbsp;
             </td>
         </tr>

@@ -60,6 +60,24 @@ insert into crLogPassengerMasters ([Name],[Contact],[PassAddress],[PickupPoint],
 insert into crLogPassengerAreas ([Name]) values 
 ('Agdao'),('Bunawan'), ('Buhangin'),('Boulevard'),('Calinan'),('Catalunan'),('Matina'),('Mintal'),('Times'),('Toril');
 
+insert into crLogPassRemarks([Description],[RemarksFor]) values
+('Passenger has private service', 1),
+('Passenger on rest day', 1),
+('Passenger commuted', 1),
+('Passenger declined', 1),
+('Passenger transferred to another van', 1),
+('Passenger unspecified reason', 1),
+
+('Passenger not anwering text/call', 2),
+('Passenger not on the pickup location', 2),
+('Passenger did not arrive on time', 2),
+('Passenger will be late', 2),
+('Passenger is absent / on-leave / rest day', 2),
+('Unspecified reason', 2)
+;
+
+--insert into crLogPassRemarks([])
+
 --select * from crLogTrips;
 --select * from crLogDrivers;
 --select * from crLogUnits;

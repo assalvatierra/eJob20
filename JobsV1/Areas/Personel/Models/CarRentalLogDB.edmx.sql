@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/09/2020 13:15:42
+-- Date Created: 11/10/2020 11:55:41
 -- Generated from EDMX file: C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -144,6 +144,9 @@ IF OBJECT_ID(N'[dbo].[crLogPassengerMasters]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[crLogPassengerAreas]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogPassengerAreas];
+GO
+IF OBJECT_ID(N'[dbo].[crLogPassRemarks]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogPassRemarks];
 GO
 
 -- --------------------------------------------------
@@ -362,6 +365,14 @@ CREATE TABLE [dbo].[crLogPassengerAreas] (
 );
 GO
 
+-- Creating table 'crLogPassRemarks'
+CREATE TABLE [dbo].[crLogPassRemarks] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(80)  NOT NULL,
+    [RemarksFor] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -483,6 +494,12 @@ GO
 -- Creating primary key on [Id] in table 'crLogPassengerAreas'
 ALTER TABLE [dbo].[crLogPassengerAreas]
 ADD CONSTRAINT [PK_crLogPassengerAreas]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogPassRemarks'
+ALTER TABLE [dbo].[crLogPassRemarks]
+ADD CONSTRAINT [PK_crLogPassRemarks]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

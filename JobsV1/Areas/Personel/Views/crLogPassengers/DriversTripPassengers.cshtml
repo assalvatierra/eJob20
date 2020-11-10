@@ -16,7 +16,7 @@
 
 <div class="col-md-12">
     <h3>  @ViewBag.Driver / @ViewBag.UnitDetails </h3>
-    <h4>
+    <h4>Status
         <span class="text-muted">Trip :</span>
 
         @if (TripId == 0)
@@ -635,7 +635,14 @@
                         </h3>
                     </div>
                     <div class="list-group">
-                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
+
+                        @foreach (var remarks in ViewBag.RemarksDenied as IEnumerable<JobsV1.Areas.Personel.Models.crLogPassRemarks>)
+                        {
+                            <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                                @remarks.Description
+                            </button>
+                        }
+                        @*<button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
                             Passenger has private service
                         </button>
                         <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
@@ -652,14 +659,17 @@
                         </button>
                         <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmDeclinedAction(this)">
                             Passenger unspecified reason
-                        </button>
+                        </button>*@
                     </div>
+                    <p>Please provide a reason: </p>
+                    <input class="form-control" type="text" id="DeniedActionModal_TextInput" style="margin-top:10px;" />
 
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="DeniedActionModal_SubmitText()">Submit</button>
             </div>
         </div>
     </div>
@@ -682,31 +692,44 @@
                         </h3>
                     </div>
                     <div class="list-group">
-                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
-                            Passenger not anwering text/call
-                        </button>
-                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
-                            Passenger not on the pickup location
-                        </button>
-                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
-                            Passenger did not arrive on time
-                        </button>
-                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
-                            Passenger will be late
-                        </button>
-                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
-                            Passenger is absent / on-leave / rest day
-                        </button>
-                        <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
-                            Unspecified reason
-                        </button>
-                    </div>
 
+                        @foreach (var remarks in ViewBag.RemarksFailed as IEnumerable<JobsV1.Areas.Personel.Models.crLogPassRemarks>)
+                        {
+                            <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                                @remarks.Description
+                            </button>
+                        }
+
+                        @*<button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                Passenger not anwering text/call
+            </button>
+            <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                Passenger not on the pickup location
+            </button>
+            <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                Passenger did not arrive on time
+            </button>
+            <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                Passenger will be late
+            </button>
+            <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                Passenger is absent / on-leave / rest day
+            </button>
+            <button class="list-group-item list-group-item-action flex-column align-items-start" onclick="ConfirmFailedAction(this)">
+                Unspecified reason
+            </button>*@
+
+
+
+                    </div>
+                    <p>Please provide a reason: </p>
+                    <input class="form-control" type="text" id="FailedActionModal_TextInput" style="margin-top:10px;" />
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="FailedActionModal_SubmitText()">Submit</button>
             </div>
         </div>
     </div>
@@ -1042,8 +1065,6 @@
                 console.log("result:" + result);
 
                 if (result == "True") {
-                    //alert("Pasenger Status Done!");
-
                     //close modal
                     $("#DeclinedActionModal").modal("hide");
                     //reload page
@@ -1083,8 +1104,6 @@
                 console.log("result:" + result);
 
                 if (result == "True") {
-                    //alert("Pasenger Status Done!");
-
                     //close modal
                     $("#FailedActionModal").modal("hide");
 
@@ -1101,5 +1120,85 @@
         $('.closeLink').click(function (e) {
             return false;
         });
+
+
+
+        function DeniedActionModal_SubmitText() {
+            var reason = $("#DeniedActionModal_TextInput").val();
+
+            if (reason = "") {
+                alert("Please prove a reason for failed delivery.");
+                return false;
+            }
+
+            console.log("reason: " + reason);
+            $("#DeclinedActionModal").modal('hide');
+
+            var actId = 5; //denied
+            var passId = $("#PassId").val();
+
+            var d = new Date();
+            var timeNow = d.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', hour12: true });
+
+
+            console.log("actId : " + actId);
+            console.log("passId : " + passId);
+            console.log("time : " + timeNow);
+
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: reason }, (result) => {
+                console.log("result:" + result);
+
+                if (result == "True") {
+                    //close modal
+                    $("#DeclinedActionModal").modal("hide");
+
+                    //reload page
+                    location.reload();
+                } else {
+
+                    alert("An Error occured while updating status.");
+                    return false;
+                }
+            });
+        }
+
+        function FailedActionModal_SubmitText() {
+            var reason = $("#FailedActionModal_TextInput").val();
+
+            if (reason = "") {
+                alert("Please prove a reason for failed delivery.");
+                return false;
+            }
+
+            console.log("reason: " + reason);
+            $("#FailedActionModal").modal('hide');
+
+            var actId = 6; //failed
+            var passId = $("#PassId").val();
+
+            var d = new Date();
+            var timeNow = d.toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit', hour12: true });
+
+
+            console.log("actId : " + actId);
+            console.log("passId : " + passId);
+            console.log("time : " + timeNow);
+
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: reason }, (result) => {
+                console.log("result:" + result);
+
+                if (result == "True") {
+                    //close modal
+                    $("#FailedActionModal").modal("hide");
+
+                    //reload page
+                    location.reload();
+                } else {
+
+                    alert("An Error occured while updating status.");
+                    return false;
+                }
+            });
+        }
     </script>
 }

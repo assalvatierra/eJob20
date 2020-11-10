@@ -26,6 +26,7 @@
     <EntitySet Name="crLogPassStatus" EntityType="CarRentalLogDB.Store.crLogPassStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassengerMasters" EntityType="CarRentalLogDB.Store.crLogPassengerMasters" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassengerAreas" EntityType="CarRentalLogDB.Store.crLogPassengerAreas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogPassRemarks" EntityType="CarRentalLogDB.Store.crLogPassRemarks" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -322,6 +323,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="crLogPassRemarks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="RemarksFor" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -684,6 +693,7 @@
           </AssociationSet>
           <EntitySet Name="crLogPassengerMasters" EntityType="CarRentalLogDB.crLogPassengerMaster" />
           <EntitySet Name="crLogPassengerAreas" EntityType="CarRentalLogDB.crLogPassengerArea" />
+          <EntitySet Name="crLogPassRemarks" EntityType="CarRentalLogDB.crLogPassRemarks" />
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -1191,6 +1201,14 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" />
         </EntityType>
+        <EntityType Name="crLogPassRemarks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="RemarksFor" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1426,6 +1444,15 @@
         <MappingFragment StoreEntitySet="crLogPassengerAreas">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogPassRemarks">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogPassRemarks)">
+        <MappingFragment StoreEntitySet="crLogPassRemarks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="RemarksFor" ColumnName="RemarksFor" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

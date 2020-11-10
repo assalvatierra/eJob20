@@ -186,6 +186,11 @@ namespace JobsV1.Areas.Personel.Controllers
                          .ToList();
             }
 
+            var remarksDenied = db.crLogPassRemarks.Where(c => c.RemarksFor == 1).ToList();
+            var remarksFailed = db.crLogPassRemarks.Where(c => c.RemarksFor == 2).ToList();
+
+            ViewBag.RemarksDenied = remarksDenied;
+            ViewBag.RemarksFailed = remarksFailed;
             ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             ViewBag.TripDetails = tripDetails;
             ViewBag.TripId = tripToday.Id;

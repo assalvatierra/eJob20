@@ -17,25 +17,61 @@
 <p>
     @if (ViewBag.CompanyId != 0)
     {
-        @Html.ActionLink("Back to Passengers Manifest", "Index", new { companyId = ViewBag.CompanyId }, null)
+        @Html.ActionLink("Back to Passengers Manifest", "Index", new { companyId = ViewBag.CompanyId }, new { @class="btn btn-default" })
     }
     else
     {
-        @Html.ActionLink("Back to Passengers Manifest", "Index", null, null)
+        @Html.ActionLink("Back to Passengers Manifest", "Index", null, new { @class = "btn btn-default" })
     }
 </p>
 <p>
-    Sort :
-    @if (ViewBag.CompanyId != 0)
-    {
-        @Html.ActionLink("By Pickup Time | ", "PassengersList", new { companyId = ViewBag.CompanyId , sortBy = "PickupTime" })
-        @Html.ActionLink("By Area ", "PassengersList", new { companyId = ViewBag.CompanyId ,sortBy = "Area" })
-    }
-    else
-    { 
-        @Html.ActionLink("By Pickup Time | ", "PassengersList", new { sortBy = "PickupTime" })
-        @Html.ActionLink("By Area ", "PassengersList", new { sortBy = "Area" })
-    }
+    <div class="btn-group">
+        <button class="btn btn-default disabled">Sort :</button>
+
+        @if (ViewBag.CompanyId != 0)
+        {
+            if (ViewBag.SortBy == "PickupTime")
+            {
+                @Html.ActionLink("By Pickup Time ", "PassengersList", new { companyId = ViewBag.CompanyId, sortBy = "PickupTime" }, new { @class = "btn btn-default active" })
+            }
+            else
+            {
+                @Html.ActionLink("By Pickup Time ", "PassengersList", new { companyId = ViewBag.CompanyId, sortBy = "PickupTime" }, new { @class = "btn btn-default" })
+            }
+
+            if (ViewBag.SortBy == "Area")
+            {
+                @Html.ActionLink("By Area ", "PassengersList", new { companyId = ViewBag.CompanyId, sortBy = "Area" }, new { @class = "btn btn-default active" })
+            }
+            else
+            {
+                @Html.ActionLink("By Area ", "PassengersList", new { companyId = ViewBag.CompanyId, sortBy = "Area" }, new { @class = "btn btn-default" })
+            }
+
+        }
+        else
+        {
+            if (ViewBag.SortBy == "PickupTime")
+            {
+                @Html.ActionLink("By Pickup Time ", "PassengersList", new { sortBy = "PickupTime" }, new { @class = "btn btn-default active" })
+            }
+            else
+            {
+                @Html.ActionLink("By Pickup Time ", "PassengersList", new { sortBy = "PickupTime" }, new { @class = "btn btn-default" })
+            }
+
+
+            if (ViewBag.SortBy == "Area")
+            {
+                @Html.ActionLink("By Area ", "PassengersList", new { sortBy = "Area" }, new { @class = "btn btn-default active" })
+            }
+            else
+            {
+                @Html.ActionLink("By Area ", "PassengersList", new { sortBy = "Area" }, new { @class = "btn btn-default" })
+            }
+
+        }
+    </div>
 </p>
 <p>
     <span style="margin-right:10px;"></span>
@@ -50,11 +86,22 @@
     </span>
 </p>
 
-<table class="table">
+<table style="border:1px solid lightgray;" class="table">
     <tr>
         <th>&nbsp;</th>
         <th>##</th>
         <th>Name And Contact</th>
+        <th>
+            @if (ViewBag.SortBy == "Area")
+            {
+                <span> &#9660;Area </span>
+            }
+            else
+            {
+                <span> Area </span>
+            }
+
+        </th>
         <th>
             @if (ViewBag.SortBy == "PickupTime" || ViewBag.SortBy == "")
             {
@@ -71,20 +118,9 @@
         <th>Contacted</th>
         <th>Boarded</th>
         <th>Delivered</th>
+        <th>Remarks</th>
         <th>Driver</th>
         <th>Unit</th>
-        <th>
-            @if (ViewBag.SortBy == "Area")
-            {
-                <span> &#9660;Area </span>
-            }
-            else
-            {
-                <span> Area </span>
-            }
-
-        </th>
-
     </tr>
     @{
         int passcnt = 0;
@@ -323,18 +359,53 @@
                 }
 
             </td>
-            <td>(@passcnt)&nbsp;</td>
+            <td>(@passcnt)</td>
             <td>
-                @pass.Name / @pass.Contact&nbsp;
+                <span style="font-weight:600;"> @pass.Name</span> <br />
+                <span class="text-muted" style="font-size:12px;"> @pass.Contact</span>
             </td>
             <td>
-                [ @pass.PickupTime / @pass.PickupPoint ] &nbsp;
+                <span class="text-muted"> @pass.Area</span>
+            </td>
+            <td>
+                [ @pass.PickupTime / @pass.PickupPoint
+               
+                @if (pass.NextDay == true)
+                {
+                    <span>(+1)</span>
+                }  
+
+                ] &nbsp;
             </td>
             <td>
                 [ @pass.DropTime / @pass.DropPoint ] &nbsp;
             </td>
             <td style="text-align:center;color:darkslateblue;">
-                @pass.crLogPassStatu.Status
+
+                @if (pass.crLogPassStatusId == 1)
+                {
+                    <span class="badge badge-secondary"> @pass.crLogPassStatu.Status </span>
+                }
+                @if (pass.crLogPassStatusId == 2)
+                {
+                    <span class="badge badge-primary"> @pass.crLogPassStatu.Status </span>
+                }
+                @if (pass.crLogPassStatusId == 3)
+                {
+                    <span class="badge badge-info"> @pass.crLogPassStatu.Status </span>
+                }
+                @if (pass.crLogPassStatusId == 4)
+                {
+                    <span class="badge badge-success"> @pass.crLogPassStatu.Status </span>
+                }
+                @if (pass.crLogPassStatusId == 5)
+                {
+                    <span class="badge badge-warning"> @pass.crLogPassStatu.Status </span>
+                }
+                @if (pass.crLogPassStatusId == 6)
+                {
+                    <span class="badge badge-danger"> @pass.crLogPassStatu.Status </span>
+                }
             </td>
 
             @{
@@ -343,23 +414,24 @@
                 var sDelivered = pass.timeDelivered.Trim() == "" ? "--:--" : pass.timeDelivered;
             }
 
+            
             <td style="text-align:center;">
-                @sContacted &nbsp;
+                 <span class="text-muted">@sContacted</span>
             </td>
             <td style="text-align:center;">
-                @sBoarded &nbsp;
+                 <span class="text-muted"> @sBoarded</span>
             </td>
             <td style="text-align:center;">
-                @sDelivered
+                 <span class="text-muted">@sDelivered</span>
+            </td>
+            <td>
+                @pass.Remarks
             </td>
             <td>
                 @pass.crLogTrip.crLogDriver.Name
             </td>
             <td>
                 @pass.crLogTrip.crLogUnit.Description
-            </td>
-            <td>
-                @pass.Area
             </td>
            
 

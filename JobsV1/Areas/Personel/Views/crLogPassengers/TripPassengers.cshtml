@@ -327,6 +327,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PickupTime) -
                 @Html.DisplayFor(modelItem => item.PickupPoint)
+                @if (item.NextDay == true)
+                {
+                    <span>(+1)</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Area)
@@ -348,7 +352,31 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.crLogPassStatu.Status)
+                @* @Html.DisplayFor(modelItem => item.crLogPassStatu.Status)*@
+                @if (item.crLogPassStatusId == 1)
+                {
+                    <span class="badge badge-secondary"> @item.crLogPassStatu.Status </span>
+                }
+                @if (item.crLogPassStatusId == 2)
+                {
+                    <span class="badge badge-primary"> @item.crLogPassStatu.Status </span>
+                }
+                @if (item.crLogPassStatusId == 3)
+                {
+                    <span class="badge badge-info"> @item.crLogPassStatu.Status </span>
+                }
+                @if (item.crLogPassStatusId == 4)
+                {
+                    <span class="badge badge-success"> @item.crLogPassStatu.Status </span>
+                }
+                @if (item.crLogPassStatusId == 5)
+                {
+                    <span class="badge badge-warning"> @item.crLogPassStatu.Status </span>
+                }
+                @if (item.crLogPassStatusId == 6)
+                {
+                    <span class="badge badge-danger"> @item.crLogPassStatu.Status </span>
+                }
             </td>
             <td>
                 <a href="#" onclick="ShowTranferPassengerModal(@item.Id)"> Transfer </a> |
