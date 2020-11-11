@@ -311,139 +311,6 @@
                     }
                 </span>
 
-                <span hidden>
-                    @if (item.timeContacted.Trim().Length > 2)
-                    {
-                        if (item.crLogPassStatusId == 5)
-                        {
-                            //declined
-                            <span class="status-circle-orange"> </span>
-                        }
-                        else if (item.crLogPassStatusId == 6)
-                        {
-                            //failed
-                            <span class="status-circle-red"> </span>
-                        }
-                        else
-                        {
-                            //success
-                            <span class="status-circle-green"> </span>
-                        }
-                    }
-                    else
-                    {
-
-                        DateTime dt0 = datetimeNow;
-                        string st1 = item.PickupTime;
-                        DateTime dt1 = new DateTime(
-                            tripDt.Year, tripDt.Month, tripDt.Day,
-                            int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
-                            int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
-                            0);
-
-
-                        if (DateTime.Compare(dt0, dt1) <= 0)
-                        {
-                            <span class="status-circle-gray"> </span>
-                        }
-                        else
-                        {
-                            <span class="status-circle-red"> </span>
-                        }
-
-                    }
-
-                    @if (item.timeBoarded.Trim().Length > 2)
-                    {
-                        if (item.crLogPassStatusId == 5)
-                        {
-                            //declined
-                            <span class="status-circle-orange"> </span>
-                        }
-                        else if (item.crLogPassStatusId == 6)
-                        {
-                            //failed
-                            <span class="status-circle-red"> </span>
-                        }
-                        else
-                        {
-                            //success
-                            <span class="status-circle-green"> </span>
-                        }
-                    }
-                    else
-                    {
-
-                        DateTime dt0 = datetimeNow;
-                        string st1 = item.PickupTime;
-                        DateTime dt1 = new DateTime(
-                            tripDt.Year, tripDt.Month, tripDt.Day,
-                            int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
-                            int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
-                            0);
-
-                        if (item.NextDay == true)
-                        {
-                            dt1 = dt1.AddDays(1);
-                        }
-                        if (DateTime.Compare(dt0, dt1) <= 0)
-                        {
-                            <span class="status-circle-gray"> </span>
-                        }
-                        else
-                        {
-                            <span class="status-circle-red"> </span>
-                        }
-
-                    }
-
-                    @if (item.timeDelivered.Length > 2)
-                    {
-
-                        if (item.crLogPassStatusId == 5)
-                        {
-                            //declined
-                            <span class="status-circle-orange"> </span>
-                        }
-                        else if (item.crLogPassStatusId == 6)
-                        {
-                            //failed
-                            <span class="status-circle-red"> </span>
-                        }
-                        else
-                        {
-                            //success
-                            <span class="status-circle-green"> </span>
-                        }
-                    }
-                    else
-                    {
-                        DateTime dt0 = datetimeNow;
-                        string st1 = item.DropTime;
-                        DateTime dt1 = new DateTime(
-                            tripDt.Year, tripDt.Month, tripDt.Day,
-                            int.Parse(st1.Substring(0, st1.IndexOf(":"))) + 12,
-                            int.Parse(st1.Substring(st1.IndexOf(":") + 1, 2)),
-                            0);
-
-                        if (item.NextDay == true)
-                        {
-                            dt1 = dt1.AddDays(1);
-                        }
-                        if (DateTime.Compare(dt0, dt1) <= 0)
-                        {
-                            <span class="status-circle-gray"> </span>
-                        }
-                        else
-                        {
-                            <span class="status-circle-red"> </span>
-                        }
-
-                    }
-                    &nbsp;
-
-                </span>
-
                 <span>
                     @item.Name - @item.Contact
                 </span>
@@ -662,14 +529,14 @@
                         </button>*@
                     </div>
                     <p>Please provide a reason: </p>
-                    <input class="form-control" type="text" id="DeniedActionModal_TextInput" style="margin-top:10px;" />
+                    <input class="form-control" type="text" id="Denied_TextInput" style="margin-top:10px;" />
 
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="DeniedActionModal_SubmitText()">Submit</button>
+                <button type="button" class="btn btn-primary" onclick="DeniedActionModal_SubmitText()">Submit</button>
             </div>
         </div>
     </div>
@@ -723,7 +590,7 @@
 
                     </div>
                     <p>Please provide a reason: </p>
-                    <input class="form-control" type="text" id="FailedActionModal_TextInput" style="margin-top:10px;" />
+                    <input class="form-control" type="text" id="Failed_TextInput" style="margin-top:10px;" />
                 </div>
             </div>
 
@@ -1124,14 +991,15 @@
 
 
         function DeniedActionModal_SubmitText() {
-            var reason = $("#DeniedActionModal_TextInput").val();
+            console.log($("#Denied_TextInput").val());
+            var reason_val = $("#Denied_TextInput").val();
 
-            if (reason = "") {
+            if (reason_val === null || reason_val === '') {
                 alert("Please prove a reason for failed delivery.");
                 return false;
             }
 
-            console.log("reason: " + reason);
+            console.log("reason: " + reason_val);
             $("#DeclinedActionModal").modal('hide');
 
             var actId = 5; //denied
@@ -1145,7 +1013,7 @@
             console.log("passId : " + passId);
             console.log("time : " + timeNow);
 
-            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: reason }, (result) => {
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: reason_val }, (result) => {
                 console.log("result:" + result);
 
                 if (result == "True") {
@@ -1163,14 +1031,15 @@
         }
 
         function FailedActionModal_SubmitText() {
-            var reason = $("#FailedActionModal_TextInput").val();
+            console.log($("#Failed_TextInput").val());
+            var reason_val = $("#Failed_TextInput").val();
 
-            if (reason = "") {
+            if (reason_val === null || reason_val === '') {
                 alert("Please prove a reason for failed delivery.");
                 return false;
             }
 
-            console.log("reason: " + reason);
+            console.log("reason: " + reason_val);
             $("#FailedActionModal").modal('hide');
 
             var actId = 6; //failed
@@ -1184,7 +1053,7 @@
             console.log("passId : " + passId);
             console.log("time : " + timeNow);
 
-            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: reason }, (result) => {
+            var res = $.post("/Personel/crLogPassengers/PassengerStatusUpdate", { id: passId, actId: actId, time: timeNow, reason: reason_val }, (result) => {
                 console.log("result:" + result);
 
                 if (result == "True") {
