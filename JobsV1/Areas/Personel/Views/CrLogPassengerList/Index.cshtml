@@ -78,7 +78,7 @@
                         <th>Remarks</th>
                     </tr>
 
-                    @foreach (var pass in item.crLogPassengers.OrderBy(c => c.NextDay).ThenBy(c => c.PickupTime))
+                    @foreach (var pass in item.crLogPassengers.OrderBy(c => c.NextDay).ThenBy(c => DateTime.Parse(c.PickupTime)))
                     {
                         passcnt++;
                         DateTime tripDt = pass.crLogTrip.DtTrip;
@@ -104,7 +104,7 @@
                                     {
                                         dtPickup = new DateTime(
                                                tripDt.Year, tripDt.Month, tripDt.Day,
-                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))) + 12,
+                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))),
                                                int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
                                                0);
                                     }
@@ -113,7 +113,7 @@
                                     {
                                         dtPickup = new DateTime(
                                                tripDt.Year, tripDt.Month, tripDt.Day,
-                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))) + 12,
+                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))),
                                                int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
                                                0);
                                     }
@@ -138,7 +138,6 @@
                                     //adjust time less hour for driver notification
                                     dtPickup = dtPickup.AddHours(-1);
 
-
                                     <!-- Contact -->
                                     if (pass.timeContacted.Length > 2)
                                     {
@@ -152,10 +151,16 @@
                                             //failed
                                             <span class="status-circle-red"> </span>
                                         }
+                                        else if (pass.crLogPassStatusId == 7)
+                                        {
+                                            //failed
+                                            <span class="status-circle-green"> </span>
+                                        }
                                         else
                                         {
-                                            //success
-                                            <span class="status-circle-green"> </span>
+
+                                            <span class="status-circle-green">  </span>
+
                                         }
                                     }
                                     else
@@ -175,6 +180,11 @@
                                                 //failed
                                                 <span class="status-circle-red"> </span>
                                             }
+                                            else if (pass.crLogPassStatusId == 7)
+                                            {
+                                                //failed
+                                                <span class="status-circle-green"> </span>
+                                            }
                                             else
                                             {
                                                 //handle late boarding
@@ -182,16 +192,6 @@
                                             }
                                         }
                                         else
-                                        {
-                                            <span class="status-circle-gray"> </span>
-                                        }
-                                    } <!-- End of Contact -->
-
-                                    <!-- Boarding -->
-                                    if (pass.timeBoarded.Length > 2)
-                                    {
-
-                                        if (dtBoard >= dtNow)
                                         {
                                             if (pass.crLogPassStatusId == 5)
                                             {
@@ -203,35 +203,76 @@
                                                 //failed
                                                 <span class="status-circle-red"> </span>
                                             }
+                                            else if (pass.crLogPassStatusId == 7)
+                                            {
+                                                //failed
+                                                <span class="status-circle-green"> </span>
+                                            }
                                             else
                                             {
-                                                //handle late boarding
-                                                <span class="status-circle-orange"> </span>
+                                               
+                                                <span class="status-circle-gray"> </span>
                                             }
+                                        }
+                                    } <!-- End of Contact -->
+
+                                    <!-- Boarding -->
+                                    if (pass.timeBoarded.Length > 2)
+                                    {
+
+                                        if (pass.crLogPassStatusId == 5)
+                                        {
+                                            //declined
+                                            <span class="status-circle-orange"> </span>
+                                        }
+                                        else if (pass.crLogPassStatusId == 6)
+                                        {
+                                            //failed
+                                            <span class="status-circle-red"> </span>
+                                        }
+                                        else if (pass.crLogPassStatusId == 7)
+                                        {
+                                            //failed
+                                            <span class="status-circle-green"> </span>
                                         }
                                         else
                                         {
-                                            if (dtBoard >= dtNow)
+                                            try
                                             {
-                                                //handle late boarding
-                                                <span class="status-circle-orange"> </span>
+                                                string tripDt_TimeBoarded = dtDropped.ToShortDateString() + " " + pass.timeBoarded;
+                                                DateTime dtBoarded_actual = new DateTime();
+
+                                                if (!DateTime.TryParse(tripDt_TimeBoarded, out dtBoarded_actual))
+                                                {
+                                                    dtBoard = new DateTime(
+                                                               dtDropped.Year, dtDropped.Month, dtDropped.Day,
+                                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))) + 12,
+                                                               int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
+                                                               0);
+                                                }
+
+                                                if (dtBoarded_actual > dtBoard)
+                                                {
+                                                    //late dropped
+                                                    <span class="status-circle-green">  </span>
+                                                }
+                                                else
+                                                {
+                                                    //success
+                                                    <span class="status-circle-green">  </span>
+                                                }
+
                                             }
-                                            else
+                                            catch
                                             {
-
                                                 //success
-                                                <span class="status-circle-green"> </span>
-
+                                                <span class="status-circle-orange">  </span>
                                             }
                                         }
+
                                     }
                                     else
                                     {
-
-                                        if (pass.NextDay == true)
-                                        {
-                                            dtBoard = dtBoard.AddDays(1);
-                                        }
 
                                         //not yet boarded
                                         if (dtBoard <= dtNow)
@@ -246,6 +287,11 @@
                                                 //failed
                                                 <span class="status-circle-red"> </span>
                                             }
+                                            else if (pass.crLogPassStatusId == 7)
+                                            {
+                                                //failed
+                                                <span class="status-circle-green"> </span>
+                                            }
                                             else
                                             {
                                                 //handle late boarding
@@ -254,13 +300,30 @@
                                         }
                                         else
                                         {
-                                            <span class="status-circle-gray"> </span>
+                                            if (pass.crLogPassStatusId == 5)
+                                            {
+                                                //declined
+                                                <span class="status-circle-orange"> </span>
+                                            }
+                                            else if (pass.crLogPassStatusId == 6)
+                                            {
+                                                //failed
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                            else if (pass.crLogPassStatusId == 7)
+                                            {
+                                                //failed
+                                                <span class="status-circle-green"> </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-circle-gray"> </span>
+                                            }
                                         }
                                     } <!-- End of Boarding -->
                                     <!-- Drop Off -->
                                     if (pass.timeDelivered.Length > 2)
                                     {
-
 
                                         if (pass.crLogPassStatusId == 5)
                                         {
@@ -272,11 +335,44 @@
                                             //failed
                                             <span class="status-circle-red"> </span>
                                         }
+                                        else if (pass.crLogPassStatusId == 7)
+                                        {
+                                            //failed
+                                            <span class="status-circle-green"> </span>
+                                        }
                                         else
                                         {
-                                           
-                                           //success
-                                           <span class="status-circle-green"> </span>
+                                            try
+                                            {
+                                                string tripDt_TimeDelivered = dtDropped.ToShortDateString() + " " + pass.timeDelivered;
+                                                DateTime dtDelivered_actual = new DateTime();
+
+                                                if (!DateTime.TryParse(tripDt_TimeDelivered, out dtDelivered_actual))
+                                                {
+                                                    dtDropped = new DateTime(
+                                                               dtDropped.Year, dtDropped.Month, dtDropped.Day,
+                                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))),
+                                                               int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
+                                                               0);
+                                                }
+
+                                                if (dtDelivered_actual > dtDropped)
+                                                {
+                                                    //late dropped
+                                                    <span class="status-circle-green">  </span>
+                                                }
+                                                else
+                                                {
+                                                    //success
+                                                    <span class="status-circle-green">  </span>
+                                                }
+
+                                            }
+                                            catch
+                                            {
+                                                //success
+                                                <span class="status-circle-orange">  </span>
+                                            }
                                         }
                                     }
                                     else
@@ -295,6 +391,11 @@
                                                 //failed
                                                 <span class="status-circle-red"> </span>
                                             }
+                                            else if (pass.crLogPassStatusId == 7)
+                                            {
+                                                //failed
+                                                <span class="status-circle-green"> </span>
+                                            }
                                             else
                                             {
                                                 //handle late boarding
@@ -303,7 +404,25 @@
                                         }
                                         else
                                         {
-                                            <span class="status-circle-gray"> </span>
+                                            if (pass.crLogPassStatusId == 5)
+                                            {
+                                                //declined
+                                                <span class="status-circle-orange"> </span>
+                                            }
+                                            else if (pass.crLogPassStatusId == 6)
+                                            {
+                                                //failed
+                                                <span class="status-circle-red"> </span>
+                                            }
+                                            else if (pass.crLogPassStatusId == 7)
+                                            {
+                                                //failed
+                                                <span class="status-circle-green"> </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-circle-gray"> </span>
+                                            }
                                         }
                                     }
                                 }
@@ -362,6 +481,10 @@
                                 @if (pass.crLogPassStatusId == 6)
                                 {
                                     <span class="badge badge-danger"> @pass.crLogPassStatu.Status </span>
+                                }
+                                @if (pass.crLogPassStatusId == 7)
+                                {
+                                    <span class="badge badge-success"> @pass.crLogPassStatu.Status </span>
                                 }
                             </td>
 

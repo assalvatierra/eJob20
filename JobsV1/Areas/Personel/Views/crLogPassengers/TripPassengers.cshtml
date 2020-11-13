@@ -35,10 +35,7 @@
         <span class="status-circle-green"> </span> Done
     </span>
     <span style="margin-right:10px;">
-        <span class="status-circle-lightblue"> </span> Declined
-    </span>
-    <span style="margin-right:10px;">
-        <span class="status-circle-orange"> </span> Late
+        <span class="status-circle-orange"> </span> Declined
     </span>
     <span style="margin-right:10px;">
         <span class="status-circle-red">  </span> Failed
@@ -53,6 +50,15 @@
             Passenger
         </th>
         <th>
+            @if (ViewBag.SortBy == "Area")
+            {
+                <text>
+                    &#9660;
+                </text>
+            }
+            @Html.ActionLink("Area", "TripPassengers", new { id = tripId, sortBy = "Area" })
+        </th>
+        <th>
             @if (ViewBag.SortBy == "PickupTime")
             {
                 <text>
@@ -65,15 +71,6 @@
 
 
             </span>
-        </th>
-        <th>
-            @if (ViewBag.SortBy == "Area")
-            {
-                <text>
-                    &#9660;
-                </text>
-            }
-            @Html.ActionLink("Area", "TripPassengers", new { id = tripId, sortBy = "Area" })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DropPoint)
@@ -119,16 +116,16 @@
                     {
                         dtPickup = new DateTime(
                                tripDt.Year, tripDt.Month, tripDt.Day,
-                               int.Parse(pt.Substring(0, pt.IndexOf(":"))) + 12,
+                               int.Parse(pt.Substring(0, pt.IndexOf(":"))),
                                int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
                                0);
                     }
 
                     if (!DateTime.TryParse(tripDt_Drop_string, out dtDropped))
                     {
-                        dtPickup = new DateTime(
+                        dtDropped = new DateTime(
                                tripDt.Year, tripDt.Month, tripDt.Day,
-                               int.Parse(pt.Substring(0, pt.IndexOf(":"))) + 12,
+                               int.Parse(pt.Substring(0, pt.IndexOf(":"))),
                                int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
                                0);
                     }
@@ -159,17 +156,31 @@
                         if (item.crLogPassStatusId == 5)
                         {
                             //declined
-                            <span class="status-circle-lightblue"> </span>
+                            <span class="status-circle-orange"> </span>
                         }
                         else if (item.crLogPassStatusId == 6)
                         {
                             //failed
                             <span class="status-circle-red"> </span>
                         }
+                        else if (item.crLogPassStatusId == 7)
+                        {
+                            //failed
+                            <span class="status-circle-green"> </span>
+                        }
                         else
                         {
-                            //success
-                            <span class="status-circle-green"> </span>
+
+                            try
+                            {
+                                //success
+                                <span class="status-circle-green"> </span>
+                            }
+                            catch
+                            {
+                                //success
+                                <span class="status-circle-orange">  </span>
+                            }
                         }
                     }
                     else
@@ -182,12 +193,17 @@
                             if (item.crLogPassStatusId == 5)
                             {
                                 //declined
-                                <span class="status-circle-lightblue"> </span>
+                                <span class="status-circle-orange"> </span>
                             }
                             else if (item.crLogPassStatusId == 6)
                             {
                                 //failed
                                 <span class="status-circle-red"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 7)
+                            {
+                                //failed
+                                <span class="status-circle-green"> </span>
                             }
                             else
                             {
@@ -197,7 +213,25 @@
                         }
                         else
                         {
-                            <span class="status-circle-gray"> </span>
+                            if (item.crLogPassStatusId == 5)
+                            {
+                                //declined
+                                <span class="status-circle-orange"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 6)
+                            {
+                                //failed
+                                <span class="status-circle-red"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 7)
+                            {
+                                //failed
+                                <span class="status-circle-green"> </span>
+                            }
+                            else
+                            {
+                                <span class="status-circle-gray"> </span>
+                            }
                         }
                     } <!-- End of Contact -->
 
@@ -205,39 +239,58 @@
                     if (item.timeBoarded.Length > 2)
                     {
 
-                        if (dtBoard >= dtNow)
+                        if (item.crLogPassStatusId == 5)
                         {
-                            if (item.crLogPassStatusId == 5)
-                            {
-                                //declined
-                                <span class="status-circle-lightblue"> </span>
-                            }
-                            else if (item.crLogPassStatusId == 6)
-                            {
-                                //failed
-                                <span class="status-circle-red"> </span>
-                            }
-                            else
-                            {
-                                //handle late boarding
-                                <span class="status-circle-orange"> </span>
-                            }
+                            //declined
+                            <span class="status-circle-orange"> </span>
+                        }
+                        else if (item.crLogPassStatusId == 6)
+                        {
+                            //failed
+                            <span class="status-circle-red"> </span>
+                        }
+                        else if (item.crLogPassStatusId == 7)
+                        {
+                            //failed
+                            <span class="status-circle-green"> </span>
                         }
                         else
                         {
-                            if (dtBoard >= dtNow)
-                            {
-                                //handle late boarding
-                                <span class="status-circle-orange"> </span>
-                            }
-                            else
-                            {
 
+                            try
+                            {
+                                string tripDt_TimeBoarded = dtDropped.ToShortDateString() + " " + item.timeBoarded;
+                                DateTime dtBoarded_actual = new DateTime();
+
+                                if (!DateTime.TryParse(tripDt_TimeBoarded, out dtBoarded_actual))
+                                {
+                                    dtBoard = new DateTime(
+                                               dtDropped.Year, dtDropped.Month, dtDropped.Day,
+                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))) + 12,
+                                               int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
+                                               0);
+                                }
+
+                                if (dtBoarded_actual > dtBoard)
+                                {
+                                    //late dropped
+                                    <span class="status-circle-green">  </span>
+                                }
+                                else
+                                {
+                                    //success
+                                    <span class="status-circle-green">  </span>
+                                }
+
+                            }
+                            catch
+                            {
                                 //success
-                                <span class="status-circle-green"> </span>
-
+                                <span class="status-circle-orange">  </span>
                             }
+
                         }
+
                     }
                     else
                     {
@@ -248,12 +301,17 @@
                             if (item.crLogPassStatusId == 5)
                             {
                                 //declined
-                                <span class="status-circle-lightblue"> </span>
+                                <span class="status-circle-orange"> </span>
                             }
                             else if (item.crLogPassStatusId == 6)
                             {
                                 //failed
                                 <span class="status-circle-red"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 7)
+                            {
+                                //failed
+                                <span class="status-circle-green"> </span>
                             }
                             else
                             {
@@ -263,27 +321,80 @@
                         }
                         else
                         {
-                            <span class="status-circle-gray"> </span>
+                            if (item.crLogPassStatusId == 5)
+                            {
+                                //declined
+                                <span class="status-circle-orange"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 6)
+                            {
+                                //failed
+                                <span class="status-circle-red"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 7)
+                            {
+                                //failed
+                                <span class="status-circle-green"> </span>
+                            }
+                            else
+                            {
+                                <span class="status-circle-gray"> </span>
+                            }
                         }
                     } <!-- End of Boarding -->
                     <!-- Drop Off -->
                     if (item.timeDelivered.Length > 2)
                     {
+
                         if (item.crLogPassStatusId == 5)
                         {
                             //declined
-                            <span class="status-circle-lightblue"> </span>
+                            <span class="status-circle-orange"> </span>
                         }
                         else if (item.crLogPassStatusId == 6)
                         {
                             //failed
                             <span class="status-circle-red"> </span>
                         }
+                        else if (item.crLogPassStatusId == 7)
+                        {
+                            //failed
+                            <span class="status-circle-green"> </span>
+                        }
                         else
                         {
-                           
-                           //success
-                           <span class="status-circle-green"> </span>
+                            try
+                            {
+                                string tripDt_TimeDelivered = dtDropped.ToShortDateString() + " " + item.timeDelivered;
+                                DateTime dtDelivered_actual = new DateTime();
+
+                                if (!DateTime.TryParse(tripDt_TimeDelivered, out dtDelivered_actual))
+                                {
+                                    dtDropped = new DateTime(
+                                               dtDropped.Year, dtDropped.Month, dtDropped.Day,
+                                               int.Parse(pt.Substring(0, pt.IndexOf(":"))),
+                                               int.Parse(pt.Substring(pt.IndexOf(":") + 1, 2)),
+                                               0);
+                                }
+
+                                if (dtDelivered_actual > dtDropped)
+                                {
+                                    //late dropped
+                                    <span class="status-circle-green">  </span>
+                                }
+                                else
+                                {
+                                    //success
+                                    <span class="status-circle-green">  </span>
+                                }
+
+                            }
+                            catch
+                            {
+                                //success
+                                <span class="status-circle-orange">  </span>
+                            }
+
                         }
                     }
                     else
@@ -295,12 +406,17 @@
                             if (item.crLogPassStatusId == 5)
                             {
                                 //declined
-                                <span class="status-circle-lightblue"> </span>
+                                <span class="status-circle-orange"> </span>
                             }
                             else if (item.crLogPassStatusId == 6)
                             {
                                 //failed
                                 <span class="status-circle-red"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 7)
+                            {
+                                //failed
+                                <span class="status-circle-green"> </span>
                             }
                             else
                             {
@@ -310,7 +426,25 @@
                         }
                         else
                         {
-                            <span class="status-circle-gray"> </span>
+                            if (item.crLogPassStatusId == 5)
+                            {
+                                //declined
+                                <span class="status-circle-orange"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 6)
+                            {
+                                //failed
+                                <span class="status-circle-red"> </span>
+                            }
+                            else if (item.crLogPassStatusId == 7)
+                            {
+                                //failed
+                                <span class="status-circle-green"> </span>
+                            }
+                            else
+                            {
+                                <span class="status-circle-gray"> </span>
+                            }
                         }
                     }
                 }
@@ -320,24 +454,28 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name) -
-                @Html.DisplayFor(modelItem => item.Contact)<br />
+                @Html.DisplayFor(modelItem => item.Name) <br />
+                <span class="text-muted">@Html.DisplayFor(modelItem => item.Contact)</span><br />
                 <span class="text-muted"> @Html.DisplayFor(modelItem => item.PassAddress)</span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PickupTime) -
-                @Html.DisplayFor(modelItem => item.PickupPoint)
+                @Html.DisplayFor(modelItem => item.Area)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PickupTime) <br />
+                <span class="text-muted">@Html.DisplayFor(modelItem => item.PickupPoint)</span>
                 @if (item.NextDay == true)
                 {
                     <span>(+1)</span>
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Area)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DropTime) -
-                @Html.DisplayFor(modelItem => item.DropPoint)
+                @Html.DisplayFor(modelItem => item.DropTime) <br />
+                <span class="text-muted">@Html.DisplayFor(modelItem => item.DropPoint)</span> 
+                @if (item.NextDay == true)
+                {
+                    <span>(+1)</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.timeContacted)
@@ -377,12 +515,19 @@
                 {
                     <span class="badge badge-danger"> @item.crLogPassStatu.Status </span>
                 }
+                @if (item.crLogPassStatusId == 7)
+                {
+                    <span class="badge badge-success"> @item.crLogPassStatu.Status </span>
+                }
             </td>
             <td>
                 <a href="#" onclick="ShowTranferPassengerModal(@item.Id)"> Transfer </a> |
                 @Html.ActionLink("Edit", "EditPassTrip", new { id = item.Id }) |
                 @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                @Html.ActionLink("Delete", "DeletePassTrip", new { id = item.Id })
+                @*@Html.ActionLink("Delete", "DeletePassTrip", new { id = item.Id })*@
+                <span class="cursor-hand" onclick="DeletePassenger(@item.Id, '@item.Name' )" style="color:dodgerblue;">
+                    Delete 
+                </span>
             </td>
         </tr>
     }
@@ -486,7 +631,7 @@
                     <form>
                         <div class="form-group">
                             <div class="list-group ">
-                                @foreach (var trip in ViewBag.tripList as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>)
+                                @foreach (var trip in ViewBag.TripListToday as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>)
                                 {
                                     if (trip.Id != tripId)
                                     {
@@ -533,8 +678,12 @@
             <div class="modal-body">
                 <div style="margin-left:0px;">
                     <form>
-                        <div class="form-group">
-                            <p> Select Passengers to Copy </p>
+                        <div class="form-group" >
+                            <p> Select Passengers to Copy
+                            <button class="btn btn-primary btn-sm pull-right"  style="margin-top:-5px;" onclick="MasterPassengerModal_CopyAll()">
+                                Copy All
+                            </button>
+                            </p>
                             <div class="list-group">
                                 @foreach (var pass in ViewBag.passMasters as IEnumerable<JobsV1.Areas.Personel.Models.crLogPassengerMaster>)
                                 {
@@ -568,5 +717,4 @@
 @section Scripts{
     <script src="~/Areas/Personel/Script/CopyTrip.js"></script>
     <script src="~/Areas/Personel/Script/CopyPassengers.js"></script>
-
 }

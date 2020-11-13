@@ -85,6 +85,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.tripId = (int)id;
             ViewBag.TripDetails = db.crLogTrips.Find(id);
             ViewBag.tripList = GetPrevTripLogs_withPass_PrevDay() ?? new List<crLogTrip>();
+            ViewBag.TripListToday = GetTripLogs();
             ViewBag.passMasters = GetPassengersNotInTrip((int)id);
 
             return View(sorted_Passengers);
@@ -694,6 +695,32 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+
+        public List<crLogTrip> GetTripLogs()
+        {
+            try
+            {
+                //Create List of 
+                var today = dt.GetCurrentDate();
+                var today_seven_days_before = dt.GetCurrentDate();
+                var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today_seven_days_before).ToList();
+                var tripsWithPass = new List<crLogTrip>();
+
+                foreach (var logs in scrLogTrips)
+                {
+                    tripsWithPass.Add(logs);
+                }
+
+                tripsWithPass = tripsWithPass.OrderByDescending(c => c.DtTrip).ToList();
+
+                return tripsWithPass;
+            }
+            catch
+            {
+                return new List<crLogTrip>();
+            }
+        }
+
         //CopyPassTripSubmit
 
         public bool CopyPassTripSubmit(int? id, int? destTripId)
@@ -971,7 +998,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     psgr.DropPoint = passengers.DropPoint;
                     psgr.DropTime = passengers.DropTime;
                     psgr.Area = passengers.Area;
-                    psgr.Remarks = " ";
+                    psgr.Remarks = passengers.Remarks;
                     psgr.timeBoarded = " ";
                     psgr.timeContacted = " ";
                     psgr.timeDelivered = " ";
@@ -992,6 +1019,46 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+
+        public bool CopyAllPassengersFromMaster(int tripId)
+        {
+            try
+            {
+                var tripPassengers = GetPassengersNotInTrip(tripId).Select(p => p.Id);
+
+                var masterList = db.crLogPassengerMasters.Where(p => tripPassengers.Contains(p.Id)).ToList();
+
+                foreach (var passengers in masterList)
+                {
+                    crLogPassenger psgr = new crLogPassenger();
+                    psgr.Name = passengers.Name;
+                    psgr.Contact = passengers.Contact;
+                    psgr.PassAddress = passengers.PassAddress;
+                    psgr.PickupPoint = passengers.PickupPoint;
+                    psgr.PickupTime = passengers.PickupTime;
+                    psgr.DropPoint = passengers.DropPoint;
+                    psgr.DropTime = passengers.DropTime;
+                    psgr.Area = passengers.Area;
+                    psgr.Remarks = passengers.Remarks;
+                    psgr.timeBoarded = " ";
+                    psgr.timeContacted = " ";
+                    psgr.timeDelivered = " ";
+                    psgr.crLogPassStatusId = 1;
+                    psgr.crLogTripId = tripId;
+                    psgr.NextDay = passengers.NextDay;
+
+                    db.crLogPassengers.Add(psgr);
+                    db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         [HttpPost]
         public bool TransferPassenger(int tripId, int passId)
         {
@@ -1001,6 +1068,24 @@ namespace JobsV1.Areas.Personel.Controllers
                 passenger.crLogTripId = tripId;
 
                 db.Entry(passenger).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool DeletePassenger(int passId)
+        {
+            try
+            {
+                var passenger = db.crLogPassengers.Find(passId);
+
+                db.crLogPassengers.Remove(passenger);
                 db.SaveChanges();
 
                 return true;
@@ -1031,7 +1116,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 psgr.DropPoint = passengers.DropPoint;
                 psgr.DropTime = passengers.DropTime;
                 psgr.Area = passengers.Area;
-                psgr.Remarks = " ";
+                psgr.Remarks = passengers.Remarks;
                 psgr.timeBoarded = " ";
                 psgr.timeContacted = " ";
                 psgr.timeDelivered = " ";
@@ -1049,5 +1134,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return false;
             }
         }
+
+
     }
 }

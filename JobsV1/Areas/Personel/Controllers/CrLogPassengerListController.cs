@@ -23,6 +23,7 @@ namespace JobsV1.Areas.Personel.Controllers
             List<crLogTrip> crTrip = db.crLogTrips
                 .Where(d => d.crLogPassengers.Count() > 0 && 
                  DbFunctions.TruncateTime(d.DtTrip) == today)
+                .OrderBy(d => d.crLogDriver.OrderNo)
                 .ToList();
 
             //last trip transaction
@@ -37,8 +38,8 @@ namespace JobsV1.Areas.Personel.Controllers
             if (companyId != null )
             {
                 crTrip = crTrip.Where(d => d.crLogCompanyId == companyId)
-                    .OrderByDescending(d => d.DtTrip)
-                    .ToList();
+                        .OrderBy(d => d.crLogDriver.OrderNo)
+                        .ToList();
 
                 if (db.crLogCompanies.Find(companyId) != null)
                 {
@@ -53,9 +54,7 @@ namespace JobsV1.Areas.Personel.Controllers
                var crTrip_dated = db.crLogTrips
                        .Where(d => d.crLogPassengers.Count() > 0 &&
                         DbFunctions.TruncateTime(d.DtTrip) == dtfilter)
-                       .OrderBy(d => d.crLogCompanyId)
-                       .ThenByDescending(d => d.DtTrip)
-                       .ThenBy(d => d.crLogDriver.Name)
+                       .OrderBy(d => d.crLogDriver.OrderNo)
                        .ToList();
 
                 if (today == dtfilter)
@@ -72,9 +71,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 return View(crTrip_dated);
             }
 
-            crTrip = crTrip.Where(d => d.crLogPassengers.Count() > 0).OrderBy(d => d.crLogCompanyId)
-                       .ThenByDescending(d => d.DtTrip)
-                       .ThenBy(d => d.crLogDriver.Name)
+            crTrip = crTrip.Where(d => d.crLogPassengers.Count() > 0)
+                       .OrderBy(d => d.crLogDriver.OrderNo)
                        .ToList();
 
             ViewBag.CompanyId = companyId ?? 0;
@@ -144,7 +142,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 cPassengers = cPassengers.OrderBy(c => c.NextDay)
                     .ThenBy(c => DateTime.Parse(c.PickupTime).TimeOfDay)
                     .ToList();
-            }else if (sortBy == "Area")
+            }
+            else if (sortBy == "Area")
             {
                 cPassengers = cPassengers.OrderBy(c => c.Area)
                     .ThenBy(c => c.NextDay)
@@ -162,8 +161,187 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.CompanyId = companyId ?? 0;
             ViewBag.DateTimeNow = dt.GetCurrentDateTime();
             return View(cPassengers);
-
         }
+
+        public ActionResult SearchPassenger()
+        {
+            var today = dt.GetCurrentDate();
+            List<crLogPassengerSearch> passengerSearch = new List<crLogPassengerSearch>();
+
+            ViewBag.Today = dt.GetCurrentDate();
+            ViewBag.TripList = GetActiveTripLogs();
+            return View(passengerSearch);
+        }
+
+        [HttpPost]
+        public ActionResult SearchPassenger(string passenger)
+        {
+            var today = dt.GetCurrentDate();
+            List<crLogPassengerSearch> passengerSearch = new List<crLogPassengerSearch>();
+
+            var passTrip_result = db.crLogPassengers
+                .Where(p => p.Name.Contains(passenger))
+                .ToList();
+
+            foreach (var pass in passTrip_result)
+            {
+                passengerSearch.Add(new crLogPassengerSearch()
+                {
+                    Id = pass.Id,
+                    Name = pass.Name,
+                    ResultFrom = "Assigned To " + pass.crLogTrip.crLogDriver.Name + "/" 
+                                + pass.crLogTrip.crLogUnit.Description + " on " 
+                                + pass.crLogTrip.DtTrip.ToString("MMM dd (ddd)") + " at "
+                                + pass.crLogTrip.crLogCompany.Name + " ",
+                    DtTrip = pass.crLogTrip.DtTrip.Date,
+                    Status = pass.crLogPassStatu.Status,
+                    Remarks = pass.Remarks,
+                    tripId = pass.crLogTripId,
+                    MasterId = GetPassengerMasterId(pass.Name),
+                    sortOrder = 3,
+                    restDay = GetPassengerMaster_RestDay(pass.Name)
+                });
+            }
+
+            List<crLogPassengerMaster> passMaster_result = new List<crLogPassengerMaster>();
+          
+            passMaster_result = db.crLogPassengerMasters
+                .Where(p => p.Name.Contains(passenger))
+                .ToList();
+
+            foreach (var pass in passMaster_result)
+            {
+                var isFoundInTrip = false;
+
+                var haveTripToday = false;
+
+                //find name in the list, if found set to TRUE
+                passengerSearch.ForEach( p => {
+                    if (p.Name == pass.Name)
+                    {
+                        isFoundInTrip = true;
+
+                        if (DateTime.Parse(p.DtTrip.ToString()).Date == today)
+                        {
+                            haveTripToday = true;
+                        }
+                    }
+                });
+
+                //do not add names found in the list
+                if (!isFoundInTrip)
+                {
+                        passengerSearch.Add(new crLogPassengerSearch()
+                        {
+                            Id = pass.Id,
+                            MasterId = pass.Id,
+                            Name = pass.Name,
+                            ResultFrom = "Found in Master List and no previous trips",
+                            DtTrip = today,
+                            Status = "",
+                            Remarks = pass.Remarks,
+                            tripId = null,
+                            sortOrder = 1,
+                            restDay = pass.RestDays
+                        });
+                }
+
+                //add passengers at top with no trip today
+                if (haveTripToday == false)
+                {
+                    passengerSearch.Add(new crLogPassengerSearch()
+                    {
+                        Id = pass.Id,
+                        MasterId = pass.Id,
+                        Name = pass.Name,
+                        ResultFrom = "Found in Master List but no trip for today",
+                        DtTrip = today,
+                        Status = "",
+                        Remarks = pass.Remarks,
+                        tripId = null,
+                        sortOrder = 2,
+                        restDay = pass.RestDays
+                    });
+                }
+
+            }
+            
+
+            //sort 
+            passengerSearch = passengerSearch.OrderBy(c=>c.sortOrder).ThenByDescending(c=>c.DtTrip).ToList();
+            ViewBag.SearchString = passenger;
+            ViewBag.Today = dt.GetCurrentDate();
+            ViewBag.TripList = GetActiveTripLogs();
+            return View(passengerSearch);
+        }
+
+        //id = passId from trip
+        private int GetPassengerMasterId(string passengerName)
+        {
+            try
+            {
+
+                var passenger = db.crLogPassengerMasters.Where(p => p.Name == passengerName);
+                if (passenger.FirstOrDefault() != null)
+                {
+                    return passenger.FirstOrDefault().Id;
+                }
+
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+
+        //id = passId from trip
+        private string GetPassengerMaster_RestDay(string passengerName)
+        {
+            try
+            {
+
+                var passenger = db.crLogPassengerMasters.Where(p => p.Name == passengerName);
+                if (passenger.FirstOrDefault() != null)
+                {
+                    return passenger.FirstOrDefault().RestDays;
+                }
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+
+
+        public List<crLogTrip> GetActiveTripLogs()
+        {
+            try
+            {
+                //Create List of 
+                var today = dt.GetCurrentDate();
+                var today_seven_days_before = dt.GetCurrentDate();
+                var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today_seven_days_before).ToList();
+                var tripsWithPass = new List<crLogTrip>();
+
+                foreach (var logs in scrLogTrips)
+                {
+                    tripsWithPass.Add(logs);
+                }
+
+                tripsWithPass = tripsWithPass.OrderByDescending(c => c.DtTrip).ToList();
+
+                return tripsWithPass;
+            }
+            catch
+            {
+                return new List<crLogTrip>();
+            }
+        }
+
 
     }
 
@@ -172,5 +350,20 @@ namespace JobsV1.Areas.Personel.Controllers
         public int companyId { get; set; }
         public string Date { get; set; }
         public int VehicleCount { get; set; }
+    }
+
+    public class crLogPassengerSearch
+    {
+        public int Id { get; set; }
+        public int? MasterId { get; set; }
+        public string Name { get; set; }
+        public string ResultFrom { get; set; }
+        public DateTime? DtTrip { get; set; }
+        public string Status { get; set; }
+        public string Remarks { get; set; }
+        public int? tripId { get; set; }
+
+        public int sortOrder { get; set; }
+        public string restDay { get; set; }
     }
 }

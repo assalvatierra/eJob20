@@ -656,6 +656,16 @@
     margin-top: 5px;
 }
 
+.status-circle-yellow {
+    background: #d8ee13;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+
 .status-circle-red {
     background: #fa0808;
     width: 10px;

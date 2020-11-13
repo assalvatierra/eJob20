@@ -182,3 +182,51 @@ function SelectPassMaster(e, PassId) {
     }
 }
 
+function MasterPassengerModal_CopyAll() {
+
+    //console.log("selected_Id : " + SELECTED_ID);
+    //console.log("tripId : " + TRIP_PASS_FOR_MASTER_ID);
+
+    $("#overlay").show();
+    $("#ShowMasterPassengerModal").modal('hide');
+
+    var res = $.post("/Personel/crLogPassengers/CopyAllPassengersFromMaster", { tripId: TRIP_PASS_FOR_MASTER_ID }, (result) => {
+        //console.log("result:" + result);
+
+        if (result == "True") {
+
+            $("#overlay").hide();
+            alert('All Passengers from masterlist is copied. Please Refresh the page');
+
+            //close modal
+            $("#CopiedTripPassengersModal").modal("hide");
+            $("#CopiedTripLogModal").modal("hide");
+
+            //location.reload();
+        } else {
+            $("#overlay").hide();
+            alert("An Error occured while copying.");
+        }
+    });
+}
+
+function DeletePassenger(passId, name) {
+    //DeletePassenger
+
+    if (confirm("Delete " + name  + " from this trip? ")) {
+        var res = $.post("/Personel/crLogPassengers/DeletePassenger", { passId: passId }, (result) => {
+            //console.log("result:" + result);
+
+            if (result == "True") {
+
+                //alert('Passenger removed.');
+
+                location.reload();
+            } else {
+                alert('Unable to remove Passenger ' + name);
+            }
+        });
+    }
+
+}
+

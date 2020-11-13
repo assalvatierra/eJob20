@@ -26,9 +26,12 @@
     @Html.ActionLink("Companies", "Index", "crLogCompanies") |
     @Html.ActionLink("Cash Transactions", "Index", "CarRentalCashRelease") |
     @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) |
-    @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses") |
+    @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses") 
+</p>
+<p>
     @Html.ActionLink("Passengers", "Index", "crLogPassengerList") |
-    @Html.ActionLink("Passenger Master List", "Index", "crLogPassengerMasters")
+    @Html.ActionLink("Passenger Master List", "Index", "crLogPassengerMasters") |
+    @Html.ActionLink("Passenger Search", "SearchPassenger", "crLogPassengerList")
 </p>
 <p>
     @Html.ActionLink("Add New Trip", "Create") |
@@ -220,7 +223,7 @@
                 @Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId }) |
                 @Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null) |
                 @Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)
-                
+
             </td>
         </tr>
     }
@@ -259,7 +262,7 @@
 
 <!-- For Report Redirect -->
 @Html.Hidden("VehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))
-@Html.Hidden("VehicleTripReport"   , Url.Action("VehicleTripReport"   , "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
+@Html.Hidden("VehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
 
 @section Scripts{
     <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
