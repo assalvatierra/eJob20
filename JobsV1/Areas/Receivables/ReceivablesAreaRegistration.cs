@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace JobsV1.Areas.Receivables
+namespace ArWeb.Areas.Receivables
 {
     public class ReceivablesAreaRegistration : AreaRegistration 
     {
@@ -17,7 +17,8 @@ namespace JobsV1.Areas.Receivables
             context.MapRoute(
                 "Receivables_default",
                 "Receivables/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                namespaces: new string[] { "JobsV1.Areas.Receivables.Controllers" }
             );
         }
     }

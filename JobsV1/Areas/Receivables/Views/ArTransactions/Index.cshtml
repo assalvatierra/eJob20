@@ -5,12 +5,18 @@
 }
 
 <h2>Receivables</h2>
-
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null)
 </p>
+<p>
+    @Html.ActionLink("Create New", "Create") 
+</p>
+
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtService)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.DtInvoice)
         </th>
@@ -43,6 +49,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @item.DtService.ToString("MMM dd yyyy")
+        </td>
         <td>
             @item.DtInvoice.ToString("MMM dd yyyy")
         </td>

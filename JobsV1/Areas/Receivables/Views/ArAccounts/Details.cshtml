@@ -3,81 +3,255 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ArModels.Models.ArAccntCredit accCredit = ViewBag.LastestCredit;
+    ArModels.Models.ArAccntTerm accTerms = ViewBag.LastestTerms;
 }
 
 <h2>Details</h2>
-
-<div>
-    <h4>ArAccount</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Landline)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Landline)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Mobile)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Mobile)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Company)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Company)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Remarks)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Remarks)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ArAccStatu.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ArAccStatu.Status)
-        </dd>
-
-    </dl>
-</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+<div class="col-md-12">
+    <hr />
+    <div class="col-md-4">
+
+        <h4>Account</h4>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Landline)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Landline)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Mobile)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Company)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Company)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Remarks)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ArAccStatu.Status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ArAccStatu.Status)
+            </dd>
+
+        </dl>
+    </div>
+
+    <div class="col-md-4">
+        <h4>Account Credits</h4>
+
+        @if (Model.ArAccntCredits.Count() == 0)
+        {
+            @Html.ActionLink("Add Credit", "CreateCredit", "ArAccntCredits", new { id = Model.Id }, null)
+        }
+        else
+        {
+            <dl class="dl-horizontal">
+                <dt>
+                    Date Credit
+                </dt>
+
+                <dd>
+                    @accCredit.DtCredit.ToString("MMM dd yyyy"):
+                </dd>
+
+                <dt>
+                    Limit
+                </dt>
+
+                <dd>
+                    @accCredit.CreditLimit.ToString("#,##0.0")
+                </dd>
+                <dt>
+                    Overlimit
+                </dt>
+
+                <dd>
+                    @accCredit.OverLimitAllowed.ToString("#,##0.0")
+                </dd>
+                <dt>
+                    Warning
+                </dt>
+                <dd>
+                    @accCredit.CreditWarning.ToString("#,##0.0")
+                </dd>
+                <dt>
+                    Approved by
+                </dt>
+                <dd>
+                    @accCredit.ApprovedBy
+                </dd>
+                <dt>
+                    Status
+                </dt>
+                <dd>
+                    @accCredit.ArCreditStatu.Status
+                </dd>
+                <dt>
+
+                </dt>
+                <dd>
+                    @Html.ActionLink("Add", "CreateCredit", "ArAccntCredits", new { id = Model.Id }, null) |
+
+                    @Html.ActionLink("Edit", "Edit", "ArAccntCredits", new { id = accCredit.Id }, null) |
+
+                    @Html.ActionLink("Delete", "Delete", "ArAccntCredits", new { id = accCredit.Id }, null)
+                </dd>
+            </dl>
+        }
+
+    </div>
+
+    <div class="col-md-4">
+        <h4>Account Terms</h4>
+
+        @if (Model.ArAccntPaymentTerms.Count() == 0)
+        {
+            @Html.ActionLink("Add Terms", "CreateTerms", "ArAccntTerms", new { id = Model.Id }, null)
+        }
+        else
+        {
+            <dl class="dl-horizontal">
+                <dt>
+                    Date Terms
+                </dt>
+
+                <dd>
+                    @accTerms.dtTerm.ToString("MMM dd yyyy"):
+                </dd>
+
+                <dt>
+                    No Days
+                </dt>
+
+                <dd>
+                    @accTerms.NoOfDays
+                </dd>
+                <dt>
+                    Remarks
+                </dt>
+                <dd>
+                    @accTerms.Remarks
+                </dd>
+                <dt>
+                    Status
+                </dt>
+
+                <dd>
+                    @accTerms.ArAccntTermStatu.Status
+                </dd>
+                <dt>
+                    Approved by
+                </dt>
+                <dd>
+                    @accCredit.ApprovedBy
+                </dd>
+                <dd>
+                    @Html.ActionLink("Add", "CreateTerms", "ArAccntTerms", new { id = Model.Id }, null) |
+
+                    @Html.ActionLink("Edit", "Edit", "ArAccntTerms", new { id = accTerms.Id }, null) |
+
+                    @Html.ActionLink("Delete", "Delete", "ArAccntTerms", new { id = accTerms.Id }, null)
+                </dd>
+            </dl>
+        }
+
+    </div>
+</div>
+<h4>
+    Transactions List
+</h4>
+<table class="table">
+    <tr>
+        <th> Description </th>
+        <th> DtService </th>
+        <th> Invoice No </th>
+        <th> DtInvoice </th>
+        <th> Due </th>
+        <th> Remarks </th>
+        <th> Status </th>
+        <th> Amount </th>
+        <th> </th>
+    </tr>
+
+    @foreach (var transaction in Model.ArTransactions)
+    {
+        <tr>
+            <td>
+                @transaction.Description
+            </td>
+            <td>
+                @transaction.DtService.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @transaction.DtInvoice.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @transaction.DtDue.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @transaction.InvoiceId
+            </td>
+            <td>
+                @transaction.Remarks
+            </td>
+            <td>
+                @transaction.ArTransStatu.Status
+            </td>
+            <td>
+                @transaction.Amount.ToString("#,##0.00")
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "ArTransactions", new { id = transaction.Id }, null)
+            </td>
+        </tr>
+    }
+</table>

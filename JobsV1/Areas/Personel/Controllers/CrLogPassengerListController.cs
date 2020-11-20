@@ -324,7 +324,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 //Create List of 
                 var today = dt.GetCurrentDate();
                 var today_seven_days_before = dt.GetCurrentDate();
-                var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today_seven_days_before).ToList();
+                var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today_seven_days_before && c.crLogCompanyId == 7).ToList();
                 var tripsWithPass = new List<crLogTrip>();
 
                 foreach (var logs in scrLogTrips)
@@ -332,7 +332,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     tripsWithPass.Add(logs);
                 }
 
-                tripsWithPass = tripsWithPass.OrderByDescending(c => c.DtTrip).ToList();
+                tripsWithPass = tripsWithPass.OrderByDescending(c => c.DtTrip).ThenBy(c => c.crLogDriver.OrderNo).ToList();
 
                 return tripsWithPass;
             }

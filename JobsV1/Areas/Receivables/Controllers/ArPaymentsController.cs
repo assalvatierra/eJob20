@@ -134,6 +134,41 @@ namespace JobsV1.Areas.Receivables.Controllers
             return View(arPayment);
         }
 
+
+        // GET: ArPayments/Edit/5
+        public ActionResult EditTransPayment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ArPayment arPayment = ar.PaymentMgr.GetPaymentById(id);
+            if (arPayment == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
+            return View(arPayment);
+        }
+
+        // POST: ArPayments/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTransPayment([Bind(Include = "Id,DtPayment,Amount,Remarks,Reference,ArAccountId,ArPaymentTypeId")] ArPayment arPayment)
+        {
+            if (ModelState.IsValid && InputValidation(arPayment))
+            {
+                ar.PaymentMgr.EditPayment(arPayment);
+                return RedirectToAction("Details", "ArTransactions", new { id = arPayment.Id });
+            }
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
+            return View(arPayment);
+        }
+
         // GET: ArPayments/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -154,8 +189,45 @@ namespace JobsV1.Areas.Receivables.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            //remove payment transaction
+            var transPayment = ar.TransPaymentMgr.GetTransPaymentsByPaymentId(id);
+            ar.TransPaymentMgr.RemoveTransPayment(transPayment);
+
+            //remove payment
             ar.PaymentMgr.RemovePayment(id);
             return RedirectToAction("Index");
+        }
+
+
+        // GET: ArPayments/Delete/5
+        public ActionResult DeleteTransPayment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ArPayment arPayment = ar.PaymentMgr.GetPaymentById(id);
+            if (arPayment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(arPayment);
+        }
+
+        // POST: ArPayments/Delete/5
+        [HttpPost, ActionName("DeleteTransPayment")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteTransPaymentConfirmed(int id)
+        {
+            //remove payment transaction
+            var transPayment = ar.TransPaymentMgr.GetTransPaymentsByPaymentId(id);
+            ar.TransPaymentMgr.RemoveTransPayment(transPayment);
+
+            var transId = transPayment.Id;
+
+            //remove payment
+            ar.PaymentMgr.RemovePayment(id);
+            return RedirectToAction("Details", "ArTransactions", new { id = transId });
         }
 
         protected override void Dispose(bool disposing)

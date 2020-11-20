@@ -1,0 +1,80 @@
+﻿@model ArModels.Models.ArAccntCredit
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ArAccntCredit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DtCredit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtCredit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditLimit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditLimit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OverLimitAllowed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OverLimitAllowed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditWarning)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditWarning)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApprovedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApprovedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArAccount.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArAccount.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArCreditStatu.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArCreditStatu.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

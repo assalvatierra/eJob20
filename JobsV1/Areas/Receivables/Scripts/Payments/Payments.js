@@ -20,11 +20,11 @@ function InitDatePicker() {
             }
         },
         function (start, end, label) {
-            // alert(start.format('YYYY-MM-DD h:mm A'));
+             alert(start.format('YYYY-MM-DD h:mm A'));
         }
     );
 
-    //$('input[name="DtStart"]').val(ddd1.substr(0, ddd1.indexOf(" ")));
+    $('input[name="DtPayment"]').val(moment().format('MM/DD/YYYY h:mm A'));
 
 }
 

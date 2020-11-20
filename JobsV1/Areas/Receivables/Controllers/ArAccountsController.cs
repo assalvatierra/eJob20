@@ -14,7 +14,7 @@ namespace JobsV1.Areas.Receivables.Controllers
 {
     public class ArAccountsController : Controller
     {
-
+        private ArDBContainer db = new ArDBContainer();
         private ReceivableFactory ar = new ReceivableFactory();
 
         // GET: ArAccounts
@@ -40,6 +40,8 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.LastestCredit = ar.AccountMgr.GetLatestAccntCreditLimit((int)id);
+            ViewBag.LastestTerms = ar.AccountMgr.GetLatestAccntPaymentTerm((int)id);
             return View(account);
         }
 
