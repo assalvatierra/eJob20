@@ -96,7 +96,7 @@ function SubmitReturnLog() {
    
     var data = {
         id: $("#return-LogFuelId").val(),
-        date: $("#return-Date").val(),
+        date: $("#return-Date").val(moment().format("MM/DD/YYYY hh:mm A"),
         odo: $("#return-Odo").val(),
         amount: parseFloat($("#return-Amount").val()),
         remarks: $("#return-Remarks").val(),

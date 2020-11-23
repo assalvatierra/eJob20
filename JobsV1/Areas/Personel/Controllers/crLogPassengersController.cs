@@ -678,6 +678,8 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             try
             {
+
+
                 //Create List of 
                 var today = dt.GetCurrentDate();
                 var today_seven_days_before = dt.GetCurrentDate().AddDays(-1);
@@ -707,8 +709,19 @@ namespace JobsV1.Areas.Personel.Controllers
                 //Create List of 
                 var today = dt.GetCurrentDate();
                 var today_seven_days_before = dt.GetCurrentDate();
-                var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today && c.crLogCompanyId == 7).ToList();
+                var scrLogTrips = db.crLogTrips.Where(c => c.DtTrip >= today).ToList();
                 var tripsWithPass = new List<crLogTrip>();
+
+
+                HttpCookie shuttle_cookie = HttpContext.Request.Cookies.Get("shuttle_cookie");
+
+                if (shuttle_cookie != null)
+                {
+                    if (shuttle_cookie.Value == "1")
+                    {
+                        scrLogTrips = scrLogTrips.Where(c => c.crLogCompany.IsShuttle).ToList();
+                    }
+                }
 
                 foreach (var logs in scrLogTrips)
                 {

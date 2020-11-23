@@ -26,7 +26,7 @@
     @Html.ActionLink("Companies", "Index", "crLogCompanies") |
     @Html.ActionLink("Cash Transactions", "Index", "CarRentalCashRelease") |
     @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) |
-    @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses") 
+    @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
 <p>
     @Html.ActionLink("Passengers", "Index", "crLogPassengerList") |
@@ -40,10 +40,18 @@
     @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease")
 </p>
 
-<p>
+<p class="col-md-10">
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#SummaryModal">Summary</button>
 </p>
+
+<div class="col-md-2 pull-right" >
+    @*<span> Shuttle Only </span>
+    <input type="checkbox" id="isShuttle" name="IsShuttle" />*@
+    <button type="button" class="btn btn-default"  id="isShuttle" data-toggle="button" onclick="ClickShowShuttle()">
+        Show Shuttle Only
+    </button>
+</div>
 
 <!-- Filter Modal -->
 <div class="modal fade" role="dialog" id="FilterModal" data-keyboard="false" data-backdrop="static">
@@ -285,8 +293,89 @@
             } else {
                 $("#filter-edate").val(moment().format("MM/DD/YYYY"))
             }
+
+            var shuttle_cookie = getCookie('shuttle_cookie');
+            if (shuttle_cookie) {
+                console.log('shuttle cookie is ' + shuttle_cookie);
+
+                if (shuttle_cookie == 1) {
+                    $("#isShuttle").removeClass("btn-default");
+                    $("#isShuttle").addClass("btn-primary");
+                } else {
+                    $("#isShuttle").addClass("btn-default");
+                    $("#isShuttle").removeClass("btn-primary");
+                }
+            } else {
+                console.log('no shuttle cookie found');
+            }
+
         });
 
+        function ClickShowShuttle() {
+            //window.location.href = '/Personel/CarRentalLog?isShuttle=1';
+            console.log('set cookie ');
+
+            var shuttle_cookie_prev = getCookie('shuttle_cookie');
+            if (shuttle_cookie_prev) {
+                console.log('shuttle cookie : ' + shuttle_cookie);
+
+                if (shuttle_cookie_prev == 1) {
+                    //set cookie for shuttle
+                    setCookie('shuttle_cookie', '0', 30);
+
+                    var shuttle_cookie = getCookie('shuttle_cookie');
+
+                    $("#isShuttle").addClass("btn-default");
+                    $("#isShuttle").removeClass("btn-primary");
+
+                    console.log('shuttle cookie : ' + shuttle_cookie);
+
+                    window.location.reload();
+                } else {
+                    setCookie('shuttle_cookie', '1', 30);
+
+                    var shuttle_cookie = getCookie('shuttle_cookie');
+
+                    $("#isShuttle").removeClass("btn-default");
+                    $("#isShuttle").addClass("btn-primary");
+
+                    console.log('shuttle cookie : ' + shuttle_cookie);
+
+                    window.location.reload();
+
+                }
+            } else {
+                setCookie('shuttle_cookie', '1', 30);
+
+                $("#isShuttle").removeClass("btn-default");
+                $("#isShuttle").addClass("btn-primary");
+
+                console.log('shuttle cookie added ');
+                window.location.reload();
+            }
+        }
+
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = date.toUTCString();
+            }
+            document.cookie =  name + "=" + (value || "") +";expires="+ expires + ";path=/";
+            console.log(document.cookie);
+        }
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
 
     </script>
 }

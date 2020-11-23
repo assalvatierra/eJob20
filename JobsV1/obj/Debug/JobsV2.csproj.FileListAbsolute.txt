@@ -240,5 +240,3 @@ C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CoreCompile
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV2.csproj.CopyComplete
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.dll
 C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\obj\Debug\JobsV1.pdb
-C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\System.Web.Mvc.dll
-C:\Users\ACER\Documents\GitHub\eJob20\JobsV1\bin\System.Web.Mvc.xml

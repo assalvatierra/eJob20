@@ -139,6 +139,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="10" />
+    <Property Name="IsShuttle" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="crLogTrips">
     <Key>
@@ -731,6 +732,7 @@
           <NavigationProperty Name="crLogTrips" Relationship="CarRentalLogDB.crLogCompanycrLogTrip" FromRole="crLogCompany" ToRole="crLogTrip" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="10" />
+          <Property Name="IsShuttle" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="crLogTrip">
           <Key>
@@ -1243,6 +1245,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsShuttle" ColumnName="IsShuttle" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

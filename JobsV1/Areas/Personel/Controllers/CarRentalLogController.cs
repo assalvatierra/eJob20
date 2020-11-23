@@ -81,6 +81,16 @@ namespace JobsV1.Areas.Personel.Controllers
                         break;
                 }
 
+                HttpCookie shuttle_cookie = HttpContext.Request.Cookies.Get("shuttle_cookie"); 
+
+                if (shuttle_cookie != null)
+                {
+                    if (shuttle_cookie.Value == "1")
+                    {
+                        crLogTrips = crLogTrips.Where(c => c.crLogCompany.IsShuttle);
+                    }
+                }
+
                 var tripLogs = crLogTrips.ToList();  
 
                 //get summary
@@ -908,6 +918,7 @@ namespace JobsV1.Areas.Personel.Controllers
            return crLogTrips;
 
         }
+
 
         #region Odo Update
 
