@@ -224,3 +224,57 @@ function Submit_ItemVehicle_VehicleExpenseFilter() {
 function ItemVehicle_VehicleExpenseFilter_AddDays(days) {
     $("#ItemVehicle-VehicleExpenseFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
 }
+
+
+/**  PO Report Filter */
+
+function Initial_POSummaryFilter(rptId, rptName) {
+    $("#POSummaryFilter-rptName").val(rptName);
+    $("#POSummaryFilter-rptId").val(rptId);
+}
+
+function Submit_POSummaryFilter() {
+
+    var startDate = $("#POSummaryFilter-StartDate").val();
+    var endDate = $("#POSummaryFilter-EndDate").val();
+    var driverId = $("#POSummaryFilter-driverId").val();
+
+    var url = $("#POSummaryReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+    url = url.replace('_driverId', driverId);
+
+    window.location.href = url;
+}
+
+function POSummaryFilter_AddDays(days) {
+    $("#POSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}
+
+
+/** Item PO Report Filter */
+
+function Initial_ItemPOSummaryFilter(rptId, rptName) {
+    $("#ItemPOSummaryFilter-rptName").val(rptName);
+    $("#ItemPOSummaryFilter-rptId").val(rptId);
+}
+
+function Submit_ItemPOSummaryFilter() {
+
+    var startDate = $("#ItemPOSummaryFilter-StartDate").val();
+    var endDate = $("#ItemPOSummaryFilter-EndDate").val();
+    var rptId = $("#ItemPOSummaryFilter-rptId").val();
+    var typeId = $("#ItemPOSummaryFilter-typeId").val();
+
+    var url = $("#ItemPOSummaryReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+    url = url.replace('_rptId', rptId);
+    url = url.replace('_typeId', typeId);
+
+    window.location.href = url;
+}
+
+function ItemVehicle_POSummaryFilter_AddDays(days) {
+    $("#ItemPOSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}

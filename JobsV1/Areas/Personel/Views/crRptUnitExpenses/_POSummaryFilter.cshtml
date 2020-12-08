@@ -1,0 +1,124 @@
+﻿@{
+    var driverList = ViewBag.crLogDriverList as IEnumerable<JobsV1.Areas.Personel.Models.crLogDriver>;
+    var unitList = ViewBag.crLogUnitList as IEnumerable<JobsV1.Areas.Personel.Models.crLogUnit>;
+}
+
+<div class="modal fade" role="dialog" id="POSummaryFilter" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width:470px;">
+            <form method="post" id="Form_POSummaryFilter">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">PO Summary Filter </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Filter&nbsp;Date  </label>
+                            <div class="col-sm-10" style="margin-top:5px;">
+                                <a class="cursor-hand" onclick="POSummaryFilter_AddDays(-7)"> Last 7 Days </a> |
+                                <a class="cursor-hand" onclick="POSummaryFilter_AddDays(-15)"> Last 15 Days </a> |
+                                <a class="cursor-hand" onclick="POSummaryFilter_AddDays(-30)"> Last 30 Days </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Start&nbsp;Date  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtStart" type="text" id="POSummaryFilter-StartDate" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> End&nbsp;Date  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtEnd" type="text" id="POSummaryFilter-EndDate" />
+                            </div>
+                        </div>
+
+                        <!-- Driver Filters -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                            <label class="control-label form-label col-sm-2"> Driver  </label>
+                            <div class="col-md-10">
+                                <select name="driverId" id="POSummaryFilter-driverId" class="form-control col-md-10 col-xs-10 form-filter-input" value="@ViewBag.driverId">
+                                    <option value="0"> All </option>
+                                    @foreach (var driver in driverList)
+                                    {
+                                        <option value="@driver.Id"> @driver.Name.Trim() </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-12 col-sm-12 col-xs-9">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="Submit_POSummaryFilter()">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" role="dialog" id="ItemPOSummaryFilter" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width:470px;">
+            <form method="post" id="Form_ItemPOSummaryFilter">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> PO Summary Filter </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Filter&nbsp;Date  </label>
+                            <div class="col-sm-10" style="margin-top:5px;">
+                                <a class="cursor-hand" onclick="ItemPOSummaryFilter_AddDays(-7)"> Last 7 Days </a> |
+                                <a class="cursor-hand" onclick="ItemPOSummaryFilter_AddDays(-15)"> Last 15 Days </a> |
+                                <a class="cursor-hand" onclick="ItemPOSummaryFilter_AddDays(-30)"> Last 30 Days </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Start&nbsp;Date  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtStart" type="text" id="ItemPOSummaryFilter-StartDate" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> End&nbsp;Date  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtEnd" type="text" id="ItemPOSummaryFilter-EndDate" />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Report  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="rptName" type="text" id="ItemPOSummaryFilter-rptName" readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12" hidden>
+                            <label class="control-label form-label col-sm-2"> Report  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="rptId" type="text" id="ItemPOSummaryFilter-rptId" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-sm-12 col-xs-9">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="Submit_ItemPOSummaryFilter()">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -39,7 +39,13 @@
 
         @foreach (var item in Model)
         {
-            var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
+
+            if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
+            {
+                var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
+            }
+
+
             <tr >
                 <td id="lead@(item.Id)" class="td-no-border">
                     <div style="text-align:center;" class="date-box">
@@ -94,9 +100,14 @@
                             @{
                                 try
                                 {
+                                    if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
+                                    {
+                                        var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
+                                   
                                     <text>
                                         @company.Name -
-                                    </text>
+                                    </text> 
+                                    }
                                 }
                                 catch (Exception)
                                 {
@@ -156,12 +167,18 @@
                         <!-- Activities-->
                         @if (!String.IsNullOrWhiteSpace(item.SalesCode))
                         {
-
-                            Html.RenderAction("CustActivitiesPartial", new { salesCode = item.SalesCode });
-                            <span> [@Html.ActionLink("Add Activity", "ListCustActivityCodes",
-                                   new { id = item.Id, salesCode = item.SalesCode, projectName = item.Details,
-                                       amount = item.Price, companyId = company.Id })]</span>
-
+                        
+                            if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
+                            {
+                                var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
+                           
+                                Html.RenderAction("CustActivitiesPartial", new { salesCode = item.SalesCode });
+                                <span> 
+                                    [@Html.ActionLink("Add Activity", "ListCustActivityCodes",
+                                     new { id = item.Id, salesCode = item.SalesCode, projectName = item.Details,
+                                           amount = item.Price, companyId = company.Id })]
+                                </span>
+                             }
                         }
                         else
                         {
@@ -355,37 +372,39 @@
             </div>
             <div class="modal-body" id="modal2-content">
                 <!--Start of Modal Body-->
-                <div class="form-group col-md-12 hidden">
-                    <b class="col-md-2 "> SupId: </b>
-                    <div class="col-md-10">
-                        <input type="text" maxlength="5" class="form-control" id="edit-supItem-Id" />
+                <div class="row">
+                    <div class="form-group col-md-12 hidden">
+                        <b class="col-md-2 "> SupId: </b>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="5" class="form-control" id="edit-supItem-Id" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group col-md-12 hidden">
-                    <b class="col-md-2"> Items: </b>
-                    <div class="col-md-7">
-                        <select name="InvItems" class="form-control" id="edit-supItem-Items">
-                            @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
-                            {
-                                <option value="@item.Id"> @item.Description </option>
-                            }
-                        </select>
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2"> Items: </b>
+                        <div class="col-md-7">
+                            <select name="InvItems" class="form-control" id="edit-supItem-Items">
+                                @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
+                                {
+                                    <option value="@item.Id"> @item.Description </option>
+                                }
+                            </select>
+                        </div>
+                    </div><br /><br />
+
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Rate: </b>
+                        <div class="col-md-10">
+                            <input type="number" value="0" maxlength="25" class="form-control" id="edit-supItem-Rate" onkeypress='validate(event)' />
+                        </div>
                     </div>
-                </div><br /><br />
+                    <br /><br />
 
-                <div class="form-group col-md-12">
-                    <b class="col-md-2 "> Rate: </b>
-                    <div class="col-md-10">
-                        <input type="number" value="0" maxlength="25" class="form-control" id="edit-supItem-Rate" onkeypress='validate(event)' />
-                    </div>
-                </div>
-                <br /><br />
-
-                <div class="form-group col-md-12">
-                    <b class="col-md-2 "> Remarks: </b>
-                    <div class="col-md-10">
-                        <input type="text" maxlength="20" class="form-control" id="edit-supItem-Remarks" />
+                    <div class="form-group col-md-12">
+                        <b class="col-md-2 "> Remarks: </b>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" class="form-control" id="edit-supItem-Remarks" />
+                        </div>
                     </div>
                 </div>
                 <!--End of Modal Body-->
@@ -421,7 +440,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('html, body').animate({
-                //scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
+                scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
             }, 750);
 
         });
@@ -486,7 +505,7 @@
                 },
                 error: function (data) {
                     console.log(data);
-                    location.reload();
+                    location.reload(true);
                 }
             });
         }
@@ -512,7 +531,7 @@
                 },
                 error: function (data) {
                     console.log(data);
-                    location.reload();
+                    location.reload(true);
                 }
             });
         }
@@ -553,7 +572,7 @@
                 },
                 error: function (data) {
                     console.log(data);
-                    location.reload();
+                    location.reload(true);
                 }
             });
         }

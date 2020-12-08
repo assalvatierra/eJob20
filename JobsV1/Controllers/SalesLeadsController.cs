@@ -396,6 +396,10 @@ namespace JobsV1.Controllers
             {
                 if (CompanyId != null)
                 {
+                    if (salesLead.EnteredBy.IsNullOrWhiteSpace())
+                    {
+                        salesLead.EnteredBy = "Guest";
+                    }
                     //int compId = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault().Id; //get lastest company id
                     db.SalesLeads.Add(salesLead);
                     db.SaveChanges();

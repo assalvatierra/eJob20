@@ -21,7 +21,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Index(int? statusId)
         {
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-30);
+            var DateFilter = today.AddDays(-90);
 
             //get fuel request up to -7 days from today
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest)
@@ -90,7 +90,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
 
-            return View(cCrLogFuel.ToList());
+            return View(cCrLogFuel.OrderByDescending(c=>c.crLogFuel.dtRequest).ToList());
         }
 
         // GET: Personel/crLogFuels/Details/5

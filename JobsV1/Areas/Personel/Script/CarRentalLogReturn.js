@@ -22,7 +22,6 @@ function InitDatePicker()
         var datepicker = start.format('YYYY-MM-DD');
         }
     );
-
 }
 
 
@@ -96,7 +95,7 @@ function SubmitReturnLog() {
    
     var data = {
         id: $("#return-LogFuelId").val(),
-        date: $("#return-Date").val(moment().format("MM/DD/YYYY hh:mm A")),
+        date: $("#return-Date").val(),
         odo: $("#return-Odo").val(),
         amount: parseFloat($("#return-Amount").val()),
         remarks: $("#return-Remarks").val(),
