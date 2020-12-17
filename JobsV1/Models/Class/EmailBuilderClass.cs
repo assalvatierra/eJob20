@@ -19,7 +19,6 @@ namespace JobsV1.Models.Class
         public bool SendEmail_NotifTest(string recipient)
         {
             var emailContent = " <b> Email Notification Content </b>  ";
-
             //build email content
             var mailContent = BuildEmailContent(recipient, emailContent);
             if (mailContent != null)

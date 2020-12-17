@@ -2,9 +2,10 @@
 
 @{
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    string status = ViewBag.Status;
 }
 
-<h2>Receivables</h2>
+<h2>Transactions</h2>
 <p>
     @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null)
 </p>
@@ -12,11 +13,76 @@
     @Html.ActionLink("Create New", "Create") 
 </p>
 
+<p>
+    Filter:
+    @if (status == "" || status == null)
+    {
+        <span>All |</span>
+    }
+    else
+    {
+        @Html.ActionLink("All", "Index", new { status = "" })<span> |</span>
+    }
+
+    @if (status == "New")
+    {
+        <span>New |</span>
+    }
+    else
+    {
+        @Html.ActionLink("New", "Index", new { status = "New" })<span> |</span>
+    }
+
+    @if (status == "For Approval")
+    {
+        <span>For Approved |</span>
+    }
+    else
+    {
+        @Html.ActionLink("For Approval", "Index", new { status = "For Approval" })<span> |</span>
+    }
+
+    @if (status == "Approved")
+    {
+        <span>Approved |</span>
+    }
+    else
+    {
+        @Html.ActionLink("Approved", "Index", new { status = "Approved" })<span> |</span>
+    }
+
+
+    @if (status == "Sent")
+    {
+        <span>Sent |</span>
+    }
+    else
+    {
+        @Html.ActionLink("Sent", "Index", new { status = "Sent" })<span> |</span>
+    }
+
+    @if (status == "Settlement")
+    {
+        <span>For Settlement |</span>
+    }
+    else
+    {
+        @Html.ActionLink("For Settlement", "Index", new { status = "Settlement" })<span> |</span>
+    }
+
+    @if (status == "Closed")
+    {
+        <span>Closed </span>
+    }
+    else
+    {
+        @Html.ActionLink("Closed", "Index", new { status = "Close" })
+    }
+
+</p>
+
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DtService)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.DtInvoice)
         </th>
@@ -24,16 +90,16 @@
             @Html.DisplayNameFor(model => model.InvoiceId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
             Account
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DtDue)
+            @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Amount)
+            @Html.DisplayNameFor(model => model.DtService)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtDue)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ArTransStatu.Status)
@@ -44,14 +110,34 @@
         <th>
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            Paid&nbsp;Amount
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
+
+   
+        decimal totalPayment = 0;
+
+        foreach(var payment in item.ArTransPayments)
+        {
+           totalPayment = totalPayment + payment.ArPayment.Amount;
+        }
+
+        var color = "white";
+        var textColor = "black";
+        var totalAmount = item.Amount;
+        if (totalPayment >= totalAmount)
+        {
+            textColor = "ForestGreen";
+        }
+
     <tr>
-        <td>
-            @item.DtService.ToString("MMM dd yyyy")
-        </td>
         <td>
             @item.DtInvoice.ToString("MMM dd yyyy")
         </td>
@@ -59,16 +145,16 @@
             @Html.DisplayFor(modelItem => item.InvoiceId)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.ArAccount.Name)
         </td>
         <td>
-            @item.DtDue.ToString("MMM dd yyyy")
+            @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @item.Amount.ToString("#,##0.00")
+            @item.DtService.ToString("MMM dd yyyy")
+        </td>
+        <td>
+            @item.DtDue.ToString("MMM dd yyyy")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ArTransStatu.Status)
@@ -79,13 +165,83 @@
         <td>
             @Html.DisplayFor(modelItem => item.Remarks)
         </td>
+        <td style="color:@textColor">
+            @item.Amount.ToString("#,##0.00")
+        </td>
+        <td style="color:@textColor">
+            <span>
+                @totalPayment.ToString("#,##0.00")
+            </span>
+        </td>
         <td>
-            @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null) |
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Actions
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                        @if (item.ArTransStatusId == 1)
+                        {
+                            <a class="cursor-link" onclick="UpdateStatus(@item.Id, 2)"> For Approval </a>
+                        }
+                        else if (item.ArTransStatusId == 2)
+                        {
+                            <a class="cursor-link" onclick="UpdateStatus(@item.Id, 3)"> Approve </a>
+                        }
+                        else if (item.ArTransStatusId == 3)
+                        {
+                            <a class="cursor-link" onclick="UpdateStatus(@item.Id, 4)"> Send </a>
+                        }
+                        else if (item.ArTransStatusId >= 4 && item.ArTransStatusId <= 5)
+                        {
+                            @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
+                            if (item.ArTransStatusId == 4)
+                            {
+                                <a class="cursor-link" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
+                            }
+                        }
+                    <li role="separator" class="divider"></li>
+                    <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                    <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
+                    <li> @Html.ActionLink("Credit", "Details", new { id = item.Id }) </li>
+                    <li> @Html.ActionLink("History", "TransactionHistory", "ArTransactions", new { id = item.Id }, null) </li>
+                    <li> @Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>
+                </ul>
+            </div>
+
         </td>
     </tr>
 }
 
 </table>
+
+
+@section Scripts{
+    <script>
+
+        function UpdateStatus(transId, statusId) {
+            $("#overlay").show();
+           var result =  $.post("../Receivables/ArTransactions/UpdateTransStatus",{
+                   transId: transId,
+                   statusId: statusId
+                }, (response) => {
+                   console.log("Update Status : " + response);
+                   if (response == "True") {
+                       $("#overlay").hide();
+                       window.location.reload(false);
+                   } else {
+                       alert("Unable to Update transaction.");
+                       $("#overlay").hide();
+                   }
+                }
+            );
+            console.log(result);
+            if (result["ResponseCode"] == 500) {
+               alert("Unable to Update transaction.");
+               $("#overlay").hide();
+            }
+        }
+
+    </script>
+    }

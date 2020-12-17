@@ -1,0 +1,53 @@
+﻿
+
+<div class="modal fade" role="dialog" id="EmailReminderModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width:470px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Email Reminder Details </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12" hidden>
+                            <label class="control-label form-label col-sm-2"> transId </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" type="text" id="EmailReminder-transId" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Name </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtEnd" type="text" id="EmailReminder-Name" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Email  </label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="reminderEmail" id="EmailReminder-Email">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Email Message </label>
+                            <div class="col-sm-10">
+                                <textarea type="text" class="form-control" id="EmailReminder-EmailMsg" cols="40" rows="11"> </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-12 col-sm-12 col-xs-9">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <span class="btn btn-primary" onclick="SendReminderToEmail()">
+                            Send Email
+                        </span>
+                        @*<button type="button" class="btn btn-primary" onclick="Submit_DueDateChange()">Submit</button>*@
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

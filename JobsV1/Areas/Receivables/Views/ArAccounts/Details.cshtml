@@ -5,13 +5,17 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ArModels.Models.ArAccntCredit accCredit = ViewBag.LastestCredit;
     ArModels.Models.ArAccntTerm accTerms = ViewBag.LastestTerms;
-}
 
-<h2>Details</h2>
+    decimal totalReceivableAmount = 0;
+    decimal totalBalance = 0;
+    decimal totalPaid = 0;
+}
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<h2>Details</h2>
 <div class="col-md-12">
     <hr />
     <div class="col-md-4">
@@ -100,7 +104,7 @@
                 </dt>
 
                 <dd>
-                    @accCredit.DtCredit.ToString("MMM dd yyyy"):
+                    @accCredit.DtCredit.ToString("MMM dd yyyy")
                 </dd>
 
                 <dt>
@@ -165,7 +169,7 @@
                 </dt>
 
                 <dd>
-                    @accTerms.dtTerm.ToString("MMM dd yyyy"):
+                    @accTerms.dtTerm.ToString("MMM dd yyyy")
                 </dd>
 
                 <dt>
@@ -219,6 +223,7 @@
         <th> Remarks </th>
         <th> Status </th>
         <th> Amount </th>
+        <th> Paid </th>
         <th> </th>
     </tr>
 
@@ -248,10 +253,52 @@
             </td>
             <td>
                 @transaction.Amount.ToString("#,##0.00")
+                @{
+                    totalReceivableAmount = totalReceivableAmount + transaction.Amount;
+                }
+            </td>
+            <td>
+                @foreach (var payment in transaction.ArTransPayments)
+                {
+                    totalPaid = totalPaid + payment.ArPayment.Amount;
+                }
+                <span>
+                    @totalPaid.ToString("#,##0.00")
+                </span>
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", "ArTransactions", new { id = transaction.Id }, null)
             </td>
         </tr>
     }
+    <tr>
+        
+        <td colspan="7">
+            <span class="pull-right"> Total </span>
+        </td>
+        <td>
+            @totalReceivableAmount.ToString("#,##0.00")
+        </td>
+        <td>
+            @totalPaid.ToString("#,##0.00")
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        @{
+            totalBalance = totalReceivableAmount - totalPaid;
+        }
+        <td colspan="7">
+            <span class="pull-right"> Balance </span>
+        </td>
+        <td>
+            @totalBalance.ToString("#,##0.00")
+        </td>
+        <td>
+
+        </td>
+        <td>
+        </td>
+    </tr>
 </table>

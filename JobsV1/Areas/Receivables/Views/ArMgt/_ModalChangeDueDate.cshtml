@@ -1,0 +1,47 @@
+﻿
+
+<div class="modal fade" role="dialog" id="ChangeDueDateModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width:470px;">
+            <form method="post" id="Form_ChangeDueDateModal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Due Date </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="form-group col-md-12" hidden>
+                            <label class="control-label form-label col-sm-2"> TransId </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" type="text" id="DueDate-transId" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> Due&nbsp;Date  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtEnd" type="text" id="DueDate-Old" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label form-label col-sm-2"> New&nbsp;Due  </label>
+                            <div class="col-sm-10">
+                                <input class="form-control form-group-margin-bot" name="DtEnd-New" type="text" id="DueDate-New" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-md-12 col-sm-12 col-xs-9">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="Submit_DueDateChange()">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

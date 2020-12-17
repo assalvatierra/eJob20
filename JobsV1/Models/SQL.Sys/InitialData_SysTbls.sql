@@ -244,7 +244,8 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) v
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (19,19);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Receivables' ,'',19,'Receivables/ArTransactions','Index','',21,191),	 -- id: 73
-	    ('Accounts' ,'',19,'Receivables/ArAccounts','Index','',21,192);	 -- id: 73
+	    ('Accounts' ,'',19,'Receivables/ArAccounts','Index','',21,192),	 -- id: 73
+	    ('Manage' ,'',19,'Receivables/ArMgt','Index','',21,193);	 -- id: 73
 
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
@@ -424,6 +425,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 76, 76),
 ('jahdielvillosa@gmail.com', 77, 77),
 ('jahdielvillosa@gmail.com', 78, 78),
+('jahdielvillosa@gmail.com', 79, 79),
 
 
 ('Demo@gmail.com', 20, 20),

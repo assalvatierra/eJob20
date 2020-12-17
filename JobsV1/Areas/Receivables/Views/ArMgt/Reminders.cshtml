@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ArModels.Models.ArTransaction>
+@{
+    ViewBag.Title = "Reminders";
+}
+
+<h2>
+    Reminders
+</h2>
+<p>
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null)
+</p>
+<table class="table">
+    <tr>
+        <th> Invoice </th>
+        <th> Invoice Date</th>
+        <th> Due Date</th>
+        <th> Account </th>
+        <th> Desc </th>
+        <th> Status </th>
+        <th> Amount </th>
+        <th> Actions </th>
+    </tr>
+    @foreach (var transaction in Model)
+    {
+        <tr>
+            <td> @transaction.InvoiceId </td>
+            <td> @transaction.DtInvoice.ToString("MMM dd yyyy") </td>
+            <td> @transaction.DtDue.ToString("MMM dd yyyy") </td>
+            <td> @transaction.ArAccount.Name </td>
+            <td> @transaction.Description </td>
+            <td> @transaction.ArTransStatu.Status </td>
+            <td> @transaction.Amount </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Actions
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li> @Html.ActionLink("Send Reminder", "CreateTransPayment", "ArPayments", new { transId = transaction.Id }, null) </li>
+                        <li role="separator" class="divider"></li>
+                        <li> @Html.ActionLink("Edit", "Edit", new { id = transaction.Id }) </li>
+                        <li> @Html.ActionLink("Details", "Details", new { id = transaction.Id }) </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

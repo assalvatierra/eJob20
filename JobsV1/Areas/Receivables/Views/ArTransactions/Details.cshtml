@@ -129,7 +129,7 @@
                 @payments.ArPayment.Amount.ToString("#,##0.00")
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id }, null) |
+                @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null) |
            
                 @Html.ActionLink("Delete", "DeleteTransPayment", "ArPayments", new { id = payments.Id }, null)
             </td>

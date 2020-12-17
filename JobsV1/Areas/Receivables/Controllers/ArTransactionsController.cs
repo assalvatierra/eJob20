@@ -17,9 +17,11 @@ namespace JobsV1.Areas.Receivables.Controllers
         private ReceivableFactory ar = new ReceivableFactory();
 
         // GET: ArTransactions
-        public ActionResult Index()
+        public ActionResult Index(string status)
         {
-            var arTransactions = ar.TransactionMgr.GetTransactions();
+            var arTransactions = ar.TransactionMgr.GetTransactions(status);
+
+            ViewBag.Status = status;
             return View(arTransactions.ToList());
         }
 
@@ -69,7 +71,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 ar.TransactionMgr.AddTransaction(arTransaction);
 
                 //new transaction action history (new bill)
-                ar.ActionMgr.AddAction(1, today, currentUser, arTransaction.Id);
+                ar.ActionMgr.AddAction(1, currentUser, arTransaction.Id);
 
                 //new account
                 if (arTransaction.ArAccountId == 1)
@@ -265,12 +267,78 @@ namespace JobsV1.Areas.Receivables.Controllers
                 ar.TransactionMgr.CloseTransactionStatus(id);
 
                 //post
-                ar.TransPostMgr.CreateTransPost(transaction, today, TotalBalance);
+               var postResponse = ar.TransPostMgr.CreateTransPost(transaction, today, TotalBalance);
+
+                if (postResponse)
+                {
+                    //add activity transaction closed 
+                    ar.ActionMgr.AddAction(6, GetUser(), id);
+                }
             }
 
             return RedirectToAction("Details", new { id = id });
         }
 
+        [HttpGet]
+        public JsonResult CheckAccountCredit(int id)
+        {
 
+            var account = ar.AccountMgr.GetLatestAccntCreditLimit(id);
+
+            var creditLimit = new ArAccntCredit()
+            {
+                DtCredit = account.DtCredit,
+                ArAccountId = account.ArAccountId,
+                CreditLimit = account.CreditLimit,
+                CreditWarning = account.CreditWarning,
+                OverLimitAllowed = account.OverLimitAllowed
+            };
+
+            return Json(creditLimit, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public bool UpdateTransStatus(int? transId, int? statusId)
+        {
+            if (transId == null || statusId == null)
+            {
+                return false;
+            }
+
+            var trans = ar.TransactionMgr.GetTransactionById((int)transId);
+
+            if (trans == null)
+            {
+                return false;
+            }
+
+            trans.ArTransStatusId = (int)statusId;
+            //update
+            var editResponse = ar.TransactionMgr.EditTransaction(trans);
+
+            if (editResponse)
+            {
+                var user = GetUser(); //edit to get user here!
+
+                ar.ActionMgr.AddAction((int)statusId, user, (int)transId);
+
+                return true;
+            }
+
+            return false;
+
+        }
+
+        private string GetUser()
+        {
+            if (HttpContext.User.Identity.Name != "")
+            {
+                return HttpContext.User.Identity.Name;
+            }
+            else
+            {
+                return "User";
+            }
+        }
     }
 }

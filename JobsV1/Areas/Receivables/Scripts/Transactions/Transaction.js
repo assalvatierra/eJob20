@@ -24,7 +24,10 @@ function InitDatePicker() {
         }
     );
 
-    //$('input[name="DtStart"]').val(ddd1.substr(0, ddd1.indexOf(" ")));
+    console.log(ddd1.trim() == "")
+    if (ddd1.trim() == "") {
+        $('input[name="DtInvoice"]').val(moment().format('MM/DD/YYYY h:mm A'));
+    }
 
     //Date 2
     var ddd2 = $('input[name="DtEncoded"]').val();
@@ -45,7 +48,9 @@ function InitDatePicker() {
         }
     );
 
-    $('input[name="DtEncoded"]').val(moment().format('MM/DD/YYYY h:mm A'));
+    if (ddd2.trim() == "") {
+        $('input[name="DtEncoded"]').val(moment().format('MM/DD/YYYY h:mm A'));
+    }
 
     //Date 2
     var ddd3 = $('input[name="DtDue"]').val();
@@ -66,6 +71,9 @@ function InitDatePicker() {
         }
     );
 
+    if (ddd3.trim() == "") {
+        $('input[name="DtDue"]').val(moment().format('MM/DD/YYYY h:mm A'));
+    }
 
     //Date 4
     var ddd4 = $('input[name="DtService"]').val();
@@ -86,6 +94,9 @@ function InitDatePicker() {
         }
     );
 
+    if (ddd4.trim() == "") {
+        $('input[name="DtService"]').val(moment().format('MM/DD/YYYY h:mm A'));
+    }
 
 }
 

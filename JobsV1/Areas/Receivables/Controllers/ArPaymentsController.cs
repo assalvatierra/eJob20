@@ -90,7 +90,17 @@ namespace JobsV1.Areas.Receivables.Controllers
             if (ModelState.IsValid && InputValidation(arPayment))
             {
                 ar.PaymentMgr.AddPayment(arPayment);
-                ar.TransPaymentMgr.AddTransPayment(transId, arPayment.Id);
+                var createResponse = ar.TransPaymentMgr.AddTransPayment(transId, arPayment.Id);
+ 
+
+                if (createResponse)
+                {
+                    //add activity based on statusId
+                    var user = "User"; //edit to get user here!
+
+                    ar.ActionMgr.AddAction(7, user, (int)transId);
+                }
+
                 return RedirectToAction("Details", "ArTransactions",new { id = transId });
             }
 
@@ -127,7 +137,8 @@ namespace JobsV1.Areas.Receivables.Controllers
             if (ModelState.IsValid && InputValidation(arPayment))
             {
                 ar.PaymentMgr.EditPayment(arPayment);
-                return RedirectToAction("Index");
+                var transId = ar.TransPaymentMgr.GetTransPaymentsByPaymentId(arPayment.Id);
+                return RedirectToAction("Details", "ArTransactions", new { id = transId });
             }
             ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
@@ -136,7 +147,7 @@ namespace JobsV1.Areas.Receivables.Controllers
 
 
         // GET: ArPayments/Edit/5
-        public ActionResult EditTransPayment(int? id)
+        public ActionResult EditTransPayment(int? id, int transId)
         {
             if (id == null)
             {
@@ -147,6 +158,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.TransId = transId;
             ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             return View(arPayment);
@@ -157,13 +169,14 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTransPayment([Bind(Include = "Id,DtPayment,Amount,Remarks,Reference,ArAccountId,ArPaymentTypeId")] ArPayment arPayment)
+        public ActionResult EditTransPayment([Bind(Include = "Id,DtPayment,Amount,Remarks,Reference,ArAccountId,ArPaymentTypeId")] ArPayment arPayment, int transId)
         {
             if (ModelState.IsValid && InputValidation(arPayment))
             {
                 ar.PaymentMgr.EditPayment(arPayment);
-                return RedirectToAction("Details", "ArTransactions", new { id = arPayment.Id });
+                return RedirectToAction("Details", "ArTransactions", new { id = transId });
             }
+            ViewBag.TransId = transId;
             ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             return View(arPayment);
@@ -192,10 +205,11 @@ namespace JobsV1.Areas.Receivables.Controllers
             //remove payment transaction
             var transPayment = ar.TransPaymentMgr.GetTransPaymentsByPaymentId(id);
             ar.TransPaymentMgr.RemoveTransPayment(transPayment);
+            var transId = transPayment.ArTransactionId;
 
             //remove payment
             ar.PaymentMgr.RemovePayment(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "ArTransactions", new { id = transId });
         }
 
 
@@ -223,7 +237,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             var transPayment = ar.TransPaymentMgr.GetTransPaymentsByPaymentId(id);
             ar.TransPaymentMgr.RemoveTransPayment(transPayment);
 
-            var transId = transPayment.Id;
+            var transId = transPayment.ArTransactionId;
 
             //remove payment
             ar.PaymentMgr.RemovePayment(id);
