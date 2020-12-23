@@ -17,14 +17,16 @@ latest cars, cheapest cars.";
             Check the kind of vehicle you need to rent. We have
             different classifications for you to choose. Reserve the right one.
         </p>
-        <a href="/" class="btn btn-default" title="Go Back to Home">
+
+        @*<a href="/" class="btn btn-default" title="Go Back to Home">
             <img src="~/Images/Icons/icons-home.png" width="18" class="banner-sm-icon" alt="go to homepage" />
             Go back home
         </a>
         <a href="/CarRental/PriceList" class="btn btn-default" title="Go to PRice List">
             <img src="~/Images/Icons/icons-peso-symbol.png" width="18" class="banner-sm-icon" alt="go to price list" />
             Go to Vehicles Price List
-        </a>
+        </a>*@
+
     </div>
 </div>
 
@@ -48,19 +50,19 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 7,}, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 7,}, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon"  alt="vehicle with class" /> AT/MT </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon"  alt="vehicle with passwenger"/> 10-14 Seater  </p>
-                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon"  alt="vehicle with driver"/> With Driver </p>
-                            <br />
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle with class" /> AT/MT </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle with passwenger" /> 10-14 Seater  </p>
+                            <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver </p>
+                            
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)*@
                             </p>
-                            <p class="text-price">P 3,500.00 </p>
+                            <p class="text-price" style="margin-top:22px;">P 3,500.00 </p>
 
                         </div>
                     </div>
@@ -81,19 +83,19 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left" >
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Ford-Everest.jpg" class="center-block img-thumbnail" alt="Ford Everest" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Ford Everest </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle with class" /> AT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle with passenger" /> 5-7 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver  </p>
-                            <br />
+                         
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)*@
                             </p>
-                            <p class="text-price">P 3,000.00 </p>
+                            <p class="text-price" style="margin-top:22px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -102,13 +104,14 @@ latest cars, cheapest cars.";
 
         <div class="page-featured-contact-us">
             <a href="#ContactUs" class="btn btn-primary" title="Contact Us">
-                <img src="~/Images/Icons/icon-call-white.png" width="18" class="btn-sm-icon"  alt="contact" />
+                <img src="~/Images/Icons/icon-call-white.png" width="18" class="btn-sm-icon" alt="contact" />
                 Contact Us
             </a>
-            <a href="/CarRental/PriceList" class="btn btn-default" title="Go to Unit Prices">
-                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" class="btn-sm-icon"  alt="price" />
+            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-default" })
+            @*<a href="/CarRental/PriceList" class="btn btn-default" title="Go to Unit Prices">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" class="btn-sm-icon" alt="price" />
                 See Similar Priced Units
-            </a>
+            </a>*@
         </div>
     </div>
     <div id="Latest">
@@ -131,19 +134,19 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 7}, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 7}, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle class" /> AT/MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle passenger" /> 10-14 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver  </p>
-                            <br />
+                            
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)*@
                             </p>
-                            <p class="text-price">P 3,500.00 </p>
+                            <p class="text-price" style="margin-top:22px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -151,19 +154,19 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left" >
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="Toyota Hilux" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 6}, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 6}, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 6}, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 6}, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Hilux 4x4 2020 </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle class" /> MT </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle passenger" /> 5 Seater  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle driver" /> With Driver  </p>
-                            <br />
+                            @*<br />*@
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)*@
                             </p>
-                            <p class="text-price">P 3,500.00 </p>
+                            <p class="text-price" style="margin-top:22px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -171,8 +174,8 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left">
                             <img src="~/Images/CarRental/innova/toyota-innova-2020-sm.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Innova 2020 </p>
@@ -181,9 +184,9 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle self Drive" /> Self Drive  </p>
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)*@
                             </p>
-                            <p class="text-price">P 3,000.00 </p>
+                            <p class="text-price" style="margin-top:-7px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -191,8 +194,8 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Innova 2019 </p>
@@ -201,9 +204,9 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle self Drive" /> Self Drive  </p>
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)*@
                             </p>
-                            <p class="text-price">P 3,000.00 </p>
+                            <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -211,8 +214,8 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left">
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Rush.jpg" class="center-block img-thumbnail" alt="Toyota Rush" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 8 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 8 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 8 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 8 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Rush </p>
@@ -221,9 +224,9 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle self Drive" /> Self Drive  </p>
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 8 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 8 }, null)*@
                             </p>
-                            <p class="text-price">P 3,000.00 </p>
+                            <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -236,10 +239,11 @@ latest cars, cheapest cars.";
                 <img src="~/Images/Icons/icon-call-white.png" width="18" class="btn-sm-icon" alt="call us" />
                 Contact Us
             </a>
-            <a href="/CarRental/PriceList" class="btn btn-default"  title="Go to Unit Prices">
+            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-default" })
+            @*<a href="/CarRental/PriceList" class="btn btn-default"  title="Go to Unit Prices">
                 <img src="~/Images/Icons/icons-peso-symbol.png" width="18" class="btn-sm-icon" alt="price" />
                 See Similar Priced Units
-            </a>
+            </a>*@
         </div>
     </div>
 
@@ -262,8 +266,8 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left" >
                             <img src="~/Images/CarRental/CarViews/ToyotaInnova/Toyota-innova.png" class="center-block img-thumbnail" alt="Toyota Innova" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Innova 2013 </p>
@@ -272,18 +276,19 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle self Drive" /> Self Drive  </p>
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)*@
                             </p>
-                            <p class="text-price">P 2,500.00 </p>
+                            <p class="text-price"  style="margin-top:-5px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
+
                 <div class="page-featured-item-box">
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left">
                             <img src="~/Images/CarRental/CarViews/ToyotaInnova/toyotainnova2015.jpg" class="center-block img-thumbnail" alt="Toyota Innova 2015" style="height:100px;" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 4 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Innova 2015 </p>
@@ -292,18 +297,19 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle fuel" /> Self Drive  </p>
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 4 }, null)*@
                             </p>
-                            <p class="text-price">P 2,500.00 </p>
+                            <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
+
                 <div class="page-featured-item-box">
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left" >
                             <img src="~/Images/CarRental/fortuner/Toyota-Fortuner.jpg" class="center-block img-thumbnail" alt="Toyota Fortuner" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Fortuner 2011 </p>
@@ -312,9 +318,9 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon"  alt="vehicle with driver" /> With Driver or  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle fuel"  /> Self Drive  </p>
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)*@
                             </p>
-                            <p class="text-price">P 2,500.00 </p>
+                            <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -326,10 +332,11 @@ latest cars, cheapest cars.";
                 <img src="~/Images/Icons/icon-call-white.png" width="18" class="btn-sm-icon" alt="call-us" />
                 Contact Us
             </a>
-            <a href="/CarRental/PriceList" class="btn btn-default" title="Go to Unit Prices">
-                <img src="~/Images/Icons/icons-peso-symbol.png" width="18"  class="btn-sm-icon" alt="price" />
+            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-default" })
+            @*<a href="/CarRental/PriceList" class="btn btn-default" title="Go to Unit Prices">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" class="btn-sm-icon" alt="price" />
                 See Similar Priced Units
-            </a>
+            </a>*@
         </div>
     </div>
 
@@ -353,8 +360,8 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left" >
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Hilux.jpg" class="center-block img-thumbnail" alt="Toyota Hilux" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 6 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 6 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Hilux 4x4 2020 </p>
@@ -363,9 +370,9 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle parking" /> With Driver or  </p>
                             <br />
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 6 }, null)*@
                             </p>
-                            <p class="text-price">P 3,500.00 </p>
+                            <p class="text-price" style="margin-top:-7px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -373,8 +380,8 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left" >
                             <img src="~/Images/CarRental/fortuner/Toyota-Fortuner.jpg" class="center-block img-thumbnail" alt="Toyota Fortuner" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 3 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 3 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Fortuner 2011 </p>
@@ -383,9 +390,9 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle parking" /> With Driver or  </p>
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle fuel" /> Self Drive  </p>
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 3 }, null)*@
                             </p>
-                            <p class="text-price">P 2,500.00 </p>
+                            <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -394,13 +401,14 @@ latest cars, cheapest cars.";
 
         <div class="page-featured-contact-us">
             <a href="#ContactUs" class="btn btn-primary" title="Contact Us">
-                <img src="~/Images/Icons/icon-call-white.png" width="18"  class="btn-sm-icon" alt="call us" />
+                <img src="~/Images/Icons/icon-call-white.png" width="18" class="btn-sm-icon" alt="call us" />
                 Contact Us
             </a>
-            <a href="/CarRental/PriceList" class="btn btn-default" title="Go to Unit Prices">
-                <img src="~/Images/Icons/icons-peso-symbol.png" width="18"  class="btn-sm-icon" alt="price" />
+            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-default" })
+            @*<a href="/CarRental/PriceList" class="btn btn-default" title="Go to Unit Prices">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" class="btn-sm-icon" alt="price" />
                 See Similar Priced Units
-            </a>
+            </a>*@
         </div>
     </div>
 
@@ -421,8 +429,8 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left" >
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 7 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 7 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
@@ -431,9 +439,9 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle driver" /> With Driver  </p>
                             <br />
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 7 }, null)*@
                             </p>
-                            <p class="text-price">P 3,500.00 </p>
+                            <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -441,8 +449,8 @@ latest cars, cheapest cars.";
                     <div class="col-md-12 no-margin no-padding">
                         <div class="col-md-6 col-xs-6 no-padding-left" >
                             <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Nissan-Premium.jpg" class="center-block img-thumbnail" alt="Nissan Premium" />
-                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
-                            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })
+                            @Html.ActionLink("Reserve this Unit", "Reservation", "CarRental", new { id = 2 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+                            @*@Html.ActionLink("Request Quote", "PriceQuote", "CarRental", new { id = 2 }, new { @class = "btn btn-default btn-sm set-max-width" })*@
                         </div>
                         <div class="col-md-6 col-xs-6 no-padding">
                             <p class="featured-item-box-p"> Nissan Premium NV350</p>
@@ -451,9 +459,9 @@ latest cars, cheapest cars.";
                             <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle driver" /> With Driver  </p>
                             <br />
                             <p class="page-featured-text-link">
-                                @Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 2 }, null)
+                                @*@Html.ActionLink("More Details", "CarDetail", "CarRental", new { unitid = 2 }, null)*@
                             </p>
-                            <p class="text-price">P 3,500.00 </p>
+                            <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
                         </div>
                     </div>
                 </div>
@@ -462,13 +470,14 @@ latest cars, cheapest cars.";
 
         <div class="page-featured-contact-us">
             <a href="#ContactUs" class="btn btn-primary" title="Contact Us">
-                <img src="~/Images/Icons/icon-call-white.png" width="18"  class="btn-sm-icon" alt="call us" />
+                <img src="~/Images/Icons/icon-call-white.png" width="18" class="btn-sm-icon" alt="call us" />
                 Contact Us
             </a>
-            <a href="/CarRental/PriceList" class="btn btn-default" title="Go to Vehicle Prices">
-                <img src="~/Images/Icons/icons-peso-symbol.png" width="18"  class="btn-sm-icon" alt="price" />
+            @Html.ActionLink("Request Quote", "PriceQuote", "CarRental", null, new { @class = "btn btn-default" })
+            @*<a href="/CarRental/PriceList" class="btn btn-default" title="Go to Vehicle Prices">
+                <img src="~/Images/Icons/icons-peso-symbol.png" width="18" class="btn-sm-icon" alt="price" />
                 See Similar Priced Units
-            </a>
+            </a>*@
         </div>
     </div>
     <br />

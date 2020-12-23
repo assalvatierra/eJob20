@@ -337,7 +337,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             }
             else
             {
-                return "User";
+                return "Not Log In";
             }
         }
     }

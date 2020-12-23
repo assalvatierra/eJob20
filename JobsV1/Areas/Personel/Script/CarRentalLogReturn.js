@@ -60,7 +60,20 @@ function ApproveRequest(id) {
     $.post("/Personel/crLogFuels/ApproveRequest", { id: parseInt(id) }, (result) => {
         console.log(result)
         if (result == 'True') {
-            window.location.reload();
+            window.location.reload(false);
+        } else {
+            alert("An Error occured while process your request");
+        }
+    });
+}
+
+
+function ApproveRequest(e, id) {
+    $.post("/Personel/crLogFuels/ApproveRequest", { id: parseInt(id) }, (result) => {
+        console.log(result)
+        if (result == 'True') {
+            //window.location.reload(false);
+            $(e).parent().parent().parent().remove();
         } else {
             alert("An Error occured while process your request");
         }
@@ -69,11 +82,25 @@ function ApproveRequest(id) {
 
 
 
+
 function ApproveRelease(id) {
     $.post("/Personel/crLogFuels/ApproveRelease", { id: parseInt(id) }, (result) => {
         console.log(result)
         if (result == 'True') {
-            window.location.reload();
+            window.location.reload(false);
+        } else {
+            alert("An Error occured while process your request");
+        }
+    });
+}
+
+
+function ApproveRelease(e, id) {
+    $.post("/Personel/crLogFuels/ApproveRelease", { id: parseInt(id) }, (result) => {
+        console.log(result)
+        if (result == 'True') {
+            //window.location.reload(false);
+            $(e).parent().parent().parent().remove();
         } else {
             alert("An Error occured while process your request");
         }
@@ -91,7 +118,7 @@ function InitReturnLogModal(id, desc, amount, dtReq) {
     $("#ReturnLogModal").modal("show");
 }
 
-function SubmitReturnLog() {
+function SubmitReturnLog(e) {
    
     var data = {
         id: $("#return-LogFuelId").val(),
@@ -107,7 +134,8 @@ function SubmitReturnLog() {
     var res = $.post("/Personel/CrLogFuels/SubmitReturnLog", data, (result) => {
         console.log(result);
         if (result == 'True') {
-            window.location.reload();
+            //window.location.reload(false);
+            $(e).parent().parent().parent().remove();
         } else {
             alert("An Error occured while process your request");
         }

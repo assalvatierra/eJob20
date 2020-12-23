@@ -239,13 +239,13 @@ values 	('Trip Logs' ,'',18,'AutoCare/Vehicles','Index','',21,151);	 -- id: 73
 
 -- Receivables --
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
-('AR001','Recievables','Receivables and Collections','A','/Images/Erp/icons/icons-report.png');
+('AR001','Recievables','Receivables and Collections','A','/Images/Erp/icons/icons-receivables.png');
 
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (19,19);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
-values 	('Receivables' ,'',19,'Receivables/ArTransactions','Index','',21,191),	 -- id: 73
-	    ('Accounts' ,'',19,'Receivables/ArAccounts','Index','',21,192),	 -- id: 73
-	    ('Manage' ,'',19,'Receivables/ArMgt','Index','',21,193);	 -- id: 73
+values 	('Receivables' ,'',19,'Receivables/ArTransactions','Index','',21,191),	-- id: 74
+	    ('Accounts' ,'',19,'Receivables/ArAccounts','Index','',21,192),			-- id: 74
+	    ('Manage' ,'',19,'Receivables/ArMgt','Index','',21,193);				-- id: 74
 
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 

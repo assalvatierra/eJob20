@@ -10,12 +10,12 @@
     decimal totalBalance = 0;
     decimal totalPaid = 0;
 }
+
+<h2>Details</h2>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
-
-<h2>Details</h2>
 <div class="col-md-12">
     <hr />
     <div class="col-md-4">
@@ -272,7 +272,7 @@
         </tr>
     }
     <tr>
-        
+
         <td colspan="7">
             <span class="pull-right"> Total </span>
         </td>
@@ -296,7 +296,6 @@
             @totalBalance.ToString("#,##0.00")
         </td>
         <td>
-
         </td>
         <td>
         </td>

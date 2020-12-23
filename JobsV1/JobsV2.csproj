@@ -1606,6 +1606,7 @@
     <Content Include="Images\CarRental\Home\Article\Article-car-sunset.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Seating-Capacity.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-SUV-rental-Davao.jpg" />
+    <Content Include="Images\CarRental\Home\Article\Article-Why-Rent-A-Car.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Why-Visit-Davao.jpg" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-service.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-tracking.png" />
@@ -1617,6 +1618,13 @@
     <Content Include="Images\CarRental\Home\Article\ShuttleService\secure-car-vector.jpg" />
     <Content Include="Images\CarRental\Home\Article\ShuttleService\shuttle-car-safe.jpg" />
     <Content Include="Images\CarRental\Home\Article\ShuttleService\shuttle-car-service.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\Article-Why-Rent-A-Car-1.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\Article-Why-Rent-A-Car-2.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\Article-Why-Rent-A-Car-3.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\Article-Why-Rent-A-Car-4.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\hotel-apo-view.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\hotel-marco-polo.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\hotel-royal-mandayan.jpg" />
     <Content Include="Images\CarRental\Home\car-rental-comfortable-travel.jpg" />
     <Content Include="Images\CarRental\Home\car-rental-flexible.jpg" />
     <Content Include="Images\CarRental\Home\car-rental-safe.jpg" />
@@ -1818,6 +1826,7 @@
     <Content Include="Images\Erp\icons\icons8-lease-64.png" />
     <Content Include="Images\Erp\icons\icons-admin.png" />
     <Content Include="Images\Erp\icons\inprogress.png" />
+    <Content Include="Images\Erp\icons\icons-receivables.png" />
     <Content Include="Images\Erp\inprogress.png" />
     <Content Include="Images\Erp\partial-128.png" />
     <Content Include="Images\Erp\Person01.png" />
@@ -2342,6 +2351,7 @@
     <Content Include="Areas\Receivables\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Receivables\Views\web.config" />
     <Content Include="Areas\Receivables\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArPayments\CreateSettlePayment.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -3194,6 +3204,7 @@
     <Content Include="Views\CarRental\Services\Cargo-Delivery.cshtml" />
     <Content Include="Views\CarRental\Services\Employee-Shuttle.cshtml" />
     <Content Include="Views\CarRental\Services\Shuttle-Service.cshtml" />
+    <Content Include="Views\CarRental\ArticlesView\WhyRentACar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

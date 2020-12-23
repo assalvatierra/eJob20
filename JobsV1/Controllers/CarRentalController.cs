@@ -477,7 +477,7 @@ namespace JobsV1.Controllers
                 var unitId = Session["Reservation_UnitId"] as int?;
                 if (unitId == null)
                 {
-                    unitId = 1;
+                    unitId = 0;
                 }
 
                 if (id != null)
@@ -518,7 +518,7 @@ namespace JobsV1.Controllers
                 ViewBag.DtEnd = default_DtEnd;
                 ViewBag.rsvTypeId = rsvType;
                 ViewBag.rsvTypeDesc = rsvTypeDesc;
-                ViewBag.carId = id ?? 1;
+                ViewBag.carId = id ?? 0;
 
                 var unit = "";
                 if (id != null)
@@ -1026,6 +1026,8 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/ArticlesView/VisitDavao.cshtml");
                 case "WhyBook":
                     return View("~/Views/CarRental/ArticlesView/WhyBook.cshtml");
+                case "WhyRentACar":
+                    return View("~/Views/CarRental/ArticlesView/WhyRentACar.cshtml");
                 default:
                     return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
             }

@@ -309,6 +309,68 @@
 
 </div>
 
+<div class="col-md-12" style="margin:50px 20px;">
+    <h1>
+        Car Rental Reservation
+    </h1>
+    <p>
+        If you are looking to make a car booking reservation is Davao, you should consider us.
+        At <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a> , we provide all our customers with
+        flexible and affordable options when they rent a car.
+        Our offices are located at the heart of Davao City, which makes picking your car rental reservations easy.
+        Additionally, you can opt to have your car dropped on at your hotel or the airport when you make a rental
+        car reservation with us. We aim to be the leading car rental service in Davao by offering clients the best
+        quality of cars at the most affordable rates. Besides the rental car service, we also offer tours and travel
+        packages to our clients. You can make a booking for a guided tour of the interior and experience the scenic
+        views of the Mindanao countryside. If you are planning a trip to Davao City and the surrounding, using a
+        rental car can be the easiest way to get around. Here are a few reasons why your rental car booking should
+        be through <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a>.
+
+    </p>
+
+    <h2>
+        We Have A Large Fleet of Cars
+    </h2>
+    <p>
+        Whether you are traveling alone or as part of a large group of friends or family, we have a car to suit your needs.
+        You can access a rental minivan, van, SUV, pickup, sedan, MPV, or AUV from us. In short, we have vehicles for every situation.
+    </p>
+
+    <h2>
+        Affordable Rates
+    </h2>
+    <p>
+        The demand for rental cars has been on the rise as more people discover the benefits of renting a car
+        when traveling. As demand has risen, customer expectations have risen as well. At Real Wheels Davao,
+        we can help you access the highest quality of rental cars at a low cost.
+    </p>
+
+    <h2>
+        Stress-Free Booking Process
+    </h2>
+    <p>
+        Our service allows you to book the car online or via a phone call. Whichever option you pick on our website,
+        you can be assured that the process will be stress-free. Our staff will handle your request for a car professionally
+        and it will be waiting for you when you arrive at the hotel or land at the airport. We always listen to the
+        needs of our customers and fulfill them to the best of our abilities.
+    </p>
+
+    <h2>
+        Professional Staff and Drivers
+    </h2>
+    <p>
+        <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a>  is a professional company that hires professional drivers. When you rent a car from us,
+        you can be assured that we will handle your professionally. For those who opt to use one of our drivers,
+        you can be assured of the highest level of professionalism. The driver will show you around and take you
+        on a guided tour of some of the most popular tourist attractions in Davao and the Mindanao courtside.
+        Besides that, our drivers will ensure that you get to your meeting on time, for those that visit Davao
+        on business. They have excellent knowledge of the road network and they will use it to your benefit.
+    </p>
+    <p>
+        <button class="btn btn-default" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"> Reserve Now </button>
+    </p>
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/CarRental/FormRenter.js"></script>
@@ -317,12 +379,18 @@
         $(() => {
             //Initial
             //select unit on default based on carId
-            selectUnit(null, @ViewBag.carId);
-            $("#unit-@ViewBag.carId").parent().addClass("unit-selected");
-
             //set default rental type option to with driver
             $("#Rental-WithDriver").prop("checked", true);
             $("input[name='SelfDrive']").val(0);
+
+            if (@ViewBag.carId == 0) {
+            } else {
+                
+                selectUnit(null, @ViewBag.carId);
+                $("#unit-@ViewBag.carId").parent().addClass("unit-selected");
+                $("#unit-@ViewBag.carId").parent().siblings().hide();
+
+            }
         });
 
         $(".rsv-unit-item").click(() => {

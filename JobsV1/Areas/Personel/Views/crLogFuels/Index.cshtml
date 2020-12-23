@@ -141,7 +141,7 @@
                    case 1:
                        if (IsAdmin) { 
                         <span>
-                            <a class="cursor-hand" onclick="ApproveRequest('@item.crLogFuel.Id')"> Approve </a> 
+                            <a class="cursor-hand" onclick="ApproveRequest(this, '@item.crLogFuel.Id')"> Approve </a> 
                         </span>
                        }
                        else
@@ -152,7 +152,7 @@
                    case 2:
                        <span>
                            @Html.ActionLink("Print", "PrintApproveForm", new { id = item.crLogFuel.Id }, new { @target = "_blank" }) |
-                           <a class="cursor-hand" onclick="ApproveRelease('@item.crLogFuel.Id')"> Release </a> 
+                           <a class="cursor-hand" onclick="ApproveRelease(this, '@item.crLogFuel.Id')"> Release </a> 
                        </span>
                        break;
                    case 3:

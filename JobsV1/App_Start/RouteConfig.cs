@@ -180,6 +180,12 @@ namespace JobsV1
                 url: "Articles/WhyBook",
                 defaults: new { controller = "CarRental", action = "ArticleView", article = "WhyBook" }
             );
+
+            routes.MapRoute(
+                name: "Article/WhyRentACar",
+                url: "Articles/WhyRentACar",
+                defaults: new { controller = "CarRental", action = "ArticleView", article = "WhyRentACar" }
+            );
             #endregion
 
             #region Services
