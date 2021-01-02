@@ -48,6 +48,10 @@
 
     @foreach (var item in Model)
     {
+        if (item.crLogCashTypeId == 3)
+        {
+            item.Amount = item.Amount * -1;
+        }
         TotalAmount += item.Amount;
         <tr>
             <td>
