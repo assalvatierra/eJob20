@@ -455,25 +455,12 @@ namespace JobsV1.Controllers
             }
         }
 
-        [HttpPost]
-        public string Set_Reservation(int? id)
-        {
-            if (id != null)
-            {
-
-                Session["Reservation_UnitId"] = id;
-                return "Ok";
-            }
-
-            return "Error";
-        }
-
 
         // GET: CarRental/Reservation
-        public ActionResult Reservation(int? id)
+        public ActionResult CarReservation(int? id)
         {
-            try
-            {
+            //try
+            //{
                 var unitId = Session["Reservation_UnitId"] as int?;
                 if (unitId == null)
                 {
@@ -521,7 +508,182 @@ namespace JobsV1.Controllers
                 ViewBag.carId = id ?? 0;
 
                 var unit = "";
+                if (id != 0)
+                {
+                    unit = db.CarUnits.Find(id).Description;
+                }
+
+                ViewBag.Unit = unit + " ";
+                ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
+                ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", rsvTypeId);
+                ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
+
+                return View(reservation);
+            //}
+            //catch
+            //{
+            //    //throw  ex;
+            //    return RedirectToAction("ReservationError");
+            //}
+        }
+
+
+        // POST: CarRental/Reservation
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateGoogleCaptcha]
+        public ActionResult CarReservation([Bind(Include = "Id,DtTrx,CarUnitId,DtStart,LocStart,DtEnd,LocEnd,BaseRate,Destinations,UseFor,RenterName,RenterCompany,RenterEmail,RenterMobile,RenterAddress,RenterFbAccnt,RenterLinkedInAccnt,EstHrPerDay,EstKmTravel,JobRefNo,SelfDrive,CarResTypeId,NoDays")] CarReservation carReservation)
+        {
+            try
+            {
+                int packageid = GetUnitDefaultPkgId(carReservation.CarUnitId);
+                int mealAcc = 0;
+                int fuel = 0;
+                var isValid = ModelState.IsValid;
+                var isReserveValid = ReservationValidation(carReservation);
+                var errors = ModelState
+                            .Where(x => x.Value.Errors.Count > 0)
+                            .Select(x => new { x.Key, x.Value.Errors })
+                            .ToArray();
+                if (isReserveValid)
+                {
+                    db.CarReservations.Add(carReservation);
+                    db.SaveChanges();
+
+                    //add reservation package
+                    addCarResPackage(carReservation.Id, packageid, mealAcc, fuel);
+
+                    //Filter email using url
+
+                    //sent email 
+                    var adminEmail = "travel.realbreeze@gmail.com";
+                    var emailResponse = "";
+                    var adminEmailList = db.AdminEmails.ToList();
+
+                    foreach (var emails in adminEmailList)
+                    {
+                        emailResponse = SendRsvEmail(carReservation.Id, emails.Email, "ADMIN", carReservation.RenterName);
+                        if (emailResponse != "success")
+                        {
+                            return RedirectToAction("ReservationError", new { msg = emailResponse });
+                        }
+                    }
+
+                    //client email
+                    emailResponse = SendRsvEmail(carReservation.Id, carReservation.RenterEmail, "CLIENT", carReservation.RenterName);
+                    if (emailResponse != "success")
+                    {
+                        return RedirectToAction("ReservationError", new { msg = emailResponse });
+                    }
+
+
+                    return RedirectToAction("FormThankYou", new { rsvId = carReservation.Id });
+                }
+
+                var rsvTypeId = carReservation.CarResTypeId;
+                var rsvTypeDesc = db.CarResTypes.Find(rsvTypeId).Type;
+
+                ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", carReservation.CarUnitId);
+                ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", carReservation.CarResTypeId);
+                ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
+
+                ViewBag.carId = carReservation.CarUnitId;
+                ViewBag.fuel = 0;
+                ViewBag.meals = 0;
+                ViewBag.pkgId = packageid;
+                ViewBag.DtStart = carReservation.DtStart;
+                ViewBag.DtEnd = carReservation.DtEnd;
+                ViewBag.rsvTypeId = rsvTypeId;
+                ViewBag.rsvTypeDesc = rsvTypeDesc;
+
+                var unit = db.CarUnits.Find(carReservation.CarUnitId).Description;
+
+                ViewBag.Unit = unit + " ";
+
+                return View(carReservation);
+            }
+            catch
+            {
+
+                return RedirectToAction("ReservationError");
+            }
+        }
+
+
+
+        [HttpPost]
+        public string Set_Reservation(int? id)
+        {
+            if (id != null)
+            {
+
+                Session["Reservation_UnitId"] = id;
+                return "Ok";
+            }
+
+            return "Error";
+        }
+
+
+        // GET: CarRental/Reservation
+        public ActionResult Reservation(int? id)
+        {
+            try
+            {
+                var unitId = Session["Reservation_UnitId"] as int?;
+                if (unitId == null)
+                {
+                    unitId = 0;
+                }
+
                 if (id != null)
+                {
+                    Session["Reservation_UnitId"] = id;
+                    return RedirectToAction("Reservation");
+                }
+                else
+                {
+                    id = 1;
+                }
+
+                //override id param
+                id = unitId;
+
+                var rsvType = 1;
+                DateTime today = DateTime.Now;
+                today = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(today, TimeZoneInfo.Local.Id, "Singapore Standard Time");
+
+                var default_DtStart = today.AddDays(2).ToString();
+                var default_DtEnd = today.AddDays(4).ToString();
+
+                CarReservation reservation = new CarReservation();
+                reservation.DtTrx = today;
+                reservation.DtStart = default_DtStart;
+                reservation.DtEnd = default_DtEnd;
+                reservation.JobRefNo = 0;
+                reservation.SelfDrive = 0;  //with driver = 0, self drive = 1;
+                reservation.EstHrPerDay = 10;
+                reservation.EstKmTravel = 100;
+                reservation.Destinations = "Within Davao City Area Only";
+                reservation.UseFor = "N/A";
+                reservation.CarResTypeId = 1; // 1 = Reservation, 2 = Quotation
+
+                var rsvTypeId = rsvType;
+                var rsvTypeDesc = db.CarResTypes.Find(rsvTypeId).Type;
+
+                ViewBag.fuel = 0;
+                ViewBag.meals = 0;
+                ViewBag.pkgId = 0;
+                ViewBag.DtStart = default_DtStart;
+                ViewBag.DtEnd = default_DtEnd;
+                ViewBag.rsvTypeId = rsvType;
+                ViewBag.rsvTypeDesc = rsvTypeDesc;
+                ViewBag.carId = id ?? 0;
+
+                var unit = "";
+                if (id != 0)
                 {
                     unit = db.CarUnits.Find(id).Description;
                 }
@@ -622,7 +784,6 @@ namespace JobsV1.Controllers
                 return RedirectToAction("ReservationError");
             }
         }
-
 
         // GET: CarRental/Reservation
         public ActionResult PriceQuote(int? id)

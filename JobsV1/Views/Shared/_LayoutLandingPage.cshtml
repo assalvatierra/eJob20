@@ -1,0 +1,108 @@
+﻿@{
+
+    if ( ViewBag.CanonicalURL == null)
+    { ViewBag.CanonicalURL = "https://realwheelsdavao.com/"; }
+
+    // http-->https & www-->non-www
+    //string sCan = (string)ViewBag.canonicalURL;
+    //ViewBag.CanonicalURL = sCan.Replace("http://", "https://").Replace("//www.","//");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="description" content="@ViewBag.Description" />
+    <link rel="canonical" href="@ViewBag.CanonicalURL" />
+    <link rel="next" href="https://realwheelsdavao.com/CarRental/About" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/Images/CarRental/Home/vehicle-type-sedan.jpg">
+    <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:description" content="@ViewBag.Description" />
+    <meta property="og:url" content="https://realwheelsdavao.com/" />
+    <meta property="og:site_name" content="Real Wheels Car Rental Davao" />
+    <meta property="og:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:description" content="@ViewBag.Description" />
+    <meta name="twitter:title" content="@ViewBag.Title" />
+    <meta name="twitter:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg">
+    @*<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">*@
+    @*<link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">*@
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/flickity")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css/DateRangePicker")
+    @Styles.Render("~/Content/themes/base/css")
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/Modal.js"></script>
+</head>
+
+
+<body onresize="toggleScreen()" onload="toggleScreen()">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" name="navbar-header" aria-label="navigation header">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand" id="navbar-title" name="RealWheels-Home" title="RealwheelsDavao.com">@ViewBag.NavBarTitle</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/" name="Home">Home</a></li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Control Panel", "Index", "Home")</li>
+
+                    }
+                    <li>@Html.ActionLink("About", "About", null, new { @title="About Us" })</li>
+                    <li>@Html.ActionLink("Contact", "Contact", null, new { @title = "Contact Us" })</li>
+
+                </ul>
+                @*@Html.Partial("_LoginPartial")*@
+            </div>
+        </div>
+    </div>
+
+    <div class="body-content-white">
+        @RenderBody()
+
+        <hr />
+        <footer>
+            <p class="text-center">&copy; @DateTime.Now.Year - Powered By: RealSys - Davao  </p>
+        </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @*<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/flickity")
+    @Scripts.Render("~/bundles/DateRangePicker")
+    @*<script type="text/javascript" src="~/Scripts/Job/Scroll.js"></script>*@
+    <script type="text/javascript" src="~/serviceworker.js"></script>
+    <script>
+        //For PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/serviceworker.js')
+                .then(function () { console.log('Service Worker Registered'); });
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+
+    @*<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>*@
+
+</body>
+</html>

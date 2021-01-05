@@ -1608,6 +1608,7 @@
     <Content Include="Images\CarRental\Home\Article\Article-SUV-rental-Davao.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Why-Rent-A-Car.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Why-Visit-Davao.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\Car-rental-process.jpg" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-service.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-tracking.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\door-to-door-delivery.png" />
@@ -1636,6 +1637,8 @@
     <Content Include="Images\CarRental\Home\email-bw.JPG" />
     <Content Include="Images\CarRental\Home\email-md-w.JPG" />
     <Content Include="Images\CarRental\Home\email-sm-w.JPG" />
+    <Content Include="Images\CarRental\Home\Vehicles\Fleet-Vehicles.png" />
+    <Content Include="Images\CarRental\Home\Vehicles\Honda-City-Reservation.png" />
     <Content Include="Images\CarRental\Home\icon-mpv.png" />
     <Content Include="Images\CarRental\Home\icon-pickup.png" />
     <Content Include="Images\CarRental\Home\icon-sedan.png" />
@@ -3205,6 +3208,8 @@
     <Content Include="Views\CarRental\Services\Employee-Shuttle.cshtml" />
     <Content Include="Views\CarRental\Services\Shuttle-Service.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\WhyRentACar.cshtml" />
+    <Content Include="Views\CarRental\CarReservation.cshtml" />
+    <Content Include="Views\Shared\_LayoutLandingPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
