@@ -459,8 +459,8 @@ namespace JobsV1.Controllers
         // GET: CarRental/Reservation
         public ActionResult CarReservation(int? id)
         {
-            //try
-            //{
+            try
+            {
                 var unitId = Session["Reservation_UnitId"] as int?;
                 if (unitId == null)
                 {
@@ -470,7 +470,7 @@ namespace JobsV1.Controllers
                 if (id != null)
                 {
                     Session["Reservation_UnitId"] = id;
-                    return RedirectToAction("Reservation");
+                    //return RedirectToAction("CarReservation");
                 }
 
                 //override id param
@@ -519,12 +519,12 @@ namespace JobsV1.Controllers
                 ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
 
                 return View(reservation);
-            //}
-            //catch
-            //{
-            //    //throw  ex;
-            //    return RedirectToAction("ReservationError");
-            //}
+            }
+            catch
+            {
+                //throw  ex;
+                return RedirectToAction("ReservationError");
+            }
         }
 
 
@@ -558,7 +558,7 @@ namespace JobsV1.Controllers
                     //Filter email using url
 
                     //sent email 
-                    var adminEmail = "travel.realbreeze@gmail.com";
+                    var adminEmail = "inquiries.realwheels@gmail.com";
                     var emailResponse = "";
                     var adminEmailList = db.AdminEmails.ToList();
 
@@ -611,6 +611,36 @@ namespace JobsV1.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult GetCarDetails(int? id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            var carDetails = db.CarDetails.Where(c=>c.CarUnitId == id).FirstOrDefault();
+
+            if (carDetails == null)
+            {
+                return null;
+            }
+            var data = new
+            {
+                CarUnitId = carDetails.CarUnitId,
+                Description = carDetails.CarUnit.Remarks,
+                Class = carDetails.Class,
+                Fuel = carDetails.Fuel,
+                Passengers = carDetails.Passengers,
+                Transmission = carDetails.Transmission,
+                Rate = carDetails.CarUnit.CarRates.FirstOrDefault().Daily,
+                ImgUrl = carDetails.CarUnit.CarImages.FirstOrDefault().ImgUrl,
+
+            };
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
 
 
         [HttpPost]
@@ -732,7 +762,7 @@ namespace JobsV1.Controllers
                     //Filter email using url
 
                     //sent email 
-                    var adminEmail = "travel.realbreeze@gmail.com";
+                    var adminEmail = "inquiries.realwheels@gmail.com";
                     var emailResponse = "";
                     var adminEmailList = db.AdminEmails.ToList();
 

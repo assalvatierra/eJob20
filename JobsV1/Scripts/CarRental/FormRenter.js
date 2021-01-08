@@ -73,8 +73,8 @@ function InitDatePicker() {
 
 
     //Date PickUp
-    var ddd4 = $('#Date-PickUp').val();
-    $('#Date-PickUp').daterangepicker(
+    var ddd4 = $('#rsvDate-PickUp').val();
+    $('#rsvDate-PickUp').daterangepicker(
         {
             timePicker: false,
             timePickerIncrement: 30,
@@ -90,11 +90,11 @@ function InitDatePicker() {
         }
     );
 
-    $('#Date-PickUp').val(moment(ddd4).format("MM/DD/YYYY"));
+    $('#rsvDate-PickUp').val(moment().add(2, 'days').format("MM/DD/YYYY"));
 
     //Date Drop Off
-    var ddd5 = $('#Date-DropOff').val();
-    $('#Date-DropOff').daterangepicker(
+    var ddd5 = $('#rsvDate-DropOff').val();
+    $('#rsvDate-DropOff').daterangepicker(
         {
             timePicker: false,
             timePickerIncrement: 30,
@@ -110,6 +110,6 @@ function InitDatePicker() {
         }
     );
 
-    $('#Date-DropOff').val(moment(ddd5).format("MM/DD/YYYY"));
+    $('#rsvDate-DropOff').val(moment().add(3, 'days').format("MM/DD/YYYY"));
 }
 

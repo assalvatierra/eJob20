@@ -1608,7 +1608,6 @@
     <Content Include="Images\CarRental\Home\Article\Article-SUV-rental-Davao.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Why-Rent-A-Car.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Why-Visit-Davao.jpg" />
-    <Content Include="Images\CarRental\Home\Article\WhyRentACar\Car-rental-process.jpg" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-service.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-tracking.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\door-to-door-delivery.png" />
@@ -1623,6 +1622,7 @@
     <Content Include="Images\CarRental\Home\Article\WhyRentACar\Article-Why-Rent-A-Car-2.jpg" />
     <Content Include="Images\CarRental\Home\Article\WhyRentACar\Article-Why-Rent-A-Car-3.jpg" />
     <Content Include="Images\CarRental\Home\Article\WhyRentACar\Article-Why-Rent-A-Car-4.jpg" />
+    <Content Include="Images\CarRental\Home\Article\WhyRentACar\car-rental-process.jpg" />
     <Content Include="Images\CarRental\Home\Article\WhyRentACar\hotel-apo-view.jpg" />
     <Content Include="Images\CarRental\Home\Article\WhyRentACar\hotel-marco-polo.jpg" />
     <Content Include="Images\CarRental\Home\Article\WhyRentACar\hotel-royal-mandayan.jpg" />
@@ -1847,6 +1847,7 @@
     <Content Include="Images\Icons\error.JPG" />
     <Content Include="Images\Icons\home.png" />
     <Content Include="Images\Icons\icon-ask-question-100.png" />
+    <Content Include="Images\Icons\icon-calendar.png" />
     <Content Include="Images\Icons\icon-call-blk.png" />
     <Content Include="Images\Icons\icon-call-white.png" />
     <Content Include="Images\Icons\icon-car-badge.png" />
@@ -3210,6 +3211,8 @@
     <Content Include="Views\CarRental\ArticlesView\WhyRentACar.cshtml" />
     <Content Include="Views\CarRental\CarReservation.cshtml" />
     <Content Include="Views\Shared\_LayoutLandingPage.cshtml" />
+    <Content Include="Views\CarReservations\_SearchCompanyModal.cshtml" />
+    <Content Include="Views\CarReservations\_SearchCustomerModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

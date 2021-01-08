@@ -16,21 +16,21 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Account
+        </th>
+        <th style="width:140px;">
+            @Html.DisplayNameFor(model => model.Landline)
+        </th>
+        <th style="width:140px;">
+            @Html.DisplayNameFor(model => model.Mobile)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Landline)
+            Contact Person
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Mobile)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Company)
-        </th>
-        <th>
+        <th style="width:140px;">
             @Html.DisplayNameFor(model => model.Address)
         </th>
         <th>
@@ -46,19 +46,21 @@
     {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Landline)<br />
+                @Html.DisplayFor(modelItem => item.Landline2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)<br />
+                @Html.DisplayFor(modelItem => item.Mobile2)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Landline)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mobile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address)

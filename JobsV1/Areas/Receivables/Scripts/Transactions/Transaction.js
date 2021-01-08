@@ -26,7 +26,7 @@ function InitDatePicker() {
 
     console.log(ddd1.trim() == "")
     if (ddd1.trim() == "") {
-        $('input[name="DtInvoice"]').val(moment().format('MM/DD/YYYY h:mm A'));
+        $('input[name="DtInvoice"]').val(moment().format('MM/DD/YYYY'));
     }
 
     //Date 2
@@ -72,7 +72,7 @@ function InitDatePicker() {
     );
 
     if (ddd3.trim() == "") {
-        $('input[name="DtDue"]').val(moment().format('MM/DD/YYYY h:mm A'));
+        $('input[name="DtDue"]').val(moment().format('MM/DD/YYYY'));
     }
 
     //Date 4
@@ -95,7 +95,31 @@ function InitDatePicker() {
     );
 
     if (ddd4.trim() == "") {
-        $('input[name="DtService"]').val(moment().format('MM/DD/YYYY h:mm A'));
+        $('input[name="DtService"]').val(moment().format('MM/DD/YYYY'));
+    }
+
+
+    //Date 4
+    var ddd5 = $('input[name="DtServiceTo"]').val();
+
+    $('input[name="DtServiceTo"]').daterangepicker(
+        {
+            timePicker: false,
+            timePickerIncrement: 1,
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'MM/DD/YYYY'
+            }
+        },
+        function (start, end, label) {
+            // alert(start.format('YYYY-MM-DD h:mm A'));
+
+        }
+    );
+
+    if (ddd5.trim() == "") {
+        $('input[name="DtServiceTo"]').val(moment().format('MM/DD/YYYY'));
     }
 
 }

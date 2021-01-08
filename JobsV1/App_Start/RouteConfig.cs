@@ -273,21 +273,21 @@ namespace JobsV1
             routes.MapRoute(
                name: "Reservation-Reserve",
                url: "CarRental/Reservation",
-               defaults: new { controller = "CarRental", action = "Reservation", id = "id", rsvType = 1 }
+               defaults: new { controller = "CarRental", action = "CarReservation", id = "id", rsvType = 1 }
            );
 
 
             routes.MapRoute(
                name: "Reservation-Reserve-dup",
                url: "CarRental/CarRental/Reservation",
-               defaults: new { controller = "CarRental", action = "Reservation", id = "id", rsvType = 1 }
+               defaults: new { controller = "CarRental", action = "CarReservation", id = "id", rsvType = 1 }
            );
 
 
             routes.MapRoute(
                name: "Reservation-Reserve-withID",
                url: "CarRental/Reservation/{id}",
-               defaults: new { controller = "CarRental", action = "Reservation", id = "id", rsvType = 1 }
+               defaults: new { controller = "CarRental", action = "CarReservation", id = "id", rsvType = 1 }
            );
 
 

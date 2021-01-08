@@ -2,7 +2,7 @@
 
 .booking-container {
     background-color:white;
-    padding:10px;
+    /*padding:10px;*/
     max-width: 530px;
     display:flex;
     align-content:center;
@@ -102,4 +102,152 @@
     max-width: 800px;
     min-width: 300px;
     margin-top:10px;
+}
+
+
+/* Reservation Landing Page */
+.booking-landing-page {
+    padding: 30px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.input-group {
+    margin: 10px;
+}
+
+.input-group-addon {
+    min-width: 100px;
+}
+
+p {
+    font-size: 18px;
+}
+
+.rsv-image {
+    width: 100%;
+}
+
+.contact-btn {
+    display: inline-flex;
+    flex: 1;
+    font-size: 1.3em;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+    .contact-btn img {
+        margin: 0px 10px;
+    }
+
+    .contact-btn:hover {
+        background-color: #074b97;
+    }
+
+.google-maps-location {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-flow: row;
+    position: relative;
+    z-index: 99;
+    background-color: #096bd7;
+    color: white;
+    padding: 20px;
+    width: 250px;
+    font-size: 28px;
+    margin: 0px auto;
+    margin-bottom: -40px;
+}
+
+
+.google-maps-location-section {
+    position: relative;
+    z-index: 10;
+}
+
+.section-banner-group{
+    margin-top:20px;
+}
+
+.reservation-article{
+    margin-top:40px;
+}
+
+
+#section-banner {
+    min-height: 600px;
+    padding: 30px 0 60px 0px;
+    background-color: #303131;
+    background: linear-gradient(to bottom, #303131 0%, #4d4f4f 50%, #303131 100%);
+}
+
+#section-contact-info {
+    min-height: 100px;
+    padding: 30px 10px;
+    background-color: #096bd7;
+}
+
+.page-banner-title h1 {
+    font-size: 49px;
+    font-weight: 600;
+    color: dodgerblue;
+}
+
+.page-banner-title h4 {
+    color: white;
+}
+
+.rsv-form-btn {
+    width: 95%;
+    font-size: 22px;
+}
+
+.rsv-form-title {
+    font-weight: 700;
+    font-size: 26px;
+    margin-top: 5px;
+}
+
+.request-modal-vehicleDtls {
+    display: flex;
+    flex-flow: column;
+    padding: 0px;
+}
+
+.request-modal-vehicleRate {
+    font-weight: bold;
+    font-size: 18px;
+    color: darkgreen;
+}
+
+/* Small Screens */
+@media only screen and (max-width: 420px) {
+    .booking-landing-page {
+        padding: 15px 0px;
+    }
+
+    .section-banner-group {
+        margin-top: 60px;
+    }
+
+    .reservation-article{
+        padding:0px;
+    }
+
+    .reservation-article {
+        margin-top: 20px;
+    }
+
+    #section-banner{
+        width:105%;
+    }
+
+    #section-contact-info {
+        width: 105%;
+    }
 }

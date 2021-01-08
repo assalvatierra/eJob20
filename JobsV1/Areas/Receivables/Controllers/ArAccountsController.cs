@@ -54,7 +54,7 @@ namespace JobsV1.Areas.Receivables.Controllers
 
         // POST: ArAccounts/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Id,Name,Landline,Email,Mobile,Company,Address,Remarks,ArAccStatusId")] ArAccount account)
+        public ActionResult Create([Bind(Include = "Id,Name,Landline,Email,Mobile,Company,Address,Remarks,ArAccStatusId,Landline2,Mobile2")] ArAccount account)
         {
             if (ModelState.IsValid && InputValidation(account))
             {
@@ -88,7 +88,7 @@ namespace JobsV1.Areas.Receivables.Controllers
 
         // POST: ArAccounts/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Id,Name,Landline,Email,Mobile,Company,Address,Remarks,ArAccStatusId")] ArAccount account)
+        public ActionResult Edit([Bind(Include = "Id,Name,Landline,Email,Mobile,Company,Address,Remarks,ArAccStatusId,Landline2,Mobile2")] ArAccount account)
         {
             if (ModelState.IsValid && InputValidation(account))
             {

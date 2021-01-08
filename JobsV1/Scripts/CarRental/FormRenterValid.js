@@ -26,6 +26,16 @@ $(document).ready(function () {
         checkRenterDetails();
     });
 
+
+    $("#rsvDate-DropOff").change(function () {
+        rentDateFilterInit();
+    });
+
+    $("#rsvDate-PickUp").change(function () {
+        rentDateFilterInit();
+    });
+
+
 });
 
 /**
@@ -300,8 +310,109 @@ function DateTimeWarning(flag) {
         //console.log("INVALID - SDATE: " + Ssdate + " < TODAY: " + Stoday);
 
         //show waring message
-        $("#dtls-warning-usage").text("Entered Dates are invalid.");
+        $("#dtls-warning-usage").text("Entered Date is invalid.");
         $('#dtls-warning-usage').css('display', 'block');
+    }
+
+
+    return flag;
+}
+
+
+function rentDateFilterInit() {
+    var flag = true;
+    var sdate = Date.parse($('#rsvDate-PickUp').val());
+    var edate = Date.parse($('#rsvDate-DropOff').val());
+    var today = new Date();
+    var todayPlus4 = new Date();
+    today.setDate(today.getDate() + 2);
+
+    //reset time
+    var Ssdate = getDateFormat(new Date(sdate));
+    var Sedate = getDateFormat(new Date(edate));
+    var Stoday = getDateFormat(today);
+
+    //hide warning message
+
+    //start date is greater than or equal to today - must always true
+    if (+Date.parse(Ssdate) >= +Date.parse(Stoday)) {
+        flag = true;
+
+        //handles invalid date start and date end
+        if (+Date.parse(Ssdate) <= +Date.parse(Sedate)) {
+            flag = true;
+        } else if (+Date.parse(Sedate) < +Date.parse(Stoday)) {
+            $('#rsvDate-DropOff').val(moment(Stoday).format("MM/DD/YYYY"));
+            flag = false;
+        } else {
+            //display warning message - invalid date start and date end
+            flag = false;
+        }
+
+        //start date is less than today
+    } else if (+Date.parse(Ssdate) < +Date.parse(Stoday)) {
+        $('#rsvDate-PickUp').val(moment(Stoday).format("MM/DD/YYYY"));
+        flag = false;
+    }
+
+    //check renter details;
+    checkRenterDetails();
+
+    //update days count
+    var daysCount = 0;
+    daysCount = Math.round(moment(edate).diff(moment(sdate), 'days', true));
+
+    if (daysCount == 0) {
+        daysCount = 1;
+    } else if (daysCount > 0) {
+        daysCount = daysCount + 1;
+    }
+    else {
+        daysCount = 0;
+    }
+    $("#rnt-noDays").val(daysCount);
+
+    //generate warning message
+    return DateTimeWarningInit(flag);
+}
+
+function DateTimeWarningInit(flag) {
+
+    var sdate = Date.parse($('#rsvDate-PickUp').val());
+    var edate = Date.parse($('#rsvDate-DropOff').val());
+    var today = new Date();
+    today.setDate(today.getDate() + 2);
+
+    //reset time
+    var Ssdate = getDateFormat(new Date(sdate));
+    var Sedate = getDateFormat(new Date(edate));
+    var Stoday = getDateFormat(today);
+
+    if (flag == true) {
+        //enable submit button
+        $('#rsv-submit-btn').removeClass('disabled');
+
+        //console.log(+Ssdate <= +today);
+        //console.log("OK - SDATE: " + Ssdate + " >= TODAY: " + Stoday);
+        //console.log(+Ssdate <= +Sedate);
+        //console.log("OK - Ssdate: " + Ssdate + " <= Sedate: " + Sedate);
+
+        //hide waring message
+        $("#rsv-warning-usage").text("");
+        $('#rsv-warning-usage').css('display', 'none');
+
+    } else {
+        //disable submit button
+        $('#submit-btn').addClass('disabled');
+
+        //console.log(+Ssdate <= +today);
+        //console.log("INVALID - Ssdate: " + Ssdate + " <= Sedate: " + Sedate);
+        //console.log(+Ssdate <= +Sedate);
+        //console.log("INVALID - SDATE: " + Ssdate + " < TODAY: " + Stoday);
+
+        //show waring message
+        $("#rsv-warning-usage").text("Entered Date is invalid.");
+        $('#rsv-warning-usage').css('display', 'block');
     }
 
 
@@ -326,3 +437,7 @@ function getDateFormat(currentDt) {
 }
 
 
+function ValidateRequestForm() {
+
+    rentDateFilter();
+}

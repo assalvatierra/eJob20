@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<ArModels.Models.ArTransaction>
 @{
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ViewBag.Title = "Ar Management";
     DateTime today = ViewBag.today;
 }
 
 <h2>Receivables Management</h2>
 <p>
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null) |
     Management |
     @Html.ActionLink("For Approval", "Approval", "ArMgt", new { area = "Receivables" }, null) |
     @Html.ActionLink("For Settlement", "Settlement", "ArMgt", new { area = "Receivables" }, null) |
@@ -35,19 +35,6 @@
             color = "dodgerBlue";
             textColor = "White";
         }
-
-        decimal paymentTotal = 0;
-        foreach (var payments in transaction.ArTransPayments)
-        {
-            paymentTotal += payments.ArPayment.Amount;
-        }
-
-        var totalAmount = transaction.Amount;
-        if (paymentTotal >= totalAmount)
-        {
-            textColor = "ForestGreen";
-        }
-
 
         <tr style="background-color:@color;color:@textColor;">
             <td> @transaction.InvoiceId </td>
@@ -100,6 +87,29 @@
     </tr>
     @foreach (var transaction in ViewBag.OverDueTrans as IEnumerable<ArModels.Models.ArTransaction>)
     {
+        var color = "white";
+        var textColor = "black";
+        var dttoday = today;
+        var res = (transaction.DtDue == dttoday.Date);
+        if (transaction.DtDue == dttoday.Date)
+        {
+            color = "dodgerBlue";
+            textColor = "White";
+        }
+
+        decimal paymentTotal = 0;
+        foreach (var payments in transaction.ArTransPayments)
+        {
+            paymentTotal += payments.ArPayment.Amount;
+        }
+
+        var totalAmount = transaction.Amount;
+        if (paymentTotal >= totalAmount)
+        {
+            textColor = "ForestGreen";
+        }
+
+
         <tr>
             <td> @transaction.InvoiceId </td>
             <td> @transaction.DtInvoice.ToString("MMM dd yyyy") </td>

@@ -88,7 +88,8 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
 
-            ViewBag.IsAdmin = User.IsInRole("Admin");
+            //ViewBag.IsAdmin = User.IsInRole("Admin");
+            ViewBag.IsAdmin = true;
 
             return View(cCrLogFuel.OrderByDescending(c=>c.crLogFuel.dtRequest).ToList());
         }

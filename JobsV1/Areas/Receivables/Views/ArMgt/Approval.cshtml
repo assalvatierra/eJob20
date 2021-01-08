@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<ArModels.Models.ArTransaction>
 @{
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ViewBag.Title = "For Approval";
 }
 
 <h2>For Approval</h2>
 <p>
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null)
     @Html.ActionLink("Management", "Index", "ArMgt", new { area = "Receivables" }, null) |
     For Approval |
     @Html.ActionLink("For Settlement", "Settlement", "ArMgt", new { area = "Receivables" }, null) |
@@ -29,7 +29,7 @@
         {
             paymentTotal += payments.ArPayment.Amount;
         }
-        
+
         var color = "white";
         var textColor = "black";
         var totalAmount = transaction.Amount;

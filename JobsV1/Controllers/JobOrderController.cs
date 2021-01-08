@@ -1311,7 +1311,6 @@ order by x.jobid
             ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", 2);
             ViewBag.SiteConfig = SITECONFIG;
 
-
             return View(job);
         }
 
@@ -1401,9 +1400,6 @@ order by x.jobid
                 }
 
             }
-
-
-
             return isValid;
         }
 
@@ -2208,8 +2204,17 @@ order by x.jobid
 
             //handle prepared by
             var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
-            ViewBag.StaffName = getStaffName(encoder.user);
-            ViewBag.Sign = getStaffSign(encoder.user);
+
+            if (encoder != null)
+            {
+                ViewBag.StaffName = getStaffName(encoder.user ?? null);
+                ViewBag.Sign = getStaffSign(encoder.user ?? null);
+            }
+            else
+            {
+                ViewBag.StaffName = getStaffName(null);
+                ViewBag.Sign = getStaffSign(null);
+            }
 
             return View("Details_Invoice", jobMain);
         }
@@ -2327,8 +2332,18 @@ order by x.jobid
 
             //handle prepared by
             var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
-            ViewBag.StaffName = getStaffName(encoder.user);
-            ViewBag.Sign = getStaffSign(encoder.user);
+
+            if (encoder != null)
+            {
+                ViewBag.StaffName = getStaffName(encoder.user ?? null);
+                ViewBag.Sign = getStaffSign(encoder.user ?? null);
+            }
+            else
+            {
+                ViewBag.StaffName = getStaffName(null);
+                ViewBag.Sign = getStaffSign(null);
+            }
+
             ViewBag.DateNow = getDateTimeToday().Date.ToString();
 
             //filter name and jobname if the same or personal account

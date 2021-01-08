@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<ArModels.Models.ArTransaction>
 @{
-    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ViewBag.Title = "Settlement";
 }
 
 <h2>Settlement</h2>
 <p>
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null)
     @Html.ActionLink("Management", "Index", "ArMgt", new { area = "Receivables" }, null) |
     @Html.ActionLink("For Approval", "Approval", "ArMgt", new { area = "Receivables" }, null) |
     For Settlement |
@@ -49,12 +49,12 @@
             <td style="color:@textColor"> @paymentTotal.ToString("#,##0.00") </td>
             <td>
                 <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <li> @Html.ActionLink("Add Payment", "CreateSettlePayment", "ArPayments", new { transId = transaction.Id }, null) </li>
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         Actions
-                        <span class="caret"></span>
+                        <span class="caret"> </span>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li> @Html.ActionLink("Add Payment", "CreateSettlePayment", "ArPayments", new { transId = transaction.Id }, null) </li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                         <li>
                             <a class="cursor-link" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
                         </li>

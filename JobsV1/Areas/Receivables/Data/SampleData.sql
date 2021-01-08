@@ -25,12 +25,12 @@ insert into ArAccntTerms([ArAccountId],[dtTerm],[NoOfDays],[Remarks],[ApprovedBy
 
 
 --transactions
-insert into ArTransactions([ArAccountId],[InvoiceId],[DtInvoice],[Description],[DtEncoded],[DtDue],[Amount],[Interval],[IsRepeating],[Remarks],[ArTransStatusId],[ArCategoryId],[DtService] ) values
-(2, '101', '11/21/2020', 'Invoice 101', '11/21/2020', '12/15/2020', 50000, 0, 0, null, 2, 1, '11/18/2020'),
-(3, '102', '11/18/2020', 'Invoice 102', '11/20/2020', '12/19/2020', 70000, 0, 0, null, 2, 1, '11/10/2020'),
-(4, '103', '11/15/2020', 'Invoice 103', '11/19/2020', '12/25/2020', 80000, 0, 0, null, 1, 1, '11/15/2020'),
-(5, '104', '11/10/2020', 'Invoice 104', '11/20/2020', '12/12/2020', 50000, 30, 1, null, 1, 1, '11/10/2020'),
-(6, '106', '11/12/2020', 'Invoice 105', '11/19/2020', '12/24/2020', 45000, 15, 1, null, 3, 1, '11/12/2020');
+insert into ArTransactions([ArAccountId],[InvoiceId],[DtInvoice],[Description],[DtEncoded],[DtDue],[Amount],[Interval],[IsRepeating],[Remarks],[ArTransStatusId],[ArCategoryId],[DtService], DtServiceTo, PrevRef, NextRef, InvoiceRef ) values
+(2, '101', '11/21/2020', 'Invoice 101', '11/21/2020', '12/15/2020', 50000, 0, 0, null, 2, 1, '11/18/2020', '11/25/2020',0,0, 'INV001'),
+(3, '102', '11/18/2020', 'Invoice 102', '11/20/2020', '12/19/2020', 70000, 0, 0, null, 2, 1, '11/10/2020', '11/14/2020',0,0, 'INV002'),
+(4, '103', '11/15/2020', 'Invoice 103', '11/19/2020', '12/25/2020', 80000, 0, 0, null, 1, 1, '11/15/2020', '11/16/2020',0,0, NULL),
+(5, '104', '11/10/2020', 'Invoice 104', '11/20/2020', '12/12/2020', 50000, 30, 1, null, 1, 1, '11/10/2020', '11/12/2020',0,0, NULL),
+(6, '106', '11/12/2020', 'Invoice 105', '11/19/2020', '12/24/2020', 45000, 15, 1, null, 3, 1, '11/12/2020', '11/15/2020',0,0, NULL);
 
 -- payments
 insert into ArPayments([DtPayment],[Amount],[Remarks],[Reference],[ArAccountId],[ArPaymentTypeId]) values

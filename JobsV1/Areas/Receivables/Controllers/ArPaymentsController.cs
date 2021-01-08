@@ -96,8 +96,9 @@ namespace JobsV1.Areas.Receivables.Controllers
                 if (createResponse)
                 {
                     //add activity based on statusId
+                    var user = "User"; //edit to get user here!
 
-                    ar.ActionMgr.AddAction(7, GetUser(), (int)transId);
+                    ar.ActionMgr.AddAction(7, user, (int)transId);
                 }
 
                 return RedirectToAction("Details", "ArTransactions",new { id = transId });
@@ -108,6 +109,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             ViewBag.TransId = transId;
             return View(arPayment);
         }
+
 
         // GET: ArPayments/Create
         public ActionResult CreateSettlePayment(int? transId)
@@ -144,8 +146,9 @@ namespace JobsV1.Areas.Receivables.Controllers
                 if (createResponse)
                 {
                     //add activity based on statusId
+                    var user = "User"; //edit to get user here!
 
-                    ar.ActionMgr.AddAction(7, GetUser(), (int)transId);
+                    ar.ActionMgr.AddAction(7, user, (int)transId);
                 }
 
                 return RedirectToAction("Settlement", "ArMgt");
@@ -314,19 +317,6 @@ namespace JobsV1.Areas.Receivables.Controllers
 
 
             return isValid;
-        }
-
-
-        private string GetUser()
-        {
-            if (HttpContext.User.Identity.Name != "")
-            {
-                return HttpContext.User.Identity.Name;
-            }
-            else
-            {
-                return "Not Log In";
-            }
         }
 
     }

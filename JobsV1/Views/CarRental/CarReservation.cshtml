@@ -12,35 +12,22 @@
 }
 
 <link href="~/Content/CarBooking.css" rel="stylesheet">
-
 <style>
 
-    #section-banner{
-        height: 600px;
-        padding: 60px 0;
-        background-color: #303131;
-        background: linear-gradient(to bottom, #303131 0%, #4d4f4f 50%, #303131 100%);
-    }
 
-    .input-group{
-        margin:10px;
-
-    }
-
-    .input-group-addon{
-        min-width:100px;
-    }
-
-    p{
-        font-size:18px;
-    }
 </style>
 
 <section id="section-banner">
     <div class="container">
-        <div class="col-md-6">
-            <div class="booking-container" style="padding:30px;">
-                <h2 class="col-lg-12" style="font-weight:700;"> Reservation Request </h2>
+
+        <div class="col-md-12 page-banner-title">
+            <h1> RealWheels Car Rental </h1>
+            <h4> Your trusted travel partner. Contact us for inquiries and reservation  </h4>
+        </div>
+
+        <div class="col-md-6 section-banner-group">
+            <div class="booking-container booking-landing-page">
+                <h3 class="col-lg-12"> Reservation Request </h3>
 
                 <!-- Unit -->
                 <div class="col-lg-12">
@@ -50,7 +37,7 @@
                             @foreach (var carList in ViewBag.CarUnitList as IEnumerable<JobsV1.Models.CarUnit>)
                             {
                                 <option value="@carList.Id">
-                                    @carList.Remarks - @carList.Description 
+                                    @carList.Remarks - @carList.Description
 
                                 </option>
                             }
@@ -64,7 +51,7 @@
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-map-marker"></span> Pick-Up
                         </span>
-                        <input type="text" class="form-control" placeholder="Enter Pickup Location or Airport" id="rsvLocPickup" maxlength="90"/>
+                        <input type="text" class="form-control" placeholder="Enter Pickup Location or Airport" id="rsvLocPickup" maxlength="90" />
                     </div>
                 </div>
 
@@ -72,7 +59,7 @@
                 <div class="col-lg-12">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span> Pick-Up
+                            <img src="~/Images/Icons/icon-calendar.png" width="19" title="calendar-pickup" /> Pick-Up
                         </span>
                         <input type="text" class="form-control" id="rsvDate-PickUp" />
                     </div>
@@ -82,104 +69,119 @@
                 <div class="col-lg-12">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span> Drop-Off
+                            <img src="~/Images/Icons/icon-calendar.png" width="19" title="calendar-pickup" />  Drop-Off
                         </span>
                         <input type="text" class="form-control" id="rsvDate-DropOff" />
                     </div>
                 </div>
 
                 <div class="col-lg-12">
-                    <button class="btn btn-primary" style="width:95%;font-size:25px;" onclick="ContinueReservation()"> Continue Reservation </button>
+                    <span class="text-warning" id="rsv-warning-usage"></span>
+                </div>
+
+                <div class="col-lg-12">
+                    <button class="btn btn-primary rsv-form-btn" onclick="ContinueReservation()"> Continue Reservation </button>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6" style="color:white;">
-            <h1 style="font-weight:800;color:dodgerblue;"> RealWheels Car Rental </h1>
-            <h4> Affordable rent a car in Davao City </h4>
-            <img src="~/Images/CarRental/Home/Vehicles/Honda-City-Reservation.png" width="500" title="Honda City Reservation" /> 
+        <div class="col-md-6 section-banner-group" >
+            <h3 style="text-align:center;color:white;"> Plan Your Trip Now For Only <span style="color:limegreen;"> 3500 Pesos/Day</span> ! </h3>
+            <img src="~/Images/CarRental/Home/Vehicles/Honda-City-Reservation.png" title="Honda City Reservation" class="rsv-image" />
         </div>
+
+    </div>
+</section>
+
+<section id="section-contact-info">
+    <div class="container contact-info-group">
+        <span class="contact-btn">
+            <img src="~/Images/Icons/icon-call-white.png" alt="call us" width="20" />
+            <a href="tel:+639954508517" class="contact-us-link" title="Globe Number"> Globe: +63 995-450-8517 </a>
+        </span>
+        <span class="contact-btn">
+            <img src="~/Images/Icons/icon-call-white.png" alt="call us" width="20" />
+            <a href="tel:+639292113987" class="contact-us-link" title="Smart Number"> Smart: +63 929-211-3987 </a>
+        </span>
+        <span class="contact-btn">
+            <img src="~/Images/Icons/icon-email-white.png" alt="email us" width="20" />
+            <a href="mailto:inquiries.realwheels@gmail.com" class="contact-us-link" title="inquiry email">inquiries.realwheels@gmail.com</a>
+        </span>
     </div>
 </section>
 
 <div class="container">
+    <div class="col-md-12" style="margin:50px 0px;">
+        <h2>
+            Car Rental Reservation
+        </h2>
+        <p>
+            If you are looking to make a car booking reservation is Davao, you should consider us.
+            At <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a> , we provide all our customers with
+            flexible and affordable options when they rent a car.
+            Our offices are located at the heart of Davao City, which makes picking your car rental reservations easy.
+            Additionally, you can opt to have your car dropped on at your hotel or the airport when you make a rental
+            car reservation with us. We aim to be the leading car rental service in Davao by offering clients the best
+            quality of cars at the most affordable rates. Besides the rental car service, we also offer tours and travel
+            packages to our clients. You can make a booking for a guided tour of the interior and experience the scenic
+            views of the Mindanao countryside. If you are planning a trip to Davao City and the surrounding, using a
+            rental car can be the easiest way to get around. Here are a few reasons why your rental car booking should
+            be through <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a>.
 
-    <div class="col-md-12">
-        <div class="col-md-12">
-            <div class="col-md-12" style="margin:50px 20px;">
-                <h1>
-                    Car Rental Reservation
-                </h1>
+        </p>
+        <div class="col-md-12 reservation-article" >
+            <div class="col-md-6">
+                <img src="~/Images/CarRental/Home/Vehicles/Fleet-Vehicles.png" width="500" title="Honda City Reservation" class="rsv-image" />
+            </div>
+            <div class="col-md-6">
+                <h2>
+                    We Have A Large Fleet of Cars
+                </h2>
                 <p>
-                    If you are looking to make a car booking reservation is Davao, you should consider us.
-                    At <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a> , we provide all our customers with
-                    flexible and affordable options when they rent a car.
-                    Our offices are located at the heart of Davao City, which makes picking your car rental reservations easy.
-                    Additionally, you can opt to have your car dropped on at your hotel or the airport when you make a rental
-                    car reservation with us. We aim to be the leading car rental service in Davao by offering clients the best
-                    quality of cars at the most affordable rates. Besides the rental car service, we also offer tours and travel
-                    packages to our clients. You can make a booking for a guided tour of the interior and experience the scenic
-                    views of the Mindanao countryside. If you are planning a trip to Davao City and the surrounding, using a
-                    rental car can be the easiest way to get around. Here are a few reasons why your rental car booking should
-                    be through <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a>.
-
+                    Whether you are traveling alone or as part of a large group of friends or family, we have a car to suit your needs.
+                    You can access a rental minivan, van, SUV, pickup, sedan, MPV, or AUV from us. In short, we have vehicles for every situation.
                 </p>
-                <div class="col-md-12">
 
-                    <div class="col-md-6">
-                        <img src="~/Images/CarRental/Home/Vehicles/Fleet-Vehicles.png" width="500" title="Honda City Reservation" />
-                    </div>
-                    <div class="col-md-6">
-                        <h2>
-                            We Have A Large Fleet of Cars
-                        </h2>
-                        <p>
-                            Whether you are traveling alone or as part of a large group of friends or family, we have a car to suit your needs.
-                            You can access a rental minivan, van, SUV, pickup, sedan, MPV, or AUV from us. In short, we have vehicles for every situation.
-                        </p>
+                <h2>
+                    Affordable Rates
+                </h2>
+                <p>
+                    The demand for rental cars has been on the rise as more people discover the benefits of renting a car
+                    when traveling. As demand has risen, customer expectations have risen as well. At Real Wheels Davao,
+                    we can help you access the highest quality of rental cars at a low cost.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-12 reservation-article">
+            <div class="col-md-6">
+                <h2>
+                    Stress-Free Booking Process
+                </h2>
+                <p>
+                    Our service allows you to book the car online or via a phone call. Whichever option you pick on our website,
+                    you can be assured that the process will be stress-free. Our staff will handle your request for a car professionally
+                    and it will be waiting for you when you arrive at the hotel or land at the airport. We always listen to the
+                    needs of our customers and fulfill them to the best of our abilities.
+                </p>
 
-                        <h2>
-                            Affordable Rates
-                        </h2>
-                        <p>
-                            The demand for rental cars has been on the rise as more people discover the benefits of renting a car
-                            when traveling. As demand has risen, customer expectations have risen as well. At Real Wheels Davao,
-                            we can help you access the highest quality of rental cars at a low cost.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-6">
-                        <h2>
-                            Stress-Free Booking Process
-                        </h2>
-                        <p>
-                            Our service allows you to book the car online or via a phone call. Whichever option you pick on our website,
-                            you can be assured that the process will be stress-free. Our staff will handle your request for a car professionally
-                            and it will be waiting for you when you arrive at the hotel or land at the airport. We always listen to the
-                            needs of our customers and fulfill them to the best of our abilities.
-                        </p>
-
-                        <h2>
-                            Professional Staff and Drivers
-                        </h2>
-                        <p>
-                            <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a>  is a professional company that hires professional drivers. When you rent a car from us,
-                            you can be assured that we will handle your professionally. For those who opt to use one of our drivers,
-                            you can be assured of the highest level of professionalism. The driver will show you around and take you
-                            on a guided tour of some of the most popular tourist attractions in Davao and the Mindanao courtside.
-                            Besides that, our drivers will ensure that you get to your meeting on time, for those that visit Davao
-                            on business. They have excellent knowledge of the road network and they will use it to your benefit.
-                        </p>
-                        <p>
-                            <img src="~/Images/Icons/icon-call-blk.png" width="15" style="margin-right:5px;" />
-                            <a href="/CarRental/Contact"> You may also contact us through call or email </a>
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                        <img src="~/Images/CarRental/Home/Article/WhyRentACar/Car-rental-process.jpg" width="450" title="Honda City Reservation" style="margin-top:30px;" />
-                    </div>
-                </div>
+                <h2>
+                    Professional Staff and Drivers
+                </h2>
+                <p>
+                    <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a>  is a professional company that hires professional drivers. When you rent a car from us,
+                    you can be assured that we will handle your professionally. For those who opt to use one of our drivers,
+                    you can be assured of the highest level of professionalism. The driver will show you around and take you
+                    on a guided tour of some of the most popular tourist attractions in Davao and the Mindanao courtside.
+                    Besides that, our drivers will ensure that you get to your meeting on time, for those that visit Davao
+                    on business. They have excellent knowledge of the road network and they will use it to your benefit.
+                </p>
+                <p>
+                    <img src="~/Images/Icons/icon-call-blk.png" width="15" style="margin-right:5px;" />
+                    <a href="/CarRental/Contact"> You may also contact us through call or email </a>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <img src="~/Images/CarRental/Home/Article/WhyRentACar/Car-rental-process.jpg" width="450" title="Honda City Reservation" alt="Car Rental Reservation" style="margin-top:30px;" class="rsv-image" />
             </div>
         </div>
     </div>
@@ -187,7 +189,7 @@
     <!-- Reservation Modal -->
 
 
-    <div class="modal fade" role="dialog" id="ReservationRequestModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal fade" role="dialog" id="ReservationRequestModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -198,11 +200,75 @@
                 <div class="modal-body">
 
                     <div class="booking-container">
-                        
+
+                        <div class="col-lg-12">
+                            <h3 style="margin-top:0px;"> Vehicle Details </h3>
+                            <div class="col-md-6 request-modal-vehicleDtls">
+                                <table class="table table-no-border">
+                                    <tr>
+                                        <td>
+                                            Description
+                                        </td>
+                                        <td>
+                                            <span id="rsv-dtls-desc">Details</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Class
+                                        </td>
+                                        <td>
+                                            <span id="rsv-dtls-class">Details</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Transmission
+                                        </td>
+                                        <td>
+                                            <span id="rsv-dtls-trans">Details</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fuel
+                                        </td>
+                                        <td>
+                                            <span id="rsv-dtls-fuel">Details</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Passengers
+                                        </td>
+                                        <td>
+                                            <span id="rsv-dtls-pass">Details</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Rate per Day
+                                        </td>
+                                        <td>
+                                            <span class="request-modal-vehicleRate" id="rsv-dtls-rate">Details</span>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <img id="rsv-dtls-imgUrl" src="~/Images/CarRental/rush/Toyota-Rush-2019.png" width="200" class="img-thumbnail" />
+                            </div>
+                            <div class="col-md-12" style="padding-left:0px;">
+                                <span style="color:gray;"> Note: Rate may vary depending on the destinations. Price indicated is valid for Davao City area only. </span>
+                            </div>
+
+                        </div>
+
                         @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
-                            <div class="col-lg-12 car-unit-select" id="btn-rentalUnit">
+                            <div class="col-lg-12 car-unit-select" id="btn-rentalUnit" hidden>
                                 <h3> Unit Select </h3>
                                 <div class="col-md-12 col-xs-12 no-padding">
                                     @foreach (var carList in ViewBag.CarUnitList as IEnumerable<JobsV1.Models.CarUnit>)
@@ -268,7 +334,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2"> Pick&nbsp;Up </label>
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.LocStart, new { htmlAttributes = new { @class = "form-control", @maxlength = "30" , @id = "rnt-startLoc"} })
+                                        @Html.EditorFor(model => model.LocStart, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", @id = "rnt-startLoc" } })
                                         @Html.ValidationMessageFor(model => model.LocStart, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -459,10 +525,10 @@
 
                                 <!--Captcha validation-->
                                 @*<div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <div id="ReCaptchContainer"></div>
-                                    </div>
-                                </div>*@
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <div id="ReCaptchContainer"></div>
+                                        </div>
+                                    </div>*@
 
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
@@ -483,15 +549,25 @@
                 </div>
 
                 @*<div class="modal-footer">
-                    @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="SubmitCAForm('@ViewBag.DriverId')">Submit</button>
-                </div>*@
+                        @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="SubmitCAForm('@ViewBag.DriverId')">Submit</button>
+                    </div>*@
             </div>
         </div>
     </div>
-
-
 </div>
+
+<div class="google-maps-location-container">
+    <div class="google-maps-location">
+        Visit Our Office
+    </div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15838.236513404292!2d125.5702029!3d7.0609737!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x5cb429424f90e9d9!2sReal%20Wheels%20Rent%20A%20Car!5e0!3m2!1sen!2sph!4v1609998760742!5m2!1sen!2sph" class="google-maps-location-section" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+</div>
+
+<div class="container">
+    @{Html.RenderPartial("Index_Footer");}
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/CarRental/FormRenter.js"></script>
@@ -505,11 +581,15 @@
             $("input[name='SelfDrive']").val(0);
 
             if (@ViewBag.carId == 0) {
+
             } else {
 
                 selectUnit(null, @ViewBag.carId);
                 $("#unit-@ViewBag.carId").parent().addClass("unit-selected");
                 $("#unit-@ViewBag.carId").parent().siblings().hide();
+
+                //reservation form
+                $("#rsvCarUnit").val(@ViewBag.carId);
 
             }
         });
@@ -601,9 +681,9 @@
 
             $("#rnt-startLoc").val(locPickup);
 
-
-
             SelectedUnit(carUnitId);
+
+            GetVehicleDetails(carUnitId);
 
             //open modal
             $("#ReservationRequestModal").modal('show');
@@ -615,6 +695,31 @@
                 $("#unit-" + id).parent().addClass("unit-selected");
                 $("#unit-" + id).parent().siblings().hide();
             }
+        }
+
+        //get vehicle details and rate
+        function GetVehicleDetails(id) {
+            $.get("/CarRental/GetCarDetails", { id : id }, (result) => {
+                console.log(result);
+              
+
+                if (result != undefined) {
+                    $("#rsv-dtls-desc").text(result["Description"]);
+                    $("#rsv-dtls-class").text(result["Class"]);
+                    $("#rsv-dtls-fuel").text(result["Fuel"]);
+                    $("#rsv-dtls-trans").text(result["Transmission"]);
+                    $("#rsv-dtls-pass").text(result["Passengers"]);
+                    $("#rsv-dtls-rate").text(" Php " + result["Rate"]);
+                    $("#rsv-dtls-imgUrl").attr("src","/Images/CarRental/" + result["ImgUrl"]);
+
+                } else {
+                    alert("Unable to retrieve Car Details");
+                }
+
+                if (result == null) {
+                    alert("Unable to retrieve Car Details");
+                }
+            });
         }
 
     </script>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace JobsV1.Controllers
 {
@@ -25,6 +27,8 @@ namespace JobsV1.Controllers
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();
+
+        private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
         // GET: CarReservations
         public ActionResult Index(int? filter)
@@ -231,21 +235,26 @@ namespace JobsV1.Controllers
             job.AgreedAmt = rate;
             job.CustContactEmail = renterEmail;
             job.CustContactNumber = renterNum;
-            
+
 
             if (id == null)
             {
-                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", NewCustSysId);
+                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", NewCustSysId);
             }
             else
             {
-
-                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", id);
+                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id);
             }
-            ViewBag.ReservationId = rsvId;
-            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name");
+
+            ViewBag.CompanyList = db.CustEntMains.OrderBy(s => s.Name).ToList() ?? new List<CustEntMain>();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").OrderBy(s => s.Name).ToList() ?? new List<Customer>();
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
+            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", 2);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
+            ViewBag.AssignedTo = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", 2);
+            ViewBag.SiteConfig = SITECONFIG;
 
             return View(job);
         }
@@ -256,33 +265,75 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateQuotation([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber")] JobMain jobMain, int rsvid)
+        public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId, int? JobPaymentStatusId, int rsvid)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
+            //    {
+            //        var cust = db.Customers.Find(jobMain.CustomerId);
+            //        jobMain.CustContactEmail = cust.Email;
+            //        jobMain.CustContactNumber = cust.Contact1;
+            //    }
+
+            //    db.JobMains.Add(jobMain);
+            //    db.SaveChanges();
+
+            //    //link job to reservation
+            //    linkQuotation(rsvid, jobMain.Id);
+
+            //    dbc.addEncoderRecord("joborder-reservation", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job for Reservation");
+                
+            //    return RedirectToAction("Index", "JobOrder", new { sortid = 1 });
+
+            //}
+
             if (ModelState.IsValid)
             {
-                if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
+                if (JobCreateValidation(jobMain))
                 {
-                    var cust = db.Customers.Find(jobMain.CustomerId);
-                    jobMain.CustContactEmail = cust.Email;
-                    jobMain.CustContactNumber = cust.Contact1;
+
+                    if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
+                    {
+                        var cust = db.Customers.Find(jobMain.CustomerId);
+                        jobMain.CustContactEmail = cust.Email;
+                        jobMain.CustContactNumber = cust.Contact1;
+                    }
+
+                    db.JobMains.Add(jobMain);
+                    db.SaveChanges();
+
+
+                    //link job to reservation
+                    linkQuotation(rsvid, jobMain.Id);
+
+                    if (CompanyId != null)
+                    {
+                        AddjobCompany(jobMain.Id, (int)CompanyId);
+                    }
+
+                    if (JobPaymentStatusId != null)
+                    {
+                        AddJobPaymentStatus((int)JobPaymentStatusId, jobMain.Id);
+                    }
+
+                    dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job for Reservation");
+                    return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobMain.Id });
+
                 }
-
-                db.JobMains.Add(jobMain);
-                db.SaveChanges();
-
-                //link job to reservation
-                linkQuotation(rsvid, jobMain.Id);
-
-                dbc.addEncoderRecord("joborder-reservation", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job for Reservation");
-                
-                return RedirectToAction("Index", "JobOrder", new { sortid = 1 });
-
             }
 
+            ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
+            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status != "INC"), "Id", "Name", jobMain.CustomerId);
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
+            ViewBag.AssignedTo = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
+            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", (int)JobPaymentStatusId);
+            ViewBag.SiteConfig = SITECONFIG;
+
 
             return View(jobMain);
         }
@@ -302,6 +353,72 @@ namespace JobsV1.Controllers
             }
             return 0;
         }
+
+
+        public bool JobCreateValidation(JobMain jobMain)
+        {
+            bool isValid = true;
+
+            if (jobMain.JobDate == null)
+            {
+                ModelState.AddModelError("JobDate", "Invalid JobDate");
+                isValid = false;
+            }
+
+            if (jobMain.Description.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Description", "Invalid Description");
+                isValid = false;
+            }
+
+
+            if (jobMain.CustContactNumber.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("CustContactNumber", "Invalid Contact Number");
+                isValid = false;
+            }
+            else
+            {
+                if (jobMain.CustContactNumber.Length < 11)
+                {
+                    ModelState.AddModelError("CustContactNumber", "Invalid Contact Number");
+                    isValid = false;
+                }
+
+            }
+            return isValid;
+        }
+
+
+        public void AddjobCompany(int jobId, int companyId)
+        {
+            JobEntMain jobCompany = new JobEntMain();
+            jobCompany.JobMainId = jobId;
+            jobCompany.CustEntMainId = companyId;
+
+            db.JobEntMains.Add(jobCompany);
+            db.SaveChanges();
+        }
+
+        public bool AddJobPaymentStatus(int id, int jobId)
+        {
+            try
+            {
+                JobMainPaymentStatus paymentStatus = new JobMainPaymentStatus();
+                paymentStatus.JobMainId = jobId;
+                paymentStatus.JobPaymentStatusId = id;
+
+                db.JobMainPaymentStatus.Add(paymentStatus);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
     }
 }
