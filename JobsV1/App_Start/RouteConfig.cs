@@ -304,6 +304,13 @@ namespace JobsV1
            );
 
 
+            routes.MapRoute(
+               name: "Reservation-Client-Details",
+               url: "OnlineReservations/Details/{id}",
+               defaults: new { controller = "CarReservations", action = "Details", id = "id" }
+           );
+
+
             /********************************
             * landing/home page
             ********************************/

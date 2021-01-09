@@ -561,7 +561,7 @@ order by x.jobid
 
         // JobOrder/JobListing 
         // List of jobs by date with minimal information
-        public ActionResult JobListing(int? sortid, int? serviceId, int? mainid)
+        public ActionResult JobListing(int? sortid, int? serviceId, int? mainid, string search)
         {
 
             if (sortid != null)
@@ -573,9 +573,12 @@ order by x.jobid
                 else
                     sortid = 1;
             }
-            
+
+            var data = new List<cJobOrder>();
+
             //get date fom SQL query
             var confirmed = dbc.getJobConfirmedListing((int)sortid).Select(s => s.Id);
+
 
             IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => confirmed.Contains(j.Id))
                 .Include(j => j.Customer)
@@ -585,7 +588,6 @@ order by x.jobid
                 .Include(j => j.JobEntMains)
                 ;
             List<cjobCounter> jobActionCntr = getJobActionCount(jobMains.Select(d => d.Id).ToList());
-            var data = new List<cJobOrder>();
 
             DateTime today = new DateTime();
             ViewBag.today = today;

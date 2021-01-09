@@ -35,14 +35,19 @@
         </div>
 
 
-        <div class="search-panel">
-            <div class="input-group pull-right">
-                <input class=" form-control" id="srch-field" type="search" placeholder="Search for..." />
-                <div class="input-group-btn">
-                    <button class="btn btn-default" onclick="ajax_loadContent()"> <span class="fa fa-search">  </span> </button>
+        @*<div class="search-panel">
+            @using (Html.BeginForm())
+            {
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <input type="text" maxlength="30" class="form-control" style="width:150px;right:20px;" id="src-field" name="search" value="@ViewBag.SrchValue" />
+                    </div>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit"> Search </button>
+                    </div>
                 </div>
-            </div>
-        </div>
+            }
+        </div>*@
 
     </div>
 
@@ -658,6 +663,20 @@
             iDiv.appendChild(innerDiv);
         }
 
+
+        
+        function ajaxSearch() {
+            var data = {
+                search: $("#src-field").val()
+            }
+            console.log("src: " + $("#src-field").val());
+            var serviceURL = '/JobListing';
+            var searchString = $("#src-field").val();
+
+            window.location.href = '/JobOrder/JobServices?JobMainId=' + searchString;
+
+            //window.location.href = '/JobOrder?search='+searchString;
+        }
 
 
     </script>

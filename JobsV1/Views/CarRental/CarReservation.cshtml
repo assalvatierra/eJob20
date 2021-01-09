@@ -1,5 +1,5 @@
-﻿@model JobsV1.Models.CarReservation
-@using JobsV1.Models
+﻿@using JobsV1.Models
+@model JobsV1.Models.CarReservation
 @{
     ViewBag.Title = "Car Rental Reservation Request - RealWheels Car Rental Davao";
     ViewBag.Description =
@@ -12,16 +12,12 @@
 }
 
 <link href="~/Content/CarBooking.css" rel="stylesheet">
-<style>
-
-
-</style>
 
 <section id="section-banner">
     <div class="container">
 
         <div class="col-md-12 page-banner-title">
-            <h1> RealWheels Car Rental </h1>
+            <h1> RealWheels Car Rental @ViewBag.IsFormValid </h1>
             <h4> Your trusted travel partner. Contact us for inquiries and reservation  </h4>
         </div>
 
@@ -85,7 +81,7 @@
             </div>
         </div>
 
-        <div class="col-md-6 section-banner-group" >
+        <div class="col-md-6 section-banner-group">
             <h3 style="text-align:center;color:white;"> Plan Your Trip Now For Only <span style="color:limegreen;"> 3500 Pesos/Day</span> ! </h3>
             <img src="~/Images/CarRental/Home/Vehicles/Honda-City-Reservation.png" title="Honda City Reservation" class="rsv-image" />
         </div>
@@ -129,7 +125,7 @@
             be through <a href="/" title="Realwheels davao car rental">Real Wheel Davao</a>.
 
         </p>
-        <div class="col-md-12 reservation-article" >
+        <div class="col-md-12 reservation-article">
             <div class="col-md-6">
                 <img src="~/Images/CarRental/Home/Vehicles/Fleet-Vehicles.png" width="500" title="Honda City Reservation" class="rsv-image" />
             </div>
@@ -210,7 +206,7 @@
                                             Description
                                         </td>
                                         <td>
-                                            <span id="rsv-dtls-desc">Details</span>
+                                            <span id="rsv-dtls-desc">NA</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -218,7 +214,7 @@
                                             Class
                                         </td>
                                         <td>
-                                            <span id="rsv-dtls-class">Details</span>
+                                            <span id="rsv-dtls-class">NA</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -226,7 +222,7 @@
                                             Transmission
                                         </td>
                                         <td>
-                                            <span id="rsv-dtls-trans">Details</span>
+                                            <span id="rsv-dtls-trans">NA</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -234,7 +230,7 @@
                                             Fuel
                                         </td>
                                         <td>
-                                            <span id="rsv-dtls-fuel">Details</span>
+                                            <span id="rsv-dtls-fuel">NA</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -242,7 +238,7 @@
                                             Passengers
                                         </td>
                                         <td>
-                                            <span id="rsv-dtls-pass">Details</span>
+                                            <span id="rsv-dtls-pass">NA</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -250,7 +246,7 @@
                                             Rate per Day
                                         </td>
                                         <td>
-                                            <span class="request-modal-vehicleRate" id="rsv-dtls-rate">Details</span>
+                                            <span class="request-modal-vehicleRate" id="rsv-dtls-rate">NA</span>
                                         </td>
                                     </tr>
 
@@ -570,6 +566,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/CarRental/CarReservation.js"></script>
     <script type="text/javascript" src="~/Scripts/CarRental/FormRenter.js"></script>
     <script type="text/javascript" src="~/Scripts/CarRental/FormRenterValid.js"></script>
     <script>
@@ -580,147 +577,26 @@
             $("#Rental-WithDriver").prop("checked", true);
             $("input[name='SelfDrive']").val(0);
 
-            if (@ViewBag.carId == 0) {
-
-            } else {
-
+            if (@ViewBag.carId != 0) {
                 selectUnit(null, @ViewBag.carId);
                 $("#unit-@ViewBag.carId").parent().addClass("unit-selected");
                 $("#unit-@ViewBag.carId").parent().siblings().hide();
 
                 //reservation form
                 $("#rsvCarUnit").val(@ViewBag.carId);
+            }
 
+            //when form is invalid, show reservation modal to 
+            //show errors and resubmit form
+            if ('@ViewBag.IsFormValid' == 'False') {
+                $("#rsvCarUnit").val(@ViewBag.carId);
+                $("#rsvDate-PickUp").val(moment('@ViewBag.DtStart').format("MM/DD/YYYY"));
+                $("#rsvDate-DropOff").val(moment('@ViewBag.DtEnd').format("MM/DD/YYYY"));
+                $("#rsvLocPickup").val('@ViewBag.LocStart');
+
+                ContinueReservation();
             }
         });
-
-        $(".rsv-unit-item").click(() => {
-            $(this).children('input').prop("checked", true);
-        });
-
-        function selectUnit(e, unitId) {
-            $(e).addClass("unit-selected").siblings().removeClass('unit-selected');
-
-            $("#unit-" + unitId).prop("checked", true)
-            console.log("Selected Unit: " + unitId);
-            $("#rnt-carUnit").val(unitId);
-            getUnitRate(unitId);
-
-            //disable type self drive if unitId = 1,2,7
-            disableSelfDrive(unitId);
-        }
-
-        function disableSelfDrive(unitId) {
-            if (unitId == 1 || unitId == 2 || unitId == 7) {
-                //disable self drive
-                $("#Rental-SelfDrive").prop("disabled", true);
-
-                //remove checked on self drive
-                $("#Rental-SelfDrive").prop("checked", false);
-
-                //check with driver
-                $("#Rental-WithDriver").prop("checked", true);
-                $("input[name='SelfDrive']").val(0);
-
-                console.log("disable self drive");
-            } else {
-                //enable self drive
-                $("#Rental-SelfDrive").prop("disabled", false);
-                console.log("enable self drive");
-            }
-        }
-
-        function getUnitRate(unitID) {
-            //var unitID = $('#UnitDropdown option:selected').val();
-            $.get("/CarRental/GetUnitRate", { unitId: unitID }, (result) => {
-                console.log("rate: " + result);
-                $("#rnt-baseRate").val(result);
-            });
-        }
-
-        function LoadingSubmit() {
-            $("#overlay").show();
-        }
-
-        $("#Rental-WithDriver").click(() => {
-            console.log("check with driver");
-            //update  with driver value
-            $("input[name='SelfDrive']").val(0);
-
-            //uncheck other option
-            $("#Rental-SelfDrive").prop("checked", false);
-        });
-
-        $("#Rental-SelfDrive").click(() => {
-            console.log("check Self Drive");
-            //update selfdrive value
-            $("input[name='SelfDrive']").val(1);
-
-            //uncheck other option
-            $("#Rental-WithDriver").prop("checked", false);
-        });
-
-
-        function ContinueReservation() {
-
-            console.log("Continue Reservation");
-            //show all units again
-            $("#btn-rentalUnit").children("div").children("span").show();
-
-            //submit form
-            let carUnitId = $("#rsvCarUnit").val();
-            let locPickup = $("#rsvLocPickup").val();
-            let datePickup = $("#rsvDate-PickUp").val();
-            let dateDropOff = $("#rsvDate-DropOff").val();
-            console.log("CarUnit: " + carUnitId);
-            console.log("datePickup: " + datePickup);
-
-            //transfer to reservation
-            $("#rnt-startDate").val(datePickup);
-            $("#rnt-endDate").val(dateDropOff);
-
-            $("#rnt-startLoc").val(locPickup);
-
-            SelectedUnit(carUnitId);
-
-            GetVehicleDetails(carUnitId);
-
-            //open modal
-            $("#ReservationRequestModal").modal('show');
-        }
-
-        function SelectedUnit(id) {
-            if (id != 0) {
-                selectUnit(null, id);
-                $("#unit-" + id).parent().addClass("unit-selected");
-                $("#unit-" + id).parent().siblings().hide();
-            }
-        }
-
-        //get vehicle details and rate
-        function GetVehicleDetails(id) {
-            $.get("/CarRental/GetCarDetails", { id : id }, (result) => {
-                console.log(result);
-              
-
-                if (result != undefined) {
-                    $("#rsv-dtls-desc").text(result["Description"]);
-                    $("#rsv-dtls-class").text(result["Class"]);
-                    $("#rsv-dtls-fuel").text(result["Fuel"]);
-                    $("#rsv-dtls-trans").text(result["Transmission"]);
-                    $("#rsv-dtls-pass").text(result["Passengers"]);
-                    $("#rsv-dtls-rate").text(" Php " + result["Rate"]);
-                    $("#rsv-dtls-imgUrl").attr("src","/Images/CarRental/" + result["ImgUrl"]);
-
-                } else {
-                    alert("Unable to retrieve Car Details");
-                }
-
-                if (result == null) {
-                    alert("Unable to retrieve Car Details");
-                }
-            });
-        }
 
     </script>
 }

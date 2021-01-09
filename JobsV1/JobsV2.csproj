@@ -1991,6 +1991,7 @@
     <Content Include="Scripts\BookingRequest\DtBooking.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\CarRental\CarReservation.js" />
     <Content Include="Scripts\Cashier\CashierJobList.js" />
     <Content Include="Scripts\Cashier\CashierPayments.js" />
     <Content Include="Scripts\Chartjs\Chart.js" />

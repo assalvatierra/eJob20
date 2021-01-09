@@ -397,13 +397,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:17</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalCashRelease/DriverTripList.cshtml">
-      <publishTime>10/03/2020 16:21:33</publishTime>
+      <publishTime>12/29/2020 10:30:24</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalCashRelease/Edit.cshtml">
       <publishTime>08/01/2020 08:42:46</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalCashRelease/Index.cshtml">
-      <publishTime>10/03/2020 15:27:12</publishTime>
+      <publishTime>12/29/2020 10:54:02</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalCashRelease/PrevRecords.cshtml">
       <publishTime>08/01/2020 12:41:00</publishTime>
@@ -1033,226 +1033,226 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:20</publishTime>
     </File>
     <File Include="Areas/Receivables/Data/ArDB.edmx.sql">
-      <publishTime>12/17/2020 15:34:49</publishTime>
+      <publishTime>01/06/2021 10:48:52</publishTime>
     </File>
     <File Include="Areas/Receivables/Data/Initial.sql">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Data/SampleData.sql">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/DateRangePicker/bower.json">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/DateRangePicker/daterangepicker.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/DateRangePicker/moment.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/DateRangePicker/moment.min.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/DateRangePicker/package.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/DateRangePicker/package.json">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/DefaultDatePicker.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/Mgt/Approval.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/Mgt/ArMgt.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/Mgt/DueDate.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/Mgt/Settlement.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/Payments/Payments.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Scripts/Transactions/Transaction.js">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntCredits/Create.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntCredits/CreateCredit.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntCredits/Delete.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntCredits/Details.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntCredits/Edit.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntCredits/Index.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntTerms/Create.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntTerms/CreateTerms.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntTerms/Delete.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntTerms/Details.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntTerms/Edit.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccntTerms/Index.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccounts/Create.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccounts/Delete.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccounts/Details.cshtml">
-      <publishTime>12/18/2020 15:22:00</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccounts/Edit.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArAccounts/Index.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArMgt/Approval.cshtml">
-      <publishTime>12/18/2020 13:50:50</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArMgt/Index.cshtml">
-      <publishTime>12/18/2020 13:50:58</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArMgt/Reminders.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArMgt/Settlement.cshtml">
-      <publishTime>12/18/2020 13:50:45</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArMgt/_ModalChangeDueDate.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArMgt/_ModalContact.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArMgt/_ModalEmailReminder.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/Create.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/CreateSettlePayment.cshtml">
-      <publishTime>12/18/2020 11:56:06</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/CreateTransPayment.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/Delete.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/DeleteTransPayment.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/Details.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/Edit.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/EditTransPayment.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArPayments/Index.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransactions/Create.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransactions/CreateAccTrans.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransactions/Delete.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransactions/Details.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransactions/Edit.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransactions/Index.cshtml">
-      <publishTime>12/18/2020 15:12:47</publishTime>
+      <publishTime>01/06/2021 15:32:31</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransactions/TransactionHistory.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransPosts/Create.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransPosts/Delete.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransPosts/Details.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransPosts/Edit.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/ArTransPosts/Index.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/Shared/_Layout.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/web.config">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="Areas/Receivables/Views/_ViewStart.cshtml">
-      <publishTime>12/17/2020 15:34:11</publishTime>
+      <publishTime>01/06/2021 09:15:35</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:41</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.pdb">
-      <publishTime>07/09/2019 13:56:13</publishTime>
+      <publishTime>07/22/2020 09:56:41</publishTime>
     </File>
     <File Include="bin/ApplicationInsights.config">
       <publishTime>07/22/2020 09:56:13</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/23/2020 16:42:42</publishTime>
+      <publishTime>01/09/2021 14:15:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/23/2020 16:42:42</publishTime>
+      <publishTime>01/09/2021 14:15:39</publishTime>
     </File>
     <File Include="bin/ArDBLayer.dll">
-      <publishTime>12/17/2020 15:21:51</publishTime>
+      <publishTime>01/06/2021 11:54:54</publishTime>
     </File>
     <File Include="bin/ArDBLayer.pdb">
       <publishTime>11/28/2020 12:03:50</publishTime>
     </File>
     <File Include="bin/ArInterfaces.dll">
-      <publishTime>12/17/2020 15:21:51</publishTime>
+      <publishTime>01/06/2021 11:54:54</publishTime>
     </File>
     <File Include="bin/ArInterfaces.pdb">
       <publishTime>11/28/2020 12:03:47</publishTime>
     </File>
     <File Include="bin/ArModels.dll">
-      <publishTime>12/17/2020 15:21:51</publishTime>
+      <publishTime>01/06/2021 11:54:53</publishTime>
     </File>
     <File Include="bin/ArModels.dll.config">
       <publishTime>11/16/2020 16:59:04</publishTime>
@@ -1261,7 +1261,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/21/2020 16:54:35</publishTime>
     </File>
     <File Include="bin/ArServices.dll">
-      <publishTime>12/17/2020 15:21:51</publishTime>
+      <publishTime>01/06/2021 12:01:07</publishTime>
     </File>
     <File Include="bin/ArServices.dll.config">
       <publishTime>11/14/2020 11:15:13</publishTime>
@@ -1273,10 +1273,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:41</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:41</publishTime>
     </File>
     <File Include="bin/es/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -1291,97 +1291,97 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>12/23/2020 16:42:35</publishTime>
+      <publishTime>01/09/2021 14:15:13</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>12/23/2020 16:42:35</publishTime>
+      <publishTime>01/09/2021 14:15:13</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.DependencyCollector.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.PerfCounterCollector.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.ServerTelemetryChannel.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Web.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.WindowsServer.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.ApplicationInsights.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.Facebook.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.Google.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.MicrosoftAccount.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.Twitter.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.ReportViewer.Common.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.ReportViewer.DataVisualization.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.ReportViewer.ProcessingObjectModel.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.ReportViewer.WebForms.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Microsoft.SqlServer.Types.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/Owin.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/PayPal.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/pt/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -1390,43 +1390,43 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:44</publishTime>
     </File>
     <File Include="bin/System.Web.Cors.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:42</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>11/28/2018 13:04:24</publishTime>
     </File>
     <File Include="bin/System.Web.Http.Cors.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:44</publishTime>
     </File>
     <File Include="bin/System.Web.Http.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:44</publishTime>
     </File>
     <File Include="bin/System.Web.Http.WebHost.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:44</publishTime>
     </File>
     <File Include="bin/System.Web.Mvc.dll">
       <publishTime>11/28/2018 12:59:46</publishTime>
     </File>
     <File Include="bin/System.Web.Optimization.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:44</publishTime>
     </File>
     <File Include="bin/System.Web.Razor.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>11/28/2018 13:00:12</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.Deployment.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>11/28/2018 13:04:24</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>11/28/2018 13:04:24</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.Razor.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>11/28/2018 13:04:24</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
-      <publishTime>07/22/2020 09:56:40</publishTime>
+      <publishTime>07/22/2020 09:56:45</publishTime>
     </File>
     <File Include="bin/zh-Hans/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -1468,7 +1468,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:20</publishTime>
     </File>
     <File Include="Content/CarBooking.css">
-      <publishTime>09/17/2020 16:06:34</publishTime>
+      <publishTime>01/08/2021 10:49:39</publishTime>
     </File>
     <File Include="Content/CarRental.css">
       <publishTime>10/27/2020 11:58:55</publishTime>
@@ -1522,7 +1522,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/01/2020 14:21:06</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>10/02/2020 13:49:01</publishTime>
+      <publishTime>01/09/2021 13:02:48</publishTime>
     </File>
     <File Include="Content/sortable-theme-bootstrap.css">
       <publishTime>07/22/2020 09:56:20</publishTime>
@@ -2175,6 +2175,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Images/CarRental/Home/Article/WhyRentACar/Article-Why-Rent-A-Car-4.jpg">
       <publishTime>12/22/2020 15:30:13</publishTime>
     </File>
+    <File Include="Images/CarRental/Home/Article/WhyRentACar/Car-rental-process.jpg">
+      <publishTime>01/08/2021 09:53:40</publishTime>
+    </File>
     <File Include="Images/CarRental/Home/Article/WhyRentACar/hotel-apo-view.jpg">
       <publishTime>12/22/2020 16:49:06</publishTime>
     </File>
@@ -2300,6 +2303,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Images/CarRental/Home/Vehicles/Fleet-van-sm.jpg">
       <publishTime>09/11/2020 12:26:55</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Fleet-Vehicles.png">
+      <publishTime>01/05/2021 14:08:41</publishTime>
+    </File>
+    <File Include="Images/CarRental/Home/Vehicles/Honda-City-Reservation.png">
+      <publishTime>01/05/2021 13:28:50</publishTime>
     </File>
     <File Include="Images/CarRental/Home/Vehicles/Realwheel-Davao-512.jpg">
       <publishTime>09/11/2020 12:26:55</publishTime>
@@ -2931,6 +2940,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Images/Icons/icon-ask-question-100.png">
       <publishTime>09/14/2020 16:38:41</publishTime>
     </File>
+    <File Include="Images/Icons/icon-calendar.png">
+      <publishTime>01/08/2021 09:22:58</publishTime>
+    </File>
     <File Include="Images/Icons/icon-call-blk.png">
       <publishTime>09/14/2020 16:38:46</publishTime>
     </File>
@@ -3385,7 +3397,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2020 14:54:41</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/23/2020 16:42:39</publishTime>
+      <publishTime>01/09/2021 14:15:36</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>07/22/2020 09:56:30</publishTime>
@@ -3394,7 +3406,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:30</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>12/23/2020 14:45:30</publishTime>
+      <publishTime>01/09/2021 13:59:09</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>07/22/2020 09:56:30</publishTime>
@@ -3429,6 +3441,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/bootstrap.min.js">
       <publishTime>07/22/2020 09:56:30</publishTime>
     </File>
+    <File Include="Scripts/CarRental/CarReservation.js">
+      <publishTime>01/09/2021 14:03:42</publishTime>
+    </File>
     <File Include="Scripts/CarRental/FormCarPackages.js">
       <publishTime>07/22/2020 09:56:30</publishTime>
     </File>
@@ -3439,10 +3454,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:30</publishTime>
     </File>
     <File Include="Scripts/CarRental/FormRenter.js">
-      <publishTime>09/17/2020 15:24:39</publishTime>
+      <publishTime>01/07/2021 10:55:29</publishTime>
     </File>
     <File Include="Scripts/CarRental/FormRenterValid.js">
-      <publishTime>09/17/2020 15:23:15</publishTime>
+      <publishTime>01/09/2021 14:04:16</publishTime>
     </File>
     <File Include="Scripts/CarRental/Reservation.js">
       <publishTime>07/22/2020 09:56:30</publishTime>
@@ -4506,6 +4521,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/CarRental/CarRate.cshtml">
       <publishTime>10/02/2020 09:47:22</publishTime>
     </File>
+    <File Include="Views/CarRental/CarReservation.cshtml">
+      <publishTime>01/09/2021 14:07:13</publishTime>
+    </File>
     <File Include="Views/CarRental/CarReserve.cshtml">
       <publishTime>09/16/2020 15:21:30</publishTime>
     </File>
@@ -4693,7 +4711,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:31</publishTime>
     </File>
     <File Include="Views/CarRental/Reservation.cshtml">
-      <publishTime>12/23/2020 16:42:22</publishTime>
+      <publishTime>01/05/2021 16:45:26</publishTime>
     </File>
     <File Include="Views/CarRental/ReservationError.cshtml">
       <publishTime>09/18/2020 14:49:14</publishTime>
@@ -4744,19 +4762,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:31</publishTime>
     </File>
     <File Include="Views/CarReservations/CreateQuotation.cshtml">
-      <publishTime>07/22/2020 09:56:31</publishTime>
+      <publishTime>01/08/2021 14:15:31</publishTime>
     </File>
     <File Include="Views/CarReservations/Delete.cshtml">
       <publishTime>07/22/2020 09:56:31</publishTime>
     </File>
     <File Include="Views/CarReservations/Details.cshtml">
-      <publishTime>07/22/2020 09:56:31</publishTime>
+      <publishTime>01/09/2021 10:55:34</publishTime>
     </File>
     <File Include="Views/CarReservations/Edit.cshtml">
       <publishTime>07/22/2020 09:56:31</publishTime>
     </File>
     <File Include="Views/CarReservations/Index.cshtml">
       <publishTime>09/28/2020 09:31:36</publishTime>
+    </File>
+    <File Include="Views/CarReservations/_SearchCompanyModal.cshtml">
+      <publishTime>01/08/2021 14:15:42</publishTime>
+    </File>
+    <File Include="Views/CarReservations/_SearchCustomerModal.cshtml">
+      <publishTime>01/08/2021 14:15:42</publishTime>
     </File>
     <File Include="Views/CarUnits/Create.cshtml">
       <publishTime>07/22/2020 09:56:31</publishTime>
@@ -5488,7 +5512,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/JobOrder/JobListing.cshtml">
-      <publishTime>09/11/2020 12:27:04</publishTime>
+      <publishTime>01/09/2021 11:42:25</publishTime>
     </File>
     <File Include="Views/JobOrder/JobServiceAdd.cshtml">
       <publishTime>07/22/2020 09:56:31</publishTime>
@@ -6111,6 +6135,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Shared/_LayoutHome.cshtml">
       <publishTime>11/28/2020 13:15:36</publishTime>
     </File>
+    <File Include="Views/Shared/_LayoutLandingPage.cshtml">
+      <publishTime>01/07/2021 14:14:52</publishTime>
+    </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>07/22/2020 09:56:39</publishTime>
     </File>
@@ -6370,7 +6397,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:40</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/21/2020 10:31:39</publishTime>
+      <publishTime>01/06/2021 11:58:08</publishTime>
     </File>
     <File Include="WebService.asmx">
       <publishTime>07/22/2020 09:56:40</publishTime>

@@ -517,6 +517,7 @@ namespace JobsV1.Controllers
                 ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", rsvTypeId);
                 ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
+                ViewBag.IsFormValid = true;
 
                 return View(reservation);
             }
@@ -581,6 +582,10 @@ namespace JobsV1.Controllers
 
                     return RedirectToAction("FormThankYou", new { rsvId = carReservation.Id });
                 }
+                else
+                {
+
+                }
 
                 var rsvTypeId = carReservation.CarResTypeId;
                 var rsvTypeDesc = db.CarResTypes.Find(rsvTypeId).Type;
@@ -588,6 +593,7 @@ namespace JobsV1.Controllers
                 ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", carReservation.CarUnitId);
                 ViewBag.CarResTypeId = new SelectList(db.CarResTypes, "Id", "Type", carReservation.CarResTypeId);
                 ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s => s.SortOrder);
+                ViewBag.IsFormValid = false;
 
                 ViewBag.carId = carReservation.CarUnitId;
                 ViewBag.fuel = 0;
@@ -595,6 +601,7 @@ namespace JobsV1.Controllers
                 ViewBag.pkgId = packageid;
                 ViewBag.DtStart = carReservation.DtStart;
                 ViewBag.DtEnd = carReservation.DtEnd;
+                ViewBag.LocStart = carReservation.LocStart;
                 ViewBag.rsvTypeId = rsvTypeId;
                 ViewBag.rsvTypeDesc = rsvTypeDesc;
 
@@ -606,7 +613,6 @@ namespace JobsV1.Controllers
             }
             catch
             {
-
                 return RedirectToAction("ReservationError");
             }
         }
@@ -781,7 +787,6 @@ namespace JobsV1.Controllers
                     {
                         return RedirectToAction("ReservationError", new { msg = emailResponse });
                     }
-
 
                     return RedirectToAction("FormThankYou", new { rsvId = carReservation.Id });
                 }
@@ -1101,14 +1106,24 @@ namespace JobsV1.Controllers
          
         public void addCarResPackage(int CarReservationId, int packageid, int mealsAcc, int fuel)
         {
-            CarResPackage packages = new CarResPackage();
-            packages.CarRateUnitPackageId = packageid;
-            packages.CarReservationId = CarReservationId;
-            packages.DrvMealByClient = mealsAcc;
-            packages.FuelByClient = fuel;
-            packages.DrvRoomByClient = mealsAcc;
-            db.CarResPackages.Add(packages);
-            db.SaveChanges();
+            try
+            {
+
+                CarResPackage packages = new CarResPackage();
+                packages.CarRateUnitPackageId = packageid;
+                packages.CarReservationId = CarReservationId;
+                packages.DrvMealByClient = mealsAcc;
+                packages.FuelByClient = fuel;
+                packages.DrvRoomByClient = mealsAcc;
+                db.CarResPackages.Add(packages);
+                db.SaveChanges();
+
+            }
+            catch
+            {
+                //throw
+                //no package found
+            }
         }
         
         public string sendMail(int jobId, string renterEmail, string mailType, string recipientName )

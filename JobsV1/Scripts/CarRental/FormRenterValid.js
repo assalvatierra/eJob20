@@ -1,4 +1,9 @@
-﻿var captchaflag = false;
+﻿
+/*
+ * Validate Reservation Forms
+ */ 
+
+var captchaflag = false;
 //generate validations on inputs
 $(document).ready(function () {
     //initial
