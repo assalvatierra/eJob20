@@ -15,9 +15,8 @@
 
 <section id="section-banner">
     <div class="container">
-
         <div class="col-md-12 page-banner-title">
-            <h1> RealWheels Car Rental @ViewBag.IsFormValid </h1>
+            <h1> RealWheels Car Rental</h1>
             <h4> Your trusted travel partner. Contact us for inquiries and reservation  </h4>
         </div>
 
@@ -39,6 +38,10 @@
                             }
                         </select>
                     </div>
+                </div>
+
+                <div class="col-md-12" style="display:flex;justify-content:flex-end">
+                    <a style="padding-right:50px;" onclick="openModal();currentSlide(1)" class="cursor"> View Vehicle Images </a>
                 </div>
 
                 <!-- Pick Up -->
@@ -82,7 +85,7 @@
         </div>
 
         <div class="col-md-6 section-banner-group">
-            <h3 style="text-align:center;color:white;"> Plan Your Trip Now For Only <span style="color:limegreen;"> 3500 Pesos/Day</span> ! </h3>
+            <h3 style="text-align:center;color:white;"> Plan Your Trip Now For As Low As <span style="color:limegreen;"> <br /> 2500 Pesos/Day</span> ! </h3>
             <img src="~/Images/CarRental/Home/Vehicles/Honda-City-Reservation.png" title="Honda City Reservation" class="rsv-image" />
         </div>
 
@@ -183,8 +186,6 @@
     </div>
 
     <!-- Reservation Modal -->
-
-
     <div class="modal fade" role="dialog" id="ReservationRequestModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -551,6 +552,56 @@
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap Lightbox -->
+
+    <div id="LightboxModal" class="lightbox" >
+        <span class="close cursor" onclick="closeModal()">&times;</span>
+        <div class="lightbox-content">
+            <div class="mySlides">
+                <div class="numbertext">1 / 4</div>
+                <img id="lightbox-img-1" src="~/Images/CarRental/placeholder.png" style="width:100%;">
+            </div>
+
+            <div class="mySlides">
+                <div class="numbertext hover-shadow">2 / 4</div>
+                <img id="lightbox-img-2" src="~/Images/CarRental/placeholder.png" style="width:100%">
+            </div>
+
+            <div class="mySlides">
+                <div class="numbertext">3 / 4</div>
+                <img id="lightbox-img-3"  src="~/Images/CarRental/placeholder.png" style="width:100%">
+            </div>
+
+            <div class="mySlides">
+                <div class="numbertext">4 / 4</div>
+                <img id="lightbox-img-4"  src="~/Images/CarRental/placeholder.png" style="width:100%">
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+            <div class="caption-container">
+                <p id="caption"></p>
+            </div>
+
+
+            <div class="column">
+                <img id="lightbox-item-1" class="lightbox-item cursor" src="~/Images/CarRental/placeholder.png" style="width:100%" onclick="currentSlide(1)" alt="">
+            </div>
+            <div class="column">
+                <img id="lightbox-item-2"  class="lightbox-item cursor" src="~/Images/CarRental/placeholder.png" style="width:100%" onclick="currentSlide(2)" alt="">
+            </div>
+            <div class="column">
+                <img id="lightbox-item-3"  class="lightbox-item cursor" src="~/Images/CarRental/placeholder.png" style="width:100%" onclick="currentSlide(3)" alt="">
+            </div>
+            <div class="column">
+                <img id="lightbox-item-4"  class="lightbox-item cursor" src="~/Images/CarRental/placeholder.png" style="width:100%" onclick="currentSlide(4)" alt="">
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 <div class="google-maps-location-container">
@@ -565,6 +616,7 @@
 </div>
 
 @section Scripts {
+    @Scripts.Render("~/bundles/flickity")
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/CarRental/CarReservation.js"></script>
     <script type="text/javascript" src="~/Scripts/CarRental/FormRenter.js"></script>
@@ -586,7 +638,7 @@
                 $("#rsvCarUnit").val(@ViewBag.carId);
             }
 
-            //when form is invalid, show reservation modal to 
+            //when form is invalid, show reservation modal to
             //show errors and resubmit form
             if ('@ViewBag.IsFormValid' == 'False') {
                 $("#rsvCarUnit").val(@ViewBag.carId);
@@ -597,6 +649,69 @@
                 ContinueReservation();
             }
         });
+
+        function ViewVehicleImages() {
+            $("#vehicleImagesModal").modal("show");
+        }
+
+        function openModal() {
+            //$("#myModal").modal("show");
+            document.getElementById("LightboxModal").style.display = "block";
+            GetCarImages();
+        }
+
+        function closeModal() {
+            //$("#myModal").modal("hide");
+          document.getElementById("LightboxModal").style.display = "none";
+        }
+
+        function GetCarImages() {
+            let carUnitId = $("#rsvCarUnit").val();
+            console.log(carUnitId);
+
+            $.get("/CarRental/GetUnitImages", { unitId : carUnitId }, (response) => {
+                console.log(response);
+
+                for (var i = 0; i < response.length; i++) {
+                    console.log(response[i]);
+
+                    let carImgUrl = "/Images/CarRental/" + response[i];
+                    let htmlId = i + 1;
+                    $("#lightbox-img-" + htmlId).attr("src", carImgUrl);
+                    $("#lightbox-item-" + htmlId).attr("src", carImgUrl);
+                }
+            });
+        }
+
+
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+          showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+          showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+          var i;
+          var slides = document.getElementsByClassName("mySlides");
+          var dots = document.getElementsByClassName("lightbox-item");
+          var captionText = document.getElementById("caption");
+          if (n > slides.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = slides.length}
+          for (i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";
+          }
+          for (i = 0; i < dots.length; i++) {
+              dots[i].className = dots[i].className.replace(" active", "");
+          }
+          slides[slideIndex-1].style.display = "block";
+          dots[slideIndex-1].className += " active";
+          captionText.innerHTML = dots[slideIndex-1].alt;
+        }
 
     </script>
 }

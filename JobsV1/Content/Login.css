@@ -1,15 +1,5 @@
-﻿/*
-  ✰✰✰✰✰✰✰✰✰✰✰✰✰✰ 
+﻿
 
-  Simple Login Form
-  HTML5/CSS3 Coded by: $hekh@r d-Ziner, CSSJunction.com
-  PSD by:PremiumPixels.com
-  
-  Uuage: Free. You can modify, remove our links and use wherever you want ☺.
-  
-  ✰✰✰✰✰✰✰✰✰✰✰✰✰✰✰ 
-  
-*/
 body{
   background:#eff3f6;
 }
@@ -271,6 +261,19 @@ footer#main{
         left: 120px;
         display: none;
     }
+
+    .login-header {
+        margin-bottom: 50px;
+    }
+}
+
+
+@media(max-width:1240px) {
+    /*.top-icons-holder {
+        top: -100px;
+        left: 120px;
+        display: none;
+    }*/
 
     .login-header {
         margin-bottom: 50px;

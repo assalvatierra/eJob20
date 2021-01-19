@@ -538,6 +538,30 @@ namespace JobsV1.Controllers
             return RedirectToAction("UserSubModuleList", new { username = username, moduleId = moduleId });
         }
 
+        public bool RemoveUser(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return false;
+                }
+                SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+                if (sysAccessUser == null)
+                {
+                    return false;
+                }
+
+                db.SysAccessUsers.Remove(sysAccessUser);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         #region Modules
         //Modules

@@ -245,7 +245,10 @@ insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (19,19);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
 values 	('Receivables' ,'',19,'Receivables/ArTransactions','Index','',21,191),	-- id: 74
 	    ('Accounts' ,'',19,'Receivables/ArAccounts','Index','',21,192),			-- id: 74
-	    ('Manage' ,'',19,'Receivables/ArMgt','Index','',21,193);				-- id: 74
+	    ('Manage' ,'',19,'Receivables/ArMgt','Index','',21,193),				-- id: 74
+	    ('For Approval' ,'',19,'Receivables/ArMgt','Approval','',21,194),				-- id: 74,
+	    ('For Settlement' ,'',19,'Receivables/ArMgt','Settlement','',21,195),				-- id: 74,
+	    ('Reports' ,'',19,'Receivables/ArReports','Index','',21,196);				-- id: 74;	
 
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
@@ -365,6 +368,9 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('assalvatierra@gmail.com', 77, 77),
 ('assalvatierra@gmail.com', 78, 78),
 ('assalvatierra@gmail.com', 79, 79),
+('assalvatierra@gmail.com', 80, 80),
+('assalvatierra@gmail.com', 81, 81),
+('assalvatierra@gmail.com', 82, 82),
 
 ('jahdielvillosa@gmail.com', 20, 20),
 ('jahdielvillosa@gmail.com', 21, 21),
@@ -426,6 +432,9 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 77, 77),
 ('jahdielvillosa@gmail.com', 78, 78),
 ('jahdielvillosa@gmail.com', 79, 79),
+('jahdielvillosa@gmail.com', 80, 80),
+('jahdielvillosa@gmail.com', 81, 81),
+('jahdielvillosa@gmail.com', 82, 82),
 
 
 ('Demo@gmail.com', 20, 20),

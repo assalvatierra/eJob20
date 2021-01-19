@@ -389,7 +389,6 @@ namespace JobsV1.Controllers
             return isValid;
         }
 
-
         public void AddjobCompany(int jobId, int companyId)
         {
             JobEntMain jobCompany = new JobEntMain();
@@ -419,6 +418,28 @@ namespace JobsV1.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult GetUnitImages(int? unitId)
+        {
+            try
+            {
+                if (unitId != null)
+                {
+                    var carUnitImages = db.CarImages.Where(c => c.CarUnitId == unitId && c.SysCode == "DESC")
+                        .ToList().Select(c => c.ImgUrl);
+
+                    return Json(carUnitImages, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(null, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 }

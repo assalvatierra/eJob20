@@ -609,8 +609,10 @@
     <Compile Include="Areas\Receivables\Controllers\ArAccntCreditsController.cs" />
     <Compile Include="Areas\Receivables\Controllers\ArAccntTermsController.cs" />
     <Compile Include="Areas\Receivables\Controllers\ArAccountsController.cs" />
+    <Compile Include="Areas\Receivables\Controllers\ArActionsController.cs" />
     <Compile Include="Areas\Receivables\Controllers\ArMgtController.cs" />
     <Compile Include="Areas\Receivables\Controllers\ArPaymentsController.cs" />
+    <Compile Include="Areas\Receivables\Controllers\ArReportsController.cs" />
     <Compile Include="Areas\Receivables\Controllers\ArTransactionsController.cs" />
     <Compile Include="Areas\Receivables\Controllers\ArTransPostsController.cs" />
     <Compile Include="Areas\Receivables\Controllers\HomeController.cs" />
@@ -1579,18 +1581,23 @@
     <Content Include="Images\CarRental\CarViews\VanRental\VanSeats.jpg" />
     <Content Include="Images\CarRental\Driver101.png" />
     <Content Include="Images\CarRental\Driver102x.png" />
+    <Content Include="Images\CarRental\ford\Ford-Everest-front-side.jpg" />
+    <Content Include="Images\CarRental\ford\Ford-Everest-side.jpg" />
     <Content Include="Images\CarRental\ford\Ford-Everest-Back.jpg" />
     <Content Include="Images\CarRental\ford\ford-everest-front.jpg" />
     <Content Include="Images\CarRental\ford\ford-everst-back.jpg" />
     <Content Include="Images\CarRental\ford\fordeverest_front side view.jpg" />
     <Content Include="Images\CarRental\ford\fordeverest_interior.jpg" />
-    <Content Include="Images\CarRental\ford\frod_sideview.jpg" />
+    <Content Include="Images\CarRental\ford\ford-everest_side.jpg" />
     <Content Include="Images\CarRental\fortuner\fortuner_frontview.jpg" />
     <Content Include="Images\CarRental\fortuner\fortuner_interior.jpg" />
     <Content Include="Images\CarRental\fortuner\fortuner_sideview.jpg" />
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-back-seat.jpg" />
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-back.jpg" />
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-front-seat.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-front-side.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-front.jpg" />
+    <Content Include="Images\CarRental\fortuner\Toyota-Fortuner-side.jpg" />
     <Content Include="Images\CarRental\fortuner\Toyota-Fortuner.jpg" />
     <Content Include="Images\CarRental\fortuner\toyotafortuner_rearview.jpg" />
     <Content Include="Images\CarRental\glgrandia\glgrandia_frontview.jpg" />
@@ -1680,7 +1687,10 @@
     <Content Include="Images\CarRental\Home\Vehicles\Realwheels-Toyota-Grandia-Tourer.jpg" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-lg-2.jpg" />
     <Content Include="Images\CarRental\Home\Vehicles\RealWheelsDavao-CarRental.jpg" />
+    <Content Include="Images\CarRental\hondacity\honda-city-2018-back-2.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-city-2018-back.jpg" />
+    <Content Include="Images\CarRental\hondacity\honda-city-2018-front-side.jpg" />
+    <Content Include="Images\CarRental\hondacity\honda-city-2018-side.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-city-2018.jpg" />
     <Content Include="Images\CarRental\hondacity\Honda-City-Default.jpg" />
     <Content Include="Images\CarRental\hondacity\honda-city-front.jpg" />
@@ -1691,7 +1701,12 @@
     <Content Include="Images\CarRental\icon-gas.png" />
     <Content Include="Images\CarRental\icon-meal.png" />
     <Content Include="Images\CarRental\icon-sleep.png" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2015-front.jpg" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2015-side.jpg" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2015.jpg" />
     <Content Include="Images\CarRental\innova\Toyota-Innova-2019-BackSeat.png" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2020-front-side.jpg" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2020-side.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-2020-sm.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-2020.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-back-seat.jpg" />
@@ -1707,6 +1722,9 @@
     <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-2019-front-seat.jpg" />
     <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-2019.jpg" />
     <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-seats.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-front-side.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-front.jpg" />
+    <Content Include="Images\CarRental\nissanPremium\Nissan-Premium-side.jpg" />
     <Content Include="Images\CarRental\nissanPremium\nissanpremium_frontview.jpg" />
     <Content Include="Images\CarRental\nissanPremium\nissanpremium_interior.jpg" />
     <Content Include="Images\CarRental\nissanPremium\nissanpremium_sideview.jpg" />
@@ -1722,6 +1740,10 @@
     <Content Include="Images\CarRental\pickup\pickup_front.jpg" />
     <Content Include="Images\CarRental\pickup\pickup_interior.jpg" />
     <Content Include="Images\CarRental\pickup\pickup_sideview.jpg" />
+    <Content Include="Images\CarRental\pickup\Toyota-Hilux-2020-back.jpg" />
+    <Content Include="Images\CarRental\pickup\Toyota-Hilux-2020-seats.jpg" />
+    <Content Include="Images\CarRental\pickup\Toyota-Hilux-2020-side.jpg" />
+    <Content Include="Images\CarRental\pickup\Toyota-Hilux-2020.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-back-seat.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-back.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-seat.jpg" />
@@ -1729,6 +1751,7 @@
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019.png" />
     <Content Include="Images\CarRental\rush\toyota-rush-interior.jpg" />
+    <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-interior.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-back.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-seats.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-side-2.jpg" />
@@ -2357,6 +2380,12 @@
     <Content Include="Areas\Receivables\Views\web.config" />
     <Content Include="Areas\Receivables\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Receivables\Views\ArPayments\CreateSettlePayment.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArActions\Create.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArActions\Delete.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArActions\Details.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArActions\Edit.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArActions\Index.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArReports\Index.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -3229,6 +3258,7 @@
   <ItemGroup>
     <Folder Include="Areas\Accounting\Views\Home\" />
     <Folder Include="Areas\Products\Views\Home\" />
+    <Folder Include="Areas\Receivables\Scripts\Actions\" />
     <Folder Include="Areas\Receivables\Scripts\Credits\" />
     <Folder Include="Views\CustomHelper\" />
   </ItemGroup>

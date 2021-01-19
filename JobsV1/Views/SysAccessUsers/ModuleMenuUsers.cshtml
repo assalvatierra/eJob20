@@ -34,11 +34,30 @@
             @Html.DisplayFor(modelItem => item.SysMenu.Menu)
         </td>
         <td>
-            @Html.ActionLink("Remove", "ModuleMenuUserDelete", new { id=item.Id })
+            @*@Html.ActionLink("Remove", "ModuleMenuUserDelete", new { id=item.Id })*@
+            <a onclick="RemoveUser(this, @item.Id)" class="cursor-hand"> Remove </a>
         </td>
     </tr>
 }
 
 </table>
+
+@section Scripts{
+    
+    <script>
+        function RemoveUser(e, id) {
+            $.post('/SysAccessUsers/RemoveUser', { id : id } , (result) => {
+                console.log(result);
+                if (result == "True") {
+                    console.log("User Deleted from menu");
+                    $(e).parent().parent().remove();
+                } else {
+                    console.log("Unable to delete user from menu");
+                }
+            });
+        }
+    </script>
+    
+    }
 
 

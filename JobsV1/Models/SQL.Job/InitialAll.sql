@@ -628,6 +628,49 @@ values (1,'glgrandia/Toyota-Grandia-side.jpg'    ,'','MAIN'),
        (6,'pickup/pickup-default.jpg'            ,'','MAIN'),
        (7,'tourer/Toyota-Grandia-Tourer-2019-side.jpg' ,'','MAIN'),
        (8,'rush/Toyota-Rush-2019.jpg' ,'','MAIN');
+
+	   
+insert into CarImages ( CarUnitId, ImgUrl, Remarks, SysCode)
+values (2,'glgrandia/Toyota-Grandia-side.jpg'    ,'','VIEW'),
+	   (2,'glgrandia/Toyota-Grandia.jpg'    ,'','VIEW'),
+	   (2,'glgrandia/Toyota-Grandia-seats.jpg'    ,'','VIEW'),
+	   (2,'glgrandia/Toyota-Grandia-front-seats.jpg'    ,'','VIEW'),
+
+       (1,'nissanPremium/Nissan-Premium-front-side.jpg','','VIEW'),
+       (1,'nissanPremium/Nissan-Premium-front.jpg','','VIEW'),
+       (1,'nissanPremium/Nissan-Premium-side.jpg','','VIEW'),
+       (1,'nissanPremium/Nissan-Premium-2019-back-seat.jpg','','VIEW'),
+
+       (3,'ford/ford-everest-front-side.jpg','','VIEW'),
+       (3,'ford/ford-everest-back.jpg'		,'','VIEW'),
+       (3,'ford/ford-everest-side.jpg'		,'','VIEW'),
+       (3,'ford/fordeverest_interior.jpg'	,'','VIEW'),
+
+       (4,'innova/toyota-innova-2015.jpg'		,'','VIEW'),
+       (4,'innova/toyota-innova-2015-front.jpg'	,'','VIEW'),
+       (4,'innova/toyota-innova-2015-side.jpg'  ,'','VIEW'),
+       (4,'innova/toyotainnova_interior.jpg'    ,'','VIEW'),
+
+       (5,'hondacity/honda-city-2018-front-side.jpg'       ,'','VIEW'),
+       (5,'hondacity/honda-city-2018-back-2.jpg'  ,'','VIEW'),
+       (5,'hondacity/honda-city-2018-side.jpg'    ,'','VIEW'),
+       (5,'hondacity/hondacity_interior.jpg'    ,'','VIEW'),
+
+       (6,'pickup/Toyota-Hilux-2020.jpg'          ,'','VIEW'),
+       (6,'pickup/Toyota-Hilux-2020-side.jpg'            ,'','VIEW'),
+       (6,'pickup/Toyota-Hilux-2020-back.jpg'            ,'','VIEW'),
+       (6,'pickup/Toyota-Hilux-2020-seats.jpg'            ,'','VIEW'),
+
+       (7,'tourer/Toyota-Grandia-Tourer-2019-side.jpg' ,'','VIEW'),
+       (7,'tourer/Toyota-Grandia-Tourer-2019-interior.jpg' ,'','VIEW'),
+       (7,'tourer/Toyota-Grandia-Tourer-2019-seats.jpg' ,'','VIEW'),
+       (7,'tourer/Toyota-Grandia-Tourer-2019-back.jpg' ,'','VIEW'),
+
+       (8,'rush/Toyota-Rush-2019.jpg' ,'','VIEW'),
+       (8,'rush/Toyota-Rush-2019-back.jpg' ,'','VIEW'),
+       (8,'rush/Toyota-Rush-2019-seat.jpg' ,'','VIEW'),
+       (8,'rush/Toyota-Rush-interior.jpg' ,'','VIEW')
+	   ;
 	   
 insert into CarViewPages (CarUnitId, Viewname)
 values (1,'CarDetail_van'),
