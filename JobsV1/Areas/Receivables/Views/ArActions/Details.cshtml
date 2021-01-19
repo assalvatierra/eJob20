@@ -1,0 +1,58 @@
+﻿@model ArModels.Models.ArAction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Action - History</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DtPerformed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DtPerformed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreformedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreformedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArTransaction.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArTransaction.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArActionItem.Action)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArActionItem.Action)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "TransactionHistory", "ArTransactions", new { id = Model.ArTransactionId }, null)
+</p>

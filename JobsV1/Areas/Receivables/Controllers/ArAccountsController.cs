@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using ArModels.Models;
@@ -48,6 +49,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // GET: ArAccounts/Create
         public ActionResult Create()
         {
+
             ViewBag.ArAccStatusId = new SelectList(ar.AccountMgr.GetArAccStatus(), "Id", "Status");
             return View();
         }
@@ -143,10 +145,24 @@ namespace JobsV1.Areas.Receivables.Controllers
 
             if (account.Email.IsNullOrWhiteSpace())
             {
+
                 ModelState.AddModelError("Email", "Invalid Email");
                 isValid = false;
             }
+            else
+            {
+                //if(!Regex.IsMatch(account.Email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"))
+                //{
+                //    isValid = false;
+                //}
+            }
 
+
+            if (account.Company.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Company", "Invalid Company Name");
+                isValid = false;
+            }
 
             if (account.Mobile.IsNullOrWhiteSpace() || account.Mobile.Length < 11)
             {

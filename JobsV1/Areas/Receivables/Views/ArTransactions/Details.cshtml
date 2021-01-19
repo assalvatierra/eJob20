@@ -20,7 +20,8 @@
     </p>
 
     <hr />
-    <div class="col-md-6">
+
+    <div class="col-md-12">
         <p>
             <h3> @Model.Description / @Model.ArAccount.Name / @Model.ArAccount.Company </h3>
         </p>
@@ -30,6 +31,10 @@
                 <span> @Model.Amount.ToString("#,##0.00") </span>
             </h4>
         </p>
+    </div>
+
+    <div class="col-md-6">
+
         <p>
             <b class="text-muted"> Invoice Id: </b>
             <span> @Model.InvoiceId </span>
@@ -46,9 +51,12 @@
             <b class="text-muted"> Status: </b>
             <span> @Model.ArTransStatu.Status </span>
         </p>
+        <p>
+            <b class="text-muted"> Remarks: </b>
+            <span> @Model.Remarks </span>
+        </p>
     </div>
     <div class="col-md-6">
-        <br />
         <p>
             <b class="text-muted"> Service Date: </b>
             <span> @Model.DtService.ToString("MMM dd yyyy") </span>
@@ -64,10 +72,6 @@
         <p>
             <b class="text-muted"> Is Repeating: </b>
             <span> @Model.IsRepeating </span>
-        </p>
-        <p>
-            <b class="text-muted"> Remarks: </b>
-            <span> @Model.Remarks </span>
         </p>
     </div>
 </div>

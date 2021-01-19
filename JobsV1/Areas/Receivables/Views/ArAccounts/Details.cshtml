@@ -10,12 +10,12 @@
     decimal totalBalance = 0;
     decimal totalPaid = 0;
 }
+<h2>Details</h2>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 
-<h2>Details</h2>
 <div class="col-md-12">
     <hr />
     <div class="col-md-4">
@@ -215,10 +215,10 @@
 </h4>
 <table class="table">
     <tr>
+        <th> Invoice Date </th>
+        <th> Invoice </th>
         <th> Description </th>
-        <th> DtService </th>
-        <th> Invoice No </th>
-        <th> DtInvoice </th>
+        <th> Service Date </th>
         <th> Due </th>
         <th> Remarks </th>
         <th> Status </th>
@@ -229,7 +229,14 @@
 
     @foreach (var transaction in Model.ArTransactions)
     {
+        totalReceivableAmount = totalReceivableAmount + transaction.Amount;
         <tr>
+            <td>
+                @transaction.DtInvoice.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @transaction.InvoiceRef
+            </td>
             <td>
                 @transaction.Description
             </td>
@@ -237,13 +244,7 @@
                 @transaction.DtService.ToString("MMM dd yyyy")
             </td>
             <td>
-                @transaction.DtInvoice.ToString("MMM dd yyyy")
-            </td>
-            <td>
                 @transaction.DtDue.ToString("MMM dd yyyy")
-            </td>
-            <td>
-                @transaction.InvoiceId
             </td>
             <td>
                 @transaction.Remarks
@@ -253,9 +254,6 @@
             </td>
             <td>
                 @transaction.Amount.ToString("#,##0.00")
-                @{
-                    totalReceivableAmount = totalReceivableAmount + transaction.Amount;
-                }
             </td>
             <td>
                 @foreach (var payment in transaction.ArTransPayments)
@@ -271,8 +269,7 @@
             </td>
         </tr>
     }
-    <tr>
-        
+    <tr style="font-weight:600;">
         <td colspan="7">
             <span class="pull-right"> Total </span>
         </td>
@@ -285,7 +282,7 @@
         <td>
         </td>
     </tr>
-    <tr>
+    <tr style="font-weight:600;">
         @{
             totalBalance = totalReceivableAmount - totalPaid;
         }
@@ -296,7 +293,6 @@
             @totalBalance.ToString("#,##0.00")
         </td>
         <td>
-
         </td>
         <td>
         </td>

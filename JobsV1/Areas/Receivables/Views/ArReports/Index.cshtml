@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ArModels.Models.ArRptModel.ArRptTransPending>
+@{
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.Title = "Recievables Report";
+    string sortBy = ViewBag.SortBy;
+    string orderBy = ViewBag.OrderBy;
+}
+
+<h2>Recievables Report</h2>
+<p>
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null)
+</p>
+<div class="col-md-12" style="margin-bottom:10px; padding-left:0px;">
+    <div class="btn-group" role="group" aria-label="Filter Group">
+        <button class="btn btn-default disabled">Sort By:</button>
+        <button type="button" class="btn btn-default" id="sort-Account" onclick="UpdateFilter('Account', '@orderBy')"> Account </button>
+        <button type="button" class="btn btn-default" id="sort-Amount" onclick="UpdateFilter('Amount' , '@orderBy')"> Amount </button>
+        <button type="button" class="btn btn-default" id="sort-Payment" onclick="UpdateFilter('Payment', '@orderBy')">Payment </button>
+        <button type="button" class="btn btn-default" id="sort-Balance" onclick="UpdateFilter('Balance', '@orderBy')">Balance </button>
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Filter Group">
+        <button class="btn btn-default disabled">Order By:</button>
+        <button type="button" class="btn btn-default" id="order-ASC" onclick="UpdateFilter('@sortBy', 'ASC')">Asc </button>
+        <button type="button" class="btn btn-default" id="order-DESC" onclick="UpdateFilter('@sortBy', 'DESC')">Desc </button>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Account
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Payments
+        </th>
+        <th>
+            Balance
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Account
+            </td>
+            <td>
+                @item.Amount.ToString("#,#00.00")
+            </td>
+            <td>
+                @item.Payment.ToString("#,#00.00")
+            </td>
+            <td>
+                @item.Balance.ToString("#,#00.00")
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "ArAccounts", new { id = item.AccountId }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts{
+    <script>
+        $(() => {
+            //update active filter on page load
+            $("#sort-@sortBy").addClass("active");
+            $("#order-@orderBy").addClass("active");
+        })
+
+
+        function UpdateFilter(sortBy, orderBy) {
+            //reload Page
+            window.location.href = "/Receivables/ArReports?sortBy=" + sortBy + "&orderBy=" + orderBy;
+        }
+
+    </script>
+}

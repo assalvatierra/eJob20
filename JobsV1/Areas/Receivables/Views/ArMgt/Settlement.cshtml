@@ -1,15 +1,18 @@
 ﻿@model IEnumerable<ArModels.Models.ArTransaction>
 @{
-    ViewBag.Title = "Settlement";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.Title = "For Settlement";
 }
 
-<h2>Settlement</h2>
-<p>
-    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null)
+<h2>For Settlement</h2>
+
+@*<p>
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null) | 
     @Html.ActionLink("Management", "Index", "ArMgt", new { area = "Receivables" }, null) |
     @Html.ActionLink("For Approval", "Approval", "ArMgt", new { area = "Receivables" }, null) |
     For Settlement |
-</p>
+</p>*@
+
 <table class="table">
     <tr>
         <th> Invoice </th>

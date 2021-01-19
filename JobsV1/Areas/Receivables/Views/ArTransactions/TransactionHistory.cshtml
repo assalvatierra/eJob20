@@ -1,12 +1,17 @@
 ﻿@model IEnumerable<ArModels.Models.ArAction>
 
 @{
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ViewBag.Title = "Action History";
 }
 
 <h2>Action History</h2>
 <p>
+    @Html.ActionLink("Back to List", "Index" ) |
     @Html.ActionLink("Back to Details", "Details", new { Id = ViewBag.TransId })
+</p>
+<p>
+    @Html.ActionLink("Add Action", "Create", "ArActions", new { Id = ViewBag.TransId }, null)
 </p>
 <table class="table">
     <tr>
@@ -17,34 +22,43 @@
             @Html.DisplayNameFor(model => model.PreformedBy)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ArTransaction.Description)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.ArActionItem.Action)
         </th>
-        @*<th></th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.ArActionItem.Remarks)
+        </th>
+        <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DtPerformed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PreformedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArTransaction.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArActionItem.Action)
-        </td>
-        @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>*@
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.DtPerformed.ToString("MMM dd yyyy HH:mm tt")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreformedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArActionItem.Action)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" id="dropdownAction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Actions
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownAction">
+                        <li> @Html.ActionLink("Edit", "Edit", "ArActions", new { id = item.Id }, null) </li>
+                        <li> @Html.ActionLink("Details", "Details", "ArActions", new { id = item.Id }, null) </li>
+                        <li> @Html.ActionLink("Delete", "Delete", "ArActions", new { id = item.Id }, null) </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
 
 </table>

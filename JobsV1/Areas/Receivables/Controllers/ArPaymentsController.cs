@@ -96,7 +96,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 if (createResponse)
                 {
                     //add activity based on statusId
-                    var user = "User"; //edit to get user here!
+                    var user = GetUser();
 
                     ar.ActionMgr.AddAction(7, user, (int)transId);
                 }
@@ -146,7 +146,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 if (createResponse)
                 {
                     //add activity based on statusId
-                    var user = "User"; //edit to get user here!
+                    var user = GetUser();
 
                     ar.ActionMgr.AddAction(7, user, (int)transId);
                 }
@@ -319,5 +319,17 @@ namespace JobsV1.Areas.Receivables.Controllers
             return isValid;
         }
 
+
+        private string GetUser()
+        {
+            if (HttpContext.User.Identity.Name != "")
+            {
+                return HttpContext.User.Identity.Name;
+            }
+            else
+            {
+                return "Unknown User";
+            }
+        }
     }
 }

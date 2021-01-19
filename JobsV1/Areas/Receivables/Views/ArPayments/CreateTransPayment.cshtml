@@ -15,6 +15,14 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+        
+        <div class="form-group" hidden>
+            <label class="control-label col-md-2" > </label>
+            <div class="col-md-10">
+                <input value="@ViewBag.TransId" name="TransId" class="form-control" />
+            </div>
+        </div>
+
         <div class="form-group" hidden>
             @Html.LabelFor(model => model.DtPayment, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -55,7 +63,7 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             @Html.LabelFor(model => model.ArAccountId, "ArAccountId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ArAccountId", null, htmlAttributes: new { @class = "form-control" })

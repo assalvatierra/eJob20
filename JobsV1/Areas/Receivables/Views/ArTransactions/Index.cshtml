@@ -2,6 +2,8 @@
 
 @{
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    ViewBag.Title = "Receivables";
+
     string status = ViewBag.Status;
     string sortBy = ViewBag.SortBy;
     string orderBy = ViewBag.OrderBy;
@@ -66,11 +68,11 @@
 
     @if (status == "Settlement")
     {
-        <button type="button" class="btn btn-default active"> Settlement </button>
+        <button type="button" class="btn btn-default active"> For Settlement </button>
     }
     else
     {
-        @Html.ActionLink("Settlement", "Index", new { status = "Settlement", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
+        @Html.ActionLink("For Settlement", "Index", new { status = "Settlement", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
     }
 
     @if (status == "Closed")
@@ -79,12 +81,12 @@
     }
     else
     {
-        @Html.ActionLink("Closed", "Index", new { status = "Close", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Closed", "Index", new { status = "Closed", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
     }
 </div>
 
 <div class="btn-group" role="group" style="margin-bottom:5px;">
-    <button type="button" class="btn btn-default disabled"> Sort by </button>
+    <button type="button" class="btn btn-default disabled"> Sort </button>
     @if (sortBy == "DueDate" || sortBy == null)
     {
         <button type="button" class="btn btn-default active"> Due Date </button>
@@ -114,7 +116,7 @@
 </div>
 
 <div class="btn-group" role="group" style="margin-bottom:5px;">
-    <button type="button" class="btn btn-default disabled"> Order by </button>
+    <button type="button" class="btn btn-default disabled"> Order </button>
     @if (orderBy == "ASC" || orderBy == null)
     {
         <button type="button" class="btn btn-default active"> Asc </button>
@@ -137,22 +139,22 @@
 
 <table class="table">
     <tr>
-        <th style="width:130px;">
+        <th>
             @Html.DisplayNameFor(model => model.DtInvoice)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.InvoiceRef)
         </th>
-        <th style="width:130px;">
+        <th>
             Account
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th style="width:140px;">
+        <th>
             @Html.DisplayNameFor(model => model.DtService)
         </th>
-        <th style="width:140px;">
+        <th>
             @Html.DisplayNameFor(model => model.DtDue)
         </th>
         <th>
@@ -183,11 +185,7 @@
                 @Html.DisplayFor(modelItem => item.InvoiceRef)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArAccount.Company)
-                @if (item.ArAccount.Company.Trim() != "")
-                { 
-                    <span>-</span>
-                }
+                @Html.DisplayFor(modelItem => item.ArAccount.Company) -
                 @Html.DisplayFor(modelItem => item.ArAccount.Name)
             </td>
             <td>
@@ -195,13 +193,12 @@
             </td>
             <td>
                 @item.DtService.ToString("MMM dd yyyy") -
-
                 @if (item.DtServiceTo != null)
                 {
                     var serviceTo = (DateTime)item.DtServiceTo;
 
                     <span>
-                        @serviceTo.ToString("MMM dd yyyy") 
+                        @serviceTo.ToString("MMM dd yyyy")
                     </span>
                 }
             </td>

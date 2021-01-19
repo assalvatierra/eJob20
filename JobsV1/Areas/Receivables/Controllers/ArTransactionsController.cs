@@ -21,6 +21,10 @@ namespace JobsV1.Areas.Receivables.Controllers
         {
             var arTransactions = ar.TransactionMgr.GetTransactions(status, sortBy, orderBy);
 
+            //TODO: check repeating receivables 
+            //not priority - 1/12/2021
+            //ar.TransactionMgr.CheckRepeatingTrans();             
+
             ViewBag.Status = status;
             ViewBag.SortBy = sortBy;
             ViewBag.OrderBy = orderBy;
@@ -66,41 +70,40 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef")] ArTransaction arTransaction)
+        public ActionResult Create([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount")] ArTransaction arTransaction)
         {
             try
             {
 
-            if (ModelState.IsValid && InputValidation(arTransaction))
-            {
-                var today = ar.DateClassMgr.GetCurrentDateTime();
-                var currentUser = HttpContext.User.Identity.Name;
-
-                ar.TransactionMgr.AddTransaction(arTransaction);
-
-                //new transaction action history (new bill)
-                ar.ActionMgr.AddAction(1, currentUser, arTransaction.Id);
-
-                //new account
-                if (arTransaction.ArAccountId == 1)
+                if (ModelState.IsValid && InputValidation(arTransaction))
                 {
-                    return RedirectToAction("CreateAccTrans", new { transId = arTransaction.Id });
+                    var today = ar.DateClassMgr.GetCurrentDateTime();
+                    var currentUser = HttpContext.User.Identity.Name;
+
+                    ar.TransactionMgr.AddTransaction(arTransaction);
+
+                    //new transaction action history (new bill)
+                    ar.ActionMgr.AddAction(1, currentUser, arTransaction.Id);
+
+                    //new account
+                    if (arTransaction.ArAccountId == 1)
+                    {
+                        return RedirectToAction("CreateAccTrans", new { transId = arTransaction.Id });
+                    }
+
+                    return RedirectToAction("Index");
                 }
 
-                return RedirectToAction("Index");
-            }
+                ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
+                ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
+                ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name");
 
-            ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
-            ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name");
-            //return View(arTransaction);
+                return View(arTransaction);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
-            return View(arTransaction);
         }
 
         // GET: ArTransactions/Edit/5
@@ -126,7 +129,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef")] ArTransaction arTransaction)
+        public ActionResult Edit([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount")] ArTransaction arTransaction)
         {
             if (ModelState.IsValid && InputValidation(arTransaction))
             {
@@ -211,13 +214,17 @@ namespace JobsV1.Areas.Receivables.Controllers
                 isValid = false;
             }
 
+            if (account.Company.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("Company", "Invalid Company Name");
+                isValid = false;
+            }
 
             if (account.Mobile.IsNullOrWhiteSpace() || account.Mobile.Length < 11)
             {
                 ModelState.AddModelError("Mobile", "Invalid Mobile");
                 isValid = false;
             }
-
 
             return isValid;
         }
@@ -301,7 +308,6 @@ namespace JobsV1.Areas.Receivables.Controllers
         [HttpGet]
         public JsonResult CheckAccountCredit(int id)
         {
-
             var account = ar.AccountMgr.GetLatestAccntCreditLimit(id);
 
             var creditLimit = new ArAccntCredit()
@@ -352,7 +358,6 @@ namespace JobsV1.Areas.Receivables.Controllers
         {
             try
             {
-
                 return true;
             }
             catch
@@ -369,7 +374,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             }
             else
             {
-                return "User";
+                return "Unknown User";
             }
         }
     }
