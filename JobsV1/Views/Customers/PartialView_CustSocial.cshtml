@@ -33,7 +33,7 @@
             @Html.DisplayFor(modelItem => item.Viber)
         </dd>
         <dd>
-            <a id="catbtn" data-toggle="modal" data-target="#custSocialEdit" style="margin-bottom:10px;" onclick="editSocial(@item.Id,'@item.Facebook','@item.Skype', '@item.Viber')">Edit</a> |
+            <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#custSocialEdit" style="margin-bottom:10px;" onclick="editSocial(@item.Id,'@item.Facebook','@item.Skype', '@item.Viber')">Edit</a> |
             @*@Html.ActionLink("Edit", "EditCustSocial", "Customers", new { id = item.Id }, null) |*@
             @Html.ActionLink("Remove", "DeleteCustSocial", "Customers", new { id = item.Id}, null) 
         </dd>

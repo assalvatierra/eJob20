@@ -324,7 +324,7 @@ namespace JobsV1.Controllers
 
             main.iconPath = "Images/Customers/Company/organization-40.png"; //default logo 
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c=>c.Name).ToList(), "Id", "Name");
-            ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.Status = new SelectList(StatusList, "value", "text", "ACT");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
             ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
             ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name", 1); //default regular
