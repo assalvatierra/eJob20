@@ -86,7 +86,7 @@
     @foreach (var item in Model)
     {
         var itemDesc = item.crLogFuel.crLogUnit.Description + "( " + item.crLogFuel.crLogDriver.Name + " )";
-        <tr>
+        <tr id="@item.crLogFuel.Id">
             <td>
                 @item.crLogFuel.Id
             </td>

@@ -119,7 +119,9 @@ function InitReturnLogModal(id, desc, amount, dtReq) {
 }
 
 function SubmitReturnLog(e) {
-   
+
+    ShowLoading();
+
     var data = {
         id: $("#return-LogFuelId").val(),
         date: $("#return-Date").val(),
@@ -135,10 +137,25 @@ function SubmitReturnLog(e) {
         console.log(result);
         if (result == 'True') {
             //window.location.reload(false);
-            $(e).parent().parent().parent().remove();
+            $("#" + $("#return-LogFuelId").val()).remove();
+            $("#ReturnLogModal").modal("hide");
+            HideLoading();
         } else {
             alert("An Error occured while process your request");
+            HideLoading();
         }
     });
+}
 
+
+$("#status-request, #status-approved, #status-released, #status-returned").on('click', () => {
+    ShowLoading();
+});
+
+function ShowLoading() {
+    $("#overlay").show();
+}
+
+function HideLoading() {
+    $("#overlay").hide();
 }

@@ -390,7 +390,9 @@
 <p>
     @if (IsAdmin)
     {
-        @Html.ActionLink("Drivers Tranasction History", "DriverTrxHistory", new { id = ViewBag.DriverId })
+        @Html.ActionLink("Drivers Salary", "DriverTrxHistory", new { id = ViewBag.DriverId }) 
+        <span> | </span>
+        @Html.ActionLink("Drivers Expenses", "DriverExpenseHistory", new { id = ViewBag.DriverId })
     }
 </p>
 <p>

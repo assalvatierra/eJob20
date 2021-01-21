@@ -79,7 +79,7 @@
                                             <tr>
                                                 <th colspan="2"> Trip Log </th>
                                             </tr>
-                                            @foreach (var trip in tripLogs)
+                                            @foreach (var trip in tripLogs.OrderByDescending(t=>t.DtTrip))
                                             {
                                                 <tr class="form-text-small">
                                                     <th> <span> @trip.DtTrip.ToShortDateString()</span> </th>
@@ -168,7 +168,7 @@
                                             <tr>
                                                 <th colspan="2"> Trip Log </th>
                                             </tr>
-                                            @foreach (var trip in tripLogs)
+                                            @foreach (var trip in tripLogs.OrderByDescending(t=>t.DtTrip))
                                             {
                                                 <tr class="form-text-small">
                                                     <th> <span> @trip.DtTrip.ToShortDateString()</span> </th>

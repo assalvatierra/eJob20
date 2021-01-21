@@ -225,13 +225,19 @@
                 @{Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id });}
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @*@Html.ActionLink("Update Odo", "EditOdo", new { id = item.Id }) |*@
-                <a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a> |
-                @Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId }) |
-                @Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null) |
-                @Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                        <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
+                        <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
+                        <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
+                        <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
+                    </ul>
 
+                </div>
             </td>
         </tr>
     }

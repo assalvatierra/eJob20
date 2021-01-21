@@ -76,7 +76,7 @@
                         if (IsAdmin)
                         {
                             <span>
-                                <a class="cursor-hand" onclick="ApproveRequest('@item.Id')"> Approve </a> |
+                                <a class="cursor-hand" onclick="ApproveRequest(this, '@item.Id')"> Approve </a> |
                                 @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
                             </span>
                         }
@@ -88,7 +88,7 @@
                     case 2:
                         <span>
                             @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" }) |
-                            <a class="cursor-hand" onclick="ApproveRelease('@item.Id')"> Release </a> |
+                            <a class="cursor-hand" onclick="ApproveRelease(this, '@item.Id')"> Release </a> |
                             @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
                         </span>
                         break;
@@ -167,11 +167,12 @@
         }
 
 
-        function ApproveRequest(id) {
+        function ApproveRequest(e, id) {
             $.post("/Personel/CarRentalCashRelease/ApproveRequest", { id: parseInt(id) }, (result) => {
                 console.log(result)
                 if (result == 'True') {
-                    window.location.reload();
+                    //window.location.reload();
+                    $(e).parent().parent().parent().remove();
                 } else {
                     alert("An Error occured while process your request");
                 }
@@ -180,11 +181,12 @@
 
 
 
-        function ApproveRelease(id) {
+        function ApproveRelease(e,id) {
             $.post("/Personel/CarRentalCashRelease/ApproveRelease", { id: parseInt(id) }, (result) => {
                 console.log(result)
                 if (result == 'True') {
-                    window.location.reload();
+                    //window.location.reload();
+                    $(e).parent().parent().parent().remove();
                 } else {
                     alert("An Error occured while process your request");
                 }

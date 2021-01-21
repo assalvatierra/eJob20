@@ -665,6 +665,43 @@ namespace JobsV1.Areas.Personel.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
+        public ActionResult DriverExpenseHistory(int? id)
+        {
+            if (id != null)
+            {
+                var expenseLogs = db.crLogFuels.Where(c => c.crLogDriverId == id).ToList();
+
+                var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
+                    .Where(c => c.crLogDriverId == id).OrderBy(c => c.dtRequest);
+
+                List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
+
+                foreach (var log in crLogFuels.ToList())
+                {
+                    var status = db.crCashReqStatus.Find(getLatestStatusId(log.Id)).Status;
+
+                    var templog = new Models.cCrLogFuel()
+                    {
+                        crLogFuel = log,
+                        LatestStatusId = getLatestStatusId(log.Id),
+                        LatestStatus = status
+                    };
+
+                    if (templog.LatestStatusId == 4)
+                        cCrLogFuel.Add(templog);
+                }
+
+
+                ViewBag.IsAdmin = User.IsInRole("Admin");
+                ViewBag.DriverId = id;
+                ViewBag.Driver = db.crLogDrivers.Find(id).Name;
+
+                return View(cCrLogFuel.OrderByDescending(c => c.crLogFuel.dtRequest).ToList());
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -917,6 +954,22 @@ namespace JobsV1.Areas.Personel.Controllers
 
            return crLogTrips;
 
+        }
+
+
+        public int getLatestStatusId(int id)
+        {
+            var logStatusQuery = db.crLogFuelStatus.Where(c => c.crLogFuelId == id).OrderByDescending(c => c.Id).FirstOrDefault();
+
+            if (logStatusQuery != null)
+            {
+                return logStatusQuery.crCashReqStatusId;
+            }
+            else
+            {
+                //default 
+                return 1;
+            }
         }
 
 

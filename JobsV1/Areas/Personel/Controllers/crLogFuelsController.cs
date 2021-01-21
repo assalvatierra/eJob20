@@ -66,7 +66,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogFuels
         public ActionResult PrevRecords()
         {
-            var today = dt.GetCurrentDate().AddDays(-360);
+            var today = dt.GetCurrentDate().AddDays(-180);
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
                 .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= today ).OrderBy(c => c.dtRequest);
 
