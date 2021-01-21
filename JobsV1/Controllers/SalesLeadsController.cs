@@ -49,19 +49,12 @@ namespace JobsV1.Controllers
                 }
             }
 
-            //var leadList = sldb.generateList(null,null,null,null).ToList();
 
             var companyLeads = db.SalesLeadCompanies.Where(s => s.CustEntMainId == companyId).Select(s => s.SalesLeadId).ToList();
             var salesLeads = db.SalesLeads.Include(s => s.SalesLeadCompanies)
                         .Include(s => s.SalesLeadCategories)
                         .Include(s => s.SalesStatus).OrderBy(s => s.Date)
                         .ToList();
-            
-                //var leads = db.SalesLeads.Contains(companyLeads);
-
-                //salesLeads = salesLeads.Where(s => s.SalesLeadCompanies.Except(companyLeads) != null).ToList();
-
-                //salesLeads = salesLeads.Where(s => companyLeads.Contains(s.Id)).ToList();
 
             switch (sortid) {
                 case 1://approved
@@ -115,12 +108,6 @@ namespace JobsV1.Controllers
                                 .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
                                 .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 3) // Current
                                 .ToList();
-                    /*
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                         .Include(s => s.SalesLeadCategories).Include(s => s.Customer.JobMains)
-                         .Include(s => s.SalesStatus).OrderByDescending(s => s.Date)
-                         .ToList();
-                         */
                     break;
             }
 
@@ -303,9 +290,15 @@ namespace JobsV1.Controllers
         }
 
         // GET: SalesLeads
-        public ActionResult LeadDetails(int? sortid, int? companyId)
+        public ActionResult LeadDetails(int? id,int? sortid)
         {
-            int leadId = (int)companyId;
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            int leadId = (int)id;
             if (sortid != null)
                 Session["SLFilterID"] = (int)sortid;
             else
@@ -320,7 +313,7 @@ namespace JobsV1.Controllers
 
             if (leadId != 0)
             {
-                var Id = (int)leadId;
+                var Id = (int)id;
                 var salesLeads = db.SalesLeads.Include(s => s.Customer)
                         .Include(s => s.SalesLeadCategories)
                         .Include(s => s.SalesStatus).OrderBy(s => s.Date)
@@ -336,6 +329,7 @@ namespace JobsV1.Controllers
 
                 return View(salesLeads);
             }
+
             return RedirectToAction("Index", new { sortid = 5 });
 
         }

@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="col-md-12" style="display:flex;justify-content:flex-end">
-                    <a style="padding-right:50px;" onclick="openModal();currentSlide(1)" class="cursor"> View Vehicle Images </a>
+                    <a onclick="openModal();currentSlide(1)" class="cursor view-image-link"> View Vehicle Images </a>
                 </div>
 
                 <!-- Pick Up -->
@@ -654,26 +654,32 @@
             $("#vehicleImagesModal").modal("show");
         }
 
-        function openModal() {
-            //$("#myModal").modal("show");
-            document.getElementById("LightboxModal").style.display = "block";
+        $('#rsvCarUnit').on('change', function () {
+            //Get updated images
+            console.log("Get Car Unit");
             GetCarImages();
+
+        });
+
+        function openModal() {
+            document.getElementById("LightboxModal").style.display = "block";
+            
         }
 
         function closeModal() {
-            //$("#myModal").modal("hide");
           document.getElementById("LightboxModal").style.display = "none";
         }
 
+
         function GetCarImages() {
             let carUnitId = $("#rsvCarUnit").val();
-            console.log(carUnitId);
+            //console.log(carUnitId);
 
             $.get("/CarRental/GetUnitImages", { unitId : carUnitId }, (response) => {
-                console.log(response);
+                //console.log(response);
 
                 for (var i = 0; i < response.length; i++) {
-                    console.log(response[i]);
+                    //console.log(response[i]);
 
                     let carImgUrl = "/Images/CarRental/" + response[i];
                     let htmlId = i + 1;
@@ -682,7 +688,6 @@
                 }
             });
         }
-
 
         var slideIndex = 1;
         showSlides(slideIndex);

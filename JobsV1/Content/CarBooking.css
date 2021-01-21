@@ -342,6 +342,10 @@ img {
     color: white;
 }
 
+.view-image-link {
+    padding-right: 50px;
+}
+
 .lightbox-item {
     opacity: 0.6;
 }
@@ -384,4 +388,10 @@ img.hover-shadow {
     #section-contact-info {
         width: 105%;
     }
+
+
+    .view-image-link {
+        padding-right: 20px;
+    }
+
 }
