@@ -1582,9 +1582,12 @@
     <Content Include="Images\CarRental\Driver101.png" />
     <Content Include="Images\CarRental\Driver102x.png" />
     <Content Include="Images\CarRental\ford\Ford-Everest-front-side.jpg" />
+    <Content Include="Images\CarRental\ford\Ford-Everest-seat-back.jpg" />
+    <Content Include="Images\CarRental\ford\Ford-Everest-seat-front.jpg" />
     <Content Include="Images\CarRental\ford\Ford-Everest-side.jpg" />
     <Content Include="Images\CarRental\ford\Ford-Everest-Back.jpg" />
     <Content Include="Images\CarRental\ford\ford-everest-front.jpg" />
+    <Content Include="Images\CarRental\ford\Ford-Everest.jpg" />
     <Content Include="Images\CarRental\ford\ford-everst-back.jpg" />
     <Content Include="Images\CarRental\ford\fordeverest_front side view.jpg" />
     <Content Include="Images\CarRental\ford\fordeverest_interior.jpg" />
@@ -1705,6 +1708,7 @@
     <Content Include="Images\CarRental\innova\Toyota-Innova-2015-side.jpg" />
     <Content Include="Images\CarRental\innova\Toyota-Innova-2015.jpg" />
     <Content Include="Images\CarRental\innova\Toyota-Innova-2019-BackSeat.png" />
+    <Content Include="Images\CarRental\innova\Toyota-Innova-2019.jpg" />
     <Content Include="Images\CarRental\innova\Toyota-Innova-2020-front-side.jpg" />
     <Content Include="Images\CarRental\innova\Toyota-Innova-2020-side.jpg" />
     <Content Include="Images\CarRental\innova\toyota-innova-2020-sm.jpg" />
@@ -1756,6 +1760,8 @@
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-seats.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-side-2.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-2019-side.jpg" />
+    <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer-seats.jpg" />
+    <Content Include="Images\CarRental\tourer\Toyota-Grandia-Tourer.jpg" />
     <Content Include="Images\CarRental\tourer\Toyota-tourer-seats.jpg" />
     <Content Include="Images\CarRental\Driver102.png" />
     <Content Include="Images\CarRental\OffRoad101.png" />
