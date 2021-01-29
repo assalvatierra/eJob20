@@ -44,7 +44,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             ArPayment payment = new ArPayment();
             payment.Amount = 0;
 
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type");
             return View(payment);
         }
@@ -62,7 +62,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             return View(arPayment);
         }
@@ -74,7 +74,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             payment.Amount = 0;
             payment.ArAccountId = ar.TransactionMgr.GetTransAccountId(transId);
 
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", payment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", payment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type");
             ViewBag.TransId = transId;
             return View(payment);
@@ -104,7 +104,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return RedirectToAction("Details", "ArTransactions",new { id = transId });
             }
 
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             ViewBag.TransId = transId;
             return View(arPayment);
@@ -123,7 +123,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             payment.Amount = 0;
             payment.ArAccountId = ar.TransactionMgr.GetTransAccountId((int)transId);
 
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", payment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", payment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type");
             ViewBag.TransId = transId;
             ViewBag.AccountName = ar.TransactionMgr.GetTransactionById((int)transId).ArAccount.Name;
@@ -154,7 +154,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return RedirectToAction("Settlement", "ArMgt");
             }
 
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             ViewBag.TransId = transId;
             ViewBag.AccountName = ar.TransactionMgr.GetTransactionById((int)transId).ArAccount.Name;
@@ -173,7 +173,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             return View(arPayment);
         }
@@ -191,7 +191,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 var transId = ar.TransPaymentMgr.GetTransPaymentsByPaymentId(arPayment.Id);
                 return RedirectToAction("Details", "ArTransactions", new { id = transId });
             }
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             return View(arPayment);
         }
@@ -210,7 +210,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return HttpNotFound();
             }
             ViewBag.TransId = transId;
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             return View(arPayment);
         }
@@ -228,7 +228,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return RedirectToAction("Details", "ArTransactions", new { id = transId });
             }
             ViewBag.TransId = transId;
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arPayment.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arPayment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type", arPayment.ArPaymentTypeId);
             return View(arPayment);
         }

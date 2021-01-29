@@ -1356,6 +1356,11 @@ order by x.jobid
                 }
             }
 
+            if (JobPaymentStatusId == null)
+            {
+                JobPaymentStatusId = 2;
+            }
+
             ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");

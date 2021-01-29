@@ -59,8 +59,16 @@ namespace JobsV1.Areas.Receivables.Controllers
             transaction.NextRef = 0;
             transaction.InvoiceId = 0;
 
+            var accounts = ar.AccountMgr.GetArAccounts()
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.Company + " - " + s.Name.ToString()
+                  });
+
+            ViewBag.ArAccountId = new SelectList(accounts, "Value", "Text");
             ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
+            //ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
             ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name");
             return View(transaction);
         }
@@ -94,8 +102,17 @@ namespace JobsV1.Areas.Receivables.Controllers
                     return RedirectToAction("Index");
                 }
 
+                var accounts = ar.AccountMgr.GetArAccounts()
+                      .Select(s => new SelectListItem
+                      {
+                          Value = s.Id.ToString(),
+                          Text = s.Company + " - " + s.Name.ToString()
+                      });
+
+                ViewBag.ArAccountId = new SelectList(accounts, "Value", "Text", arTransaction.ArAccountId);
+
                 ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
-                ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
+                //ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
                 ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name");
 
                 return View(arTransaction);
@@ -118,8 +135,17 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 return HttpNotFound();
             }
+
+            var accounts = ar.AccountMgr.GetArAccounts()
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.Company + " - " + s.Name.ToString()
+                  });
+
+            ViewBag.ArAccountId = new SelectList(accounts, "Value", "Text", arTransaction.ArAccountId);
             ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status", arTransaction.ArTransStatusId);
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arTransaction.ArAccountId);
+            //ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arTransaction.ArAccountId);
             ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name", arTransaction.ArCategoryId);
             return View(arTransaction);
         }
@@ -136,8 +162,18 @@ namespace JobsV1.Areas.Receivables.Controllers
                 ar.TransactionMgr.EditTransaction(arTransaction);
                 return RedirectToAction("Details", new { id = arTransaction.Id });
             }
+
+            var accounts = ar.AccountMgr.GetArAccounts()
+                  .Select(s => new SelectListItem
+                  {
+                      Value = s.Id.ToString(),
+                      Text = s.Company + " - " + s.Name.ToString()
+                  });
+
+            ViewBag.ArAccountId = new SelectList(accounts, "Value", "Text", arTransaction.ArAccountId);
+
             ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status", arTransaction.ArTransStatusId);
-            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name", arTransaction.ArAccountId);
+            //ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arTransaction.ArAccountId);
             ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name", arTransaction.ArCategoryId);
             return View(arTransaction);
         }

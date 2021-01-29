@@ -79,11 +79,12 @@
                                             <tr>
                                                 <th colspan="2"> Trip Log </th>
                                             </tr>
-                                            @foreach (var trip in tripLogs.OrderByDescending(t=>t.DtTrip))
+                                            @foreach (var trip in tripLogs.OrderBy(t=>t.DtTrip))
                                             {
                                                 <tr class="form-text-small">
                                                     <th> <span> @trip.DtTrip.ToShortDateString()</span> </th>
                                                     <th> <span> @trip.crLogUnit.Description </span> </th>
+                                                    <th> <span> @trip.DriverFee </span> </th>
                                                 </tr>
                                             }
                                         </table>
@@ -168,11 +169,12 @@
                                             <tr>
                                                 <th colspan="2"> Trip Log </th>
                                             </tr>
-                                            @foreach (var trip in tripLogs.OrderByDescending(t=>t.DtTrip))
+                                            @foreach (var trip in tripLogs.OrderBy(t=>t.DtTrip))
                                             {
                                                 <tr class="form-text-small">
                                                     <th> <span> @trip.DtTrip.ToShortDateString()</span> </th>
                                                     <th> <span> @trip.crLogUnit.Description </span> </th>
+                                                    <th> <span> @trip.DriverFee </span> </th>
                                                 </tr>
                                             }
                                         </table>
