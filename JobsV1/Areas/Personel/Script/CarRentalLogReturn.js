@@ -118,6 +118,23 @@ function InitReturnLogModal(id, desc, amount, dtReq) {
     $("#ReturnLogModal").modal("show");
 }
 
+
+function InitReturnLogModal(id, desc, amount, dtReq, remarks) {
+
+    console.log("return expense " + remarks);
+
+    $("#return-LogFuelId").val(id);
+    $("#return-Odo").val(0);
+    $("#return-Amount").val("0.00");
+    $("#return-Date").val(moment().format("MM/DD/YYYY hh:mm A"));
+    $("#return-Desc").text(desc);
+    $("#return-ReqAmount").text(amount);
+    $("#return-ReqDate").text(dtReq);
+    $("#return-Remarks").val(remarks);
+
+    $("#ReturnLogModal").modal("show");
+}
+
 function SubmitReturnLog(e) {
 
     ShowLoading();

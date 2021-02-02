@@ -6,7 +6,7 @@
 $("select[name=crLogDriverId]").change(() => {
     let selectedDriver = $("select[name=crLogDriverId] :selected").val();
 
-    window.location.href = "../DriverSummary/" + selectedDriver;
+    window.location.href = "/Personel/CarRentalLog/DriverSummary/" + selectedDriver;
 })
 
 function SelectAllCheckBox() {

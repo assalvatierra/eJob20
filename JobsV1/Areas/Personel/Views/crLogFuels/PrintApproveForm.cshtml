@@ -11,7 +11,10 @@
         <table class="table rpt-table-bordered" style="margin-bottom:5px;">
             <tr>
                 <td>
-                    <h2 class="text-center"> Expenses Request Form </h2>
+                    <h2 class="text-center"> Purchase Order Form </h2>
+                    <p>
+                        <span class="pull-left"> PO No : @Model.Id </span>
+                    </p>
                 </td>  
             </tr>
             <tr>
@@ -60,6 +63,17 @@
                                             <input type="text" class="form-control form-button-margin-left" />
                                         </div>
                                     </div>
+                                    @if (Model.crLogPaymentTypeId == 2)
+                                    {
+                                        <div class="form-group col-md-12 col-xs-12">
+                                            <label class="col-md-2 col-xs-2 control-label form-label"> To </label>
+                                            <div class="col-md-10 col-xs-10 text-center" style="border:1px dotted black;padding:10px;">
+                                                <p style="font-weight:600;font-size:14px;margin-bottom:0px;">SHELL STATION </p>
+                                                <p style="font-weight:400;margin-bottom:0px;"> KM 4 Quimpo Blvd. Ecoland, Davao City </p>
+                                                <p style="font-weight:400;margin-bottom:0px;"> Tel No 299-20-10 </p>
+                                            </div>
+                                        </div>
+                                    }
 
                                 </div>
                             </td>
@@ -127,7 +141,10 @@
         <table class="table rpt-table-bordered" style="margin-bottom:5px;">
             <tr>
                 <td>
-                    <h2 class="text-center"> Expenses Request Form </h2>
+                    <h2 class="text-center"> Purchase Order Form </h2>
+                    <p>
+                        <span class="pull-left"> PO No : @Model.Id </span>
+                    </p>
                 </td>
             </tr>
             <tr>
@@ -177,6 +194,17 @@
                                         </div>
                                     </div>
 
+                                    @if (Model.crLogPaymentTypeId == 2)
+                                    {
+                                        <div class="form-group col-md-12 col-xs-12">
+                                            <label class="col-md-2 col-xs-2 control-label form-label"> To </label>
+                                            <div class="col-md-10 col-xs-10 text-center" style="border:1px dotted black;padding:10px;">
+                                                <p style="font-weight:600;font-size:14px;margin-bottom:0px;">SHELL STATION </p>
+                                                <p style="font-weight:400;margin-bottom:0px;"> KM 4 Quimpo Blvd. Ecoland, Davao City </p>
+                                                <p style="font-weight:400;margin-bottom:0px;"> Tel No 299-20-10 </p>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </td>
                             <td>

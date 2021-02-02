@@ -49,6 +49,15 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ApInterfaces">
+      <HintPath>..\RealSysMods\Payables\ApInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ApModels">
+      <HintPath>..\RealSysMods\Payables\ApModels.dll</HintPath>
+    </Reference>
+    <Reference Include="ApServices">
+      <HintPath>..\RealSysMods\Payables\ApServices.dll</HintPath>
+    </Reference>
     <Reference Include="ArDBLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RealSysMods\Receivables\ArDBLayer.dll</HintPath>
@@ -362,6 +371,10 @@
     <Compile Include="Areas\AutoCare\Data\AppointmentStatus.cs">
       <DependentUpon>AppointmentDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Payables\Controllers\ApAccountsController.cs" />
+    <Compile Include="Areas\Payables\Controllers\ApPaymentsController.cs" />
+    <Compile Include="Areas\Payables\Controllers\ApTransactionsController.cs" />
+    <Compile Include="Areas\Payables\PayablesAreaRegistration.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalCashReleaseController.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalLogController.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalReportController.cs" />
@@ -538,6 +551,11 @@
       <DependentUpon>ARDB-2020.mdf</DependentUpon>
     </Content>
     <Content Include="Areas\AutoCare\Scipts\Appointments\CustomerSearch.js" />
+    <Content Include="Areas\Payables\Data\ApDB.edmx.sql" />
+    <Content Include="Areas\Payables\Data\Initial.sql" />
+    <Content Include="Areas\Payables\Data\Initial_data.sql" />
+    <Content Include="Areas\Payables\Scripts\ApPayments\ApPaymentCreate.js" />
+    <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransCreate.js" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -2393,6 +2411,27 @@
     <Content Include="Areas\Receivables\Views\ArActions\Index.cshtml" />
     <Content Include="Areas\Receivables\Views\ArReports\Index.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\DriverExpenseHistory.cshtml" />
+    <Content Include="Areas\Payables\Views\ApAccounts\Create.cshtml" />
+    <Content Include="Areas\Payables\Views\ApAccounts\CreateTransAcc.cshtml" />
+    <Content Include="Areas\Payables\Views\ApAccounts\Delete.cshtml" />
+    <Content Include="Areas\Payables\Views\ApAccounts\Details.cshtml" />
+    <Content Include="Areas\Payables\Views\ApAccounts\Edit.cshtml" />
+    <Content Include="Areas\Payables\Views\ApAccounts\Index.cshtml" />
+    <Content Include="Areas\Payables\Views\ApPayments\Create.cshtml" />
+    <Content Include="Areas\Payables\Views\ApPayments\CreateTransPayment.cshtml" />
+    <Content Include="Areas\Payables\Views\ApPayments\Delete.cshtml" />
+    <Content Include="Areas\Payables\Views\ApPayments\Details.cshtml" />
+    <Content Include="Areas\Payables\Views\ApPayments\Edit.cshtml" />
+    <Content Include="Areas\Payables\Views\ApPayments\EditTransPayment.cshtml" />
+    <Content Include="Areas\Payables\Views\ApPayments\Index.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\Create.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\Delete.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\Details.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\Edit.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\Index.cshtml" />
+    <Content Include="Areas\Payables\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Payables\Views\web.config" />
+    <Content Include="Areas\Payables\Views\_ViewStart.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

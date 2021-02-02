@@ -7,6 +7,11 @@
     string status = ViewBag.Status;
     string sortBy = ViewBag.SortBy;
     string orderBy = ViewBag.OrderBy;
+    DateTime today = ViewBag.Today;
+
+    decimal totalAmount = 0;
+    decimal totalPayment = 0;
+    decimal totalBalance = 0;
 }
 
 <h2>Transactions</h2>
@@ -17,7 +22,7 @@
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 </p>
 
-
+<!-- Filters -->
 <div class="btn-group" role="group" style="margin-bottom:5px;">
     <button class="btn btn-default disabled">Filter:</button>
     @if (status == "" || status == null)
@@ -63,7 +68,7 @@
     }
     else
     {
-        @Html.ActionLink("Sent", "Index", new { status = "Sent", sortBy = sortBy , orderBy = orderBy}, new { @class = "btn btn-default" })
+        @Html.ActionLink("Sent", "Index", new { status = "Sent", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
     }
 
     @if (status == "Settlement")
@@ -111,7 +116,7 @@
     }
     else
     {
-        @Html.ActionLink("Amount", "Index", new { status = status, sortBy = "Amount" , orderBy = orderBy}, new { @class = "btn btn-default" })
+        @Html.ActionLink("Amount", "Index", new { status = status, sortBy = "Amount", orderBy = orderBy }, new { @class = "btn btn-default" })
     }
 </div>
 
@@ -123,7 +128,7 @@
     }
     else
     {
-        @Html.ActionLink("Asc", "Index", new { status = status, sortBy = sortBy , orderBy = "ASC"}, new { @class = "btn btn-default" })
+        @Html.ActionLink("Asc", "Index", new { status = status, sortBy = sortBy, orderBy = "ASC" }, new { @class = "btn btn-default" })
     }
 
     @if (orderBy == "DESC")
@@ -152,9 +157,6 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DtService)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.DtDue)
         </th>
         <th>
@@ -162,9 +164,6 @@
         </th>
         <th>
             Category
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Remarks)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Amount)
@@ -177,7 +176,40 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+
+
+        //handle text color based on due date
+        string textcolor = "black";
+        string bgcolor = "none";
+
+        if (item.ArTransStatusId < 5)
+        {
+
+            if (today.CompareTo(item.DtDue) == 0)
+            {
+                textcolor = "black";
+                bgcolor = "lightgray";
+            }
+            else if (today.CompareTo(item.DtDue) > 0)
+            {
+                textcolor = "darkred";
+            }
+            else if (today.CompareTo(item.DtDue) < 0)
+            {
+                textcolor = "black";
+            }
+            else
+            {
+                textcolor = "black";
+            }
+
+        }
+        else
+        {
+            textcolor = "darkgreen";
+        }
+
+        <tr style="color:@textcolor;background-color:@bgcolor;">
             <td>
                 @item.DtInvoice.ToString("MMM dd yyyy")
             </td>
@@ -185,25 +217,27 @@
                 @Html.DisplayFor(modelItem => item.InvoiceRef)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArAccount.Company) -
-                @Html.DisplayFor(modelItem => item.ArAccount.Name)
+                <span style="font-weight:600;">@Html.DisplayFor(modelItem => item.ArAccount.Company)</span> <br>
+                <span style="font-size:12px;color:gray;">@Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td>
-                @item.DtService.ToString("MMM dd yyyy") -
-                @if (item.DtServiceTo != null)
-                {
-                    var serviceTo = (DateTime)item.DtServiceTo;
+            @*<td>
+                    @item.DtService.ToString("MMM dd yyyy") -
+                    @if (item.DtServiceTo != null)
+                    {
+                        var serviceTo = (DateTime)item.DtServiceTo;
 
-                    <span>
-                        @serviceTo.ToString("MMM dd yyyy")
-                    </span>
-                }
-            </td>
+                        <span>
+                            @serviceTo.ToString("MMM dd yyyy")
+                        </span>
+                    }
+                </td>*@
             <td>
-                @item.DtDue.ToString("MMM dd yyyy")
+                <span>
+                    @item.DtDue.ToString("MMM dd yyyy")
+                </span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ArTransStatu.Status)
@@ -211,24 +245,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ArCategory.Name)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
+            <td style="background-color:lightgray;">
                 @item.Amount.ToString("#,##0.00")
             </td>
-            <td>
+            <td style="color:darkgreen;">
                 @{
-                    decimal totalPayment = 0;
+                    decimal totalTransPayment = 0;
                 }
 
                 @foreach (var payment in item.ArTransPayments)
                 {
-                    totalPayment = totalPayment + payment.ArPayment.Amount;
+                    totalTransPayment = totalTransPayment + payment.ArPayment.Amount;
                 }
-
                 <span>
-                    @totalPayment.ToString("#,##0.00")
+                    @totalTransPayment.ToString("#,##0.00")
                 </span>
             </td>
             <td>
@@ -258,6 +288,9 @@
                                 {
                                     <a class="cursor-link" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
                                 }
+                            } else if (item.ArTransStatusId == 3)
+                            {
+                                <a class="cursor-link" onclick="UpdateStatus(@item.Id, 6)"> Settle </a>
                             }
                         <li role="separator" class="divider"></li>
                         <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
@@ -270,8 +303,32 @@
 
             </td>
         </tr>
+
+        totalPayment += totalTransPayment;
+        totalAmount += item.Amount;
+
+
     }
 
+    @{
+        totalBalance = totalAmount - totalPayment;
+    }
+    <tr>
+        <td colspan="7">
+        </td>
+        <td style="background-color:lightgray;">
+            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
+            <p style="font-size:18px;">@totalAmount.ToString("#,##0.00")</p>
+        </td>
+        <td style="color:darkgreen;">
+            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Payment </p>
+            <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
+        </td>
+        <td style="font-weight:600;">
+            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
+            <p style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</p>
+        </td>
+    </tr>
 </table>
 
 

@@ -28,6 +28,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             ViewBag.Status = status;
             ViewBag.SortBy = sortBy;
             ViewBag.OrderBy = orderBy;
+            ViewBag.Today = ar.DateClassMgr.GetCurrentDate();
             return View(arTransactions.ToList());
         }
 
