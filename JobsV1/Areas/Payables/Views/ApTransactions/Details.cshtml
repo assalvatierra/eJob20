@@ -1,0 +1,196 @@
+﻿@model ApModels.Models.ApTransaction
+
+@{
+    ViewBag.Title = "Details";
+
+    decimal TotalAmount = Model.Amount;
+    decimal TotalPayment = 0;
+    decimal TotalBalance = 0;
+}
+
+<h2>Details</h2>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<hr />
+<div class="col-md-12">
+    <div class="col-md-12">
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Account </label>
+            <h2 style="margin-top:0px;"> @Html.DisplayFor(model => model.ApAccount.Name) </h2>
+        </div>
+    </div>
+    <div class="col-md-6">
+       
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Description </label>
+            <h3 style="margin-top:0px;"> @Html.DisplayFor(model => model.Description) </h3>
+        </div>
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Amount </label>
+            <h3 class="text-success" style="margin-top:0px;"> @Html.DisplayFor(model => model.Amount) </h3>
+        </div>
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Service Date </label>
+            <p>
+                @Model.DtService.ToString("MMM dd yyyy (ddd)") -
+                @Model.DtServiceTo.ToString("MMM dd yyyy (ddd)")
+            </p>
+        </div>
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Category </label>
+            <p > @Html.DisplayFor(model => model.ApTransCategory.Name) </p>
+        </div>
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Remarks </label>
+            <p> @Html.DisplayFor(model => model.Remarks) </p>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Status </label>
+            <p class="label label-primary" style="display:table;font-size:15px;"> @Html.DisplayFor(model => model.ApTransStatu.Status) </p>
+        </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted">  Due Date </label>
+            <p style="font-weight:800;">@Model.DtDue.ToString("MMM dd yyyy (ddd)") </p>
+        </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Invoice </label>
+            <p style="margin-top:0px;font-weight:600;"> @Html.DisplayFor(model => model.InvoiceNo) </p>
+            <p style="margin-top:0px;"> Date: @Model.DtInvoice.ToString("MMM dd yyyy (ddd)") </p>
+        </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted">  Encoded Date </label>
+            <p ">@Model.DtEncoded.ToString("MMM dd yyyy (ddd)") </p>
+        </div>
+
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Repeating </label>
+            <p style="margin-top:0px;"> @Model.IsRepeating </p>
+        </div>
+
+        @if (Model.IsRepeating)
+        {
+
+            <div class="col-sm-12">
+                <label class="control-label text-muted"> Interval </label>
+                <p style="margin-top:0px;"> @Html.DisplayFor(model => model.Interval) </p>
+            </div>
+
+            <div class="col-sm-12">
+                <label class="control-label text-muted"> Repeat Count </label>
+                <p style="margin-top:0px;"> @Html.DisplayFor(model => model.RepeatCount) </p>
+            </div>
+        }
+
+    </div>
+</div>
+
+<div class="col-md-12">
+
+    <hr />
+    <h3> Payments </h3>
+    @Html.ActionLink("Add Payment", "CreateTransPayment", "ApPayments", new { transId = Model.Id }, null)
+    <table class="table">
+        <tr>
+            <th> Dt </th>
+            <th> Type </th>
+            <th> Status </th>
+            <th> Remarks </th>
+            <th> Amount </th>
+            <th></th>
+        </tr>
+        @foreach (var payment in Model.ApTransPayments.ToList())
+        {
+            var textcolor = "black";
+
+            //add to total payment when status of payment is 2 (accepted) 
+            if (payment.ApPayment.ApPaymentStatusId == 2)
+            {
+                TotalPayment += payment.ApPayment.Amount;
+            }
+            else if(payment.ApPayment.ApPaymentStatusId == 3)
+            {
+                textcolor = "orange";
+            }
+            else
+            {
+                textcolor = "gray";
+            }
+
+            <tr style="color:@textcolor;">
+                <td>
+                    @payment.ApPayment.DtPayment.ToString("MMM dd yyyy")
+                </td>
+                <td>
+                    @payment.ApPayment.ApPaymentType.Type
+                </td>
+                <td>
+                    @payment.ApPayment.ApPaymentStatu.Status
+                </td>
+                <td>
+                    @payment.ApPayment.Remarks
+                </td>
+                <td>
+                    @payment.ApPayment.Amount
+                </td>
+                <td>
+                    @if (payment.ApPayment.ApPaymentStatusId == 1)
+                    {
+                        @*@Html.ActionLink("Accept", "EditTransPayment", "ApPayments", new { id = payment.ApPaymentsId }, null)*@ 
+                        <a onclick="AcceptPayment(@payment.Id)" style="cursor:pointer;" > Accept </a>
+                        <span> |</span>
+                    }
+                    @Html.ActionLink("Edit", "EditTransPayment", "ApPayments", new { id = payment.ApPaymentsId }, null)
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4">
+                <p class="pull-right"> Total </p>
+            </td>
+            <td>
+                @TotalPayment.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+@{ 
+    //get total balance
+    TotalBalance = TotalAmount - TotalPayment;
+}
+
+
+<div class="col-lg-12">
+    <h3> Amount &nbsp;&nbsp;: @TotalAmount.ToString("#,##0.00") </h3>
+    <h3> Payment : @TotalPayment.ToString("#,##0.00") </h3>
+    <h3> Balance &nbsp;: @TotalBalance.ToString("#,##0.00") </h3>
+
+</div>
+
+@section Scripts{
+    
+    <script>
+        function AcceptPayment(id) {
+            $.post("/Payables/ApTransactions/AcceptPayment", { paymentId: id }, (result) => {
+                console.log(result);
+                if (result) {
+                    window.location.reload(false);
+                } else {
+                    console.log("Unable to accept payment");
+                }
+            });
+        }
+    </script>
+    
+    }

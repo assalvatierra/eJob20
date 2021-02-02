@@ -1,0 +1,139 @@
+﻿@model ApModels.Models.ApAccount
+
+@{
+    ViewBag.Title = "Details";
+
+    decimal TotalAmount = 0;
+    decimal TotalPayment = 0;
+    decimal TotalBalance = 0;
+}
+
+<h2>Details</h2>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<div class="col-lg-12">
+    <div class="col-lg-12">
+        <h2> @Html.DisplayFor(model => model.Name)</h2>
+    </div>
+
+    <div class="col-md-6">
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Contact Person </label>
+            <h3 style="margin-top:0px;"> @Html.DisplayFor(model => model.ContactPerson) </h3>
+        </div>
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Mobile </label>
+            <p> @Html.DisplayFor(model => model.Mobile) /  @Html.DisplayFor(model => model.Mobile2)</p>
+        </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Tel </label>
+            <p> @Html.DisplayFor(model => model.Landline) /  @Html.DisplayFor(model => model.Landline2)</p>
+        </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Email </label>
+            <p> @Html.DisplayFor(model => model.Email)</p>
+        </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Address </label>
+            <p> @Html.DisplayFor(model => model.Address)</p>
+        </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Remarks </label>
+            <p> @Html.DisplayFor(model => model.Remarks)</p>
+        </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Status </label>
+            <p> @Html.DisplayFor(model => model.ApAccStatu.Status)</p>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="col-md-12">
+    <h3> Payables </h3>
+
+    <table class="table">
+        <tr>
+            <th> Invoice Date </th>
+            <th> Invoice      </th>
+            <th> Description  </th>
+            <th> Due Date     </th>
+            <th> Amount       </th>
+            <th> Payments     </th>
+            <th> Balance     </th>
+            <th></th>
+        </tr>
+
+        @foreach (var payables in Model.ApTransactions)
+        {
+            decimal transBalance = 0;
+            decimal transPayment = 0;
+
+            foreach (var payments in payables.ApTransPayments)
+            {
+                transPayment += payments.ApPayment.Amount; 
+            }
+
+            TotalAmount += payables.Amount;
+            TotalPayment += transPayment;
+
+            transBalance = payables.Amount - transPayment;
+            <tr>
+                <td>
+                    @payables.DtInvoice.ToString("MMM dd yyyy (ddd)")
+                </td>
+                <td>
+                    @payables.InvoiceNo
+                </td>
+                <td>
+                    @payables.Description <br />
+                </td>
+                <td>
+                    @payables.DtDue.ToString("MMM dd yyyy (ddd)")
+                </td>
+                <td>
+                    @payables.Amount.ToString("#,##0.00")
+                </td>
+                <td class="text-success">
+                    @transPayment.ToString("#,##0.00")
+                </td>
+                <td>
+                    @transBalance.ToString("#,##0.00")
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = payables.Id }) |*@
+                    @*@Html.ActionLink("Details", "Details", new { id = payables.Id })*@
+                </td>
+            </tr>
+        }
+
+        @{ 
+            TotalBalance = TotalAmount - TotalPayment;
+        }
+        <tr>
+            <td colspan="4"> 
+                <span class="pull-right">Total</span> 
+            </td>
+            <td>
+                @TotalAmount.ToString("#,##0.00")
+            </td>
+            <td>
+                @TotalPayment.ToString("#,##0.00")
+            </td>
+            <td>
+                @TotalBalance.ToString("#,##0.00")
+            </td>
+            <td>
+            </td>
+        </tr>
+   </table>
+</div>

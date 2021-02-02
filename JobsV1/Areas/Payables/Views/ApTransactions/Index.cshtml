@@ -1,0 +1,277 @@
+﻿@model IEnumerable<ApModels.Models.ApTransaction>
+
+@{
+    ViewBag.Title = "Payables Transactions";
+    
+    int status = ViewBag.Status;
+    string sortBy = ViewBag.Sort;
+    string orderBy = ViewBag.OrderBy;
+    DateTime today = ViewBag.Today;
+
+    decimal totalAmount = 0;
+    decimal totalPayment = 0;
+    decimal totalBalance = 0;
+}
+
+<h2>Payables Transactions </h2>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
+</p>
+
+<div class="btn-group" style="margin-bottom:5px;margin-right:10px;">
+    <button class="btn btn-default" disabled> Status </button>
+    <button class="btn btn-default active" id="status-1" onclick="UpdateFilter(1, '@sortBy')"> Request </button>
+    <button class="btn btn-default" id="status-2" onclick="UpdateFilter( 2, '@sortBy')"> Approved </button>
+    <button class="btn btn-default" id="status-3" onclick="UpdateFilter( 3, '@sortBy')"> Released </button>
+    <button class="btn btn-default" id="status-4" onclick="UpdateFilter( 4, '@sortBy')"> Closed </button>
+</div>
+
+
+<div class="btn-group" style="margin-bottom:5px;">
+    <button class="btn btn-default" disabled> Sort by </button>
+    <button class="btn btn-default active" id="sort-DueDate" onclick="UpdateFilter( @status, 'DueDate')"> Due Date </button>
+    <button class="btn btn-default"  id="sort-InvoiceDate" onclick="UpdateFilter( @status, 'InvoiceDate')"> Invoice Date</button>
+    <button class="btn btn-default"  id="sort-Name" onclick="UpdateFilter( @status, 'Name')"> Name </button>
+    <button class="btn btn-default"  id="sort-Amount" onclick="UpdateFilter( @status, 'Amount')"> Amount </button>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtInvoice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApAccount.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DtDue)
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApTransStatu.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            Payment
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        decimal totalTransPayment = 0;
+
+        foreach (var transpayment in item.ApTransPayments)
+        {
+            totalTransPayment += transpayment.ApPayment.Amount;
+        }
+
+        //handle text color based on due date
+        string textcolor = "black";
+        string bgcolor = "none";
+
+        if (item.ApTransStatusId < 4)
+        {
+
+            if (today.CompareTo(item.DtDue) == 0)
+            {
+                textcolor = "black";
+                bgcolor = "lightgray";
+            }
+            else if (today.CompareTo(item.DtDue) > 0)
+            {
+                textcolor = "darkred";
+            }
+            else if (today.CompareTo(item.DtDue) < 0)
+            {
+                textcolor = "black";
+            }
+            else
+            {
+                textcolor = "black";
+            }
+
+        }
+        else
+        {
+            textcolor = "darkgreen";
+        }
+
+
+        <tr style="color:@textcolor;">
+            <td>
+                @item.DtInvoice.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApAccount.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <span>
+                    @item.DtDue.ToString("MMM dd yyyy")
+                </span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
+            </td>
+            <td>
+                <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+            </td>
+            <td style="background-color:lightgray;">
+                @item.Amount.ToString("#,##0.00")
+            </td>
+            <td>
+                <span class="text-success"> @totalTransPayment.ToString("#,##0.00") </span>
+            </td>
+
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-actions" data-toggle="dropdown">
+                        Actions
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
+                        <li>
+                            @if (item.ApTransStatusId == 1)
+                            {
+                                <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
+                            }
+                            else if (item.ApTransStatusId == 2)
+                            {
+                                <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 3)"> Release </a>
+                            }
+                            else if (item.ApTransStatusId == 3)
+                            {
+                                <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 4)"> Close </a>
+                            }
+                        </li>
+
+                        @if (item.ApTransStatusId == 3)
+                        {
+                            <li>
+                                @Html.ActionLink("Payment", "CreateTransPayment", "ApPayments", new { transId = item.Id }, null)
+                            </li>
+                        }
+                        <li role="separator" class="divider"></li>
+                        <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                        <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
+                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        totalPayment += totalTransPayment;
+        totalAmount += item.Amount;
+
+    }
+
+
+    @{
+        totalBalance = totalAmount - totalPayment;
+    }
+    <tr>
+        <td colspan="7">
+        </td>
+        <td style="background-color:lightgray;">
+            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
+            <p style="font-size:18px;">@totalAmount.ToString("#,##0.00")</p>
+        </td>
+        <td style="color:darkgreen;">
+            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Payment </p>
+            <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
+        </td>
+        <td style="font-weight:600;">
+            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
+            <p style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</p>
+        </td>
+    </tr>
+</table>
+
+
+
+@section Scripts{
+    <script>
+        $(Initialize());
+
+        function Initialize() {
+            console.log(@status);
+            
+            if ('@sortBy'!='undefined') {
+                //sort
+                $("#sort-@sortBy").addClass('active');
+                $("#sort-@sortBy").siblings('.active').removeClass('active');
+            }
+
+            
+            if ('@status' != 'undefined') {
+                //sort
+                $("#status-@status").addClass('active');
+                $("#status-@status").siblings('.active').removeClass('active');
+            }
+
+             $("#status-" + @status).addClass('active');
+                $("#status-" + @status).siblings('.active').removeClass('active');
+        }
+
+        function UpdateFilter(statusId, sort){
+
+            if (sort == undefined) {
+                sort = "DueDate";
+            }
+            
+            if (statusId == undefined) {
+                statusId = 0;
+            }
+
+            window.location.href = "/Payables/ApTransactions/Index?status=" + statusId + "&sort=" + sort;
+
+        }
+
+
+        function UpdateStatus(transId, statusId) {
+            $("#overlay").show();
+            var result = $.post("/Payables/ApTransactions/UpdateTransStatus", {
+                transId: transId,
+                statusId: statusId
+            }, (response) => {
+                console.log("Update Status : " + response);
+                if (response == "True") {
+                    $("#overlay").hide();
+                    window.location.reload(false);
+                } else {
+                    alert("Unable to Update transaction.");
+                    $("#overlay").hide();
+                }
+            }
+            );
+
+            console.log(result);
+            if (result["ResponseCode"] == 500) {
+                alert("Unable to Update transaction.");
+                $("#overlay").hide();
+            }
+        }
+
+    </script>
+    
+    }

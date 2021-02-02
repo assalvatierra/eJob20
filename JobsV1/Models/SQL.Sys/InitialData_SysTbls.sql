@@ -22,7 +22,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Activities','Activities',0,'Activities','Index','',20,16),
 ('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17),
 ('Trip Logs','Trip Logs',0,'Personel/CarRentalLog','Index','',20,18),
-('Receivables','Receivable Transactions',0,'Receivables/ArTransactions','Index','',20,19)
+('Receivables','Receivable Transactions',0,'Receivables/ArTransactions','Index','',20,19),
+('Payables','Payables Transactions',0,'Payables/ApTransactions','Index','',20,20)
 ;
 
 
@@ -249,6 +250,16 @@ values 	('Receivables' ,'',19,'Receivables/ArTransactions','Index','',21,191),	-
 	    ('For Approval' ,'',19,'Receivables/ArMgt','Approval','',21,194),				-- id: 74,
 	    ('For Settlement' ,'',19,'Receivables/ArMgt','Settlement','',21,195),				-- id: 74,
 	    ('Reports' ,'',19,'Receivables/ArReports','Index','',21,196);				-- id: 74;	
+		
+-- Payables --
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+('AR001','Payables','Payables','A','/Images/Erp/icons/icons-receivables.png');
+
+insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (20,20);
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) 
+values 	('Payables' ,'',20,'Payables/ApTransactions','Index','',21,201),  -- id: 74
+	    ('Accounts' ,'',20,'Payables/ApAccounts','Index','',21,202),   	  -- id: 74
+	    ('Reports' ,'',20,'Payables/ApReports','Index','',21,206);		  -- id: 74;	
 
 
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
@@ -435,6 +446,10 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 80, 80),
 ('jahdielvillosa@gmail.com', 81, 81),
 ('jahdielvillosa@gmail.com', 82, 82),
+('jahdielvillosa@gmail.com', 83, 83),
+('jahdielvillosa@gmail.com', 84, 84),
+('jahdielvillosa@gmail.com', 85, 85),
+('jahdielvillosa@gmail.com', 86, 86),
 
 
 ('Demo@gmail.com', 20, 20),
