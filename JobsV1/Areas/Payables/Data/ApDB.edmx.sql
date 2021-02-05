@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/25/2021 11:11:55
+-- Date Created: 02/03/2021 16:52:13
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Payable20\ApModels\Models\ApDB.edmx
 -- --------------------------------------------------
 
@@ -108,7 +108,8 @@ CREATE TABLE [dbo].[ApTransactions] (
     [Description] nvarchar(80)  NOT NULL,
     [Amount] decimal(20,2)  NOT NULL,
     [IsRepeating] bit  NOT NULL,
-    [RepeatCount] nvarchar(max)  NULL,
+    [RepeatCount] int  NOT NULL,
+    [RepeatNo] int  NOT NULL,
     [Interval] int  NULL,
     [DtDue] datetime  NOT NULL,
     [DtService] datetime  NOT NULL,

@@ -63,11 +63,15 @@ namespace Payable.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InvoiceId,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo,Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount")] ApTransaction apTransaction)
+        public ActionResult Create([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo,Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {
+                apTransaction.RepeatNo = 1;
                 ap.TransactionMgr.AddTransaction(apTransaction);
+
+                //add action log for transaction create 
+                ap.ActionMgr.AddAction(GetUser(), apTransaction.Id, 1);
 
                 if (apTransaction.ApAccountId == 1)
                 {
@@ -106,11 +110,15 @@ namespace Payable.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InvoiceId,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo,Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount")] ApTransaction apTransaction)
+        public ActionResult Edit([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo,Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,RepeatNo")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {
                 ap.TransactionMgr.EditTransaction(apTransaction);
+
+                //add action log for transaction edit 
+                ap.ActionMgr.AddAction(GetUser(), apTransaction.Id, 11);
+
                 return RedirectToAction("Details", new { id = apTransaction.Id });
             }
             ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apTransaction.ApAccountId);
@@ -141,6 +149,10 @@ namespace Payable.Areas.Payables.Controllers
         {
             ApTransaction apTransaction = ap.TransactionMgr.GetTransactionById((int)id);
             ap.TransactionMgr.DeleteTransaction(apTransaction);
+
+            //add action log for transaction delete 
+            ap.ActionMgr.AddAction(GetUser(), apTransaction.Id, 12);
+
             return RedirectToAction("Index");
         }
 
@@ -154,7 +166,7 @@ namespace Payable.Areas.Payables.Controllers
         }
 
         [HttpPost]
-        public bool AcceptPayment(int paymentid)
+        public bool AcceptPayment(int paymentid, int transId)
         {
             try
             {
@@ -167,6 +179,10 @@ namespace Payable.Areas.Payables.Controllers
 
                 //accepted
                 payment.ApPaymentStatusId = 2;
+
+
+                //add action log for transaction update status 
+                ap.ActionMgr.AddAction(GetUser(), (int)transId, 7);
 
                 //update
                 return ap.PaymentMgr.EditPayment(payment);
@@ -193,13 +209,111 @@ namespace Payable.Areas.Payables.Controllers
             //update payable
             var updateResponse= ap.TransactionMgr.EditTransaction(payable);
 
+
+            //add action log for transaction update status 
+            ap.ActionMgr.AddAction(GetUser(), (int)transId, (int)statusId);
+
             if (updateResponse)
             {
                 return true;
             }
 
             return false;
+        }
+
+
+        [HttpGet]
+        public JsonResult GetRepeatingPayablesCount()
+        {
+            var repeatingPayables = ap.TransactionMgr.GetRepeatingTransactions();
+
+            return Json(repeatingPayables.Count(), JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        public JsonResult GetRepeatingPayables()
+        {
+            var repeatingPayables = ap.TransactionMgr.GetRepeatingTransactions();
+
+            return Json(repeatingPayables.Select(p=> 
+                new {
+                    p.Id,
+                    p.ApAccount.Name,
+                    p.ApAccount.ContactPerson,
+                    p.Amount,
+                    p.Description,
+                    p.DtDue,
+                    p.Interval
+                }),
+                JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public bool RepeatSelectedPayables(int[] payableIds)
+        {
+
+            var copyResult = true;
+
+            if (payableIds == null || payableIds.Length == 0)
+            {
+                return false;
+            }
+
+            foreach (var payableId in payableIds)
+            {
+                //repeat items based on interval
+                copyResult = ap.TransactionMgr.CopyRepeatingTrans(payableId);
+
+                if (!copyResult)
+                {
+                    return copyResult;
+                }
+
+                //add action log for transaction create 
+                ap.ActionMgr.AddAction(GetUser(), payableId, 12);
+            }
+
+            return copyResult;
+        }
+
+        [HttpPost]
+        public bool CancelRepeatingTrans(int? transId)
+        {
+            if (transId == null || transId == 0)
+            {
+                return false;
+            }
+
+            ApTransaction transaction = ap.TransactionMgr.GetTransactionById((int)transId);
+            transaction.IsRepeating = false;
+
+            //add action log for transaction create 
+            ap.ActionMgr.AddAction(GetUser(), transaction.Id, 13);
+
+            //save changes
+            return ap.TransactionMgr.EditTransaction(transaction);
 
         }
+
+        public string GetUser()
+        {
+           return HttpContext.User.Identity.Name ?? "Unknown";
+        }
+
+        #region History Actions 
+        public ActionResult ActionHistory(int? id)
+        {
+            if (id == null )
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var actionList = ap.TransactionMgr.GetTransactionById((int)id);
+            ViewBag.TransId = (int)id;
+            return View(actionList.ApActions.ToList());
+        }
     }
+
+    #endregion
 }

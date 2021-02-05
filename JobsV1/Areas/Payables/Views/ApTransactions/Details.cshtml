@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     decimal TotalAmount = Model.Amount;
     decimal TotalPayment = 0;
@@ -11,6 +12,7 @@
 <h2>Details</h2>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("History", "ActionHistory", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 <hr />
@@ -22,7 +24,7 @@
         </div>
     </div>
     <div class="col-md-6">
-       
+
         <div class="col-sm-12">
             <label class="control-label text-muted"> Description </label>
             <h3 style="margin-top:0px;"> @Html.DisplayFor(model => model.Description) </h3>
@@ -31,6 +33,14 @@
             <label class="control-label text-muted"> Amount </label>
             <h3 class="text-success" style="margin-top:0px;"> @Html.DisplayFor(model => model.Amount) </h3>
         </div>
+
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted">  Due Date </label>
+            <p style="font-weight:800;">@Model.DtDue.ToString("MMM dd yyyy (ddd)") </p>
+        </div>
+
+
         <div class="col-sm-12">
             <label class="control-label text-muted"> Service Date </label>
             <p>
@@ -38,28 +48,28 @@
                 @Model.DtServiceTo.ToString("MMM dd yyyy (ddd)")
             </p>
         </div>
+
         <div class="col-sm-12">
             <label class="control-label text-muted"> Category </label>
-            <p > @Html.DisplayFor(model => model.ApTransCategory.Name) </p>
+            <p> @Html.DisplayFor(model => model.ApTransCategory.Name) </p>
         </div>
+
         <div class="col-sm-12">
             <label class="control-label text-muted"> Remarks </label>
             <p> @Html.DisplayFor(model => model.Remarks) </p>
         </div>
-    </div>
-
-    <div class="col-md-6">
 
         <div class="col-sm-12">
             <label class="control-label text-muted"> Status </label>
             <p class="label label-primary" style="display:table;font-size:15px;"> @Html.DisplayFor(model => model.ApTransStatu.Status) </p>
         </div>
+    </div>
 
-        <div class="col-sm-12">
-            <label class="control-label text-muted">  Due Date </label>
-            <p style="font-weight:800;">@Model.DtDue.ToString("MMM dd yyyy (ddd)") </p>
-        </div>
-
+    <div class="col-md-6">
+        @if (Model.RepeatCount != 0)
+        {
+            <h3 class="col-sm-12"> No @Html.DisplayFor(model => model.RepeatNo) of @Html.DisplayFor(model => model.RepeatCount) </h3>
+        }
         <div class="col-sm-12">
             <label class="control-label text-muted"> Invoice </label>
             <p style="margin-top:0px;font-weight:600;"> @Html.DisplayFor(model => model.InvoiceNo) </p>
@@ -88,6 +98,11 @@
             <div class="col-sm-12">
                 <label class="control-label text-muted"> Repeat Count </label>
                 <p style="margin-top:0px;"> @Html.DisplayFor(model => model.RepeatCount) </p>
+            </div>
+
+            <div class="col-sm-12">
+                <label class="control-label text-muted"> Repeat No </label>
+                <p> @Html.DisplayFor(model => model.RepeatNo) of @Html.DisplayFor(model => model.RepeatCount) </p>
             </div>
         }
 
@@ -146,7 +161,7 @@
                     @if (payment.ApPayment.ApPaymentStatusId == 1)
                     {
                         @*@Html.ActionLink("Accept", "EditTransPayment", "ApPayments", new { id = payment.ApPaymentsId }, null)*@ 
-                        <a onclick="AcceptPayment(@payment.Id)" style="cursor:pointer;" > Accept </a>
+                        <a onclick="AcceptPayment(@payment.Id, @Model.Id)" style="cursor:pointer;" > Accept </a>
                         <span> |</span>
                     }
                     @Html.ActionLink("Edit", "EditTransPayment", "ApPayments", new { id = payment.ApPaymentsId }, null)
@@ -180,17 +195,6 @@
 
 @section Scripts{
     
-    <script>
-        function AcceptPayment(id) {
-            $.post("/Payables/ApTransactions/AcceptPayment", { paymentId: id }, (result) => {
-                console.log(result);
-                if (result) {
-                    window.location.reload(false);
-                } else {
-                    console.log("Unable to accept payment");
-                }
-            });
-        }
-    </script>
+    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransDetails.js"> </script>
     
     }

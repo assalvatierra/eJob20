@@ -555,7 +555,9 @@
     <Content Include="Areas\Payables\Data\Initial.sql" />
     <Content Include="Areas\Payables\Data\Initial_data.sql" />
     <Content Include="Areas\Payables\Scripts\ApPayments\ApPaymentCreate.js" />
+    <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransaction.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransCreate.js" />
+    <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransDetails.js" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -1849,6 +1851,7 @@
     <Content Include="Images\Erp\HomeLogin_img.jpg" />
     <Content Include="Images\Erp\icons-flag.png" />
     <Content Include="Images\Erp\icons-key.png" />
+    <Content Include="Images\Erp\icons\icons-payables.png" />
     <Content Include="Images\Erp\icons\icons-activities.png" />
     <Content Include="Images\Erp\icons\icons-box.png" />
     <Content Include="Images\Erp\icons\icons-business.png" />
@@ -2432,6 +2435,8 @@
     <Content Include="Areas\Payables\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Payables\Views\web.config" />
     <Content Include="Areas\Payables\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\ActionHistory.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrintSalaryForm.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

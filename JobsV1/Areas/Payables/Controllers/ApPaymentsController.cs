@@ -105,6 +105,8 @@ namespace Payable.Areas.Payables.Controllers
 
                 ap.TransactionMgr.AddTransPayment(transId, apPayments.Id);
 
+                AddPaymentAction(apPayments, transId);
+
                 return RedirectToAction("Details", "ApTransactions", new { id = transId });
             }
 
@@ -113,6 +115,26 @@ namespace Payable.Areas.Payables.Controllers
             ViewBag.ApPaymentStatusId = new SelectList(ap.PaymentMgr.GetPaymentStatus(), "Id", "Status", apPayments.ApPaymentStatusId);
             ViewBag.TransId = transId;
             return View(apPayments);
+        }
+
+        private void AddPaymentAction(ApPayments apPayments, int transId)
+        {
+            if (apPayments.ApPaymentStatusId == 1)
+            {
+                //add action log for transaction create 
+                ap.ActionMgr.AddAction(GetUser(), transId, 6);
+            }
+            if (apPayments.ApPaymentStatusId == 2)
+            {
+                //add action log for transaction create 
+                ap.ActionMgr.AddAction(GetUser(), transId, 7);
+            }
+            if (apPayments.ApPaymentStatusId == 3)
+            {
+                //add action log for transaction create 
+                ap.ActionMgr.AddAction(GetUser(), transId, 8);
+            }
+
         }
 
         // GET: Payables/ApPayments/Edit/5
@@ -143,6 +165,7 @@ namespace Payable.Areas.Payables.Controllers
             if (ModelState.IsValid)
             {
                 ap.PaymentMgr.EditPayment(apPayments);
+
                 return RedirectToAction("Index");
             }
             ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apPayments.ApAccountId);
@@ -183,6 +206,10 @@ namespace Payable.Areas.Payables.Controllers
             if (ModelState.IsValid)
             {
                 ap.PaymentMgr.EditPayment(apPayments);
+
+                //add edit payment action
+                AddPaymentAction(apPayments, transId);
+
                 return RedirectToAction("Details", "ApTransactions", new { id = transId });
             }
             ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apPayments.ApAccountId);
@@ -224,6 +251,12 @@ namespace Payable.Areas.Payables.Controllers
                 ap.DbDispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        public string GetUser()
+        {
+            return HttpContext.User.Identity.Name ?? "Unknown";
         }
     }
 }

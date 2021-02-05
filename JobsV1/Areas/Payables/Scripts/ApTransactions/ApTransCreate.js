@@ -33,7 +33,7 @@ function InitDatePicker() {
 
     $('input[name="DtInvoice"]').val(ddd1);
 
-    if (ddd1 === '' || ddd1 === '1/1/0001 12:00:00 am') {
+    if (ddd1 === '' || ddd1 === '1/1/0001 12:00:00 AM' || ddd1 === '1/1/0001 12:00:00 am') {
         $('input[name="DtInvoice"]').val(moment().format('MM/DD/YYYY'));
     }
 
@@ -58,7 +58,7 @@ function InitDatePicker() {
 
     $('input[name="DtEncoded"]').val(ddd2);
 
-    if (ddd2 === '' || ddd2 === '1/1/0001 12:00:00 am') {
+    if (ddd2 === '' || ddd2 === '1/1/0001 12:00:00 AM' || ddd2 === '1/1/0001 12:00:00 am') {
         $('input[name="DtEncoded"]').val(moment().format('MM/DD/YYYY h:mm A'));
     }
 
@@ -82,7 +82,7 @@ function InitDatePicker() {
 
     $('input[name="DtDue"]').val(ddd3);
 
-    if (ddd3 === '' || ddd3 === '1/1/0001 12:00:00 am') {
+    if (ddd3 === '' || ddd3 === '1/1/0001 12:00:00 AM' || ddd3 === '1/1/0001 12:00:00 am') {
         $('input[name="DtDue"]').val(moment().format('MM/DD/YYYY'));
     }
 
@@ -105,7 +105,7 @@ function InitDatePicker() {
     );
 
     $('input[name="DtService"]').val(ddd4);
-    if (ddd4 === '' || ddd4 === '1/1/0001 12:00:00 am') {
+    if (ddd4 === '' || ddd4 === '1/1/0001 12:00:00 AM' || ddd4 === '1/1/0001 12:00:00 am') {
         $('input[name="DtService"]').val(moment().format('MM/DD/YYYY'));
     }
 
@@ -132,7 +132,7 @@ function InitDatePicker() {
 
     console.log(ddd5);
 
-    if (ddd5 === '' || ddd5 === '1/1/0001 12:00:00 am') {
+    if (ddd5 === '' || ddd5 === '1/1/0001 12:00:00 AM' || ddd5 === '1/1/0001 12:00:00 am') {
         $('input[name="DtServiceTo"]').val(moment().format('MM/DD/YYYY'));
     }
 
