@@ -87,7 +87,14 @@
                         break;
                     case 2:
                         <span>
-                            @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" }) |
+                            @if (item.crLogCashTypeId == 1)
+                            {
+                            @Html.ActionLink("Print", "PrintSalaryForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                            }
+                            else
+                            {
+                            @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                            }
                             <a class="cursor-hand" onclick="ApproveRelease(this, '@item.Id')"> Release </a> |
                             @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
                         </span>
@@ -166,7 +173,6 @@
             }
         }
 
-
         function ApproveRequest(e, id) {
             $.post("/Personel/CarRentalCashRelease/ApproveRequest", { id: parseInt(id) }, (result) => {
                 console.log(result)
@@ -178,8 +184,6 @@
                 }
             });
         }
-
-
 
         function ApproveRelease(e,id) {
             $.post("/Personel/CarRentalCashRelease/ApproveRelease", { id: parseInt(id) }, (result) => {

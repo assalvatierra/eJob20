@@ -229,17 +229,19 @@
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Action <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" >
                         <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                         <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
+                        <li><a class="cursor-pointer"  onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
                         <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
                     </ul>
 
                 </div>
+
             </td>
-        </tr>
+        </tr> 
     }
 
     @{
@@ -381,6 +383,21 @@
                 if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
             }
             return null;
+        }
+
+        function RequestPOFuel(e, driverId, unitId) {
+            $.post("/Personel/CarRentalLog/RequestPOFuel", { driverId: driverId, unitId: unitId }, (response) => {
+                if (response) {
+                    $(e).text("Fuel Requested");
+                    $(e).prop("Disabled", true);
+                    $(e).parent().append('<a style="cursor:not-allowed;color:gray;"> Fuel Requested </a>')
+                    $(e).remove();
+
+                    //alert("Fuel Requested")
+                } else {
+                    alert("Unable to request fuel.")
+                }
+            })
         }
 
     </script>

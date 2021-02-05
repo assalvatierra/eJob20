@@ -1,0 +1,309 @@
+﻿@model JobsV1.Areas.Personel.Models.crLogCashRelease
+
+@{
+    ViewBag.Title = "Print Cash Release Form";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+
+    var tripLogs = ViewBag.crLogTrips as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>;
+
+    decimal totalSalary = Model.Amount;
+    decimal totalPayments = 0;
+    decimal totalCA = 0;
+    decimal total = 0;
+}
+
+@{ 
+    <style>
+        .normal-table td{
+            border-top: 0px solid gray !important;
+            padding:4px !important;
+        }
+        .normal-table{
+            border: 1px solid darkgray !important;
+        }
+        
+        .normal-table th{
+            border: 1px solid darkgray !important;
+        }
+    </style>
+}
+
+<div style="display:flex;flex-direction:column;margin-top:-50px;margin-right:20px;">
+
+    <div class="print-form-size">
+        <table class="table rpt-table-bordered" style="max-width:670px;">
+            <tr>
+                <td>
+                    <h3 class="pull-left"> Salary Release </h3>
+                </td>
+            </tr>
+            <tr style="font-size:16px;">
+                <td colspan="3">
+                    <span> Driver: </span>
+                    <span>@Model.crLogDriver.Name</span>
+                </td>
+                <td colspan="1">
+                    <span class="pull-right">
+                        <span> Date: </span>
+                        <span>@Model.DtRelease.ToString("MMM dd yyyy")</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <h4> </h4>
+
+                    <table class="table normal-table" style="margin-bottom:0px;">
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Company / Unit
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Rate / Amount
+                            </th>
+                        </tr>
+
+                        @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
+                        {
+                            
+                            <tr>
+                                <td>
+                                    @trip.DtTrip.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                    @trip.crLogCompany.Name / @trip.crLogUnit.Description
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    @trip.DriverFee.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+                        <tr style="border-top:1px solid gray !important;">
+                            <td> </td>
+                            <td> </td>
+                            <td> Total </td>
+                            <td> <b>@totalSalary.ToString("#,##0.00")</b> </td>
+                        </tr>
+
+                        @foreach (var payment in ViewBag.Payments as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            totalPayments += payment.Amount;
+                            <tr>
+                                <td>
+                                    @payment.DtRelease.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                    @payment.Remarks
+                                </td>
+                                <td>
+                                    Deduction(Payment)
+                                </td>
+                                <td>
+                                    <span>-</span> @payment.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            totalCA += ca.Amount;
+                            <tr>
+                                <td>
+                                    @ca.DtRelease.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                    @ca.Remarks
+                                </td>
+                                <td>
+                                    CA
+                                </td>
+                                <td>
+                                    @ca.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+                        @{
+                            total = totalSalary + totalCA - totalPayments;
+                        }
+                        <tr style="border-top:1px solid gray !important;">
+                            <td> </td>
+                            <td> </td>
+                            <td> Net </td>
+                            <td> <b>@total.ToString("#,##0.00")</b> </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border-top:0px !important;">
+                    <span> Remarks </span>
+                    <p> @Model.Remarks </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-top:0px !important;">
+                    <span>Released by: _________________________________</span>
+                </td>
+                <td colspan="2" style="border-top:0px !important;">
+                    <span>Recieved by: _________________________________</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="border-top:2px solid black;margin-bottom:10px;">
+
+    </div>
+
+    <div class="print-form-size">
+        <table class="table rpt-table-bordered" style="max-width:670px;">
+            <tr>
+                <td>
+                    <h3 class="pull-left"> Salary Release </h3>
+                </td>
+            </tr>
+            <tr style="font-size:16px;">
+                <td colspan="3">
+                    <span> Driver: </span>
+                    <span>@Model.crLogDriver.Name</span>
+                </td>
+                <td colspan="1">
+                    <span class="pull-right">
+                        <span> Date: </span>
+                        <span>@Model.DtRelease.ToString("MMM dd yyyy")</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <h4> </h4>
+
+                    <table class="table normal-table" style="margin-bottom:0px;">
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Company / Unit
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Rate / Amount
+                            </th>
+                        </tr>
+
+                        @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
+                        {
+
+                            <tr>
+                                <td>
+                                    @trip.DtTrip.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                    @trip.crLogCompany.Name / @trip.crLogUnit.Description
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    @trip.DriverFee.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+                        <tr style="border-top:1px solid gray !important;">
+                            <td> </td>
+                            <td> </td>
+                            <td> Total </td>
+                            <td> <b>@totalSalary.ToString("#,##0.00")</b> </td>
+                        </tr>
+
+                        @foreach (var payment in ViewBag.Payments as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            totalPayments += payment.Amount;
+                            <tr>
+                                <td>
+                                    @payment.DtRelease.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                    @payment.Remarks
+                                </td>
+                                <td>
+                                    Deduction(Payment)
+                                </td>
+                                <td>
+                                    <span>-</span> @payment.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            totalCA += ca.Amount;
+                            <tr>
+                                <td>
+                                    @ca.DtRelease.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                    @ca.Remarks
+                                </td>
+                                <td>
+                                    CA
+                                </td>
+                                <td>
+                                    @ca.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+                        @{
+                            total = totalSalary + totalCA - totalPayments;
+                        }
+                        <tr style="border-top:1px solid gray !important;">
+                            <td> </td>
+                            <td> </td>
+                            <td> Net </td>
+                            <td> <b>@total.ToString("#,##0.00")</b> </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border-top:0px !important;">
+                    <span> Remarks </span>
+                    <p> @Model.Remarks </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-top:0px !important;">
+                    <span>Released by: _________________________________</span>
+                </td>
+                <td colspan="2" style="border-top:0px !important;">
+                    <span>Recieved by: _________________________________</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script>
+        $(() => {
+            if (parseInt('@Model.crLogCashTypeId')==2) {
+                var amount = $("#office-amount").val();
+                $("#office-amount").val(" - " + amount);
+                $("#driver-amount").val(" - " + amount);
+            } else {
+
+            }
+        });
+    </script>
+    

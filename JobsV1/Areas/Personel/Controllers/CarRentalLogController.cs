@@ -972,6 +972,47 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+        // GET: Personel/CarRentalLog/RequestPOFuel
+        public bool RequestPOFuel(int driverId, int unitId)
+        {
+            try
+            {
+                if (driverId == 0 || unitId == 0)
+                {
+                    return false;
+                }
+
+                var today = dt.GetCurrentDateTime();
+
+                crLogFuel fuelReq = new crLogFuel();
+                fuelReq.crLogDriverId = driverId;
+                fuelReq.crLogUnitId = unitId;
+                fuelReq.crLogTypeId = 1;
+                fuelReq.crLogPaymentTypeId = 3;
+                fuelReq.dtFillup = today;
+                fuelReq.dtRequest = today;
+                fuelReq.Amount = 2500;
+                fuelReq.isFullTank = true;
+                fuelReq.Remarks = "";
+                fuelReq.crLogFuelStatus.Add(
+                    new crLogFuelStatus
+                    {
+                        crCashReqStatusId = 1,
+                        crLogFuelId = fuelReq.Id,
+                        dtStatus = today
+                    });
+
+                db.crLogFuels.Add(fuelReq);
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
 
         #region Odo Update
 

@@ -21,7 +21,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Index(int? statusId)
         {
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-90);
+            var DateFilter = today.AddDays(-30);
 
             //get fuel request up to -7 days from today
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest)
@@ -431,6 +431,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return View(crlogFuel);
         }
+
 
         #region Odo Logs
         public bool AddOdoLog(crLogFuel logFuel)

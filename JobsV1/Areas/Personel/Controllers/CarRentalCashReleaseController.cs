@@ -502,6 +502,48 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
 
+
+        public ActionResult PrintSalaryForm(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var cashRelease = db.crLogCashReleases.Find(id);
+            var tripLogs = new List<crLogTrip>();
+
+            if (cashRelease.crLogClosingId != null)
+            {
+                tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId)
+                    .OrderBy(c => c.DtTrip ).ToList();
+            }
+
+            if (cashRelease == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Payments = GetDriverCashRelease(cashRelease.crLogDriverId, 3, cashRelease.DtRelease);
+            ViewBag.CA = GetDriverCashRelease(cashRelease.crLogDriverId, 2, cashRelease.DtRelease);
+            ViewBag.crLogTrips = tripLogs ?? new List<crLogTrip>();
+
+            return View(cashRelease);
+        }
+
+        public List<crLogCashRelease> GetDriverCashRelease(int id, int type, DateTime dateReq)
+        {
+            var today = dateReq.AddDays(-2);
+
+            var payments = db.crLogCashReleases.Where(c => c.crLogDriverId == id 
+                              && c.crLogCashTypeId == type && today.CompareTo(c.DtRelease) <= 0)
+                              .OrderBy(c=>c.DtRelease).ToList();
+            return payments;
+        }
+
+
+
         public ActionResult DriverTripList(int? id)
         {
             string tripLogErr = "";
@@ -547,3 +589,4 @@ public class DriverReleaseRequest
     public string Remarks { get; set; }
     public int CashTypeId { get; set; }
 }
+
