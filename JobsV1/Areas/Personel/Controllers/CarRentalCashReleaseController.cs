@@ -557,7 +557,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var tripLogs = new List<crLogTrip>();
             if (cashRelease.crLogClosingId != null)
             {
-                tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId).ToList();
+                tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId).OrderBy(c=>c.DtTrip).ToList();
             }
             else
             {

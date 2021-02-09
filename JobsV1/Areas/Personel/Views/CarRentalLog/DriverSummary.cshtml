@@ -3,8 +3,10 @@
 @{
     ViewBag.Title = "DriverSummary";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
-
+    
+    decimal _driverfee_total = 0;
     decimal _drivertrips = 0;
+    decimal _driverOT = 0;
     decimal _drivercash = 0;
     decimal _driverpayment = 0;
     decimal _driverbalance = 0;
@@ -109,6 +111,9 @@
             Driver
         </th>
         <th>
+            OT
+        </th>
+        <th>
             <input type="checkbox" id="select-all-checkbox" onclick="SelectAllCheckBox()" /> All
         </th>
         <th></th>
@@ -116,14 +121,33 @@
 
     @foreach (var item in Model.DriverTrips)
     {
+        var color = "black";
+
+        if (item.DtTrip.DayOfWeek.ToString()  == "Sunday")
+        {
+            color = "red";
+        }else if (item.DtTrip.DayOfWeek.ToString()  == "Saturday")
+        {
+            color = "dodgerblue";
+        }
+        else
+        {
+            color = "black";
+        }
+
         if (item.DriverFee > 0 && item.DriverFee != null)
         {
             _drivertrips += item.DriverFee;
         }
+        
+        if (item.DriverOT > 0 && item.DriverOT != null)
+        {
+            _driverOT += item.DriverOT;
+        }
         tripCount++;
-        <tr name="summary-data">
+        <tr name="summary-data" style="color:@color;">
             <td name="date">
-                @item.DtTrip.ToShortDateString()
+                @item.DtTrip.ToString("MMM dd yyyy (ddd)")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogUnit.Description)
@@ -142,7 +166,10 @@
                 @item.Expenses.ToString("N0")
             </td>
             <td name="driversFee">
-                @item.DriverFee
+                @item.DriverFee.ToString("N0")
+            </td>
+            <td name="driversOT">
+                @item.DriverOT.ToString("N0")
             </td>
             <td>
                 <input type="checkbox" class="item-checkbox" onclick="OnSelectCheckBox(this)" />
@@ -160,6 +187,7 @@
     }
     @if (Model.DriverTrips.Count() > 0)
     {
+        _driverfee_total = _drivertrips + _driverOT;
         <tr>
             <td>
                 Trip Count:
@@ -178,9 +206,9 @@
             </td>
             <td colspan="4" align="right">Total Driver's fee</td>
             <td>@_drivertrips.ToString("N0")</td>
+            <td>@_driverOT.ToString("N0")</td>
             <td>
                 <span id="Total-Selected-DriverFee"> 0 </span>
-
             </td>
             <td> <a class="cursor-hand" onclick="CreateSalaryRequest()"> Create Salary Request </a> </td>
         </tr>
@@ -188,6 +216,7 @@
             <td colspan="5">
                 <span class="pull-right"> Total Selected </span>
             </td>
+            <td></td>
             <td></td>
             <td colspan="2">
                 <span id="Total-Selected-Count"> </span>
@@ -380,7 +409,7 @@
 }
 
 
-@{ decimal _balance = (_drivertrips + _driverpayment - _drivercash); }
+@{ decimal _balance = (_driverfee_total + _driverpayment - _drivercash); }
 <h3>Driver's Balance: @_balance </h3>
 @*<h4>
     @Html.ActionLink("Pay and Close", "PaytoClose", new { id = Model.Driver.Id, amount = _balance })

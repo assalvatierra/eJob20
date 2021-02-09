@@ -5,7 +5,9 @@
 
     decimal amount = (decimal)ViewBag.Amount;
     string tripLogErr = (string)ViewBag.tripLogErr;
-    decimal TotalAmount = 0;
+    decimal TotalDriverFee = 0;
+    decimal TotalDriverOT = 0;
+    decimal TotalSalary = 0;
 }
 
 <h2>Driver Trip List</h2>
@@ -27,29 +29,65 @@
         <th> Unit </th>
         <th> Rate </th>
         <th> Drivers Fee </th>
+        <th> Drivers OT </th>
     </tr>
 
     @foreach (var log in Model)
     {
-        TotalAmount += log.DriverFee;
-        <tr>
-            <td> @log.DtTrip.ToShortDateString() </td>
+
+        var color = "black";
+
+        if (log.DtTrip.DayOfWeek.ToString() == "Sunday")
+        {
+            color = "red";
+        }
+        else if (log.DtTrip.DayOfWeek.ToString() == "Saturday")
+        {
+            color = "dodgerblue";
+        }
+        else
+        {
+            color = "black";
+        }
+
+        TotalDriverFee += log.DriverFee;
+        TotalDriverOT += log.DriverOT;
+
+        <tr style="color:@color;">
+            <td> @log.DtTrip.ToString("MMM dd yyyy (ddd)") @log.DtTrip.DayOfWeek.ToString()</td>
             <td> @log.crLogCompany.Name </td>
             <td> @log.crLogUnit.Description </td>
             <td> @log.Rate </td>
             <td> @log.DriverFee </td>
+            <td> @log.DriverOT </td>
         </tr>
 
+    }
+    @{ 
+        TotalSalary = TotalDriverFee + TotalDriverOT;
     }
     <tr>
         <td colspan="4">
             <p class="pull-right"> Total </p>
         </td>
         <td>
-            @TotalAmount.ToString("N0")
+            @TotalDriverFee.ToString("N0")
+        </td>
+        <td>
+            @TotalDriverOT.ToString("N0")
         </td>
     </tr>
-    @if(tripLogErr.Length > 0)
+    <tr>
+        <td colspan="4">
+            <p class="pull-right"> Total </p>
+        </td>
+        <td>
+            @TotalSalary.ToString("N0")
+        </td>
+        <td>
+        </td>
+    </tr>
+    @if (tripLogErr.Length > 0)
     {
         <tr>
             <td colspan="4">

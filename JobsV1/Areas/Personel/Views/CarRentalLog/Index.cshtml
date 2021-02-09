@@ -147,6 +147,9 @@
             Driver
         </th>
         <th>
+            Company
+        </th>
+        <th>
             Description
         </th>
         <th>
@@ -162,11 +165,14 @@
             Driver
         </th>
         <th>
+            OT
+        </th>
+        @*<th>
             Odo Start
         </th>
         <th>
             Odo End
-        </th>
+        </th>*@
         <th>
             Passengers
         </th>
@@ -179,29 +185,46 @@
         decimal totalAddon = 0;
         decimal totalExpenses = 0;
         decimal totalDriverFee = 0;
+        decimal totalDriverOT = 0;
     }
     @foreach (var item in Model)
     {
+        var color = "black";
+
+        if (item.DtTrip.DayOfWeek.ToString()  == "Sunday")
+        {
+            color = "red";
+        }else if (item.DtTrip.DayOfWeek.ToString()  == "Saturday")
+        {
+            color = "dodgerblue";
+        }
+        else
+        {
+            color = "black";
+        }
 
         count += 1;
         totalRate += item.Rate;
         totalAddon += item.Addon;
         totalExpenses += item.Expenses;
         totalDriverFee += item.DriverFee;
+        totalDriverOT += item.DriverOT;
 
         <tr id="trip-@item.Id">
-            <td>
+            <td style="color:@color;">
                 @item.DtTrip.ToString("MMM dd yyyy (ddd)")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.crLogUnit.Description)
-                /
                 @Html.DisplayFor(modelItem => item.crLogCompany.Name)
-                /
-                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogUnit.Description)
+                <span style="color:darkgray;">
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </span>
             </td>
             <td>
                 @item.Rate.ToString("#,##0.00")
@@ -215,12 +238,15 @@
             <td>
                 @item.DriverFee.ToString("#,##0.00")
             </td>
-            <td class="trip-OdoStart">
+            <td>
+                @item.DriverOT.ToString("#,##0.00")
+            </td>
+            @*<td class="trip-OdoStart">
                 @item.OdoStart
             </td>
             <td class="trip-OdoEnd">
                 @item.OdoEnd
-            </td>
+            </td>*@
             <td>
                 @{Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id });}
             </td>
@@ -260,6 +286,9 @@
             </td>
             <td>
                 @totalDriverFee.ToString("#,##0.00")
+            </td>
+            <td>
+                @totalDriverOT.ToString("#,##0.00")
             </td>
             <td colspan="3"></td>
         </tr>

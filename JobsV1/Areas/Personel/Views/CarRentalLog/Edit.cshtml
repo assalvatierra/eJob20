@@ -87,6 +87,14 @@
                 @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
             </div>
         </div>
+                
+        <div class="form-group">
+            @Html.LabelFor(model => model.DriverOT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DriverOT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DriverOT, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.OdoStart, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -103,6 +111,8 @@
                 @Html.ValidationMessageFor(model => model.OdoEnd, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.crLogClosingId, "crLogClosingId", htmlAttributes: new { @class = "control-label col-md-2" })

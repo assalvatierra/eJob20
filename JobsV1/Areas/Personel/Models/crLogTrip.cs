@@ -17,6 +17,7 @@ namespace JobsV1.Areas.Personel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public crLogTrip()
         {
+            this.DriverOT = 0m;
             this.crLogPassengers = new HashSet<crLogPassenger>();
         }
     
@@ -33,6 +34,7 @@ namespace JobsV1.Areas.Personel.Models
         public decimal Addon { get; set; }
         public Nullable<int> OdoStart { get; set; }
         public Nullable<int> OdoEnd { get; set; }
+        public decimal DriverOT { get; set; }
     
         public virtual crLogDriver crLogDriver { get; set; }
         public virtual crLogUnit crLogUnit { get; set; }

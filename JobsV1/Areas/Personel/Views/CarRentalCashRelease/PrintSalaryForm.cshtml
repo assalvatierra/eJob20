@@ -8,6 +8,7 @@
 
     decimal totalSalary = Model.Amount;
     decimal totalPayments = 0;
+    decimal totalOT = 0;
     decimal totalCA = 0;
     decimal total = 0;
 }
@@ -65,32 +66,55 @@
                                 Type
                             </th>
                             <th>
-                                Rate / Amount
+                                Rate
+                            </th>
+                            <th>
+                                OT
                             </th>
                         </tr>
 
                         @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
                         {
-                            
+                            totalOT = totalOT + trip.DriverOT;
+
                             <tr>
                                 <td>
-                                    @trip.DtTrip.ToString("MM/dd/yyyy")
+                                    @trip.DtTrip.ToString("MM/dd/yyyy (ddd)")
                                 </td>
                                 <td>
                                     @trip.crLogCompany.Name / @trip.crLogUnit.Description
                                 </td>
                                 <td>
+                                    @trip.Remarks
                                 </td>
                                 <td>
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
+                                <td>
+                                    @trip.DriverOT.ToString("#,##0.00")
+                                </td>
                             </tr>
                         }
+
                         <tr style="border-top:1px solid gray !important;">
                             <td> </td>
                             <td> </td>
-                            <td> Total </td>
+                            <td> SubTotal </td>
                             <td> <b>@totalSalary.ToString("#,##0.00")</b> </td>
+                            <td> <b>@totalOT.ToString("#,##0.00")</b> </td>
+                        </tr>
+
+                        @{
+                            totalSalary = totalSalary + totalOT;
+                        }
+
+
+                        <tr style="border-top:1px solid gray !important;">
+                            <td> </td>
+                            <td> </td>
+                            <td>  Total </td>
+                            <td> <b>@totalSalary.ToString("#,##0.00")</b> </td>
+                            <td>  </td>
                         </tr>
 
                         @foreach (var payment in ViewBag.Payments as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
@@ -98,7 +122,7 @@
                             totalPayments += payment.Amount;
                             <tr>
                                 <td>
-                                    @payment.DtRelease.ToString("MM/dd/yyyy")
+                                    @payment.DtRelease.ToString("MM/dd/yyyy (ddd)")
                                 </td>
                                 <td>
                                     @payment.Remarks
@@ -117,7 +141,7 @@
                             totalCA += ca.Amount;
                             <tr>
                                 <td>
-                                    @ca.DtRelease.ToString("MM/dd/yyyy")
+                                    @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
                                 </td>
                                 <td>
                                     @ca.Remarks
@@ -195,10 +219,13 @@
                                 Company / Unit
                             </th>
                             <th>
-                                Type
+                                
                             </th>
                             <th>
-                                Rate / Amount
+                                Rate
+                            </th>
+                            <th>
+                                OT
                             </th>
                         </tr>
 
@@ -207,32 +234,51 @@
 
                             <tr>
                                 <td>
-                                    @trip.DtTrip.ToString("MM/dd/yyyy")
+                                    @trip.DtTrip.ToString("MM/dd/yyyy (ddd)")
                                 </td>
                                 <td>
                                     @trip.crLogCompany.Name / @trip.crLogUnit.Description
                                 </td>
                                 <td>
+                                    @trip.Remarks
                                 </td>
                                 <td>
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
+                                <td>
+                                    @trip.DriverOT.ToString("#,##0.00")
+                                </td>
                             </tr>
+                        }
+                        @{
+                            totalSalary = totalSalary - totalOT;
+                        }
+                        <tr style="border-top:1px solid gray !important;">
+                            <td> </td>
+                            <td> </td>
+                            <td> SubTotal </td>
+                            <td> <b>@totalSalary.ToString("#,##0.00")</b> </td>
+                            <td> <b>@totalOT.ToString("#,##0.00")</b> </td>
+                        </tr>
+
+                        @{
+                            totalSalary = totalSalary + totalOT;
                         }
 
                         <tr style="border-top:1px solid gray !important;">
                             <td> </td>
                             <td> </td>
-                            <td> Total </td>
+                            <td>  Total </td>
                             <td> <b>@totalSalary.ToString("#,##0.00")</b> </td>
+                            <td>  </td>
                         </tr>
 
                         @foreach (var payment in ViewBag.Payments as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
                         {
-                            totalPayments += payment.Amount;
+
                             <tr>
                                 <td>
-                                    @payment.DtRelease.ToString("MM/dd/yyyy")
+                                    @payment.DtRelease.ToString("MM/dd/yyyy (ddd)")
                                 </td>
                                 <td>
                                     @payment.Remarks
@@ -248,10 +294,10 @@
 
                         @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
                         {
-                            totalCA += ca.Amount;
+
                             <tr>
                                 <td>
-                                    @ca.DtRelease.ToString("MM/dd/yyyy")
+                                    @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
                                 </td>
                                 <td>
                                     @ca.Remarks
@@ -263,9 +309,6 @@
                                     @ca.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
-                        }
-                        @{
-                            total = totalSalary + totalCA - totalPayments;
                         }
                         <tr style="border-top:1px solid gray !important;">
                             <td> </td>

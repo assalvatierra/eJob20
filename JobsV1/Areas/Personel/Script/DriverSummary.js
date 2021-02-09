@@ -38,19 +38,28 @@ function CalculateTotalSalary() {
         // reference all the stuff you need first
         var $row = $(row),
             $driverfee = $row.find('td[name*="driversFee"]').text().trim(),
+            $driverOT = $row.find('td[name*="driversOT"]').text().trim(),
             $tripId = $row.find('td[name*="id"]').text().trim(),
             $checkedBoxStatus = $row.find('input:checked').is(":checked");
 
-        console.log($tripId + " - " + $driverfee + " - " + $checkedBoxStatus);
+        console.log($tripId + " - " + $driverfee + " + " + $driverOT + " - " + $checkedBoxStatus);
 
         if ($checkedBoxStatus) {
             if (parseFloat($driverfee) > 0 ) {
 
                 TotalSalary = TotalSalary + parseFloat($driverfee);
+
+                if (parseFloat($driverOT) > 0) {
+                    TotalSalary = TotalSalary + parseFloat($driverOT);
+                }
+
                 jsonReqData.TripIds.push($tripId);
 
             }
+
             TotalSelected++;
+
+            console.log(TotalSalary);
         }
     });
 

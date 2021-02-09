@@ -158,6 +158,7 @@
     <Property Name="Addon" Type="decimal" Nullable="false" />
     <Property Name="OdoStart" Type="int" Nullable="true" />
     <Property Name="OdoEnd" Type="int" Nullable="true" />
+    <Property Name="DriverOT" Type="decimal" Nullable="false" DefaultValue="0" Precision="10" Scale="2" />
   </EntityType>
   <EntityType Name="crLogCashReleases">
     <Key>
@@ -756,6 +757,7 @@
           <Property Name="OdoStart" Type="Int32" Nullable="true" />
           <Property Name="OdoEnd" Type="Int32" Nullable="true" />
           <NavigationProperty Name="crLogPassengers" Relationship="CarRentalLogDB.crLogTripcrLogPassenger" FromRole="crLogTrip" ToRole="crLogPassenger" />
+          <Property Name="DriverOT" Type="Decimal" Nullable="false" Precision="10" Scale="2" DefaultValue="0" />
         </EntityType>
         <Association Name="crLogDrivercrLogTrip">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -1265,6 +1267,7 @@
           <ScalarProperty Name="Addon" ColumnName="Addon" />
           <ScalarProperty Name="OdoStart" ColumnName="OdoStart" />
           <ScalarProperty Name="OdoEnd" ColumnName="OdoEnd" />
+          <ScalarProperty Name="DriverOT" ColumnName="DriverOT" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

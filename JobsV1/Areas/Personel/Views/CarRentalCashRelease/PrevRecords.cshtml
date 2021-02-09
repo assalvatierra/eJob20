@@ -60,10 +60,17 @@
                 {
                 <span>
                     @Html.ActionLink("Trip List", "DriverTripList", new { id = item.Id }, null) |
-                    @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })
-                    | @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) 
+                    @if (item.crLogCashTypeId == 1)
+                    {
+                        @Html.ActionLink("Print", "PrintSalaryForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                    }
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </span>
                 }
 
