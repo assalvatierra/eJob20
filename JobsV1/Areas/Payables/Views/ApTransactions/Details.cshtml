@@ -20,7 +20,11 @@
     <div class="col-md-12">
         <div class="col-sm-12">
             <label class="control-label text-muted"> Account </label>
-            <h2 style="margin-top:0px;"> @Html.DisplayFor(model => model.ApAccount.Name) </h2>
+            <h2 style="margin-top:0px;">
+                @*@Html.DisplayFor(model => model.ApAccount.Name)*@
+
+                @Html.ActionLink( Model.ApAccount.Name, "Details", "ApAccounts",new { id = Model.ApAccountId }, null)
+            </h2>
         </div>
     </div>
     <div class="col-md-6">
@@ -61,7 +65,20 @@
 
         <div class="col-sm-12">
             <label class="control-label text-muted"> Status </label>
-            <p class="label label-primary" style="display:table;font-size:15px;"> @Html.DisplayFor(model => model.ApTransStatu.Status) </p>
+            <p>
+                <span class="label label-primary"  style="font-size:15px;">
+                    @Html.DisplayFor(model => model.ApTransStatu.Status)
+
+                </span>
+                &nbsp;
+                @if (Model.IsPrinted)
+                {
+                    <span  style="font-size:15px;" class="label label-primary"> Printed </span>
+                }
+            </p>
+
+
+
         </div>
     </div>
 

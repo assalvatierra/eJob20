@@ -37,8 +37,22 @@
     <button class="btn btn-default" id="sort-Amount" onclick="UpdateFilter( @status, 'Amount')"> Amount </button>
 </div>
 
-<table class="table">
-    <tr>
+<div class="btn-group" style="margin-bottom:5px;">
+    @if (status == 2)
+    {
+        <button class="btn btn-default" onclick="CheckSelected_Print()"> <i class="glyphicon glyphicon-print"></i> Print </button>
+    }
+</div>
+
+<table class="table" id="payables-table">
+    <tr> 
+        <th>
+            @if (status == 2)
+            {
+                <a href="#" type="checkbox" id="payables-table-checkAll" onclick="CheckAllPayableItems()" >All </a>
+            }
+
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.DtInvoice)
         </th>
@@ -67,10 +81,6 @@
             Payment
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Remarks)
-        </th>
-        <th>
-
         </th>
     </tr>
 
@@ -120,6 +130,13 @@
 
         <tr style="color:@textcolor;background-color:@bgcolor;">
             <td>
+                @if(!item.IsPrinted && status == 2)
+                {
+                    <input value="@item.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
+                }
+                
+            </td>
+            <td>
                 @item.DtInvoice.ToString("MMM dd yyyy")
             </td>
             <td>
@@ -137,10 +154,11 @@
                 </span>
             </td>
             <td>
-                @if(item.IsRepeating){
+                @if (item.IsRepeating)
+                {
                     <span alt="repeating" title="Repeating Payables"> &#8635; </span>
                 }
-                 
+
                 @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
             </td>
             <td>
@@ -173,7 +191,7 @@
                 @item.Amount.ToString("#,##0.00")
             </td>
             <td>
-                 <span class="text-success"> @totalTransPayment.ToString("#,##0.00") </span>
+                <span class="text-success"> @totalTransPayment.ToString("#,##0.00") </span>
             </td>
 
             <td>
@@ -191,6 +209,12 @@
                             else if (item.ApTransStatusId == 2)
                             {
                                 <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 3)"> Payment Release </a>
+
+                                @*if (!item.IsPrinted)
+                                {
+                                    @Html.ActionLink("Print Request", "PrintRequestForm", "ApTransactions", new { id = item.Id }, new { @onclick="OnPrintClicked(this,"+ item.Id +")", @target="_blank" })
+                                }*@
+
                             }
                             else if (item.ApTransStatusId == 3)
                             {
@@ -223,7 +247,7 @@
         totalBalance = totalAmount - totalPayment;
     }
     <tr>
-        <td colspan="7">
+        <td colspan="8">
         </td>
         <td style="background-color:lightgray;">
             <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
@@ -253,9 +277,6 @@
                 <p id="RepeatingPayables-loading"> Showing Repeating Payables &hellip;</p>
 
                 <p> Select payables to be repeated </p>
-                <div class="list-group" id="RepeatingPayables-listGroup">
-                </div>
-
 
                 <table class="table" id="RepeatingPayables-table">
                     <tr>
@@ -296,33 +317,192 @@
     </div>
 </div>
 
+<!-- Repeating Payables Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="DuePayables-Modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Due Payables </h4>
+            </div>
+            <div class="modal-body">
+                <p> Displaying Payables that are due in 3 days or overdue. </p>
+                <table class="table" >
+                    <tbody id="DuePayables-table">
+                        <tr>
+                            <th>
+                                Invoice Date
+                            </th>
+                            <th>
+                                Invoice
+                            </th>
+                            <th>
+                                Account
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Due Date
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Payment
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th style="min-width:150px;"></th>
+                        </tr>
+                        <!-- Repeating Payables are added here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary" onclick="RepeatSelected(this)">Repeat Selected</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
 <a href="#" onclick="GetRepeatingPayables()"> Show Repeating Payables </a>
 
 @section Scripts{
-    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"> </script>
+    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
     <script>
         $(Initialize());
 
         function Initialize() {
             console.log(@status);
 
-            if ('@sortBy'!='undefined') {
+            if ('@sortBy' != 'undefined') {
                 //sort
                 $("#sort-@sortBy").addClass('active');
                 $("#sort-@sortBy").siblings('.active').removeClass('active');
+
             }
 
 
-            if ('@status' != 'undefined') {
+            if ('@status' != '0') {
                 //sort
                 $("#status-@status").addClass('active');
                 $("#status-@status").siblings('.active').removeClass('active');
+            } else {
+
+                $("#status-" + @status).addClass('active');
+                $("#status-" + @status).siblings('.active').removeClass('active');
+
+                //Repeating Payables
+                GetRepeatingPayablesCount();
+
+                //Due Payables
+                if ($('#RepeatingPayables-Modal').is(':visible')) {
+                    GetDuePayables();
+                }
             }
 
-             $("#status-" + @status).addClass('active');
-            $("#status-" + @status).siblings('.active').removeClass('active');
+        }
 
-            GetRepeatingPayablesCount();
+        $("#RepeatingPayables-Modal").on("hidden.bs.modal", function () {
+            //on repeating modal close
+            GetDuePayables();
+        });
+
+        function GetDuePayables() {
+
+            //remove all rows except header
+            $("#DuePayables-table").find("tr:gt(0)").remove();
+
+            $.get("/Payables/ApTransactions/GetDuePayables", null, (response) => {
+
+                if (response.length > 0) {
+                    console.log( response.length + " Due Payables");
+                    console.log(response);
+
+                    $("#DuePayables-Modal").modal("show");
+
+                    for (var i = 0; i < response.length; i++) {
+                        var duePayables = '<tr> '
+                            + '<td> ' + moment(response[i]["DtInvoice"]).format("MMM DD YYYY") + '</td>'
+                            + '<td> ' + response[i]["InvoiceNo"] + '</td>'
+                            + '<td> ' + response[i]["Name"] + '</td>'
+                            + '<td> ' + response[i]["Description"] + '</td>'
+                            + '<td> ' + moment(response[i]["DtDue"]).format("MMM DD YYYY") + '</td>'
+                            + '<td> ' + response[i]["Amount"] + '</td>'
+                            + '<td style="color:green;"> ' + response[i]["totalPayment"] + '</td>'
+                            + '<td> <span class="label label-default">' + response[i]["Status"] + '<span></td>'
+                            + '<td> <a href="/Payables/ApTransactions/Details/'+ response[i]["Id"]  +'" target="_blank">  Details </a> </td>'
+                            + ' </tr> ';
+
+                        $("#DuePayables-table").append(duePayables);
+                    }
+
+                } else {
+                    console.log("No Due Payables");
+                }
+            });
+        }
+
+
+
+
+        function GetSelectedPayables_ForPrint() {
+            var checkedArr = $("#payables-table").find("input[type=checkbox]:checked").map(function () {
+                return parseInt(this.value);
+            }).get();
+
+            return checkedArr;
+        }
+
+
+        function CheckSelected_Print() {
+            let ForPrintIds = GetSelectedPayables_ForPrint();
+
+            console.log("ForPrint");
+            console.log(ForPrintIds);
+
+            if (ForPrintIds.length > 0) {
+                
+               var res =  $.post('/Payables/ApTransactions/SendPrintRequest', { transIds : ForPrintIds }, (response) => {
+                   if (response > 0) {
+                       console.log(response);
+                        alert("Generating Payables Request form");
+                        window.location.href = "/Payables/ApTransactions/PrintRequestForm/" + response  ;
+                    } else {
+                       alert("Unable to update payables print status.");
+                        console.log(response);
+                    }
+               });
+
+            } else {
+                console.log("Please select atleast 1 payable to print.");
+            }
+            
+        }
+
+        
+        function CheckAllPayableItems() {
+            $("#payables-table").find("input[type=checkbox]").map(function () {
+                $('input[type="checkbox"]').prop('checked', true);
+                CheckRepeatItems(this);
+            });
+        }
+
+       
+
+        function OnPrintClicked(e, transId) {
+
+            $.post("/Payables/ApTransactions/UpdatePrintStatus", { id : transId }, (response) => {
+                if (response == "True") {
+                     $(e).remove();
+                } else {
+                    alert("Unable to update payables print status.")
+                    console.log(response);
+                }
+            });
         }
 
     </script>

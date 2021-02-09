@@ -1,0 +1,142 @@
+﻿@model IEnumerable<ApModels.Models.ApTransaction>
+
+@{
+    ViewBag.Title = "Print Request Form";
+
+    decimal totalAmount = 0;
+}
+
+<style>
+    .table-print {
+        border:2px solid black;
+    }
+    .table-print tr:first-child  {
+        border-top:1px solid black !important;
+    }
+
+    .table-print > tbody > th > td {
+        padding:10px;
+    }
+
+    .important-border-top{
+        border-top:2px solid black !important
+    }
+
+    .payables-items-table tr th{
+        background-color:lightgray;
+    }
+</style>
+
+<div style="padding:20px;width:920px;display:flex;margin:auto;">
+
+    <table class="table table-print">
+        <tr>
+            <td class="important-border-top">
+                <h3> Payables Request </h3>
+                <p>
+                    Request No: @ViewBag.PrintGroupId.ToString("D4")
+                </p>
+            </td>
+            <td class="important-border-top" style="padding-top:65px;padding-left:60px;">
+                <span class="pull-right"> Request Date: @ViewBag.Today</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding:10px;" class="important-border-top">
+                <h4> Payable Items </h4>
+                <table class="table payables-items-table">
+                    <tr>
+                        <th>
+                            Date Invoice
+                        </th>
+                        <th>
+                            Invoice No
+                        </th>
+                        <th>
+                            Desc
+                        </th>
+                        <th>
+                            Date Due
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                    </tr>
+
+                    <!-- Iterate Payable Items here -->
+
+                    @foreach (var payable in Model)
+                    {
+                        totalAmount += payable.Amount;
+                        <tr>
+                            <td>
+                                @payable.DtInvoice.ToString("MMM dd yyyy")
+                            </td>
+                            <td>
+                                @payable.InvoiceNo
+                            </td>
+                            <td>
+                                <b>@payable.ApAccount.Name </b>/
+                                @payable.Description
+                            </td>
+                            <td>
+                                @payable.DtDue.ToString("MMM dd yyyy")
+                            </td>
+                            <td>
+                                @payable.Amount.ToString("#,##0.00")
+                            </td>
+                        </tr>
+
+                    }
+                    <tr>
+                        <td colspan="4">
+                            <b class="pull-right" style="margin-right:20px;">Total</b>
+                        </td>
+                        <td>
+                            <b>@totalAmount.ToString("#,##0.00") </b>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="important-border-top">
+                <div>
+                    <input type="checkbox" />
+                    Cash
+                </div>
+            </td>
+            <td class="important-border-top">
+                <div>
+                    <input type="checkbox" />
+                    Check No _________________
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" >
+                <div>
+                    Amount :  ____________________________________________
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="important-border-top">
+                Requested by: ________________ ________
+            </td>
+            <td class="important-border-top">
+                Approved by: _________________ ________
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Released by: _________________ ________
+            </td>
+            <td >
+                Recieved by:__________________ ________
+            </td>
+        </tr>
+
+    </table>
+</div>

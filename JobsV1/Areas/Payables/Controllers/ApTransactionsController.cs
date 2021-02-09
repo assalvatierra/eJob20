@@ -14,6 +14,7 @@ namespace Payable.Areas.Payables.Controllers
     public class ApTransactionsController : Controller
     {
         private PayablesFactory ap = new PayablesFactory();
+        private DateClassMgr dt = new DateClassMgr();
 
         // GET: Payables/ApTransactions
         public ActionResult Index(int? status, string sort)
@@ -68,6 +69,7 @@ namespace Payable.Areas.Payables.Controllers
             if (ModelState.IsValid)
             {
                 apTransaction.RepeatNo = 1;
+                apTransaction.IsPrinted = false;
                 ap.TransactionMgr.AddTransaction(apTransaction);
 
                 //add action log for transaction create 
@@ -110,7 +112,7 @@ namespace Payable.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo,Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,RepeatNo")] ApTransaction apTransaction)
+        public ActionResult Edit([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo,Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,RepeatNo,IsPrinted")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {
@@ -300,6 +302,62 @@ namespace Payable.Areas.Payables.Controllers
         {
            return HttpContext.User.Identity.Name ?? "Unknown";
         }
+
+        [HttpGet]
+        public JsonResult GetDuePayables()
+        {
+            var duePayables = ap.TransactionMgr.GetDueTransactions()
+                .Select(
+                    t=> new {
+                        t.Id,
+                        t.ApAccount.Name,
+                        t.ApTransStatu.Status,
+                        t.DtDue,
+                        t.DtInvoice,
+                        InvoiceNo = t.InvoiceNo == null ? "" : t.InvoiceNo,
+                        t.Amount,
+                        t.Description,
+                        totalPayment = t.ApTransPayments.Sum(p=>p.ApPayment.Amount)
+                    }
+                );
+
+            return Json(duePayables, JsonRequestBehavior.AllowGet);
+        }
+
+        #region Print Request Form
+        public ActionResult PrintRequestForm(int id)
+        {
+            var payables = ap.TransactionMgr.GetPrintGroup(id);
+
+            ViewBag.Today = dt.GetCurrentDateTime().ToShortDateString();
+            ViewBag.PrintGroupId = id;
+            return View(payables);
+        }
+
+        [HttpPost]
+        public int SendPrintRequest(int[] transIds)
+        {
+            var printGroupId = ap.TransactionMgr.AddPrintRequest(transIds, GetUser());
+
+            //update print status of each payables transaction to true
+            for (int i=0; i< transIds.Length; i++)
+            {
+                UpdatePrintStatus(transIds[i]);
+            }
+
+            return printGroupId;
+        }
+
+
+        //POST : /Payables/ApTransactions/UpdatePrintStatus
+        //Param : id = payable transaction Id
+        [HttpPost]
+        public bool UpdatePrintStatus(int id)
+        {
+            //update transaction printed status to true
+            return ap.TransactionMgr.UpdatePrintStatus(id, true);
+        }
+        #endregion
 
         #region History Actions 
         public ActionResult ActionHistory(int? id)

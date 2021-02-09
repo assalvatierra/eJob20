@@ -6,13 +6,15 @@
 
 function GetRepeatingPayablesCount() {
     $.get("/Payables/ApTransactions/GetRepeatingPayablesCount", null, (response) => {
-        console.log(response);
+        //console.log(response);
 
         $("#RepeatingPayables-loading").show();
 
         if (response > 0) {
             //if system have repeating payables
             GetRepeatingPayables();
+        } else {
+            GetDuePayables();
         }
     });
 }
@@ -24,8 +26,8 @@ function GetRepeatingPayables() {
 
 
     $.get("/Payables/ApTransactions/GetRepeatingPayables", null, (response) => {
-        console.log("display payables list:");
-        console.log(response);
+        //console.log("display payables list:");
+        //console.log(response);
 
         $("#RepeatingPayables-loading").hide();
 
@@ -39,7 +41,7 @@ function GetRepeatingPayables() {
             let payableId = parseInt(repeatingPayables[i]['Id']);
 
             let payablesRow = '<tr>'
-                + '<td> <input type="checkbox" onclick="CheckepeatItems(this)" name="check-repeat" value="' + payableId + '"/> </td>'
+                + '<td> <input type="checkbox" onclick="CheckRepeatItems(this)" name="check-repeat" value="' + payableId + '"/> </td>'
                 + '<td><b>' + repeatingPayables[i]['Name'] + '</b></td>'
                 + '<td>' + repeatingPayables[i]['Description'] + '</td>'
                 + '<td>' + repeatingPayables[i]['Amount'] + '</td>'
@@ -60,7 +62,7 @@ function GetRepeatingPayables() {
 function CheckAllRepeatItems() {
     $("#RepeatingPayables-table").find("input[type=checkbox]").map(function () {
         $('input[type="checkbox"]').prop('checked', true);
-        CheckepeatItems(this);
+        CheckRepeatItems(this);
     });
 }
 
@@ -73,7 +75,7 @@ function GetAllSelectedItems() {
     return checkedArr;
 }
 
-function CheckepeatItems(e) {
+function CheckRepeatItems(e) {
     if ($(e).prop('checked')) {
         $(e).parent().parent().addClass('active')
     } else {

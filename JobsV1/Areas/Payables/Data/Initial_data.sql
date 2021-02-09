@@ -12,8 +12,7 @@ insert into ApAccounts([Name],[Landline],[Email],[Mobile],[ContactPerson],[Addre
 
 /* Sample Transaction */
 insert into ApTransactions([ApAccountId],[InvoiceNo],[DtInvoice],[DtEncoded],[Description],[Amount],[DtService],[DtServiceTo],[DtDue],[Remarks]
-                          ,[ApTransStatusId],[ApTransCategoryId],[Interval],[IsRepeating],[RepeatCount],[RepeatNo],[NextRef],[PrevRef]) values 
- (2,'PLDT001','01/25/2021','01/28/2021', 'Internet Billing', 2900, '01/01/2021', '01/30/2021', '01/02/2021', null, 1, 1, 30, 1, 2, 1, 0, 0),
- (3,'W001','02/03/2021','02/02/2021', 'Water Billing', 800, '01/06/2021', '02/06/2021', '01/12/2021', null, 1, 1, 30, 1, 3, 1, 0, 0),
- (4, null,'01/25/2021','01/28/2021', 'Tour Payables', 500, '01/20/2021', '01/20/2021', '01/30/2021', null, 1, 1, 0, 0, 0, 0, 0, 0)
-;
+                          ,[ApTransStatusId],[ApTransCategoryId],[Interval],[IsRepeating],[RepeatCount],[RepeatNo],[NextRef],[PrevRef],[IsPrinted]) values 
+ (2,'PLDT001','01/25/2021','01/28/2021', 'Internet Billing', 2900, '01/01/2021', '01/30/2021', '02/02/2021', null, 1, 1, 30, 1, 2, 1, 0, 0, 0),
+ (3,'W001','02/03/2021','02/02/2021', 'Water Billing', 800, '01/06/2021', '02/06/2021', '02/12/2021', null, 1, 1, 30, 1, 3, 1, 0, 0, 0),
+ (4, null,'01/25/2021','01/28/2021', 'Tour Payables', 500, '01/20/2021', '01/20/2021', '02/28/2021', null, 1, 1, 0, 0, 0, 0, 0, 0, 0);

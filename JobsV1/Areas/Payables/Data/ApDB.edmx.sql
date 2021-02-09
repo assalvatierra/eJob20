@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/03/2021 16:52:13
+-- Date Created: 02/08/2021 14:41:31
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Payable20\ApModels\Models\ApDB.edmx
 -- --------------------------------------------------
 
@@ -53,6 +53,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ApPaymentStatusApPayments]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ApPayments] DROP CONSTRAINT [FK_ApPaymentStatusApPayments];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ApTransPrintReqApPrintRequest]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ApTransPrintReqs] DROP CONSTRAINT [FK_ApTransPrintReqApPrintRequest];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ApTransPrintReqApTransaction]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ApTransPrintReqs] DROP CONSTRAINT [FK_ApTransPrintReqApTransaction];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -94,6 +100,12 @@ GO
 IF OBJECT_ID(N'[dbo].[ApPaymentStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ApPaymentStatus];
 GO
+IF OBJECT_ID(N'[dbo].[ApTransPrintReqs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ApTransPrintReqs];
+GO
+IF OBJECT_ID(N'[dbo].[ApPrintRequests]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ApPrintRequests];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -119,7 +131,8 @@ CREATE TABLE [dbo].[ApTransactions] (
     [ApTransStatusId] int  NOT NULL,
     [ApTransCategoryId] int  NOT NULL,
     [NextRef] int  NOT NULL,
-    [PrevRef] int  NOT NULL
+    [PrevRef] int  NOT NULL,
+    [IsPrinted] bit  NOT NULL
 );
 GO
 
@@ -225,6 +238,22 @@ CREATE TABLE [dbo].[ApPaymentStatus] (
 );
 GO
 
+-- Creating table 'ApTransPrintReqs'
+CREATE TABLE [dbo].[ApTransPrintReqs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ApPrintRequestId] int  NOT NULL,
+    [ApTransactionId] int  NOT NULL
+);
+GO
+
+-- Creating table 'ApPrintRequests'
+CREATE TABLE [dbo].[ApPrintRequests] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DtRequest] datetime  NOT NULL,
+    [RequestBy] nvarchar(80)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -298,6 +327,18 @@ GO
 -- Creating primary key on [Id] in table 'ApPaymentStatus'
 ALTER TABLE [dbo].[ApPaymentStatus]
 ADD CONSTRAINT [PK_ApPaymentStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ApTransPrintReqs'
+ALTER TABLE [dbo].[ApTransPrintReqs]
+ADD CONSTRAINT [PK_ApTransPrintReqs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ApPrintRequests'
+ALTER TABLE [dbo].[ApPrintRequests]
+ADD CONSTRAINT [PK_ApPrintRequests]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -483,6 +524,36 @@ GO
 CREATE INDEX [IX_FK_ApPaymentStatusApPayments]
 ON [dbo].[ApPayments]
     ([ApPaymentStatusId]);
+GO
+
+-- Creating foreign key on [ApPrintRequestId] in table 'ApTransPrintReqs'
+ALTER TABLE [dbo].[ApTransPrintReqs]
+ADD CONSTRAINT [FK_ApTransPrintReqApPrintRequest]
+    FOREIGN KEY ([ApPrintRequestId])
+    REFERENCES [dbo].[ApPrintRequests]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ApTransPrintReqApPrintRequest'
+CREATE INDEX [IX_FK_ApTransPrintReqApPrintRequest]
+ON [dbo].[ApTransPrintReqs]
+    ([ApPrintRequestId]);
+GO
+
+-- Creating foreign key on [ApTransactionId] in table 'ApTransPrintReqs'
+ALTER TABLE [dbo].[ApTransPrintReqs]
+ADD CONSTRAINT [FK_ApTransPrintReqApTransaction]
+    FOREIGN KEY ([ApTransactionId])
+    REFERENCES [dbo].[ApTransactions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ApTransPrintReqApTransaction'
+CREATE INDEX [IX_FK_ApTransPrintReqApTransaction]
+ON [dbo].[ApTransPrintReqs]
+    ([ApTransactionId]);
 GO
 
 -- --------------------------------------------------
