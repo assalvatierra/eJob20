@@ -1684,6 +1684,7 @@
     <Content Include="Images\CarRental\Home\icons8-vip-50.png" />
     <Content Include="Images\CarRental\Banner\RealWheelsBanner2020-wServices.jpg" />
     <Content Include="Images\CarRental\Home\booking-process.png" />
+    <Content Include="Images\CarRental\Home\Vehicles\Realwheel-Davao-Toyota-Hilux-Main.jpg" />
     <Content Include="Images\CarRental\Home\Video\Realwheels-ads-video.mp4" />
     <Content Include="Images\CarRental\Home\undraw_businesswoman.png" />
     <Content Include="Images\CarRental\Home\undraw_Map_light.png" />
@@ -1768,6 +1769,9 @@
     <Content Include="Images\CarRental\pickup\Toyota-Hilux-2020-seats.jpg" />
     <Content Include="Images\CarRental\pickup\Toyota-Hilux-2020-side.jpg" />
     <Content Include="Images\CarRental\pickup\Toyota-Hilux-2020.jpg" />
+    <Content Include="Images\CarRental\pickup\Toyota-Hilux-Front.jpg" />
+    <Content Include="Images\CarRental\pickup\Toyota-Hilux-Main.jpg" />
+    <Content Include="Images\CarRental\pickup\Toyota-Hilux-Side.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-back-seat.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-back.jpg" />
     <Content Include="Images\CarRental\rush\Toyota-Rush-2019-seat.jpg" />
@@ -2438,6 +2442,7 @@
     <Content Include="Areas\Payables\Views\ApTransactions\ActionHistory.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrintSalaryForm.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransactions\PrintRequestForm.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummaryTripEdit.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

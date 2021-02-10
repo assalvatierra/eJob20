@@ -50,7 +50,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.StatusId = statusId;
 
-            return View(cashReleases.ToList());
+            return View(cashReleases.OrderBy(c=>c.DtRelease).ToList());
         }
 
 
@@ -534,10 +534,11 @@ namespace JobsV1.Areas.Personel.Controllers
 
         public List<crLogCashRelease> GetDriverCashRelease(int id, int type, DateTime dateReq)
         {
-            var today = dateReq.AddDays(-2);
+            var today = dateReq.AddDays(-1);
+            var todayAdj = dateReq.AddDays(1);
 
             var payments = db.crLogCashReleases.Where(c => c.crLogDriverId == id 
-                              && c.crLogCashTypeId == type && today.CompareTo(c.DtRelease) <= 0)
+                              && c.crLogCashTypeId == type && todayAdj.CompareTo(c.DtRelease) >= 0 && today.CompareTo(c.DtRelease) <= 0)
                               .OrderBy(c=>c.DtRelease).ToList();
             return payments;
         }

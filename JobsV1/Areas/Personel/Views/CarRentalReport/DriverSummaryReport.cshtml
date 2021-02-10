@@ -5,6 +5,7 @@
 
     decimal TotalSalary = 0;
     decimal TotalCA = 0;
+    decimal TotalOT = 0;
     decimal TotalPayments = 0;
 
     var driverList = ViewBag.driverList as IEnumerable<JobsV1.Areas.Personel.Models.crLogDriver>;
@@ -76,6 +77,9 @@
             Salary
         </th>
         <th>
+            OT
+        </th>
+        <th>
             CA
         </th>
         <th>
@@ -88,6 +92,7 @@
         TotalSalary += driver.Salary;
         TotalCA += driver.CA;
         TotalPayments += driver.Payment;
+        TotalOT += driver.OT;
 
         <tr>
             <td>
@@ -114,6 +119,9 @@
                 @driver.Salary.ToString("#,##0.00")
             </td>
             <td>
+                @driver.OT.ToString("#,##0.00")
+            </td>
+            <td>
                 @driver.CA.ToString("#,##0.00")
             </td>
             <td>
@@ -132,6 +140,9 @@
             </td>
             <td>
                 @TotalSalary.ToString("#,##0.00")
+            </td>
+            <td>
+                @TotalOT.ToString("#,##0.00")
             </td>
             <td>
                 @TotalCA.ToString("#,##0.00")

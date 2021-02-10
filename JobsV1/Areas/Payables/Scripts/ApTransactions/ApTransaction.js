@@ -3,6 +3,32 @@
 // Handle Repeating payables modal 
 // Update payables transaction status
 
+function Initialize(status, sortBy) {
+    if (sortBy != 'undefined') {
+        //sort
+        $("#sort-" + sortBy).addClass('active');
+        $("#sort-" + sortBy).siblings('.active').removeClass('active');
+
+    }
+
+    if (status != '0') {
+        //sort
+        $("#status-" + status).addClass('active');
+        $("#status-" + status).siblings('.active').removeClass('active');
+    } else {
+
+        $("#status-" + status).addClass('active');
+        $("#status-" + status).siblings('.active').removeClass('active');
+
+        //Repeating Payables
+        GetRepeatingPayablesCount();
+
+        //Due Payables
+        if ($('#RepeatingPayables-Modal').is(':visible')) {
+            GetDuePayables();
+        }
+    }
+}
 
 function GetRepeatingPayablesCount() {
     $.get("/Payables/ApTransactions/GetRepeatingPayablesCount", null, (response) => {
@@ -13,21 +39,16 @@ function GetRepeatingPayablesCount() {
         if (response > 0) {
             //if system have repeating payables
             GetRepeatingPayables();
-        } else {
-            GetDuePayables();
         }
     });
 }
 
-
+//get and check repeating payables
+//show modal 
 function GetRepeatingPayables() {
     $("#RepeatingPayables-Modal").modal("show");
 
-
-
     $.get("/Payables/ApTransactions/GetRepeatingPayables", null, (response) => {
-        //console.log("display payables list:");
-        //console.log(response);
 
         $("#RepeatingPayables-loading").hide();
 
@@ -59,6 +80,7 @@ function GetRepeatingPayables() {
     });
 }
 
+//check all selected repeating payables
 function CheckAllRepeatItems() {
     $("#RepeatingPayables-table").find("input[type=checkbox]").map(function () {
         $('input[type="checkbox"]').prop('checked', true);
@@ -66,7 +88,7 @@ function CheckAllRepeatItems() {
     });
 }
 
-
+//get selected repeating items on modal payables
 function GetAllSelectedItems() {
     var checkedArr = $("#RepeatingPayables-table").find("input[type=checkbox]:checked").map(function () {
         return this.value;
@@ -75,6 +97,7 @@ function GetAllSelectedItems() {
     return checkedArr;
 }
 
+//select repeating 
 function CheckRepeatItems(e) {
     if ($(e).prop('checked')) {
         $(e).parent().parent().addClass('active')
@@ -83,6 +106,7 @@ function CheckRepeatItems(e) {
     }
 }
 
+//update filter on list
 function UpdateFilter(statusId, sort) {
 
     if (sort == undefined) {
@@ -97,22 +121,22 @@ function UpdateFilter(statusId, sort) {
 
 }
 
-
+//update payables status
 function UpdateStatus(transId, statusId) {
     $("#overlay").show();
     var result = $.post("/Payables/ApTransactions/UpdateTransStatus", {
         transId: transId,
         statusId: statusId
-    }, (response) => {
-        console.log("Update Status : " + response);
-        if (response == "True") {
-            $("#overlay").hide();
-            window.location.reload(false);
-        } else {
-            alert("Unable to Update transaction.");
-            $("#overlay").hide();
+        }, (response) => {
+            console.log("Update Status : " + response);
+            if (response == "True") {
+                $("#overlay").hide();
+                window.location.reload(false);
+            } else {
+                alert("Unable to Update transaction.");
+                $("#overlay").hide();
+            }
         }
-    }
     );
 
     console.log(result);
@@ -122,6 +146,7 @@ function UpdateStatus(transId, statusId) {
     }
 }
 
+//highlight repeating payables
 function RepeatCheck(e) {
     if ($(e).hasClass('active')) {
         $(e).removeClass('active');
@@ -130,6 +155,7 @@ function RepeatCheck(e) {
     }
 }
 
+//copy selected repeating 
 function RepeatSelected(e) {
 
     $(e).text("Copying");
@@ -164,6 +190,7 @@ function RepeatSelected(e) {
     }
 }
 
+//cancel repeated payable on modal popup
 function CancelRepeat(e, id) {
 
     $.post('/Payables/ApTransactions/CancelRepeatingTrans', { transId: id }, (response) => {
@@ -171,6 +198,105 @@ function CancelRepeat(e, id) {
             $(e).parent().parent().remove();
         } else {
             alert("Unable to update payables transaction.")
+        }
+    });
+}
+
+
+
+$("#RepeatingPayables-Modal").on("hidden.bs.modal", function () {
+    //on repeating modal close
+    GetDuePayables();
+});
+
+function GetDuePayables() {
+
+    //remove all rows except header
+    $("#DuePayables-table").find("tr:gt(0)").remove();
+
+    $.get("/Payables/ApTransactions/GetDuePayables", null, (response) => {
+
+        if (response.length > 0) {
+            console.log(response.length + " Due Payables");
+            console.log(response);
+
+            $("#DuePayables-Modal").modal("show");
+
+            for (var i = 0; i < response.length; i++) {
+                var duePayables = '<tr> '
+                    + '<td> ' + moment(response[i]["DtInvoice"]).format("MMM DD YYYY") + '</td>'
+                    + '<td> ' + response[i]["InvoiceNo"] + '</td>'
+                    + '<td> ' + response[i]["Name"] + '</td>'
+                    + '<td> ' + response[i]["Description"] + '</td>'
+                    + '<td> ' + moment(response[i]["DtDue"]).format("MMM DD YYYY") + '</td>'
+                    + '<td> ' + response[i]["Amount"] + '</td>'
+                    + '<td style="color:green;"> ' + response[i]["totalPayment"] + '</td>'
+                    + '<td> <span class="label label-default">' + response[i]["Status"] + '<span></td>'
+                    + '<td> <a href="/Payables/ApTransactions/Details/' + response[i]["Id"] + '" target="_blank">  Details </a> </td>'
+                    + ' </tr> ';
+
+                $("#DuePayables-table").append(duePayables);
+            }
+
+        } else {
+            console.log("No Due Payables");
+        }
+    });
+}
+
+//get checked selected payables 
+function GetSelectedPayables_ForPrint() {
+    var checkedArr = $("#payables-table").find("input[type=checkbox]:checked").map(function () {
+        return parseInt(this.value);
+    }).get();
+
+    return checkedArr;
+}
+
+//print checked payables
+function CheckSelected_Print() {
+    let ForPrintIds = GetSelectedPayables_ForPrint();
+
+    console.log("ForPrint");
+    console.log(ForPrintIds);
+
+    if (ForPrintIds.length > 0) {
+
+        var res = $.post('/Payables/ApTransactions/SendPrintRequest', { transIds: ForPrintIds }, (response) => {
+            if (response > 0) {
+                console.log(response);
+                alert("Generating Print Request form");
+                window.location.href = "/Payables/ApTransactions/PrintRequestForm/" + response;
+            } else {
+                alert("Unable to update payables print status.");
+                console.log(response);
+            }
+        });
+
+    } else {
+        console.log("Please select atleast 1 payable to print.");
+    }
+
+}
+
+//click on payables 
+function CheckAllPayableItems() {
+    $("#payables-table").find("input[type=checkbox]").map(function () {
+        $('input[type="checkbox"]').prop('checked', true);
+        CheckRepeatItems(this);
+    });
+}
+
+
+//on click print button per item
+function OnPrintClicked(e, transId) {
+
+    $.post("/Payables/ApTransactions/UpdatePrintStatus", { id: transId }, (response) => {
+        if (response == "True") {
+            $(e).remove();
+        } else {
+            alert("Unable to update payables print status.")
+            console.log(response);
         }
     });
 }

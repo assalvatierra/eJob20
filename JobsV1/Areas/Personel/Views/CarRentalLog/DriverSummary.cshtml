@@ -166,10 +166,10 @@
                 @item.Expenses.ToString("N0")
             </td>
             <td name="driversFee">
-                @item.DriverFee.ToString("N0")
+                @item.DriverFee
             </td>
             <td name="driversOT">
-                @item.DriverOT.ToString("N0")
+                @item.DriverOT
             </td>
             <td>
                 <input type="checkbox" class="item-checkbox" onclick="OnSelectCheckBox(this)" />
@@ -177,7 +177,7 @@
             <td>
                 @if (IsAdmin)
                 {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @Html.ActionLink("Edit", "DriverSummaryTripEdit", new { id = item.Id })
                 }
             </td>
             <td name="id" hidden>

@@ -261,7 +261,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
-            ViewBag.crLogCompanyId = new SelectList(db.crLogCompanies, "Id", "Name");
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name");
             //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id");
             return View(trip);
         }
@@ -318,6 +318,47 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.Entry(crLogTrip).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            return View(crLogTrip);
+        }
+
+
+
+        // GET: Personel/CarRentalLog/Edit/5
+        public ActionResult DriverSummaryTripEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+            if (crLogTrip == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            return View(crLogTrip);
+        }
+
+        // POST: Personel/CarRentalLog/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DriverSummaryTripEdit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt")] crLogTrip crLogTrip)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("DriverSummary", new { id = crLogTrip.crLogDriverId });
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);

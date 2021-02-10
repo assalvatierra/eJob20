@@ -90,7 +90,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 foreach (var driverTrip in vehicleTrip.GroupBy(v=>v.crLogDriverId))
                 {
                     int totalTrip = 0, totalOdo = 0;
-                    decimal totalFuel = 0, totalMaintenance = 0, totalDriversFee = 0;
+                    decimal totalFuel = 0, totalMaintenance = 0, totalDriversFee = 0, totalDriversOT = 0;
 
 
                     var driver = db.crLogDrivers.Find(driverTrip.Key);
@@ -111,6 +111,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
                         //driver
                         totalDriversFee += trip.DriverFee;
+                        totalDriversOT += trip.DriverOT;
 
                         //calculate odo diff
                         //tripOdo = (odoend - odostart)
@@ -127,6 +128,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     totalMaintenance = GetUnitTripExpenses(vehicleSummary.Vehicle.Id, rptCrDriver.Driver.Id, EXPENSE_MAINTENANCE, sDate, eDate);
 
                     rptCrDriver.DriversFee = totalDriversFee;
+                    rptCrDriver.DriversOT = totalDriversOT;
                     rptCrDriver.Fuel = totalFuel;
                     rptCrDriver.Maintenance = totalMaintenance;
                     rptCrDriver.Odo = totalOdo;
@@ -464,6 +466,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 vehicleTripLog.Driver = trip.crLogDriver;
                 vehicleTripLog.FuelMaintenance = 0;
                 vehicleTripLog.DriversFee = trip.DriverFee;
+                vehicleTripLog.DriversOT = trip.DriverOT;
                 vehicleTripLog.PaidThru = "";
 
                 if (trip.crLogClosingId != null)
@@ -601,7 +604,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 var _eDate = DateTime.Parse("08/30/2020");
 
                 int DaysCount = 0;
-                decimal TotalSalary = 0;
+                decimal TotalSalary = 0, TotalOT = 0;
                 count++;
 
                 RptCrDriverTripSummary driverTrip = new RptCrDriverTripSummary();
@@ -614,11 +617,13 @@ namespace JobsV1.Areas.Personel.Controllers
                     if (trip.crLogClosingId == null)
                     {
                         TotalSalary += trip.DriverFee;
+                        TotalOT += trip.DriverOT;
                         DaysCount++;
                     }
                 }
 
                 driverTrip.Salary = TotalSalary;
+                driverTrip.OT = TotalOT;
                 driverTrip.CA = dd.GetDriverCA_FromDates(_sDate, _eDate, driverTrip.Id);
                 driverTrip.Payment = dd.GetDriverPayments_FromDates(_sDate, _eDate, driverTrip.Id);
                 driverTrip.TotalDays = DaysCount;
@@ -692,7 +697,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 foreach (var driverTrip in vehicleTrip.GroupBy(v => v.crLogDriverId))
                 {
                     int totalTrip = 0, totalOdo = 0;
-                    decimal totalFuel = 0, totalMaintenance = 0, totalDriversFee = 0;
+                    decimal totalFuel = 0, totalMaintenance = 0, totalDriversFee = 0, totalDriversOT = 0;
 
 
                     var driver = db.crLogDrivers.Find(driverTrip.Key);
@@ -713,6 +718,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
                         //driver
                         totalDriversFee += trip.DriverFee;
+                        totalDriversOT += trip.DriverOT;
 
                         //calculate odo diff
                         //tripOdo = (odoend - odostart)
@@ -729,7 +735,8 @@ namespace JobsV1.Areas.Personel.Controllers
                     totalMaintenance = GetUnitTripExpenses(vehicleSummary.Vehicle.Id, rptCrDriver.Driver.Id, EXPENSE_MAINTENANCE, sDate, eDate);
                     rptCrDriver.PaymentTypeSummary = GetUnitTripPayments(vehicleSummary.Vehicle.Id, rptCrDriver.Driver.Id, sDate, eDate);
 
-                    rptCrDriver.DriversFee = totalDriversFee;
+                    rptCrDriver.DriversFee = totalDriversFee + totalDriversOT;
+                    rptCrDriver.DriversOT = totalDriversOT;
                     rptCrDriver.Fuel = totalFuel;
                     rptCrDriver.Maintenance = totalMaintenance;
                     rptCrDriver.Odo = totalOdo;

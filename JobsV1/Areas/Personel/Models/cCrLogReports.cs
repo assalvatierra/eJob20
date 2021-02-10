@@ -24,6 +24,7 @@ namespace JobsV1.Areas.Personel.Models
         public decimal Fuel { get; set; }
         public decimal Maintenance { get; set; }
         public decimal DriversFee { get; set; }
+        public decimal DriversOT { get; set; }
         public decimal Others { get; set; }
 
     }
@@ -43,6 +44,7 @@ namespace JobsV1.Areas.Personel.Models
         public decimal Fuel { get; set; }
         public decimal Maintenance { get; set; }
         public decimal DriversFee { get; set; }
+        public decimal DriversOT { get; set; }
         public decimal Others { get; set; }
         public RptCrPaymentTypeSummary PaymentTypeSummary { get; set; }
     }
@@ -64,6 +66,7 @@ namespace JobsV1.Areas.Personel.Models
         public crLogDriver Driver { get; set; }
         public decimal FuelMaintenance { get; set; }
         public decimal DriversFee { get; set; }
+        public decimal DriversOT { get; set; }
         public string PaidThru { get; set; }
     }
 
@@ -77,5 +80,6 @@ namespace JobsV1.Areas.Personel.Models
         public decimal Salary { get; set; }
         public decimal CA { get; set; }
         public decimal Payment { get; set; }
+        public decimal OT { get; set; }
     }
 }

@@ -7,6 +7,7 @@
     decimal TotalFuel = 0;
     decimal TotalMaintenance = 0;
     decimal TotalDriversFee = 0;
+    decimal TotalDriversOT = 0;
 
     var unitList = ViewBag.unitList as IEnumerable<JobsV1.Areas.Personel.Models.crLogUnit>;
 }
@@ -83,6 +84,9 @@
         <th>
             Total DriversFee
         </th>
+        <th>
+            Total DriversOT
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -117,6 +121,9 @@
                 <td>
                     @trip.DriversFee
                 </td>
+                <td>
+                    @trip.DriversOT
+                </td>
             </tr>
         }
     }
@@ -148,6 +155,11 @@
         <td>
             <span >
                 @TotalDriversFee.ToString("N0")
+            </span>
+        </td>
+        <td>
+            <span >
+                @TotalDriversOT.ToString("N0")
             </span>
         </td>
     </tr>

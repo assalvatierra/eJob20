@@ -5,12 +5,14 @@
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
 
     var tripLogs = ViewBag.crLogTrips as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>;
-
+    
+    decimal subtotalSalary = 0;
     decimal totalSalary = Model.Amount;
     decimal totalPayments = 0;
     decimal totalOT = 0;
     decimal totalCA = 0;
     decimal total = 0;
+    int tripCount = 0;
 }
 
 @{ 
@@ -76,7 +78,8 @@
                         @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
                         {
                             totalOT = totalOT + trip.DriverOT;
-
+                            subtotalSalary = subtotalSalary + trip.DriverFee;
+                            tripCount = tripCount + 1;
                             <tr>
                                 <td>
                                     @trip.DtTrip.ToString("MM/dd/yyyy (ddd)")
@@ -97,15 +100,15 @@
                         }
 
                         <tr style="border-top:1px solid gray !important;">
-                            <td> </td>
+                            <td> @tripCount trips </td>
                             <td> </td>
                             <td> SubTotal </td>
-                            <td> <b>@totalSalary.ToString("#,##0.00")</b> </td>
+                            <td> <b>@subtotalSalary.ToString("#,##0.00")</b> </td>
                             <td> <b>@totalOT.ToString("#,##0.00")</b> </td>
                         </tr>
 
                         @{
-                            totalSalary = totalSalary + totalOT;
+                            totalSalary = subtotalSalary + totalOT;
                         }
 
 
@@ -250,20 +253,16 @@
                                 </td>
                             </tr>
                         }
-                        @{
-                            totalSalary = totalSalary - totalOT;
-                        }
+
                         <tr style="border-top:1px solid gray !important;">
-                            <td> </td>
+                            <td> @tripCount trips </td>
                             <td> </td>
                             <td> SubTotal </td>
-                            <td> <b>@totalSalary.ToString("#,##0.00")</b> </td>
+                            <td> <b>@subtotalSalary.ToString("#,##0.00")</b> </td>
                             <td> <b>@totalOT.ToString("#,##0.00")</b> </td>
                         </tr>
 
-                        @{
-                            totalSalary = totalSalary + totalOT;
-                        }
+
 
                         <tr style="border-top:1px solid gray !important;">
                             <td> </td>

@@ -1,10 +1,10 @@
 ﻿@model JobsV1.Areas.Personel.Models.crLogTrip
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
 @using (Html.BeginForm())
 {
@@ -14,8 +14,10 @@
         <h4>crLogTrip</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
         <div class="form-group">
-            @Html.LabelFor(model => model.crLogDriverId, "Driver", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.crLogDriverId, "crLogDriverId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("crLogDriverId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.crLogDriverId, "", new { @class = "text-danger" })
@@ -23,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.crLogUnitId, "Unit", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.crLogUnitId, "crLogUnitId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("crLogUnitId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.crLogUnitId, "", new { @class = "text-danger" })
@@ -31,7 +33,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.crLogCompanyId, "Company", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.crLogCompanyId, "crLogCompanyId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("crLogCompanyId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.crLogCompanyId, "", new { @class = "text-danger" })
@@ -77,7 +79,15 @@
                 @Html.ValidationMessageFor(model => model.DriverFee, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+                
         <div class="form-group">
             @Html.LabelFor(model => model.DriverOT, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -87,18 +97,34 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.OdoStart, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" , @maxlength = "50" } })
-                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.OdoStart, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OdoStart, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.OdoEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OdoEnd, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OdoEnd, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.crLogClosingId, "crLogClosingId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.crLogClosingId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.crLogClosingId)
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -110,5 +136,4 @@
 
 @section Scripts{
     <script src="~/Scripts/Filters/FormInputFilter.js"></script>
-    <script src="~/Areas/Personel/Script/CarRentalLogCreate.js"></script>
 }

@@ -7,6 +7,7 @@
     decimal TotalFuel = 0;
     decimal TotalMaintenance = 0;
     decimal TotalDriversFee = 0;
+    decimal TotalDriversOT = 0;
 
     decimal TotalCash = 0;
     decimal TotalPO = 0;
@@ -100,12 +101,16 @@
         <th>
             DriversFee
         </th>
+        <th>
+            OT
+        </th>
     </tr>
 
     @foreach (var item in Model.GroupBy(t => t.Vehicle))
     {
         decimal subtotal_mtnc = 0;
         decimal subtotal_driversFee = 0;
+        decimal subtotal_driversOT = 0;
 
         decimal subtotal_cash = 0;
         decimal subtotal_cc = 0;
@@ -122,6 +127,7 @@
         {
             subtotal_mtnc += trip.FuelMaintenance;
             subtotal_driversFee += trip.DriversFee;
+            subtotal_driversOT += trip.DriversOT;
 
             switch (trip.PaidThru)
             {
@@ -166,7 +172,10 @@
                     @trip.FuelMaintenance
                 </td>
                 <td>
-                    @trip.DriversFee
+                    @trip.DriversFee.ToString("N0")
+                </td>
+                <td>
+                    @trip.DriversOT.ToString("N0")
                 </td>
             </tr>
 
@@ -191,12 +200,15 @@
             <td>
                 @subtotal_driversFee.ToString("N0")
             </td>
+            <td>
+                @subtotal_driversOT.ToString("N0")
+            </td>
         </tr>
 
         TotalTrips++;
         TotalMaintenance += subtotal_mtnc;
-        TotalDriversFee += subtotal_driversFee;
-
+        TotalDriversFee  += subtotal_driversFee;
+        TotalDriversFee  += subtotal_driversOT;
 
     }
 
@@ -245,7 +257,7 @@
         </td>
         <td>
             <span>
-                @TotalDriversFee.ToString("N0")
+                @TotalDriversOT.ToString("N0")
             </span>
         </td>
     </tr>
