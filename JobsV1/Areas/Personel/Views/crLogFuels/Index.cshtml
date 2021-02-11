@@ -152,6 +152,7 @@
                    case 2:
                        <span>
                            @Html.ActionLink("Print", "PrintApproveForm", new { id = item.crLogFuel.Id }, new { @target = "_blank" }) |
+                           @Html.ActionLink("PO", "PrintPOForm", new { id = item.crLogFuel.Id }, new { @target = "_blank" }) |
                            <a class="cursor-hand" onclick="ApproveRelease(this, '@item.crLogFuel.Id')"> Release </a> 
                        </span>
                        break;

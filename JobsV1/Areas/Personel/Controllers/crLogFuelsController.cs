@@ -429,7 +429,58 @@ namespace JobsV1.Areas.Personel.Controllers
                 return HttpNotFound();
             }
 
+            var user = HttpContext.User.Identity.Name;
+            var sepIndex = user.LastIndexOf('@');
+            user = user.Substring(0, sepIndex);
+            ViewBag.ReleaseUser = user;
+
             return View(crlogFuel);
+        }
+
+
+        public ActionResult PrintFuelRequestForm(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var crlogFuel = db.crLogFuels.Find(id);
+
+            if (crlogFuel == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(crlogFuel);
+        }
+
+
+        public ActionResult PrintPOForm(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+            var crlogFuel = db.crLogFuels.Find(id);
+
+            if (crlogFuel == null)
+            {
+                return HttpNotFound();
+            }
+
+            var crlogFuels = db.crLogFuels.Where(c => c.crLogDriverId == crlogFuel.crLogDriverId
+                            && crlogFuel.dtRequest.Date == c.dtRequest).ToList();
+
+            ViewBag.DtRequest = crlogFuel.dtRequest;
+            ViewBag.PONo = crlogFuel.Id;
+            ViewBag.DriverName = crlogFuel.crLogDriver.Name;
+            ViewBag.Unit = crlogFuel.crLogUnit.Description;
+            return View(crlogFuels);
         }
 
 

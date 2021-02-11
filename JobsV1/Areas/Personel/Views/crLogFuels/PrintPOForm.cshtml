@@ -1,0 +1,150 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogFuel>
+
+@{
+    ViewBag.Title = "Print PO Form";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+
+    decimal totalAmount = 0;
+}
+
+<style>
+    .no-border-top td{
+        border-top:none !important;
+    }
+</style>
+
+<div style="display:flex;flex-direction:column;margin-top:-50px;margin-right:20px;">
+
+    <div style="margin:auto;margin-top:10px;width:700px;">
+        <table class="table rpt-table-bordered" style="margin-bottom:5px;">
+            <tr>
+                <td>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="pull-left">
+                                <h3 style="margin-top:20px;margin-bottom:0px;"> RealBreeze Davao </h3>
+                                <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Door 1, Travellers Inn, Matina Davao City </p>
+                                <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Tel: (082) 333-5157 / +63 995-450-8517  </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="text-align:right;">
+                            <div class="pull-right">
+                                <h2> Purchase Order </h2>
+                                <p> PO No : @ViewBag.PONo.ToString("D4") </p>
+                                <p> Date  : @ViewBag.dtRequest.ToString("MMM dd yyyy") </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                            <div class="col-md-6" style="text-align:left;margin-left:-10px;">
+                                <div class="col-md-10 col-xs-10" style="border:0px dotted black;margin-top:10px;padding:0px;">
+                                    <p style="margin-bottom:0px;"> <b>To:</b> </p>
+                                    <p style="font-weight:400;font-size:20px;margin-bottom:0px;">SHELL STATION </p>
+                                    <p style="font-weight:400;margin-bottom:0px;"> KM 4 Quimpo Blvd. Ecoland, Davao City </p>
+                                    <p style="font-weight:400;margin-bottom:0px;"> Tel No 299-20-10 </p>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-md-12">
+                        <p class="col-md-6">
+                        </p>
+                    </div>
+                </td>  
+            </tr>
+            <tr>
+                <td style="padding:0px;">
+                    <div style="min-height:300px;">
+                        <table class="table">
+                            <tr style="font-size:16px;">
+                                <td> 
+                                    <p>Unit : @ViewBag.Unit</p>
+                                </td>
+                                <td> 
+                                    <p>Driver : @ViewBag.DriverName</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table" style="margin-bottom:0px;">
+                            <tr>
+                                <th>
+                                    Type - Description
+                                </th>
+                                <th>
+                                    Qty
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr class="no-border-top">
+                                    <td>
+                                        @item.crLogType.Type 
+                                        @if (!String.IsNullOrEmpty(item.Remarks))
+                                        {
+                                        <span>
+                                            - @item.Remarks
+                                        </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        @item.Amount.ToString("#,##0.00")
+                                    </td>
+                                </tr>
+                                totalAmount = totalAmount + item.Amount;
+                            }
+                            <tr>
+                                <td colspan="2">
+                                    <span class="pull-right"> Total </span>
+                                </td>
+                                <td>
+                                    <b>@totalAmount.ToString("#,##0.00")</b>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="width:100%;border-top:2px solid black;">
+
+                        </div>
+                        <p>
+                           Remarks:
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+
+                    <table class="table" style="margin-bottom:0px;">
+                        <tr>
+                            <td  style="border-top:none !important;">
+                                    <p> Requested By : </p>
+                                    <span style="text-decoration:underline">___@ViewBag.DriverName ______</span>
+                            </td>
+                            <td  style="border-top:none !important;">
+                                    <p> Released By :</p>
+                                    <p>____________________</p>
+                            </td>
+                            <td  style="border-top:none !important;">
+
+                                    <p>Approved By :</p>
+                                    <p>____________________</p>
+                            </td>
+                            <td  style="border-top:none !important;">
+                                    <p>Received By : </p>
+                                    <p>____________________</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+</div>

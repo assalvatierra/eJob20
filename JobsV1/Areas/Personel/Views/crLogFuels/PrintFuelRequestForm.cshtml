@@ -11,32 +11,48 @@
         <table class="table rpt-table-bordered" style="margin-bottom:5px;">
             <tr>
                 <td>
-                    <div class="col-md-12">
-                        <div class="col-md-6 pull-left">
-                            <h3 style="margin-top:20px;margin-bottom:0px;"> RealBreeze Travel & Tours Davao </h3>
-                            <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Door 1, Travellers Inn, Matina Davao City </p>
-                            <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Tel: (082) 333-5157 / +63 995-450-8517  </p>
-                        </div>
-                        <div class="col-md-6 pull-right" style="text-align:right;">
-                            <h2> @Model.crLogType.Type Request </h2>
-                            <p> PO No : @Model.Id.ToString("D4") </p>
-                            <p> Date  : @Model.dtRequest.ToString("MMM dd yyyy") </p>
-                        </div>
-
-                        @if (Model.crLogPaymentTypeId == 2)
-                        {
-                            <div class="form-group col-md-12 col-xs-12" style="margin-left:-10px;">
-                                <div class="col-md-10 col-xs-10" style="border:0px dotted black;padding:0px;">
-                                    <p> To </p>
-                                    <p style="font-weight:600;font-size:20px;margin-bottom:0px;">SHELL STATION </p>
+                    <div>
+                        <h2 class="text-center"> Fuel Request Form </h2>
+                    </div>
+                    @if (Model.crLogPaymentTypeId == 2)
+                    {
+                        <div class="col-md-12 col-xs-12">
+                            <div class="col-md-6" style="text-align:left">
+                                <div class="col-md-10 col-xs-10 text-center" style="border:0px dotted black;padding:10px;">
+                                    <p style="font-weight:600;font-size:14px;margin-bottom:0px;">SHELL STATION </p>
                                     <p style="font-weight:400;margin-bottom:0px;"> KM 4 Quimpo Blvd. Ecoland, Davao City </p>
                                     <p style="font-weight:400;margin-bottom:0px;"> Tel No 299-20-10 </p>
                                 </div>
                             </div>
-                        }
-                    </div>
+                        </div>
+                    }
 
-                </td>
+                    <p class="col-md-6">
+                        <p class="pull-left"> PO No : @Model.Id </p>
+                    </p>
+
+                    <div class="col-md-12">
+                        <div>
+                            <h3 class="pull-left" style="margin-top:20px;"> RealBreeze Davao </h3>
+                            <p style="margin-top:20px;"> Door 1, Travellers Inn, Matina Davao City </p>
+                        </div>
+                        <div>
+                            <h2 class="pull-right"> Purchase Order Form </h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="col-md-6" style="text-align:left">
+                            <div class="col-md-10 col-xs-10 text-center" style="border:0px dotted black;padding:10px;">
+                                <p style="font-weight:600;font-size:14px;margin-bottom:0px;">SHELL STATION </p>
+                                <p style="font-weight:400;margin-bottom:0px;"> KM 4 Quimpo Blvd. Ecoland, Davao City </p>
+                                <p style="font-weight:400;margin-bottom:0px;"> Tel No 299-20-10 </p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="col-md-6">
+                        <span class="pull-left"> PO No : @Model.Id </span>
+                    </p>
+                </td>  
             </tr>
             <tr>
                 <td style="padding:0px;">
@@ -81,10 +97,10 @@
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Released&nbsp;By </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control form-button-margin-left"  value="@ViewBag.ReleaseUser"/>
+                                            <input type="text" class="form-control form-button-margin-left" />
                                         </div>
                                     </div>
-
+                                    
                                 </div>
                             </td>
                             <td>
@@ -113,7 +129,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12 col-xs-12">
-                                    <label class="col-md-3 col-xs-3 control-label form-label"> Driver&nbsp;Sign.</label>
+                                    <label class="col-md-3 col-xs-3 control-label form-label"> Driver </label>
                                     <div class="col-md-9 col-xs-9">
                                         <input type="text" class="form-control" />
                                     </div>
@@ -127,22 +143,15 @@
                                 <div class="form-group col-md-12 col-xs-12">
                                     <label class="col-md-3 col-xs-3 control-label form-label"> Payment&nbsp; </label>
                                     <div class="col-md-9 col-xs-9" style="padding-top:5px;">
-                                        <input type="checkbox" id="payment-Cash" /><span style="margin:5px;"> Cash</span>
-                                        <input type="checkbox" id="payment-CC" /><span style="margin:5px;"> Credit Card </span>
-                                        <input type="checkbox" id="payment-PO" /><span style="margin:5px;"> PO</span>
+                                        <input type="checkbox" /><span style="margin:5px;"> Cash</span>
+                                        <input type="checkbox" /><span style="margin:5px;"> Credic Card </span>
+                                        <input type="checkbox" /><span style="margin:5px;"> PO</span>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-offset-3 col-md-12 col-xs-12">
                                     <label class="col-md-3 col-xs-3 control-label form-label"> &nbsp; </label>
                                     <div class="col-md-9 col-xs-9" style="padding-left:8px;">
-                                        @if (Model.isFullTank)
-                                        {
-                                            <input type="checkbox" checked />
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" />
-                                        }
+                                        <input type="checkbox" />
                                         <span>Full Tank</span>
                                     </div>
                                 </div>
@@ -158,33 +167,10 @@
         <table class="table rpt-table-bordered" style="margin-bottom:5px;">
             <tr>
                 <td>
-                    <div class="col-md-12">
-                        <div class="col-md-6 pull-left">
-                            <h3 style="margin-top:20px;margin-bottom:0px;"> RealBreeze Travel & Tours Davao </h3>
-                            <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Door 1, Travellers Inn, Matina Davao City </p>
-                            <p style="margin-top:5px;margin-left:0px;padding-left:0px;margin-bottom:0px;"> Tel: (082) 333-5157 / +63 995-450-8517  </p>
-                        </div>
-                        <div class="col-md-6 pull-right" style="text-align:right;">
-                            <h2> @Model.crLogType.Type Request </h2>
-                            <p> PO No : @Model.Id.ToString("D4") </p>
-                            <p> Date  : @Model.dtRequest.ToString("MMM dd yyyy") </p>
-                        </div>
-
-
-                        @if (Model.crLogPaymentTypeId == 2)
-                        {
-                            <div class="form-group col-md-12 col-xs-12" style="margin-left:-10px;">
-                                <div class="col-md-10 col-xs-10" style="border:0px dotted black;padding:0px;">
-                                    <p> To </p>
-                                    <p style="font-weight:600;font-size:20px;margin-bottom:0px;">SHELL STATION </p>
-                                    <p style="font-weight:400;margin-bottom:0px;"> KM 4 Quimpo Blvd. Ecoland, Davao City </p>
-                                    <p style="font-weight:400;margin-bottom:0px;"> Tel No 299-20-10 </p>
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-
+                    <h2 class="text-center"> Fuel Request Form </h2>
+                    <p>
+                        <span class="pull-left"> PO No : @Model.Id </span>
+                    </p>
                 </td>
             </tr>
             <tr>
@@ -230,9 +216,21 @@
                                     <div class="form-group col-md-12 col-xs-12">
                                         <label class="col-md-3 col-xs-3 control-label form-label"> Released&nbsp;By </label>
                                         <div class="col-md-9 col-xs-9">
-                                            <input type="text" class="form-control form-button-margin-left" value="@ViewBag.ReleaseUser"/>
+                                            <input type="text" class="form-control form-button-margin-left" />
                                         </div>
                                     </div>
+
+                                    @if (Model.crLogPaymentTypeId == 2)
+                                    {
+                                        <div class="form-group col-md-12 col-xs-12">
+                                            <label class="col-md-2 col-xs-2 control-label form-label"> To </label>
+                                            <div class="col-md-10 col-xs-10 text-center" style="border:1px dotted black;padding:10px;">
+                                                <p style="font-weight:600;font-size:14px;margin-bottom:0px;">SHELL STATION </p>
+                                                <p style="font-weight:400;margin-bottom:0px;"> KM 4 Quimpo Blvd. Ecoland, Davao City </p>
+                                                <p style="font-weight:400;margin-bottom:0px;"> Tel No 299-20-10 </p>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </td>
                             <td>
@@ -275,22 +273,15 @@
                                 <div class="form-group col-md-12 col-xs-12">
                                     <label class="col-md-3 col-xs-3 control-label form-label"> Payment&nbsp; </label>
                                     <div class="col-md-9 col-xs-9" style="padding-top:5px;">
-                                        <input type="checkbox" c="payment-copy-Cash" /><span style="margin:5px;"> Cash</span>
-                                        <input type="checkbox" id="payment-copy-CC" /><span style="margin:5px;"> Credit Card </span>
-                                        <input type="checkbox" id="payment-copy-PO" /><span style="margin:5px;"> PO</span>
+                                        <input type="checkbox" /><span style="margin:5px;"> Cash</span>
+                                        <input type="checkbox" /><span style="margin:5px;"> Credic Card </span>
+                                        <input type="checkbox" /><span style="margin:5px;"> PO</span>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-offset-3 col-md-12 col-xs-12">
                                     <label class="col-md-3 col-xs-3 control-label form-label"> &nbsp; </label>
                                     <div class="col-md-9 col-xs-9" style="padding-left:8px;">
-                                        @if (Model.isFullTank)
-                                        {
-                                            <input type="checkbox" checked />
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" />
-                                        }
+                                        <input type="checkbox" />
                                         <span>Full Tank</span>
                                     </div>
                                 </div>
@@ -302,26 +293,3 @@
         </table>
     </div>
 </div>
-
-@section Scripts{
-    <script type="text/javascript">
-        $(() => {
-            console.log('@Model.crLogPaymentTypeId');
-            switch ('@Model.crLogPaymentTypeId') {
-                case '1':
-                    $("#payment-Cash").prop('checked', true);
-                    $("#payment-copy-Cash").prop('checked', true);
-                    break;
-                case '2':
-                    $("#payment-CC").prop('checked', true);
-                    $("#payment-copy-CC").prop('checked', true);
-                    break;
-                case '3':
-                    $("#payment-PO").prop('checked', true);
-                    $("#payment-copy-PO").prop('checked', true);
-                    break;
-
-            }
-        })
-    </script>
-}

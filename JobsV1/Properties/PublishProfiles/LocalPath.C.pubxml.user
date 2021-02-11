@@ -646,19 +646,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/10/2021 16:43:57</publishTime>
     </File>
     <File Include="Areas/Personel/Views/crLogFuels/Index.cshtml">
-      <publishTime>02/02/2021 13:03:00</publishTime>
+      <publishTime>02/11/2021 11:03:35</publishTime>
     </File>
     <File Include="Areas/Personel/Views/crLogFuels/PrevRecords.cshtml">
       <publishTime>01/21/2021 11:50:31</publishTime>
     </File>
     <File Include="Areas/Personel/Views/crLogFuels/PrintApproveForm.cshtml">
-      <publishTime>02/02/2021 15:58:45</publishTime>
+      <publishTime>02/11/2021 11:58:10</publishTime>
+    </File>
+    <File Include="Areas/Personel/Views/crLogFuels/PrintFuelRequestForm.cshtml">
+      <publishTime>02/11/2021 10:11:53</publishTime>
+    </File>
+    <File Include="Areas/Personel/Views/crLogFuels/PrintPOForm.cshtml">
+      <publishTime>02/11/2021 12:00:03</publishTime>
     </File>
     <File Include="Areas/Personel/Views/crLogFuels/Return.cshtml">
       <publishTime>08/01/2020 08:42:46</publishTime>
     </File>
     <File Include="Areas/Personel/Views/crLogFuels/_ReturnLogModal.cshtml">
-      <publishTime>12/23/2020 14:35:39</publishTime>
+      <publishTime>02/11/2021 09:44:17</publishTime>
     </File>
     <File Include="Areas/Personel/Views/crLogOdoes/Create.cshtml">
       <publishTime>07/22/2020 09:56:17</publishTime>
@@ -1357,10 +1363,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:13</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/10/2021 16:48:02</publishTime>
+      <publishTime>02/11/2021 13:06:27</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/10/2021 16:48:02</publishTime>
+      <publishTime>02/11/2021 13:06:27</publishTime>
     </File>
     <File Include="bin/ApServices.dll">
       <publishTime>02/09/2021 14:57:39</publishTime>
@@ -1417,10 +1423,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>02/10/2021 16:47:51</publishTime>
+      <publishTime>02/11/2021 13:06:16</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>02/10/2021 16:47:51</publishTime>
+      <publishTime>02/11/2021 13:06:16</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -3622,7 +3628,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2020 14:54:41</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/10/2021 16:47:59</publishTime>
+      <publishTime>02/11/2021 13:06:23</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>07/22/2020 09:56:30</publishTime>
@@ -3631,7 +3637,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:30</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>02/10/2021 16:44:51</publishTime>
+      <publishTime>02/11/2021 11:26:17</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>07/22/2020 09:56:30</publishTime>

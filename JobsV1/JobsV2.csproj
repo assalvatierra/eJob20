@@ -2443,6 +2443,8 @@
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\PrintSalaryForm.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransactions\PrintRequestForm.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummaryTripEdit.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\PrintFuelRequestForm.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\PrintPOForm.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
