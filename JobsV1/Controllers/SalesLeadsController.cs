@@ -44,7 +44,7 @@ namespace JobsV1.Controllers
                     sortid = (int)Session["SLFilterID"];
                 else
                 {
-                    Session["SLFilterID"] = 3;
+                    Session["SLFilterID"] = 5;
 
                 }
             }
@@ -83,7 +83,7 @@ namespace JobsV1.Controllers
                     break;
 
                 case 4:
-                    // OnGiong
+                    // OnGoing
                     salesLeads = db.SalesLeads.Include(s => s.Customer)
                                 .Include(s => s.SalesLeadCategories)
                                 .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
@@ -424,6 +424,7 @@ namespace JobsV1.Controllers
 
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
             ViewBag.CompanyList = db.CustEntMains.ToList();
+            ViewBag.CompanyName = CompanyId == null ? "" : db.CustEntMains.Find(CompanyId).Name;
             return View(salesLead);
         }
 
@@ -1022,6 +1023,7 @@ namespace JobsV1.Controllers
 
             return View(activities);
         }
+
         #endregion
 
         #region SalesLeadFiles

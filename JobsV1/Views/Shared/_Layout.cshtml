@@ -41,15 +41,10 @@
     @Styles.Render("~/Content/css/DateRangePicker")
     @Styles.Render("~/Content/themes/base/css")
 
-
 </head>
 
 
-<body onresize="toggleScreen()" onload="toggleScreen()">
-    <!-- Facebook sdk -->
-    @*<div id="fb-root"></div>
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="YCuHQl4n"></script>
-    *@
+<body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -59,11 +54,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="/" class="navbar-brand" id="navbar-title">@ViewBag.NavBarTitle</a>
-                @*@Html.ActionLink("AJ88", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "MepuMain")</li>*@
                     <li><a href="/">Home</a></li>
                     @if (Request.IsAuthenticated)
                     {
@@ -118,7 +111,6 @@
     @Scripts.Render("~/bundles/DateRangePicker")
     @RenderSection("scripts", required: false)
 
-    <script type="text/javascript" src="~/Scripts/Job/Scroll.js"></script>
     <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
 
 </body>

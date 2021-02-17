@@ -493,6 +493,43 @@ namespace JobsV1.Controllers
         }
 
 
+        //GET : /Customers/GetCustomerByCompanyId
+        //id = companyId
+        //return Json: first customer name, contact number and email
+        [HttpGet]
+        public JsonResult GetCustomerByCompanyId(int id)
+        {
+            try
+            {
+                var company = db.CustEntMains.Find(id);
+
+                var customerList = company.CustEntities;
+
+                if (customerList == null)
+                {
+                    return Json(null, JsonRequestBehavior.AllowGet);
+                }
+
+                var defaultCustomer = customerList.FirstOrDefault().Customer;
+
+
+                return Json(new
+                {
+                    defaultCustomer.Id,
+                    defaultCustomer.Name,
+                    defaultCustomer.Contact1,
+                    defaultCustomer.Email,
+                    Company = company.Name
+                },
+                JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
 
         #region Customer Social details
 

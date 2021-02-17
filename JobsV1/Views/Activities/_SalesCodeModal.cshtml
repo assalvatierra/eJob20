@@ -1,4 +1,45 @@
-﻿<!-- Search Customer Modal w/ search -->
+﻿<style>
+    .blue-circle-history{
+        width:10px;
+        height:10px;
+        background-color: dodgerblue;
+        border-radius: 50%;
+        position:absolute;
+        margin-left:-20px;
+        margin-top:5px;
+        left:-10px;
+        box-shadow: 0px 0px 5px dodgerblue;
+    }
+
+    .Activity-History{
+        position:relative;
+        left:30px;
+        width:95%;
+        min-height:80px;
+    }
+
+    .Activity-Timeline{
+        position:absolute;
+        width:2px;
+        height:55%;
+        background:#C5CAE9;
+        left:20px;
+    }
+
+    .Activity-Timeline-Amount{
+        float:right;
+        color:darkgreen;
+        font-size:13px;
+        margin-top:5px;
+    }
+
+    .list-group-item  {
+        
+        margin-bottom:10px; 
+    }
+</style>
+
+<!-- Search Customer Modal w/ search -->
 <div class="modal fade" id="SearchCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,23 +48,30 @@
                 <h4 class="modal-title">Activity History List</h4>
             </div>
 
-            <div class="modal-body" id="SearchCode-Activities">
-               <table >
-                   <tr>
-                       <th> Date </th>
-                       <th> Project </th>
-                       <th> Code </th>
-                       <th> Amount </th>
-                       <th> Status </th>
-                       <th> Type </th>
-                       <th> Company </th>
-                       <th> Remarks </th>
-                       <th> assigned </th>
-                   </tr>
-                   <tbody id="SearchCode-Activities-Table" >
+            <div class="modal-body" >
+                <div>
+                    <h3 id="SearchCode-Company" style="margin-top:0px;">
+                    </h3>
+                    <h4>
+                        <span class="text-muted" id="SearchCode-Code">
 
-                   </tbody>
-               </table>
+                        </span>
+                        -
+                        <span id="SearchCode-Project">
+
+                        </span>
+
+                        <span class="pull-right text-success" id="SearchCode-Amount">
+
+                        </span>
+                    </h4>
+                </div>
+                <div class="Activity-Timeline">
+                </div>
+                <div class="Activity-History" id="SearchCode-Activities">
+                    
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

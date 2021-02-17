@@ -8,6 +8,15 @@
 }
 
 <link href="/Content/TableStyles.css" rel="stylesheet" />
+<style>
+    .link-status{
+        padding:10px;
+    }
+    
+    .link-status:hover{
+        color:white;
+    }
+</style>
 
 <div class="view-header">
     <h2>Sales Lead: List</h2>
@@ -76,23 +85,38 @@
                 </td>
                 <td>
                     <!--Sales Lead Status-->
-                    <div style="background-color:lightgray;">
+                    <div>
+
                         @foreach (var salesstat in SalesStatCode)
                         {
-                            if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
+                            @*if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
                             {
-                        <span style="font-weight:800; color: gray">
-                            @*@Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>*@
-                            @salesstat.Name  &nbsp;>
-                        </span>
+                                <span style="font-weight:800; color: gray">
+                                    @salesstat.Name  &nbsp;>
+                                </span>
                             }
                             else
                             {
                                 <span>
                                     @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
                                 </span>
+                            }*@
+
+                            <span>&#187;</span>
+                            if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
+                            {
+                                <span class="btn btn-success btn-arrow-right">
+                                    <span class="link-white"> @salesstat.Name </span>
+                                </span>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary btn-arrow-right">
+                                    @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }, new { @class = "link-white link-status" })
+                                </button>
                             }
                         }
+
                     </div>
 
                     <div>
@@ -437,6 +461,7 @@
 
 @section scripts
 {
+    <script src="~/Scripts/Job/Scroll.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('html, body').animate({
