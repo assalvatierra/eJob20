@@ -10,11 +10,11 @@
     @Html.ActionLink("Back to Activities List", "Index")
 </p>
 <div class="col-md-12 col-xs-12" style="padding:0px;">
-    <div class="col-md-8 col-xs-8" style="padding:0px;margin-bottom:10px;">
+    <div class="col-md-7 col-xs-7" style="padding:0px;margin-bottom:10px;">
         <h3><span class="text-muted">Search Results for activity code </span> @ViewBag.SrchCode</h3>
     </div>
 
-    <div class="col-lg-offset-1 col-md-3 col-xs-3" style="padding:15px 0px;">
+    <div class="col-lg-offset-1 col-md-4 col-xs-4" style="padding:15px 0px;">
         <button class="btn btn-default search-group pull-right" style="margin-top:0px;" id="srch-btn" onclick="SubmitActivityCode()">Search</button>
         <input class="form-control search-cat pull-right" id="srch-field" type="search" placeholder="Search Code" value="@ViewBag.SrchCode"/>
     </div>

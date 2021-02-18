@@ -686,7 +686,7 @@ namespace JobsV1.Controllers
             var activityList = db.CustEntActivities.Where(a => a.SalesCode.Contains(salesCode))
                 .Select(a => new { a.Id, a.CustEntMainId, a.SalesCode, a.ActivityType, a.ProjectName,
                     a.Remarks, a.CustEntMain.Name, a.Status , a.Date.Month, a.Date.Year, a.Date.Day,
-                   a.Date, a.Amount });
+                   a.Date, a.Amount }).OrderBy(a=>a.Date);
 
             return Json(activityList.ToList(), JsonRequestBehavior.AllowGet);
         }
@@ -697,8 +697,8 @@ namespace JobsV1.Controllers
         {
             var activityList = db.SupplierActivities.Where(a => a.Code.Contains(salesCode))
                 .Select(a => new { a.Id, a.SupplierId, a.Code, a.ActivityType, a.Supplier.Name, a.Remarks,
-                    a.Type, a.DtActivity.Month, a.DtActivity.Year, a.DtActivity.Day, a.DtActivity,
-                    a.Amount, a.SupplierActStatu.Status });
+                    a.Type, a.DtActivity.Month, a.DtActivity.Year, a.DtActivity.Day, Date = a.DtActivity,
+                    a.Amount, a.SupplierActStatu.Status }).OrderBy(a => a.Date);
 
             return Json(activityList.ToList(), JsonRequestBehavior.AllowGet);
         }

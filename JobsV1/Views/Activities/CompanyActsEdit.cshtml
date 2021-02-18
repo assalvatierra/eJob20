@@ -111,8 +111,10 @@
 </div>
 
 @section Scripts{
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    @*<script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/DateRangePicker/moment.min.js"></script>
     <script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
-    <script src="~/Scripts/Job/CustEntActivities.js"></script>
+    <script src="~/Scripts/Job/CustEntActivities.js"></script>*@
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/CustEntMain/CustEntActivities.js"></script>
 }

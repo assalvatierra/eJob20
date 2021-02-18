@@ -15,7 +15,7 @@
         position:relative;
         left:30px;
         width:95%;
-        min-height:80px;
+        min-height:50px;
     }
 
     .Activity-Timeline{
@@ -26,11 +26,37 @@
         left:20px;
     }
 
+    
+    .Activity-Timeline-Side{
+        position:absolute;
+        width:2px;
+        /*height:52px;*/
+        height:130%;
+        background:#C5CAE9;
+        margin-left:-41px;
+        margin-top:5px;
+    }
+
+    
+    .Activity-Timeline-Side:last-of-type{
+        position:absolute;
+        width:2px;
+        /*height:52px;*/
+        height:0%;
+        background:#C5CAE9;
+        margin-left:-41px;
+        margin-top:5px;
+    }
+
     .Activity-Timeline-Amount{
         float:right;
         color:darkgreen;
         font-size:13px;
         margin-top:5px;
+    }
+
+    .Activity-History .Activity-Timeline-Side:last-child{
+        height:0px;
     }
 
     .list-group-item  {
@@ -66,14 +92,14 @@
                         </span>
                     </h4>
                 </div>
-                <div class="Activity-Timeline">
+                <div class="Activity-Timeline" hidden>
                 </div>
                 <div class="Activity-History" id="SearchCode-Activities">
                     
                 </div>
 
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="margin-top:10px;">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->

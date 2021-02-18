@@ -1,5 +1,9 @@
 ﻿
-
+/*
+ *  Handle Activity History Modal 
+ *  Display and display in a timeline the list of 
+ *  activites based on the code selected
+ */ 
 
 
 function SearchCodeActivities(code) {
@@ -15,21 +19,18 @@ function SearchCodeActivities(code) {
             var remarks = result[i]["Remarks"] == null ? "" : result[i]["Remarks"] ;
             var projectName = result[i]["ProjectName"] == null ? " " : result[i]["ProjectName"] ;
             var Date = moment( result[i]["Date"] ).format("MMM DD YYYY");
+            var amount = result[i]["Amount"].toLocaleString(); 
 
             $("#SearchCode-Company").text(result[i]["Name"]);
-            $("#SearchCode-Amount").text( "Amount : " + result[i]["Amount"]);
+            $("#SearchCode-Amount").text("Amount : " + amount);
             $("#SearchCode-Project").text(projectName);
 
-            var activity = "<a href='../CustEntActivities/Index/" + result[i]["CustEntMainId"] + "' class='list-group-item'> "
-                + "<div class='blue-circle-history'></div>"
+            var activity = "<a href='/Activities/SearchActivities?srchCode=" + code + "' class='list-group-item'> "
+                + "<div class='Activity-Timeline-Side'> </div><div class='blue-circle-history'></div> "
                 + Date + " - " 
                 + " <span class='label label-default'>" + result[i]["Status"] + "</span> - " + result[i]["ActivityType"]
                 + " | <span class='text-muted'> " + remarks + " </span> ";
-            
-            //var activity = "<a href='../CustEntActivities/Index/" + result[i]["CustEntMainId"] + "' class='list-group-item'> "
-            //    + result[i]["Month"] + "/" + result[i]["Day"] + "/" + result[i]["Year"] + " - " + result[i]["SalesCode"] + " - <b> " + projectName
-            //    + result[i]["Name"] + "</b> -  " + result[i]["ActivityType"] + " (" + result[i]["Status"] + ") - " + remarks;
-
+          
             $("#SearchCode-Activities").append(activity);
         }
 
@@ -48,21 +49,18 @@ function SearchCodeSupActivities(code) {
             var remarks = result[i]["Remarks"] == null ? "" : result[i]["Remarks"];
             var projectName = result[i]["ProjectName"] == null ? " " : result[i]["ProjectName"];
             var Date = moment(result[i]["Date"]).format("MMM DD YYYY");
+            var amount = result[i]["Amount"].toLocaleString(); 
 
             $("#SearchCode-Company").text(result[i]["Name"]);
             $("#SearchCode-Project").text(projectName);
             $("#SearchCode-Amount").text(" ");
 
-            var activity = "<a href='../CustEntActivities/Index/" + result[i]["CustEntMainId"] + "' class='list-group-item'> "
-                + "<div class='blue-circle-history'></div>"
+            var activity = "<a href='/Activities/SearchActivities?srchCode=" + code + "' class='list-group-item'> "
+                + "<div class='Activity-Timeline-Side'> </div> <div class='blue-circle-history'></div> "
                 + Date + " - "
                 + " <span class='label label-default'>" + result[i]["Status"] + "</span> - " + result[i]["ActivityType"]
                 + " | <span class='text-muted'> " + remarks + " </span> "
-                + " <div class='Activity-Timeline-Amount'>  Amount: " + result[i]["Amount"] + " </div>";
-
-            //var activity = "<a href='../SupplierActivities/Records/" + result[i]["SupplierId"] + "' class='list-group-item'> "
-            //    + result[i]["Month"] + "/" + result[i]["Day"] + "/" + result[i]["Year"] + " - " + result[i]["Code"] + " - <b> "
-            //    + result[i]["Name"] + "</b> -  " + result[i]["Type"] + " - " + remarks;
+                + " <div class='Activity-Timeline-Amount'>  Amount: " + amount + " </div>";
 
             $("#SearchCode-Activities").append(activity);
         }
