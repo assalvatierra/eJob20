@@ -17,8 +17,7 @@
                      title=@item.iconPath />
                 &nbsp;
                 @Html.ActionLink(item.Name, "AddActivityCode", new { ActCodeId = item.Id, slId = LeadId }) |
-                @Html.DisplayFor(modelItem => item.Desc) |
-                @Html.DisplayFor(modelItem => item.DefaultActStatus)
+                @Html.DisplayFor(modelItem => item.Desc) 
             </td>
         </tr>
     }

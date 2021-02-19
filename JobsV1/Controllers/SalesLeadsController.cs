@@ -33,7 +33,7 @@ namespace JobsV1.Controllers
         private DateClass date = new DateClass();
 
         // GET: SalesLeads
-        public ActionResult Index(int? sortid, int? leadId, int? companyId)
+        public ActionResult Index(int? sortid, int? leadId)
         {
 
             if (sortid != null)
@@ -44,77 +44,18 @@ namespace JobsV1.Controllers
                     sortid = (int)Session["SLFilterID"];
                 else
                 {
+                    sortid = 5;
                     Session["SLFilterID"] = 5;
-
                 }
             }
 
-
-            var companyLeads = db.SalesLeadCompanies.Where(s => s.CustEntMainId == companyId).Select(s => s.SalesLeadId).ToList();
-            var salesLeads = db.SalesLeads.Include(s => s.SalesLeadCompanies)
-                        .Include(s => s.SalesLeadCategories)
-                        .Include(s => s.SalesStatus).OrderBy(s => s.Date)
-                        .ToList();
-
-            switch (sortid) {
-                case 1://approved
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 6) // Current
-                                .ToList();
-                    break;
-                case 2:// closedb
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId == 5)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 5) // Current
-                                .ToList();
-                    break;
-
-                case 3:
-                    // all
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                         .Include(s => s.SalesLeadCategories).Include(s => s.Customer.JobMains)
-                         .Include(s => s.SalesStatus).OrderBy(s => s.Date)
-                         .ToList();
-                    break;
-
-                case 4:
-                    // OnGoing
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 2)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 5) // Current
-                                .ToList();
-                    break;
-                case 5:
-                    // new Leads
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 3) // Current
-                                .ToList();
-                    break;
-                default:
-                    // new Leads
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 3) // Current
-                                .ToList();
-                    break;
-            }
+            //get salesl eads leads
+            var salesLeads = sldb.GetSalesLeads((int)sortid);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
-
+            
             //for adding new item 
             AddSupItemPartial();
            
@@ -123,7 +64,7 @@ namespace JobsV1.Controllers
 
 
         // GET: SalesLeads
-        public ActionResult Status(int? sortid, int? leadId, int? companyId)
+        public ActionResult Status(int? sortid, int? leadId)
         {
 
             if (sortid != null)
@@ -134,80 +75,13 @@ namespace JobsV1.Controllers
                     sortid = (int)Session["SLFilterID"];
                 else
                 {
+                    sortid = 5;
                     Session["SLFilterID"] = 3;
 
                 }
             }
 
-            //var leadList = sldb.generateList(null,null,null,null).ToList();
-
-            var companyLeads = db.SalesLeadCompanies.Where(s => s.CustEntMainId == companyId).Select(s => s.SalesLeadId).ToList();
-            var salesLeads = db.SalesLeads.Include(s => s.SalesLeadCompanies)
-                        .Include(s => s.SalesLeadCategories)
-                        .Include(s => s.SalesStatus).OrderBy(s => s.Date)
-                        .ToList();
-
-            switch (sortid)
-            {
-                case 1://approved
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 6) // Current
-                                .ToList();
-                    break;
-                case 2:// closedb
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId == 5)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 5) // Current
-                                .ToList();
-                    break;
-
-                case 3:
-                    // all
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                         .Include(s => s.SalesLeadCategories).Include(s => s.Customer.JobMains)
-                         .Include(s => s.SalesStatus).OrderBy(s => s.Date)
-                         .ToList();
-                    break;
-
-                case 4:
-                    // OnGiong
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 2)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 5) // Current
-                                .ToList();
-                    break;
-                case 5:
-                    // new Leads
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 3) // Current
-                                .ToList();
-                    break;
-                default:
-                    // new Leads
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus).OrderBy(s => s.Date).Include(s => s.Customer.JobMains)
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 3) // Current
-                                .ToList();
-                    /*
-                    salesLeads = db.SalesLeads.Include(s => s.Customer)
-                         .Include(s => s.SalesLeadCategories).Include(s => s.Customer.JobMains)
-                         .Include(s => s.SalesStatus).OrderByDescending(s => s.Date)
-                         .ToList();
-                         */
-                    break;
-            }
+            var salesLeads = sldb.GetSalesLeads((int)sortid);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -238,7 +112,6 @@ namespace JobsV1.Controllers
             }
 
             var leadList = sldb.generateList(null, null, null, null).ToList();
-            
             
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -365,8 +238,8 @@ namespace JobsV1.Controllers
         public ActionResult Create()
         {
             var tmp = new Models.SalesLead();
-            tmp.Date = DateTime.Now;
-            tmp.DtEntered = DateTime.Now;
+            tmp.Date = date.GetCurrentDateTime();
+            tmp.DtEntered = date.GetCurrentDateTime();
             tmp.EnteredBy = HttpContext.User.Identity.Name;
             
             ViewBag.CustomerId = new SelectList(db.Customers.Where(s=>s.Status == "ACT"), "Id", "Name");
@@ -374,7 +247,7 @@ namespace JobsV1.Controllers
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
 
             ViewBag.CustomerList = db.Customers.Where(s=>s.Status == "ACT").ToList();
-            ViewBag.CompanyList = db.CustEntMains.ToList();
+            ViewBag.CompanyList = db.CustEntMains.Where(s => s.Status != "INC").ToList();
 
             return View(tmp);
         }
@@ -423,7 +296,8 @@ namespace JobsV1.Controllers
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
 
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
-            ViewBag.CompanyList = db.CustEntMains.ToList();
+            ViewBag.CompanyList = db.CustEntMains.Where(s => s.Status != "INC").ToList();
+
             ViewBag.CompanyName = CompanyId == null ? "" : db.CustEntMains.Find(CompanyId).Name;
             return View(salesLead);
         }
@@ -451,11 +325,14 @@ namespace JobsV1.Controllers
                 return HttpNotFound();
             }
             var company = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault();
+
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", company.CustEntMainId);
-            ViewBag.CustomerList = db.Customers.ToList();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
+            ViewBag.CompanyList = db.CustEntMains.Where(s => s.Status != "INC").ToList();
             ViewBag.leadId = id;
+            ViewBag.CompanyName = company.CustEntMain.Name;
 
             return View(salesLead);
         }
@@ -477,11 +354,17 @@ namespace JobsV1.Controllers
 
                 return RedirectToAction("Index", "SalesLeads", new { leadId = salesLead.Id });
             }
+
+            var company = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault();
+
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", CompanyId);
-            ViewBag.CustomerList = db.Customers.ToList();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
+            ViewBag.CompanyList = db.CustEntMains.Where(s => s.Status != "INC").ToList();
             ViewBag.leadId = salesLead.Id;
+            ViewBag.CompanyName = company.CustEntMain.Name;
+
             return View(salesLead);
         }
 
@@ -641,44 +524,9 @@ namespace JobsV1.Controllers
 
             if (db.SalesStatus.Where(s => s.SalesLeadId == slId && s.SalesStatusCodeId == StatusId).FirstOrDefault() == null) {
 
-            try
-            {
-                db.Database.ExecuteSqlCommand(@"
-                Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId])
-                Values('" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + @"');
-                ");
+                strMsg = UpdateLeadStatus(slId, StatusId);
 
-                db.SaveChanges();
-
-                strMsg = "Success";
-
-                switch (StatusId)
-                {
-                    case 1: //New Leads
-                    case 2:
-                        Session["SLFilterID"] = 5;
-                        break;
-                    case 3: //New Leads
-                    case 4:
-                        Session["SLFilterID"] = 4;
-                        break;
-                    case 5: //New Leads
-                    case 6:
-                        Session["SLFilterID"] = 1;
-                        break;
-                    case 7: //New Leads
-                        Session["SLFilterID"] = 2;
-                        break;
-                    default:
-                        break;  //SLFilterID = 3 (All)
-                }
-            }
-            catch(Exception Ex)
-            {
-                strMsg = "Error:" + Ex.Message;
-            }
-
-            ViewBag.Message = strMsg;
+                ViewBag.Message = strMsg;
 
             }
 
@@ -691,13 +539,43 @@ namespace JobsV1.Controllers
 
             if (db.SalesStatus.Where(s => s.SalesLeadId == slId && s.SalesStatusCodeId == StatusId).FirstOrDefault() == null)
             {
+                strMsg = UpdateLeadStatus(slId, StatusId);
+
+                ViewBag.Message = strMsg;
+            }
+
+            return RedirectToAction("Status");
+        }
+
+        //POST: SalesLeads/PostLeadStatus
+        [HttpPost]
+        public bool PostLeadStatus(int slId, int StatusId)
+        {
+            string strMsg = "";
+
+            if (db.SalesStatus.Where(s => s.SalesLeadId == slId && s.SalesStatusCodeId == StatusId).FirstOrDefault() == null)
+            {
+                strMsg = UpdateLeadStatus(slId, StatusId);
+            }
+
+            if (strMsg == "Success")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public string UpdateLeadStatus(int slId, int StatusId)
+        {
+            string strMsg;
 
                 try
                 {
                     db.Database.ExecuteSqlCommand(@"
-                Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId])
-                Values('" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + @"');
-                ");
+                        Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId])
+                        Values('" + date.GetCurrentDateTime().ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + @"');
+                        ");
 
                     db.SaveChanges();
 
@@ -729,11 +607,7 @@ namespace JobsV1.Controllers
                     strMsg = "Error:" + Ex.Message;
                 }
 
-                ViewBag.Message = strMsg;
-
-            }
-
-            return RedirectToAction("Status");
+            return strMsg;
         }
         #endregion
 
@@ -750,9 +624,9 @@ namespace JobsV1.Controllers
             var data = new Models.SalesActivity();
             data.SalesLeadId = slId;
             data.SalesActCodeId = ActCodeId;
-            data.DtActivity = DateTime.Now;
+            data.DtActivity = date.GetCurrentDateTime();
             data.SalesActStatusId = (int)db.SalesActCodes.Find(ActCodeId).DefaultActStatus;
-            data.DtEntered = DateTime.Now;
+            data.DtEntered = date.GetCurrentDateTime();
             data.EnteredBy = User.Identity.Name;
             data.Particulars = db.SalesActCodes.Find(ActCodeId).Desc;
 

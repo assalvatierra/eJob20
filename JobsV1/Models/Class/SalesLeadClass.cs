@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Web;
+using JobsV1.Models;
 
 namespace JobsV1.Models.Class
 {
@@ -172,6 +174,70 @@ namespace JobsV1.Models.Class
             }
 
             return LeadList;
+        }
+
+
+        public List<SalesLead> GetSalesLeads(int sortId )
+        {
+
+            var salesLeads = db.SalesLeads
+                                .Include(s => s.SalesLeadCompanies)
+                                .Include(s => s.SalesLeadCategories)
+                                .Include(s => s.SalesStatus)
+                                .OrderBy(s => s.Date)
+                                .ToList();
+
+            switch (sortId)
+            {
+                case 1://approved
+                    salesLeads = db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4)
+                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 5)
+                                .ToList();
+                    break;
+                case 2:// closedb
+                    salesLeads = db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4)
+                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 7)
+                                .ToList();
+                    break;
+                case 3:
+                    // all
+                    salesLeads = db.SalesLeads
+                                 .ToList();
+                    break;
+
+                case 4:
+                    // OnGoing
+                    salesLeads = db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 2)
+                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 5)
+                                .ToList();
+                    break;
+                case 5:
+                    // new Leads
+                    salesLeads = db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
+                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 3) 
+                                .ToList();
+                    break;
+                case 6:
+                    // rejected
+                    salesLeads = db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 5)
+                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 6) 
+                                .ToList();
+                    break;
+                default:
+                    // new Leads
+                    salesLeads = db.SalesLeads
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
+                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 3)
+                                .ToList();
+                    break;
+            }
+
+            return salesLeads;
         }
 
     }

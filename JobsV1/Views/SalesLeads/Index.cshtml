@@ -39,8 +39,9 @@
         Filters:
         @Html.ActionLink("New Lead", "Index", new { sortid = 5 }, new { @id = "newLead" }) |
         @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }, new { @id = "ongoing" }) |
-        @Html.ActionLink("Accepted", "Index", new { sortid = 1 }, new { @id = "acceptedLead", @onclick = "filter();" }) |
+        @Html.ActionLink("Accepted", "Index", new { sortid = 1 }, new { @id = "acceptedLead" }) |
         @Html.ActionLink("Closed", "Index", new { sortid = 2 }, new { @id = "closedLead" }) |
+        @Html.ActionLink("Rejected", "Index", new { sortid = 6 }, new { @id = "rejectedLead" }) |
         @Html.ActionLink("All", "Index", new { sortid = 3 }, new { @id = "allLead" })
     </p>
 
@@ -111,8 +112,9 @@
                             }
                             else
                             {
-                                <button class="btn btn-primary btn-arrow-right">
-                                    @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }, new { @class = "link-white link-status" })
+                                <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                    @*@Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }, new { @class = "link-white link-status" })*@
+                                    <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
                                 </button>
                             }
                         }
@@ -129,7 +131,7 @@
                                         var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
                                    
                                     <text>
-                                        @company.Name -
+                                        @company.Name 
                                     </text> 
                                     }
                                 }
@@ -139,7 +141,6 @@
                                 }
                             }
 
-                            @Html.DisplayFor(modelItem => item.Customer.Name)
                         </span> |
                         <span style="color:maroon;font:bold 12px arial, verdana;">
                             @Html.DisplayFor(modelItem => item.CustName)
@@ -161,7 +162,7 @@
                         &nbsp; &nbsp;
                         @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
                         [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |
+                        @*@Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |*@
                         @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })
                         @*@Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })*@
                         ]
@@ -223,7 +224,7 @@
                                                  title=@tmpAct.SalesActCode.iconPath />
 
                                             <span style="color:maroon;">@tmpAct.Particulars</span>
-                                            <span style="font:status-bar;color:maroon;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                            <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
                                             @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
                                             @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })
 
@@ -260,7 +261,7 @@
                         <!-- Items with Prices -->
                         <br /><br />
                         <span style="font:bolder 12px, arial, verdana; color:black;font-weight:600;">
-                            Items
+                            ITEMS
                         </span> <br />
                         <div id="SalesLeadItems-@item.Id">
                             @foreach (var invItems in item.SalesLeadItems)
@@ -325,6 +326,15 @@
                             Assigned: @Html.DisplayFor(modelItem => item.AssignedTo)
                         </span>
                     </div>
+                </td>
+            </tr>
+        }
+
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="2">
+                    <h3 class="text-center text-muted"> No Sales Lead Found </h3>
                 </td>
             </tr>
         }
@@ -493,13 +503,22 @@
                     $("#newLead").css("color","black")
                     $("#newLead-bot").css("color","black")
                     break;
+                case 6:
+                    $("#rejectedLead").css("color","black")
+                    $("#closed-bot").css("color","black")
+                    break;
                 default:
                     $("#newLead").css("color","black")
                     $("#newLead-bot").css("color","black")
                     break;
             }
-
         }
+
+        // Filter Loading on click
+        $("#newLead, #acceptedLead, #closedLead, #ongoing, #rejectedLead, #allLead").click(() => {
+            $("#overlay").show();
+        });
+
 
         function setLeadId(id){
             $("#supItem-supId").val(id);
@@ -651,6 +670,30 @@
         }
     });
 
+
+    //Update Activity Status
+    function UpdateLeadStatus(e, leadId, statusId) {
+        $.post("/SalesLeads/PostLeadStatus", { slId: leadId, StatusId: statusId }, (result) => {
+            if (result == 'False') {
+                alert("Unable to Update Status")
+            }
+        }).done((result) => {
+            //on update success
+            $(e).parent().removeClass("btn-primary");
+            $(e).parent().addClass("btn-success");
+        }).fail(() => {
+            //on update failed
+            console.log("On Fail");
+            console.log(result);
+
+            $(e).parent().removeClass("btn-primary");
+            $(e).parent().addClass("btn-primary");
+
+            //display alert message
+            alert("Unable to Update Status")
+        });
+
+    }
     </script>
 
 }

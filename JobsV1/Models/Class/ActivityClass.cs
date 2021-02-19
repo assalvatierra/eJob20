@@ -526,7 +526,7 @@ namespace JobsV1.Models.Class
             }
         
 
-            sql += " ORDER BY CASE WHEN act.ActivityType = 'Quotation' then 1 else 2 end, act.ActivityType DESC, act.ActivityDate";
+            sql += " ORDER BY CASE WHEN act.ActivityType = 'Quotation' then 1 else 2 end, act.ActivityType DESC, act.ActivityDate DESC";
 
             activity = db.Database.SqlQuery<cActivityPostSales>(sql).ToList();
 
@@ -577,7 +577,7 @@ namespace JobsV1.Models.Class
                 sql += " AND ( (cem.Exclusive = 'PUBLIC' OR ISNULL(cem.Exclusive,'PUBLIC') = 'PUBLIC') OR (cem.Exclusive = 'EXCLUSIVE' AND cem.AssignedTo = '" + user + "') )";
             }
 
-            sql += " ORDER BY act.ActivityDate";
+            sql += " ORDER BY act.ActivityDate DESC";
 
             activity = db.Database.SqlQuery<cActivityActiveList>(sql).ToList();
 
@@ -617,7 +617,7 @@ namespace JobsV1.Models.Class
                 sql += " act.StatusId = '" + status + "'";
             }
 
-            sql += " ORDER BY act.DtActivity";
+            sql += " ORDER BY act.DtActivity DESC";
 
             activity = db.Database.SqlQuery<cSupActivityActiveList>(sql).ToList();
 

@@ -10,24 +10,14 @@
 <div class="filter-panel">
     <div class="col-md-8 col-xs-8 no-padding">
         <div class="btn-group" id="filter-group" style="min-width:650px;">
-            @*<button class="btn btn-default disabled">
-                    Status:
-                </button>
-                @Html.ActionLink("Default", "ActivitiesPostSales", null, new { @id = "default", @class = "btn btn-default" })
-                @Html.ActionLink("Open", "ActivitiesPostSales", new { status = "Open" }, new { @id = "Open", @class = "btn btn-default" })
-                @Html.ActionLink("For Client Comment", "ActivitiesPostSales", new { status = "For Client Comment" }, new { @id = "ForComment", @class = "btn btn-default" })
-                @Html.ActionLink("For Meeting", "ActivitiesPostSales", new { status = "For Meeting" }, new { @id = "Meeting", @class = "btn btn-default" })
-                @Html.ActionLink("Awarded", "ActivitiesPostSales", new { status = "Awarded" }, new { @id = "Awarded", @class = "btn btn-default" })
-                @Html.ActionLink("Closed", "ActivitiesPostSales", new { status = "Close" }, new { @id = "Close", @class = "btn btn-default" })*@
-
             <button class="btn btn-default disabled">
                 Status:
             </button>
             @Html.ActionLink("Default", "ActivitiesPostSales", null, new { @id = "Default", @class = "btn btn-default" })
             @Html.ActionLink("To Follow-Up", "ActivitiesPostSales", new { statusId = 1 }, new { @id = "FollowUp", @class = "btn btn-default" })
             @Html.ActionLink("On Going", "ActivitiesPostSales", new { statusId = 2 }, new { @id = "OnGoing", @class = "btn btn-default" })
-            @Html.ActionLink("Rejected", "ActivitiesPostSales", new { statusId = 3 }, new { @id = "Rejected", @class = "btn btn-default" })
-            @Html.ActionLink("Closed", "ActivitiesPostSales", new { statusId = 4 }, new { @id = "Closed", @class = "btn btn-default" })
+            @Html.ActionLink("Closed", "ActivitiesPostSales", new { statusId = 3 }, new { @id = "Closed", @class = "btn btn-default" })
+            @Html.ActionLink("Rejected", "ActivitiesPostSales", new { statusId = 4 }, new { @id = "Rejected", @class = "btn btn-default" })
         </div>
     </div>
 
@@ -194,10 +184,10 @@
                     $("#OnGoing").addClass("active");
                     break;
                 case 3:
-                    $("#Rejected").addClass("active");
+                    $("#Closed").addClass("active");
                     break;
                 case 4:
-                    $("#Closed").addClass("active");
+                    $("#Rejected").addClass("active");
                     break;
                 default:
                     $("#Default").addClass("active");
