@@ -29,6 +29,7 @@ function InitDatePicker()
         );
 
     $('input[name="DtActivity"]').val(ddd1);
+
     //$('input[name="JobDate"]').val(ddd1.substr(0, ddd1.indexOf(" ") ));
 
 }

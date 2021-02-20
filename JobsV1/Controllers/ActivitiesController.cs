@@ -733,16 +733,12 @@ namespace JobsV1.Controllers
             var role = "Admin";
 
             //handle user roles
-            if (User.IsInRole(role))
-            {
-                Activities = ac.GetActivityPostSales(status, srch, user, role);
-            }
-            else
+            if (!User.IsInRole(role))
             {
                 role = "NotAdmin";
-                Activities = ac.GetActivityPostSales(status, srch, user, role);
             }
 
+            Activities = ac.GetActivityPostSales(status, srch, user, role);
 
             Activities.ForEach(a => {
                 a.ActPostSale = GetLastActPostSale(a.SalesCode);
@@ -754,7 +750,7 @@ namespace JobsV1.Controllers
             }
             else
             {
-                Activities = Activities.Where(a => a.ActPostSale.CustEntActPostSaleStatusId < 3).ToList();
+                Activities = Activities.Where(a => a.ActPostSale.CustEntActPostSaleStatusId == 1).ToList();
             }
 
             ViewBag.Status = status;

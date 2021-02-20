@@ -290,6 +290,8 @@ function LoadTable(data) {
 function StatusRefresh() {
     console.log("status refresh");
 
+    LoadingAnimation();
+
     //clear search field
     $('#srch-field').val('');
 
@@ -332,6 +334,33 @@ function parseStatus(status) {
 //On Enter, Search and reload Table
 $('#srch-field').on('keypress', function (e) {
     if (e.which === 13) {
+
+        LoadingAnimation();
+
         ajax_loadContent(); //Load Table
     }
 });
+
+//add loading animation
+function LoadingAnimation() {
+
+    var loading = '<tr>'
+        + '<td colspan="4"> </td>'
+        + '<td colspan="4">'
+        + '   <br />'
+        + '  <img src="../Images/GIF/loading.gif" height="25" />'
+        + '  Loading Companies, please wait...'
+        + '  </td>'
+        + ' <td></td>'
+        + ' </tr >';
+
+    $(loading).appendTo("#company-Table");
+}
+
+
+//On Button Click Search
+function CompanySearch() {
+    LoadingAnimation();
+
+    ajax_loadContent();
+}

@@ -417,12 +417,11 @@
 <br />
 
 <p>
-    @if (IsAdmin)
-    {
+   
         @Html.ActionLink("Drivers Salary", "DriverTrxHistory", new { id = ViewBag.DriverId }) 
         <span> | </span>
         @Html.ActionLink("Drivers Expenses", "DriverExpenseHistory", new { id = ViewBag.DriverId })
-    }
+    
 </p>
 <p>
     @Html.ActionLink("Go to Trip Log", "Index") | @Html.ActionLink("Go to Cash Trx", "Index", "CarRentalCashRelease") |
