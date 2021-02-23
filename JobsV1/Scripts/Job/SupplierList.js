@@ -3,6 +3,7 @@
 
 //global variables
 var status = "ALL";
+var sort = "LATEST-DATE";
 var viewType = "SIMPLE";
 
 //load initial on page ready
@@ -16,7 +17,7 @@ function initial() {
     ajax_loadContent();
 
     //trigger sorting on date of items
-    $('#titleee a').trigger('click');
+    $('#title a').trigger('click');
 
 }
 
@@ -26,6 +27,8 @@ $('#ACT').click(function () {
     status = "ACT";
     $('#ACT').css("color", "black");
     $('#ACT').siblings().css("color", "steelblue");
+    $('#ACT').siblings().removeClass("Active");
+    $('#ACT').addClass("Active");
     StatusRefresh(); //load active suppliers
 });
 
@@ -33,6 +36,8 @@ $('#INC').click(function () {
     status = "INC";
     $('#INC').css("color", "black");
     $('#INC').siblings().css("color", "steelblue");
+    $('#INC').siblings().removeClass("Active");
+    $('#INC').addClass("Active");
     StatusRefresh(); // load inactive suppliers
 });
 
@@ -40,6 +45,8 @@ $('#BAD').click(function () {
     status = "BAD";
     $('#BAD').css("color", "black");
     $('#BAD').siblings().css("color", "steelblue");
+    $('#BAD').siblings().removeClass("Active");
+    $('#BAD').addClass("Active");
     StatusRefresh(); // load bad suppliers
 });
 
@@ -47,6 +54,8 @@ $('#ALL').click(function () {
     status = "ALL";
     $('#ALL').css("color", "black");
     $('#ALL').siblings().css("color", "steelblue");
+    $('#ALL').siblings().removeClass("Active");
+    $('#ALL').addClass("Active");
     StatusRefresh(); // load all suppliers
 });
 
@@ -54,6 +63,8 @@ $('#AOP').click(function () {
     status = "AOP";
     $('#AOP').css("color", "black");
     $('#AOP').siblings().css("color", "steelblue");
+    $('#AOP').siblings().removeClass("Active");
+    $('#AOP').addClass("Active");
     StatusRefresh(); // load all suppliers
 });
 
@@ -61,6 +72,8 @@ $('#ACC').click(function () {
     status = "ACC";
     $('#ACC').css("color", "black");
     $('#ACC').siblings().css("color", "steelblue");
+    $('#ACC').siblings().removeClass("Active");
+    $('#ACC').addClass("Active");
     StatusRefresh(); // load all suppliers
 });
 
@@ -68,6 +81,8 @@ $('#simple-Table').click(function () {
     viewType = "SIMPLE";
     $('#simple-Table').css("color", "black");
     $('#simple-Table').siblings().css("color", "steelblue");
+    $('#simple-Table').siblings().removeClass("Active");
+    $('#simple-Table').addClass("Active");
     StatusRefresh();
 });
 
@@ -75,8 +90,11 @@ $('#expanded-Table').click(function () {
     viewType = "EXPAND";
     $('#expanded-Table').css("color", "black");
     $('#expanded-Table').siblings().css("color", "steelblue");
+    $('#expanded-Table').siblings().removeClass("Active");
+    $('#expanded-Table').addClass("Active");
     StatusRefresh();
 });
+
 
 
 //load table content on search btn click
@@ -125,20 +143,33 @@ function ajax_loadProduct() {
 
     //console.log(query);
     //request data from server using ajax call
-    $.ajax({
-        url: '/Suppliers/TableResultProducts?search=' + query.trim() + '&category=' + srchCat + '&status=' + status,
-        type: "GET",
-        data: JSON.stringify(data),
-        dataType: 'application/json; charset=utf-8',
-        success: function (data) {
-            //console.log("SUCCESS");
+    //$.ajax({
+    //    url: '/Suppliers/TableResultProducts?search=' + query.trim() + '&category=' + srchCat + '&status=' + status,
+    //    type: "GET",
+    //    data: JSON.stringify(data),
+    //    dataType: 'application/json; charset=utf-8',
+    //    success: function (data) {
+    //        //console.log("SUCCESS");
 
-        },
-        error: function (data) {
-            // console.log("ERROR");
-            //console.log(data);
-            ProductsTable(data);
+    //    },
+    //    error: function (data) {
+    //        // console.log("ERROR");
+    //        //console.log(data);
+    //        ProductsTable(data);
+    //    }
+    //});
+
+    $.get('/Suppliers/TableResultProducts',
+        {
+            search: query.trim(),
+            category: srchCat,
+            status: status,
+            sort : sort
         }
+    ).done((data) => {
+        ProductsTable(data);
+    }).fail(() => {
+        LoadingTableError();
     });
 }
 
@@ -183,10 +214,12 @@ function SimpleTable(data) {
         var code = temp[x]["Code"] != null ? temp[x]["Code"] : "--";
        
         content =  "<tr>";
-        content += "<td class='table-name-col' >" + temp[x]["Name"].toString() + "</td>";
-        content += "<td>" + code + "</td>";
+        content += "<td class='table-name-col' ><a href='/Suppliers/Details/" + temp[x]["Id"] +"' style='font-weight:700;'>"
+            + temp[x]["Name"].toString() + "</span></td>";
 
-        content += "<td>" + country + " - " + city +"</td>";
+        //content += "<td>" + code + "</td>";
+
+        content += "<td>" + country  + " - " + city + "</td>";
         content += "<td>" + category + "</td>";
         content += "<td>" + FilteredStatus(status) + "</td>";
 
@@ -195,22 +228,21 @@ function SimpleTable(data) {
         //Products
         for (var prods = 0; prods < productslength["length"]; prods++) {
             if (typeof productslength[prods] === "undefined") {
-                console.log("something is undefined");
+                console.log("Products is undefined");
             } else {
-
-                var name = productslength[prods].toString();
+                var product = productslength[prods].toString();
                 //console.log(productslength);
                 //console.log(name);
-                content += " " + name + "</br> ";
+                content += "<span style='font-weight:600;'> " + product + " <span> </br> ";
             }
         }
-        content += "</td> ";
+        content += "</td>";
 
         // Contact Person
         content += "<td> ";
         for (var name = 0; name < contactslength["length"]; name++) {
             if (typeof contactslength[name] === "undefined") {
-                console.log("something is undefined");
+                console.log("Contact Person is undefined");
             } else {
                 var contactName = contactslength[name].toString();
                 //console.log(contactslength);
@@ -220,7 +252,6 @@ function SimpleTable(data) {
         }
         content +=  "</td> ";
 
-        //
         content += "<td>";
         for (var contact = 0; contact < contact3["length"]; contact++) {
             if (typeof contact3[contact] === "undefined") {
@@ -236,7 +267,7 @@ function SimpleTable(data) {
         content += "</td>";
 
         content += "<td>" +
-            "<a href='/Suppliers/Details/" + temp[x]["Id"] + "'>Details</a>&nbsp;| " +
+            "<a href='/Suppliers/Details/" + temp[x]["Id"] + "' >Details</a>&nbsp;| " +
             "<a href='/Suppliers/InvItems/" + temp[x]["Id"] + "'>InvProduct</a>&nbsp;| " +
             "<a href='/SupplierActivities/Records/" + temp[x]["Id"] + "'>History</a>  " +
             "</td>";
@@ -269,7 +300,7 @@ function ProductsTable(data) {
 
         var rate = temp[x]["ItemRate"] != null ? temp[x]["ItemRate"] : "--";
         var unit = temp[x]["Unit"] != null ? temp[x]["Unit"] : "--";
-        var dtEntered = temp[x]["DtEntered"] != null ? temp[x]["DtEntered"] : "--";
+        var dtEntered = temp[x]["DtEntered"] != null ? moment(temp[x]["DtEntered"]).format("MM/DD/YYYY") : "--";
         var dtValidFrom = temp[x]["DtValidFrom"] != null ? temp[x]["DtValidFrom"] : "--";
         var dtValidTo = temp[x]["DtValidTo"] != null ? temp[x]["DtValidTo"] : "--";
         var remarks = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
@@ -284,12 +315,12 @@ function ProductsTable(data) {
                 content += "<tr style='color:gray'>";
             }
 
-            content += "<td>" + product + "</td>";
-            content += "<td>" + supplier + "</td>";
+            content += "<td>" + product     + "</td>";
+            content += "<td>" + supplier    + "</td>";
             content += "<td>" + rate + " " + unit + "</td>";
-            content += "<td>" + dtEntered + "</td>";
+            content += "<td>" + dtEntered   + "</td>";
             content += "<td>" + dtValidFrom + "</td>";
-            content += "<td>" + dtValidTo + "</td>";
+            content += "<td>" + dtValidTo   + "</td>";
             content += "<td>" + particulars + "</td>";
 
             content += "<td>" +
@@ -311,6 +342,8 @@ function ProductsTable(data) {
 function StatusRefresh() {
     //clear search field
     $('#srch-field').val('');
+
+    LoadingAnimation();
 
     //load table content
     ajax_loadContent();
@@ -343,7 +376,6 @@ function searchSupplier() {
     //get search-category
     var srchCat = $('#srch-category').val();
 
-
     //search and load table
     switch (srchCat) {
         case "PRODUCT":
@@ -354,8 +386,6 @@ function searchSupplier() {
 
             setTimeout(function () {
                 //$("#sort-date-validity").click();
-                //$("#sort-date-validity").click();
-
             }, 500);
 
             break;
@@ -363,6 +393,9 @@ function searchSupplier() {
             //console.log("Supplier");
             $("#prod-Table").hide();
             $("#sup-Table").show();
+
+            LoadingAnimation();
+
             ajax_loadContent();
             break;
     }
@@ -375,3 +408,44 @@ $('#srch-field').on('keypress', function (e) {
         searchSupplier(); //Load Table
     }
 });
+
+//add loading animation
+function LoadingAnimation() {
+
+    //clear table contents except header
+    $("#sup-Table").find("tr:gt(0)").remove();
+
+    var loading = '<tr>'
+        + '<td colspan="4"> </td>'
+        + '<td colspan="4">'
+        + ' <br />'
+        + ' <img src="../Images/GIF/loading.gif" height="25" />'
+        + ' Loading Companies, please wait...'
+        + ' </td>'
+        + ' <td></td>'
+        + '</tr >';
+
+    $(loading).appendTo("#sup-Table");
+    $(loading).appendTo("#prod-Table");
+}
+
+
+//add loading error
+function LoadingTableError() {
+
+    //clear table contents except header
+    $("#sup-Table").find("tr:gt(0)").remove();
+
+    var loading = '<tr>'
+        + '<td colspan="4"> </td>'
+        + '<td colspan="4">'
+        + ' <br />'
+        + ' Unable to Load Suppliers.'
+        + ' </td>'
+        + ' <td></td>'
+        + '</tr >';
+
+    $(loading).appendTo("#sup-Table");
+    $(loading).appendTo("#prod-Table");
+}
+

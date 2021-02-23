@@ -881,6 +881,40 @@ namespace JobsV1.Controllers
 
         }
 
+        public PartialViewResult GetPartialStatusActivities(string status)
+        {
+
+            var Activities = new List<cActivityActiveList>();
+
+            var user = HttpContext.User.Identity.Name;
+            var role = "Admin";
+
+            //handle user roles
+            if (User.IsInRole(role))
+            {
+                Activities = ac.GetActiveActivities(status, user, role);
+            }
+            else
+            {
+                role = "NotAdmin";
+                Activities = ac.GetActiveActivities(status, user, role);
+            }
+
+            role = "Admin";
+
+            Activities.ForEach(a => {
+                a.Company = db.CustEntMains.Find(a.CompanyId) != null ? db.CustEntMains.Find(a.CompanyId).Name : "N/A";
+                a.StatusDoneList = db.CustEntActivities.Where(c => c.SalesCode == a.SalesCode).ToList().Select(c => c.Status);
+                a.StatusList = db.CustEntActStatus.ToList().Select(c => c.Status);
+            });
+
+            ViewBag.Status = status;
+            return PartialView(Activities);
+
+
+        }
+
+
         #endregion
     }
 

@@ -443,7 +443,15 @@ SELECT * FROM (SELECT cem.*, Category = (SELECT TOP 1 Name = (SELECT Name FROM C
                  LEFT JOIN CustEntities cet ON cet.CustEntMainId = cem.Id 
                  LEFT JOIN Customers cust ON cust.Id = cet.CustomerId ) as com 
                  WHERE Exclusive = 'PUBLIC' OR ISNULL(Exclusive,'PUBLIC') = 'PUBLIC' OR (Exclusive = 'EXCLUSIVE')                 
-				 
+				 ORDER BY 
+                         CASE com.Status
+                              WHEN 'PRI' THEN 1
+                              WHEN 'ACT' THEN 2
+                              WHEN 'ACC' THEN 3
+                              WHEN 'ACP' THEN 4
+                              WHEN 'BIL' THEN 5
+                              ELSE 6 END; 
+                             
 
 SELECT  jm.Id, jm.Description, jm.JobStatusId, js.DtStart, js.DtEnd,
 Customer = (SELECT c.Name FROM Customers c WHERE c.Id = jm.CustomerId)

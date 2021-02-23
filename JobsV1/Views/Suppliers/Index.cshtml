@@ -9,11 +9,11 @@
 <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css" />
 <script type="text/javascript" src="DataTables/datatables.min.js"></script>
 <style>
-    .filter-group-row{
-        flex:1;
-        display:flex;
-        justify-content:space-between;
-        flex-wrap:wrap;
+    .filter-group-row {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
 
 
@@ -24,11 +24,11 @@
         justify-content: flex-start;
     }
 
-    .search-row{
-        display:flex;
-        flex:1;
+    .search-row {
+        display: flex;
+        flex: 1;
         flex-wrap: nowrap;
-        justify-content:flex-end;
+        justify-content: flex-end;
     }
 
     .table-header-link {
@@ -36,43 +36,44 @@
         color: #337ab7 !important;
     }
 
-    .table-header-link:hover {
-        color: dodgerblue !important;
-    }
+        .table-header-link:hover {
+            color: dodgerblue !important;
+        }
 </style>
-<div >
+<div>
 
     <h2>Suppliers</h2>
     <p>
-        @Html.ActionLink("Create New", "CreateSupplier")
+        @Html.ActionLink("Create New", "CreateSupplier", null, new { @class="btn btn-primary" })
     </p>
+
     @*<div class="header-btn-list">
-        <div class="btn-group">
-            @Html.ActionLink("Create New", "CreateSupplier",null, null })
-            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    @Html.ActionLink("Deactivate List", "DeactivateSupplierList")
-                </li>
-            </ul>
-        </div>
-    </div>*@
+            <div class="btn-group">
+                @Html.ActionLink("Create New", "CreateSupplier",null, null })
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        @Html.ActionLink("Deactivate List", "DeactivateSupplierList")
+                    </li>
+                </ul>
+            </div>
+        </div>*@
 
 </div>
 
 <div class="view-content">
 
     <div class="filter-group-row">
-        <div class="filter-row" >
+        <div class="filter-row">
             <div class="btn-group">
-                <button class="btn btn-default disabled" > Status:</button>
-                <button id="ACT" class="status-link btn btn-default"> Active   </button> 
-                <button id="INC" class="status-link btn btn-default"> Inactive </button>  
-                <button id="BAD" class="status-link btn btn-default"> Bad      </button>  
-                <button id="ACC" class="status-link btn btn-default"> Accredited </button>  
-                <button id="AOP" class="status-link btn btn-default"> Acc. on Progress </button> 
+                <button class="btn btn-default disabled"> Status:</button>
+                <button id="ACT" class="status-link btn btn-default"> Active   </button>
+                <button id="INC" class="status-link btn btn-default"> Inactive </button>
+                <button id="BAD" class="status-link btn btn-default"> Bad      </button>
+                <button id="ACC" class="status-link btn btn-default"> Accredited </button>
+                <button id="AOP" class="status-link btn btn-default"> Acc. on Progress </button>
                 <button id="ALL" class="status-link btn btn-default"> All </button>
             </div>
         </div>
@@ -101,7 +102,7 @@
         <thead>
             <tr id="supplier-header-main">
                 <th class="col-md-2 table-header-link">Supplier</th>
-                <th class="col-md-1 table-header-link">Code    </th>
+                @*<th class="col-md-1 table-header-link">Code    </th>*@
                 <th class="col-md-1 table-header-link">Country </th>
                 <th class="col-md-1 table-header-link">Category</th>
                 <th class="col-md-1 table-header-link">Status  </th>
@@ -148,9 +149,7 @@
     <p id="expireNotice" hidden>Note: Greyed Products are past valid date.</p>
 
 </div>
-
-
-
-<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/Job/SupplierList.js"></script>
-<script src="~/Scripts/sort-table.js"></script>
+@section Scripts{
+    <script src="~/Scripts/Job/SupplierList.js"></script>
+    <script src="~/Scripts/sort-table.js"></script>
+}

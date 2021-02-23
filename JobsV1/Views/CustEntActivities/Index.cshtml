@@ -44,7 +44,43 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var activityGroup in Model.GroupBy(a=>a.SalesCode)) {
+
+    <tr>
+        <td>
+            <b> @activityGroup.Key</b>
+        </td>
+        <td colspan="9">
+            <div class="col-lg-12">
+                @*@{
+                    var doneList = item.StatusDoneList;
+                }
+                @foreach (var status in item))
+                {
+
+                    if (doneList.Contains(status))
+                    {
+                        <span class="btn btn-success btn-arrow-right" style="margin-right:10px;cursor:initial;">
+                            <span style="color:white;font-size:9px;"> @status </span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="btn btn-primary btn-arrow-right" style="margin-right:10px;cursor:initial;">
+                            <span style="color:white;font-size:9px;">
+                                @status
+                            </span>
+                        </span>
+                    }
+                }*@
+    
+            </div>
+        </td>
+    </tr>
+
+    foreach (var item in activityGroup.OrderBy(a=>a.Date))
+    {
+
     <tr>
         <td>
             @item.Date.ToString("MMM dd yyyy (ddd)")
@@ -53,7 +89,7 @@
             @Html.DisplayFor(modelItem => item.Assigned)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProjectName)
+            <b> @Html.DisplayFor(modelItem => item.ProjectName)</b>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SalesCode)
@@ -85,6 +121,7 @@
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
+    }
 }
 
 </table>

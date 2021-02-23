@@ -12,15 +12,17 @@
     <title>@ViewBag.Title </title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">     <!-- Google Fonts : Nunito Regular -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">      <!-- Google Fonts : Nunito Regular -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/fonts/glyphicons-halflings-regular.svg" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css/DateRangePicker")
     @Styles.Render("~/Content/themes/base/css")
     <style>
-        .CustomBox div span{
-            float:left;
+        .CustomBox div span {
+            float: left;
         }
     </style>
 </head>
@@ -102,7 +104,7 @@
     <footer>
         <div class="content-wrapper">
             <div class="container" >
-                <p>&copy; @DateTime.Now.Year - RealWheels Davao  </p>
+                <p>&copy; @DateTime.Now.Year - Solidsteelserver.com  </p>
             </div>
         </div>
     </footer>

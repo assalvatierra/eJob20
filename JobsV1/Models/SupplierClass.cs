@@ -240,7 +240,9 @@ namespace JobsV1.Models
 
                         });
 
-                        prodUnitPrices.Add(item.InvItem.Description + " <br> ( " + price.ItemRate + " / " + price.SupplierUnit.Unit + " ) ");
+                        prodUnitPrices.Add(item.InvItem.Description 
+                            + " <br> <span style='color:green;padding-bottom:10px;'> " 
+                            + price.ItemRate + " / " + price.SupplierUnit.Unit + "</span> " );
                     }else
                     {
 

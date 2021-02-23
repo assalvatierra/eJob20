@@ -23,15 +23,25 @@
                     Status:
                 </button>
                 <button id="PRI" class="btn btn-default status-link status-active"> Priority   </button>
-                <button id="ACC" class="btn btn-default status-link"> Accredited   </button>
-                <button id="AOP" class="btn btn-default status-link"> Accreditation on Process   </button>
-                <button id="BOT" class="btn btn-default status-link "> Billing/Terms   </button>
+                <button id="ACC" class="btn btn-default status-link"> Accredited     </button>
+                <button id="AOP" class="btn btn-default status-link"> Acc. on Process</button>
+                <button id="BOT" class="btn btn-default status-link "> Billing/Terms </button>
                 <button id="ACT" class="btn btn-default status-link"> Active </button>
-                <button id="ALL" class="btn btn-default status-link "> All      </button>
+                <button id="ALL" class="btn btn-default status-link "> All   </button>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-default disabled" style="color:black;">
+                    Sort: &nbsp;
+                </button>
+                <button id="sort-Name" class="btn btn-default status-link sort-link status-active" onclick="SortBy(this, 'NAME')"> Name </button>
+                <button class="btn btn-default status-link sort-link"  onclick="SortBy(this, 'CITY')">     City   </button>
+                <button class="btn btn-default status-link sort-link"  onclick="SortBy(this, 'CATEGORY')"> Category  </button>
+                <button class="btn btn-default status-link sort-link " onclick="SortBy(this, 'STATUS')">  Status  </button>
             </div>
         </div>
-        <div class="search-panel">
 
+        <div class="search-panel">
             <div class="btn-group">
                 <div class="btn-group">
                     <input class="form-control search-cat" id="srch-field" type="search" />
@@ -46,7 +56,9 @@
                     </select>
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-default" onclick=" CompanySearch();">Search</button>
+                    <button class="btn btn-default" onclick="CompanySearch();">
+                        Search
+                    </button>
                 </div>
             </div>
         </div>
@@ -58,9 +70,9 @@
                 <th class="col-md-1">
                     Name
                 </th>
-                <th class="col-md-1">
+                @*<th class="col-md-1">
                     Website
-                </th>
+                </th>*@
                 <th class="col-md-1">
                     City
                 </th>
@@ -73,9 +85,9 @@
                 <th class="col-md-1" style="min-width:150px">
                     Contact Person
                 </th>
-                <th class="col-md-1" style="width:120px;">
+                @*<th class="col-md-1" style="width:120px;">
                     Position
-                </th>
+                </th>*@
                 <th class="col-md-1" style="min-width:230px">
                     Contact Details
                 </th>
@@ -99,7 +111,6 @@
     </table>
 </div>
 @section Scripts{
-
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/Job/CustEntMainList.js"></script>
     <script src="~/Scripts/sort-table.js"></script>

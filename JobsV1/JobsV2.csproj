@@ -1941,6 +1941,7 @@
     <Content Include="Images\Icons\settings-red.png" />
     <Content Include="Images\Icons\skype-logo.png" />
     <Content Include="Images\Icons\viber-original.png" />
+    <Content Include="Images\Icons\icons-website.png" />
     <Content Include="Images\Icons\whatsapp-original.png" />
     <Content Include="Images\Logo_Realwheels.png" />
     <Content Include="Images\paypal.png" />

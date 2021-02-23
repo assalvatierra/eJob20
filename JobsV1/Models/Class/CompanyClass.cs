@@ -130,12 +130,31 @@ namespace JobsV1.Models
                     }
             }
 
-
             if (sort != null)
             {
                 switch (sort)
                 {
                     //add more options for sorting
+                    case "NAME":
+                        sql += " ORDER BY com.Name ASC;";
+                        break;
+                    case "CITY":
+                        sql += " ORDER BY com.City ASC;";
+                        break;
+                    case "CATEGORY":
+                        sql += " ORDER BY com.Category ASC;";
+                        break;
+                    case "STATUS":
+                        sql += " ORDER BY " +
+                            " CASE com.Status" +
+                            "   WHEN 'PRI' THEN 1" +
+                            "   WHEN 'ACT' THEN 2" +
+                            "   WHEN 'ACC' THEN 3" +
+                            "   WHEN 'ACP' THEN 4" +
+                            "   WHEN 'BIL' THEN 5" +
+                            "   ELSE 6 " +
+                            " END;";
+                        break;
                     default:
                         sql += " ORDER BY com.Name ASC;";
                         break;

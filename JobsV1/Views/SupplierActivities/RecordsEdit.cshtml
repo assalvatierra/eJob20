@@ -22,13 +22,6 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Assigned, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("Assigned", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Assigned, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
     <div class="form-group">
         <b class="control-label col-md-2"> Procurement Code </b>
@@ -47,6 +40,15 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = 250 } })
+            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
         @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("Type", null, htmlAttributes: new { @class = "form-control" })
@@ -61,15 +63,6 @@
             @Html.ValidationMessageFor(model => model.ActivityType, "", new { @class = "text-danger" })
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = 250 } })
-            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
     <div class="form-group hidden">
         @Html.LabelFor(model => model.SupplierId, "SupplierId", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -88,6 +81,13 @@
         </div>
     </div>
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.Assigned, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Assigned", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Assigned, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

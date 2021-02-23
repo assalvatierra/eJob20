@@ -19,7 +19,7 @@
         <hr />
         <h3>@Model.Name  </h3>
 
-        <p> @Html.ActionLink("< View History >", "Records", "SupplierActivities", new { id = Model.Id }, null) </p>
+        <p> @Html.ActionLink("< View History >", "Records", "SupplierActivities", new { id = Model.Id }, new { @class="btn btn-default btn-xs" }) </p>
 
         <p> <b>Website: </b> @Model.Website </p>
         <p> <b>Tel: </b>@Model.Contact1 </p>
@@ -112,7 +112,7 @@
         @foreach (var contact in ViewBag.supContacts as IEnumerable<JobsV1.Models.SupplierContact>)
         {
             <tr>
-                <td class="table-name-col">@contact.Name</td>
+                <td> <span style="font-weight:700;">@contact.Name</span> </td>
                 <td>@contact.Landline</td>
                 <td>@contact.Mobile</td>
                 <td>@contact.SkypeId</td>

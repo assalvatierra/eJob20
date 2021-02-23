@@ -35,8 +35,10 @@
 {
     <tr>
         <td >
-            ( @Html.DisplayFor(modelItem => item.InvItem.ItemCode) )
-            @Html.DisplayFor(modelItem => item.InvItem.Description)
+            <b>
+                ( @Html.DisplayFor(modelItem => item.InvItem.ItemCode) )
+                @Html.DisplayFor(modelItem => item.InvItem.Description)
+            </b>
         </td>
         <td colspan="4">
 
@@ -58,7 +60,8 @@
         </td>
         <td>
            <p>
-             @rate.ItemRate / @rate.SupplierUnit.Unit  (@DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
+               <b style="color:green;"> @rate.ItemRate / @rate.SupplierUnit.Unit </b>
+               ( @DateTime.Parse(rate.DtValidFrom).ToString("MMM dd, yyyy") - @DateTime.Parse(rate.DtValidTo).ToString("MMM dd, yyyy") )
            
            </p>
            <p>
@@ -79,7 +82,7 @@
 }
 
 </table>
-@Html.ActionLink("Back to Company Details", "Details", new { id = ViewBag.SupplierId }) 
+@Html.ActionLink("Back to Supplier Details", "Details", new { id = ViewBag.SupplierId }) 
 
 <!-- Add Item Modal -->
 <div class="modal fade" id="ItemAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
