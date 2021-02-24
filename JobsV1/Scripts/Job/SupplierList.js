@@ -123,7 +123,7 @@ function ajax_loadContent() {
         },
         error: function (data) {
            // console.log("ERROR");
-           //console.log(data);
+           console.log(data);
            switchViews(data)
         }
     });
@@ -141,36 +141,36 @@ function ajax_loadProduct() {
         category: srchCat
     };
 
-    //console.log(query);
+    console.log(query);
     //request data from server using ajax call
-    //$.ajax({
-    //    url: '/Suppliers/TableResultProducts?search=' + query.trim() + '&category=' + srchCat + '&status=' + status,
-    //    type: "GET",
-    //    data: JSON.stringify(data),
-    //    dataType: 'application/json; charset=utf-8',
-    //    success: function (data) {
-    //        //console.log("SUCCESS");
+    $.ajax({
+        url: '/Suppliers/TableResultProducts?search=' + query.trim() + '&category=' + srchCat + '&status=' + status,
+        type: "GET",
+        data: JSON.stringify(data),
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            //console.log("SUCCESS");
 
-    //    },
-    //    error: function (data) {
-    //        // console.log("ERROR");
-    //        //console.log(data);
-    //        ProductsTable(data);
-    //    }
-    //});
-
-    $.get('/Suppliers/TableResultProducts',
-        {
-            search: query.trim(),
-            category: srchCat,
-            status: status,
-            sort : sort
+        },
+        error: function (data) {
+            // console.log("ERROR");
+            //console.log(data);
+            ProductsTable(data);
         }
-    ).done((data) => {
-        ProductsTable(data);
-    }).fail(() => {
-        LoadingTableError();
     });
+
+    //$.get('/Suppliers/TableResultProducts',
+    //    {
+    //        search: query.trim(),
+    //        category: srchCat,
+    //        status: status,
+    //        sort : sort
+    //    }
+    //).done((data) => {
+    //    ProductsTable(data);
+    //}).fail(() => {
+    //    LoadingTableError();
+    //});
 }
 
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JobsV1.Models.Class.cUserPerformance >
+﻿@model IEnumerable<JobsV1.Models.Class.cUserPerformance>
 
 @{
     ViewBag.Title = "User Performance Report";
@@ -6,8 +6,8 @@
 }
 
 <style>
-    .sales-table{
-        background-color:lightgray;
+    .sales-table {
+        background-color: lightgray;
     }
 </style>
 
@@ -34,7 +34,7 @@
             <th colspan="4">
 
             </th>
-            <th colspan="3" class="sales-table text-center" > SALES DIVISION </th>
+            <th colspan="3" class="sales-table text-center"> SALES DIVISION </th>
             <th colspan="3" class="text-center"> PROCUREMENT DIVISION </th>
         </tr>
         <tr>
@@ -44,7 +44,7 @@
             <th class="js-sort-number"> Meeting </th>
 
             <th class="js-sort-number sales-table"> Quotation </th>
-            <th class="js-sort-number sales-table" > Sales </th>
+            <th class="js-sort-number sales-table"> Sales </th>
             <th class="js-sort-number sales-table"> Total&nbsp;Sales</th>
 
             <th class="js-sort-number"> Procurement </th>
@@ -53,83 +53,100 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var item in Model)
+        @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @item.UserName
-            </td>
-            <td>
-                @if (item.Role == "Sales")
-                {
-                    <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
-                        Sales
-                    </a>
-                }
+            <tr>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @if (item.Role == "Sales")
+                    {
+                        <a href="#" onclick="GotoSalesActivities('@item.UserName')" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                            Sales
+                        </a>
+                    }
 
-                @if (item.Role == "Procurement")
-                {
+                    @if (item.Role == "Procurement")
+                    {
 
-                    <a href="/Activities/SupActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                        <a href="#" onclick="GotoProcActivities('@item.UserName')" data-toggle="tooltip" data-placement="top" title="View Procurement Activites">
+                            Procurement
+                        </a>
+                    }
 
-                        Procurement
-                    </a>
-                }
+                    @if (item.Role == "Admin")
+                    {
+                        <a href="#" onclick="GotoSalesActivities('@item.UserName')" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                            Sales |
+                        </a>
+                        <a href="#" onclick="GotoProcActivities('@item.UserName')" data-toggle="tooltip" data-placement="top" title="View Procurement Activites">
+                            Procurement
+                        </a>
+                    }
 
-                @if (item.Role == "Admin")
-                {
-                    <a href="/Activities/UserActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
-                        Sales |
-                    </a>
-                    <a href="/Activities/SupActivities?user=@item.UserName" data-toggle="tooltip" data-placement="top" title="View User Activites">
+                </td>
+                <td>
+                    @item.Role
+                </td>
 
-                        Procurement
-                    </a>
-                }
-
-            </td>
-            <td>
-                @item.Role
-            </td>
-
-            <td>
-                @item.Meeting
-            </td>
-            <!-- Sales Division  -->
-            <td class="sales-table">
-                @item.Quotation
-            </td>
-            <td class="sales-table">
-                @item.Sales
-            </td>
-            <td class="sales-table">
-                @item.Amount.ToString("N0")
-            </td>
-            <!-- Procurement Division  -->
-            <td>
-                @item.Procurement
-            </td>
-            <td>
-                @item.JobOrder
-            </td>
-            <td>
-                @item.ProcAmount.ToString("N0")
-            </td>
-        </tr>
+                <td>
+                    @item.Meeting
+                </td>
+                <!-- Sales Division  -->
+                <td class="sales-table">
+                    @item.Quotation
+                </td>
+                <td class="sales-table">
+                    @item.Sales
+                </td>
+                <td class="sales-table">
+                    @item.Amount.ToString("N0")
+                </td>
+                <!-- Procurement Division  -->
+                <td>
+                    @item.Procurement
+                </td>
+                <td>
+                    @item.JobOrder
+                </td>
+                <td>
+                    @item.ProcAmount.ToString("N0")
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 
+@section Scripts{
 
-<script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/DateRangePicker/moment.min.js"></script>
-<script src="~/Scripts/DateRangePicker/daterangepicker.js"></script>
-<script src="~/Scripts/Job/DefaultDate.js"></script>
-<script src="~/Scripts/Activities/Performance.js"></script>
-<link rel="stylesheet" type="text/css" href="~/Content/daterangepicker.css">
-<script src="~/Scripts/sort-table.min.js"></script>
-<script>
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
-</script>
+    <script src="~/Scripts/Job/DefaultDate.js"></script>
+    <script src="~/Scripts/Activities/Performance.js"></script>
+    <script src="~/Scripts/sort-table.min.js"></script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        //go to sales activities with dates from the dates fields
+        function GotoSalesActivities(user) {
+
+            let sDate = moment($("#DtStart").val()).format("MM/DD/YYYY");
+            let eDate = moment($("#DtEnd").val()).format("MM/DD/YYYY");
+
+            window.location.href = "../Activities/UserActivities?user=" + user + "&sDate=" + sDate + "&eDate=" + eDate;
+
+        }
+
+        
+        //go to procurement activities with dates from the dates fields
+        function GotoProcActivities(user) {
+
+            let sDate = moment($("#DtStart").val()).format("MM/DD/YYYY");
+            let eDate = moment($("#DtEnd").val()).format("MM/DD/YYYY");
+
+            window.location.href = "../Activities/SupActivities?user=" + user + "&sDate=" + sDate + "&eDate=" + eDate;
+
+        }
+    </script>
+}

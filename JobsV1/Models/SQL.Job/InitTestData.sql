@@ -378,7 +378,7 @@ SELECT * FROM CustEntActivities
 
 -- Supplier Products
 SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id ),
-                sir.p,
+               
                 sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status ,
 				IsValid =  IIF(convert(datetime, sir.DtValidTo) < convert(datetime, GETDATE()), 1 , 0)
                 FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id 
@@ -386,7 +386,7 @@ SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.N
                 LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id					   
                 LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods 
 				WHERE  (ISNULL(prods.ItemRate,'0') = '0') OR convert(datetime, prods.DtValidTo) > convert(datetime, DATEADD(DAY, -180, GETDATE())) 
-
+				AND prods.Name Like '%pipe%'  
 --Customer List  
 SELECT c.Id,c.Name, c.Contact1, c.Contact2 , c.Status,
        JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,

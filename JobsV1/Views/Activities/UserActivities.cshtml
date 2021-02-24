@@ -8,6 +8,9 @@
     Sales Rep :
     @ViewBag.User
 </h2>
+<p>
+    @Html.ActionLink("Back to List", "Performance")
+</p>
 
 <h3>Customer Activities</h3>
 
@@ -217,8 +220,10 @@
                 var today = moment(new Date());
                 let pastWeek = moment().add(-7, 'days');
 
+                let oneMonthAgo = moment().add(-30, 'days');
+
                 //convert to string
-                var sDate = pastWeek.format("MM/DD/YYYY");
+                var sDate = oneMonthAgo.format("MM/DD/YYYY");
                 var eDate = today.format("MM/DD/YYYY");
                 console.log("today: " + eDate);
 
