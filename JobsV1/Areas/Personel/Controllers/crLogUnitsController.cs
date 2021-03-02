@@ -44,6 +44,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Create()
         {
             ViewBag.Status = new SelectList(StatusList, "value", "text");
+            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "value", "text");
             return View();
         }
 
@@ -52,7 +53,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,OrderNo,Status")] crLogUnit crLogUnit)
+        public ActionResult Create([Bind(Include = "Id,Description,OrderNo,Status,crLogOwnerId")] crLogUnit crLogUnit)
         {
             if (ModelState.IsValid && InputValidation(crLogUnit))
             {
@@ -62,6 +63,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
+            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "value", "text");
             return View(crLogUnit);
         }
 
@@ -78,6 +80,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return HttpNotFound();
             }
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
+            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "value", "text", crLogUnit.crLogOwnerId);
             return View(crLogUnit);
         }
 
@@ -86,7 +89,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,OrderNo,Status")] crLogUnit crLogUnit)
+        public ActionResult Edit([Bind(Include = "Id,Description,OrderNo,Status,crLogOwnerId")] crLogUnit crLogUnit)
         {
             if (ModelState.IsValid && InputValidation(crLogUnit))
             {
@@ -95,6 +98,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
+            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "value", "text", crLogUnit.crLogOwnerId);
             return View(crLogUnit);
         }
 

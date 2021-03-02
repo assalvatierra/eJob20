@@ -465,7 +465,6 @@ namespace JobsV1.Areas.Personel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-
             var crlogFuel = db.crLogFuels.Find(id);
 
             if (crlogFuel == null)
@@ -473,9 +472,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 return HttpNotFound();
             }
 
-            var crlogFuels = db.crLogFuels.Where(c => c.crLogDriverId == crlogFuel.crLogDriverId
-                            && crlogFuel.dtRequest.Date == c.dtRequest).ToList();
-
+            var crlogFuels = db.crLogFuels.Where(
+                                c => c.crLogDriverId == crlogFuel.crLogDriverId
+                                && c.crLogTypeId == 2 && c.crLogPaymentTypeId == 3).ToList();
+            crlogFuels = crlogFuels.Where(c => c.dtRequest.Date.CompareTo(crlogFuel.dtRequest.Date) == 0).ToList();
             ViewBag.DtRequest = crlogFuel.dtRequest;
             ViewBag.PONo = crlogFuel.Id;
             ViewBag.DriverName = crlogFuel.crLogDriver.Name;

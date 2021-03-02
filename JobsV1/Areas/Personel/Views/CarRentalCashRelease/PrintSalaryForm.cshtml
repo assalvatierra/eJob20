@@ -11,7 +11,9 @@
     decimal totalPayments = 0;
     decimal totalOT = 0;
     decimal totalCA = 0;
+    decimal totalCont = 0;
     decimal total = 0;
+
     int tripCount = 0;
 }
 
@@ -157,8 +159,29 @@
                                 </td>
                             </tr>
                         }
+
+                        @foreach (var contribution in ViewBag.Contributions as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            totalCont += contribution.Amount;
+                            <tr>
+                                <td>
+                                    @contribution.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                    @contribution.Remarks
+                                </td>
+                                <td>
+                                    CA
+                                </td>
+                                <td>
+                                    @contribution.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+
                         @{
-                            total = totalSalary + totalCA - totalPayments;
+                            total = totalSalary + totalCA - totalPayments - totalCont;
                         }
                         <tr style="border-top:1px solid gray !important;">
                             <td> </td>
@@ -222,7 +245,7 @@
                                 Company / Unit
                             </th>
                             <th>
-                                
+
                             </th>
                             <th>
                                 Rate
@@ -309,6 +332,27 @@
                                 </td>
                             </tr>
                         }
+
+
+                        @foreach (var contr in ViewBag.Contributions as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+
+                            <tr>
+                                <td>
+                                    @contr.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                    @contr.Remarks
+                                </td>
+                                <td>
+                                    Contributions
+                                </td>
+                                <td>
+                                    @contr.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
                         <tr style="border-top:1px solid gray !important;">
                             <td> </td>
                             <td> </td>

@@ -1,17 +1,23 @@
-﻿insert into crLogUnits([Description])
+﻿insert into crLogOwners([Name],[Mobile],[Remarks])
 values 
-('RNY301 Innova'),
-('AAF8980 Innova'),
-('LAF4920 Innova'),
-('GAN7604 Innova'),
-('LDP2264 Everest'),
-('NEO380 Fortuner'),
-('AAF9396 Montero'),
-('LAB9873 City'),
-('GAL8852 Rush'),
-('AOA5108 Super'),
-('GAI3946 Premium'),
-('P4W423 Tourer');
+('AJ88', '', null),
+('RealBreeze', '', null);
+
+insert into crLogUnits([Description],[crLogOwnerId])
+values 
+('RNY301 Innova' , 1),
+('AAF8980 Innova', 1),
+('LAF4920 Innova', 1),
+('GAN7604 Innova', 1),
+('LDP2264 Everest', 1),
+('NEO380 Fortuner', 1),
+('AAF9396 Montero', 1),
+('LAB9873 City'  , 1),
+('GAL8852 Rush'  , 1),
+('AOA5108 Super' , 1),
+('GAI3946 Premium', 1),
+('P4W423 Tourer' , 1);
+
 
 
 Insert into crLogDrivers([Name])

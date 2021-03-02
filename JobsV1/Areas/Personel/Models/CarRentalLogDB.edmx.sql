@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/09/2021 11:06:47
+-- Date Created: 03/02/2021 14:09:19
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -80,6 +80,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_crLogTripcrLogPassenger]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogPassengers] DROP CONSTRAINT [FK_crLogTripcrLogPassenger];
 GO
+IF OBJECT_ID(N'[dbo].[FK_crLogOwnercrLogUnit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogUnits] DROP CONSTRAINT [FK_crLogOwnercrLogUnit];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -148,6 +151,9 @@ GO
 IF OBJECT_ID(N'[dbo].[crLogPassRemarks]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogPassRemarks];
 GO
+IF OBJECT_ID(N'[dbo].[crLogOwners]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogOwners];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -169,7 +175,8 @@ CREATE TABLE [dbo].[crLogUnits] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Description] nvarchar(30)  NOT NULL,
     [OrderNo] int  NULL,
-    [Status] nvarchar(3)  NULL
+    [Status] nvarchar(3)  NULL,
+    [crLogOwnerId] int  NOT NULL
 );
 GO
 
@@ -197,7 +204,10 @@ CREATE TABLE [dbo].[crLogTrips] (
     [Addon] decimal(18,0)  NOT NULL,
     [OdoStart] int  NULL,
     [OdoEnd] int  NULL,
-    [DriverOT] decimal(10,2)  NOT NULL
+    [DriverOT] decimal(10,2)  NOT NULL,
+    [StartTime] nvarchar(10)  NULL,
+    [EndTime] nvarchar(10)  NULL,
+    [TripHours] int  NULL
 );
 GO
 
@@ -375,6 +385,15 @@ CREATE TABLE [dbo].[crLogPassRemarks] (
 );
 GO
 
+-- Creating table 'crLogOwners'
+CREATE TABLE [dbo].[crLogOwners] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(80)  NOT NULL,
+    [Mobile] nvarchar(30)  NULL,
+    [Remarks] nvarchar(80)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -502,6 +521,12 @@ GO
 -- Creating primary key on [Id] in table 'crLogPassRemarks'
 ALTER TABLE [dbo].[crLogPassRemarks]
 ADD CONSTRAINT [PK_crLogPassRemarks]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogOwners'
+ALTER TABLE [dbo].[crLogOwners]
+ADD CONSTRAINT [PK_crLogOwners]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -822,6 +847,21 @@ GO
 CREATE INDEX [IX_FK_crLogTripcrLogPassenger]
 ON [dbo].[crLogPassengers]
     ([crLogTripId]);
+GO
+
+-- Creating foreign key on [crLogOwnerId] in table 'crLogUnits'
+ALTER TABLE [dbo].[crLogUnits]
+ADD CONSTRAINT [FK_crLogOwnercrLogUnit]
+    FOREIGN KEY ([crLogOwnerId])
+    REFERENCES [dbo].[crLogOwners]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogOwnercrLogUnit'
+CREATE INDEX [IX_FK_crLogOwnercrLogUnit]
+ON [dbo].[crLogUnits]
+    ([crLogOwnerId]);
 GO
 
 -- --------------------------------------------------

@@ -46,5 +46,6 @@ namespace JobsV1.Areas.Personel.Models
         public virtual DbSet<crLogPassengerMaster> crLogPassengerMasters { get; set; }
         public virtual DbSet<crLogPassengerArea> crLogPassengerAreas { get; set; }
         public virtual DbSet<crLogPassRemarks> crLogPassRemarks { get; set; }
+        public virtual DbSet<crLogOwner> crLogOwners { get; set; }
     }
 }

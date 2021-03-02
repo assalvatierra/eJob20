@@ -27,6 +27,7 @@ namespace JobsV1.Areas.Personel.Models
         public string Description { get; set; }
         public Nullable<int> OrderNo { get; set; }
         public string Status { get; set; }
+        public int crLogOwnerId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogTrip> crLogTrips { get; set; }
@@ -36,5 +37,6 @@ namespace JobsV1.Areas.Personel.Models
         public virtual ICollection<crLogOdo> crLogOdoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CrRptUnit> CrRptUnits { get; set; }
+        public virtual crLogOwner crLogOwner { get; set; }
     }
 }

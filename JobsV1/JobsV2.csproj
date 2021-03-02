@@ -447,6 +447,9 @@
     <Compile Include="Areas\Personel\Models\crLogOdo.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\crLogOwner.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\crLogPassenger.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
@@ -1326,6 +1329,7 @@
     <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
     <Content Include="Areas\Personel\Script\CashTransactions.js" />
     <Content Include="Areas\Personel\Script\CopyPassengers.js" />
+    <Content Include="Areas\Personel\Script\CreateTripLogTime.js" />
     <Content Include="Areas\Personel\Script\CreatePassengerTime.js" />
     <Content Include="Areas\Personel\Script\CrLogFuel.js" />
     <Content Include="Areas\Personel\Script\CrLogOdoes.js" />
@@ -2447,6 +2451,7 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummaryTripEdit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrintFuelRequestForm.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrintPOForm.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\IndexBilling.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />

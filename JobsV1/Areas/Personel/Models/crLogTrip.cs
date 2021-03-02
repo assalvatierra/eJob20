@@ -35,6 +35,9 @@ namespace JobsV1.Areas.Personel.Models
         public Nullable<int> OdoStart { get; set; }
         public Nullable<int> OdoEnd { get; set; }
         public decimal DriverOT { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public Nullable<int> TripHours { get; set; }
     
         public virtual crLogDriver crLogDriver { get; set; }
         public virtual crLogUnit crLogUnit { get; set; }

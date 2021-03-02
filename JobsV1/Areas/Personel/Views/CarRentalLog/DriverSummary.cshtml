@@ -264,44 +264,46 @@
 
     @foreach (var item in Model.DriverTrx)
     {
+        if (item.crLogCashTypeId < 4)
+        {
+            <tr>
+                <td>
+                    @item.DtRelease.ToShortDateString()
+                </td>
 
+                <td>
+                    @Html.DisplayFor(modelItem => item.crLogCashType.Description)
+                </td>
+                <td>
+                    <!-- CA -->
+                    @if (item.crLogCashTypeId == 2)
+                    {
+                        _drivercash += item.Amount;
+                        <span> @item.Amount.ToString("N0")</span>
+                    }
+                </td>
+                <td>
+                    <!-- Payments -->
+                    @if (item.crLogCashTypeId == 3)
+                    { 
+                        _driverpayment += item.Amount;
+                        <span> @item.Amount.ToString("N0")</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @if (IsAdmin)
+                    {
+                        <span>
+                            @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;
+                        </span>
+                    }
+                </td>
+            </tr>
+        }
 
-        <tr>
-            <td>
-                @item.DtRelease.ToShortDateString()
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogCashType.Description)
-            </td>
-            <td>
-                <!-- CA -->
-                @if (item.crLogCashTypeId == 2)
-                {
-                    _drivercash += item.Amount;
-                    <span> @item.Amount.ToString("N0")</span>
-                }
-            </td>
-            <td>
-                <!-- Payments -->
-                @if (item.crLogCashTypeId == 3)
-                {
-                    _driverpayment += item.Amount;
-                    <span> @item.Amount.ToString("N0")</span>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
-                @if (IsAdmin)
-                {
-                    <span>
-                        @Html.ActionLink("Edit", "EditCashTrx", new { id = item.Id })&nbsp;
-                    </span>
-                }
-            </td>
-        </tr>
     }
 
     @{

@@ -38,7 +38,7 @@
     @Html.ActionLink("Copy Trip", "CopyTrip") |
     @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
     @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |
-    @Html.ActionLink("Billing View", "IndexBilling")
+    @Html.ActionLink("Trip Logs View", "Index")
 </p>
 
 <p class="col-md-10">
@@ -139,7 +139,7 @@
                             <br />
                             <div class="col-lg-offset-5 col-md-7 col-xs-offset-5 col-xs-7">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary"  id="SubmitFilterBtn">Submit</button>
+                                <button type="submit" class="btn btn-primary" id="SubmitFilterBtn">Submit</button>
                             </div>
                         </form>
                     }
@@ -154,6 +154,7 @@
         <th width="100">
             Date
         </th>
+        <th>Time</th>
         <th>
             Driver
         </th>
@@ -167,28 +168,10 @@
             Remarks
         </th>
         <th>
-            Rate
-        </th>
-        <th>
-            Addon
-        </th>
-        <th>
-            Expense
-        </th>
-        <th>
-            Driver
-        </th>
-        <th>
             OT&nbsp;Rate
         </th>
-        @*<th>
-            Odo Start
-        </th>
         <th>
-            Odo End
-        </th>*@
-        <th>
-            Pass
+            OT
         </th>
         <th></th>
     </tr>
@@ -200,6 +183,7 @@
         decimal totalExpenses = 0;
         decimal totalDriverFee = 0;
         decimal totalDriverOT = 0;
+
     }
     @foreach (var item in Model)
     {
@@ -230,6 +214,9 @@
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span>
             </td>
             <td>
+                @item.StartTime - @item.EndTime
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
             </td>
             <td>
@@ -244,30 +231,10 @@
                 </span>
             </td>
             <td>
-                @item.Rate.ToString("#,##0.00")
-            </td>
-            <td>
-                @item.Addon.ToString("#,##0.00")
-            </td>
-            <td>
-                @item.Expenses.ToString("#,##0.00")
-            </td>
-            <td>
-                @item.DriverFee.ToString("#,##0.00")
-            </td>
-            <td>
                 @item.DriverOT.ToString("#,##0.00")
             </td>
-           
-            @*<td class="trip-OdoStart">
-                @item.OdoStart
-            </td>
-            <td class="trip-OdoEnd">
-                @item.OdoEnd
-            </td>*@   
-             
             <td>
-                @{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id }); }
+                @{ Html.RenderAction("GetTripOTHours", "CarRentalLog", new { id = item.Id }); }
             </td>
             <td>
                 <div class="btn-group">
@@ -293,18 +260,6 @@
         <tr>
             <td colspan="5">
                 <p> Total Count: @count </p>
-            </td>
-            <td>
-                @totalRate.ToString("#,##0.00")
-            </td>
-            <td>
-                @totalAddon.ToString("#,##0.00")
-            </td>
-            <td>
-                @totalExpenses.ToString("#,##0.00")
-            </td>
-            <td>
-                @totalDriverFee.ToString("#,##0.00")
             </td>
             <td>
                 @totalDriverOT.ToString("#,##0.00")
@@ -448,6 +403,7 @@
             })
         }
 
+        
         function PrevDay() {
             
             if ("@ViewBag.FilteredsDate" != "") {
@@ -480,7 +436,7 @@
             } else {
                 $("#filter-edate").val(moment().add(1, 'days').format("MM/DD/YYYY"))
             }
-            
+
             $("#SubmitFilterBtn").click();
         }
 

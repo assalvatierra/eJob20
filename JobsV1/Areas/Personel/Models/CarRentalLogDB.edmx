@@ -27,6 +27,7 @@
     <EntitySet Name="crLogPassengerMasters" EntityType="CarRentalLogDB.Store.crLogPassengerMasters" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassengerAreas" EntityType="CarRentalLogDB.Store.crLogPassengerAreas" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassRemarks" EntityType="CarRentalLogDB.Store.crLogPassRemarks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogOwners" EntityType="CarRentalLogDB.Store.crLogOwners" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -111,6 +112,10 @@
       <End Role="crLogTrip" EntitySet="crLogTrips" />
       <End Role="crLogPassenger" EntitySet="crLogPassengers" />
     </AssociationSet>
+    <AssociationSet Name="crLogOwnercrLogUnit" Association="CarRentalLogDB.Store.crLogOwnercrLogUnit">
+      <End Role="crLogOwner" EntitySet="crLogOwners" />
+      <End Role="crLogUnit" EntitySet="crLogUnits" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="crLogDrivers">
     <Key>
@@ -131,6 +136,7 @@
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="30" />
     <Property Name="OrderNo" Type="int" Nullable="true" />
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="3" />
+    <Property Name="crLogOwnerId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="crLogCompanies">
     <Key>
@@ -159,6 +165,9 @@
     <Property Name="OdoStart" Type="int" Nullable="true" />
     <Property Name="OdoEnd" Type="int" Nullable="true" />
     <Property Name="DriverOT" Type="decimal" Nullable="false" DefaultValue="0" Precision="10" Scale="2" />
+    <Property Name="StartTime" Type="nvarchar" Nullable="true" MaxLength="10" />
+    <Property Name="EndTime" Type="nvarchar" Nullable="true" MaxLength="10" />
+    <Property Name="TripHours" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="crLogCashReleases">
     <Key>
@@ -333,6 +342,15 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="RemarksFor" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crLogOwners">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Mobile" Type="nvarchar" Nullable="true" MaxLength="30" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -586,6 +604,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="crLogOwnercrLogUnit">
+    <End Role="crLogOwner" Type="CarRentalLogDB.Store.crLogOwners" Multiplicity="1" />
+    <End Role="crLogUnit" Type="CarRentalLogDB.Store.crLogUnits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogOwner">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogUnit">
+        <PropertyRef Name="crLogOwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -696,6 +726,11 @@
           <EntitySet Name="crLogPassengerMasters" EntityType="CarRentalLogDB.crLogPassengerMaster" />
           <EntitySet Name="crLogPassengerAreas" EntityType="CarRentalLogDB.crLogPassengerArea" />
           <EntitySet Name="crLogPassRemarks" EntityType="CarRentalLogDB.crLogPassRemarks" />
+          <EntitySet Name="crLogOwners" EntityType="CarRentalLogDB.crLogOwner" />
+          <AssociationSet Name="crLogOwnercrLogUnit" Association="CarRentalLogDB.crLogOwnercrLogUnit">
+            <End Role="crLogOwner" EntitySet="crLogOwners" />
+            <End Role="crLogUnit" EntitySet="crLogUnits" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -724,6 +759,8 @@
           <Property Name="OrderNo" Type="Int32" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="3" />
           <NavigationProperty Name="CrRptUnits" Relationship="CarRentalLogDB.crLogUnitCrRptUnit" FromRole="crLogUnit" ToRole="CrRptUnit" />
+          <NavigationProperty Name="crLogOwner" Relationship="CarRentalLogDB.crLogOwnercrLogUnit" FromRole="crLogUnit" ToRole="crLogOwner" />
+          <Property Name="crLogOwnerId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="crLogCompany">
           <Key>
@@ -758,6 +795,9 @@
           <Property Name="OdoEnd" Type="Int32" Nullable="true" />
           <NavigationProperty Name="crLogPassengers" Relationship="CarRentalLogDB.crLogTripcrLogPassenger" FromRole="crLogTrip" ToRole="crLogPassenger" />
           <Property Name="DriverOT" Type="Decimal" Nullable="false" Precision="10" Scale="2" DefaultValue="0" />
+          <Property Name="StartTime" Type="String" Nullable="true" MaxLength="10" />
+          <Property Name="EndTime" Type="String" Nullable="true" MaxLength="10" />
+          <Property Name="TripHours" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="crLogDrivercrLogTrip">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -1213,6 +1253,28 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="RemarksFor" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="crLogOwner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Mobile" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <NavigationProperty Name="crLogUnits" Relationship="CarRentalLogDB.crLogOwnercrLogUnit" FromRole="crLogOwner" ToRole="crLogUnit" />
+        </EntityType>
+        <Association Name="crLogOwnercrLogUnit">
+          <End Type="CarRentalLogDB.crLogOwner" Role="crLogOwner" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogUnit" Role="crLogUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogOwner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogUnit">
+              <PropertyRef Name="crLogOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1238,6 +1300,7 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="crLogOwnerId" ColumnName="crLogOwnerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1268,6 +1331,9 @@
           <ScalarProperty Name="OdoStart" ColumnName="OdoStart" />
           <ScalarProperty Name="OdoEnd" ColumnName="OdoEnd" />
           <ScalarProperty Name="DriverOT" ColumnName="DriverOT" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="TripHours" ColumnName="TripHours" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1459,6 +1525,16 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="RemarksFor" ColumnName="RemarksFor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogOwners">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogOwner)">
+        <MappingFragment StoreEntitySet="crLogOwners">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

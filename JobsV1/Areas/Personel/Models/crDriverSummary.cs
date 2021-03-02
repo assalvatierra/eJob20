@@ -11,6 +11,7 @@ namespace JobsV1.Areas.Personel.Models
         public List<crLogTrip> DriverTrips;
         public List<crLogCashRelease> DriverCash;
         public List<crLogCashRelease> DriverPayments;
+        public List<crLogCashRelease> DriverContributions;
         public List<crLogCashRelease> DriverTrx;
         public List<crLogCashRelease> NoStatus;
 

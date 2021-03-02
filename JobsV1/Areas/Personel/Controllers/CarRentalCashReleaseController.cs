@@ -525,8 +525,9 @@ namespace JobsV1.Areas.Personel.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Payments = GetDriverCashRelease(cashRelease.crLogDriverId, 3, cashRelease.DtRelease);
             ViewBag.CA = GetDriverCashRelease(cashRelease.crLogDriverId, 2, cashRelease.DtRelease);
+            ViewBag.Payments = GetDriverCashRelease(cashRelease.crLogDriverId, 3, cashRelease.DtRelease);
+            ViewBag.Contributions = GetDriverCashRelease(cashRelease.crLogDriverId, 4, cashRelease.DtRelease);
             ViewBag.crLogTrips = tripLogs ?? new List<crLogTrip>();
 
             return View(cashRelease);
