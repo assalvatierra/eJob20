@@ -24,75 +24,34 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby)
         {
 
-            try
-            {
-                var defaultStartDate = dt.GetCurrentDate();
-                //Get Logs
-                var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
-
-                //Filter
-                if (!startDate.IsNullOrWhiteSpace() && !endDate.IsNullOrWhiteSpace())
+            //try
+            //{
+            
+                if (!startDate.IsNullOrWhiteSpace())
                 {
-                    var sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
-                    var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
-
-                    crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
+                    Session["triplog-startDate"] = startDate;
                 }
                 else
                 {
-                    crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= defaultStartDate);
-                }
-
-                if (!String.IsNullOrEmpty(unit) && unit != "all" )
-                {
-                    crLogTrips = crLogTrips.Where(c => c.crLogUnit.Description == unit);
-                }
-
-                if (!driver.IsNullOrWhiteSpace() && driver != "all")
-                {
-                    crLogTrips = crLogTrips.Where(c => c.crLogDriver.Name == driver);
-                }
-
-                if (!company.IsNullOrWhiteSpace() && company != "all")
-                {
-                    crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
-                }
-
-                //Sorting
-                switch (sortby)
-                {
-                    case "Unit":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
-                        break;
-                    case "Company":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogDriver.OrderNo);
-                        break;
-                    case "Driver":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.OrderNo).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip));
-                        break;
-                    case "Date":
-                        crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
-                        break;
-                    case "Date-Desc":
-                        crLogTrips = crLogTrips.OrderByDescending(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
-                        break;
-                    default:
-                        crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c=>c.crLogCompany.Name)
-                            .ThenBy(c=>c.crLogDriver.OrderNo).ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c=>c.crLogUnit.Description);
-                        break;
-                }
-
-                HttpCookie shuttle_cookie = HttpContext.Request.Cookies.Get("shuttle_cookie"); 
-
-                if (shuttle_cookie != null)
-                {
-                    if (shuttle_cookie.Value == "1")
+                    if (Session["triplog-startDate"] != null)
                     {
-                        crLogTrips = crLogTrips.Where(c => c.crLogCompany.IsShuttle);
+                        startDate = Session["triplog-startDate"].ToString();
                     }
                 }
-
-                var tripLogs = crLogTrips.ToList();  
+               
+                if (!endDate.IsNullOrWhiteSpace())
+                {
+                    Session["triplog-endDate"] = endDate;
+                }
+                else
+                {
+                    if(Session["triplog-endDate"] != null)
+                    {
+                        endDate = Session["triplog-endDate"].ToString();
+                    }
+                }
+              
+                var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
 
                 //get summary
                 var logSummary = GetCrLogSummary(tripLogs);
@@ -110,88 +69,50 @@ namespace JobsV1.Areas.Personel.Controllers
                 ViewBag.crLogUnitList = dl.GetUnits().ToList();
                 ViewBag.crLogDriverList = dl.GetDrivers().ToList();
                 ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-            return View(tripLogs);
 
-            }
-            catch
-            {
-                return View(new List<crLogTrip>());
-            }
+                return View(tripLogs);
+
+            //}
+            //catch
+            //{
+
+            //    ViewBag.crLogUnitList = dl.GetUnits().ToList();
+            //    ViewBag.crLogDriverList = dl.GetDrivers().ToList();
+            //    ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+
+            //    return View(new List<crLogTrip>());
+            //}
         }
 
         // GET: Personel/CarRentalLog
         public ActionResult IndexBilling(string startDate, string endDate, string unit, string driver, string company, string sortby)
         {
-
-            try
-            {
-                var defaultStartDate = dt.GetCurrentDate();
-                //Get Logs
-                var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
-
-                //Filter
-                if (!startDate.IsNullOrWhiteSpace() && !endDate.IsNullOrWhiteSpace())
+            
+                if (!startDate.IsNullOrWhiteSpace())
                 {
-                    var sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
-                    var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
-
-                    crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
+                    Session["triplog-startDate"] = startDate;
                 }
                 else
                 {
-                    crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= defaultStartDate);
-                }
-
-                if (!String.IsNullOrEmpty(unit) && unit != "all")
-                {
-                    crLogTrips = crLogTrips.Where(c => c.crLogUnit.Description == unit);
-                }
-
-                if (!driver.IsNullOrWhiteSpace() && driver != "all")
-                {
-                    crLogTrips = crLogTrips.Where(c => c.crLogDriver.Name == driver);
-                }
-
-                if (!company.IsNullOrWhiteSpace() && company != "all")
-                {
-                    crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
-                }
-
-                //Sorting
-                switch (sortby)
-                {
-                    case "Unit":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
-                        break;
-                    case "Company":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogDriver.OrderNo);
-                        break;
-                    case "Driver":
-                        crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.OrderNo).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip));
-                        break;
-                    case "Date":
-                        crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
-                        break;
-                    case "Date-Desc":
-                        crLogTrips = crLogTrips.OrderByDescending(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
-                        break;
-                    default:
-                        crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name)
-                            .ThenBy(c => c.crLogDriver.OrderNo).ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c => c.crLogUnit.Description);
-                        break;
-                }
-
-                HttpCookie shuttle_cookie = HttpContext.Request.Cookies.Get("shuttle_cookie");
-
-                if (shuttle_cookie != null)
-                {
-                    if (shuttle_cookie.Value == "1")
+                    if (Session["triplog-startDate"] != null)
                     {
-                        crLogTrips = crLogTrips.Where(c => c.crLogCompany.IsShuttle);
+                        startDate = Session["triplog-startDate"].ToString();
+                    }
+                }
+               
+                if (!endDate.IsNullOrWhiteSpace())
+                {
+                    Session["triplog-endDate"] = endDate;
+                }
+                else
+                {
+                    if(Session["triplog-endDate"] != null)
+                    {
+                        endDate = Session["triplog-endDate"].ToString();
                     }
                 }
 
-                var tripLogs = crLogTrips.ToList();
+                var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
 
                 //get summary
                 var logSummary = GetCrLogSummary(tripLogs);
@@ -211,11 +132,79 @@ namespace JobsV1.Areas.Personel.Controllers
                 ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
                 return View(tripLogs);
 
-            }
-            catch
+          
+        }
+
+        public List<crLogTrip> GetTripLogs(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+            var defaultStartDate = dt.GetCurrentDate();
+            //Get Logs
+            var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
+
+            //Filter
+            if (!startDate.IsNullOrWhiteSpace() && !endDate.IsNullOrWhiteSpace())
             {
-                return View(new List<crLogTrip>());
+                var sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+
+                crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
             }
+            else
+            {
+                crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= defaultStartDate);
+            }
+
+            if (!String.IsNullOrEmpty(unit) && unit != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogUnit.Description == unit);
+            }
+
+            if (!driver.IsNullOrWhiteSpace() && driver != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogDriver.Name == driver);
+            }
+
+            if (!company.IsNullOrWhiteSpace() && company != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
+            }
+
+            //Sorting
+            switch (sortby)
+            {
+                case "Unit":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+                case "Company":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+                case "Driver":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.OrderNo).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip));
+                    break;
+                case "Date":
+                    crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+                case "Date-Desc":
+                    crLogTrips = crLogTrips.OrderByDescending(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+                default:
+                    crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name)
+                        .ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c => c.crLogUnit.Description).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+            }
+
+            HttpCookie shuttle_cookie = HttpContext.Request.Cookies.Get("shuttle_cookie");
+
+            if (shuttle_cookie != null)
+            {
+                if (shuttle_cookie.Value == "1")
+                {
+                    crLogTrips = crLogTrips.Where(c => c.crLogCompany.IsShuttle);
+                }
+            }
+
+            return crLogTrips.ToList();
+
         }
 
 
@@ -358,6 +347,8 @@ namespace JobsV1.Areas.Personel.Controllers
             trip.Expenses = 0;
             trip.Addon = 0;
             trip.DriverFee = 0;
+            trip.DriverOTRate = 50;
+            trip.OTRate = 200;
 
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
@@ -371,7 +362,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime")] crLogTrip crLogTrip)
+        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -395,10 +386,23 @@ namespace JobsV1.Areas.Personel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             crLogTrip crLogTrip = db.crLogTrips.Find(id);
+
             if (crLogTrip == null)
             {
                 return HttpNotFound();
             }
+
+            if (crLogTrip.OTRate == null)
+            {
+                crLogTrip.OTRate = 200;
+            }
+
+
+            if (crLogTrip.DriverOTRate == null)
+            {
+                crLogTrip.DriverOTRate = 50;
+            }
+
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
             ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
@@ -411,13 +415,65 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime")] crLogTrip crLogTrip)
+        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(crLogTrip).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            return View(crLogTrip);
+        }
+
+
+        // GET: Personel/CarRentalLog/Edit/5
+        public ActionResult EditBilling(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+            if (crLogTrip == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (crLogTrip.OTRate == null)
+            {
+                crLogTrip.OTRate = 200;
+            }
+
+
+            if (crLogTrip.DriverOTRate == null)
+            {
+                crLogTrip.DriverOTRate = 50;
+            }
+
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            return View(crLogTrip);
+        }
+
+        // POST: Personel/CarRentalLog/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBilling([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate")] crLogTrip crLogTrip)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexBilling");
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
@@ -1176,17 +1232,24 @@ namespace JobsV1.Areas.Personel.Controllers
                     StartTime = StartTime.AddMinutes(-30);
                 }
 
+                // if night shift
+                if (StartTime.Hour > EndTime.Hour)
+                {
+                    EndTime = EndTime.AddDays(1);
+                }
+
                 int HoursPerTrip = trip.TripHours ?? 0;
 
-                double diff =  (EndTime.Hour - StartTime.Hour) - HoursPerTrip;
+                //calculate time diff and hours per trip
+                double diff =  (EndTime - StartTime).Hours - HoursPerTrip;
 
+                //round off time to 30 mins or 0.5
                 if (StartTime.Minute >= 20 && StartTime.Minute < 40)
                 {
                     diff -= 0.5;
                 }
 
-
-                //round off time end
+                //round off time end +1 hour
                 if (EndTime.Minute >= 40)
                 {
                     diff += 1;
@@ -1196,15 +1259,60 @@ namespace JobsV1.Areas.Personel.Controllers
                     diff += 0.5;
                 }
 
+                //disregard negative time differences
                 if (diff < 0)
                 {
                     return 0;
                 }
 
                 return diff;
+
             }
 
             return 0;
+        }
+
+        //GET : rate of OT per hour based on OTRate for Driver
+        public double GetTripOTRate(int? id)
+        {
+            if (id == null)
+            {
+                return 0;
+            }
+
+            double OTHours = GetTripOTHours(id);
+            double CalcOTRate = 0;
+
+            var trip = db.crLogTrips.Find(id);
+
+            if (trip.DriverOTRate != null)
+            {
+                CalcOTRate = OTHours * Double.Parse(trip.DriverOTRate.ToString()); 
+            }
+
+            return CalcOTRate;
+        }
+
+
+        //GET : rate of OT per hour based on OTRate for Company
+        public double GetTripOTAddon(int? id)
+        {
+            if (id == null)
+            {
+                return 0;
+            }
+
+            double OTHours = GetTripOTHours(id);
+            double CalcOTRate = 0;
+
+            var trip = db.crLogTrips.Find(id);
+
+            if (trip.OTRate != null)
+            {
+                CalcOTRate = OTHours * Double.Parse(trip.OTRate.ToString());
+            }
+
+            return CalcOTRate;
         }
 
 
@@ -1229,7 +1337,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
         // POST: Personel/CarRentalLog/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.SetTripOT
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditOdo(int? id, int? OdoStart, int? OdoEnd)
@@ -1288,6 +1396,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return Json(odoDetails, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpPost]
         public bool SetTripOdo(int? Id, int? OdoStart, int? OdoEnd)
         {
@@ -1311,6 +1420,71 @@ namespace JobsV1.Areas.Personel.Controllers
             return false;
         }
 
+
+        // GET: Personel/CarRentalLog/GetTripOdo/5
+        // id = crLogTripId
+        [HttpGet]
+        public JsonResult GetTripOT(int? id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+
+            if (crLogTrip == null)
+            {
+                return null;
+            }
+
+            //get trip log
+            var triplog = db.crLogTrips.Find(id);
+
+            TripOTRequest odoDetails = new TripOTRequest();
+            odoDetails.Date = triplog.DtTrip.ToShortDateString();
+            odoDetails.Unit = triplog.crLogUnit.Description;
+            odoDetails.Driver = triplog.crLogDriver.Name;
+            odoDetails.Company = triplog.crLogCompany.Name;
+
+            odoDetails.StartTime = triplog.StartTime;
+            odoDetails.EndTime = triplog.EndTime;
+            odoDetails.TripHours = triplog.TripHours ?? 10;
+            odoDetails.OTRate = triplog.OTRate ?? 200;
+            odoDetails.DriverOTRate = triplog.DriverOTRate ?? 50;
+
+
+            return Json(odoDetails, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public bool SetTripOT(int? Id, string StartTime, string EndTime, int? TripHours, Decimal? OTRate, Decimal? DriverOTRate)
+        {
+            if (Id != null)
+            {
+                crLogTrip crLogTrip = db.crLogTrips.Find(Id);
+
+                if (crLogTrip == null)
+                    return false;
+
+                //update odo values
+                crLogTrip.StartTime = StartTime;
+                crLogTrip.EndTime   = EndTime;
+                crLogTrip.TripHours = TripHours;
+                crLogTrip.OTRate    = OTRate;
+                crLogTrip.DriverOTRate = DriverOTRate;
+                crLogTrip.DriverOT = (decimal)GetTripOTRate(Id);
+                crLogTrip.Addon = (decimal)GetTripOTAddon(Id);
+
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
+
         private class TripOdoRequest
         {
             public string Date { get; set; }
@@ -1319,6 +1493,19 @@ namespace JobsV1.Areas.Personel.Controllers
             public string Company { get; set; }
             public int Start { get; set; }
             public int End { get; set; }
+        }
+
+        private class TripOTRequest
+        {
+            public string Date { get; set; }
+            public string Driver { get; set; }
+            public string Unit { get; set; }
+            public string Company { get; set; }
+            public string StartTime { get; set; }
+            public string EndTime { get; set; }
+            public int TripHours { get; set; }
+            public decimal OTRate { get; set; }
+            public decimal DriverOTRate { get; set; }
         }
 
         #endregion
@@ -1552,6 +1739,72 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
         #endregion
+    }
+
+    
+    public class cLogTrip_OT : crLogTrip
+    {
+        public double CalcOTHours { get; set; }
+        public double CalcOTRate { get; set; }
+
+        public void CalculateOT()
+        {
+            var trip = this;
+
+            if (trip.StartTime != null && trip.EndTime != null && trip.TripHours != null)
+            {
+                DateTime StartTime = DateTime.Parse(trip.StartTime);
+                DateTime EndTime = DateTime.Parse(trip.EndTime);
+
+                //round off time start
+                if (StartTime.Minute >= 40)
+                {
+                    StartTime = StartTime.AddHours(1);
+                    StartTime = StartTime.AddMinutes(-30);
+                }
+
+                int HoursPerTrip = trip.TripHours ?? 0;
+
+                double diff = (EndTime.Hour - StartTime.Hour) - HoursPerTrip;
+
+                if (StartTime.Minute >= 20 && StartTime.Minute < 40)
+                {
+                    diff -= 0.5;
+                }
+
+
+                //round off time end
+                if (EndTime.Minute >= 40)
+                {
+                    diff += 1;
+                }
+                if (EndTime.Minute >= 20 && EndTime.Minute < 40)
+                {
+                    diff += 0.5;
+                }
+
+                if (diff < 0)
+                {
+                    this.CalcOTHours = 0;
+                }
+
+                this.CalcOTHours = diff;
+            }
+            else
+            {
+                this.CalcOTHours = 0;
+            }
+
+            if (this.OTRate != 0)
+            {
+                this.CalcOTRate = this.CalcOTHours * Double.Parse(this.OTRate.ToString());
+
+            }
+            else
+            {
+                this.CalcOTRate = 0;
+            }
+        }
     }
 }
 

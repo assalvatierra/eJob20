@@ -1,0 +1,42 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.RptCrBillingReport>
+@{
+    ViewBag.Title = "BillingReport";
+}
+
+<h2>Billing Report</h2>
+
+<table class="table">
+    <tr>
+        <th> Date     </th>
+        <th> Driver   </th>
+        <th> Description </th>
+        <th> Amount   </th>
+        <th> Overtime </th>
+        <th> Add'l Charges </th>
+    </tr>
+
+    @foreach (var trip in Model)
+    {
+    <tr>
+        <td>
+            @trip.Date.ToString("DD-MMM-YY")
+        </td>
+        <td>
+            @trip.Driver
+        </td>
+        <td>
+            @trip.Description   
+        </td>
+        <td>
+            @trip.Amount
+        </td>
+        <td>
+            @trip.Overtime
+        </td>
+        <td>
+            @trip.Addon
+        </td>
+    </tr>
+    }
+</table>
+

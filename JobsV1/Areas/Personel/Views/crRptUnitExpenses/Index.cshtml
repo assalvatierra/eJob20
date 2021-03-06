@@ -16,7 +16,8 @@
     <a href="" data-toggle="modal" data-target="#VehicleTripFilter">Vehicle TripLog</a> |
     <a href="" data-toggle="modal" data-target="#Vehicle-PaymentSummaryFilter">Vehicle Payment Summary</a> |
     <a href="" data-toggle="modal" data-target="#DriverSummaryFilter">Driver Summary</a> |
-    <a href="" data-toggle="modal" data-target="#POSummaryFilter">PO Summary</a>
+    <a href="" data-toggle="modal" data-target="#POSummaryFilter">PO Summary</a>|
+    <a href="" data-toggle="modal" data-target="#BillingRptFilter">Billing</a>
 </p>
 
 <p>
@@ -54,14 +55,14 @@
             <td>
                 @if (item.CrRptUnits.Count() > 0)
                 {
-                <span>
-                    <a href="" data-toggle="modal" data-target="#ItemVehicleSummaryFilter" onclick="Initial_ItemVehicleSummaryFilter('@item.Id','@item.RptName')"> Summary</a> |
-                    <a href="" data-toggle="modal" data-target="#ItemVehicleTripFilter" onclick="Initial_ItemVehicleTripFilter('@item.Id','@item.RptName')"> Trip Logs</a> |
-                    <a href="" data-toggle="modal" data-target="#ItemVehicle-PaymentSummaryFilter" onclick="Initial_ItemVehicle_PaymentSummaryFilter('@item.Id','@item.RptName')"> Payment Summary</a> |
-                    <a href="" data-toggle="modal" data-target="#ItemDriverSummaryFilter" onclick="Initial_ItemDriverSummaryFilter('@item.Id','@item.RptName')"> Driver Summary </a>|
-                    <a href="" data-toggle="modal" data-target="#ItemVehicleExpenseFilter" onclick="Initial_ItemVehicleExpenseFilter('@item.Id','@item.RptName')"> Expense Logs </a>|
-                  @*  <a href="" data-toggle="modal" data-target="#ItemPOSummaryFilter" onclick="Initial_ItemPOSummaryFilter('@item.Id','@item.RptName')"> PO Summary </a>*@
-                </span>
+                    <span>
+                        <a href="" data-toggle="modal" data-target="#ItemVehicleSummaryFilter" onclick="Initial_ItemVehicleSummaryFilter('@item.Id','@item.RptName')"> Summary</a> |
+                        <a href="" data-toggle="modal" data-target="#ItemVehicleTripFilter" onclick="Initial_ItemVehicleTripFilter('@item.Id','@item.RptName')"> Trip Logs</a> |
+                        <a href="" data-toggle="modal" data-target="#ItemVehicle-PaymentSummaryFilter" onclick="Initial_ItemVehicle_PaymentSummaryFilter('@item.Id','@item.RptName')"> Payment Summary</a> |
+                        <a href="" data-toggle="modal" data-target="#ItemDriverSummaryFilter" onclick="Initial_ItemDriverSummaryFilter('@item.Id','@item.RptName')"> Driver Summary </a>|
+                        <a href="" data-toggle="modal" data-target="#ItemVehicleExpenseFilter" onclick="Initial_ItemVehicleExpenseFilter('@item.Id','@item.RptName')"> Expense Logs </a>|
+                        @*  <a href="" data-toggle="modal" data-target="#ItemPOSummaryFilter" onclick="Initial_ItemPOSummaryFilter('@item.Id','@item.RptName')"> PO Summary </a>*@
+                    </span>
                 }
                 else
                 {
@@ -91,6 +92,7 @@
 @Html.Partial("_VehicleTripFilter")
 @Html.Partial("_DriverSummaryFilter")
 @Html.Partial("_POSummaryFilter")
+@Html.Partial("_BillingRptFilter")
 
 @Html.Partial("_ItemVehiclePaymentSummaryFilter")
 @Html.Partial("_ItemVehicleSummaryFilter")
@@ -111,6 +113,7 @@
 @Html.Hidden("VehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
 @Html.Hidden("DriverSummaryReport", Url.Action("DriverSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", driverId = "_driverId" }))
 @Html.Hidden("POSummaryReport", Url.Action("POSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", driverId = "_driverId" }))
+@Html.Hidden("BillingReport", Url.Action("BillingReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", driverId = "_driverId" }))
 
 
 

@@ -168,6 +168,8 @@
     <Property Name="StartTime" Type="nvarchar" Nullable="true" MaxLength="10" />
     <Property Name="EndTime" Type="nvarchar" Nullable="true" MaxLength="10" />
     <Property Name="TripHours" Type="int" Nullable="true" />
+    <Property Name="OTRate" Type="decimal" Nullable="true" />
+    <Property Name="DriverOTRate" Type="decimal" Nullable="true" />
   </EntityType>
   <EntityType Name="crLogCashReleases">
     <Key>
@@ -798,6 +800,8 @@
           <Property Name="StartTime" Type="String" Nullable="true" MaxLength="10" />
           <Property Name="EndTime" Type="String" Nullable="true" MaxLength="10" />
           <Property Name="TripHours" Type="Int32" Nullable="true" />
+          <Property Name="OTRate" Type="Decimal" Nullable="true" />
+          <Property Name="DriverOTRate" Type="Decimal" Nullable="true" />
         </EntityType>
         <Association Name="crLogDrivercrLogTrip">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -1334,6 +1338,8 @@
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
           <ScalarProperty Name="TripHours" ColumnName="TripHours" />
+          <ScalarProperty Name="OTRate" ColumnName="OTRate" />
+          <ScalarProperty Name="DriverOTRate" ColumnName="DriverOTRate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

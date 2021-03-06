@@ -80,7 +80,7 @@
             </div>
         </div>
 
-                
+
         <div class="form-group">
             @Html.LabelFor(model => model.DriverOT, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -104,15 +104,15 @@
                 @Html.ValidationMessageFor(model => model.OdoEnd, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength ="50" } })
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
                 @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.crLogClosingId, "crLogClosingId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -124,7 +124,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TripHours, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TripHours, new { htmlAttributes = new { @class = "form-control" , @maxlength = "50" } })
+                @Html.EditorFor(model => model.TripHours, new { htmlAttributes = new { @class = "form-control", @maxlength = "2", @id="TripHours-textbox" } })
                 @Html.ValidationMessageFor(model => model.TripHours, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -132,18 +132,28 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" , @maxlength = "50" } })
+                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control jqtimepicker", @maxlength = "10" } })
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" , @maxlength = "50" } })
+                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control jqtimepicker-end", @maxlength = "10" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OTRate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OTRate, new { htmlAttributes = new { @class = "form-control", @maxlength = "10" } })
+                @Html.ValidationMessageFor(model => model.OTRate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -159,4 +169,14 @@
 
 @section Scripts{
     <script src="~/Scripts/Filters/FormInputFilter.js"></script>
+    <script src="~/Areas/Personel/Script/CreateTripLogTime.js"></script>
+    <script>
+        $(() => {
+            //initial 
+            console.log($("#TripHours-textbox").val());
+            if ($("#TripHours-textbox").val() == "") {
+                $("#TripHours-textbox").val("12");
+            }
+        });
+    </script>
 }

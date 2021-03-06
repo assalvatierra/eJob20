@@ -45,11 +45,11 @@
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#SummaryModal">Summary</button>
 
-    <button type="button" class="btn btn-default" id="isShuttle" data-toggle="button" onclick="PrevDay()">
+    <button type="button" class="btn btn-default" onclick="PrevDay()">
         &#171; Prev Day
     </button>
 
-    <button type="button" class="btn btn-default" id="isShuttle" data-toggle="button" onclick="NextDay()">
+    <button type="button" class="btn btn-default" onclick="NextDay()">
         Next Day &#187;
     </button>
 </p>
@@ -139,7 +139,7 @@
                             <br />
                             <div class="col-lg-offset-5 col-md-7 col-xs-offset-5 col-xs-7">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary"  id="SubmitFilterBtn">Submit</button>
+                                <button type="submit" class="btn btn-primary" id="SubmitFilterBtn">Submit</button>
                             </div>
                         </form>
                     }
@@ -179,14 +179,14 @@
             Driver
         </th>
         <th>
-            OT&nbsp;Rate
+            Driver&nbsp;OT
         </th>
         @*<th>
-            Odo Start
-        </th>
-        <th>
-            Odo End
-        </th>*@
+                Odo Start
+            </th>
+            <th>
+                Odo End
+            </th>*@
         <th>
             Pass
         </th>
@@ -205,10 +205,11 @@
     {
         var color = "black";
 
-        if (item.DtTrip.DayOfWeek.ToString()  == "Sunday")
+        if (item.DtTrip.DayOfWeek.ToString() == "Sunday")
         {
             color = "red";
-        }else if (item.DtTrip.DayOfWeek.ToString()  == "Saturday")
+        }
+        else if (item.DtTrip.DayOfWeek.ToString() == "Saturday")
         {
             color = "dodgerblue";
         }
@@ -258,14 +259,14 @@
             <td>
                 @item.DriverOT.ToString("#,##0.00")
             </td>
-           
+
             @*<td class="trip-OdoStart">
-                @item.OdoStart
-            </td>
-            <td class="trip-OdoEnd">
-                @item.OdoEnd
-            </td>*@   
-             
+                    @item.OdoStart
+                </td>
+                <td class="trip-OdoEnd">
+                    @item.OdoEnd
+                </td>*@
+
             <td>
                 @{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id }); }
             </td>
@@ -274,10 +275,11 @@
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Action <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" >
+                    <ul class="dropdown-menu">
                         <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                         <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                        <li><a class="cursor-pointer"  onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
+                        <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
+                        <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
                         <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
@@ -286,7 +288,8 @@
                 </div>
 
             </td>
-        </tr> 
+        </tr>
+
     }
 
     @{
@@ -320,6 +323,8 @@
 
 @Html.Partial("_LogOdoUpdateModal")
 
+@Html.Partial("_LogOTUpdateModal")
+
 @Html.Partial("_VehicleSummaryFilter")
 
 @Html.Partial("_VehicleTripFilter")
@@ -331,6 +336,7 @@
 @section Scripts{
     <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
     <script src="~/Scripts/Filters/FormInputFilter.js"></script>
+    <script src="~/Areas/Personel/Script/CreateTripLogTime.js"></script>
     <script>
         $(document).ready(() => {
             $("#filter-unit").val("@ViewBag.FilteredUnit")
@@ -449,7 +455,7 @@
         }
 
         function PrevDay() {
-            
+
             if ("@ViewBag.FilteredsDate" != "") {
                 $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").add(-1, 'days').format("MM/DD/YYYY"))
             } else {
@@ -462,13 +468,13 @@
                 $("#filter-edate").val(moment().add(-1, 'days').format("MM/DD/YYYY"))
             }
 
-            
+
             $("#SubmitFilterBtn").click();
         }
 
 
         function NextDay() {
-            
+
             if ("@ViewBag.FilteredsDate" != "") {
                 $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").add(1, 'days').format("MM/DD/YYYY"))
             } else {
@@ -480,7 +486,7 @@
             } else {
                 $("#filter-edate").val(moment().add(1, 'days').format("MM/DD/YYYY"))
             }
-            
+
             $("#SubmitFilterBtn").click();
         }
 

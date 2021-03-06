@@ -1,0 +1,100 @@
+﻿<!-- Log Odo Update Modal -->
+<div class="modal fade" role="dialog" id="LogOTUpdateModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Log Trip OT Update </h4>
+            </div>
+            <div class="modal-body" style="margin-left:30px;">
+                <div class="row">
+                    <div class="form-group" hidden>
+                        <label class="control-label form-label col-sm-2"> Id </label>
+                        <div class="col-sm-10">
+                            <input class="form-control form-group-margin-bot" type="number" id="OTUpdate-Id" />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12 no-margin">
+                        <label class="control-label form-label col-sm-2"> Date </label>
+                        <div class="col-sm-10">
+                            <p style="margin-top:5px;" type="number" id="OTUpdate-Date" /> <p />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12 no-margin">
+                        <label class="control-label form-label col-sm-2"> Driver </label>
+                        <div class="col-sm-10">
+                            <p style="margin-top:5px;" type="number" id="OTUpdate-Driver" /> <p />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12 no-margin">
+                        <label class="control-label form-label col-sm-2"> Unit </label>
+                        <div class="col-sm-10">
+                            <p style="margin-top:5px;" type="number" id="OTUpdate-Unit" /> <p />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12 no-margin">
+                        <label class="control-label form-label col-sm-2"> Company </label>
+                        <div class="col-sm-10">
+                            <p style="margin-top:5px;" type="number" id="OTUpdate-Company" /> <p />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label class="control-label form-label col-sm-2"> Trip&nbsp;Hours </label>
+                        <div class="col-sm-10">
+                            <input class="form-control " type="number" id="OTUpdate-TripHours" maxlength="2" />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label class="control-label form-label col-sm-2"> Start&nbsp;Time  </label>
+                        <div class="col-sm-10">
+                            <input class="form-control jqtimepicker text-box single-line" type="text" id="OTUpdate-StartTime" maxlength="10" />
+                            <p style="font-size:9px;color:gray;margin-bottom:0px;"> Ex. 9:00 AM  </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label class="control-label form-label col-sm-2"> End&nbsp;Time  </label>
+                        <div class="col-sm-10">
+                            <input class="form-control jqtimepicker-end text-box single-line" type="text" id="OTUpdate-EndTime" maxlength="10" />
+                            <p style="font-size:9px;color:gray;margin-bottom:0px;"> Ex. 7:00 PM  </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-lg-12">
+                        <label class="control-label form-label col-sm-2"> OT&nbsp;Rate  </label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="number" id="OTUpdate-OTRate" maxlength="5" />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label class="control-label form-label col-sm-2"> Driver&nbsp;OT  </label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="number" id="OTUpdate-DriverOTRate" maxlength="5" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="Submit_OTUpdateForm()" >Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .ui-timepicker-standard  {
+        z-index:1060 !important;
+    }
+</style>

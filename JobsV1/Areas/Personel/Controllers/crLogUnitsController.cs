@@ -44,7 +44,7 @@ namespace JobsV1.Areas.Personel.Controllers
         public ActionResult Create()
         {
             ViewBag.Status = new SelectList(StatusList, "value", "text");
-            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "value", "text");
+            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "Id", "Name");
             return View();
         }
 
@@ -63,7 +63,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
-            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "value", "text");
+            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "Id", "Name");
             return View(crLogUnit);
         }
 
@@ -80,7 +80,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return HttpNotFound();
             }
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
-            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "value", "text", crLogUnit.crLogOwnerId);
+            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "Id", "Name", crLogUnit.crLogOwnerId);
             return View(crLogUnit);
         }
 
@@ -98,7 +98,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Status = new SelectList(StatusList, "value", "text", crLogUnit.Status);
-            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "value", "text", crLogUnit.crLogOwnerId);
+            ViewBag.crLogOwnerId = new SelectList(db.crLogOwners, "Id", "Name", crLogUnit.crLogOwnerId);
             return View(crLogUnit);
         }
 

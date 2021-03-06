@@ -4,7 +4,7 @@
     ViewBag.Title = "Trip Log";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
-
+<style href=""></style>
 <style>
     .PanelContainer-main {
         background-color: #eff3f6;
@@ -45,11 +45,11 @@
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#SummaryModal">Summary</button>
 
-    <button type="button" class="btn btn-default" id="isShuttle" data-toggle="button" onclick="PrevDay()">
+    <button type="button" class="btn btn-default" onclick="PrevDay()">
         &#171; Prev Day
     </button>
 
-    <button type="button" class="btn btn-default" id="isShuttle" data-toggle="button" onclick="NextDay()">
+    <button type="button" class="btn btn-default" onclick="NextDay()">
         Next Day &#187;
     </button>
 </p>
@@ -189,10 +189,11 @@
     {
         var color = "black";
 
-        if (item.DtTrip.DayOfWeek.ToString()  == "Sunday")
+        if (item.DtTrip.DayOfWeek.ToString() == "Sunday")
         {
             color = "red";
-        }else if (item.DtTrip.DayOfWeek.ToString()  == "Saturday")
+        }
+        else if (item.DtTrip.DayOfWeek.ToString() == "Saturday")
         {
             color = "dodgerblue";
         }
@@ -231,7 +232,9 @@
                 </span>
             </td>
             <td>
-                @item.DriverOT.ToString("#,##0.00")
+                @*@item.DriverOT.ToString("#,##0.00")*@
+
+                @{ Html.RenderAction("GetTripOTRate", "CarRentalLog", new { id = item.Id }); }
             </td>
             <td>
                 @{ Html.RenderAction("GetTripOTHours", "CarRentalLog", new { id = item.Id }); }
@@ -241,28 +244,28 @@
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Action <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" >
-                        <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Edit", "EditBilling", new { id = item.Id }) </li>
                         <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                        <li><a class="cursor-pointer"  onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
+                        <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
+                        <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
                         <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
                     </ul>
-
                 </div>
-
             </td>
-        </tr> 
+        </tr>
+
     }
 
     @{
         <tr>
-            <td colspan="5">
+            <td colspan="6">
                 <p> Total Count: @count </p>
             </td>
             <td>
-                @totalDriverOT.ToString("#,##0.00")
+                @*  @totalDriverOT.ToString("#,##0.00")*@
             </td>
             <td colspan="3"></td>
         </tr>
@@ -275,17 +278,21 @@
 
 @Html.Partial("_LogOdoUpdateModal")
 
+@Html.Partial("_LogOTUpdateModal")
+
 @Html.Partial("_VehicleSummaryFilter")
 
 @Html.Partial("_VehicleTripFilter")
+
 
 <!-- For Report Redirect -->
 @Html.Hidden("VehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))
 @Html.Hidden("VehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
 
 @section Scripts{
-    <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
     <script src="~/Scripts/Filters/FormInputFilter.js"></script>
+    <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
+    <script src="~/Areas/Personel/Script/CreateTripLogTime.js"></script>
     <script>
         $(document).ready(() => {
             $("#filter-unit").val("@ViewBag.FilteredUnit")
@@ -403,9 +410,9 @@
             })
         }
 
-        
+
         function PrevDay() {
-            
+
             if ("@ViewBag.FilteredsDate" != "") {
                 $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").add(-1, 'days').format("MM/DD/YYYY"))
             } else {
@@ -418,13 +425,13 @@
                 $("#filter-edate").val(moment().add(-1, 'days').format("MM/DD/YYYY"))
             }
 
-            
+
             $("#SubmitFilterBtn").click();
         }
 
 
         function NextDay() {
-            
+
             if ("@ViewBag.FilteredsDate" != "") {
                 $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").add(1, 'days').format("MM/DD/YYYY"))
             } else {

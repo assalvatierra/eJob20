@@ -56,6 +56,9 @@ function SetStartDate(days) {
     $("#filter-sdate").val(moment(sDate).add(days, 'days').format("MM/DD/YYYY"));
 }
 
+/*
+ * Odo Update Modal
+ */ 
 function Show_OdoUpdateModal(tripId) {
     $("#LogOdoUpdateModal").modal("show");
     $("#OdoUpdate-Id").val(tripId);
@@ -109,7 +112,81 @@ function Submit_OdoUpdateForm() {
             $("#LogOdoUpdateModal").modal("hide");
         }
     });
+} 
+
+
+/*
+ * OT Update Modal
+ */
+
+
+function Show_OTUpdateModal(tripId) {
+    $("#LogOTUpdateModal").modal("show");
+    $("#OTUpdate-Id").val(tripId);
+
+    //request OT details
+    GetOTDetails(tripId);
 }
+
+function GetOTDetails(tripId) {
+    if (tripId != null && tripId != 0) {
+        $.get("/Personel/CarRentalLog/GetTripOT", { id: parseInt(tripId) }, (response) => {
+            console.log(response);
+            if (response != null) {
+                $("#OTUpdate-Date").text(response.Date);
+                $("#OTUpdate-Driver").text(response.Driver);
+                $("#OTUpdate-Unit").text(response.Unit);
+                $("#OTUpdate-Company").text(response.Company);
+
+                $("#OTUpdate-StartTime").val(response.StartTime);
+                $("#OTUpdate-EndTime").val(response.EndTime);
+                $("#OTUpdate-TripHours").val(response.TripHours);
+                $("#OTUpdate-OTRate").val(response.OTRate);
+                $("#OTUpdate-DriverOTRate").val(response.DriverOTRate);
+            } else {
+                alert('Unable to get trip details');
+            }
+        });
+    } else {
+        alert('Unable to get trip details');
+    }
+}
+
+function Submit_OTUpdateForm() {
+    var tripId    = parseInt($("#OTUpdate-Id").val());
+    var startTime = $("#OTUpdate-StartTime").val();
+    var endTime   = $("#OTUpdate-EndTime").val();
+    var tripHours = parseInt($("#OTUpdate-TripHours").val());
+    var otRate    = parseInt($("#OTUpdate-OTRate").val());
+    var driverOTRate = parseInt($("#OTUpdate-DriverOTRate").val());
+
+    var otData = {
+        Id: tripId,
+        StartTime: startTime,
+        EndTime: endTime,
+        TripHours: tripHours,
+        OTRate: otRate,
+        DriverOTRate: driverOTRate
+    }
+
+    console.log(otData)
+
+    $.post("/Personel/CarRentalLog/SetTripOT", otData, (response) => {
+        console.log(response);
+        if (response) {
+            window.location.reload(false);
+            //var tripLog = $("#trip-" + tripId);
+            //tripLog.children(".trip-OdoStart").text(odoStart);
+            //tripLog.children(".trip-OdoEnd").text(odoEnd);
+            //$("#LogOdoUpdateModal").modal("hide");
+        } else {
+            alert("An error occured while updating the trip details.");
+            $("#LogOTUpdateModal").modal("hide");
+        }
+    });
+} 
+
+
 
 /**
  *  Reports Filters

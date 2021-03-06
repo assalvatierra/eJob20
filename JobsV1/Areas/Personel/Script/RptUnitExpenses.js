@@ -278,3 +278,33 @@ function Submit_ItemPOSummaryFilter() {
 function ItemVehicle_POSummaryFilter_AddDays(days) {
     $("#ItemPOSummaryFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
 }
+
+
+
+/** Billing Report Filter */
+
+function Initial_BillingRptFilter(rptId, rptName) {
+    $("#BillingRptFilter-rptName").val(rptName);
+    $("#BillingRptFilter-rptId").val(rptId);
+}
+
+function Submit_BillingRptFilter() {
+
+    var startDate = $("#BillingRptFilter-StartDate").val();
+    var endDate = $("#BillingRptFilter-EndDate").val();
+    var rptId = $("#BillingRptFilter-rptId").val();
+    var typeId = $("#BillingRptFilter-typeId").val();
+
+    var url = $("#BillingReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+    url = url.replace('_rptId', rptId);
+    url = url.replace('_typeId', typeId);
+
+    window.location.href = url;
+}
+
+function BillingRptFilter_AddDays(days) {
+    $("#BillingRptFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}
+

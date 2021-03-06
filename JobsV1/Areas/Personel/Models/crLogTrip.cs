@@ -38,6 +38,8 @@ namespace JobsV1.Areas.Personel.Models
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public Nullable<int> TripHours { get; set; }
+        public Nullable<decimal> OTRate { get; set; }
+        public Nullable<decimal> DriverOTRate { get; set; }
     
         public virtual crLogDriver crLogDriver { get; set; }
         public virtual crLogUnit crLogUnit { get; set; }

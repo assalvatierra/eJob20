@@ -82,4 +82,19 @@ namespace JobsV1.Areas.Personel.Models
         public decimal Payment { get; set; }
         public decimal OT { get; set; }
     }
+
+
+    public class RptCrBillingReport
+    {
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public string Time { get; set; }
+        public string Description { get; set; }
+        public string Driver { get; set; }
+        public string Unit { get; set; }
+        public string Remarks { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Overtime { get; set; }
+        public decimal Addon { get; set; }
+    }
 }

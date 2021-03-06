@@ -758,5 +758,65 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return View(vehicleSummaries);
         }
+
+        public ActionResult BillingReport(string DtStart, string DtEnd, int? unitId, int? rptId)
+        {
+
+            DateTime sDate = new DateTime();
+            DateTime eDate = new DateTime();
+
+            if (!DateTime.TryParse(DtStart, out sDate) || !DateTime.TryParse(DtEnd, out eDate))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            TimeSpan duration = new TimeSpan(23, 59, 0); //11:59:0 PM
+            eDate = eDate.Add(duration);
+
+            //get trip logs
+            var tripLogs = db.crLogTrips.Where(t => t.DtTrip >= sDate && t.DtTrip <= eDate);
+
+            if (unitId != null && unitId != 0)
+            {
+                tripLogs = tripLogs.Where(t => t.crLogUnitId == unitId);
+            }
+
+
+            if (rptId != null)
+            {
+                //get unitId List on report
+                var unitReport = db.crRptUnitExpenses.Find(rptId);
+                if (unitReport == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var unitList = unitReport.CrRptUnits.Select(c => c.crLogUnitId).ToList();
+
+                tripLogs = tripLogs.Where(t => unitList.Contains(t.crLogUnitId));
+            }
+
+
+            IEnumerable<RptCrBillingReport> billingRpt = new List<RptCrBillingReport>();
+
+            foreach (var trip in tripLogs.ToList())
+            {
+                RptCrBillingReport rptTrip = new RptCrBillingReport();
+
+                rptTrip.Id = trip.Id;
+                rptTrip.Driver = trip.crLogDriver.Name;
+                rptTrip.Description = trip.crLogUnit.Description 
+                    + " (" +  trip.StartTime +"-"+ trip.EndTime +") "
+                    + trip.Remarks;
+                rptTrip.Amount = trip.Rate;
+                rptTrip.Overtime = trip.Addon;
+                rptTrip.Addon = trip.Addon;
+
+            }
+
+            billingRpt = billingRpt.OrderBy(b => b.Date);
+
+            return View(billingRpt);
+        }
     }
 }
