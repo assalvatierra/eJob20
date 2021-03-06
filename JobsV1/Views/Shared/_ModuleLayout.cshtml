@@ -12,13 +12,12 @@
     <title>@ViewBag.Title </title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">      <!-- Google Fonts : Nunito Regular -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/fonts/glyphicons-halflings-regular.svg" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css/DateRangePicker")
+    @Styles.Render("~/Content/css/jquerytimepicker")
     @Styles.Render("~/Content/themes/base/css")
     <style>
         .CustomBox div span {
@@ -46,7 +45,7 @@
                     <li><a href="/">Home</a></li>
                     @if (Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Control Panel", "Index", "Home", new { area = "" },null)</li>
+                        <li>@Html.ActionLink("Control Panel", "Index", "Home", new { area = "" }, null)</li>
                         @*
                             <li>@Html.ActionLink("Jobs", "JobTable", "JobMains", new { span = 30 }, null)</li>
                             <li>@Html.ActionLink("Accounting", "Index", "AsMain", new { Area = "Accounting", span = 30 }, null)</li>
@@ -67,19 +66,19 @@
 
                 <div class="container">
                     @*<div class="row">
-                        <div class="CustomBox" style="height:110px;display: inline-block;min-width:380px;">
-                            <div class="pull-left" style="display: inline-block;"> @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)</div>
-                        </div>
-                    </div>*@
-                    <div class="row">
-                        @*<div style="vertical-align:top;min-width:300px;">
-                            <div class="CustomBox" style="float:left;width:100%;min-width:380px;">
-                                @Html.Menu2(Url.Content("~/"), "" , "", ROOTMENUID, USERNAME)
-                            </div>
-                            <div class="PanelContainer">
-                                @RenderSection("LeftInfo", required: false)
+                            <div class="CustomBox" style="height:110px;display: inline-block;min-width:380px;">
+                                <div class="pull-left" style="display: inline-block;"> @Html.Module(Url.Content("~/"), "", "", ROOTMENUID)</div>
                             </div>
                         </div>*@
+                    <div class="row">
+                        @*<div style="vertical-align:top;min-width:300px;">
+                                <div class="CustomBox" style="float:left;width:100%;min-width:380px;">
+                                    @Html.Menu2(Url.Content("~/"), "" , "", ROOTMENUID, USERNAME)
+                                </div>
+                                <div class="PanelContainer">
+                                    @RenderSection("LeftInfo", required: false)
+                                </div>
+                            </div>*@
 
                         <div class="PanelContainer-main" style="padding:0px;background-color:#eff3f6;border:none;min-width:98%;">
 
@@ -103,7 +102,7 @@
     </div>
     <footer>
         <div class="content-wrapper">
-            <div class="container" >
+            <div class="container">
                 <p>&copy; @DateTime.Now.Year - Realwheelsdavao.com  </p>
             </div>
         </div>
@@ -130,6 +129,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/DateRangePicker")
+    @Scripts.Render("~/bundles/jquerytimepicker")
     @RenderSection("scripts", required: false)
 </body>
 </html>

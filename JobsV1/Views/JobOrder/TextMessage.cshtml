@@ -5,11 +5,37 @@
 }
 
 @Html.Partial("~/Views/Shared/Menu.cshtml", null, new ViewDataDictionary { { "ROOTMENUID", 3 } })
+    <div class="col-md-12">
+        <h2 >Trip Message</h2>
 
-<h2>Trip Message</h2>
+            <div class="col-md-12">
+                <textarea cols="40" rows="20" id="client-msg" class="form-control">
+                @ViewBag.StrData
+                </textarea>
+            </div>
 
-<textarea cols="50" rows="15">
-@ViewBag.StrData
-</textarea>
+            <button class="col-lg-offset-2 btn btn-primary"
+                    style="margin-left:238px;"
+                    onclick="CopyClient(this)">
+                Copy
+            </button>
+
+        <p>
+            @Html.ActionLink("Back to Job Details", "JobServices", new { JobMainId = ViewBag.JobMainId })
+        </p>
+    </div>
 
 
+@section Scripts{
+    <script>
+        function CopyClient(e) {
+
+            $('#client-msg').select();
+            document.execCommand('copy');
+            $(e).text('Copied');
+            $(e).removeClass('btn-primary');
+            $(e).addClass('btn-success');
+        }
+
+    </script>
+}

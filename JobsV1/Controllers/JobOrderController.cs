@@ -2431,9 +2431,10 @@ order by x.jobid
             }
         }
 
+        //Param: id = job service ID
         public ActionResult TextMessage(int? id)
         {
-            string sData = "Pickup Details";
+            string sData = "Booking Details";
 
             Models.JobServicePickup svcpu;
             Models.JobServices svc = db.JobServices.Find(id);
@@ -2466,7 +2467,7 @@ order by x.jobid
 
                 svcpu = svc.JobServicePickups.FirstOrDefault();
                 sData += "\nDate:" + ((DateTime)svc.DtStart).ToString("dd MMM yyyy (ddd)");
-                sData += "\nTime:" + svcpu.JsTime ;
+                sData += "\nPickup Time:" + svcpu.JsTime ;
                 sData += "\nLocation:"  + svcpu.JsLocation;
 
                 sData += "\n\nGuest:" + svcpu.ClientName ;
@@ -2490,6 +2491,7 @@ order by x.jobid
                 sData += "\n\nThank you for Trusting \n" + custName;
             }
 
+            ViewBag.JobMainId = svc.JobMainId;
             ViewBag.StrData = sData;
             return View();
         }
@@ -2504,7 +2506,7 @@ order by x.jobid
             string custName = jobmain.Branch.Name;
             int pickupCount = 0;
 
-            sData += "Booking Confirmation";
+            sData += "Booking Details";
 
             switch (custName)
             {
@@ -2530,13 +2532,13 @@ order by x.jobid
                 Decimal quote = (jobmain.AgreedAmt == null ? 0 : (decimal)jobmain.AgreedAmt);
                 sData += "\n\nGuest:" + jobmain.Description + " " + getCustomerCompany(jobmain.Id);
                 sData += "\nContact:" + jobmain.CustContactNumber;
-                sData += "\n---------------";
+                sData += " ";
 
                 foreach (var svi in svc)
                 {
 
                     decimal quoted = svi.QuotedAmt != null ? (decimal)svi.QuotedAmt : 0 ;
-                    sData += "\n\nDate:" + ((DateTime)svi.DtStart).ToString("dd MMM yyyy (ddd)") + " - " + ((DateTime)svi.DtEnd).ToString("dd MMM yyyy (ddd)");
+                    sData += "\n\nDate:" + ((DateTime)svi.DtStart).ToString("MMM dd yyyy (ddd)") + " - " + ((DateTime)svi.DtEnd).ToString("MMM dd yyyy (ddd)");
                     sData += "\nDescription:" + svi.Particulars;
                     sData += "\nVehicle:" + svi.SupplierItem.Description;
                     sData += "\nRate:P" + quoted.ToString("##,###.00");
@@ -2549,7 +2551,7 @@ order by x.jobid
                         foreach (var jobPickup in svi.JobServicePickups)
                         {
                             //Pickup Details
-                            sData += "\n\nPickup: ";
+                            sData += "\n\nPickup Time: ";
                             sData += " " + jobPickup.JsTime ;
                             sData += " " + jobPickup.JsDate.ToString("MMM dd yyyy");
                             sData += "\nLocation: " + jobPickup.JsLocation;
@@ -2559,7 +2561,7 @@ order by x.jobid
                     }
 
 
-                    sData += "\n---------------";
+                    sData += " ";
                 }// end of job services
 
                 if(pickupCount == 0) { 
@@ -2585,6 +2587,7 @@ order by x.jobid
                 sData += "\n" + custName;
             }
 
+            ViewBag.JobMainId = id;
             ViewBag.StrData = sData;
 
             if (id != null)
@@ -2632,7 +2635,7 @@ order by x.jobid
                 Decimal quote = (jobmain.AgreedAmt == null ? 0 : (decimal)jobmain.AgreedAmt);
                 sData += "\n\nGuest:" + jobmain.Description + " " + getCustomerCompany(jobmain.Id);
                 sData += "\nContact:" + jobmain.CustContactNumber;
-                sData += "\n---------------";
+                sData += " ";
 
                 foreach (var svi in svc)
                 {
@@ -2651,7 +2654,7 @@ order by x.jobid
                         {
                             if (jobPickup != null) { 
                                 //Pickup Details
-                                sData += "\n\nPickup: ";
+                                sData += "\n\nPickup Time: ";
                                 sData += " " + jobPickup.JsTime;
                                 sData += " " + jobPickup.JsDate.ToString(" MMM dd yyyy");
                                 sData += "\nLocation: " + jobPickup.JsLocation;
@@ -2675,7 +2678,7 @@ order by x.jobid
                         }
                     }
 
-                    sData += "\n---------------";
+                    sData += " ";
                 }
 
                 if (pickupCount == 0)

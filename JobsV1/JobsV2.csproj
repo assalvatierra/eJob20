@@ -2452,6 +2452,10 @@
     <Content Include="Areas\Personel\Views\crLogFuels\PrintFuelRequestForm.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrintPOForm.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\IndexBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\EditBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalReport\BillingReport.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\_BillingRptFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_LogOTUpdateModal.cshtml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -3309,6 +3313,7 @@
     <Content Include="Views\Shared\_LayoutLandingPage.cshtml" />
     <Content Include="Views\CarReservations\_SearchCompanyModal.cshtml" />
     <Content Include="Views\CarReservations\_SearchCustomerModal.cshtml" />
+    <Content Include="Views\JobContacts\CreateContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

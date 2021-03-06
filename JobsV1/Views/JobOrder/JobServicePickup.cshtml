@@ -111,6 +111,9 @@
             </tr>
         }
     </table>
+    <p>
+        @Html.ActionLink("Add Contact", "CreateContact", "JobContact", new { jsId = Model.Id }, null)
+    </p>
 </div>
 
 @section Scripts {

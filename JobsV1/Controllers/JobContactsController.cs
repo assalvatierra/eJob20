@@ -58,6 +58,31 @@ namespace JobsV1.Controllers
             return View(jobContact);
         }
 
+        // GET: JobContacts/Create
+        public ActionResult CreateContact(int? jsId)
+        {
+            ViewBag.jsId = jsId;
+            return View();
+        }
+
+        // POST: JobContacts/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateContact([Bind(Include = "Id,Name,ShortName,Company,Position,Tel1,Tel2,Email,AddInfo,Remarks,ContactType")] JobContact jobContact, int? jsId)
+        {
+            if (ModelState.IsValid)
+            {
+                db.JobContacts.Add(jobContact);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.jsId = jsId;
+            return View(jobContact);
+        }
+
         // GET: JobContacts/Edit/5
         public ActionResult Edit(int? id)
         {

@@ -6,16 +6,42 @@
 <div class="row">
     <h2>Text Confirmation</h2>
     <div class="col-lg-4">
-        <h4>For Client</h4>
-        <textarea cols="50" rows="15">
+        <div class="col-lg-12">
+            <h4>For Client</h4>
+            <textarea cols="50" rows="15" id="client-msg">
             @ViewBag.StrData
         </textarea>
+        </div>
+        <button class="btn btn-primary col-lg-offset-8" onclick="CopyClient(this)"> Copy </button>
     </div>
 
     <div class="col-lg-4">
-        <h4>For Driver</h4>
-        <textarea cols="50" rows="15">
+        <div class="col-lg-12">
+            <h4>For Driver</h4>
+            <textarea cols="50" rows="15" id="driver-msg">
             @ViewBag.forDriver
         </textarea>
+        </div>
+        <button class="btn btn-primary col-lg-offset-8" onclick="CopyDriver(this)"> Copy </button>
     </div>
 </div>
+
+@section Scripts{
+   <script>
+       function CopyClient(e){ 
+            $('#client-msg').select();
+            document.execCommand('copy');
+            $(e).text('Copied');
+            $(e).removeClass('btn-primary');
+            $(e).addClass('btn-success');
+       }
+       
+       function CopyDriver(e){
+            $('#driver-msg').select();
+            document.execCommand('copy');
+            $(e).text('Copied');
+            $(e).removeClass('btn-primary');
+            $(e).addClass('btn-success');
+       }
+    </script>
+    }

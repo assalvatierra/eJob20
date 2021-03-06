@@ -5,7 +5,6 @@
 $(function () {
     $("input[type='number']").keydown(function (event) {
 
-
         if (event.shiftKey == true) {
             event.preventDefault();
         }
