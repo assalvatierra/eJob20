@@ -19,7 +19,7 @@
 </style>
 
 <div class="view-header">
-    <h2>Sales Lead: List</h2>
+    <h2> Procurement Activities</h2>
 
     <div class="header-btn-list">
         <div class="btn-group">
@@ -90,19 +90,6 @@
 
                         @foreach (var salesstat in SalesStatCode)
                         {
-                            @*if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
-                            {
-                                <span style="font-weight:800; color: gray">
-                                    @salesstat.Name  &nbsp;>
-                                </span>
-                            }
-                            else
-                            {
-                                <span>
-                                    @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
-                                </span>
-                            }*@
-
                             <span>&#187;</span>
                             if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
                             {
@@ -129,18 +116,14 @@
                                     if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
                                     {
                                         var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
-                                   
-                                    <text>
-                                        @company.Name 
-                                    </text> 
+
+                                        <text>
+                                            @company.Name
+                                        </text>
                                     }
                                 }
-                                catch (Exception)
-                                {
-
-                                }
+                                catch (Exception) { }
                             }
-
                         </span> |
                         <span style="color:maroon;font:bold 12px arial, verdana;">
                             @Html.DisplayFor(modelItem => item.CustName)
@@ -159,14 +142,6 @@
 
                         </span>
 
-                        &nbsp; &nbsp;
-                        @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
-                        [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
-                        @*@Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |*@
-                        @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id })
-                        @*@Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })*@
-                        ]
-
                         @foreach (var salescat in item.SalesLeadCategories)
                         {
                             <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
@@ -177,7 +152,7 @@
 
                         <br />
                         <span style="font-weight:600;color:#282828;">
-                            @Html.DisplayFor(modelItem => item.SalesCode) - 
+                            @Html.DisplayFor(modelItem => item.SalesCode) -
                         </span>
 
                         <span style="font-weight:600;color:darkblue;">
@@ -188,73 +163,93 @@
                             @Html.DisplayFor(modelItem => item.Remarks)
                         </span>
                         <br />
-                       
-                        <!-- Activities-->
-                        @if (!String.IsNullOrWhiteSpace(item.SalesCode))
+
+                        <!-- Activities -->
+                        @*@if (!String.IsNullOrWhiteSpace(item.SalesCode))
                         {
-                        
+
                             if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
                             {
                                 var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
-                           
+
                                 Html.RenderAction("CustActivitiesPartial", new { salesCode = item.SalesCode });
-                                <span> 
+                                <span>
                                     [@Html.ActionLink("Add Activity", "ListCustActivityCodes",
-                                     new { id = item.Id, salesCode = item.SalesCode, projectName = item.Details,
-                                           amount = item.Price, companyId = company.Id })]
+                                    new
+                                         {
+                                             id = item.Id,
+                                             salesCode = item.SalesCode,
+                                             projectName = item.Details,
+                                             amount = item.Price,
+                                             companyId = company.Id
+                                         })]
                                 </span>
-                             }
+                            }
                         }
                         else
                         {
-                                var salesCode = item.SalesCode ?? "";
-                                @*@String.IsNullOrWhiteSpace(item.SalesCode)*@
-                                <span style="font:bold 8px, arial, verdana; color:maroon ;">
-                                    Activities <br />
-                                </span>
+                            var salesCode = item.SalesCode ?? "";
 
-                                <span style="font:bold 8px, arial, verdana; color: royalblue;">
-                                    @foreach (var tmpAct in item.SalesActivities)
+                            <span style="font:bold 8px, arial, verdana; color:maroon ;">
+                                Activities <br />
+                            </span>
+
+                            <span style="font:bold 8px, arial, verdana; color: royalblue;">
+                                @foreach (var tmpAct in item.SalesActivities)
+                                {
+                                    if (tmpAct.SalesActStatusId == 1)
                                     {
-                                        if (tmpAct.SalesActStatusId == 1)
-                                        {
-                                            <span style="color:red;font-weight:800;">! </span>
-                                            <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                                 alt=@tmpAct.SalesActCode.iconPath height="16"
-                                                 title=@tmpAct.SalesActCode.iconPath />
+                                        <span style="color:red;font-weight:800;">! </span>
+                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                             alt=@tmpAct.SalesActCode.iconPath height="16"
+                                             title=@tmpAct.SalesActCode.iconPath />
 
-                                            <span style="color:maroon;">@tmpAct.Particulars</span>
-                                            <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                            @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
-                                            @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })
+                                        <span style="color:maroon;">@tmpAct.Particulars</span>
+                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
+                                        @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })
 
-                                            <br />
-                                        }
-                                        if (tmpAct.SalesActStatusId == 2) 
-                                        {
-                                            <span style="color:darkgray;font-weight:800;">&#10004; </span>
-                                            <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                                 alt=@tmpAct.SalesActCode.iconPath height="16"
-                                                 title=@tmpAct.SalesActCode.iconPath />
-                                            <span style="color:darkgray;">@tmpAct.Particulars</span>
-                                            <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                            <br />
-                                        }
-                                        if (tmpAct.SalesActStatusId == 3)
-                                        {
-                                            <span style="color:darkgray;font-weight:800;">&#x2022; </span>
-                                            <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                                 alt=@tmpAct.SalesActCode.iconPath height="16"
-                                                 title=@tmpAct.SalesActCode.iconPath />
-                                            <span style="color:darkgray;">@tmpAct.Particulars</span>
-                                            <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                            <br />
-                                        }
+                                        <br />
                                     }
-                                </span>
-                            
+                                    if (tmpAct.SalesActStatusId == 2)
+                                    {
+                                        <span style="color:darkgray;font-weight:800;">&#10004; </span>
+                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                             alt=@tmpAct.SalesActCode.iconPath height="16"
+                                             title=@tmpAct.SalesActCode.iconPath />
+                                        <span style="color:darkgray;">@tmpAct.Particulars</span>
+                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        <br />
+                                    }
+                                    if (tmpAct.SalesActStatusId == 3)
+                                    {
+                                        <span style="color:darkgray;font-weight:800;">&#x2022; </span>
+                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
+                                             alt=@tmpAct.SalesActCode.iconPath height="16"
+                                             title=@tmpAct.SalesActCode.iconPath />
+                                        <span style="color:darkgray;">@tmpAct.Particulars</span>
+                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        <br />
+                                    }
+                                }
+                            </span>
+
 
                             <span>[ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]</span>
+                        }*@
+
+                        <!-- Supplier/Procurement Activities -->
+                        @if (!String.IsNullOrWhiteSpace(item.SalesCode))
+                        {
+                            @*<span> @Html.ActionLink("[ Add Procurement Activity ] ", "ListProcActivityCode", new { id = item.Id }, new { @class = "" }) </span>*@
+
+                            <span>
+                                @Html.ActionLink("[ Add Activity ]", "ListProcActivityCodes",new{ id = item.Id })
+                            </span>
+                        }
+                        else
+                        {
+                            <span> @Html.ActionLink("[ Add Procurement Activity ] ", "ListActivityCode", new { id = item.Id }, new { @class = "" }) </span>
                         }
 
 
@@ -263,7 +258,6 @@
                         <span style="font:bolder 12px, arial, verdana; color:black;font-weight:600;">
                             ITEMS
                         </span> <br />
-
                         <div id="SalesLeadItems-@item.Id">
                             @foreach (var invItems in item.SalesLeadItems)
                             {
@@ -286,7 +280,7 @@
                                         </span>
                                     </div>
 
-                                    @*<div id="supItem-@invItems.Id">
+                                    <div id="supItem-@invItems.Id">
                                         @foreach (var supItem in invItems.SalesLeadQuotedItems)
                                         {
                                             <p style="margin:3px 20px;">
@@ -305,11 +299,10 @@
                                                 <a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>
                                             </p>
                                         }
-                                    </div>*@
+                                    </div>
 
                                     <!--Add Item-->
-                                    @*<a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier ]</a>*@
-
+                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier ]</a>
                                 </div>
                             }
                         </div>
@@ -398,7 +391,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- Edit Sales Lead Item-->
 <div class="modal fade" id="EditSupLeadItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -453,8 +445,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
 @{Html.RenderPartial("AddSupItemPartial", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier } });}
 
 <div class="view-content" hidden>
@@ -554,7 +544,7 @@
                 },
                 error: function (data) {
                     console.log(data);
-                    location.reload(false);
+                    location.reload(true);
                 }
             });
         }
@@ -580,7 +570,7 @@
                 },
                 error: function (data) {
                     console.log(data);
-                    location.reload(false);
+                    location.reload(true);
                 }
             });
         }
@@ -621,7 +611,7 @@
                 },
                 error: function (data) {
                     console.log(data);
-                    location.reload(false);
+                    location.reload(true);
                 }
             });
         }

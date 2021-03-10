@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<JobsV1.Areas.Personel.Models.RptCrBillingReport>
 @{
     ViewBag.Title = "BillingReport";
+
+    decimal TotalAmount = 0;
+    decimal TotalOT = 0;
+    decimal TotalAddon = 0;
 }
 
 <h2>Billing Report</h2>
@@ -17,9 +21,11 @@
 
     @foreach (var trip in Model)
     {
+
+        TotalAmount = trip.Amount;
     <tr>
         <td>
-            @trip.Date.ToString("DD-MMM-YY")
+            @trip.Date.ToString("dd-MMM-yyyy")
         </td>
         <td>
             @trip.Driver
@@ -28,13 +34,13 @@
             @trip.Description   
         </td>
         <td>
-            @trip.Amount
+            @trip.Amount.ToString("N0")
         </td>
         <td>
-            @trip.Overtime
+            @trip.Overtime.ToString("N0")
         </td>
         <td>
-            @trip.Addon
+            @trip.Addon.ToString("N0")
         </td>
     </tr>
     }

@@ -150,6 +150,10 @@
     <EntitySet Name="CustEntActActionStatus" EntityType="JobDB.Store.CustEntActActionStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CarDetails" EntityType="JobDB.Store.CarDetails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CarResTypes" EntityType="JobDB.Store.CarResTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesLeadSupplierActivities" EntityType="JobDB.Store.SalesLeadSupplierActivities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesProcStatus" EntityType="JobDB.Store.SalesProcStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesProcStatusCodes" EntityType="JobDB.Store.SalesProcStatusCodes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SupplierActActionCodes" EntityType="JobDB.Store.SupplierActActionCodes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -725,6 +729,26 @@
     <AssociationSet Name="CarResTypeCarReservation" Association="JobDB.Store.CarResTypeCarReservation">
       <End Role="CarResType" EntitySet="CarResTypes" />
       <End Role="CarReservation" EntitySet="CarReservations" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadSupplierActivitySalesLead" Association="JobDB.Store.SalesLeadSupplierActivitySalesLead">
+      <End Role="SalesLeadSupplierActivity" EntitySet="SalesLeadSupplierActivities" />
+      <End Role="SalesLead" EntitySet="SalesLeads" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadSupplierActivitySupplierActivity" Association="JobDB.Store.SalesLeadSupplierActivitySupplierActivity">
+      <End Role="SalesLeadSupplierActivity" EntitySet="SalesLeadSupplierActivities" />
+      <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+    </AssociationSet>
+    <AssociationSet Name="SalesProcStatusSalesProcStatusCode" Association="JobDB.Store.SalesProcStatusSalesProcStatusCode">
+      <End Role="SalesProcStatus" EntitySet="SalesProcStatus" />
+      <End Role="SalesProcStatusCode" EntitySet="SalesProcStatusCodes" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadSalesProcStatus" Association="JobDB.Store.SalesLeadSalesProcStatus">
+      <End Role="SalesProcStatus" EntitySet="SalesProcStatus" />
+      <End Role="SalesLead" EntitySet="SalesLeads" />
+    </AssociationSet>
+    <AssociationSet Name="SupplierActActionCodeSupplierActivity" Association="JobDB.Store.SupplierActActionCodeSupplierActivity">
+      <End Role="SupplierActActionCode" EntitySet="SupplierActActionCodes" />
+      <End Role="SupplierActivity" EntitySet="SupplierActivities" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1905,6 +1929,8 @@
     <Property Name="Type" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="ActivityType" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="SupplierActStatusId" Type="int" Nullable="false" />
+    <Property Name="SupplierActActionCodeId" Type="int" Nullable="false" />
+    <Property Name="ProjName" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="SupDocuments">
     <Key>
@@ -2233,6 +2259,43 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="SalesLeadSupplierActivities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SalesLeadId" Type="int" Nullable="false" />
+    <Property Name="SupplierActivityId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SalesProcStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DtStatus" Type="datetime" Nullable="false" />
+    <Property Name="SalesProcStatusCodeId" Type="int" Nullable="false" />
+    <Property Name="SalesLeadId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SalesProcStatusCodes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SeqNo" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="iconPath" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SupplierActActionCodes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Desc" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="SysCode" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="iconPath" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="DefaultActStatus" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -3962,6 +4025,66 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SalesLeadSupplierActivitySalesLead">
+    <End Role="SalesLeadSupplierActivity" Type="JobDB.Store.SalesLeadSupplierActivities" Multiplicity="*" />
+    <End Role="SalesLead" Type="JobDB.Store.SalesLeads" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SalesLead">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadSupplierActivity">
+        <PropertyRef Name="SalesLeadId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SalesLeadSupplierActivitySupplierActivity">
+    <End Role="SalesLeadSupplierActivity" Type="JobDB.Store.SalesLeadSupplierActivities" Multiplicity="*" />
+    <End Role="SupplierActivity" Type="JobDB.Store.SupplierActivities" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SupplierActivity">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadSupplierActivity">
+        <PropertyRef Name="SupplierActivityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SalesProcStatusSalesProcStatusCode">
+    <End Role="SalesProcStatus" Type="JobDB.Store.SalesProcStatus" Multiplicity="*" />
+    <End Role="SalesProcStatusCode" Type="JobDB.Store.SalesProcStatusCodes" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SalesProcStatusCode">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesProcStatus">
+        <PropertyRef Name="SalesProcStatusCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SalesLeadSalesProcStatus">
+    <End Role="SalesProcStatus" Type="JobDB.Store.SalesProcStatus" Multiplicity="*" />
+    <End Role="SalesLead" Type="JobDB.Store.SalesLeads" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SalesLead">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesProcStatus">
+        <PropertyRef Name="SalesLeadId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SupplierActActionCodeSupplierActivity">
+    <End Role="SupplierActActionCode" Type="JobDB.Store.SupplierActActionCodes" Multiplicity="1" />
+    <End Role="SupplierActivity" Type="JobDB.Store.SupplierActivities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SupplierActActionCode">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SupplierActivity">
+        <PropertyRef Name="SupplierActActionCodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4686,6 +4809,30 @@
           <AssociationSet Name="CarResTypeCarReservation" Association="JobDB.CarResTypeCarReservation">
             <End Role="CarResType" EntitySet="CarResTypes" />
             <End Role="CarReservation" EntitySet="CarReservations" />
+          </AssociationSet>
+          <EntitySet Name="SalesLeadSupplierActivities" EntityType="JobDB.SalesLeadSupplierActivity" />
+          <AssociationSet Name="SalesLeadSupplierActivitySalesLead" Association="JobDB.SalesLeadSupplierActivitySalesLead">
+            <End Role="SalesLeadSupplierActivity" EntitySet="SalesLeadSupplierActivities" />
+            <End Role="SalesLead" EntitySet="SalesLeads" />
+          </AssociationSet>
+          <AssociationSet Name="SalesLeadSupplierActivitySupplierActivity" Association="JobDB.SalesLeadSupplierActivitySupplierActivity">
+            <End Role="SalesLeadSupplierActivity" EntitySet="SalesLeadSupplierActivities" />
+            <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+          </AssociationSet>
+          <EntitySet Name="SalesProcStatus" EntityType="JobDB.SalesProcStatus" />
+          <EntitySet Name="SalesProcStatusCodes" EntityType="JobDB.SalesProcStatusCode" />
+          <AssociationSet Name="SalesProcStatusSalesProcStatusCode" Association="JobDB.SalesProcStatusSalesProcStatusCode">
+            <End Role="SalesProcStatus" EntitySet="SalesProcStatus" />
+            <End Role="SalesProcStatusCode" EntitySet="SalesProcStatusCodes" />
+          </AssociationSet>
+          <AssociationSet Name="SalesLeadSalesProcStatus" Association="JobDB.SalesLeadSalesProcStatus">
+            <End Role="SalesProcStatus" EntitySet="SalesProcStatus" />
+            <End Role="SalesLead" EntitySet="SalesLeads" />
+          </AssociationSet>
+          <EntitySet Name="SupplierActActionCodes" EntityType="JobDB.SupplierActActionCode" />
+          <AssociationSet Name="SupplierActActionCodeSupplierActivity" Association="JobDB.SupplierActActionCodeSupplierActivity">
+            <End Role="SupplierActActionCode" EntitySet="SupplierActActionCodes" />
+            <End Role="SupplierActivity" EntitySet="SupplierActivities" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -5653,6 +5800,8 @@
           <NavigationProperty Name="SalesLeadCompanies" Relationship="JobDB.SalesLeadSalesLeadCompany" FromRole="SalesLead" ToRole="SalesLeadCompany" />
           <NavigationProperty Name="SalesLeadItems" Relationship="JobDB.SalesLeadSalesLeadItems" FromRole="SalesLead" ToRole="SalesLeadItems" />
           <Property Name="SalesCode" Type="String" Nullable="true" MaxLength="40" />
+          <NavigationProperty Name="SalesLeadSupplierActivities" Relationship="JobDB.SalesLeadSupplierActivitySalesLead" FromRole="SalesLead" ToRole="SalesLeadSupplierActivity" />
+          <NavigationProperty Name="SalesProcStatus" Relationship="JobDB.SalesLeadSalesProcStatus" FromRole="SalesLead" ToRole="SalesProcStatus" />
         </EntityType>
         <EntityType Name="SalesStatusCode">
           <Key>
@@ -7386,6 +7535,10 @@
           <Property Name="ActivityType" Type="String" Nullable="false" MaxLength="20" />
           <NavigationProperty Name="SupplierActStatu" Relationship="JobDB.SupplierActStatusSupplierActivity" FromRole="SupplierActivity" ToRole="SupplierActStatus" />
           <Property Name="SupplierActStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesLeadSupplierActivities" Relationship="JobDB.SalesLeadSupplierActivitySupplierActivity" FromRole="SupplierActivity" ToRole="SalesLeadSupplierActivity" />
+          <NavigationProperty Name="SupplierActActionCode" Relationship="JobDB.SupplierActActionCodeSupplierActivity" FromRole="SupplierActivity" ToRole="SupplierActActionCode" />
+          <Property Name="SupplierActActionCodeId" Type="Int32" Nullable="false" />
+          <Property Name="ProjName" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <Association Name="SupplierSupplierActivity">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -8210,6 +8363,109 @@
             </Principal>
             <Dependent Role="CarReservation">
               <PropertyRef Name="CarResTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesLeadSupplierActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadSupplierActivitySalesLead" FromRole="SalesLeadSupplierActivity" ToRole="SalesLead" />
+          <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SupplierActivity" Relationship="JobDB.SalesLeadSupplierActivitySupplierActivity" FromRole="SalesLeadSupplierActivity" ToRole="SupplierActivity" />
+          <Property Name="SupplierActivityId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="SalesLeadSupplierActivitySalesLead">
+          <End Type="JobDB.SalesLeadSupplierActivity" Role="SalesLeadSupplierActivity" Multiplicity="*" />
+          <End Type="JobDB.SalesLead" Role="SalesLead" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="SalesLead">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesLeadSupplierActivity">
+              <PropertyRef Name="SalesLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SalesLeadSupplierActivitySupplierActivity">
+          <End Type="JobDB.SalesLeadSupplierActivity" Role="SalesLeadSupplierActivity" Multiplicity="*" />
+          <End Type="JobDB.SupplierActivity" Role="SupplierActivity" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierActivity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesLeadSupplierActivity">
+              <PropertyRef Name="SupplierActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesProcStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DtStatus" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="SalesProcStatusCode" Relationship="JobDB.SalesProcStatusSalesProcStatusCode" FromRole="SalesProcStatus" ToRole="SalesProcStatusCode" />
+          <Property Name="SalesProcStatusCodeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadSalesProcStatus" FromRole="SalesProcStatus" ToRole="SalesLead" />
+          <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesProcStatusCode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SeqNo" Type="String" Nullable="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="iconPath" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="SalesProcStatus" Relationship="JobDB.SalesProcStatusSalesProcStatusCode" FromRole="SalesProcStatusCode" ToRole="SalesProcStatus" />
+        </EntityType>
+        <Association Name="SalesProcStatusSalesProcStatusCode">
+          <End Type="JobDB.SalesProcStatus" Role="SalesProcStatus" Multiplicity="*" />
+          <End Type="JobDB.SalesProcStatusCode" Role="SalesProcStatusCode" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="SalesProcStatusCode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesProcStatus">
+              <PropertyRef Name="SalesProcStatusCodeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SalesLeadSalesProcStatus">
+          <End Type="JobDB.SalesProcStatus" Role="SalesProcStatus" Multiplicity="*" />
+          <End Type="JobDB.SalesLead" Role="SalesLead" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="SalesLead">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesProcStatus">
+              <PropertyRef Name="SalesLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SupplierActActionCode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Desc" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="SysCode" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="iconPath" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="DefaultActStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SupplierActivities" Relationship="JobDB.SupplierActActionCodeSupplierActivity" FromRole="SupplierActActionCode" ToRole="SupplierActivity" />
+        </EntityType>
+        <Association Name="SupplierActActionCodeSupplierActivity">
+          <End Type="JobDB.SupplierActActionCode" Role="SupplierActActionCode" Multiplicity="1" />
+          <End Type="JobDB.SupplierActivity" Role="SupplierActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierActActionCode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplierActivity">
+              <PropertyRef Name="SupplierActActionCodeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9503,6 +9759,8 @@
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
           <ScalarProperty Name="SupplierActStatusId" ColumnName="SupplierActStatusId" />
+          <ScalarProperty Name="SupplierActActionCodeId" ColumnName="SupplierActActionCodeId" />
+          <ScalarProperty Name="ProjName" ColumnName="ProjName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -9867,6 +10125,47 @@
         <MappingFragment StoreEntitySet="CarResTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesLeadSupplierActivities">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadSupplierActivity)">
+        <MappingFragment StoreEntitySet="SalesLeadSupplierActivities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
+          <ScalarProperty Name="SupplierActivityId" ColumnName="SupplierActivityId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesProcStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesProcStatus)">
+        <MappingFragment StoreEntitySet="SalesProcStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DtStatus" ColumnName="DtStatus" />
+          <ScalarProperty Name="SalesProcStatusCodeId" ColumnName="SalesProcStatusCodeId" />
+          <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesProcStatusCodes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesProcStatusCode)">
+        <MappingFragment StoreEntitySet="SalesProcStatusCodes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="iconPath" ColumnName="iconPath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierActActionCodes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SupplierActActionCode)">
+        <MappingFragment StoreEntitySet="SupplierActActionCodes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+          <ScalarProperty Name="SysCode" ColumnName="SysCode" />
+          <ScalarProperty Name="iconPath" ColumnName="iconPath" />
+          <ScalarProperty Name="DefaultActStatus" ColumnName="DefaultActStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -169,5 +169,9 @@ namespace JobsV1.Models
         public virtual DbSet<CustEntActActionStatus> CustEntActActionStatus { get; set; }
         public virtual DbSet<CarDetail> CarDetails { get; set; }
         public virtual DbSet<CarResType> CarResTypes { get; set; }
+        public virtual DbSet<SalesLeadSupplierActivity> SalesLeadSupplierActivities { get; set; }
+        public virtual DbSet<SalesProcStatus> SalesProcStatus { get; set; }
+        public virtual DbSet<SalesProcStatusCode> SalesProcStatusCodes { get; set; }
+        public virtual DbSet<SupplierActActionCode> SupplierActActionCodes { get; set; }
     }
 }

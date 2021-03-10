@@ -188,6 +188,8 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+                supplierActivity.SupplierActActionCodeId = 1; //default
+
                 db.SupplierActivities.Add(supplierActivity);
                 db.SaveChanges();
                 return RedirectToAction("Records",new { id = supplierActivity.SupplierId });
@@ -234,6 +236,7 @@ namespace JobsV1.Controllers
         {
             if (ModelState.IsValid)
             {
+                supplierActivity.SupplierActActionCodeId = 1; //default
                 db.Entry(supplierActivity).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index");

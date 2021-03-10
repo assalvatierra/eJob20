@@ -59,14 +59,29 @@ values ('Others'), ('Indicated Price'), ('Bidding Only'), ('Firm Inquiry'), ('Bu
 
 insert into CustEntActivityTypes([Type],[Points])
 values ('Quotation',8), ('Meeting',8), ('Sales',15),('Procurement',8), ('Calls/Email',2), ('Others',1);
-
+   
 insert into SalesLeadCatCodes([CatName],[SysCode],[iconPath])
 values	('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'), 
 		('HighMargin','HIGHMARGIN','~/Images/SalesLead/GreenArrow.png'),
 		('LongTerm','LONGTERM','~/Images/SalesLead/Longterm.png'), 
 		('Corporate','CORPORATE ACCOUNT','~/Images/SalesLead/ShakeHands.png'), 
 		('HardOne', 'HARDONE','~/Images/SalesLead/unhappy.jpg');
-		
+	 	
+-- Procurement Sales Lead
+--insert into SalesStatusCodes([SeqNo],[Name])
+--values (1,'NEW'), (2,'EVALUATION'), (3, 'ACCEPTED'), (4, 'CHECKING'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
+
+insert into SupplierActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus])
+values 
+('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
+('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1),   
+('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1),   
+('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
+('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
+('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2); 
+
+
+
 -- ----------------------------------------------
 -- Inventory Configuration 
 -- ----------------------------------------------
@@ -1034,13 +1049,13 @@ values	(2,'06/05/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,0		,'Open'			
 
 
 		
-insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType],[SupplierActStatusId])
-values ('CO-001','7/25/2020 4:17:58 PM','admin@gmail.com','Meeting'			,2,2000,'Bidding Only'	,'Procurement', 1),
-	   ('CO-001','7/26/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,2,2000,'Bidding Only'	,'Meeting', 1),
-	   ('CO-002','7/20/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Others'		,'Meeting', 1),
-	   ('CO-002','7/30/2020 9:10:00 AM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Firm Inquiry'	,'Meeting', 1),
-	   ('CO-002','8/12/2020 1:30:00 PM','admin@gmail.com','Sales Meeting'	,3,2000,'Buying Inquiry','Job Order', 1),
-	   ('CO-003','7/21/2020 1:00:20 PM','admin@gmail.com','Sales Meeting'	,4,2000,'Bidding Only'	,'Revision', 1);
+insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType],[SupplierActStatusId],[SupplierActActionCodeId])
+values ('CO-001','7/25/2020 4:17:58 PM','admin@gmail.com','Meeting'			,2,2000,'Bidding Only'	,'Procurement', 1, 1),
+	   ('CO-001','7/26/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,2,2000,'Bidding Only'	,'Meeting', 1, 1),
+	   ('CO-002','7/20/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Others'		,'Meeting', 1, 1),
+	   ('CO-002','7/30/2020 9:10:00 AM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Firm Inquiry'	,'Meeting', 1, 1),
+	   ('CO-002','8/12/2020 1:30:00 PM','admin@gmail.com','Sales Meeting'	,3,2000,'Buying Inquiry','Job Order', 1, 1),
+	   ('CO-003','7/21/2020 1:00:20 PM','admin@gmail.com','Sales Meeting'	,4,2000,'Bidding Only'	,'Revision', 1, 1);
 
 
 -- POSt SALE --

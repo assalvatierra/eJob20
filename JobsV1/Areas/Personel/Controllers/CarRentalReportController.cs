@@ -776,45 +776,50 @@ namespace JobsV1.Areas.Personel.Controllers
             //get trip logs
             var tripLogs = db.crLogTrips.Where(t => t.DtTrip >= sDate && t.DtTrip <= eDate);
 
-            if (unitId != null && unitId != 0)
-            {
-                tripLogs = tripLogs.Where(t => t.crLogUnitId == unitId);
-            }
+            //if (unitId != null && unitId != 0)
+            //{
+            //    tripLogs = tripLogs.Where(t => t.crLogUnitId == unitId);
+            //}
 
 
-            if (rptId != null)
-            {
-                //get unitId List on report
-                var unitReport = db.crRptUnitExpenses.Find(rptId);
-                if (unitReport == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+            //if (rptId != null)
+            //{
+            //    //get unitId List on report
+            //    var unitReport = db.crRptUnitExpenses.Find(rptId);
+            //    if (unitReport == null)
+            //    {
+            //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //    }
 
-                var unitList = unitReport.CrRptUnits.Select(c => c.crLogUnitId).ToList();
+            //    var unitList = unitReport.CrRptUnits.Select(c => c.crLogUnitId).ToList();
 
-                tripLogs = tripLogs.Where(t => unitList.Contains(t.crLogUnitId));
-            }
+            //    tripLogs = tripLogs.Where(t => unitList.Contains(t.crLogUnitId));
+            //}
 
 
-            IEnumerable<RptCrBillingReport> billingRpt = new List<RptCrBillingReport>();
+            List<RptCrBillingReport> billingRpt = new List<RptCrBillingReport>();
 
-            foreach (var trip in tripLogs.ToList())
+            foreach (var trip in tripLogs.OrderBy(t=>t.DtTrip).ToList())
             {
                 RptCrBillingReport rptTrip = new RptCrBillingReport();
 
                 rptTrip.Id = trip.Id;
+                rptTrip.Date = trip.DtTrip;
                 rptTrip.Driver = trip.crLogDriver.Name;
-                rptTrip.Description = trip.crLogUnit.Description 
-                    + " (" +  trip.StartTime +"-"+ trip.EndTime +") "
-                    + trip.Remarks;
-                rptTrip.Amount = trip.Rate;
-                rptTrip.Overtime = trip.Addon;
-                rptTrip.Addon = trip.Addon;
+                rptTrip.Description = trip.crLogUnit.Description;
 
+                if (trip.StartTime != null )
+                {
+                   rptTrip.Description += " (" + trip.StartTime + "-" + trip.EndTime + ") "
+                                         + trip.Remarks;
+                }  
+
+                rptTrip.Amount   = trip.Rate;
+                rptTrip.Overtime = trip.AddonOT ?? 0;
+                rptTrip.Addon    = trip.Addon;
+
+                billingRpt.Add(rptTrip);
             }
-
-            billingRpt = billingRpt.OrderBy(b => b.Date);
 
             return View(billingRpt);
         }

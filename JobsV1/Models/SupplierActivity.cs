@@ -14,6 +14,12 @@ namespace JobsV1.Models
     
     public partial class SupplierActivity
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SupplierActivity()
+        {
+            this.SalesLeadSupplierActivities = new HashSet<SalesLeadSupplierActivity>();
+        }
+    
         public int Id { get; set; }
         public string Code { get; set; }
         public System.DateTime DtActivity { get; set; }
@@ -24,8 +30,13 @@ namespace JobsV1.Models
         public string Type { get; set; }
         public string ActivityType { get; set; }
         public int SupplierActStatusId { get; set; }
+        public int SupplierActActionCodeId { get; set; }
+        public string ProjName { get; set; }
     
         public virtual Supplier Supplier { get; set; }
         public virtual SupplierActStatus SupplierActStatu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesLeadSupplierActivity> SalesLeadSupplierActivities { get; set; }
+        public virtual SupplierActActionCode SupplierActActionCode { get; set; }
     }
 }

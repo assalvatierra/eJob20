@@ -699,6 +699,7 @@
     <Compile Include="Controllers\PaypalTransactionsController.cs" />
     <Compile Include="Controllers\PortalCustomersController.cs" />
     <Compile Include="Controllers\PreDefinedNotesController.cs" />
+    <Compile Include="Controllers\ProcurementController.cs" />
     <Compile Include="Controllers\ProductCategoriesController.cs" />
     <Compile Include="Controllers\ProductPricesController.cs" />
     <Compile Include="Controllers\ProductProdCatsController.cs" />
@@ -1120,6 +1121,15 @@
     <Compile Include="Models\SalesLeadQuotedItem.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SalesLeadSupplierActivity.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesProcStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesProcStatusCode.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SalesStatus.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1141,6 +1151,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supplier.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierActActionCode.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierActivity.cs">
@@ -3314,6 +3327,13 @@
     <Content Include="Views\CarReservations\_SearchCompanyModal.cshtml" />
     <Content Include="Views\CarReservations\_SearchCustomerModal.cshtml" />
     <Content Include="Views\JobContacts\CreateContact.cshtml" />
+    <Content Include="Views\Procurement\Index.cshtml" />
+    <Content Include="Views\Procurement\ProcActivitiesPartial.cshtml" />
+    <Content Include="Views\Procurement\AddSupItemPartial.cshtml" />
+    <Content Include="Views\Procurement\_AddActivityModal.cshtml" />
+    <Content Include="Views\Procurement\AddActivityCode.cshtml" />
+    <Content Include="Views\Procurement\ListProcActivityCodes.cshtml" />
+    <Content Include="Views\Procurement\AddProcActivityCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

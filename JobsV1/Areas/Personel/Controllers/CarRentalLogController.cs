@@ -362,7 +362,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
+        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -415,7 +415,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
+        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -1319,7 +1319,7 @@ namespace JobsV1.Areas.Personel.Controllers
         #region Odo Update
 
 
-        // GET: Personel/CarRentalLog/Edit/5
+        // GET: Personel/CarRentalLog/EditOdo/5
         public ActionResult EditOdo(int? id)
         {
             if (id == null)
@@ -1335,7 +1335,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(crLogTrip);
         }
 
-        // POST: Personel/CarRentalLog/Edit/5
+        // POST: Personel/CarRentalLog/EditOdo/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.SetTripOT
         [HttpPost]
@@ -1474,7 +1474,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crLogTrip.OTRate    = OTRate;
                 crLogTrip.DriverOTRate = DriverOTRate;
                 crLogTrip.DriverOT = (decimal)GetTripOTRate(Id);
-                crLogTrip.Addon = (decimal)GetTripOTAddon(Id);
+                crLogTrip.AddonOT = (decimal)GetTripOTAddon(Id);
 
                 db.Entry(crLogTrip).State = EntityState.Modified;
                 db.SaveChanges();

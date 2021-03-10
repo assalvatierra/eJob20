@@ -170,6 +170,7 @@
     <Property Name="TripHours" Type="int" Nullable="true" />
     <Property Name="OTRate" Type="decimal" Nullable="true" />
     <Property Name="DriverOTRate" Type="decimal" Nullable="true" />
+    <Property Name="AddonOT" Type="decimal" Nullable="true" />
   </EntityType>
   <EntityType Name="crLogCashReleases">
     <Key>
@@ -802,6 +803,7 @@
           <Property Name="TripHours" Type="Int32" Nullable="true" />
           <Property Name="OTRate" Type="Decimal" Nullable="true" />
           <Property Name="DriverOTRate" Type="Decimal" Nullable="true" />
+          <Property Name="AddonOT" Type="Decimal" Nullable="true" />
         </EntityType>
         <Association Name="crLogDrivercrLogTrip">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -1340,6 +1342,7 @@
           <ScalarProperty Name="TripHours" ColumnName="TripHours" />
           <ScalarProperty Name="OTRate" ColumnName="OTRate" />
           <ScalarProperty Name="DriverOTRate" ColumnName="DriverOTRate" />
+          <ScalarProperty Name="AddonOT" ColumnName="AddonOT" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
