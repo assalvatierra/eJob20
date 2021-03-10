@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/09/2021 16:38:54
+-- Date Created: 03/10/2021 13:41:14
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -449,12 +449,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CarResTypeCarReservation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CarReservations] DROP CONSTRAINT [FK_CarResTypeCarReservation];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SalesLeadSupplierActivitySalesLead]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SalesLeadSupplierActivities] DROP CONSTRAINT [FK_SalesLeadSupplierActivitySalesLead];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SalesLeadSupplierActivitySupplierActivity]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[SalesLeadSupplierActivities] DROP CONSTRAINT [FK_SalesLeadSupplierActivitySupplierActivity];
-GO
 IF OBJECT_ID(N'[dbo].[FK_SalesProcStatusSalesProcStatusCode]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesProcStatus] DROP CONSTRAINT [FK_SalesProcStatusSalesProcStatusCode];
 GO
@@ -463,6 +457,15 @@ IF OBJECT_ID(N'[dbo].[FK_SalesLeadSalesProcStatus]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_SupplierActActionCodeSupplierActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SupplierActivities] DROP CONSTRAINT [FK_SupplierActActionCodeSupplierActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupplierActActionStatusSupplierActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SupplierActivities] DROP CONSTRAINT [FK_SupplierActActionStatusSupplierActivity];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadSupActivitySalesLead]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadSupActivities] DROP CONSTRAINT [FK_SalesLeadSupActivitySalesLead];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadSupActivitySupplierActivity]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadSupActivities] DROP CONSTRAINT [FK_SalesLeadSupActivitySupplierActivity];
 GO
 
 -- --------------------------------------------------
@@ -901,8 +904,8 @@ GO
 IF OBJECT_ID(N'[dbo].[CarResTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[CarResTypes];
 GO
-IF OBJECT_ID(N'[dbo].[SalesLeadSupplierActivities]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SalesLeadSupplierActivities];
+IF OBJECT_ID(N'[dbo].[SalesLeadSupActivities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesLeadSupActivities];
 GO
 IF OBJECT_ID(N'[dbo].[SalesProcStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SalesProcStatus];
@@ -912,6 +915,9 @@ IF OBJECT_ID(N'[dbo].[SalesProcStatusCodes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SupplierActActionCodes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SupplierActActionCodes];
+GO
+IF OBJECT_ID(N'[dbo].[SupplierActActionStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SupplierActActionStatus];
 GO
 
 -- --------------------------------------------------
@@ -2092,10 +2098,11 @@ CREATE TABLE [dbo].[SupplierActivities] (
     [SupplierId] int  NOT NULL,
     [Amount] decimal(18,0)  NULL,
     [Type] nvarchar(20)  NULL,
+    [ProjName] nvarchar(80)  NULL,
     [ActivityType] nvarchar(20)  NOT NULL,
     [SupplierActStatusId] int  NOT NULL,
     [SupplierActActionCodeId] int  NOT NULL,
-    [ProjName] nvarchar(80)  NULL
+    [SupplierActActionStatusId] int  NOT NULL
 );
 GO
 
@@ -2427,8 +2434,8 @@ CREATE TABLE [dbo].[CarResTypes] (
 );
 GO
 
--- Creating table 'SalesLeadSupplierActivities'
-CREATE TABLE [dbo].[SalesLeadSupplierActivities] (
+-- Creating table 'SalesLeadSupActivities'
+CREATE TABLE [dbo].[SalesLeadSupActivities] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [SalesLeadId] int  NOT NULL,
     [SupplierActivityId] int  NOT NULL
@@ -2459,8 +2466,15 @@ CREATE TABLE [dbo].[SupplierActActionCodes] (
     [Name] nvarchar(20)  NOT NULL,
     [Desc] nvarchar(80)  NOT NULL,
     [SysCode] nvarchar(20)  NOT NULL,
-    [iconPath] nvarchar(80)  NOT NULL,
+    [IconPath] nvarchar(80)  NOT NULL,
     [DefaultActStatus] int  NOT NULL
+);
+GO
+
+-- Creating table 'SupplierActActionStatus'
+CREATE TABLE [dbo].[SupplierActActionStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ActionStatus] nvarchar(20)  NOT NULL
 );
 GO
 
@@ -3332,9 +3346,9 @@ ADD CONSTRAINT [PK_CarResTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'SalesLeadSupplierActivities'
-ALTER TABLE [dbo].[SalesLeadSupplierActivities]
-ADD CONSTRAINT [PK_SalesLeadSupplierActivities]
+-- Creating primary key on [Id] in table 'SalesLeadSupActivities'
+ALTER TABLE [dbo].[SalesLeadSupActivities]
+ADD CONSTRAINT [PK_SalesLeadSupActivities]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -3353,6 +3367,12 @@ GO
 -- Creating primary key on [Id] in table 'SupplierActActionCodes'
 ALTER TABLE [dbo].[SupplierActActionCodes]
 ADD CONSTRAINT [PK_SupplierActActionCodes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SupplierActActionStatus'
+ALTER TABLE [dbo].[SupplierActActionStatus]
+ADD CONSTRAINT [PK_SupplierActActionStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5520,36 +5540,6 @@ ON [dbo].[CarReservations]
     ([CarResTypeId]);
 GO
 
--- Creating foreign key on [SalesLeadId] in table 'SalesLeadSupplierActivities'
-ALTER TABLE [dbo].[SalesLeadSupplierActivities]
-ADD CONSTRAINT [FK_SalesLeadSupplierActivitySalesLead]
-    FOREIGN KEY ([SalesLeadId])
-    REFERENCES [dbo].[SalesLeads]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSupplierActivitySalesLead'
-CREATE INDEX [IX_FK_SalesLeadSupplierActivitySalesLead]
-ON [dbo].[SalesLeadSupplierActivities]
-    ([SalesLeadId]);
-GO
-
--- Creating foreign key on [SupplierActivityId] in table 'SalesLeadSupplierActivities'
-ALTER TABLE [dbo].[SalesLeadSupplierActivities]
-ADD CONSTRAINT [FK_SalesLeadSupplierActivitySupplierActivity]
-    FOREIGN KEY ([SupplierActivityId])
-    REFERENCES [dbo].[SupplierActivities]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSupplierActivitySupplierActivity'
-CREATE INDEX [IX_FK_SalesLeadSupplierActivitySupplierActivity]
-ON [dbo].[SalesLeadSupplierActivities]
-    ([SupplierActivityId]);
-GO
-
 -- Creating foreign key on [SalesProcStatusCodeId] in table 'SalesProcStatus'
 ALTER TABLE [dbo].[SalesProcStatus]
 ADD CONSTRAINT [FK_SalesProcStatusSalesProcStatusCode]
@@ -5593,6 +5583,51 @@ GO
 CREATE INDEX [IX_FK_SupplierActActionCodeSupplierActivity]
 ON [dbo].[SupplierActivities]
     ([SupplierActActionCodeId]);
+GO
+
+-- Creating foreign key on [SupplierActActionStatusId] in table 'SupplierActivities'
+ALTER TABLE [dbo].[SupplierActivities]
+ADD CONSTRAINT [FK_SupplierActActionStatusSupplierActivity]
+    FOREIGN KEY ([SupplierActActionStatusId])
+    REFERENCES [dbo].[SupplierActActionStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupplierActActionStatusSupplierActivity'
+CREATE INDEX [IX_FK_SupplierActActionStatusSupplierActivity]
+ON [dbo].[SupplierActivities]
+    ([SupplierActActionStatusId]);
+GO
+
+-- Creating foreign key on [SalesLeadId] in table 'SalesLeadSupActivities'
+ALTER TABLE [dbo].[SalesLeadSupActivities]
+ADD CONSTRAINT [FK_SalesLeadSupActivitySalesLead]
+    FOREIGN KEY ([SalesLeadId])
+    REFERENCES [dbo].[SalesLeads]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSupActivitySalesLead'
+CREATE INDEX [IX_FK_SalesLeadSupActivitySalesLead]
+ON [dbo].[SalesLeadSupActivities]
+    ([SalesLeadId]);
+GO
+
+-- Creating foreign key on [SupplierActivityId] in table 'SalesLeadSupActivities'
+ALTER TABLE [dbo].[SalesLeadSupActivities]
+ADD CONSTRAINT [FK_SalesLeadSupActivitySupplierActivity]
+    FOREIGN KEY ([SupplierActivityId])
+    REFERENCES [dbo].[SupplierActivities]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSupActivitySupplierActivity'
+CREATE INDEX [IX_FK_SalesLeadSupActivitySupplierActivity]
+ON [dbo].[SalesLeadSupActivities]
+    ([SupplierActivityId]);
 GO
 
 -- --------------------------------------------------

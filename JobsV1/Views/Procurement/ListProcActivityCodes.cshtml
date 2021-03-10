@@ -12,7 +12,7 @@
 <table class="table">
     @foreach (var item in Model)
     {
-        var icon = item.iconPath;
+        var icon = item.IconPath;
         <tr>
             <td>
                 <img src=@Url.Content(icon)
@@ -21,8 +21,8 @@
                 &nbsp;
                 @Html.ActionLink(item.Name, "AddProcActivityCode",
                     new { ActCodeId = item.Id, slId = LeadId }) |
-                @Html.DisplayFor(modelItem => item.Desc) |
-                @Html.DisplayFor(modelItem => item.DefaultActStatus)
+                @Html.DisplayFor(modelItem => item.Desc) 
+                @*@Html.DisplayFor(modelItem => item.DefaultActStatus)*@
             </td> 
         </tr>
     }

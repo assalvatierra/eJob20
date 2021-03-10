@@ -223,7 +223,7 @@
                                                  alt=@tmpAct.SalesActCode.iconPath height="16"
                                                  title=@tmpAct.SalesActCode.iconPath />
 
-                                            <span style="color:maroon;">@tmpAct.Particulars</span>
+                                            <span style="color:maroon;"> @tmpAct.SalesActCode.Name - @tmpAct.Particulars  </span>
                                             <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
                                             @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
                                             @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })

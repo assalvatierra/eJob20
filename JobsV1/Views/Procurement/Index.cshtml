@@ -9,13 +9,17 @@
 
 <link href="/Content/TableStyles.css" rel="stylesheet" />
 <style>
-    .link-status{
-        padding:10px;
+    .link-status {
+        padding: 10px;
     }
-    
-    .link-status:hover{
-        color:white;
-    }
+
+        .link-status:hover {
+            color: white;
+        }
+
+        .cursor-hand :hover{
+            text-decoration:underline;
+        }
 </style>
 
 <div class="view-header">
@@ -23,18 +27,12 @@
 
     <div class="header-btn-list">
         <div class="btn-group">
-            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" }) 
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
         </div>
     </div>
 </div>
 
-<div class="view-content content-min-width" >
-
-    @*<p>
-        
-        Sales Lead |
-        @Html.ActionLink("Quotation", "JobLeads", "JobMains")
-    </p>*@
+<div class="view-content content-min-width">
     <p>
         Filters:
         @Html.ActionLink("New Lead", "Index", new { sortid = 5 }, new { @id = "newLead" }) |
@@ -45,7 +43,7 @@
         @Html.ActionLink("All", "Index", new { sortid = 3 }, new { @id = "allLead" })
     </p>
 
-    <table class="table table-no-border" >
+    <table class="table table-no-border">
 
         @foreach (var item in Model)
         {
@@ -56,7 +54,7 @@
             }
 
 
-            <tr >
+            <tr>
                 <td id="lead@(item.Id)" class="td-no-border">
                     <div style="text-align:center;" class="date-box">
                         <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Date.ToString("MMM-yyyy")</span>
@@ -109,6 +107,7 @@
                     </div>
 
                     <div>
+                        <!-- Sales Lead Company / Customer Details -->
                         <span style="color:darkgreen;font:bold 16px arial, verdana;">
                             @{
                                 try
@@ -149,7 +148,7 @@
                                  title=@salescat.SalesLeadCatCode.CatName />
                         }
 
-
+                        <!-- Sales Lead Details -->
                         <br />
                         <span style="font-weight:600;color:#282828;">
                             @Html.DisplayFor(modelItem => item.SalesCode) -
@@ -165,86 +164,58 @@
                         <br />
 
                         <!-- Activities -->
-                        @*@if (!String.IsNullOrWhiteSpace(item.SalesCode))
-                        {
-
-                            if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
+                        <span style="font:bold 8px, arial, verdana; color: royalblue;">
+                            @foreach (var procAct in item.SalesLeadSupActivities)
                             {
-                                var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
-
-                                Html.RenderAction("CustActivitiesPartial", new { salesCode = item.SalesCode });
-                                <span>
-                                    [@Html.ActionLink("Add Activity", "ListCustActivityCodes",
-                                    new
-                                         {
-                                             id = item.Id,
-                                             salesCode = item.SalesCode,
-                                             projectName = item.Details,
-                                             amount = item.Price,
-                                             companyId = company.Id
-                                         })]
-                                </span>
-                            }
-                        }
-                        else
-                        {
-                            var salesCode = item.SalesCode ?? "";
-
-                            <span style="font:bold 8px, arial, verdana; color:maroon ;">
-                                Activities <br />
-                            </span>
-
-                            <span style="font:bold 8px, arial, verdana; color: royalblue;">
-                                @foreach (var tmpAct in item.SalesActivities)
+                                var tmpAct = procAct.SupplierActivity;
+                                if (tmpAct.SupplierActActionStatusId == 1)
                                 {
-                                    if (tmpAct.SalesActStatusId == 1)
-                                    {
-                                        <span style="color:red;font-weight:800;">! </span>
-                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                             alt=@tmpAct.SalesActCode.iconPath height="16"
-                                             title=@tmpAct.SalesActCode.iconPath />
+                                    <span style="color:red;font-weight:800;">! </span>
+                                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                         alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                         title=@tmpAct.SupplierActActionCode.IconPath />
 
-                                        <span style="color:maroon;">@tmpAct.Particulars</span>
-                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                        @Html.ActionLink("Done |", "SalesActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
-                                        @Html.ActionLink(" [x]", "SalesActivityRemove", new { id = tmpAct.Id })
+                                    <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - ( @tmpAct.Supplier.Name ) @tmpAct.Type | @tmpAct.Remarks </span>
+                                    <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                    <span class="cursor-hand" onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done | </span>
+                                    <span class="cursor-hand" onclick="UpdateProcActivity_Remove(@tmpAct.Id)"> [ x ] </span>
 
-                                        <br />
-                                    }
-                                    if (tmpAct.SalesActStatusId == 2)
-                                    {
-                                        <span style="color:darkgray;font-weight:800;">&#10004; </span>
-                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                             alt=@tmpAct.SalesActCode.iconPath height="16"
-                                             title=@tmpAct.SalesActCode.iconPath />
-                                        <span style="color:darkgray;">@tmpAct.Particulars</span>
-                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                        <br />
-                                    }
-                                    if (tmpAct.SalesActStatusId == 3)
-                                    {
-                                        <span style="color:darkgray;font-weight:800;">&#x2022; </span>
-                                        <img src=@Url.Content(@tmpAct.SalesActCode.iconPath)
-                                             alt=@tmpAct.SalesActCode.iconPath height="16"
-                                             title=@tmpAct.SalesActCode.iconPath />
-                                        <span style="color:darkgray;">@tmpAct.Particulars</span>
-                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                        <br />
-                                    }
+                                    @*@Html.ActionLink("Done |", "ProcActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })*@
+                                    @*@Html.ActionLink(" [x]", "ProcActivityRemove", new { id = tmpAct.Id })*@
+
+                                    <br />
                                 }
-                            </span>
+                                if (tmpAct.SupplierActActionStatusId == 2)
+                                {
+                                    <span style="color:darkgray;font-weight:800;">&#10004; </span>
+                                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                         alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                         title=@tmpAct.SupplierActActionCode.IconPath />
+                                    <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - ( @tmpAct.Supplier.Name ) @tmpAct.Type | @tmpAct.Remarks</span>
+                                    <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                    <br />
+                                }
+                                if (tmpAct.SupplierActActionStatusId == 3)
+                                {
+                                    <span style="color:darkgray;font-weight:800;">&#x2022; </span>
+                                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                         alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                         title=@tmpAct.SupplierActActionCode.IconPath />
+                                    <strike style="color:darkgray;">
+                                        <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - ( @tmpAct.Supplier.Name ) @tmpAct.Type | @tmpAct.Remarks</span>
+                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                    </strike>
+                                    <br />
+                                }
+                            }
+                        </span>
 
-
-                            <span>[ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]</span>
-                        }*@
-
-                        <!-- Supplier/Procurement Activities -->
+                        <!-- Add Supplier/Procurement Activities -->
                         @if (!String.IsNullOrWhiteSpace(item.SalesCode))
                         {
-                            @*<span> @Html.ActionLink("[ Add Procurement Activity ] ", "ListProcActivityCode", new { id = item.Id }, new { @class = "" }) </span>*@
 
                             <span>
-                                @Html.ActionLink("[ Add Activity ]", "ListProcActivityCodes",new{ id = item.Id })
+                                @Html.ActionLink("[ Add Activity ]", "ListProcActivityCodes", new { id = item.Id })
                             </span>
                         }
                         else
@@ -337,121 +308,16 @@
     </table>
 </div>
 
-<!-- Add Sales Lead Items -->
-<div class="modal fade" id="selectSupItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select Item</h4>
-            </div>
-            <div class="modal-body" id="modal2-content">
-                <div class="row">
-                    <!--Start of Modal Body-->
-                    <div class="form-group col-md-12 hidden">
-                        <b class="col-md-2 "> SupId: </b>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="5" class="form-control" id="supItem-supId" />
-                        </div>
-                    </div>
 
-                    <div class="form-group col-md-12">
-                        <b class="col-md-2"> Items: </b>
-                        <div class="col-md-7">
-                            <select name="InvItems" class="form-control" id="supItem-Items">
-                                @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
-                                {
-                                    <option value="@item.Id"> @item.Description </option>
-                                }
-                            </select>
-                        </div>
-                    </div><br /><br />
-
-                    <div class="form-group col-md-12">
-                        <b class="col-md-2 "> Rate: </b>
-                        <div class="col-md-10">
-                            <input type="number" value="0" maxlength="25" class="form-control" id="supItem-Rate" onkeypress='validate(event)' />
-                        </div>
-                    </div>
-                    <br /><br />
-
-                    <div class="form-group col-md-12">
-                        <b class="col-md-2 "> Remarks: </b>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" class="form-control" id="supItem-Remarks" />
-                        </div>
-                    </div>
-                    <!--End of Modal Body-->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="ajax_AddSalesLeadItem()"> Submit </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- Edit Sales Lead Item-->
-<div class="modal fade" id="EditSupLeadItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit Item <span id="editItemName"> </span></h4>
-            </div>
-            <div class="modal-body" id="modal2-content">
-                <!--Start of Modal Body-->
-                <div class="row">
-                    <div class="form-group col-md-12 hidden">
-                        <b class="col-md-2 "> SupId: </b>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="5" class="form-control" id="edit-supItem-Id" />
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        <b class="col-md-2"> Items: </b>
-                        <div class="col-md-7">
-                            <select name="InvItems" class="form-control" id="edit-supItem-Items">
-                                @foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
-                                {
-                                    <option value="@item.Id"> @item.Description </option>
-                                }
-                            </select>
-                        </div>
-                    </div><br /><br />
-
-                    <div class="form-group col-md-12">
-                        <b class="col-md-2 "> Rate: </b>
-                        <div class="col-md-10">
-                            <input type="number" value="0" maxlength="25" class="form-control" id="edit-supItem-Rate" onkeypress='validate(event)' />
-                        </div>
-                    </div>
-                    <br /><br />
-
-                    <div class="form-group col-md-12">
-                        <b class="col-md-2 "> Remarks: </b>
-                        <div class="col-md-10">
-                            <input type="text" maxlength="20" class="form-control" id="edit-supItem-Remarks" />
-                        </div>
-                    </div>
-                </div>
-                <!--End of Modal Body-->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="ajax_EditLeadItem()"> Save Changes </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-@{Html.RenderPartial("AddSupItemPartial", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier } });}
+@{Html.RenderPartial("_AddItemModal", null, null);}
+@{Html.RenderPartial("_AddItemRateModal", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier } });}
+@{Html.RenderPartial("_CreateSupRateModal", null, null);}
 
 <div class="view-content" hidden>
 
     <p>
         @*@Html.ActionLink("Create New", "Create") |
-        Sales Lead |*@
+            Sales Lead |*@
         @* @Html.ActionLink("Quotation", "JobLeads", "JobMains")*@
     </p>
     <p>
@@ -468,13 +334,20 @@
 {
     <script src="~/Scripts/Job/Scroll.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('html, body').animate({
-                scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
-            }, 750);
 
+        //Scroll to lead using ID on page ready
+        $(document).ready(function () {
+            if ('@(ViewBag.LeadId)' != '') {
+
+                $('html, body').animate({
+                
+                    scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
+                }, 750);
+                
+            }
         });
 
+        //Status Filters
         if(@((int)Session["SLFilterID"]) != null){
 
             switch(@((int)Session["SLFilterID"])){
@@ -530,7 +403,9 @@
                 price: $("#supItem-Rate").val(),
                 remarks: $("#supItem-Remarks").val()
             };
-            console.log(data);
+
+            //console.log(data);
+
             var url = '/SalesLeads/addSupItem';
 
             //Post data from server using ajax call
@@ -575,6 +450,7 @@
             });
         }
 
+        //Edit initail Lead Item
         function EditLeadItem(id, invItemId, QuotedRate, Remarks,itemName) {
             $('#edit-supItem-Id').val(id);
             $('#edit-supItem-Items').val(invItemId);
@@ -666,29 +542,59 @@
     });
 
 
-    //Update Activity Status
-    function UpdateLeadStatus(e, leadId, statusId) {
-        $.post("/SalesLeads/PostLeadStatus", { slId: leadId, StatusId: statusId }, (result) => {
-            if (result == 'False') {
+        //Update Activity Status
+        function UpdateLeadStatus(e, leadId, statusId) {
+            $.post("/SalesLeads/PostLeadStatus", { slId: leadId, StatusId: statusId }, (result) => {
+                if (result == 'False') {
+                    alert("Unable to Update Status")
+                }
+            }).done((result) => {
+                //on update success
+                $(e).parent().removeClass("btn-primary");
+                $(e).parent().addClass("btn-success");
+            }).fail(() => {
+                //on update failed
+                console.log("On Fail");
+                console.log(result);
+
+                $(e).parent().removeClass("btn-primary");
+                $(e).parent().addClass("btn-primary");
+
+                //display alert message
                 alert("Unable to Update Status")
-            }
-        }).done((result) => {
-            //on update success
-            $(e).parent().removeClass("btn-primary");
-            $(e).parent().addClass("btn-success");
-        }).fail(() => {
-            //on update failed
-            console.log("On Fail");
-            console.log(result);
+            });
 
-            $(e).parent().removeClass("btn-primary");
-            $(e).parent().addClass("btn-primary");
+        }
 
-            //display alert message
-            alert("Unable to Update Status")
-        });
+        function UpdateProcActivity_Done(actId) {
 
-    }
+            $.post('/Procurement/ProcActivityDone', { id: actId })
+                .done((res) => {
+                    console.log(res);
+
+                    if (res) {
+                        window.location.reload(false);
+                    }
+
+                }).fail((err) => {
+                    console.log(err);
+                });
+        }
+
+        
+        function UpdateProcActivity_Remove(actId) {
+
+            $.post('/Procurement/ProcActivityRemove', { id: actId })
+                .done((res) => {
+                    console.log(res);
+
+                    if (res) {
+                        window.location.reload(false);
+                    }
+                }).fail((err) => {
+                    console.log(err);
+                });
+        }
     </script>
 
 }

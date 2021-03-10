@@ -150,7 +150,7 @@ namespace JobsV1.Controllers
             SupplierActivity supplierActivity = db.SupplierActivities.Find(id);
             db.SupplierActivities.Remove(supplierActivity);
             db.SaveChanges();
-            //return RedirectToAction("Index");
+
             return RedirectToAction("Records", new { id = supplierActivity.SupplierId });
         }
 
@@ -189,6 +189,7 @@ namespace JobsV1.Controllers
             if (ModelState.IsValid)
             {
                 supplierActivity.SupplierActActionCodeId = 1; //default
+                supplierActivity.SupplierActActionStatusId = 1; //default
 
                 db.SupplierActivities.Add(supplierActivity);
                 db.SaveChanges();
@@ -237,6 +238,7 @@ namespace JobsV1.Controllers
             if (ModelState.IsValid)
             {
                 supplierActivity.SupplierActActionCodeId = 1; //default
+                supplierActivity.SupplierActActionStatusId = 1; //default
                 db.Entry(supplierActivity).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index");

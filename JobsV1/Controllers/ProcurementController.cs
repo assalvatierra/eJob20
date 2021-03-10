@@ -29,7 +29,7 @@ namespace JobsV1.Controllers
         private DateClass date = new DateClass();
 
         // GET: Procurement
-        public ActionResult Index(int? sortid, int? leadId)
+        public ActionResult Index(int id,int? sortid, int? leadId)
         {
             if (sortid != null)
                 Session["SLFilterID"] = (int)sortid;
@@ -47,9 +47,11 @@ namespace JobsV1.Controllers
             //get salesl eads leads
             var salesLeads = sldb.GetSalesLeads((int)sortid);
 
-            ViewBag.LeadId = leadId;
+            ViewBag.LeadId = id;
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
+            ViewBag.UnitList = db.SupplierUnits.ToList();
+            ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
 
             //for adding new item 
             AddSupItemPartial();
@@ -57,6 +59,7 @@ namespace JobsV1.Controllers
             return View(salesLeads.OrderByDescending(s => s.Date));
         }
 
+        //Partial View: /Procurement/AddSupItemPartial
         public void AddSupItemPartial()
         {
             var items = db.InvItems.ToList();
@@ -64,6 +67,7 @@ namespace JobsV1.Controllers
         }
 
 
+        //GET: /Procurement/ProcActivitiesPartial
         public ActionResult ProcActivitiesPartial(string salesCode)
         {
             var activities = db.CustEntActivities.Where(c => c.SalesCode == salesCode).ToList();
@@ -79,27 +83,15 @@ namespace JobsV1.Controllers
 
             return View(data);
         }
-        public ActionResult SalesActivityDone(int id)
-        {
-            db.Database.ExecuteSqlCommand("update SalesActivities set SalesActStatusId=2 where Id=" + id);
-            var slid = db.SalesActivities.Where(s => s.Id == id).FirstOrDefault().SalesLeadId;
-            return RedirectToAction("Index", new { leadId = slid });
-        }
-
-        public ActionResult SalesActivityRemove(int id)
-        {
-            var slid = db.SalesActivities.Where(s => s.Id == id).FirstOrDefault().SalesLeadId;
-            db.Database.ExecuteSqlCommand("DELETE FROM SalesActivities where Id=" + id);
-            return RedirectToAction("Index", new { leadId = slid });
-        }
 
 
-        #region Customer Activity 
-        public bool UpdateCustActivities(int salesLeadId, string salesCode)
+        #region Procurement Activity 
+
+        //POST: /Procurement/UpdateProcActivities
+        public bool UpdateProcActivities(int salesLeadId, string salesCode)
         {
             try
             {
-
                 //find all customer activites with the same sales code
                 var custActivities = db.CustEntActivities.Where(c => c.SalesCode == salesCode).ToList();
 
@@ -110,7 +102,6 @@ namespace JobsV1.Controllers
 
                     db.Entry(act).State = EntityState.Modified;
                     db.SaveChanges();
-
                 }
 
                 return true;
@@ -121,6 +112,8 @@ namespace JobsV1.Controllers
             }
         }
 
+
+        //GET: /Procurement/ListProcActivityCodes
         public ActionResult ListProcActivityCodes(int? id)
         {
 
@@ -142,6 +135,7 @@ namespace JobsV1.Controllers
             }
         }
 
+        //GET: /Procurement/AddProcActivityCode
         public ActionResult AddProcActivityCode(int? slId, int? ActCodeId)
         {
             try
@@ -163,6 +157,8 @@ namespace JobsV1.Controllers
                     ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
                     ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name");
                     ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description");
+                    ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
+                    ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type");
 
                     ViewBag.SupplierActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status");
                     ViewBag.SupplierActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
@@ -181,24 +177,28 @@ namespace JobsV1.Controllers
             }
         }
 
+        //POST: /Procurement/AddProcActivityCode
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddProcActivityCode([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId")] SupplierActivity supplierActivity, int? slId, int? ActCodeId)
+        public ActionResult AddProcActivityCode([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType,SupplierActStatusId,ProjName,SupplierActActionCodeId")] SupplierActivity supplierActivity, int? slId, int? ActCodeId)
         {
             if (ModelState.IsValid)
             {
+                supplierActivity.SupplierActActionStatusId = 1; // default 
                 supplierActivity.Amount = Decimal.Parse(supplierActivity.Amount.ToString());
+
                 db.SupplierActivities.Add(supplierActivity);
                 db.SaveChanges();
 
                 //add link to sales lead ang suppliers
                 if (slId != null)
                 {
-                    SalesLeadSupplierActivity leadSupActivity = new SalesLeadSupplierActivity();
+                    SalesLeadSupActivity leadSupActivity = new SalesLeadSupActivity();
 
                     leadSupActivity.SupplierActivityId = supplierActivity.Id;
                     leadSupActivity.SalesLeadId = (int)slId;
 
+                    db.SalesLeadSupActivities.Add(leadSupActivity);
                     db.SaveChanges();
                 }
 
@@ -218,32 +218,47 @@ namespace JobsV1.Controllers
             return View(supplierActivity);
         }
 
-        public ActionResult ProcActivityDone(int id)
+        //POST : Procurement/ProcActivityDone
+        [HttpPost]
+        public bool ProcActivityDone(int id)
         {
-  
-            var custAct = db.CustEntActivities.Find(id);
-            custAct.CustEntActActionStatusId = 2;
+            try
+            {
+                var supAct = db.SupplierActivities.Find(id);
+                supAct.SupplierActActionStatusId = 2;
 
-            db.Entry(custAct).State = EntityState.Modified;
-            db.SaveChanges();
+                db.Entry(supAct).State = EntityState.Modified;
+                db.SaveChanges();
 
-            return RedirectToAction("Index", new { leadId = custAct.SalesLeadId });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+          
         }
 
-        public ActionResult ProcActivityRemove(int id)
+        //POST : Procurement/ProcActivityRemove
+        [HttpPost]
+        public bool ProcActivityRemove(int id)
         {
- 
-            var custAct = db.CustEntActivities.Find(id);
+            try
+            {
 
-            custAct.CustEntActActionStatusId = 3;
+                var custAct = db.SupplierActivities.Find(id);
 
-            db.Entry(custAct).State = EntityState.Modified;
-            db.SaveChanges();
+                custAct.SupplierActActionStatusId = 3;
 
-            //db.CustEntActivities.Remove(custAct);
-            //db.SaveChanges();
+                db.Entry(custAct).State = EntityState.Modified;
+                db.SaveChanges();
 
-            return RedirectToAction("Index", new { leadId = custAct.SalesLeadId });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion

@@ -21,7 +21,7 @@
                      alt=@icon height="16"
                      title=@icon />
 
-                <span style="color:maroon;"> @tmpAct.CustEntActActionCode.Name - @tmpAct.Remarks </span>
+                <span style="color:maroon;"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks </span>
                 <span style="font:status-bar;color:gray;"> @tmpAct.Date.ToString("MMM-dd-yyyy")</span>
                 @Html.ActionLink("Done |", "CustActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", }) 
                 @Html.ActionLink(" [x]", "CustActivityRemove", new { id = tmpAct.Id })

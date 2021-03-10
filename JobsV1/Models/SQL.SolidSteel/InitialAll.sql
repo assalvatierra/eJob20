@@ -71,9 +71,13 @@ values	('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'),
 --insert into SalesStatusCodes([SeqNo],[Name])
 --values (1,'NEW'), (2,'EVALUATION'), (3, 'ACCEPTED'), (4, 'CHECKING'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
 
+insert into SupplierActActionStatus([ActionStatus])
+values ('REQUEST'),('DONE'),('SUSPEND');
+
 insert into SupplierActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus])
 values 
 ('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
+('PROCUREMENT','Item Procurement', 'PROCURE','~/Images/SalesLead/Quotation101.png',1), 
 ('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1),   
 ('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1),   
 ('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
@@ -312,11 +316,11 @@ insert into SupplierInvItems([SupplierId],[InvItemId]) values
       (4,2),(4,3);
 
 insert into SupplierItemRates([SupplierInvitemId],[ItemRate],[SupplierUnitId],[Remarks],[DtEntered],[DtValidFrom],[DtValidTo],[Particulars],[Material],[By],[ProcBy],[TradeTerm],[Tolerance]) values
-	(1,2500,2,'','06/14/2020','01/16/2021','01/16/2021','Pipe' ,'Carbon Steel','John','Ann','',''),
-	(2,3300,3,'','06/10/2020','01/10/2021','06/30/2020','Plate','Carbon Steel','John','Ann','',''),
-	(3,2500,2,'','07/18/2020','01/05/2021','08/30/2020','Pipe' ,'Carbon Steel','Dalton','Mark','',''),
-	(4,3600,3,'','07/09/2020','12/18/2020','12/30/2020','Plate','Carbon Steel','Mike','Ann','',''),
-	(5,4000,3,'','12/09/2019','12/10/2019','06/30/2020','Pipe' ,'Stainless Steel','Mike','Ann','','');
+	(1,2500,2,'','06/14/2020','01/16/2022','06/16/2021','Pipe' ,'Carbon Steel','John','Ann','',''),
+	(2,3300,3,'','06/10/2020','01/10/2021','06/30/2021','Plate','Carbon Steel','John','Ann','',''),
+	(3,2500,2,'','07/18/2020','01/05/2021','08/30/2021','Pipe' ,'Carbon Steel','Dalton','Mark','',''),
+	(4,3600,3,'','07/09/2020','12/18/2020','12/30/2021','Plate','Carbon Steel','Mike','Ann','',''),
+	(5,4000,3,'','12/09/2019','12/10/2019','06/30/2021','Pipe' ,'Stainless Steel','Mike','Ann','','');
 
 insert into SupplierContactStatus([Name]) values ('Active'),('Resigned');
 
@@ -1049,16 +1053,22 @@ values	(2,'06/05/2020', 'demo@gmail.com', 'Buidling A'		,'SC-012'	,0		,'Open'			
 
 
 		
-insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType],[SupplierActStatusId],[SupplierActActionCodeId])
-values ('CO-001','7/25/2020 4:17:58 PM','admin@gmail.com','Meeting'			,2,2000,'Bidding Only'	,'Procurement', 1, 1),
-	   ('CO-001','7/26/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,2,2000,'Bidding Only'	,'Meeting', 1, 1),
-	   ('CO-002','7/20/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Others'		,'Meeting', 1, 1),
-	   ('CO-002','7/30/2020 9:10:00 AM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Firm Inquiry'	,'Meeting', 1, 1),
-	   ('CO-002','8/12/2020 1:30:00 PM','admin@gmail.com','Sales Meeting'	,3,2000,'Buying Inquiry','Job Order', 1, 1),
-	   ('CO-003','7/21/2020 1:00:20 PM','admin@gmail.com','Sales Meeting'	,4,2000,'Bidding Only'	,'Revision', 1, 1);
+insert into SupplierActivities([Code],[DtActivity],[Assigned],[Remarks],[SupplierId],[Amount],[Type],[ActivityType],[SupplierActStatusId],[SupplierActActionCodeId], SupplierActActionStatusId)
+values ('CO-001','7/25/2020 4:17:58 PM','admin@gmail.com','Meeting'			,2,2000,'Bidding Only'	,'Procurement', 1, 1, 1),
+	   ('CO-001','7/26/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,2,2000,'Bidding Only'	,'Meeting', 1, 1, 1),
+	   ('CO-002','7/20/2020 3:30:00 PM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Others'		,'Meeting', 1, 1, 1),
+	   ('CO-002','7/30/2020 9:10:00 AM','demo@gmail.com' ,'Sales Meeting'	,3,2000,'Firm Inquiry'	,'Meeting', 1, 1, 1),
+	   ('CO-002','8/12/2020 1:30:00 PM','admin@gmail.com','Sales Meeting'	,3,2000,'Buying Inquiry','Job Order', 1, 1, 1),
+	   ('CO-003','7/21/2020 1:00:20 PM','admin@gmail.com','Sales Meeting'	,4,2000,'Bidding Only'	,'Revision', 1, 1, 1);
 
 
 -- POSt SALE --
 
 insert into CustEntActPostSaleStatus([Status]) values 
 ('To Follow Up'),('Ongoing'),('Closed'),('Rejected');
+
+
+-- SALES LEAD SAMPLE DATA --
+
+insert into SalesLeads([Date],[Details],[Remarks],[CustomerId], [CustName], [DtEntered],[EnteredBy],[Price],[AssignedTo],[CustPhone],[CustEmail],[SalesCode]) 
+values ('3/8/2021', 'Sales Lead Sample 01', '', 2, 'John Doe', '3/8/2021', 'admin', 75000, 'admin@gmail.com', '0912 345 6789', 'johndoe@gmail.com', 'SL-001');

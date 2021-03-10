@@ -17,7 +17,7 @@ namespace JobsV1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SupplierActivity()
         {
-            this.SalesLeadSupplierActivities = new HashSet<SalesLeadSupplierActivity>();
+            this.SalesLeadSupActivities = new HashSet<SalesLeadSupActivity>();
         }
     
         public int Id { get; set; }
@@ -28,15 +28,17 @@ namespace JobsV1.Models
         public int SupplierId { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public string Type { get; set; }
+        public string ProjName { get; set; }
         public string ActivityType { get; set; }
         public int SupplierActStatusId { get; set; }
         public int SupplierActActionCodeId { get; set; }
-        public string ProjName { get; set; }
+        public int SupplierActActionStatusId { get; set; }
     
         public virtual Supplier Supplier { get; set; }
         public virtual SupplierActStatus SupplierActStatu { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesLeadSupplierActivity> SalesLeadSupplierActivities { get; set; }
         public virtual SupplierActActionCode SupplierActActionCode { get; set; }
+        public virtual SupplierActActionStatus SupplierActActionStatu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesLeadSupActivity> SalesLeadSupActivities { get; set; }
     }
 }

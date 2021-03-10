@@ -1121,7 +1121,7 @@
     <Compile Include="Models\SalesLeadQuotedItem.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SalesLeadSupplierActivity.cs">
+    <Compile Include="Models\SalesLeadSupActivity.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesProcStatus.cs">
@@ -1154,6 +1154,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierActActionCode.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierActActionStatus.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierActivity.cs">
@@ -3329,11 +3332,13 @@
     <Content Include="Views\JobContacts\CreateContact.cshtml" />
     <Content Include="Views\Procurement\Index.cshtml" />
     <Content Include="Views\Procurement\ProcActivitiesPartial.cshtml" />
-    <Content Include="Views\Procurement\AddSupItemPartial.cshtml" />
+    <Content Include="Views\Procurement\_AddItemRateModal.cshtml" />
     <Content Include="Views\Procurement\_AddActivityModal.cshtml" />
     <Content Include="Views\Procurement\AddActivityCode.cshtml" />
     <Content Include="Views\Procurement\ListProcActivityCodes.cshtml" />
     <Content Include="Views\Procurement\AddProcActivityCode.cshtml" />
+    <Content Include="Views\Procurement\_CreateSupRateModal.cshtml" />
+    <Content Include="Views\Procurement\_AddItemModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

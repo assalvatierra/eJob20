@@ -24,7 +24,7 @@ namespace JobsV1.Models
         public string Name { get; set; }
         public string Desc { get; set; }
         public string SysCode { get; set; }
-        public string iconPath { get; set; }
+        public string IconPath { get; set; }
         public int DefaultActStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
