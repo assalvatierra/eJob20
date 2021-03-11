@@ -17,8 +17,12 @@
             color: white;
         }
 
-        .cursor-hand :hover{
-            text-decoration:underline;
+    .cursor-hand {
+        color: #337ab7;
+    }
+
+        .cursor-hand:hover {
+            text-decoration: underline;
         }
 </style>
 
@@ -213,7 +217,6 @@
                         <!-- Add Supplier/Procurement Activities -->
                         @if (!String.IsNullOrWhiteSpace(item.SalesCode))
                         {
-
                             <span>
                                 @Html.ActionLink("[ Add Activity ]", "ListProcActivityCodes", new { id = item.Id })
                             </span>
@@ -244,10 +247,9 @@
                                             <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
                                         </b>
 
-                                        <span class="pull-right">
+                                        <span class="pull-right" hidden>
                                             <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
                                             <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
-
                                         </span>
                                     </div>
 
@@ -273,14 +275,14 @@
                                     </div>
 
                                     <!--Add Item-->
-                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier ]</a>
+                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="GetItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id, @item.Id )"> [ Add Supplier Item ] </a>
                                 </div>
                             }
                         </div>
                         <br />
 
                         <!--Add Item-->
-                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">[ Add Item ]</a>
+                        @*<a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)"> [ Add Item ] </a>*@
 
                         <br />
                         <span style="font: status-bar; color:gray;">
@@ -332,7 +334,11 @@
 
 @section scripts
 {
-    <script src="~/Scripts/Job/Scroll.js"></script>
+    <script type="text/javascript" src="~/Scripts/Filters/FormInputFilter.js"></script>
+    <script type="text/javascript" src="~/Scripts/Job/Scroll.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/AddItemRateModal.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/ProcAddItemRate.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/CreateSupItemRate.js"></script>
     <script type="text/javascript">
 
         //Scroll to lead using ID on page ready
@@ -340,10 +346,10 @@
             if ('@(ViewBag.LeadId)' != '') {
 
                 $('html, body').animate({
-                
+
                     scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
                 }, 750);
-                
+
             }
         });
 
@@ -581,7 +587,7 @@
                 });
         }
 
-        
+
         function UpdateProcActivity_Remove(actId) {
 
             $.post('/Procurement/ProcActivityRemove', { id: actId })
@@ -595,6 +601,14 @@
                     console.log(err);
                 });
         }
+
+        function AddSupplierItemRate(saleslead_ID) {
+            $("#supItemRate").modal("hide");
+        }
+
+
+
+
     </script>
 
 }

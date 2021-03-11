@@ -171,10 +171,29 @@
                                     @contribution.Remarks
                                 </td>
                                 <td>
-                                    CA
+                                    Contribution
                                 </td>
                                 <td>
                                     @contribution.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var others in ViewBag.Others as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            totalCont += others.Amount;
+                            <tr>
+                                <td>
+                                    @others.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                    @others.Remarks
+                                </td>
+                                <td>
+                                    Contribution
+                                </td>
+                                <td>
+                                    @others.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -349,6 +368,25 @@
                                 </td>
                                 <td>
                                     @contr.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+
+                        @foreach (var others in ViewBag.Others as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            <tr>
+                                <td>
+                                    @others.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                    @others.Remarks
+                                </td>
+                                <td>
+                                    Contribution
+                                </td>
+                                <td>
+                                    @others.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }

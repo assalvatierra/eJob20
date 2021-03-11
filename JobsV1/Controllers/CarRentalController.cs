@@ -40,13 +40,13 @@ namespace JobsV1.Controllers
             //     We offer daily, weekly, monthly rental and affordable rates for long term rentals.
             //     We also partnered to several car rentals in Davao for us to provide a reliable and quality service.
             //     ";
-
+            
             //revised
             //ViewBag.Title = "Davao Car Rental | Real Wheels Rent A Car Davao ";
             //ViewBag.Description = @"Rent A Car company offering affordable self drive or with driver car rental service in Davao City, Philippines. 
             //Van, MPV, SUV, Innova, sedan and pickup rental.
             //     ";
-
+            
             ViewBag.Title = "Car Rental in Davao | Van rentals, Car and SUV Rentals | Travel Services";
             ViewBag.Description = @"Car rental company offering affordable transportation services in Davao City. 
                     Find your best car rental options here! Van, Car, SUV rentals available here.

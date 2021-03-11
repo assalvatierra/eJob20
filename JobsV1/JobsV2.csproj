@@ -2480,6 +2480,8 @@
     <Content Include="Scripts\jquery.tablesort.min.js" />
     <Content Include="Scripts\jquery.timepicker.js" />
     <Content Include="Scripts\Personnel\Payroll.js" />
+    <Content Include="Scripts\Procurement\AddItemRateModal.js" />
+    <Content Include="Scripts\Procurement\CreateSupItemRate.js" />
     <Content Include="Scripts\Products\ProdCreate.js" />
     <Content Include="Scripts\Reporting\UnitIncome.js" />
     <Content Include="Scripts\Reporting\JobIncome.js" />
@@ -2491,6 +2493,7 @@
     <Content Include="Scripts\ssl.js" />
     <Content Include="Scripts\Suppliers\SupDetails.js" />
     <Content Include="Scripts\Suppliers\SupInvItems.js" />
+    <Content Include="Scripts\Procurement\ProcAddItemRate.js" />
     <Content Include="serviceworker.js" />
     <Content Include="Views\SysAccessUsers\UsersAccessList.cshtml" />
     <Content Include="WebService.asmx" />

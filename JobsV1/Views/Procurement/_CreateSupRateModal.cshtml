@@ -1,136 +1,146 @@
 ﻿
-
-
 <!-- Add Inv Rate Modal -->
 <div class="modal fade" id="CreateSupItemRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add Rate for <span id="InvRate-ItemName"> Item </span></h4>
+                <h4 class="modal-title"> Create Supplier Item</h4>
             </div>
 
-            <div class="modal-body row">
-                <div class="form-group cform">
-                    <b class="col-md-3"> Id </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-ItemId" class="form-control" type="text" maxlength="80">
-                    </div><p></p>
-                </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="form-group cform" hidden>
+                        <b class="col-md-2"> Item Id </b>
+                        <div class="col-md-3">
+                            <input id="CreateSupItemRate-ItemLeadId" class="form-control" type="text" maxlength="80">
+                        </div><p></p>
+                    </div>
 
 
-                <div class="form-group cform">
-                    <b class="col-md-3"> Supplier </b>
-                    <div class="col-md-9">
-                        <select id="CreateSupItemRate-Supplier" class="form-control">
-                            @foreach (var supplier in ViewBag.Suppliers as IEnumerable<JobsV1.Models.Supplier>)
-                            {
-                                <option value="@supplier.Id"> @supplier.Name </option>
-                            }
-                        </select>
-                    </div><p></p>
-                </div>
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Item </b>
+                        <div class="col-md-9" style="padding-top:5px;">
+                            <p id="CreateSupItemRate-Item-Text"> </p>
+                        </div>
+                        <div class="col-md-9" hidden>
+                            <select id="CreateSupItemRate-Item" class="form-control">
+                                @foreach (var item in ViewBag.Items as IEnumerable<JobsV1.Models.InvItem>)
+                                {
+                                    <option value="@item.Id"> @item.Description </option>
+                                }
+                            </select>
+                        </div><p></p>
+                    </div>
 
-                <div class="form-group cform">
-                    <b class="col-md-3"> Item </b>
-                    <div class="col-md-9">
-                        <select id="CreateSupItemRate-Item" class="form-control">
-                            @*@foreach (var item in ViewBag.Items as IEnumerable<JobsV1.Models.cSupplierItem>)
-                            {
-                                <option value="@item.Id"> @item. </option>
-
-                            }*@
-                        </select>
-                    </div><p></p>
-                </div>
-
-                <div class="form-group cform">
-                    <b class="col-md-3"> Particulars* </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-Particulars" class="form-control" type="text" maxlength="80">
-                    </div><p></p>
-                </div>
-
-                <div class="form-group cform">
-                    <b class="col-md-3"> Material </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-Material" class="form-control" type="text" maxlength="80">
-                    </div><p></p>
-                </div>
-
-                <div class="form-group cform">
-                    <b class="col-md-3"> Rate* </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-Rate" class="form-control" type="text" maxlength="80" value="0">
-                    </div><p></p>
-                </div>
-
-                <div class="form-group cform">
-                    <b class="col-md-3"> Unit </b>
-                    <div class="col-md-9">
-                        <select id="CreateSupItemRate-UnitType" class="form-control">
-                            @foreach (var unit in ViewBag.UnitList as IEnumerable<JobsV1.Models.SupplierUnit>)
-                            {
-                                <option value="@unit.Id"> @unit.Unit</option>
-
-                            }
-                        </select>
-                    </div><p></p>
-                </div>
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Supplier </b>
+                        <div class="col-md-9">
+                            <select id="CreateSupItemRate-Supplier" class="form-control">
+                                @foreach (var supplier in ViewBag.Suppliers as IEnumerable<JobsV1.Models.Supplier>)
+                                {
+                                    <option value="@supplier.Id"> @supplier.Name </option>
+                                }
+                            </select>
+                        </div><p></p>
+                    </div>
 
 
-                <div class="form-group cform">
-                    <b class="col-md-3">TradeTerm </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-TradeTerm" class="form-control" type="text" maxlength="80">
-                    </div><p></p>
-                </div>
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Particulars* </b>
+                        <div class="col-md-9">
+                            <input id="CreateSupItemRate-Particulars" class="form-control has-error" type="text" maxlength="80">
+                        </div><p></p>
+                    </div>
 
-                <div class="form-group cform">
-                    <b class="col-md-3"> Tolerance </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-Tolerance" class="form-control" type="text" maxlength="80">
-                    </div><p></p>
-                </div>
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Material </b>
+                        <div class="col-md-9">
+                            <input id="CreateSupItemRate-Material" class="form-control" type="text" maxlength="40">
+                        </div><p></p>
+                    </div>
 
-                <div class="form-group cform">
-                    <b class="col-md-3"> Remarks </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-Remarks" class="form-control" type="text" maxlength="80">
-                    </div><p></p>
-                </div>
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Rate* </b>
+                        <div class="col-md-9">
+                            <input id="CreateSupItemRate-Rate" class="form-control" type="number" maxlength="80" value="0">
+                        </div><p></p>
+                    </div>
 
-                <div class="form-group cform">
-                    <b class="col-md-3"> Valid From*</b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-ValidFrom" class="form-control" type="text" maxlength="20">
-                    </div><p></p>
-                </div>
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Unit </b>
+                        <div class="col-md-9">
+                            <select id="CreateSupItemRate-UnitType" class="form-control">
+                                @foreach (var unit in ViewBag.UnitList as IEnumerable<JobsV1.Models.SupplierUnit>)
+                                {
+                                    <option value="@unit.Id"> @unit.Unit</option>
+                                }
+                            </select>
+                        </div><p></p>
+                    </div>
 
-                <div class="form-group cform">
-                    <b class="col-md-3"> Valid To* </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-ValidTo" class="form-control" type="text" maxlength="20">
-                    </div><p></p>
-                </div>
+                    <div class="form-group cform">
+                        <b class="col-md-2">TradeTerm </b>
+                        <div class="col-md-9">
+                            <input id="CreateSupItemRate-TradeTerm" class="form-control" type="text" maxlength="80">
+                        </div><p></p>
+                    </div>
 
-                <div class="form-group cform">
-                    <b class="col-md-3"> Offered-By </b>
-                    <div class="col-md-9">
-                        <input id="CreateSupItemRate-By" class="form-control" type="text" maxlength="80">
-                    </div><p></p>
-                </div>
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Tolerance </b>
+                        <div class="col-md-9">
+                            <input id="CreateSupItemRate-Tolerance" class="form-control" type="text" maxlength="80">
+                        </div><p></p>
+                    </div>
 
-                <div class="form-group cform">
-                    <b class="col-md-3"> Procured-By </b>
-                    <div class="col-md-9">
-                        <input id="InvRate-ProcBy" class="form-control" type="text" maxlength="80">
-                    </div><p></p>
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Remarks </b>
+                        <div class="col-md-9">
+                            <input id="CreateSupItemRate-Remarks" class="form-control" type="text" maxlength="80">
+                        </div><p></p>
+                    </div>
+
+                    <div class="form-group cform">
+                        <b class="col-md-2"> ValidFrom*</b>
+                        <div class="col-md-9">
+                            <input id="CreateSupItemRate-ValidFrom" class="form-control" type="text" maxlength="20">
+                        </div><p></p>
+                    </div>
+
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Valid&nbsp;To* </b>
+                        <div class="col-md-10">
+                            <input id="CreateSupItemRate-ValidTo" class="form-control" type="text" maxlength="20">
+                        </div><p></p>
+                    </div>
+
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Offered&nbsp;By </b>
+                        <div class="col-md-9">
+                            <input id="CreateSupItemRate-By" class="form-control" type="text" maxlength="40">
+                        </div><p></p>
+                    </div>
+
+                    <div class="form-group cform">
+                        <b class="col-md-2"> Procured&nbsp;By </b>
+                        <div class="col-md-9">
+                            <input id="InvRate-ProcBy" class="form-control" type="text" maxlength="40">
+                        </div><p></p>
+                    </div>
+
+                    <div class="col-lg-offset-2 col-md-10" style="color:red;">
+                        <!-- Validations -->
+                        <p id="CreateSupItemRate-Particulars-errorMsg" hidden> * Invalid Particulars </p>
+                        <p id="CreateSupItemRate-Rate-errorMsg" hidden> * Invalid Rate </p>
+                        <p id="CreateSupItemRate-Date-errorMsg" hidden> * Invalid Dates </p>
+                    </div>
+
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="submitCreateItemRate" onclick="Submit_CreateSupItemRate()">
+                <button type="button" class="btn btn-default" id="submit_CreateSupItemRate" onclick="Submit_CreateSupItemRate()">
                     Create
                 </button>
             </div>

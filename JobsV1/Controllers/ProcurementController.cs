@@ -1,6 +1,7 @@
 ﻿using JobsV1.Models;
 using JobsV1.Models.Class;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,6 +16,7 @@ namespace JobsV1.Controllers
 
         // NEW CUSTOMER Reference ID
         private int NewCustSysId = 1;
+
         // Job Status
         private int JOBINQUIRY = 1;
         private int JOBRESERVATION = 2;
@@ -29,7 +31,7 @@ namespace JobsV1.Controllers
         private DateClass date = new DateClass();
 
         // GET: Procurement
-        public ActionResult Index(int id,int? sortid, int? leadId)
+        public ActionResult Index(int? id, int? sortid, int? leadId)
         {
             if (sortid != null)
                 Session["SLFilterID"] = (int)sortid;
@@ -52,6 +54,7 @@ namespace JobsV1.Controllers
             ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
             ViewBag.UnitList = db.SupplierUnits.ToList();
             ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
+            ViewBag.Items = db.InvItems.ToList();
 
             //for adding new item 
             AddSupItemPartial();
@@ -263,5 +266,183 @@ namespace JobsV1.Controllers
 
         #endregion
 
+        #region Suplier Items Rate
+        //POST : Procurement/CreateSupplierItem
+        public bool CreateSupplierItem(int salesLeadItemId, int supplierId, int itemId, string particulars, string materials, decimal rate,
+            int unitTypeId, string tradeTerm, string tolerance, string remarks, DateTime validTo, DateTime validFrom,
+            string procuredBy, string offeredBy )
+        {
+            try
+            {
+                //create supplierItem
+                SupplierItemRate supplierItem = new SupplierItemRate {
+                    ItemRate = rate.ToString(),
+                    SupplierUnitId = unitTypeId,
+                    Remarks = remarks ?? " ",
+                    DtValidFrom = validFrom.ToShortDateString(),
+                    DtValidTo = validTo.ToShortDateString(),
+                    Material = materials ?? " ",
+                    ProcBy = procuredBy ?? HttpContext.User.Identity.Name.Substring(0,39),
+                    TradeTerm = tradeTerm,
+                    Tolerance = tolerance,
+                    DtEntered = date.GetCurrentDateTime().ToString(),
+                    By = offeredBy ?? " ",
+                    Particulars = particulars ?? "N/A"
+
+                };
+
+                if (!HasSupplierItem(supplierId, itemId))
+                {
+                    //create link to supplier and invetory item
+                    var supInvItemId = CreateSupplierInvItem(supplierId, itemId);
+                    supplierItem.SupplierInvItemId = supInvItemId;
+
+                }
+                else
+                {
+                    var supInvItemId = GetSupplierInvItemId(supplierId, itemId);
+                    if (supInvItemId != 0 )
+                    {
+                        supplierItem.SupplierInvItemId = supInvItemId;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                //create supplier item rate
+                var itemRateId = CreateSupplierItemRate(supplierItem);
+                if (itemRateId == 0)
+                {
+                    return false;
+                }
+
+                //link to sales lead
+                CreateSalesLeadItemLink(salesLeadItemId, itemRateId);
+
+                return true;
+            }
+            catch
+            {
+                return false;   
+            }
+        }
+
+
+        private int GetSupplierInvItemId(int supplierId, int itemId)
+        {
+            //check if supplier has item rate
+
+            var supInvItem = db.SupplierInvItems.Where(s => s.SupplierId == supplierId
+                && s.InvItemId == itemId);
+
+            if (supInvItem.Count() != 0)
+            {
+                return supInvItem.FirstOrDefault().Id;
+            }
+
+            return 0;
+        }
+
+
+        private bool HasSupplierItem(int supplierId, int itemId)
+        {
+            //check if supplier has item rate
+            var supplier = db.Suppliers.Find(supplierId);
+
+            if (db.SupplierInvItems.Where(s => s.SupplierId == supplierId
+                && s.InvItemId == itemId).Count() != 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private int CreateSupplierInvItem(int supplierId, int itemId)
+        {
+            SupplierInvItem supInvItem = new SupplierInvItem();
+            supInvItem.SupplierId = supplierId;
+            supInvItem.InvItemId = itemId;
+
+            db.SupplierInvItems.Add(supInvItem);
+            db.SaveChanges();
+
+            return supInvItem.Id;
+        }
+
+        private int CreateSupplierItemRate(SupplierItemRate supItemRate)
+        {
+            try
+            {
+                db.SupplierItemRates.Add(supItemRate);
+                db.SaveChanges();
+
+                return supItemRate.Id;
+            }
+            catch 
+            {
+                return 0;
+            }
+              
+        }
+
+
+        private bool CreateSalesLeadItemLink(int salesLeadItemId, int supplierItemRateId)
+        {
+            try
+            {
+                SalesLeadQuotedItem salesLeadQuotedItem = new SalesLeadQuotedItem();
+                salesLeadQuotedItem.SalesLeadItemsId    = salesLeadItemId;
+                salesLeadQuotedItem.SupplierItemRateId  = supplierItemRateId;
+
+                db.SalesLeadQuotedItems.Add(salesLeadQuotedItem);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+
+
+        //GET : Procurement/GetItemSuppliers
+        [HttpGet]
+        public string GetItemSuppliers(int id)
+        {
+            //get list of suppliers of the given item
+            var supplier = db.SupplierInvItems.Where(s => s.InvItemId.Equals(id)).ToList();
+            List<cItemSupplier> itemSupDetails = new List<cItemSupplier>();
+
+            foreach (var sup in supplier)
+            {
+                var itemRates = sup.SupplierItemRates.ToList();
+
+                foreach (var rates in itemRates)
+                {
+                    itemSupDetails.Add(new cItemSupplier
+                    {
+                        Id = rates.Id,
+                        Rate = rates.ItemRate,
+                        SupplierName = sup.Supplier.Name,
+                        Unit = rates.SupplierUnit.Unit,
+                        SupRateId = sup.InvItemId.ToString(),
+                        ValidStart = rates.DtValidFrom,
+                        ValidEnd = rates.DtValidTo
+                    });
+
+                }
+            }
+
+            //convert list to json object
+            return JsonConvert.SerializeObject(itemSupDetails, Formatting.Indented);
+
+        }
+
+
+        #endregion
     }
 }
