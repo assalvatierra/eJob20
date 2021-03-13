@@ -1121,6 +1121,9 @@
     <Compile Include="Models\SalesLeadQuotedItem.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SalesLeadQuotedItemStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SalesLeadSupActivity.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -2481,12 +2484,16 @@
     <Content Include="Scripts\jquery.timepicker.js" />
     <Content Include="Scripts\Personnel\Payroll.js" />
     <Content Include="Scripts\Procurement\AddItemRateModal.js" />
+    <Content Include="Scripts\Procurement\EditSupItemRate.js" />
     <Content Include="Scripts\Procurement\CreateSupItemRate.js" />
+    <Content Include="Scripts\Procurement\Procurement.js" />
     <Content Include="Scripts\Products\ProdCreate.js" />
     <Content Include="Scripts\Reporting\UnitIncome.js" />
     <Content Include="Scripts\Reporting\JobIncome.js" />
     <Content Include="Scripts\Reporting\JobDate.js" />
     <Content Include="Scripts\Reporting\JobListing.js" />
+    <Content Include="Scripts\SalesLead\AddSupItem.js" />
+    <Content Include="Scripts\SalesLead\SalesLead.js" />
     <Content Include="Scripts\sort-table.js" />
     <Content Include="Scripts\sort-table.min.js" />
     <Content Include="Scripts\sortable.min.js" />
@@ -3342,6 +3349,7 @@
     <Content Include="Views\Procurement\AddProcActivityCode.cshtml" />
     <Content Include="Views\Procurement\_CreateSupRateModal.cshtml" />
     <Content Include="Views\Procurement\_AddItemModal.cshtml" />
+    <Content Include="Views\Procurement\_EditSupRateModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

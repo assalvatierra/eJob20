@@ -428,12 +428,18 @@ namespace JobsV1.Controllers
                 isValid = false;
             }
 
+            if (salesLead.SalesCode.IsNullOrWhiteSpace())
+            {
+                ModelState.AddModelError("SalesCode", "Invalid SalesCode");
+                isValid = false;
+            }
 
             if (salesLead.CustPhone.IsNullOrWhiteSpace())
             {
                 ModelState.AddModelError("CustPhone", "Invalid Contact Number");
                 isValid = false;
             }
+
             else
             {
                 if (salesLead.CustPhone.Length < 11)
@@ -441,7 +447,6 @@ namespace JobsV1.Controllers
                     ModelState.AddModelError("CustPhone", "Invalid Contact Number");
                     isValid = false;
                 }
-
             }
 
             return isValid;
@@ -1238,6 +1243,8 @@ namespace JobsV1.Controllers
                     {
                         Id = rates.Id,
                         Rate = rates.ItemRate,
+                        Particulars = rates.Particulars,
+                        Materials = rates.Material,
                         SupplierName = sup.Supplier.Name,
                         Unit = rates.SupplierUnit.Unit,
                         SupRateId = sup.InvItemId.ToString(),
@@ -1260,6 +1267,7 @@ namespace JobsV1.Controllers
                 SalesLeadQuotedItem leaditemRate = new SalesLeadQuotedItem();
                 leaditemRate.SalesLeadItemsId = SalesLeadId;
                 leaditemRate.SupplierItemRateId = ItemRateId;
+                leaditemRate.SalesLeadQuotedItemStatusId = 1; //default pending
 
                 db.SalesLeadQuotedItems.Add(leaditemRate);
                 db.SaveChanges();

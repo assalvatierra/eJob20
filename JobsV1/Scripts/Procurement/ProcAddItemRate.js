@@ -77,9 +77,9 @@ function InitDatePicker()
     //------------- Edit Start Date ------------------//
 
     //Start Date
-    var ddd3 = $('#EditInvRate-ValidFrom').val();
+    var ddd3 = $('#EditSupItemRate-ValidFrom').val();
 
-    $('#EditInvRate-ValidFrom').daterangepicker(
+    $('#EditSupItemRate-ValidFrom').daterangepicker(
     {
         timePicker: false,
         timePickerIncrement: 1,
@@ -100,14 +100,14 @@ function InitDatePicker()
         }
     });
 
-    $('#EditInvRate-ValidFrom').val(ddd3);
+    $('#EditSupItemRate-ValidFrom').val(ddd3);
 
     //------------- Edit End Date ------------------//
 
     //End Date
-    var ddd4 = $('#EditInvRate-ValidTo').val();
+    var ddd4 = $('#EditSupItemRate-ValidTo').val();
 
-    $('#EditInvRate-ValidTo').daterangepicker(
+    $('#EditSupItemRate-ValidTo').daterangepicker(
     {
         timePicker: false,
         timePickerIncrement: 1,
@@ -128,6 +128,6 @@ function InitDatePicker()
         }
     });
 
-    $('#EditInvRate-ValidTo').val(ddd4);
+    $('#EditSupItemRate-ValidTo').val(ddd4);
 
 }

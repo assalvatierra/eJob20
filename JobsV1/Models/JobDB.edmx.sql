@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/10/2021 13:41:14
+-- Date Created: 03/13/2021 10:13:29
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -2040,7 +2040,8 @@ GO
 CREATE TABLE [dbo].[SalesLeadQuotedItems] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [SalesLeadItemsId] int  NOT NULL,
-    [SupplierItemRateId] int  NOT NULL
+    [SupplierItemRateId] int  NOT NULL,
+    [SalesLeadQuotedItemStatusId] int  NOT NULL
 );
 GO
 
@@ -2475,6 +2476,13 @@ GO
 CREATE TABLE [dbo].[SupplierActActionStatus] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [ActionStatus] nvarchar(20)  NOT NULL
+);
+GO
+
+-- Creating table 'SalesLeadQuotedItemStatus'
+CREATE TABLE [dbo].[SalesLeadQuotedItemStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -3373,6 +3381,12 @@ GO
 -- Creating primary key on [Id] in table 'SupplierActActionStatus'
 ALTER TABLE [dbo].[SupplierActActionStatus]
 ADD CONSTRAINT [PK_SupplierActActionStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesLeadQuotedItemStatus'
+ALTER TABLE [dbo].[SalesLeadQuotedItemStatus]
+ADD CONSTRAINT [PK_SalesLeadQuotedItemStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5628,6 +5642,21 @@ GO
 CREATE INDEX [IX_FK_SalesLeadSupActivitySupplierActivity]
 ON [dbo].[SalesLeadSupActivities]
     ([SupplierActivityId]);
+GO
+
+-- Creating foreign key on [SalesLeadQuotedItemStatusId] in table 'SalesLeadQuotedItems'
+ALTER TABLE [dbo].[SalesLeadQuotedItems]
+ADD CONSTRAINT [FK_SalesLeadQuotedItemStatusSalesLeadQuotedItem]
+    FOREIGN KEY ([SalesLeadQuotedItemStatusId])
+    REFERENCES [dbo].[SalesLeadQuotedItemStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadQuotedItemStatusSalesLeadQuotedItem'
+CREATE INDEX [IX_FK_SalesLeadQuotedItemStatusSalesLeadQuotedItem]
+ON [dbo].[SalesLeadQuotedItems]
+    ([SalesLeadQuotedItemStatusId]);
 GO
 
 -- --------------------------------------------------

@@ -223,7 +223,7 @@
                         }
                         else
                         {
-                            <span> @Html.ActionLink("[ Add Procurement Activity ] ", "ListActivityCode", new { id = item.Id }, new { @class = "" }) </span>
+                            <span> Please provide sales code to add procurement activity </span>
                         }
 
 
@@ -235,48 +235,95 @@
                         <div id="SalesLeadItems-@item.Id">
                             @foreach (var invItems in item.SalesLeadItems)
                             {
-                                <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
+                            <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
 
-                                    <div style="background-color:lightgray;padding:5px;">
-                                        <b>
-                                            @invItems.InvItem.Description -
-                                            @if (invItems.QuotedPrice != null)
-                                            {
-                                                <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
-                                            }
-                                            <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
-                                        </b>
-
-                                        <span class="pull-right" hidden>
-                                            <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
-                                            <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
-                                        </span>
-                                    </div>
-
-                                    <div id="supItem-@invItems.Id">
-                                        @foreach (var supItem in invItems.SalesLeadQuotedItems)
+                                <div style="background-color:lightgray;padding:5px;">
+                                    <b>
+                                        @invItems.InvItem.Description -
+                                        @if (invItems.QuotedPrice != null)
                                         {
-                                            <p style="margin:3px 20px;">
-                                                @supItem.SupplierItemRate.SupplierInvItem.Supplier.Name <span>- P</span>
+                                            <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
+                                        }
+                                        <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
+                                    </b>
+
+                                    <span class="pull-right" hidden>
+                                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
+                                        <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
+                                    </span>
+                                </div>
+
+
+                                <div id="supItem-@invItems.Id">
+                                    @foreach (var supItem in invItems.SalesLeadQuotedItems)
+                                    {
+                                         var itemText = "none";
+                                         var itemTextColor = "black";
+                                        if (supItem.SalesLeadQuotedItemStatusId == 3)
+                                        {
+                                            itemText = "line-through";
+                                            itemTextColor = "gray";
+                                        }
+                                        <p style="margin:3px 10px;text-decoration:@itemText; color:@itemTextColor;">
+                                            <span style="color:green;">
+                                                @if (supItem.SalesLeadQuotedItemStatusId == 2)
+                                                {
+                                                    <img src="~/Images/SalesLead/approve-icon.png" width="15" style="margin:0px 5px;" />
+                                                }
+
                                                 @if (supItem.SupplierItemRate.ItemRate != null)
+
                                                 {
                                                     @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
                                                 }
 
-                                                @supItem.SupplierItemRate.SupplierUnit.Unit <span> ( </span>
-                                                <span style="font:normal 11px arial,verdana;">
-                                                    @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
-                                                    @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
-                                                </span>
-                                                <span> ) </span>
-                                                <a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>
-                                            </p>
-                                        }
-                                    </div>
+                                                @supItem.SupplierItemRate.SupplierUnit.Unit  -
+                                            </span>
 
-                                    <!--Add Item-->
-                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="GetItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id, @item.Id )"> [ Add Supplier Item ] </a>
+                                            <b>@supItem.SupplierItemRate.SupplierInvItem.Supplier.Name</b> |
+                                            @supItem.SupplierItemRate.Particulars
+                                            @if (!String.IsNullOrEmpty(supItem.SupplierItemRate.Material))
+                                            {
+                                                <span>  - @supItem.SupplierItemRate.Material</span>
+                                            }
+
+                                            <span> ( </span>
+                                            <span style="font:normal 11px arial,verdana;">
+                                                Validity :
+                                                @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
+                                                @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
+                                            </span>
+                                            <span> ) </span>
+                                            <span>
+                                                @*<a class="cursor-hand" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)">[ Approve ]</a>*@
+                                                @if (supItem.SalesLeadQuotedItemStatusId == 1)
+                                                {
+                                                    //PENDING
+                                                    <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
+                                                    <a class="btn btn-default btn-xs no-margin-top" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)"> Edit </a>
+                                                    <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                }
+                                                else if (supItem.SalesLeadQuotedItemStatusId == 2)
+                                                {
+                                                    //APPROVED
+                                                    <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 3)"> Cancel </a>
+                                                    <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                }
+                                                else if (supItem.SalesLeadQuotedItemStatusId == 3)
+                                                {
+                                                    //CANCELLED
+                                                    //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
+                                                    //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
+                                                }
+
+                                            </span>
+                                        </p>
+                                    }
                                 </div>
+
+                                <!--Add Item-->
+                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="GetItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id, @item.Id )"> [ Add Supplier Item ] </a>
+                            </div>
                             }
                         </div>
                         <br />
@@ -314,6 +361,7 @@
 @{Html.RenderPartial("_AddItemModal", null, null);}
 @{Html.RenderPartial("_AddItemRateModal", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier } });}
 @{Html.RenderPartial("_CreateSupRateModal", null, null);}
+@{Html.RenderPartial("_EditSupRateModal", null, null);}
 
 <div class="view-content" hidden>
 
@@ -339,6 +387,8 @@
     <script type="text/javascript" src="~/Scripts/Procurement/AddItemRateModal.js"></script>
     <script type="text/javascript" src="~/Scripts/Procurement/ProcAddItemRate.js"></script>
     <script type="text/javascript" src="~/Scripts/Procurement/CreateSupItemRate.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/EditSupItemRate.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/Procurement.js"></script>
     <script type="text/javascript">
 
         //Scroll to lead using ID on page ready
@@ -388,225 +438,21 @@
             }
         }
 
-        // Filter Loading on click
-        $("#newLead, #acceptedLead, #closedLead, #ongoing, #rejectedLead, #allLead").click(() => {
-            $("#overlay").show();
-        });
+        function UpdateLeadItemStatus(leadItemId, statusId ) {
 
-
-        function setLeadId(id){
-            $("#supItem-supId").val(id);
-        }
-
-        //add item
-        function ajax_AddSalesLeadItem() {
-            //build json object
-            console.log("data: " + $("#supItem-Items option:selected").val());
-
-            var data = {
-                SalesLeadId: $("#supItem-supId").val(),
-                ItemId: $("#supItem-Items option:selected").val(),
-                price: $("#supItem-Rate").val(),
-                remarks: $("#supItem-Remarks").val()
-            };
-
-            //console.log(data);
-
-            var url = '/SalesLeads/addSupItem';
-
-            //Post data from server using ajax call
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: data,
-                dataType: 'application/json; charset=utf-8',
-                success: function (data) {
-
-                },
-                error: function (data) {
-                    console.log(data);
-                    location.reload(true);
-                }
-            });
-        }
-
-        //Remove Item
-        function ajax_RemoveItem(Id) {
-            //build json object
-
-            var data = {
-                id: Id
-            };
-
-            var url = '/SalesLeads/RemoveItem';
-
-            //Post data from server using ajax call
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: data,
-                dataType: 'application/json; charset=utf-8',
-                success: function (data) {
-
-                },
-                error: function (data) {
-                    console.log(data);
-                    location.reload(true);
-                }
-            });
-        }
-
-        //Edit initail Lead Item
-        function EditLeadItem(id, invItemId, QuotedRate, Remarks,itemName) {
-            $('#edit-supItem-Id').val(id);
-            $('#edit-supItem-Items').val(invItemId);
-            $('#edit-supItem-Rate').val(QuotedRate);
-            $('#edit-supItem-Remarks').val(Remarks);
-
-            $('#editItemName').text(itemName);
-        }
-
-        //Edit Item
-        function ajax_EditLeadItem() {
-             //build json object
-            var Id = $('#edit-supItem-Id').val();
-            var InvItemId = $('#edit-supItem-Items').val();
-            var Rate = $('#edit-supItem-Rate').val();
-            var Remarks = $('#edit-supItem-Remarks').val();
-            var data = {
-                id: Id,
-                invItemId: InvItemId,
-                rate: Rate,
-                remarks: Remarks
-            };
-            console.log(data);
-            var url = '/SalesLeads/EditItem';
-
-            //Post data from server using ajax call
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: data,
-                dataType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (data) {
-                    console.log(data);
-                    location.reload(true);
-                }
-            });
-        }
-
-    //****************************
-    //*** Handle Invalid Input ***
-    //****************************
-
-    //prevent invalid inputs
-    function validate(evt) {
-        var theEvent = evt || window.event;
-
-        // Handle paste
-        if (theEvent.type === 'paste') {
-            key = event.clipboardData.getData('text/plain');
-        } else {
-            // Handle key press
-            var key = theEvent.keyCode || theEvent.which;
-            key = String.fromCharCode(key);
-        }
-        var regex = /[0-9]|\./;
-        if (!regex.test(key)) {
-            theEvent.returnValue = false;
-            if (theEvent.preventDefault) theEvent.preventDefault();
-        }
-    }
-
-    //handle numbers only on input
-    $('#edit-supItem-Rate').on('input',function(){
-        //backspace
-        if( isNaN($('#edit-supItem-Rate').val())){
-            var txt = $('#edit-supItem-Rate');
-            txt.val(txt.val().slice(0, -1));
-        }
-
-        if($('#edit-supItem-Rate').val() < 0){
-            $('#edit-supItem-Rate').val(0);
-        }
-    });
-
-    //handle numbers only on input
-    $('#supItem-Rate').on('input',function(){
-        //backspace
-        if( isNaN($('#supItem-Rate').val())){
-            var txt = $('#supItem-Rate');
-            txt.val(txt.val().slice(0, -1));
-        }
-
-        if($('#supItem-Rate').val() < 0){
-            $('#supItem-Rate').val(0);
-        }
-    });
-
-
-        //Update Activity Status
-        function UpdateLeadStatus(e, leadId, statusId) {
-            $.post("/SalesLeads/PostLeadStatus", { slId: leadId, StatusId: statusId }, (result) => {
-                if (result == 'False') {
-                    alert("Unable to Update Status")
-                }
-            }).done((result) => {
-                //on update success
-                $(e).parent().removeClass("btn-primary");
-                $(e).parent().addClass("btn-success");
-            }).fail(() => {
-                //on update failed
-                console.log("On Fail");
-                console.log(result);
-
-                $(e).parent().removeClass("btn-primary");
-                $(e).parent().addClass("btn-primary");
-
-                //display alert message
-                alert("Unable to Update Status")
-            });
-
-        }
-
-        function UpdateProcActivity_Done(actId) {
-
-            $.post('/Procurement/ProcActivityDone', { id: actId })
-                .done((res) => {
-                    console.log(res);
-
-                    if (res) {
+            $.post('/Procurement/UpdateLeadItemStatus',  { id: leadItemId, statusId: statusId })
+                .done((result) => {
+                    console.log(result);
+                    if (result == "True") {
                         window.location.reload(false);
+                    } else {
+                        alert("Unable to Update Sales Lead Item Status");
                     }
-
-                }).fail((err) => {
-                    console.log(err);
+                })
+                .fail((err) => {
+                    alert("Unable to Update Sales Lead Item Status");
                 });
         }
-
-
-        function UpdateProcActivity_Remove(actId) {
-
-            $.post('/Procurement/ProcActivityRemove', { id: actId })
-                .done((res) => {
-                    console.log(res);
-
-                    if (res) {
-                        window.location.reload(false);
-                    }
-                }).fail((err) => {
-                    console.log(err);
-                });
-        }
-
-        function AddSupplierItemRate(saleslead_ID) {
-            $("#supItemRate").modal("hide");
-        }
-
-
 
 
     </script>

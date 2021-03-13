@@ -17,8 +17,10 @@ namespace JobsV1.Models
         public int Id { get; set; }
         public int SalesLeadItemsId { get; set; }
         public int SupplierItemRateId { get; set; }
+        public int SalesLeadQuotedItemStatusId { get; set; }
     
         public virtual SalesLeadItems SalesLeadItem { get; set; }
         public virtual SupplierItemRate SupplierItemRate { get; set; }
+        public virtual SalesLeadQuotedItemStatus SalesLeadQuotedItemStatu { get; set; }
     }
 }

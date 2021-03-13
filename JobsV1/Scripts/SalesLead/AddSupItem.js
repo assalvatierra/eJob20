@@ -1,9 +1,9 @@
 ﻿
-
-//******** Add Item Rate Modal ****************/
+/**
+ * Add Supplier Item  
+ **/
 
 var SLID = 0;
-
 function addSupItemToView(supId, rateId, item, supplier, ratePerUnit) {
     content = "<span>";
     content += " " + item + " - " + ratePerUnit + " (" + supplier + ")";
@@ -25,27 +25,19 @@ function addSupItem(salesLeadId) {
 }
 
 
-function GetItemSuppliers(itemId, item, itemLeadId, salesLeadId) {
+function getItemSuppliers(itemId, item, itemLeadId) {
     $('#modal-supitems-title').text(item);
 
-    //set sales lead ID for creating supplier item rate
-    $("#CreateSupItemRate-ItemLeadId").val(itemLeadId);
-    $("#CreateSupItemRate-Item").val(itemId);
-    $("#CreateSupItemRate-Item-Text").text(item);
-
-    console.log("ItemLeadID: " + itemLeadId);
-     
     //build json object
     var data = {
         id: itemId
     };
-
     console.log(item);
     //request data from server using ajax call
     $.ajax({
-        url: '/Procurement/GetItemSuppliers/' + itemId,
+        url: 'SalesLeads/getItemSuppliers/' + itemId,
         type: "GET",
-        data: data,
+        data: JSON.stringify(data),
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
             //console.log("SUCCESS");
@@ -58,26 +50,23 @@ function GetItemSuppliers(itemId, item, itemLeadId, salesLeadId) {
     });
 }
 
-//display simple/limited information
+//display simple/limited information 
 //of suppliers
 function LoadTable(data, itemLeadId) {
 
     //parse data response to json object
     var temp = jQuery.parseJSON(data["responseText"]);
 
-    //remove existing items
+    //remove existing items 
     removeSupItemsModal();
 
     //populate table content
     for (var x = 0; x < temp.length; x++) {
-        var particulars = temp[x]["Particulars"] != undefined ? temp[x]["Particulars"] : " ";
-        var materials = temp[x]["Materials"] != undefined ? temp[x]["Materials"] : " ";
+
         content = '<a class="list-group-item skills" id="supItemDesc" data-toggle="modal" data-target="#selectSupplier" data-dismiss="modal" onclick="AddSupItemRate(' + temp[x]["Id"] + ',' + itemLeadId + ')" > '
-            + "<b>" + temp[x]["SupplierName"] + ' <br /> '
-            + "<span>" + temp[x]["Rate"] + ' per '
-            + temp[x]["Unit"] + '</ span> -  '
-            + '' + particulars + ' ' + materials + ' </b> '
-            + ' <br /> Validity: '
+            + temp[x]["SupplierName"] + ' - '
+            + temp[x]["Rate"] + ' per '
+            + temp[x]["Unit"] + ' <br /> Validity:  '
             + temp[x]["ValidStart"] + ' - '
             + temp[x]["ValidEnd"] + ' ' +
             ' </a> ';
@@ -117,7 +106,7 @@ function removeSupItemsModal() {
     $("#SupItems-modal-content").empty();
 }
 
-function RemoveSupItems(id) {
+function removeSupItems(id) {
     //build json object
     var data = {
         id: id
@@ -141,13 +130,7 @@ function RemoveSupItems(id) {
     });
 }
 
-
-
 function displayNewItem(invId, itemId) {
     var content = $("#supItemDesc-" + itemId);
     $(content).appendTo("#supItem-" + invId);
-}
-
-function AddSupplierItemRate() {
-    $("#AddSupItemRate").modal('show');
 }

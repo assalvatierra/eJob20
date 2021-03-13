@@ -24,6 +24,8 @@ namespace JobsV1.Models.Class
         public string SupRateId { get; set; }
         public string ValidStart { get; set; }
         public string ValidEnd { get; set; }
+        public string Particulars { get; set; }
+        public string Materials { get; set; }
     }
 
     public class cSalesLead

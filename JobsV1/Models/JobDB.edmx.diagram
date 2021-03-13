@@ -317,6 +317,8 @@
         <AssociationConnector Association="JobDB.SupplierActActionStatusSupplierActivity" />
         <AssociationConnector Association="JobDB.SalesLeadSupActivitySalesLead" />
         <AssociationConnector Association="JobDB.SalesLeadSupActivitySupplierActivity" />
+        <EntityTypeShape EntityType="JobDB.SalesLeadQuotedItemStatus" Width="1.5" PointX="6.25" PointY="38.75" />
+        <AssociationConnector Association="JobDB.SalesLeadQuotedItemStatusSalesLeadQuotedItem" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

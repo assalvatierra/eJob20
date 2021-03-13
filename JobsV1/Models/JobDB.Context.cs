@@ -174,5 +174,6 @@ namespace JobsV1.Models
         public virtual DbSet<SalesProcStatusCode> SalesProcStatusCodes { get; set; }
         public virtual DbSet<SupplierActActionCode> SupplierActActionCodes { get; set; }
         public virtual DbSet<SupplierActActionStatus> SupplierActActionStatus { get; set; }
+        public virtual DbSet<SalesLeadQuotedItemStatus> SalesLeadQuotedItemStatus { get; set; }
     }
 }

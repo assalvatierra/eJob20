@@ -155,6 +155,7 @@
     <EntitySet Name="SalesProcStatusCodes" EntityType="JobDB.Store.SalesProcStatusCodes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierActActionCodes" EntityType="JobDB.Store.SupplierActActionCodes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierActActionStatus" EntityType="JobDB.Store.SupplierActActionStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesLeadQuotedItemStatus" EntityType="JobDB.Store.SalesLeadQuotedItemStatus" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -754,6 +755,10 @@
     <AssociationSet Name="SalesLeadSupActivitySupplierActivity" Association="JobDB.Store.SalesLeadSupActivitySupplierActivity">
       <End Role="SalesLeadSupActivity" EntitySet="SalesLeadSupActivities" />
       <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadQuotedItemStatusSalesLeadQuotedItem" Association="JobDB.Store.SalesLeadQuotedItemStatusSalesLeadQuotedItem">
+      <End Role="SalesLeadQuotedItemStatus" EntitySet="SalesLeadQuotedItemStatus" />
+      <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -1875,6 +1880,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SalesLeadItemsId" Type="int" Nullable="false" />
     <Property Name="SupplierItemRateId" Type="int" Nullable="false" />
+    <Property Name="SalesLeadQuotedItemStatusId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CustSocialAccs">
     <Key>
@@ -2309,6 +2315,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ActionStatus" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="SalesLeadQuotedItemStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4110,6 +4123,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SalesLeadQuotedItemStatusSalesLeadQuotedItem">
+    <End Role="SalesLeadQuotedItemStatus" Type="JobDB.Store.SalesLeadQuotedItemStatus" Multiplicity="1" />
+    <End Role="SalesLeadQuotedItem" Type="JobDB.Store.SalesLeadQuotedItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesLeadQuotedItemStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadQuotedItem">
+        <PropertyRef Name="SalesLeadQuotedItemStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4863,6 +4888,11 @@
           <AssociationSet Name="SalesLeadSupActivitySupplierActivity" Association="JobDB.SalesLeadSupActivitySupplierActivity">
             <End Role="SalesLeadSupActivity" EntitySet="SalesLeadSupActivities" />
             <End Role="SupplierActivity" EntitySet="SupplierActivities" />
+          </AssociationSet>
+          <EntitySet Name="SalesLeadQuotedItemStatus" EntityType="JobDB.SalesLeadQuotedItemStatus" />
+          <AssociationSet Name="SalesLeadQuotedItemStatusSalesLeadQuotedItem" Association="JobDB.SalesLeadQuotedItemStatusSalesLeadQuotedItem">
+            <End Role="SalesLeadQuotedItemStatus" EntitySet="SalesLeadQuotedItemStatus" />
+            <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -7440,6 +7470,8 @@
           <Property Name="SalesLeadItemsId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SupplierItemRate" Relationship="JobDB.SupplierItemRateSalesLeadQuotedItem" FromRole="SalesLeadQuotedItem" ToRole="SupplierItemRate" />
           <Property Name="SupplierItemRateId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesLeadQuotedItemStatu" Relationship="JobDB.SalesLeadQuotedItemStatusSalesLeadQuotedItem" FromRole="SalesLeadQuotedItem" ToRole="SalesLeadQuotedItemStatus" />
+          <Property Name="SalesLeadQuotedItemStatusId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="SalesLeadItemsSalesLeadQuotedItem">
           <End Type="JobDB.SalesLeadItems" Role="SalesLeadItems" Multiplicity="1" />
@@ -8518,6 +8550,26 @@
             </Principal>
             <Dependent Role="SalesLeadSupActivity">
               <PropertyRef Name="SupplierActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesLeadQuotedItemStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" />
+          <NavigationProperty Name="SalesLeadQuotedItems" Relationship="JobDB.SalesLeadQuotedItemStatusSalesLeadQuotedItem" FromRole="SalesLeadQuotedItemStatus" ToRole="SalesLeadQuotedItem" />
+        </EntityType>
+        <Association Name="SalesLeadQuotedItemStatusSalesLeadQuotedItem">
+          <End Type="JobDB.SalesLeadQuotedItemStatus" Role="SalesLeadQuotedItemStatus" Multiplicity="1" />
+          <End Type="JobDB.SalesLeadQuotedItem" Role="SalesLeadQuotedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesLeadQuotedItemStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesLeadQuotedItem">
+              <PropertyRef Name="SalesLeadQuotedItemStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9746,6 +9798,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SalesLeadItemsId" ColumnName="SalesLeadItemsId" />
           <ScalarProperty Name="SupplierItemRateId" ColumnName="SupplierItemRateId" />
+          <ScalarProperty Name="SalesLeadQuotedItemStatusId" ColumnName="SalesLeadQuotedItemStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10227,6 +10280,14 @@
         <MappingFragment StoreEntitySet="SupplierActActionStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="ActionStatus" ColumnName="ActionStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesLeadQuotedItemStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadQuotedItemStatus)">
+        <MappingFragment StoreEntitySet="SalesLeadQuotedItemStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

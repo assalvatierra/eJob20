@@ -282,11 +282,11 @@ namespace JobsV1.Controllers
                     DtValidFrom = validFrom.ToShortDateString(),
                     DtValidTo = validTo.ToShortDateString(),
                     Material = materials ?? " ",
-                    ProcBy = procuredBy ?? HttpContext.User.Identity.Name.Substring(0,39),
+                    ProcBy = procuredBy ?? "N/A",
                     TradeTerm = tradeTerm,
                     Tolerance = tolerance,
                     DtEntered = date.GetCurrentDateTime().ToString(),
-                    By = offeredBy ?? " ",
+                    By = offeredBy ?? "N/A",
                     Particulars = particulars ?? "N/A"
 
                 };
@@ -323,8 +323,9 @@ namespace JobsV1.Controllers
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                throw ex;
                 return false;   
             }
         }
@@ -393,17 +394,19 @@ namespace JobsV1.Controllers
         {
             try
             {
-                SalesLeadQuotedItem salesLeadQuotedItem = new SalesLeadQuotedItem();
-                salesLeadQuotedItem.SalesLeadItemsId    = salesLeadItemId;
-                salesLeadQuotedItem.SupplierItemRateId  = supplierItemRateId;
+                SalesLeadQuotedItem slQuotedItem = new SalesLeadQuotedItem();
+                slQuotedItem.SalesLeadItemsId    = salesLeadItemId;
+                slQuotedItem.SupplierItemRateId  = supplierItemRateId;
+                slQuotedItem.SalesLeadQuotedItemStatusId = 1; //PENDING DEFAULT
 
-                db.SalesLeadQuotedItems.Add(salesLeadQuotedItem);
+                db.SalesLeadQuotedItems.Add(slQuotedItem);
                 db.SaveChanges();
 
                 return true;
             }
-            catch 
+            catch(Exception ex)
             {
+                throw ex;
                 return false;
             }
         }
@@ -431,7 +434,9 @@ namespace JobsV1.Controllers
                         Unit = rates.SupplierUnit.Unit,
                         SupRateId = sup.InvItemId.ToString(),
                         ValidStart = rates.DtValidFrom,
-                        ValidEnd = rates.DtValidTo
+                        ValidEnd = rates.DtValidTo,
+                        Particulars = rates.Particulars,
+                        Materials = rates.Material,
                     });
 
                 }
@@ -442,6 +447,100 @@ namespace JobsV1.Controllers
 
         }
 
+        //GET: Procurement/GetSupItemDetails
+        // id: ItemRateId
+        [HttpGet]
+        public JsonResult GetSupItemDetails(int id)
+        {
+            //get list of suppliers of the given item
+            var itemRate = db.SupplierItemRates.Find(id);
+
+            if(itemRate != null) {
+
+                //convert list to json object
+                return Json(
+                    new {
+                        itemRate.Id,
+                        itemRate.SupplierUnitId,
+                        itemRate.SupplierInvItem.SupplierId,
+                        itemRate.Particulars,
+                        itemRate.Material,
+                        itemRate.ItemRate,
+                        itemRate.Remarks,
+                        itemRate.Tolerance,
+                        itemRate.TradeTerm,
+                        itemRate.DtValidFrom,
+                        itemRate.DtValidTo,
+                        itemRate.ProcBy,
+                        itemRate.By,
+                        itemRate.SupplierInvItem.InvItem.Description,
+                    }, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
+        }
+
+
+        //POST: Procurement/EditSupplierItem
+        public bool EditSupplierItem(int supItemId, int supplierId, string particulars, string materials, decimal rate,
+            int unitTypeId, string tradeTerm, string tolerance, string remarks, DateTime validTo, DateTime validFrom,
+            string procuredBy, string offeredBy)
+        {
+
+            //get item
+            try
+            {
+                var supItemRate = db.SupplierItemRates.Find(supItemId);
+
+                if (supItemRate == null)
+                {
+                    return false;
+                }
+
+                supItemRate.SupplierInvItem.SupplierId = supplierId;
+                supItemRate.Particulars = particulars ?? "N/A";
+                supItemRate.Material = materials ?? "N/A";
+                supItemRate.ItemRate = rate.ToString();
+                supItemRate.SupplierUnitId = unitTypeId;
+                supItemRate.TradeTerm = tradeTerm;
+                supItemRate.Tolerance = tolerance;
+                supItemRate.Remarks = remarks;
+                supItemRate.DtValidTo = validTo.ToString();
+                supItemRate.DtValidFrom = validFrom.ToString();
+                supItemRate.ProcBy = procuredBy ?? "N/A";
+                supItemRate.By = offeredBy ?? "N/A";
+
+                db.Entry(supItemRate).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        // POST : Procurement/UpdateLeadItemStatus
+        [HttpPost]
+        public bool UpdateLeadItemStatus(int id, int statusId)
+        {
+            try
+            {
+
+                var salesLeadQuotedItem = db.SalesLeadQuotedItems.Find(id);
+                salesLeadQuotedItem.SalesLeadQuotedItemStatusId = statusId;
+
+                db.Entry(salesLeadQuotedItem).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         #endregion
     }

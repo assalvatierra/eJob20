@@ -35,9 +35,11 @@ function Ajax_CreateSupplierItem() {
     $.post("/Procurement/CreateSupplierItem", newSupplierItem, (res) => {
         console.log(res);
     }).done((result) => {
-        if (result) {
+        if (result == "True") {
             $("#CreateSupItemRate").modal("hide");
             window.location.reload(false);
+        } else {
+            alert("Unable to Create Supplier Item.");
         }
         console.log(result);
     }).fail((err) => {

@@ -84,7 +84,8 @@ values
 ('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
 ('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2); 
 
-
+insert into SalesLeadQuotedItemStatus([Status])
+values ('PENDING'), ('ACCEPTED'), ('CANCELLED');
 
 -- ----------------------------------------------
 -- Inventory Configuration 
