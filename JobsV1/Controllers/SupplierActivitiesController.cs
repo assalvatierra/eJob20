@@ -147,6 +147,19 @@ namespace JobsV1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
+
+            //find supplier sales lead link
+            var salesLeadSupplierActs = db.SalesLeadSupActivities.Where(s => s.SupplierActivityId == id);
+            if (salesLeadSupplierActs.FirstOrDefault() != null)
+            {
+                //remove link
+                db.SalesLeadSupActivities.Remove(salesLeadSupplierActs.FirstOrDefault());
+                db.SaveChanges();
+
+            }
+
+
             SupplierActivity supplierActivity = db.SupplierActivities.Find(id);
             db.SupplierActivities.Remove(supplierActivity);
             db.SaveChanges();
@@ -223,6 +236,8 @@ namespace JobsV1.Controllers
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
             ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
             ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+            ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
+            ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", supplierActivity.SupplierActActionStatusId);
 
             ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
@@ -233,12 +248,11 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RecordsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType,SupplierActStatusId")] SupplierActivity supplierActivity)
+        public ActionResult RecordsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ProjName,ActivityType,SupplierActStatusId,SupplierActActionCodeId,SupplierActActionStatusId")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {
-                supplierActivity.SupplierActActionCodeId = 1; //default
-                supplierActivity.SupplierActActionStatusId = 1; //default
+
                 db.Entry(supplierActivity).State = EntityState.Modified;
                 db.SaveChanges();
                 //return RedirectToAction("Index");
@@ -250,6 +264,8 @@ namespace JobsV1.Controllers
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
             ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
             ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+            ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
+            ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", supplierActivity.SupplierActActionStatusId);
 
             return View(supplierActivity);
         }

@@ -26,6 +26,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Payables','Payables Transactions',0,'Payables/ApTransactions','Index','',20,20)
 ;
 
+insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
+('Procurement','Procurement Leads',0,'Procurement','Index','',20,2);
 
 insert into EntBusinesses([Name],[ShortName],[BussRegNo],[User]) values
 ('Real Breeze Davao','RBD','11-2233','abel');

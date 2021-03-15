@@ -223,6 +223,11 @@ namespace JobsV1.Controllers
             ViewBag.Assigned = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             ViewBag.Type = new SelectList(ActivityType, "value", "text", supplierActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
+            ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+            ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
+            ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", supplierActivity.SupplierActActionStatusId);
+
             ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
         }
@@ -232,7 +237,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SupplierActsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount")] SupplierActivity supplierActivity)
+        public ActionResult SupplierActsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount,Type,ProjName,ActivityType,SupplierActStatusId,SupplierActActionCodeId,SupplierActActionStatusId")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {
@@ -243,6 +248,11 @@ namespace JobsV1.Controllers
             ViewBag.Assigned = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName", supplierActivity.Assigned);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierActivity.SupplierId);
             ViewBag.Type = new SelectList(ActivityType, "value", "text", supplierActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Id", "Type", supplierActivity.ActivityType);
+            ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+            ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
+            ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", supplierActivity.SupplierActActionStatusId);
+            ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
         }
 
@@ -263,10 +273,21 @@ namespace JobsV1.Controllers
         }
 
         // POST: SupplierActivities/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("SupplierActsDelete")]
         [ValidateAntiForgeryToken]
         public ActionResult SupplierActsDeleteConfirmed(int id)
         {
+
+            //find supplier sales lead link
+            var salesLeadSupplierActs = db.SalesLeadSupActivities.Where(s => s.SupplierActivityId == id);
+            if (salesLeadSupplierActs.FirstOrDefault() != null)
+            {
+                //remove link
+                db.SalesLeadSupActivities.Remove(salesLeadSupplierActs.FirstOrDefault());
+                db.SaveChanges();
+
+            }
+
             SupplierActivity supplierActivity = db.SupplierActivities.Find(id);
             db.SupplierActivities.Remove(supplierActivity);
             db.SaveChanges();

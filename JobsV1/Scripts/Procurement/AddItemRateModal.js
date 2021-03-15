@@ -78,8 +78,8 @@ function LoadTable(data, itemLeadId) {
             + temp[x]["Unit"] + '</ span> -  '
             + '' + particulars + ' ' + materials + ' </b> '
             + ' <br /> Validity: '
-            + temp[x]["ValidStart"] + ' - '
-            + temp[x]["ValidEnd"] + ' ' +
+            + moment(temp[x]["ValidStart"]).format("MMM DD YYYY") + ' - '
+            + moment(temp[x]["ValidEnd"]).format("MMM DD YYYY") + ' ' +
             ' </a> ';
         if (moment(temp[x]["ValidEnd"]).diff(moment(), 'days') > 0) {
             $(content).appendTo("#SupItems-modal-content");

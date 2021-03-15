@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<JobsV1.Models.SalesLead>
 
 @{
-    ViewBag.Title = "Leads";
-    Session["ROOTMENUID"] = 2;
+    ViewBag.Title = "Procurement";
+    Session["ROOTMENUID"] = 18;
     var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 }
@@ -31,7 +31,7 @@
 
     <div class="header-btn-list">
         <div class="btn-group">
-            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+            @*@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })*@
         </div>
     </div>
 </div>
@@ -89,7 +89,6 @@
                 <td>
                     <!--Sales Lead Status-->
                     <div>
-
                         @foreach (var salesstat in SalesStatCode)
                         {
                             <span>&#187;</span>
@@ -107,7 +106,6 @@
                                 </button>
                             }
                         }
-
                     </div>
 
                     <div>
@@ -314,6 +312,7 @@
                                                     //CANCELLED
                                                     //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
                                                     //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
+                                                    <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
                                                 }
 
                                             </span>

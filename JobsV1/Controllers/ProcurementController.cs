@@ -158,7 +158,7 @@ namespace JobsV1.Controllers
                     var actCodeDefault = db.SupplierActActionCodes.Find(ActCodeId);
 
                     ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-                    ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name");
+                    ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s=>s.Name), "Id", "Name");
                     ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description");
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
                     ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type");

@@ -48,7 +48,7 @@
 
     @foreach (var item in Model)
     {
-        if (item.crLogCashTypeId == 3)
+        if (item.crLogCashTypeId == 3 || item.crLogCashTypeId == 4 || item.crLogCashTypeId == 5 )
         {
             item.Amount = item.Amount * -1;
         }
