@@ -51,7 +51,9 @@ namespace JobsV1.Controllers
 
             ViewBag.LeadId = id;
             ViewBag.CurrentFilter = sortid;
-            ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 3)
+                .OrderBy(s => s.SeqNo).ToList();
             ViewBag.UnitList = db.SupplierUnits.ToList();
             ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
             ViewBag.Items = db.InvItems.ToList();

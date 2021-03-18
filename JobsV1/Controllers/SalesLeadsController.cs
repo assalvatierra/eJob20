@@ -54,7 +54,9 @@ namespace JobsV1.Controllers
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
-            ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
+                .OrderBy(s => s.SeqNo).ToList();
             
             //for adding new item 
             AddSupItemPartial();
@@ -85,7 +87,8 @@ namespace JobsV1.Controllers
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
-            ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .ToList();
 
             //for adding new item 
             AddSupItemPartial();

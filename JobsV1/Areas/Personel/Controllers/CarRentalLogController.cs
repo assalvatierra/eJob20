@@ -467,7 +467,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditBilling([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate")] crLogTrip crLogTrip)
+        public ActionResult EditBilling([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -1241,12 +1241,14 @@ namespace JobsV1.Areas.Personel.Controllers
                 int HoursPerTrip = trip.TripHours ?? 0;
 
                 //calculate time diff and hours per trip
-                double diff =  (EndTime - StartTime).Hours - HoursPerTrip;
+                double diff = Math.Floor(double.Parse((EndTime - StartTime).Hours.ToString())) - (double)HoursPerTrip;
+
+
 
                 //round off time to 30 mins or 0.5
-                if (StartTime.Minute >= 20 && StartTime.Minute < 40)
+                if (StartTime.Minute > 20 && StartTime.Minute < 40)
                 {
-                    diff -= 0.5;
+                    diff += 0.5;
                 }
 
                 //round off time end +1 hour
@@ -1254,7 +1256,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     diff += 1;
                 }
-                if (EndTime.Minute >= 20 && EndTime.Minute < 40)
+
+                if (EndTime.Minute > 20 && EndTime.Minute < 40)
                 {
                     diff += 0.5;
                 }
@@ -1286,7 +1289,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var trip = db.crLogTrips.Find(id);
 
             if (trip.DriverOTRate != null)
-            {
+            {  
                 CalcOTRate = OTHours * Double.Parse(trip.DriverOTRate.ToString()); 
             }
 
@@ -1314,7 +1317,6 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return CalcOTRate;
         }
-
 
         #region Odo Update
 
@@ -1402,7 +1404,6 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             if (Id != null)
             {
-
                 crLogTrip crLogTrip = db.crLogTrips.Find(Id);
 
                 if (crLogTrip == null)

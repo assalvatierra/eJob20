@@ -1139,6 +1139,9 @@
     <Compile Include="Models\SalesStatusCode.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SalesStatusType.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Services.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>

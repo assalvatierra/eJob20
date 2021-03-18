@@ -38,8 +38,13 @@ values
 -- Sales Lead Configuration
 -- ------------------------------------------------------------
 
-insert into SalesStatusCodes([SeqNo],[Name])
-values (1,'NEW'), (2,'QOUTATION'), (3, 'PROCUREMENT'), (4, 'CHECKING'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
+insert into SalesStatusTypes([Type])
+values  ('ALL'),('SALES'),('PROCUREMENT');
+
+insert into SalesStatusCodes([SeqNo],[Name],[SalesStatusTypeId])
+values (1,'INQUIRY',1), (2,'SALES',2), (3, 'PROCUREMENT',2), (4, 'FOR APPROVAL',1), (5, 'AWARDED',1), (6, 'REJECTED',1), (7, 'CLOSE',1),
+ (2, 'EVALUATION', 2), (2, 'ACCEPTED', 2), (2, 'QUOTATION SENT', 2),
+ (3, 'EVALUATION', 3), (3, 'ACCEPTED', 3), (3, 'ITEM PROCUREMENT', 3);
 
 insert into SalesActCodes([Name],[Desc],[SysCode],[iconPath],[DefaultActStatus])
 values 
@@ -74,15 +79,17 @@ values	('Priority','PRIORITY','~/Images/SalesLead/high-importance.png'),
 insert into SupplierActActionStatus([ActionStatus])
 values ('REQUEST'),('DONE'),('SUSPEND');
 
-insert into SupplierActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus])
+insert into SupplierActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus],[SeqNo])
 values 
-('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
-('PROCUREMENT','Item Procurement', 'PROCURE','~/Images/SalesLead/Quotation101.png',1), 
-('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1),   
-('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1),   
-('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
-('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
-('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2); 
+('REQ-PROC','Request for Procurement', 'RFP','~/Images/SalesLead/Quotation101.png',1,1), 
+('PROC-DONE','Procurement Done','PROC-FONE' ,'~/Images/SalesLead/Quotation101.png',2,2),   
+('SALES-CLARIFY','Sales Clarification Done' ,'SALES CLARIFICATION','~/Images/SalesLead/ShakeHands.png',1,3),   
+('CALL-DONE','Supplier Call Done', 'SUP-CALL-DONE','~/Images/SalesLead/Phone103.png',2,4), 
+('EMAIL-DONE','Supplier Email Done','SUP-MAIL-DONE','~/Images/SalesLead/Email102.jpg',1,5),   
+('MEETING-DONE','Supplier Meeting done', 'SUP-MEETING-DONE','~/Images/SalesLead/meeting102.jpg',3,6),   
+('AWARDED','Awarded', 'AWARDED','~/Images/SalesLead/Awarded.png',4,7),   
+('FOR-APPROVAL','For Approval by MGT', 'FOR-APPROVAL-MGT','~/Images/SalesLead/ShakeHands.png',4,8),   
+('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2,9); 
 
 insert into SalesLeadQuotedItemStatus([Status])
 values ('PENDING'), ('ACCEPTED'), ('CANCELLED');
@@ -553,16 +560,17 @@ insert into CustEntActStatus([Status]) values
 ('Open'),('For Client Comment'),('For Meeting'),('Awarded'),('Close');
 
 
-insert into CustEntActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus])
+insert into CustEntActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus],[SeqNo])
 values 
-('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
-('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1),   
-('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1),   
-('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
-('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
-('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',3),   
-('AWARDED','Awarded', 'AWARDED','~/Images/SalesLead/meeting102.jpg',4),   
-('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2); 
+('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1,1), 
+('PROCUREMENT','Request for Procurement', 'PROCUREMENT','~/Images/SalesLead/Quotation101.png',1,2), 
+('QUOTATION-DONE','Quotation Done', 'RFQ','~/Images/SalesLead/Quotation101.png',2,3),  
+('CALL-DONE','Client Call done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2,4), 
+('MEETING-DONE','Client Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2,5),
+('FOR-MGT','For Management Approval','FOR APPROVAL','~/Images/SalesLead/meeting102.jpg',1,6),
+('PO-READY','Ready for PO','PO READY','~/Images/SalesLead/Quotation101.png',1,7),
+('AWARDED','Awarded','AWARDED','~/Images/SalesLead/Awarded.png',2,8),
+('CLOSED','Closed','CLOSED','~/Images/SalesLead/Closed.png',2,9); 
 
 insert into CustEntActActionStatus([ActionStatus])
 values ('REQUEST'),('DONE'),('SUSPEND');

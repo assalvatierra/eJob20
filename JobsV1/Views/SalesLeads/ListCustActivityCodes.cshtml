@@ -24,8 +24,8 @@
                 @Html.ActionLink(item.Name, "AddCustActivityCode",
                     new { ActCodeId = item.Id, slId = LeadId, salesCode = SalesCode, projectName = ProjectName,
                     amount = Amount, companyId = CompanyId }) |
-                @Html.DisplayFor(modelItem => item.Desc) |
-                @Html.DisplayFor(modelItem => item.DefaultActStatus)
+                @Html.DisplayFor(modelItem => item.Desc) 
+                @*@Html.DisplayFor(modelItem => item.DefaultActStatus)*@
             </td> 
         </tr>
     }

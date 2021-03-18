@@ -297,7 +297,7 @@
         <AssociationConnector Association="JobDB.CustEntActPostSaleStatusCustEntActPostSale" />
         <AssociationConnector Association="JobDB.SupplierItemRateSalesLeadQuotedItem" ManuallyRouted="false" >
         </AssociationConnector>
-        <EntityTypeShape EntityType="JobDB.CustEntActActionCodes" Width="1.5" PointX="19.375" PointY="3.125" />
+        <EntityTypeShape EntityType="JobDB.CustEntActActionCodes" Width="1.5" PointX="19.375" PointY="3" />
         <AssociationConnector Association="JobDB.CustEntActStatusCustEntActivity" />
         <EntityTypeShape EntityType="JobDB.CustEntActActionStatus" Width="1.5" PointX="21.125" PointY="2" />
         <AssociationConnector Association="JobDB.CustEntActActionStatusCustEntActivity" />
@@ -319,6 +319,8 @@
         <AssociationConnector Association="JobDB.SalesLeadSupActivitySupplierActivity" />
         <EntityTypeShape EntityType="JobDB.SalesLeadQuotedItemStatus" Width="1.5" PointX="6.25" PointY="38.75" />
         <AssociationConnector Association="JobDB.SalesLeadQuotedItemStatusSalesLeadQuotedItem" />
+        <EntityTypeShape EntityType="JobDB.SalesStatusType" Width="1.5" PointX="18.875" PointY="33.125" />
+        <AssociationConnector Association="JobDB.SalesStatusTypeSalesStatusCode" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

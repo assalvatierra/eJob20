@@ -24,8 +24,10 @@ namespace JobsV1.Models
         public Nullable<int> SeqNo { get; set; }
         public string Name { get; set; }
         public string iconPath { get; set; }
+        public int SalesStatusTypeId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesStatus> SalesStatus { get; set; }
+        public virtual SalesStatusType SalesStatusType { get; set; }
     }
 }

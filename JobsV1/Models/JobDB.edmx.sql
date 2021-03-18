@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/13/2021 10:13:29
+-- Date Created: 03/18/2021 15:31:19
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -467,6 +467,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesLeadSupActivitySupplierActivity]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadSupActivities] DROP CONSTRAINT [FK_SalesLeadSupActivitySupplierActivity];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadQuotedItemStatusSalesLeadQuotedItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadQuotedItems] DROP CONSTRAINT [FK_SalesLeadQuotedItemStatusSalesLeadQuotedItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SalesStatusTypeSalesStatusCode]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesStatusCodes] DROP CONSTRAINT [FK_SalesStatusTypeSalesStatusCode];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -918,6 +924,12 @@ IF OBJECT_ID(N'[dbo].[SupplierActActionCodes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SupplierActActionStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SupplierActActionStatus];
+GO
+IF OBJECT_ID(N'[dbo].[SalesLeadQuotedItemStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesLeadQuotedItemStatus];
+GO
+IF OBJECT_ID(N'[dbo].[SalesStatusTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesStatusTypes];
 GO
 
 -- --------------------------------------------------
@@ -1379,7 +1391,8 @@ CREATE TABLE [dbo].[SalesStatusCodes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [SeqNo] int  NULL,
     [Name] nvarchar(80)  NOT NULL,
-    [iconPath] nvarchar(150)  NULL
+    [iconPath] nvarchar(150)  NULL,
+    [SalesStatusTypeId] int  NOT NULL
 );
 GO
 
@@ -2404,7 +2417,8 @@ CREATE TABLE [dbo].[CustEntActActionCodes] (
     [Desc] nvarchar(80)  NOT NULL,
     [SysCode] nvarchar(20)  NOT NULL,
     [IconPath] nvarchar(80)  NOT NULL,
-    [DefaultActStatus] int  NOT NULL
+    [DefaultActStatus] int  NOT NULL,
+    [SeqNo] int  NOT NULL
 );
 GO
 
@@ -2468,7 +2482,8 @@ CREATE TABLE [dbo].[SupplierActActionCodes] (
     [Desc] nvarchar(80)  NOT NULL,
     [SysCode] nvarchar(20)  NOT NULL,
     [IconPath] nvarchar(80)  NOT NULL,
-    [DefaultActStatus] int  NOT NULL
+    [DefaultActStatus] int  NOT NULL,
+    [SeqNo] int  NOT NULL
 );
 GO
 
@@ -2483,6 +2498,13 @@ GO
 CREATE TABLE [dbo].[SalesLeadQuotedItemStatus] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Status] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SalesStatusTypes'
+CREATE TABLE [dbo].[SalesStatusTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -3387,6 +3409,12 @@ GO
 -- Creating primary key on [Id] in table 'SalesLeadQuotedItemStatus'
 ALTER TABLE [dbo].[SalesLeadQuotedItemStatus]
 ADD CONSTRAINT [PK_SalesLeadQuotedItemStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesStatusTypes'
+ALTER TABLE [dbo].[SalesStatusTypes]
+ADD CONSTRAINT [PK_SalesStatusTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5657,6 +5685,21 @@ GO
 CREATE INDEX [IX_FK_SalesLeadQuotedItemStatusSalesLeadQuotedItem]
 ON [dbo].[SalesLeadQuotedItems]
     ([SalesLeadQuotedItemStatusId]);
+GO
+
+-- Creating foreign key on [SalesStatusTypeId] in table 'SalesStatusCodes'
+ALTER TABLE [dbo].[SalesStatusCodes]
+ADD CONSTRAINT [FK_SalesStatusTypeSalesStatusCode]
+    FOREIGN KEY ([SalesStatusTypeId])
+    REFERENCES [dbo].[SalesStatusTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesStatusTypeSalesStatusCode'
+CREATE INDEX [IX_FK_SalesStatusTypeSalesStatusCode]
+ON [dbo].[SalesStatusCodes]
+    ([SalesStatusTypeId]);
 GO
 
 -- --------------------------------------------------

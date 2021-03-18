@@ -37,12 +37,15 @@
         </p>*@
     <p>
         Filters:
-        @Html.ActionLink("New Lead", "Index", new { sortid = 5 }, new { @id = "newLead" }) |
-        @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }, new { @id = "ongoing" }) |
-        @Html.ActionLink("Accepted", "Index", new { sortid = 1 }, new { @id = "acceptedLead" }) |
-        @Html.ActionLink("Closed", "Index", new { sortid = 2 }, new { @id = "closedLead" }) |
-        @Html.ActionLink("Rejected", "Index", new { sortid = 6 }, new { @id = "rejectedLead" }) |
-        @Html.ActionLink("All", "Index", new { sortid = 3 }, new { @id = "allLead" })
+        @Html.ActionLink("New"          , "Index", new { sortid = 1 }, new { @id = "newLead" }) |
+        @Html.ActionLink("Sales"        , "Index", new { sortid = 2 }, new { @id = "sales" }) |
+        @Html.ActionLink("Procurement"  , "Index", new { sortid = 3 }, new { @id = "procurement" }) |
+        @Html.ActionLink("For Approval" , "Index", new { sortid = 4 }, new { @id = "approval" }) |
+        @Html.ActionLink("Approved"     , "Index", new { sortid = 5 }, new { @id = "approved" }) |
+        @Html.ActionLink("Awarded"      , "Index", new { sortid = 6 }, new { @id = "awarded" }) |
+        @Html.ActionLink("Closed"       , "Index", new { sortid = 7 }, new { @id = "closed" }) |
+        @Html.ActionLink("Rejected"     , "Index", new { sortid = 8 }, new { @id = "rejected" }) |
+        @Html.ActionLink("All"          , "Index", new { sortid = 9 }, new { @id = "all" })
     </p>
 
     <table class="table table-no-border">

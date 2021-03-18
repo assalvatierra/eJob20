@@ -156,6 +156,7 @@
     <EntitySet Name="SupplierActActionCodes" EntityType="JobDB.Store.SupplierActActionCodes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SupplierActActionStatus" EntityType="JobDB.Store.SupplierActActionStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesLeadQuotedItemStatus" EntityType="JobDB.Store.SalesLeadQuotedItemStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesStatusTypes" EntityType="JobDB.Store.SalesStatusTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -760,6 +761,10 @@
       <End Role="SalesLeadQuotedItemStatus" EntitySet="SalesLeadQuotedItemStatus" />
       <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
     </AssociationSet>
+    <AssociationSet Name="SalesStatusTypeSalesStatusCode" Association="JobDB.Store.SalesStatusTypeSalesStatusCode">
+      <End Role="SalesStatusType" EntitySet="SalesStatusTypes" />
+      <End Role="SalesStatusCode" EntitySet="SalesStatusCodes" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -1219,6 +1224,7 @@
     <Property Name="SeqNo" Type="int" Nullable="true" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="iconPath" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="SalesStatusTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SalesStatus">
     <Key>
@@ -2244,6 +2250,7 @@
     <Property Name="SysCode" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="IconPath" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="DefaultActStatus" Type="int" Nullable="false" />
+    <Property Name="SeqNo" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CustEntActActionStatus">
     <Key>
@@ -2308,6 +2315,7 @@
     <Property Name="SysCode" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="IconPath" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="DefaultActStatus" Type="int" Nullable="false" />
+    <Property Name="SeqNo" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SupplierActActionStatus">
     <Key>
@@ -2322,6 +2330,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SalesStatusTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4135,6 +4150,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SalesStatusTypeSalesStatusCode">
+    <End Role="SalesStatusType" Type="JobDB.Store.SalesStatusTypes" Multiplicity="1" />
+    <End Role="SalesStatusCode" Type="JobDB.Store.SalesStatusCodes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesStatusType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesStatusCode">
+        <PropertyRef Name="SalesStatusTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4893,6 +4920,11 @@
           <AssociationSet Name="SalesLeadQuotedItemStatusSalesLeadQuotedItem" Association="JobDB.SalesLeadQuotedItemStatusSalesLeadQuotedItem">
             <End Role="SalesLeadQuotedItemStatus" EntitySet="SalesLeadQuotedItemStatus" />
             <End Role="SalesLeadQuotedItem" EntitySet="SalesLeadQuotedItems" />
+          </AssociationSet>
+          <EntitySet Name="SalesStatusTypes" EntityType="JobDB.SalesStatusType" />
+          <AssociationSet Name="SalesStatusTypeSalesStatusCode" Association="JobDB.SalesStatusTypeSalesStatusCode">
+            <End Role="SalesStatusType" EntitySet="SalesStatusTypes" />
+            <End Role="SalesStatusCode" EntitySet="SalesStatusCodes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -5872,6 +5904,8 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="iconPath" Type="String" Nullable="true" MaxLength="150" />
           <NavigationProperty Name="SalesStatus" Relationship="JobDB.SalesStatusCodeSalesStatus" FromRole="SalesStatusCode" ToRole="SalesStatus" />
+          <NavigationProperty Name="SalesStatusType" Relationship="JobDB.SalesStatusTypeSalesStatusCode" FromRole="SalesStatusCode" ToRole="SalesStatusType" />
+          <Property Name="SalesStatusTypeId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="SalesStatus">
           <Key>
@@ -8339,6 +8373,7 @@
           <Property Name="IconPath" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="DefaultActStatus" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CustEntActivities" Relationship="JobDB.CustEntActActionCodesCustEntActivity" FromRole="CustEntActActionCodes" ToRole="CustEntActivity" />
+          <Property Name="SeqNo" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="CustEntActStatusCustEntActivity">
           <End Type="JobDB.CustEntActStatus" Role="CustEntActStatus" Multiplicity="1" />
@@ -8496,6 +8531,7 @@
           <Property Name="IconPath" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="DefaultActStatus" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SupplierActivities" Relationship="JobDB.SupplierActActionCodeSupplierActivity" FromRole="SupplierActActionCode" ToRole="SupplierActivity" />
+          <Property Name="SeqNo" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="SupplierActActionCodeSupplierActivity">
           <End Type="JobDB.SupplierActActionCode" Role="SupplierActActionCode" Multiplicity="1" />
@@ -8570,6 +8606,26 @@
             </Principal>
             <Dependent Role="SalesLeadQuotedItem">
               <PropertyRef Name="SalesLeadQuotedItemStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesStatusType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="SalesStatusCodes" Relationship="JobDB.SalesStatusTypeSalesStatusCode" FromRole="SalesStatusType" ToRole="SalesStatusCode" />
+          <Property Name="Type" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="SalesStatusTypeSalesStatusCode">
+          <End Type="JobDB.SalesStatusType" Role="SalesStatusType" Multiplicity="1" />
+          <End Type="JobDB.SalesStatusCode" Role="SalesStatusCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesStatusType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesStatusCode">
+              <PropertyRef Name="SalesStatusTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9074,6 +9130,7 @@
           <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="iconPath" ColumnName="iconPath" />
+          <ScalarProperty Name="SalesStatusTypeId" ColumnName="SalesStatusTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10201,6 +10258,7 @@
           <ScalarProperty Name="SysCode" ColumnName="SysCode" />
           <ScalarProperty Name="IconPath" ColumnName="IconPath" />
           <ScalarProperty Name="DefaultActStatus" ColumnName="DefaultActStatus" />
+          <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10272,6 +10330,7 @@
           <ScalarProperty Name="SysCode" ColumnName="SysCode" />
           <ScalarProperty Name="IconPath" ColumnName="IconPath" />
           <ScalarProperty Name="DefaultActStatus" ColumnName="DefaultActStatus" />
+          <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10288,6 +10347,14 @@
         <MappingFragment StoreEntitySet="SalesLeadQuotedItemStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesStatusTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesStatusType)">
+        <MappingFragment StoreEntitySet="SalesStatusTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
