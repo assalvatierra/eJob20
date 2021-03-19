@@ -182,3 +182,48 @@ function UpdateLeadStatus(e, leadId, statusId) {
     });
 
 }
+
+
+//Update Activity Status
+function UpdateLeadStatusRemarks(e, leadId, statusId) {
+    $.post("/SalesLeads/PostLeadStatus", { slId: leadId, StatusId: statusId }, (result) => {
+        if (result == 'False') {
+            alert("Unable to Update Status")
+        }
+    }).done((result) => {
+        //on update success
+        $(e).parent().removeClass("btn-primary");
+        $(e).parent().addClass("btn-success");
+
+        //show add Remarks 
+        $("#SalesLeadRemarks-Id").val(leadId);
+
+        $("#SalesLeadRemarksModal").modal('show');
+    }).fail(() => {
+        //on update failed
+        console.log("On Fail");
+        console.log(result);
+
+        $(e).parent().removeClass("btn-primary");
+        $(e).parent().addClass("btn-primary");
+
+        //display alert message
+        alert("Unable to Update Status")
+    });
+
+}
+
+
+function SubmitSalesLeadRemarks() {
+    var id = $("#SalesLeadRemarks-Id").val();
+    var remarks = $("#SalesLeadRemarks-Remarks").val();
+
+    $.post("/SalesLeads/UpdateSalesLeadRemarks", { Id: id, Remarks: remarks })
+        .done((res) => {
+            $("#SalesLeadRemarksModal").modal('hide');
+            window.location.reload(false);
+        })
+        .fail((err) => {
+            alert("Unable to Update Sales Lead Remarks");
+        });
+}

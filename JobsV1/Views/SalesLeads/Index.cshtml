@@ -5,6 +5,7 @@
     Session["ROOTMENUID"] = 2;
     var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    string USER = ViewBag.User;
 }
 
 <link href="/Content/TableStyles.css" rel="stylesheet" />
@@ -30,22 +31,21 @@
 
 <div class="view-content content-min-width">
 
-    @*<p>
-
+        @*<p>
             Sales Lead |
             @Html.ActionLink("Quotation", "JobLeads", "JobMains")
         </p>*@
     <p>
         Filters:
-        @Html.ActionLink("New"          , "Index", new { sortid = 1 }, new { @id = "newLead" }) |
-        @Html.ActionLink("Sales"        , "Index", new { sortid = 2 }, new { @id = "sales" }) |
-        @Html.ActionLink("Procurement"  , "Index", new { sortid = 3 }, new { @id = "procurement" }) |
-        @Html.ActionLink("For Approval" , "Index", new { sortid = 4 }, new { @id = "approval" }) |
-        @Html.ActionLink("Approved"     , "Index", new { sortid = 5 }, new { @id = "approved" }) |
-        @Html.ActionLink("Awarded"      , "Index", new { sortid = 6 }, new { @id = "awarded" }) |
-        @Html.ActionLink("Closed"       , "Index", new { sortid = 7 }, new { @id = "closed" }) |
-        @Html.ActionLink("Rejected"     , "Index", new { sortid = 8 }, new { @id = "rejected" }) |
-        @Html.ActionLink("All"          , "Index", new { sortid = 9 }, new { @id = "all" })
+        @Html.ActionLink("New"          , "Index", new { sortid = 1 }, new { @id = "status-1" }) |
+        @Html.ActionLink("Sales"        , "Index", new { sortid = 2 }, new { @id = "status-2" }) |
+        @Html.ActionLink("Procurement"  , "Index", new { sortid = 3 }, new { @id = "status-3" }) |
+        @Html.ActionLink("For Approval" , "Index", new { sortid = 4 }, new { @id = "status-4" }) |
+        @Html.ActionLink("Approved"     , "Index", new { sortid = 5 }, new { @id = "status-5" }) |
+        @Html.ActionLink("Awarded"      , "Index", new { sortid = 6 }, new { @id = "status-6" }) |
+        @Html.ActionLink("Rejected"     , "Index", new { sortid = 7 }, new { @id = "status-7" }) |
+        @Html.ActionLink("Closed"       , "Index", new { sortid = 8 }, new { @id = "status-8" }) |
+        @Html.ActionLink("All"          , "Index", new { sortid = 9 }, new { @id = "status-9" })
     </p>
 
     <table class="table table-no-border">
@@ -60,7 +60,7 @@
 
 
             <tr>
-                <td id="lead@(item.Id)" class="td-no-border">
+                <td id="lead@(item.Id)" class="td-no-border" style="padding-right: 20px;">
                     <div style="text-align:center;" class="date-box">
                         <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Date.ToString("MMM-yyyy")</span>
                         <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Date.ToString("dd")</span>
@@ -93,35 +93,84 @@
 
                         @foreach (var salesstat in SalesStatCode)
                         {
-                            @*if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
-                                {
-                                    <span style="font-weight:800; color: gray">
-                                        @salesstat.Name  &nbsp;>
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        @Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }) &nbsp;>
-                                    </span>
-                                }*@
 
-                            <span>&#187;</span>
                             if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
                             {
+                                <span>&#187;</span>
                                 <span class="btn btn-success btn-arrow-right">
                                     <span class="link-white"> @salesstat.Name </span>
                                 </span>
                             }
                             else
                             {
-                                <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                                    @*@Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }, new { @class = "link-white link-status" })*@
-                                    <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                                </button>
+                                var OneMLimit = 1000000;
+                                var ThreeMLimit = 3000000;
+
+                                if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
+                                {
+                                    var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
+                                        .FirstOrDefault().SalesStatusAllowedUser.User;
+
+                                    if (allowedUser == USER)
+                                    {
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        //disable status
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                            <a class="link-white link-status"> @salesstat.Name </a>
+                                        </button>
+                                    }
+                                }
+                                else
+                                {
+                                    if (salesstat.Id == 7 || salesstat.Id == 8)
+                                    {
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatusRemarks(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
+                                    }
+                                    else if (salesstat.Id == 15 || salesstat.Id == 16)
+                                    {
+                                        if (item.Price > OneMLimit)
+                                        {
+                                            if (salesstat.Id == 15)
+                                            {
+                                                <span>&#187;</span>
+                                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                    <a class="link-white link-status"> @salesstat.Name </a>
+                                                </button>
+                                            }
+                                        }
+
+                                        if (item.Price > ThreeMLimit)
+                                        {
+                                            if (salesstat.Id == 16)
+                                            {
+                                                <span>&#187;</span>
+                                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                    <a class="link-white link-status"> @salesstat.Name </a>
+                                                </button>
+                                            }
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
+                                    }
+                                }
                             }
                         }
-
                     </div>
 
                     <div>
@@ -404,35 +453,13 @@
         });
 
         if(@((int)Session["SLFilterID"]) != null){
-
-            switch(@((int)Session["SLFilterID"])){
-                case 1:
-                    $("#acceptedLead").css("color","black")
-                    $("#previous-bot").css("color","black")
-                    break;
-                case 2:
-                    $("#closedLead").css("color","black")
-                    $("#previous-bot").css("color","black")
-                    break;
-                case 3:
-                    $("#allLead").css("color","black")
-                    $("#closed-bot").css("color","black")
-                    break;
-                case 4:
-                    $("#ongoing").css("color","black")
-                    $("#ongoing-bot").css("color","black")
-                    break;
-                case 5:
-                    $("#newLead").css("color","black")
-                    $("#newLead-bot").css("color","black")
-                    break;
-                case 6:
-                    $("#rejectedLead").css("color","black")
-                    $("#closed-bot").css("color","black")
+            var statusId = @((int)Session["SLFilterID"]);
+            switch(statusId){
+                case statusId:
+                    $("#status-" + statusId).css("color","black")
                     break;
                 default:
                     $("#newLead").css("color","black")
-                    $("#newLead-bot").css("color","black")
                     break;
             }
         }

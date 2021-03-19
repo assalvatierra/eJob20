@@ -42,9 +42,10 @@ insert into SalesStatusTypes([Type])
 values  ('ALL'),('SALES'),('PROCUREMENT');
 
 insert into SalesStatusCodes([SeqNo],[Name],[SalesStatusTypeId])
-values (1,'INQUIRY',1), (2,'SALES',2), (3, 'PROCUREMENT',2), (4, 'FOR APPROVAL',1), (5, 'AWARDED',1), (6, 'REJECTED',1), (7, 'CLOSE',1),
- (2, 'EVALUATION', 2), (2, 'ACCEPTED', 2), (2, 'QUOTATION SENT', 2),
- (3, 'EVALUATION', 3), (3, 'ACCEPTED', 3), (3, 'ITEM PROCUREMENT', 3);
+values	(1, 'INQUIRY',1), (2,'SALES',2), (3, 'PROCUREMENT',2), (4, 'FOR APPROVAL',1),(5, 'APPROVED',1), (6, 'AWARDED',1), (7, 'REJECTED',1), (8, 'CLOSE',1),
+		(2, 'EVALUATION', 2), (2, 'ACCEPTED', 2), (2, 'QUOTATION SENT', 2),
+		(3, 'EVALUATION', 3), (3, 'ACCEPTED', 3), (3, 'ITEM PROCUREMENT', 3),
+		(4, 'APPROVED BY ALDRIN', 1), (4, 'APPROVED BY MARIO', 1);
 
 insert into SalesActCodes([Name],[Desc],[SysCode],[iconPath],[DefaultActStatus])
 values 
@@ -54,6 +55,12 @@ values
 ('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
 ('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
 ('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2); 
+
+insert into SalesStatusAllowedUsers ([User])
+values ('admin@gmail.com'),('jahdielsvillosa@gmail.com');
+
+insert into SalesStatusRestrictions([SalesStatusCodeId],[SalesStatusAllowedUsersId])
+values (11, 1), (12 ,2);
 
 insert into SalesActStatus([Name])
 values ('REQUEST'),('DONE'),('SUSPEND');

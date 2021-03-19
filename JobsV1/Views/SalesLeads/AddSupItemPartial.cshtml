@@ -15,7 +15,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- Add Sales Lead Items -->
 <div class="modal fade" id="selectSupItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -39,9 +38,9 @@
                         <div class="col-md-7">
                             <select name="InvItems" class="form-control" id="supItem-Items">
                                 @*@foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
-                                {
-                                    <option value="@item.Id"> @item.Description </option>
-                                }*@
+                                    {
+                                        <option value="@item.Id"> @item.Description </option>
+                                    }*@
                                 @foreach (var item in ViewBag.InvItems as IEnumerable<JobsV1.Models.InvItem>)
                                 {
                                     <option value="@item.Id"> @item.Description </option>
@@ -61,7 +60,7 @@
                     <div class="form-group col-md-12">
                         <b class="col-md-2 "> Remarks: </b>
                         <div class="col-md-10">
-                            <input type="text" maxlength="20" class="form-control" id="supItem-Remarks" />
+                            <input type="text" maxlength="80" class="form-control" id="supItem-Remarks" />
                         </div>
                     </div>
                     <!--End of Modal Body-->
@@ -74,7 +73,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- Edit Sales Lead Item-->
 <div class="modal fade" id="EditSupLeadItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -98,9 +96,9 @@
                         <div class="col-md-7">
                             <select name="InvItems" class="form-control" id="edit-supItem-Items">
                                 @*@foreach (var item in ViewData["InvItems"] as IEnumerable<JobsV1.Models.InvItem>)
-                                {
-                                    <option value="@item.Id"> @item.Description </option>
-                                }*@
+                                    {
+                                        <option value="@item.Id"> @item.Description </option>
+                                    }*@
                                 @foreach (var item in ViewBag.InvItems as IEnumerable<JobsV1.Models.InvItem>)
                                 {
                                     <option value="@item.Id"> @item.Description </option>
@@ -120,7 +118,7 @@
                     <div class="form-group col-md-12">
                         <b class="col-md-2 "> Remarks: </b>
                         <div class="col-md-10">
-                            <input type="text" maxlength="20" class="form-control" id="edit-supItem-Remarks" />
+                            <input type="text" maxlength="80" class="form-control" id="edit-supItem-Remarks" />
                         </div>
                     </div>
                 </div>
@@ -128,6 +126,38 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="ajax_EditLeadItem()"> Save Changes </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- Sales Lead Remarks -->
+<div class="modal fade" id="SalesLeadRemarksModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Sales Lead Remarks </h4>
+            </div>
+            <div class="modal-body" id="SupItems-modal-content">
+                <div class="col-md-12">
+                    <label class="form-label col-md-2"> Id </label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" maxlength="120" id="SalesLeadRemarks-Id" />
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label col-md-2"> Remarks </label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" maxlength="120" id="SalesLeadRemarks-Remarks" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="SubmitSalesLeadRemarks()">Close</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->

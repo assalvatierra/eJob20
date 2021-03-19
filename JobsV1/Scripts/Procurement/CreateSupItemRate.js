@@ -27,7 +27,7 @@ function Ajax_CreateSupplierItem() {
         validFrom:  $("#CreateSupItemRate-ValidFrom").val(),
         validTo:    $("#CreateSupItemRate-ValidTo").val(),
         offeredBy:  $("#CreateSupItemRate-OfferedBy").val(),
-        procuredBy: $("#CreateSupItemRate-ProcuredBy").val(),
+        procuredBy: $("#CreateSupItemRate-ProcBy").val(),
     }
 
     console.log(newSupplierItem);

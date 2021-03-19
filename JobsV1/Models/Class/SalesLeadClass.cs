@@ -182,67 +182,62 @@ namespace JobsV1.Models.Class
         public List<SalesLead> GetSalesLeads(int sortId )
         {
 
-            var salesLeads = db.SalesLeads
-                                .Include(s => s.SalesLeadCompanies)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus)
-                                .OrderBy(s => s.Date)
-                                .ToList();
+            var salesLeads = new List<SalesLead>();
 
             switch (sortId)
             {
                 case 1:// Inquiry
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 4 )
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0)
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 4 )
                                 .ToList();
                     break;
                 case 2:// Sales
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 1)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 7 )
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 1)
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 2 )
                                 .ToList();
                     break;
                 case 3:// Procurement
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 2)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 7 )
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 2)
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 3 )
                                 .ToList();
                     break;
 
                 case 4:
                     // For Approval
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 3)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 5 )
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 3)
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 4 )
                                 .ToList();
                     break;
                 case 5:
                     // Approved
                     salesLeads = db.SalesLeads
                                 .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 5 ) 
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5 ) 
                                 .ToList();
                     break;
                 case 6:
                     // Awarded
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 5)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 6) 
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 5)
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 6) 
                                 .ToList();
                     break;
                 case 7:
                     // Rejected 
                     salesLeads = db.SalesLeads
                                 .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 6)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 7)
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 7)
                                 .ToList();
                     break;
                 case 8:
-                    // Rejected 
+                    // Closed 
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 7)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId == 8)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 7)
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 8)
                                 .ToList();
                     break;
                 case 9:
@@ -253,8 +248,8 @@ namespace JobsV1.Models.Class
                 default:
                     // new Leads
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 0)
-                                .OrderByDescending(ss => ss.SalesStatusCodeId).FirstOrDefault().SalesStatusCodeId < 3)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0)
+                                .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 3)
                                 .ToList();
                     break;
             }

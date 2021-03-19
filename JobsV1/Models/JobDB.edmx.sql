@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/18/2021 15:31:19
+-- Date Created: 03/19/2021 13:24:04
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -473,6 +473,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesStatusTypeSalesStatusCode]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesStatusCodes] DROP CONSTRAINT [FK_SalesStatusTypeSalesStatusCode];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SalesStatusRestrictionSalesStatusAllowedUsers]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesStatusRestrictions] DROP CONSTRAINT [FK_SalesStatusRestrictionSalesStatusAllowedUsers];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SalesStatusCodeSalesStatusRestriction]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesStatusRestrictions] DROP CONSTRAINT [FK_SalesStatusCodeSalesStatusRestriction];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -930,6 +936,12 @@ IF OBJECT_ID(N'[dbo].[SalesLeadQuotedItemStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SalesStatusTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SalesStatusTypes];
+GO
+IF OBJECT_ID(N'[dbo].[SalesStatusRestrictions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesStatusRestrictions];
+GO
+IF OBJECT_ID(N'[dbo].[SalesStatusAllowedUsers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesStatusAllowedUsers];
 GO
 
 -- --------------------------------------------------
@@ -2508,6 +2520,21 @@ CREATE TABLE [dbo].[SalesStatusTypes] (
 );
 GO
 
+-- Creating table 'SalesStatusRestrictions'
+CREATE TABLE [dbo].[SalesStatusRestrictions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SalesStatusAllowedUsersId] int  NOT NULL,
+    [SalesStatusCodeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'SalesStatusAllowedUsers'
+CREATE TABLE [dbo].[SalesStatusAllowedUsers] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [User] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3415,6 +3442,18 @@ GO
 -- Creating primary key on [Id] in table 'SalesStatusTypes'
 ALTER TABLE [dbo].[SalesStatusTypes]
 ADD CONSTRAINT [PK_SalesStatusTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesStatusRestrictions'
+ALTER TABLE [dbo].[SalesStatusRestrictions]
+ADD CONSTRAINT [PK_SalesStatusRestrictions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesStatusAllowedUsers'
+ALTER TABLE [dbo].[SalesStatusAllowedUsers]
+ADD CONSTRAINT [PK_SalesStatusAllowedUsers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5700,6 +5739,36 @@ GO
 CREATE INDEX [IX_FK_SalesStatusTypeSalesStatusCode]
 ON [dbo].[SalesStatusCodes]
     ([SalesStatusTypeId]);
+GO
+
+-- Creating foreign key on [SalesStatusAllowedUsersId] in table 'SalesStatusRestrictions'
+ALTER TABLE [dbo].[SalesStatusRestrictions]
+ADD CONSTRAINT [FK_SalesStatusRestrictionSalesStatusAllowedUsers]
+    FOREIGN KEY ([SalesStatusAllowedUsersId])
+    REFERENCES [dbo].[SalesStatusAllowedUsers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesStatusRestrictionSalesStatusAllowedUsers'
+CREATE INDEX [IX_FK_SalesStatusRestrictionSalesStatusAllowedUsers]
+ON [dbo].[SalesStatusRestrictions]
+    ([SalesStatusAllowedUsersId]);
+GO
+
+-- Creating foreign key on [SalesStatusCodeId] in table 'SalesStatusRestrictions'
+ALTER TABLE [dbo].[SalesStatusRestrictions]
+ADD CONSTRAINT [FK_SalesStatusCodeSalesStatusRestriction]
+    FOREIGN KEY ([SalesStatusCodeId])
+    REFERENCES [dbo].[SalesStatusCodes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesStatusCodeSalesStatusRestriction'
+CREATE INDEX [IX_FK_SalesStatusCodeSalesStatusRestriction]
+ON [dbo].[SalesStatusRestrictions]
+    ([SalesStatusCodeId]);
 GO
 
 -- --------------------------------------------------

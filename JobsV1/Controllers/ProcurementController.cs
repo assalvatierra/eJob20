@@ -41,8 +41,8 @@ namespace JobsV1.Controllers
                     sortid = (int)Session["SLFilterID"];
                 else
                 {
-                    sortid = 5;
-                    Session["SLFilterID"] = 5;
+                    sortid = 3;
+                    Session["SLFilterID"] = 3;
                 }
             }
 
@@ -53,10 +53,11 @@ namespace JobsV1.Controllers
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes
                 .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 3)
-                .OrderBy(s => s.SeqNo).ToList();
+                .OrderBy(s => s.SeqNo).ThenBy(s=>s.Id).ToList();
             ViewBag.UnitList = db.SupplierUnits.ToList();
             ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
             ViewBag.Items = db.InvItems.ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
 
             //for adding new item 
             AddSupItemPartial();
@@ -158,6 +159,10 @@ namespace JobsV1.Controllers
                     activity.Amount = salesLead.Price;
 
                     var actCodeDefault = db.SupplierActActionCodes.Find(ActCodeId);
+                    if (actCodeDefault != null)
+                    {
+                        activity.Remarks = actCodeDefault.Desc;
+                    }
 
                     ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
                     ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s=>s.Name), "Id", "Name");

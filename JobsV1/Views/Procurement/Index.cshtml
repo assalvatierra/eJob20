@@ -5,6 +5,7 @@
     Session["ROOTMENUID"] = 18;
     var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    string USER = ViewBag.User;
 }
 
 <link href="/Content/TableStyles.css" rel="stylesheet" />
@@ -39,12 +40,13 @@
 <div class="view-content content-min-width">
     <p>
         Filters:
-        @Html.ActionLink("New Lead", "Index", new { sortid = 5 }, new { @id = "newLead" }) |
-        @Html.ActionLink("OnGoing", "Index", new { sortid = 4 }, new { @id = "ongoing" }) |
-        @Html.ActionLink("Accepted", "Index", new { sortid = 1 }, new { @id = "acceptedLead" }) |
-        @Html.ActionLink("Closed", "Index", new { sortid = 2 }, new { @id = "closedLead" }) |
-        @Html.ActionLink("Rejected", "Index", new { sortid = 6 }, new { @id = "rejectedLead" }) |
-        @Html.ActionLink("All", "Index", new { sortid = 3 }, new { @id = "allLead" })
+        @Html.ActionLink("Procurement", "Index", new { sortid = 3 }, new { @id = "status-3" }) |
+        @Html.ActionLink("For Approval", "Index", new { sortid = 4 }, new { @id = "status-4" }) |
+        @Html.ActionLink("Approved", "Index", new { sortid = 5 }, new { @id = "status-5" }) |
+        @Html.ActionLink("Awarded", "Index", new { sortid = 6 }, new { @id = "status-6" }) |
+        @Html.ActionLink("Closed", "Index", new { sortid = 7 }, new { @id = "status-7" }) |
+        @Html.ActionLink("Rejected", "Index", new { sortid = 8 }, new { @id = "status-8" }) |
+        @Html.ActionLink("All", "Index", new { sortid = 9 }, new { @id = "status-9" })
     </p>
 
     <table class="table table-no-border">
@@ -58,8 +60,8 @@
             }
 
 
-            <tr>
-                <td id="lead@(item.Id)" class="td-no-border">
+            <tr >
+                <td id="lead@(item.Id)" class="td-no-border" style="padding-right: 20px;">
                     <div style="text-align:center;" class="date-box">
                         <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Date.ToString("MMM-yyyy")</span>
                         <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Date.ToString("dd")</span>
@@ -100,10 +102,30 @@
                             }
                             else
                             {
-                                <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                                    @*@Html.ActionLink(salesstat.Name, "AddSalesStatus", new { slId = item.Id, StatusId = salesstat.Id }, new { @class = "link-white link-status" })*@
-                                    <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                                </button>
+                                if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == "admin@gmail.com").FirstOrDefault() != null)
+                                {
+                                    var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == "admin@gmail.com")
+                                        .FirstOrDefault().SalesStatusAllowedUser.User;
+                                    if (allowedUser == USER)
+                                    {
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        //disable status
+                                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                            <a class="link-white link-status"> @salesstat.Name </a>
+                                        </button>
+                                    }
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                        <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                    </button>
+                                }
                             }
                         }
                     </div>
@@ -403,36 +425,15 @@
         });
 
         //Status Filters
+        
         if(@((int)Session["SLFilterID"]) != null){
-
-            switch(@((int)Session["SLFilterID"])){
-                case 1:
-                    $("#acceptedLead").css("color","black")
-                    $("#previous-bot").css("color","black")
-                    break;
-                case 2:
-                    $("#closedLead").css("color","black")
-                    $("#previous-bot").css("color","black")
-                    break;
-                case 3:
-                    $("#allLead").css("color","black")
-                    $("#closed-bot").css("color","black")
-                    break;
-                case 4:
-                    $("#ongoing").css("color","black")
-                    $("#ongoing-bot").css("color","black")
-                    break;
-                case 5:
-                    $("#newLead").css("color","black")
-                    $("#newLead-bot").css("color","black")
-                    break;
-                case 6:
-                    $("#rejectedLead").css("color","black")
-                    $("#closed-bot").css("color","black")
+            var statusId = @((int)Session["SLFilterID"]);
+            switch(statusId){
+                case statusId:
+                    $("#status-" + statusId).css("color","black")
                     break;
                 default:
-                    $("#newLead").css("color","black")
-                    $("#newLead-bot").css("color","black")
+                    $("#status-3").css("color","black")
                     break;
             }
         }

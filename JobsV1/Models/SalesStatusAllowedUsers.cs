@@ -12,24 +12,17 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SalesStatusCode
+    public partial class SalesStatusAllowedUsers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SalesStatusCode()
+        public SalesStatusAllowedUsers()
         {
-            this.SalesStatus = new HashSet<SalesStatus>();
             this.SalesStatusRestrictions = new HashSet<SalesStatusRestriction>();
         }
     
         public int Id { get; set; }
-        public Nullable<int> SeqNo { get; set; }
-        public string Name { get; set; }
-        public string iconPath { get; set; }
-        public int SalesStatusTypeId { get; set; }
+        public string User { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesStatus> SalesStatus { get; set; }
-        public virtual SalesStatusType SalesStatusType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesStatusRestriction> SalesStatusRestrictions { get; set; }
     }

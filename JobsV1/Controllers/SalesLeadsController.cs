@@ -44,8 +44,8 @@ namespace JobsV1.Controllers
                     sortid = (int)Session["SLFilterID"];
                 else
                 {
-                    sortid = 5;
-                    Session["SLFilterID"] = 5;
+                    sortid = 1;
+                    Session["SLFilterID"] = 1;
                 }
             }
 
@@ -56,8 +56,9 @@ namespace JobsV1.Controllers
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes
                 .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
-                .OrderBy(s => s.SeqNo).ToList();
-            
+                .OrderBy(s => s.SeqNo).ThenBy(s => s.Id).ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
+
             //for adding new item 
             AddSupItemPartial();
            
@@ -455,6 +456,27 @@ namespace JobsV1.Controllers
             return isValid;
         }
 
+        [HttpPost]
+        public bool UpdateSalesLeadRemarks(int Id, string Remarks)
+        {
+            try
+            {
+
+                var saleslead = db.SalesLeads.Find(Id);
+
+                saleslead.Remarks = Remarks;
+
+                db.Entry(saleslead).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         //Get Company Id 
         //Param : id - SalesLead ID
@@ -593,18 +615,25 @@ namespace JobsV1.Controllers
                     {
                         case 1: //New Leads
                         case 2:
-                            Session["SLFilterID"] = 5;
+                            Session["SLFilterID"] = 2;
                             break;
-                        case 3: //New Leads
+                        case 3:
+                            Session["SLFilterID"] = 3;
+                            break;
                         case 4:
                             Session["SLFilterID"] = 4;
                             break;
-                        case 5: //New Leads
-                        case 6:
-                            Session["SLFilterID"] = 1;
+                        case 5:
+                            Session["SLFilterID"] = 5;
                             break;
-                        case 7: //New Leads
-                            Session["SLFilterID"] = 2;
+                        case 6:
+                            Session["SLFilterID"] = 6;
+                            break;
+                        case 7:
+                            Session["SLFilterID"] = 7;
+                            break;
+                        case 8:
+                            Session["SLFilterID"] = 8;
                             break;
                         default:
                             break;  //SLFilterID = 3 (All)
@@ -754,7 +783,6 @@ namespace JobsV1.Controllers
 
         #endregion
 
-
         #region Customer Activity 
         public bool UpdateCustActivities(int salesLeadId, string salesCode)
         {
@@ -807,6 +835,8 @@ namespace JobsV1.Controllers
                 if (slId != null || companyId != null || !salesCode.IsNullOrWhiteSpace())
                 {
 
+                    var actCodeDefault = db.CustEntActActionCodes.Find(ActCodeId);
+
                     CustEntActivity activity = new CustEntActivity();
                     activity.Date = date.GetCurrentDateTime();
                     activity.Assigned = User.Identity.Name;
@@ -815,7 +845,10 @@ namespace JobsV1.Controllers
                     activity.Amount = amount;
                     activity.SalesLeadId = slId;
 
-                    var actCodeDefault = db.CustEntActActionCodes.Find(ActCodeId);
+                    if (actCodeDefault != null)
+                    {
+                        activity.Remarks = actCodeDefault.Desc;
+                    }
 
                     ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
                     ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
@@ -1359,6 +1392,24 @@ namespace JobsV1.Controllers
             }
         }
 
+        public string GetSalesStatusAllowedUser(int statusCodeId)
+        {
+            var user = HttpContext.User.Identity.Name;
+
+            var restriction = db.SalesStatusRestrictions.Where(s => s.SalesStatusCodeId == statusCodeId).ToList();
+
+            if (restriction.Count() > 0)
+            {
+                if (restriction.Where(s=> s.SalesStatusAllowedUser.User == user).Count() > 0)
+                {
+                    return "True";
+                }
+            }
+            return "False";
+        }
+
         #endregion
+
+
     }
 }
