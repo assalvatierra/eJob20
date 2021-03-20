@@ -173,6 +173,8 @@ function UpdateLeadStatus(e, leadId, statusId) {
         //on update success
         $(e).parent().removeClass("btn-primary");
         $(e).parent().addClass("btn-success");
+
+        window.location.reload(false);
     }).fail(() => {
         //on update failed
         console.log("On Fail");

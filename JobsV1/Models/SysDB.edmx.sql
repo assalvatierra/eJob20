@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/06/2019 10:46:27
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Models\SysDB.edmx
+-- Date Created: 03/20/2021 16:54:13
+-- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\SysDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -14,7 +14,7 @@ IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
 -- --------------------------------------------------
--- Dropping existing FOREIGN KEY constraints         
+-- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[FK_SysServiceEntServices]', 'F') IS NOT NULL
@@ -118,7 +118,8 @@ CREATE TABLE [dbo].[SysServices] (
     [Description] nvarchar(80)  NOT NULL,
     [Remarks] nvarchar(80)  NOT NULL,
     [Status] nvarchar(5)  NOT NULL,
-    [IconPath] nvarchar(max)  NOT NULL
+    [IconPath] nvarchar(max)  NOT NULL,
+    [SeqNo] int  NOT NULL
 );
 GO
 

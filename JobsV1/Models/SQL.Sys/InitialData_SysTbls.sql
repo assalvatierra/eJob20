@@ -23,7 +23,8 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 ('Vehicles','Vechicles',0,'AutoCare/Vehicles','Index','',20,17),
 ('Trip Logs','Trip Logs',0,'Personel/CarRentalLog','Index','',20,18),
 ('Receivables','Receivable Transactions',0,'Receivables/ArTransactions','Index','',20,19),
-('Payables','Payables Transactions',0,'Payables/ApTransactions','Index','',20,20)
+('Payables','Payables Transactions',0,'Payables/ApTransactions','Index','',20,20),
+('Procurement','Payables Transactions',0,'Payables/ApTransactions','Index','',20,20)
 ;
 
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
@@ -34,7 +35,7 @@ insert into EntBusinesses([Name],[ShortName],[BussRegNo],[User]) values
 --Added by jahdiel - 3/6/19
 
 --System Access
-insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath]) values
+insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath],[]) values
 ('SA101','System Access','Users Access Control','A','/Images/Erp/icons-key.png');
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (1,1);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 

@@ -47,7 +47,7 @@ namespace JobsV1.Controllers
             }
 
             //get salesl eads leads
-            var salesLeads = sldb.GetSalesLeads((int)sortid);
+            var salesLeads = sldb.GetProcurementLeads((int)sortid);
 
             ViewBag.LeadId = id;
             ViewBag.CurrentFilter = sortid;

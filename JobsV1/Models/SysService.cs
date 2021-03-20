@@ -27,6 +27,7 @@ namespace JobsV1.Models
         public string Remarks { get; set; }
         public string Status { get; set; }
         public string IconPath { get; set; }
+        public int SeqNo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EntServices> EntServices { get; set; }

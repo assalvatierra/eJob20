@@ -1,7 +1,14 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+<style>
+    .label-notif-count{
+        border-radius:25px;
+        position:relative;
+        top:-140px;
+        padding-top:5px;
+    }
+</style>
 
 <div class="featured hidden">
     <div class="content-wrapper banner-home @ViewBag.TextClass"
@@ -59,6 +66,32 @@
                     {
                         <span id="@t.SysCode" class="label label-success" style="border-radius:25px;"> </span>
                     }
+
+
+                    @if (t.SysCode == "SL102")
+                    {
+                        <span id="@t.SysCode" class="label label-success label-notif-count" >
+                            @{ Html.RenderAction("GetSalesLeadCount", "SalesLeads", new { statusId = 2 }); }
+                        </span>
+                    }
+                    
+                    @if (t.SysCode == "PR018")
+                    {
+                        <span id="@t.SysCode" class="label label-success label-notif-count" >
+                            @{ Html.RenderAction("GetSalesLeadCount", "SalesLeads", new { statusId = 3 }); }
+                        </span>
+                    }
+                    
+                    
+                    @if (t.SysCode == "FA019")
+                    {
+                        <span id="@t.SysCode" class="label label-success label-notif-count" >
+                            @{ Html.RenderAction("GetSalesLeadCount", "SalesLeads", new { statusId = 4 }); }
+                        </span>
+                    }
+
+
+
                 </h3>
             </p>
         </div>

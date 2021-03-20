@@ -30,7 +30,7 @@ namespace JobsV1.Controllers
             ViewBag.EntAddress4 = "";
             ViewBag.EntAddress5 = "";
 
-            ViewBag.EntServices = sysdb.getServiceModules(User.Identity.Name);
+            ViewBag.EntServices = sysdb.getServiceModules(User.Identity.Name).OrderBy(d=>d.SeqNo).ToList();
             ViewBag.UserName = User.Identity.Name;
             //get current application version
             string sConfigVersion = "";

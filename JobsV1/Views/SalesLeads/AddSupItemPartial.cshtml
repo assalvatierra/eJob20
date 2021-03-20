@@ -142,23 +142,25 @@
                 <h4 class="modal-title"> Sales Lead Remarks </h4>
             </div>
             <div class="modal-body" id="SupItems-modal-content">
-                <div class="col-md-12">
-                    <label class="form-label col-md-2"> Id </label>
-                    <div class="col-md-10">
-                        <input class="form-control" type="text" maxlength="120" id="SalesLeadRemarks-Id" />
+                <div class="row">
+                    <div class="col-md-12" hidden>
+                        <label class="form-label col-md-2"> Id </label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" maxlength="120" id="SalesLeadRemarks-Id" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-12">
-                    <label class="form-label col-md-2"> Remarks </label>
-                    <div class="col-md-10">
-                        <input class="form-control" type="text" maxlength="120" id="SalesLeadRemarks-Remarks" />
+                    <div class="col-md-12">
+                        <label class="form-label col-md-2"> Remarks </label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" maxlength="120" id="SalesLeadRemarks-Remarks" />
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" onclick="SubmitSalesLeadRemarks()">Close</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="SubmitSalesLeadRemarks()">Save</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

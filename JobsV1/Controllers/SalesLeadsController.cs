@@ -600,52 +600,157 @@ namespace JobsV1.Controllers
         {
             string strMsg;
 
-                try
+            try
+            {
+                db.Database.ExecuteSqlCommand(@"
+                    Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId])
+                    Values('" + date.GetCurrentDateTime().ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + @"');
+                    ");
+
+                db.SaveChanges();
+
+                strMsg = "Success";
+
+                switch (StatusId)
                 {
-                    db.Database.ExecuteSqlCommand(@"
-                        Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId])
-                        Values('" + date.GetCurrentDateTime().ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + @"');
-                        ");
-
-                    db.SaveChanges();
-
-                    strMsg = "Success";
-
-                    switch (StatusId)
-                    {
-                        case 1: //New Leads
-                        case 2:
-                            Session["SLFilterID"] = 2;
-                            break;
-                        case 3:
-                            Session["SLFilterID"] = 3;
-                            break;
-                        case 4:
-                            Session["SLFilterID"] = 4;
-                            break;
-                        case 5:
-                            Session["SLFilterID"] = 5;
-                            break;
-                        case 6:
-                            Session["SLFilterID"] = 6;
-                            break;
-                        case 7:
-                            Session["SLFilterID"] = 7;
-                            break;
-                        case 8:
-                            Session["SLFilterID"] = 8;
-                            break;
-                        default:
-                            break;  //SLFilterID = 3 (All)
-                    }
+                    case 1: //New Leads
+                    case 2:
+                        Session["SLFilterID"] = 2;
+                        break;
+                    case 3:
+                        Session["SLFilterID"] = 3;
+                        break;
+                    case 4:
+                        Session["SLFilterID"] = 4;
+                        break;
+                    case 5:
+                        Session["SLFilterID"] = 5;
+                        break;
+                    case 6:
+                        Session["SLFilterID"] = 6;
+                        break;
+                    case 7:
+                        Session["SLFilterID"] = 7;
+                        break;
+                    case 8:
+                        Session["SLFilterID"] = 8;
+                        break;
+                    case 15:
+                        //Approved by Aldrin
+                        Session["SLFilterID"] = 15;
+                        RevolveForApprove(slId);
+                        break;
+                    case 16:
+                        //Approved by Mario
+                        Session["SLFilterID"] = 16;
+                        RevolveForApprove(slId);
+                        break;
+                    default:
+                        break;  //SLFilterID = 3 (All)
                 }
-                catch (Exception Ex)
-                {
-                    strMsg = "Error:" + Ex.Message;
-                }
+            }
+            catch (Exception Ex)
+            {
+                strMsg = "Error:" + Ex.Message;
+            }
 
             return strMsg;
         }
+
+        private void RevolveForApprove(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var price = salesLead.Price;
+
+            var ApprovedCount = 0;
+
+            var allowedUsers= db.SalesStatusRestrictions.ToList().Select(s=>s.SalesStatusCodeId);
+            var leadStatus = salesLead.SalesStatus.Where(s => allowedUsers.Contains(s.SalesStatusCodeId)).ToList();
+
+            if (leadStatus.Count() > 0)
+            {
+                foreach (var approved in leadStatus)
+                {
+                    ApprovedCount++;
+                }
+            }
+
+            decimal ThreeMil = (decimal)3000000;
+            decimal OneMil = (decimal)1000000;
+
+            //price filter
+            if (price >= OneMil && price <= ThreeMil)
+            {
+
+                if (ApprovedCount == 1)
+                {
+                    //mark as approved
+                    UpdateLeadStatus(id, 5);
+                }
+            }
+            else if (price >= ThreeMil)
+            {
+                if (ApprovedCount == 2)
+                {
+                    //mark as approved
+                    UpdateLeadStatus(id, 5);
+                }
+            }
+
+        }
+
+        public string GetLeadStatusCount(int statusId)
+        {
+            try
+            {
+
+                var salesLeadCount = sldb.GetSalesLeads((int)statusId).Count();
+
+                if (salesLeadCount > 0)
+                {
+                    return salesLeadCount.ToString();
+                }
+
+            return "";
+
+            }
+            catch
+            {
+                return "";
+            }
+
+        }
+
+
+        public string GetSalesLeadCount(int statusId)
+        {
+            try
+            {
+
+                var salesLeadCount = sldb.GetSalesLeads((int)statusId).Count();
+
+                if (salesLeadCount > 0)
+                {
+                    return salesLeadCount.ToString();
+                }
+
+                return "0";
+
+            }
+            catch
+            {
+                return "0";
+            }
+
+        }
+
+        //GET: SalesLeads/ForApproval
+        public ActionResult ForApproval()
+        {
+            return RedirectToAction("Index","SalesLeads", new { sortid = 4 });
+        }
+
         #endregion
 
         #region Add Request
