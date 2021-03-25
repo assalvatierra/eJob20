@@ -751,6 +751,26 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index","SalesLeads", new { sortid = 4 });
         }
 
+        //GET: SalesLeads/GetLastestActivityType 
+        public string GetLastestActivityType(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var lastActivity = db.CustEntActivities.Where(s => s.SalesCode == salesLead.SalesCode);
+
+            if (lastActivity.FirstOrDefault() != null)
+            {
+                var activity = lastActivity.OrderByDescending(s=>s.Id).FirstOrDefault();
+              
+                    string activityStatus = activity.CustEntActStatu.Status;
+                    activityStatus = activityStatus + " - " + activity.Type;
+
+                    return activityStatus;
+            }
+
+            return "";
+        }
+
         #endregion
 
         #region Add Request

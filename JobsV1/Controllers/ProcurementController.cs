@@ -91,6 +91,27 @@ namespace JobsV1.Controllers
         }
 
 
+        //GET: SalesLeads/GetLastestActivityType 
+        public string GetLastestActivityType(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var lastActivity = db.SupplierActivities.Where(s => s.Code == salesLead.SalesCode);
+
+            if (lastActivity.FirstOrDefault() != null)
+            {
+                var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                string activityStatus = activity.SupplierActStatu.Status;
+                activityStatus = activityStatus + " - " + activity.Type;
+
+                return activityStatus;
+            }
+
+            return "";
+        }
+
+
         #region Procurement Activity 
 
         //POST: /Procurement/UpdateProcActivities

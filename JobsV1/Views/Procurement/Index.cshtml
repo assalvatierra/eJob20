@@ -267,13 +267,20 @@
                             }
 
                         </span>
+                        <span style="margin-left:10px;">
+                            @foreach (var salescat in item.SalesLeadCategories)
+                            {
+                                <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
+                                     alt=@salescat.SalesLeadCatCode.CatName height="20" width="20"
+                                     title=@salescat.SalesLeadCatCode.CatName />
+                                @*<span class="label label-default">@salescat.SalesLeadCatCode.CatName  </span>*@
+                            }
+                        </span>
 
-                        @foreach (var salescat in item.SalesLeadCategories)
-                        {
-                            <img src=@Url.Content(@salescat.SalesLeadCatCode.iconPath)
-                                 alt=@salescat.SalesLeadCatCode.CatName height="24"
-                                 title=@salescat.SalesLeadCatCode.CatName />
-                        }
+                        <span class="label label-default" style="margin-left:5px;"> 
+                            Status: @{Html.RenderAction("GetLastestActivityType", "SalesLeads",new { id = item.Id }); } 
+                        </span>
+
 
                         <!-- Sales Lead Details -->
                         <br />
@@ -292,47 +299,51 @@
 
                         <!-- Activities -->
                         <span style="font:bold 8px, arial, verdana; color: royalblue;">
-                            @foreach (var procAct in item.SalesLeadSupActivities)
+                            @foreach (var procActGroup in item.SalesLeadSupActivities.GroupBy(s => s.SupplierActivity.Supplier.Name))
                             {
-                                var tmpAct = procAct.SupplierActivity;
-                                if (tmpAct.SupplierActActionStatusId == 1)
+                                <br /><span style="color:darkred;font-weight:600;padding-top:10px;"> @procActGroup.Key </span><br />
+                                foreach (var procAct in procActGroup)
                                 {
-                                    <span style="color:red;font-weight:800;">! </span>
-                                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
-                                         alt=@tmpAct.SupplierActActionCode.IconPath height="16"
-                                         title=@tmpAct.SupplierActActionCode.IconPath />
+                                    var tmpAct = procAct.SupplierActivity;
+                                    if (tmpAct.SupplierActActionStatusId == 1)
+                                    {
+                                        <span style="color:red;font-weight:800;">! </span>
+                                        <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                             alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                             title=@tmpAct.SupplierActActionCode.IconPath />
 
-                                    <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - ( @tmpAct.Supplier.Name ) @tmpAct.Type | @tmpAct.Remarks </span>
-                                    <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                    <span class="cursor-hand" onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done | </span>
-                                    <span class="cursor-hand" onclick="UpdateProcActivity_Remove(@tmpAct.Id)"> [ x ] </span>
-
-                                    @*@Html.ActionLink("Done |", "ProcActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })*@
-                                    @*@Html.ActionLink(" [x]", "ProcActivityRemove", new { id = tmpAct.Id })*@
-
-                                    <br />
-                                }
-                                if (tmpAct.SupplierActActionStatusId == 2)
-                                {
-                                    <span style="color:darkgray;font-weight:800;">&#10004; </span>
-                                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
-                                         alt=@tmpAct.SupplierActActionCode.IconPath height="16"
-                                         title=@tmpAct.SupplierActActionCode.IconPath />
-                                    <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - ( @tmpAct.Supplier.Name ) @tmpAct.Type | @tmpAct.Remarks</span>
-                                    <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                    <br />
-                                }
-                                if (tmpAct.SupplierActActionStatusId == 3)
-                                {
-                                    <span style="color:darkgray;font-weight:800;">&#x2022; </span>
-                                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
-                                         alt=@tmpAct.SupplierActActionCode.IconPath height="16"
-                                         title=@tmpAct.SupplierActActionCode.IconPath />
-                                    <strike style="color:darkgray;">
-                                        <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - ( @tmpAct.Supplier.Name ) @tmpAct.Type | @tmpAct.Remarks</span>
+                                        <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @tmpAct.Type | @tmpAct.Remarks </span>
                                         <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                    </strike>
-                                    <br />
+                                        <span class="cursor-hand" onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done | </span>
+                                        <span class="cursor-hand" onclick="UpdateProcActivity_Remove(@tmpAct.Id)"> [ x ] </span>
+
+                                        @*@Html.ActionLink("Done |", "ProcActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })*@
+                                        @*@Html.ActionLink(" [x]", "ProcActivityRemove", new { id = tmpAct.Id })*@
+
+                                        <br />
+                                    }
+                                    if (tmpAct.SupplierActActionStatusId == 2)
+                                    {
+                                        <span style="color:darkgray;font-weight:800;">&#10004; </span>
+                                        <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                             alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                             title=@tmpAct.SupplierActActionCode.IconPath />
+                                        <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name -  @tmpAct.Type | @tmpAct.Remarks</span>
+                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        <br />
+                                    }
+                                    if (tmpAct.SupplierActActionStatusId == 3)
+                                    {
+                                        <span style="color:darkgray;font-weight:800;">&#x2022; </span>
+                                        <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                             alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                             title=@tmpAct.SupplierActActionCode.IconPath />
+                                        <strike style="color:darkgray;">
+                                            <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name -  @tmpAct.Type | @tmpAct.Remarks</span>
+                                            <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        </strike>
+                                        <br />
+                                    }
                                 }
                             }
                         </span>
@@ -358,96 +369,96 @@
                         <div id="SalesLeadItems-@item.Id">
                             @foreach (var invItems in item.SalesLeadItems)
                             {
-                            <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
+                                <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
 
-                                <div style="background-color:lightgray;padding:5px;">
-                                    <b>
-                                        @invItems.InvItem.Description -
-                                        @if (invItems.QuotedPrice != null)
-                                        {
-                                            <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
-                                        }
-                                        <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
-                                    </b>
-
-                                    <span class="pull-right" hidden>
-                                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
-                                        <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
-                                    </span>
-                                </div>
-
-
-                                <div id="supItem-@invItems.Id">
-                                    @foreach (var supItem in invItems.SalesLeadQuotedItems)
-                                    {
-                                         var itemText = "none";
-                                         var itemTextColor = "black";
-                                        if (supItem.SalesLeadQuotedItemStatusId == 3)
-                                        {
-                                            itemText = "line-through";
-                                            itemTextColor = "gray";
-                                        }
-                                        <p style="margin:3px 10px;text-decoration:@itemText; color:@itemTextColor;">
-                                            <span style="color:green;">
-                                                @if (supItem.SalesLeadQuotedItemStatusId == 2)
-                                                {
-                                                    <img src="~/Images/SalesLead/approve-icon.png" width="15" style="margin:0px 5px;" />
-                                                }
-
-                                                @if (supItem.SupplierItemRate.ItemRate != null)
-
-                                                {
-                                                    @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
-                                                }
-
-                                                @supItem.SupplierItemRate.SupplierUnit.Unit  -
-                                            </span>
-
-                                            <b>@supItem.SupplierItemRate.SupplierInvItem.Supplier.Name</b> |
-                                            @supItem.SupplierItemRate.Particulars
-                                            @if (!String.IsNullOrEmpty(supItem.SupplierItemRate.Material))
+                                    <div style="background-color:lightgray;padding:5px;">
+                                        <b>
+                                            @invItems.InvItem.Description -
+                                            @if (invItems.QuotedPrice != null)
                                             {
-                                                <span>  - @supItem.SupplierItemRate.Material</span>
+                                                <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
                                             }
+                                            <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
+                                        </b>
 
-                                            <span> ( </span>
-                                            <span style="font:normal 11px arial,verdana;">
-                                                Validity :
-                                                @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
-                                                @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
-                                            </span>
-                                            <span> ) </span>
-                                            <span>
-                                                @*<a class="cursor-hand" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)">[ Approve ]</a>*@
-                                                @if (supItem.SalesLeadQuotedItemStatusId == 1)
+                                        <span class="pull-right" hidden>
+                                            <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
+                                            <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
+                                        </span>
+                                    </div>
+
+
+                                    <div id="supItem-@invItems.Id">
+                                        @foreach (var supItem in invItems.SalesLeadQuotedItems)
+                                        {
+                                            var itemText = "none";
+                                            var itemTextColor = "black";
+                                            if (supItem.SalesLeadQuotedItemStatusId == 3)
+                                            {
+                                                itemText = "line-through";
+                                                itemTextColor = "gray";
+                                            }
+                                            <p style="margin:3px 10px;text-decoration:@itemText; color:@itemTextColor;">
+                                                <span style="color:green;">
+                                                    @if (supItem.SalesLeadQuotedItemStatusId == 2)
+                                                    {
+                                                        <img src="~/Images/SalesLead/approve-icon.png" width="15" style="margin:0px 5px;" />
+                                                    }
+
+                                                    @if (supItem.SupplierItemRate.ItemRate != null)
+
+                                                    {
+                                                        @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
+                                                    }
+
+                                                    @supItem.SupplierItemRate.SupplierUnit.Unit  -
+                                                </span>
+
+                                                <b>@supItem.SupplierItemRate.SupplierInvItem.Supplier.Name</b> |
+                                                @supItem.SupplierItemRate.Particulars
+                                                @if (!String.IsNullOrEmpty(supItem.SupplierItemRate.Material))
                                                 {
-                                                    //PENDING
-                                                    <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
-                                                    <a class="btn btn-default btn-xs no-margin-top" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)"> Edit </a>
-                                                    <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
-                                                }
-                                                else if (supItem.SalesLeadQuotedItemStatusId == 2)
-                                                {
-                                                    //APPROVED
-                                                    <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 3)"> Cancel </a>
-                                                    <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
-                                                }
-                                                else if (supItem.SalesLeadQuotedItemStatusId == 3)
-                                                {
-                                                    //CANCELLED
-                                                    //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
-                                                    //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
-                                                    <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                    <span>  - @supItem.SupplierItemRate.Material</span>
                                                 }
 
-                                            </span>
-                                        </p>
-                                    }
+                                                <span> ( </span>
+                                                <span style="font:normal 11px arial,verdana;">
+                                                    Validity :
+                                                    @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
+                                                    @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
+                                                </span>
+                                                <span> ) </span>
+                                                <span>
+                                                    @*<a class="cursor-hand" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)">[ Approve ]</a>*@
+                                                    @if (supItem.SalesLeadQuotedItemStatusId == 1)
+                                                    {
+                                                        //PENDING
+                                                        <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
+                                                        <a class="btn btn-default btn-xs no-margin-top" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)"> Edit </a>
+                                                        <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                    }
+                                                    else if (supItem.SalesLeadQuotedItemStatusId == 2)
+                                                    {
+                                                        //APPROVED
+                                                        <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 3)"> Cancel </a>
+                                                        <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                    }
+                                                    else if (supItem.SalesLeadQuotedItemStatusId == 3)
+                                                    {
+                                                        //CANCELLED
+                                                        //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
+                                                        //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
+                                                        <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                    }
+
+                                                </span>
+                                            </p>
+                                        }
+                                    </div>
+
+                                    <!--Add Item-->
+                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="GetItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id, @item.Id )"> [ Add Supplier Item ] </a>
                                 </div>
-
-                                <!--Add Item-->
-                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="GetItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id, @item.Id )"> [ Add Supplier Item ] </a>
-                            </div>
                             }
                         </div>
                         <br />

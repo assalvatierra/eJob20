@@ -1995,6 +1995,13 @@
     <Content Include="Images\SalesLead\high-importance.png" />
     <Content Include="Images\SalesLead\Awarded.png" />
     <Content Include="Images\SalesLead\Closed.png" />
+    <Content Include="Images\SalesLead\icons-expensive.png" />
+    <Content Include="Images\SalesLead\icons-extra-expensive.png" />
+    <Content Include="Images\SalesLead\icons-ordinary.png" />
+    <Content Include="Images\SalesLead\icons-override-input.png" />
+    <Content Include="Images\SalesLead\icons-rare.png" />
+    <Content Include="Images\SalesLead\icons-regular.png" />
+    <Content Include="Images\SalesLead\icons-special.png" />
     <Content Include="Images\SalesLead\Longterm.png" />
     <Content Include="Images\SalesLead\meeting101.jpg" />
     <Content Include="Images\SalesLead\meeting101.png" />
