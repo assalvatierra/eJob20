@@ -38,7 +38,7 @@
                 @Html.ValidationMessageFor(model => model.DtServiceTo, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.InvoiceRef, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -96,23 +96,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Interval, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Interval, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Interval, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsRepeating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsRepeating)
-                    @Html.ValidationMessageFor(model => model.IsRepeating, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -139,21 +123,47 @@
             </div>
         </div>
 
-    <div class="form-group" hidden>
-        @Html.LabelFor(model => model.PrevRef, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PrevRef, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PrevRef, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsRepeating, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsRepeating)
+                    @Html.ValidationMessageFor(model => model.IsRepeating, "", new { @class = "text-danger", id = "chkbox-IsReapeating" })
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group" hidden>
-        @Html.LabelFor(model => model.NextRef, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NextRef, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NextRef, "", new { @class = "text-danger" })
+        <div class="form-group" hidden id="repeat-Interval">
+            @Html.LabelFor(model => model.Interval, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Interval, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Interval, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
+
+        <div class="form-group" hidden id="repeat-Count">
+            @Html.LabelFor(model => model.RepeatCount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RepeatCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RepeatCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.PrevRef, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PrevRef, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PrevRef, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.NextRef, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NextRef, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NextRef, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -169,4 +179,5 @@
 
 @section Scripts{
     <script src="~/Areas/Receivables/Scripts/Transactions/Transaction.js"></script>
+    <script src="~/Areas/Receivables/Scripts/Transactions/TransactionCreate.js"></script>
 }

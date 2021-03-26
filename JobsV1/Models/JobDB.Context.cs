@@ -178,5 +178,6 @@ namespace JobsV1.Models
         public virtual DbSet<SalesStatusType> SalesStatusTypes { get; set; }
         public virtual DbSet<SalesStatusRestriction> SalesStatusRestrictions { get; set; }
         public virtual DbSet<SalesStatusAllowedUsers> SalesStatusAllowedUsers { get; set; }
+        public virtual DbSet<SalesStatusStatus> SalesStatusStatus { get; set; }
     }
 }

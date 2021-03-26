@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<ArModels.Models.ArTransaction>
 @{
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
-    ViewBag.Title = "For Settlement";
+    ViewBag.Title = "Settlement";
 }
 
-<h2>For Settlement</h2>
+<h2>Settlement</h2>
 
 @*<p>
     @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null) | 
@@ -52,7 +52,6 @@
             <td style="color:@textColor"> @paymentTotal.ToString("#,##0.00") </td>
             <td>
                 <div class="dropdown">
-                    <li> @Html.ActionLink("Add Payment", "CreateSettlePayment", "ArPayments", new { transId = transaction.Id }, null) </li>
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         Actions
                         <span class="caret"> </span>
@@ -62,6 +61,7 @@
                             <a class="cursor-link" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
                         </li>
                         <li role="separator" class="divider"></li>
+                        <li> @Html.ActionLink("Add Payment", "CreateSettlePayment", "ArPayments", new { transId = transaction.Id }, null) </li>
                         <li> @Html.ActionLink("Edit", "Edit", new { id = transaction.Id }) </li>
                         <li> @Html.ActionLink("Details", "Details", new { id = transaction.Id }) </li>
                     </ul>

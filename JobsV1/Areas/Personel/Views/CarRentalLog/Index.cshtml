@@ -126,6 +126,17 @@
                             </div>
 
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
+                                <label for="filter-company">Owner:</label>
+                                <select name="owner" id="filter-owner" class="form-control">
+                                    <option value="all">All</option>
+                                    @foreach (var owner in ViewBag.crLogOwnerList as List<JobsV1.Areas.Personel.Models.crLogOwner>)
+                                    {
+                                        <option value="@owner.Name"> @owner.Name </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="sort-by">Sort:</label>
                                 <select name="sortby" id="sort-by" class="form-control">
                                     <option value="Date"> Date Asc </option>
@@ -271,7 +282,7 @@
                 @{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id }); }
             </td>
             <td>
-                @*<div class="btn-group">
+                <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Action <span class="caret"></span>
                     </button>
@@ -284,7 +295,7 @@
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
                     </ul>
-                </div>*@
+                </div>
             </td>
         </tr>
 

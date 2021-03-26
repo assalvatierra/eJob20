@@ -76,99 +76,103 @@
     </div>
 </div>
 
-<hr />
-<h3>
-    Payments
-</h3>
-<p>
-    @if (!isClosed)
-    {
-        @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = Model.Id }, null)
-    }
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Date
-        </th>
-        <th>
-            By
-        </th>
-        <th>
-            Reference
-        </th>
-        <th>
-            Type
-        </th>
-        <th>
-            Remarks
-        </th>
-        <th>
-            Amount
-        </th>
-        <th>
+<div class="col-lg-12">
 
-        </th>
-    </tr>
-    @foreach (var payments in transPayments)
-    {
-        totalPaid = totalPaid + payments.ArPayment.Amount;
+    <hr />
+    <h3>
+        Payments
+    </h3>
+    <p>
+        @if (!isClosed)
+        {
+            @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = Model.Id }, null)
+        }
+    </p>
+    <table class="table">
         <tr>
-            <td>
-                @payments.ArPayment.DtPayment.ToString("MMM dd yyyy")
+            <th>
+                Date
+            </th>
+            <th>
+                By
+            </th>
+            <th>
+                Reference
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Remarks
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        @foreach (var payments in transPayments)
+        {
+            totalPaid = totalPaid + payments.ArPayment.Amount;
+            <tr>
+                <td>
+                    @payments.ArPayment.DtPayment.ToString("MMM dd yyyy")
+                </td>
+                <td>
+                    @payments.ArPayment.ArAccount.Name
+                </td>
+                <td>
+                    @payments.ArPayment.Reference
+                </td>
+                <td>
+                    @payments.ArPayment.ArPaymentType.Type
+                </td>
+                <td>
+                    @payments.ArPayment.Remarks
+                </td>
+                <td>
+                    @payments.ArPayment.Amount.ToString("#,##0.00")
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null) 
+
+                    @*@Html.ActionLink("Delete", "DeleteTransPayment", "ArPayments", new { id = payments.Id }, null)*@
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="5">
+                <span class="pull-right">Total</span>
             </td>
-            <td>
-                @payments.ArPayment.ArAccount.Name
-            </td>
-            <td>
-                @payments.ArPayment.Reference
-            </td>
-            <td>
-                @payments.ArPayment.ArPaymentType.Type
-            </td>
-            <td>
-                @payments.ArPayment.Remarks
-            </td>
-            <td>
-                @payments.ArPayment.Amount.ToString("#,##0.00")
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null) |
-           
-                @Html.ActionLink("Delete", "DeleteTransPayment", "ArPayments", new { id = payments.Id }, null)
+            <td colspan="2">
+                @totalPaid.ToString("#,##0.00")
             </td>
         </tr>
+    </table>
+    @{
+        totalBalance = totalAmount - totalPaid;
     }
-    <tr>
-        <td colspan="5">
-            <span class="pull-right">Total</span>
-        </td>
-        <td colspan="2">
-            @totalPaid.ToString("#,##0.00")
-        </td>
-    </tr>
-</table>
-@{ 
-    totalBalance = totalAmount - totalPaid;
-}
-<h3>
-    Balance: @totalBalance.ToString("#,##0.00")
-</h3>
-<p>
-    @if (isClosed)
-    {
-        <span>This transaction is closed </span>
-    }
-    else
-    {
-
-        if (totalPaid >= totalAmount)
+    <h3>
+        Balance: @totalBalance.ToString("#,##0.00")
+    </h3>
+    <p>
+        @if (isClosed)
         {
-            @Html.ActionLink("Post and Close", "PostAndCloseTransaction", new { id = Model.Id }, null)
+            <span>This transaction is closed </span>
         }
         else
         {
-            <span> Please settle the balance to close this transaction. </span>
+
+            if (totalPaid >= totalAmount)
+            {
+                @Html.ActionLink("Post and Close", "PostAndCloseTransaction", new { id = Model.Id }, null)
+            }
+            else
+            {
+                <span> Please settle the balance to close this transaction. </span>
+            }
         }
-    }
-</p>
+    </p>
+
+</div>

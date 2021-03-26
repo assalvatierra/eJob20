@@ -325,6 +325,8 @@
         <EntityTypeShape EntityType="JobDB.SalesStatusAllowedUsers" Width="1.5" PointX="21.375" PointY="35.125" />
         <AssociationConnector Association="JobDB.SalesStatusRestrictionSalesStatusAllowedUsers" />
         <AssociationConnector Association="JobDB.SalesStatusCodeSalesStatusRestriction" />
+        <EntityTypeShape EntityType="JobDB.SalesStatusStatus" Width="1.5" PointX="14.375" PointY="30.25" />
+        <AssociationConnector Association="JobDB.SalesStatusStatusSalesStatus" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

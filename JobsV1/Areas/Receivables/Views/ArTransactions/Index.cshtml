@@ -16,6 +16,9 @@
 
 <h2>Transactions</h2>
 <p>
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, new { @class = "btn btn-link" })
+</p>
+<p>
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 </p>
 
@@ -65,7 +68,7 @@
     }
     else
     {
-        @Html.ActionLink("Sent", "Index", new { status = "Sent", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Sent", "Index", new { status = "Sent", sortBy = sortBy , orderBy = orderBy}, new { @class = "btn btn-default" })
     }
 
     @if (status == "Settlement")
@@ -113,7 +116,7 @@
     }
     else
     {
-        @Html.ActionLink("Amount", "Index", new { status = status, sortBy = "Amount", orderBy = orderBy }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Amount", "Index", new { status = status, sortBy = "Amount" , orderBy = orderBy}, new { @class = "btn btn-default" })
     }
 </div>
 
@@ -125,7 +128,7 @@
     }
     else
     {
-        @Html.ActionLink("Asc", "Index", new { status = status, sortBy = sortBy, orderBy = "ASC" }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Asc", "Index", new { status = status, sortBy = sortBy , orderBy = "ASC"}, new { @class = "btn btn-default" })
     }
 
     @if (orderBy == "DESC")
@@ -150,7 +153,7 @@
         <th>
             Account
         </th>
-        <th style="min-width: 180px;">
+        <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
@@ -219,18 +222,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
-                <br />
-                <span style="font-size:12px;color:gray;">
-                    @item.DtService.ToString("MMM dd yyyy") -
-                    @if (item.DtServiceTo != null)
-                    {
-                        var serviceTo = (DateTime)item.DtServiceTo;
-
-                        <span>
-                            @serviceTo.ToString("MMM dd yyyy")
-                        </span>
-                    }
-                </span>
             </td>
             @*<td>
                     @item.DtService.ToString("MMM dd yyyy") -
@@ -288,7 +279,9 @@
                             }
                             else if (item.ArTransStatusId == 3)
                             {
-                                <a class="cursor-link" onclick="UpdateStatus(@item.Id, 4)"> Send </a>
+                                <a class="cursor-link" onclick="UpdateStatus(@item.Id, 4)"> Sent </a>
+                                @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
+                                
                             }
                             else if (item.ArTransStatusId >= 4 && item.ArTransStatusId <= 5)
                             {
@@ -297,33 +290,34 @@
                                 {
                                     <a class="cursor-link" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
                                 }
-                            } else if (item.ArTransStatusId == 3)
-                            {
-                                <a class="cursor-link" onclick="UpdateStatus(@item.Id, 6)"> Settle </a>
                             }
+                            else if (item.ArTransStatusId == 5)
+                            {
+                                <a class="cursor-link" onclick="UpdateStatus(@item.Id, 6)"> Close </a>
+                            }
+
                         <li role="separator" class="divider"></li>
                         <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                         <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
                         <li> @Html.ActionLink("Credit", "Details", "ArAccounts", new { id = item.ArAccountId }, null) </li>
                         <li> @Html.ActionLink("History", "TransactionHistory", "ArTransactions", new { id = item.Id }, null) </li>
-                        <li> @Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>
+                        @*<li> @Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>*@
                     </ul>
                 </div>
-
             </td>
         </tr>
 
         totalPayment += totalTransPayment;
         totalAmount += item.Amount;
 
-
     }
 
-    @{
+    @{ 
         totalBalance = totalAmount - totalPayment;
     }
     <tr>
         <td colspan="7">
+
         </td>
         <td style="background-color:lightgray;">
             <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>

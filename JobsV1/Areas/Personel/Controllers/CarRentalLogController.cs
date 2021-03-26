@@ -21,12 +21,9 @@ namespace JobsV1.Areas.Personel.Controllers
         private crDriverData dd = new crDriverData();
 
         // GET: Personel/CarRentalLog
-        public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
         {
 
-            //try
-            //{
-            
                 if (!startDate.IsNullOrWhiteSpace())
                 {
                     Session["triplog-startDate"] = startDate;
@@ -51,7 +48,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     }
                 }
               
-                var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+                var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
 
                 //get summary
                 var logSummary = GetCrLogSummary(tripLogs);
@@ -66,22 +63,13 @@ namespace JobsV1.Areas.Personel.Controllers
                 ViewBag.FilteredCompany = company ?? "all";
                 ViewBag.SortBy = sortby ?? "Date";
 
-                ViewBag.crLogUnitList = dl.GetUnits().ToList();
-                ViewBag.crLogDriverList = dl.GetDrivers().ToList();
+                ViewBag.crLogUnitList    = dl.GetUnits().ToList();
+                ViewBag.crLogDriverList  = dl.GetDrivers().ToList();
                 ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+                ViewBag.crLogOwnerList   = dl.GetOwners().ToList();
 
                 return View(tripLogs);
 
-            //}
-            //catch
-            //{
-
-            //    ViewBag.crLogUnitList = dl.GetUnits().ToList();
-            //    ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            //    ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-
-            //    return View(new List<crLogTrip>());
-            //}
         }
 
         // GET: Personel/CarRentalLog
@@ -168,6 +156,86 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
             }
+
+            //Sorting
+            switch (sortby)
+            {
+                case "Unit":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogUnit.Description).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+                case "Company":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogCompany.Name).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+                case "Driver":
+                    crLogTrips = crLogTrips.OrderBy(c => c.crLogDriver.OrderNo).ThenBy(c => DbFunctions.TruncateTime(c.DtTrip));
+                    break;
+                case "Date":
+                    crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+                case "Date-Desc":
+                    crLogTrips = crLogTrips.OrderByDescending(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+                default:
+                    crLogTrips = crLogTrips.OrderBy(c => DbFunctions.TruncateTime(c.DtTrip)).ThenBy(c => c.crLogCompany.Name)
+                        .ThenBy(c => c.crLogUnit.OrderNo).ThenBy(c => c.crLogUnit.Description).ThenBy(c => c.crLogDriver.OrderNo);
+                    break;
+            }
+
+            HttpCookie shuttle_cookie = HttpContext.Request.Cookies.Get("shuttle_cookie");
+
+            if (shuttle_cookie != null)
+            {
+                if (shuttle_cookie.Value == "1")
+                {
+                    crLogTrips = crLogTrips.Where(c => c.crLogCompany.IsShuttle);
+                }
+            }
+
+            return crLogTrips.ToList();
+
+        }
+
+        //override
+        //with owner filter
+        public List<crLogTrip> GetTripLogs(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
+        {
+            var defaultStartDate = dt.GetCurrentDate();
+            //Get Logs
+            var crLogTrips = db.crLogTrips.Include(c => c.crLogDriver).Include(c => c.crLogUnit).Include(c => c.crLogCompany).Include(c => c.crLogClosing);
+
+            //Filter
+            if (!startDate.IsNullOrWhiteSpace() && !endDate.IsNullOrWhiteSpace())
+            {
+                var sdate = DateTime.ParseExact(startDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+                var edate = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
+
+                crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= sdate && DbFunctions.TruncateTime(c.DtTrip) <= edate);
+            }
+            else
+            {
+                crLogTrips = crLogTrips.Where(c => DbFunctions.TruncateTime(c.DtTrip) >= defaultStartDate);
+            }
+
+            if (!String.IsNullOrEmpty(unit) && unit != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogUnit.Description == unit);
+            }
+
+            if (!driver.IsNullOrWhiteSpace() && driver != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogDriver.Name == driver);
+            }
+
+            if (!company.IsNullOrWhiteSpace() && company != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogCompany.Name == company);
+            }
+
+            if (!owner.IsNullOrWhiteSpace() && owner != "all")
+            {
+                crLogTrips = crLogTrips.Where(c => c.crLogUnit.crLogOwner.Name == owner);
+            }
+
 
             //Sorting
             switch (sortby)
@@ -394,13 +462,13 @@ namespace JobsV1.Areas.Personel.Controllers
 
             if (crLogTrip.OTRate == null)
             {
-                crLogTrip.OTRate = 200;
+                //crLogTrip.OTRate = 200;
             }
 
 
             if (crLogTrip.DriverOTRate == null)
             {
-                crLogTrip.DriverOTRate = 50;
+                //crLogTrip.DriverOTRate = 50;
             }
 
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
@@ -1225,12 +1293,11 @@ namespace JobsV1.Areas.Personel.Controllers
                 DateTime StartTime = DateTime.Parse(trip.StartTime);
                 DateTime EndTime = DateTime.Parse(trip.EndTime);
 
-                //round off time start
-                if (StartTime.Minute >= 40)
-                {
-                    StartTime = StartTime.AddHours(1);
-                    StartTime = StartTime.AddMinutes(-30);
-                }
+                var min = StartTime.Minute;
+
+                StartTime = convertDateTime(StartTime);
+                EndTime = convertDateTime(EndTime);
+
 
                 // if night shift
                 if (StartTime.Hour > EndTime.Hour)
@@ -1241,27 +1308,9 @@ namespace JobsV1.Areas.Personel.Controllers
                 int HoursPerTrip = trip.TripHours ?? 0;
 
                 //calculate time diff and hours per trip
-                double diff = Math.Floor(double.Parse((EndTime - StartTime).Hours.ToString())) - (double)HoursPerTrip;
+                double diff = double.Parse((EndTime - StartTime).TotalHours.ToString()) - (double)HoursPerTrip;
 
-
-
-                //round off time to 30 mins or 0.5
-                if (StartTime.Minute > 20 && StartTime.Minute < 40)
-                {
-                    diff += 0.5;
-                }
-
-                //round off time end +1 hour
-                if (EndTime.Minute >= 40)
-                {
-                    diff += 1;
-                }
-
-                if (EndTime.Minute > 20 && EndTime.Minute < 40)
-                {
-                    diff += 0.5;
-                }
-
+               
                 //disregard negative time differences
                 if (diff < 0)
                 {
@@ -1275,12 +1324,34 @@ namespace JobsV1.Areas.Personel.Controllers
             return 0;
         }
 
+        private DateTime convertDateTime(DateTime time)
+        {
+
+            var timeTemp = time;
+            //round off time start
+            if (time.Minute > 40)
+            {
+                time = time.AddMinutes(60 - time.Minute);
+            }
+            else if (time.Minute >= 20 && time.Minute <= 40)
+            {
+                time = time.AddMinutes(30 - time.Minute);
+            }
+            else
+            {
+                time = time.AddMinutes(0 - time.Minute);
+            }
+
+            return time;
+        }
+
         //GET : rate of OT per hour based on OTRate for Driver
         public double GetTripOTRate(int? id)
         {
+
             if (id == null)
             {
-                return 0;
+                return 0.1;
             }
 
             double OTHours = GetTripOTHours(id);
@@ -1290,8 +1361,14 @@ namespace JobsV1.Areas.Personel.Controllers
 
             if (trip.DriverOTRate != null)
             {  
-                CalcOTRate = OTHours * Double.Parse(trip.DriverOTRate.ToString()); 
+                CalcOTRate = OTHours * Double.Parse(trip.DriverOTRate.ToString());
             }
+            else
+            {
+                //default 50 per hour overtime rate
+                CalcOTRate = OTHours * 50;
+            }
+
 
             return CalcOTRate;
         }

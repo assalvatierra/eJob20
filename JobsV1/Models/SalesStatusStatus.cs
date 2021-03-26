@@ -12,16 +12,18 @@ namespace JobsV1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SalesStatus
+    public partial class SalesStatusStatus
     {
-        public int Id { get; set; }
-        public System.DateTime DtStatus { get; set; }
-        public int SalesStatusCodeId { get; set; }
-        public int SalesLeadId { get; set; }
-        public int SalesStatusStatusId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SalesStatusStatus()
+        {
+            this.SalesStatus = new HashSet<SalesStatus>();
+        }
     
-        public virtual SalesStatusCode SalesStatusCode { get; set; }
-        public virtual SalesLead SalesLead { get; set; }
-        public virtual SalesStatusStatus SalesStatusStatu { get; set; }
+        public int Id { get; set; }
+        public string Status { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesStatus> SalesStatus { get; set; }
     }
 }

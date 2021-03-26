@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/19/2021 13:24:04
+-- Date Created: 03/26/2021 16:27:37
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -479,6 +479,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesStatusCodeSalesStatusRestriction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesStatusRestrictions] DROP CONSTRAINT [FK_SalesStatusCodeSalesStatusRestriction];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SalesStatusStatusSalesStatus]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesStatus] DROP CONSTRAINT [FK_SalesStatusStatusSalesStatus];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -942,6 +945,9 @@ IF OBJECT_ID(N'[dbo].[SalesStatusRestrictions]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SalesStatusAllowedUsers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SalesStatusAllowedUsers];
+GO
+IF OBJECT_ID(N'[dbo].[SalesStatusStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesStatusStatus];
 GO
 
 -- --------------------------------------------------
@@ -1413,7 +1419,8 @@ CREATE TABLE [dbo].[SalesStatus] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DtStatus] datetime  NOT NULL,
     [SalesStatusCodeId] int  NOT NULL,
-    [SalesLeadId] int  NOT NULL
+    [SalesLeadId] int  NOT NULL,
+    [SalesStatusStatusId] int  NOT NULL
 );
 GO
 
@@ -2055,7 +2062,7 @@ GO
 CREATE TABLE [dbo].[SalesLeadItems] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [QuotedPrice] decimal(18,0)  NULL,
-    [Remarks] nvarchar(80)  NULL,
+    [Remarks] nvarchar(180)  NULL,
     [SalesLeadId] int  NOT NULL,
     [InvItemId] int  NOT NULL
 );
@@ -2532,6 +2539,13 @@ GO
 CREATE TABLE [dbo].[SalesStatusAllowedUsers] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [User] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SalesStatusStatus'
+CREATE TABLE [dbo].[SalesStatusStatus] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Status] nvarchar(40)  NOT NULL
 );
 GO
 
@@ -3454,6 +3468,12 @@ GO
 -- Creating primary key on [Id] in table 'SalesStatusAllowedUsers'
 ALTER TABLE [dbo].[SalesStatusAllowedUsers]
 ADD CONSTRAINT [PK_SalesStatusAllowedUsers]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesStatusStatus'
+ALTER TABLE [dbo].[SalesStatusStatus]
+ADD CONSTRAINT [PK_SalesStatusStatus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5769,6 +5789,21 @@ GO
 CREATE INDEX [IX_FK_SalesStatusCodeSalesStatusRestriction]
 ON [dbo].[SalesStatusRestrictions]
     ([SalesStatusCodeId]);
+GO
+
+-- Creating foreign key on [SalesStatusStatusId] in table 'SalesStatus'
+ALTER TABLE [dbo].[SalesStatus]
+ADD CONSTRAINT [FK_SalesStatusStatusSalesStatus]
+    FOREIGN KEY ([SalesStatusStatusId])
+    REFERENCES [dbo].[SalesStatusStatus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesStatusStatusSalesStatus'
+CREATE INDEX [IX_FK_SalesStatusStatusSalesStatus]
+ON [dbo].[SalesStatus]
+    ([SalesStatusStatusId]);
 GO
 
 -- --------------------------------------------------

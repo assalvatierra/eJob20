@@ -1145,6 +1145,9 @@
     <Compile Include="Models\SalesStatusRestriction.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SalesStatusStatus.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SalesStatusType.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>

@@ -159,6 +159,7 @@
     <EntitySet Name="SalesStatusTypes" EntityType="JobDB.Store.SalesStatusTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesStatusRestrictions" EntityType="JobDB.Store.SalesStatusRestrictions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesStatusAllowedUsers" EntityType="JobDB.Store.SalesStatusAllowedUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesStatusStatus" EntityType="JobDB.Store.SalesStatusStatus" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -775,6 +776,10 @@
       <End Role="SalesStatusCode" EntitySet="SalesStatusCodes" />
       <End Role="SalesStatusRestriction" EntitySet="SalesStatusRestrictions" />
     </AssociationSet>
+    <AssociationSet Name="SalesStatusStatusSalesStatus" Association="JobDB.Store.SalesStatusStatusSalesStatus">
+      <End Role="SalesStatusStatus" EntitySet="SalesStatusStatus" />
+      <End Role="SalesStatus" EntitySet="SalesStatus" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -1244,6 +1249,7 @@
     <Property Name="DtStatus" Type="datetime" Nullable="false" />
     <Property Name="SalesStatusCodeId" Type="int" Nullable="false" />
     <Property Name="SalesLeadId" Type="int" Nullable="false" />
+    <Property Name="SalesStatusStatusId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SalesActCodes">
     <Key>
@@ -1885,7 +1891,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="QuotedPrice" Type="decimal" Nullable="true" />
-    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="180" />
     <Property Name="SalesLeadId" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
   </EntityType>
@@ -2362,6 +2368,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="User" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SalesStatusStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="40" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4211,6 +4224,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SalesStatusStatusSalesStatus">
+    <End Role="SalesStatusStatus" Type="JobDB.Store.SalesStatusStatus" Multiplicity="1" />
+    <End Role="SalesStatus" Type="JobDB.Store.SalesStatus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesStatusStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesStatus">
+        <PropertyRef Name="SalesStatusStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -4984,6 +5009,11 @@
           <AssociationSet Name="SalesStatusCodeSalesStatusRestriction" Association="JobDB.SalesStatusCodeSalesStatusRestriction">
             <End Role="SalesStatusCode" EntitySet="SalesStatusCodes" />
             <End Role="SalesStatusRestriction" EntitySet="SalesStatusRestrictions" />
+          </AssociationSet>
+          <EntitySet Name="SalesStatusStatus" EntityType="JobDB.SalesStatusStatus" />
+          <AssociationSet Name="SalesStatusStatusSalesStatus" Association="JobDB.SalesStatusStatusSalesStatus">
+            <End Role="SalesStatusStatus" EntitySet="SalesStatusStatus" />
+            <End Role="SalesStatus" EntitySet="SalesStatus" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
@@ -5977,6 +6007,8 @@
           <Property Name="SalesStatusCodeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadSalesStatus" FromRole="SalesStatus" ToRole="SalesLead" />
           <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SalesStatusStatu" Relationship="JobDB.SalesStatusStatusSalesStatus" FromRole="SalesStatus" ToRole="SalesStatusStatus" />
+          <Property Name="SalesStatusStatusId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="CustomerSalesLead">
           <End Type="JobDB.Customer" Role="Customer" Multiplicity="1" />
@@ -8731,6 +8763,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SalesStatusStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="40" />
+          <NavigationProperty Name="SalesStatus" Relationship="JobDB.SalesStatusStatusSalesStatus" FromRole="SalesStatusStatus" ToRole="SalesStatus" />
+        </EntityType>
+        <Association Name="SalesStatusStatusSalesStatus">
+          <End Type="JobDB.SalesStatusStatus" Role="SalesStatusStatus" Multiplicity="1" />
+          <End Type="JobDB.SalesStatus" Role="SalesStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesStatusStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesStatus">
+              <PropertyRef Name="SalesStatusStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9243,6 +9295,7 @@
           <ScalarProperty Name="DtStatus" ColumnName="DtStatus" />
           <ScalarProperty Name="SalesStatusCodeId" ColumnName="SalesStatusCodeId" />
           <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
+          <ScalarProperty Name="SalesStatusStatusId" ColumnName="SalesStatusStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10474,6 +10527,14 @@
         <MappingFragment StoreEntitySet="SalesStatusAllowedUsers">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="User" ColumnName="User" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesStatusStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesStatusStatus)">
+        <MappingFragment StoreEntitySet="SalesStatusStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -215,10 +215,10 @@
 </h4>
 <table class="table">
     <tr>
-        <th> Invoice Date </th>
-        <th> Invoice </th>
         <th> Description </th>
-        <th> Service Date </th>
+        <th> DtService </th>
+        <th> Invoice No </th>
+        <th> DtInvoice </th>
         <th> Due </th>
         <th> Remarks </th>
         <th> Status </th>
@@ -229,14 +229,7 @@
 
     @foreach (var transaction in Model.ArTransactions)
     {
-        totalReceivableAmount = totalReceivableAmount + transaction.Amount;
         <tr>
-            <td>
-                @transaction.DtInvoice.ToString("MMM dd yyyy")
-            </td>
-            <td>
-                @transaction.InvoiceRef
-            </td>
             <td>
                 @transaction.Description
             </td>
@@ -244,7 +237,13 @@
                 @transaction.DtService.ToString("MMM dd yyyy")
             </td>
             <td>
+                @transaction.DtInvoice.ToString("MMM dd yyyy")
+            </td>
+            <td>
                 @transaction.DtDue.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @transaction.InvoiceId
             </td>
             <td>
                 @transaction.Remarks
@@ -254,6 +253,9 @@
             </td>
             <td>
                 @transaction.Amount.ToString("#,##0.00")
+                @{
+                    totalReceivableAmount = totalReceivableAmount + transaction.Amount;
+                }
             </td>
             <td>
                 @foreach (var payment in transaction.ArTransPayments)

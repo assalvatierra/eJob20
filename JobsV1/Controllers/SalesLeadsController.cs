@@ -65,6 +65,20 @@ namespace JobsV1.Controllers
             return View(salesLeads.OrderByDescending(s=>s.Date));
         }
 
+        public List<SalesStatusCode> GetSalesStatuses()
+        {
+            var statusList = db.SalesStatusCodes
+                 .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
+                 .OrderBy(s => s.SeqNo).ThenBy(s => s.Id).ToList();
+
+            var limit1 = 500000;
+            var limit2 = 3000000;
+
+
+
+            return statusList;
+        }
+
 
         // GET: SalesLeads
         public ActionResult Status(int? sortid, int? leadId)

@@ -240,7 +240,8 @@
                 @{ Html.RenderAction("GetTripOTHours", "CarRentalLog", new { id = item.Id }); }
             </td>
             <td>
-                <div class="btn-group">
+                @Html.ActionLink("Edit", "EditBilling", new { id = item.Id })
+                @*<div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Action <span class="caret"></span>
                     </button>
@@ -253,7 +254,7 @@
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
                     </ul>
-                </div>
+                </div>*@
             </td>
         </tr>
 
