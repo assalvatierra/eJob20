@@ -98,23 +98,23 @@
                         <br /><span style="color:blue; font: bold 28px arial, verdana;">@item.Date.ToString("dd")</span>
                         <span style="color:blue; font: bold 12px arial, verdana;">(@item.Date.ToString("ddd"))</span>
                         @if (item.Price != 0)
-                         {
+        {
                             <br /><br /><span style="color:red; font: normal 18px arial, verdana;">@item.Price.ToString("##,###")</span>
-                         }
+        }
                     </div>
                     @{
-                        foreach (var status in item.SalesStatus)
-                        {
-                            if (@status.SalesStatusCodeId == 5)
-                            {
+            foreach (var status in item.SalesStatus)
+            {
+                if (@status.SalesStatusCodeId == 5)
+                {
                                 <img src="~/Images/Customers/Category/Active-30.png" height="20" alt="ACCEPTED" />
-                            }   
+                }
 
-                            if (@status.SalesStatusCodeId == 7)
-                            {
+                if (@status.SalesStatusCodeId == 7)
+                {
                                 <img src="~/Images/SalesLead/close-icon.png" height="20" alt="ACCEPTED" />
-                            }
-                        }
+                }
+            }
                     }
 
                 </td>
@@ -122,10 +122,10 @@
                     <!--Sales Lead Status-->
                     <div>
 
+                        @{var Sstatus = item.SalesStatus.ToList(); }
                         @foreach (var salesstat in SalesStatCode)
                         {
-                            var status = item.SalesStatus.ToList();
-                            foreach (var itemStatus in status)
+                            foreach (var itemStatus in Sstatus)
                             {
                                 if (itemStatus.SalesStatusCodeId == salesstat.Id)
                                 {
@@ -140,126 +140,328 @@
                                     else if (itemStatus.SalesStatusStatusId == 2)
                                     {
 
+                                        //For Revision
+
+                                        var OneMLimit = 500000;
+                                        var ThreeMLimit = 3000000;
+
+                                        if (salesstat.Id == 7 || salesstat.Id == 8)
+                                        {
+                                            <span>&#187;</span>
+                                            <button class="btn btn-primary btn-arrow-right cursor-hand">
+                                                <a class="link-white link-status" onclick="UpdateLeadStatusRemarks(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                            </button>
+                                        }
+                                        else if (salesstat.Id == 15 || salesstat.Id == 16)
+                                        {
+                                            var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 15 || s.SalesStatusCodeId == 16).ToList();
+                                            bool isApproved = false;
+
+                                            if (statusCode.Count() > 0)
+                                            {
+                                                isApproved = true;
+                                            }
+
+                                            if (item.Price > OneMLimit && item.Price < ThreeMLimit)
+                                            {
+
+                                                if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
+                                                {
+                                                    var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
+                                                        .FirstOrDefault().SalesStatusAllowedUser.User;
+                                                    if (allowedUser == USER)
+                                                    {
+                                                        if (!isApproved)
+                                                        {
+                                                            <span>&#187;</span>
+                                                            <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                                                <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                                            </button>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        //disable status
+                                                        <span>&#187;</span>
+                                                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                            <a class="link-white link-status"> @salesstat.Name </a>
+                                                        </button>
+                                                    }
+                                                }
+
+                                            }
+
+                                            if (item.Price > ThreeMLimit)
+                                            {
+
+                                                if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
+                                                {
+                                                    var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
+                                                        .FirstOrDefault().SalesStatusAllowedUser.User;
+                                                    if (allowedUser == USER)
+                                                    {
+                                                        <span>&#187;</span>
+                                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        //disable status
+                                                        <span>&#187;</span>
+                                                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                            <a class="link-white link-status"> @salesstat.Name </a>
+                                                        </button>
+                                                    }
+                                                }
+
+                                                if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER).FirstOrDefault() != null)
+                                                {
+                                                    var OtherallowedUsers = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER)
+                                                        .ToList();
+
+
+                                                    foreach (var otherUsers in OtherallowedUsers)
+                                                    {
+                                                        <span>&#187;</span>
+                                                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                            <a class="link-white link-status"> @salesstat.Name </a>
+                                                        </button>
+                                                    }
+
+                                                }
+
+                                            }
+
+                                        }
+                                        @*else
+                                        {
+                                            <span>&#187;</span>
+                                            <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                                <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                            </button>
+                                        }*@
+
                                     }
 
                                 }
                                 else
                                 {
+                                    // click to update status
+                                    var OneMLimit = 500000;
+                                    var ThreeMLimit = 3000000;
 
-                                }
-                            }
-
-                            <!--  -->
-                            if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
-                            {
-                                <span>&#187;</span>
-                                <span class="btn btn-success btn-arrow-right">
-                                    <span class="link-white"> @salesstat.Name </span>
-                                </span>
-                            }
-                            else
-                            {
-                                var OneMLimit = 500000;
-                                var ThreeMLimit = 3000000;
-
-                                if (salesstat.Id == 7 || salesstat.Id == 8)
-                                {
-                                    <span>&#187;</span>
-                                    <button class="btn btn-primary btn-arrow-right cursor-hand">
-                                        <a class="link-white link-status" onclick="UpdateLeadStatusRemarks(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                                    </button>
-                                }
-                                else if (salesstat.Id == 15 || salesstat.Id == 16)
-                                {
-                                    var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 15 || s.SalesStatusCodeId == 16).ToList();
-                                    bool isApproved = false;
-
-                                    if (statusCode.Count() > 0)
+                                    if (salesstat.Id == 7 || salesstat.Id == 8)
                                     {
-                                        isApproved = true;
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatusRemarks(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
                                     }
-
-                                    if (item.Price > OneMLimit && item.Price < ThreeMLimit)
+                                    else if (salesstat.Id == 15 || salesstat.Id == 16)
                                     {
+                                        var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 15 || s.SalesStatusCodeId == 16).ToList();
+                                        bool isApproved = false;
 
-                                        if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
+                                        if (statusCode.Count() > 0)
                                         {
-                                            var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
-                                                .FirstOrDefault().SalesStatusAllowedUser.User;
-                                            if (allowedUser == USER)
+                                            isApproved = true;
+                                        }
+
+                                        if (item.Price > OneMLimit && item.Price < ThreeMLimit)
+                                        {
+
+                                            if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
                                             {
-                                                if (!isApproved)
+                                                var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
+                                                    .FirstOrDefault().SalesStatusAllowedUser.User;
+                                                if (allowedUser == USER)
+                                                {
+                                                    if (!isApproved)
+                                                    {
+                                                        <span>&#187;</span>
+                                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                                        </button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    //disable status
+                                                    <span>&#187;</span>
+                                                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                        <a class="link-white link-status"> @salesstat.Name </a>
+                                                    </button>
+                                                }
+                                            }
+
+                                        }
+
+                                        if (item.Price > ThreeMLimit)
+                                        {
+
+                                            if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
+                                            {
+                                                var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
+                                                    .FirstOrDefault().SalesStatusAllowedUser.User;
+                                                if (allowedUser == USER)
                                                 {
                                                     <span>&#187;</span>
                                                     <button class="btn btn-primary btn-arrow-right cursor-hand ">
                                                         <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
                                                     </button>
                                                 }
+                                                else
+                                                {
+                                                    //disable status
+                                                    <span>&#187;</span>
+                                                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                        <a class="link-white link-status"> @salesstat.Name </a>
+                                                    </button>
+                                                }
                                             }
-                                            else
+
+                                            if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER).FirstOrDefault() != null)
                                             {
-                                                //disable status
-                                                <span>&#187;</span>
-                                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                                                    <a class="link-white link-status"> @salesstat.Name </a>
-                                                </button>
+                                                var OtherallowedUsers = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER)
+                                                    .ToList();
+
+
+                                                foreach (var otherUsers in OtherallowedUsers)
+                                                {
+                                                    <span>&#187;</span>
+                                                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                        <a class="link-white link-status"> @salesstat.Name </a>
+                                                    </button>
+                                                }
+
                                             }
+
                                         }
 
                                     }
-
-                                    if (item.Price > ThreeMLimit)
+                                    else
                                     {
-
-                                        if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
-                                        {
-                                            var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
-                                                .FirstOrDefault().SalesStatusAllowedUser.User;
-                                            if (allowedUser == USER)
-                                            {
-                                                <span>&#187;</span>
-                                                <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                                                    <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                                                </button>
-                                            }
-                                            else
-                                            {
-                                                //disable status
-                                                <span>&#187;</span>
-                                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                                                    <a class="link-white link-status"> @salesstat.Name </a>
-                                                </button>
-                                            }
-                                        }
-
-                                        if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER).FirstOrDefault() != null)
-                                        {
-                                            var OtherallowedUsers = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER)
-                                                .ToList();
-
-
-                                            foreach (var otherUsers in OtherallowedUsers)
-                                            {
-                                                <span>&#187;</span>
-                                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                                                    <a class="link-white link-status"> @salesstat.Name </a>
-                                                </button>
-                                            }
-
-                                        }
-
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
                                     }
 
                                 }
-                                else
+                            }
+
+                            <!--  -->
+                            @*if (item.SalesStatus.Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
+            {
+               <span>&#187;</span>
+                <span class="btn btn-success btn-arrow-right">
+                    <span class="link-white"> @salesstat.Name </span>
+                </span>
+            }
+            else
+            {
+                var OneMLimit = 500000;
+                var ThreeMLimit = 3000000;
+
+                if (salesstat.Id == 7 || salesstat.Id == 8)
+                {
+                    <span>&#187;</span>
+                    <button class="btn btn-primary btn-arrow-right cursor-hand">
+                        <a class="link-white link-status" onclick="UpdateLeadStatusRemarks(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                    </button>
+                }
+                else if (salesstat.Id == 15 || salesstat.Id == 16)
+                {
+                    var statusCode = item.SalesStatus.Where(s => s.SalesStatusCodeId == 15 || s.SalesStatusCodeId == 16).ToList();
+                    bool isApproved = false;
+
+                    if (statusCode.Count() > 0)
+                    {
+                        isApproved = true;
+                    }
+
+                    if (item.Price > OneMLimit && item.Price < ThreeMLimit)
+                    {
+
+                        if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
+                        {
+                            var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
+                                .FirstOrDefault().SalesStatusAllowedUser.User;
+                            if (allowedUser == USER)
+                            {
+                                if (!isApproved)
                                 {
                                     <span>&#187;</span>
                                     <button class="btn btn-primary btn-arrow-right cursor-hand ">
                                         <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
                                     </button>
                                 }
-
                             }
+                            else
+                            {
+                                //disable status
+                                <span>&#187;</span>
+                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                    <a class="link-white link-status"> @salesstat.Name </a>
+                                </button>
+                            }
+                        }
+
+                    }
+
+                    if (item.Price > ThreeMLimit)
+                    {
+
+                        if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
+                        {
+                            var allowedUser = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER)
+                                .FirstOrDefault().SalesStatusAllowedUser.User;
+                            if (allowedUser == USER)
+                            {
+                                <span>&#187;</span>
+                                <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                    <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                </button>
+                            }
+                            else
+                            {
+                                //disable status
+                                <span>&#187;</span>
+                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                    <a class="link-white link-status"> @salesstat.Name </a>
+                                </button>
+                            }
+                        }
+
+                        if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER).FirstOrDefault() != null)
+                        {
+                            var OtherallowedUsers = salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User != USER)
+                                .ToList();
+
+
+                            foreach (var otherUsers in OtherallowedUsers)
+                            {
+                                <span>&#187;</span>
+                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                    <a class="link-white link-status"> @salesstat.Name </a>
+                                </button>
+                            }
+
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    <span>&#187;</span>
+                    <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                        <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                    </button>
+                }
+
+            }*@
                         }
                     </div>
 

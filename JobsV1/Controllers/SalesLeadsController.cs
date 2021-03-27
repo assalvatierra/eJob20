@@ -92,7 +92,7 @@ namespace JobsV1.Controllers
                     sortid = (int)Session["SLFilterID"];
                 else
                 {
-                    sortid = 5;
+                    sortid = 3;
                     Session["SLFilterID"] = 3;
 
                 }
@@ -176,7 +176,7 @@ namespace JobsV1.Controllers
 
                 return View(salesLeads);
             }
-            return RedirectToAction("Index", new { sortid = 5 });
+            return RedirectToAction("Index", new { sortid = 1 });
 
         }
 
@@ -221,7 +221,7 @@ namespace JobsV1.Controllers
                 return View(salesLeads);
             }
 
-            return RedirectToAction("Index", new { sortid = 5 });
+            return RedirectToAction("Index", new { sortid = 1 });
 
         }
 
@@ -255,10 +255,12 @@ namespace JobsV1.Controllers
         // GET: SalesLeads/Create
         public ActionResult Create()
         {
+
             var tmp = new Models.SalesLead();
             tmp.Date = date.GetCurrentDateTime();
             tmp.DtEntered = date.GetCurrentDateTime();
             tmp.EnteredBy = HttpContext.User.Identity.Name;
+
             
             ViewBag.CustomerId = new SelectList(db.Customers.Where(s=>s.Status == "ACT"), "Id", "Name");
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
@@ -281,6 +283,7 @@ namespace JobsV1.Controllers
             {
                 if (CompanyId != null)
                 {
+
                     if (salesLead.EnteredBy.IsNullOrWhiteSpace())
                     {
                         salesLead.EnteredBy = "Guest";
@@ -300,7 +303,7 @@ namespace JobsV1.Controllers
                         UpdateCustActivities(salesLead.Id, salesLead.SalesCode);
                     }
 
-                    return RedirectToAction("Index", new { sortid = 5 , leadid = salesLead.Id});
+                    return RedirectToAction("Index", new { sortid = 1 , leadid = salesLead.Id});
 
                 }
                 else
@@ -613,12 +616,12 @@ namespace JobsV1.Controllers
         public string UpdateLeadStatus(int slId, int StatusId)
         {
             string strMsg;
-
+            string defaultStatusId = "1";
             try
             {
                 db.Database.ExecuteSqlCommand(@"
-                    Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId])
-                    Values('" + date.GetCurrentDateTime().ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + @"');
+                    Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId],[SalesStatusStatusId])
+                    Values('" + date.GetCurrentDateTime().ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + "','"+ defaultStatusId + @"');
                     ");
 
                 db.SaveChanges();

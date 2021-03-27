@@ -47,6 +47,9 @@ values	(1, 'INQUIRY',1), (2,'SALES',2), (3, 'PROCUREMENT',2), (4, 'FOR APPROVAL'
 		(3, 'EVALUATION', 3), (3, 'ACCEPTED', 3), (3, 'ITEM PROCUREMENT', 3),
 		(4, 'APPROVED BY ALDRIN', 1), (4, 'APPROVED BY MARIO', 1);
 
+insert into SalesStatusStatus([Status])
+values ('Active'), ('Inactive');
+
 insert into SalesActCodes([Name],[Desc],[SysCode],[iconPath],[DefaultActStatus])
 values 
 ('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
