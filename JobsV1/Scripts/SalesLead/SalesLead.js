@@ -162,6 +162,8 @@ $('#supItem-Rate').on('input', function () {
 //Update Activity Status
 function UpdateLeadStatus(e, leadId, statusId) {
     $.post("/SalesLeads/PostLeadStatus", { slId: leadId, StatusId: statusId }, (result) => {
+
+        console.log(result);
         if (result == 'False') {
             alert("Unable to Update Status")
         }
@@ -170,14 +172,14 @@ function UpdateLeadStatus(e, leadId, statusId) {
         $(e).parent().removeClass("btn-primary");
         $(e).parent().addClass("btn-success");
 
-        window.location.reload(false);
-    }).fail(() => {
+        //window.location.reload(false);
+    }).fail((result) => {
         //on update failed
         console.log("On Fail");
         console.log(result);
 
-        $(e).parent().removeClass("btn-primary");
-        $(e).parent().addClass("btn-primary");
+        //$(e).parent().removeClass("btn-primary");
+        //$(e).parent().addClass("btn-primary");
 
         //display alert message
         alert("Unable to Update Status")
@@ -201,13 +203,10 @@ function UpdateLeadStatusRemarks(e, leadId, statusId) {
         $("#SalesLeadRemarks-Id").val(leadId);
 
         $("#SalesLeadRemarksModal").modal('show');
-    }).fail(() => {
+    }).fail((result) => {
         //on update failed
         console.log("On Fail");
         console.log(result);
-
-        $(e).parent().removeClass("btn-primary");
-        $(e).parent().addClass("btn-primary");
 
         //display alert message
         alert("Unable to Update Status")

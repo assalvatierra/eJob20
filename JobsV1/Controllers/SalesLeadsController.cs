@@ -52,6 +52,7 @@ namespace JobsV1.Controllers
             //get salesl eads leads
             var salesLeads = sldb.GetSalesLeads((int)sortid);
 
+
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes
@@ -65,6 +66,76 @@ namespace JobsV1.Controllers
             return View(salesLeads.OrderByDescending(s=>s.Date));
         }
 
+
+        // GET: SalesLeads
+        public ActionResult IndexTemp(int? sortid, int? leadId)
+        {
+
+            if (sortid != null)
+                Session["SLFilterID"] = (int)sortid;
+            else
+            {
+                if (Session["SLFilterID"] != null)
+                    sortid = (int)Session["SLFilterID"];
+                else
+                {
+                    sortid = 1;
+                    Session["SLFilterID"] = 1;
+                }
+            }
+
+            //get salesl eads leads
+            var salesLeads = sldb.GetSalesLeads((int)sortid);
+            List<cSalesLead> cSalesLeads = new List<cSalesLead>();
+
+            foreach (var lead in salesLeads)
+            {
+                cSalesLead tempLead = new cSalesLead();
+                tempLead.Id = lead.Id;
+                tempLead.AssignedTo = lead.AssignedTo;
+                tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
+                tempLead.CustEmail = lead.CustEmail;
+                tempLead.CustName = lead.CustName;
+                tempLead.CustomerId = lead.CustomerId;
+                tempLead.CustPhone = lead.CustPhone;
+                tempLead.CustEmail = lead.CustEmail;
+                tempLead.Date = lead.Date;
+                tempLead.Details = lead.Details;
+                tempLead.Price = lead.Price;
+                tempLead.Remarks = lead.Remarks;
+                tempLead.SalesCode = lead.SalesCode;
+                tempLead.SalesActivities = lead.SalesActivities;
+
+                //collections
+                tempLead.SalesLeadCategories = lead.SalesLeadCategories;
+                tempLead.SalesStatus = lead.SalesStatus;
+                tempLead.SalesProcStatuses = lead.SalesProcStatus;
+                tempLead.SalesLeadLinks =  lead.SalesLeadLinks;
+                tempLead.SalesLeadSupActivities = lead.SalesLeadSupActivities;
+                tempLead.SalesLeadItems = lead.SalesLeadItems;
+                tempLead.SalesLeadCompanies = lead.SalesLeadCompanies;
+
+                //activity Status
+                tempLead.ActivityStatusType = GetLastActivityType(lead.Id);
+                tempLead.ActivityStatus = GetLastActivityStatus(lead.Id);
+
+                cSalesLeads.Add(tempLead);
+            }
+
+
+            ViewBag.LeadId = leadId;
+            ViewBag.CurrentFilter = sortid;
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
+                .OrderBy(s => s.SeqNo).ThenBy(s => s.Id).ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.ActTypes = db.CustEntActTypes.ToList();
+            //for adding new item 
+            AddSupItemPartial();
+
+            return View(cSalesLeads.OrderByDescending(s => s.Date));
+        }
+
         public List<SalesStatusCode> GetSalesStatuses()
         {
             var statusList = db.SalesStatusCodes
@@ -73,8 +144,6 @@ namespace JobsV1.Controllers
 
             var limit1 = 500000;
             var limit2 = 3000000;
-
-
 
             return statusList;
         }
@@ -619,11 +688,21 @@ namespace JobsV1.Controllers
             string defaultStatusId = "1";
             try
             {
-                db.Database.ExecuteSqlCommand(@"
-                    Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId],[SalesStatusStatusId])
-                    Values('" + date.GetCurrentDateTime().ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + "','"+ defaultStatusId + @"');
-                    ");
+                //db.Database.ExecuteSqlCommand(@"
+                //    Insert into SalesStatus([DtStatus],[SalesStatusCodeId],[SalesLeadId],[SalesStatusStatusId])
+                //    Values('" + date.GetCurrentDateTime().ToString("MM/dd/yyyy HH:mm:ss") + "','" + StatusId + "','" + slId.ToString() + "','"+ defaultStatusId + @"');
+                //    ");
 
+                //db.SaveChanges();
+
+
+                var salesStatus = new SalesStatus();
+                salesStatus.DtStatus = date.GetCurrentDateTime();
+                salesStatus.SalesLeadId = slId;
+                salesStatus.SalesStatusCodeId = StatusId;
+                salesStatus.SalesStatusStatusId = 1;
+
+                db.SalesStatus.Add(salesStatus);
                 db.SaveChanges();
 
                 strMsg = "Success";
@@ -631,6 +710,8 @@ namespace JobsV1.Controllers
                 switch (StatusId)
                 {
                     case 1: //New Leads
+                        Session["SLFilterID"] = 1;
+                        break;
                     case 2:
                         Session["SLFilterID"] = 2;
                         break;
@@ -787,6 +868,48 @@ namespace JobsV1.Controllers
 
             return "";
         }
+
+
+        public string GetLastActivityType(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var lastActivity = db.CustEntActivities.Where(s => s.SalesCode == salesLead.SalesCode);
+
+            if (lastActivity.FirstOrDefault() != null)
+            {
+                var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                string activityStatus = activity.CustEntActStatu.Status;
+                activityStatus = activity.Type;
+
+                return activityStatus;
+            }
+
+
+            return "";
+        }
+
+
+        public string GetLastActivityStatus(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var lastActivity = db.CustEntActivities.Where(s => s.SalesCode == salesLead.SalesCode);
+
+            if (lastActivity.FirstOrDefault() != null)
+            {
+                var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                string activityStatus = activity.CustEntActStatu.Status;
+
+                return activityStatus;
+            }
+
+
+            return "Click to Update";
+        }
+
 
         #endregion
 

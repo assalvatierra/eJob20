@@ -28,21 +28,36 @@ namespace JobsV1.Models.Class
         public string Materials { get; set; }
     }
 
-    public class cSalesLead
+    public class cSalesLead 
     {
-        public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public string Details { get; set; }
-        public string Remarks { get; set; }
-        public int CustomerId { get; set; }
-        public string CustName { get; set; }
+        public int Id             { get; set; }
+        public DateTime Date      { get; set; }
+        public string Details     { get; set; }
+        public string Remarks     { get; set; }
         public DateTime DtEntered { get; set; }
-        public string EnteredBy { get; set; }
-        public Decimal Price { get; set; }
-        public string AssignedTo { get; set; }
-        public string CustPhone { get; set; }
-        public string CustEmail { get; set; }
-        public int CustEntMainId { get; set; }
+        public string EnteredBy   { get; set; }
+        public Decimal Price      { get; set; }
+        public string AssignedTo  { get; set; }
+        public string CustPhone   { get; set; }
+        public string CustEmail   { get; set; }
+        public int CustEntMainId  { get; set; }
+        public string Company     { get; set; }
+        public string SalesCode   { get; set; }
+        public int CustomerId     { get; set; }
+        public string CustName    { get; set; }
+
+        public string ActivityStatus   { get; set; }
+        public string ActivityStatusType { get; set; }
+
+        public ICollection<SalesStatus> SalesStatus { get; set; }
+        public ICollection<SalesActivity> SalesActivities { get; set; }
+        public ICollection<SalesLeadCategory> SalesLeadCategories { get; set; }
+        public ICollection<SalesProcStatus> SalesProcStatuses { get; set; }
+        public ICollection<SalesLeadLink> SalesLeadLinks { get; set; }
+        public ICollection<SalesLeadItems> SalesLeadItems { get; set; }
+        public ICollection<SalesLeadCompany> SalesLeadCompanies { get; set; }
+        public ICollection<SalesLeadSupActivity> SalesLeadSupActivities { get; set; }
+
 
     }
 
@@ -385,9 +400,36 @@ namespace JobsV1.Models.Class
                                 .ToList();
                     break;
             }
-
             return salesLeads;
         }
 
+    }
+
+    public static class SalesLeadExtensions
+    {
+
+        public static string GetLastActivityStatus(this SalesLead salesLead)
+        {
+            if (salesLead.SalesLeadCompanies.FirstOrDefault() != null)
+            {
+
+                var customerActivities = salesLead.SalesLeadCompanies.FirstOrDefault().CustEntMain.CustEntActivities.ToList();
+
+                var lastActivity = customerActivities.Where(s => s.SalesCode == salesLead.SalesCode);
+
+                if (lastActivity.FirstOrDefault() != null)
+                {
+                    var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                    string activityStatus = activity.CustEntActStatu.Status;
+                    activityStatus = activity.Type;
+
+                    return activityStatus;
+                }
+
+            }
+
+            return "NA";
+        }
     }
 }

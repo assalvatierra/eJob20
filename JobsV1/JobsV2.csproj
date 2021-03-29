@@ -3369,6 +3369,8 @@
     <Content Include="Views\Procurement\_CreateSupRateModal.cshtml" />
     <Content Include="Views\Procurement\_AddItemModal.cshtml" />
     <Content Include="Views\Procurement\_EditSupRateModal.cshtml" />
+    <Content Include="Views\SalesLeads\IndexTemp.cshtml" />
+    <Content Include="Views\SalesLeads\_UpdateActivityStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
