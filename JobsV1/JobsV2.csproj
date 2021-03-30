@@ -2832,7 +2832,7 @@
     <Content Include="Views\SalesLeads\Delete.cshtml" />
     <Content Include="Views\SalesLeads\Details.cshtml" />
     <Content Include="Views\SalesLeads\Edit.cshtml" />
-    <Content Include="Views\SalesLeads\Index.cshtml" />
+    <Content Include="Views\SalesLeads\IndexOld.cshtml" />
     <Content Include="Views\SalesLeads\SalesLeadCat.cshtml" />
     <Content Include="Views\SalesLeads\ListActivityCodes.cshtml" />
     <Content Include="Views\SalesLeads\AddActivityCode.cshtml" />
@@ -3369,7 +3369,7 @@
     <Content Include="Views\Procurement\_CreateSupRateModal.cshtml" />
     <Content Include="Views\Procurement\_AddItemModal.cshtml" />
     <Content Include="Views\Procurement\_EditSupRateModal.cshtml" />
-    <Content Include="Views\SalesLeads\IndexTemp.cshtml" />
+    <Content Include="Views\SalesLeads\Index.cshtml" />
     <Content Include="Views\SalesLeads\_UpdateActivityStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>

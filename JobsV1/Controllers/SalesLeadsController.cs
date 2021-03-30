@@ -33,7 +33,7 @@ namespace JobsV1.Controllers
         private DateClass date = new DateClass();
 
         // GET: SalesLeads
-        public ActionResult Index(int? sortid, int? leadId)
+        public ActionResult IndexOld(int? sortid, int? leadId)
         {
 
             if (sortid != null)
@@ -68,7 +68,7 @@ namespace JobsV1.Controllers
 
 
         // GET: SalesLeads
-        public ActionResult IndexTemp(int? sortid, int? leadId)
+        public ActionResult Index(int? sortid, int? leadId)
         {
 
             if (sortid != null)
@@ -84,44 +84,8 @@ namespace JobsV1.Controllers
                 }
             }
 
-            //get salesl eads leads
-            var salesLeads = sldb.GetSalesLeads((int)sortid);
-            List<cSalesLead> cSalesLeads = new List<cSalesLead>();
-
-            foreach (var lead in salesLeads)
-            {
-                cSalesLead tempLead = new cSalesLead();
-                tempLead.Id = lead.Id;
-                tempLead.AssignedTo = lead.AssignedTo;
-                tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
-                tempLead.CustEmail = lead.CustEmail;
-                tempLead.CustName = lead.CustName;
-                tempLead.CustomerId = lead.CustomerId;
-                tempLead.CustPhone = lead.CustPhone;
-                tempLead.CustEmail = lead.CustEmail;
-                tempLead.Date = lead.Date;
-                tempLead.Details = lead.Details;
-                tempLead.Price = lead.Price;
-                tempLead.Remarks = lead.Remarks;
-                tempLead.SalesCode = lead.SalesCode;
-                tempLead.SalesActivities = lead.SalesActivities;
-
-                //collections
-                tempLead.SalesLeadCategories = lead.SalesLeadCategories;
-                tempLead.SalesStatus = lead.SalesStatus;
-                tempLead.SalesProcStatuses = lead.SalesProcStatus;
-                tempLead.SalesLeadLinks =  lead.SalesLeadLinks;
-                tempLead.SalesLeadSupActivities = lead.SalesLeadSupActivities;
-                tempLead.SalesLeadItems = lead.SalesLeadItems;
-                tempLead.SalesLeadCompanies = lead.SalesLeadCompanies;
-
-                //activity Status
-                tempLead.ActivityStatusType = GetLastActivityType(lead.Id);
-                tempLead.ActivityStatus = GetLastActivityStatus(lead.Id);
-
-                cSalesLeads.Add(tempLead);
-            }
-
+            //get sales leads list
+            var salesLeads = sldb.GetcSalesLeads((int)sortid);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -133,7 +97,7 @@ namespace JobsV1.Controllers
             //for adding new item 
             AddSupItemPartial();
 
-            return View(cSalesLeads.OrderByDescending(s => s.Date));
+            return View(salesLeads.OrderByDescending(s => s.Date));
         }
 
         public List<SalesStatusCode> GetSalesStatuses()
@@ -638,7 +602,8 @@ namespace JobsV1.Controllers
         {
             string strMsg = "";
 
-            if (db.SalesStatus.Where(s => s.SalesLeadId == slId && s.SalesStatusCodeId == StatusId).FirstOrDefault() == null) {
+            if (db.SalesStatus.Where(s => s.SalesLeadId == slId && 
+                s.SalesStatusCodeId == StatusId && s.SalesStatusStatusId == 1).FirstOrDefault() == null) {
 
                 strMsg = UpdateLeadStatus(slId, StatusId);
 
@@ -653,7 +618,8 @@ namespace JobsV1.Controllers
         {
             string strMsg = "";
 
-            if (db.SalesStatus.Where(s => s.SalesLeadId == slId && s.SalesStatusCodeId == StatusId).FirstOrDefault() == null)
+            if (db.SalesStatus.Where(s => s.SalesLeadId == slId && 
+                s.SalesStatusCodeId == StatusId && s.SalesStatusStatusId == 1).FirstOrDefault() == null)
             {
                 strMsg = UpdateLeadStatus(slId, StatusId);
 
@@ -669,7 +635,8 @@ namespace JobsV1.Controllers
         {
             string strMsg = "";
 
-            if (db.SalesStatus.Where(s => s.SalesLeadId == slId && s.SalesStatusCodeId == StatusId).FirstOrDefault() == null)
+            if (db.SalesStatus.Where(s => s.SalesLeadId == slId && 
+                s.SalesStatusCodeId == StatusId && s.SalesStatusStatusId == 1).FirstOrDefault() == null)
             {
                 strMsg = UpdateLeadStatus(slId, StatusId);
             }
@@ -766,6 +733,11 @@ namespace JobsV1.Controllers
             var allowedUsers= db.SalesStatusRestrictions.ToList().Select(s=>s.SalesStatusCodeId);
             var leadStatus = salesLead.SalesStatus.Where(s => allowedUsers.Contains(s.SalesStatusCodeId)).ToList();
 
+            var lastActivityType= sldb.GetLastActivityType(id);
+            string Bidding = "Bidding Only";
+            string BuyingInquiry = "Buying Inquiry";
+            string FirmInquiry = "Firm Inquiry";
+
             if (leadStatus.Count() > 0)
             {
                 foreach (var approved in leadStatus)
@@ -778,7 +750,8 @@ namespace JobsV1.Controllers
             decimal OneMil = (decimal)1000000;
 
             //price filter
-            if (price >= OneMil && price <= ThreeMil)
+            if ((price >= OneMil && price <= ThreeMil && lastActivityType == Bidding) ||
+                (price < OneMil && lastActivityType == FirmInquiry || lastActivityType == BuyingInquiry))
             {
 
                 if (ApprovedCount == 1)
@@ -787,7 +760,9 @@ namespace JobsV1.Controllers
                     UpdateLeadStatus(id, 5);
                 }
             }
-            else if (price >= ThreeMil)
+
+            if ((price >= ThreeMil) ||
+                (price >= OneMil && price <= ThreeMil && (lastActivityType == FirmInquiry || lastActivityType == BuyingInquiry)))
             {
                 if (ApprovedCount == 2)
                 {
@@ -869,47 +844,75 @@ namespace JobsV1.Controllers
             return "";
         }
 
-
-        public string GetLastActivityType(int id)
+        //POST : SalesLead/Revision/{id}
+        //id = SalesLead ID
+        public ActionResult Revision(int id)
         {
+
+            //get salesLead
             var salesLead = db.SalesLeads.Find(id);
 
-            var lastActivity = db.CustEntActivities.Where(s => s.SalesCode == salesLead.SalesCode);
+            //get all status 
+            var leadstatus = salesLead.SalesStatus.Where(s => s.SalesStatusCodeId < 17).ToList();
 
-            if (lastActivity.FirstOrDefault() != null)
+            leadstatus.ForEach(s => {
+                s.SalesStatusStatusId = 2; //inactive for revision
+            });
+
+
+            foreach (var status in leadstatus)
             {
-                var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
-
-                string activityStatus = activity.CustEntActStatu.Status;
-                activityStatus = activity.Type;
-
-                return activityStatus;
+                db.Entry(status).State = EntityState.Modified;
             }
+            //db.Entry(leadstatus).State = EntityState.Modified;
+            db.SaveChanges();
 
 
-            return "";
+            AddSalesStatus(salesLead.Id, 1);    //NEW Lead Status
+
+            return RedirectToAction("Index", new { sortid = 1, leadid = salesLead.Id });
         }
 
 
-        public string GetLastActivityStatus(int id)
+        public bool UpdateLeadActivityStatus(int id, string status)
         {
-            var salesLead = db.SalesLeads.Find(id);
-
-            var lastActivity = db.CustEntActivities.Where(s => s.SalesCode == salesLead.SalesCode);
-
-            if (lastActivity.FirstOrDefault() != null)
+            //get sales lead
+            try
             {
-                var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
 
-                string activityStatus = activity.CustEntActStatu.Status;
+                var salesLead = db.SalesLeads.Find(id);
 
-                return activityStatus;
+                //add sales lead activity to update status
+                CustEntActivity activity = new CustEntActivity();
+                activity.Date = date.GetCurrentDateTime();
+                activity.Assigned = HttpContext.User.Identity.Name;
+                activity.SalesCode = salesLead.SalesCode;
+                activity.ProjectName = salesLead.Details;
+                activity.Amount = salesLead.Price;
+                activity.Status = "Open";
+                activity.Remarks = status;
+                activity.Type = status;
+                activity.ActivityType = "Status Update";
+                activity.SalesLeadId = id;
+                activity.CustEntActStatusId = 1;
+                activity.CustEntActActionStatusId = 1;
+                activity.CustEntActActionCodesId = 1;
+
+                if (salesLead.SalesLeadCompanies.FirstOrDefault() != null) {
+                    activity.CustEntMainId = salesLead.SalesLeadCompanies.FirstOrDefault().CustEntMainId;
+                }
+
+                db.CustEntActivities.Add(activity);
+                db.SaveChanges();
+                return true;
+
+            }
+            catch 
+            {
+                return false;
             }
 
-
-            return "Click to Update";
         }
-
 
         #endregion
 
@@ -1179,6 +1182,27 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index", new { leadId = custAct.SalesLeadId });
         }
 
+        [HttpPost]
+        public bool PostCustActivityDone(int id)
+        {
+            try
+            {
+                var custAct = db.CustEntActivities.Find(id);
+                custAct.CustEntActActionStatusId = 2;
+
+                db.Entry(custAct).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+
+                return false;
+            }
+
+        }
+
+
         public ActionResult CustActivityRemove(int id)
         {
             //var slid = db.SalesActivities.Where(s => s.Id == id).FirstOrDefault().SalesLeadId;
@@ -1195,6 +1219,28 @@ namespace JobsV1.Controllers
             //db.SaveChanges();
 
             return RedirectToAction("Index", new { leadId = custAct.SalesLeadId });
+        }
+
+
+        [HttpPost]
+        public bool PostCustActivityRemove(int id)
+        {
+            try
+            {
+                var custAct = db.CustEntActivities.Find(id);
+
+                custAct.CustEntActActionStatusId = 3;
+
+                db.Entry(custAct).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
         }
 
         public ActionResult CustActivitiesPartial(string salesCode)

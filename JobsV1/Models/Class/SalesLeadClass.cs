@@ -90,6 +90,7 @@ namespace JobsV1.Models.Class
                     status = getStatus(lead.Id)
                 });
             }
+
             return leadsList;
         }
         
@@ -203,19 +204,19 @@ namespace JobsV1.Models.Class
             {
                 case 1:// Inquiry
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 0 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo < 3 )
                                 .ToList();
                     break;
                 case 2:// Sales
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 1)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 1 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 2 )
                                 .ToList();
                     break;
                 case 3:// Procurement
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 2)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 2 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 3 )
                                 .ToList();
                     break;
@@ -223,35 +224,35 @@ namespace JobsV1.Models.Class
                 case 4:
                     // For Approval
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 3)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 3 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 4 )
                                 .ToList();
                     break;
                 case 5:
                     // Approved
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5 ) 
                                 .ToList();
                     break;
                 case 6:
                     // Awarded
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 5)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 5 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 6) 
                                 .ToList();
                     break;
                 case 7:
                     // Rejected 
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 6)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 6 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 7)
                                 .ToList();
                     break;
                 case 8:
                     // Closed 
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 7)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 7 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 8)
                                 .ToList();
                     break;
@@ -284,7 +285,7 @@ namespace JobsV1.Models.Class
                 case 2:
                 case 3:// Procurement
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 2)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 2 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 3)
                                 .ToList();
                     break;
@@ -292,35 +293,35 @@ namespace JobsV1.Models.Class
                 case 4:
                     // For Approval
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 3)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 3 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 4)
                                 .ToList();
                     break;
                 case 5:
                     // Approved
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 4 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 5)
                                 .ToList();
                     break;
                 case 6:
                     // Awarded
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 5)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 5 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 6)
                                 .ToList();
                     break;
                 case 7:
                     // Rejected 
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 6)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCodeId > 6 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 7)
                                 .ToList();
                     break;
                 case 8:
                     // Closed 
                     salesLeads = db.SalesLeads
-                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 7)
+                                .Where(s => s.SalesStatus.Where(ss => ss.SalesStatusCode.SeqNo > 7 && ss.SalesStatusStatusId == 1)
                                 .OrderByDescending(ss => ss.SalesStatusCode.SeqNo).FirstOrDefault().SalesStatusCode.SeqNo == 8)
                                 .ToList();
                     break;
@@ -402,6 +403,163 @@ namespace JobsV1.Models.Class
             }
             return salesLeads;
         }
+
+
+        public List<cSalesLead> GetcSalesLeads(int sortId)
+        {
+
+            var salesLeads = GetSalesLeads(sortId);
+
+
+            List<cSalesLead> cSalesLeads = new List<cSalesLead>();
+
+            foreach (var lead in salesLeads)
+            {
+                cSalesLead tempLead = new cSalesLead();
+                tempLead.Id = lead.Id;
+                tempLead.AssignedTo = lead.AssignedTo;
+                tempLead.DtEntered = lead.DtEntered;
+
+                tempLead.CustomerId = lead.CustomerId;
+                tempLead.CustEmail = lead.CustEmail;
+                tempLead.CustName = lead.CustName;
+                tempLead.CustPhone = lead.CustPhone;
+                tempLead.CustEmail = lead.CustEmail;
+
+                tempLead.Date = lead.Date;
+                tempLead.Details = lead.Details;
+                tempLead.Price = lead.Price;
+                tempLead.Remarks = lead.Remarks;
+                tempLead.SalesCode = lead.SalesCode;
+
+                //collections
+                tempLead.SalesActivities = lead.SalesActivities;
+                tempLead.SalesLeadCategories = lead.SalesLeadCategories;
+                tempLead.SalesStatus = lead.SalesStatus;
+                tempLead.SalesProcStatuses = lead.SalesProcStatus;
+                tempLead.SalesLeadLinks = lead.SalesLeadLinks;
+                tempLead.SalesLeadSupActivities = lead.SalesLeadSupActivities;
+                tempLead.SalesLeadItems = lead.SalesLeadItems;
+                tempLead.SalesLeadCompanies = lead.SalesLeadCompanies;
+
+                //activity Status
+                tempLead.ActivityStatusType = GetLastActivityType(lead.Id);
+                tempLead.ActivityStatus = GetLastActivityStatus(lead.Id);
+
+                if (lead.SalesLeadCompanies.FirstOrDefault() != null)
+                {
+                    tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
+                }
+                else
+                {
+                    tempLead.Company = "";
+                }
+
+                cSalesLeads.Add(tempLead);
+            }
+
+            return cSalesLeads;
+        }
+
+
+
+        public List<cSalesLead> GetcProcLeads(int sortId)
+        {
+
+            var salesLeads = GetProcurementLeads(sortId);
+
+
+            List<cSalesLead> cSalesLeads = new List<cSalesLead>();
+
+            foreach (var lead in salesLeads)
+            {
+                cSalesLead tempLead = new cSalesLead();
+                tempLead.Id = lead.Id;
+                tempLead.AssignedTo = lead.AssignedTo;
+                tempLead.DtEntered = lead.DtEntered;
+
+                tempLead.CustomerId = lead.CustomerId;
+                tempLead.CustEmail = lead.CustEmail;
+                tempLead.CustName = lead.CustName;
+                tempLead.CustPhone = lead.CustPhone;
+                tempLead.CustEmail = lead.CustEmail;
+
+                tempLead.Date = lead.Date;
+                tempLead.Details = lead.Details;
+                tempLead.Price = lead.Price;
+                tempLead.Remarks = lead.Remarks;
+                tempLead.SalesCode = lead.SalesCode;
+
+                //collections
+                tempLead.SalesActivities = lead.SalesActivities;
+                tempLead.SalesLeadCategories = lead.SalesLeadCategories;
+                tempLead.SalesStatus = lead.SalesStatus;
+                tempLead.SalesProcStatuses = lead.SalesProcStatus;
+                tempLead.SalesLeadLinks = lead.SalesLeadLinks;
+                tempLead.SalesLeadSupActivities = lead.SalesLeadSupActivities;
+                tempLead.SalesLeadItems = lead.SalesLeadItems;
+                tempLead.SalesLeadCompanies = lead.SalesLeadCompanies;
+
+                //activity Status
+                tempLead.ActivityStatusType = GetLastActivityType(lead.Id);
+                tempLead.ActivityStatus = GetLastActivityStatus(lead.Id);
+
+                if (lead.SalesLeadCompanies.FirstOrDefault() != null)
+                {
+                    tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
+                }
+                else
+                {
+                    tempLead.Company = "";
+                }
+
+                cSalesLeads.Add(tempLead);
+            }
+
+            return cSalesLeads;
+        }
+
+
+        public string GetLastActivityType(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var lastActivity = db.CustEntActivities.Where(s => s.SalesCode == salesLead.SalesCode);
+
+            if (lastActivity.FirstOrDefault() != null)
+            {
+                var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                string activityStatus = activity.CustEntActStatu.Status;
+                activityStatus = activity.Type;
+
+                return activityStatus;
+            }
+
+
+            return "";
+        }
+
+
+        public string GetLastActivityStatus(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var lastActivity = db.CustEntActivities.Where(s => s.SalesCode == salesLead.SalesCode);
+
+            if (lastActivity.FirstOrDefault() != null)
+            {
+                var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                string activityStatus = activity.CustEntActStatu.Status;
+
+                return activityStatus;
+            }
+
+
+            return "Click to Update Status";
+        }
+
 
     }
 

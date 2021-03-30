@@ -24,8 +24,10 @@
 
                 <span style="color:maroon;"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks </span>
                 <span style="font:status-bar;color:gray;"> @tmpAct.Date.ToString("MMM-dd-yyyy")</span>
-                @Html.ActionLink("Done |", "CustActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", }) 
-                @Html.ActionLink(" [x]", "CustActivityRemove", new { id = tmpAct.Id })
+                <span class="cursor-hand" onclick="CustActivityDone(@tmpAct.Id)"> Done |</span>
+                <span class="cursor-hand" onclick="CustActivityRemove(@tmpAct.Id)"> [x] </span>
+                @*@Html.ActionLink("Done |", "CustActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })
+                @Html.ActionLink(" [x]", "CustActivityRemove", new { id = tmpAct.Id })*@
 
                 <br />
             }
@@ -36,7 +38,7 @@
                 <img src=@Url.Content(icon)
                      alt=@icon height="16"
                      title=@icon />
-                <span style="color:gray;">@tmpAct.CustEntActActionCode.Name - @tmpAct.Remarks </span>
+                <span style="color:gray;"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks </span>
                 <span style="font:status-bar;color:gray;"> @tmpAct.Date.ToString("MMM-dd-yyyy")</span>
                 <br />
             }
@@ -47,7 +49,7 @@
                 <img src=@Url.Content(icon)
                      alt=@icon height="16"
                      title=@icon />
-                <span style="color:gray;text-decoration:line-through">@tmpAct.CustEntActActionCode.Name - @tmpAct.Remarks </span>
+                <span style="color:gray;text-decoration:line-through"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks</span>
                 <span style="font:status-bar;color:gray;"> @tmpAct.Date.ToString("MMM-dd-yyyy")</span>
                 <br />
             }

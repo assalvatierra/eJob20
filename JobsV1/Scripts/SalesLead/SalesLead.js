@@ -171,7 +171,9 @@ function UpdateLeadStatus(e, leadId, statusId) {
         //on update success
         $(e).parent().removeClass("btn-primary");
         $(e).parent().addClass("btn-success");
-
+        if (statusId == 15 || statusId == 16 || statusId == 5) {
+            window.location.reload(false);
+        }
         //window.location.reload(false);
     }).fail((result) => {
         //on update failed

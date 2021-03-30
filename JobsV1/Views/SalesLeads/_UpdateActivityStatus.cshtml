@@ -1,6 +1,4 @@
-﻿@{ 
-
-}
+﻿
 
 <!-- Modal of Items -->
 <div class="modal fade" id="UpdateActivityStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -17,12 +15,11 @@
                 </div>
 
                 <div class="list-group">
-
                     @foreach (var type in ViewBag.ActTypes as IEnumerable<JobsV1.Models.CustEntActType>)
                     {
-                        <button class="list-group-item ">
+                        <button class="list-group-item" onclick="UpdateSalesLeadActivityStatus('@type.Type')">
                            @type.Type
-                        </button>
+                        </button>     
                     }
                 </div>
             </div>
