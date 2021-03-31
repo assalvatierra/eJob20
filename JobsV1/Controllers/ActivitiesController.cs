@@ -237,7 +237,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SupplierActsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount,Type,ProjName,ActivityType,SupplierActStatusId,SupplierActActionCodeId,SupplierActActionStatusId")] SupplierActivity supplierActivity)
+        public ActionResult SupplierActsEdit([Bind(Include = "Id,Code,DtActivity,Assigned,Remarks,SupplierId,Amount,Currency,Type,ProjName,ActivityType,SupplierActStatusId,SupplierActActionCodeId,SupplierActActionStatusId")] SupplierActivity supplierActivity)
         {
             if (ModelState.IsValid)
             {

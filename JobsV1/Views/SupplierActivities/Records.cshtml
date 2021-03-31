@@ -72,7 +72,8 @@
                 <td>
                     @if (item.Amount != null)
                     {
-                        @Decimal.Parse(item.Amount.ToString()).ToString("N0");
+                        @Decimal.Parse(item.Amount.ToString()).ToString("N0"); 
+                        <span>&nbsp;</span> @item.Currency
                     }
                 </td>
                 <td>

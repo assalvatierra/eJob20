@@ -33,6 +33,7 @@ namespace JobsV1.Models
         public int SupplierActStatusId { get; set; }
         public int SupplierActActionCodeId { get; set; }
         public int SupplierActActionStatusId { get; set; }
+        public string Currency { get; set; }
     
         public virtual Supplier Supplier { get; set; }
         public virtual SupplierActStatus SupplierActStatu { get; set; }

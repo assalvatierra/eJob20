@@ -77,31 +77,45 @@ namespace JobsV1.Models.Class
         private JobDBContainer db = new JobDBContainer();
         public List<CompanyLeadsTbl> getCompanyLeads(int companyId)
         {
-            List<CompanyLeadsTbl> leadsList = new List<CompanyLeadsTbl>();
-            var leadcompany = db.SalesLeadCompanies.Where(s => s.CustEntMainId == companyId).ToList();
-
-            foreach (var companylead in leadcompany)
+            try
             {
-                var lead = db.SalesLeads.Find(companylead.Id);
-                leadsList.Add(new CompanyLeadsTbl {
-                    id = lead.Id,
-                    Desc = lead.Details,
-                    Remarks = lead.Remarks,
-                    status = getStatus(lead.Id)
-                });
-            }
+                List<CompanyLeadsTbl> leadsList = new List<CompanyLeadsTbl>();
 
-            return leadsList;
+                var leadcompany = db.SalesLeadCompanies.Where(s => s.CustEntMainId == companyId).ToList();
+
+                foreach (var companylead in leadcompany)
+                {
+                    var lead = db.SalesLeads.Find(companylead.Id);
+                    leadsList.Add(new CompanyLeadsTbl {
+                        id = lead.Id,
+                        Desc = lead.Details,
+                        Remarks = lead.Remarks,
+                        status = getStatus(lead.Id)
+                    });
+                }
+
+                return leadsList;
+            }
+            catch
+            {
+                return new List<CompanyLeadsTbl>();
+            }
         }
         
         public string getStatus(int salesLeadId)
         {
+            try
+            {
+                var salesLeads = db.SalesStatus.Where(s => s.SalesLeadId == salesLeadId).OrderByDescending(s => s.Id).FirstOrDefault();
 
-            var salesLeads = db.SalesStatus.Where(s => s.SalesLeadId == salesLeadId).OrderByDescending(s => s.Id).FirstOrDefault();
+                var tempstatus = salesLeads.SalesStatusCode.Name;
 
-            var tempstatus = salesLeads.SalesStatusCode.Name;
-
-            return tempstatus;
+                return tempstatus;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
 

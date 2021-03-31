@@ -219,6 +219,14 @@
                                                         <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
                                                     </button>
                                                 }
+                                                else
+                                                {
+                                                    //disable status
+                                                    <span>&#187;</span>
+                                                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                        <a class="link-white link-status"> @salesstat.Name </a>
+                                                    </button>
+                                                }
                                             }
                                             else
                                             {

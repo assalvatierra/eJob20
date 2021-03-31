@@ -211,7 +211,7 @@ namespace JobsV1.Controllers
         //POST: /Procurement/AddProcActivityCode
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddProcActivityCode([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Remarks,SupplierId,Amount,Type,ActivityType,SupplierActStatusId,ProjName,SupplierActActionCodeId")] SupplierActivity supplierActivity, int? slId, int? ActCodeId)
+        public ActionResult AddProcActivityCode([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Currency,Remarks,SupplierId,Amount,Type,ActivityType,SupplierActStatusId,ProjName,SupplierActActionCodeId")] SupplierActivity supplierActivity, int? slId, int? ActCodeId)
         {
             if (ModelState.IsValid)
             {

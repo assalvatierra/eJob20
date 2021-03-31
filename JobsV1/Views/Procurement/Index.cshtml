@@ -166,6 +166,13 @@
                                             <a class="link-white link-status"> @salesstat.Name </a>
                                         </button>
                                     }
+                                    else
+                                    {
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
+                                    }
 
 
                                 }

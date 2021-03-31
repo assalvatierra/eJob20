@@ -126,10 +126,17 @@ namespace JobsV1.Controllers
             //contacts 
             var companyContactEntity = db.CustEntities.Where(c => c.CustEntMainId == id).Select(c => c.CustomerId).ToList();
 
+            List<CompanyLeadsTbl> salesLeads = new List<CompanyLeadsTbl>();
+
+            if (slc.getCompanyLeads((int)id) != null)
+            {
+                salesLeads = slc.getCompanyLeads((int)id);
+            }
+
             //ViewBags
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").OrderBy(s=>s.Name).ToList() ?? new List<Customer>();
             ViewBag.CompanyJobs = getJobList(id,top,sdate,edate,status);
-            ViewBag.SalesLeads = slc.getCompanyLeads((int)id) ?? new List<CompanyLeadsTbl>();
+            ViewBag.SalesLeads = salesLeads;
             ViewBag.categories = db.CustCategories.ToList();
             ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).OrderByDescending(s => s.Name).ToList(), "Id", "Name", custEntMain.CityId);
             ViewBag.City = db.Cities.Find(custEntMain.CityId) != null ? db.Cities.Find(custEntMain.CityId).Name : "NA";

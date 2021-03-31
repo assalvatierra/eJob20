@@ -1965,6 +1965,7 @@
     <Property Name="SupplierActStatusId" Type="int" Nullable="false" />
     <Property Name="SupplierActActionCodeId" Type="int" Nullable="false" />
     <Property Name="SupplierActActionStatusId" Type="int" Nullable="false" />
+    <Property Name="Currency" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
   <EntityType Name="SupDocuments">
     <Key>
@@ -7729,6 +7730,7 @@
           <NavigationProperty Name="SupplierActActionStatu" Relationship="JobDB.SupplierActActionStatusSupplierActivity" FromRole="SupplierActivity" ToRole="SupplierActActionStatus" />
           <Property Name="SupplierActActionStatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SalesLeadSupActivities" Relationship="JobDB.SalesLeadSupActivitySupplierActivity" FromRole="SupplierActivity" ToRole="SalesLeadSupActivity" />
+          <Property Name="Currency" Type="String" Nullable="true" MaxLength="20" />
         </EntityType>
         <Association Name="SupplierSupplierActivity">
           <End Type="JobDB.Supplier" Role="Supplier" Multiplicity="1" />
@@ -10079,6 +10081,7 @@
           <ScalarProperty Name="SupplierActStatusId" ColumnName="SupplierActStatusId" />
           <ScalarProperty Name="SupplierActActionCodeId" ColumnName="SupplierActActionCodeId" />
           <ScalarProperty Name="SupplierActActionStatusId" ColumnName="SupplierActActionStatusId" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
