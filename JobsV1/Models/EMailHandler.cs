@@ -189,8 +189,8 @@ namespace JobsV1.Models
 
                 SmtpServer.Port = 587;          //default smtp port
                 SmtpServer.Credentials = new System.Net.NetworkCredential(
-                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"],
-                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]);
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpEmail"], 
+                    System.Web.Configuration.WebConfigurationManager.AppSettings["SmtpPass"]); 
                 SmtpServer.EnableSsl = false;   //enable for gmail smtp server
                 System.Net.ServicePointManager.Expect100Continue = false;
                 SmtpServer.Send(msg);           //send message

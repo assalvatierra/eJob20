@@ -160,6 +160,7 @@
     <EntitySet Name="SalesStatusRestrictions" EntityType="JobDB.Store.SalesStatusRestrictions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesStatusAllowedUsers" EntityType="JobDB.Store.SalesStatusAllowedUsers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesStatusStatus" EntityType="JobDB.Store.SalesStatusStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Currencies" EntityType="JobDB.Store.Currencies" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -2376,6 +2377,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="Currencies">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="10" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -5016,6 +5024,7 @@
             <End Role="SalesStatusStatus" EntitySet="SalesStatusStatus" />
             <End Role="SalesStatus" EntitySet="SalesStatus" />
           </AssociationSet>
+          <EntitySet Name="Currencies" EntityType="JobDB.Currency" />
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -8785,6 +8794,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10538,6 +10554,14 @@
         <MappingFragment StoreEntitySet="SalesStatusStatus">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Currencies">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.Currency)">
+        <MappingFragment StoreEntitySet="Currencies">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

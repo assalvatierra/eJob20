@@ -127,9 +127,9 @@
             <td>
                 @if (item.Amount != null)
                 {
-                    @(((Decimal)item.Amount).ToString("N0"))
-
-                    <span>&nbsp;</span>@item.Currency
+                    <span>
+                    @(((Decimal)item.Amount).ToString("N0"))&nbsp;@item.Currency
+                    </span>
                 }
             </td>
             <td>

@@ -227,6 +227,7 @@ namespace JobsV1.Controllers
             ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
             ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
             ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", supplierActivity.SupplierActActionStatusId);
+            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name");
 
             ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
@@ -252,6 +253,7 @@ namespace JobsV1.Controllers
             ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
             ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
             ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", supplierActivity.SupplierActActionStatusId);
+            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name");
             ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
         }

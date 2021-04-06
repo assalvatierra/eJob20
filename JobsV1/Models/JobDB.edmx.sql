@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/31/2021 17:53:49
+-- Date Created: 04/05/2021 13:47:56
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -948,6 +948,9 @@ IF OBJECT_ID(N'[dbo].[SalesStatusAllowedUsers]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SalesStatusStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SalesStatusStatus];
+GO
+IF OBJECT_ID(N'[dbo].[Currencies]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Currencies];
 GO
 
 -- --------------------------------------------------
@@ -2550,6 +2553,13 @@ CREATE TABLE [dbo].[SalesStatusStatus] (
 );
 GO
 
+-- Creating table 'Currencies'
+CREATE TABLE [dbo].[Currencies] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(10)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3475,6 +3485,12 @@ GO
 -- Creating primary key on [Id] in table 'SalesStatusStatus'
 ALTER TABLE [dbo].[SalesStatusStatus]
 ADD CONSTRAINT [PK_SalesStatusStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Currencies'
+ALTER TABLE [dbo].[Currencies]
+ADD CONSTRAINT [PK_Currencies]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

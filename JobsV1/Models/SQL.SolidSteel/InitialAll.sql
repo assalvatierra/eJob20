@@ -33,6 +33,9 @@ values
 ('Apo ni Lola' ,'','1 '),
 ('Aldivenco Shopping Center' ,'','1 ');
 
+insert into Currencies([Name])
+values ('PHP'),('USD');
+
 
 -- ------------------------------------------------------------
 -- Sales Lead Configuration

@@ -808,6 +808,9 @@
     <Compile Include="Models\Country.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Currency.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustCat.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>

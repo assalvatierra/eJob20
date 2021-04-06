@@ -185,6 +185,7 @@ namespace JobsV1.Controllers
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
             ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type");
             ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status");
+            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name");
 
             SupplierActivity supAct = new SupplierActivity();
             supAct.DtActivity = date.GetCurrentDateTime();
@@ -214,6 +215,7 @@ namespace JobsV1.Controllers
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
             ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
             ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name");
             return View(supplierActivity);
         }
 
@@ -238,6 +240,7 @@ namespace JobsV1.Controllers
             ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
             ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
             ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", supplierActivity.SupplierActActionStatusId);
+            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name", supplierActivity.Currency);
 
             ViewBag.Id = supplierActivity.SupplierId;
             return View(supplierActivity);
@@ -266,6 +269,7 @@ namespace JobsV1.Controllers
             ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
             ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
             ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", supplierActivity.SupplierActActionStatusId);
+            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name", supplierActivity.Currency);
 
             return View(supplierActivity);
         }
