@@ -6,8 +6,9 @@
     var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     string USER = ViewBag.User;
+    bool ISADMIN = ViewBag.IsAdmin;
 
-    
+
     var BIDDING = "Bidding Only";
     var FIRM = "Firm Inquiry";
     var BUYING = "Buying Inquiry";
@@ -30,10 +31,10 @@
         .cursor-hand:hover {
             text-decoration: underline;
         }
-        
-        .filter-link{
-            margin-right:5px;
-        }
+
+    .filter-link {
+        margin-right: 5px;
+    }
 </style>
 
 <div class="view-header">
@@ -67,7 +68,7 @@
         </span>
         <span class="label label-primary filter-link">
             @Html.ActionLink("Rejected", "Index", new { sortid = 7 }, new { @id = "status-7", @class = "link-white" })
-            @{Html.RenderAction("GetLeadStatusCount", "SalesLeads", new { statusId = 7 });}  
+            @{Html.RenderAction("GetLeadStatusCount", "SalesLeads", new { statusId = 7 });}
         </span>
         <span class="label label-primary filter-link">
             @Html.ActionLink("Closed", "Index", new { sortid = 8 }, new { @id = "status-8", @class = "link-white" })
@@ -90,7 +91,7 @@
             }
 
 
-            <tr >
+            <tr>
                 <td id="lead@(item.Id)" class="td-no-border" style="padding-right: 20px;">
                     <div style="text-align:center;" class="date-box">
                         <span style="color:darkblue; font: bold 12px arial, verdana;">@item.Date.ToString("MMM-yyyy")</span>
@@ -101,6 +102,25 @@
                             <br /><br /><span style="color:red; font: normal 18px arial, verdana;">@item.Price.ToString("##,###")</span>
                         }
                     </div>
+
+                    <p>
+                        <nobr>
+                            @if (item.ItemWeight != null)
+                            {
+                                <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
+                                    <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
+                                    @item.ItemWeight&nbsp;TONS
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
+                                    <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
+                                    Update Weight
+                                </a>
+                            }
+                        </nobr>
+                    </p>
 
                     @{
                         foreach (var status in item.SalesStatus)
@@ -322,8 +342,8 @@
                             }
                         </span>
 
-                        <span class="label label-default" style="margin-left:5px;"> 
-                            Status: @{Html.RenderAction("GetLastestActivityType", "SalesLeads",new { id = item.Id }); } 
+                        <span class="label label-default" style="margin-left:5px;">
+                            Status: @{Html.RenderAction("GetLastestActivityType", "SalesLeads", new { id = item.Id }); }
                         </span>
 
 
@@ -343,10 +363,13 @@
                         <br />
 
                         <!-- Activities -->
+                        <p style="color:darkred;font-weight:600;margin-top:10px;margin-left:0px;padding-left:0px;"> 
+                            Procurement Activities 
+                        </p>
                         <span style="font:bold 8px, arial, verdana; color: royalblue;">
                             @foreach (var procActGroup in item.SalesLeadSupActivities.GroupBy(s => s.SupplierActivity.Supplier.Name))
                             {
-                                <br /><span style="color:darkred;font-weight:600;padding-top:10px;"> @procActGroup.Key </span><br />
+                               <span style="color:darkred;font-weight:600;padding-top:10px;"> @procActGroup.Key </span><br />
                                 foreach (var procAct in procActGroup)
                                 {
                                     var tmpAct = procAct.SupplierActivity;
@@ -405,6 +428,22 @@
                             <span> Please provide sales code to add procurement activity </span>
                         }
 
+                        <!-- ADMIN ONLY -->
+                        <!-- Customer Activites  -->
+
+                        @if (ISADMIN)
+                        {
+                            <br />
+                            <p style="color:darkred;font-weight:600;margin-top:10px;margin-left:0px;padding-left:0px;"> Sales Activities </p>
+
+                            if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
+                            {
+                                var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
+
+                                Html.RenderAction("CustActivitiesPartial", "SalesLeads", new { salesCode = item.SalesCode });
+
+                            }
+                        }
 
                         <!-- Items with Prices -->
                         <br /><br />
@@ -426,7 +465,7 @@
                                             <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
                                         </b>
 
-                                        <span class="pull-right" hidden>
+                                        <span class="pull-right">
                                             <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
                                             <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
                                         </span>
@@ -469,8 +508,14 @@
                                                 <span> ( </span>
                                                 <span style="font:normal 11px arial,verdana;">
                                                     Validity :
-                                                    @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
-                                                    @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
+                                                    @{DateTime tempDate, tempDate2; }
+                                                    @if (DateTime.TryParse(supItem.SupplierItemRate.DtValidFrom, out tempDate) &&
+                                                        DateTime.TryParse(supItem.SupplierItemRate.DtValidTo, out tempDate2))
+                                                    {
+
+                                                        @tempDate.ToString("MMM dd yyyy") <span>-</span>
+                                                        @tempDate2.ToString("MMM dd yyyy")
+                                                    }
                                                 </span>
                                                 <span> ) </span>
                                                 <span>
@@ -498,6 +543,9 @@
 
                                                 </span>
                                             </p>
+                                            <p style="margin-top:-5px;margin-left:10px;font-size:12px;color:gray;">
+                                                Procured by: @supItem.SupplierItemRate.ProcBy
+                                            </p>
                                         }
                                     </div>
 
@@ -509,7 +557,7 @@
                         <br />
 
                         <!--Add Item-->
-                        @*<a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)"> [ Add Item ] </a>*@
+                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)"> [ Add Item ] </a>
 
                         <br />
                         <span style="font: status-bar; color:gray;">
@@ -542,6 +590,7 @@
 @{Html.RenderPartial("_AddItemRateModal", null, new ViewDataDictionary { { "ItemSuppliers", ViewBag.cItemSupplier } });}
 @{Html.RenderPartial("_CreateSupRateModal", null, null);}
 @{Html.RenderPartial("_EditSupRateModal", null, null);}
+@{Html.RenderPartial("_AddLeadWeight");}
 
 <div class="view-content" hidden>
 
@@ -584,7 +633,7 @@
         });
 
         //Status Filters
-        
+
         if(@((int)Session["SLFilterID"]) != null){
             var statusId = @((int)Session["SLFilterID"]);
             switch(statusId){
@@ -612,6 +661,30 @@
                 })
                 .fail((err) => {
                     alert("Unable to Update Sales Lead Item Status");
+                });
+        }
+
+
+
+        function ShowSalesLeadWeight(leadId) {
+            $("#AddLeadWeight-LeadId").val(leadId);
+
+            $("#AddLeadWeightModal").modal("show");
+        }
+
+        function Submit_AddSalesLeadWeight() {
+            var leadId = $("#AddLeadWeight-LeadId").val();
+            var input_weight = $("#AddLeadWeight-Weight").val();
+
+            console.log("leadID:" + leadId);
+            console.log("input_weight:" + input_weight);
+
+            $.post("/SalesLeads/UpdateLeadWeight", { id: leadId, weight : input_weight })
+                .done(() => {
+                    window.location.reload(false);
+                })
+                .fail(() => {
+                    console.log("Unable to update weight");
                 });
         }
 

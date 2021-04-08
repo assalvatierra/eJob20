@@ -45,6 +45,7 @@ namespace JobsV1.Models.Class
         public string SalesCode   { get; set; }
         public int CustomerId     { get; set; }
         public string CustName    { get; set; }
+        public string ItemWeight  { get; set; }
 
         public string ActivityStatus   { get; set; }
         public string ActivityStatusType { get; set; }
@@ -445,8 +446,9 @@ namespace JobsV1.Models.Class
                 tempLead.Price = lead.Price;
                 tempLead.Remarks = lead.Remarks;
                 tempLead.SalesCode = lead.SalesCode;
+                tempLead.ItemWeight = lead.ItemWeight;
 
-                //collections
+                //Collections
                 tempLead.SalesActivities = lead.SalesActivities;
                 tempLead.SalesLeadCategories = lead.SalesLeadCategories;
                 tempLead.SalesStatus = lead.SalesStatus;
@@ -503,6 +505,7 @@ namespace JobsV1.Models.Class
                 tempLead.Price = lead.Price;
                 tempLead.Remarks = lead.Remarks;
                 tempLead.SalesCode = lead.SalesCode;
+                tempLead.ItemWeight = lead.ItemWeight;
 
                 //collections
                 tempLead.SalesActivities = lead.SalesActivities;

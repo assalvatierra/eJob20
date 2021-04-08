@@ -69,7 +69,7 @@ insert into SalesStatusAllowedUsers ([User])
 values ('admin@gmail.com'),('jahdielsvillosa@gmail.com');
 
 insert into SalesStatusRestrictions([SalesStatusCodeId],[SalesStatusAllowedUsersId])
-values (11, 1), (12 ,2);
+values (15, 1), (16 ,2);
 
 insert into SalesActStatus([Name])
 values ('REQUEST'),('DONE'),('SUSPEND');
@@ -105,7 +105,8 @@ values
 ('MEETING-DONE','Supplier Meeting done', 'SUP-MEETING-DONE','~/Images/SalesLead/meeting102.jpg',3,6),   
 ('AWARDED','Awarded', 'AWARDED','~/Images/SalesLead/Awarded.png',4,7),   
 ('FOR-APPROVAL','For Approval by MGT', 'FOR-APPROVAL-MGT','~/Images/SalesLead/ShakeHands.png',4,8),   
-('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2,9); 
+('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2,9),
+('STATUS','Status Update','Status','~/Images/SalesLead/Quotation101.png',1,10); 
 
 insert into SalesLeadQuotedItemStatus([Status])
 values ('PENDING'), ('ACCEPTED'), ('CANCELLED');
@@ -586,7 +587,8 @@ values
 ('FOR-MGT','For Management Approval','FOR APPROVAL','~/Images/SalesLead/meeting102.jpg',1,6),
 ('PO-READY','Ready for PO','PO READY','~/Images/SalesLead/Quotation101.png',1,7),
 ('AWARDED','Awarded','AWARDED','~/Images/SalesLead/Awarded.png',2,8),
-('CLOSED','Closed','CLOSED','~/Images/SalesLead/Closed.png',2,9); 
+('CLOSED','Closed','CLOSED','~/Images/SalesLead/Closed.png',2,9),
+('STATUS','Status Update','Status','~/Images/SalesLead/Quotation101.png',1,10); 
 
 insert into CustEntActActionStatus([ActionStatus])
 values ('REQUEST'),('DONE'),('SUSPEND');

@@ -94,6 +94,8 @@ namespace JobsV1.Controllers
                 .OrderBy(s => s.SeqNo).ThenBy(s => s.Id).ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.ActTypes = db.CustEntActTypes.ToList();
+            ViewBag.IsAdmin = IsUserAdmin();
+
             //for adding new item 
             AddSupItemPartial();
 
@@ -691,14 +693,20 @@ namespace JobsV1.Controllers
                     case 5:
                         Session["SLFilterID"] = 5;
                         break;
-                    case 6:
+                    case 6: 
+                        //Awarded
                         Session["SLFilterID"] = 6;
+                        AddActivityStatus(slId, "Awarded", "Awarded");
                         break;
                     case 7:
+                        //Rejected
                         Session["SLFilterID"] = 7;
+                        AddActivityStatus(slId, "Rejected", "Rejected");
                         break;
                     case 8:
+                        //Closed
                         Session["SLFilterID"] = 8;
+                        AddActivityStatus(slId, "Closed", "Closed");
                         break;
                     case 15:
                         //Approved by Aldrin
@@ -879,7 +887,6 @@ namespace JobsV1.Controllers
             //get sales lead
             try
             {
-
                 var salesLead = db.SalesLeads.Find(id);
 
                 //add sales lead activity to update status
@@ -896,7 +903,7 @@ namespace JobsV1.Controllers
                 activity.SalesLeadId = id;
                 activity.CustEntActStatusId = 1;
                 activity.CustEntActActionStatusId = 1;
-                activity.CustEntActActionCodesId = 1;
+                activity.CustEntActActionCodesId = 11;
 
                 if (salesLead.SalesLeadCompanies.FirstOrDefault() != null) {
                     activity.CustEntMainId = salesLead.SalesLeadCompanies.FirstOrDefault().CustEntMainId;
@@ -912,6 +919,94 @@ namespace JobsV1.Controllers
                 return false;
             }
 
+        }
+
+        //Add customer activity 
+        public bool AddActivityStatus(int id, string status, string activityStatus)
+        {
+            //get sales lead
+            try
+            {
+                var salesLead = db.SalesLeads.Find(id);
+
+                //add sales lead activity to update status
+                CustEntActivity activity = new CustEntActivity();
+                activity.Date = date.GetCurrentDateTime();
+                activity.Assigned = HttpContext.User.Identity.Name;
+                activity.SalesCode = salesLead.SalesCode;
+                activity.ProjectName = salesLead.Details;
+                activity.Amount = salesLead.Price;
+                activity.Status = activityStatus;
+                activity.Remarks = status;
+                activity.Type = status;
+                activity.ActivityType = "Status Update";
+                activity.SalesLeadId = id;
+                activity.CustEntActActionStatusId = 1;
+                activity.CustEntActActionCodesId = 11;
+
+                switch (activityStatus)
+                {
+                    case "Awarded":
+                        activity.CustEntActStatusId = 4;
+                        break;
+                    case "Rejected":
+                        activity.CustEntActStatusId = 5;
+                        break;
+                    case "Closed":
+                        activity.CustEntActStatusId = 5;
+                        break;
+                    default:
+                        activity.CustEntActStatusId = 1;
+                        break;
+                }
+
+                if (salesLead.SalesLeadCompanies.FirstOrDefault() != null)
+                {
+                    activity.CustEntMainId = salesLead.SalesLeadCompanies.FirstOrDefault().CustEntMainId;
+                }
+
+                db.CustEntActivities.Add(activity);
+                db.SaveChanges();
+                return true;
+
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+
+        public bool UpdateLeadWeight(int id, string weight)
+        {
+            try
+            {
+                var salesLead = db.SalesLeads.Find(id);
+
+                salesLead.ItemWeight = weight;
+
+                db.Entry(salesLead).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool IsUserAdmin()
+        {
+            var isAdmin = false;
+
+            if (User.IsInRole("Admin") || User.IsInRole("Accounting"))
+            {
+                isAdmin = true;
+            }
+
+            return isAdmin;
         }
 
         #endregion
@@ -1718,6 +1813,15 @@ namespace JobsV1.Controllers
             }
             return "False";
         }
+
+
+        public string GetUserName()
+        {
+            var userLogin = User.Identity.Name;
+
+            return userLogin.Split('@')[0];
+        }
+
 
         #endregion
 

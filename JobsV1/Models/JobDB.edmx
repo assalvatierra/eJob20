@@ -1231,6 +1231,7 @@
     <Property Name="CustPhone" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="CustEmail" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="SalesCode" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="ItemWeight" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
   <EntityType Name="SalesStatusCodes">
     <Key>
@@ -5993,6 +5994,7 @@
           <Property Name="SalesCode" Type="String" Nullable="true" MaxLength="40" />
           <NavigationProperty Name="SalesProcStatus" Relationship="JobDB.SalesLeadSalesProcStatus" FromRole="SalesLead" ToRole="SalesProcStatus" />
           <NavigationProperty Name="SalesLeadSupActivities" Relationship="JobDB.SalesLeadSupActivitySalesLead" FromRole="SalesLead" ToRole="SalesLeadSupActivity" />
+          <Property Name="ItemWeight" Type="String" Nullable="true" MaxLength="20" />
         </EntityType>
         <EntityType Name="SalesStatusCode">
           <Key>
@@ -9292,6 +9294,7 @@
           <ScalarProperty Name="CustPhone" ColumnName="CustPhone" />
           <ScalarProperty Name="CustEmail" ColumnName="CustEmail" />
           <ScalarProperty Name="SalesCode" ColumnName="SalesCode" />
+          <ScalarProperty Name="ItemWeight" ColumnName="ItemWeight" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

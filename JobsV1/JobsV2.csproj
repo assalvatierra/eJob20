@@ -1969,6 +1969,7 @@
     <Content Include="Images\Icons\icons-search.png" />
     <Content Include="Images\Icons\icons-sms-96.png" />
     <Content Include="Images\Icons\icons-valet-parking.png" />
+    <Content Include="Images\Icons\icons-weight.png" />
     <Content Include="Images\Icons\Receivables\Receivables-1st-reminder.png" />
     <Content Include="Images\Icons\Receivables\Receivables-2nd-reminder.png" />
     <Content Include="Images\Icons\Receivables\Receivables-new-bill.png" />
@@ -3375,6 +3376,10 @@
     <Content Include="Views\SalesLeads\Index.cshtml" />
     <Content Include="Views\SalesLeads\_UpdateActivityStatus.cshtml" />
     <Content Include="Views\Procurement\IndexOld.cshtml" />
+    <Content Include="Views\SalesLeads\_AddLeadWeight.cshtml" />
+    <Content Include="Views\SalesLeads\ProcActivitiesPartial.cshtml" />
+    <Content Include="Views\Procurement\_AddLeadWeight.cshtml" />
+    <Content Include="Views\Procurement\CustActivitiesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

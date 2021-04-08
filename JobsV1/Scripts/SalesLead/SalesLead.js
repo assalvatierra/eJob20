@@ -230,3 +230,69 @@ function SubmitSalesLeadRemarks() {
             alert("Unable to Update Sales Lead Remarks");
         });
 }
+
+
+function ShowUpdateActivityStatus_Modal(leadId) {
+
+    $("#UpdateActivityStatus-LeadId").val(leadId);
+
+    $("#UpdateActivityStatus").modal("show");
+}
+
+//Update Sales Lead Activity
+function UpdateSalesLeadActivityStatus(status) {
+    var id = $("#UpdateActivityStatus-LeadId").val();
+
+    $("#UpdateActivityStatus").modal("hide");
+    $.post("/SalesLeads/UpdateLeadActivityStatus", { id: id, status: status }, (result) => {
+
+    }).done((success) => {
+        console.log(success);
+        if (success) {
+            window.location.reload(false);
+        } else {
+            console.log(err);
+            console.log("Unable to Update Activity Status");
+        }
+    }).fail((err) => {
+        console.log(err);
+        console.log("Unable to Update Activity Status");
+    });
+}
+
+//Done Sales Lead Activity
+function CustActivityDone(id) {
+    $.post("/SalesLeads/PostCustActivityDone", { id: id }, (result) => {
+        console.log(result);
+        window.location.reload(false);
+    }).done((success) => {
+        console.log(success);
+        window.location.reload(false);
+    }).fail((err) => {
+        console.log(err);
+
+        console.log("Unable to Close Activity");
+    });
+}
+
+//Remove sales lead activity
+function CustActivityRemove(id) {
+    $.post("/SalesLeads/PostCustActivityRemove", { id: id }, (result) => {
+        console.log(result);
+        window.location.reload(false);
+    }).done((success) => {
+        console.log(success);
+        window.location.reload(false);
+    }).fail((err) => {
+        console.log(err);
+
+        console.log("Unable to Remove Activity");
+    });
+}
+
+//confirmation for Revision
+function RevisionConfirmation(id) {
+    if (confirm("This will reset the status of the Sales Lead. Would you like to proceed?")) {
+        window.location.href = "/SalesLeads/Revision/" + id;
+    }
+}

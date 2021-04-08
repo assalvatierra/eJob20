@@ -6,6 +6,7 @@
     var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     string USER = ViewBag.User;
+    bool ISADMIN = ViewBag.IsAdmin;
 
     var BIDDING = "Bidding Only";
     var FIRM = "Firm Inquiry";
@@ -21,10 +22,11 @@
         .link-status:hover {
             color: white;
         }
-        
+
     .cursor-hand {
         color: #337ab7;
     }
+
         .cursor-hand:hover {
             text-decoration: underline;
         }
@@ -114,6 +116,26 @@
                         }
                     </div>
 
+                    <p>
+                        <nobr>
+                            @if (item.ItemWeight != null)
+                            {
+                                <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
+                                    <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
+                                    @item.ItemWeight&nbsp;TONS
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
+                                    <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
+                                    Update Weight
+                                </a>
+                            }
+                        </nobr>
+                    </p>
+
+
                     @{
                         foreach (var status in item.SalesStatus)
                         {
@@ -128,7 +150,6 @@
                             }
                         }
                     }
-
                 </td>
                 <td>
                     <!--Sales Lead Status-->
@@ -136,7 +157,7 @@
 
                         @foreach (var salesstat in SalesStatCode)
                         {
-
+                            var ApprovedCount = 0;
                             if (item.SalesStatus.Where(s => s.SalesStatusStatusId == 1).Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
                             {
                                 //Active Status
@@ -186,7 +207,6 @@
                                         </button>
                                     }
 
-
                                 }
                                 else if (salesstat.Id == 15 || salesstat.Id == 16)
                                 {
@@ -201,7 +221,8 @@
                                         isApproved = true;
                                     }
 
-                                    if (((item.Price > OneMLimit && item.Price < ThreeMLimit) && actStatusType == BIDDING) ||
+                                    if ((item.Price > OneMLimit && item.Price < ThreeMLimit) ||
+                                        ((item.Price > OneMLimit && item.Price < ThreeMLimit) && actStatusType == BIDDING) ||
                                         ((item.Price <= OneMLimit) && (actStatusType == FIRM || actStatusType == BUYING)))
                                     {
                                         //Check if user is allowed to approved
@@ -238,12 +259,22 @@
                                             }
                                         }
 
+
+                                        if()
+                                        {
+                                            <span>&#187;</span>
+                                            <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                <a class="link-white link-status"> Approved by Mario/Aldrin </a>
+                                            </button>
+                                        }
+
                                     }
 
                                     //Requires Two Approval
                                     //Price is 3M OR 1M AND status type is Firm Inquiry or Buying Inquiry
-                                    if (item.Price > ThreeMLimit ||
-                                        ((item.Price > OneMLimit && item.Price < ThreeMLimit) && (actStatusType == FIRM || actStatusType == BUYING)))
+                                    if (item.Price > ThreeMLimit || (item.Price > ThreeMLimit && actStatusType == BIDDING) ||
+                                      ((item.Price > OneMLimit && item.Price < ThreeMLimit) && (actStatusType == FIRM || actStatusType == BUYING)))
+                                    //if (item.Price > ThreeMLimit)
                                     {
                                         //approved by Aldrin AND Approved by Mario
                                         if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
@@ -343,7 +374,7 @@
                         @*@Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |*@
                         @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id }) |
 
-                        <span class="cursor-hand"  onclick="RevisionConfirmation(@item.Id)"> For Revision  </span>
+                        <span class="cursor-hand" onclick="RevisionConfirmation(@item.Id)"> For Revision  </span>
                         @*@Html.ActionLink("For Revision", "Revision", new { id = item.Id })*@
                         @*@Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })*@
                         ]
@@ -394,14 +425,71 @@
                                 Html.RenderAction("CustActivitiesPartial", new { salesCode = item.SalesCode });
                                 <span>
                                     @Html.ActionLink("[ Add Activity ]", "ListCustActivityCodes",
-                                  new
-                                       {
-                                           id = item.Id,
-                                           salesCode = item.SalesCode,
-                                           projectName = item.Details,
-                                           amount = item.Price,
-                                           companyId = company.Id
-                                       })
+                                    new
+                                        {
+                                            id = item.Id,
+                                            salesCode = item.SalesCode,
+                                            projectName = item.Details,
+                                            amount = item.Price,
+                                            companyId = company.Id
+                                        })
+                                </span>
+                            }
+                            if (ISADMIN)
+                            {
+                                <br />
+                                <br />
+                                <span style="font:bold 8px, arial, verdana; color:maroon ;">
+                                    Procurement Activities
+                                </span>
+                                <span style="font:bold 8px, arial, verdana; color: royalblue;">
+                                    @foreach (var procActGroup in item.SalesLeadSupActivities.GroupBy(s => s.SupplierActivity.Supplier.Name))
+                                    {
+                                        <br /><span style="color:darkred;font-weight:600;padding-top:10px;"> @procActGroup.Key </span><br />
+                                        foreach (var procAct in procActGroup)
+                                        {
+                                            var tmpAct = procAct.SupplierActivity;
+                                            if (tmpAct.SupplierActActionStatusId == 1)
+                                            {
+                                                <span style="color:red;font-weight:800;">! </span>
+                                                <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                                     alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                                     title=@tmpAct.SupplierActActionCode.IconPath />
+
+                                                <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @tmpAct.Type | @tmpAct.Remarks </span>
+                                                <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                                <span class="cursor-hand" onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done | </span>
+                                                <span class="cursor-hand" onclick="UpdateProcActivity_Remove(@tmpAct.Id)"> [ x ] </span>
+
+                                                @*@Html.ActionLink("Done |", "ProcActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })*@
+                                                @*@Html.ActionLink(" [x]", "ProcActivityRemove", new { id = tmpAct.Id })*@
+
+                                                <br />
+                                            }
+                                            if (tmpAct.SupplierActActionStatusId == 2)
+                                            {
+                                                <span style="color:darkgray;font-weight:800;">&#10004; </span>
+                                                <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                                     alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                                     title=@tmpAct.SupplierActActionCode.IconPath />
+                                                <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name -  @tmpAct.Type | @tmpAct.Remarks</span>
+                                                <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                                <br />
+                                            }
+                                            if (tmpAct.SupplierActActionStatusId == 3)
+                                            {
+                                                <span style="color:darkgray;font-weight:800;">&#x2022; </span>
+                                                <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                                                     alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                                                     title=@tmpAct.SupplierActActionCode.IconPath />
+                                                <strike style="color:darkgray;">
+                                                    <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name -  @tmpAct.Type | @tmpAct.Remarks</span>
+                                                    <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                                </strike>
+                                                <br />
+                                            }
+                                        }
+                                    }
                                 </span>
                             }
                         }
@@ -516,11 +604,15 @@
                                                     <span> ( </span>
                                                     <span style="font:normal 11px arial,verdana;">
                                                         Validity :
-                                                        @DateTime.Parse(supItem.SupplierItemRate.DtValidFrom).ToString("MMM dd yyyy") <span>-</span>
-                                                        @DateTime.Parse(supItem.SupplierItemRate.DtValidTo).ToString("MMM dd yyyy")
+                                                        @DateTime.ParseExact(supItem.SupplierItemRate.DtValidFrom, "MM/dd/yyyy", null).ToString("MMM dd yyyy") <span>-</span>
+                                                        @DateTime.ParseExact(supItem.SupplierItemRate.DtValidTo, "MM/dd/yyyy", null).ToString("MMM dd yyyy")
                                                     </span>
                                                     <span> ) </span>
                                                     @*<a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>*@
+                                                </p>
+
+                                                <p style="margin-top:-5px;margin-left:20px;font-size:12px;color:gray;">
+                                                    Procured by: @supItem.SupplierItemRate.ProcBy
                                                 </p>
                                             }
 
@@ -567,6 +659,7 @@
 
 @{Html.RenderPartial("AddSupItemPartial");}
 @{Html.RenderPartial("_UpdateActivityStatus");}
+@{Html.RenderPartial("_AddLeadWeight");}
 
 <div class="view-content" hidden>
 
@@ -609,67 +702,28 @@
                         break;
                 }
             }
-
-
         });
 
+        function ShowSalesLeadWeight(leadId) {
+            $("#AddLeadWeight-LeadId").val(leadId);
 
-        function ShowUpdateActivityStatus_Modal(leadId) {
-
-            $("#UpdateActivityStatus-LeadId").val(leadId);
-
-            $("#UpdateActivityStatus").modal("show");
+            $("#AddLeadWeightModal").modal("show");
         }
 
-        function UpdateSalesLeadActivityStatus(status) {
-            var id = $("#UpdateActivityStatus-LeadId").val();
-         
-            $("#UpdateActivityStatus").modal("hide");
-            $.post("/SalesLeads/UpdateLeadActivityStatus", { id : id, status : status }, (result) => {
+        function Submit_AddSalesLeadWeight() {
+            var leadId = $("#AddLeadWeight-LeadId").val();
+            var input_weight = $("#AddLeadWeight-Weight").val();
 
-            }).done((success) => {
-                console.log(success);
-                window.location.reload(false);
-            }).fail((err) => {
-                console.log(err);
+            console.log("leadID:" + leadId);
+            console.log("input_weight:" + input_weight);
 
-                console.log("Unable to Update Activity Status");
-            });
-        }
-
-        function CustActivityDone(id) {
-            $.post("/SalesLeads/PostCustActivityDone", { id : id }, (result) => {
-                console.log(result);
-                window.location.reload(false);
-            }).done((success) => {
-                console.log(success);
-                window.location.reload(false);
-            }).fail((err) => {
-                console.log(err);
-
-                console.log("Unable to Close Activity");
-            });
-        }
-
-
-        function CustActivityRemove(id) {
-            $.post("/SalesLeads/PostCustActivityRemove", { id : id }, (result) => {
-                console.log(result);
-                window.location.reload(false);
-            }).done((success) => {
-                console.log(success);
-                window.location.reload(false);
-            }).fail((err) => {
-                console.log(err);
-
-                console.log("Unable to Remove Activity");
-            });
-        }
-
-        function RevisionConfirmation(id) {
-            if (confirm("This will reset the status of the Sales Lead. Would you like to proceed?")) {
-                window.location.href = "/SalesLeads/Revision/" + id;
-            }
+            $.post("/SalesLeads/UpdateLeadWeight", { id: leadId, weight : input_weight })
+                .done(() => {
+                    window.location.reload(false);
+                })
+                .fail(() => {
+                    console.log("Unable to update weight");
+                });
         }
 
     </script>

@@ -58,6 +58,7 @@ namespace JobsV1.Controllers
             ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
             ViewBag.Items = db.InvItems.ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.IsAdmin = IsUserAdmin();
 
             //for adding new item 
             AddSupItemPartial();
@@ -294,13 +295,24 @@ namespace JobsV1.Controllers
             }
         }
 
+        public bool IsUserAdmin()
+        {
+            var isAdmin = false;
+
+            if (User.IsInRole("Admin") || User.IsInRole("Accounting"))
+            {
+                isAdmin = true;
+            }
+
+            return isAdmin;
+        }
         #endregion
 
         #region Suplier Items Rate
         //POST : Procurement/CreateSupplierItem
         public bool CreateSupplierItem(int salesLeadItemId, int supplierId, int itemId, string particulars, string materials, decimal rate,
             int unitTypeId, string tradeTerm, string tolerance, string remarks, DateTime validTo, DateTime validFrom,
-            string procuredBy, string offeredBy )
+            string procuredBy, string offeredBy)
         {
             try
             {
@@ -434,9 +446,8 @@ namespace JobsV1.Controllers
 
                 return true;
             }
-            catch(Exception ex)
+            catch
             {
-                throw ex;
                 return false;
             }
         }
@@ -513,7 +524,7 @@ namespace JobsV1.Controllers
 
         //POST: Procurement/EditSupplierItem
         public bool EditSupplierItem(int supItemId, int supplierId, string particulars, string materials, decimal rate,
-            int unitTypeId, string tradeTerm, string tolerance, string remarks, DateTime validTo, DateTime validFrom,
+            int unitTypeId, string tradeTerm, string tolerance, string remarks, string validTo, string validFrom,
             string procuredBy, string offeredBy)
         {
 
@@ -535,8 +546,8 @@ namespace JobsV1.Controllers
                 supItemRate.TradeTerm = tradeTerm;
                 supItemRate.Tolerance = tolerance;
                 supItemRate.Remarks = remarks;
-                supItemRate.DtValidTo = validTo.ToString();
-                supItemRate.DtValidFrom = validFrom.ToString();
+                supItemRate.DtValidTo = validTo;
+                supItemRate.DtValidFrom = validFrom;
                 supItemRate.ProcBy = procuredBy ?? "N/A";
                 supItemRate.By = offeredBy ?? "N/A";
 
@@ -570,6 +581,13 @@ namespace JobsV1.Controllers
             {
                 return false;
             }
+        }
+
+        public string GetUserName()
+        {
+            var userLogin = User.Identity.Name;
+
+            return userLogin.Split('@')[0];
         }
 
         #endregion

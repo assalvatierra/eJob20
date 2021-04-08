@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/05/2021 13:47:56
+-- Date Created: 04/08/2021 15:21:24
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1403,7 +1403,8 @@ CREATE TABLE [dbo].[SalesLeads] (
     [AssignedTo] nvarchar(80)  NULL,
     [CustPhone] nvarchar(20)  NULL,
     [CustEmail] nvarchar(80)  NULL,
-    [SalesCode] nvarchar(40)  NULL
+    [SalesCode] nvarchar(40)  NULL,
+    [ItemWeight] nvarchar(20)  NULL
 );
 GO
 
