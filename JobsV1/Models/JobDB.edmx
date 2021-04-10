@@ -1242,6 +1242,7 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="iconPath" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="SalesStatusTypeId" Type="int" Nullable="false" />
+    <Property Name="OrderNo" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SalesStatus">
     <Key>
@@ -6008,6 +6009,7 @@
           <NavigationProperty Name="SalesStatusType" Relationship="JobDB.SalesStatusTypeSalesStatusCode" FromRole="SalesStatusCode" ToRole="SalesStatusType" />
           <Property Name="SalesStatusTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SalesStatusRestrictions" Relationship="JobDB.SalesStatusCodeSalesStatusRestriction" FromRole="SalesStatusCode" ToRole="SalesStatusRestriction" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="SalesStatus">
           <Key>
@@ -9306,6 +9308,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="iconPath" ColumnName="iconPath" />
           <ScalarProperty Name="SalesStatusTypeId" ColumnName="SalesStatusTypeId" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

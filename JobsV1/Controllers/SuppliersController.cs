@@ -375,51 +375,64 @@ namespace JobsV1.Controllers
 
         #region invItemRate
 
-        public ActionResult AddRateInvItems(int id, string Particulars, string Material,string Rate, int Unit, string Remarks, string TradeTerm, string Tolerance, string ValidFrom, string ValidTo, string By ,string ProcBy )
+        public bool AddRateInvItems(int id, string Particulars, string Material,string Rate, int Unit, string Remarks, string TradeTerm, string Tolerance, string ValidFrom, string ValidTo, string By ,string ProcBy )
         {
-            db.SupplierItemRates.Add(new SupplierItemRate
+            try
             {
-                Particulars = Particulars,
-                Material = Material,
-                ItemRate = Rate,
-                SupplierUnitId = Unit,
-                Remarks = Remarks,
-                TradeTerm = TradeTerm,
-                Tolerance = Tolerance,
-                DtValidFrom = ValidFrom,
-                DtValidTo = ValidTo,
-                DtEntered = dt.GetCurrentDateTime().ToString(),
-                SupplierInvItemId = id,
-                By = By,
-                ProcBy = ProcBy
-            });
-            db.SaveChanges();
+                db.SupplierItemRates.Add(new SupplierItemRate
+                {
+                    Particulars = Particulars,
+                    Material = Material,
+                    ItemRate = Rate,
+                    SupplierUnitId = Unit,
+                    Remarks = Remarks,
+                    TradeTerm = TradeTerm,
+                    Tolerance = Tolerance,
+                    DtValidFrom = ValidFrom,
+                    DtValidTo = ValidTo,
+                    DtEntered = dt.GetCurrentDateTime().ToString(),
+                    SupplierInvItemId = id,
+                    By = By,
+                    ProcBy = ProcBy
+                });
+                db.SaveChanges();
 
-            return RedirectToAction("InvItems", "Suppliers", new { id = id });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public ActionResult EditRateInvItems(int id, string Particulars, string Material, string Rate, int Unit, string ValidFrom, string ValidTo, string Remarks, string TradeTerm, string Tolerance, int SupInvId, string By, string ProcBy, string DtEntered)
+        public bool EditRateInvItems(int id, string Particulars, string Material, string Rate, int Unit, string ValidFrom, string ValidTo, string Remarks, string TradeTerm, string Tolerance, int SupInvId, string By, string ProcBy, string DtEntered)
         {
-         
-            SupplierItemRate itemRate = db.SupplierItemRates.Find(id);
-            itemRate.Particulars = Particulars;
-            itemRate.Material = Material;
-            itemRate.ItemRate = Rate;
-            itemRate.SupplierUnitId = Unit;
-            itemRate.TradeTerm = TradeTerm;
-            itemRate.Tolerance = Tolerance;
-            itemRate.Remarks = Remarks;
-            itemRate.DtValidFrom = ValidFrom;
-            itemRate.DtValidTo = ValidTo;
-            itemRate.SupplierInvItemId = SupInvId;
-            itemRate.By = By;
-            itemRate.ProcBy = ProcBy;
-            itemRate.DtEntered = DtEntered;
+            try
+            {
 
-            db.Entry(itemRate).State = EntityState.Modified;
-            db.SaveChanges();
+                SupplierItemRate itemRate = db.SupplierItemRates.Find(id);
+                itemRate.Particulars = Particulars;
+                itemRate.Material = Material;
+                itemRate.ItemRate = Rate;
+                itemRate.SupplierUnitId = Unit;
+                itemRate.TradeTerm = TradeTerm;
+                itemRate.Tolerance = Tolerance;
+                itemRate.Remarks = Remarks;
+                itemRate.DtValidFrom = ValidFrom;
+                itemRate.DtValidTo = ValidTo;
+                itemRate.SupplierInvItemId = SupInvId;
+                itemRate.By = By;
+                itemRate.ProcBy = ProcBy;
+                itemRate.DtEntered = DtEntered;
 
-            return RedirectToAction("InvItems", "Suppliers", new { id = id });
+                db.Entry(itemRate).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void RemoveRateInvItem(int id)

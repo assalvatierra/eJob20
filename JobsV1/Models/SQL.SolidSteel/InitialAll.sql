@@ -47,11 +47,11 @@ values  ('ALL'),('SALES'),('PROCUREMENT');
 insert into SalesStatusStatus([Status])
 values  ('Active'),('Inactive')
 
-insert into SalesStatusCodes([SeqNo],[Name],[SalesStatusTypeId])
-values	(1, 'INQUIRY',1), (2,'SALES',2), (3, 'PROCUREMENT',2), (4, 'FOR APPROVAL',1),(5, 'APPROVED',1), (6, 'AWARDED',1), (7, 'REJECTED',1), (8, 'CLOSE',1),
-		(2, 'EVALUATION', 2), (2, 'ACCEPTED', 2), (2, 'QUOTATION SENT', 2),
-		(3, 'EVALUATION', 3), (3, 'ACCEPTED', 3), (3, 'ITEM PROCUREMENT', 3),
-		(4, 'APPROVED BY ALDRIN', 1), (4, 'APPROVED BY MARIO', 1);
+insert into SalesStatusCodes([SeqNo],[Name],[SalesStatusTypeId],[OrderNo])
+values	(1, 'INQUIRY',1,1), (2,'SALES',2,2), (3, 'PROCUREMENT',2,3), (4, 'FOR APPROVAL',1,4),(5, 'APPROVED',1,5), (6, 'AWARDED',1,6), (7, 'REJECTED',1,7), (8, 'CLOSE',1,8),
+		(2, 'EVALUATION', 2,2), (2, 'ACCEPTED', 2,2), (5, 'QUOTATION SENT', 2,5),
+		(3, 'EVALUATION', 3,3), (3, 'ACCEPTED', 3,3), (3, 'ITEM PROCUREMENT', 3,3),
+		(4, 'APPROVED BY ALDRIN', 1,4), (4, 'APPROVED BY MARIO', 1,4);
 
 insert into SalesStatusStatus([Status])
 values ('Active'), ('Inactive');

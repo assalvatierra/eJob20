@@ -3380,6 +3380,8 @@
     <Content Include="Views\SalesLeads\ProcActivitiesPartial.cshtml" />
     <Content Include="Views\Procurement\_AddLeadWeight.cshtml" />
     <Content Include="Views\Procurement\CustActivitiesPartial.cshtml" />
+    <Content Include="Views\SalesLeads\EditCustActivityCode.cshtml" />
+    <Content Include="Views\Procurement\EditProcActivityCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -53,7 +53,7 @@ namespace JobsV1.Controllers
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes
                 .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 3)
-                .OrderBy(s => s.SeqNo).ThenBy(s=>s.Id).ToList();
+                .OrderBy(s => s.OrderNo).ThenBy(s=>s.Id).ToList();
             ViewBag.UnitList = db.SupplierUnits.ToList();
             ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
             ViewBag.Items = db.InvItems.ToList();
@@ -192,9 +192,9 @@ namespace JobsV1.Controllers
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
                     ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type");
 
-                    ViewBag.SupplierActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status");
-                    ViewBag.SupplierActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
-                    ViewBag.SupplierActActionCodeId = new SelectList(db.CustEntActActionCodes, "Id", "Name", ActCodeId);
+                    ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status");
+                    ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
+                    ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", ActCodeId);
                     ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name");
 
                     ViewBag.Id = slId;
@@ -238,14 +238,87 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index", new { id = slId });
             }
 
-            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-            ViewBag.SupplierId = new SelectList(db.Suppliers, "Type", "Name");
-            ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Type", "Description");
+            var actCodeDefault = supplierActivity.SupplierActActionCode;
 
-            ViewBag.SupplierActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status");
-            ViewBag.SupplierActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", 1);
-            ViewBag.SupplierActActionCodeId = new SelectList(db.CustEntActActionCodes, "Id", "Name", ActCodeId);
-            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name");
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s => s.Name), "Id", "Name", supplierActivity.SupplierId);
+            ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description", supplierActivity.Supplier.SupplierTypeId);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
+            ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+            ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
+            ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
+            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name", supplierActivity.Currency);
+
+            ViewBag.Id = slId;
+
+            return View(supplierActivity);
+        }
+
+
+        //GET: /Procurement/EditProcActivityCode
+        public ActionResult EditProcActivityCode(int? id)
+        {
+            try
+            {
+
+                if (id != null )
+                {
+                    var activity = db.SupplierActivities.Find(id);
+
+                    var actCodeDefault = activity.SupplierActActionCode;
+
+                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s => s.Name), "Id", "Name", activity.SupplierId);
+                    ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description", activity.Supplier.SupplierTypeId);
+                    ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", activity.Type);
+                    ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", activity.ActivityType);
+                    ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", activity.SupplierActStatusId);
+                    ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
+                    ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", activity.SupplierActActionCodeId);
+                    ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name", activity.Currency);
+
+                    ViewBag.Id = activity.SalesLeadSupActivities.Where(s=>s.SupplierActivityId == id).FirstOrDefault().SalesLeadId;
+
+                    return View(activity);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        //POST: /Procurement/AddProcActivityCode
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProcActivityCode([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Currency,Remarks,SupplierId,Amount,Type,ActivityType,SupplierActStatusId,ProjName,SupplierActActionCodeId")] SupplierActivity supplierActivity, int? slId, int? ActCodeId)
+        {
+            if (ModelState.IsValid)
+            {
+                supplierActivity.SupplierActActionStatusId = 1; // default 
+                supplierActivity.Amount = Decimal.Parse(supplierActivity.Amount.ToString());
+
+                db.Entry(supplierActivity).State = EntityState.Modified;
+                db.SaveChanges();
+
+
+                return RedirectToAction("Index", new { id = slId });
+            }
+
+            var actCodeDefault = supplierActivity.SupplierActActionCode;
+
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s => s.Name), "Id", "Name", supplierActivity.SupplierId);
+            ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description", supplierActivity.Supplier.SupplierTypeId);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", supplierActivity.ActivityType);
+            ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", supplierActivity.SupplierActStatusId);
+            ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
+            ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", supplierActivity.SupplierActActionCodeId);
+            ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name", supplierActivity.Currency);
 
             ViewBag.Id = slId;
 
@@ -588,6 +661,16 @@ namespace JobsV1.Controllers
             var userLogin = User.Identity.Name;
 
             return userLogin.Split('@')[0];
+        }
+
+
+        public ActionResult CustActivitiesPartial(string salesCode)
+        {
+            var activities = db.CustEntActivities.Where(c => c.SalesCode == salesCode).ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.IsAdmin = IsUserAdmin();
+
+            return View(activities);
         }
 
         #endregion

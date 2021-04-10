@@ -5,7 +5,7 @@
 
 $(document).ready(new function () {
     var today = moment().format('MM/DD/YYYY');
-    var endDate = moment(today).add(1, 'month').format('MM/DD/YYYY');
+    var endDate = moment(today).add(3, 'month').format('MM/DD/YYYY');
 
     $("#InvRate-ValidFrom").val(today);
     $("#InvRate-ValidTo").val(endDate);
@@ -110,14 +110,12 @@ function ajax_editInvRate() {
         type: "POST",
         data: data,
         dataType: 'application/json; charset=utf-8',
-        success: function (data) {
-            // console.log("SUCCESS");
-        },
-        error: function (data) {
-            // console.log("ERROR");
-            console.log(data);
-            location.reload();
-        }
+    }).done(() => {
+        location.reload(false);
+    }).fail((err) => {
+        //alert("Unable to Update Product");
+        console.log(err);
+        location.reload(false);
     });
 }
 

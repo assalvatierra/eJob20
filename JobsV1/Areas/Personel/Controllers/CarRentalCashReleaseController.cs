@@ -50,7 +50,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.StatusId = statusId;
 
-            return View(cashReleases.OrderBy(c=>c.DtRelease).ToList());
+            return View(cashReleases.OrderBy(c=>c.DtRelease).ThenBy(c=>c.crLogDriver.OrderNo).ToList());
         }
 
 

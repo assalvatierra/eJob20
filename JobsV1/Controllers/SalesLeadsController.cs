@@ -91,7 +91,7 @@ namespace JobsV1.Controllers
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes
                 .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
-                .OrderBy(s => s.SeqNo).ThenBy(s => s.Id).ToList();
+                .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.ActTypes = db.CustEntActTypes.ToList();
             ViewBag.IsAdmin = IsUserAdmin();
@@ -1191,6 +1191,7 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index");
             }
         }
+
         public ActionResult AddCustActivityCode(int? slId, int ActCodeId, string salesCode, string projectName, decimal amount, int? companyId)
         {
             try
@@ -1245,7 +1246,7 @@ namespace JobsV1.Controllers
                 custEntActivity.Amount = Decimal.Parse(custEntActivity.Amount.ToString());
                 db.CustEntActivities.Add(custEntActivity);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { id = custEntActivity.SalesLeadId });
+                return RedirectToAction("Index", new { leadId = custEntActivity.SalesLeadId });
             }
 
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
@@ -1262,6 +1263,73 @@ namespace JobsV1.Controllers
 
             return View(custEntActivity);
         }
+
+
+        public ActionResult EditCustActivityCode(int? id)
+        {
+            try
+            {
+                if (id != null)
+                {
+                    var activity = db.CustEntActivities.Find(id);
+                    var salesLead = db.SalesLeads.Find(activity.SalesLeadId);
+
+                    var actCodeDefault = activity.CustEntActActionCode;
+
+                    activity.Date = date.GetCurrentDateTime();
+                    activity.Assigned = User.Identity.Name;
+                    
+                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", activity.CustEntMainId);
+                    ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", activity.Status);
+                    ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", activity.Type);
+                    ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", activity.ActivityType);
+
+                    ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", activity.CustEntActStatu);
+                    ViewBag.CustEntActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
+                    ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Name", activity.CustEntActActionCodesId);
+
+                    ViewBag.SlId = activity.SalesLeadId;
+
+                    return View(activity);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch 
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCustActivityCode([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId")] CustEntActivity custEntActivity)
+        {
+            if (ModelState.IsValid)
+            {
+                custEntActivity.Amount = Decimal.Parse(custEntActivity.Amount.ToString());
+
+                db.Entry(custEntActivity).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index", new { leadId = custEntActivity.SalesLeadId });
+            }
+
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
+            ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", custEntActivity.CustEntMainId);
+            ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", custEntActivity.Status);
+            ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", custEntActivity.Type);
+            ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", custEntActivity.ActivityType);
+
+            ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", custEntActivity.CustEntActStatusId);
+            ViewBag.CustEntActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", custEntActivity.CustEntActActionStatusId);
+            ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Name", custEntActivity.CustEntActActionCodesId);
+
+            ViewBag.Id = custEntActivity.SalesLeadId;
+
+            return View(custEntActivity);
+        }
+
 
         public ActionResult CustActivityDone(int id)
         {
@@ -1338,9 +1406,14 @@ namespace JobsV1.Controllers
 
         }
 
-        public ActionResult CustActivitiesPartial(string salesCode)
+        public ActionResult CustActivitiesPartial(int? slId, string salesCode)
         {
-            var activities = db.CustEntActivities.Where(c => c.SalesCode == salesCode).ToList();
+            var activities  = db.CustEntActivities.Where(c => c.SalesCode == salesCode).ToList();
+            var salesLead = db.SalesLeads.Find(slId);
+            var user = HttpContext.User.Identity.Name;
+            ViewBag.User    = user;
+            ViewBag.IsAdmin = IsUserAdmin();
+            ViewBag.IsAssigned = salesLead.AssignedTo == user ? true : false;
 
             return View(activities);
         }

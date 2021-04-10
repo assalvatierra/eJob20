@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<JobsV1.Models.Class.cSalesLead>
 
 @{
-    ViewBag.Title = "Leads";
+    ViewBag.Title = "Sales Leads ";
     Session["ROOTMENUID"] = 2;
     var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
@@ -37,17 +37,24 @@
 </style>
 
 <div class="view-header">
-    <h2>Sales Lead: List</h2>
+    <h2>Sales Lead: List </h2>
 
     <div class="header-btn-list">
         <div class="btn-group">
             @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
         </div>
     </div>
+
 </div>
 
 <div class="view-content content-min-width">
 
+    @if (ISADMIN)
+    {
+        <p>
+            Viewing as Admin
+        </p>
+    }
     @*<p>
             Sales Lead |
             @Html.ActionLink("Quotation", "JobLeads", "JobMains")
@@ -120,17 +127,32 @@
                         <nobr>
                             @if (item.ItemWeight != null)
                             {
-                                <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
-                                    <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
-                                    @item.ItemWeight&nbsp;TONS
-                                </a>
+
+                                if (USER == item.AssignedTo || ISADMIN)
+                                {
+                                    <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
+                                        <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
+                                        @item.ItemWeight&nbsp;TONS
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span> <img src="~/Images/Icons/icons-weight.png" width="12" />
+                                        &nbsp; @item.ItemWeight&nbsp;TONS 
+                                    </span>
+                                }
                             }
                             else
                             {
-                                <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
-                                    <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
-                                    Update Weight
-                                </a>
+
+                                if (USER == item.AssignedTo || ISADMIN)
+                                {
+                                    <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
+                                        <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
+                                        Update Weight
+                                    </a>
+                                }
+
                             }
                         </nobr>
                     </p>
@@ -154,10 +176,11 @@
                 <td>
                     <!--Sales Lead Status-->
                     <div>
-
+                        @{
+                            bool ForApproveOnce = false;
+                        }
                         @foreach (var salesstat in SalesStatCode)
                         {
-                            var ApprovedCount = 0;
                             if (item.SalesStatus.Where(s => s.SalesStatusStatusId == 1).Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
                             {
                                 //Active Status
@@ -175,10 +198,22 @@
                                 if (salesstat.Id == 7 || salesstat.Id == 8)
                                 {
                                     // REJECT = 7, CLOSED = 8
-                                    <span>&#187;</span>
-                                    <button class="btn btn-primary btn-arrow-right cursor-hand">
-                                        <a class="link-white link-status" onclick="UpdateLeadStatusRemarks(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                                    </button>
+                                    if (USER == item.AssignedTo || ISADMIN)
+                                    {
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatusRemarks(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
+                                    }
+                                    else
+                                    {
+
+                                        //disable status
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                            <a class="link-white link-status"> @salesstat.Name </a>
+                                        </button>
+                                    }
                                 }
                                 else if (salesstat.Id == 5)
                                 {
@@ -197,14 +232,25 @@
                                         <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
                                             <a class="link-white link-status"> @salesstat.Name </a>
                                         </button>
-
                                     }
                                     else
                                     {
-                                        <span>&#187;</span>
-                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                                        </button>
+                                        if (USER == item.AssignedTo || ISADMIN)
+                                        {
+                                            <span>&#187;</span>
+                                            <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                                <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                            </button>
+                                        }
+                                        else
+                                        {
+
+                                            //disable status
+                                            <span>&#187;</span>
+                                            <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                <a class="link-white link-status"> @salesstat.Name </a>
+                                            </button>
+                                        }
                                     }
 
                                 }
@@ -258,14 +304,16 @@
                                                 </button>
                                             }
                                         }
-
-
-                                        if()
+                                        else
                                         {
-                                            <span>&#187;</span>
-                                            <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                                                <a class="link-white link-status"> Approved by Mario/Aldrin </a>
-                                            </button>
+                                            if (!ForApproveOnce && !isApproved)
+                                            {
+                                                ForApproveOnce = true;
+                                                @*<span>&#187;</span>
+                                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                    <a class="link-white link-status"> APPROVED BY MARIO/ALDRIN </a>
+                                                </button>*@
+                                            }
                                         }
 
                                     }
@@ -319,10 +367,24 @@
                                 }
                                 else
                                 {
-                                    <span>&#187;</span>
-                                    <button class="btn btn-primary btn-arrow-right cursor-hand ">
-                                        <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
-                                    </button>
+
+                                    if (USER == item.AssignedTo || ISADMIN)
+                                    {
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right cursor-hand ">
+                                            <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                        </button>
+                                    }
+                                    else
+                                    {
+
+                                        //disable status
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                            <a class="link-white link-status"> @salesstat.Name </a>
+                                        </button>
+                                    }
+
                                 }
 
                             }
@@ -332,24 +394,18 @@
 
                     <div>
                         <span style="color:darkgreen;font:bold 16px arial, verdana;">
-                            @{
-                                try
+                            @try
+                            {
+                                if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
                                 {
-                                    if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
-                                    {
-                                        var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
+                                    var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
 
-                                        <text>
-                                            @company.Name
-                                        </text>
-                                    }
-                                }
-                                catch (Exception)
-                                {
-
+                                    <text>
+                                        @company.Name
+                                    </text>
                                 }
                             }
-
+                            catch { }
                         </span> |
                         <span style="color:maroon;font:bold 12px arial, verdana;">
                             @Html.DisplayFor(modelItem => item.CustName)
@@ -369,15 +425,24 @@
                         </span>
 
                         &nbsp; &nbsp;
-                        @*[ @Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
-                        [ @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
-                        @*@Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |*@
-                        @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id }) |
 
-                        <span class="cursor-hand" onclick="RevisionConfirmation(@item.Id)"> For Revision  </span>
-                        @*@Html.ActionLink("For Revision", "Revision", new { id = item.Id })*@
-                        @*@Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })*@
-                        ]
+                        @if (USER == item.AssignedTo || ISADMIN)
+                        {
+
+                            @*@Html.ActionLink("Edit Contact", "CompanyDetail", new { slid = item.Id, CustId = item.CustomerId }) |*@
+                            @*@Html.ActionLink("Files List", "FileList", new { custid = item.CustomerId, salesleadId = item.Id })*@
+                            @*@Html.ActionLink("Details", "LeadDetails", new { id = item.Id }) |*@
+
+                            <span>
+                                [
+                                @Html.ActionLink("Edit Lead", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Profitability", "SalesLeadCat", new { id = item.Id }) |
+                                <span class="cursor-hand" onclick="RevisionConfirmation(@item.Id)"> For Revision  </span>
+                                ]
+                            </span>
+
+                        }
+
                         <span style="margin-left:10px;">
                             @foreach (var salescat in item.SalesLeadCategories)
                             {
@@ -405,10 +470,20 @@
 
                         <span style="font:bold 8px, arial, verdana; color:maroon ;">
                             Activities
-                            <span class="label label-default cursor-hand" onclick="ShowUpdateActivityStatus_Modal(@item.Id)"
-                                  style="color:white;">
-                                @item.ActivityStatus - @item.ActivityStatusType
-                            </span>
+                            @if (USER == item.AssignedTo || ISADMIN)
+                            {
+                                <span class="label label-default cursor-hand" onclick="ShowUpdateActivityStatus_Modal(@item.Id)"
+                                      style="color:white;">
+                                    @item.ActivityStatus - @item.ActivityStatusType
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="label label-default" style="color:white;cursor:no-drop;">
+                                    @item.ActivityStatus - @item.ActivityStatusType
+                                </span>
+                            }
+
                             <br />
                         </span>
 
@@ -422,18 +497,23 @@
                             {
                                 var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
 
-                                Html.RenderAction("CustActivitiesPartial", new { salesCode = item.SalesCode });
-                                <span>
-                                    @Html.ActionLink("[ Add Activity ]", "ListCustActivityCodes",
-                                    new
-                                        {
-                                            id = item.Id,
-                                            salesCode = item.SalesCode,
-                                            projectName = item.Details,
-                                            amount = item.Price,
-                                            companyId = company.Id
-                                        })
-                                </span>
+                                Html.RenderAction("CustActivitiesPartial", new { salesCode = item.SalesCode, slId = item.Id });
+
+                                if (USER == item.AssignedTo || ISADMIN)
+                                {
+                                    <span>
+                                        @Html.ActionLink("[ Add Activity ]", "ListCustActivityCodes",
+                                        new
+                                            {
+                                                id = item.Id,
+                                                salesCode = item.SalesCode,
+                                                projectName = item.Details,
+                                                amount = item.Price,
+                                                companyId = company.Id
+                                            })
+                                    </span>
+                                }
+
                             }
                             if (ISADMIN)
                             {
@@ -449,6 +529,7 @@
                                         foreach (var procAct in procActGroup)
                                         {
                                             var tmpAct = procAct.SupplierActivity;
+                                            var amount = tmpAct.Amount ?? 0;
                                             if (tmpAct.SupplierActActionStatusId == 1)
                                             {
                                                 <span style="color:red;font-weight:800;">! </span>
@@ -456,10 +537,13 @@
                                                      alt=@tmpAct.SupplierActActionCode.IconPath height="16"
                                                      title=@tmpAct.SupplierActActionCode.IconPath />
 
-                                                <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @tmpAct.Type | @tmpAct.Remarks </span>
-                                                <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                                <span class="cursor-hand" onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done | </span>
-                                                <span class="cursor-hand" onclick="UpdateProcActivity_Remove(@tmpAct.Id)"> [ x ] </span>
+                                                <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency - @tmpAct.Type | @tmpAct.Remarks </span>
+                                                <span style="font:status-bar;color:darkgray;">
+                                                    @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
+                                                    &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                                                </span>
+                                                @*<span class="cursor-hand" onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done | </span>*@
+                                                @*<span class="cursor-hand" onclick="UpdateProcActivity_Remove(@tmpAct.Id)"> [ x ] </span>*@
 
                                                 @*@Html.ActionLink("Done |", "ProcActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })*@
                                                 @*@Html.ActionLink(" [x]", "ProcActivityRemove", new { id = tmpAct.Id })*@
@@ -472,7 +556,7 @@
                                                 <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
                                                      alt=@tmpAct.SupplierActActionCode.IconPath height="16"
                                                      title=@tmpAct.SupplierActActionCode.IconPath />
-                                                <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name -  @tmpAct.Type | @tmpAct.Remarks</span>
+                                                <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name  - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
                                                 <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
                                                 <br />
                                             }
@@ -483,7 +567,7 @@
                                                      alt=@tmpAct.SupplierActActionCode.IconPath height="16"
                                                      title=@tmpAct.SupplierActActionCode.IconPath />
                                                 <strike style="color:darkgray;">
-                                                    <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name -  @tmpAct.Type | @tmpAct.Remarks</span>
+                                                    <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
                                                     <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
                                                 </strike>
                                                 <br />
@@ -543,8 +627,10 @@
                                 }
                             </span>
 
-
-                            <span>[ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]</span>
+                            if (USER == item.AssignedTo || ISADMIN)
+                            {
+                                <span>[ @Html.ActionLink("Add Activity", "ListActivityCodes", new { id = item.Id }) ]</span>
+                            }
                         }
 
 
@@ -569,11 +655,13 @@
                                             <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
                                         </b>
 
-                                        <span class="pull-right">
-                                            <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
-                                            <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
-
-                                        </span>
+                                        @if (USER == item.AssignedTo || ISADMIN)
+                                        {
+                                            <span class="pull-right">
+                                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
+                                                <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
+                                            </span>
+                                        }
                                     </div>
 
                                     <div id="supItem-@invItems.Id">
@@ -626,9 +714,13 @@
                             }
                         </div>
                         <br />
-
+                        @if (USER == item.AssignedTo || ISADMIN)
+                        {
+                            <span>
+                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">[ Add Item ]</a>
+                            </span>
+                        }
                         <!--Add Item-->
-                        <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">[ Add Item ]</a>
 
                         <br />
                         <span style="font: status-bar; color:gray;">
@@ -721,9 +813,13 @@
                 .done(() => {
                     window.location.reload(false);
                 })
-                .fail(() => {
+                .fail(() => {   
                     console.log("Unable to update weight");
                 });
+        }
+
+        function CustActivityEdit(activityId) {
+            window.location.href = "/SalesLeads/EditCustActivityCode/" + activityId;
         }
 
     </script>

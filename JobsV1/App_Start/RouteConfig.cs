@@ -354,6 +354,13 @@ namespace JobsV1
                 );
 
             routes.MapRoute(
+                name: "myHome",
+                url: "Home/",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "JobsV1.Controllers" }
+            );
+
+            routes.MapRoute(
                 name: "Home",
                 url: "Home/",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },

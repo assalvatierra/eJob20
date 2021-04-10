@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/08/2021 15:21:24
+-- Date Created: 04/10/2021 19:04:00
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -1414,7 +1414,8 @@ CREATE TABLE [dbo].[SalesStatusCodes] (
     [SeqNo] int  NULL,
     [Name] nvarchar(80)  NOT NULL,
     [iconPath] nvarchar(150)  NULL,
-    [SalesStatusTypeId] int  NOT NULL
+    [SalesStatusTypeId] int  NOT NULL,
+    [OrderNo] int  NOT NULL
 );
 GO
 

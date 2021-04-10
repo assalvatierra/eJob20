@@ -142,10 +142,11 @@
                     <!--Sales Lead Status-->
                     <div>
 
+                        @{
+                            bool ForApproveOnce = false;
+                        }
                         @foreach (var salesstat in SalesStatCode)
                         {
-
-
                             if (item.SalesStatus.Where(s => s.SalesStatusStatusId == 1).Select(s => s.SalesStatusCodeId).Contains(salesstat.Id))
                             {
                                 //Active Status
@@ -185,6 +186,7 @@
                                         <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
                                             <a class="link-white link-status"> @salesstat.Name </a>
                                         </button>
+
                                     }
                                     else
                                     {
@@ -193,7 +195,6 @@
                                             <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
                                         </button>
                                     }
-
 
                                 }
                                 else if (salesstat.Id == 15 || salesstat.Id == 16)
@@ -209,7 +210,8 @@
                                         isApproved = true;
                                     }
 
-                                    if (((item.Price > OneMLimit && item.Price < ThreeMLimit) && actStatusType == BIDDING) ||
+                                    if ((item.Price > OneMLimit && item.Price < ThreeMLimit) ||
+                                        ((item.Price > OneMLimit && item.Price < ThreeMLimit) && actStatusType == BIDDING) ||
                                         ((item.Price <= OneMLimit) && (actStatusType == FIRM || actStatusType == BUYING)))
                                     {
                                         //Check if user is allowed to approved
@@ -227,6 +229,14 @@
                                                         <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
                                                     </button>
                                                 }
+                                                else
+                                                {
+                                                    //disable status
+                                                    <span>&#187;</span>
+                                                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                        <a class="link-white link-status"> @salesstat.Name </a>
+                                                    </button>
+                                                }
                                             }
                                             else
                                             {
@@ -237,13 +247,24 @@
                                                 </button>
                                             }
                                         }
-
+                                        else
+                                        {
+                                            if (!ForApproveOnce && !isApproved)
+                                            {
+                                                ForApproveOnce = true;
+                                                @*<span>&#187;</span>
+                                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                    <a class="link-white link-status"> APPROVED BY MARIO/ALDRIN </a>
+                                                </button>*@
+                                            }
+                                        }
                                     }
+
 
                                     //Requires Two Approval
                                     //Price is 3M OR 1M AND status type is Firm Inquiry or Buying Inquiry
-                                    if (item.Price > ThreeMLimit ||
-                                        ((item.Price > OneMLimit && item.Price < ThreeMLimit) && (actStatusType == FIRM || actStatusType == BUYING)))
+                                    if (item.Price > ThreeMLimit || (item.Price > ThreeMLimit && actStatusType == BIDDING) ||
+                                      ((item.Price > OneMLimit && item.Price < ThreeMLimit) && (actStatusType == FIRM || actStatusType == BUYING)))
                                     {
                                         //approved by Aldrin AND Approved by Mario
                                         if (salesstat.SalesStatusRestrictions.Where(s => s.SalesStatusAllowedUser.User == USER).FirstOrDefault() != null)
@@ -369,10 +390,11 @@
                         <span style="font:bold 8px, arial, verdana; color: royalblue;">
                             @foreach (var procActGroup in item.SalesLeadSupActivities.GroupBy(s => s.SupplierActivity.Supplier.Name))
                             {
-                               <span style="color:darkred;font-weight:600;padding-top:10px;"> @procActGroup.Key </span><br />
+                                <span style="color:darkred;font-weight:600;padding-top:10px;"> @procActGroup.Key </span><br />
                                 foreach (var procAct in procActGroup)
                                 {
                                     var tmpAct = procAct.SupplierActivity;
+                                    var amount = tmpAct.Amount ?? 0;
                                     if (tmpAct.SupplierActActionStatusId == 1)
                                     {
                                         <span style="color:red;font-weight:800;">! </span>
@@ -380,10 +402,18 @@
                                              alt=@tmpAct.SupplierActActionCode.IconPath height="16"
                                              title=@tmpAct.SupplierActActionCode.IconPath />
 
-                                        <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @tmpAct.Type | @tmpAct.Remarks </span>
-                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
-                                        <span class="cursor-hand" onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done | </span>
-                                        <span class="cursor-hand" onclick="UpdateProcActivity_Remove(@tmpAct.Id)"> [ x ] </span>
+                                        <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency - @tmpAct.Type | @tmpAct.Remarks </span>
+                                        <span style="font:status-bar;color:darkgray;">
+                                            @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
+                                            &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                                            &nbsp;
+                                        </span>
+                                        if (USER == tmpAct.Assigned || ISADMIN)
+                                        {
+                                            <span class="btn btn-default btn-xs"  onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done  </span>
+                                            <span class="btn btn-default btn-xs" onclick="UpdateProcActivity_Edit(@tmpAct.Id)"> Edit  </span>
+                                            <span class="btn btn-danger btn-xs" onclick="UpdateProcActivity_Remove(@tmpAct.Id)">  x  </span>
+                                        }
 
                                         @*@Html.ActionLink("Done |", "ProcActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })*@
                                         @*@Html.ActionLink(" [x]", "ProcActivityRemove", new { id = tmpAct.Id })*@
@@ -396,8 +426,12 @@
                                         <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
                                              alt=@tmpAct.SupplierActActionCode.IconPath height="16"
                                              title=@tmpAct.SupplierActActionCode.IconPath />
-                                        <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name -  @tmpAct.Type | @tmpAct.Remarks</span>
-                                        <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                        <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
+                                        <span style="font:status-bar;color:darkgray;">
+                                            @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
+                                            &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                                            &nbsp;
+                                        </span>
                                         <br />
                                     }
                                     if (tmpAct.SupplierActActionStatusId == 3)
@@ -407,8 +441,12 @@
                                              alt=@tmpAct.SupplierActActionCode.IconPath height="16"
                                              title=@tmpAct.SupplierActActionCode.IconPath />
                                         <strike style="color:darkgray;">
-                                            <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name -  @tmpAct.Type | @tmpAct.Remarks</span>
-                                            <span style="font:status-bar;color:darkgray;"> @tmpAct.DtActivity.ToString("MMM-dd-yyyy")</span>
+                                            <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
+                                            <span style="font:status-bar;color:darkgray;">
+                                                @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
+                                                &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                                                &nbsp;
+                                            </span>
                                         </strike>
                                         <br />
                                     }
@@ -440,7 +478,7 @@
                             {
                                 var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
 
-                                Html.RenderAction("CustActivitiesPartial", "SalesLeads", new { salesCode = item.SalesCode });
+                                Html.RenderAction("CustActivitiesPartial", new { salesCode = item.SalesCode });
 
                             }
                         }
@@ -540,7 +578,6 @@
                                                         //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
                                                         <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
                                                     }
-
                                                 </span>
                                             </p>
                                             <p style="margin-top:-5px;margin-left:10px;font-size:12px;color:gray;">
@@ -686,6 +723,10 @@
                 .fail(() => {
                     console.log("Unable to update weight");
                 });
+        }
+        
+        function UpdateProcActivity_Edit(activityId) {
+            window.location.href = "/Procurement/EditProcActivityCode/" + activityId;
         }
 
 
