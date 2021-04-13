@@ -15,6 +15,10 @@
         background-color: #eff3f6;
         border: none;
     }
+
+    .datepicker{
+        z-index: 1100 !important;
+    }
 </style>
 
 <h2>Trip Log</h2>
@@ -35,9 +39,9 @@
 </p>
 <p>
     @Html.ActionLink("Add New Trip", "Create") |
-    @Html.ActionLink("Copy Trip", "CopyTrip") |
+    @Html.ActionLink("Copy Trip", "CopyTrip")  |
     @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-    @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |
+    <a class="cursor-hand" onclick="ShowFinalizeTrip(this)"> Show Finalize Trip </a> |
     @Html.ActionLink("Billing View", "IndexBilling")
 </p>
 
@@ -45,13 +49,15 @@
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#SummaryModal">Summary</button>
 
-    <button type="button" class="btn btn-default" onclick="PrevDay()">
+    <button type="button" class="btn btn-default" onclick="PrevDay(" @ViewBag.FilteredsDate ")">
         &#171; Prev Day
     </button>
 
-    <button type="button" class="btn btn-default" onclick="NextDay()">
+    <button type="button" class="btn btn-default" onclick="NextDay(" @ViewBag.FilteredsDate ")">
         Next Day &#187;
     </button>
+
+    <button type="button" class="btn btn-default" id="FinalizeTrip-Btn" onclick="FinalizeCheckedTrips()" style="display:none"> Finalize Selected Trip </button>
 </p>
 
 <div class="col-md-2 pull-right">
@@ -64,7 +70,7 @@
 </div>
 
 <!-- Filter Modal -->
-<div class="modal fade" role="dialog" id="FilterModal" data-keyboard="false" data-backdrop="static">
+<div class="modal fade" role="dialog" id="FilterModal" data-keyboard="false" data-backdrop="static" modal="false">
     <div class="modal-dialog" style="width:340px;">
         <div class="modal-content">
 
@@ -160,8 +166,11 @@
     </div>
 </div>
 
-<table class="table">
+<table class="table" id="TripLogs-Table">
     <tr>
+        <th id="tb-hd-finalize" hidden>
+            <a class="cursor-hand" onclick="FinalizeAll()"> All </a>
+        </th>
         <th width="100">
             Date
         </th>
@@ -237,6 +246,12 @@
         totalDriverOT += item.DriverOT;
 
         <tr id="trip-@item.Id">
+            <td class="trip-Finalize" hidden>
+                @if (!item.IsFinal)
+                {
+                    <input type="checkbox" value="@item.Id" />
+                }
+            </td>
             <td>
                 @item.DtTrip.ToString("MMM dd yyyy")
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span>
@@ -281,16 +296,21 @@
             <td>
                 @{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id }); }
             </td>
-            <td>
+            <td class="actions">
+               
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Action <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                        <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                        <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
-                        <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
+                        @if (!item.IsFinal)
+                        {
+                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
+                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
+                            <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
+                        }
+
                         <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
@@ -379,124 +399,78 @@
             } else {
                 console.log('no shuttle cookie found');
             }
-
+            
+             $.fn.modal.Constructor.prototype.enforceFocus = function() {};
         });
 
-        function ClickShowShuttle() {
-            //window.location.href = '/Personel/CarRentalLog?isShuttle=1';
-            console.log('set cookie ');
 
-            var shuttle_cookie_prev = getCookie('shuttle_cookie');
-            if (shuttle_cookie_prev) {
-                console.log('shuttle cookie : ' + shuttle_cookie);
-
-                if (shuttle_cookie_prev == 1) {
-                    //set cookie for shuttle
-                    setCookie('shuttle_cookie', '0', 30);
-
-                    var shuttle_cookie = getCookie('shuttle_cookie');
-
-                    $("#isShuttle").addClass("btn-default");
-                    $("#isShuttle").removeClass("btn-primary");
-
-                    console.log('shuttle cookie : ' + shuttle_cookie);
-
-                    window.location.reload();
-                } else {
-                    setCookie('shuttle_cookie', '1', 30);
-
-                    var shuttle_cookie = getCookie('shuttle_cookie');
-
-                    $("#isShuttle").removeClass("btn-default");
-                    $("#isShuttle").addClass("btn-primary");
-
-                    console.log('shuttle cookie : ' + shuttle_cookie);
-
-                    window.location.reload();
-
-                }
+        function ShowFinalizeTrip(e) {
+            if (!$("#tb-hd-finalize").is(":visible")) {
+                $("#tb-hd-finalize").show();
+                $(".trip-Finalize").show();
+                $("#FinalizeTrip-Btn").show();
+                $(e).text("Hide Finalize Trips")
             } else {
-                setCookie('shuttle_cookie', '1', 30);
-
-                $("#isShuttle").removeClass("btn-default");
-                $("#isShuttle").addClass("btn-primary");
-
-                console.log('shuttle cookie added ');
-                window.location.reload();
+                $("#tb-hd-finalize").hide();
+                $(".trip-Finalize").hide();
+                $("#FinalizeTrip-Btn").hide();
+                $(e).text("Show Finalize Trips")
             }
         }
 
-        function setCookie(name, value, days) {
-            var expires = "";
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = date.toUTCString();
-            }
-            document.cookie =  name + "=" + (value || "") +";expires="+ expires + ";path=/";
-            console.log(document.cookie);
+        function FinalizeAll() {
+
+            $('#TripLogs-Table tr td input[type="checkbox"]').each(function(){
+                $(this).prop('checked', true);
+            });
         }
 
-        function getCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        function FinalizeCheckedTrips() {
+            ShowLoading();
+            let tripCount = 0;
+            if ($("#tb-hd-finalize").is(":visible")) {
+                $('#TripLogs-Table tr td input[type="checkbox"]').each(function () {
+                    tripCount = tripCount + 1;
+                    if ($(this).is(':checked')) {
+
+                        console.log("Checked " + $(this).val());
+
+                        let tripId = $(this).val();
+                        if (tripId != null || tripId != undefined) {
+                            FinalizeTrip(this, tripId);
+                        }
+                    }
+                });
+            } else {
+                alert("No Selected Trips");
             }
-            return null;
+
+            if (tripCount == 0) {
+                alert("No Selected Trips");
+            }
+            
+            HideLoading();
         }
 
-        function RequestPOFuel(e, driverId, unitId) {
-            $.post("/Personel/CarRentalLog/RequestPOFuel", { driverId: driverId, unitId: unitId }, (response) => {
-                if (response) {
-                    $(e).text("Fuel Requested");
-                    $(e).prop("Disabled", true);
-                    $(e).parent().append('<a style="cursor:not-allowed;color:gray;"> Fuel Requested </a>')
-                    $(e).remove();
+        function FinalizeTrip(e, tripId) {
+            $.post("/Personel/CarRentalLog/SetTripFinalize", { id : tripId })
+                .done((data, status, headers) => {
+                    console.log('done');
+                    console.log(headers["status"]);
 
-                    //alert("Fuel Requested")
-                } else {
-                    alert("Unable to request fuel.")
-                }
-            })
-        }
-
-        function PrevDay() {
-
-            if ("@ViewBag.FilteredsDate" != "") {
-                $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").add(-1, 'days').format("MM/DD/YYYY"))
-            } else {
-                $("#filter-sdate").val(moment().add(-1, 'days').format("MM/DD/YYYY"))
-            }
-
-            if ("@ViewBag.FilteredsDate" != "") {
-                $("#filter-edate").val(moment("@ViewBag.FilteredeDate").add(-1, 'days').format("MM/DD/YYYY"))
-            } else {
-                $("#filter-edate").val(moment().add(-1, 'days').format("MM/DD/YYYY"))
-            }
-
-
-            $("#SubmitFilterBtn").click();
-        }
-
-
-        function NextDay() {
-
-            if ("@ViewBag.FilteredsDate" != "") {
-                $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").add(1, 'days').format("MM/DD/YYYY"))
-            } else {
-                $("#filter-sdate").val(moment().add(1, 'days').format("MM/DD/YYYY"))
-            }
-
-            if ("@ViewBag.FilteredsDate" != "") {
-                $("#filter-edate").val(moment("@ViewBag.FilteredeDate").add(1, 'days').format("MM/DD/YYYY"))
-            } else {
-                $("#filter-edate").val(moment().add(1, 'days').format("MM/DD/YYYY"))
-            }
-
-            $("#SubmitFilterBtn").click();
+                    if (headers["status"] == 200) {
+                        $(e).parent().parent().addClass('success');
+                        $(e).parent().siblings('.actions').children().hide();
+                        $(e).hide();
+                    } else {
+                        alert("Ünable to Finalize Selected Trips");
+                    }
+                    
+                })
+                .fail((data, status, headers) => {
+                    console.log('fail');
+                    console.log(data);
+                });
         }
 
     </script>

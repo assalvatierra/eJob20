@@ -7509,7 +7509,7 @@
           <Property Name="Remarks" Type="String" Nullable="false" />
           <Property Name="DtValidFrom" Type="String" Nullable="false" />
           <Property Name="DtValidTo" Type="String" Nullable="false" />
-          <Property Name="Particulars" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Particulars" Type="String" Nullable="false" MaxLength="160" />
           <Property Name="By" Type="String" Nullable="false" MaxLength="80" />
           <Property Name="Material" Type="String" Nullable="true" MaxLength="40" />
           <Property Name="ProcBy" Type="String" Nullable="true" MaxLength="40" />

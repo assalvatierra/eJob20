@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
@@ -23,52 +24,90 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/CarRentalLog
         public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
         {
-
-                if (!startDate.IsNullOrWhiteSpace())
+            #region Session
+            if (!startDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-startDate"] = startDate;
+            }
+            else
+            {
+                if (Session["triplog-startDate"] != null)
                 {
-                    Session["triplog-startDate"] = startDate;
+                    startDate = Session["triplog-startDate"].ToString();
                 }
-                else
-                {
-                    if (Session["triplog-startDate"] != null)
-                    {
-                        startDate = Session["triplog-startDate"].ToString();
-                    }
-                }
+            }
                
-                if (!endDate.IsNullOrWhiteSpace())
+            if (!endDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-endDate"] = endDate;
+            }
+            else
+            {
+                if(Session["triplog-endDate"] != null)
                 {
-                    Session["triplog-endDate"] = endDate;
+                    endDate = Session["triplog-endDate"].ToString();
                 }
-                else
+            }
+               
+            if (!unit.IsNullOrWhiteSpace())
+            {
+                Session["triplog-unit"] = unit;
+            }
+            else
+            {
+                if(Session["triplog-unit"] != null)
                 {
-                    if(Session["triplog-endDate"] != null)
-                    {
-                        endDate = Session["triplog-endDate"].ToString();
-                    }
+                    unit = Session["triplog-unit"].ToString();
                 }
-              
-                var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
+            }
+               
+            if (!driver.IsNullOrWhiteSpace())
+            {
+                Session["triplog-driver"] = driver;
+            }
+            else
+            {
+                if(Session["triplog-driver"] != null)
+                {
+                    driver = Session["triplog-driver"].ToString();
+                }
+            }
+               
+            if (!company.IsNullOrWhiteSpace())
+            {
+                Session["triplog-company"] = driver;
+            }
+            else
+            {
+                if(Session["triplog-company"] != null)
+                {
+                    company = Session["triplog-company"].ToString();
+                }
+            }
 
-                //get summary
-                var logSummary = GetCrLogSummary(tripLogs);
-                ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
-                ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
-                ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
+            #endregion
 
-                ViewBag.FilteredsDate = startDate;
-                ViewBag.FilteredeDate = endDate;
-                ViewBag.FilteredUnit = unit ?? "all";
-                ViewBag.FilteredDriver = driver ?? "all";
-                ViewBag.FilteredCompany = company ?? "all";
-                ViewBag.SortBy = sortby ?? "Date";
+            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
 
-                ViewBag.crLogUnitList    = dl.GetUnits().ToList();
-                ViewBag.crLogDriverList  = dl.GetDrivers().ToList();
-                ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-                ViewBag.crLogOwnerList   = dl.GetOwners().ToList();
+            //get summary
+            var logSummary = GetCrLogSummary(tripLogs);
+            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
+            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
+            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
 
-                return View(tripLogs);
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+
+            ViewBag.crLogUnitList    = dl.GetUnits().ToList();
+            ViewBag.crLogDriverList  = dl.GetDrivers().ToList();
+            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+            ViewBag.crLogOwnerList   = dl.GetOwners().ToList();
+
+            return View(tripLogs);
 
         }
 
@@ -791,9 +830,19 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             crLogDriver driver = db.crLogDrivers.Find(id);
-            List<crLogCashRelease> cashAdvance = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 2).OrderBy(s => s.DtRelease).ToList();
-            List<crLogCashRelease> payments = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 3).OrderBy(s => s.DtRelease).ToList();
-            List<crLogCashRelease> cashtrx = db.crLogCashReleases.Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId != 1).OrderBy(s => s.DtRelease).ToList();
+
+            //Get CA 
+            List<crLogCashRelease> cashAdvance = db.crLogCashReleases
+                .Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 2)
+                .OrderBy(s => s.DtRelease).ToList();
+            //Get Payments
+            List<crLogCashRelease> payments = db.crLogCashReleases
+                .Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId == 3)
+                .OrderBy(s => s.DtRelease).ToList();
+            //Get Cash
+            List<crLogCashRelease> cashtrx = db.crLogCashReleases
+                .Where(d => d.crLogDriverId == id && d.crLogClosing == null && d.crLogCashTypeId != 1)
+                .OrderBy(s => s.DtRelease).ToList();
 
             decimal totalCA = 0;
             decimal totalPayments = 0;
@@ -1554,6 +1603,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crLogTrip.DriverOT = (decimal)GetTripOTRate(Id);
                 crLogTrip.AddonOT = (decimal)GetTripOTAddon(Id);
 
+                //save changes
                 db.Entry(crLogTrip).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -1561,6 +1611,29 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             return false;
+        }
+
+        [HttpPost]
+        public HttpResponseMessage SetTripFinalize(int id)
+        {
+            try
+            {
+                //find trip
+                var triplog = db.crLogTrips.Find(id);
+
+                //set trip as final, cannot be edited
+                triplog.IsFinal = true;
+
+                //save changes
+                db.Entry(triplog).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            catch
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
         }
 
         private class TripOdoRequest

@@ -1,5 +1,9 @@
 ﻿
-
+/**
+ *  Car Rental Logs
+ *  /Personel/CarRentalLog
+ *  
+ **/ 
 $(document).ready(function () {
     InitDatePicker();
 })
@@ -102,7 +106,6 @@ function Submit_OdoUpdateForm() {
     $.post("/Personel/CarRentalLog/SetTripOdo", odoData, (response) => {
         console.log(response);
         if (response == 'True') {
-            //window.location.reload();
             var tripLog = $("#trip-" + tripId);
             tripLog.children(".trip-OdoStart").text(odoStart);
             tripLog.children(".trip-OdoEnd").text(odoEnd);
@@ -118,8 +121,6 @@ function Submit_OdoUpdateForm() {
 /*
  * OT Update Modal
  */
-
-
 function Show_OTUpdateModal(tripId) {
     $("#LogOTUpdateModal").modal("show");
     $("#OTUpdate-Id").val(tripId);
@@ -214,7 +215,6 @@ function VehicleSummaryFilter_AddDays(days) {
 
 
 /**  Vehicle Trip Report Filter */
-
 function Submit_VehicleTripFilter() {
 
     var startDate = $("#VehicleTripFilter-StartDate").val();
@@ -233,4 +233,122 @@ function Submit_VehicleTripFilter() {
 
 function VehicleTripFilter_AddDays(days) {
     $("#VehicleTripFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}
+
+function ClickShowShuttle() {
+    //window.location.href = '/Personel/CarRentalLog?isShuttle=1';
+    //console.log('set cookie ');
+
+    var shuttle_cookie_prev = getCookie('shuttle_cookie');
+    if (shuttle_cookie_prev) {
+        //console.log('shuttle cookie : ' + shuttle_cookie);
+
+        if (shuttle_cookie_prev == 1) {
+            //set cookie for shuttle
+            setCookie('shuttle_cookie', '0', 30);
+
+            var shuttle_cookie = getCookie('shuttle_cookie');
+
+            $("#isShuttle").addClass("btn-default");
+            $("#isShuttle").removeClass("btn-primary");
+
+            // console.log('shuttle cookie : ' + shuttle_cookie);
+
+            window.location.reload();
+        } else {
+            setCookie('shuttle_cookie', '1', 30);
+
+            var shuttle_cookie = getCookie('shuttle_cookie');
+
+            $("#isShuttle").removeClass("btn-default");
+            $("#isShuttle").addClass("btn-primary");
+
+            //console.log('shuttle cookie : ' + shuttle_cookie);
+
+            window.location.reload();
+        }
+    } else {
+        setCookie('shuttle_cookie', '1', 30);
+
+        $("#isShuttle").removeClass("btn-default");
+        $("#isShuttle").addClass("btn-primary");
+
+        // console.log('shuttle cookie added ');
+        window.location.reload();
+    }
+}
+
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + ";expires=" + expires + ";path=/";
+    console.log(document.cookie);
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+//Request PO
+function RequestPOFuel(e, driverId, unitId) {
+    $.post("/Personel/CarRentalLog/RequestPOFuel", { driverId: driverId, unitId: unitId }, (response) => {
+        if (response) {
+            $(e).text("Fuel Requested");
+            $(e).prop("Disabled", true);
+            $(e).parent().append('<a style="cursor:not-allowed;color:gray;"> Fuel Requested </a>')
+            $(e).remove();
+
+            //alert("Fuel Requested")
+        } else {
+            alert("Unable to request fuel.")
+        }
+    })
+}
+
+//Filter Date to Previous Day
+function PrevDay(filteredsDate) {
+
+    if (filteredsDate != "") {
+        $("#filter-sdate").val(moment(filteredsDate).add(-1, 'days').format("MM/DD/YYYY"))
+    } else {
+        $("#filter-sdate").val(moment().add(-1, 'days').format("MM/DD/YYYY"))
+    }
+
+    if (filteredsDate != "") {
+        $("#filter-edate").val(moment(filteredsDate).add(-1, 'days').format("MM/DD/YYYY"))
+    } else {
+        $("#filter-edate").val(moment().add(-1, 'days').format("MM/DD/YYYY"))
+    }
+
+
+    $("#SubmitFilterBtn").click();
+}
+
+//Filter Date to Next Day
+function NextDay(filteredsDate) {
+
+    if (filteredsDate != "") {
+        $("#filter-sdate").val(moment(filteredsDate).add(1, 'days').format("MM/DD/YYYY"))
+    } else {
+        $("#filter-sdate").val(moment().add(1, 'days').format("MM/DD/YYYY"))
+    }
+
+    if (filteredsDate != "") {
+        $("#filter-edate").val(moment(filteredsDate).add(1, 'days').format("MM/DD/YYYY"))
+    } else {
+        $("#filter-edate").val(moment().add(1, 'days').format("MM/DD/YYYY"))
+    }
+
+    $("#SubmitFilterBtn").click();
 }

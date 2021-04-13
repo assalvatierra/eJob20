@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Trip Log";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    int totalHrsOT = 0;
 }
 <style href=""></style>
 <style>
@@ -149,7 +150,7 @@
     </div>
 </div>
 
-<table class="table">
+<table class="table" id="TripLogs-Table">
     <tr>
         <th width="100">
             Date
@@ -166,6 +167,9 @@
         </th>
         <th>
             Remarks
+        </th>
+        <th>
+            Rate
         </th>
         <th>
             OT&nbsp;Rate
@@ -208,7 +212,8 @@
         totalExpenses += item.Expenses;
         totalDriverFee += item.DriverFee;
         totalDriverOT += item.DriverOT;
-
+     
+        totalHrsOT += 0;
         <tr id="trip-@item.Id">
             <td>
                 @item.DtTrip.ToString("MMM dd yyyy")
@@ -232,12 +237,15 @@
                 </span>
             </td>
             <td>
+                @item.Rate.ToString("N0")
+            </td>
+            <td >
                 @*@item.DriverOT.ToString("#,##0.00")*@
 
-                @{ Html.RenderAction("GetTripOTRate", "CarRentalLog", new { id = item.Id }); }
+                <span class="OT-Rate"> @{ Html.RenderAction("GetTripOTRate", "CarRentalLog", new { id = item.Id }); }</span>
             </td>
-            <td>
-                @{ Html.RenderAction("GetTripOTHours", "CarRentalLog", new { id = item.Id }); }
+            <td >
+                <span class="OT-Hours">@{ Html.RenderAction("GetTripOTHours", "CarRentalLog", new { id = item.Id }); }</span>
             </td>
             <td>
                 @Html.ActionLink("Edit", "EditBilling", new { id = item.Id })
@@ -266,9 +274,18 @@
                 <p> Total Count: @count </p>
             </td>
             <td>
-                @*  @totalDriverOT.ToString("#,##0.00")*@
+                <span style="font-size:9px;color:gray;"> Total Drivers Rate</span><br />
+                <span style="font-size:18px;"> @totalDriverFee.ToString("#,##0") </span>
             </td>
-            <td colspan="3"></td>
+            <td>
+                <span style="font-size:9px;color:gray;"> Total OT Rate</span><br />
+                <span style="font-size:18px;"  id="totalOTRate"> </span>
+            </td>
+            <td >
+                <span style="font-size:9px;color:gray;"> Total OT Hours </span><br />
+                <span style="font-size:18px;" id="totalOTHours"> </span>
+            </td>
+            <td colspan="2"></td>
         </tr>
     }
 
@@ -328,6 +345,8 @@
                 console.log('no shuttle cookie found');
             }
 
+            GetOTHours();
+            GetOTRate();
         });
 
         function ClickShowShuttle() {
@@ -446,6 +465,37 @@
             }
 
             $("#SubmitFilterBtn").click();
+        }
+
+        function GetOTHours() {
+            var totalOTHours = 0;
+            $('#TripLogs-Table tr td .OT-Hours').each(function () {
+                 
+                console.log("Checked " + $(this).val());
+
+                let OTHours = parseFloat($(this).text());
+                console.log(OTHours);
+                totalOTHours = totalOTHours + OTHours;
+                    
+            });
+
+            $("#totalOTHours").text(totalOTHours);
+        }
+
+        
+        function GetOTRate() {
+            var totalOTRate = 0;
+            $('#TripLogs-Table tr td .OT-Rate').each(function () {
+                 
+                console.log("Checked " + $(this).val());
+
+                let OTRate = parseFloat($(this).text());
+                console.log(OTRate);
+                totalOTRate = totalOTRate + OTRate;
+                    
+            });
+
+            $("#totalOTRate").text(totalOTRate);
         }
 
     </script>

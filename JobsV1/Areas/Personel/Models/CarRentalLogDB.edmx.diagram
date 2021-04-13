@@ -21,7 +21,7 @@
         <EntityTypeShape EntityType="CarRentalLogDB.crLogFuel" Width="1.5" PointX="6.625" PointY="12.125" />
         <AssociationConnector Association="CarRentalLogDB.crLogUnitcrLogFuel" />
         <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogFuel" />
-        <EntityTypeShape EntityType="CarRentalLogDB.crLogOdo" Width="1.5" PointX="6.625" PointY="7.25" />
+        <EntityTypeShape EntityType="CarRentalLogDB.crLogOdo" Width="1.5" PointX="6.625" PointY="7.5" />
         <AssociationConnector Association="CarRentalLogDB.crLogUnitcrLogOdo" />
         <AssociationConnector Association="CarRentalLogDB.crLogDrivercrLogOdo" />
         <EntityTypeShape EntityType="CarRentalLogDB.crCashReqStatus" Width="1.5" PointX="13.875" PointY="14.125" />

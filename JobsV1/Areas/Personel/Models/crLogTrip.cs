@@ -41,6 +41,7 @@ namespace JobsV1.Areas.Personel.Models
         public Nullable<decimal> OTRate { get; set; }
         public Nullable<decimal> DriverOTRate { get; set; }
         public Nullable<decimal> AddonOT { get; set; }
+        public bool IsFinal { get; set; }
     
         public virtual crLogDriver crLogDriver { get; set; }
         public virtual crLogUnit crLogUnit { get; set; }
