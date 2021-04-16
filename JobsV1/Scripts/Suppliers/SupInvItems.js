@@ -45,11 +45,15 @@ function ajax_createInvRate() {
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
             // console.log("SUCCESS");
+            ShowLoading();
+            console.log(data);
+            location.reload(false);
         },
         error: function (data) {
             // console.log("ERROR");
+            ShowLoading();
             console.log(data);
-            location.reload();
+            location.reload(false);
         }
     });
 }
@@ -111,9 +115,11 @@ function ajax_editInvRate() {
         data: data,
         dataType: 'application/json; charset=utf-8',
     }).done(() => {
+        ShowLoading();
         location.reload(false);
     }).fail((err) => {
         //alert("Unable to Update Product");
+        ShowLoading();
         console.log(err);
         location.reload(false);
     });
@@ -146,11 +152,15 @@ function ajax_deleteInv(Id) {
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
             // console.log("SUCCESS");
+            ShowLoading();
+            console.log(data);
+            location.reload(false);
         },
         error: function (data) {
             // console.log("ERROR");
+            ShowLoading();
             console.log(data);
-            location.reload();
+            location.reload(false);
         }
     });
 }
@@ -187,11 +197,24 @@ function ajax_deleteItemRate(Id) {
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
             // console.log("SUCCESS");
+            ShowLoading();
+            console.log(data);
+            location.reload(false);
         },
         error: function (data) {
             // console.log("ERROR");
+            ShowLoading();
             console.log(data);
-            location.reload();
+            location.reload(false);
         }
     });
+}
+
+function ShowLoading() {
+    $("#overlay").show();
+}
+
+
+function HideLoading() {
+    $("#overlay").hide();
 }

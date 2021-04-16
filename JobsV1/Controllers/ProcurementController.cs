@@ -58,6 +58,7 @@ namespace JobsV1.Controllers
             ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
             ViewBag.Items = db.InvItems.ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.UserName = GetUserName();
             ViewBag.IsAdmin = IsUserAdmin();
 
             //for adding new item 
@@ -186,7 +187,7 @@ namespace JobsV1.Controllers
                         activity.Remarks = actCodeDefault.Desc;
                     }
 
-                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
                     ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s=>s.Name), "Id", "Name");
                     ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description");
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
@@ -240,7 +241,7 @@ namespace JobsV1.Controllers
 
             var actCodeDefault = supplierActivity.SupplierActActionCode;
 
-            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
             ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s => s.Name), "Id", "Name", supplierActivity.SupplierId);
             ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description", supplierActivity.Supplier.SupplierTypeId);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);
@@ -268,7 +269,7 @@ namespace JobsV1.Controllers
 
                     var actCodeDefault = activity.SupplierActActionCode;
 
-                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
                     ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s => s.Name), "Id", "Name", activity.SupplierId);
                     ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description", activity.Supplier.SupplierTypeId);
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", activity.Type);
@@ -310,7 +311,7 @@ namespace JobsV1.Controllers
 
             var actCodeDefault = supplierActivity.SupplierActActionCode;
 
-            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
             ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s => s.Name), "Id", "Name", supplierActivity.SupplierId);
             ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description", supplierActivity.Supplier.SupplierTypeId);
             ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", supplierActivity.Type);

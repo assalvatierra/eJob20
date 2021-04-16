@@ -44,6 +44,7 @@ function Ajax_CreateSupplierItem() {
         console.log(result);
     }).fail((err) => {
         console.log(err);
+        window.location.reload(false);
     });
 }
 

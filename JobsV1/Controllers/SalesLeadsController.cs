@@ -291,14 +291,17 @@ namespace JobsV1.Controllers
         public ActionResult Create()
         {
 
+            var user = HttpContext.User.Identity.Name;
+
             var tmp = new Models.SalesLead();
             tmp.Date = date.GetCurrentDateTime();
             tmp.DtEntered = date.GetCurrentDateTime();
             tmp.EnteredBy = HttpContext.User.Identity.Name;
 
+
             
             ViewBag.CustomerId = new SelectList(db.Customers.Where(s=>s.Status == "ACT"), "Id", "Name");
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", user);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
 
             ViewBag.CustomerList = db.Customers.Where(s=>s.Status == "ACT").ToList();
@@ -1214,7 +1217,7 @@ namespace JobsV1.Controllers
                         activity.Remarks = actCodeDefault.Desc;
                     }
 
-                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
                     ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
                     ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status");
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
@@ -1279,7 +1282,7 @@ namespace JobsV1.Controllers
                     activity.Date = date.GetCurrentDateTime();
                     activity.Assigned = User.Identity.Name;
                     
-                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
                     ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", activity.CustEntMainId);
                     ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", activity.Status);
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", activity.Type);

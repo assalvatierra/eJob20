@@ -114,7 +114,7 @@
 
                     @foreach (var carList in ViewBag.ItemList as IEnumerable<JobsV1.Models.InvItem>)
                     {
-                        <a href="@Url.Action("AddInvItems", "Suppliers", new { InvID = carList.Id, supID = ViewBag.SupplierId},null)" class="list-group-item">
+                        <a href="@Url.Action("AddInvItems", "Suppliers", new { InvID = carList.Id, supID = ViewBag.SupplierId},null)" class="list-group-item" onclick="ShowLoading()">
                             @Html.DisplayFor(modelItem => carList.ItemCode)
                             <span>-</span>
                             @Html.DisplayFor(modelItem => carList.Description)
@@ -141,39 +141,39 @@
                 <h4 class="modal-title">Add Rate for <span id="InvRate-ItemName"> Item </span></h4>
             </div>
 
-            <div class="modal-body row" id="modal2-content">
+            <div class="modal-body" id="modal2-content">
 
                 <div class="form-group cform hidden">
-                    <b class="col-md-3"> Id </b>
-                    <div class="col-md-9">
+                    <b class="col-md-2"> Id </b>
+                    <div class="col-md-10">
                         <input id="InvRate-ItemId" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Particulars </b>
-                    <div class="col-md-9">
+                    <b class="col-md-2"> Particulars </b>
+                    <div class="col-md-10">
                         <input id="InvRate-Particulars" class="form-control" type="text" maxlength="160">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Material </b>
-                    <div class="col-md-9">
+                    <b class="col-md-2"> Material </b>
+                    <div class="col-md-10">
                         <input id="InvRate-Material" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Rate </b>
-                    <div class="col-md-9">
+                    <b class="col-md-2"> Rate </b>
+                    <div class="col-md-10">
                         <input id="InvRate-Rate" class="form-control" type="text" maxlength="80" value="0">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Unit </b>
-                    <div class="col-md-9">
+                    <b class="col-md-2"> Unit </b>
+                    <div class="col-md-10">
                         <select id="InvRate-UnitType" class="form-control">
                             @foreach (var unit in ViewBag.UnitList as IEnumerable<JobsV1.Models.SupplierUnit>)
                             {
@@ -184,51 +184,50 @@
                     </div><p></p>
                 </div>
 
-
                 <div class="form-group cform">
-                    <b class="col-md-3">TradeTerm </b>
-                    <div class="col-md-9">
+                    <b class="col-md-2">TradeTerm </b>
+                    <div class="col-md-10">
                         <input id="InvRate-TradeTerm" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Tolerance </b>
+                    <b class="col-md-2"> Tolerance </b>
                     <div class="col-md-9">
                         <input id="InvRate-Tolerance" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Remarks </b>
-                    <div class="col-md-9">
+                    <b class="col-md-2"> Remarks </b>
+                    <div class="col-md-10">
                         <input id="InvRate-Remarks" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Valid From</b>
+                    <b class="col-md-2"> Valid&nbsp;From</b>
                     <div class="col-md-9">
                         <input id="InvRate-ValidFrom" class="form-control" type="text" maxlength="20">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Valid To </b>
+                    <b class="col-md-2"> Valid&nbsp;To </b>
                     <div class="col-md-9">
                         <input id="InvRate-ValidTo" class="form-control" type="text" maxlength="20">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Offered-By </b>
+                    <b class="col-md-2"> Offered&nbsp;By </b>
                     <div class="col-md-9">
                         <input id="InvRate-By" class="form-control" type="text" maxlength="80">
                     </div><p></p>
                 </div>
 
                 <div class="form-group cform">
-                    <b class="col-md-3"> Procured-By </b>
+                    <b class="col-md-2"> Procured&nbsp;By </b>
                     <div class="col-md-9">
                         <input id="InvRate-ProcBy" class="form-control" type="text" maxlength="80">
                     </div><p></p>
