@@ -2405,6 +2405,8 @@ order by x.jobid
                     return "Elvie S. Salvatierra ";
                 case "jecca.realbreeze@gmail.com":
                     return "Jecca Bilason";
+                case "kim.realbreeze@gmail.com":
+                    return "Jecca Bilason";
                 default:
                     return "Elvie S. Salvatierra ";
             }
@@ -2425,7 +2427,9 @@ order by x.jobid
                 case "assalvatierra@gmail.com":
                     return "/Images/Signature-1.png";
                 case "jecca.realbreeze@gmail.com":
-                    return "/Images/Signature/Jecca.Sign.jpg";
+                    return "/Images/Signature/JeccaSign.jpg";
+                case "kim.realbreeze@gmail.com":
+                    return "/Images/Signature/KimSign.jpg";
                 default:
                     return "/Images/Signature-1.png";
             }
@@ -2540,7 +2544,6 @@ order by x.jobid
                     decimal quoted = svi.QuotedAmt != null ? (decimal)svi.QuotedAmt : 0 ;
                     sData += "\n\nDate:" + ((DateTime)svi.DtStart).ToString("MMM dd yyyy (ddd)") + " - " + ((DateTime)svi.DtEnd).ToString("MMM dd yyyy (ddd)");
                     sData += "\nDescription:" + svi.Particulars;
-                    sData += "\nVehicle:" + svi.SupplierItem.Description;
                     sData += "\nRate:P" + quoted.ToString("##,###.00");
                     //totalAmount += (decimal)svi.QuotedAmt;
                     totalAmount += quoted;
@@ -2555,7 +2558,10 @@ order by x.jobid
                             sData += " " + jobPickup.JsTime ;
                             sData += " " + jobPickup.JsDate.ToString("MMM dd yyyy");
                             sData += "\nLocation: " + jobPickup.JsLocation;
-                            sData += "\nDriver: " + getDriverDetails(svi.Id);
+
+                            sData += "\n\nAssigned:";
+                            sData += "\nVehicle:" + getUnitDetails(svi.Id);
+                            sData += "\nDriver: " + jobPickup.ProviderName + " / " + jobPickup.ProviderContact;
                             pickupCount++;
                         }
                     }
@@ -2716,6 +2722,22 @@ order by x.jobid
             foreach (var svc in jobsvc)
             {
                 if (svc.InvItem.ViewLabel == "Driver" || svc.InvItem.ViewLabel == "DRIVER" )
+                {
+                    driverDetails = svc.InvItem.Description + " / " + svc.InvItem.ContactInfo;
+                }
+            }
+            return driverDetails;
+        }
+
+
+        private string getUnitDetails(int svcId)
+        {
+            var driverDetails = "TBA";
+            var jobsvc = db.JobServiceItems.Where(s => s.JobServicesId == svcId).ToList();
+
+            foreach (var svc in jobsvc)
+            {
+                if (svc.InvItem.ViewLabel == "Unit" || svc.InvItem.ViewLabel == "UNIT")
                 {
                     driverDetails = svc.InvItem.Description + " / " + svc.InvItem.ContactInfo;
                 }

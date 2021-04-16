@@ -45,11 +45,11 @@
 </div>
 
 <table class="table" id="payables-table">
-    <tr> 
+    <tr>
         <th>
             @if (status == 2)
             {
-                <a href="#" type="checkbox" id="payables-table-checkAll" onclick="CheckAllPayableItems()" >All </a>
+                <a href="#" type="checkbox" id="payables-table-checkAll" onclick="CheckAllPayableItems()">All </a>
             }
 
         </th>
@@ -84,184 +84,201 @@
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var payablesGroup in Model.GroupBy(p => p.DtDue.ToString("MMMM", null)))
     {
-        decimal totalTransPayment = 0;
+        
+        totalAmount  = 0;
+        totalPayment = 0;
+        totalBalance = 0;
 
-        foreach (var transpayment in item.ApTransPayments)
+        <tr>
+            <td colspan="11">
+                <span style="font-weight:bold;">@payablesGroup.Key</span>
+            </td>
+        </tr>
+
+        foreach (var item in payablesGroup)
         {
-            if (transpayment.ApPayment.ApPaymentStatusId == 2)
-            {
-                totalTransPayment += transpayment.ApPayment.Amount;
-            }
-        }
+            decimal totalTransPayment = 0;
 
-        //handle text color based on due date
-        string textcolor = "black";
-        string bgcolor = "none";
-
-        if (item.ApTransStatusId < 4)
-        {
-
-            if (today.CompareTo(item.DtDue) == 0)
+            foreach (var transpayment in item.ApTransPayments)
             {
-                textcolor = "black";
-                bgcolor = "lightgray";
-            }
-            else if (today.CompareTo(item.DtDue) > 0)
-            {
-                textcolor = "darkred";
-            }
-            else if (today.CompareTo(item.DtDue) < 0)
-            {
-                textcolor = "black";
-            }
-            else
-            {
-                textcolor = "black";
+                if (transpayment.ApPayment.ApPaymentStatusId == 2)
+                {
+                    totalTransPayment += transpayment.ApPayment.Amount;
+                }
             }
 
-        }
-        else
-        {
-            textcolor = "darkgreen";
-        }
+            //handle text color based on due date
+            string textcolor = "black";
+            string bgcolor = "none";
 
+            if (item.ApTransStatusId < 4)
+            {
 
-        <tr style="color:@textcolor;background-color:@bgcolor;">
-            <td>
-                @if(!item.IsPrinted && status == 2)
+                if (today.CompareTo(item.DtDue) == 0)
                 {
-                    <input value="@item.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
+                    textcolor = "black";
+                    bgcolor = "lightgray";
                 }
-                
-            </td>
-            <td>
-                @item.DtInvoice.ToString("MMM dd yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvoiceNo)
-            </td>
-            <td>
-                <b> @Html.DisplayFor(modelItem => item.ApAccount.Name)</b>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <span>
-                    @item.DtDue.ToString("MMM dd yyyy")
-                </span>
-            </td>
-            <td>
-                @if (item.IsRepeating)
+                else if (today.CompareTo(item.DtDue) > 0)
                 {
-                    <span alt="repeating" title="Repeating Payables"> &#8635; </span>
+                    textcolor = "darkred";
                 }
-
-                @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
-            </td>
-            <td>
-                @if (item.ApTransStatusId == 1)
+                else if (today.CompareTo(item.DtDue) < 0)
                 {
-                    <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
-                }
-                else if (item.ApTransStatusId == 2)
-                {
-                    <span class="label label-info">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
-
-                }
-                else if (item.ApTransStatusId == 3)
-                {
-                    <span class="label label-success">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
-
-                }
-                else if (item.ApTransStatusId == 4)
-                {
-                    <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
-
+                    textcolor = "black";
                 }
                 else
                 {
-                    <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+                    textcolor = "black";
                 }
 
+            }
+            else
+            {
+                textcolor = "darkgreen";
+            }
+
+
+            <tr style="color:@textcolor;background-color:@bgcolor;">
+                <td>
+                    @if (!item.IsPrinted && status == 2)
+                    {
+                        <input value="@item.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
+                    }
+
+                </td>
+                <td>
+                    @item.DtInvoice.ToString("MMM dd yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceNo)
+                </td>
+                <td>
+                    <b> @Html.DisplayFor(modelItem => item.ApAccount.Name)</b>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <span>
+                        @item.DtDue.ToString("MMM dd yyyy")
+                    </span>
+                </td>
+                <td>
+                    @if (item.IsRepeating)
+                    {
+                        <span alt="repeating" title="Repeating Payables"> &#8635; </span>
+                    }
+
+                    @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
+                </td>
+                <td>
+                    @if (item.ApTransStatusId == 1)
+                    {
+                        <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+                    }
+                    else if (item.ApTransStatusId == 2)
+                    {
+                        <span class="label label-info">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                    }
+                    else if (item.ApTransStatusId == 3)
+                    {
+                        <span class="label label-success">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                    }
+                    else if (item.ApTransStatusId == 4)
+                    {
+                        <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                    }
+                    else
+                    {
+                        <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+                    }
+
+                </td>
+                <td style="background-color:lightgray;">
+                    @item.Amount.ToString("#,##0.00")
+                </td>
+                <td>
+                    <span class="text-success"> @totalTransPayment.ToString("#,##0.00") </span>
+                </td>
+
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-actions" data-toggle="dropdown">
+                            Actions
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
+                            <li>
+                                @if (item.ApTransStatusId == 1)
+                                {
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
+                                }
+                                else if (item.ApTransStatusId == 2)
+                                {
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 3)"> Payment Release </a>
+
+                                    @*if (!item.IsPrinted)
+                                        {
+                                            @Html.ActionLink("Print Request", "PrintRequestForm", "ApTransactions", new { id = item.Id }, new { @onclick="OnPrintClicked(this,"+ item.Id +")", @target="_blank" })
+                                        }*@
+
+                                }
+                                else if (item.ApTransStatusId == 3)
+                                {
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 4)"> Paid & Close </a>
+                                }
+                            </li>
+
+                            @if (item.ApTransStatusId == 3)
+                            {
+                                <li>
+                                    @Html.ActionLink("Payment", "CreateTransPayment", "ApPayments", new { transId = item.Id }, null)
+                                </li>
+                            }
+                            <li role="separator" class="divider"></li>
+                            <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
+                            <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            totalPayment += totalTransPayment;
+            totalAmount += item.Amount;
+
+        }
+
+
+        {
+            totalBalance = totalAmount - totalPayment;
+        }
+        <tr>
+            <td colspan="8">
             </td>
             <td style="background-color:lightgray;">
-                @item.Amount.ToString("#,##0.00")
+                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
+                <p style="font-size:18px;">@totalAmount.ToString("#,##0.00")</p>
             </td>
-            <td>
-                <span class="text-success"> @totalTransPayment.ToString("#,##0.00") </span>
+            <td style="color:darkgreen;">
+                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Payment </p>
+                <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
             </td>
-
-            <td>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-actions" data-toggle="dropdown">
-                        Actions
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
-                        <li>
-                            @if (item.ApTransStatusId == 1)
-                            {
-                                <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
-                            }
-                            else if (item.ApTransStatusId == 2)
-                            {
-                                <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 3)"> Payment Release </a>
-
-                                @*if (!item.IsPrinted)
-                                {
-                                    @Html.ActionLink("Print Request", "PrintRequestForm", "ApTransactions", new { id = item.Id }, new { @onclick="OnPrintClicked(this,"+ item.Id +")", @target="_blank" })
-                                }*@
-
-                            }
-                            else if (item.ApTransStatusId == 3)
-                            {
-                                <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 4)"> Paid & Close </a>
-                            }
-                        </li>
-
-                        @if (item.ApTransStatusId == 3)
-                        {
-                            <li>
-                                @Html.ActionLink("Payment", "CreateTransPayment", "ApPayments", new { transId = item.Id }, null)
-                            </li>
-                        }
-                        <li role="separator" class="divider"></li>
-                        <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                        <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
-                        <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
-                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                    </ul>
-                </div>
+            <td style="font-weight:600;">
+                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
+                <p style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</p>
             </td>
         </tr>
-        totalPayment += totalTransPayment;
-        totalAmount += item.Amount;
 
     }
 
 
-    @{
-        totalBalance = totalAmount - totalPayment;
-    }
-    <tr>
-        <td colspan="8">
-        </td>
-        <td style="background-color:lightgray;">
-            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
-            <p style="font-size:18px;">@totalAmount.ToString("#,##0.00")</p>
-        </td>
-        <td style="color:darkgreen;">
-            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Payment </p>
-            <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
-        </td>
-        <td style="font-weight:600;">
-            <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
-            <p style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</p>
-        </td>
-    </tr>
 </table>
 
 
@@ -374,6 +391,7 @@
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
     <script>
         $(Initialize('@status','@sortBy'));
+
     </script>
 
 }

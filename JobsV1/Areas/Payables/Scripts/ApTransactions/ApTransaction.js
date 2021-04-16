@@ -25,8 +25,9 @@ function Initialize(status, sortBy) {
 
         //Due Payables
         if ($('#RepeatingPayables-Modal').is(':visible')) {
-            GetDuePayables();
+         // GetDuePayables();
         }
+
     }
 }
 
@@ -39,7 +40,11 @@ function GetRepeatingPayablesCount() {
         if (response > 0) {
             //if system have repeating payables
             GetRepeatingPayables();
+        } else {
+
+            GetDuePayables();
         }
+
     });
 }
 

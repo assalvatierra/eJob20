@@ -1360,6 +1360,7 @@
     <Content Include="Areas\Personel\Models\InitData.sql" />
     <Content Include="Areas\Personel\Models\SQL\SampleData.SQL" />
     <Content Include="Areas\Personel\Script\CarRentalLogCreate.js" />
+    <Content Include="Areas\Personel\Script\CarRentalLogFinalize.js" />
     <Content Include="Areas\Personel\Script\CarRentalLogReturn.js" />
     <Content Include="Areas\Personel\Script\CashTransactions.js" />
     <Content Include="Areas\Personel\Script\CopyPassengers.js" />
@@ -1947,6 +1948,7 @@
     <Content Include="Images\Icons\icon-email-blk.png" />
     <Content Include="Images\Icons\icon-fuel.png" />
     <Content Include="Images\Icons\icon-passenger.png" />
+    <Content Include="Images\Icons\icon-print.png" />
     <Content Include="Images\Icons\icon-transmission.png" />
     <Content Include="Images\Icons\icons-ask-question.png" />
     <Content Include="Images\Icons\icons-call-96.png" />
@@ -2024,6 +2026,7 @@
     <Content Include="Images\Signature\GraceSign.jpg" />
     <Content Include="Images\Signature\Jecca.Sign.jpg" />
     <Content Include="Images\Signature\JoSign.JPG" />
+    <Content Include="Images\Signature\KimSign.jpg" />
     <Content Include="Images\Signature\MaeSign.JPG" />
     <Content Include="Images\Signature\RamSign.JPG" />
     <Content Include="Images\SMS.png" />
@@ -2499,6 +2502,8 @@
     <Content Include="Areas\Personel\Views\crRptUnitExpenses\_BillingRptFilter.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_LogOTUpdateModal.cshtml" />
     <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogFuels\Unreturned.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

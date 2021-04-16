@@ -1,0 +1,157 @@
+﻿@model JobsV1.Areas.Personel.Controllers.crLogTripBilling
+
+@{
+    ViewBag.Title = Model.Company + " Billing Particulars";
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+    int totalHrsOT = 0;
+    int TotalSundayCount = 0;
+    int TotalOTCount = 0;
+
+    decimal TotalSundayRate = 0;
+    decimal TotalOTRate = 0;
+    double TotalOTHrs = 0;
+}
+
+<style>
+    .PanelContainer-main {
+        background-color: #eff3f6;
+        border: none;
+    }
+
+    .container-content {
+        background-color: #eff3f6;
+        border: none;
+    }
+
+    .table > tbody > tr > td {
+        border-top: none;
+    }
+
+
+    .with-border {
+        border: 2px solid black !important;
+    }
+</style>
+
+
+<table>
+    <tr>
+        <td valign="top" style="margin-right:10px;">
+            <img src="~/Images/LOGO_AJRENTACAR.jpg" width="135" />
+        </td>
+        <td>
+            <span style="font:bold 21px arial, verdana;">AJ88 Davao Car Rental </span>
+            <span style="font:12px arial, verdana;color:royalblue">
+                <br />Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000
+                <br />Tel# (+63)82 333-5157; (+63)916-755-8473; (+63)933-089-5358
+                <br />Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com
+            </span>
+        </td>
+    </tr>
+</table>
+<hr />
+
+<h3 class="text-center">Particulars</h3>
+<h4 class="text-center">@ViewBag.FilteredsDate - @ViewBag.FilteredeDate</h4>
+<br />
+<h4>Sundays</h4>
+<table class="table with-border">
+    <tr class="with-border">
+        <td>
+            Driver
+        </td>
+        <td>
+            Date
+        </td>
+        <td>
+            Unit
+        </td>
+        <td>
+        </td>
+        <td>
+            Rate
+        </td>
+    </tr>
+    @foreach (var trip in Model.SundayTrips)
+    {
+        TotalSundayCount += 1;
+        TotalSundayRate += trip.Rate;
+
+        <tr>
+            <td>@trip.Driver</td>
+            <td>@trip.DtTrip.ToString("MMM dd yyyy")</td>
+            <td>@trip.Unit</td>
+            <td></td>
+            <td>@trip.Rate.ToString("#,##0") </td>
+        </tr>
+    }
+    <tr class="with-border">
+        <td colspan="4"> Total Count: @TotalSundayCount</td>
+        <td>
+            <span style="font-size:9px;"> Total Rate</span><br />
+            <span style="font-weight:bold;">@TotalSundayRate.ToString("#,##0")</span>
+        </td>
+    </tr>
+</table>
+
+<h4>Over-Time</h4>
+<table class="table with-border">
+    <tr class="with-border">
+        <td>
+            Driver
+        </td>
+        <td>
+            Date
+        </td>
+        <td>
+            Unit
+        </td>
+        <td>
+            Time
+        </td>
+        <td>
+            Rate
+        </td>
+        <td>
+            Overtime
+        </td>
+    </tr>
+    @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.DtTrip.Date))
+    {
+        <tr><td colspan="6"> </td></tr>
+        foreach (var trip in tripGroup)
+        {
+
+            TotalOTCount += 1;
+            TotalOTRate += trip.OTRate;
+            TotalOTHrs += trip.OTHours;
+
+            <tr>
+                <td>@trip.Driver</td>
+                <td>@trip.DtTrip.ToString("MMM dd yyyy")</td>
+                <td>@trip.Unit</td>
+                <td>@trip.StartTime - @trip.EndTime</td>
+                <td>
+                    <span class="OT-Rate"> @trip.OTRate.ToString("#,##0") </span>
+                </td>
+                <td>
+                    @trip.OTHours Hrs
+                </td>
+            </tr>
+
+        }
+    }
+    <!-- Summary -->
+    <tr class="with-border">
+        <td colspan="4"> Total Count: @TotalOTCount </td>
+
+        <td>
+            <span style="font-size:9px;"> Total OT Rate</span><br />
+            <span style="font-weight:bold;">@TotalOTRate.ToString("#,##0")</span>
+        </td>
+        <td>
+            <span style="font-size:9px;"> Total OT Hours</span><br />
+            <span style="font-weight:bold;">@TotalOTHrs Hrs</span>
+        </td>
+    </tr>
+</table>
