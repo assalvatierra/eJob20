@@ -83,30 +83,32 @@
         </th>
         <td>
             <!--Company-->
-
             @{
+
                 if (Model.Customer.Name.Trim() == "Personal Account")
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
-                if (Model.Customer.Name.Trim() == "<< New Customer >>")
+                else if (Model.Customer.Name.Trim() == "<< New Customer >>")
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
                 else if (Model.Customer.Name.Trim() == Model.Description.Trim())
                 {
                     @Html.DisplayFor(model => model.Description)
+                    <br />@ViewBag.custCompany
                 }
                 else if (ViewBag.custCompany == Model.Description.Trim())
                 {
-                    @Html.DisplayFor(model => model.Description)
+                    @Html.DisplayFor(model => model.Customer.Name)
+                    <br />@ViewBag.custCompany
                 }
                 else
                 {
                     @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
+                    <br />@ViewBag.custCompany
                 }
             }
-
 
             <br />
 
