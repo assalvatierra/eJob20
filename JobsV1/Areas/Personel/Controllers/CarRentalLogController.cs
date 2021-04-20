@@ -1530,6 +1530,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
         }
 
+        //GET : /Personel/CarRentalLog/GetTripOTHours/{TripLogId}
         public double GetTripOTHours(int? id)
         {
             if (id == null)
@@ -1546,8 +1547,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 var min = StartTime.Minute;
 
-                StartTime = convertDateTime(StartTime);
-                EndTime = convertDateTime(EndTime);
+                //StartTime = convertDateTime(StartTime);
+                //EndTime = convertDateTime(EndTime);
 
 
                 // if night shift
@@ -1561,7 +1562,9 @@ namespace JobsV1.Areas.Personel.Controllers
                 //calculate time diff and hours per trip
                 double diff = double.Parse((EndTime - StartTime).TotalHours.ToString()) - (double)HoursPerTrip;
 
-               
+                //round off time diff
+                diff = ConvertHrsDec(diff);
+
                 //disregard negative time differences
                 if (diff < 0)
                 {
@@ -1591,8 +1594,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 var min = StartTime.Minute;
 
-                StartTime = convertDateTime(StartTime);
-                EndTime = convertDateTime(EndTime);
+                //StartTime = convertDateTime(StartTime);
+                //EndTime = convertDateTime(EndTime);
 
 
                 // if night shift
@@ -1606,6 +1609,8 @@ namespace JobsV1.Areas.Personel.Controllers
                 //calculate time diff and hours per trip
                 double diff = double.Parse((EndTime - StartTime).TotalHours.ToString()) - (double)HoursPerTrip;
 
+                //round off time diff
+                diff = ConvertHrsDec(diff);
 
                 //disregard negative time differences
                 if (diff < 0)
@@ -1622,8 +1627,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
         private DateTime convertDateTime(DateTime time)
         {
-
             var timeTemp = time;
+
             //round off time start
             if (time.Minute > 40)
             {
@@ -1640,6 +1645,30 @@ namespace JobsV1.Areas.Personel.Controllers
 
             return time;
         }
+
+        //Round Off time Difference in Hours
+        // if timediff is greater than 0.75 (48 mins), round off to 1 (1 hour)
+        //                greater than 0.417 (25 mins) or less than 0.75 (45 mins), round off to 0.5 ()
+        //                less than 0.417 (25 mins), do not round off
+        private double ConvertHrsDec(double hrsDiff)
+        {
+            double hrsDiffTemp = (double)Math.Truncate(hrsDiff);
+            //round off time start
+
+            double decPart = hrsDiff - (double)Math.Truncate(hrsDiff);
+
+            if (decPart > 0.75)
+            {
+                hrsDiffTemp = hrsDiffTemp + 1;
+            }
+            else if (decPart >= 0.417 && decPart <= 0.75)
+            {
+                hrsDiffTemp = hrsDiffTemp + 0.5;
+            }
+
+            return hrsDiffTemp;
+        }
+
 
         //GET : rate of OT per hour based on OTRate for Driver
         public double GetTripOTRate(int? id)

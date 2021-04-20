@@ -58,6 +58,41 @@ function GetItemSuppliers(itemId, item, itemLeadId, salesLeadId) {
     });
 }
 
+
+function GetItemSuppliers_SL(itemId, item, itemLeadId, salesLeadId) {
+    $('#modal-supitems-title').text(item);
+
+    //set sales lead ID for creating supplier item rate
+    $("#CreateSupItemRate-ItemLeadId").val(itemLeadId);
+    $("#CreateSupItemRate-Item").val(itemId);
+    $("#CreateSupItemRate-Item-Text").text(item);
+
+    console.log("ItemLeadID: " + itemLeadId);
+
+    //build json object
+    var data = {
+        id: itemId
+    };
+
+    console.log(item);
+    //request data from server using ajax call
+    $.ajax({
+        url: '~/Procurement/GetItemSuppliers/' + itemId,
+        type: "GET",
+        data: data,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            //console.log("SUCCESS");
+        },
+        error: function (data) {
+            //console.log("ERROR");
+            console.log(data);
+            LoadTable(data, itemLeadId);
+        }
+    });
+}
+
+
 //display simple/limited information
 //of suppliers
 function LoadTable(data, itemLeadId) {

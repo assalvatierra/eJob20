@@ -472,7 +472,7 @@
                         @if (ISADMIN)
                         {
                             <br />
-                            <p style="color:darkred;font-weight:600;margin-top:10px;margin-left:0px;padding-left:0px;"> Sales Activities </p>
+                            @*<p style="color:darkred;font-weight:600;margin-top:10px;margin-left:0px;padding-left:0px;"> Sales Activities </p>*@
 
                             if (item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault() != null)
                             {
@@ -542,9 +542,11 @@
                                                 {
                                                     <span>  - @supItem.SupplierItemRate.Material</span>
                                                 }
+                                               
+                                            </p>
+                                            <p style="margin-top:-5px;margin-left:10px;font-size:12px;color:gray;">
 
-                                                <span> ( </span>
-                                                <span style="font:normal 11px arial,verdana;">
+                                                <span style="font:normal 11px arial,verdana;margin-left:10px;">
                                                     Validity :
                                                     @{DateTime tempDate, tempDate2; }
                                                     @if (DateTime.TryParse(supItem.SupplierItemRate.DtValidFrom, out tempDate) &&
@@ -555,8 +557,11 @@
                                                         @tempDate2.ToString("MMM dd yyyy")
                                                     }
                                                 </span>
-                                                <span> ) </span>
-                                                <span>
+
+                                                <span style="margin-left:10px;">
+                                                    Procured by: @supItem.SupplierItemRate.ProcBy
+                                                </span>
+                                                <span style="margin-left:10px;">
                                                     @*<a class="cursor-hand" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)">[ Approve ]</a>*@
                                                     @if (supItem.SalesLeadQuotedItemStatusId == 1)
                                                     {
@@ -575,13 +580,10 @@
                                                     {
                                                         //CANCELLED
                                                         //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
-                                                        //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
+                                                        <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
                                                         <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
                                                     }
                                                 </span>
-                                            </p>
-                                            <p style="margin-top:-5px;margin-left:10px;font-size:12px;color:gray;">
-                                                Procured by: @supItem.SupplierItemRate.ProcBy
                                             </p>
                                         }
                                     </div>

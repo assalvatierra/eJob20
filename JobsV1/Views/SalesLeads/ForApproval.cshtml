@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<JobsV1.Models.Class.cSalesLead>
 
 @{
-    ViewBag.Title = "Sales Leads ";
+    ViewBag.Title = "For Approval ";
     Session["ROOTMENUID"] = 2;
     var SalesStatCode = (List<JobsV1.Models.SalesStatusCode>)ViewBag.StatusCodes;
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
@@ -37,7 +37,7 @@
 </style>
 
 <div class="view-header">
-    <h2>Sales Lead: List </h2>
+    <h2>For Approval </h2>
 
     <div class="header-btn-list">
         <div class="btn-group">
@@ -63,39 +63,39 @@
 
         Filters:
         <span class="label label-primary filter-link">
-            @Html.ActionLink("New", "Index", new { sortid = 1 }, new { @id = "status-1", @class = "link-white" })
+            @Html.ActionLink("New", "ForApproval", new { sortid = 1 }, new { @id = "status-1", @class = "link-white" })
             @{Html.RenderAction("GetLeadStatusCount", new { statusId = 1 });}
         </span>
         <span class="label label-primary filter-link">
-            @Html.ActionLink("Sales", "Index", new { sortid = 2 }, new { @id = "status-2", @class = "link-white" })
+            @Html.ActionLink("Sales", "ForApproval", new { sortid = 2 }, new { @id = "status-2", @class = "link-white" })
             @{Html.RenderAction("GetLeadStatusCount", new { statusId = 2 });}
         </span>
         <span class="label label-primary filter-link">
-            @Html.ActionLink("Procurement", "Index", new { sortid = 3 }, new { @id = "status-3", @class = "link-white" })
+            @Html.ActionLink("Procurement", "ForApproval", new { sortid = 3 }, new { @id = "status-3", @class = "link-white" })
             @{Html.RenderAction("GetLeadStatusCount", new { statusId = 3 });}
         </span>
         <span class="label label-primary filter-link">
-            @Html.ActionLink("For Approval", "Index", new { sortid = 4 }, new { @id = "status-4", @class = "link-white" })
+            @Html.ActionLink("For Approval", "ForApproval", new { sortid = 4 }, new { @id = "status-4", @class = "link-white" })
             @{Html.RenderAction("GetLeadStatusCount", new { statusId = 4 });}
         </span>
         <span class="label label-primary filter-link">
-            @Html.ActionLink("Approved", "Index", new { sortid = 5 }, new { @id = "status-5", @class = "link-white" })
+            @Html.ActionLink("Approved", "ForApproval", new { sortid = 5 }, new { @id = "status-5", @class = "link-white" })
             @{Html.RenderAction("GetLeadStatusCount", new { statusId = 5 });}
         </span>
         <span class="label label-primary filter-link">
-            @Html.ActionLink("Awarded", "Index", new { sortid = 6 }, new { @id = "status-6", @class = "link-white" })
+            @Html.ActionLink("Awarded", "ForApproval", new { sortid = 6 }, new { @id = "status-6", @class = "link-white" })
             @{Html.RenderAction("GetLeadStatusCount", new { statusId = 6 });}
         </span>
         <span class="label label-primary filter-link">
-            @Html.ActionLink("Rejected", "Index", new { sortid = 7 }, new { @id = "status-7", @class = "link-white" })
+            @Html.ActionLink("Rejected", "ForApproval", new { sortid = 7 }, new { @id = "status-7", @class = "link-white" })
             @{Html.RenderAction("GetLeadStatusCount", new { statusId = 7 });}
         </span>
         <span class="label label-primary filter-link">
-            @Html.ActionLink("Closed", "Index", new { sortid = 8 }, new { @id = "status-8", @class = "link-white" })
+            @Html.ActionLink("Closed", "ForApproval", new { sortid = 8 }, new { @id = "status-8", @class = "link-white" })
             @{Html.RenderAction("GetLeadStatusCount", new { statusId = 8 });}
         </span>
         <span class="label label-primary filter-link">
-            @Html.ActionLink("All", "Index", new { sortid = 9 }, new { @id = "status-9", @class = "link-white" })
+            @Html.ActionLink("All", "ForApproval", new { sortid = 9 }, new { @id = "status-9", @class = "link-white" })
         </span>
 
     </p>
@@ -131,8 +131,8 @@
                                 if (USER == item.AssignedTo || ISADMIN)
                                 {
                                     <a class="cursor-hand" onclick="ShowSalesLeadWeight(@item.Id)">
-                                        <img src="~/Images/Icons/icons-weight.png" width="12" />
-                                        &nbsp; @item.ItemWeight&nbsp;TONS
+                                        <img src="~/Images/Icons/icons-weight.png" width="12" />&nbsp;
+                                        @item.ItemWeight&nbsp;TONS
                                     </a>
                                 }
                                 else
@@ -157,7 +157,6 @@
                             }
                         </nobr>
                     </p>
-
 
                     @{
                         foreach (var status in item.SalesStatus)
@@ -661,112 +660,117 @@
                         <div id="SalesLeadItems-@item.Id">
                             @foreach (var invItems in item.SalesLeadItems)
                             {
-                            <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
+                                <div style="border:1px solid lightgray;padding:0px;width:100%;margin-bottom:5px;padding-bottom:5px;">
 
-                                <div style="background-color:lightgray;padding:5px;">
-                                    <b>
-                                        @invItems.InvItem.Description -
-                                        @if (invItems.QuotedPrice != null)
+                                    <div style="background-color:lightgray;padding:5px;">
+                                        <b>
+                                            @invItems.InvItem.Description -
+                                            @if (invItems.QuotedPrice != null)
+                                            {
+                                                <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
+                                            }
+                                            <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
+                                        </b>
+
+                                        @if (USER == item.AssignedTo || ISADMIN)
                                         {
-                                            <span>P </span>@Decimal.Parse(invItems.QuotedPrice.ToString()).ToString("##,###")
+                                            <span class="pull-right">
+                                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
+                                                <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
+                                            </span>
                                         }
-                                        <span style="font:normal 10px arial,verdana;">( @invItems.Remarks )</span>
-                                    </b>
+                                    </div>
 
-                                    @if (USER == item.AssignedTo || ISADMIN)
-                                    {
-                                        <span class="pull-right">
-                                            <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#EditSupLeadItem" style="margin-bottom:10px;" onclick="EditLeadItem(@invItems.Id,@invItems.InvItemId,'@invItems.QuotedPrice', '@invItems.Remarks','@invItems.InvItem.Description')">[ Edit ]</a>
-                                            <a class="cursor-hand" onclick="ajax_RemoveItem(@invItems.Id)">[ x ]</a>
-                                        </span>
-                                    }
-                                </div>
-
-                                <div id="supItem-@invItems.Id">
-                                    @foreach (var supItem in invItems.SalesLeadQuotedItems)
-                                    {
-                                        if (supItem.SalesLeadQuotedItemStatusId == 2 || ISADMIN)
+                                    <div id="supItem-@invItems.Id">
+                                        @foreach (var supItem in invItems.SalesLeadQuotedItems)
                                         {
-                                            <p style="margin:3px 20px;">
-                                                <span style="color:green;">
+                                            if (supItem.SalesLeadQuotedItemStatusId == 2 || ISADMIN)
+                                            {
+                                                <p style="margin:3px 20px;">
+                                                    <span style="color:green;">
 
 
-                                                    @if (supItem.SupplierItemRate.ItemRate != null)
+                                                        @if (supItem.SupplierItemRate.ItemRate != null)
 
+                                                        {
+                                                            @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
+                                                        }
+
+                                                        @supItem.SupplierItemRate.SupplierUnit.Unit  -
+                                                    </span>
+
+                                                    <b>@supItem.SupplierItemRate.SupplierInvItem.Supplier.Name </b> |
+                                                    @supItem.SupplierItemRate.Particulars
+                                                    @if (!String.IsNullOrEmpty(supItem.SupplierItemRate.Material))
                                                     {
-                                                        @Decimal.Parse(supItem.SupplierItemRate.ItemRate).ToString("##,###") <span> / </span>
+                                                        <span>  - @supItem.SupplierItemRate.Material</span>
                                                     }
 
-                                                    @supItem.SupplierItemRate.SupplierUnit.Unit  -
-                                                </span>
 
-                                                <b>@supItem.SupplierItemRate.SupplierInvItem.Supplier.Name</b> |
-                                                @supItem.SupplierItemRate.Particulars
-                                                @if (!String.IsNullOrEmpty(supItem.SupplierItemRate.Material))
-                                                {
-                                                    <span>  - @supItem.SupplierItemRate.Material</span>
-                                                }
+                                                </p>
 
-                                                @*<a class="cursor-hand" onclick="removeSupItems(@supItem.Id)">[ x ]</a>*@
-                                            </p>
+                                                <p style="margin-top:-5px;margin-left:20px;font-size:12px;color:gray;">
 
-                                            <p style="margin-top:-5px;margin-left:20px;font-size:12px;color:gray;">
+                                                    <span style="margin-right:10px;">
+                                                        <span style="font:normal 11px arial,verdana;">
+                                                            Validity :
+                                                            @{DateTime tempDate, tempDate2; }
+                                                            @if (DateTime.TryParse(supItem.SupplierItemRate.DtValidFrom, out tempDate) &&
+                                                                DateTime.TryParse(supItem.SupplierItemRate.DtValidTo, out tempDate2))
+                                                            {
 
-                                                <span style="font:normal 11px arial,verdana;margin-left:10px;">
-                                                    Validity :
-                                                    @{DateTime tempDate, tempDate2; }
-                                                    @if (DateTime.TryParse(supItem.SupplierItemRate.DtValidFrom, out tempDate) &&
-                                                        DateTime.TryParse(supItem.SupplierItemRate.DtValidTo, out tempDate2))
-                                                    {
+                                                                @tempDate.ToString("MMM dd yyyy") <span>-</span>
+                                                                @tempDate2.ToString("MMM dd yyyy")
+                                                            }
+                                                        </span>
+                                                    </span>
 
-                                                        @tempDate.ToString("MMM dd yyyy") <span>-</span>
-                                                        @tempDate2.ToString("MMM dd yyyy")
-                                                    }
-                                                </span>
+                                                    <span style="margin-right:10px;">
+                                                        Procured by: @supItem.SupplierItemRate.ProcBy
+                                                    </span>
 
-                                                <span style="margin-left:10px;">
-                                                    Procured by: @supItem.SupplierItemRate.ProcBy
-                                                </span>
+                                                    <span style="margin-right:10px;">
+                                                        @*<a class="cursor-hand" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)">[ Approve ]</a>*@
+                                                        @if (supItem.SalesLeadQuotedItemStatusId == 1)
+                                                        {
+                                                            //PENDING
+                                                            <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
+                                                            <a class="btn btn-default btn-xs no-margin-top" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)"> Edit </a>
+                                                            <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                        }
+                                                        else if (supItem.SalesLeadQuotedItemStatusId == 2)
+                                                        {
+                                                            //APPROVED
+                                                            <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 3)"> Cancel </a>
+                                                            <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                        }
+                                                        else if (supItem.SalesLeadQuotedItemStatusId == 3)
+                                                        {
+                                                            //CANCELLED
+                                                            //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
+                                                            <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
+                                                            <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
+                                                        }
+                                                    </span>
+                                                </p>
+                                            }
 
-                                                <span style="margin-left:10px;">
-                                                    @if (supItem.SalesLeadQuotedItemStatusId == 1)
-                                                    {
-                                                        //PENDING
-                                                        <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
-                                                        <a class="btn btn-default btn-xs no-margin-top" onclick="Init_EditSupItem(@supItem.SupplierItemRateId)"> Edit </a>
-                                                        <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
-                                                    }
-                                                    else if (supItem.SalesLeadQuotedItemStatusId == 2)
-                                                    {
-                                                        //APPROVED
-                                                        <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 3)"> Cancel </a>
-                                                        <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
-                                                    }
-                                                    else if (supItem.SalesLeadQuotedItemStatusId == 3)
-                                                    {
-                                                        //CANCELLED
-                                                        //<a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 2)"> Approve </a>
-                                                        <a class="btn btn-default btn-xs no-margin-top" onclick="UpdateLeadItemStatus(@supItem.Id, 1)"> Pending </a>
-                                                        <a class="btn btn-default btn-danger btn-xs no-margin-top" onclick="RemoveSupItems(@supItem.Id)"> x </a>
-                                                    }
-                                                </span>
-                                            </p>
                                         }
+                                    </div>
 
-                                    }
+                                    <!--Add Item-->
+                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers_SL(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier Item ]</a> 
+
                                 </div>
-
-                                <!--Add Item-->
-                                @if (USER == item.AssignedTo || ISADMIN)
-                                {
-                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier ]</a>
-                                }
-                                @*<a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier ]</a>*@
-
-                            </div>
                             }
                         </div>
                         <br />
+                        @if (USER == item.AssignedTo || ISADMIN)
+                        {
+                            <span>
+                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">[ Add Item ]</a>
+                            </span>
+                        }
                         <!--Add Item-->
 
                         <br />
@@ -798,6 +802,9 @@
 
 @{Html.RenderPartial("AddSupItemPartial");}
 @{Html.RenderPartial("_UpdateActivityStatus");}
+
+@{Html.RenderPartial("_AddSupRateModal", null, null);}
+@{Html.RenderPartial("_EditSupRateModal", null, null);}
 @{Html.RenderPartial("_AddLeadWeight");}
 
 <div class="view-content" hidden>
@@ -820,8 +827,14 @@
 @section scripts
 {
     <script src="~/Scripts/Job/Scroll.js"></script>
-    <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
-    <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
+    <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>*@
+
+    <script type="text/javascript" src="~/Scripts/Procurement/AddItemRateModal.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/ProcAddItemRate.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/CreateSupItemRate.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/EditSupItemRate.js"></script>
+    <script type="text/javascript" src="~/Scripts/Procurement/Procurement.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -843,7 +856,6 @@
                 }
             }
         });
-
 
         function UpdateLeadItemStatus(leadItemId, statusId ) {
 

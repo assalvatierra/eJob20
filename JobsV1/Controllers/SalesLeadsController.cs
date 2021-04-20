@@ -67,6 +67,7 @@ namespace JobsV1.Controllers
         }
 
 
+
         // GET: SalesLeads
         public ActionResult Index(int? sortid, int? leadId)
         {
@@ -92,6 +93,53 @@ namespace JobsV1.Controllers
             ViewBag.StatusCodes = db.SalesStatusCodes
                 .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
                 .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.ActTypes = db.CustEntActTypes.ToList();
+            ViewBag.IsAdmin = IsUserAdmin();
+
+            //for adding new item 
+            AddSupItemPartial();
+
+            return View(salesLeads.OrderByDescending(s => s.Date));
+        }
+
+
+
+        //GET: SalesLeads/ForApproval
+        public ActionResult ForApproval(int? sortid, int? leadId)
+        {
+            if (sortid != null)
+                Session["SLFilterID"] = (int)sortid;
+            else
+            {
+                if (Session["SLFilterID"] != null)
+                    sortid = (int)Session["SLFilterID"];
+                else
+                {
+                    sortid = 4;
+                    Session["SLFilterID"] = 4;
+                }
+            }
+
+            if (leadId != null)
+                Session["SLLeadID"] = (int)leadId;
+            else
+            {
+                if (Session["SLLeadID"] != null)
+                    leadId = (int)Session["SLLeadID"];
+            }
+
+            //get sales leads list
+            var salesLeads = sldb.GetcSalesLeads((int)sortid);
+
+            ViewBag.LeadId = leadId;
+            ViewBag.CurrentFilter = sortid;
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
+                .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToList();
+            ViewBag.UnitList = db.SupplierUnits.ToList();
+            ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
+            ViewBag.Items = db.InvItems.ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.ActTypes = db.CustEntActTypes.ToList();
             ViewBag.IsAdmin = IsUserAdmin();
@@ -829,11 +877,6 @@ namespace JobsV1.Controllers
 
         }
 
-        //GET: SalesLeads/ForApproval
-        public ActionResult ForApproval()
-        {
-            return RedirectToAction("Index","SalesLeads", new { sortid = 4 });
-        }
 
         //GET: SalesLeads/GetLastestActivityType 
         public string GetLastestActivityType(int id)
@@ -1731,18 +1774,26 @@ namespace JobsV1.Controllers
             ViewBag.InvItems = items;
         }
 
-        public string addSupItem(int SalesLeadId, int ItemId, decimal price, string remarks)
+        public bool addSupItem(int SalesLeadId, int ItemId, decimal price, string remarks)
         {
-            SalesLeadItems item = new SalesLeadItems();
-            item.InvItemId = ItemId;
-            item.SalesLeadId = SalesLeadId;
-            item.QuotedPrice = price;
-            item.Remarks = remarks;
+            try
+            {
+                SalesLeadItems item = new SalesLeadItems();
+                item.InvItemId = ItemId;
+                item.SalesLeadId = SalesLeadId;
+                item.QuotedPrice = price;
+                item.Remarks = remarks;
 
-            db.SalesLeadItems.Add(item);
-            db.SaveChanges();
+                db.SalesLeadItems.Add(item);
+                db.SaveChanges();
 
-            return "200";
+                Session["SLLeadID"] = SalesLeadId;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public string getItemSuppliers(int id)
@@ -1789,7 +1840,10 @@ namespace JobsV1.Controllers
 
                 db.SalesLeadQuotedItems.Add(leaditemRate);
                 db.SaveChanges();
+
+                Session["SLLeadID"] = SalesLeadId;
                 return "200";
+
             }
             return "500";
         }

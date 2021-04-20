@@ -12,6 +12,7 @@
     decimal totalAmount = 0;
     decimal totalPayment = 0;
     decimal totalBalance = 0;
+    decimal GrandTotal = 0;
 }
 
 <h2>Payables Transactions </h2>
@@ -86,8 +87,8 @@
 
     @foreach (var payablesGroup in Model.GroupBy(p => p.DtDue.ToString("MMMM", null)))
     {
-        
-        totalAmount  = 0;
+
+        totalAmount = 0;
         totalPayment = 0;
         totalBalance = 0;
 
@@ -252,12 +253,12 @@
             </tr>
             totalPayment += totalTransPayment;
             totalAmount += item.Amount;
-
         }
 
 
         {
             totalBalance = totalAmount - totalPayment;
+            GrandTotal += totalAmount;
         }
         <tr>
             <td colspan="8">
@@ -281,6 +282,11 @@
 
 </table>
 
+<div>
+    <h3>
+        <span>Grand Total :</span> @GrandTotal.ToString("#,##0.00")
+    </h3>
+</div>
 
 <!-- Repeating Payables Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="RepeatingPayables-Modal">
@@ -344,7 +350,7 @@
             </div>
             <div class="modal-body">
                 <p> Displaying Payables that are due in 3 days or overdue. </p>
-                <table class="table" >
+                <table class="table">
                     <tbody id="DuePayables-table">
                         <tr>
                             <th>

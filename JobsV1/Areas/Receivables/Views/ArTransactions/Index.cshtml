@@ -12,6 +12,7 @@
     decimal totalAmount = 0;
     decimal totalPayment = 0;
     decimal totalBalance = 0;
+    decimal GrandTotal = 0;
 }
 
 <h2>Transactions</h2>
@@ -353,6 +354,7 @@
 
         {
             totalBalance = totalAmount - totalPayment;
+            GrandTotal += totalAmount;
         }
         <tr>
             <td colspan="8">
@@ -373,6 +375,12 @@
     }
 
 </table>
+
+<div>
+    <h3>
+        <span>Grand Total :</span> @GrandTotal.ToString("#,##0.00")
+    </h3>
+</div>
 
 
 @section Scripts{
