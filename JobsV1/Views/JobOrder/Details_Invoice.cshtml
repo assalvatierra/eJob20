@@ -97,6 +97,10 @@
                     @Html.DisplayFor(model => model.Description)
                     <br />@ViewBag.custCompany
                 }
+                else if (ViewBag.custCompany == "Personal Account")
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
                 else if (ViewBag.custCompany == Model.Description.Trim())
                 {
                     @Html.DisplayFor(model => model.Customer.Name)

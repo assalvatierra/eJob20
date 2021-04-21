@@ -759,7 +759,7 @@
                                     </div>
 
                                     <!--Add Item-->
-                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="getItemSuppliers_SL(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier Item ]</a> 
+                                    <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#supItemRate" style="margin-left:15px;" onclick="GetItemSuppliers(@invItems.InvItemId,'@invItems.InvItem.Description', @invItems.Id )">[ Add Supplier Item ]</a>
 
                                 </div>
                             }
@@ -803,6 +803,7 @@
 @{Html.RenderPartial("AddSupItemPartial");}
 @{Html.RenderPartial("_UpdateActivityStatus");}
 
+@{Html.RenderPartial("_AddItemRateModal", null, null);}
 @{Html.RenderPartial("_AddSupRateModal", null, null);}
 @{Html.RenderPartial("_EditSupRateModal", null, null);}
 @{Html.RenderPartial("_AddLeadWeight");}
@@ -827,8 +828,8 @@
 @section scripts
 {
     <script src="~/Scripts/Job/Scroll.js"></script>
-    @*<script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
-    <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
+        @*<script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>*@
 
     <script type="text/javascript" src="~/Scripts/Procurement/AddItemRateModal.js"></script>
     <script type="text/javascript" src="~/Scripts/Procurement/ProcAddItemRate.js"></script>
@@ -877,6 +878,8 @@
             $("#AddLeadWeight-LeadId").val(leadId);
 
             $("#AddLeadWeightModal").modal("show");
+
+            GetSalesLeadWeight(leadId);
         }
 
         function Submit_AddSalesLeadWeight() {
@@ -897,6 +900,19 @@
 
         function CustActivityEdit(activityId) {
             window.location.href = "/SalesLeads/EditCustActivityCode/" + activityId;
+        }
+
+        
+        function GetSalesLeadWeight(leadId) {  
+            //GetLeadWeight
+            
+            $.get("/SalesLeads/GetLeadWeight", { id: leadId})
+                .done((res) => {
+                    $("#AddLeadWeight-Weight").val(res);
+                })
+                .fail(() => {
+                    console.log("Unable to update weight");
+                });
         }
 
     </script>

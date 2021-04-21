@@ -116,7 +116,9 @@ function LoadTable(data, itemLeadId) {
             + moment(temp[x]["ValidStart"]).format("MMM DD YYYY") + ' - '
             + moment(temp[x]["ValidEnd"]).format("MMM DD YYYY") + ' ' +
             ' </a> ';
+
         if (moment(temp[x]["ValidEnd"]).diff(moment(), 'days') > 0) {
+            
             $(content).appendTo("#SupItems-modal-content");
         }
     }
@@ -171,7 +173,7 @@ function RemoveSupItems(id) {
         },
         error: function (data) {
             console.log(data);
-            location.reload();
+            location.reload(false);
         }
     });
 }

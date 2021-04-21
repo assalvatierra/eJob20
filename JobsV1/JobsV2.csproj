@@ -3392,6 +3392,7 @@
     <Content Include="Views\SalesLeads\ForApproval.cshtml" />
     <Content Include="Views\SalesLeads\_AddSupRateModal.cshtml" />
     <Content Include="Views\SalesLeads\_EditSupRateModal.cshtml" />
+    <Content Include="Views\SalesLeads\_AddItemRateModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
