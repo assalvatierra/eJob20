@@ -1361,6 +1361,16 @@ order by x.jobid
                 JobPaymentStatusId = 2;
             }
 
+
+            if (jobMain.Id == null)
+            {
+                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", NewCustSysId);
+            }
+            else
+            {
+                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.Id);
+            }
+
             ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
@@ -1400,7 +1410,7 @@ order by x.jobid
             }
             else
             {
-                if (jobMain.CustContactNumber.Length < 11)
+                if (jobMain.CustContactNumber.Length < 5)
                 {
                     ModelState.AddModelError("CustContactNumber", "Invalid Contact Number");
                     isValid = false;

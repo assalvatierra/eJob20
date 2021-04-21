@@ -77,7 +77,6 @@
         </th>
         <td>
             @{
-
                 if (Model.Customer.Name.Trim() == "Personal Account")
                 {
                     @Html.DisplayFor(model => model.Description)
@@ -86,19 +85,30 @@
                 {
                     @Html.DisplayFor(model => model.Description)
                 }
+                else if (Model.Customer.Name.Trim() == "Real Breeze Davao")
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
                 else if (Model.Customer.Name.Trim() == Model.Description.Trim())
                 {
                     @Html.DisplayFor(model => model.Description)
-                    <br />@ViewBag.custCompany
-                }
-                else if (ViewBag.custCompany == Model.Description.Trim())
-                {
-                    @Html.DisplayFor(model => model.Customer.Name)
-                    <br />@ViewBag.custCompany
                 }
                 else
                 {
+                    //if (ViewBag.custCompany != Model.Description.Trim())
+
                     @Html.DisplayFor(model => model.Description) <span>/</span> @Html.DisplayFor(model => model.Customer.Name)
+
+                }
+
+                if (ViewBag.custCompany == "Personal Account")
+                { }
+                else if (Model.Customer.Name.Trim() == "<< New Customer >>")
+                { }
+                else if (ViewBag.custCompany == Model.Description.Trim())
+                { }
+                else
+                {
                     <br />@ViewBag.custCompany
                 }
             }

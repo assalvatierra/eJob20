@@ -26,7 +26,7 @@
     <button class="btn btn-default" id="status-1" onclick="UpdateFilter( 1, '@sortBy')"> Request </button>
     <button class="btn btn-default" id="status-2" onclick="UpdateFilter( 2, '@sortBy')"> Approved </button>
     <button class="btn btn-default" id="status-3" onclick="UpdateFilter( 3, '@sortBy')"> Released </button>
-    <button class="btn btn-default" id="status-4" onclick="UpdateFilter( 4, '@sortBy')"> Closed </button>
+    <button class="btn btn-default" id="status-4" onclick="UpdateFilter( 4, '@sortBy')"> Closed   </button>
 </div>
 
 
@@ -63,7 +63,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ApAccount.Name)
         </th>
-        <th>
+        <th style="min-width:160px;">
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
@@ -160,7 +160,11 @@
                     <b> @Html.DisplayFor(modelItem => item.ApAccount.Name)</b>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.Description)<br />
+                    <span style="font-size:11px;color:gray;">
+                        @item.DtService.ToString("MMM dd yyyy") -
+                        @item.DtServiceTo.ToString("MMM dd yyyy")
+                    </span>
                 </td>
                 <td>
                     <span>

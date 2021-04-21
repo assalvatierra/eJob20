@@ -157,7 +157,7 @@
         <th>
             Account
         </th>
-        <th>
+        <th style="min-width:160px;">
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
@@ -242,7 +242,15 @@
                     <span style="font-size:12px;color:gray;">@Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.Description)<br />
+                    <span style="font-size:11px;color:gray;">
+                        @item.DtService.ToString("MMM dd yyyy") - 
+
+                        @if(item.DtServiceTo != null){
+                           <span> @DateTime.Parse(item.DtServiceTo.ToString()).ToString("MMM dd yyyy")</span>
+                        }
+
+                    </span>
                 </td>
                    @*<td>
                         @item.DtService.ToString("MMM dd yyyy") -
@@ -263,11 +271,11 @@
                 <td>
                     @if (item.ArTransStatusId == 1)
                     {
-                        <span class="label label-primary">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
+                        <span class="label label-default">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
                     }
                     else if (item.ArTransStatusId == 2)
                     {
-                        <span class="label label-primary">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
+                        <span class="label label-info">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
                     }
                     else if (item.ArTransStatusId == 3)
                     {
@@ -276,6 +284,10 @@
                     else if (item.ArTransStatusId == 4)
                     {
                         <span class="label label-primary">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
+                    }
+                    else if (item.ArTransStatusId == 5)
+                    {
+                        <span class="label label-success">@Html.DisplayFor(modelItem => item.ArTransStatu.Status)</span>
                     }
                     else
                     {
@@ -320,7 +332,7 @@
                                 }
                                 else if (item.ArTransStatusId == 3)
                                 {
-                                    <a class="cursor-link" onclick="UpdateStatus(@item.Id, 4)"> Sent </a>
+                                    <a class="cursor-link" onclick="UpdateStatus(@item.Id, 4)"> Billing Sent </a>
                                     @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
 
                                 }
@@ -388,7 +400,7 @@
 
         function UpdateStatus(transId, statusId) {
             $("#overlay").show();
-            var result = $.post("../Receivables/ArTransactions/UpdateTransStatus", {
+            var result = $.post("/Receivables/ArTransactions/UpdateTransStatus", {
                 transId: transId,
                 statusId: statusId
             }, (response) => {
