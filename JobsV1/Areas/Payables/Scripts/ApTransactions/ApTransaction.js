@@ -25,7 +25,12 @@ function Initialize(status, sortBy) {
 
         //Due Payables
         if ($('#RepeatingPayables-Modal').is(':visible')) {
-         // GetDuePayables();
+            //GetDuePayables();
+        } else {
+            console.log(sessionStorage.getItem('ApTrans-DueShowed'));
+            if (sessionStorage.getItem('ApTrans-DueShowed')) {
+                GetDuePayables();
+            }
         }
 
     }
@@ -40,9 +45,6 @@ function GetRepeatingPayablesCount() {
         if (response > 0) {
             //if system have repeating payables
             GetRepeatingPayables();
-        } else {
-
-            GetDuePayables();
         }
 
     });
@@ -214,16 +216,16 @@ $("#RepeatingPayables-Modal").on("hidden.bs.modal", function () {
     GetDuePayables();
 });
 
+//Get Payables Due Date
 function GetDuePayables() {
-
     //remove all rows except header
     $("#DuePayables-table").find("tr:gt(0)").remove();
 
     $.get("/Payables/ApTransactions/GetDuePayables", null, (response) => {
-
+        
         if (response.length > 0) {
-            console.log(response.length + " Due Payables");
-            console.log(response);
+            //console.log(response.length + " Due Payables");
+            //console.log(response);
 
             $("#DuePayables-Modal").modal("show");
 
@@ -247,9 +249,15 @@ function GetDuePayables() {
             console.log("No Due Payables");
         }
     });
+
+    //add to session storage
+    //will expire on browser closed
+    sessionStorage.setItem('ApTrans-DueShowed', true);
+
 }
 
-//get checked selected payables 
+//Get checked selected payables 
+//@return int[] - array of checked items in the table
 function GetSelectedPayables_ForPrint() {
     var checkedArr = $("#payables-table").find("input[type=checkbox]:checked").map(function () {
         return parseInt(this.value);

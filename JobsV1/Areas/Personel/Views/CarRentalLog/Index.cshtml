@@ -307,6 +307,7 @@
                             <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                             <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
                             <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
+                            <li><a class="cursor-pointer" onclick="UpdateOTRate(this, @item.Id)"> Update OT Rate </a></li>
                             <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
                         }
 
@@ -402,7 +403,6 @@
 
              $.fn.modal.Constructor.prototype.enforceFocus = function() {};
         });
-
 
 
         function ShowLoading() {

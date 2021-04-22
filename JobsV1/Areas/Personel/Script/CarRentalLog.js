@@ -352,3 +352,22 @@ function NextDay(filteredsDate) {
 
     $("#SubmitFilterBtn").click();
 }
+
+//Update OT Rate of the trip
+//Will calculate the OT hrs and rate based
+//On the input Time and OTDriversRate
+//param : id = triplogId
+function UpdateOTRate(e, id) {
+    $.post('/Personel/CarRentalLog/UpdateTripOTRate', { id: id })
+        .done((res) => {
+            console.log('Updated OT:' + id);
+            //window.location.reload(false);
+            $(e).parent().append('<a style="cursor:not-allowed;color:gray;"> OT Calculated </a>');
+            $(e).remove();
+        })
+        .fail((err) => {
+            console.log('Error OT update:' + id);
+            alert('Unable to Update OT Rate');
+        });
+}
+

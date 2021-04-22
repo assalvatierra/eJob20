@@ -728,6 +728,13 @@ namespace JobsV1.Areas.Personel.Controllers
         {
             if (ModelState.IsValid)
             {
+                //caculate OT
+                var OTRate = GetTripLogOTRate(crLogTrip);
+                if (OTRate > 0 && crLogTrip.DriverOT == 0)
+                {
+                    crLogTrip.DriverOT = (decimal)OTRate;
+                }
+
                 db.Entry(crLogTrip).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -1527,7 +1534,40 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return false;
             }
+        }
 
+        #region OT 
+
+        // POST : /Personel/CarRentalLog/UpdateTripOTRate
+        //
+        [HttpPost]
+        public HttpResponseMessage UpdateTripOTRate(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                }
+
+                //get trip
+                var trip = db.crLogTrips.Find(id);
+
+                var OTRate = GetTripLogOTRate(trip);
+                if (OTRate > 0 && trip.DriverOT == 0)
+                {
+                    trip.DriverOT = (decimal)OTRate;
+                }
+
+                db.Entry(trip).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            catch
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
         }
 
         //GET : /Personel/CarRentalLog/GetTripOTHours/{TripLogId}
@@ -1539,7 +1579,7 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             var trip = db.crLogTrips.Find(id);
-              
+
             if (trip.StartTime != null && trip.EndTime != null && trip.TripHours != null)
             {
                 DateTime StartTime = DateTime.Parse(trip.StartTime);
@@ -1676,7 +1716,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             if (id == null)
             {
-                return 0.1;
+                return 0;
             }
 
             double OTHours = GetTripOTHours(id);
@@ -1685,7 +1725,34 @@ namespace JobsV1.Areas.Personel.Controllers
             var trip = db.crLogTrips.Find(id);
 
             if (trip.DriverOTRate != null)
-            {  
+            {
+                CalcOTRate = OTHours * Double.Parse(trip.DriverOTRate.ToString());
+            }
+            else
+            {
+                //default 50 per hour overtime rate
+                CalcOTRate = OTHours * 50;
+            }
+
+
+            return CalcOTRate;
+        }
+
+        //GET : rate of OT per hour based on OTRate for Driver
+        public double GetTripLogOTRate(crLogTrip trip)
+        {
+
+            if (trip == null)
+            {
+                return 0;
+            }
+
+            double OTHours = GetTripLogOTHours(trip);
+            double CalcOTRate = 0;
+
+
+            if (trip.DriverOTRate != null)
+            {
                 CalcOTRate = OTHours * Double.Parse(trip.DriverOTRate.ToString());
             }
             else
@@ -1727,8 +1794,6 @@ namespace JobsV1.Areas.Personel.Controllers
             return CalcOTRate;
         }
 
-
-
         //GET : rate of OT per hour based on OTRate for Driver
         public decimal GetTripLogOTCompanyRate(crLogTrip trip, double OTHours)
         {
@@ -1750,7 +1815,6 @@ namespace JobsV1.Areas.Personel.Controllers
                 //default 200 per hour overtime rate
                 CalcOTRate = (decimal)OTHours * 200;
             }
-
 
             return CalcOTRate;
         }
@@ -1777,8 +1841,74 @@ namespace JobsV1.Areas.Personel.Controllers
             return CalcOTRate;
         }
 
-        #region Odo Update
 
+        // GET: Personel/CarRentalLog/GetTripOdo/5
+        // id = crLogTripId
+        [HttpGet]
+        public JsonResult GetTripOT(int? id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+
+            if (crLogTrip == null)
+            {
+                return null;
+            }
+
+            //get trip log
+            var triplog = db.crLogTrips.Find(id);
+
+            TripOTRequest odoDetails = new TripOTRequest();
+            odoDetails.Date = triplog.DtTrip.ToShortDateString();
+            odoDetails.Unit = triplog.crLogUnit.Description;
+            odoDetails.Driver = triplog.crLogDriver.Name;
+            odoDetails.Company = triplog.crLogCompany.Name;
+
+            odoDetails.StartTime = triplog.StartTime;
+            odoDetails.EndTime = triplog.EndTime;
+            odoDetails.TripHours = triplog.TripHours ?? 10;
+            odoDetails.OTRate = triplog.OTRate ?? 200;
+            odoDetails.DriverOTRate = triplog.DriverOTRate ?? 50;
+
+
+            return Json(odoDetails, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public bool SetTripOT(int? Id, string StartTime, string EndTime, int? TripHours, Decimal? OTRate, Decimal? DriverOTRate)
+        {
+            if (Id != null)
+            {
+                crLogTrip crLogTrip = db.crLogTrips.Find(Id);
+
+                if (crLogTrip == null)
+                    return false;
+
+                //update odo values
+                crLogTrip.StartTime = StartTime;
+                crLogTrip.EndTime = EndTime;
+                crLogTrip.TripHours = TripHours;
+                crLogTrip.OTRate = OTRate;
+                crLogTrip.DriverOTRate = DriverOTRate;
+                crLogTrip.DriverOT = (decimal)GetTripOTRate(Id);
+                crLogTrip.AddonOT = (decimal)GetTripOTAddon(Id);
+
+                //save changes
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
+        #endregion
+
+        #region Odo Update
 
         // GET: Personel/CarRentalLog/EditOdo/5
         public ActionResult EditOdo(int? id)
@@ -1874,72 +2004,6 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 db.Entry(crLogTrip).State = EntityState.Modified;
                 db.SaveChanges();
-                return true;
-            }
-
-            return false;
-        }
-
-
-        // GET: Personel/CarRentalLog/GetTripOdo/5
-        // id = crLogTripId
-        [HttpGet]
-        public JsonResult GetTripOT(int? id)
-        {
-            if (id == null)
-            {
-                return null;
-            }
-
-            crLogTrip crLogTrip = db.crLogTrips.Find(id);
-
-            if (crLogTrip == null)
-            {
-                return null;
-            }
-
-            //get trip log
-            var triplog = db.crLogTrips.Find(id);
-
-            TripOTRequest odoDetails = new TripOTRequest();
-            odoDetails.Date = triplog.DtTrip.ToShortDateString();
-            odoDetails.Unit = triplog.crLogUnit.Description;
-            odoDetails.Driver = triplog.crLogDriver.Name;
-            odoDetails.Company = triplog.crLogCompany.Name;
-
-            odoDetails.StartTime = triplog.StartTime;
-            odoDetails.EndTime = triplog.EndTime;
-            odoDetails.TripHours = triplog.TripHours ?? 10;
-            odoDetails.OTRate = triplog.OTRate ?? 200;
-            odoDetails.DriverOTRate = triplog.DriverOTRate ?? 50;
-
-
-            return Json(odoDetails, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public bool SetTripOT(int? Id, string StartTime, string EndTime, int? TripHours, Decimal? OTRate, Decimal? DriverOTRate)
-        {
-            if (Id != null)
-            {
-                crLogTrip crLogTrip = db.crLogTrips.Find(Id);
-
-                if (crLogTrip == null)
-                    return false;
-
-                //update odo values
-                crLogTrip.StartTime = StartTime;
-                crLogTrip.EndTime   = EndTime;
-                crLogTrip.TripHours = TripHours;
-                crLogTrip.OTRate    = OTRate;
-                crLogTrip.DriverOTRate = DriverOTRate;
-                crLogTrip.DriverOT = (decimal)GetTripOTRate(Id);
-                crLogTrip.AddonOT = (decimal)GetTripOTAddon(Id);
-
-                //save changes
-                db.Entry(crLogTrip).State = EntityState.Modified;
-                db.SaveChanges();
-
                 return true;
             }
 
