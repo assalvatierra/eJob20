@@ -46,40 +46,39 @@
     }
     else
     {
+        <p>
+             @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
+            |  <a id="aContractorLink" data-toggle="modal" data-target="#aContractorLink">Contractors</a>
+            | @Html.ActionLink("Voucher", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 2 }, null)
+            | @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 1 }, null)
+            
+            @if (ViewBag.JobStatus == "INQUIRY")
+            {
+                <text>
+                    | <a onclick="ajaxSendQuotation(@ViewBag.JobOrder.Id)"> Send Quotation </a>
+                </text>
+            }
 
+            @if (ViewBag.JobStatus == "RESERVATION")
+            {
+                <text>
+                    | <a onclick="ajaxSendReservation(@ViewBag.JobOrder.Id)"> Send Reservation </a>
+                </text>
+            }
+                
+            <text>
+                | <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(ViewBag.JobOrder.Id))"> Send Invoice </a>
+            </text>
+
+        </p>
         <p>
             @Html.ActionLink("Services", "JobServices", "JobOrder", new { JobMainId = ViewBag.JobOrder.Id }, null) |
             @Html.ActionLink("Itinerary", "JobItinerary", "JobItineraries", new { id = ViewBag.JobOrder.Id }, null) |
             @Html.ActionLink("Notes", "JobNotes", "JobMains", new { id = ViewBag.JobOrder.Id }, null) |
             Payments |
             @Html.ActionLink("Expenses", "CashExpenses", "JobExpenses", new { jobId = ViewBag.JobOrder.Id }, null)
-            | <a id="aContractorLink" data-toggle="modal" data-target="#aContractorLink">Contractors</a>
-            | @Html.ActionLink("Booking", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id }, null)
-            | @Html.ActionLink("Voucher", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 2 }, null)
-            | @Html.ActionLink("Invoice", "BookingDetails", "JobOrder", new { id = ViewBag.JobOrder.Id, iType = 1 }, null)
         </p>
-
-        if (ViewBag.JobStatus == "INQUIRY")
-        {
-            <text>
-                | <a onclick="ajaxSendQuotation(@ViewBag.JobOrder.Id)"> Send Quotation </a>
-            </text>
-        }
-
-        if (ViewBag.JobStatus == "RESERVATION")
-        {
-            <text>
-                | <a onclick="ajaxSendReservation(@ViewBag.JobOrder.Id)"> Send Reservation </a>
-            </text>
-        }
-
-        <text>
-            | <a href="#" style="margin-bottom:10px;" onclick="ajaxSendMail(@(ViewBag.JobOrder.Id))"> Send Invoice </a>
-        </text>
-
     }
-
-
 </div>
 
 <h2>Payment Details</h2>
@@ -131,7 +130,65 @@
 
 </table>
 <p>
-    @Html.ActionLink("New Payment", "Create", new { JobMainId = ViewBag.JobMainId }) <br />
-    @Html.ActionLink("Back to List", "Index", "JobOrder" ,new { sortid = Session["FilterID"] != null ? (int)Session["FilterID"] : 5, mainid = ViewBag.JobMainId }, null)
-
+    <button class="btn btn-default" data-toggle="modal" data-target="#PostJobRecievables" 
+            onclick="ShowPostReceivablesModal(@ViewBag.JobOrder.Id)">
+        Post to Receivables
+    </button>
 </p>
+<p>
+    @Html.ActionLink("New Payment", "Create", new { JobMainId = ViewBag.JobMainId }) <br />
+    @Html.ActionLink("Back to List", "Index", "JobOrder" ,
+         new { sortid = Session["FilterID"] != null ? (int)Session["FilterID"] : 5, mainid = ViewBag.JobMainId }, null)
+</p>
+
+@Html.Partial("_PostToReceivable")
+
+@section Scripts{
+    <script src="~/Scripts/Job/DefaultDate.js"> </script>
+    <script>
+        function ShowPostReceivablesModal(jobId) {
+
+            $.get("/JobOrder/GetJobRcvDetails", { id : jobId })
+                .done((result) => {
+                    console.log(result);
+                    InitPostReceivables(result);
+                })
+                .fail((err) => { });
+        }
+
+        function InitPostReceivables(jobDetails) {
+            $("#PostRcv-JobId").val(jobDetails["Id"]);
+            $("#PostRcv-Description").val(jobDetails["Description"]);
+            $("#PostRcv-Date").val(moment().format("MM/DD/YYYY"));
+            $("#PostRcv-DtStart").val(moment(jobDetails["SvcStart"]).format("MM/DD/YYYY"));
+            $("#PostRcv-DtEnd").val(moment(jobDetails["SvcEnd"]).format("MM/DD/YYYY"));
+            $("#PostRcv-DtDue").val(moment().add(15,'days').format("MM/DD/YYYY"));
+            $("#PostRcv-Amount").val(jobDetails["Amount"]);
+            
+            $("#PostRcv-Company").val(jobDetails["Company"]);
+            $("#PostRcv-Customer").val(jobDetails["Customer"]);
+            $("#PostRcv-Mobile").val(jobDetails["Contact"]);
+            $("#PostRcv-Email").val(jobDetails["Email"]);
+        }
+
+        function SubmitPostReceivables() {
+
+            var data = {
+                InvoiceId   : $("#PostRcv-JobId").val(),
+                Description : $("#PostRcv-Description").val(),
+                DtInvoice   : $("#PostRcv-Date").val(),
+                DtService   : $("#PostRcv-DtStart").val(),
+                DtServiceTo : $("#PostRcv-DtEnd").val(),
+                DtDue       : $("#PostRcv-DtDue").val(),
+                Amount      : $("#PostRcv-Amount").val()
+            };
+
+            $.post("/Receivables/ArTransactions/PostJobReceivables", data)
+                .done((result) => {
+                    console.log(result);
+                    $("#PostJobRecievables").modal("hide");
+                    alert("Receivables Posted");
+                });
+        }
+    </script>
+    }

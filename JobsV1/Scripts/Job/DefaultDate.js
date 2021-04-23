@@ -71,6 +71,8 @@ function InitDatePicker()
         }
     ); 
 
+    $('input[name="Date"]').val(ddd3);
+
     //Date 2
     var ddd4 = $('input[name="DtActivity"]').val();
 
@@ -90,7 +92,28 @@ function InitDatePicker()
         }
     ); 
 
-   // $('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ")));
+    // $('input[name="DtEnd"]').val(ddd2.substr(0, ddd2.indexOf(" ")));
+
+    //Date 2
+    var ddd5 = $('.datePicker').val();
+
+    $('.datePicker').daterangepicker(
+        {
+            timePicker: false,
+            timePickerIncrement: 1,
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'MM/DD/YYYY'
+            }
+        },
+        function (start, end, label) {
+            // alert(start.format('YYYY-MM-DD h:mm A'));
+
+        }
+    );
+
+    $('.datePicker').val(moment(ddd5).format("MM/DD/YYYY"));
 
 
 }

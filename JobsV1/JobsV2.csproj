@@ -1416,6 +1416,7 @@
     <Content Include="Areas\Receivables\Scripts\Mgt\DueDate.js" />
     <Content Include="Areas\Receivables\Scripts\Mgt\Settlement.js" />
     <Content Include="Areas\Receivables\Scripts\Payments\Payments.js" />
+    <Content Include="Areas\Receivables\Scripts\Transactions\TransactionEdit.js" />
     <Content Include="Areas\Receivables\Scripts\Transactions\Transaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="bin\Antlr3.Runtime.dll" />
@@ -3393,6 +3394,7 @@
     <Content Include="Views\SalesLeads\_AddSupRateModal.cshtml" />
     <Content Include="Views\SalesLeads\_EditSupRateModal.cshtml" />
     <Content Include="Views\SalesLeads\_AddItemRateModal.cshtml" />
+    <Content Include="Views\JobPayments\_PostToReceivable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

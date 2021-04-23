@@ -1,0 +1,108 @@
+﻿
+<!-- Post Job To Receivables Modal -->
+<div class="modal fade" id="PostJobRecievables" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Post Job Receivables </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> RefId </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="PostRcv-JobId">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Invoice Date </label>
+                        <div class="col-md-9">
+                            <input class="form-control datePicker" type="text" id="PostRcv-Date">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Description </label>
+                        <div class="col-md-9">
+                            <input class="form-control " type="text" id="PostRcv-Description">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Amount </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="PostRcv-Amount">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Service Start </label>
+                        <div class="col-md-9">
+                            <input class="form-control datePicker" type="text" id="PostRcv-DtStart">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Service End </label>
+                        <div class="col-md-9">
+                            <input class="form-control datePicker" type="text" id="PostRcv-DtEnd">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Date Due </label>
+                        <div class="col-md-9">
+                            <input class="form-control datePicker" type="text" id="PostRcv-DtDue">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Remarks </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="PostRcv-Remarks">
+                        </div>
+                    </div>
+
+                    <!-- Hidden -->
+
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Company </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="PostRcv-Company">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Customer </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="PostRcv-Customer">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Mobile </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="PostRcv-Mobile">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="control-label text-muted col-md-3 modal-text-label"> Email </label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="PostRcv-Email">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="SubmitPostReceivables()"> Submit </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

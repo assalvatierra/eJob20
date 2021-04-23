@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using ArModels.Models;
@@ -15,6 +16,7 @@ namespace JobsV1.Areas.Receivables.Controllers
     public class ArTransactionsController : Controller
     {
         private ReceivableFactory ar = new ReceivableFactory();
+        private ArDBContainer ardb = new ArDBContainer();
 
         // GET: ArTransactions
         public ActionResult Index(string status, string sortBy, string orderBy)
@@ -389,6 +391,56 @@ namespace JobsV1.Areas.Receivables.Controllers
             }
 
             return false;
+
+        }
+
+        //Post: \Receivables\ArTransactions\PostJobReceivables
+        [HttpPost]
+        public bool PostJobReceivables([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount")] ArTransaction arTransaction)
+        {
+            try
+            {
+                arTransaction.ArAccountId = 1;
+                arTransaction.ArCategoryId = 1;
+                arTransaction.ArTransStatusId = 1;
+                arTransaction.DtEncoded = ar.DateClassMgr.GetCurrentDateTime();
+                arTransaction.IsRepeating = false;
+                arTransaction.Interval = 0;
+                arTransaction.InvoiceRef = "";
+                arTransaction.NextRef = 0;
+                arTransaction.PrevRef = 0;
+                arTransaction.RepeatCount = 0;
+                arTransaction.Remarks = "";
+
+
+                if (ModelState.IsValid && InputValidation(arTransaction))
+                {
+                    var today = ar.DateClassMgr.GetCurrentDateTime();
+                    var currentUser = HttpContext.User.Identity.Name;
+
+                    ardb.ArTransactions.Add(arTransaction);
+                    ardb.SaveChanges();
+
+                    //ar.TransactionMgr.AddTransaction(arTransaction);
+
+                    //new transaction action history (new bill)
+                    ar.ActionMgr.AddAction(1, currentUser, arTransaction.Id);
+
+                    //new account
+                    if (arTransaction.ArAccountId == 1)
+                    {
+                       // return RedirectToAction("CreateAccTrans", new { transId = arTransaction.Id });
+                    }
+
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
+            }
 
         }
 

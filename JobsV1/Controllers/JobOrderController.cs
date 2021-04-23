@@ -133,7 +133,7 @@ namespace JobsV1.Controllers
                 else
                     sortid = 1;
             }
-            
+
             if (Session["FilterID"] == null)
             {
                 Session["FilterID"] = 1;
@@ -141,7 +141,7 @@ namespace JobsV1.Controllers
 
 
             var data = getJobData((int)sortid); // get job list data
-            
+
             if (!search.IsNullOrWhiteSpace())
             {
                 data = jo.getSearchJobData(search);
@@ -167,7 +167,7 @@ namespace JobsV1.Controllers
             //SEARCH
             //if (search != null)
             //{
-                
+
             //    var srchData = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) ||
             //    d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower()) || d.Company.ToLower().ToString().Contains(search.ToLower()));
             //    if (srchData != null)
@@ -202,7 +202,7 @@ namespace JobsV1.Controllers
             ViewBag.mainId = jo.GetJobMainId(serviceId, mainid);
 
             // get job list data
-            var data = jo.getJobData((int)sortid); 
+            var data = jo.getJobData((int)sortid);
 
             //SEARCH
             if (search != null)
@@ -222,11 +222,11 @@ namespace JobsV1.Controllers
 
         //GET : return list of jobs
         public List<cJobOrder> getJobData(int sortid)
-        {  
+        {
 
-            var confirmed = dbc.getJobConfirmedList(sortid).Select(s=>s.Id);
+            var confirmed = dbc.getJobConfirmedList(sortid).Select(s => s.Id);
 
-            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j=> confirmed.Contains(j.Id))
+            IEnumerable<Models.JobMain> jobMains = db.JobMains.Where(j => confirmed.Contains(j.Id))
                 .Include(j => j.Customer)
                 .Include(j => j.Branch)
                 .Include(j => j.JobStatus)
@@ -238,7 +238,7 @@ namespace JobsV1.Controllers
             DateTime today = new DateTime();
             ViewBag.today = getDateTimeToday();
             today = getDateTimeToday().Date;
-            
+
             foreach (var main in jobMains)
             {
                 cJobOrder joTmp = new cJobOrder();
@@ -254,7 +254,7 @@ namespace JobsV1.Controllers
                 {
                     cJobService cjoTmp = new cJobService();
                     cjoTmp.Service = svc;
-                    var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id ).Select(s => s.SrvActionItemId);
+                    var ActionDone = db.JobActions.Where(d => d.JobServicesId == svc.Id).Select(s => s.SrvActionItemId);
                     cjoTmp.SvcActionsDone = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
                     cjoTmp.SvcActions = db.SrvActionItems.Where(d => d.ServicesId == svc.ServicesId && !ActionDone.Contains(d.Id)).Include(d => d.SrvActionCode);
                     cjoTmp.Actions = db.JobActions.Where(d => d.JobServicesId == svc.Id).Include(d => d.SrvActionItem);
@@ -280,7 +280,7 @@ namespace JobsV1.Controllers
 
                 data.Add(joTmp);
             }
-            
+
             switch (sortid)
             {
                 case 1: //OnGoing
@@ -344,10 +344,10 @@ namespace JobsV1.Controllers
             //job sorting order
             if (sortid == 1) {
                 return View(data.OrderBy(d => d.Main.JobDate));
-            }else{
+            } else {
                 return View(data.OrderByDescending(d => d.Main.JobDate));
             }
-            
+
         }
 
         //GET : return customer email
@@ -369,7 +369,7 @@ namespace JobsV1.Controllers
         public string getCustomerCompany(int id)
         {
             var company = db.CustEntities.Where(s => s.CustomerId == id).FirstOrDefault();
-            string companyNum = company != null ?  company.CustEntMainId.ToString() : " ";
+            string companyNum = company != null ? company.CustEntMainId.ToString() : " ";
             return companyNum;
         }
 
@@ -392,7 +392,7 @@ namespace JobsV1.Controllers
             //update jobdate
             var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
             DateTime minDate = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault().JobDate.Date;
-            DateTime maxDate = new DateTime(1,1,1);
+            DateTime maxDate = new DateTime(1, 1, 1);
             DateTime today = new DateTime();
 
             today = getDateTimeToday().Date;
@@ -400,9 +400,9 @@ namespace JobsV1.Controllers
             //loop though all jobservices in the jobmain
             //to get the latest date
             var counter = 1;
-            foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s=>s.DtStart))
+            foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
             {
-                var firstService =(DateTime) db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart).FirstOrDefault().DtStart;
+                var firstService = (DateTime)db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart).FirstOrDefault().DtStart;
                 var svcDtStart = (DateTime)svc.DtStart;
                 var svcDtEnd = (DateTime)svc.DtEnd;
                 //get min date
@@ -426,11 +426,11 @@ namespace JobsV1.Controllers
                         minDate = svcDtStart.Date; //if Today < Dtstart but today is greater than smallest date
                     }
                 }
-                
+
                 //get max date
                 if (DateTime.Compare(maxDate, svcDtEnd.Date) <= 0)
                 {
-                    maxDate = svcDtEnd.Date; 
+                    maxDate = svcDtEnd.Date;
                 }
             }
 
@@ -445,7 +445,7 @@ namespace JobsV1.Controllers
             {
                 main.JobDate = maxDate;
             }
-            
+
             //today is < smallest date
             if (DateTime.Compare(today, minDate) < 0) {
                 main.JobDate = minDate;
@@ -490,7 +490,7 @@ namespace JobsV1.Controllers
             //to get the latest date
             foreach (var svc in db.JobServices.Where(s => s.JobMainId == mainId).OrderBy(s => s.DtStart))
             {
-             
+
                 var svcDtStart = (DateTime)svc.DtStart;
                 var svcDtEnd = (DateTime)svc.DtEnd;
                 //get min date
@@ -513,7 +513,7 @@ namespace JobsV1.Controllers
                         minDate = svcDtStart.Date; //if Today < Dtstart but today is greater than smallest date
                     }
                 }
-                
+
                 //get max date
                 if (DateTime.Compare(maxDate, svcDtEnd.Date) <= 0)
                 {
@@ -526,7 +526,7 @@ namespace JobsV1.Controllers
         }
 
         //GET : return the list of jobcount 
-        public List<cjobCounter> getJobActionCount(List<Int32> jobidlist )
+        public List<cjobCounter> getJobActionCount(List<Int32> jobidlist)
         {
             #region sqlstr
             string sqlstr = @"
@@ -555,7 +555,7 @@ order by x.jobid
 
 ";
             #endregion
-            List<cjobCounter> jobcntr = db.Database.SqlQuery<cjobCounter>(sqlstr).Where(d=>jobidlist.Contains(d.JobId)).ToList();
+            List<cjobCounter> jobcntr = db.Database.SqlQuery<cjobCounter>(sqlstr).Where(d => jobidlist.Contains(d.JobId)).ToList();
             return jobcntr;
         }
 
@@ -602,7 +602,7 @@ order by x.jobid
                 joTmp.Main.AgreedAmt = 0;
                 joTmp.Payment = 0;
                 joTmp.Expenses = 0;
-                
+
                 List<Models.JobServices> joSvc = db.JobServices.Where(d => d.JobMainId == main.Id).OrderBy(s => s.DtStart).ToList();
                 foreach (var svc in joSvc)
                 {
@@ -610,7 +610,7 @@ order by x.jobid
                     cjoTmp.Service = svc;
 
                     joTmp.Main.AgreedAmt += svc.ActualAmt != null ? svc.ActualAmt : 0;
-                    joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j=>j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name: "";
+                    joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name : "";
                     joTmp.Expenses += getJobExpensesBySVC(svc.Id);
 
                     joTmp.Services.Add(cjoTmp);
@@ -639,7 +639,7 @@ order by x.jobid
                 joTmp.PostedIncome = cIncome;
 
                 joTmp.ActionCounter = jobActionCntr.Where(d => d.JobId == joTmp.Main.Id).ToList();
-                
+
                 joTmp.Main.JobDate = TempJobDate(joTmp.Main.Id);
 
                 //job payments
@@ -661,7 +661,7 @@ order by x.jobid
                 data.Add(joTmp);
 
             }
-            
+
             switch (sortid)
             {
                 case 1: //OnGoing
@@ -675,16 +675,16 @@ order by x.jobid
                         .Where(p => DateTime.Compare(p.Main.JobDate.Date, today.Date) < 0).ToList();
 
                     //Closed and Current Month List
-                    var currentMonthIds  = dbc.currentJobsMonth().Select(s => s.Id);   //get list if job ids of current month fom SQL query
+                    var currentMonthIds = dbc.currentJobsMonth().Select(s => s.Id);   //get list if job ids of current month fom SQL query
                     var currentMonthJobs = getJobListing(currentMonthIds);
                     ViewBag.CurrentMonth = currentMonthJobs;
-                    
+
 
                     //Old Open jobs
                     var olderJobsIds = dbc.olderOpenJobs().Select(s => s.Id);  //get list of older jobs that are not closed
                     var OldJobs = getJobListing(olderJobsIds);
                     ViewBag.olderOpenJobs = OldJobs;
-                    
+
 
                     break;
                 case 3: //close
@@ -697,14 +697,14 @@ order by x.jobid
                     data = (List<cJobOrder>)data.ToList();
                     break;
             }
-            
+
             List<Customer> customers = db.Customers.ToList();
             ViewBag.companyList = customers;
 
             var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
             jobmainId = mainid != null ? (int)mainid : jobmainId;
             ViewBag.mainId = jobmainId;
-            
+
             if (sortid == 1)
             {
 
@@ -721,9 +721,9 @@ order by x.jobid
         {
             decimal totalRate = 0;
             foreach (var job in filteredJob as IEnumerable<cJobOrder>) {
-                    totalRate += job.Main.AgreedAmt != null ? (decimal)job.Main.AgreedAmt : 0 ;
+                totalRate += job.Main.AgreedAmt != null ? (decimal)job.Main.AgreedAmt : 0;
             }
-            
+
             return totalRate;
         }
 
@@ -745,7 +745,7 @@ order by x.jobid
 
             foreach (var job in filteredJob as IEnumerable<cJobOrder>)
             {
-                if (job.Services.Contains(null)) { 
+                if (job.Services.Contains(null)) {
                     foreach (var svc in job as IEnumerable<cJobService>)
                     {
                         SvcID.Add(svc.Id);
@@ -753,13 +753,13 @@ order by x.jobid
                 }
             }
 
-            var expensesList = db.JobExpenses.Where(s=> SvcID.Contains(s.JobServicesId)).ToList();
+            var expensesList = db.JobExpenses.Where(s => SvcID.Contains(s.JobServicesId)).ToList();
 
             foreach (var expense in expensesList as IEnumerable<JobExpenses>)
             {
                 totalExpense += expense.Amount;
             }
-            
+
             return totalExpense;
         }
 
@@ -775,13 +775,13 @@ order by x.jobid
                 SvcID.Add(svcItems.Id);
             }
 
-            var expensesList = db.JobExpenses.Where(s=> SvcID.Contains(s.JobServicesId)).ToList();
+            var expensesList = db.JobExpenses.Where(s => SvcID.Contains(s.JobServicesId)).ToList();
 
             foreach (var exp in expensesList as IEnumerable<JobExpenses>)
             {
                 totalExpenses += exp.Amount;
             }
-            
+
             return totalExpenses;
         }
 
@@ -826,8 +826,8 @@ order by x.jobid
                 {
                     cJobService cjoTmp = new cJobService();
                     cjoTmp.Service = svc;
-                    
-                    joTmp.Main.AgreedAmt += svc.ActualAmt != null ? svc.ActualAmt : 0 ;
+
+                    joTmp.Main.AgreedAmt += svc.ActualAmt != null ? svc.ActualAmt : 0;
                     joTmp.Company = db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault() != null ? db.JobEntMains.Where(j => j.JobMainId == svc.JobMainId).FirstOrDefault().CustEntMain.Name : "";
 
                     joTmp.Expenses += getJobExpensesBySVC(svc.Id);
@@ -887,7 +887,7 @@ order by x.jobid
             var data = db.JobServiceItems.Where(d => d.JobServicesId == serviceId).Include(j => j.InvItem).ToList();
             ViewBag.hdrdata = db.JobServices.Find(serviceId);
             ViewBag.svcId = serviceId;
-            return View(data); 
+            return View(data);
         }
 
         public ActionResult BrowseInvItem_withSchedule(int JobServiceId)
@@ -913,13 +913,13 @@ order by x.jobid
 
                 var jobService = db.JobServices.Find(jsId);
 
-                if(jobService == null)
+                if (jobService == null)
                 {
                     return false;
                 }
 
                 //add item to jobservice
-                JobServiceItem jsItem = new JobServiceItem() { 
+                JobServiceItem jsItem = new JobServiceItem() {
                     InvItemId = (int)itemId,
                     JobServicesId = (int)jsId
                 };
@@ -949,10 +949,10 @@ order by x.jobid
             {
 
                 //get items list of order number greater than 110
-                var InvItems = db.InvItems.Where(s => s.OrderNo > 110).Include(s=>s.InvItemCategories).ToList().OrderBy(s => s.OrderNo);
+                var InvItems = db.InvItems.Where(s => s.OrderNo > 110).Include(s => s.InvItemCategories).ToList().OrderBy(s => s.OrderNo);
                 List<cjobItems> items = new List<cjobItems>();
 
-                foreach ( var inv in InvItems)
+                foreach (var inv in InvItems)
                 {
                     var invIcon = db.InvItemCategories.Where(s => s.InvItemId == inv.Id).FirstOrDefault();
                     var imgIconPath = "";
@@ -971,10 +971,10 @@ order by x.jobid
                         Name = inv.Description,
                         remarks = inv.Remarks,
                         orderNo = (int)inv.OrderNo,
-                        icon = imgIconPath.Remove(0,1)
+                        icon = imgIconPath.Remove(0, 1)
                     });
                 }
-            
+
                 //convert list to json object
                 return JsonConvert.SerializeObject(items, Formatting.Indented);
 
@@ -984,7 +984,7 @@ order by x.jobid
                 return JsonConvert.SerializeObject("Unable to Retrieve items", Formatting.Indented);
             }
         }
-        
+
         public ActionResult BrowseInvItem_withScheduleJS(int JobServiceId)
         {
             DBClasses dbclass = new DBClasses();
@@ -1002,7 +1002,7 @@ order by x.jobid
             string sqlstr = "Insert Into JobServiceItems([JobServicesId],[InvItemId]) values(" + serviceId.ToString() + "," + itemId.ToString() + ")";
             db.Database.ExecuteSqlCommand(sqlstr);
             var mainId = db.JobServices.Find(serviceId).JobMainId;
-           
+
         }
 
         public void RemoveUnassignedItem(int itemId, int serviceId)
@@ -1011,7 +1011,7 @@ order by x.jobid
                 + " AND InvItemId = " + itemId.ToString();
 
             db.Database.ExecuteSqlCommand(sqlstr);
-            
+
         }
         public ActionResult AddItem(int itemId, int serviceId)
         {
@@ -1019,13 +1019,13 @@ order by x.jobid
             db.Database.ExecuteSqlCommand(sqlstr);
 
             //remove unassigned
-            var jscount = db.JobServiceItems.Where(s=>s.JobServicesId == serviceId).Count();
+            var jscount = db.JobServiceItems.Where(s => s.JobServicesId == serviceId).Count();
 
             if (jscount > 1)
             {
-                if(db.InvItems.Where(s => s.Description == "UnAssigned").FirstOrDefault() != null) { 
+                if (db.InvItems.Where(s => s.Description == "UnAssigned").FirstOrDefault() != null) {
                     var unassigned = db.InvItems.Where(s => s.Description == "UnAssigned").FirstOrDefault().Id;
-                    RemoveUnassignedItem(unassigned,serviceId);
+                    RemoveUnassignedItem(unassigned, serviceId);
                 }
 
             }
@@ -1055,8 +1055,8 @@ order by x.jobid
             var service = db.JobServices.Find(serviceId);
 
             //job trail
-            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Assign "+ itemName.Description + " to jobID "+ service.JobMainId + " ", serviceId.ToString());
-            
+            trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Assign " + itemName.Description + " to jobID " + service.JobMainId + " ", serviceId.ToString());
+
             var mainId = db.JobServices.Find(serviceId).JobMainId;
             return RedirectToAction("JobServices", new { JobMainId = mainId });
 
@@ -1073,7 +1073,7 @@ order by x.jobid
             var job = db.JobServices.Find(serviceId).JobMain;
 
             //job trail
-            trail.recordTrail("Remove Item", HttpContext.User.Identity.Name, "Remove Item " + item.Description +" from " + job.Description, serviceId.ToString());
+            trail.recordTrail("Remove Item", HttpContext.User.Identity.Name, "Remove Item " + item.Description + " from " + job.Description, serviceId.ToString());
 
             return RedirectToAction("InventoryItemList", new { serviceId = serviceId });
         }
@@ -1109,7 +1109,7 @@ order by x.jobid
 
             if (data.Name == "<< New Customer >>")
             {
-                return RedirectToAction("CreateCustomer", new { CreateCustJobId = jobid } );
+                return RedirectToAction("CreateCustomer", new { CreateCustJobId = jobid });
             }
 
             ViewBag.Status = new SelectList(StatusList, "value", "text", data.Status);
@@ -1120,13 +1120,13 @@ order by x.jobid
         [ValidateAntiForgeryToken]
         public ActionResult CompanyDetail([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer, int mainid, int? sortid)
         {
-            
+
             if (ModelState.IsValid)
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Index", new { mainid = mainid});
+                return RedirectToAction("Index", new { mainid = mainid });
             }
 
             ViewBag.Status = new SelectList(StatusList, "value", "text", customer.Status);
@@ -1146,7 +1146,7 @@ order by x.jobid
             ViewBag.Status = new SelectList(StatusList, "value", "text", data.Status);
             ViewBag.Status = new SelectList("JobStatusId", "Id", "text", data.Status);
             ViewBag.jobOrderId = CreateCustJobId;
-          
+
             return View(data);
         }
         [HttpPost]
@@ -1160,7 +1160,7 @@ order by x.jobid
 
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                
+
                 string JobId = Request.Form["jobOrderId"];
                 db.Database.ExecuteSqlCommand(@"
                     Update JobMains set CustomerId=" + customer.Id + " where Id=" + JobId + ";"
@@ -1179,13 +1179,13 @@ order by x.jobid
         {
             var jobMain = db.JobMains.Find(jobid);
             var companyId = db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault() != null ?
-                db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().CustEntMainId : 1 ;
+                db.JobEntMains.Where(s => s.JobMainId == jobMain.Id).FirstOrDefault().CustEntMainId : 1;
 
             ViewBag.mainid = jobid;
             ViewBag.CompanyList = db.CustEntMains.ToList() ?? new List<CustEntMain>();
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList() ?? new List<Customer>();
-            ViewBag.CustomerId  = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
-            ViewBag.BranchId    = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
+            ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", jobMain.CustomerId);
+            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", jobMain.BranchId);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
@@ -1219,7 +1219,7 @@ order by x.jobid
                     db.Entry(jobMain).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    System.Diagnostics.Debug.WriteLine("----" );
+                    System.Diagnostics.Debug.WriteLine("----");
                     System.Diagnostics.Debug.WriteLine("AgreedAmt job: " + jobMain.AgreedAmt);
                     System.Diagnostics.Debug.WriteLine("AgreedAmt: " + AgreedAmt);
                     EditjobCompany(jobMain.Id, (int)CompanyId);
@@ -1258,10 +1258,10 @@ order by x.jobid
         public void EditjobCompany(int jobId, int companyId)
         {
             //AddjobCompany(jobId, companyId);
-            if (db.JobEntMains.Where(j => j.JobMainId == jobId).FirstOrDefault() == null )
+            if (db.JobEntMains.Where(j => j.JobMainId == jobId).FirstOrDefault() == null)
             {
                 //add if entry does not exist
-                AddjobCompany(jobId,companyId);
+                AddjobCompany(jobId, companyId);
             }
             else
             {
@@ -1288,7 +1288,7 @@ order by x.jobid
             job.NoOfPax = 1;
             job.AgreedAmt = 0;
 
-            if(SITECONFIG == "AutoCare")
+            if (SITECONFIG == "AutoCare")
             {
                 job.JobRemarks = " ";
                 job.Description = "GMS AutoCare";
@@ -1296,17 +1296,17 @@ order by x.jobid
 
             if (id == null)
             {
-                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT" ), "Id", "Name", NewCustSysId);
+                ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", NewCustSysId);
             }
             else
             {
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id);
             }
 
-            ViewBag.CompanyList = db.CustEntMains.OrderBy(s=>s.Name).ToList() ?? new List<CustEntMain>();
-            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").OrderBy(s=>s.Name).ToList() ?? new List<Customer>();
+            ViewBag.CompanyList = db.CustEntMains.OrderBy(s => s.Name).ToList() ?? new List<CustEntMain>();
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").OrderBy(s => s.Name).ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
-            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name",2);
+            ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", 2);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
             ViewBag.AssignedTo = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName");
@@ -1316,7 +1316,7 @@ order by x.jobid
             return View(job);
         }
 
-        
+
         // POST: JobMains/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -1324,7 +1324,7 @@ order by x.jobid
         [ValidateAntiForgeryToken]
         public ActionResult jobCreate([Bind(Include = "Id,JobDate,CustomerId,Description,NoOfPax,NoOfDays,AgreedAmt,JobRemarks,JobStatusId,StatusRemarks,BranchId,JobThruId,CustContactEmail,CustContactNumber,AssignedTo")] JobMain jobMain, int? CompanyId, int? JobPaymentStatusId)
         {
-            
+
             if (ModelState.IsValid)
             {
                 if (JobCreateValidation(jobMain))
@@ -1345,7 +1345,7 @@ order by x.jobid
                         AddjobCompany(jobMain.Id, (int)CompanyId);
                     }
 
-                    if(JobPaymentStatusId != null)
+                    if (JobPaymentStatusId != null)
                     {
                         AddJobPaymentStatus((int)JobPaymentStatusId, jobMain.Id);
                     }
@@ -1379,7 +1379,7 @@ order by x.jobid
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", jobMain.JobStatusId);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc", jobMain.JobThruId);
             ViewBag.AssignedTo = new SelectList(dbc.getUsers(), "UserName", "UserName", jobMain.AssignedTo);
-            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status",(int)JobPaymentStatusId);
+            ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", (int)JobPaymentStatusId);
             ViewBag.SiteConfig = SITECONFIG;
 
             return View(jobMain);
@@ -1390,7 +1390,7 @@ order by x.jobid
         {
             bool isValid = true;
 
-            if (jobMain.JobDate == null )
+            if (jobMain.JobDate == null)
             {
                 ModelState.AddModelError("JobDate", "Invalid JobDate");
                 isValid = false;
@@ -1466,7 +1466,7 @@ order by x.jobid
                 else
                 {
                     //check if prev status is not current status
-                    if(jo.GetLastJobPaymentStatusId(jobId) != id)
+                    if (jo.GetLastJobPaymentStatusId(jobId) != id)
                     {
                         //add job payment status
                         AddJobPaymentStatus(id, jobId);
@@ -1483,14 +1483,14 @@ order by x.jobid
         }
 
 
-        public ActionResult ChangeCompany(int id , int newId) {
+        public ActionResult ChangeCompany(int id, int newId) {
 
             JobMain jobMain = db.JobMains.Find(id);
             jobMain.CustomerId = newId;
             db.Entry(jobMain).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("Index", new { mainid = jobMain.Id});
+            return RedirectToAction("Index", new { mainid = jobMain.Id });
         }
         #endregion
 
@@ -1536,7 +1536,7 @@ order by x.jobid
                 db.SaveChanges();
                 #endregion
 
-                return RedirectToAction("Index", new { sortid= 1, serviceId = SrcId });
+                return RedirectToAction("Index", new { sortid = 1, serviceId = SrcId });
             }
 
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", supplierPoHdr.SupplierId);
@@ -1581,22 +1581,22 @@ order by x.jobid
             //modify SupplierItem
             var supItemsActive = db.SupplierItems.Where(s => s.Status != "INC").ToList();
             var SuppliersActive = db.Suppliers.Where(s => s.Status != "INC").ToList();
-            
+
             ViewBag.id = JobMainId;
-            ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description",job.Description);
+            ViewBag.JobMainId = new SelectList(db.JobMains, "Id", "Description", job.Description);
             ViewBag.SupplierId = new SelectList(SuppliersActive, "Id", "Name");
             ViewBag.SupplierItemId = new SelectList(supItemsActive, "Id", "Description");
-            ViewBag.ServicesId = new SelectList(db.Services.Where(s=>s.Status == "1").ToList(), "Id", "Name");
+            ViewBag.ServicesId = new SelectList(db.Services.Where(s => s.Status == "1").ToList(), "Id", "Name");
             return View(js);
         }
 
         [HttpGet]
         public string GetVehicleOilRemarks(int jobmainId)
         {
-            try { 
-                var vehicle = db.JobVehicles.Where(j=>j.JobMainId == jobmainId).OrderByDescending(j=>j.Id).FirstOrDefault();
-            
-                if (vehicle != null) { 
+            try {
+                var vehicle = db.JobVehicles.Where(j => j.JobMainId == jobmainId).OrderByDescending(j => j.Id).FirstOrDefault();
+
+                if (vehicle != null) {
                     var vehicleModel = vehicle.Vehicle.VehicleModel;
                     string MotorOil = "";
                     string GearOil = "";
@@ -1608,7 +1608,7 @@ order by x.jobid
                     }
                     else
                     {
-                        MotorOil = " Motor Oil: 0 L, " ;
+                        MotorOil = " Motor Oil: 0 L, ";
                     }
 
 
@@ -1670,7 +1670,7 @@ order by x.jobid
                 db.JobServices.Add(jobServices);
                 db.SaveChanges();
 
-                try { 
+                try {
                     //set initial unit as unassigned
                     int UnassignedId = db.InvItems.Where(u => u.Description == "UnAssigned").FirstOrDefault().Id;
                     AddUnassignedItem(UnassignedId, jobServices.Id);
@@ -1762,10 +1762,10 @@ order by x.jobid
                 //db.SaveChanges();
                 updateJobDate(jobServices.JobMainId);
                 db.SaveChanges();
-                
+
                 //job trail
                 trail.recordTrail("JobOrder/JobServiceEdit", HttpContext.User.Identity.Name, "JobService Edit Saved", jobServices.Id.ToString());
-            
+
 
             }
 
@@ -1786,7 +1786,7 @@ order by x.jobid
         }
 
         public void updateJobDate(int mainId) {
-            
+
             //update jobdate
             var main = db.JobMains.Where(j => mainId == j.Id).FirstOrDefault();
 
@@ -1862,11 +1862,11 @@ order by x.jobid
                 db.JobServiceItems.RemoveRange(jobitems);
                 db.SaveChanges();
             }
-            
+
             db.JobServices.Remove(jobServices);
             db.SaveChanges();
 
-            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobServices.JobMainId});
+            return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobServices.JobMainId });
         }
 
 
@@ -1920,7 +1920,7 @@ order by x.jobid
 
         public ActionResult notify() {
             DBClasses dbc = new DBClasses();
-            dbc.addNotification("Job Order","Test");
+            dbc.addNotification("Job Order", "Test");
             return RedirectToAction("Index", "JobOrder", new { sortid = 1 });
         }
 
@@ -1969,7 +1969,7 @@ order by x.jobid
 
             ViewBag.Contact = db.JobContacts.Where(d => d.ContactType == "100").ToList();
             ViewBag.svcId = jobServicePickup.JobServicesId;
-            
+
             return View(jobServicePickup);
         }
 
@@ -1984,7 +1984,7 @@ order by x.jobid
                 int ij = db.JobServices.Find(jobServicePickup.JobServicesId).JobMainId;
 
                 dbc.addEncoderRecord("JobPickup", jobServicePickup.JobService.JobMainId.ToString(), HttpContext.User.Identity.Name, "Add Job Pickup Details, service id " + jobServicePickup.Id);
-                
+
                 return RedirectToAction("JobServices", new { JobMainId = jobServicePickup.JobService.JobMainId });
             }
             return View(jobServicePickup);
@@ -2049,7 +2049,7 @@ order by x.jobid
 
 
             var isAllowedPayment = false;
-            if(User.IsInRole("Admin") || User.IsInRole("Accounting"))
+            if (User.IsInRole("Admin") || User.IsInRole("Accounting"))
             {
                 isAllowedPayment = true;
             }
@@ -2082,7 +2082,7 @@ order by x.jobid
 
         }
 
-        public ActionResult BookingRedirect(int id,string month, string day, string year,string rName) {
+        public ActionResult BookingRedirect(int id, string month, string day, string year, string rName) {
             String DateBook = month + "/" + day + "/" + year;
             DateTime booking = DateTime.Parse(DateBook);
             int iMonth = int.Parse(month);
@@ -2095,7 +2095,7 @@ order by x.jobid
                 Where(j => j.JobDate.Year == iyear).
                 Where(j => j.Description == rName).
                 FirstOrDefault();
-            
+
             if (id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -2235,7 +2235,7 @@ order by x.jobid
 
             return View("Details_Invoice", jobMain);
         }
-        
+
         // GET: JobMains/Details/5
         public ActionResult BookingDetails(int? id, int? iType)
         {
@@ -2265,7 +2265,7 @@ order by x.jobid
                     custCompany = jobMain.JobEntMains.Where(c => c.JobMainId == jobMain.Id).FirstOrDefault().CustEntMain.Name;
                 }
             }
-            
+
             ViewBag.Services = db.JobServices.Include(j => j.JobServicePickups).Where(j => j.JobMainId == jobMain.Id).OrderBy(s => s.DtStart);
             ViewBag.Itinerary = db.JobItineraries.Include(j => j.Destination).Where(j => j.JobMainId == jobMain.Id);
             ViewBag.Payments = db.JobPayments.Where(j => j.JobMainId == jobMain.Id);
@@ -2344,7 +2344,7 @@ order by x.jobid
             }
             ViewBag.key = "NA";
 
-            ViewBag.isPaymentValid = jobMain.JobDate.Date == today ? "True" : "False" ;
+            ViewBag.isPaymentValid = jobMain.JobDate.Date == today ? "True" : "False";
 
 
             //handle prepared by
@@ -2385,7 +2385,7 @@ order by x.jobid
             { //quotation
                 ViewBag.DateNow = getDateTimeToday().AddMonths(1).Date.ToString();
                 return View("Details_Quote", jobMain);
-            }else if (iType != null && (int)iType == 1)
+            } else if (iType != null && (int)iType == 1)
             { //Invoice
                 ViewBag.DateNow = getDateTimeToday().Date.ToString();
                 return View("Details_Invoice", jobMain);
@@ -2398,7 +2398,7 @@ order by x.jobid
 
             return View(jobMain);
         }
-        
+
         public string getStaffName(string staffLogin)
         {
             switch (staffLogin)
@@ -2481,26 +2481,26 @@ order by x.jobid
 
                 svcpu = svc.JobServicePickups.FirstOrDefault();
                 sData += "\nDate:" + ((DateTime)svc.DtStart).ToString("dd MMM yyyy (ddd)");
-                sData += "\nPickup Time:" + svcpu.JsTime ;
-                sData += "\nLocation:"  + svcpu.JsLocation;
+                sData += "\nPickup Time:" + svcpu.JsTime;
+                sData += "\nLocation:" + svcpu.JsLocation;
 
-                sData += "\n\nGuest:" + svcpu.ClientName ;
+                sData += "\n\nGuest:" + svcpu.ClientName;
                 sData += "\nContact:" + svcpu.ClientContact;
 
                 sData += "\n  ";
                 sData += "\nAssigned:  ";
 
-                foreach (var svi in svc.JobServiceItems ) {
-                   sData += "\n" + svi.InvItem.Description + " (" + svi.InvItem.ItemCode + ") / " + svi.InvItem.ContactInfo;
+                foreach (var svi in svc.JobServiceItems) {
+                    sData += "\n" + svi.InvItem.Description + " (" + svi.InvItem.ItemCode + ") / " + svi.InvItem.ContactInfo;
                 }
 
-                
+
                 sData += "\n  ";
                 sData += "\nRate:P" + quote.ToString("##,###.00");
                 sData += "\nParticulars:" + svc.Particulars;
                 sData += "\n  " + svc.Remarks;
-                if (svc.JobMain.NoOfPax != 0 )
-                sData += "\nNo.Pax:  " + svc.JobMain.NoOfPax;
+                if (svc.JobMain.NoOfPax != 0)
+                    sData += "\nNo.Pax:  " + svc.JobMain.NoOfPax;
 
                 sData += "\n\nThank you for Trusting \n" + custName;
             }
@@ -2516,7 +2516,7 @@ order by x.jobid
             decimal totalAmount = 0;
             //Models.JobServiceItem svcpu;
             Models.JobMain jobmain = db.JobMains.Find(id);
-            var svc = db.JobServices.Where(j=>j.JobMainId == id).ToList();
+            var svc = db.JobServices.Where(j => j.JobMainId == id).ToList();
             string custName = jobmain.Branch.Name;
             int pickupCount = 0;
 
@@ -2551,13 +2551,13 @@ order by x.jobid
                 foreach (var svi in svc)
                 {
 
-                    decimal quoted = svi.QuotedAmt != null ? (decimal)svi.QuotedAmt : 0 ;
+                    decimal quoted = svi.QuotedAmt != null ? (decimal)svi.QuotedAmt : 0;
                     sData += "\n\nDate:" + ((DateTime)svi.DtStart).ToString("MMM dd yyyy (ddd)") + " - " + ((DateTime)svi.DtEnd).ToString("MMM dd yyyy (ddd)");
                     sData += "\nDescription:" + svi.Particulars;
                     sData += "\nRate:P" + quoted.ToString("##,###.00");
                     //totalAmount += (decimal)svi.QuotedAmt;
                     totalAmount += quoted;
-                    
+
                     //check pickup details
                     if (svi.JobServicePickups.Count != 0)
                     {
@@ -2565,7 +2565,7 @@ order by x.jobid
                         {
                             //Pickup Details
                             sData += "\n\nPickup Time: ";
-                            sData += " " + jobPickup.JsTime ;
+                            sData += " " + jobPickup.JsTime;
                             sData += " " + jobPickup.JsDate.ToString("MMM dd yyyy");
                             sData += "\nLocation: " + jobPickup.JsLocation;
 
@@ -2580,12 +2580,12 @@ order by x.jobid
                     sData += " ";
                 }// end of job services
 
-                if(pickupCount == 0) { 
+                if (pickupCount == 0) {
                     //Pickup Details
                     sData += "\n\nPickup Details: TBA";
-                    sData += "\nDate: TBA" ;
-                    sData += "\nTime: TBA" ;
-                    sData += "\nLocation: TBA" ;
+                    sData += "\nDate: TBA";
+                    sData += "\nTime: TBA";
+                    sData += "\nLocation: TBA";
                 }
 
                 //Summary Details
@@ -2608,7 +2608,7 @@ order by x.jobid
 
             if (id != null)
             {
-              ViewBag.forDriver = textDetailsForDriver((int)id);
+                ViewBag.forDriver = textDetailsForDriver((int)id);
             }
 
             return View();
@@ -2662,13 +2662,13 @@ order by x.jobid
                     sData += "\nVehicle:" + svi.SupplierItem.Description;
 
                     totalAmount += quoted;
-                    
+
                     //check pickup details
                     if (svi.JobServicePickups.Count != 0)
                     {
                         foreach (var jobPickup in svi.JobServicePickups)
                         {
-                            if (jobPickup != null) { 
+                            if (jobPickup != null) {
                                 //Pickup Details
                                 sData += "\n\nPickup Time: ";
                                 sData += " " + jobPickup.JsTime;
@@ -2708,7 +2708,7 @@ order by x.jobid
 
                 //Summary Details
                 sData += "\n  ";
-                sData += "\nCollectible:P" +  dbc.getJobCollectible(id).ToString("##,###.00");
+                sData += "\nCollectible:P" + dbc.getJobCollectible(id).ToString("##,###.00");
                 if (jobmain.JobRemarks != null)
                 {
                     sData += "\nRemarks: " + jobmain.JobRemarks;
@@ -2728,10 +2728,10 @@ order by x.jobid
         {
             var driverDetails = "TBA";
             var jobsvc = db.JobServiceItems.Where(s => s.JobServicesId == svcId).ToList();
-            
+
             foreach (var svc in jobsvc)
             {
-                if (svc.InvItem.ViewLabel == "Driver" || svc.InvItem.ViewLabel == "DRIVER" )
+                if (svc.InvItem.ViewLabel == "Driver" || svc.InvItem.ViewLabel == "DRIVER")
                 {
                     driverDetails = svc.InvItem.Description + " / " + svc.InvItem.ContactInfo;
                 }
@@ -2832,7 +2832,7 @@ order by x.jobid
             {
                 return false;
             }
-          
+
         }
 
         public ActionResult ReserveJobStatus(int? id)
@@ -2876,7 +2876,6 @@ order by x.jobid
         {
             try
             {
-
                 var Job = db.JobMains.Find(id);
                 Job.JobStatusId = 4;
                 db.Entry(Job).State = EntityState.Modified;
@@ -2892,6 +2891,28 @@ order by x.jobid
             {
                 return ex.ToString();
             }
+        }
+
+        //GET: \JobOrder\GetJobRcvDetails
+        [HttpGet]
+        public JsonResult GetJobRcvDetails(int id)
+        {
+            var jobDetails = db.JobMains.Find(id);
+
+            return Json(new
+            {
+                jobDetails.Id,
+                jobDetails.Description,
+                jobDetails.JobDate,
+                SvcStart = jo.GetMinMaxServiceDate(id, "min"),
+                SvcEnd = jo.GetMinMaxServiceDate(id, "max"),
+                Amount = jo.GetTotalJobAmount(id),
+                Customer = jobDetails.Customer.Name,
+                Contact = jobDetails.CustContactNumber,
+                Email = jobDetails.CustContactEmail,
+                Company = jo.GetJobCompany(id),
+
+            }, JsonRequestBehavior.AllowGet);
         }
 
 

@@ -178,7 +178,6 @@ namespace JobsV1.Areas.Personel.Controllers
 
             #endregion
 
-
             var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
 
             crLogTripBilling tripBilling = new crLogTripBilling();

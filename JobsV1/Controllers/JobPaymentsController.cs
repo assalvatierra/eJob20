@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
@@ -286,6 +287,27 @@ namespace JobsV1.Controllers
                 return totalDiscount;
             }
             return 0;
+        }
+
+        // POST: PostReceivables
+        // Post Job to Receivables Transaction
+        // 
+        // @param : id - JobMainId / JobOrderId
+        public ActionResult PostReceivables(int? id)
+        {
+            if (id== null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var jobDetails = db.JobMains.Find(id);
+
+            if (jobDetails == null)
+            {
+                return HttpNotFound();
+            }
+
+            return RedirectToAction("PostReceivables", "Receivables/ArTransactions", null);
         }
     }
 }
