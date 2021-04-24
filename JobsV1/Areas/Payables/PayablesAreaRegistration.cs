@@ -14,6 +14,15 @@ namespace Payable.Areas.Payables
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
+
+            //Account Login
+            context.MapRoute(
+              "Payables Login Redirect",
+              "Payables/Account/Login",
+              new { controller = "Account", action = "Login" },
+              new string[] { "JobsV1.Controllers" }
+            );
+
             context.MapRoute(
                 "Payables_default",
                 "Payables/{controller}/{action}/{id}",

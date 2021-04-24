@@ -310,7 +310,6 @@ namespace JobsV1
                defaults: new { controller = "CarReservations", action = "Details", id = "id" }
            );
 
-
             /********************************
             * landing/home page
             ********************************/
@@ -319,7 +318,6 @@ namespace JobsV1
                 url: "CarRental/Index/{id}",
                 defaults: new { controller = "CarRental", action = "Index", id = UrlParameter.Optional }
             );
-
 
             /********************************
              * missing links found by Google Search Console

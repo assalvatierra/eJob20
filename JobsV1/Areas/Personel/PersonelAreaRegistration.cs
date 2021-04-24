@@ -64,6 +64,14 @@ namespace JobsV1.Areas.Personel
                 new string[] { "JobsV1.Areas.Personel.Controllers" }
             );
 
+            //Account Login
+            context.MapRoute(
+              "Account Login Redirect",
+              "Personel/Account/Login",
+              new { controller = "Account", action = "Login" },
+              new string[] { "JobsV1.Controllers" }
+            );
+
 
             context.MapRoute(
                 "Personel_default",

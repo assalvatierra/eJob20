@@ -12,8 +12,16 @@ namespace JobsV1.Areas.Accounting
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
+            //Accounting Login
+            context.MapRoute(
+              "Accounting Login Redirect",
+              "Accounting/Account/Login",
+              new { controller = "Account", action = "Login" },
+              new string[] { "JobsV1.Controllers" }
+            );
+
             context.MapRoute(
                 "Accounting_default",
                 "Accounting/{controller}/{action}/{id}",
