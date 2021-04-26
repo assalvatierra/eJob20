@@ -2897,22 +2897,29 @@ order by x.jobid
         [HttpGet]
         public JsonResult GetJobRcvDetails(int id)
         {
-            var jobDetails = db.JobMains.Find(id);
-
-            return Json(new
+            try
             {
-                jobDetails.Id,
-                jobDetails.Description,
-                jobDetails.JobDate,
-                SvcStart = jo.GetMinMaxServiceDate(id, "min"),
-                SvcEnd = jo.GetMinMaxServiceDate(id, "max"),
-                Amount = jo.GetTotalJobAmount(id),
-                Customer = jobDetails.Customer.Name,
-                Contact = jobDetails.CustContactNumber,
-                Email = jobDetails.CustContactEmail,
-                Company = jo.GetJobCompany(id),
+                var jobDetails = db.JobMains.Find(id);
 
-            }, JsonRequestBehavior.AllowGet);
+                return Json(new
+                {
+                    jobDetails.Id,
+                    jobDetails.Description,
+                    jobDetails.JobDate,
+                    SvcStart = jo.GetMinMaxServiceDate(id, "min"),
+                    SvcEnd = jo.GetMinMaxServiceDate(id, "max"),
+                    Amount = jo.GetTotalJobAmount(id),
+                    Customer = jobDetails.Customer.Name,
+                    Contact = jobDetails.CustContactNumber,
+                    Email = jobDetails.CustContactEmail,
+                    Company = jo.GetJobCompany(id),
+
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(null , JsonRequestBehavior.AllowGet);
+            }
         }
 
 

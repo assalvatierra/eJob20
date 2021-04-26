@@ -31,7 +31,7 @@
     {
     <tr>
         <td>
-            @log.DtRelease
+            @log.DtRelease.ToString("MMM DD YYYY")
         </td>
         <td>
             @log.crLogCashType.Description
@@ -49,8 +49,9 @@
             @log.Remarks
         </td>
         <td>
+            @Html.ActionLink("Edit", "Edit", "CarRentalCashRelease", new { id = log.Id }, null) |
             @Html.ActionLink("Trip Logs", "DriverTripList", "CarRentalCashRelease", new { id = log.Id }, null) |
-            @Html.ActionLink("Print", "PrintApproveForm", "CarRentalCashRelease", new { id = log.Id }, new { @target = "_blank" }) 
+            @Html.ActionLink("Print", "PrintApproveForm", "CarRentalCashRelease", new { id = log.Id }, new { @target = "_blank" })
         </td>
     </tr>
     }

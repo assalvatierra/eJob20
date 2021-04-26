@@ -25,7 +25,7 @@ function InitDatePicker() {
     );
 
     console.log(ddd1.trim())
-    if (ddd1.trim() == "" || ddd1.trim() == '01/01/0001 12:00 AM' || ddd1.trim() == '01/01/2001 12:00 AM') {
+    if (ddd1.trim() == "" || ddd1.trim() == '01/01/0001 12:00 AM' || ddd1.trim() == '01/01/2001') {
         $('input[name="DtInvoice"]').val(moment().format('MM/DD/YYYY'));
     } else {
         $('input[name="DtInvoice"]').val(moment(ddd1).format('MM/DD/YYYY'));
@@ -50,7 +50,7 @@ function InitDatePicker() {
         }
     );
 
-    if (ddd2.trim() == "" || ddd2.trim() == '01/01/0001 12:00 AM' || ddd2.trim() == '01/01/2001 12:00 AM') {
+    if (ddd2.trim() == "" || ddd2.trim() == '01/01/0001 12:00 AM' || ddd2.trim() == '01/01/2001') {
         $('input[name="DtEncoded"]').val(moment().format('MM/DD/YYYY'));
     } else {
         $('input[name="DtEncoded"]').val(moment(ddd2).format('MM/DD/YYYY'));
@@ -75,7 +75,7 @@ function InitDatePicker() {
         }
     );
 
-    if (ddd3.trim() == "" || ddd3.trim() == '01/01/0001 12:00 AM' || ddd3.trim() == '01/01/2001 12:00 AM') {
+    if (ddd3.trim() == "" || ddd3.trim() == '01/01/0001 12:00 AM' || ddd3.trim() == '01/01/2001') {
         $('input[name="DtDue"]').val(moment().format('MM/DD/YYYY'));
     } else {
         $('input[name="DtDue"]').val(moment(ddd3).format('MM/DD/YYYY'));
@@ -100,7 +100,7 @@ function InitDatePicker() {
         }
     );
 
-    if (ddd4.trim() == "" || ddd4.trim() == '01/01/0001 12:00 AM' || ddd4.trim() == '01/01/2001 12:00 AM') {
+    if (ddd4.trim() == "" || ddd4.trim() == '01/01/0001 12:00 AM' || ddd4.trim() == '01/01/2001') {
         $('input[name="DtService"]').val(moment().format('MM/DD/YYYY'));
     } else {
         $('input[name="DtService"]').val(moment(ddd4).format('MM/DD/YYYY'));
@@ -126,7 +126,7 @@ function InitDatePicker() {
         }
     );
 
-    if (ddd5.trim() == "" || ddd5.trim() == '01/01/0001 12:00 AM' || ddd5.trim() == '01/01/2001 12:00 AM') {
+    if (ddd5.trim() == "" || ddd5.trim() == '01/01/0001 12:00 AM' || ddd5.trim() == '01/01/2001') {
         $('input[name="DtServiceTo"]').val(moment().format('MM/DD/YYYY'));
     } else {
         $('input[name="DtServiceTo"]').val(moment(ddd5).format('MM/DD/YYYY'));

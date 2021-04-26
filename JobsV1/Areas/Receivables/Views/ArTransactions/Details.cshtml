@@ -23,7 +23,20 @@
 
     <div class="col-md-12">
         <p>
-            <h3> @Model.Description / @Model.ArAccount.Name / @Model.ArAccount.Company </h3>
+            <h3>
+                @Model.Description <br />
+                <a href="/Receivables/ArAccounts/Details/@Model.ArAccount.Id">
+                    @Model.ArAccount.Name / @Model.ArAccount.Company
+                </a>
+            </h3>
+        </p>
+        <p>
+            <h4>
+                @Model.Description <br />
+                <a href="/Receivables/ArAccounts/Details/@Model.ArAccount.Id">
+                    @Model.ArAccount.Name / @Model.ArAccount.Company
+                </a>
+            </h4>
         </p>
         <p>
             <h4 class="text-success">

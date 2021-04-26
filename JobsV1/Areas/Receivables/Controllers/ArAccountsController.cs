@@ -70,6 +70,35 @@ namespace JobsV1.Areas.Receivables.Controllers
         }
 
 
+        // GET: ArAccounts/CreateFromJobs
+        public ActionResult CreateFromJobs(string company, string name, string email, string mobile)
+        {
+            ArAccount account = new ArAccount();
+            account.Company = company;
+            account.Name = name;
+            account.Email = email;
+            account.Mobile = mobile;
+
+            ViewBag.ArAccStatusId = new SelectList(ar.AccountMgr.GetArAccStatus(), "Id", "Status");
+            return View(account);
+        }
+
+        // POST: ArAccounts/CreateFromJobs
+        [HttpPost]
+        public ActionResult CreateFromJobs([Bind(Include = "Id,Name,Landline,Email,Mobile,Company,Address,Remarks,ArAccStatusId,Landline2,Mobile2")] ArAccount account)
+        {
+            if (ModelState.IsValid && InputValidation(account))
+            {
+                ar.AccountMgr.AddAccount(account);
+
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.ArAccStatusId = new SelectList(ar.AccountMgr.GetArAccStatus(), "Id", "Status", account.ArAccStatusId);
+            return View(account);
+        }
+
+
 
         // GET: ArAccounts/Edit/5
         public ActionResult Edit(int? id)

@@ -180,7 +180,13 @@
                 DtService   : $("#PostRcv-DtStart").val(),
                 DtServiceTo : $("#PostRcv-DtEnd").val(),
                 DtDue       : $("#PostRcv-DtDue").val(),
-                Amount      : $("#PostRcv-Amount").val()
+                Amount      : $("#PostRcv-Amount").val(),
+
+                //account 
+                Name        : $("#PostRcv-Customer").val(),
+                Company     : $("#PostRcv-Company").val(),
+                Mobile      : $("#PostRcv-Mobile").val(),
+                Email       : $("#PostRcv-Email").val()    
             };
 
             $.post("/Receivables/ArTransactions/PostJobReceivables", data)

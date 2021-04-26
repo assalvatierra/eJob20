@@ -396,7 +396,8 @@ namespace JobsV1.Areas.Receivables.Controllers
 
         //Post: \Receivables\ArTransactions\PostJobReceivables
         [HttpPost]
-        public bool PostJobReceivables([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount")] ArTransaction arTransaction)
+        public bool PostJobReceivables([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount")] ArTransaction arTransaction,
+            string Name, string Company, string Email, string Mobile)
         {
             try
             {
@@ -406,17 +407,29 @@ namespace JobsV1.Areas.Receivables.Controllers
                 arTransaction.DtEncoded = ar.DateClassMgr.GetCurrentDateTime();
                 arTransaction.IsRepeating = false;
                 arTransaction.Interval = 0;
-                arTransaction.InvoiceRef = "";
+                arTransaction.InvoiceRef = arTransaction.InvoiceId.ToString();
                 arTransaction.NextRef = 0;
                 arTransaction.PrevRef = 0;
                 arTransaction.RepeatCount = 0;
                 arTransaction.Remarks = "";
 
-
+                //validate
                 if (ModelState.IsValid && InputValidation(arTransaction))
                 {
                     var today = ar.DateClassMgr.GetCurrentDateTime();
                     var currentUser = HttpContext.User.Identity.Name;
+
+                    //new account
+                    if (!IsUserExist(Name))
+                    {
+                        var acctId = CreateUser(Company, Name, Email, Mobile);
+                        arTransaction.ArAccountId = acctId;
+                    }
+                    else
+                    {
+                        //existing account
+                        arTransaction.ArAccountId = GetUserAccountId(Name);
+                    }
 
                     ardb.ArTransactions.Add(arTransaction);
                     ardb.SaveChanges();
@@ -425,13 +438,6 @@ namespace JobsV1.Areas.Receivables.Controllers
 
                     //new transaction action history (new bill)
                     ar.ActionMgr.AddAction(1, currentUser, arTransaction.Id);
-
-                    //new account
-                    if (arTransaction.ArAccountId == 1)
-                    {
-                       // return RedirectToAction("CreateAccTrans", new { transId = arTransaction.Id });
-                    }
-
                 }
 
                 return true;
@@ -444,17 +450,58 @@ namespace JobsV1.Areas.Receivables.Controllers
 
         }
 
-        public bool CheckTransaction_wInterval()
+        #region Accounts
+        //Check if the user exist on the current list
+        public bool IsUserExist(string name)
         {
-            try
+            var userExists = ardb.ArAccounts.Where(a => a.Name.Contains(name)).ToList();
+
+            if (userExists.Count() > 0)
             {
                 return true;
             }
+
+            return false;
+        }
+
+        public int GetUserAccountId(string name)
+        {
+            var userExists = ardb.ArAccounts.Where(a => a.Name.Contains(name)).ToList();
+
+            if (userExists.Count() > 0)
+            {
+                return userExists.FirstOrDefault().Id;
+            }
+
+            return 0;
+        }
+
+        // GET: ArTransactions/CreateUser
+        // Create New User Account
+        public int CreateUser(string company, string name, string email, string mobile)
+        {
+            try
+            {
+
+                ArAccount account = new ArAccount();
+                account.Company = company;
+                account.Name = name;
+                account.Email = email;
+                account.Mobile = mobile;
+                account.ArAccStatusId = 1;
+
+                ar.AccountMgr.AddAccount(account);
+
+                return account.Id;
+            }
             catch
             {
-                return false;
+                return 0;
             }
         }
+
+        #endregion
+
 
         private string GetUser()
         {

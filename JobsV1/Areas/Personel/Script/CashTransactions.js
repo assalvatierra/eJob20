@@ -26,5 +26,5 @@ function InitDatePicker()
         }
     );
 
-
+    $('input[name="DtRelease"]').val(moment(ddd1).format('MM/DD/YYYY'));
 }

@@ -58,12 +58,12 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                         <li>
-                            <a class="cursor-link" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
+                            <a class="cursor-link cursor-hand" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
                         </li>
                         <li role="separator" class="divider"></li>
                         <li> @Html.ActionLink("Add Payment", "CreateSettlePayment", "ArPayments", new { transId = transaction.Id }, null) </li>
-                        <li> @Html.ActionLink("Edit", "Edit", new { id = transaction.Id }) </li>
-                        <li> @Html.ActionLink("Details", "Details", new { id = transaction.Id }) </li>
+                        <li> @Html.ActionLink("Edit", "Edit", "ArTransactions", new { id = transaction.Id }, null) </li>
+                        <li> @Html.ActionLink("Details", "Details", "ArTransactions", new { id = transaction.Id }, null) </li>
                     </ul>
                 </div>
             </td>
