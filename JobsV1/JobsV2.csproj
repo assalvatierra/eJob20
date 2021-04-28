@@ -2118,6 +2118,7 @@
     <Content Include="Scripts\CustEntMain\CustEntActivities.js" />
     <Content Include="Scripts\CustEntMain\CustomerSearch.js" />
     <Content Include="Scripts\Job\JobOrder.js" />
+    <Content Include="Scripts\Job\JobPostReceivables.js" />
     <Content Include="Scripts\Job\JobSearchCompany.js" />
     <Content Include="Scripts\Job\JobCreate.js" />
     <Content Include="Scripts\Job\JobServices.js" />
@@ -3396,6 +3397,7 @@
     <Content Include="Views\SalesLeads\_EditSupRateModal.cshtml" />
     <Content Include="Views\SalesLeads\_AddItemRateModal.cshtml" />
     <Content Include="Views\JobPayments\_PostToReceivable.cshtml" />
+    <Content Include="Views\JobOrder\_PostToReceivable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

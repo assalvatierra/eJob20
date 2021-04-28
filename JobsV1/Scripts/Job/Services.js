@@ -22,7 +22,7 @@ function InitDatePicker()
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'MM/DD/YYYY hh:mm A'
+            format: 'MM/DD/YYYY'
         }
     },
 
@@ -55,7 +55,7 @@ function InitDatePicker()
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
-            format: 'MM/DD/YYYY hh:mm A'
+            format: 'MM/DD/YYYY'
         }
     },
     function (start, end, label) {
@@ -84,8 +84,8 @@ function InitDatePicker()
     var SDate = $('input[name="DtStart"]').val();
     var EDate = $('input[name="DtEnd"]').val();
 
-    $('input[name="DtStart"]').val(moment(SDate).format("MM/DD/YYYY hh:mm A"));
-    $('input[name="DtEnd"]').val(moment(EDate).format("MM/DD/YYYY hh:mm A"));
+    $('input[name="DtStart"]').val(moment(SDate).format("MM/DD/YYYY"));
+    $('input[name="DtEnd"]').val(moment(EDate).format("MM/DD/YYYY"));
 
 
 }

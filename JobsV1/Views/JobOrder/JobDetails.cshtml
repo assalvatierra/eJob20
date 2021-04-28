@@ -193,7 +193,8 @@
                 $("#jobAmount").hide();
             }
         }
-        
+
+        //do not allow to input special characters, only allow letters and numbers
         $('#jobdesc').keypress( function (event) {
             var regex = new RegExp("[A-Za-z0-9 _]$");
             var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
