@@ -363,7 +363,7 @@ namespace JobsV1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo,SalesCode")] SalesLead salesLead, int? CompanyId)
+        public ActionResult Create([Bind(Include = "Id,Date,Details,Remarks,Price,CustomerId,CustName,DtEntered,EnteredBy,AssignedTo,CustPhone,CustEmail,AssignedTo,SalesCode,ItemWeight")] SalesLead salesLead, int? CompanyId)
         {
             if (ModelState.IsValid && SalesLeadValidation(salesLead))
             {
@@ -426,20 +426,23 @@ namespace JobsV1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             SalesLead salesLead = db.SalesLeads.Find(id);
+
             if (salesLead == null)
             {
                 return HttpNotFound();
             }
+
             var company = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault();
 
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
-            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
-            ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name", company.CustEntMainId);
-            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
-            ViewBag.CompanyList = db.CustEntMains.Where(s => s.Status != "INC").ToList();
             ViewBag.leadId = id;
             ViewBag.CompanyName = company.CustEntMain.Name;
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
+            ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
+            ViewBag.CompanyId  = new SelectList(db.CustEntMains, "Id", "Name", company.CustEntMainId);
+            ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
+            ViewBag.CompanyList  = db.CustEntMains.Where(s => s.Status != "INC").ToList();
 
             return View(salesLead);
         }
@@ -461,8 +464,7 @@ namespace JobsV1.Controllers
 
                 return RedirectToAction("Index", "SalesLeads", new { leadId = salesLead.Id });
             }
-
-            var company = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault();
+            var company = db.CustEntMains.Find(CompanyId);
 
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Name", salesLead.CustomerId);
             ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", salesLead.AssignedTo);
@@ -470,7 +472,7 @@ namespace JobsV1.Controllers
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").ToList();
             ViewBag.CompanyList = db.CustEntMains.Where(s => s.Status != "INC").ToList();
             ViewBag.leadId = salesLead.Id;
-            ViewBag.CompanyName = company.CustEntMain.Name;
+            ViewBag.CompanyName = company.Name;
 
             return View(salesLead);
         }
@@ -544,6 +546,12 @@ namespace JobsV1.Controllers
             if (salesLead.CustPhone.IsNullOrWhiteSpace())
             {
                 ModelState.AddModelError("CustPhone", "Invalid Contact Number");
+                isValid = false;
+            }
+
+            if (salesLead.Price == 0 )
+            {
+                ModelState.AddModelError("Price", "Invalid Price");
                 isValid = false;
             }
 
@@ -927,7 +935,7 @@ namespace JobsV1.Controllers
             return RedirectToAction("Index", new { sortid = 1, leadid = salesLead.Id });
         }
 
-
+        //POST: Update sales lead weight
         public bool UpdateLeadActivityStatus(int id, string status)
         {
             //get sales lead
@@ -1023,7 +1031,7 @@ namespace JobsV1.Controllers
 
         }
 
-
+        //POST: Update Sales Lead Weight
         public bool UpdateLeadWeight(int id, string weight)
         {
             try
@@ -1043,6 +1051,7 @@ namespace JobsV1.Controllers
             }
         }
 
+        //GET  SalesLead Weight
         [HttpGet]
         public string GetLeadWeight(int id)
         {

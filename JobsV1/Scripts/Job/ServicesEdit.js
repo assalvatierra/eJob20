@@ -17,7 +17,7 @@ function InitDatePicker()
 
     $('input[name="DtStart"]').daterangepicker(
     {
-        timePicker: true,
+        timePicker: false,
         timePickerIncrement: 10,
         singleDatePicker: true,
         showDropdowns: true,
@@ -43,14 +43,12 @@ function InitDatePicker()
         if (datepicker > dateEnd) {
             alert("JobService start date is greater than the JobService end date. Are you sure?");
         }
-
-    }
-    );
+     });
 
 
     $('input[name="DtEnd"]').daterangepicker(
     {
-        timePicker: true,
+        timePicker: false,
         timePickerIncrement: 10,
         singleDatePicker: true,
         showDropdowns: true,

@@ -216,23 +216,53 @@
                                         </button>
                                     }
                                 }
+                                else if (salesstat.Id == 4)
+                                {
+                                    //FOR APPROVAL - 4
+                                    //Check if Weight and price is not 0 or null
+                                    if (item.ItemWeight != null)
+                                    {
+                                        if (item.ItemWeight.Trim() == "" || item.ItemWeight == "0" || item.ItemWeight == "0.00" ||
+                                        item.Price == 0)
+                                        {
+
+                                            //disable status
+                                            <span>&#187;</span>
+                                            <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;"
+                                                    onclick="alert('Please update the Item WEIGHT and PRICE to proceed to FOR APPROVAL')">
+                                                <a class="link-white link-status"> @salesstat.Name </a>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <span>&#187;</span>
+                                            <button class="btn btn-primary btn-arrow-right cursor-hand">
+                                                <a class="link-white link-status" onclick="UpdateLeadStatus(this, @item.Id, @salesstat.Id)"> @salesstat.Name </a>
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //disable status
+                                        <span>&#187;</span>
+                                        <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;"
+                                                onclick="alert('Please update the item weight to proceed to FOR APPROVAL')">
+                                            <a class="link-white link-status"> @salesstat.Name </a>
+                                        </button>
+                                    }
+
+                                }
                                 else if (salesstat.Id == 5)
                                 {
-
+                                    //APPROVED - 5
                                     var actStatusType = item.ActivityStatusType;
 
-                                    //APPROVED - 5
                                     if (((item.Price > OneMLimit && item.Price < ThreeMLimit) && actStatusType == BIDDING) ||
                                         ((item.Price <= OneMLimit) && (actStatusType == FIRM || actStatusType == BUYING)) ||
                                           item.Price > ThreeMLimit ||
                                         ((item.Price > OneMLimit && item.Price < ThreeMLimit) && (actStatusType == FIRM || actStatusType == BUYING))
                                          )
                                     {
-                                        //disable status
-                                        @*<span>&#187;</span>
-                                            <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                                                <a class="link-white link-status"> @salesstat.Name </a>
-                                            </button>*@
 
                                         if (ISADMIN)
                                         {
@@ -328,9 +358,9 @@
                                             {
                                                 ForApproveOnce = true;
                                                 @*<span>&#187;</span>
-                                                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                                                        <a class="link-white link-status"> APPROVED BY MARIO/ALDRIN </a>
-                                                    </button>*@
+                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                    <a class="link-white link-status"> APPROVED BY MARIO/ALDRIN </a>
+                                </button>*@
                                             }
                                         }
 
