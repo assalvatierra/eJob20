@@ -362,6 +362,186 @@ namespace JobsV1.Areas.Personel.Controllers
 
         }
 
+        // GET: Personel/CarRentalLog/IndexBilling
+        public ActionResult IndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+
+            #region Session
+            if (!startDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-startDate"] = startDate;
+            }
+            else
+            {
+                if (Session["triplog-startDate"] != null)
+                {
+                    startDate = Session["triplog-startDate"].ToString();
+                }
+            }
+
+            if (!endDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-endDate"] = endDate;
+            }
+            else
+            {
+                if (Session["triplog-endDate"] != null)
+                {
+                    endDate = Session["triplog-endDate"].ToString();
+                }
+            }
+
+            if (!unit.IsNullOrWhiteSpace())
+            {
+                Session["triplog-unit"] = unit;
+            }
+            else
+            {
+                if (Session["triplog-unit"] != null)
+                {
+                    unit = Session["triplog-unit"].ToString();
+                }
+            }
+
+            if (!driver.IsNullOrWhiteSpace())
+            {
+                Session["triplog-driver"] = driver;
+            }
+            else
+            {
+                if (Session["triplog-driver"] != null)
+                {
+                    driver = Session["triplog-driver"].ToString();
+                }
+            }
+
+            if (!company.IsNullOrWhiteSpace())
+            {
+                Session["triplog-company"] = company;
+            }
+            else
+            {
+                if (Session["triplog-company"] != null)
+                {
+                    company = Session["triplog-company"].ToString();
+                }
+            }
+
+            #endregion
+
+            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+
+            //get summary
+            var logSummary = GetCrLogSummary(tripLogs);
+            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
+            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
+            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
+
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+
+            ViewBag.crLogUnitList = dl.GetUnits().ToList();
+            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
+            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+            ViewBag.Company = company;
+
+            return View(tripLogs);
+        }
+
+
+        // GET: Personel/CarRentalLog/IndexBilling
+        public ActionResult PrintIndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        {
+
+            #region Session
+            if (!startDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-startDate"] = startDate;
+            }
+            else
+            {
+                if (Session["triplog-startDate"] != null)
+                {
+                    startDate = Session["triplog-startDate"].ToString();
+                }
+            }
+
+            if (!endDate.IsNullOrWhiteSpace())
+            {
+                Session["triplog-endDate"] = endDate;
+            }
+            else
+            {
+                if (Session["triplog-endDate"] != null)
+                {
+                    endDate = Session["triplog-endDate"].ToString();
+                }
+            }
+
+            if (!unit.IsNullOrWhiteSpace())
+            {
+                Session["triplog-unit"] = unit;
+            }
+            else
+            {
+                if (Session["triplog-unit"] != null)
+                {
+                    unit = Session["triplog-unit"].ToString();
+                }
+            }
+
+            if (!driver.IsNullOrWhiteSpace())
+            {
+                Session["triplog-driver"] = driver;
+            }
+            else
+            {
+                if (Session["triplog-driver"] != null)
+                {
+                    driver = Session["triplog-driver"].ToString();
+                }
+            }
+
+            if (!company.IsNullOrWhiteSpace())
+            {
+                Session["triplog-company"] = company;
+            }
+            else
+            {
+                if (Session["triplog-company"] != null)
+                {
+                    company = Session["triplog-company"].ToString();
+                }
+            }
+
+            #endregion
+
+            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
+
+            //get summary
+            var logSummary = GetCrLogSummary(tripLogs);
+            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
+            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
+            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
+
+            ViewBag.FilteredsDate = startDate;
+            ViewBag.FilteredeDate = endDate;
+            ViewBag.FilteredUnit = unit ?? "all";
+            ViewBag.FilteredDriver = driver ?? "all";
+            ViewBag.FilteredCompany = company ?? "all";
+            ViewBag.SortBy = sortby ?? "Date";
+
+            ViewBag.crLogUnitList = dl.GetUnits().ToList();
+            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
+            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
+
+            return View(tripLogs);
+        }
+
 
         public List<crLogTrip> GetTripLogs(string startDate, string endDate, string unit, string driver, string company, string sortby)
         {
@@ -1686,9 +1866,9 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         //Round Off time Difference in Hours
-        // if timediff is greater than 0.75 (48 mins), round off to 1 (1 hour)
-        //                greater than 0.417 (25 mins) or less than 0.75 (45 mins), round off to 0.5 ()
-        //                less than 0.417 (25 mins), do not round off
+        // if timediff is greater than 0.667 (40 mins), round off to 1 (1 hour)
+        //                greater than 0.333 (20 mins) or less than 0.667 (40 mins), round off to 0.5 ()
+        //                less than 0.333 (20 mins), do not round off
         private double ConvertHrsDec(double hrsDiff)
         {
             double hrsDiffTemp = (double)Math.Truncate(hrsDiff);
@@ -1696,11 +1876,11 @@ namespace JobsV1.Areas.Personel.Controllers
 
             double decPart = hrsDiff - (double)Math.Truncate(hrsDiff);
 
-            if (decPart > 0.75)
+            if (decPart > 0.750)
             {
                 hrsDiffTemp = hrsDiffTemp + 1;
             }
-            else if (decPart >= 0.417 && decPart <= 0.75)
+            else if (decPart >= 0.417 && decPart <= 750)
             {
                 hrsDiffTemp = hrsDiffTemp + 0.5;
             }

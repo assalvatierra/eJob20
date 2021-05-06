@@ -24,7 +24,7 @@
     }
 </style>
 
-<h2>Trip Log</h2>
+<h2>Trip Log - OT Billing </h2>
 
 <p>
     Trip Logs |
@@ -36,12 +36,13 @@
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
 <p>
-    @Html.ActionLink("Add New Trip", "Create") |
+    @*@Html.ActionLink("Add New Trip", "Create") |
     @Html.ActionLink("Copy Trip", "CopyTrip") |
     @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-    @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |
+    @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
     @Html.ActionLink("Trip Logs View", "Index") |
-    @Html.ActionLink("Print Billing", "PrintIndexBilling", new { company = ViewBag.Company })
+    @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", new { company = ViewBag.Company }) | 
+    OT Billing
 </p>
 
 <p class="col-md-12">

@@ -3,8 +3,10 @@
 @{
     ViewBag.Title = "Trip Log";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    int TotalCount = 0;
+    decimal TotalRate = 0;
 }
-
+<style href=""></style>
 <style>
     .PanelContainer-main {
         background-color: #eff3f6;
@@ -15,13 +17,9 @@
         background-color: #eff3f6;
         border: none;
     }
-
-    .datepicker {
-        z-index: 1100 !important;
-    }
 </style>
 
-<h2>Trip Log</h2>
+<h2>Trip Log - Daily Rate Billing </h2>
 
 <p>
     Trip Logs |
@@ -33,44 +31,25 @@
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
 <p>
-    @Html.ActionLink("Passengers", "Index", "crLogPassengerList") |
-    @Html.ActionLink("Passenger Master List", "Index", "crLogPassengerMasters") |
-    @Html.ActionLink("Passenger Search", "SearchPassenger", "crLogPassengerList")
-</p>
-<p>
-    @Html.ActionLink("Add New Trip", "Create") |
-    @Html.ActionLink("Copy Trip", "CopyTrip")  |
-    @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-    <a class="cursor-hand" onclick="ShowFinalizeTrip(this)"> Show Finalize Trip </a> |
-    @Html.ActionLink("OT Billing", "IndexBilling") |
-    @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily") 
+    @*@Html.ActionLink("Add New Trip", "Create") |
+        @Html.ActionLink("Copy Trip", "CopyTrip") |
+        @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
+        @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
+    @Html.ActionLink("Trip Logs View", "Index") |
+    Daily Rate Billing | 
+    @Html.ActionLink("OT Billing", "IndexBilling", new { company = ViewBag.Company })
 </p>
 
-<p class="col-md-10">
+<p class="col-md-12">
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#SummaryModal">Summary</button>
-
-    <button type="button" class="btn btn-default" onclick="PrevDay('@ViewBag.FilteredsDate')">
-        &#171; Prev Day
-    </button>
-
-    <button type="button" class="btn btn-default" onclick="NextDay('@ViewBag.FilteredsDate')">
-        Next Day &#187;
-    </button>
-
-    <button type="button" class="btn btn-default" id="FinalizeTrip-Btn" onclick="FinalizeCheckedTrips()" style="display:none"> Finalize Selected Trip </button>
+    <button type="button" class="btn btn-default" onclick="PrevDay()"> &#171; Prev Day </button>
+    <button type="button" class="btn btn-default" onclick="NextDay()"> Next Day &#187; </button>
+    <button type="button" class="btn btn-default pull-right" onclick="PrintBilling()">  <img src="~/Images/Icons/icon-print.png" width="14" /> Print Form </button>
 </p>
 
-<div class="col-md-2 pull-right">
-    @*<span> Shuttle Only </span>
-        <input type="checkbox" id="isShuttle" name="IsShuttle" />*@
-    <button type="button" class="btn btn-default" id="isShuttle" data-toggle="button" onclick="ClickShowShuttle()">
-        Show Shuttle Only
-    </button>
-</div>
-
 <!-- Filter Modal -->
-<div class="modal fade" role="dialog" id="FilterModal" data-keyboard="false" data-backdrop="static" modal="false">
+<div class="modal fade" role="dialog" id="FilterModal" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" style="width:340px;">
         <div class="modal-content">
 
@@ -132,17 +111,6 @@
                             </div>
 
                             <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
-                                <label for="filter-company">Owner:</label>
-                                <select name="owner" id="filter-owner" class="form-control">
-                                    <option value="all">All</option>
-                                    @foreach (var owner in ViewBag.crLogOwnerList as List<JobsV1.Areas.Personel.Models.crLogOwner>)
-                                    {
-                                        <option value="@owner.Name"> @owner.Name </option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="form-group" style="padding-right:5px;padding-bottom:10px;">
                                 <label for="sort-by">Sort:</label>
                                 <select name="sortby" id="sort-by" class="form-control">
                                     <option value="Date"> Date Asc </option>
@@ -165,188 +133,79 @@
         </div>
     </div>
 </div>
+<br />
+<hr />
 
-<table class="table" id="TripLogs-Table">
+<h4>Daily Rates </h4>
+<table class="table">
     <tr>
-        <th id="tb-hd-finalize" hidden>
-            <a class="cursor-hand" onclick="FinalizeAll()"> All </a>
-        </th>
-        <th width="100">
+        <td>
+            Driver
+        </td>
+        <td>
             Date
-        </th>
-        <th>
-            Driver
-        </th>
-        <th>
-            Company
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            Remarks
-        </th>
-        <th>
+        </td>
+        <td>
+            Unit
+        </td>
+        <td>
+        </td>
+        <td>
             Rate
-        </th>
-        <th>
-            Addon
-        </th>
-        <th>
-            Expense
-        </th>
-        <th>
-            Driver
-        </th>
-        <th>
-            Driver&nbsp;OT
-        </th>
-        @*<th>
-                Odo Start
-            </th>
-            <th>
-                Odo End
-            </th>*@
-        <th>
-            Pass
-        </th>
-        <th></th>
+        </td>
+        <td>
+        </td>
     </tr>
-    @{
-
-        var count = 0;
-        decimal totalRate = 0;
-        decimal totalAddon = 0;
-        decimal totalExpenses = 0;
-        decimal totalDriverFee = 0;
-        decimal totalDriverOT = 0;
-    }
-    @foreach (var item in Model)
+    @foreach (var tripGroup in Model.GroupBy(t => t.DtTrip.Date))
     {
-        var color = "black";
 
-        if (item.DtTrip.DayOfWeek.ToString() == "Sunday")
-        {
-            color = "red";
-        }
-        else if (item.DtTrip.DayOfWeek.ToString() == "Saturday")
-        {
-            color = "dodgerblue";
-        }
-        else
-        {
-            color = "black";
-        }
 
-        count += 1;
-        totalRate += item.Rate;
-        totalAddon += item.Addon;
-        totalExpenses += item.Expenses;
-        totalDriverFee += item.DriverFee;
-        totalDriverOT += item.DriverOT;
-
-        <tr id="trip-@item.Id">
-            <td class="trip-Finalize" hidden>
-                @if (!item.IsFinal)
-                {
-                    <input type="checkbox" value="@item.Id" />
-                }
-            </td>
-            <td>
-                @item.DtTrip.ToString("MMM dd yyyy")
-                <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogCompany.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.crLogUnit.Description)
-            </td>
-            <td>
-                <span style="color:#3d3d3d;">
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </span>
-            </td>
-            <td>
-                @item.Rate.ToString("#,##0.00")
-            </td>
-            <td>
-                @item.Addon.ToString("#,##0.00")
-            </td>
-            <td>
-                @item.Expenses.ToString("#,##0.00")
-            </td>
-            <td>
-                @item.DriverFee.ToString("#,##0.00")
-            </td>
-            <td>
-                @item.DriverOT.ToString("#,##0.00")
-            </td>
-
-            @*<td class="trip-OdoStart">
-                    @item.OdoStart
-                </td>
-                <td class="trip-OdoEnd">
-                    @item.OdoEnd
-                </td>*@
-
-            <td>
-                @{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id }); }
-            </td>
-            <td class="actions">
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Action <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        @if (!item.IsFinal)
-                        {
-                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
-                            <li><a class="cursor-pointer" onclick="UpdateOTRate(this, @item.Id)"> Update OT Rate </a></li>
-                            <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
-                        }
-
-                        <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
-                        <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
-                        <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-
-    }
-
-    @{
         <tr>
-            <td colspan="5">
-                <p> Total Count: @count </p>
+            <td colspan="6">
             </td>
-            <td>
-                @totalRate.ToString("#,##0.00")
-            </td>
-            <td>
-                @totalAddon.ToString("#,##0.00")
-            </td>
-            <td>
-                @totalExpenses.ToString("#,##0.00")
-            </td>
-            <td>
-                @totalDriverFee.ToString("#,##0.00")
-            </td>
-            <td>
-                @totalDriverOT.ToString("#,##0.00")
-            </td>
-            <td colspan="3"></td>
         </tr>
-    }
+        foreach (var trip in tripGroup)
+        {
 
+            var dtcolor = "black";
+
+
+            if (trip.DtTrip.DayOfWeek.ToString() == "Saturday")
+            {
+                dtcolor = "blue";
+            }
+
+            if (trip.DtTrip.DayOfWeek.ToString() == "Sunday")
+            {
+
+            }
+            else
+            {
+                TotalCount += 1;
+                TotalRate += trip.Rate;
+
+                <tr>
+                    <td>@trip.crLogDriver.Name</td>
+                    <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+                    <td>@trip.crLogUnit.Description</td>
+                    <td> </td>
+                    <td>@trip.Rate.ToString("#,##0") </td>
+                    <td> </td>
+                </tr>
+
+            }
+
+        }
+    }
+    <tr>
+        <td colspan="4"> Total Count: @TotalCount</td>
+        <td>
+            <span style="font-size:9px;"> Total Rate</span><br />
+            <span style="font-weight:bold;"> @TotalRate.ToString("#,##0") </span>
+        </td>
+    </tr>
 </table>
+
 
 @Html.Partial("_LogSummaryModal", null, new ViewDataDictionary { { "DriversLogSummary" , ViewBag.DriversLogSummary },
     { "CompaniesLogSummary", ViewBag.CompaniesLogSummary }, { "UnitsLogSummary", ViewBag.UnitsLogSummary } })
@@ -364,10 +223,9 @@
 @Html.Hidden("VehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
 
 @section Scripts{
-    <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
     <script src="~/Scripts/Filters/FormInputFilter.js"></script>
+    <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
     <script src="~/Areas/Personel/Script/CreateTripLogTime.js"></script>
-    <script src="~/Areas/Personel/Script/CarRentalLogFinalize.js"></script>
     <script>
         $(document).ready(() => {
             $("#filter-unit").val("@ViewBag.FilteredUnit")
@@ -381,7 +239,7 @@
                 $("#filter-sdate").val(moment().format("MM/DD/YYYY"))
             }
 
-            if ("@ViewBag.FilteredsDate" != "") {
+            if ("@ViewBag.FilteredeDate" != "") {
                 $("#filter-edate").val(moment("@ViewBag.FilteredeDate").format("MM/DD/YYYY"))
             } else {
                 $("#filter-edate").val(moment().format("MM/DD/YYYY"))
@@ -402,16 +260,132 @@
                 console.log('no shuttle cookie found');
             }
 
-             $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            GetOTHours();
+            GetOTRate();
         });
 
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = date.toUTCString();
+            }
+            document.cookie =  name + "=" + (value || "") +";expires="+ expires + ";path=/";
+            console.log(document.cookie);
+        }
 
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+
+
+        function PrevDay() {
+
+            if ("@ViewBag.FilteredsDate" != "") {
+                $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").add(-1, 'days').format("MM/DD/YYYY"))
+            } else {
+                $("#filter-sdate").val(moment().add(-1, 'days').format("MM/DD/YYYY"))
+            }
+
+            if ("@ViewBag.FilteredeDate" != "") {
+                $("#filter-edate").val(moment("@ViewBag.FilteredeDate").add(-1, 'days').format("MM/DD/YYYY"))
+            } else {
+                $("#filter-edate").val(moment().add(-1, 'days').format("MM/DD/YYYY"))
+            }
+
+
+            $("#SubmitFilterBtn").click();
+        }
+
+
+        function NextDay() {
+
+            if ("@ViewBag.FilteredsDate" != "") {
+                $("#filter-sdate").val(moment("@ViewBag.FilteredsDate").add(1, 'days').format("MM/DD/YYYY"))
+            } else {
+                $("#filter-sdate").val(moment().add(1, 'days').format("MM/DD/YYYY"))
+            }
+
+            if ("@ViewBag.FilteredeDate" != "") {
+                $("#filter-edate").val(moment("@ViewBag.FilteredeDate").add(1, 'days').format("MM/DD/YYYY"))
+            } else {
+                $("#filter-edate").val(moment().add(1, 'days').format("MM/DD/YYYY"))
+            }
+
+            $("#SubmitFilterBtn").click();
+        }
+
+        function GetOTHours() {
+            var totalOTHours = 0;
+            $('#TripLogs-Table tr td .OT-Hours').each(function () {
+
+                console.log("Checked " + $(this).val());
+
+                let OTHours = parseFloat($(this).text());
+                console.log(OTHours);
+                totalOTHours = totalOTHours + OTHours;
+
+            });
+
+            //$("#totalOTHours").text(totalOTHours);
+        }
+
+        function GetOTRate() {
+            var totalOTRate = 0;
+            $('#TripLogs-Table tr td .OT-Rate').each(function () {
+
+                console.log("Checked " + $(this).val());
+
+                let OTRate = parseFloat($(this).text());
+                console.log(OTRate);
+                totalOTRate = totalOTRate + OTRate;
+
+            });
+
+            //$("#totalOTRate").text(totalOTRate);
+        }
+
+        
+        function GetOTCompanyRate() {
+            var totalOTRate = 0;
+            $('#TripLogsOT-Table tr td .OTCompanyRate').each(function () {
+
+                console.log("Checked " + $(this).val());
+
+                let OTRate = parseFloat($(this).text());
+                console.log(OTRate);
+                totalOTRate = totalOTRate + OTRate;
+
+            });
+
+            //$("#totalOTCompanyRate").text(totalOTRate);
+        }
+
+        
         function ShowLoading() {
             $("#overlay").show();
         }
 
         function HideLoading() {
             $("#overlay").hide();
+        }
+
+        function ToggleDriverTrip() {
+            $("#TripLogs-Table").toggle();
+        }
+        
+        function PrintBilling() {
+            ShowLoading();
+            location.href = "/Personel/CarRentalLog/PrintIndexBillingDaily"
         }
 
 
