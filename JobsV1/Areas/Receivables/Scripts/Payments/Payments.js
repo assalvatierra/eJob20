@@ -24,7 +24,7 @@ function InitDatePicker() {
         }
     );
 
-    $('input[name="DtPayment"]').val(moment().format('MM/DD/YYYY h:mm A'));
+    $('input[name="DtPayment"]').val(moment(ddd1).format('MM/DD/YYYY h:mm A'));
 
 }
 

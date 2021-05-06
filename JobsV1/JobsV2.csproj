@@ -2507,6 +2507,8 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBilling.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\Unreturned.cshtml" />
     <Content Include="Areas\Receivables\Views\ArAccounts\CreateFromJobs.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\IndexBillingDaily.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBillingDaily.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

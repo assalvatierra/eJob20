@@ -235,7 +235,15 @@
                     @item.Id
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvoiceRef)
+
+                    @if (item.InvoiceId != 0 && item.InvoiceRef != null)
+                    {
+                        @Html.ActionLink(item.InvoiceRef, "JobServices", "JobOrder", new { area ="", jobMainId = item.InvoiceId }, new { target = "_blank" })
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.InvoiceRef)
+                    }
                 </td>
                 <td>
                     <span style="font-weight:600;">@Html.DisplayFor(modelItem => item.ArAccount.Company)</span> <br>
