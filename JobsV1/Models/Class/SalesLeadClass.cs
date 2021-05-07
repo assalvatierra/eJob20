@@ -26,6 +26,8 @@ namespace JobsV1.Models.Class
         public string ValidEnd { get; set; }
         public string Particulars { get; set; }
         public string Materials { get; set; }
+        public string Remarks { get; set; }
+        public string Origin { get; set; }
     }
 
     public class cSalesLead 

@@ -287,7 +287,7 @@ function ProductsTable(data) {
     var temp = jQuery.parseJSON(data["responseText"]);
     var today = moment(new Date());
     //console.log("products view");
-
+    console.log(temp);
     //clear table contents except header
     $("#prod-Table").find("tr:gt(0)").remove();
 
@@ -303,6 +303,7 @@ function ProductsTable(data) {
         var dtEntered = temp[x]["DtEntered"] != null ? moment(temp[x]["DtEntered"]).format("MM/DD/YYYY") : "--";
         var dtValidFrom = temp[x]["DtValidFrom"] != null ? temp[x]["DtValidFrom"] : "--";
         var dtValidTo = temp[x]["DtValidTo"] != null ? temp[x]["DtValidTo"] : "--";
+        var origin = temp[x]["Origin"] != null ? temp[x]["Origin"] : " ";
         var remarks = temp[x]["Remarks"] != null ? temp[x]["Remarks"] : "--";
         var isValid = temp[x]["IsValid"] != null ? temp[x]["IsValid"] : "--";
         
@@ -316,7 +317,8 @@ function ProductsTable(data) {
             }
 
             content += "<td>" + product     + "</td>";
-            content += "<td>" + supplier    + "</td>";
+            content += "<td>" + supplier + "</td>";
+            content += "<td>" + origin + "</td>";
             content += "<td>" + rate + " " + unit + "</td>";
             content += "<td>" + dtEntered   + "</td>";
             content += "<td>" + dtValidFrom + "</td>";
@@ -379,6 +381,7 @@ function searchSupplier() {
     //search and load table
     switch (srchCat) {
         case "PRODUCT":
+        case "ORIGIN":
             //console.log("Product");
             $("#sup-Table").hide();
             $("#prod-Table").show();

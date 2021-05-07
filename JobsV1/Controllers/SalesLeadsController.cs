@@ -108,6 +108,9 @@ namespace JobsV1.Controllers
         //GET: SalesLeads/ForApproval
         public ActionResult ForApproval(int? sortid, int? leadId)
         {
+            sortid = 4;
+            Session["SLFilterID"] = 4;
+
             if (sortid != null)
                 Session["SLFilterID"] = (int)sortid;
             else

@@ -375,7 +375,8 @@ namespace JobsV1.Controllers
 
         #region invItemRate
 
-        public bool AddRateInvItems(int id, string Particulars, string Material,string Rate, int Unit, string Remarks, string TradeTerm, string Tolerance, string ValidFrom, string ValidTo, string By ,string ProcBy )
+        public bool AddRateInvItems(int id, string Particulars, string Material,string Rate, int Unit, string Remarks, 
+            string TradeTerm, string Tolerance, string ValidFrom, string ValidTo, string By ,string ProcBy, string Origin )
         {
             try
             {
@@ -388,6 +389,7 @@ namespace JobsV1.Controllers
                     Remarks = Remarks,
                     TradeTerm = TradeTerm,
                     Tolerance = Tolerance,
+                    Origin = Origin,
                     DtValidFrom = ValidFrom,
                     DtValidTo = ValidTo,
                     DtEntered = dt.GetCurrentDateTime().ToString(),
@@ -405,7 +407,8 @@ namespace JobsV1.Controllers
             }
         }
 
-        public bool EditRateInvItems(int id, string Particulars, string Material, string Rate, int Unit, string ValidFrom, string ValidTo, string Remarks, string TradeTerm, string Tolerance, int SupInvId, string By, string ProcBy, string DtEntered)
+        public bool EditRateInvItems(int id, string Particulars, string Material, string Rate, int Unit, string ValidFrom, string ValidTo, 
+            string Remarks, string TradeTerm, string Tolerance, int SupInvId, string By, string ProcBy, string DtEntered, string Origin)
         {
             try
             {
@@ -424,6 +427,7 @@ namespace JobsV1.Controllers
                 itemRate.By = By;
                 itemRate.ProcBy = ProcBy;
                 itemRate.DtEntered = DtEntered;
+                itemRate.Origin = Origin;
 
                 db.Entry(itemRate).State = EntityState.Modified;
                 db.SaveChanges();

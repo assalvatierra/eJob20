@@ -386,7 +386,7 @@ namespace JobsV1.Controllers
         //POST : Procurement/CreateSupplierItem
         public bool CreateSupplierItem(int salesLeadItemId, int supplierId, int itemId, string particulars, string materials, decimal rate,
             int unitTypeId, string tradeTerm, string tolerance, string remarks, DateTime validTo, DateTime validFrom,
-            string procuredBy, string offeredBy)
+            string procuredBy, string offeredBy, string origin)
         {
             try
             {
@@ -403,7 +403,8 @@ namespace JobsV1.Controllers
                     Tolerance = tolerance,
                     DtEntered = date.GetCurrentDateTime().ToString(),
                     By = offeredBy ?? "N/A",
-                    Particulars = particulars ?? "N/A"
+                    Particulars = particulars ?? "N/A",
+                    Origin = origin
 
                 };
 
@@ -552,6 +553,8 @@ namespace JobsV1.Controllers
                         ValidEnd = rates.DtValidTo,
                         Particulars = rates.Particulars,
                         Materials = rates.Material,
+                        Remarks = rates.Remarks,
+                        Origin = rates.Origin,
                     });
 
                 }
@@ -588,6 +591,7 @@ namespace JobsV1.Controllers
                         itemRate.DtValidTo,
                         itemRate.ProcBy,
                         itemRate.By,
+                        itemRate.Origin,
                         itemRate.SupplierInvItem.InvItem.Description,
                     }, JsonRequestBehavior.AllowGet);
             }
@@ -599,7 +603,7 @@ namespace JobsV1.Controllers
         //POST: Procurement/EditSupplierItem
         public bool EditSupplierItem(int supItemId, int supplierId, string particulars, string materials, decimal rate,
             int unitTypeId, string tradeTerm, string tolerance, string remarks, string validTo, string validFrom,
-            string procuredBy, string offeredBy)
+            string procuredBy, string offeredBy, string origin)
         {
 
             //get item
@@ -624,6 +628,7 @@ namespace JobsV1.Controllers
                 supItemRate.DtValidFrom = validFrom;
                 supItemRate.ProcBy = procuredBy ?? "N/A";
                 supItemRate.By = offeredBy ?? "N/A";
+                supItemRate.Origin = origin;
 
                 db.Entry(supItemRate).State = EntityState.Modified;
                 db.SaveChanges();

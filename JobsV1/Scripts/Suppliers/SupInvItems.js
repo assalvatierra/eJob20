@@ -13,8 +13,50 @@ $(document).ready(new function () {
 });
 
 
+//Item Add Item to Supplier
+function ajax_addProduct(invId, supId) {
 
-//ADDRESS EDIT
+    //build json object
+    var data = {
+        invID: invId,
+        supID: supId
+    };
+
+    console.log(data);
+
+    var url = '/Suppliers/AddInvItems';
+
+    //Post data from server using ajax call
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: 'application/json; charset=utf-8',
+        success: function (data) {
+            // console.log("SUCCESS");
+            ShowLoading()
+            console.log(data);
+            location.reload(false);
+        },
+        error: function (data) {
+            // console.log("ERROR");
+            ShowLoading()
+            console.log(data);
+            location.reload(false);
+        }
+    });
+}
+
+function ShowLoading() {
+    $("#overlay").show();
+}
+
+
+function HideLoading() {
+    $("#overlay").hide();
+}
+
+//Create Inventory Item Rate
 function ajax_createInvRate() {
 
     //build json object
@@ -29,6 +71,7 @@ function ajax_createInvRate() {
         Remarks: $("#InvRate-Remarks").val(),
         TradeTerm: $("#InvRate-TradeTerm").val(),
         Tolerance: $("#InvRate-Tolerance").val(),
+        Origin: $("#InvRate-Origin").val(),
         By: $("#InvRate-By").val(),
         ProcBy: $("#InvRate-ProcBy").val()
     };
@@ -66,7 +109,7 @@ function conformDelete(Id, desc) {
 }
 
 
-function editInvRate(Id, Particulars, Material, Rate, UnitType, ValidFrom, ValidTo, Remarks, SupInvId, By, ProcBy, TradeTerm, Tolerance, DtEntered) {
+function editInvRate(Id, Particulars, Material, Rate, UnitType, ValidFrom, ValidTo, Remarks, SupInvId, By, ProcBy, TradeTerm, Tolerance, Origin, DtEntered) {
     $("#EditInvRate-ItemId").val(Id);
     $("#EditInvRate-Particulars").val(Particulars);
     $("#EditInvRate-Material").val(Material);
@@ -78,6 +121,7 @@ function editInvRate(Id, Particulars, Material, Rate, UnitType, ValidFrom, Valid
     $("#EditInvRate-SupInvId").val(SupInvId);
     $("#EditInvRate-TradeTerm").val(TradeTerm);
     $("#EditInvRate-Tolerance").val(Tolerance);
+    $("#EditInvRate-Origin").val(Origin);
     $("#EditInvRate-By").val(By);
     $("#EditInvRate-ProcBy").val(ProcBy);
     $("#EditInvRate-DtEntered").val(DtEntered);
@@ -98,6 +142,7 @@ function ajax_editInvRate() {
         Remarks: $("#EditInvRate-Remarks").val(),
         TradeTerm: $("#EditInvRate-TradeTerm").val(),
         Tolerance: $("#EditInvRate-Tolerance").val(),
+        Origin: $("#EditInvRate-Origin").val(),
         SupInvId: $("#EditInvRate-SupInvId").val(),
         By: $("#EditInvRate-By").val(),
         ProcBy: $("#EditInvRate-ProcBy").val(),

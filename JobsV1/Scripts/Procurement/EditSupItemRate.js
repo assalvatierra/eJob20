@@ -33,6 +33,7 @@ function Init_EditSupItem(itemId) {
                 $("#EditSupItemRate-ValidTo").val(moment(response.DtValidTo).format("MM/DD/YYYY"));
                 $("#EditSupItemRate-OfferedBy").val(response.By);
                 $("#EditSupItemRate-ProcBy").val(response.ProcBy);
+                $("#EditSupItemRate-Origin").val(response.Origin);
 
                 $("#EditSupItemRate-Item-Text").text(response.Description);
         })
@@ -58,6 +59,7 @@ function Ajax_EditSupplierItem() {
         validTo:        $("#EditSupItemRate-ValidTo").val(),
         offeredBy:      $("#EditSupItemRate-OfferedBy").val(),
         procuredBy:     $("#EditSupItemRate-ProcBy").val(),
+        origin:         $("#EditSupItemRate-Origin").val(),
     }
 
     console.log(editSupplierItem);

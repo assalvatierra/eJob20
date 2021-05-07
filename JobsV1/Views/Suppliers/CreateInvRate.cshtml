@@ -1,4 +1,38 @@
-﻿<!-- Add Clause Edit Modal -->
+﻿
+<!-- Add Item Modal -->
+<div class="modal fade" id="ItemAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Item List</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+
+                <div class="list-group" id="categorylist">
+
+                    @foreach (var productList in ViewBag.ItemList as IEnumerable<JobsV1.Models.InvItem>)
+                    {
+                        <a class="list-group-item cursor-hand" onclick="ajax_addProduct(@productList.Id,@ViewBag.SupplierId)">
+                            @Html.DisplayFor(modelItem => productList.ItemCode)
+                            <span>-</span>
+                            @Html.DisplayFor(modelItem => productList.Description)
+                            <span>-</span>
+                            @Html.DisplayFor(modelItem => productList.Remarks)
+                        </a>
+
+                    }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- Add Inv Rate Modal -->
 <div class="modal fade" id="createInvRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -67,6 +101,14 @@
                     </div>
 
                     <div class="form-group col-md-12">
+                        <b class="col-md-2"> Origin </b>
+                        <div class="col-md-10">
+                            <input id="InvRate-Origin" class="form-control" type="text" maxlength="80">
+                        </div><p></p>
+                    </div>
+
+
+                    <div class="form-group col-md-12">
                         <b class="col-md-2"> Remarks </b>
                         <div class="col-md-10">
                             <input id="InvRate-Remarks" class="form-control" type="text" maxlength="80">
@@ -109,7 +151,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 <!-- Edit Inv Rate Modal -->
 <div class="modal fade" id="editInvRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -183,6 +224,13 @@
                     </div>
 
                     <div class="form-group col-md-12">
+                        <b class="col-md-2"> Origin </b>
+                        <div class="col-md-10">
+                            <input id="EditInvRate-Origin" class="form-control" type="text" maxlength="80">
+                        </div><p></p>
+                    </div>
+
+                    <div class="form-group col-md-12">
                         <b class="col-md-2"> Remarks </b>
                         <div class="col-md-10">
                             <input id="EditInvRate-Remarks" class="form-control" type="text" maxlength="80">
@@ -232,4 +280,3 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-

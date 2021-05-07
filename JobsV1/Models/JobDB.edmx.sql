@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/10/2021 19:04:00
+-- Date Created: 05/06/2021 14:55:38
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -2046,13 +2046,14 @@ CREATE TABLE [dbo].[SupplierItemRates] (
     [Remarks] nvarchar(max)  NOT NULL,
     [DtValidFrom] nvarchar(max)  NOT NULL,
     [DtValidTo] nvarchar(max)  NOT NULL,
-    [Particulars] nvarchar(80)  NOT NULL,
+    [Particulars] nvarchar(160)  NOT NULL,
     [By] nvarchar(80)  NOT NULL,
     [Material] nvarchar(40)  NULL,
     [ProcBy] nvarchar(40)  NULL,
     [TradeTerm] nvarchar(80)  NULL,
     [Tolerance] nvarchar(80)  NULL,
-    [DtEntered] nvarchar(30)  NULL
+    [DtEntered] nvarchar(30)  NULL,
+    [Origin] nvarchar(80)  NULL
 );
 GO
 

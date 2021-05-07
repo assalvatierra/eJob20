@@ -379,14 +379,14 @@ SELECT * FROM CustEntActivities
 -- Supplier Products
 SELECT * FROM (SELECT sii.Id, ii.Description as Name, Supplier = ( SELECT supp.Name FROM Suppliers supp WHERE sii.SupplierId = supp.Id ),
                
-                sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status ,
+                sii.SupplierId, sir.ItemRate, su.Unit, sir.DtEntered, sir.DtValidFrom, sir.DtValidTo, sir.Remarks, sup.Status, sir.Origin,
 				IsValid =  IIF(convert(datetime, sir.DtValidTo) < convert(datetime, GETDATE()), 1 , 0)
                 FROM SupplierInvItems sii LEFT JOIN Suppliers sup ON sii.Id = sup.Id 
                 LEFT JOIN SupplierItemRates sir on sii.Id = sir.SupplierInvItemId  
                 LEFT JOIN InvItems ii ON sii.InvItemId = ii.Id					   
                 LEFT JOIN SupplierUnits su ON sir.SupplierUnitId = su.Id) as prods 
 				WHERE  (ISNULL(prods.ItemRate,'0') = '0') OR convert(datetime, prods.DtValidTo) > convert(datetime, DATEADD(DAY, -180, GETDATE())) 
-				AND prods.Name Like '%pipe%'  
+				AND prods.Origin Like '%China%'  
 --Customer List  
 SELECT c.Id,c.Name, c.Contact1, c.Contact2 , c.Status,
        JobCount = (SELECT Count(x.Id) FROM [JobMains] x WHERE x.CustomerId = c.Id ) ,

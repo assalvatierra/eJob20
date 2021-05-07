@@ -559,6 +559,13 @@
                                                 </span>
 
                                                 <span style="margin-left:10px;">
+                                                    @if (supItem.SupplierItemRate.Origin != null)
+                                                    {
+                                                        <span>Origin: @supItem.SupplierItemRate.Origin</span>
+                                                    }
+                                                </span>
+
+                                                <span style="margin-left:10px;">
                                                     Procured by: @supItem.SupplierItemRate.ProcBy
                                                 </span>
                                                 <span style="margin-left:10px;">
@@ -661,31 +668,28 @@
 
         //Scroll to lead using ID on page ready
         $(document).ready(function () {
-            if ('@(ViewBag.LeadId)' != '') {
-
+           if ('@(ViewBag.LeadId)' != '') {
                 $('html, body').animate({
-
                     scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
                 }, 750);
+            }
 
+            //Status Filters
+            if(@((int)Session["SLFilterID"]) != null){
+                var statusId = @((int)Session["SLFilterID"]);
+                switch(statusId){
+                    case statusId:
+                        $("#status-" + statusId).css("color","black")
+                        $("#status-" + statusId).parent().addClass("label-default");
+                        $("#status-" + statusId).parent().removeClass("label-primary");
+                        break;
+                    default:
+                        $("#status-3").css("color","black")
+                        break;
+                }
             }
         });
 
-        //Status Filters
-
-        if(@((int)Session["SLFilterID"]) != null){
-            var statusId = @((int)Session["SLFilterID"]);
-            switch(statusId){
-                case statusId:
-                    $("#status-" + statusId).css("color","black")
-                    $("#status-" + statusId).parent().addClass("label-default");
-                    $("#status-" + statusId).parent().removeClass("label-primary");
-                    break;
-                default:
-                    $("#status-3").css("color","black")
-                    break;
-            }
-        }
 
         function UpdateLeadItemStatus(leadItemId, statusId ) {
 

@@ -3400,6 +3400,7 @@
     <Content Include="Views\SalesLeads\_AddItemRateModal.cshtml" />
     <Content Include="Views\JobPayments\_PostToReceivable.cshtml" />
     <Content Include="Views\JobOrder\_PostToReceivable.cshtml" />
+    <Content Include="Views\SalesLeads\_CreateSupRateModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

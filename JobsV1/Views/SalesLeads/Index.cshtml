@@ -55,10 +55,7 @@
             Viewing as Admin
         </p>
     }
-    @*<p>
-            Sales Lead |
-            @Html.ActionLink("Quotation", "JobLeads", "JobMains")
-        </p>*@
+    
     <p>
 
         Filters:
@@ -754,6 +751,14 @@
                                                         }
                                                     </span>
 
+
+                                                    <span style="margin-left:10px;">
+                                                        @if (supItem.SupplierItemRate.Origin != null)
+                                                        {
+                                                            <span>Origin: @supItem.SupplierItemRate.Origin</span>
+                                                        }
+                                                    </span>
+
                                                     <span style="margin-left:10px;">
                                                         Procured by: @supItem.SupplierItemRate.ProcBy
                                                     </span>
@@ -835,9 +840,12 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('html, body').animate({
-                scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
-            }, 750);
+            if ('@(ViewBag.LeadId)' != '') {
+                $('html, body').animate({
+                    scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
+                }, 750);
+            }
+           
 
             if(@((int)Session["SLFilterID"]) != null){
                 var statusId = @((int)Session["SLFilterID"]);
@@ -846,9 +854,10 @@
                         $("#status-" + statusId).css("color", "black");
                         $("#status-" + statusId).parent().addClass("label-default");
                         $("#status-" + statusId).parent().removeClass("label-primary");
+                        //$("#status-" + statusId).parent().siblings().removeClass("label-primary");
                         break;
                     default:
-                        $("#newLead").css("color","black")
+                        $("#newLead").css("color", "black");
                         break;
                 }
             }

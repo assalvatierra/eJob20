@@ -1,7 +1,6 @@
-﻿
-<!-- Add Inv Rate Modal -->
+﻿<!-- Add Inv Rate Modal -->
 <div class="modal fade" id="EditSupItemRate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -12,7 +11,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group cform" hidden>
-                            <b class="col-md-3"> Item Id </b>
+                            <b class="col-md-2"> Item Id </b>
                             <div class="col-md-3">
                                 <input id="EditSupItemRate-ItemLeadId" class="form-control" type="text" maxlength="80">
                             </div><p></p>
@@ -79,7 +78,6 @@
                             </div><p></p>
                         </div>
 
-
                         <div class="form-group cform">
                             <b class="col-md-3"> Offered&nbsp;By </b>
                             <div class="col-md-9">
@@ -88,8 +86,17 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+
+                        <div class="form-group cform" style="margin-top: 15px;">
+                            <b class="col-md-3"> Origin </b>
+                            <div class="col-md-9">
+                                <input id="EditSupItemRate-Origin" class="form-control" type="text" maxlength="80">
+                            </div><p></p>
+                        </div>
+
+
                         <div class="form-group cform">
-                            <b class="col-md-2">TradeTerm </b>
+                            <b class="col-md-3">TradeTerm </b>
                             <div class="col-md-9">
                                 <input id="EditSupItemRate-TradeTerm" class="form-control" type="text" maxlength="80">
                             </div><p></p>
@@ -118,7 +125,7 @@
 
                         <div class="form-group cform">
                             <b class="col-md-3"> Valid&nbsp;To* </b>
-                            <div class="col-md-10">
+                            <div class="col-md-9">
                                 <input id="EditSupItemRate-ValidTo" class="form-control" type="text" maxlength="20">
                             </div><p></p>
                         </div>
@@ -137,6 +144,7 @@
                             <p id="EditSupItemRate-Date-errorMsg" hidden> * Invalid Dates </p>
                         </div>
                     </div>
+
                 </div>
             </div>
 
