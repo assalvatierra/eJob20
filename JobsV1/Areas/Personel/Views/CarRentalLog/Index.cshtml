@@ -303,9 +303,9 @@
                         Action <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                         @if (!item.IsFinal)
                         {
-                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                             <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
                             <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
                             <li><a class="cursor-pointer" onclick="UpdateOTRate(this, @item.Id)"> Update OT Rate </a></li>

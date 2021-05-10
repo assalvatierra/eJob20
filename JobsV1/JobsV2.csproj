@@ -1685,6 +1685,17 @@
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\logistics-service.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\mindanao-cargo-delivery.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\schedule-delivery.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\agusan-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\cagayan-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\cotabato-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\davao-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\davnor-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\digos-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\gensan-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\malungon-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\mindanao-qr-code-list-2021.jpg" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\samal-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\QrCodeList\surigao-qr.png" />
     <Content Include="Images\CarRental\Home\Article\ShuttleService\secure-car-vector.jpg" />
     <Content Include="Images\CarRental\Home\Article\ShuttleService\shuttle-car-safe.jpg" />
     <Content Include="Images\CarRental\Home\Article\ShuttleService\shuttle-car-service.jpg" />
@@ -3401,6 +3412,7 @@
     <Content Include="Views\JobPayments\_PostToReceivable.cshtml" />
     <Content Include="Views\JobOrder\_PostToReceivable.cshtml" />
     <Content Include="Views\SalesLeads\_CreateSupRateModal.cshtml" />
+    <Content Include="Views\CarRental\ArticlesView\QRCodeList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -51,9 +51,9 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                var dtfilter = new DateTime((int)dtYear, (int)dtMonth, (int)dtDay);
 
-               var crTrip_dated = db.crLogTrips
+                crTrip = crTrip
                        .Where(d => d.crLogPassengers.Count() > 0 &&
-                        DbFunctions.TruncateTime(d.DtTrip) == dtfilter)
+                        d.DtTrip.Date == dtfilter)
                        .OrderBy(d => d.crLogDriver.OrderNo)
                        .ToList();
 
@@ -68,7 +68,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
 
                 ViewBag.CompanyId = companyId ?? 0;
-                return View(crTrip_dated);
+                return View(crTrip);
             }
 
             crTrip = crTrip.Where(d => d.crLogPassengers.Count() > 0)

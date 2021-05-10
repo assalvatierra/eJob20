@@ -186,6 +186,12 @@ namespace JobsV1
                 url: "Articles/WhyRentACar",
                 defaults: new { controller = "CarRental", action = "ArticleView", article = "WhyRentACar" }
             );
+
+            routes.MapRoute(
+                name: "Article/QRCodeList",
+                url: "Articles/mindanao-qr-code-list-2021",
+                defaults: new { controller = "CarRental", action = "ArticleView", article = "QRCodeList" }
+            );
             #endregion
 
             #region Services

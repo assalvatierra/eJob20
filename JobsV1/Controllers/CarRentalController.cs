@@ -1234,6 +1234,8 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/ArticlesView/WhyBook.cshtml");
                 case "WhyRentACar":
                     return View("~/Views/CarRental/ArticlesView/WhyRentACar.cshtml");
+                case "QRCodeList":
+                    return View("~/Views/CarRental/ArticlesView/QRCodeList.cshtml");
                 default:
                     return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
             }

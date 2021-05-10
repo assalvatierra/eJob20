@@ -27,6 +27,7 @@
         <th> Date </th>
         <th> Company </th>
         <th> Unit </th>
+        <th> Remarks </th>
         <th> Rate </th>
         <th> Drivers Fee </th>
         <th> Drivers OT </th>
@@ -57,6 +58,7 @@
             <td> @log.DtTrip.ToString("MMM dd yyyy (ddd)") @log.DtTrip.DayOfWeek.ToString()</td>
             <td> @log.crLogCompany.Name </td>
             <td> @log.crLogUnit.Description </td>
+            <td> @log.Remarks    </td>
             <td> @log.Rate </td>
             <td> @log.DriverFee </td>
             <td> @log.DriverOT </td>

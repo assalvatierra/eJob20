@@ -85,6 +85,18 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
             }
 
+            if (!owner.IsNullOrWhiteSpace())
+            {
+                Session["triplog-owner"] = owner;
+            }
+            else
+            {
+                if (Session["triplog-owner"] != null)
+                {
+                    owner = Session["triplog-owner"].ToString();
+                }
+            }
+
             #endregion
 
             var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby, owner);
@@ -112,7 +124,7 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult IndexBilling(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        public ActionResult IndexBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
         {
 
             #region Session
@@ -176,6 +188,17 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
             }
 
+            if (!owner.IsNullOrWhiteSpace())
+            {
+                Session["triplog-owner"] = owner;
+            }
+            else
+            {
+                if (Session["triplog-owner"] != null)
+                {
+                    owner = Session["triplog-owner"].ToString();
+                }
+            }
             #endregion
 
             var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
@@ -241,7 +264,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
         // GET: Personel/CarRentalLog/PrintIndexBilling
-        public ActionResult PrintIndexBilling(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        public ActionResult PrintIndexBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
         {
 
             #region Session
@@ -305,6 +328,18 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
             }
 
+
+            if (!owner.IsNullOrWhiteSpace())
+            {
+                Session["triplog-owner"] = owner;
+            }
+            else
+            {
+                if (Session["triplog-owner"] != null)
+                {
+                    owner = Session["triplog-owner"].ToString();
+                }
+            }
             #endregion
 
             var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
@@ -454,7 +489,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
         // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult PrintIndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby)
+        public ActionResult PrintIndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
         {
 
             #region Session
@@ -518,6 +553,18 @@ namespace JobsV1.Areas.Personel.Controllers
                 }
             }
 
+
+            if (!owner.IsNullOrWhiteSpace())
+            {
+                Session["triplog-owner"] = owner;
+            }
+            else
+            {
+                if (Session["triplog-owner"] != null)
+                {
+                    owner = Session["triplog-owner"].ToString();
+                }
+            }
             #endregion
 
             var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
