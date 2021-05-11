@@ -162,12 +162,12 @@
             </td>
             <td>
                 <b>
-                    P @string.Format("{0:N}", item.QuotedAmt)  - @Html.DisplayFor(modelItem => item.Particulars)
+                    @Html.DisplayFor(modelItem => item.Particulars)
                 </b>
                 @if (item.Remarks != null)
                 {
                     <text>
-                        <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]
+                       @* <br />[Remarks: @Html.DisplayFor(modelItem => item.Remarks)]*@
                     </text>
                 }
                 <br /> [ Item: @Html.DisplayFor(modelItem => item.SupplierItem.Description) ]
@@ -277,40 +277,40 @@
         sNotes += " " + notetmp.Note;
     }
 }
-
-@if (payments.Count() > 0)
-{
-    <h3>Payments</h3>
-    <table class="table">
-        <tr>
-            <th>
-                Amount
-            </th>
-            <th>
-                Particulars
-            </th>
-        </tr>
-
-        @foreach (var item in payments)
-        {
-            dPaidAmt += item.PaymentAmt;
+<div hidden>
+    @if (payments.Count() > 0)
+    {
+        <h3>Payments</h3>
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PaymentAmt)
-                </td>
-                <td>
-                    @item.DtPayment.ToShortDateString()
-                    &nbsp;[@Html.DisplayFor(modelItem => item.Bank.BankName)
-                    &nbsp;@Html.DisplayFor(modelItem => item.Remarks)]
-                </td>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Particulars
+                </th>
             </tr>
-        }
 
-    </table>
-}
+            @foreach (var item in payments)
+            {
+                dPaidAmt += item.PaymentAmt;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentAmt)
+                    </td>
+                    <td>
+                        @item.DtPayment.ToShortDateString()
+                        &nbsp;[@Html.DisplayFor(modelItem => item.Bank.BankName)
+                        &nbsp;@Html.DisplayFor(modelItem => item.Remarks)]
+                    </td>
+                </tr>
+            }
 
+        </table>
+    }
 
-<div class="jumbotron">
+</div>
+<div class="jumbotron" hidden>
 
     <table>
         <tr>

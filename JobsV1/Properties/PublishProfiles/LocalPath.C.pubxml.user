@@ -310,7 +310,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/09/2021 15:00:28</publishTime>
     </File>
     <File Include="Areas/Payables/Scripts/ApTransactions/ApTransaction.js">
-      <publishTime>04/22/2021 13:35:32</publishTime>
+      <publishTime>05/11/2021 10:17:45</publishTime>
     </File>
     <File Include="Areas/Payables/Scripts/ApTransactions/ApTransCreate.js">
       <publishTime>04/22/2021 11:51:02</publishTime>
@@ -547,22 +547,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/01/2020 08:42:46</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalLog/Index.cshtml">
-      <publishTime>05/06/2021 15:15:36</publishTime>
+      <publishTime>05/11/2021 13:23:41</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalLog/IndexBilling.cshtml">
-      <publishTime>05/05/2021 11:55:53</publishTime>
+      <publishTime>05/11/2021 13:27:23</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalLog/IndexBillingDaily.cshtml">
-      <publishTime>05/05/2021 13:05:04</publishTime>
+      <publishTime>05/11/2021 13:26:25</publishTime>
+    </File>
+    <File Include="Areas/Personel/Views/CarRentalLog/IndexBillingSunday.cshtml">
+      <publishTime>05/11/2021 13:39:15</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalLog/PaytoClose.cshtml">
       <publishTime>07/22/2020 09:56:17</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalLog/PrintIndexBilling.cshtml">
-      <publishTime>04/16/2021 14:59:18</publishTime>
+      <publishTime>05/11/2021 13:30:24</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalLog/PrintIndexBillingDaily.cshtml">
       <publishTime>05/05/2021 13:43:23</publishTime>
+    </File>
+    <File Include="Areas/Personel/Views/CarRentalLog/PrintIndexBillingSunday.cshtml">
+      <publishTime>05/11/2021 13:38:58</publishTime>
     </File>
     <File Include="Areas/Personel/Views/CarRentalLog/ReportByCompany.cshtml">
       <publishTime>09/11/2020 12:26:47</publishTime>
@@ -1402,10 +1408,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:13</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>05/10/2021 17:36:04</publishTime>
+      <publishTime>05/11/2021 16:17:05</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>05/10/2021 17:36:04</publishTime>
+      <publishTime>05/11/2021 16:17:05</publishTime>
     </File>
     <File Include="bin/ApServices.dll">
       <publishTime>02/09/2021 14:57:39</publishTime>
@@ -1462,10 +1468,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/09/2019 13:56:13</publishTime>
     </File>
     <File Include="bin/JobsV1.dll">
-      <publishTime>05/10/2021 17:35:50</publishTime>
+      <publishTime>05/11/2021 16:16:52</publishTime>
     </File>
     <File Include="bin/JobsV1.pdb">
-      <publishTime>05/10/2021 17:35:50</publishTime>
+      <publishTime>05/11/2021 16:16:52</publishTime>
     </File>
     <File Include="bin/ko/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>07/09/2019 13:56:13</publishTime>
@@ -3736,7 +3742,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/20/2020 14:54:41</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>05/10/2021 17:36:00</publishTime>
+      <publishTime>05/11/2021 16:17:02</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/ftp.myasp.net.pubxml.user">
       <publishTime>07/22/2020 09:56:30</publishTime>
@@ -3745,7 +3751,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/22/2020 09:56:30</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LocalPath.C.pubxml.user">
-      <publishTime>05/10/2021 17:28:05</publishTime>
+      <publishTime>05/11/2021 13:41:56</publishTime>
     </File>
     <File Include="Scripts/Activities/Activities.js">
       <publishTime>07/22/2020 09:56:30</publishTime>
@@ -4840,7 +4846,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/22/2020 15:06:56</publishTime>
     </File>
     <File Include="Views/CarRental/ArticlesView/QRCodeList.cshtml">
-      <publishTime>05/10/2021 17:35:36</publishTime>
+      <publishTime>05/11/2021 16:16:42</publishTime>
     </File>
     <File Include="Views/CarRental/ArticlesView/SUVRental.cshtml">
       <publishTime>12/22/2020 15:06:31</publishTime>
@@ -4853,6 +4859,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/CarRental/ArticlesView/WhyRentACar.cshtml">
       <publishTime>12/22/2020 17:02:55</publishTime>
+    </File>
+    <File Include="Views/CarRental/BookingGuide.cshtml">
+      <publishTime>05/11/2021 11:51:46</publishTime>
     </File>
     <File Include="Views/CarRental/BookingRequest.cshtml">
       <publishTime>09/16/2020 13:02:57</publishTime>
@@ -5044,7 +5053,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/22/2020 16:02:00</publishTime>
     </File>
     <File Include="Views/CarRental/Index_Booking.cshtml">
-      <publishTime>10/13/2020 14:59:58</publishTime>
+      <publishTime>05/11/2021 13:55:19</publishTime>
     </File>
     <File Include="Views/CarRental/Index_Contact.cshtml">
       <publishTime>10/13/2020 10:13:35</publishTime>
@@ -5851,7 +5860,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2021 16:03:30</publishTime>
     </File>
     <File Include="Views/JobOrder/Details_Voucher.cshtml">
-      <publishTime>04/21/2021 12:14:02</publishTime>
+      <publishTime>05/11/2021 13:14:52</publishTime>
     </File>
     <File Include="Views/JobOrder/DriverInstructions.cshtml">
       <publishTime>07/22/2020 09:56:31</publishTime>

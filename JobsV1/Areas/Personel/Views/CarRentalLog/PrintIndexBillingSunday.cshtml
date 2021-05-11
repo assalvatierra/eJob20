@@ -54,48 +54,47 @@
 <h3 class="text-center">Particulars</h3>
 <h4 class="text-center">@ViewBag.FilteredsDate - @ViewBag.FilteredeDate</h4>
 <br />
-<div hidden>
-    <h4>Sundays</h4>
-    <table class="table with-border">
-        <tr class="with-border">
-            <td>
-                Driver
-            </td>
-            <td>
-                Date
-            </td>
-            <td>
-                Unit
-            </td>
-            <td>
-            </td>
-            <td>
-                Rate
-            </td>
-        </tr>
-        @foreach (var trip in Model.SundayTrips)
-        {
-            TotalSundayCount += 1;
-            TotalSundayRate += trip.Rate;
+<h4>Sundays</h4>
+<table class="table with-border">
+    <tr class="with-border">
+        <td>
+            Driver
+        </td>
+        <td>
+            Date
+        </td>
+        <td>
+            Unit
+        </td>
+        <td>
+        </td>
+        <td>
+            Rate
+        </td>
+    </tr>
+    @foreach (var trip in Model.SundayTrips)
+    {
+        TotalSundayCount += 1;
+        TotalSundayRate += trip.Rate;
 
-            <tr>
-                <td>@trip.Driver</td>
-                <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
-                <td>@trip.Unit</td>
-                <td></td>
-                <td>@trip.Rate.ToString("#,##0") </td>
-            </tr>
-        }
-        <tr class="with-border">
-            <td colspan="4"> Total Count: @TotalSundayCount</td>
-            <td>
-                <span style="font-size:9px;"> Total Rate</span><br />
-                <span style="font-weight:bold;">@TotalSundayRate.ToString("#,##0")</span>
-            </td>
+        <tr>
+            <td>@trip.Driver</td>
+            <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+            <td>@trip.Unit</td>
+            <td></td>
+            <td>@trip.Rate.ToString("#,##0") </td>
         </tr>
-    </table>
-</div>
-<h4>Over-Time</h4>
+    }
+    <tr class="with-border">
+        <td colspan="4"> Total Count: @TotalSundayCount</td>
+        <td>
+            <span style="font-size:9px;"> Total Rate</span><br />
+            <span style="font-weight:bold;">@TotalSundayRate.ToString("#,##0")</span>
+        </td>
+    </tr>
+</table>
+
+<h4>Sunday Overtime</h4>
 <table class="table with-border">
     <tr class="with-border">
         <td>
@@ -129,7 +128,7 @@
 
             <tr>
                 <td>@trip.Driver</td>
-                <td>@trip.DtTrip.ToString("MMM dd yyyy(ddd)")</td>
+                <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
                 <td>@trip.Unit</td>
                 <td>@trip.StartTime - @trip.EndTime</td>
                 <td>

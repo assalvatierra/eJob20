@@ -1290,6 +1290,13 @@ namespace JobsV1.Controllers
             return View();
         }
 
+        public ActionResult BookingGuide()
+        {
+            return View();
+        }
+
+
+
         public CarDetail GetCarDetail(int id)
         {
             try
@@ -1370,7 +1377,6 @@ namespace JobsV1.Controllers
             return this.Content(xml, "text/xml", System.Text.Encoding.UTF8);
 
         }
-
 
         #endregion
 

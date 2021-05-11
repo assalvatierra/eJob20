@@ -20,17 +20,27 @@ function Initialize(status, sortBy) {
         $("#status-" + status).addClass('active');
         $("#status-" + status).siblings('.active').removeClass('active');
 
+        if (sessionStorage.getItem('ApTrans-RepeatingShowed') == null) {
+            GetRepeatingPayablesCount();
+
+        }
         //Repeating Payables
-        GetRepeatingPayablesCount();
+        
+
+        console.log("DueShowed: " + sessionStorage.getItem('ApTrans-DueShowed'));
 
         //Due Payables
         if ($('#RepeatingPayables-Modal').is(':visible')) {
             //GetDuePayables();
         } else {
             console.log(sessionStorage.getItem('ApTrans-DueShowed'));
-            if (sessionStorage.getItem('ApTrans-DueShowed')) {
+            if (!sessionStorage.getItem('ApTrans-DueShowed')) {
                 GetDuePayables();
             }
+        }
+
+        if (sessionStorage.getItem('ApTrans-DueShowed') == null) {
+            GetDuePayables();
         }
 
     }
@@ -45,6 +55,11 @@ function GetRepeatingPayablesCount() {
         if (response > 0) {
             //if system have repeating payables
             GetRepeatingPayables();
+
+
+            //add to session storage
+            //will expire on browser closed
+            sessionStorage.setItem('ApTrans-RepeatingShowed', true);
         }
 
     });
