@@ -1236,6 +1236,8 @@ namespace JobsV1.Controllers
                     return View("~/Views/CarRental/ArticlesView/WhyRentACar.cshtml");
                 case "QRCodeList":
                     return View("~/Views/CarRental/ArticlesView/QRCodeList.cshtml");
+                case "SafeCarRental":
+                    return View("~/Views/CarRental/ArticlesView/SafeCarRental.cshtml");
                 default:
                     return View("~/Views/CarRental/ArticlesView/Article1.cshtml");
             }
@@ -1295,6 +1297,10 @@ namespace JobsV1.Controllers
             return View();
         }
 
+        public ActionResult CarServices()
+        {
+            return View();
+        }
 
 
         public CarDetail GetCarDetail(int id)

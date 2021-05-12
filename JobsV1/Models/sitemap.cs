@@ -77,12 +77,19 @@ namespace JobsV1.Models
             items.Add("realwheelsdavao.com/CarRental/Featured");
             items.Add("realwheelsdavao.com/CarRental/Reservation");
             items.Add("realwheelsdavao.com/CarRental/PriceQuote");
+            items.Add("realwheelsdavao.com/CarRental/BookingGuide");
+            items.Add("realwheelsdavao.com/CarRental/Car-Rental-Services");
+
+            //articles
             items.Add("realwheelsdavao.com/Articles/NewSeatCapacity");
             items.Add("realwheelsdavao.com/Articles/VisitDavao");
             items.Add("realwheelsdavao.com/Articles/SUVRental");
+            items.Add("realwheelsdavao.com/Articles/mindanao-qr-code-list-2021");
+            items.Add("realwheelsdavao.com/Articles/Safe-Car-Rental-2021");
 
             //services
             items.Add("realwheelsdavao.com/cargo-delivery-services");
+            items.Add("realwheelsdavao.com/shuttle-service");
 
             return items;
         }

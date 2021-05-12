@@ -1678,6 +1678,7 @@
     <Content Include="Images\CarRental\Home\Article\Article-SUV-rental-Davao.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Why-Rent-A-Car.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Why-Visit-Davao.jpg" />
+    <Content Include="Images\CarRental\Home\Article\Article-Car-Rental-Guide-2021.jpg" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-service.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\cargo-delivery-tracking.png" />
     <Content Include="Images\CarRental\Home\Article\CargoDelivery\door-to-door-delivery.png" />
@@ -1696,6 +1697,8 @@
     <Content Include="Images\CarRental\Home\Article\QrCodeList\mindanao-qr-code-list-2021.jpg" />
     <Content Include="Images\CarRental\Home\Article\QrCodeList\samal-qr.png" />
     <Content Include="Images\CarRental\Home\Article\QrCodeList\surigao-qr.png" />
+    <Content Include="Images\CarRental\Home\Article\SafeRental\Article-Safe-Rental.jpg" />
+    <Content Include="Images\CarRental\Home\Article\SafeRental\Realwheel-disinfect-article.jpg" />
     <Content Include="Images\CarRental\Home\Article\ShuttleService\secure-car-vector.jpg" />
     <Content Include="Images\CarRental\Home\Article\ShuttleService\shuttle-car-safe.jpg" />
     <Content Include="Images\CarRental\Home\Article\ShuttleService\shuttle-car-service.jpg" />
@@ -2522,6 +2525,7 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBillingDaily.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\IndexBillingSunday.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBillingSunday.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\EditOTBilling.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -3416,6 +3420,8 @@
     <Content Include="Views\SalesLeads\_CreateSupRateModal.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\QRCodeList.cshtml" />
     <Content Include="Views\CarRental\BookingGuide.cshtml" />
+    <Content Include="Views\CarRental\CarServices.cshtml" />
+    <Content Include="Views\CarRental\ArticlesView\SafeCarRental.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
