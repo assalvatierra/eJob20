@@ -223,7 +223,7 @@ namespace JobsV1.Areas.Personel.Controllers
             });
 
             // OTT trips
-            var OTTrips = tripLogs.Where(c => GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek != DayOfWeek.Sunday).ToList();
+            var OTTrips = tripLogs.Where(c => GetTripLogOTHours(c) > 0).ToList();
             OTTrips.ForEach((t)=> {
                 double OTHrs = GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT {
@@ -364,7 +364,7 @@ namespace JobsV1.Areas.Personel.Controllers
             });
 
             // OTT trips
-            var OTTrips = tripLogs.Where(c => GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek != DayOfWeek.Sunday).ToList();
+            var OTTrips = tripLogs.Where(c => GetTripLogOTHours(c) > 0).ToList();
             OTTrips.ForEach((t) => {
                 double OTHrs = GetTripLogOTHours(t);
                 tripBilling.OTTrips.Add(new crBilling_OT
@@ -1283,6 +1283,112 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
 
+        // GET: Personel/CarRentalLog/EditOTBilling/5
+        public ActionResult EditOTBilling(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+            if (crLogTrip == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (crLogTrip.OTRate == null)
+            {
+                crLogTrip.OTRate = 200;
+            }
+
+
+            if (crLogTrip.DriverOTRate == null)
+            {
+                crLogTrip.DriverOTRate = 50;
+            }
+
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            return View(crLogTrip);
+        }
+
+        // POST: Personel/CarRentalLog/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditOTBilling([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexBilling");
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            return View(crLogTrip);
+        }
+
+
+
+        // GET: Personel/CarRentalLog/EditBillingSunday/5
+        public ActionResult EditBillingSunday(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            crLogTrip crLogTrip = db.crLogTrips.Find(id);
+            if (crLogTrip == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (crLogTrip.OTRate == null)
+            {
+                crLogTrip.OTRate = 200;
+            }
+
+
+            if (crLogTrip.DriverOTRate == null)
+            {
+                crLogTrip.DriverOTRate = 50;
+            }
+
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            return View(crLogTrip);
+        }
+
+        // POST: Personel/CarRentalLog/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBillingSunday([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("IndexBillingSunday");
+            }
+            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
+            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
+            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
+            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
+            return View(crLogTrip);
+        }
+
+
+
         // GET: Personel/CarRentalLog/Edit/5
         public ActionResult DriverSummaryTripEdit(int? id)
         {
@@ -2171,7 +2277,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
         //Round Off time Difference in Hours
         // if timediff is greater than 0.667 (40 mins), round off to 1 (1 hour)
-        //                greater than 0.333 (20 mins) or less than 0.667 (40 mins), round off to 0.5 ()
+        //                greater than 0.333 (20 mins) or less than 0.667 (50 mins), round off to 0.5 ()
         //                less than 0.333 (20 mins), do not round off
         private double ConvertHrsDec(double hrsDiff)
         {
@@ -2180,11 +2286,11 @@ namespace JobsV1.Areas.Personel.Controllers
 
             double decPart = hrsDiff - (double)Math.Truncate(hrsDiff);
 
-            if (decPart > 0.750)
+            if (decPart > 0.833)
             {
                 hrsDiffTemp = hrsDiffTemp + 1;
             }
-            else if (decPart >= 0.417 && decPart <= 750)
+            else if (decPart >= 0.333 && decPart <= 0.833)
             {
                 hrsDiffTemp = hrsDiffTemp + 0.5;
             }

@@ -93,65 +93,66 @@
         </td>
     </tr>
 </table>
-
-<h4>Sunday Overtime</h4>
-<table class="table with-border">
-    <tr class="with-border">
-        <td>
-            Driver
-        </td>
-        <td>
-            Date
-        </td>
-        <td>
-            Unit
-        </td>
-        <td>
-            Time
-        </td>
-        <td>
-            Rate
-        </td>
-        <td>
-            Overtime
-        </td>
-    </tr>
-    @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.DtTrip.Date))
-    {
-        <tr><td colspan="6"> </td></tr>
-        foreach (var trip in tripGroup)
+<div hidden>
+    <h4>Sunday Overtime</h4>
+    <table class="table with-border">
+        <tr class="with-border">
+            <td>
+                Driver
+            </td>
+            <td>
+                Date
+            </td>
+            <td>
+                Unit
+            </td>
+            <td>
+                Time
+            </td>
+            <td>
+                Rate
+            </td>
+            <td>
+                Overtime
+            </td>
+        </tr>
+        @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.DtTrip.Date))
         {
+            <tr><td colspan="6"> </td></tr>
+            foreach (var trip in tripGroup)
+            {
 
-            TotalOTCount += 1;
-            TotalOTRate += trip.OTRate;
-            TotalOTHrs += trip.OTHours;
+                TotalOTCount += 1;
+                TotalOTRate += trip.OTRate;
+                TotalOTHrs += trip.OTHours;
 
-            <tr>
-                <td>@trip.Driver</td>
-                <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
-                <td>@trip.Unit</td>
-                <td>@trip.StartTime - @trip.EndTime</td>
-                <td>
-                    <span class="OT-Rate"> @trip.OTRate.ToString("#,##0") </span>
-                </td>
-                <td>
-                    @trip.OTHours Hrs
-                </td>
-            </tr>
+                <tr>
+                    <td>@trip.Driver</td>
+                    <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+                    <td>@trip.Unit</td>
+                    <td>@trip.StartTime - @trip.EndTime</td>
+                    <td>
+                        <span class="OT-Rate"> @trip.OTRate.ToString("#,##0") </span>
+                    </td>
+                    <td>
+                        @trip.OTHours Hrs
+                    </td>
+                </tr>
 
+            }
         }
-    }
-    <!-- Summary -->
-    <tr class="with-border">
-        <td colspan="4"> Total Count: @TotalOTCount </td>
+        <!-- Summary -->
+        <tr class="with-border">
+            <td colspan="4"> Total Count: @TotalOTCount </td>
 
-        <td>
-            <span style="font-size:9px;"> Total OT Rate</span><br />
-            <span style="font-weight:bold;">@TotalOTRate.ToString("#,##0")</span>
-        </td>
-        <td>
-            <span style="font-size:9px;"> Total OT Hours</span><br />
-            <span style="font-weight:bold;">@TotalOTHrs Hrs</span>
-        </td>
-    </tr>
-</table>
+            <td>
+                <span style="font-size:9px;"> Total OT Rate</span><br />
+                <span style="font-weight:bold;">@TotalOTRate.ToString("#,##0")</span>
+            </td>
+            <td>
+                <span style="font-size:9px;"> Total OT Hours</span><br />
+                <span style="font-weight:bold;">@TotalOTHrs Hrs</span>
+            </td>
+        </tr>
+    </table>
+</div>

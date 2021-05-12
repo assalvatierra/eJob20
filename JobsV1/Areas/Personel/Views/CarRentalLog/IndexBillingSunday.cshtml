@@ -185,35 +185,36 @@
         </tr>
     </table>
 </div>
-
-<h4>Sunday Overtime</h4>
-<table class="table">
-    <tr>
-        <td>
-            Driver
-        </td>
-        <td>
-            Date
-        </td>
-        <td>
-            Unit
-        </td>
-        <td>
-            Time
-        </td>
-        <td>
-            Rate
-        </td>
-        <td>
-            Overtime
-        </td>
-    </tr>
-    @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.DtTrip.Date))
-    {
-        <tr><td colspan="6"> </td></tr>
-        foreach (var trip in tripGroup)
+<div hidden>
+    <h4>Sunday Overtime</h4>
+    <table class="table">
+        <tr>
+            <td>
+                Driver
+            </td>
+            <td>
+                Date
+            </td>
+            <td>
+                Unit
+            </td>
+            <td>
+                Time
+            </td>
+            <td>
+                Rate
+            </td>
+            <td>
+                Overtime
+            </td>
+            <td></td>
+        </tr>
+        @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.DtTrip.Date))
         {
-          
+            <tr><td colspan="6"> </td></tr>
+            foreach (var trip in tripGroup)
+            {
+
                 TotalOTCount += 1;
                 TotalOTRate += trip.OTRate;
                 TotalOTHrs += trip.OTHours;
@@ -229,23 +230,27 @@
                     <td>
                         @trip.OTHours Hrs
                     </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditBillingSunday", new { id = trip.Id })
+                    </td>
                 </tr>
+            }
         }
-    }
-    <!-- Summary -->
-    <tr>
-        <td colspan="4"> Total Count: @TotalOTCount </td>
+        <!-- Summary -->
+        <tr>
+            <td colspan="4"> Total Count: @TotalOTCount </td>
 
-        <td>
-            <span style="font-size:9px;"> Total OT Rate</span><br />
-            @TotalOTRate.ToString("#,##0")
-        </td>
-        <td>
-            <span style="font-size:9px;"> Total OT Hours</span><br />
-            @TotalOTHrs
-        </td>
-    </tr>
-</table>
+            <td>
+                <span style="font-size:9px;"> Total OT Rate</span><br />
+                @TotalOTRate.ToString("#,##0")
+            </td>
+            <td>
+                <span style="font-size:9px;"> Total OT Hours</span><br />
+                @TotalOTHrs
+            </td>
+        </tr>
+    </table>
+</div>
 
 
 @Html.Partial("_LogSummaryModal", null, new ViewDataDictionary { { "DriversLogSummary" , ViewBag.DriversLogSummary },

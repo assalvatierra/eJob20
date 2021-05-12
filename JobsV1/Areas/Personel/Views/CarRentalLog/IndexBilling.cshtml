@@ -207,6 +207,9 @@
         <td>
             Overtime
         </td>
+        <td>
+
+        </td>
     </tr>
     @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.DtTrip.Date))
     {
@@ -227,6 +230,9 @@
                     </td>
                     <td>
                         @trip.OTHours Hrs
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditOTBilling", new { id = trip.Id }) 
                     </td>
                 </tr>
         }
