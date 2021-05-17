@@ -9,32 +9,91 @@
 
 
 <div class="jumbotron CarRental-Banner-Default no-margin">
-    <h1> Corporate Travel Car Rental Davao </h1>
+    <h1> Car Rental Services - Davao </h1>
 </div>
 
 <!-- Article Content -->
 <article class="service service-page-container">
     <div class="container">
-        <div class="col-lg-8 col-md-10 mx-auto service-page-desc">
-            <h2 class="service-page-title"> Airport/Hotel transfer </h2>
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h2 class="service-page-title"> Airport Hotel transfer Davao</h2>
             <hr />
 
-            <div class="col-md-12">
+            <div class="col-md-4">
+                <img src="~/Images/CarRental/Home/Car-Rental-Service-For-Hire.jpg" alt="Airport Hotel Transfer Davao" title="Airport-Hotel Transfer Davao" style="width:100%;" />
+            </div>
+            <div class="col-md-8">
                 <p class="service-page-desc">
-                    This type of service is a one way trip either from airport to your chosen destination, or the other way around, or from one place to another
+                    Airport Hotel transfer Davao type of service is a one way trip either from airport to your chosen destination, or the other way around, or from one place to another
                     place within Davao city downtown area. This service is single point pickup and single point destination. Traveling to and from the airport or
                     hotel will be very convenient when you avail a car rental service. It eliminates the hassle of queuing for public transport with all the heavy
                     trolleys and bags with you.
                 </p>
             </div>
+
+            <!-- Recomended Vehicles -->
+            <div class="col-md-12">
+                <h3> Recommended Vehicles: </h3>
+                <p class="service-page-desc"> We highly recommend this vehicles for  Airport Hotel transfer in Davao City. </p>
+
+                <div class="page-featured-container">
+                    <div class="page-featured-item-list" style="margin:0px;">
+                        <div class="page-featured-item-box">
+                            <div class="col-md-12 no-margin no-padding">
+                                <div class="col-md-6 col-xs-6 no-padding-left">
+                                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                                    @Html.ActionLink("Reserve this", "Reservation", "CarRental", new { id = 7, }, new { @class = "btn btn-warning btn-sm set-max-width" })
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 no-padding">
+                                    <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle with class" /> AT/MT </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle with passwenger" /> 10-14 Seater  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver </p>
+
+                                    <p class="page-featured-text-link">
+                                    </p>
+                                    <p class="text-price" style="margin-top:22px;">P 3,500.00 </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="page-featured-item-box">
+                            <div class="col-md-12 no-margin no-padding">
+                                <div class="col-md-6 col-xs-6 no-padding-left">
+                                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                                    @Html.ActionLink("Reserve this", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 no-padding">
+                                    <p class="featured-item-box-p"> Toyota Innova 2019 </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle class" /> MT </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle passenger" /> 5-7 Seater  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle self Drive" /> Self Drive  </p>
+                                    <p class="page-featured-text-link">
+                                    </p>
+                                    <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End of Recomended Vehicles -->
+
         </div>
+
 
         <!-- Left : Related Articles -->
         <div class="col-lg-4 col-md-2 mx-auto" style="margin:100px auto">
             <h4> Services </h4>
             <ul>
                 <li>
-                    <a href="/Services/Airport-Hotel-Transfer"> Airport Hotel Transfer </a>
+                    Airport Hotel Transfer
                 </li>
                 <li>
                     <a href="/Services/Business-Trip"> Business Trip </a>
@@ -52,10 +111,10 @@
                     <a href="/Services/Special Occasion"> Special Ocassion </a>
                 </li>
                 <li>
-                    <a href="/Services/Cargo-Delivery"> Cargo Delivery </a>
+                    <a href="/Cargo-Delivery"> Cargo Delivery </a>
                 </li>
                 <li>
-                    <a href="/Services/Employee-Shuttle">Employee-Shuttle </a>
+                    <a href="/Employee-Shuttle"> Employee-Shuttle </a>
                 </li>
             </ul>
         </div>

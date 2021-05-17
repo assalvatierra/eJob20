@@ -669,3 +669,6 @@ SELECT act.*, sup.Name FROM (
     WHERE act.StatusId < 3 
 
 
+SELECT *  FROM crLogTrips t 
+LEFT JOIN crLogPassengers p ON t.Id = p.crLogTripId
+WHERE t.Id = 1

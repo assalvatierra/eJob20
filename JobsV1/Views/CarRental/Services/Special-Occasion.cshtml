@@ -16,13 +16,72 @@
         <div class="col-lg-8 col-md-10 mx-auto">
             <h3> Special occasions - Car Rental Davao  </h3>
             <hr />
-            <div class="col-md-12">
-                <p>
+
+            <div class="col-md-4">
+                <img src="~/Images/CarRental/Home/Car-Rental-Service-Out-Of-Town.jpg" alt="Out of Town Trip Car Rental Davao" title="Out of Town Trip Car Rental Davao" style="width:100%;" />
+            </div>
+
+
+            <div class="col-md-8">
+                <p class="service-page-desc">
                     This type of service is for different occasions such as family gatherings, weddings, reunions and many more. Real Wheels always assess
                     vehicles that’s best for specific need. The company is open for discussion to make sure the needed services are properly tendered. The car
                     rental company Values every customer especially their comfort and safety.
                 </p>
             </div>
+
+            <!-- Recomended Vehicles -->
+            <div class="col-md-12">
+                <h3> Recommended Vehicles: </h3>
+                <p class="service-page-desc"> We highly recommend this vehicles for   Business Trip Car Rental in Davao City. </p>
+
+                <div class="page-featured-container">
+                    <div class="page-featured-item-list" style="margin:0px;">
+                        <div class="page-featured-item-box">
+                            <div class="col-md-12 no-margin no-padding">
+                                <div class="col-md-6 col-xs-6 no-padding-left">
+                                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                                    @Html.ActionLink("Reserve this", "Reservation", "CarRental", new { id = 7, }, new { @class = "btn btn-warning btn-sm set-max-width" })
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 no-padding">
+                                    <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle with class" /> AT/MT </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle with passwenger" /> 10-14 Seater  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver </p>
+
+                                    <p class="page-featured-text-link">
+                                    </p>
+                                    <p class="text-price" style="margin-top:22px;">P 3,500.00 </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-featured-item-box">
+                            <div class="col-md-12 no-margin no-padding">
+                                <div class="col-md-6 col-xs-6 no-padding-left">
+                                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                                    @Html.ActionLink("Reserve this", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 no-padding">
+                                    <p class="featured-item-box-p"> Toyota Innova 2019 </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle class" /> MT </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle passenger" /> 5-7 Seater  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle self Drive" /> Self Drive  </p>
+                                    <p class="page-featured-text-link">
+                                    </p>
+                                    <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End of Recomended Vehicles -->
         </div>
 
         <!-- Left : Related Articles -->
@@ -42,16 +101,19 @@
                     <a href="/Services/Corporate-Travel"> Corporate Travel </a>
                 </li>
                 <li>
+                    <a href="/Services/Out-Of-Town-Trip"> Out of Town Trip </a>
+                </li>
+                <li>
                     <a href="/Services/Self-Drive"> Self Drive </a>
                 </li>
                 <li>
-                    <a href="/Services/Special Occasion"> Special Ocassion </a>
+                    Special Ocassion
                 </li>
                 <li>
-                    <a href="/Services/Cargo-Delivery"> Cargo Delivery </a>
+                    <a href="/Cargo-Delivery"> Cargo Delivery </a>
                 </li>
                 <li>
-                    <a href="/Services/Shuttle-Service"> Shuttle Service </a>
+                    <a href="/Employee-Shuttle"> Employee-Shuttle </a>
                 </li>
             </ul>
         </div>

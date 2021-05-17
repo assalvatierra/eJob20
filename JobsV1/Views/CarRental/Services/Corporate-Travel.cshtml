@@ -7,24 +7,81 @@
     //Keyword : City Tour Car Rental Davao
 }
 <div class="jumbotron CarRental-Banner-Default no-margin">
-    <h1> Corporate travels - Car Rental Davao </h1>
+    <h1> Corporate travels </h1>
 </div>
 
 <!-- Article Content -->
 <article class="service service-page-container">
     <div class="container">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <h3> Corporate Travel </h3>
+            <h3> Corporate Travel Car Rental Service</h3>
             <hr />
 
-            <div class="col-md-12">
-                <p>
+            <div class="col-md-4">
+                <img src="~/Images/CarRental/Home/Car-Rental-Service-Business-Travel.jpg" alt="Business Trip Car Rental Davao" title="Business Trip Car Rental Davao" style="width:100%;" />
+            </div>
+            <div class="col-md-8">
+                <p class="service-page-desc">
                     This service is for the wide variety of corporate travel needs. This includes vip transfers, meetings, events, conventions
                     and other corporate related trips. Real Wheels car rental in Davao is a trusted travel partner which aims to properly
                     represent your company and align with your company’s missions and goals. We offer special rates for companies for long
                     term car rentals and partnerships with flexible terms and conditions.
                 </p>
             </div>
+
+
+            <!-- Recomended Vehicles -->
+            <div class="col-md-12">
+                <h3> Recommended Vehicles: </h3>
+                <p class="service-page-desc"> We highly recommend this vehicles for   Business Trip Car Rental in Davao City. </p>
+
+                <div class="page-featured-container">
+                    <div class="page-featured-item-list" style="margin:0px;">
+                        <div class="page-featured-item-box">
+                            <div class="col-md-12 no-margin no-padding">
+                                <div class="col-md-6 col-xs-6 no-padding-left">
+                                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                                    @Html.ActionLink("Reserve this", "Reservation", "CarRental", new { id = 7, }, new { @class = "btn btn-warning btn-sm set-max-width" })
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 no-padding">
+                                    <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle with class" /> AT/MT </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle with passwenger" /> 10-14 Seater  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver </p>
+
+                                    <p class="page-featured-text-link">
+                                    </p>
+                                    <p class="text-price" style="margin-top:22px;">P 3,500.00 </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-featured-item-box">
+                            <div class="col-md-12 no-margin no-padding">
+                                <div class="col-md-6 col-xs-6 no-padding-left">
+                                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                                    @Html.ActionLink("Reserve this", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 no-padding">
+                                    <p class="featured-item-box-p"> Toyota Innova 2019 </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle class" /> MT </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle passenger" /> 5-7 Seater  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle self Drive" /> Self Drive  </p>
+                                    <p class="page-featured-text-link">
+                                    </p>
+                                    <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End of Recomended Vehicles -->
         </div>
 
         <!-- Left : Related Articles -->
@@ -41,19 +98,22 @@
                     <a href="/Services/City-Tour-Car-Rental"> City Tour Car Rental </a>
                 </li>
                 <li>
-                    <a href="/Services/Corporate-Travel"> Corporate Travel </a>
+                    Corporate Travel
+                </li>
+                <li>
+                    <a href="/Services/Out-Of-Town-Trip"> Out of Town Trip </a>
                 </li>
                 <li>
                     <a href="/Services/Self-Drive"> Self Drive </a>
                 </li>
                 <li>
-                    <a href="/Services/Special Occasion"> Special Ocassion </a>
+                    <a href="/Services/Special-Occasion"> Special Ocassion </a>
                 </li>
                 <li>
-                    <a href="/Services/Cargo-Delivery"> Cargo Delivery </a>
+                    <a href="/Cargo-Delivery"> Cargo Delivery </a>
                 </li>
                 <li>
-                    <a href="/Services/Employee-Shuttle"> Employee-Shuttle </a>
+                    <a href="/Employee-Shuttle"> Employee-Shuttle </a>
                 </li>
             </ul>
         </div>

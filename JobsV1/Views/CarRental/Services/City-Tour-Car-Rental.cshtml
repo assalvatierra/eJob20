@@ -18,15 +18,72 @@
             <h3 class="service-page-title"> Davao City Tour Car Rental Package </h3>
             <hr />
 
-            <div class="col-md-12">
-                <p>
-                    This service is multi-point destinations with 10 hours use of the vehicle. The package usually includes driver's fee and fuel cost. Car rental
-                    package is either based on the client's itinerary or the common tour itinerary that includes top tourist destinations in Davao. So if  you're not
-                    sure where to go, taking this package will put things in place. Real Wheels Car Rental is ready to provide a quality transportation for family
-                    and group tours. They offer the top car rental tour packages: Davao City Tour, Davao country-side tour, samal tour, Buda Tour, Mati Tour,
+            <div class="col-md-4">
+                <img src="~/Images/CarRental/Home/Car-Rental-Service-For-Hire.jpg" alt="Davao City Tour Car Rental Package" title="Davao City Tour Car Rental Package" style="width:100%;" />
+            </div>
+            <div class="col-md-8">
+                <p class="service-page-desc">
+                    Davao City Tour Car Rental service is multi-point destinations with 10 hours use of the vehicle. The package usually includes driver's fee and fuel cost.
+                    Davao City tour car rental package is either based on the client's itinerary or the common tour itinerary that includes top tourist destinations in Davao.
+                    So if  you're not sure where to go, taking this package will put things in place. Real Wheels Car Rental is ready to provide a quality transportation for
+                    family and group tours. They offer the top car rental tour packages: Davao City Tour, Davao country-side tour, samal tour, Buda Tour, Mati Tour,
                     Surigao tour and more.
                 </p>
             </div>
+
+
+            <!-- Recomended Vehicles -->
+            <div class="col-md-12">
+                <h3> Recommended Vehicles: </h3>
+                <p class="service-page-desc"> We highly recommend this vehicles for   Business Trip Car Rental in Davao City. </p>
+
+                <div class="page-featured-container">
+                    <div class="page-featured-item-list" style="margin:0px;">
+                        <div class="page-featured-item-box">
+                            <div class="col-md-12 no-margin no-padding">
+                                <div class="col-md-6 col-xs-6 no-padding-left">
+                                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Toyota-Grandia-Tourer.jpg" class="center-block img-thumbnail" alt="Toyota Grandia Tourer" />
+                                    @Html.ActionLink("Reserve this", "Reservation", "CarRental", new { id = 7, }, new { @class = "btn btn-warning btn-sm set-max-width" })
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 no-padding">
+                                    <p class="featured-item-box-p"> Toyota Grandia Tourer </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle with class" /> AT/MT </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle with passwenger" /> 10-14 Seater  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver </p>
+
+                                    <p class="page-featured-text-link">
+                                    </p>
+                                    <p class="text-price" style="margin-top:22px;">P 3,500.00 </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-featured-item-box">
+                            <div class="col-md-12 no-margin no-padding">
+                                <div class="col-md-6 col-xs-6 no-padding-left">
+                                    <img src="~/Images/CarRental/Home/Vehicles/Realwheels-Davao-Toyota-Innova.jpg" class="center-block img-thumbnail" alt="Toyota Innova" />
+                                    @Html.ActionLink("Reserve this", "Reservation", "CarRental", new { id = 4 }, new { @class = "btn btn-warning btn-sm set-max-width" })
+
+                                </div>
+                                <div class="col-md-6 col-xs-6 no-padding">
+                                    <p class="featured-item-box-p"> Toyota Innova 2019 </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-class.png" class="featured-sm-icon" alt="vehicle class" /> MT </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-passenger.png" class="featured-sm-icon" alt="vehicle passenger" /> 5-7 Seater  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icons-valet-parking.png" class="featured-sm-icon" alt="vehicle with driver" /> With Driver or  </p>
+                                    <p class="featured-item-box-p text-muted no-margin"> <img src="~/Images/Icons/icon-fuel.png" class="featured-sm-icon" alt="vehicle self Drive" /> Self Drive  </p>
+                                    <p class="page-featured-text-link">
+                                    </p>
+                                    <p class="text-price" style="margin-top:-5px;">P 3,500.00 </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End of Recomended Vehicles -->
         </div>
 
         <!-- Left : Related Articles -->
@@ -40,7 +97,7 @@
                     <a href="/Services/Business-Trip"> Business Trip </a>
                 </li>
                 <li>
-                    <a href="/Services/City-Tour-Car-Rental"> City Tour Car Rental </a>
+                    City Tour Car Rental
                 </li>
                 <li>
                     <a href="/Services/Corporate-Travel"> Corporate Travel </a>
@@ -49,13 +106,13 @@
                     <a href="/Services/Self-Drive"> Self Drive </a>
                 </li>
                 <li>
-                    <a href="/Services/Special Occasion"> Special Ocassion </a>
+                    <a href="/Services/Special-Occasion"> Special Ocassion </a>
                 </li>
                 <li>
-                    <a href="/Services/Cargo-Delivery"> Cargo Delivery </a>
+                    <a href="/Cargo-Delivery"> Cargo Delivery </a>
                 </li>
                 <li>
-                    <a href="/Services/Employee-Shuttle"> Employee-Shuttle </a>
+                    <a href="/Employee-Shuttle"> Employee-Shuttle </a>
                 </li>
             </ul>
         </div>

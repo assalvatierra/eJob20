@@ -2526,6 +2526,7 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\IndexBillingSunday.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBillingSunday.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\EditOTBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\CrLogPassengerList\PassengerTrace.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
