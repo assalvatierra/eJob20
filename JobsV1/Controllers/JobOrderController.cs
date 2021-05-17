@@ -1133,6 +1133,7 @@ order by x.jobid
 
             return View(customer);
         }
+
         public ActionResult CreateCustomer(int CreateCustJobId)
         {
             var jobCust = db.JobMains.Find(CreateCustJobId);
@@ -1144,14 +1145,15 @@ order by x.jobid
             data.Status = "ACT";
 
             ViewBag.Status = new SelectList(StatusList, "value", "text", data.Status);
-            ViewBag.Status = new SelectList("JobStatusId", "Id", "text", data.Status);
+            //ViewBag.Status = new SelectList("JobStatusId", "Id", "text", data.Status);
             ViewBag.jobOrderId = CreateCustJobId;
 
             return View(data);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateCustomer([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer, int? sortid)
+        public ActionResult CreateCustomer([Bind(Include = "Id,Name,Email,Contact1,Contact2,Remarks,Status")] Customer customer, int? sortid, int jobOrderId)
         {
 
             if (ModelState.IsValid)
@@ -1161,12 +1163,18 @@ order by x.jobid
                 db.Customers.Add(customer);
                 db.SaveChanges();
 
-                string JobId = Request.Form["jobOrderId"];
-                db.Database.ExecuteSqlCommand(@"
-                    Update JobMains set CustomerId=" + customer.Id + " where Id=" + JobId + ";"
-                    );
+                var job = db.JobMains.Find(jobOrderId);
+                job.CustomerId = customer.Id;
 
-                return RedirectToAction("Index");
+                db.Entry(job).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //string JobId = Request.Form["jobOrderId"];
+                //db.Database.ExecuteSqlCommand(@"
+                //    Update JobMains set CustomerId=" + customer.Id + " where Id=" + JobId + ";"
+                //    );
+
+                return RedirectToAction("JobServices", new { JobMainId = jobOrderId });
             }
 
             ViewBag.Status = new SelectList(StatusList, "value", "text", customer.Status);
@@ -1329,12 +1337,10 @@ order by x.jobid
             {
                 if (JobCreateValidation(jobMain))
                 {
-
-                    if (jobMain.CustContactEmail == null && jobMain.CustContactNumber == null)
+                    if (jobMain.Customer == null)
                     {
-                        var cust = db.Customers.Find(jobMain.CustomerId);
-                        jobMain.CustContactEmail = cust.Email;
-                        jobMain.CustContactNumber = cust.Contact1;
+                        var customerRecord = db.Customers.Find(jobMain.CustomerId);
+                        jobMain.Customer = customerRecord;
                     }
 
                     db.JobMains.Add(jobMain);
@@ -1350,7 +1356,15 @@ order by x.jobid
                         AddJobPaymentStatus((int)JobPaymentStatusId, jobMain.Id);
                     }
 
-                    dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
+                    //dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
+                     
+
+                    if (jobMain.Customer.Name == "<< New Customer >>")
+                    {
+                        //Create New Customer Account
+                        return RedirectToAction("CreateCustomer", new { CreateCustJobId = jobMain.Id });
+                    }
+
                     return RedirectToAction("JobServices", "JobOrder", new { JobMainId = jobMain.Id });
 
                 }
