@@ -420,7 +420,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                     var currentUser = HttpContext.User.Identity.Name;
 
                     //new account
-                    if (!IsUserExist(Name))
+                    if (!IsUserExist(Name) || !IsCompanyExist(Company))
                     {
                         var acctId = CreateUser(Company, Name, Email, Mobile);
                         arTransaction.ArAccountId = acctId;
@@ -463,6 +463,21 @@ namespace JobsV1.Areas.Receivables.Controllers
 
             return false;
         }
+
+         //Check if the user exist on the current list
+        public bool IsCompanyExist(string company)
+        {
+            var userExists = ardb.ArAccounts.Where(a => a.Company.Contains(company)).ToList();
+
+            if (userExists.Count() > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
 
         public int GetUserAccountId(string name)
         {
