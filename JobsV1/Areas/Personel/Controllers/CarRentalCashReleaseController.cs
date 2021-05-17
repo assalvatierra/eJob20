@@ -531,6 +531,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.Others = GetDriverCashRelease(cashRelease.crLogDriverId, 5, cashRelease.DtRelease);
             ViewBag.crLogTrips = tripLogs ?? new List<crLogTrip>();
 
+            ViewBag.ActualAmount = cashRelease.Amount;
             return View(cashRelease);
         }
 

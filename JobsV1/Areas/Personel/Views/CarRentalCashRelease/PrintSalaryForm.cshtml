@@ -5,7 +5,9 @@
     Layout = "~/Views/Shared/_PrintLayout.cshtml";
 
     var tripLogs = ViewBag.crLogTrips as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>;
-    
+
+    decimal actualAmount = ViewBag.ActualAmount;
+
     decimal subtotalSalary = 0;
     decimal totalSalary = Model.Amount;
     decimal totalPayments = 0;
@@ -97,6 +99,28 @@
                                 </td>
                                 <td>
                                     @trip.DriverOT.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+                        @if (subtotalSalary == 0)
+                        {
+                            subtotalSalary = subtotalSalary + actualAmount;
+                            <tr>
+                                <td>
+                                    @Model.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    @Model.Remarks
+                                </td>
+                                <td>
+                                    @actualAmount.ToString("#,##0.00")
+                                </td>
+                                <td>
+                                    0
                                 </td>
                             </tr>
                         }
@@ -292,6 +316,27 @@
                                 </td>
                                 <td>
                                     @trip.DriverOT.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+
+                        @if (subtotalSalary == 0)
+                        {
+                            <tr>
+                                <td>
+                                    @Model.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                    @Model.Remarks
+                                <td>
+                                    @actualAmount.ToString("#,##0.00")
+                                </td>
+                                <td>
+                                    0
                                 </td>
                             </tr>
                         }
