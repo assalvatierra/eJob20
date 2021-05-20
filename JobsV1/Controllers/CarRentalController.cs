@@ -39,7 +39,7 @@ namespace JobsV1.Controllers
             //     We offer -Grandia/Super/Premium, MPV / AUV and SUV for rent, Innova rentals, sedan rentals, 4x4 rentals, pickup rentals and van rentals in the City.
             //     We offer daily, weekly, monthly rental and affordable rates for long term rentals.
             //     We also partnered to several car rentals in Davao for us to provide a reliable and quality service.
-            //     ";
+            //     ";  
             
             //revised
             //ViewBag.Title = "Davao Car Rental | Real Wheels Rent A Car Davao ";
@@ -54,8 +54,6 @@ namespace JobsV1.Controllers
             ViewBag.CanonicalURL = "https://realwheelsdavao.com/";
 
             //End of SEO
-
-
 
             ViewBag.isAuthorize = HttpContext.User.Identity.Name == "" ? 0 : 1;
             ViewBag.CarUnitList = db.CarUnits.ToList();

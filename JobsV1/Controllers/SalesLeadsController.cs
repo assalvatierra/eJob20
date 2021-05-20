@@ -11,6 +11,7 @@ using JobsV1.Models.Class;
 using System.IO;
 using Newtonsoft.Json;
 using Microsoft.Ajax.Utilities;
+using System.Net.Http;
 
 namespace JobsV1.Controllers
 {
@@ -108,8 +109,8 @@ namespace JobsV1.Controllers
         //GET: SalesLeads/ForApproval
         public ActionResult ForApproval(int? sortid, int? leadId)
         {
-            sortid = 4;
-            Session["SLFilterID"] = 4;
+            //sortid = 4;
+            //Session["SLFilterID"] = 4;
 
             if (sortid != null)
                 Session["SLFilterID"] = (int)sortid;
@@ -347,7 +348,7 @@ namespace JobsV1.Controllers
             var tmp = new Models.SalesLead();
             tmp.Date = date.GetCurrentDateTime();
             tmp.DtEntered = date.GetCurrentDateTime();
-            tmp.EnteredBy = HttpContext.User.Identity.Name;
+            tmp.EnteredBy = user;
 
 
             
@@ -552,11 +553,11 @@ namespace JobsV1.Controllers
                 isValid = false;
             }
 
-            if (salesLead.Price == 0 )
-            {
-                ModelState.AddModelError("Price", "Invalid Price");
-                isValid = false;
-            }
+            //if (salesLead.Price == 0 )
+            //{
+            //    ModelState.AddModelError("Price", "Invalid Price");
+            //    isValid = false;
+            //}
 
             else
             {
@@ -1982,6 +1983,86 @@ namespace JobsV1.Controllers
 
         #endregion
 
+        #region Lead Link
+
+        [HttpGet]
+        public string GetLeadLastestLink(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return "";
+                }
+
+                var listOfLinks = db.SalesLeadFiles.Where(s => s.SalesLeadId == id);
+
+                if (listOfLinks != null)
+                {
+                    var latestLink = listOfLinks.ToList().OrderByDescending(s => s.Id).FirstOrDefault(); ;
+
+                    return latestLink.Link;
+                }
+
+                return "";
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        [HttpGet]
+        public int GetLeadLinkCount(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return 0;
+                }
+
+                var listOfLinks = db.SalesLeadFiles.Where(s => s.SalesLeadId == id).ToList();
+
+                if (listOfLinks != null)
+                {
+                    return listOfLinks.Count();
+                }
+
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        public string AddLeadLink(int? id, string link)
+        {
+            try
+            {
+
+                if (id == null)
+                {
+                    return "No Id found.";
+                }
+
+                SalesLeadFile leadFile = new SalesLeadFile();
+                leadFile.SalesLeadId = (int)id;
+                leadFile.Link = link;
+
+                db.SalesLeadFiles.Add(leadFile);
+                db.SaveChanges();
+
+                return "OK";
+            }
+            catch
+            {
+                return "Error Adding Lead Link";
+            }
+        }
+
+        #endregion
 
     }
 }

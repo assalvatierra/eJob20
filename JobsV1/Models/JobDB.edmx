@@ -161,6 +161,7 @@
     <EntitySet Name="SalesStatusAllowedUsers" EntityType="JobDB.Store.SalesStatusAllowedUsers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesStatusStatus" EntityType="JobDB.Store.SalesStatusStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Currencies" EntityType="JobDB.Store.Currencies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SalesLeadFiles" EntityType="JobDB.Store.SalesLeadFiles" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -780,6 +781,10 @@
     <AssociationSet Name="SalesStatusStatusSalesStatus" Association="JobDB.Store.SalesStatusStatusSalesStatus">
       <End Role="SalesStatusStatus" EntitySet="SalesStatusStatus" />
       <End Role="SalesStatus" EntitySet="SalesStatus" />
+    </AssociationSet>
+    <AssociationSet Name="SalesLeadSalesLeadFile" Association="JobDB.Store.SalesLeadSalesLeadFile">
+      <End Role="SalesLead" EntitySet="SalesLeads" />
+      <End Role="SalesLeadFile" EntitySet="SalesLeadFiles" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
@@ -2387,6 +2392,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="SalesLeadFiles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Link" Type="nvarchar" Nullable="false" MaxLength="250" />
+    <Property Name="SalesLeadId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4248,6 +4261,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SalesLeadSalesLeadFile">
+    <End Role="SalesLead" Type="JobDB.Store.SalesLeads" Multiplicity="1" />
+    <End Role="SalesLeadFile" Type="JobDB.Store.SalesLeadFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesLead">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SalesLeadFile">
+        <PropertyRef Name="SalesLeadId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -5028,6 +5053,11 @@
             <End Role="SalesStatus" EntitySet="SalesStatus" />
           </AssociationSet>
           <EntitySet Name="Currencies" EntityType="JobDB.Currency" />
+          <EntitySet Name="SalesLeadFiles" EntityType="JobDB.SalesLeadFile" />
+          <AssociationSet Name="SalesLeadSalesLeadFile" Association="JobDB.SalesLeadSalesLeadFile">
+            <End Role="SalesLead" EntitySet="SalesLeads" />
+            <End Role="SalesLeadFile" EntitySet="SalesLeadFiles" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -5997,6 +6027,7 @@
           <NavigationProperty Name="SalesProcStatus" Relationship="JobDB.SalesLeadSalesProcStatus" FromRole="SalesLead" ToRole="SalesProcStatus" />
           <NavigationProperty Name="SalesLeadSupActivities" Relationship="JobDB.SalesLeadSupActivitySalesLead" FromRole="SalesLead" ToRole="SalesLeadSupActivity" />
           <Property Name="ItemWeight" Type="String" Nullable="true" MaxLength="20" />
+          <NavigationProperty Name="SalesLeadFiles" Relationship="JobDB.SalesLeadSalesLeadFile" FromRole="SalesLead" ToRole="SalesLeadFile" />
         </EntityType>
         <EntityType Name="SalesStatusCode">
           <Key>
@@ -8807,6 +8838,27 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="10" />
         </EntityType>
+        <EntityType Name="SalesLeadFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="250" />
+          <NavigationProperty Name="SalesLead" Relationship="JobDB.SalesLeadSalesLeadFile" FromRole="SalesLeadFile" ToRole="SalesLead" />
+          <Property Name="SalesLeadId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="SalesLeadSalesLeadFile">
+          <End Type="JobDB.SalesLead" Role="SalesLead" Multiplicity="1" />
+          <End Type="JobDB.SalesLeadFile" Role="SalesLeadFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesLead">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesLeadFile">
+              <PropertyRef Name="SalesLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10571,6 +10623,15 @@
         <MappingFragment StoreEntitySet="Currencies">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesLeadFiles">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.SalesLeadFile)">
+        <MappingFragment StoreEntitySet="SalesLeadFiles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

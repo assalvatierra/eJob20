@@ -357,9 +357,9 @@
                                             {
                                                 ForApproveOnce = true;
                                                 @*<span>&#187;</span>
-                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                                    <a class="link-white link-status"> APPROVED BY MARIO/ALDRIN </a>
-                                </button>*@
+                                                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                        <a class="link-white link-status"> APPROVED BY MARIO/ALDRIN </a>
+                                                    </button>*@
                                             }
                                         }
 
@@ -809,8 +809,34 @@
                             </span>
                         }
                         <!--Add Item-->
+                        <!--Add Item-->
+                        <div style="margin:7px 0px 7px 0px;">
 
-                        <br />
+                            @if (item.FileCount > 0)
+                            {
+                                <div class="btn-group">
+                                    <button class="btn btn-default btn-xs" style="padding-left:10px;padding-right:10px;"
+                                            onclick="RedirectLeadFileLink(@item.Id)">
+                                        <img src="~/Images/Icons/icons-dropbox.png" width="15" style="margin-bottom:3px;" />
+                                        <span style="padding-top:2px;">Open Dropbox Link </span>
+                                    </button>
+                                    <button class="btn btn-default btn-xs" style="padding-left:10px 0px 10px 3px;padding-bottom:2px;"
+                                            onclick="ShowSalesLeadLink(@item.Id)">
+                                        @*<img src="~/Images/Icons/icons-dropbox-gray.png" width="15" style="margin-bottom:3px;" />*@
+                                        <span style="padding-top:2px;">Edit </span>
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+                                <button class="btn btn-default btn-xs" style="padding-left:10px;padding-right:10px;"
+                                        onclick="ShowSalesLeadLink(@item.Id)">
+                                    <img src="~/Images/Icons/icons-dropbox-gray.png" width="15" style="margin-bottom:3px;" />
+                                    <span style="padding-top:2px;">Add Dropbox Link </span>
+                                </button>
+                            }
+                        </div>
+
                         <span style="font: status-bar; color:gray;">
                             Entered: @Html.DisplayFor(modelItem => item.EnteredBy)
                             @@ @Html.DisplayFor(modelItem => item.DtEntered)
@@ -844,6 +870,7 @@
 @{Html.RenderPartial("_CreateSupRateModal", null, null);}
 @{Html.RenderPartial("_EditSupRateModal", null, null);}
 @{Html.RenderPartial("_AddLeadWeight");}
+@{Html.RenderPartial("_AddLeadFileLink");}
 
 <div class="view-content" hidden>
 
@@ -866,13 +893,16 @@
 {
     <script src="~/Scripts/Job/Scroll.js"></script>
     <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
-        @*<script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>*@
+    @*<script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>*@
 
     <script type="text/javascript" src="~/Scripts/Procurement/AddItemRateModal.js"></script>
     <script type="text/javascript" src="~/Scripts/Procurement/ProcAddItemRate.js"></script>
     <script type="text/javascript" src="~/Scripts/Procurement/CreateSupItemRate.js"></script>
     <script type="text/javascript" src="~/Scripts/Procurement/EditSupItemRate.js"></script>
     <script type="text/javascript" src="~/Scripts/Procurement/Procurement.js"></script>
+
+    <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadWeight.js"></script>
+    <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadFileLink.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -913,47 +943,9 @@
                 });
         }
 
-        function ShowSalesLeadWeight(leadId) {
-            $("#AddLeadWeight-LeadId").val(leadId);
-
-            $("#AddLeadWeightModal").modal("show");
-
-            GetSalesLeadWeight(leadId);
-        }
-
-        function Submit_AddSalesLeadWeight() {
-            var leadId = $("#AddLeadWeight-LeadId").val();
-            var input_weight = $("#AddLeadWeight-Weight").val();
-
-            console.log("leadID:" + leadId);
-            console.log("input_weight:" + input_weight);
-
-            $.post("/SalesLeads/UpdateLeadWeight", { id: leadId, weight : input_weight })
-                .done(() => {
-                    window.location.reload(false);
-                })
-                .fail(() => {
-                    console.log("Unable to update weight");
-                });
-        }
-
         function CustActivityEdit(activityId) {
             window.location.href = "/SalesLeads/EditCustActivityCode/" + activityId;
         }
 
-        
-        function GetSalesLeadWeight(leadId) {  
-            //GetLeadWeight
-            
-            $.get("/SalesLeads/GetLeadWeight", { id: leadId})
-                .done((res) => {
-                    $("#AddLeadWeight-Weight").val(res);
-                })
-                .fail(() => {
-                    console.log("Unable to update weight");
-                });
-        }
-
     </script>
-
-}
+    }

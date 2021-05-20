@@ -328,6 +328,8 @@
         <EntityTypeShape EntityType="JobDB.SalesStatusStatus" Width="1.5" PointX="14.375" PointY="30.25" />
         <AssociationConnector Association="JobDB.SalesStatusStatusSalesStatus" />
         <EntityTypeShape EntityType="JobDB.Currency" Width="1.5" PointX="69.875" PointY="10.125" />
+        <EntityTypeShape EntityType="JobDB.SalesLeadFile" Width="1.5" PointX="11.875" PointY="27.875" />
+        <AssociationConnector Association="JobDB.SalesLeadSalesLeadFile" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

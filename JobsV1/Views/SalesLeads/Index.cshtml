@@ -55,7 +55,7 @@
             Viewing as Admin
         </p>
     }
-    
+
     <p>
 
         Filters:
@@ -107,7 +107,6 @@
                 var company = item.SalesLeadCompanies.OrderBy(s => s.Id).FirstOrDefault().CustEntMain;
             }
 
-
             <tr>
                 <td id="lead@(item.Id)" class="td-no-border" style="padding-right: 20px;">
                     <div style="text-align:center;" class="date-box">
@@ -154,6 +153,7 @@
                             }
                         </nobr>
                     </p>
+
 
 
                     @{
@@ -355,9 +355,9 @@
                                             {
                                                 ForApproveOnce = true;
                                                 @*<span>&#187;</span>
-                                <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
-                                    <a class="link-white link-status"> APPROVED BY MARIO/ALDRIN </a>
-                                </button>*@
+                                                    <button class="btn btn-primary btn-arrow-right" style="cursor:no-drop;">
+                                                        <a class="link-white link-status"> APPROVED BY MARIO/ALDRIN </a>
+                                                    </button>*@
                                             }
                                         }
 
@@ -513,6 +513,7 @@
                         </span>
                         <br />
 
+
                         <span style="font:bold 8px, arial, verdana; color:maroon ;">
                             Activities
                             @if (USER == item.AssignedTo || ISADMIN)
@@ -560,6 +561,7 @@
                                 }
 
                             }
+                            <!-- Procurement Activities -->
                             if (ISADMIN)
                             {
                                 <br />
@@ -776,15 +778,44 @@
                             }
                         </div>
                         <br />
+
                         @if (USER == item.AssignedTo || ISADMIN)
                         {
                             <span>
-                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">[ Add Item ]</a>
+                                <a id="catbtn" class="cursor-hand" data-toggle="modal" data-target="#selectSupItem" style="margin-bottom:10px;" onclick="setLeadId(@item.Id)">
+                                    [ Add Item ]
+                                </a>
                             </span>
                         }
-                        <!--Add Item-->
 
-                        <br />
+                        <!--Add Item-->
+                        <div style="margin:7px 0px 7px 0px;">
+
+                            @if (item.FileCount > 0)
+                            {
+                                <div class="btn-group">
+                                    <button class="btn btn-default btn-xs" style="padding-left:10px;padding-right:10px;"
+                                            onclick="RedirectLeadFileLink(@item.Id)">
+                                        <img src="~/Images/Icons/icons-dropbox.png" width="15" style="margin-bottom:3px;" />
+                                        <span style="padding-top:2px;">Open Dropbox Link </span>
+                                    </button>
+                                    <button class="btn btn-default btn-xs" style="padding-left:10px 0px 10px 3px;padding-bottom:2px;"
+                                            onclick="ShowSalesLeadLink(@item.Id)">
+                                        @*<img src="~/Images/Icons/icons-dropbox-gray.png" width="15" style="margin-bottom:3px;" />*@
+                                        <span style="padding-top:2px;">Edit </span>
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+                                 <button class="btn btn-default btn-xs" style="padding-left:10px;padding-right:10px;"
+                                    onclick="ShowSalesLeadLink(@item.Id)">
+                                    <img src="~/Images/Icons/icons-dropbox-gray.png" width="15" style="margin-bottom:3px;" />
+                                    <span style="padding-top:2px;">Add Dropbox Link </span>
+                                </button>
+                            }
+                        </div>
+
                         <span style="font: status-bar; color:gray;">
                             Entered: @Html.DisplayFor(modelItem => item.EnteredBy)
                             @@ @Html.DisplayFor(modelItem => item.DtEntered)
@@ -814,6 +845,7 @@
 @{Html.RenderPartial("AddSupItemPartial");}
 @{Html.RenderPartial("_UpdateActivityStatus");}
 @{Html.RenderPartial("_AddLeadWeight");}
+@{Html.RenderPartial("_AddLeadFileLink");}
 
 <div class="view-content" hidden>
 
@@ -837,6 +869,8 @@
     <script src="~/Scripts/Job/Scroll.js"></script>
     <script type="text/javascript" src="~/Scripts/SalesLead/SalesLead.js"></script>
     <script type="text/javascript" src="~/Scripts/SalesLead/AddSupItem.js"></script>
+    <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadWeight.js"></script>
+    <script type="text/javascript" src="~/Scripts/SalesLead/AddLeadFileLink.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -845,7 +879,7 @@
                     scrollTop: $("#lead@(ViewBag.LeadId)").offset().top - 50
                 }, 750);
             }
-           
+
 
             if(@((int)Session["SLFilterID"]) != null){
                 var statusId = @((int)Session["SLFilterID"]);
@@ -880,46 +914,11 @@
                 });
         }
 
-        function ShowSalesLeadWeight(leadId) {
-            $("#AddLeadWeight-LeadId").val(leadId);
-
-            $("#AddLeadWeightModal").modal("show");
-
-            //get sales item lead weight
-            GetSalesLeadWeight(leadId);
-        }
-
-        function Submit_AddSalesLeadWeight() {
-            var leadId = $("#AddLeadWeight-LeadId").val();
-            var input_weight = $("#AddLeadWeight-Weight").val();
-
-            console.log("leadID:" + leadId);
-            console.log("input_weight:" + input_weight);
-
-            $.post("/SalesLeads/UpdateLeadWeight", { id: leadId, weight : input_weight })
-                .done(() => {
-                    window.location.reload(false);
-                })
-                .fail(() => {
-                    console.log("Unable to update weight");
-                });
-        }
 
         function CustActivityEdit(activityId) {
             window.location.href = "/SalesLeads/EditCustActivityCode/" + activityId;
         }
 
-        function GetSalesLeadWeight(leadId) {  
-            //GetLeadWeight
-            
-            $.get("/SalesLeads/GetLeadWeight", { id: leadId})
-                .done((res) => {
-                    $("#AddLeadWeight-Weight").val(res);
-                })
-                .fail(() => {
-                    console.log("Unable to update weight");
-                });
-        }
 
     </script>
 

@@ -52,6 +52,8 @@ namespace JobsV1.Models.Class
         public string ActivityStatus   { get; set; }
         public string ActivityStatusType { get; set; }
 
+        public int FileCount { get; set; }
+
         public ICollection<SalesStatus> SalesStatus { get; set; }
         public ICollection<SalesActivity> SalesActivities { get; set; }
         public ICollection<SalesLeadCategory> SalesLeadCategories { get; set; }
@@ -464,6 +466,8 @@ namespace JobsV1.Models.Class
                 tempLead.ActivityStatusType = GetLastActivityType(lead.Id);
                 tempLead.ActivityStatus = GetLastActivityStatus(lead.Id);
 
+                tempLead.FileCount = GetLeadFileCount(lead.Id);
+
                 if (lead.SalesLeadCompanies.FirstOrDefault() != null)
                 {
                     tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
@@ -523,6 +527,8 @@ namespace JobsV1.Models.Class
                 tempLead.ActivityStatusType = GetLastActivityType(lead.Id);
                 tempLead.ActivityStatus = GetLastActivityStatus(lead.Id);
 
+                tempLead.FileCount = GetLeadFileCount(lead.Id);
+
                 if (lead.SalesLeadCompanies.FirstOrDefault() != null)
                 {
                     tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
@@ -577,6 +583,18 @@ namespace JobsV1.Models.Class
 
 
             return "Click to Update Status";
+        }
+
+        public int GetLeadFileCount(int id)
+        {
+            var listOfLinks = db.SalesLeadFiles.Where(s => s.SalesLeadId == id).ToList();
+
+            if (listOfLinks != null)
+            {
+                return listOfLinks.Count();
+            }
+
+            return 0;
         }
 
 

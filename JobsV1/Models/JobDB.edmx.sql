@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/06/2021 14:55:38
+-- Date Created: 05/20/2021 15:25:00
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -482,6 +482,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesStatusStatusSalesStatus]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesStatus] DROP CONSTRAINT [FK_SalesStatusStatusSalesStatus];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SalesLeadSalesLeadFile]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SalesLeadFiles] DROP CONSTRAINT [FK_SalesLeadSalesLeadFile];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -951,6 +954,9 @@ IF OBJECT_ID(N'[dbo].[SalesStatusStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Currencies]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Currencies];
+GO
+IF OBJECT_ID(N'[dbo].[SalesLeadFiles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SalesLeadFiles];
 GO
 
 -- --------------------------------------------------
@@ -2563,6 +2569,14 @@ CREATE TABLE [dbo].[Currencies] (
 );
 GO
 
+-- Creating table 'SalesLeadFiles'
+CREATE TABLE [dbo].[SalesLeadFiles] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Link] nvarchar(250)  NOT NULL,
+    [SalesLeadId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -3494,6 +3508,12 @@ GO
 -- Creating primary key on [Id] in table 'Currencies'
 ALTER TABLE [dbo].[Currencies]
 ADD CONSTRAINT [PK_Currencies]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SalesLeadFiles'
+ALTER TABLE [dbo].[SalesLeadFiles]
+ADD CONSTRAINT [PK_SalesLeadFiles]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5824,6 +5844,21 @@ GO
 CREATE INDEX [IX_FK_SalesStatusStatusSalesStatus]
 ON [dbo].[SalesStatus]
     ([SalesStatusStatusId]);
+GO
+
+-- Creating foreign key on [SalesLeadId] in table 'SalesLeadFiles'
+ALTER TABLE [dbo].[SalesLeadFiles]
+ADD CONSTRAINT [FK_SalesLeadSalesLeadFile]
+    FOREIGN KEY ([SalesLeadId])
+    REFERENCES [dbo].[SalesLeads]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SalesLeadSalesLeadFile'
+CREATE INDEX [IX_FK_SalesLeadSalesLeadFile]
+ON [dbo].[SalesLeadFiles]
+    ([SalesLeadId]);
 GO
 
 -- --------------------------------------------------

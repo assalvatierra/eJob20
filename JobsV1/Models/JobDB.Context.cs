@@ -180,5 +180,6 @@ namespace JobsV1.Models
         public virtual DbSet<SalesStatusAllowedUsers> SalesStatusAllowedUsers { get; set; }
         public virtual DbSet<SalesStatusStatus> SalesStatusStatus { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<SalesLeadFile> SalesLeadFiles { get; set; }
     }
 }
