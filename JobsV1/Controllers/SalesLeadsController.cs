@@ -1985,30 +1985,37 @@ namespace JobsV1.Controllers
 
         #region Lead Link
 
+        // GET:    /SalesLeads/GetLeadLastestLink/{id}
+        // param:  id = (int) salesLeadId
+        // return: (string) File link 
+        // Get Sales Lead Latest File Link
         [HttpGet]
-        public string GetLeadLastestLink(int? id)
+        public JsonResult GetLeadLastestLink(int? id)
         {
             try
             {
                 if (id == null)
                 {
-                    return "";
+                    return Json("",JsonRequestBehavior.AllowGet);
                 }
 
                 var listOfLinks = db.SalesLeadFiles.Where(s => s.SalesLeadId == id);
 
                 if (listOfLinks != null)
                 {
-                    var latestLink = listOfLinks.ToList().OrderByDescending(s => s.Id).FirstOrDefault(); ;
+                    var latestLink = listOfLinks.ToList().OrderByDescending(s => s.Id).FirstOrDefault();
 
-                    return latestLink.Link;
+                    return Json(new {
+                        latestLink.Id,
+                        latestLink.Link
+                    }, JsonRequestBehavior.AllowGet);
                 }
 
-                return "";
+                return Json("", JsonRequestBehavior.AllowGet);
             }
             catch
             {
-                return "";
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -2037,6 +2044,7 @@ namespace JobsV1.Controllers
             }
         }
 
+        //POST: SalesLeads/AddLeadLink/{id}&link={link}
         public string AddLeadLink(int? id, string link)
         {
             try
@@ -2059,6 +2067,43 @@ namespace JobsV1.Controllers
             catch
             {
                 return "Error Adding Lead Link";
+            }
+        }
+
+
+        //POST: SalesLeads/EditLeadLink/{id}&link={link}
+        //param: id = SalesLeadFileId  (int)
+        //       link = link (string)
+        //return: string message
+        public string EditLeadLink(int? id, string link)
+        {
+            try
+            {
+
+                if (id == null)
+                {
+                    return "No Id found.";
+                }
+
+                SalesLeadFile leadFile = db.SalesLeadFiles.Find(id);
+
+                if (leadFile == null)
+                {
+                    return "No File found.";
+                }
+
+                //update file link
+                leadFile.Link = link;
+
+                //save changes
+                db.Entry(leadFile).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return "OK";
+            }
+            catch
+            {
+                return "Error Updating Lead Link";
             }
         }
 
