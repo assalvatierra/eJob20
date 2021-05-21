@@ -1115,6 +1115,9 @@
     <Compile Include="Models\SalesLeadCompany.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SalesLeadFile.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SalesLeadItems.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -1670,6 +1673,7 @@
     <Content Include="Images\CarRental\glgrandia\Toyota-Grandia-seats.jpg" />
     <Content Include="Images\CarRental\glgrandia\Toyota-Grandia-side.jpg" />
     <Content Include="Images\CarRental\glgrandia\Toyota-Grandia.jpg" />
+    <Content Include="Images\CarRental\Home\email-contact-us.png" />
     <Content Include="Images\CarRental\Home\Article\Article-car-beach.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-Car-Dashboard.jpg" />
     <Content Include="Images\CarRental\Home\Article\Article-car-moving.jpg" />
@@ -1718,9 +1722,12 @@
     <Content Include="Images\CarRental\Home\Car-Rental-Service-For-Hire.jpg" />
     <Content Include="Images\CarRental\Home\Car-Rental-Service-Out-Of-Town.jpg" />
     <Content Include="Images\CarRental\Home\city-rental-ride-style.jpg" />
-    <Content Include="Images\CarRental\Home\email-bw.JPG" />
-    <Content Include="Images\CarRental\Home\email-md-w.JPG" />
-    <Content Include="Images\CarRental\Home\email-sm-w.JPG" />
+    <Content Include="Images\CarRental\Home\email-bw.jpg" />
+    <Content Include="Images\CarRental\Home\email-contact-w-2.png" />
+    <Content Include="Images\CarRental\Home\email-contact-w.png" />
+    <Content Include="Images\CarRental\Home\email-md-w.jpg" />
+    <Content Include="Images\CarRental\Home\email-sm-w.jpg" />
+    <Content Include="Images\CarRental\Home\icons-linkedin-48.png" />
     <Content Include="Images\CarRental\Home\Vehicles\Fleet-Vehicles.png" />
     <Content Include="Images\CarRental\Home\Vehicles\Honda-City-Reservation.png" />
     <Content Include="Images\CarRental\Home\icon-mpv.png" />
@@ -1972,6 +1979,9 @@
     <Content Include="Images\Icons\icons-checked-144.png" />
     <Content Include="Images\Icons\icons-company.png" />
     <Content Include="Images\Icons\icons-connect.png" />
+    <Content Include="Images\Icons\icons-dropbox-gray.png" />
+    <Content Include="Images\Icons\icons-dropbox.png" />
+    <Content Include="Images\Icons\icons-file.png" />
     <Content Include="Images\Icons\icons-fuel-gas.png" />
     <Content Include="Images\Icons\icons-group-task.png" />
     <Content Include="Images\Icons\icons-home.png" />
@@ -1985,6 +1995,7 @@
     <Content Include="Images\Icons\icons-facebook.png" />
     <Content Include="Images\Icons\icons-search.png" />
     <Content Include="Images\Icons\icons-sms-96.png" />
+    <Content Include="Images\CarRental\Home\icons-twitter-48.png" />
     <Content Include="Images\Icons\icons-valet-parking.png" />
     <Content Include="Images\Icons\icons-weight.png" />
     <Content Include="Images\Icons\Receivables\Receivables-1st-reminder.png" />
@@ -2545,6 +2556,8 @@
     <Content Include="Scripts\Reporting\JobIncome.js" />
     <Content Include="Scripts\Reporting\JobDate.js" />
     <Content Include="Scripts\Reporting\JobListing.js" />
+    <Content Include="Scripts\SalesLead\AddLeadFileLink.js" />
+    <Content Include="Scripts\SalesLead\AddLeadWeight.js" />
     <Content Include="Scripts\SalesLead\AddSupItem.js" />
     <Content Include="Scripts\SalesLead\SalesLead.js" />
     <Content Include="Scripts\sort-table.js" />
@@ -3423,6 +3436,8 @@
     <Content Include="Views\CarRental\BookingGuide.cshtml" />
     <Content Include="Views\CarRental\CarServices.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\SafeCarRental.cshtml" />
+    <Content Include="Views\SalesLeads\_AddLeadFileLink.cshtml" />
+    <Content Include="Views\Procurement\_AddLeadFileLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

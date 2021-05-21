@@ -2,6 +2,9 @@
 
     if ( ViewBag.CanonicalURL == null)
     { ViewBag.CanonicalURL = "https://realwheelsdavao.com/"; }
+    
+    if (ViewBag.NoIndex == null)
+    { ViewBag.NoIndex = "all"; }
 
     // http-->https & www-->non-www
     //string sCan = (string)ViewBag.canonicalURL;
@@ -17,11 +20,12 @@
 
     <meta name="theme-color" content="#FFFFFF" />
     <meta name="description" content="@ViewBag.Description" />
+    <meta name="googlebot" content="@ViewBag.NoIndex" />
     <link rel="canonical" href="@ViewBag.CanonicalURL" />
     <link rel="next" href="https://realwheelsdavao.com/CarRental/About" />
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="/Images/CarRental/Home/vehicle-type-sedan.jpg">
-    <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="@ViewBag.Title" />

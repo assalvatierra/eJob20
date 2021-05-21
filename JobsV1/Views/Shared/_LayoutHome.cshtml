@@ -2,6 +2,9 @@
 
     if ( ViewBag.CanonicalURL == null)
     { ViewBag.CanonicalURL = "https://realwheelsdavao.com/"; }
+    
+    if (ViewBag.NoIndex == null)
+    { ViewBag.NoIndex = "all"; }
 
     // http-->https & www-->non-www
     //string sCan = (string)ViewBag.canonicalURL;
