@@ -7,19 +7,26 @@
 
 function ShowSalesLeadLink(leadId) {
     $("#AddLeadFile-LeadId").val(leadId);
-
     $("#AddLeadFileModal").modal("show");
+}
+
+
+function ShowSalesLeadEditLink(leadId) {
+    $("#EditLeadFile-LeadId").val(leadId);
+    $("#EditLeadFileModal").modal("show");
 
     //get sales item lead file link
     GetSalesLeadLink(leadId);
 }
 
-
+//Get Sales Leads Latest File Link 
 function GetSalesLeadLink(leadId) {
-    //Get latest Lead link from server
+
     $.get("/SalesLeads/GetLeadLastestLink", { id: leadId })
         .done((result) => {
-            $("#AddLeadFile-Link").val(result);
+            console.log(result);
+            $("#EditLeadFile-Link").val(result.Link);
+            $("#EditLeadFile-LeadFileId").val(result.Id);
         })
         .fail(() => {
             console.log("Error: Unable to get link.");
@@ -29,7 +36,8 @@ function GetSalesLeadLink(leadId) {
 
 
 
-
+//CREATE
+//Add new file link
 function Submit_AddLeadFileLink() {
     var leadId = $("#AddLeadFile-LeadId").val();
     var input_link = $("#AddLeadFile-Link").val();
@@ -51,12 +59,36 @@ function Submit_AddLeadFileLink() {
 }
 
 
+
+//Edit
+//Add new file link
+function Submit_EditLeadFileLink() {
+    var leadFileId = $("#EditLeadFile-LeadFileId").val();
+    var input_link = $("#EditLeadFile-Link").val();
+
+    console.log("leadFileId:" + leadFileId);
+    console.log("input_link:" + input_link);
+
+    $.post("/SalesLeads/EditLeadLink", { id: leadFileId, link: input_link })
+        .done((res) => {
+            if (res == "OK") {
+                console.log("Lead Link update");
+                window.location.reload(false);
+            }
+        })
+        .fail(() => {
+            console.log("Unable to update lead link");
+            alert("Unable to update sales lead link");
+        });
+}
+
+
 function RedirectLeadFileLink(leadId) {
     //Get latest Lead link from server
     $.get("/SalesLeads/GetLeadLastestLink", { id: leadId })
         .done((result) => {
-            console.log(result);
-            window.open(result);
+            console.log(result.Link);
+            window.open(result.Link);
             //window.location.href = result;
         })
         .fail(() => {

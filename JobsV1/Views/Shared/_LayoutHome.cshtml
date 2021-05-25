@@ -25,6 +25,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="/Images/CarRental/Home/vehicle-type-sedan.jpg">
     <link rel="icon" type="image/x-icon"  href="/favicon.ico" />
+
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="@ViewBag.Title" />
@@ -32,24 +33,22 @@
     <meta property="og:url" content="https://realwheelsdavao.com/" />
     <meta property="og:site_name" content="Real Wheels Car Rental Davao" />
     <meta property="og:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:description" content="@ViewBag.Description" />
     <meta name="twitter:title" content="@ViewBag.Title" />
     <meta name="twitter:image" content="https://realwheelsdavao.com/Images/CarRental/Home/Vehicles/RealWheelsDavao-CarRental.jpg">
-    @*<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">*@
-    @*<link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">*@
-    @Styles.Render("~/Content/css")
+
+    @Styles.Render("~/Content/landingpage/css")
     @Styles.Render("~/Content/flickity")
     @Scripts.Render("~/bundles/modernizr")
-    @*@Styles.Render("~/Content/css/DateRangePicker")*@
     @Styles.Render("~/Content/themes/base/css")
 
-    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="~/Scripts/Modal.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>*@
 </head>
 
 
-<body onresize="toggleScreen()" onload="toggleScreen()">
+<body>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -69,7 +68,7 @@
                         <li>@Html.ActionLink("Control Panel", "Index", "Home")</li>
 
                     }
-                    <li>@Html.ActionLink("About", "About", null, new { @title="About Us" })</li>
+                    <li>@Html.ActionLink("About", "About", null, new { @title = "About Us" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", null, new { @title = "Contact Us" })</li>
 
                 </ul>
@@ -86,15 +85,14 @@
             <p class="text-center">&copy; @DateTime.Now.Year - Powered By: RealSys - Davao  </p>
         </footer>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    @*<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>*@
-    @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryui")*@
+    @*<script async type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>*@
+
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/flickity")
-    @*@Scripts.Render("~/bundles/DateRangePicker")*@
-    @*<script type="text/javascript" src="~/Scripts/Job/Scroll.js"></script>*@
     <script type="text/javascript" src="~/serviceworker.js"></script>
+    <script defer type="text/javascript" src="~/Scripts/Modal.js"></script>
     <script>
         //For PWA
         if ('serviceWorker' in navigator) {

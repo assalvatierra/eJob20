@@ -8,6 +8,7 @@
 
     decimal totalReceivableAmount = 0;
     decimal totalBalance = 0;
+    decimal runninBalance = 0;
     decimal totalPaid = 0;
 }
 <h2>Details</h2>
@@ -224,11 +225,13 @@
         <th> Status </th>
         <th> Amount </th>
         <th> Paid </th>
+        <th> Balance </th>
         <th> </th>
     </tr>
 
     @foreach (var transaction in Model.ArTransactions)
     {
+        decimal transPayment = 0;
         <tr>
             <td>
                 @transaction.Description
@@ -261,10 +264,20 @@
                 @foreach (var payment in transaction.ArTransPayments)
                 {
                     totalPaid = totalPaid + payment.ArPayment.Amount;
+                    transPayment = transPayment + payment.ArPayment.Amount;
                 }
                 <span>
-                    @totalPaid.ToString("#,##0.00")
+                    @if (transPayment > 0)
+                    {
+                        @transPayment.ToString("#,##0.00")
+                    }
                 </span>
+            </td>
+            <td>
+                @{ 
+                    runninBalance = runninBalance + (transaction.Amount - transPayment);
+                }
+                @runninBalance.ToString("#,##0.00")
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", "ArTransactions", new { id = transaction.Id }, null)

@@ -45,8 +45,8 @@
             <td> @transaction.InvoiceId </td>
             <td> @transaction.DtInvoice.ToString("MMM dd yyyy") </td>
             <td> @transaction.DtDue.ToString("MMM dd yyyy") </td>
+            <td> @transaction.ArAccount.Company </td>
             <td> @transaction.ArAccount.Name </td>
-            <td> @transaction.Description </td>
             <td> @transaction.ArTransStatu.Status </td>
             <td style="color:@textColor"> @transaction.Amount.ToString("#,##0.00") </td>
             <td style="color:@textColor"> @paymentTotal.ToString("#,##0.00") </td>

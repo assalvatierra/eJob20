@@ -19,7 +19,7 @@
                 footer.style.display = "none";
             }
         }
-};
+    };
 
 
 $(document).ready(function () {
@@ -76,3 +76,8 @@ function BackToTop() {
         return false;
     });
 };
+
+
+$(window).on("resize load", () => {
+    toggleScreen();
+})

@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Particulars, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Particulars, new { htmlAttributes = new { @class = "form-control", @maxlength = "80" } })
+                @Html.EditorFor(model => model.Particulars, new { htmlAttributes = new { @class = "form-control", @maxlength = "160" } })
                 @Html.ValidationMessageFor(model => model.Particulars, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -127,10 +127,10 @@
 @section Scripts {
     <script type="text/javascript" src="~/Scripts/Job/ServicesEdit.js"></script>
     <script>
-        @*$(document).ready(() => {
+        $(document).ready(() => {
             $('input[name="DtStart"]').val(moment('@ViewBag.Sdate').format("MM/DD/YYYY"));
             $('input[name="DtEnd"]').val(moment('@ViewBag.Edate').format("MM/DD/YYYY"));
-        });*@
+        });
     </script>
 }
 

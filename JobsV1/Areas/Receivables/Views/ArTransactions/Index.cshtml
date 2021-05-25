@@ -246,7 +246,11 @@
                     }
                 </td>
                 <td>
-                    <span style="font-weight:600;">@Html.DisplayFor(modelItem => item.ArAccount.Company)</span> <br>
+                    <span style="font-weight:600;">
+                        @*item.ArAccount.Company*@
+                        @Html.ActionLink(item.ArAccount.Company+ " ", "Details", "ArAccounts", new { id = item.ArAccountId }, null)
+                    </span>
+                    <br>
                     <span style="font-size:12px;color:gray;">@Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
                 </td>
                 <td>
@@ -332,15 +336,15 @@
                             <li>
                                 @if (item.ArTransStatusId == 1)
                                 {
-                                    <a class="cursor-link" onclick="UpdateStatus(@item.Id, 2)"> For Approval </a>
+                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 2)"> For Approval </a>
                                 }
                                 else if (item.ArTransStatusId == 2)
                                 {
-                                    <a class="cursor-link" onclick="UpdateStatus(@item.Id, 3)"> Approve </a>
+                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 3)"> Approve </a>
                                 }
                                 else if (item.ArTransStatusId == 3)
                                 {
-                                    <a class="cursor-link" onclick="UpdateStatus(@item.Id, 4)"> Billing Sent </a>
+                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 4)"> Billing Sent </a>
                                     @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
 
                                 }
@@ -349,12 +353,12 @@
                                     @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
                                     if (item.ArTransStatusId == 4)
                                     {
-                                        <a class="cursor-link" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
+                                        <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
                                     }
                                 }
                                 else if (item.ArTransStatusId == 5)
                                 {
-                                    <a class="cursor-link" onclick="UpdateStatus(@item.Id, 6)"> Close </a>
+                                    <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 6)"> Close </a>
                                 }
 
                             <li role="separator" class="divider"></li>

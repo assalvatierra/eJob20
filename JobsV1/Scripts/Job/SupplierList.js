@@ -19,7 +19,7 @@ function initial() {
     //trigger sorting on date of items
     $('#title a').trigger('click');
 
-}
+}    
 
 //update status value on click
 //change color of the text
@@ -318,12 +318,12 @@ function ProductsTable(data) {
 
             content += "<td>" + product     + "</td>";
             content += "<td>" + supplier + "</td>";
-            content += "<td>" + origin + "</td>";
+            content += "<td>" + origin   + "</td>";
             content += "<td>" + rate + " " + unit + "</td>";
             content += "<td>" + dtEntered   + "</td>";
             content += "<td>" + dtValidFrom + "</td>";
             content += "<td>" + dtValidTo   + "</td>";
-            content += "<td>" + particulars + "</td>";
+            content += "<td>" + particulars + "<br/> <span style='font-size:11px;'>Remarks: " + remarks +"</span> </td>";
 
             content += "<td>" +
                 "<a href='/Suppliers/Details/" + supplierId + "'>Details</a> | " +
