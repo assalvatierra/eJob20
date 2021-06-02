@@ -2276,8 +2276,8 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         //Round Off time Difference in Hours
-        // if timediff is greater than 0.667 (40 mins), round off to 1 (1 hour)
-        //                greater than 0.333 (20 mins) or less than 0.667 (50 mins), round off to 0.5 ()
+        // if timediff is greater than 0.833 (50 mins), round off to 1 (1 hour)
+        //                greater than 0.333 (20 mins) or less than 0.833 (50 mins), round off to 0.5 ()
         //                less than 0.333 (20 mins), do not round off
         private double ConvertHrsDec(double hrsDiff)
         {

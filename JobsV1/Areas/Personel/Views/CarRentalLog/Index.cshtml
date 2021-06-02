@@ -19,6 +19,7 @@
     .datepicker {
         z-index: 1100 !important;
     }
+
 </style>
 
 <h2>Trip Log</h2>
@@ -32,43 +33,52 @@
     @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) |
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
-<p>
-    @Html.ActionLink("Passengers", "Index", "crLogPassengerList") |
-    @Html.ActionLink("Passenger Master List", "Index", "crLogPassengerMasters") |
-    @Html.ActionLink("Passenger Search", "SearchPassenger", "crLogPassengerList") |
-    @Html.ActionLink("Passenger Tracing", "PassengerTrace", "crLogPassengerList")
-</p>
-<p>
-    @Html.ActionLink("Add New Trip", "Create") |
-    @Html.ActionLink("Copy Trip", "CopyTrip")  |
-    @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-    <a class="cursor-hand" onclick="ShowFinalizeTrip(this)"> Show Finalize Trip </a> |
-    @Html.ActionLink("OT Billing", "IndexBilling") |
-    @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily")  |
-    @Html.ActionLink("Sunday Billing", "IndexBillingSunday")
-</p>
 
-<p class="col-md-10">
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#SummaryModal">Summary</button>
+<div class="row">
+    <div class="col-md-8 btn-group">
+        @Html.ActionLink("Add New Trip", "Create", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("Copy Trip", "CopyTrip", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo", null, new { @class = " btn btn-default" })
+        <a class="cursor-hand btn btn-default" onclick="ShowFinalizeTrip(this)"> Show Finalize Trip </a> 
+    </div>
+    <div class="col-md-4 btn-group pull-right">
+        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default" }) 
+        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })  
+        @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
+    </div>
+</div>
 
-    <button type="button" class="btn btn-default" onclick="PrevDay('@ViewBag.FilteredsDate')">
-        &#171; Prev Day
-    </button>
+<p class="row" >
+    <div class="btn-group col-md-9" style="margin-bottom:5px;">
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#SummaryModal">Summary</button>
 
-    <button type="button" class="btn btn-default" onclick="NextDay('@ViewBag.FilteredsDate')">
-        Next Day &#187;
-    </button>
+        <button type="button" class="btn btn-default" onclick="PrevDay('@ViewBag.FilteredsDate')">
+            &#171; Prev Day
+        </button>
+
+        <button type="button" class="btn btn-default" onclick="NextDay('@ViewBag.FilteredsDate')">
+            Next Day &#187;
+        </button>
+    </div>
 
     <button type="button" class="btn btn-default" id="FinalizeTrip-Btn" onclick="FinalizeCheckedTrips()" style="display:none"> Finalize Selected Trip </button>
 </p>
 
-<div class="col-md-2 pull-right">
+<div class="col-md-3 pull-right" style="display:flex;">
     @*<span> Shuttle Only </span>
         <input type="checkbox" id="isShuttle" name="IsShuttle" />*@
-    <button type="button" class="btn btn-default" id="isShuttle" data-toggle="button" onclick="ClickShowShuttle()">
-        Show Shuttle Only
-    </button>
+    <!-- Rounded switch -->
+
+    <label style="padding:5px;"> Shuttle Only &nbsp;</label>
+    <label class="switch">
+        <input type="checkbox" id="isShuttle" data-toggle="button" onclick="ClickShowShuttle()">
+        <span class="slider round"></span>
+    </label>
+
+    @*<button type="button" class="btn btn-default">
+            Show Shuttle Only
+        </button>*@
 </div>
 
 <!-- Filter Modal -->
@@ -310,7 +320,7 @@
                         {
                             <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
                             <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
-                            <li><a class="cursor-pointer" onclick="UpdateOTRate(this, @item.Id)"> Update OT Rate </a></li>
+                            @*<li><a class="cursor-pointer" onclick="UpdateOTRate(this, @item.Id)"> Update OT Rate </a></li>*@
                             <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
                         }
 

@@ -7,7 +7,14 @@
 
 <h2>Passenger Master List</h2>
 <p>
-    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog") |
+    @Html.ActionLink("Back to Trip Logs", "Index", "CarRentalLog") 
+   
+</p>
+<p>
+    Passenger Master List |
+    @Html.ActionLink("Passenger Trip", "Index", "crLogPassengerList") |
+    @Html.ActionLink("Passenger Search", "SearchPassenger", "crLogPassengerList") |
+    @Html.ActionLink("Passenger Tracing", "PassengerTrace", "crLogPassengerList")
     @Html.ActionLink("Passenger Areas", "Index", "crLogPassengerAreas")
 </p>
 <p>

@@ -868,7 +868,7 @@
     <Property Name="JobMainId" Type="int" Nullable="false" />
     <Property Name="ServicesId" Type="int" Nullable="false" />
     <Property Name="SupplierId" Type="int" Nullable="false" />
-    <Property Name="Particulars" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Particulars" Type="nvarchar" Nullable="true" MaxLength="160" />
     <Property Name="QuotedAmt" Type="decimal" Nullable="true" />
     <Property Name="SupplierAmt" Type="decimal" Nullable="true" />
     <Property Name="ActualAmt" Type="decimal" Nullable="true" Precision="18" Scale="2" />
@@ -5194,7 +5194,7 @@
           <Property Name="ServicesId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Supplier" Relationship="JobDB.SupplierJobSupplier" FromRole="JobSupplier" ToRole="Supplier" />
           <Property Name="SupplierId" Type="Int32" Nullable="false" />
-          <Property Name="Particulars" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Particulars" Type="String" Nullable="true" MaxLength="160" />
           <NavigationProperty Name="Service" Relationship="JobDB.ServicesJobServices" FromRole="JobServices" ToRole="Services" />
           <Property Name="QuotedAmt" Type="Decimal" Nullable="true" />
           <Property Name="SupplierAmt" Type="Decimal" Nullable="true" />

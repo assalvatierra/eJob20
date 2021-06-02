@@ -5,13 +5,15 @@
     int TotalTrips = 0;
     int TotalOdo = 0;
     decimal TotalFuel = 0;
-    decimal TotalMaintenance = 0;
+    decimal TotalFuelMaintenance = 0;
     decimal TotalDriversFee = 0;
     decimal TotalDriversOT = 0;
 
     decimal TotalCash = 0;
     decimal TotalPO = 0;
     decimal TotalCard = 0;
+
+    decimal TotalMaintenance = 0;
 
     var driverList = ViewBag.driverList as IEnumerable<JobsV1.Areas.Personel.Models.crLogDriver>;
     var unitList = ViewBag.unitList as IEnumerable<JobsV1.Areas.Personel.Models.crLogUnit>;
@@ -93,6 +95,9 @@
             Company
         </th>
         <th>
+            Remarks
+        </th>
+        <th>
             Paid thru
         </th>
         <th>
@@ -145,6 +150,17 @@
                     break;
             }
 
+            switch (trip.ExpenseType)
+            {
+                case "Fuel":
+                    TotalFuel += trip.FuelMaintenance;
+                    break;
+                default:
+                    TotalMaintenance += trip.FuelMaintenance;
+                    break;
+
+            }
+
             <tr>
                 <td>
                     @trip.TripDate.ToShortDateString()
@@ -154,6 +170,9 @@
                 </td>
                 <td>
                     @trip.Company.Name
+                </td>
+                <td>
+                    @trip.Remarks  
                 </td>
                 <td>
 
@@ -183,12 +202,12 @@
 
         <tr style="background-color:whitesmoke;">
             <td>
-                <span > Cash : @subtotal_cash.ToString("N0")  </span>
+                <span> Cash : @subtotal_cash.ToString("N0")  </span>
             </td>
             <td>
                 <span> Card : @subtotal_cc.ToString("N0")  </span>
             </td>
-            <td>
+            <td colspan="2">
                 <span> PO : @subtotal_po.ToString("N0")  </span>
             </td>
             <td>
@@ -206,9 +225,9 @@
         </tr>
 
         TotalTrips++;
-        TotalMaintenance += subtotal_mtnc;
-        TotalDriversFee  += subtotal_driversFee;
-        TotalDriversFee  += subtotal_driversOT;
+        TotalFuelMaintenance += subtotal_mtnc;
+        TotalDriversFee += subtotal_driversFee;
+        TotalDriversFee += subtotal_driversOT;
 
     }
 
@@ -217,8 +236,8 @@
     {
         <tr>
             <td colspan="3">
-           </td>
-            <td >
+            </td>
+            <td>
                 <span class="text-center"> No Trip Found </span>
             </td>
         </tr>
@@ -227,40 +246,61 @@
     {
 
 
-    <tr style="background-color:whitesmoke;font-size:17px;">
+        <tr style="background-color:whitesmoke;font-size:17px;">
 
 
-        <td>
-            <span>
-                Total Cash: @TotalCash.ToString("N0")
-            </span>
-        </td>
+            <td>
+                <span>
+                    Total Cash: @TotalCash.ToString("N0")
+                </span>
+            </td>
 
-        <td>
-            <span>
-                Total Card:  @TotalCard.ToString("N0")
-            </span>
-        </td>
+            <td>
+                <span>
+                    Total Card:  @TotalCard.ToString("N0")
+                </span>
+            </td>
 
-        <td>
-            <span>
-                Total PO: @TotalPO.ToString("N0")
-            </span>
-        </td>
-        <td>
-            <span class="pull-right"> Total </span>
-        </td>
-        <td>
-            <span>
-                @TotalMaintenance.ToString("N0")
-            </span>
-        </td>
-        <td>
-            <span>
-                @TotalDriversOT.ToString("N0")
-            </span>
-        </td>
-    </tr>
+            <td colspan="2">
+                <span>
+                    Total PO: @TotalPO.ToString("N0")
+                </span>
+            </td>
+            <td>
+                <span class="pull-right"> Total </span>
+            </td>
+            <td>
+                <span>
+                    @TotalFuelMaintenance.ToString("N0")
+                </span>
+            </td>
+            <td>
+                <span>
+                    @TotalDriversOT.ToString("N0")
+                </span>
+            </td>
+        </tr>
+
+
+        <tr style="background-color:whitesmoke;font-size:17px;">
+
+
+            <td >
+                <span>
+                    Total Fuel: @TotalFuel.ToString("N0")
+                </span>
+            </td>
+
+
+            <td>
+                <span>
+                    Total Maintenance: @TotalMaintenance.ToString("N0")
+                </span>
+            </td>
+            <td colspan="8">
+
+            </td>
+        </tr>
 
     }
 

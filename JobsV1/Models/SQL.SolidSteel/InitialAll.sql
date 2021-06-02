@@ -619,7 +619,7 @@ values (1,'glgrandia/Toyota-Grandia-side.jpg','','MAIN'),
        (3,'ford/ford-everest-front.jpg'		 ,'','MAIN'),
        (4,'innova/toyota-innova.jpg'		 ,'','MAIN'),
        (5,'hondacity/honda-city-front.jpg'   ,'','MAIN'),
-       (6,'pickup-car-rental.png'		     ,'','MAIN'),
+       (6,'pickup/Toyota-Hilux-Main.jpg'	 ,'','MAIN'),
        (7,'tourer/Toyota-Grandia-Tourer-2019-side.jpg' ,'','MAIN'),
        (8,'rush/Toyota-Rush-2019.jpg'        ,'','MAIN');
 	   

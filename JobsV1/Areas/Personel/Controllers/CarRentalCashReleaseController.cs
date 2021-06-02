@@ -49,6 +49,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.StatusId = statusId;
+            ViewBag.RequestCount = GetStatusCount(1, crLogCashReleases);
+            ViewBag.ApprovedCount = GetStatusCount(2, crLogCashReleases);
+            ViewBag.ReleasedCount = GetStatusCount(3, crLogCashReleases);
 
             return View(cashReleases.OrderBy(c=>c.DtRelease).ThenBy(c=>c.crLogDriver.OrderNo).ToList());
         }
@@ -579,6 +582,38 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.Amount = cashRelease.Amount;
             ViewBag.Remarks = cashRelease.Remarks;
             return View(tripLogs);
+        }
+
+        private int GetStatusCount(int statusId, IQueryable<crLogCashRelease> cashReleases)
+        {
+            var statusCount = 0;
+            var today = dt.GetCurrentDate();
+
+            foreach (var log in cashReleases.ToList())
+            {
+                var lateststatusId = getLatestStatusId(log.Id);
+
+                if (lateststatusId == statusId)
+                {
+                    //add request and accecpted logs
+                    if (log.DtRelease.Date <= today.Date && lateststatusId < 3)
+                        statusCount++;
+                    //add returned logs with date today
+                    if (log.DtRelease.Date == today.Date && lateststatusId == 3)
+                        statusCount++;
+                }
+            }
+
+            if (statusCount > 0)
+            {
+                return statusCount;
+            }
+            else
+            {
+                return 0;
+            }
+
+            
         }
 
     }

@@ -543,6 +543,8 @@ namespace JobsV1.Areas.Personel.Controllers
                         tripLog.FuelMaintenance = expense.orAmount;
                         tripLog.DriversFee = 0;
                         tripLog.PaidThru = expense.crLogPaymentType.Type;
+                        tripLog.Remarks = expense.Remarks;
+                        tripLog.ExpenseType = expense.crLogType.Type;
 
                         vehicleExpenses.Add(tripLog);
                       

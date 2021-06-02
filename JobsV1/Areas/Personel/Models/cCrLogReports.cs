@@ -68,6 +68,8 @@ namespace JobsV1.Areas.Personel.Models
         public decimal DriversFee { get; set; }
         public decimal DriversOT { get; set; }
         public string PaidThru { get; set; }
+        public string Remarks { get; set; }
+        public string ExpenseType { get; set; }
     }
 
     public class RptCrDriverTripSummary
