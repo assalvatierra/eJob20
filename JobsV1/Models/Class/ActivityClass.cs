@@ -308,33 +308,44 @@ namespace JobsV1.Models.Class
         //GET : get user activities by the user 
         public List<cUserActivity> GetUserActivities(string user, string sDate, string eDate)
         {
-            if (!String.IsNullOrEmpty(eDate))
+            try
             {
-                var tempDate = DateTime.Parse(eDate);
-                eDate = tempDate.AddDays(1).ToShortDateString();
-            }
 
-            //eDate = DateTime.Parse(eDate).AddDays(1).ToShortDateString();
-            List<cUserActivity> activity = new List<cUserActivity>();
-            string dateQuery = "";
-            if (sDate != "" && eDate != "")
+                if (!String.IsNullOrEmpty(eDate))
+                {
+                    var tempDate = DateTime.Parse(eDate);
+                    eDate = tempDate.AddDays(1).ToShortDateString();
+                }
+
+                //eDate = DateTime.Parse(eDate).AddDays(1).ToShortDateString();
+                List<cUserActivity> activity = new List<cUserActivity>();
+                string dateQuery = "";
+                if (sDate != "" && eDate != "")
+                {
+                    dateQuery = " AND (Date >= convert(datetime, '" + sDate + "') AND Date <= convert(datetime, '" + eDate + "'))  ";
+                }
+
+                //sql query with comma separated item list
+                string sql =
+                   @"  SELECT Id , Date, Assigned, ProjectName, SalesCode, Amount, Status,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId,
+	                   Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEntMainId ),
+                           Points = ISNULL((SELECT Points FROM CustEntActivityTypes type WHERE type.Type = act.ActivityType), 0),
+	                   SalesLeadId = ISNULL(SalesLeadId, 0 )
+                      FROM CustEntActivities act WHERE " +
+                      "Assigned = '" + user + "' "+ dateQuery + " ORDER BY Date DESC ;";
+
+                activity = db.Database.SqlQuery<cUserActivity>(sql).ToList();
+
+                //Filter and Remove points on Duplicate Activity with the same code
+                activity = FilterDuplicateActivity(activity);
+
+                return activity;
+            }
+            catch(Exception ex)
             {
-                dateQuery = " AND (Date >= convert(datetime, '" + sDate + "') AND Date <= convert(datetime, '" + eDate + "'))  ";
+                throw ex;
+                //return new List<cUserActivity>();
             }
-
-            //sql query with comma separated item list
-            string sql =
-               @" SELECT *, Company = (SELECT Name FROM CustEntMains cem WHERE cem.Id = act.CustEntMainId ),
-                  Points = (SELECT Points FROM CustEntActivityTypes type WHERE type.Type = act.ActivityType)
-                  FROM CustEntActivities act WHERE " +
-                  "Assigned = '" + user + "' "+ dateQuery + " ORDER BY Date DESC ;";
-
-            activity = db.Database.SqlQuery<cUserActivity>(sql).ToList();
-
-            //Filter and Remove points on Duplicate Activity with the same code
-            activity = FilterDuplicateActivity(activity);
-
-            return activity;
         }
 
         private List<cUserActivity> FilterDuplicateActivity( List<cUserActivity> activityList)

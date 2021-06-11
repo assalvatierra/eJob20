@@ -59,10 +59,10 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.CustEntActStatu.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                @Html.DisplayFor(modelItem => item.ActivityType)
             </td>
             <td>
                 @Html.ActionLink(item.CustEntMain.Name, "Index", "CustEntActivities", new { id = item.CustEntMainId }, null)

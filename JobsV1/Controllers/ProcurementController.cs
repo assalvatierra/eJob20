@@ -191,9 +191,9 @@ namespace JobsV1.Controllers
                     ViewBag.SupplierId = new SelectList(db.Suppliers.OrderBy(s=>s.Name), "Id", "Name");
                     ViewBag.SupplierType = new SelectList(db.SupplierTypes, "Id", "Description");
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
-                    ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type");
+                    ViewBag.ActivityType = new SelectList(db.SupplierActivityTypes, "Type", "Type", GetActivityType((int)ActCodeId));
 
-                    ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status");
+                    ViewBag.SupplierActStatusId = new SelectList(db.SupplierActStatus, "Id", "Status", GetActivityStatus((int)ActCodeId));
                     ViewBag.SupplierActActionStatusId = new SelectList(db.SupplierActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
                     ViewBag.SupplierActActionCodeId = new SelectList(db.SupplierActActionCodes, "Id", "Name", ActCodeId);
                     ViewBag.Currency = new SelectList(db.Currencies, "Name", "Name");
@@ -209,6 +209,120 @@ namespace JobsV1.Controllers
             {
                 return RedirectToAction("Index");
             }
+        }
+
+
+        private string GetActivityType(int ActCodeId)
+        {
+            var ActivityType = "";
+            switch (ActCodeId)
+            {
+                case 1:
+                    //Request for Procurement 
+                    ActivityType = "Procurement";
+                    break;
+                case 2:
+                    //Procurement Done  
+                    ActivityType = "Procurement";
+                    break;
+                case 3:
+                    // Sales Clarification Done 
+                    ActivityType = "Others";
+                    break;
+                case 4:
+                    //Supplier Call Done 
+                    ActivityType = "Meeting";
+                    break;
+                case 5:
+                    //Supplier Email Done 
+                    ActivityType = "Meeting";
+                    break;
+                case 6:
+                    // Supplier Meeting done 
+                    ActivityType = "Meeting";
+                    break;
+                case 7:
+                    // Awarded
+                    ActivityType = "Job Order";
+                    break;
+                case 8:
+                    //For Approval by MGT 
+                    ActivityType = "Others";
+                    break;
+                case 9:
+                    // Closed
+                    ActivityType = "Others";
+                    break;
+                case 10:
+                    // Status
+                    ActivityType = "Others";
+                    break;
+                default:
+                    //Status Update
+                    ActivityType = "Others";
+                    break;
+
+            }
+
+            return ActivityType;
+
+        }
+
+
+        private int GetActivityStatus(int ActCodeId)
+        {
+            var ActivityStatus = 1;
+            switch (ActCodeId)
+            {
+                case 1:
+                    //Request for Procurement 
+                    ActivityStatus = 1;
+                    break;
+                case 2:
+                    //Procurement Done 
+                    ActivityStatus = 1;
+                    break;
+                case 3:
+                    //Sales Clarification Done 
+                    ActivityStatus = 2;
+                    break;
+                case 4:
+                    //Supplier Call Done 
+                    ActivityStatus = 2;
+                    break;
+                case 5:
+                    //Supplier Email Done 
+                    ActivityStatus = 2;
+                    break;
+                case 6:
+                    //Supplier Meeting done 
+                    ActivityStatus = 2;
+                    break;
+                case 7:
+                    // Awarded
+                    ActivityStatus = 2;
+                    break;
+                case 8:
+                    //For Approval by MGT 
+                    ActivityStatus = 2;
+                    break;
+                case 9:
+                    //Closed    
+                    ActivityStatus = 4;
+                    break;
+                case 10:
+                    //Status Update   
+                    ActivityStatus = 1;
+                    break;
+                default:
+                    //Status Update
+                    ActivityStatus = 1;
+                    break;
+
+            }
+
+            return ActivityStatus;
+
         }
 
         //POST: /Procurement/AddProcActivityCode

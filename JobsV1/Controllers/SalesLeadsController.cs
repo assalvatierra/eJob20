@@ -999,13 +999,15 @@ namespace JobsV1.Controllers
                 activity.Type = status;
                 activity.ActivityType = "Status Update";
                 activity.SalesLeadId = id;
-                activity.CustEntActActionStatusId = 1;
-                activity.CustEntActActionCodesId = 11;
+                activity.CustEntActActionStatusId = 1; //open
+                activity.CustEntActActionCodesId = 11; //others
 
                 switch (activityStatus)
                 {
                     case "Awarded":
+                        //activity.CustEntActActionStatusId = 4; //awarded
                         activity.CustEntActStatusId = 4;
+                        activity.ActivityType = "Sales";
                         break;
                     case "Rejected":
                         activity.CustEntActStatusId = 5;
@@ -1028,8 +1030,9 @@ namespace JobsV1.Controllers
                 return true;
 
             }
-            catch
+            catch(Exception ex)
             {
+                //throw ex;
                 return false;
             }
 
@@ -1282,7 +1285,8 @@ namespace JobsV1.Controllers
                     activity.ProjectName = projectName;
                     activity.Amount = amount;
                     activity.SalesLeadId = slId;
-
+                    activity.ActivityType = GetActivityType(ActCodeId);
+                    activity.CustEntActStatusId = GetActivityStatus(ActCodeId);
                     if (actCodeDefault != null)
                     {
                         activity.Remarks = actCodeDefault.Desc;
@@ -1292,9 +1296,9 @@ namespace JobsV1.Controllers
                     ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", companyId);
                     ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status");
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type");
-                    ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type");
+                    ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", GetActivityType(ActCodeId));
 
-                    ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status");
+                    ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", GetActivityStatus(ActCodeId));
                     ViewBag.CustEntActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
                     ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Name", ActCodeId);
 
@@ -1309,6 +1313,127 @@ namespace JobsV1.Controllers
             {
                 return RedirectToAction("Index");
             }
+        }
+
+        private string GetActivityType(int ActCodeId)
+        {
+            var ActivityType = "";
+            switch (ActCodeId)
+            {
+                case 1:
+                    //Quotation 
+                    ActivityType = "Quotation";
+                    break;
+                case 2:
+                    //Procurement 
+                    ActivityType = "Others";
+                    break;
+                case 3:
+                    //Quotation Done 
+                    ActivityType = "Quotation";
+                    break;
+                case 4:
+                    //Call Done
+                    ActivityType = "CallsAndEmail";
+                    break;
+                case 5:
+                    //Email Done
+                    ActivityType = "CallsAndEmail";
+                    break;
+                case 6:
+                    //Meeting Done 
+                    ActivityType = "Meeting";
+                    break;
+                case 7:
+                    //Mgt Approval 
+                    ActivityType = "Meeting";
+                    break;
+                case 8:
+                    //Ready For PO 
+                    ActivityType = "Others";
+                    break;
+                case 9:
+                    //Awarded
+                    ActivityType = "Sales";
+                    break;
+                case 10:
+                    //Closed
+                    ActivityType = "Others";
+                    break;
+                case 11:
+                    //Status
+                    ActivityType = "Status";
+                    break;
+                default:
+                    //Status Update
+                    ActivityType = "Others";
+                    break;
+
+            }
+
+            return ActivityType;
+
+        }
+
+
+        private int GetActivityStatus(int ActCodeId)
+        {
+            var ActivityStatus = 1;
+            switch (ActCodeId)
+            {
+                case 1:
+                    //Quotation 
+                    ActivityStatus = 1;
+                    break;
+                case 2:
+                    //Procurement 
+                    ActivityStatus = 1;
+                    break;
+                case 3:
+                    //Quotation Done 
+                    ActivityStatus = 2;
+                    break;
+                case 4:
+                    //Call Done
+                    ActivityStatus = 2;
+                    break;
+                case 5:
+                    //Email Done
+                    ActivityStatus = 2;
+                    break;
+                case 6:
+                    //Meeting Done 
+                    ActivityStatus = 3;
+                    break;
+                case 7:
+                    //Mgt Approval 
+                    ActivityStatus = 3;
+                    break;
+                case 8:
+                    //Ready For PO 
+                    ActivityStatus = 3;
+                    break;
+                case 9:
+                    //Awarded
+                    ActivityStatus = 4;
+                    break;
+                case 10:
+                    //Closed
+                    ActivityStatus = 5;
+                    break;
+                case 11:
+                    //Closed
+                    ActivityStatus = 1;
+                    break;
+                default:
+                    //Status Update
+                    ActivityStatus = 1;
+                    break;
+
+            }
+
+            return ActivityStatus;
+
         }
 
         [HttpPost]
@@ -1355,11 +1480,11 @@ namespace JobsV1.Controllers
                     
                     ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", User.Identity.Name);
                     ViewBag.CustEntMainId = new SelectList(db.CustEntMains, "Id", "Name", activity.CustEntMainId);
-                    ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", activity.Status);
+                    ViewBag.Status = new SelectList(db.CustEntActStatus, "Status", "Status", activity.CustEntActStatu);
                     ViewBag.Type = new SelectList(db.CustEntActTypes, "Type", "Type", activity.Type);
                     ViewBag.ActivityType = new SelectList(db.CustEntActivityTypes, "Type", "Type", activity.ActivityType);
 
-                    ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", activity.CustEntActStatu);
+                    ViewBag.CustEntActStatusId = new SelectList(db.CustEntActStatus, "Id", "Status", activity.CustEntActStatusId);
                     ViewBag.CustEntActActionStatusId = new SelectList(db.CustEntActActionStatus, "Id", "ActionStatus", actCodeDefault.DefaultActStatus);
                     ViewBag.CustEntActActionCodesId = new SelectList(db.CustEntActActionCodes, "Id", "Name", activity.CustEntActActionCodesId);
 
