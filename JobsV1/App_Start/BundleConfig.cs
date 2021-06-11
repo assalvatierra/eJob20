@@ -47,9 +47,19 @@ namespace JobsV1
                       "~/Content/UserStyles.css",
                       "~/Content/ModalSalesLead.css",
                       "~/Content/site.css",
-                      "~/Content/font-awesome.min.css",
                       "~/Content/TableStyles.css",
                       "~/Content/Chart.min.css",
+                      "~/Content/CarRental.css"
+                      ));
+
+
+            bundles.Add(new StyleBundle("~/Content/landingPage/css").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/ModalUser.css",
+                      "~/Content/themes/base/jquery-ui.css",
+                      "~/Content/themes/base/bootstrap-directional-buttons.min.css",
+                      "~/Content/UserStyles.css",
+                      "~/Content/site.css",
                       "~/Content/CarRental.css"
                       ));
 

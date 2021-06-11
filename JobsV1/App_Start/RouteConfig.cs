@@ -143,6 +143,7 @@ namespace JobsV1
             );
 
 
+
             #endregion
 
             #region Car Rental Articles
@@ -199,6 +200,11 @@ namespace JobsV1
                 defaults: new { controller = "CarRental", action = "ArticleView", article = "SafeCarRental" }
             );
 
+            routes.MapRoute(
+                name: "Articles List Page 1",
+                url: "Articles/1",
+                defaults: new { controller = "CarRental", action = "ArticleView", article = "Page-1" }
+            );
 
             #endregion
 
