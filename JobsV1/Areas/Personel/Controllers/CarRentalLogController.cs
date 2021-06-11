@@ -2369,7 +2369,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             var trip = db.crLogTrips.Find(id);
 
-            if (trip.DriverOTRate != null)
+            if (trip.OTRate != null)
             {
                 CalcOTRate = OTHours * Double.Parse(trip.OTRate.ToString());
             }
@@ -2395,7 +2395,7 @@ namespace JobsV1.Areas.Personel.Controllers
             decimal CalcOTRate = 0;
 
 
-            if (trip.DriverOTRate != null)
+            if (trip.OTRate != null)
             {
                 CalcOTRate = (decimal)OTHours * (decimal)trip.OTRate;
             }

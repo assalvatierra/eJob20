@@ -35,16 +35,24 @@
     @Html.ActionLink("Expenses", "Index", "CrLogFuels", null, null) |
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
-<p>
+<div><p>
     @*@Html.ActionLink("Add New Trip", "Create") |
         @Html.ActionLink("Copy Trip", "CopyTrip") |
         @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
         @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
-    @Html.ActionLink("Trip Logs View", "Index") |
-    OT Billing | 
-    @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", new { company = ViewBag.Company }) | |
-    @Html.ActionLink("Sunday Billing", "IndexBillingSunday")
-</p>
+    @*OT Billing |
+        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", new { company = ViewBag.Company }) | |
+        @Html.ActionLink("Sunday Billing", "IndexBillingSunday")*@
+    <div class="col-md-8">
+         @Html.ActionLink("Back to Trip Logs", "Index", null, new { @class = " btn btn-default" }) 
+    </div>
+    <!-- Billing Links -->
+    <div class="col-md-4 btn-group">
+        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default active" })
+        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
+    </div>
+</p></div>
 
 <p class="col-md-12">
     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>

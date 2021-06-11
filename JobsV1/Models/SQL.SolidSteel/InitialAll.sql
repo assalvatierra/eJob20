@@ -583,6 +583,7 @@ values
 ('PROCUREMENT','Request for Procurement', 'PROCUREMENT','~/Images/SalesLead/Quotation101.png',1,2), 
 ('QUOTATION-DONE','Quotation Done', 'RFQ','~/Images/SalesLead/Quotation101.png',2,3),  
 ('CALL-DONE','Client Call done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2,4), 
+('EMAIL-DONE','Client Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2,5),
 ('MEETING-DONE','Client Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',2,5),
 ('FOR-MGT','For Management Approval','FOR APPROVAL','~/Images/SalesLead/meeting102.jpg',1,6),
 ('PO-READY','Ready for PO','PO READY','~/Images/SalesLead/Quotation101.png',1,7),

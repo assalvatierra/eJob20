@@ -20,6 +20,21 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/crLogFuels
         public ActionResult Index(int? statusId)
         {
+            #region Session
+            if (statusId != null)
+                Session["CrLogFuel_StatusId"] = (int)statusId;
+            else
+            {
+                if (Session["CrLogFuel_StatusId"] != null)
+                    statusId = (int)Session["CrLogFuel_StatusId"];
+                else
+                {
+                    statusId = 1;
+                    Session["CrLogFuel_StatusId"] = 1;
+                }
+            }
+            #endregion
+
             var today = dt.GetCurrentDate();
             var DateFilter = today.AddDays(-30);
 
@@ -59,6 +74,9 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.StatusId = statusId;
             ViewBag.crLogPaymentType = db.crLogPaymentTypes.ToList();
+            ViewBag.RequestCount = GetStatusCount(1, crLogFuels);
+            ViewBag.ApprovedCount = GetStatusCount(2, crLogFuels);
+            ViewBag.ReleasedCount = GetStatusCount(3, crLogFuels);
 
             return View(cCrLogFuel.ToList());
         }
@@ -528,6 +546,48 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.DriverName = crlogFuel.crLogDriver.Name;
             ViewBag.Unit = crlogFuel.crLogUnit.Description;
             return View(crlogFuels);
+        }
+
+
+        private int GetStatusCount(int statusId, IQueryable<crLogFuel> crLogFuels)
+        {
+            var statusCount = 0;
+            var today = dt.GetCurrentDate();
+
+            foreach (var log in crLogFuels.ToList())
+            {
+                var status = db.crCashReqStatus.Find(getLatestStatusId(log.Id)).Status;
+
+                var templog = new Models.cCrLogFuel()
+                {
+                    crLogFuel = log,
+                    LatestStatusId = getLatestStatusId(log.Id),
+                    LatestStatus = status
+                };
+
+                if (templog.LatestStatusId == statusId)
+                {
+                    //add request and accecpted logs
+                    if (log.dtRequest.Date <= today.Date && templog.LatestStatusId < 4)
+                        statusCount++;
+                    //add returned logs with date today
+                    if (log.dtRequest.Date == today.Date && templog.LatestStatusId == 4)
+                        statusCount++;
+                }
+
+            }
+
+
+            if (statusCount > 0)
+            {
+                return statusCount;
+            }
+            else
+            {
+                return 0;
+            }
+
+
         }
 
 

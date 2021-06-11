@@ -3438,6 +3438,7 @@
     <Content Include="Views\CarRental\ArticlesView\SafeCarRental.cshtml" />
     <Content Include="Views\SalesLeads\_AddLeadFileLink.cshtml" />
     <Content Include="Views\Procurement\_AddLeadFileLink.cshtml" />
+    <Content Include="Views\CarRental\ArticlesView\ArticlePage1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -21,8 +21,24 @@ namespace JobsV1.Areas.Personel.Controllers
         // GET: Personel/CarRentalCashRelease
         public ActionResult Index(int? statusId)
         {
+            #region Session
+            if (statusId != null)
+                Session["CRCashRelease_StatusId"] = (int)statusId;
+            else
+            {
+                if (Session["CrCashRelease_StatusId"] != null)
+                    statusId = (int)Session["CRCashRelease_StatusId"];
+                else
+                {
+                    statusId = 1;
+                    Session["CRCashRelease_StatusId"] = 1;
+                }
+            }
+            #endregion
+
             var today = dt.GetCurrentDate();
             var DateFilter = today.AddDays(-30);
+
             if (statusId == null)
                 statusId = 1;
 

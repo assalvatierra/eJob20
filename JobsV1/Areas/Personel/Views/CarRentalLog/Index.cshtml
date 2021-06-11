@@ -34,21 +34,27 @@
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
 
+<!-- Links -->
 <div class="row">
+
+    <!-- Add / Copy Links -->
     <div class="col-md-8 btn-group">
         @Html.ActionLink("Add New Trip", "Create", null, new { @class = " btn btn-default" })
         @Html.ActionLink("Copy Trip", "CopyTrip", null, new { @class = " btn btn-default" })
-        @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo", null, new { @class = " btn btn-default" })
-        <a class="cursor-hand btn btn-default" onclick="ShowFinalizeTrip(this)"> Show Finalize Trip </a> 
+        @*@Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo", null, new { @class = " btn btn-default" })*@
+        <a class="cursor-hand btn btn-default" onclick="ShowFinalizeTrip(this)"> Show Finalize Trip </a>
     </div>
-    <div class="col-md-4 btn-group pull-right">
-        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default" }) 
-        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })  
+
+    <!-- Billing Links -->
+    <div class="col-md-4 btn-group">
+        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })
         @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
     </div>
 </div>
 
-<p class="row" >
+<!-- Filters -->
+<div class="row">
     <div class="btn-group col-md-9" style="margin-bottom:5px;">
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#FilterModal">Filter</button>
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#SummaryModal">Summary</button>
@@ -60,25 +66,21 @@
         <button type="button" class="btn btn-default" onclick="NextDay('@ViewBag.FilteredsDate')">
             Next Day &#187;
         </button>
+
+        <button type="button" class="btn btn-default" id="FinalizeTrip-Btn" onclick="FinalizeCheckedTrips()" style="display:none"> Finalize Selected Trip </button>
+
     </div>
 
-    <button type="button" class="btn btn-default" id="FinalizeTrip-Btn" onclick="FinalizeCheckedTrips()" style="display:none"> Finalize Selected Trip </button>
-</p>
 
-<div class="col-md-3 pull-right" style="display:flex;">
-    @*<span> Shuttle Only </span>
-        <input type="checkbox" id="isShuttle" name="IsShuttle" />*@
-    <!-- Rounded switch -->
+    <!-- Shuttle Toggle -->
+    <div class="col-md-3 pull-right" style="display:flex;">
+        <label style="padding:5px;"> Shuttle Only &nbsp;</label>
+        <label class="switch">
+            <input type="checkbox" id="isShuttle" data-toggle="button" onclick="ClickShowShuttle()">
+            <span class="slider round"></span>
+        </label>
 
-    <label style="padding:5px;"> Shuttle Only &nbsp;</label>
-    <label class="switch">
-        <input type="checkbox" id="isShuttle" data-toggle="button" onclick="ClickShowShuttle()">
-        <span class="slider round"></span>
-    </label>
-
-    @*<button type="button" class="btn btn-default">
-            Show Shuttle Only
-        </button>*@
+    </div>
 </div>
 
 <!-- Filter Modal -->

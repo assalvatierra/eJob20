@@ -35,10 +35,18 @@
         @Html.ActionLink("Copy Trip", "CopyTrip") |
         @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
         @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
-    @Html.ActionLink("Trip Logs View", "Index") |
-    @Html.ActionLink("OT Billing", "IndexBilling", new { company = ViewBag.Company }) |
-    Daily Rate Billing |
-    @Html.ActionLink("Sunday Billing", "IndexBillingSunday")
+    @*@Html.ActionLink("Trip Logs View", "Index") |
+        @Html.ActionLink("OT Billing", "IndexBilling", new { company = ViewBag.Company }) |
+        Daily Rate Billing |
+        @Html.ActionLink("Sunday Billing", "IndexBillingSunday")*@
+    <div class="col-md-8">
+        @Html.ActionLink("Back to Trip Logs", "Index", null, new { @class = " btn btn-default" })
+    </div>
+    <div class="col-md-4 btn-group">
+        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default active" })
+        @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
+    </div>
 </p>
 
 <p class="col-md-12">

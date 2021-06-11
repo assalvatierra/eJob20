@@ -81,7 +81,7 @@
 
                         @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
                         {
-                            totalOT = totalOT + trip.DriverOT;
+                            //totalOT = totalOT + trip.DriverOT;
                             subtotalSalary = subtotalSalary + trip.DriverFee;
                             tripCount = tripCount + 1;
                             <tr>
@@ -98,7 +98,7 @@
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    @trip.DriverOT.ToString("#,##0.00")
+                                    @*@trip.DriverOT.ToString("#,##0.00")*@
                                 </td>
                             </tr>
                         }
@@ -130,7 +130,9 @@
                             <td> </td>
                             <td> SubTotal </td>
                             <td> <b>@subtotalSalary.ToString("#,##0.00")</b> </td>
-                            <td> <b>@totalOT.ToString("#,##0.00")</b> </td>
+                            <td> <b>
+                                @*@totalOT.ToString("#,##0.00")*@
+                                 </b> </td>
                         </tr>
 
                         @{
@@ -160,7 +162,7 @@
                                     Deduction(Payment)
                                 </td>
                                 <td>
-                                    @payment.Amount.ToString("#,##0.00")
+                                   - @payment.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -198,7 +200,7 @@
                                     Contribution
                                 </td>
                                 <td>
-                                    @contribution.Amount.ToString("#,##0.00")
+                                   - @contribution.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -217,7 +219,7 @@
                                     Others
                                 </td>
                                 <td>
-                                    @others.Amount.ToString("#,##0.00")
+                                   - @others.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -315,7 +317,7 @@
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    @trip.DriverOT.ToString("#,##0.00")
+                                    @*@trip.DriverOT.ToString("#,##0.00")*@
                                 </td>
                             </tr>
                         }
@@ -392,7 +394,7 @@
                                     CA
                                 </td>
                                 <td>
-                                    @ca.Amount.ToString("#,##0.00")
+                                   - @ca.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -412,7 +414,7 @@
                                     Contributions
                                 </td>
                                 <td>
-                                    @contr.Amount.ToString("#,##0.00")
+                                   - @contr.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -431,7 +433,7 @@
                                     Others
                                 </td>
                                 <td>
-                                    @others.Amount.ToString("#,##0.00")
+                                   - @others.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }

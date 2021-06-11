@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var IsAdmin = (bool)ViewBag.IsAdmin;
     var StatusId = (int)ViewBag.StatusId;
+
+    //Status Counts
+    int RequestCount = (int)ViewBag.RequestCount;
+    int ApprovedCount = (int)ViewBag.ApprovedCount;
+    int ReleasedCount = (int)ViewBag.ReleasedCount;
 }
 
 <style>
@@ -25,9 +30,12 @@
 </p>
 <p id="status-list">
     <span class="text-muted"> Status Filter:  </span>
-    @Html.ActionLink("Request", "Index", new { statusId = 1 }, new { @id = "status-request" }) |
-    @Html.ActionLink("Approved", "Index", new { statusId = 2 }, new { @id = "status-approved" }) |
-    @Html.ActionLink("Released", "Index", new { statusId = 3 }, new { @id = "status-released" }) |
+    @Html.ActionLink("Request", "Index", new { statusId = 1 }, new { @id = "status-request" })
+    <span class="badge"> @RequestCount </span> |
+    @Html.ActionLink("Approved", "Index", new { statusId = 2 }, new { @id = "status-approved" })
+    <span class="badge"> @ApprovedCount </span> |
+    @Html.ActionLink("Released", "Index", new { statusId = 3 }, new { @id = "status-released" })
+    <span class="badge"> @ReleasedCount </span> |
     @Html.ActionLink("Returned", "Index", new { statusId = 4 }, new { @id = "status-returned" }) |
     @Html.ActionLink("UnReturned", "Unreturned", null, null)
 </p>

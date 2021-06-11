@@ -1183,6 +1183,7 @@ order by x.jobid
         #endregion
 
         #region jobMain
+        [Authorize]
         public ActionResult JobDetails(int jobid)
         {
             var jobMain = db.JobMains.Find(jobid);
@@ -1285,6 +1286,7 @@ order by x.jobid
         }
 
         // GET: JobMains/jobCreate
+        [Authorize]
         public ActionResult jobCreate(int? id)
         {
 
@@ -1356,7 +1358,7 @@ order by x.jobid
                         AddJobPaymentStatus((int)JobPaymentStatusId, jobMain.Id);
                     }
 
-                    //dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
+                    dbc.addEncoderRecord("joborder", jobMain.Id.ToString(), HttpContext.User.Identity.Name, "Create New Job");
                      
 
                     if (jobMain.Customer.Name == "<< New Customer >>")
@@ -1573,6 +1575,7 @@ order by x.jobid
         #endregion
 
         #region Services
+        [Authorize]
         public ActionResult JobServiceAdd(int? JobMainId) {
             Models.JobMain job = db.JobMains.Find((int)JobMainId);
             Models.JobServices js = new JobServices();
@@ -1710,6 +1713,7 @@ order by x.jobid
 
 
         // GET: JobServices/Edit/5
+        [Authorize]
         public ActionResult JobServiceEdit(int? id)
         {
             if (id == null)
@@ -2429,8 +2433,8 @@ order by x.jobid
                     return "Elvie S. Salvatierra ";
                 case "jecca.realbreeze@gmail.com":
                     return "Jecca Bilason";
-                case "kim.realbreeze@gmail.com":
-                    return "Jecca Bilason";
+                case "kimberly.realbreeze@gmail.com":
+                    return "Kimberly Pangubatan";
                 default:
                     return "Elvie S. Salvatierra ";
             }
@@ -2452,7 +2456,7 @@ order by x.jobid
                     return "/Images/Signature-1.png";
                 case "jecca.realbreeze@gmail.com":
                     return "/Images/Signature/JeccaSign.jpg";
-                case "kim.realbreeze@gmail.com":
+                case "kimberly.realbreeze@gmail.com":
                     return "/Images/Signature/KimSign.jpg";
                 default:
                     return "/Images/Signature-1.png";
