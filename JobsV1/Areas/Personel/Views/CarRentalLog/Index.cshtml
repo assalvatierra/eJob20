@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Trip Log";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    bool isAdmin = ViewBag.IsAdmin;
 }
 
 <style>
@@ -325,10 +327,13 @@
                             @*<li><a class="cursor-pointer" onclick="UpdateOTRate(this, @item.Id)"> Update OT Rate </a></li>*@
                             <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
                         }
-
                         <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
+                        
+                        @if(isAdmin){
+                            <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>
+                        }
                     </ul>
                 </div>
             </td>

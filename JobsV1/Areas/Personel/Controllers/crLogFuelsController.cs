@@ -38,12 +38,18 @@ namespace JobsV1.Areas.Personel.Controllers
             var today = dt.GetCurrentDate();
             var DateFilter = today.AddDays(-30);
 
+            if (statusId == null || statusId == 1 || statusId == 2)
+            {
+                DateFilter = today.AddDays(-5);
+            }
+
             //get fuel request up to -7 days from today
-            var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest)
+            var crLogFuels = db.crLogFuels
                 .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= DateFilter);
 
             if (statusId == null)
                 statusId = 1;
+
 
             List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
 

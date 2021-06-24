@@ -37,8 +37,12 @@ namespace JobsV1.Areas.Personel.Controllers
             #endregion
 
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-30);
-
+            var DateFilter = today.AddDays(-15);
+            
+            if (statusId == null || statusId == 1)
+            {
+                DateFilter = today.AddDays(-5);
+            }
             if (statusId == null)
                 statusId = 1;
 

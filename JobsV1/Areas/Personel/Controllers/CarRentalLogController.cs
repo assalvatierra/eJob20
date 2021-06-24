@@ -119,6 +119,8 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
             ViewBag.crLogOwnerList   = dl.GetOwners().ToList();
 
+            ViewBag.IsAdmin = User.IsInRole("Admin"); 
+
             return View(tripLogs);
 
         }
@@ -1449,10 +1451,37 @@ namespace JobsV1.Areas.Personel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            //remove passengers from trip
+            DeleteTripPassengers(id);
+
+            //delete trip record
             crLogTrip crLogTrip = db.crLogTrips.Find(id);
             db.crLogTrips.Remove(crLogTrip);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        //Param: id = TripId
+        private bool DeleteTripPassengers(int? id)
+        {
+            try
+            {
+                if (id != null)
+                {
+                    var tripPass = db.crLogPassengers.Where(p => p.crLogTripId == id).ToList();
+                    if (tripPass.Count() > 0)
+                    {
+                        db.crLogPassengers.RemoveRange(tripPass);
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 
