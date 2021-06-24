@@ -70,6 +70,7 @@ namespace JobsV1.Controllers
 
 
         // GET: SalesLeads
+        [Authorize]
         public ActionResult Index(int? sortid, int? leadId)
         {
 
@@ -107,6 +108,7 @@ namespace JobsV1.Controllers
 
 
         //GET: SalesLeads/ForApproval
+        [Authorize]
         public ActionResult ForApproval(int? sortid, int? leadId)
         {
             //sortid = 4;

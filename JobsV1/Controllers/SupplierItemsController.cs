@@ -21,6 +21,7 @@ namespace JobsV1.Controllers
 
 
         // GET: SupplierItems
+        [Authorize]
         public ActionResult Index()
         {
             var supplierItems = db.SupplierItems.Include(s => s.Supplier);

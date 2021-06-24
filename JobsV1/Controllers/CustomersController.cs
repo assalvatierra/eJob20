@@ -31,6 +31,7 @@ namespace JobsV1.Controllers
 
 
         // GET: Customers
+        [Authorize]
         public  ActionResult Index(string status, string search)
         {
 
@@ -42,8 +43,9 @@ namespace JobsV1.Controllers
             ViewBag.SiteConfig = SITECONFIG;
             return View(customerDetailList.OrderBy(s=>s.Name));
         }
-        
+
         // GET: Customers/Details/5
+        [Authorize]
         public ActionResult Details(int? id, int? top, int? last,string sdate, string edate, string status, string sortdate)
         {
             if (id == null)

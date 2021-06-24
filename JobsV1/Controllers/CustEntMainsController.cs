@@ -49,6 +49,7 @@ namespace JobsV1.Controllers
 
         private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
+        [Authorize]
         public ActionResult Index()
         {
             ViewBag.IsAdmin = User.IsInRole("Admin");
@@ -92,6 +93,7 @@ namespace JobsV1.Controllers
             return JsonConvert.SerializeObject(custList, Formatting.Indented);
         }
 
+        [Authorize]
         // GET: CustEntMains/Details/5
         public ActionResult Details(int? id, int? top, string sdate, string edate, string status)
         {

@@ -23,6 +23,7 @@ namespace JobsV1.Controllers
         private DateClass date = new DateClass();
 
         // GET: AdminAccess
+        [Authorize]
         public ActionResult Index()
         {
             if(User.IsInRole("Admin")){

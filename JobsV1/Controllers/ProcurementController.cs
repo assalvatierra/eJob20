@@ -31,6 +31,7 @@ namespace JobsV1.Controllers
         private DateClass date = new DateClass();
 
         // GET: Procurement
+        [Authorize]
         public ActionResult Index(int? id, int? sortid, int? leadId)
         {
             if (sortid != null)

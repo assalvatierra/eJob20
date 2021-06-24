@@ -35,6 +35,7 @@ namespace JobsV1.Controllers
                 };
 
         // GET: Activities
+        [Authorize]
         public ActionResult Index(string sdate, string edate)
         {
             var user = HttpContext.User.Identity.Name;
@@ -300,6 +301,7 @@ namespace JobsV1.Controllers
         #region User Activitiy
 
         //Get User Activities within a specific date range
+        [Authorize]
         public ActionResult UserActivities(string user, string sDate, string eDate)
         {
             if (!String.IsNullOrEmpty(user))
@@ -748,6 +750,8 @@ namespace JobsV1.Controllers
         #endregion
 
         #region Activites Post Sales
+
+        [Authorize]
         public ActionResult ActivitiesPostSales(string status, string srch, int? statusId)
         {
             var Activities = new List<cActivityPostSales>();
@@ -839,6 +843,7 @@ namespace JobsV1.Controllers
         #endregion
 
         #region Activity Status tracking 
+        [Authorize]
         public ActionResult StatusActivities(string status)
         {
 
