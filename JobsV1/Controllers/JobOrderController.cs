@@ -2316,7 +2316,7 @@ order by x.jobid
                 sLine1 = "Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000";
                 sLine2 = "Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358 ";
                 sLine3 = "Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/";
-                sLine4 = "TIN: 414-880-772-001 (non-Vat)";
+                sLine4 = "TIN: 414-880-772-001 (non-Vat) ; PhilGEPS No.: 241128";
                 sLogo = "LOGO_AJRENTACAR.jpg";
                 bank = db.Banks.Find(2);
             }
