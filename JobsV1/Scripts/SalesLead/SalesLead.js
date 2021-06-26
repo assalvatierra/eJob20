@@ -12,10 +12,20 @@ function setLeadId(id) {
     $("#supItem-supId").val(id);
 }
 
+function addLoadingBtn(e) {
+    $(e).text("");
+    var loadingImg = '<img src="/Images/GIF/loading.gif" width="20" > Loading ';
+    $(e).append(loadingImg);
+    $(e).attr('disabled', 'disabled');
+}
+
 //add item
-function ajax_AddSalesLeadItem() {
+function ajax_AddSalesLeadItem(e) {
+    //show loading animation on button
+    addLoadingBtn(e);
+
     //build json object
-    console.log("data: " + $("#supItem-Items option:selected").val());
+    //console.log("data: " + $("#supItem-Items option:selected").val());
 
     var data = {
         SalesLeadId: $("#supItem-supId").val(),
@@ -23,7 +33,7 @@ function ajax_AddSalesLeadItem() {
         price: $("#supItem-Rate").val(),
         remarks: $("#supItem-Remarks").val()
     };
-    console.log(data);
+    //console.log(data);
     var url = '/SalesLeads/addSupItem';
 
     //Post data from server using ajax call
@@ -36,7 +46,7 @@ function ajax_AddSalesLeadItem() {
 
         },
         error: function (data) {
-            console.log(data);
+            //console.log(data);
             location.reload(false);
         }
     });
@@ -62,7 +72,7 @@ function ajax_RemoveItem(Id) {
 
         },
         error: function (data) {
-            console.log(data);
+            //console.log(data);
             location.reload(false);
         }
     });
@@ -79,6 +89,9 @@ function EditLeadItem(id, invItemId, QuotedRate, Remarks, itemName) {
 
 //Edit Item
 function ajax_EditLeadItem() {
+    //show loading animation on button
+    addLoadingBtn(e);
+
     //build json object
     var Id = $('#edit-supItem-Id').val();
     var InvItemId = $('#edit-supItem-Items').val();
@@ -90,7 +103,7 @@ function ajax_EditLeadItem() {
         rate: Rate,
         remarks: Remarks
     };
-    console.log(data);
+
     var url = '/SalesLeads/EditItem';
 
     //Post data from server using ajax call
@@ -100,10 +113,10 @@ function ajax_EditLeadItem() {
         data: data,
         dataType: 'application/json; charset=utf-8',
         success: function (data) {
-            console.log(data);
+            //console.log(data);
         },
         error: function (data) {
-            console.log(data);
+            //console.log(data);
             location.reload(false);
         }
     });
@@ -177,11 +190,8 @@ function UpdateLeadStatus(e, leadId, statusId) {
         //window.location.reload(false);
     }).fail((result) => {
         //on update failed
-        console.log("On Fail");
-        console.log(result);
-
-        //$(e).parent().removeClass("btn-primary");
-        //$(e).parent().addClass("btn-primary");
+        //console.log("On Fail");
+        //console.log(result);
 
         //display alert message
         alert("Unable to Update Status")
@@ -207,8 +217,8 @@ function UpdateLeadStatusRemarks(e, leadId, statusId) {
         $("#SalesLeadRemarksModal").modal('show');
     }).fail((result) => {
         //on update failed
-        console.log("On Fail");
-        console.log(result);
+        //console.log("On Fail");
+        //console.log(result);
 
         //display alert message
         alert("Unable to Update Status")
@@ -247,26 +257,26 @@ function UpdateSalesLeadActivityStatus(status) {
     $.post("/SalesLeads/UpdateLeadActivityStatus", { id: id, status: status }, (result) => {
 
     }).done((success) => {
-        console.log(success);
+        //console.log(success);
         if (success) {
             window.location.reload(false);
         } else {
-            console.log(err);
-            console.log("Unable to Update Activity Status");
+            //console.log(err);
+            //console.log("Unable to Update Activity Status");
         }
     }).fail((err) => {
-        console.log(err);
-        console.log("Unable to Update Activity Status");
+        //console.log(err);
+        //console.log("Unable to Update Activity Status");
     });
 }
 
 //Done Sales Lead Activity
 function CustActivityDone(id) {
     $.post("/SalesLeads/PostCustActivityDone", { id: id }, (result) => {
-        console.log(result);
+        //console.log(result);
         window.location.reload(false);
     }).done((success) => {
-        console.log(success);
+        //console.log(success);
         window.location.reload(false);
     }).fail((err) => {
         console.log(err);
@@ -278,13 +288,13 @@ function CustActivityDone(id) {
 //Remove sales lead activity
 function CustActivityRemove(id) {
     $.post("/SalesLeads/PostCustActivityRemove", { id: id }, (result) => {
-        console.log(result);
+        //console.log(result);
         window.location.reload(false);
     }).done((success) => {
-        console.log(success);
+        //console.log(success);
         window.location.reload(false);
     }).fail((err) => {
-        console.log(err);
+        //console.log(err);
 
         console.log("Unable to Remove Activity");
     });

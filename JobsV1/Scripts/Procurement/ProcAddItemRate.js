@@ -1,9 +1,5 @@
-﻿/* ********************************************************
-* By Abel S. Salvatierra
-* @2017 - Real Breeze Travel & Tours
-* 
-*********************************************************** */
-
+﻿
+//-------------- Date Picker for Add Item Rate ------------//
 
 $(document).ready(function () {
     InitDatePicker();

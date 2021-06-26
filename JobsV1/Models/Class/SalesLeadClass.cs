@@ -30,38 +30,17 @@ namespace JobsV1.Models.Class
         public string Origin { get; set; }
     }
 
-    public class cSalesLead 
+    public class cSalesLead : SalesLead
     {
-        public int Id             { get; set; }
-        public DateTime Date      { get; set; }
-        public string Details     { get; set; }
-        public string Remarks     { get; set; }
-        public DateTime DtEntered { get; set; }
-        public string EnteredBy   { get; set; }
-        public Decimal Price      { get; set; }
-        public string AssignedTo  { get; set; }
-        public string CustPhone   { get; set; }
-        public string CustEmail   { get; set; }
         public int CustEntMainId  { get; set; }
         public string Company     { get; set; }
-        public string SalesCode   { get; set; }
-        public int CustomerId     { get; set; }
-        public string CustName    { get; set; }
-        public string ItemWeight  { get; set; }
 
         public string ActivityStatus   { get; set; }
         public string ActivityStatusType { get; set; }
 
         public int FileCount { get; set; }
 
-        public ICollection<SalesStatus> SalesStatus { get; set; }
-        public ICollection<SalesActivity> SalesActivities { get; set; }
-        public ICollection<SalesLeadCategory> SalesLeadCategories { get; set; }
         public ICollection<SalesProcStatus> SalesProcStatuses { get; set; }
-        public ICollection<SalesLeadLink> SalesLeadLinks { get; set; }
-        public ICollection<SalesLeadItems> SalesLeadItems { get; set; }
-        public ICollection<SalesLeadCompany> SalesLeadCompanies { get; set; }
-        public ICollection<SalesLeadSupActivity> SalesLeadSupActivities { get; set; }
 
 
     }
@@ -364,12 +343,7 @@ namespace JobsV1.Models.Class
         public List<SalesLead> GetSalesLeads_Rb(int sortId)
         {
 
-            var salesLeads = db.SalesLeads
-                                .Include(s => s.SalesLeadCompanies)
-                                .Include(s => s.SalesLeadCategories)
-                                .Include(s => s.SalesStatus)
-                                .OrderBy(s => s.Date)
-                                .ToList();
+            var salesLeads = new List<SalesLead>();
 
             switch (sortId)
             {
@@ -435,6 +409,8 @@ namespace JobsV1.Models.Class
             foreach (var lead in salesLeads)
             {
                 cSalesLead tempLead = new cSalesLead();
+
+                //tempLead = (cSalesLead)lead;
                 tempLead.Id = lead.Id;
                 tempLead.AssignedTo = lead.AssignedTo;
                 tempLead.DtEntered = lead.DtEntered;
@@ -463,19 +439,20 @@ namespace JobsV1.Models.Class
                 tempLead.SalesLeadCompanies = lead.SalesLeadCompanies;
 
                 //activity Status
-                tempLead.ActivityStatusType = GetLastActivityType(lead.Id);
-                tempLead.ActivityStatus = GetLastActivityStatus(lead.Id);
+                //var lastestActivity = GetLastActivitybySalesCode(lead.SalesCode);
+                //tempLead.ActivityStatusType = lastestActivity.Type;
+                //tempLead.ActivityStatus = lastestActivity.CustEntActStatu.Status;
 
                 tempLead.FileCount = GetLeadFileCount(lead.Id);
 
-                if (lead.SalesLeadCompanies.FirstOrDefault() != null)
-                {
-                    tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
-                }
-                else
-                {
-                    tempLead.Company = "";
-                }
+                //if (lead.SalesLeadCompanies.FirstOrDefault() != null)
+                //{
+                //    tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
+                //}
+                //else
+                //{
+                //    tempLead.Company = "";
+                //}
 
                 cSalesLeads.Add(tempLead);
             }
@@ -523,9 +500,76 @@ namespace JobsV1.Models.Class
                 tempLead.SalesLeadItems = lead.SalesLeadItems;
                 tempLead.SalesLeadCompanies = lead.SalesLeadCompanies;
 
+                var leadCompany = lead.SalesLeadCompanies;
+                if (leadCompany.FirstOrDefault() != null)
+                {
+                    var custEntActivities = leadCompany.FirstOrDefault().CustEntMain.CustEntActivities;
+                    if (custEntActivities.FirstOrDefault() != null)
+                    {
+                        tempLead.ActivityStatus = custEntActivities.FirstOrDefault().CustEntActStatu.Status;
+                        tempLead.ActivityStatusType = custEntActivities.FirstOrDefault().Type;
+                    }
+                }
+
+                tempLead.FileCount =lead.SalesLeadFiles.Count();
+
                 //activity Status
-                tempLead.ActivityStatusType = GetLastActivityType(lead.Id);
-                tempLead.ActivityStatus = GetLastActivityStatus(lead.Id);
+                //var lastestActivity = GetLastActivitybySalesCode(lead.SalesCode);
+                //tempLead.ActivityStatusType = lastestActivity.Type;
+                //tempLead.ActivityStatus = lastestActivity.CustEntActStatu.Status;
+
+                //if (lead.SalesLeadCompanies.FirstOrDefault() != null)
+                //{
+                //    tempLead.Company = lead.SalesLeadCompanies.FirstOrDefault().CustEntMain.Name;
+                //}
+                //else
+                //{
+                //    tempLead.Company = "";
+                //}
+
+                cSalesLeads.Add(tempLead);
+            }
+
+            return cSalesLeads;
+        }
+
+        public cSalesLead GetSalesLeadbyId(int id)
+        {
+
+            var lead = db.SalesLeads.Find(id);
+
+                cSalesLead tempLead = new cSalesLead();
+                tempLead.Id = lead.Id;
+                tempLead.AssignedTo = lead.AssignedTo;
+                tempLead.DtEntered = lead.DtEntered;
+
+                tempLead.CustomerId = lead.CustomerId;
+                tempLead.CustEmail = lead.CustEmail;
+                tempLead.CustName = lead.CustName;
+                tempLead.CustPhone = lead.CustPhone;
+                tempLead.CustEmail = lead.CustEmail;
+
+                tempLead.Date = lead.Date;
+                tempLead.Details = lead.Details;
+                tempLead.Price = lead.Price;
+                tempLead.Remarks = lead.Remarks;
+                tempLead.SalesCode = lead.SalesCode;
+                tempLead.ItemWeight = lead.ItemWeight;
+
+                //collections
+                tempLead.SalesActivities = lead.SalesActivities;
+                tempLead.SalesLeadCategories = lead.SalesLeadCategories;
+                tempLead.SalesStatus = lead.SalesStatus;
+                tempLead.SalesProcStatuses = lead.SalesProcStatus;
+                tempLead.SalesLeadLinks = lead.SalesLeadLinks;
+                tempLead.SalesLeadSupActivities = lead.SalesLeadSupActivities;
+                tempLead.SalesLeadItems = lead.SalesLeadItems;
+                tempLead.SalesLeadCompanies = lead.SalesLeadCompanies;
+
+                //activity Status
+                var lastestActivity = GetLastActivitybySalesCode(lead.SalesCode);
+                tempLead.ActivityStatusType = lastestActivity.Type;
+                tempLead.ActivityStatus = lastestActivity.CustEntActStatu.Status;
 
                 tempLead.FileCount = GetLeadFileCount(lead.Id);
 
@@ -538,10 +582,29 @@ namespace JobsV1.Models.Class
                     tempLead.Company = "";
                 }
 
-                cSalesLeads.Add(tempLead);
+
+            return tempLead;
+        }
+
+
+
+        public CustEntActivity GetLastActivitybySalesCode(string salesCode)
+        {
+
+            var lastActivity = db.CustEntActivities.Where(s => s.SalesCode == salesCode);
+
+            if (lastActivity.FirstOrDefault() != null)
+            {
+                var activity = lastActivity.OrderByDescending(s => s.Id).FirstOrDefault();
+
+                string activityStatus = activity.CustEntActStatu.Status;
+                activityStatus = activity.Type;
+
+                return activity;
             }
 
-            return cSalesLeads;
+
+            return new CustEntActivity();
         }
 
 

@@ -2,9 +2,10 @@
 
 @{ 
     Layout = null;
-    bool ISADMIN = ViewBag.IsAdmin;
-    bool ISASSIGNED = ViewBag.IsAssigned;
-    string USER = ViewBag.User;
+    string AssingedTo = ViewData["AssignedTo"] as string;
+    string USER = ViewBag.User as string;
+    bool ISADMIN = ViewBag.IsAdmin == null ? false : ViewBag.IsAdmin;
+    bool ISASSIGNED = ( AssingedTo == USER ); //return true or false
 }
 
 @if (Model.Count() > 0)
@@ -13,6 +14,7 @@
         Activities<br />
 
     </span>*@
+
 
     <span style="font:bold 8px, arial, verdana; color: royalblue;">
         @foreach (var tmpAct in Model)
@@ -26,7 +28,7 @@
                      title=@icon />
 
                 <span style="color:maroon;"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks </span>
-                <span style="font:status-bar;color:gray;">
+                <span style="font:status-bar;color:gray;padding-left:8px;">
                     @tmpAct.Date.ToString("MMM-dd-yyyy")
                     &nbsp;By: @tmpAct.Assigned.Split('@')[0]
                     &nbsp;
@@ -48,7 +50,7 @@
                      alt=@icon height="16"
                      title=@icon />
                 <span style="color:gray;"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks </span>
-                <span style="font:status-bar;color:gray;">
+                <span style="font:status-bar;color:gray;padding-left:8px;">
                     @tmpAct.Date.ToString("MMM-dd-yyyy")
                     &nbsp;By: @tmpAct.Assigned.Split('@')[0]
                 </span>
@@ -62,7 +64,7 @@
                      alt=@icon height="16"
                      title=@icon />
                 <span style="color:gray;text-decoration:line-through"> @tmpAct.CustEntActActionCode.Name -  @tmpAct.ActivityType | @tmpAct.Remarks</span>
-                <span style="font:status-bar;color:gray;">
+                <span style="font:status-bar;color:gray;padding-left:8px;">
                     @tmpAct.Date.ToString("MMM-dd-yyyy")
                     &nbsp;By: @tmpAct.Assigned.Split('@')[0]
                 </span>

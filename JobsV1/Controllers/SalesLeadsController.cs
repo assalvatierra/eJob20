@@ -53,7 +53,6 @@ namespace JobsV1.Controllers
             //get salesl eads leads
             var salesLeads = sldb.GetSalesLeads((int)sortid);
 
-
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
             ViewBag.StatusCodes = db.SalesStatusCodes
@@ -62,8 +61,8 @@ namespace JobsV1.Controllers
             ViewBag.User = HttpContext.User.Identity.Name;
 
             //for adding new item 
-            AddSupItemPartial();
-           
+            ViewBag.InvItems = db.InvItems.ToList();
+
             return View(salesLeads.OrderByDescending(s=>s.Date));
         }
 
@@ -88,7 +87,7 @@ namespace JobsV1.Controllers
             }
 
             //get sales leads list
-            var salesLeads = sldb.GetcSalesLeads((int)sortid);
+            var salesLeads = sldb.GetSalesLeads((int)sortid);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -100,7 +99,7 @@ namespace JobsV1.Controllers
             ViewBag.IsAdmin = IsUserAdmin();
 
             //for adding new item 
-            AddSupItemPartial();
+            ViewBag.InvItems = db.InvItems.ToList();
 
             return View(salesLeads.OrderByDescending(s => s.Date));
         }
@@ -136,7 +135,7 @@ namespace JobsV1.Controllers
             }
 
             //get sales leads list
-            var salesLeads = sldb.GetcSalesLeads((int)sortid);
+            var salesLeads = sldb.GetSalesLeads((int)sortid);
 
             ViewBag.LeadId = leadId;
             ViewBag.CurrentFilter = sortid;
@@ -316,6 +315,7 @@ namespace JobsV1.Controllers
 
 
         // GET: SalesLeads/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
 
@@ -324,19 +324,30 @@ namespace JobsV1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            SalesLead salesLead = db.SalesLeads.Find(id);
+            //get salesleads
+            var salesLead = db.SalesLeads.Find(id);
             if (salesLead == null)
             {
                 return HttpNotFound();
             }
 
-            var salesLeads = db.SalesLeads.Include(s => s.Customer)
-                        .Include(s => s.SalesLeadCategories)
-                        .Include(s => s.SalesStatus).OrderByDescending(s => s.Date)
-                        .ToList();
             
             ViewBag.StatusCodes = db.SalesStatusCodes.ToList();
             ViewBag.Company = salesLead.SalesLeadCompanies.OrderByDescending(s => s.Id).FirstOrDefault().Id;
+
+            ViewBag.LeadId = id;
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
+                .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToList();
+            ViewBag.UnitList = db.SupplierUnits.ToList();
+            ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
+            ViewBag.Items = db.InvItems.ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.ActTypes = db.CustEntActTypes.ToList();
+            ViewBag.IsAdmin = IsUserAdmin();
+
+            //for adding new item 
+            AddSupItemPartial();
 
             return View(salesLead);
         }
@@ -395,7 +406,8 @@ namespace JobsV1.Controllers
                         UpdateCustActivities(salesLead.Id, salesLead.SalesCode);
                     }
 
-                    return RedirectToAction("Index", new { sortid = 1 , leadid = salesLead.Id});
+                    return RedirectToAction("Details", new { id = salesLead.Id });
+                    //return RedirectToAction("Index", new { sortid = 1 , leadid = salesLead.Id});
 
                 }
                 else
@@ -468,7 +480,7 @@ namespace JobsV1.Controllers
                 //update salesLead
                 updateCompany(CompanyId, salesLead.Id);
 
-                return RedirectToAction("Index", "SalesLeads", new { leadId = salesLead.Id });
+                return RedirectToAction("Details", new { id = salesLead.Id });
             }
             var company = db.CustEntMains.Find(CompanyId);
 
@@ -572,6 +584,50 @@ namespace JobsV1.Controllers
 
             return isValid;
         }
+
+        #region Partial Views / Late Loading
+
+        public ActionResult _PartialProcActivities(int id)
+        {
+            var activities = db.SalesLeadSupActivities.Where(s => s.SalesLeadId == id).ToList();
+
+            ViewBag.IsAdmin = IsUserAdmin();
+            ViewBag.User = HttpContext.User.Identity.Name;
+
+            return PartialView(activities);
+        }
+
+        public ActionResult _PartialSupplierItems(int id, string AssignedTo)
+        {
+            var supItems = db.SalesLeadItems.Where(c => c.SalesLeadId == id).ToList();
+
+            ViewBag.IsAdmin = IsUserAdmin();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.AssignedTo = AssignedTo;
+
+            return PartialView(supItems);
+        }
+
+        //Partial View for Late Loading
+        //Param: id = salesLeadId
+        public ActionResult _PartialLeadStatus(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var statusType = sldb.GetLastActivityType(id);
+
+            ViewBag.IsAdmin = IsUserAdmin();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.AssignedTo = salesLead.AssignedTo;
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
+                .OrderBy(s => s.SeqNo).ThenBy(s => s.Id).ToList();
+            ViewBag.ActivityStatusType = statusType;
+
+            return PartialView(salesLead);
+        }
+
+        #endregion
 
         [HttpPost]
         public bool UpdateSalesLeadRemarks(int Id, string Remarks)
@@ -1309,7 +1365,7 @@ namespace JobsV1.Controllers
                     return View(activity);
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = slId });
             }
             catch
             {
@@ -1440,14 +1496,14 @@ namespace JobsV1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddCustActivityCode([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId")] CustEntActivity custEntActivity)
+        public ActionResult AddCustActivityCode([Bind(Include = "Id,Date,Assigned,ProjectName,SalesCode,Amount,Status,Remarks,CustEntMainId,Type,ActivityType,CustEntActStatusId,CustEntActActionStatusId,CustEntActActionCodesId,SalesLeadId")] CustEntActivity custEntActivity)
         {
             if (ModelState.IsValid)
             {
                 custEntActivity.Amount = Decimal.Parse(custEntActivity.Amount.ToString());
                 db.CustEntActivities.Add(custEntActivity);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { leadId = custEntActivity.SalesLeadId });
+                return RedirectToAction("Details", new { id = custEntActivity.SalesLeadId });
             }
 
             ViewBag.Assigned = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName", custEntActivity.Assigned);
@@ -1616,7 +1672,7 @@ namespace JobsV1.Controllers
             ViewBag.IsAdmin = IsUserAdmin();
             ViewBag.IsAssigned = salesLead.AssignedTo == user ? true : false;
 
-            return View(activities);
+            return PartialView(activities);
         }
 
         #endregion

@@ -13,7 +13,7 @@ function addSupItemToView(supId, rateId, item, supplier, ratePerUnit) {
     //close modal
     $('#selectSupplierItem-' + supId).modal('toggle');
 
-    console.log("content:" + content);
+    //console.log("content:" + content);
 
     //add to db
     ajax_AddSupRate(SLID, rateId);
@@ -21,7 +21,7 @@ function addSupItemToView(supId, rateId, item, supplier, ratePerUnit) {
 
 function addSupItem(salesLeadId) {
     SLID = salesLeadId;
-    console.log("SLID:" + SLID);
+    //console.log("SLID:" + SLID);
 }
 
 
@@ -33,14 +33,14 @@ function GetItemSuppliers(itemId, item, itemLeadId, salesLeadId) {
     $("#CreateSupItemRate-Item").val(itemId);
     $("#CreateSupItemRate-Item-Text").text(item);
 
-    console.log("ItemLeadID: " + itemLeadId);
+    //console.log("ItemLeadID: " + itemLeadId);
      
     //build json object
     var data = {
         id: itemId
     };
 
-    console.log(item);
+    //console.log(item);
     //request data from server using ajax call
     $.ajax({
         url: '/Procurement/GetItemSuppliers/' + itemId,
@@ -52,7 +52,7 @@ function GetItemSuppliers(itemId, item, itemLeadId, salesLeadId) {
         },
         error: function (data) {
             //console.log("ERROR");
-            console.log(data);
+            //console.log(data);
             LoadTable(data, itemLeadId);
         }
     });
@@ -67,14 +67,14 @@ function GetItemSuppliers_SL(itemId, item, itemLeadId, salesLeadId) {
     $("#CreateSupItemRate-Item").val(itemId);
     $("#CreateSupItemRate-Item-Text").text(item);
 
-    console.log("ItemLeadID: " + itemLeadId);
+    //console.log("ItemLeadID: " + itemLeadId);
 
     //build json object
     var data = {
         id: itemId
     };
 
-    console.log(item);
+    //console.log(item);
     //request data from server using ajax call
     $.ajax({
         url: '~/Procurement/GetItemSuppliers/' + itemId,
@@ -86,7 +86,7 @@ function GetItemSuppliers_SL(itemId, item, itemLeadId, salesLeadId) {
         },
         error: function (data) {
             //console.log("ERROR");
-            console.log(data);
+            //console.log(data);
             LoadTable(data, itemLeadId);
         }
     });
@@ -107,7 +107,8 @@ function LoadTable(data, itemLeadId) {
     for (var x = 0; x < temp.length; x++) {
         var particulars = temp[x]["Particulars"] != undefined ? temp[x]["Particulars"] : " ";
         var materials = temp[x]["Materials"] != undefined ? temp[x]["Materials"] : " ";
-        content = '<a class="list-group-item skills" id="supItemDesc" data-toggle="modal" data-target="#selectSupplier" data-dismiss="modal" onclick="AddSupItemRate(' + temp[x]["Id"] + ',' + itemLeadId + ')" > '
+        content = '<a class="list-group-item skills" id="supItemDesc" data-toggle="modal" data-target="#selectSupplier'
+            +'data - dismiss="modal" onclick = "AddSupItemRate(' + temp[x]["Id"] + ',' + itemLeadId + ')" > '
             + "<b>" + temp[x]["SupplierName"] + ' <br /> '
             + "<span>" + temp[x]["Rate"] + ' per '
             + temp[x]["Unit"] + '</ span> -  '
@@ -144,7 +145,7 @@ function AddSupItemRate(itemId, salesleadId) {
 
         },
         error: function (data) {
-            console.log(data);
+            //console.log(data);
             location.reload();
         }
     });
@@ -172,7 +173,7 @@ function RemoveSupItems(id) {
 
         },
         error: function (data) {
-            console.log(data);
+            //console.log(data);
             location.reload(false);
         }
     });

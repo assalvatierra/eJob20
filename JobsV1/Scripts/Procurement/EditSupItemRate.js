@@ -4,9 +4,9 @@
  */
 
 function Submit_EditSupItemRate() {
-    console.log("Validating inputs");
+    //console.log("Validating inputs");
     if (Validate_EditSupItemRate()) {
-        console.log("Edit Validate True");
+        //console.log("Edit Validate True");
         Ajax_EditSupplierItem();
     }
 }
@@ -16,8 +16,8 @@ function Init_EditSupItem(itemId) {
     console.log("Edit Item : " + itemId);
     $.get("/Procurement/GetSupItemDetails", { id: itemId })
         .done((response) => {
-            console.log(response);
-            console.log(response.Description);
+            //console.log(response);
+            //console.log(response.Description);
 
                 //populate Edit Sup Item Fields
                 $("#EditSupItemRate-ItemLeadId").val(response.Id);
@@ -62,19 +62,19 @@ function Ajax_EditSupplierItem() {
         origin:         $("#EditSupItemRate-Origin").val(),
     }
 
-    console.log(editSupplierItem);
+    //console.log(editSupplierItem);
 
     $.post("/Procurement/EditSupplierItem", editSupplierItem, (res) => {
-        console.log(res);
+        //console.log(res);
     }).done((result) => {
-        console.log(result)
+        //console.log(result)
         if (result == "True") {
             $("#EditSupItemRate").modal("hide");
             window.location.reload(false);
         } else {
             alert("Unable to Create Supplier Item.");
         }
-        console.log(result);
+        //console.log(result);
     }).fail((err) => {
         console.log(err);
         alert("Unable to Create Supplier Item.");
@@ -137,12 +137,12 @@ function Validate_EditSupItemRate() {
         var isValid = false;
     }
 
-    console.log(isValid);
-    console.log(particulars);
-    console.log(rate);
-    console.log(validTo);
-    console.log(validFrom);
-    console.log(isValid);
+    //console.log(isValid);
+    //console.log(particulars);
+    //console.log(rate);
+    //console.log(validTo);
+    //console.log(validFrom);
+    //console.log(isValid);
 
     return isValid;
 }

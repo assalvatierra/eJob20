@@ -1,0 +1,80 @@
+﻿@model IEnumerable<JobsV1.Models.SalesLeadSupActivity>
+
+@{
+    Layout = null;
+
+    string USER = ViewBag.User as string;
+    bool ISADMIN = (bool)ViewData["IsAdmin"];
+    string AssignedTo = ViewData["AssignedTo"] as string;
+}
+
+<p style="color:darkred;font-weight:600;margin-top:10px;margin:0px;padding-left:0px;">
+        Procurement Activities
+</p>
+    <span style="font:bold 8px, arial, verdana; color: royalblue;">
+        @foreach (var procActGroup in Model.GroupBy(s => s.SupplierActivity.Supplier.Name))
+        {
+            <br />  
+            <span style="color:darkred;font-weight:600;margin-top:5px;"> @procActGroup.Key </span><br />
+            foreach (var procAct in procActGroup)
+            {
+                var tmpAct = procAct.SupplierActivity;
+                var amount = tmpAct.Amount ?? 0;
+                if (tmpAct.SupplierActActionStatusId == 1)
+                {
+                    <span style="color:red;font-weight:800;">! </span>
+                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                            alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                            title=@tmpAct.SupplierActActionCode.IconPath />
+
+                    <span style="color:maroon;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency - @tmpAct.Type | @tmpAct.Remarks </span>
+                    <span style="font:status-bar;color:darkgray;padding-left:8px;">
+                        @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
+                        &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                        &nbsp;
+                    </span>
+                    if (USER == tmpAct.Assigned || ISADMIN)
+                    {
+                        <span class="btn btn-default btn-xs" onclick="UpdateProcActivity_Done(@tmpAct.Id)"> Done  </span>
+                        <span class="btn btn-default btn-xs" onclick="UpdateProcActivity_Edit(@tmpAct.Id)"> Edit  </span>
+                        <span class="btn btn-danger btn-xs" onclick="UpdateProcActivity_Remove(@tmpAct.Id)">  x  </span>
+                    }
+
+                    @*@Html.ActionLink("Done |", "ProcActivityDone", new { id = tmpAct.Id }, new { @id = "prevDefault", })*@
+                    @*@Html.ActionLink(" [x]", "ProcActivityRemove", new { id = tmpAct.Id })*@
+
+                    <br />
+                }
+                if (tmpAct.SupplierActActionStatusId == 2)
+                {
+                    <span style="color:darkgray;font-weight:800;">&#10004; </span>
+                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                            alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                            title=@tmpAct.SupplierActActionCode.IconPath />
+                    <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
+                    <span style="font: status-bar; color: darkgray; padding-left: 8px;">
+                        @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
+                        &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                        &nbsp;
+                    </span>
+                    <br />
+                }
+                if (tmpAct.SupplierActActionStatusId == 3)
+                {
+                    <span style="color:darkgray;font-weight:800;">&#x2022; </span>
+                    <img src=@Url.Content(@tmpAct.SupplierActActionCode.IconPath)
+                            alt=@tmpAct.SupplierActActionCode.IconPath height="16"
+                            title=@tmpAct.SupplierActActionCode.IconPath />
+                    <strike style="color:darkgray;">
+                        <span style="color:darkgray;"> @tmpAct.SupplierActActionCode.Name - @amount.ToString("N0") @tmpAct.Currency -  @tmpAct.Type | @tmpAct.Remarks</span>
+                        <span style="font: status-bar; color: darkgray; padding-left: 8px;">
+                            @tmpAct.DtActivity.ToString("MMM-dd-yyyy")
+                            &nbsp;By: @tmpAct.Assigned.Split('@')[0]
+                            &nbsp;
+                        </span>
+                    </strike>
+                    <br />
+                }
+            }
+        }
+    </span>

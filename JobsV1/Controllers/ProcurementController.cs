@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -47,8 +48,8 @@ namespace JobsV1.Controllers
                 }
             }
 
-            //get salesl eads leads
-            var salesLeads = sldb.GetcProcLeads((int)sortid);
+            //get sales leads
+            var salesLeads = sldb.GetProcurementLeads((int)sortid);
 
             ViewBag.LeadId = id;
             ViewBag.CurrentFilter = sortid;
@@ -66,6 +67,41 @@ namespace JobsV1.Controllers
             AddSupItemPartial();
 
             return View(salesLeads.OrderByDescending(s => s.Date));
+        }
+
+        // GET: Procurement/Details
+        [Authorize]
+        public ActionResult Details(int? id, int? sortid)
+        {
+           
+            if (id == null )
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //get salesleads
+            var salesLead = db.SalesLeads.Find(id);
+            if (salesLead == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.LeadId = id;
+            ViewBag.CurrentFilter = sortid;
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 3)
+                .OrderBy(s => s.OrderNo).ThenBy(s => s.Id).ToList();
+            ViewBag.UnitList = db.SupplierUnits.ToList();
+            ViewBag.Suppliers = db.Suppliers.Where(s => s.Status != "INC").OrderBy(s => s.Name).ToList();
+            ViewBag.Items = db.InvItems.ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.UserName = GetUserName();
+            ViewBag.IsAdmin = IsUserAdmin();
+
+            //for adding new item 
+            AddSupItemPartial();
+
+            return View(salesLead);
         }
 
         //Partial View: /Procurement/AddSupItemPartial
@@ -114,6 +150,47 @@ namespace JobsV1.Controllers
             return "";
         }
 
+        #region Partial Views / Late Loading
+
+        public ActionResult _PartialProcActivities(int id)
+        {
+            var activities = db.SalesLeadSupActivities.Where(s => s.SalesLeadId == id).ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.IsAdmin = IsUserAdmin();
+
+            return View(activities);
+        }
+
+        public ActionResult _PartialSupplierItems(int id, string AssignedTo)
+        {
+            var supItems = db.SalesLeadItems.Where(c => c.SalesLeadId == id).ToList();
+
+            ViewBag.IsAdmin = IsUserAdmin();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.AssignedTo = AssignedTo;
+
+            return View(supItems);
+        }
+
+        //Partial View for Late Loading
+        //Param: id = salesLeadId
+        public ActionResult _PartialLeadStatus(int id)
+        {
+            var salesLead = db.SalesLeads.Find(id);
+
+            var statusType = sldb.GetLastActivityType(id);
+
+            ViewBag.IsAdmin = IsUserAdmin();
+            ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.AssignedTo = salesLead.AssignedTo;
+            ViewBag.StatusCodes = db.SalesStatusCodes
+                .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
+                .OrderBy(s => s.SeqNo).ThenBy(s => s.Id).ToList();
+            ViewBag.ActivityStatusType = statusType;
+
+            return View(salesLead);
+        }
+        #endregion
 
         #region Procurement Activity 
 
@@ -351,7 +428,7 @@ namespace JobsV1.Controllers
                     db.SaveChanges();
                 }
 
-                return RedirectToAction("Index", new { id = slId });
+                return RedirectToAction("Details", new { id = slId });
             }
 
             var actCodeDefault = supplierActivity.SupplierActActionCode;
@@ -407,7 +484,7 @@ namespace JobsV1.Controllers
             }
         }
 
-        //POST: /Procurement/AddProcActivityCode
+        //POST: /Procurement/EditProcActivityCode
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditProcActivityCode([Bind(Include = "Id,Code,DtActivity,Assigned,Amount,Currency,Remarks,SupplierId,Amount,Type,ActivityType,SupplierActStatusId,ProjName,SupplierActActionCodeId")] SupplierActivity supplierActivity, int? slId, int? ActCodeId)
@@ -421,7 +498,7 @@ namespace JobsV1.Controllers
                 db.SaveChanges();
 
 
-                return RedirectToAction("Index", new { id = slId });
+                return RedirectToAction("Details", new { id = slId });
             }
 
             var actCodeDefault = supplierActivity.SupplierActActionCode;
