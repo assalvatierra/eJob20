@@ -794,6 +794,7 @@
     <Compile Include="Models\Class\EmailBuilderClass.cs" />
     <Compile Include="Models\Class\JobPostSaleClass.cs" />
     <Compile Include="Models\Class\JobVehicleClass.cs" />
+    <Compile Include="Models\Class\MaintenanceServices.cs" />
     <Compile Include="Models\Class\MechanicOilReport.cs" />
     <Compile Include="Models\Class\PortalCustomersClass.cs" />
     <Compile Include="Models\Class\RptGmsAutoClass.cs" />
@@ -957,6 +958,9 @@
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvItemCommi.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItemCrLogUnit.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JobAction.cs">
@@ -1998,6 +2002,11 @@
     <Content Include="Images\CarRental\Home\icons-twitter-48.png" />
     <Content Include="Images\Icons\icons-valet-parking.png" />
     <Content Include="Images\Icons\icons-weight.png" />
+    <Content Include="Images\Icons\Maintenance\icons-brake-discs.png" />
+    <Content Include="Images\Icons\Maintenance\icons-car-battery.png" />
+    <Content Include="Images\Icons\Maintenance\icons-gears.png" />
+    <Content Include="Images\Icons\Maintenance\icons-oil-industry-black.png" />
+    <Content Include="Images\Icons\Maintenance\icons-oil-industry-white.png" />
     <Content Include="Images\Icons\Receivables\Receivables-1st-reminder.png" />
     <Content Include="Images\Icons\Receivables\Receivables-2nd-reminder.png" />
     <Content Include="Images\Icons\Receivables\Receivables-new-bill.png" />
@@ -3439,6 +3448,16 @@
     <Content Include="Views\SalesLeads\_AddLeadFileLink.cshtml" />
     <Content Include="Views\Procurement\_AddLeadFileLink.cshtml" />
     <Content Include="Views\CarRental\ArticlesView\ArticlePage1.cshtml" />
+    <Content Include="Views\InvItems\Maintenance.cshtml" />
+    <Content Include="Views\SalesLeads\_PartialProcActivities.cshtml" />
+    <Content Include="Views\SalesLeads\_PartialSupplierItems.cshtml" />
+    <Content Include="Views\SalesLeads\_PartialLeadStatus.cshtml" />
+    <Content Include="Views\Procurement\_PartialLeadStatus.cshtml" />
+    <Content Include="Views\Procurement\_PartialProcActivities.cshtml" />
+    <Content Include="Views\Procurement\_PartialSupplierItems.cshtml" />
+    <Content Include="Views\Procurement\Details.cshtml" />
+    <Content Include="Views\SalesLeads\_PartialLeadFiles.cshtml" />
+    <Content Include="Views\Procurement\_PartialLeadFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

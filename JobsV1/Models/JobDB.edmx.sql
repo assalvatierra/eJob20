@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/22/2021 15:29:59
+-- Date Created: 06/23/2021 11:38:43
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -485,6 +485,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SalesLeadSalesLeadFile]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SalesLeadFiles] DROP CONSTRAINT [FK_SalesLeadSalesLeadFile];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemCrLogUnit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemCrLogUnits] DROP CONSTRAINT [FK_InvItemInvItemCrLogUnit];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -958,6 +961,9 @@ GO
 IF OBJECT_ID(N'[dbo].[SalesLeadFiles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SalesLeadFiles];
 GO
+IF OBJECT_ID(N'[dbo].[InvItemCrLogUnits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemCrLogUnits];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -1046,7 +1052,7 @@ CREATE TABLE [dbo].[JobServices] (
     [QuotedAmt] decimal(18,0)  NULL,
     [SupplierAmt] decimal(18,0)  NULL,
     [ActualAmt] decimal(18,2)  NULL,
-    [Remarks] nvarchar(80)  NULL,
+    [Remarks] nvarchar(160)  NULL,
     [SupplierItemId] int  NOT NULL,
     [DtStart] datetime  NULL,
     [DtEnd] datetime  NULL
@@ -1676,7 +1682,8 @@ CREATE TABLE [dbo].[InvCarRecordTypes] (
     [Description] nvarchar(150)  NOT NULL,
     [SysCode] nvarchar(50)  NULL,
     [OdoInterval] int  NOT NULL,
-    [DaysInterval] int  NOT NULL
+    [DaysInterval] int  NOT NULL,
+    [IconPath] nvarchar(160)  NULL
 );
 GO
 
@@ -2574,6 +2581,14 @@ CREATE TABLE [dbo].[SalesLeadFiles] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Link] nvarchar(250)  NOT NULL,
     [SalesLeadId] int  NOT NULL
+);
+GO
+
+-- Creating table 'InvItemCrLogUnits'
+CREATE TABLE [dbo].[InvItemCrLogUnits] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvItemId] int  NOT NULL,
+    [CrLogUnitId] int  NOT NULL
 );
 GO
 
@@ -3514,6 +3529,12 @@ GO
 -- Creating primary key on [Id] in table 'SalesLeadFiles'
 ALTER TABLE [dbo].[SalesLeadFiles]
 ADD CONSTRAINT [PK_SalesLeadFiles]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvItemCrLogUnits'
+ALTER TABLE [dbo].[InvItemCrLogUnits]
+ADD CONSTRAINT [PK_InvItemCrLogUnits]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5859,6 +5880,21 @@ GO
 CREATE INDEX [IX_FK_SalesLeadSalesLeadFile]
 ON [dbo].[SalesLeadFiles]
     ([SalesLeadId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvItemCrLogUnits'
+ALTER TABLE [dbo].[InvItemCrLogUnits]
+ADD CONSTRAINT [FK_InvItemInvItemCrLogUnit]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvItemCrLogUnit'
+CREATE INDEX [IX_FK_InvItemInvItemCrLogUnit]
+ON [dbo].[InvItemCrLogUnits]
+    ([InvItemId]);
 GO
 
 -- --------------------------------------------------

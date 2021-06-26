@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
+using JobsV1.Models.Class;
 
 namespace JobsV1.Controllers
 {
@@ -17,6 +18,8 @@ namespace JobsV1.Controllers
     {
         private JobDBContainer db = new JobDBContainer();
         private DateClass dt = new DateClass();
+
+        private MaintenanceServices mtServices = new MaintenanceServices();
 
         private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
@@ -307,6 +310,7 @@ namespace JobsV1.Controllers
             db.SaveChanges();
             return RedirectToAction("Index", "InvItems", null);
         }
+
         public ActionResult CoopRemove(int id)
         {
             CoopMemberItem coopMemberItem = db.CoopMemberItems.Find(id);
@@ -389,6 +393,45 @@ namespace JobsV1.Controllers
                 return null;
             }
         }
+
+        #region Maintenance
+
+        public ActionResult Maintenance()
+        {
+            var vehicles = mtServices.GetMaintenanceVehicles();
+
+            ViewBag.Today = dt.GetCurrentDate();
+            ViewBag.RecordTypes = db.InvCarRecordTypes.ToList();
+            return View(vehicles);
+        }
+
+        public string GetImportOdo()
+        {
+            var vehicles = mtServices.GetMaintenanceVehicles().Select(v => v.Id).ToList();
+
+            var importRes = mtServices.UpdateOdoFromVehicleList(vehicles);
+
+            return "OK";
+        }
+
+        [HttpGet]
+        public JsonResult GetUnitRecords(int id)
+        {
+            var records = mtServices.GetInvCarRecords(id)
+                .Select(c => new { 
+                    c.Id,
+                    RecordType = c.InvCarRecordType.Description,
+                    Unit = c.InvItem.Description,
+                    c.InvItem.ItemCode,
+                    dtDone = c.dtDone.ToString("MMM dd yyyy"),
+                    c.Odometer,
+                    c.Remarks
+                });
+
+            return Json(records, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
 
         #region Availability
         public ActionResult Availability() {

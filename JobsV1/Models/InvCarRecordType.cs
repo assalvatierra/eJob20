@@ -25,6 +25,7 @@ namespace JobsV1.Models
         public string SysCode { get; set; }
         public int OdoInterval { get; set; }
         public int DaysInterval { get; set; }
+        public string IconPath { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvCarRecord> InvCarRecords { get; set; }

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using JobsV1.Models;
 
+
 namespace JobsV1.Controllers
 {
     public class InvCarRecordsController : Controller
@@ -15,10 +16,8 @@ namespace JobsV1.Controllers
         private JobDBContainer db = new JobDBContainer();
 
         // GET: InvCarRecords
-        public ActionResult Index(int? carId)
+        public ActionResult Index(int? unitId)
         {
-            ViewBag.InvItemsList = db.InvItems.Where(s=>s.ViewLabel == "UNIT").ToList();
-            ViewBag.recordTypeList = db.InvCarRecordTypes.ToList();
 
             //get records past their next odometer & schedule change
             //odometer
@@ -31,14 +30,17 @@ namespace JobsV1.Controllers
 
                     priority.Add(priorityRecords);
             }
-           
+
+            ViewBag.InvItemsList = db.InvItems.Where(s => s.ViewLabel == "UNIT" && s.OrderNo == 100).ToList();
+            ViewBag.recordTypeList = db.InvCarRecordTypes.ToList();
             ViewBag.priority = priority;
+            ViewBag.UnitId = unitId;
 
             var invCarRecords = db.InvCarRecords.Include(i => i.InvCarRecordType).Include(i => i.InvItem).OrderByDescending(s=>s.dtDone);
 
-            if (carId != null) {
+            if (unitId != null) {
 
-                return View(invCarRecords.Where(s=>s.InvItemId == carId).ToList());
+                return View(invCarRecords.Where(s=>s.InvItemId == unitId).ToList());
             }
             else
             {
@@ -82,7 +84,6 @@ namespace JobsV1.Controllers
                             Text = s.ItemCode.ToString() + " - " + s.Description
                         }
                  );
-           
 
             ViewBag.InvCarRecordTypeId = new SelectList(db.InvCarRecordTypes, "Id", "Description");
             ViewBag.InvItemId = new SelectList(invItems, "Value", "Text", carId);
@@ -188,5 +189,6 @@ namespace JobsV1.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

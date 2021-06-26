@@ -1,0 +1,297 @@
+﻿@model IEnumerable<JobsV1.Models.Class.MaintenanceVehicles>
+
+@{
+    ViewBag.Title = "Maintenance Summary";
+    Session["ROOTMENUID"] = 6;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    var siteConfig = ViewBag.SiteConfig;
+
+    var recordTypes = ViewBag.RecordTypes as IEnumerable<JobsV1.Models.InvCarRecordType>;
+    var today = (DateTime)ViewBag.Today;
+}
+
+<h2>Vehicle Maintenance Summary</h2>
+<p>
+    @Html.ActionLink("Maintenance Records", "Index", "InvCarRecords", null, null) |
+    @Html.ActionLink("Gate Control", "Index", "InvCarGateControls", null, null) |
+    @Html.ActionLink("Units", "Index")
+    <span class="pull-right" style="margin-bottom:5px;">
+        <button class="btn btn-default" onclick="ShowConfirmImport()">
+            <div class="glyphicon glyphicon-arrow-down" title="Import Odo"></div> &nbsp;
+            <span>Import Odo from TripLogs </span>
+        
+        </button>
+    </span>
+</p>
+
+<table class="table">
+    <tr>
+        <th class="hidden-on-mobile">
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            Vehicle
+        </th>
+        <th width="680">
+            Maintenance
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+
+        <tr>
+            <td width="100" class="hidden-on-mobile"> 
+                @if (item.ImgPath != null)
+                {
+                    <img src="@item.ImgPath" width="80" />
+                }
+                else
+                {
+                    <img src="~/Images/CarRental/placeholder.png" width="80" />
+                }
+            </td>
+            <td>
+                <span style="font-size:18px;">
+                    @Html.DisplayFor(modelItem => item.Description) <br />
+                    @Html.DisplayFor(modelItem => item.ItemCode)  <br />
+                </span>
+                @Html.DisplayFor(modelItem => item.Remarks)
+                <hr />
+                <p>
+                    Latest Odometer: @item.Odo.ToString("N0")
+                </p>
+
+                <p>
+                    <button class="btn btn-default"  onclick="ShowRecordListModal(@item.Id)"> View Unit Records </button>
+                </p>
+            </td>
+            <td>
+                <table class="table" style="font-size:11px;">
+                    <tr>
+                        <th> Type </th>
+                        <th> Prev </th>
+                        <th> Next </th>
+                        <th> </th>
+                    </tr>
+
+                    @foreach (var record in item.MntRecords)
+                    {
+                        bool isNeedMaintenance = false;
+                        string alertClass = " ";
+                        if (today > record.NextSched || item.Odo > record.NextOdometer)
+                        {
+                            if (record.NextOdometer > 0)
+                            {
+                                isNeedMaintenance = true;
+                                alertClass = "alert alert-danger";
+                            }
+                        }
+
+
+
+                        <tr class="@alertClass">
+                            @if (record.Id != 0)
+                            {
+                                <td width="200">
+                                    <img src="@record.InvCarRecordType.IconPath" width="20" />
+                                    &nbsp; @record.InvCarRecordType.Description
+                                </td>
+                                <td>
+
+                                    <span>
+                                        @record.dtDone.ToString("MMM dd yyyy") at
+                                        Odo: @record.Odometer.ToString("N0")
+                                    </span>
+
+                                    @if (!String.IsNullOrEmpty(record.Remarks))
+                                    {
+                                        <span>
+                                            @Html.DisplayFor(modelItem => record.Remarks)
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+
+                                    <span>
+                                        @record.NextSched.ToString("MMM dd yyyy")  at
+                                        Odo: @record.NextOdometer.ToString("N0")
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (isNeedMaintenance)
+                                    {
+
+                                        <div class="glyphicon glyphicon-alert" title="Need @record.InvCarRecordType.Description">  </div>
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+
+                                <td width="200">  <img src="@record.InvCarRecordType.IconPath" width="20" /> &nbsp; @record.InvCarRecordType.Description </td>
+                                <td><span class="text-muted"> No Record</span></td>
+                                <td></td>
+                                <td></td>
+
+                            }
+                        </tr>
+                    }
+
+                    @foreach (var type in recordTypes)
+                    {
+
+                        if (item.MntRecords.Count() == 0)
+                        {
+                            <tr>
+                                <td width="200">  <img src="@type.IconPath" width="20" /> &nbsp; @type.Description  </td>
+                                <td><span class="text-muted"> No Record</span></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                @*<button class="btn btn-default btn-sm"> + Add Record </button>*@
+                @*<button class="btn btn-sm btn-default" onclick="ShowRecordListModal(@item.Id)"> Records History</button>*@
+            </td>
+        </tr>
+
+    }
+
+</table>
+
+
+
+<!-- Unit Record History -->
+<div class="modal fade" id="unitRecordListModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Vehicle Maintenance Records</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+                <ul class="list-group" id="unitRecordList">
+                  
+                </ul>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- Unit Record History -->
+<div class="modal fade" id="confirmImportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Vehicle Maintenance Records</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+                <h4> Do you want to import Odometer data from tripLogs module? </h4>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" id="progress-bar-import" role="progressbar" 
+                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+                        <span class="sr-only">0% Complete</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="ImportOdo()"> Yes </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+@section Scripts{
+
+    <script>
+        function ShowRecordListModal(id) {
+
+            $('#unitRecordListModal').modal('show');
+            GetUnitRecords(id);
+        }
+
+        function ShowConfirmImport() {
+            $('#confirmImportModal').modal('show');
+        }
+
+        function ImportOdo() {
+            var progress = 50;
+            $("#progress-bar-import").css('width', progress + '%').attr('aria-valuenow', progress);
+
+            $.get('/InvItems/GetImportOdo', null, (res) => {
+                progress = 100
+                //update progress bar value
+                $("#progress-bar-import").css('width', progress + '%').attr('aria-valuenow', progress);
+                //hide modal
+               
+                //refresh page
+                setTimeout(() => {
+                    $('#confirmImportModal').modal('hide');
+                    window.location.reload(false);
+                }, 800);
+            });
+        }
+
+        function GetUnitRecords(unitId) {
+            var result = $.get('/InvItems/GetUnitRecords', { id: unitId }, (res) => {
+                console.log(res);
+                var unitRecords = res;
+
+                //clear records list
+                $("#unitRecordList").children().remove();
+
+                if (unitRecords.length > 0) {
+                    AddRecordsToTable(unitRecords);
+                } else {
+                    $("#unitRecordList").append("<p class='text-center text-muted'> No Record Found <p>");
+                }
+            });
+
+            console.log(result);
+        }
+
+        function AddRecordsToTable(records) {
+
+
+            for (var i = 0; i < records.length; i++) {
+                //add comma separator to odometer
+                var odometer = records[i]["Odometer"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+                var remarks = records[i]["Remarks"] == null ? "" : records[i]["Remarks"];
+
+                //create list link of record
+                var recordItem = ' <a href="/InvCarRecords/Details/' + records[i]["Id"]  +'" class="list-group-item"> ' + records[i]["dtDone"] + ' - '
+                    + records[i]["RecordType"] + ' at Odometer:' + odometer + ' <br>'
+                    + remarks + ' </a > ';
+
+                //add to recor list
+                $("#unitRecordList").append(recordItem);
+            }
+        }
+
+
+    </script>
+
+}

@@ -195,8 +195,6 @@ namespace JobsV1.Controllers
                 isValid = false;
             }
 
-
-
             return isValid;
         }
 

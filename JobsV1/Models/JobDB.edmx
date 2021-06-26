@@ -162,6 +162,7 @@
     <EntitySet Name="SalesStatusStatus" EntityType="JobDB.Store.SalesStatusStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Currencies" EntityType="JobDB.Store.Currencies" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SalesLeadFiles" EntityType="JobDB.Store.SalesLeadFiles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvItemCrLogUnits" EntityType="JobDB.Store.InvItemCrLogUnits" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -786,6 +787,10 @@
       <End Role="SalesLead" EntitySet="SalesLeads" />
       <End Role="SalesLeadFile" EntitySet="SalesLeadFiles" />
     </AssociationSet>
+    <AssociationSet Name="InvItemInvItemCrLogUnit" Association="JobDB.Store.InvItemInvItemCrLogUnit">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvItemCrLogUnit" EntitySet="InvItemCrLogUnits" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="JobMains">
     <Key>
@@ -872,7 +877,7 @@
     <Property Name="QuotedAmt" Type="decimal" Nullable="true" />
     <Property Name="SupplierAmt" Type="decimal" Nullable="true" />
     <Property Name="ActualAmt" Type="decimal" Nullable="true" Precision="18" Scale="2" />
-    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="160" />
     <Property Name="SupplierItemId" Type="int" Nullable="false" />
     <Property Name="DtStart" Type="datetime" Nullable="true" />
     <Property Name="DtEnd" Type="datetime" Nullable="true" />
@@ -1503,6 +1508,7 @@
     <Property Name="SysCode" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="OdoInterval" Type="int" Nullable="false" />
     <Property Name="DaysInterval" Type="int" Nullable="false" />
+    <Property Name="IconPath" Type="nvarchar" Nullable="true" MaxLength="160" />
   </EntityType>
   <EntityType Name="InvCarGateControls">
     <Key>
@@ -2400,6 +2406,14 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Link" Type="nvarchar" Nullable="false" MaxLength="250" />
     <Property Name="SalesLeadId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvItemCrLogUnits">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="CrLogUnitId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4273,6 +4287,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvItemInvItemCrLogUnit">
+    <End Role="InvItem" Type="JobDB.Store.InvItems" Multiplicity="1" />
+    <End Role="InvItemCrLogUnit" Type="JobDB.Store.InvItemCrLogUnits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvItemCrLogUnit">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -5058,6 +5084,11 @@
             <End Role="SalesLead" EntitySet="SalesLeads" />
             <End Role="SalesLeadFile" EntitySet="SalesLeadFiles" />
           </AssociationSet>
+          <EntitySet Name="InvItemCrLogUnits" EntityType="JobDB.InvItemCrLogUnit" />
+          <AssociationSet Name="InvItemInvItemCrLogUnit" Association="JobDB.InvItemInvItemCrLogUnit">
+            <End Role="InvItem" EntitySet="InvItems" />
+            <End Role="InvItemCrLogUnit" EntitySet="InvItemCrLogUnits" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="JobMain">
           <Key>
@@ -5199,7 +5230,7 @@
           <Property Name="QuotedAmt" Type="Decimal" Nullable="true" />
           <Property Name="SupplierAmt" Type="Decimal" Nullable="true" />
           <Property Name="ActualAmt" Type="Decimal" Nullable="true" Precision="18" Scale="2" />
-          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="160" />
           <NavigationProperty Name="SupplierItem" Relationship="JobDB.SupplierItemJobServices" FromRole="JobServices" ToRole="SupplierItem" />
           <Property Name="SupplierItemId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="JobServicePickups" Relationship="JobDB.JobServicesJobServicePickup" FromRole="JobServices" ToRole="JobServicePickup" />
@@ -6350,6 +6381,7 @@
           <NavigationProperty Name="CoopMemberItems" Relationship="JobDB.InvItemCoopMemberItem" FromRole="InvItem" ToRole="CoopMemberItem" />
           <NavigationProperty Name="SalesLeadItems" Relationship="JobDB.InvItemSalesLeadItems" FromRole="InvItem" ToRole="SalesLeadItems" />
           <NavigationProperty Name="InvItemCommis" Relationship="JobDB.InvItemCommiInvItem" FromRole="InvItem" ToRole="InvItemCommi" />
+          <NavigationProperty Name="InvItemCrLogUnits" Relationship="JobDB.InvItemInvItemCrLogUnit" FromRole="InvItem" ToRole="InvItemCrLogUnit" />
         </EntityType>
         <EntityType Name="InvItemCat">
           <Key>
@@ -6737,6 +6769,7 @@
           <NavigationProperty Name="InvCarRecords" Relationship="JobDB.InvCarRecordTypeInvCarRecord" FromRole="InvCarRecordType" ToRole="InvCarRecord" />
           <Property Name="OdoInterval" Nullable="false" Type="Int32" />
           <Property Name="DaysInterval" Nullable="false" Type="Int32" />
+          <Property Name="IconPath" Type="String" Nullable="true" MaxLength="160" />
         </EntityType>
         <Association Name="InvCarRecordTypeInvCarRecord">
           <End Type="JobDB.InvCarRecordType" Multiplicity="1" Role="InvCarRecordType" />
@@ -8859,6 +8892,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="InvItemCrLogUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="InvItem" Relationship="JobDB.InvItemInvItemCrLogUnit" FromRole="InvItemCrLogUnit" ToRole="InvItem" />
+          <Property Name="InvItemId" Type="Int32" Nullable="false" />
+          <Property Name="CrLogUnitId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvItemInvItemCrLogUnit">
+          <End Type="JobDB.InvItem" Role="InvItem" Multiplicity="1" />
+          <End Type="JobDB.InvItemCrLogUnit" Role="InvItemCrLogUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItemCrLogUnit">
+              <PropertyRef Name="InvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9644,6 +9698,7 @@
           <ScalarProperty Name="SysCode" ColumnName="SysCode" />
           <ScalarProperty Name="OdoInterval" ColumnName="OdoInterval" />
           <ScalarProperty Name="DaysInterval" ColumnName="DaysInterval" />
+          <ScalarProperty Name="IconPath" ColumnName="IconPath" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -10632,6 +10687,15 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Link" ColumnName="Link" />
           <ScalarProperty Name="SalesLeadId" ColumnName="SalesLeadId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvItemCrLogUnits">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.InvItemCrLogUnit)">
+        <MappingFragment StoreEntitySet="InvItemCrLogUnits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="CrLogUnitId" ColumnName="CrLogUnitId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -3,12 +3,33 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    var unitList = ViewBag.InvItemsList as IEnumerable<JobsV1.Models.InvItem>;
+    var unitId = ViewBag.UnitId;
 }
 
 <h2>Maintenance Records</h2>
 
-<p>
+<div id="alerts">
 
+</div>
+
+<form class="form-group form-inline">
+    @using (Html.BeginForm())
+    {
+
+        <select name="unitId" id="unitId" class="form-control"  >
+            <option value="">All</option>
+            @foreach (var unit in unitList)
+            {
+                <option value="@unit.Id"> @unit.ItemCode - @unit.Description </option>
+            }
+        </select>
+
+        <button class="btn btn-default" type="submit" style="margin-top:0px;"> <div class="glyphicon glyphicon-search" ></div> </button>
+    }
+    </form>
+<p>
     <a href="" id="catbtn" data-toggle="modal" data-target="#carlist" style="margin-bottom:10px;">Add Record </a> |
     @Html.ActionLink("Record Types", "Index", "invCarRecordTypes")
 </p>
@@ -38,85 +59,58 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-           @item.dtDone.ToString("MMM dd,yyyy")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InvCarRecordType.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InvItem.ItemCode) -
-            @Html.DisplayFor(modelItem => item.InvItem.Description)
-        </td>
-        <td>
-            @item.Odometer.ToString("N0")
-        </td>
-        <td>
-            @item.NextOdometer.ToString("N0")
-        </td>
-        <td>
-            @item.NextSched.ToString("MMM dd,yyyy")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.dtDone.ToString("MMM dd,yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvCarRecordType.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvItem.ItemCode) -
+                @Html.DisplayFor(modelItem => item.InvItem.Description)
+            </td>
+            <td>
+                @item.Odometer.ToString("N0")
+            </td>
+            <td>
+                @item.NextOdometer.ToString("N0")
+            </td>
+            <td>
+                @item.NextSched.ToString("MMM dd,yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
     <tr>
-        <td colspan="8" >
-            <a href="" id="catbtn" data-toggle="modal" data-target="#carlist">Add Record </a> 
+        <td colspan="8">
+            <a href="" id="catbtn" data-toggle="modal" data-target="#carlist">Add Record </a>
         </td>
     </tr>
 
 </table>
- 
+
+<!-- Modal -->
+
+
 @Html.ActionLink("List", "Index", "SupplierItems") |
 @Html.ActionLink("Items", "Index", "InvItems") |
 @Html.ActionLink("Availability", "Availability", "InvItems") |
 @Html.ActionLink("Gate Control", "Index", "InvCarGateControls") |
 Maintenance
 
-    @foreach (var prio in ViewBag.priority as IEnumerable<JobsV1.Models.InvCarRecord>)
-    {
-        //Odometer filter
-        try
-        {
-            var currentOdo = int.Parse(@prio.InvItem.InvCarGateControls.OrderByDescending(s => s.dtControl).FirstOrDefault().Odometer);
-            if (currentOdo > prio.NextOdometer)
-            {
-            <script type="text/javascript">
-                alert('@prio.InvItem.ItemCode @prio.InvItem.Description is needed for @prio.InvCarRecordType.Description . @currentOdo of @prio.NextOdometer ');
-            </script>
-            }
-        }
-        catch (Exception e)
-        { }
-
-        //Date of last change filter
-        try
-        {
-            if (DateTime.Compare(DateTime.Today,prio.NextSched) >= 0)
-            {
-                <script type="text/javascript">
-                    alert('@prio.InvItem.ItemCode @prio.InvItem.Description is needed for @prio.InvCarRecordType.Description . Scheduled change: @prio.NextSched ');
-                </script>
-            }
-        }
-        catch (Exception e)
-        { }
-
-    }
 
 
-<!-- Modal -->
 <div class="modal fade" id="carlist" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -130,10 +124,10 @@ Maintenance
                     @foreach (var carList in ViewBag.InvItemsList as IEnumerable<JobsV1.Models.InvItem>)
                     {
                         <a href="@Url.Action("Create", new { carId = carList.Id })" class="list-group-item">
-                            @Html.DisplayFor(modelItem => carList.ItemCode) - 
+                            @Html.DisplayFor(modelItem => carList.ItemCode) -
                             @Html.DisplayFor(modelItem => carList.Description)
                         </a>
-                     }
+                    }
                 </div>
             </div>
 
@@ -143,3 +137,16 @@ Maintenance
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+@section Scripts{
+
+    <script>
+
+        $(() => {
+            //onload
+            $("#unitId").val("@unitId");
+        });
+
+    </script>
+
+}

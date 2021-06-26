@@ -300,8 +300,12 @@ insert into CustEntAccountTypes ([Name],[SysCode]) values
 insert into CustEntMains([Name],[Address],[Contact1],[Contact2],[CustEntAccountTypeId])
 values ('NEW (not yet defined)',' ',' ',' ',1);
 
-insert into SalesStatusCodes([SeqNo],[Name])
-values (1,'NEW'), (2,'ASSESMENT'), (3, 'PROPOSAL SENT'), (4, 'NEGOTIATION'), (5, 'ACCEPTED'), (6, 'REJECTED'), (7, 'CLOSE');
+insert into SalesStatusTypes([Type])
+values  ('ALL'),('SALES'),('PROCUREMENT');
+
+insert into SalesStatusCodes([SeqNo],[Name],[OrderNo],[SalesStatusTypeId])
+values (1,'NEW', 1, 2), (2,'ASSESMENT', 2, 2), (3, 'PROPOSAL SENT', 3, 2), (4, 'NEGOTIATION', 4, 2),
+	   (5, 'ACCEPTED', 5, 2), (6, 'REJECTED', 6, 2), (7, 'CLOSE', 7, 2);
 
 insert into CustEntActStatus([Status])
 values ('Open'), ('For Client Comment'), ('For Meeting'), ('Awarded'), ('Close');
@@ -476,6 +480,46 @@ values
 insert into InvItemCategories([InvItemId],[InvItemCatId])
 values
 (1,7),(2,7),(3,10),(4,6),(5,11),(6,2),(7,2),(8,2);
+
+insert into InvCarRecordTypes([Description], [SysCode], [OdoInterval], [DaysInterval], [IconPath])
+values
+('Oil Change (Fully Synthetic) ', 'COFS', 10000, 180, '/Images/Icons/Maintenance/icons-oil-industry-black.png'),
+('Oil Change (Regular)', 'OIL', 10000, 180, '/Images/Icons/Maintenance/icons-oil-industry-black.png'),
+('Brakepad Change', 'OIL', 10000, 150, '/Images/Icons/Maintenance/icons-brake-discs.png'),
+('Transmission Oil (Automatic)', 'OIL', 10000, 360, '/Images/Icons/Maintenance/icons-oil-industry-white.png'),
+('Trasmission Oil (Manual)', 'OIL', 10000, 360, '/Images/Icons/Maintenance/icons-oil-industry-white.png'),
+('Brake Shoe', 'OIL', 10000, 700, '/Images/Icons/Maintenance/icons-brake-discs.png'),
+('Gear Oil', 'OIL', 10000, 365, '/Images/Icons/Maintenance/icons-gears.png'),
+('Battery Change', 'OIL', 10000, 547, '/Images/Icons/Maintenance/icons-car-battery.png')
+;
+
+-- linking jobs vechiles to triplogs units
+insert into InvItemCrLogUnits([InvItemId], [CrLogUnitId]) 
+values 
+(2,1),
+(3,2),
+(4,6),
+(5,5),
+(6,8);
+
+-- Sample Maintenance Records --
+insert into InvCarRecords([InvItemId], [InvCarRecordTypeId], [Odometer], [dtDone], [NextOdometer], [NextSched], [Remarks])
+values 
+(2, 1, 17500, '6/05/2020', 27500, '12/05/2020', ''),
+(3, 2, 12500, '8/27/2020', 22300, '04/27/2021', ''),
+(2, 3, 17500, '6/05/2020', 22500, '12/05/2020', ''),
+(4, 1, 6900,  '3/12/2021', 16900, '9/13/2021', '');
+
+insert into InvCarGateControls([InvItemId], [In_Out_flag], [Odometer], [dtControl], [Remarks], [Driver], [Inspector], [JobMainId], [CustomerId], [DriverId])
+values 
+(2, 1, 19500, '8/15/2020', '', 'Kelvin', 'Peter', null, null, null),
+(2, 1, 21000, '9/15/2020', '', 'Kelvin', 'Peter', null, null, null),
+(2, 1, 23500, '10/15/2020', '', 'Kelvin', 'Peter', null, null, null),
+(2, 1, 26500, '11/15/2020', '', 'Kelvin', 'Peter', null, null, null),
+
+(3, 1, 14500, '3/15/2021', '', 'Xerxes', 'Peter', null, null, null),
+(3, 1, 15500, '4/15/2021', '', 'Xerxes', 'Peter', null, null, null);
+
 -- ----------------------------------------------
 -- Supplier PO Configuration
 -- ----------------------------------------------
@@ -578,16 +622,16 @@ update CustCategories set iconPath = 'Images/Customers/Category//suspended-64.pn
 update CustCategories set iconPath = 'Images/Customers/Category/cancel-40.png' where Id = 4;  
 
 --- CustEntMains : Activities ---
-insert into CustEntActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus])
+insert into CustEntActActionCodes([Name],[Desc],[SysCode],[IconPath],[DefaultActStatus], [SeqNo])
 values 
-('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1), 
-('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1),   
-('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1),   
-('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2), 
-('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1),   
-('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',3),   
-('AWARDED','Awarded', 'AWARDED','~/Images/SalesLead/meeting102.jpg',4),   
-('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2); 
+('RFQ','Request for quotation', 'RFQ','~/Images/SalesLead/Quotation101.png',1, 1), 
+('CALL-REQUEST','Return Call request','CALL REQUEST','~/Images/SalesLead/Phone103.png',1, 2),   
+('EMAIL-REQUEST','Request to Check/reply Email','EMAIL REQUEST','~/Images/SalesLead/Email102.jpg',1, 3),   
+('CALL-DONE','Call is done', 'CALL DONE','~/Images/SalesLead/Phone103.png',2, 4), 
+('MEETING-REQUEST','Schedule an appointment','APPOINTMENT','~/Images/SalesLead/meeting102.jpg',1, 5),   
+('MEETING-DONE','Meeting done', 'APPOINTMENT_DONE','~/Images/SalesLead/meeting102.jpg',3, 6),   
+('AWARDED','Awarded', 'AWARDED','~/Images/SalesLead/meeting102.jpg',4, 7),   
+('CLOSED','Closed', 'CLOSED','~/Images/SalesLead/meeting102.jpg',2 ,8); 
 
 insert into CustEntActActionStatus([ActionStatus])
 values ('REQUEST'),('DONE'),('SUSPEND');
