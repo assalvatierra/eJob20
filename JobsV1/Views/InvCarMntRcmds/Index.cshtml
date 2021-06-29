@@ -1,0 +1,85 @@
+﻿@model IEnumerable<JobsV1.Models.InvCarMntRcmd>
+
+@{
+    ViewBag.Title = "Recommendations";
+    Session["ROOTMENUID"] = 6;
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    var unitList = ViewBag.InvItemsList as IEnumerable<JobsV1.Models.InvItem>;
+    var unitId = ViewBag.UnitId;
+}
+
+<h2>Recommendations</h2>
+<form class="form-group form-inline">
+    @using (Html.BeginForm())
+    {
+        <select class="form-control" name="unitId" id="unitId">
+            <option value="0"> All </option>
+            @foreach (var unit in unitList)
+            {
+                <option value="@unit.Id">
+                    @unit.ItemCode - @unit.Description
+                </option>
+            }
+        </select>
+
+        <button class="btn btn-default" type="submit" style="margin-top:0px;"> <div class="glyphicon glyphicon-search"></div> </button>
+    }
+</form>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Recommendation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateRec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvItem.ItemCode)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recommendation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvItem.ItemCode)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+@section Scripts{
+    <script>
+
+        $(() => {
+            //onload
+            $("#unitId").val("@unitId");
+        });
+
+    </script>
+}

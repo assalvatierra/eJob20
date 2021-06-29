@@ -182,5 +182,6 @@ namespace JobsV1.Models
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<SalesLeadFile> SalesLeadFiles { get; set; }
         public virtual DbSet<InvItemCrLogUnit> InvItemCrLogUnits { get; set; }
+        public virtual DbSet<InvCarMntRcmd> InvCarMntRcmds { get; set; }
     }
 }

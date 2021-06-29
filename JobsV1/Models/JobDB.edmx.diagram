@@ -140,7 +140,7 @@
         <AssociationConnector Association="JobDB.SalesLeadSalesLeadLink" />
         <AssociationConnector Association="JobDB.JobMainSalesLeadLink" />
         <EntityTypeShape EntityType="JobDB.InvCarRecord" Width="1.5" PointX="46.625" PointY="24" />
-        <EntityTypeShape EntityType="JobDB.InvCarRecordType" PointX="48.5" PointY="24.625" Width="1.5" />
+        <EntityTypeShape EntityType="JobDB.InvCarRecordType" PointX="49.125" PointY="24.125" Width="1.5" />
         <AssociationConnector Association="JobDB.InvCarRecordTypeInvCarRecord" />
         <AssociationConnector Association="JobDB.InvItemInvCarRecord" />
         <EntityTypeShape EntityType="JobDB.InvCarGateControl" Width="1.5" PointX="41.875" PointY="25" />
@@ -332,6 +332,8 @@
         <AssociationConnector Association="JobDB.SalesLeadSalesLeadFile" />
         <EntityTypeShape EntityType="JobDB.InvItemCrLogUnit" Width="1.5" PointX="46.75" PointY="20.5" />
         <AssociationConnector Association="JobDB.InvItemInvItemCrLogUnit" />
+        <EntityTypeShape EntityType="JobDB.InvCarMntRcmd" Width="1.5" PointX="49.25" PointY="20.875" />
+        <AssociationConnector Association="JobDB.InvItemInvCarMntRcmd" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

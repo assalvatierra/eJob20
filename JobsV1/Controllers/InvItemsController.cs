@@ -27,39 +27,37 @@ namespace JobsV1.Controllers
         public ActionResult Index()
         {
             List<InvItemCat> InvCats = db.InvItemCats.ToList();
-            ViewBag.CatList = InvCats;
 
-            List<InvItem> ItemList = db.InvItems.Where(d=>d.Remarks == "").ToList();
+            //List<InvItem> ItemList = db.InvItems.Where(d=>d.Remarks == "").ToList();
 
-            List<InvItemsModified> InvListMod = new List<InvItemsModified>();
+            //List<InvItemsModified> InvListMod = new List<InvItemsModified>();
 
-            foreach (var item in ItemList)
-            {
-                List<InvItemCategory> itemCats = db.InvItemCategories.Where(i => i.InvItemId == item.Id).ToList();
+            //foreach (var item in ItemList)
+            //{
+            //    List<InvItemCategory> itemCats = db.InvItemCategories.Where(i => i.InvItemId == item.Id).ToList();
 
-                InvListMod.Add(new InvItemsModified
-                {
-                    Id = item.Id,
-                    Description = item.Description,
-                    ItemCode = item.ItemCode,
-                    ImgPath = item.ImgPath,
-                    Remarks = item.Remarks,
-                    CategoryList = itemCats
-                });
-            }
+            //    InvListMod.Add(new InvItemsModified
+            //    {
+            //        Id = item.Id,
+            //        Description = item.Description,
+            //        ItemCode = item.ItemCode,
+            //        ImgPath = item.ImgPath,
+            //        Remarks = item.Remarks,
+            //        CategoryList = itemCats
+            //    });
+            //}
 
-            List<Supplier> suppliers = new List<Supplier>();
-            if (db.Suppliers.ToList() != null) {
-                suppliers = db.Suppliers.ToList();
-            } else {
-                return RedirectToAction("Index");
-            }
+            //List<Supplier> suppliers = new List<Supplier>();
+            //if (db.Suppliers.ToList() != null) {
+            //    suppliers = db.Suppliers.ToList();
+            //} else {
+            //    return RedirectToAction("Index");
+            //}
 
-            ViewBag.coopList = db.CoopMembers.Where(c=>c.Status == "ACT").ToList();
-            
             //include latest odo, coopMembers list
-            ViewBag.SupplierList = suppliers;
-
+            ViewBag.SupplierList = db.Suppliers.ToList();
+            ViewBag.CatList = InvCats;
+            ViewBag.coopList = db.CoopMembers.Where(c=>c.Status == "ACT").ToList();
             ViewBag.SiteConfig = SITECONFIG;
 
             //inventory items

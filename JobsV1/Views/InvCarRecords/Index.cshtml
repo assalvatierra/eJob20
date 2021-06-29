@@ -19,7 +19,7 @@
     {
 
         <select name="unitId" id="unitId" class="form-control"  >
-            <option value="">All</option>
+            <option value="0">All</option>
             @foreach (var unit in unitList)
             {
                 <option value="@unit.Id"> @unit.ItemCode - @unit.Description </option>
@@ -28,7 +28,7 @@
 
         <button class="btn btn-default" type="submit" style="margin-top:0px;"> <div class="glyphicon glyphicon-search" ></div> </button>
     }
-    </form>
+</form>
 <p>
     <a href="" id="catbtn" data-toggle="modal" data-target="#carlist" style="margin-bottom:10px;">Add Record </a> |
     @Html.ActionLink("Record Types", "Index", "invCarRecordTypes")

@@ -11,33 +11,37 @@
     var today = (DateTime)ViewBag.Today;
 }
 
+<style>
+    .text-slash {
+        text-decoration: line-through
+    }
+</style>
+
 <h2>Vehicle Maintenance Summary</h2>
 <p>
     @Html.ActionLink("Maintenance Records", "Index", "InvCarRecords", null, null) |
+    @Html.ActionLink("Recommendations", "Index", "InvCarMntRcmds", null, null) |
     @Html.ActionLink("Gate Control", "Index", "InvCarGateControls", null, null) |
     @Html.ActionLink("Units", "Index")
     <span class="pull-right" style="margin-bottom:5px;">
         <button class="btn btn-default" onclick="ShowConfirmImport()">
             <div class="glyphicon glyphicon-arrow-down" title="Import Odo"></div> &nbsp;
             <span>Import Odo from TripLogs </span>
-        
+
         </button>
     </span>
+
 </p>
 
 <table class="table">
     <tr>
-        <th class="hidden-on-mobile">
+        <th >
             @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
+       
             Vehicle
         </th>
         <th width="680">
             Maintenance
-        </th>
-        <th>
-
         </th>
     </tr>
 
@@ -46,30 +50,70 @@
 
 
         <tr>
-            <td width="100" class="hidden-on-mobile"> 
-                @if (item.ImgPath != null)
-                {
-                    <img src="@item.ImgPath" width="80" />
-                }
-                else
-                {
-                    <img src="~/Images/CarRental/placeholder.png" width="80" />
-                }
-            </td>
-            <td>
-                <span style="font-size:18px;">
-                    @Html.DisplayFor(modelItem => item.Description) <br />
-                    @Html.DisplayFor(modelItem => item.ItemCode)  <br />
-                </span>
-                @Html.DisplayFor(modelItem => item.Remarks)
-                <hr />
-                <p>
-                    Latest Odometer: @item.Odo.ToString("N0")
-                </p>
+            <td style="min-width:350px;"> 
+                <div class="col-md-4">
+                    @if (item.ImgPath != null)
+                    {
+                        <img src="@item.ImgPath" width="80" />
+                    }
+                    else
+                    {
+                        <img src="~/Images/CarRental/placeholder.png" width="80" />
+                    }
+                </div>
 
-                <p>
-                    <button class="btn btn-default"  onclick="ShowRecordListModal(@item.Id)"> View Unit Records </button>
-                </p>
+                <div class="col-md-8">
+                    <span style="font-size:18px;">
+                        @Html.DisplayFor(modelItem => item.Description) <br />
+                        @Html.DisplayFor(modelItem => item.ItemCode)  <br />
+                    </span>
+                    @Html.DisplayFor(modelItem => item.Remarks)<br /><br />
+                    
+                    <span> Latest Odometer: @item.Odo.ToString("N0")</span><br />
+                   
+                    <button class="btn btn-default" onclick="ShowRecordListModal(@item.Id)"> View Unit Records </button>
+                    
+                </div>
+
+                <div class="col-md-12">
+
+                    <hr />
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Recommendations
+                                @if (@item.Recommendations.Count() > 0)
+                                {
+                                    <span class="label label-info"> @item.Recommendations.Count() </span>
+                                }
+
+                            </th>
+                            <th width="50"></th>
+                        </tr>
+                        @foreach (var rec in item.Recommendations)
+                        {
+                            <tr>
+                                <td> @rec.Recommendation </td>
+                                <td>
+                                    <button class="btn btn-default btn-xs" onclick="MarkDone(this, @rec.Id)">
+                                        <div class="glyphicon glyphicon-ok"></div>
+                                         Done
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+
+                        @if (item.Recommendations.Count() == 0)
+                        {
+                            <tr>
+                                <td colspan="2">
+                                    <span class="text-muted"> No Recommendations </span>
+                                </td>
+
+                            </tr>
+                        }
+                    </table>
+                </div>
             </td>
             <td>
                 <table class="table" style="font-size:11px;">
@@ -157,12 +201,6 @@
                         }
                     }
                 </table>
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                @*<button class="btn btn-default btn-sm"> + Add Record </button>*@
-                @*<button class="btn btn-sm btn-default" onclick="ShowRecordListModal(@item.Id)"> Records History</button>*@
             </td>
         </tr>
 
@@ -289,6 +327,25 @@
                 //add to recor list
                 $("#unitRecordList").append(recordItem);
             }
+        }
+
+        //Mark as Done Recommendation item
+        //Param: Id = Recommendation Id
+        function MarkDone(e, Id) {
+
+            $.post("/InvCarMntRcmds/MarkDoneById", { id : Id })
+                .done((res) => {
+                    //console.log(res);
+                    $(e).parent().siblings().addClass('text-slash');
+                    $(e).addClass('btn-success');
+                    $(e).removeClass('btn-default');
+                    $(e).attr('disabled', 'disabled');
+                })
+                .fail((err) => {
+                    console.log(err);
+                    $(e).addClass('btn-warning');
+                    $(e).text('Error');
+                });
         }
 
 

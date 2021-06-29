@@ -26,7 +26,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.InvCarRecordTypeId, "InvCarRecordTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("InvCarRecordTypeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("InvCarRecordTypeId", null, htmlAttributes: new { @class = "form-control", @id= "RecordTypeId" })
                 @Html.ValidationMessageFor(model => model.InvCarRecordTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Odometer, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Odometer, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Odometer, new { htmlAttributes = new { @class = "form-control" , @id= "CurrentOdo" } })
                 @Html.ValidationMessageFor(model => model.Odometer, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -46,11 +46,11 @@
                 @Html.ValidationMessageFor(model => model.dtDone, "", new { @class = "text-danger" })
             </div>
         </div>
-        <!--
+       
         <div class="form-group">
             @Html.LabelFor(model => model.NextOdometer, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NextOdometer, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.NextOdometer, new { htmlAttributes = new { @class = "form-control", @id = "NxtOdometer" } })
                 @Html.ValidationMessageFor(model => model.NextOdometer, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -62,7 +62,7 @@
                 @Html.ValidationMessageFor(model => model.NextSched, "", new { @class = "text-danger" })
             </div>
         </div>
-            -->
+           
         <div class="form-group">
             @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

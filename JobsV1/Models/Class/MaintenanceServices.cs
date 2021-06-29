@@ -21,6 +21,7 @@ namespace JobsV1.Models.Class
         public int Odo { get; set; }
 
         public IEnumerable<InvCarRecord> MntRecords { get; set; }
+        public IEnumerable<InvCarMntRcmd> Recommendations { get; set; }
 
     }
 
@@ -49,7 +50,8 @@ namespace JobsV1.Models.Class
                     ImgPath = v.ImgPath,
                     Remarks = v.Remarks,
                     MntRecords = GetLatestMtRecords(v.Id),
-                    Odo = GetUnitOdo(v.Id)
+                    Odo = GetUnitOdo(v.Id),
+                    Recommendations = GetInvCarMntRcmds(v.Id)
                 });
             });
 
@@ -232,6 +234,12 @@ namespace JobsV1.Models.Class
             {
 
             }
+        }
+
+        private IEnumerable<InvCarMntRcmd> GetInvCarMntRcmds(int id)
+        {
+            //get recommendations of unit by Id and not done
+            return db.InvCarMntRcmds.Where(c=> c.InvItemId == id && !c.IsDone ).ToList();
         }
 
 

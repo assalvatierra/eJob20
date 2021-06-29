@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/23/2021 11:38:43
+-- Date Created: 06/29/2021 13:25:01
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -488,6 +488,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemCrLogUnit]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItemCrLogUnits] DROP CONSTRAINT [FK_InvItemInvItemCrLogUnit];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvCarMntRcmd]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCarMntRcmds] DROP CONSTRAINT [FK_InvItemInvCarMntRcmd];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -963,6 +966,9 @@ IF OBJECT_ID(N'[dbo].[SalesLeadFiles]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvItemCrLogUnits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvItemCrLogUnits];
+GO
+IF OBJECT_ID(N'[dbo].[InvCarMntRcmds]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCarMntRcmds];
 GO
 
 -- --------------------------------------------------
@@ -1683,7 +1689,8 @@ CREATE TABLE [dbo].[InvCarRecordTypes] (
     [SysCode] nvarchar(50)  NULL,
     [OdoInterval] int  NOT NULL,
     [DaysInterval] int  NOT NULL,
-    [IconPath] nvarchar(160)  NULL
+    [IconPath] nvarchar(160)  NULL,
+    [OrderNo] int  NOT NULL
 );
 GO
 
@@ -2589,6 +2596,16 @@ CREATE TABLE [dbo].[InvItemCrLogUnits] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvItemId] int  NOT NULL,
     [CrLogUnitId] int  NOT NULL
+);
+GO
+
+-- Creating table 'InvCarMntRcmds'
+CREATE TABLE [dbo].[InvCarMntRcmds] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Recommendation] nvarchar(160)  NOT NULL,
+    [DateRec] datetime  NOT NULL,
+    [IsDone] bit  NOT NULL,
+    [InvItemId] int  NOT NULL
 );
 GO
 
@@ -3535,6 +3552,12 @@ GO
 -- Creating primary key on [Id] in table 'InvItemCrLogUnits'
 ALTER TABLE [dbo].[InvItemCrLogUnits]
 ADD CONSTRAINT [PK_InvItemCrLogUnits]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCarMntRcmds'
+ALTER TABLE [dbo].[InvCarMntRcmds]
+ADD CONSTRAINT [PK_InvCarMntRcmds]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5894,6 +5917,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvItemCrLogUnit'
 CREATE INDEX [IX_FK_InvItemInvItemCrLogUnit]
 ON [dbo].[InvItemCrLogUnits]
+    ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvCarMntRcmds'
+ALTER TABLE [dbo].[InvCarMntRcmds]
+ADD CONSTRAINT [FK_InvItemInvCarMntRcmd]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvCarMntRcmd'
+CREATE INDEX [IX_FK_InvItemInvCarMntRcmd]
+ON [dbo].[InvCarMntRcmds]
     ([InvItemId]);
 GO
 

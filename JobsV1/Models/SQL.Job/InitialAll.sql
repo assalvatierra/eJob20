@@ -481,16 +481,19 @@ insert into InvItemCategories([InvItemId],[InvItemCatId])
 values
 (1,7),(2,7),(3,10),(4,6),(5,11),(6,2),(7,2),(8,2);
 
-insert into InvCarRecordTypes([Description], [SysCode], [OdoInterval], [DaysInterval], [IconPath])
+insert into InvCarRecordTypes([Description], [SysCode], [OdoInterval], [DaysInterval], [IconPath], [OrderNo])
 values
-('Oil Change (Fully Synthetic) ', 'COFS', 10000, 180, '/Images/Icons/Maintenance/icons-oil-industry-black.png'),
-('Oil Change (Regular)', 'OIL', 10000, 180, '/Images/Icons/Maintenance/icons-oil-industry-black.png'),
-('Brakepad Change', 'OIL', 10000, 150, '/Images/Icons/Maintenance/icons-brake-discs.png'),
-('Transmission Oil (Automatic)', 'OIL', 10000, 360, '/Images/Icons/Maintenance/icons-oil-industry-white.png'),
-('Trasmission Oil (Manual)', 'OIL', 10000, 360, '/Images/Icons/Maintenance/icons-oil-industry-white.png'),
-('Brake Shoe', 'OIL', 10000, 700, '/Images/Icons/Maintenance/icons-brake-discs.png'),
-('Gear Oil', 'OIL', 10000, 365, '/Images/Icons/Maintenance/icons-gears.png'),
-('Battery Change', 'OIL', 10000, 547, '/Images/Icons/Maintenance/icons-car-battery.png')
+('Oil Change (Fully Synthetic) ', 'COFS', 10000, 180, '/Images/Icons/Maintenance/icons-oil-industry-black.png', 1),
+('Aircon Cleaning', 'AC', 10000, 180, '/Images/Icons/Maintenance/icons-aircon.png', 2),
+('Brakepad Change', 'OIL', 10000, 150, '/Images/Icons/Maintenance/icons-brake-discs.png',3),
+('Transmission Oil (Automatic)', 'OIL', 10000, 360, '/Images/Icons/Maintenance/icons-oil-industry-white.png',4),
+('Tire Change', 'OIL', 10000, 360, '/Images/Icons/Maintenance/icons-change-tire.png',5),
+('Brake Shoe', 'OIL', 10000, 700, '/Images/Icons/Maintenance/icons-brake-discs.png',6),
+('Gear Oil', 'OIL', 10000, 365, '/Images/Icons/Maintenance/icons-gears.png',7),
+('Battery Change', 'OIL', 10000, 547, '/Images/Icons/Maintenance/icons-car-battery.png',8),
+('Others', 'OTHERS', 10000, 365, '/Images/Icons/Maintenance/icons-car-battery.png',11),
+('Insurance', 'INS', 10000, 365, '/Images/Icons/Maintenance/icons-insurance.png',9),
+('Registration', 'OIL', 10000, 365, '/Images/Icons/Maintenance/icons-registration.png',10)
 ;
 
 -- linking jobs vechiles to triplogs units

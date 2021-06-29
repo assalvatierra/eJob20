@@ -850,7 +850,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DtRelease" Type="DateTime" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="30" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="crLogDriver" Relationship="CarRentalLogDB.crLogDrivercrLogCashRelease" FromRole="crLogCashRelease" ToRole="crLogDriver" />
           <Property Name="crLogDriverId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="crLogClosing" Relationship="CarRentalLogDB.crLogClosingcrLogCashRelease" FromRole="crLogCashRelease" ToRole="crLogClosing" />

@@ -91,7 +91,7 @@ insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath],[S
 insert into SysServiceMenus([SysMenuId],[SysServiceId]) values (5,5);
 insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],[CmdId],[Seqno]) values 
 	('Companies','',5,'CustEntMains','Index','',21,51),			-- id: 31
-	('Contacts','',5,'Customers','Index','',21,52),			-- id: 30
+	('Contacts','',5,'Customers','Index','',21,52),				-- id: 30
 	('Email Blaster','',5,'EmailBlaster','Index','',21,53),  	-- id: 32
 	('Customer Portal','',5,'PortalCustomers','Index','',21,54); -- id: 33
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
@@ -106,10 +106,10 @@ insert into SysMenus([Menu],[Remarks],[ParentId],[Controller],[Action],[Params],
 	('Availability','',6,'InvItems','Availability','',21,63),	-- id: 35
 	('Gate Control','',6,'InvCarGateControls','Index','',21,64),-- id: 36
 	('Maintenance','',6,'InvCarRecords','Index','',21,65),		-- id: 37
-	('Items Master','',6,'SupplierItems','Index','',21,61);		-- id: 38
+	('Items Master','',6,'SupplierItems','Index','',21,61),		-- id: 38
+	('Maintenance Summary','',6,'InvItems','Maintenance','',21,61);-- id: 39
 insert into EntServices([SysServiceId],[EntCompanyId],[Expiry]) values 
 (6,1,'2019/1/1');
-
 --Packages
 insert into SysServices([SysCode],[Description],[Remarks],[Status],[IconPath],[SeqNo]) values
 ('PK107','Packages','Reports','A','/Images/Erp/icons/icons-box.png', 7);
@@ -453,6 +453,7 @@ insert into SysAccessUsers([UserId],[SysMenuId],[Seqno]) values
 ('jahdielvillosa@gmail.com', 84, 84),
 ('jahdielvillosa@gmail.com', 85, 85),
 ('jahdielvillosa@gmail.com', 86, 86),
+('jahdielvillosa@gmail.com', 87, 87),
 
 
 ('Demo@gmail.com', 20, 20),

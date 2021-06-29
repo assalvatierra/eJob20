@@ -673,6 +673,7 @@
     <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvCarGateControlsController.cs" />
+    <Compile Include="Controllers\InvCarMntRcmdsController.cs" />
     <Compile Include="Controllers\InvCarRecordsController.cs" />
     <Compile Include="Controllers\InvCarRecordTypesController.cs" />
     <Compile Include="Controllers\InvItemCommisController.cs" />
@@ -940,6 +941,9 @@
     <Compile Include="Models\GoogleReCaptcha.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InvCarGateControl.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvCarMntRcmd.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvCarRecord.cs">
@@ -2002,11 +2006,15 @@
     <Content Include="Images\CarRental\Home\icons-twitter-48.png" />
     <Content Include="Images\Icons\icons-valet-parking.png" />
     <Content Include="Images\Icons\icons-weight.png" />
+    <Content Include="Images\Icons\Maintenance\icons-aircon.png" />
     <Content Include="Images\Icons\Maintenance\icons-brake-discs.png" />
     <Content Include="Images\Icons\Maintenance\icons-car-battery.png" />
+    <Content Include="Images\Icons\Maintenance\icons-change-tire.png" />
     <Content Include="Images\Icons\Maintenance\icons-gears.png" />
+    <Content Include="Images\Icons\Maintenance\icons-insurance.png" />
     <Content Include="Images\Icons\Maintenance\icons-oil-industry-black.png" />
     <Content Include="Images\Icons\Maintenance\icons-oil-industry-white.png" />
+    <Content Include="Images\Icons\Maintenance\icons-registration.png" />
     <Content Include="Images\Icons\Receivables\Receivables-1st-reminder.png" />
     <Content Include="Images\Icons\Receivables\Receivables-2nd-reminder.png" />
     <Content Include="Images\Icons\Receivables\Receivables-new-bill.png" />
@@ -3458,6 +3466,11 @@
     <Content Include="Views\Procurement\Details.cshtml" />
     <Content Include="Views\SalesLeads\_PartialLeadFiles.cshtml" />
     <Content Include="Views\Procurement\_PartialLeadFiles.cshtml" />
+    <Content Include="Views\InvCarMntRcmds\Create.cshtml" />
+    <Content Include="Views\InvCarMntRcmds\Delete.cshtml" />
+    <Content Include="Views\InvCarMntRcmds\Details.cshtml" />
+    <Content Include="Views\InvCarMntRcmds\Edit.cshtml" />
+    <Content Include="Views\InvCarMntRcmds\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
