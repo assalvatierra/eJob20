@@ -13,6 +13,8 @@
     decimal totalPayment = 0;
     decimal totalBalance = 0;
     decimal GrandTotal = 0;
+
+    bool isAdmin = ViewBag.IsAdmin;
 }
 
 <h2>Payables Transactions </h2>
@@ -55,10 +57,10 @@
 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DtInvoice)
+            @Html.DisplayNameFor(model => model.Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.InvoiceNo)
+            Invoice
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ApAccount.Name)
@@ -74,6 +76,12 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ApTransStatu.Status)
+        </th>
+        <th>
+            Budget
+        </th>
+        <th>
+            Released
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Amount)
@@ -93,7 +101,7 @@
         totalBalance = 0;
 
         <tr>
-            <td colspan="11">
+            <td colspan="13">
                 <span style="font-weight:bold;">@payablesGroup.Key</span>
             </td>
         </tr>
@@ -151,9 +159,10 @@
 
                 </td>
                 <td>
-                    @item.DtInvoice.ToString("MMM dd yyyy")
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
+                    @item.DtInvoice.ToString("MMM dd yyyy")<br />
                     @Html.DisplayFor(modelItem => item.InvoiceNo)
                 </td>
                 <td>
@@ -205,6 +214,12 @@
                     }
 
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BudgetAmt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseAmt)
+                </td>
                 <td style="background-color:lightgray;">
                     @item.Amount.ToString("#,##0.00")
                 </td>
@@ -220,13 +235,13 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
                             <li>
-                                @if (item.ApTransStatusId == 1)
+                                @if (item.ApTransStatusId == 1 && isAdmin)
                                 {
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
                                 }
                                 else if (item.ApTransStatusId == 2)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 3)"> Payment Release </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id)"> Payment Release </a>
 
                                     @*if (!item.IsPrinted)
                                         {
@@ -234,7 +249,7 @@
                                         }*@
 
                                 }
-                                else if (item.ApTransStatusId == 3)
+                                else if (item.ApTransStatusId == 3 && isAdmin)
                                 {
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 4)"> Paid & Close </a>
                                 }
@@ -265,7 +280,7 @@
             GrandTotal += totalAmount;
         }
         <tr>
-            <td colspan="8">
+            <td colspan="10">
             </td>
             <td style="background-color:lightgray;">
                 <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
@@ -394,6 +409,47 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- Release Payment Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="ReleasePayment-Modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Release Payment </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Id  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReleasePayment-Id" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Date  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReleasePayment-Date" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Amount  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReleasePayment-Amount" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="ReleasePayment(this)">Release</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <a href="#" onclick="GetRepeatingPayables()"> Show Repeating Payables </a>
 

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/08/2021 14:41:31
--- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Payable20\ApModels\Models\ApDB.edmx
+-- Date Created: 07/07/2021 14:43:53
+-- Generated from EDMX file: C:\Users\VILLOSA\source\repos\Payable20\ApModels\Models\ApDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -132,7 +132,10 @@ CREATE TABLE [dbo].[ApTransactions] (
     [ApTransCategoryId] int  NOT NULL,
     [NextRef] int  NOT NULL,
     [PrevRef] int  NOT NULL,
-    [IsPrinted] bit  NOT NULL
+    [IsPrinted] bit  NOT NULL,
+    [BudgetAmt] decimal(20,2)  NULL,
+    [ReleaseAmt] decimal(20,2)  NULL,
+    [DtRelease] datetime  NULL
 );
 GO
 

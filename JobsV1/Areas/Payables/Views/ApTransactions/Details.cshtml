@@ -19,6 +19,10 @@
 <div class="col-md-12">
     <div class="col-md-12">
         <div class="col-sm-12">
+            <label class="control-label text-muted"> Transaction ID </label>
+            <h2 style="margin-top:0px;"> @Html.DisplayFor(model => model.Id) </h2>
+        </div>
+        <div class="col-sm-12">
             <label class="control-label text-muted"> Account </label>
             <h2 style="margin-top:0px;"> @Html.DisplayFor(model => model.ApAccount.Name) </h2>
         </div>
@@ -48,6 +52,12 @@
                 @Model.DtServiceTo.ToString("MMM dd yyyy (ddd)")
             </p>
         </div>
+
+        <div class="col-sm-12">
+            <label class="control-label text-muted"> Date Released </label>
+            <p style="margin-top:0px;"> @Html.DisplayFor(model => model.DtRelease) </p>
+        </div>
+
 
         <div class="col-sm-12">
             <label class="control-label text-muted"> Category </label>
@@ -198,7 +208,9 @@
 
 
 <div class="col-lg-12">
-    <h3> Amount &nbsp;&nbsp;: @TotalAmount.ToString("#,##0.00") </h3>
+    <h3> Budget &nbsp;&nbsp;&nbsp;: @Model.BudgetAmt</h3>
+    <h3> Released : @Model.ReleaseAmt</h3>
+    <h3> Actual &nbsp;&nbsp;&nbsp;&nbsp;: @TotalAmount.ToString("#,##0.00") </h3>
     <h3> Payment : @TotalPayment.ToString("#,##0.00") </h3>
     <h3> Balance &nbsp;: @TotalBalance.ToString("#,##0.00") </h3>
 

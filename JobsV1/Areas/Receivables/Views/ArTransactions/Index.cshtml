@@ -9,6 +9,8 @@
     string orderBy = ViewBag.OrderBy;
     DateTime today = ViewBag.Today;
 
+    bool isAdmin = ViewBag.IsAdmin;
+
     decimal totalAmount = 0;
     decimal totalPayment = 0;
     decimal totalBalance = 0;
@@ -338,7 +340,7 @@
                                 {
                                     <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 2)"> For Approval </a>
                                 }
-                                else if (item.ArTransStatusId == 2)
+                                else if (item.ArTransStatusId == 2 && isAdmin)
                                 {
                                     <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 3)"> Approve </a>
                                 }
@@ -351,7 +353,7 @@
                                 else if (item.ArTransStatusId >= 4 && item.ArTransStatusId <= 5)
                                 {
                                     @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
-                                    if (item.ArTransStatusId == 4)
+                                    if (item.ArTransStatusId == 4 && isAdmin)
                                     {
                                         <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
                                     }

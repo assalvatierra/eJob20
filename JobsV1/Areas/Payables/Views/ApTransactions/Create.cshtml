@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Transaction</h4>
         <hr />
@@ -23,7 +23,7 @@
                 @Html.ValidationMessageFor(model => model.ApAccountId, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.DtInvoice, "Invoice Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -40,8 +40,17 @@
             </div>
         </div>
 
+
         <div class="form-group">
-            @Html.LabelFor(model => model.DtService, "Service Start",htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @maxlength = 180 } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DtService, "Service Start", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DtService, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DtService, "", new { @class = "text-danger" })
@@ -56,7 +65,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden>
             @Html.LabelFor(model => model.DtEncoded, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DtEncoded, new { htmlAttributes = new { @class = "form-control" } })
@@ -65,15 +74,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BudgetAmt, "Budget Amount", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @maxlength = 180 } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.BudgetAmt, new { htmlAttributes = new { @class = "form-control", @maxlength = 20 } })
+                @Html.ValidationMessageFor(model => model.BudgetAmt, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Amount, "Actual Amount", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @maxlength = 20 } })
                 @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
@@ -81,7 +90,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DtDue,"Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DtDue, "Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DtDue, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DtDue, "", new { @class = "text-danger" })
@@ -112,7 +121,7 @@
                 @Html.ValidationMessageFor(model => model.ApTransCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
 
         <div class="form-group" hidden>
             @Html.LabelFor(model => model.NextRef, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -129,12 +138,12 @@
                 @Html.ValidationMessageFor(model => model.PrevRef, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.IsRepeating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10"> 
-                <div class="checkbox"  style="margin-left:20px;">
+            <div class="col-md-10">
+                <div class="checkbox" style="margin-left:20px;">
                     @Html.EditorFor(model => model.IsRepeating, new { htmlAttributes = new { id = "chckbox-IsRepeating" } })
                     @Html.ValidationMessageFor(model => model.IsRepeating, "", new { @class = "text-danger" })
                 </div>
@@ -173,9 +182,9 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransCreate.js"> </script>
+    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransCreate.js"></script>
     <script>
-        $("#chckbox-IsRepeating").change( () => {
+        $("#chckbox-IsRepeating").change(() => {
             if ($("#chckbox-IsRepeating").prop("checked")) {
                 $("#repeat-group").show();
             } else {

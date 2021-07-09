@@ -31,6 +31,8 @@ namespace JobsV1.Areas.Receivables.Controllers
             ViewBag.SortBy = sortBy;
             ViewBag.OrderBy = orderBy;
             ViewBag.Today = ar.DateClassMgr.GetCurrentDate();
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+
             return View(arTransactions.ToList());
         }
 

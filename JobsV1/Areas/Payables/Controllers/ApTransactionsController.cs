@@ -23,6 +23,7 @@ namespace Payable.Areas.Payables.Controllers
 
             var apTransactions = ap.TransactionMgr.GetTransactions((int)status, sort);
 
+            ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
             ViewBag.Status = status;
             ViewBag.Sort = sort;
@@ -48,10 +49,18 @@ namespace Payable.Areas.Payables.Controllers
         // GET: Payables/ApTransactions/Create
         public ActionResult Create()
         {
+            var today = dt.GetCurrentDateTime();
+
             ApTransaction transaction = new ApTransaction();
             transaction.Amount = 0;
             transaction.NextRef = 0;
             transaction.PrevRef = 0;
+            transaction.DtEncoded = today;
+            transaction.DtInvoice = today;
+            transaction.DtDue = today;
+            transaction.DtService = today;
+            transaction.DtServiceTo = today;
+
 
             ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name");
             ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name");
@@ -64,7 +73,8 @@ namespace Payable.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InvoiceId,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo,Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount")] ApTransaction apTransaction)
+        public ActionResult Create([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo," +
+            "Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,BudgetAmt")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +122,8 @@ namespace Payable.Areas.Payables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InvoiceId,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo,Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,RepeatNo,IsPrinted")] ApTransaction apTransaction)
+        public ActionResult Edit([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo," +
+            "Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,RepeatNo,IsPrinted,BudgetAmt,ReleaseAmt,DtRelease")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {
@@ -322,6 +333,20 @@ namespace Payable.Areas.Payables.Controllers
                 );
 
             return Json(duePayables, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public string ReleasePayment(int? id, decimal? amount, string date)
+        {
+            DateTime dtRelease = new DateTime();
+
+            if (DateTime.TryParse(date, out dtRelease) && id != null && amount != null)
+            {
+                ap.TransactionMgr.UpdateReleaseAmount((int)id, (decimal)amount, dtRelease);
+                return "OK";
+            }
+
+            return "Unable to Release Payment";
         }
 
         #region Print Request Form

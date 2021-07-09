@@ -328,3 +328,28 @@ function OnPrintClicked(e, transId) {
         }
     });
 }
+
+
+
+//show release payment modal
+function ShowReleaseModal(Id) {
+    $("#ReleasePayment-Modal").modal('show');
+    $("#ReleasePayment-Id").val(Id);
+    $('#ReleasePayment-Date').val(moment().format('MM/DD/YYYY hh:mm A'));
+    $("#ReleasePayment-Amount").val(0);
+}
+
+//release payment amount
+function ReleasePayment() {
+    var amount = $("#ReleasePayment-Amount").val();
+    var id = $("#ReleasePayment-Id").val();
+    var date = $("#ReleasePayment-Date").val();
+
+    console.log(amount);
+    console.log(id);
+    console.log(date);
+    $.post("/Payables/ApTransactions/ReleasePayment", { id: id, amount: amount, date: date }, (res) => {
+        console.log(res);
+        UpdateStatus(id, 3); //update to release
+    });
+}
