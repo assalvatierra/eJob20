@@ -1431,6 +1431,13 @@
     <Content Include="Areas\Receivables\Scripts\Transactions\Transaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\ApInterfaces.dll" />
+    <Content Include="bin\ApModels.dll" />
+    <Content Include="bin\ApServices.dll" />
+    <Content Include="bin\ArDBLayer.dll" />
+    <Content Include="bin\ArInterfaces.dll" />
+    <Content Include="bin\ArModels.dll" />
+    <Content Include="bin\ArServices.dll" />
     <Content Include="bin\EntityFramework.dll" />
     <Content Include="bin\EntityFramework.SqlServer.dll" />
     <Content Include="bin\JobsV1.dll" />
@@ -2555,6 +2562,7 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBillingSunday.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\EditOTBilling.cshtml" />
     <Content Include="Areas\Personel\Views\CrLogPassengerList\PassengerTrace.cshtml" />
+    <Content Include="bin\ApplicationInsights.config" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

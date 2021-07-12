@@ -51,7 +51,7 @@
 
         <tr>
             <td style="min-width:350px;"> 
-                <div class="col-md-4">
+                <div class="col-md-4 hidden-on-mobile">
                     @if (item.ImgPath != null)
                     {
                         <img src="@item.ImgPath" width="80" />
@@ -77,42 +77,36 @@
 
                 <div class="col-md-12">
 
-                    <hr />
-                    <table class="table">
-                        <tr>
-                            <th>
-                                Recommendations
-                                @if (@item.Recommendations.Count() > 0)
-                                {
-                                    <span class="label label-info"> @item.Recommendations.Count() </span>
-                                }
-
-                            </th>
-                            <th width="50"></th>
-                        </tr>
-                        @foreach (var rec in item.Recommendations)
-                        {
+                    @if (item.Recommendations.Count() > 0)
+                    {
+                        <hr />
+                        <table class="table">
                             <tr>
-                                <td> @rec.Recommendation </td>
-                                <td>
-                                    <button class="btn btn-default btn-xs" onclick="MarkDone(this, @rec.Id)">
-                                        <div class="glyphicon glyphicon-ok"></div>
-                                         Done
-                                    </button>
-                                </td>
-                            </tr>
-                        }
+                                <th>
+                                    Recommendations
+                                    @if (@item.Recommendations.Count() > 0)
+                                    {
+                                        <span class="label label-info"> @item.Recommendations.Count() </span>
+                                    }
 
-                        @if (item.Recommendations.Count() == 0)
-                        {
-                            <tr>
-                                <td colspan="2">
-                                    <span class="text-muted"> No Recommendations </span>
-                                </td>
-
+                                </th>
+                                <th width="50"></th>
                             </tr>
-                        }
-                    </table>
+                            @foreach (var rec in item.Recommendations)
+                            {
+                                <tr>
+                                    <td> @rec.Recommendation </td>
+                                    <td>
+                                        <button class="btn btn-default btn-xs" onclick="MarkDone(this, @rec.Id)">
+                                            <div class="glyphicon glyphicon-ok"></div>
+                                            Done
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    }
                 </div>
             </td>
             <td>
