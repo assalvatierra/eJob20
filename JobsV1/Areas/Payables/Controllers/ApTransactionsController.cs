@@ -31,6 +31,39 @@ namespace Payable.Areas.Payables.Controllers
             return View(apTransactions);
         }
 
+
+        // GET: Payables/ApTransactions/ReleasedDaily
+        public ActionResult ReleasedDaily(int? status, string sort)
+        {
+            status = status == null ? 0 : status;
+
+            var apTransactions = ap.TransactionMgr.GetDailyReleasedTransactions(sort);
+         
+
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+            ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
+            ViewBag.Status = status;
+            ViewBag.Sort = sort;
+
+            return View(apTransactions);
+        }
+
+        // GET: Payables/ApTransactions/ReleasedWeekly
+        public ActionResult ReleasedWeekly(int? status, string sort)
+        {
+            status = status == null ? 0 : status;
+
+            var apTransactions = ap.TransactionMgr.GetWeeklyReleasedTransactions(sort);
+
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+            ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
+            ViewBag.Status = status;
+            ViewBag.Sort = sort;
+
+            return View(apTransactions);
+        }
+
+
         // GET: Payables/ApTransactions/Details/5
         public ActionResult Details(int? id)
         {

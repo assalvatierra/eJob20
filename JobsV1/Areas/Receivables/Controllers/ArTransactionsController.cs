@@ -22,11 +22,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         public ActionResult Index(string status, string sortBy, string orderBy)
         {
             var arTransactions = ar.TransactionMgr.GetTransactions(status, sortBy, orderBy);
-
-            //TODO: check repeating receivables 
-            //not priority - 1/12/2021
-            //ar.TransactionMgr.CheckRepeatingTrans();             
-
+         
             ViewBag.Status = status;
             ViewBag.SortBy = sortBy;
             ViewBag.OrderBy = orderBy;

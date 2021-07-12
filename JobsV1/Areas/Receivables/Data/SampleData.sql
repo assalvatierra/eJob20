@@ -9,35 +9,35 @@ insert into ArAccounts([Name],[Landline],[Email],[Mobile],[Company],[Address],[R
 
 -- account credits
 insert into ArAccntCredits([ArAccountId],[DtCredit],[CreditLimit],[OverLimitAllowed],[CreditWarning],[ApprovedBy],[ArCreditStatusId]) values
-(2, '11/21/2020', 50000, 10000, 40000, 'admin', 1),
-(3, '11/21/2020', 50000, 10000, 40000, 'admin', 1),
-(4, '11/20/2020', 60000, 10000, 50000, 'admin', 1),
-(5, '11/20/2020', 70000, 20000, 60000, 'admin', 1);
+(2, '07/21/2020', 50000, 10000, 40000, 'admin', 1),
+(3, '07/21/2020', 50000, 10000, 40000, 'admin', 1),
+(4, '07/20/2020', 60000, 10000, 50000, 'admin', 1),
+(5, '07/20/2020', 70000, 20000, 60000, 'admin', 1);
 
 
 -- account terms
 insert into ArAccntTerms([ArAccountId],[dtTerm],[NoOfDays],[Remarks],[ApprovedBy],[ArAccntTermStatusId]) values
-(2, '11/21/2020', 15, null, 'admin', 1),
-(3, '11/21/2020', 15, null, 'admin', 1),
-(4, '11/21/2020', 15, null, 'admin', 1),
-(5, '11/21/2020', 15, null, 'admin', 1);
+(2, '07/21/2020', 15, null, 'admin', 1),
+(3, '07/21/2020', 15, null, 'admin', 1),
+(4, '07/21/2020', 15, null, 'admin', 1),
+(5, '07/21/2020', 15, null, 'admin', 1);
 
 
 
 --transactions
 insert into ArTransactions([ArAccountId],[InvoiceId],[DtInvoice],[Description],[DtEncoded],[DtDue],[Amount],[Interval],[IsRepeating],[Remarks],[ArTransStatusId],[ArCategoryId],[DtService], DtServiceTo, PrevRef, NextRef, InvoiceRef ) values
-(2, '101', '11/21/2020', 'Invoice 101', '11/21/2020', '12/15/2020', 50000, 0, 0, null, 2, 1, '11/18/2020', '11/25/2020',0,0, 'INV001'),
-(3, '102', '11/18/2020', 'Invoice 102', '11/20/2020', '12/19/2020', 70000, 0, 0, null, 2, 1, '11/10/2020', '11/14/2020',0,0, 'INV002'),
-(4, '103', '11/15/2020', 'Invoice 103', '11/19/2020', '12/25/2020', 80000, 0, 0, null, 1, 1, '11/15/2020', '11/16/2020',0,0, NULL),
-(5, '104', '11/10/2020', 'Invoice 104', '11/20/2020', '12/12/2020', 50000, 30, 1, null, 1, 1, '11/10/2020', '11/12/2020',0,0, NULL),
-(6, '106', '11/12/2020', 'Invoice 105', '11/19/2020', '12/24/2020', 45000, 15, 1, null, 3, 1, '11/12/2020', '11/15/2020',0,0, NULL);
+(2, '101', '07/21/2020', 'Invoice 101', '07/21/2020', '08/15/2020', 50000, 0, 0, null, 2, 1, '07/18/2020', '07/25/2020',0,0, 'INV001'),
+(3, '102', '07/18/2020', 'Invoice 102', '07/20/2020', '08/19/2020', 70000, 0, 0, null, 2, 1, '07/10/2020', '07/14/2020',0,0, 'INV002'),
+(4, '103', '07/15/2020', 'Invoice 103', '07/19/2020', '08/25/2020', 80000, 0, 0, null, 1, 1, '07/15/2020', '07/16/2020',0,0, NULL),
+(5, '104', '07/10/2020', 'Invoice 104', '07/20/2020', '08/12/2020', 50000, 30, 1, null, 1, 1, '07/10/2020', '07/12/2020',0,0, NULL),
+(6, '106', '07/12/2020', 'Invoice 105', '07/19/2020', '08/24/2020', 45000, 15, 1, null, 3, 1, '07/12/2020', '07/15/2020',0,0, NULL);
 
 -- payments
 insert into ArPayments([DtPayment],[Amount],[Remarks],[Reference],[ArAccountId],[ArPaymentTypeId]) values
-('11/21/2020', 5000, null, null, 2, 1),
-('11/22/2020', 5000, null, null, 2, 1),
-('11/21/2020', 15000, null, null, 3, 1),
-('11/21/2020', 12000, null, null, 4, 1);
+('07/21/2020', 5000, null, null, 2, 1),
+('07/22/2020', 5000, null, null, 2, 1),
+('07/21/2020', 15000, null, null, 3, 1),
+('07/21/2020', 12000, null, null, 4, 1);
 
 -- transaction payments
 insert into ArTransPayments([ArTransactionId],[ArPaymentId]) values 

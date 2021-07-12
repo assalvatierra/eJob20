@@ -17,7 +17,7 @@
     decimal GrandTotal = 0;
 }
 
-<h2>Transactions</h2>
+<h2>Receivables Transactions</h2>
 <p>
     @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, new { @class = "btn btn-link" })
 </p>
@@ -258,25 +258,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)<br />
                     <span style="font-size:11px;color:gray;">
-                        @item.DtService.ToString("MMM dd yyyy") - 
+                        @item.DtService.ToString("MMM dd yyyy") -
 
-                        @if(item.DtServiceTo != null){
-                           <span> @DateTime.Parse(item.DtServiceTo.ToString()).ToString("MMM dd yyyy")</span>
+                        @if (item.DtServiceTo != null)
+                        {
+                            <span> @DateTime.Parse(item.DtServiceTo.ToString()).ToString("MMM dd yyyy")</span>
                         }
 
                     </span>
+                    @if (!String.IsNullOrEmpty(item.Remarks))
+                    {
+                       <br /> <span style="font-size:11px;color:gray;">@Html.DisplayFor(modelItem => item.Remarks)</span>
+                    }
                 </td>
-                   @*<td>
-                        @item.DtService.ToString("MMM dd yyyy") -
-                        @if (item.DtServiceTo != null)
-                        {
-                            var serviceTo = (DateTime)item.DtServiceTo;
-
-                            <span>
-                                @serviceTo.ToString("MMM dd yyyy")
-                            </span>
-                        }
-                    </td>*@
+                  
                 <td>
                     <span>
                         @item.DtDue.ToString("MMM dd yyyy")

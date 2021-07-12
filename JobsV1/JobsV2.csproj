@@ -49,13 +49,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApInterfaces">
+    <Reference Include="ApInterfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RealSysMods\Payables\ApInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="ApModels">
+    <Reference Include="ApModels, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RealSysMods\Payables\ApModels.dll</HintPath>
     </Reference>
-    <Reference Include="ApServices">
+    <Reference Include="ApServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RealSysMods\Payables\ApServices.dll</HintPath>
     </Reference>
     <Reference Include="ArDBLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -2563,6 +2566,8 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\EditOTBilling.cshtml" />
     <Content Include="Areas\Personel\Views\CrLogPassengerList\PassengerTrace.cshtml" />
     <Content Include="bin\ApplicationInsights.config" />
+    <Content Include="Areas\Payables\Views\ApTransactions\ReleasedDaily.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransactions\ReleasedWeekly.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
