@@ -31,19 +31,24 @@ namespace Payable.Areas.Payables.Controllers
             return View(apTransactions);
         }
 
-
         // GET: Payables/ApTransactions/ReleasedDaily
-        public ActionResult ReleasedDaily(int? status, string sort)
+        public ActionResult ReleasedDaily(int? status, string sort, DateTime? dateSrch)
         {
             status = status == null ? 0 : status;
 
-            var apTransactions = ap.TransactionMgr.GetDailyReleasedTransactions(sort);
-         
+            if (dateSrch == null)
+            {
+                dateSrch = dt.GetCurrentDate();
+            }
+
+
+            var apTransactions = ap.TransactionMgr.GetDailyReleasedTransactions(sort, (DateTime)dateSrch);
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
             ViewBag.Status = status;
             ViewBag.Sort = sort;
+            ViewBag.DateSrch = dateSrch;
 
             return View(apTransactions);
         }

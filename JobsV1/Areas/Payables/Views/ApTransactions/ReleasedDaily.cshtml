@@ -12,29 +12,41 @@
     decimal totalAmount = 0;
     decimal totalPayment = 0;
     decimal totalBalance = 0;
+    decimal totalBudget = 0;
+    decimal totalRelease = 0;
     decimal GrandTotal = 0;
 
     bool isAdmin = true;
 }
 
 <h2>Daily Payables Transactions </h2>
+
 <p>
     @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
     <a href="/Payables/ApTransactions/"> <button class="btn btn-default"> Payables </button></a>
     <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default" disabled> Daily Payables </button></a>
     <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default"> Weekly Payables </button></a>
 </p>
+<div style="display:flex;flex-direction:row;">
+    <div class="search-panel input-group">
+        @using (Html.BeginForm())
+        {
+            <div class="input-group-btn" style="width:140px;">
+                <input type="text" class="form-control" name="dateSrch" value="@ViewBag.DateSrch" />
+            </div>
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" value="Search" id="SubmitSearchBtn">
+                    Search 
+                </button>
+            </div>
+        }
 
-
-<div class="btn-group" style="margin-bottom:5px;">
-    <button class="btn btn-default" disabled> Sort by </button>
-    <button class="btn btn-default active" id="sort-DueDate" onclick="UpdateFilter( @status, 'DueDate')"> Due Date </button>
-    <button class="btn btn-default" id="sort-InvoiceDate" onclick="UpdateFilter( @status, 'InvoiceDate')"> Invoice Date</button>
-    <button class="btn btn-default" id="sort-Name" onclick="UpdateFilter( @status, 'Name')"> Name </button>
-    <button class="btn btn-default" id="sort-Amount" onclick="UpdateFilter( @status, 'Amount')"> Amount </button>
+    </div>
+    <div style="display:flex;order:4;margin-left:5px;" class="btn-group">
+        <button class="btn btn-default" onclick="PrevDayFilter()"> Prev </button>
+        <button class="btn btn-default" onclick="NextDayFilter()"> Next </button>
+    </div>
 </div>
-
-
 
 <div class="btn-group" style="margin-bottom:5px;">
     @if (status == 2)
@@ -204,6 +216,7 @@
 
                     @Html.DisplayFor(modelItem => item.ApTransCategory.Name)
                 </td>
+
                 <td>
                     @if (item.ApTransStatusId == 1)
                     {
@@ -300,6 +313,9 @@
             </tr>
             totalPayment += totalTransPayment;
             totalAmount += item.Amount;
+
+            totalBudget += item.BudgetAmt ?? 0;
+            totalRelease += item.ReleaseAmt ?? 0;
         }
 
 
@@ -308,131 +324,35 @@
             GrandTotal += totalAmount;
         }
         <tr>
-            <td colspan="10">
+            <td colspan="8">
+            </td>
+            <td>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span>
+                <span style="font-size:18px;">@totalBudget.ToString("#,##0.00")</span>
+            </td>
+            <td>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Released </span>
+                <span style="font-size:18px;">@totalRelease.ToString("#,##0.00")</span>
             </td>
             <td style="background-color:lightgray;">
-                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
-                <p style="font-size:18px;">@totalAmount.ToString("#,##0.00")</p>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Amount </span>
+                <span style="font-size:18px;">@totalAmount.ToString("#,##0.00")</span>
             </td>
-            <td style="color:darkgreen;">
-                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </p>
-                <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
+            <td style="color:darkgreen;background-color:lightgray;">
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </span>
+                <span style="font-size:18px;">@totalPayment.ToString("#,##0.00")</span>
+            </td>
+            <td style="font-weight:600;">
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total Diff </span>
+                <span style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</span>
             </td>
             <td></td>
-            <td style="font-weight:600;">
-                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
-                <p style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</p>
-            </td>
         </tr>
 
     }
 
 
 </table>
-
-
-<!-- Repeating Payables Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="RepeatingPayables-Modal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> Repeating Payables </h4>
-            </div>
-            <div class="modal-body">
-                <p id="RepeatingPayables-loading"> Showing Repeating Payables &hellip;</p>
-
-                <p> Select payables to be repeated </p>
-
-                <table class="table" id="RepeatingPayables-table">
-                    <tr>
-                        <th>
-                            <a href="#" onclick="CheckAllRepeatItems()"> All </a>
-                        </th>
-                        <th>
-                            Account
-                        </th>
-                        <th>
-                            Description
-                        </th>
-                        <th>
-                            Amount
-                        </th>
-                        <th>
-                            Interval
-                        </th>
-                        <th style="min-width:100px;">
-                            DueDate
-                        </th>
-                        <th>
-                        </th>
-                        <th style="min-width:100px;">
-                            Next DueDate
-                        </th>
-                        <th style="min-width:150px;"></th>
-                    </tr>
-
-                    <!-- Repeating Payables are added here -->
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="RepeatSelected(this)">Repeat Selected</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Repeating Payables Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="DuePayables-Modal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> Due Payables </h4>
-            </div>
-            <div class="modal-body">
-                <p> Displaying Payables that are due in 3 days or overdue. </p>
-                <table class="table">
-                    <tbody id="DuePayables-table">
-                        <tr>
-                            <th>
-                                Invoice Date
-                            </th>
-                            <th>
-                                Invoice
-                            </th>
-                            <th>
-                                Account
-                            </th>
-                            <th>
-                                Description
-                            </th>
-                            <th>
-                                Due Date
-                            </th>
-                            <th>
-                                Amount
-                            </th>
-                            <th>
-                                Payment
-                            </th>
-                            <th>
-                                Status
-                            </th>
-                            <th style="min-width:150px;"></th>
-                        </tr>
-                        <!-- Repeating Payables are added here -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                @*<button type="button" class="btn btn-primary" onclick="RepeatSelected(this)">Repeat Selected</button>*@
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Release Payment Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="ReleasePayment-Modal">
@@ -473,10 +393,11 @@
 </div>
 
 
-<a href="#" onclick="GetRepeatingPayables()"> Show Repeating Payables </a>
+@*<a href="#" onclick="GetRepeatingPayables()"> Show Repeating Payables </a>*@
 
 @section Scripts{
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
+    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ReleasedDaily.js"></script>
     <script>
         $(Initialize('@status','@sortBy'));
     </script>

@@ -26,14 +26,13 @@ function Initialize(status, sortBy) {
         }
         //Repeating Payables
         
-
-        console.log("DueShowed: " + sessionStorage.getItem('ApTrans-DueShowed'));
+        //console.log("DueShowed: " + sessionStorage.getItem('ApTrans-DueShowed'));
 
         //Due Payables
         if ($('#RepeatingPayables-Modal').is(':visible')) {
             //GetDuePayables();
         } else {
-            console.log(sessionStorage.getItem('ApTrans-DueShowed'));
+            //console.log(sessionStorage.getItem('ApTrans-DueShowed'));
             if (!sessionStorage.getItem('ApTrans-DueShowed')) {
                 GetDuePayables();
             }

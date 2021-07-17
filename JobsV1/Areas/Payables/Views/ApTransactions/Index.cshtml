@@ -12,6 +12,8 @@
     decimal totalAmount = 0;
     decimal totalPayment = 0;
     decimal totalBalance = 0;
+    decimal totalBudget = 0;
+    decimal totalRelease = 0;
     decimal GrandTotal = 0;
 
     bool isAdmin = ViewBag.IsAdmin;
@@ -113,7 +115,7 @@
 
 
         <tr>
-            <td colspan="13">
+            <td colspan="14">
                 <span style="font-weight:bold;">@payablesGroup.Key</span>
             </td>
         </tr>
@@ -122,6 +124,7 @@
         {
             decimal totalTransPayment = 0;
             decimal transChange = 0;
+
 
             //get total transaction payment
             foreach (var transpayment in item.ApTransPayments)
@@ -172,6 +175,11 @@
 
             <tr style="color:@textcolor;background-color:@bgcolor;">
                 <td>
+                    @if (item.ApTransStatusId == 3 && (item.ReleaseAmt == 0 || item.ReleaseAmt == null))
+                    {
+                        <img src="~/Images/SalesLead/high-importance.png" width="20" />
+                    }
+
                     @if (!item.IsPrinted && status == 2)
                     {
                         <input value="@item.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
@@ -243,10 +251,15 @@
 
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BudgetAmt)
+                    @{  var budget = item.BudgetAmt ?? 0; }
+
+                    @budget.ToString("#,##0.00")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseAmt) 
+                    @{ var released = item.ReleaseAmt ?? 0; }
+
+                    @released.ToString("#,##0.00")
+
                     @if (item.DtRelease != null)
                     {
                         var dtRelease = (DateTime)item.DtRelease;
@@ -256,6 +269,7 @@
                         </span>
                     }
                 </td>
+
                 <td style="background-color:lightgray;">
                     @item.Amount.ToString("#,##0.00")
                 </td>
@@ -263,6 +277,7 @@
                 <td style="background-color:lightgray;">
                     <span class="text-success"> @totalTransPayment.ToString("#,##0.00") </span>
                 </td>
+
                 <td>
                     @transChange.ToString("#,##0.00")
                 </td>
@@ -312,6 +327,9 @@
             </tr>
             totalPayment += totalTransPayment;
             totalAmount += item.Amount;
+                            
+            totalBudget += item.BudgetAmt ?? 0;
+            totalRelease += item.ReleaseAmt ?? 0;
         }
 
 
@@ -320,21 +338,29 @@
             GrandTotal += totalAmount;
         }
         <tr>
-            <td colspan="10">
+            <td colspan="8">
+            </td>
+            <td >
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span>
+                <span style="font-size:18px;">@totalBudget.ToString("#,##0.00")</span>
+            </td>
+            <td >
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Released </span>
+                <span style="font-size:18px;">@totalRelease.ToString("#,##0.00")</span>
             </td>
             <td style="background-color:lightgray;">
-                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
-                <p style="font-size:18px;">@totalAmount.ToString("#,##0.00")</p>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Amount </span>
+                <span style="font-size:18px;">@totalAmount.ToString("#,##0.00")</span>
             </td>
-            <td style="color:darkgreen;">
-                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </p>
-                <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
+            <td style="color:darkgreen;background-color:lightgray;">
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </span>
+                <span style="font-size:18px;">@totalPayment.ToString("#,##0.00")</span>
+            </td>
+            <td style="font-weight:600;">
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total Diff </span>
+                <span style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</span>
             </td>
             <td></td>
-            <td style="font-weight:600;">
-                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
-                <p style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</p>
-            </td>
         </tr>
 
     }
@@ -450,8 +476,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Release Payment Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="ReleasePayment-Modal">

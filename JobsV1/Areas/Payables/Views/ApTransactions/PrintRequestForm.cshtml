@@ -67,7 +67,9 @@
 
                     @foreach (var payable in Model)
                     {
-                        totalAmount += payable.Amount;
+                        decimal budgetRequest = payable.BudgetAmt ?? 0;
+
+                        totalAmount += budgetRequest;
                         <tr>
                             <td>
                                 @payable.DtInvoice.ToString("MMM dd yyyy")
@@ -83,7 +85,7 @@
                                 @payable.DtDue.ToString("MMM dd yyyy")
                             </td>
                             <td>
-                                @payable.Amount.ToString("#,##0.00")
+                                @budgetRequest.ToString("#,##0.00")
                             </td>
                         </tr>
 
