@@ -73,6 +73,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             ArPayment payment = new ArPayment();
             payment.Amount = 0;
             payment.ArAccountId = ar.TransactionMgr.GetTransAccountId(transId);
+            payment.DtPayment = ar.DateClassMgr.GetCurrentDateTime();
 
             ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", payment.ArAccountId);
             ViewBag.ArPaymentTypeId = new SelectList(ar.PaymentMgr.GetPaymentTypes(), "Id", "Type");
@@ -91,7 +92,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 ar.PaymentMgr.AddPayment(arPayment);
                 var createResponse = ar.TransPaymentMgr.AddTransPayment(transId, arPayment.Id);
- 
+
 
                 if (createResponse)
                 {
@@ -101,7 +102,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                     ar.ActionMgr.AddAction(7, user, (int)transId);
                 }
 
-                return RedirectToAction("Details", "ArTransactions",new { id = transId });
+                return RedirectToAction("Index", "ArTransactions");
             }
 
             ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arPayment.ArAccountId);
@@ -220,7 +221,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditTransPayment([Bind(Include = "Id,DtPayment,Amount,Remarks,Reference,ArAccountId,ArPaymentTypeId")] ArPayment arPayment, int transId)
+        public ActionResult EditTransPayment([Bind(Include = "Id,DtPayment,Amount,Remarks,Reference,ArAccountId,ArPaymentTypeId,IsDeposited")] ArPayment arPayment, int transId)
         {
             if (ModelState.IsValid && InputValidation(arPayment))
             {
@@ -331,5 +332,9 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return "Unknown User";
             }
         }
+
+
+
+
     }
 }

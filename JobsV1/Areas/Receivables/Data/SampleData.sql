@@ -1,5 +1,5 @@
 ﻿
---accounts 
+-- accounts 
 insert into ArAccounts([Name],[Landline],[Email],[Mobile],[Company],[Address],[Remarks],[ArAccStatusId]) values
 ('John Doe' , '(082) 555 0100', 'johndoe@gmail.com', '0922 656 9877', 'Acer Ph Inc','Makati','',1),
 ('Mark Cruz', '(082) 333 1212', 'markCruz@gmail.com', '0911 085 8455','NewCompany','Manila','',1),

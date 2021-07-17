@@ -28,7 +28,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             transactions = transactions.Where(c => !overDue.Contains(c)).ToList();
 
             ViewBag.today = today;
-            ViewBag.OverDueTrans = overDue.OrderBy(t=>t.DtDue).ToList(); 
+            ViewBag.OverDueTrans = overDue.OrderBy(t => t.DtDue).ToList();
 
             return View(transactions.OrderBy(d => d.DtDue));
         }
@@ -40,7 +40,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         public bool UpdateDueDate(int? transId, string dueDate)
         {
 
-            if (transId == null || String.IsNullOrEmpty(dueDate.Trim()) )
+            if (transId == null || String.IsNullOrEmpty(dueDate.Trim()))
             {
                 return false;
             }
@@ -86,7 +86,8 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return Json("Error", JsonRequestBehavior.AllowGet);
             }
 
-            return Json(new {
+            return Json(new
+            {
                 transaction.Id,
                 transaction.InvoiceId,
                 transaction.DtInvoice,
@@ -115,7 +116,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                     var today = ar.DateClassMgr.GetCurrentDateTime();
 
                     //first reminder
-                    ar.ActionMgr.AddAction( 9, GetUser(), (int)transId);
+                    ar.ActionMgr.AddAction(9, GetUser(), (int)transId);
 
                     return EmailResult;
                 }
@@ -182,10 +183,63 @@ namespace JobsV1.Areas.Receivables.Controllers
             //get ongoing transactions
             var transactions = ar.TransactionMgr.GetForSettlementTrans();
 
+            ViewBag.DateToday = ar.DateClassMgr.GetCurrentDateTime();
             return View(transactions);
         }
 
 
+        public string SaveSettlementPrintIds(int[] transIds)
+        {
+            if (transIds.Length > 0)
+            {
+                Session["ArSettlementPrintIds"] = transIds;
+            }
+
+            return "OK";
+        }
+
+
+        public ActionResult SettlementPrint()
+        {
+
+            int[] transIds = Session["ArSettlementPrintIds"] as int[];
+
+            //convert to list
+            List<int> IdList = new List<int>();
+            if (transIds != null)
+            {
+                IdList.AddRange(transIds);
+            }
+
+            //get ongoing transactions
+            var transactions = ar.TransactionMgr.GetForSettlementTrans()
+                .Where(a => IdList.Contains(a.Id));
+
+            ViewBag.DateToday = ar.DateClassMgr.GetCurrentDateTime();
+            return View(transactions.ToList());
+        }
+
+        [HttpPost]
+        public bool UpdatePaymentAsDeposited(int transId)
+        {
+            ar.PaymentMgr.UpdateTransDeposit(transId, true);
+            UpdateTransStatus(transId, 6);
+
+            return true;
+        }
+
+        [HttpPost]
+        public bool UpdateTranPaymentsAsDeposited(int[] transIds)
+        {
+            var artransIdList = new List<int>(transIds);
+            foreach (var arTransId in artransIdList)
+            {
+                ar.PaymentMgr.UpdateTransDeposit(arTransId, true);
+                UpdateTransStatus(arTransId, 6);
+            }
+
+            return true;
+        }
 
         #endregion
 
@@ -200,5 +254,6 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return "Unknown User";
             }
         }
+
     }
 }

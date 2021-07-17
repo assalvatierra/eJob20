@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ArModels.Models.ArTransaction>
+@{
+    ViewBag.Title = "Settlement Print";
+    decimal totalPayment = 0;
+    decimal totalAmount = 0;
+
+    DateTime today = ViewBag.DateToday;
+}
+<div class="row">
+    <h2 class="col-md-10">Settlement </h2>
+
+    <h4 class="col-md-2"> Date: @today.ToString("MMM dd yyyy")</h4>
+</div>
+
+<table class="table">
+    <tr>
+        <th> Invoice </th>
+        <th> Invoice Date</th>
+        <th> Payment Date</th>
+        <th> Account </th>
+        <th> Desc </th>
+        <th> Amount </th>
+    </tr>
+    @foreach (var transaction in Model)
+    {
+        decimal transPayments = 0;
+        string paymentType = "";
+        bool paymentDeposited = false;
+
+        foreach (var payments in transaction.ArTransPayments)
+        {
+            transPayments += payments.ArPayment.Amount;
+            paymentType = payments.ArPayment.ArPaymentType.Type;
+            paymentDeposited = payments.ArPayment.IsDeposited ?? false;
+        }
+
+        totalAmount += transaction.Amount;
+        totalPayment += transPayments;
+
+        <tr>
+            <td> @transaction.InvoiceId </td>
+            <td> @transaction.DtInvoice.ToString("MMM dd yyyy") </td>
+            <td>
+                @if (transaction.ArTransPayments.Count() > 0)
+                {
+                    var latestPayment = transaction.ArTransPayments.FirstOrDefault();
+
+                    <span> @latestPayment.ArPayment.DtPayment.ToString("MMM dd yyyy")  </span>
+                }
+            </td>
+            <td>
+                <b>@transaction.ArAccount.Company</b>
+                @if (transaction.ArAccount.Name != "Personal Account")
+                {
+                    <span> / </span> @transaction.ArAccount.Name
+                }
+                <br />
+
+                @transaction.Description <br />
+            </td>
+            <td>
+                @transaction.Description <br />
+                @transaction.Remarks
+            </td>
+            @*<td> @transaction.Amount.ToString("#,##0.00") </td>*@
+            <td>
+                @transPayments.ToString("#,##0.00")
+                <br />
+                <span style="font-size:11px;color:gray;">@paymentType</span>
+                @if (paymentDeposited)
+                {
+                    <span style="font-size:11px;color:gray;"> - Deposited </span>
+                }
+            </td>
+
+        </tr>
+    }
+    <tr>
+        <td colspan="5" style="border-top:1px solid black"></td>
+        @*<td style="border-top:1px solid black">
+                <b> @totalAmount.ToString("#,##0.00")</b>
+            </td>*@
+        <td style="border-top:1px solid black">
+            <b> @totalPayment.ToString("#,##0.00")</b>
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<table class="table">
+    <tr>
+        <td> Requested by: ________________ ________  </td>
+        <td>  Approved by: ________________ ________  </td>
+    </tr>
+
+</table>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Areas/Receivables/Scripts/Mgt/Settlement.js"></script>
+}

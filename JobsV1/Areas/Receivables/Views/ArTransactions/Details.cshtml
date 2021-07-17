@@ -14,7 +14,10 @@
 
 <div class="col-md-12">
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @if (Model.ArTransStatusId < 5)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span> |</span>
+        }
         @Html.ActionLink("History", "TransactionHistory", new { id = Model.Id }) |
         @Html.ActionLink("Back to List", "Index")
     </p>
@@ -30,7 +33,7 @@
                 </a>
             </h3>
         </p>
-      
+
         <p>
             <h4 class="text-success">
                 Amount:
@@ -89,7 +92,7 @@
         Payments
     </h3>
     <p>
-        @if (!isClosed)
+        @if (!isClosed && Model.ArTransStatusId < 4)
         {
             @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = Model.Id }, null)
         }
@@ -133,6 +136,10 @@
                 </td>
                 <td>
                     @payments.ArPayment.ArPaymentType.Type
+                    @if (payments.ArPayment.IsDeposited != null && payments.ArPayment.IsDeposited == true)
+                    {
+                        <span> - Deposited </span>
+                    }
                 </td>
                 <td>
                     @payments.ArPayment.Remarks
@@ -141,7 +148,10 @@
                     @payments.ArPayment.Amount.ToString("#,##0.00")
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null) 
+                    @if (Model.ArTransStatusId < 3)
+                    {
+                        @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null)
+                    }
 
                     @*@Html.ActionLink("Delete", "DeleteTransPayment", "ArPayments", new { id = payments.Id }, null)*@
                 </td>

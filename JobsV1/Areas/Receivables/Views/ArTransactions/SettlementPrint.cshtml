@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ArModels.Models.ArTransaction>
+@{
+    ViewBag.Title = "Settlement Print";
+    decimal totalPayment = 0;
+    decimal totalAmount = 0;
+
+    DateTime today = ViewBag.DateToday;
+}
+<div class="row">
+    <h2 class="col-md-10">Settlement Request </h2>
+
+    <h4 class="col-md-2"> Date: @today.ToString("MMM dd yyyy")</h4>
+</div>
+
+<table class="table">
+    <tr>
+        <th> Invoice </th>
+        <th> Invoice Date</th>
+        <th> Due Date</th>
+        <th> Account </th>
+        <th> Desc </th>
+        <th> Amount </th>
+        <th> Payment </th>
+    </tr>
+    @foreach (var transaction in Model)
+    {
+        decimal transPayments = 0;
+        foreach (var payments in transaction.ArTransPayments)
+        {
+            transPayments += payments.ArPayment.Amount;
+        }
+
+        totalAmount += transaction.Amount;
+        totalPayment += transPayments;
+
+        <tr>
+            <td> @transaction.InvoiceId </td>
+            <td> @transaction.DtInvoice.ToString("MMM dd yyyy") </td>
+            <td> @transaction.DtDue.ToString("MMM dd yyyy") </td>
+            <td>
+                <b>@transaction.ArAccount.Company</b> <br /> 
+                @transaction.ArAccount.Name 
+            </td>
+            <td>
+                @transaction.Description <br />
+                @transaction.Remarks
+            </td>
+            <td> @transaction.Amount.ToString("#,##0.00") </td>
+            <td> @transPayments.ToString("#,##0.00") </td>
+           
+        </tr>
+    }
+<tr>
+    <td colspan="5" style="border-top:1px solid black"></td>
+    <td style="border-top:1px solid black">
+        <b> @totalAmount.ToString("#,##0.00")</b>
+    </td>
+    <td style="border-top:1px solid black">
+        <b> @totalPayment.ToString("#,##0.00")</b>
+    </td>
+</tr>
+</table>
+
+<hr />
+
+<table class="table">
+    <tr>
+        <td> Requested by: ________________ ________  </td>
+        <td>  Approved by: ________________ ________  </td>
+    </tr>
+
+</table>
+
+@section Scripts{
+    <script type="text/javascript" src="~/Areas/Receivables/Scripts/Mgt/Settlement.js"></script>
+}

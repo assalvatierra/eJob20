@@ -71,7 +71,7 @@
     }
     else
     {
-        @Html.ActionLink("Sent", "Index", new { status = "Sent", sortBy = sortBy , orderBy = orderBy}, new { @class = "btn btn-default" })
+        @Html.ActionLink("Sent", "Index", new { status = "Sent", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
     }
 
     @if (status == "Settlement")
@@ -119,7 +119,7 @@
     }
     else
     {
-        @Html.ActionLink("Amount", "Index", new { status = status, sortBy = "Amount" , orderBy = orderBy}, new { @class = "btn btn-default" })
+        @Html.ActionLink("Amount", "Index", new { status = status, sortBy = "Amount", orderBy = orderBy }, new { @class = "btn btn-default" })
     }
 </div>
 
@@ -131,7 +131,7 @@
     }
     else
     {
-        @Html.ActionLink("Asc", "Index", new { status = status, sortBy = sortBy , orderBy = "ASC"}, new { @class = "btn btn-default" })
+        @Html.ActionLink("Asc", "Index", new { status = status, sortBy = sortBy, orderBy = "ASC" }, new { @class = "btn btn-default" })
     }
 
     @if (orderBy == "DESC")
@@ -182,7 +182,7 @@
 
     @foreach (var receivablesGroup in Model.GroupBy(r => r.DtDue.ToString("MMMM", null)))
     {
-        
+
         totalAmount = 0;
         totalPayment = 0;
         totalBalance = 0;
@@ -232,7 +232,7 @@
             <tr style="color:@textcolor;background-color:@bgcolor;">
                 <td>
                     @item.DtInvoice.ToString("MMM dd yyyy")
-                </td> 
+                </td>
                 <td>
                     @item.Id
                 </td>
@@ -240,7 +240,7 @@
 
                     @if (item.InvoiceId != 0 && item.InvoiceRef != null)
                     {
-                        @Html.ActionLink(item.InvoiceRef, "JobServices", "JobOrder", new { area ="", jobMainId = item.InvoiceId }, new { target = "_blank" })
+                        @Html.ActionLink(item.InvoiceRef, "JobServices", "JobOrder", new { area = "", jobMainId = item.InvoiceId }, new { target = "_blank" })
                     }
                     else
                     {
@@ -250,10 +250,15 @@
                 <td>
                     <span style="font-weight:600;">
                         @*item.ArAccount.Company*@
-                        @Html.ActionLink(item.ArAccount.Company+ " ", "Details", "ArAccounts", new { id = item.ArAccountId }, null)
+                        @Html.ActionLink(item.ArAccount.Company + " ", "Details", "ArAccounts", new { id = item.ArAccountId }, null)
                     </span>
                     <br>
-                    <span style="font-size:12px;color:gray;">@Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
+
+                    @if (item.ArAccount.Name != "Personal Account")
+                    {
+                        <span style="font-size:12px;color:gray;">@Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
+                    }
+                    <br />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)<br />
@@ -268,10 +273,10 @@
                     </span>
                     @if (!String.IsNullOrEmpty(item.Remarks))
                     {
-                       <br /> <span style="font-size:11px;color:gray;">@Html.DisplayFor(modelItem => item.Remarks)</span>
+                        <br /> <span style="font-size:11px;color:gray;">@Html.DisplayFor(modelItem => item.Remarks)</span>
                     }
                 </td>
-                  
+
                 <td>
                     <span>
                         @item.DtDue.ToString("MMM dd yyyy")
@@ -313,14 +318,24 @@
                 <td style="color:darkgreen;">
                     @{
                         decimal totalTransPayment = 0;
+                        string paymentType = "";
+                        bool paymentDeposited = false;
                     }
 
                     @foreach (var payment in item.ArTransPayments)
                     {
                         totalTransPayment = totalTransPayment + payment.ArPayment.Amount;
+                        paymentType = payment.ArPayment.ArPaymentType.Type;
+                        paymentDeposited = payment.ArPayment.IsDeposited ?? false;
                     }
                     <span>
-                        @totalTransPayment.ToString("#,##0.00")
+                        @totalTransPayment.ToString("#,##0.00")<br />
+                        <span style="font-size:11px;color:gray;">@paymentType</span>
+
+                        @if (paymentDeposited)
+                        {
+                            <span style="font-size:11px;color:gray;"> - Deposited </span>
+                        }
                     </span>
                 </td>
                 <td>
@@ -348,10 +363,16 @@
                                 else if (item.ArTransStatusId >= 4 && item.ArTransStatusId <= 5)
                                 {
                                     @Html.ActionLink("Add Payment", "CreateTransPayment", "ArPayments", new { transId = item.Id }, null)
-                                    if (item.ArTransStatusId == 4 && isAdmin)
+                                    if (item.ArTransStatusId == 4)
                                     {
                                         <a class="cursor-link cursor-hand" onclick="UpdateStatus(@item.Id, 5)"> For Settlement </a>
                                     }
+
+                                    if (paymentType != "Bank")
+                                    {
+                                        <a class="cursor-link cursor-hand" onclick="UpdateStatusAndDeposit(@item.Id)"> Deposited </a>
+                                    }
+                                    
                                 }
                                 else if (item.ArTransStatusId == 5)
                                 {
@@ -359,7 +380,11 @@
                                 }
 
                             <li role="separator" class="divider"></li>
-                            <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            @if (item.ArTransStatusId < 5)
+                            {
+                                <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            }
+
                             <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
                             <li> @Html.ActionLink("Credit", "Details", "ArAccounts", new { id = item.ArAccountId }, null) </li>
                             <li> @Html.ActionLink("History", "TransactionHistory", "ArTransactions", new { id = item.Id }, null) </li>
@@ -429,6 +454,24 @@
                 alert("Unable to Update transaction.");
                 $("#overlay").hide();
             }
+        }
+
+
+
+        function UpdateStatusAndDeposit(id) {
+            var result = $.post("/Receivables/ArMgt/UpdatePaymentAsDeposited",
+                {
+                    transId: id
+                },
+                (response) => {
+                    console.log("Update Status : " + response);
+                    if (response == "True") {
+                        window.location.reload(false);
+                    } else {
+                        alert("Unable to Update Deposit.");
+                    }
+                }
+            );
         }
 
     </script>

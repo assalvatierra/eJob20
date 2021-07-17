@@ -15,13 +15,16 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
-        
+
+
         <div class="form-group" hidden>
-            @Html.LabelFor(model => model.DtPayment, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ArAccountId, "Account", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input value="@ViewBag.TransId" name="TransId" class="form-control" />
+                @Html.DropDownList("ArAccountId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ArAccountId, "", new { @class = "text-danger" })
             </div>
         </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.DtPayment, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -55,11 +58,12 @@
             </div>
         </div>
 
+
         <div class="form-group">
-            @Html.LabelFor(model => model.ArAccountId, "ArAccountId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsDeposited, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ArAccountId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ArAccountId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.IsDeposited, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsDeposited, "", new { @class = "text-danger" })
             </div>
         </div>
 

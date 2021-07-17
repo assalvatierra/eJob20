@@ -22,12 +22,12 @@ namespace JobsV1.Areas.Receivables.Controllers
         public ActionResult Index(string status, string sortBy, string orderBy)
         {
             var arTransactions = ar.TransactionMgr.GetTransactions(status, sortBy, orderBy);
-         
+
             ViewBag.Status = status;
             ViewBag.SortBy = sortBy;
             ViewBag.OrderBy = orderBy;
             ViewBag.Today = ar.DateClassMgr.GetCurrentDate();
-            ViewBag.IsAdmin = User.IsInRole("Admin");
+            ViewBag.IsAdmin = true;
 
             return View(arTransactions.ToList());
         }
@@ -331,7 +331,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                 ar.TransactionMgr.CloseTransactionStatus(id);
 
                 //post
-               var postResponse = ar.TransPostMgr.CreateTransPost(transaction, today, TotalBalance);
+                var postResponse = ar.TransPostMgr.CreateTransPost(transaction, today, TotalBalance);
 
                 if (postResponse)
                 {
@@ -401,7 +401,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 arTransaction.ArAccountId = 1;
                 arTransaction.ArCategoryId = 1;
-                arTransaction.ArTransStatusId = 1;
+                arTransaction.ArTransStatusId = 2;
                 arTransaction.DtEncoded = ar.DateClassMgr.GetCurrentDateTime();
                 arTransaction.IsRepeating = false;
                 arTransaction.Interval = 0;
@@ -429,10 +429,10 @@ namespace JobsV1.Areas.Receivables.Controllers
                         arTransaction.ArAccountId = GetUserAccountId(Name);
                     }
 
-                    ardb.ArTransactions.Add(arTransaction);
-                    ardb.SaveChanges();
+                    //ardb.ArTransactions.Add(arTransaction);
+                    //ardb.SaveChanges();
 
-                    //ar.TransactionMgr.AddTransaction(arTransaction);
+                    ar.TransactionMgr.AddTransaction(arTransaction);
 
                     //new transaction action history (new bill)
                     ar.ActionMgr.AddAction(1, currentUser, arTransaction.Id);
@@ -446,6 +446,15 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return false;
             }
 
+        }
+
+        public ActionResult Settlement()
+        {
+            //get ongoing transactions
+            var transactions = ar.TransactionMgr.GetForSettlementTrans();
+
+            ViewBag.DateToday = ar.DateClassMgr.GetCurrentDateTime();
+            return View(transactions);
         }
 
         #region Accounts
@@ -462,7 +471,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             return false;
         }
 
-         //Check if the user exist on the current list
+        //Check if the user exist on the current list
         public bool IsCompanyExist(string company)
         {
             var userExists = ardb.ArAccounts.Where(a => a.Company.Contains(company)).ToList();
@@ -511,6 +520,19 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 return 0;
             }
+        }
+
+        [HttpPost]
+        public bool CloseTransctions(int[] TransIds)
+        {
+            var arTransIds = new List<int>(TransIds);
+
+            foreach (var artransId in arTransIds)
+            {
+                UpdateTransStatus(artransId, 6); //close transaction
+            }
+
+            return true;
         }
 
         #endregion

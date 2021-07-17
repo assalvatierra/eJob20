@@ -135,3 +135,20 @@ function InitDatePicker() {
 }
 
 
+
+
+function UpdateStatusAndDeposit(id) {
+    var result = $.post("/Receivables/ArMgt/UpdatePaymentAsDeposited",
+        {
+            transId: id
+        },
+        (response) => {
+            console.log("Update Status : " + response);
+            if (response == "True") {
+                window.location.reload(false);
+            } else {
+                alert("Unable to Update Deposit.");
+            }
+        }
+    );
+}
