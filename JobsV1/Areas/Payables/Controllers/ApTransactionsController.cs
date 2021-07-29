@@ -112,7 +112,7 @@ namespace Payable.Areas.Payables.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo," +
-            "Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,BudgetAmt")] ApTransaction apTransaction)
+            "Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,BudgetAmt,JobRef")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {
@@ -161,7 +161,7 @@ namespace Payable.Areas.Payables.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,InvoiceNo,DtInvoice,DtEncoded,Description,Amount,IsRepeating,Interval,DtDue,DtService,DtServiceTo," +
-            "Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,RepeatNo,IsPrinted,BudgetAmt,ReleaseAmt,DtRelease")] ApTransaction apTransaction)
+            "Remarks,ApAccountId,ApTransStatusId,ApTransCategoryId,NextRef,PrevRef,RepeatCount,RepeatNo,IsPrinted,BudgetAmt,ReleaseAmt,DtRelease,JobRef")] ApTransaction apTransaction)
         {
             if (ModelState.IsValid)
             {

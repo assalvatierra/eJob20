@@ -22,9 +22,9 @@
 <h2>Weekly Payables Transactions </h2>
 <p>
     @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
-    <a href="/Payables/ApTransactions/"> <button class="btn btn-default"> Payables </button></a>
-    <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default"> Daily Payables </button></a>
-    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default" disabled> Weekly Payables </button></a>
+    <a href="/Payables/ApTransactions/"> <button class="btn btn-default"> Expenses </button></a>
+    <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default"> Daily Expenses </button></a>
+    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default" disabled> Weekly Expenses </button></a>
 </p>
 
 
@@ -46,6 +46,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobRef)
         </th>
         <th>
             Invoice
@@ -162,6 +165,9 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
+                    <a href="/JobOrder/JobServices?JobMainId=@item.JobRef"> @item.JobRef </a>
+                </td>
+                <td>
                     @item.DtInvoice.ToString("MMM dd yyyy")<br />
                     @Html.DisplayFor(modelItem => item.InvoiceNo)
                 </td>
@@ -208,12 +214,12 @@
                     }
                     else if (item.ApTransStatusId == 3)
                     {
-                        <span class="label label-success">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+                        <span class="label label-warning">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
                     }
-                    else if (item.ApTransStatusId == 4)
+                    else if (item.ApTransStatusId == 5)
                     {
-                        <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+                        <span class="label label-success">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
                     }
                     else

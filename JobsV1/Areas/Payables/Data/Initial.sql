@@ -1,6 +1,6 @@
 ﻿
-insert into ApTransStatus([Status]) values
-('Requested'),('Approved'),('Released'),('Closed');
+insert into ApTransStatus([Status],[Code]) values
+('Requested', 1),('Approved', 2),('Released', 3),('Closed', 5),('Returned', 4),('Cancelled', 6);
 
 insert into ApAccStatus([Status]) values
 ('Active'),('Inactive'),('OnHold');
@@ -21,6 +21,6 @@ insert into ApAccounts([Name],[Landline],[Email],[Mobile],[ContactPerson],[Addre
 ('< New Account >', null, 'NA', 'NA', null, null, null, 1);
 
 insert into ApTransCategories([Name],[Remarks]) values
-('Others', '');
+('Overhead', ''),('Job Expense', ''),('Personal', '');
 
 

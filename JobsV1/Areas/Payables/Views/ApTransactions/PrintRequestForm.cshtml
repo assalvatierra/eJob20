@@ -47,6 +47,9 @@
                 <table class="table payables-items-table">
                     <tr>
                         <th>
+                            Id
+                        </th>
+                        <th>
                             Date Invoice
                         </th>
                         <th>
@@ -72,6 +75,9 @@
                         totalAmount += budgetRequest;
                         <tr>
                             <td>
+                                @payable.Id
+                            </td>
+                            <td>
                                 @payable.DtInvoice.ToString("MMM dd yyyy")
                             </td>
                             <td>
@@ -79,7 +85,8 @@
                             </td>
                             <td>
                                 <b>@payable.ApAccount.Name </b>/
-                                @payable.Description
+                                @payable.Description <br /> 
+                                @payable.Remarks
                             </td>
                             <td>
                                 @payable.DtDue.ToString("MMM dd yyyy")
