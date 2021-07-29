@@ -219,11 +219,12 @@ namespace JobsV1.Areas.Receivables.Controllers
             return View(transactions.ToList());
         }
 
+
         [HttpPost]
         public bool UpdatePaymentAsDeposited(int transId)
         {
             ar.PaymentMgr.UpdateTransDeposit(transId, true);
-            UpdateTransStatus(transId, 6);
+            //UpdateTransStatus(transId, 6);
 
             return true;
         }

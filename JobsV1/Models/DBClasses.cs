@@ -701,7 +701,7 @@ namespace JobsV1.Models
                             LEFT OUTER JOIN JobServices js ON jm.Id = js.JobMainId 
 	                        LEFT OUTER JOIN Customers c ON jm.CustomerId = c.Id ) job 
                             WHERE job.DtStart >= convert(datetime, GETDATE()) OR(job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE())) 
-                            AND job.JobStatusId < 4";
+                            AND job.JobStatusId < 4 ";
                     break;
                 case 2: //prev
                     sql = "select j.Id from JobMains j where j.JobStatusId < 4 AND MONTH(j.JobDate) = MONTH(GETDATE()) AND YEAR(j.JobDate) = YEAR(GETDATE()) ;";

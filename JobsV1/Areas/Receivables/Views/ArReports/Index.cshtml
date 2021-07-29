@@ -4,11 +4,17 @@
     ViewBag.Title = "Recievables Report";
     string sortBy = ViewBag.SortBy;
     string orderBy = ViewBag.OrderBy;
+
+    decimal totalAmount = 0;
+    decimal totalPayment = 0;
+    decimal totalBalance = 0;
 }
 
 <h2>Recievables Report</h2>
 <p>
-    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null)
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null) |
+    @Html.ActionLink("Daily", "Daily", "ArReports", new { area = "Receivables" }, null) |
+    @Html.ActionLink("Monthly", "Daily", "ArReports", new { area = "Receivables" }, null)
 </p>
 <div class="col-md-12" style="margin-bottom:10px; padding-left:0px;">
     <div class="btn-group" role="group" aria-label="Filter Group">
@@ -47,6 +53,10 @@
 
     @foreach (var item in Model)
     {
+        totalAmount += item.Amount;
+        totalPayment += item.Payment;
+        totalBalance += item.Balance;
+
         <tr>
             <td>
                 @item.Account
@@ -65,6 +75,21 @@
             </td>
         </tr>
     }
+
+<tr>
+    <td></td>
+    <td>
+        @totalAmount.ToString("#,#00.00")
+    </td>
+    <td>
+        @totalPayment.ToString("#,#00.00")
+    </td>
+    <td>
+        @totalBalance.ToString("#,#00.00")
+    </td>
+    <td>
+    </td>
+</tr>
 
 </table>
 

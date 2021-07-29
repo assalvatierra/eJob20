@@ -537,6 +537,19 @@ namespace JobsV1.Areas.Receivables.Controllers
 
         #endregion
 
+        public ActionResult StatementPrint(int accountId)
+        {
+            var account = ar.AccountMgr.GetAccountById(accountId);
+
+            //get ongoing transactions
+            var transactions = ar.TransactionMgr.GetApprovedTransactions()
+                .Where(a => a.ArAccountId == accountId);
+
+            ViewBag.Company = account.Company;
+            ViewBag.DateToday = ar.DateClassMgr.GetCurrentDateTime();
+
+            return View(transactions.ToList());
+        }
 
         private string GetUser()
         {

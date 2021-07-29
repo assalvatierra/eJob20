@@ -377,6 +377,7 @@
     <Compile Include="Areas\Payables\Controllers\ApAccountsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApPaymentsController.cs" />
     <Compile Include="Areas\Payables\Controllers\ApTransactionsController.cs" />
+    <Compile Include="Areas\Payables\Controllers\ApTransItemsController.cs" />
     <Compile Include="Areas\Payables\PayablesAreaRegistration.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalCashReleaseController.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalLogController.cs" />
@@ -562,6 +563,7 @@
     <Content Include="Areas\Payables\Data\Initial_data.sql" />
     <Content Include="Areas\Payables\Scripts\ApPayments\ApPaymentCreate.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransaction.js" />
+    <Content Include="Areas\Payables\Scripts\ApTransactions\ReleasedDaily.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransCreate.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransDetails.js" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
@@ -1430,6 +1432,8 @@
     <Content Include="Areas\Receivables\Scripts\Mgt\DueDate.js" />
     <Content Include="Areas\Receivables\Scripts\Mgt\Settlement.js" />
     <Content Include="Areas\Receivables\Scripts\Payments\Payments.js" />
+    <Content Include="Areas\Receivables\Scripts\Report\Daily.js" />
+    <Content Include="Areas\Receivables\Scripts\Transactions\TransactionCreate.js" />
     <Content Include="Areas\Receivables\Scripts\Transactions\TransactionEdit.js" />
     <Content Include="Areas\Receivables\Scripts\Transactions\Transaction.js" />
     <Content Include="BingSiteAuth.xml" />
@@ -2568,6 +2572,16 @@
     <Content Include="bin\ApplicationInsights.config" />
     <Content Include="Areas\Payables\Views\ApTransactions\ReleasedDaily.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransactions\ReleasedWeekly.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArMgt\SettlementPrint.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\SettlementPrint.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArReports\Daily.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransItems\Create.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransItems\Edit.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransItems\Delete.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransItems\Index.cshtml" />
+    <Content Include="Areas\Payables\Views\ApTransItems\Details.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArReports\Monthly.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\StatementPrint.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

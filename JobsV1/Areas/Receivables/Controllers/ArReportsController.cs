@@ -1,5 +1,5 @@
 ﻿using ArServices;
-using ArModels;
+using ArModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,7 +117,24 @@ namespace JobsV1.Areas.Receivables.Controllers
             return View(arRptTrans);
         }
 
-       
+
+        // GET: ArReports/Daily
+        public ActionResult Daily(DateTime? dateSrch)
+        {
+
+            if (dateSrch == null)
+            {
+                dateSrch = ar.DateClassMgr.GetCurrentDate();
+            }
+
+            var arTransactions = ar.TransactionMgr.GetTransactionsByDate((DateTime)dateSrch);
+
+            ViewBag.Today = ar.DateClassMgr.GetCurrentDate();
+            ViewBag.DateSrch = dateSrch;
+            ViewBag.IsAdmin = true;
+
+            return View(arTransactions.ToList());
+        }
 
     }
 }

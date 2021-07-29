@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     ViewBag.Title = "Settlement";
+    decimal TotalAmount = 0;
 }
 
 <h2>Settlement</h2>
@@ -63,7 +64,7 @@
             <td>
                 @if (transaction.ArTransPayments.Count() > 0)
                 {
-                    var latestPayment = transaction.ArTransPayments.FirstOrDefault();
+                    var latestPayment = transaction.ArTransPayments.LastOrDefault();
 
                     <span> @latestPayment.ArPayment.DtPayment.ToString("MMM dd yyyy")  </span>
                 }
@@ -122,19 +123,31 @@
             </td>
             <td>
                 <a class="btn btn-default" onclick="UpdateStatus(@transaction.Id, 6)"> Close </a>
-                @if (paymentType != "Bank")
+                @if (paymentType != "Bank" && !paymentDeposited)
                 {
-                    <a class="btn btn-default" onclick="UpdateStatusAndDeposit(@transaction.Id)"> Deposited </a>
+                 
+                   <a class="btn btn-default" onclick="UpdateStatusAndDeposit(@transaction.Id)"> Deposited </a>
+                   
                 }
 
             </td>
         </tr>
+
+        TotalAmount += paymentTotal;
     }
+
+    <tr>
+        <td colspan="6"></td>
+        <td>
+            <h4> @TotalAmount.ToString("#,##0.00")</h4>
+        </td>
+        <td></td>
+    </tr>
 </table>
 
 
 <a class="btn btn-default" onclick="ClosedChecked()"> Close Checked</a>
-<a class="btn btn-default" onclick="DepositAndClosedChecked()"> Close & Deposite Checked</a>
+<a class="btn btn-default" onclick="DepositAndClosedChecked()"> Close & Deposit Checked</a>
 @section Scripts{
     <script type="text/javascript" src="~/Areas/Receivables/Scripts/Mgt/Settlement.js"></script>
 }

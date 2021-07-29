@@ -65,13 +65,13 @@
     }
 
 
-    @if (status == "Sent")
+    @if (status == "Billing Sent")
     {
-        <button type="button" class="btn btn-default active"> Sent </button>
+        <button type="button" class="btn btn-default active"> Sent </button> 
     }
     else
     {
-        @Html.ActionLink("Sent", "Index", new { status = "Sent", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Sent", "Index", new { status = "Billing Sent", sortBy = sortBy, orderBy = orderBy }, new { @class = "btn btn-default" })
     }
 
     @if (status == "Settlement")
@@ -372,7 +372,7 @@
                                     {
                                         <a class="cursor-link cursor-hand" onclick="UpdateStatusAndDeposit(@item.Id)"> Deposited </a>
                                     }
-                                    
+
                                 }
                                 else if (item.ArTransStatusId == 5)
                                 {
@@ -387,6 +387,7 @@
 
                             <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
                             <li> @Html.ActionLink("Credit", "Details", "ArAccounts", new { id = item.ArAccountId }, null) </li>
+                            <li> @Html.ActionLink("Statement", "StatementPrint", "ArTransactions", new { accountId = item.ArAccountId }, null) </li>
                             <li> @Html.ActionLink("History", "TransactionHistory", "ArTransactions", new { id = item.Id }, null) </li>
                             @*<li> @Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>*@
                         </ul>

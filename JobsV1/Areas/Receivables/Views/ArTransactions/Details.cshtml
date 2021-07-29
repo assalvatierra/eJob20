@@ -1,6 +1,7 @@
 ﻿@model ArModels.Models.ArTransaction
 
 @{
+    Session["ROOTMENUID"] = 19;
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var transPayments = ViewBag.Payments as IEnumerable<ArModels.Models.ArTransPayment>;
@@ -153,6 +154,7 @@
                         @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null)
                     }
 
+                    @Html.ActionLink("Edit", "EditTransPayment", "ArPayments", new { id = payments.Id, transId = Model.Id }, null)
                     @*@Html.ActionLink("Delete", "DeleteTransPayment", "ArPayments", new { id = payments.Id }, null)*@
                 </td>
             </tr>
