@@ -41,7 +41,7 @@ namespace JobsV1.Areas.Personel.Controllers
             
             if (statusId == null || statusId == 1)
             {
-                DateFilter = today.AddDays(-5);
+                DateFilter = today.AddDays(-10);
             }
             if (statusId == null)
                 statusId = 1;

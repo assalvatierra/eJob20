@@ -539,16 +539,60 @@ namespace JobsV1.Areas.Receivables.Controllers
 
         public ActionResult StatementPrint(int accountId)
         {
+            decimal accBalance = 0;
             var account = ar.AccountMgr.GetAccountById(accountId);
 
             //get ongoing transactions
             var transactions = ar.TransactionMgr.GetApprovedTransactions()
-                .Where(a => a.ArAccountId == accountId);
+                .Where(a => a.ArAccountId == accountId).ToList();
+
+
+            List<ArRptModel.ArAccountStatement> accStatements = new List<ArRptModel.ArAccountStatement>();
+
+            foreach (var statement in transactions)
+            {
+                accStatements.Add(new ArRptModel.ArAccountStatement
+                {
+                    ArTransId = statement.Id,
+                    InvoiceId = statement.InvoiceId,
+                    InvoiceRef = statement.InvoiceRef,
+                    InvoiceDate = statement.DtInvoice,
+                    Description = statement.Description ,
+                    Amount = statement.Amount,
+                    Payment = 0
+
+                });
+
+                //Statement Amount 
+                accBalance += statement.Amount;
+
+                statement.ArTransPayments.ToList().ForEach(payment => {
+                    //Statement Payments 
+                    accBalance -= payment.ArPayment.Amount;
+
+                    accStatements.Add(new ArRptModel.ArAccountStatement
+                    {
+                        ArTransId = payment.Id,
+                        InvoiceId = payment.ArTransaction.InvoiceId,
+                        InvoiceRef = payment.ArTransaction.InvoiceRef,
+                        InvoiceDate = payment.ArPayment.DtPayment,
+                        Description = payment.ArPayment.ArPaymentType.Type + " Payment for " + payment.ArTransaction.InvoiceRef,
+                        Amount = 0,
+                        Payment = payment.ArPayment.Amount
+                    });
+                });
+            }
+
+            var user = HttpContext.User.Identity.Name;
 
             ViewBag.Company = account.Company;
+            ViewBag.CompanyAddress = account.Address;
             ViewBag.DateToday = ar.DateClassMgr.GetCurrentDateTime();
+            ViewBag.AccBalance = accBalance;
+            ViewBag.PreparedBy = GetStaffName(user);
+            ViewBag.PreparedSign = GetStaffSign(user);
 
-            return View(transactions.ToList());
+            return View(accStatements.OrderBy(c=>c.InvoiceDate));
         }
 
         private string GetUser()
@@ -561,6 +605,61 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 return "Unknown User";
             }
+        }
+
+
+        public string GetStaffName(string staffLogin)
+        {
+            switch (staffLogin)
+            {
+                case "josette.realbreeze@gmail.com":
+                    return "Josette Valleser";
+                case "mae.realbreeze@gmail.com":
+                    return "Cristel Mae Verano";
+                case "ramil.realbreeze@gmail.com":
+                    return "Ramil Villahermosa";
+                case "grace.realbreeze@gmail.com":
+                    return "Grace-chell V. Capandac";
+                case "assalvatierra@gmail.com":
+                    return "Elvie S. Salvatierra ";
+                case "jecca.realbreeze@gmail.com":
+                    return "Jecca Bilason";
+                case "kimberly.realbreeze@gmail.com":
+                    return "Kimberly Pangubatan";
+                default:
+                    return "Elvie S. Salvatierra ";
+            }
+        }
+
+        public string GetStaffSign(string staffLogin)
+        {
+            switch (staffLogin)
+            {
+                case "josette.realbreeze@gmail.com":
+                    return "/Images/Signature/JoSign.jpg";
+                case "mae.realbreeze@gmail.com":
+                    return "/Images/Signature/MaeSign.jpg";
+                case "ramil.realbreeze@gmail.com":
+                    return "/Images/Signature/RamSign.jpg";
+                case "grace.realbreeze@gmail.com":
+                    return "/Images/Signature/GraceSign.jpg";
+                case "assalvatierra@gmail.com":
+                    return "/Images/Signature-1.png";
+                case "jecca.realbreeze@gmail.com":
+                    return "/Images/Signature/JeccaSign.jpg";
+                case "kimberly.realbreeze@gmail.com":
+                    return "/Images/Signature/KimSign.jpg";
+                default:
+                    return "/Images/Signature-1.png";
+            }
+        }
+
+        public class ArStatement
+        {
+            public DateTime InvoiceDate { get; set; }
+            public String Description { get; set; }
+            public Decimal Amount { get; set; }
+            public Decimal Payment { get; set; }
         }
     }
 }

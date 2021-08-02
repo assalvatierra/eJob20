@@ -1,35 +1,90 @@
-﻿@model IEnumerable<ArModels.Models.ArTransaction>
+﻿@model IEnumerable<ArModels.Models.ArRptModel.ArAccountStatement>
 @{
     ViewBag.Title = "Statement Print";
     decimal totalPayment = 0;
     decimal totalAmount = 0;
-
+    decimal RunningBalance = 0;
+    decimal AccBalance = ViewBag.AccBalance;
     DateTime today = ViewBag.DateToday;
 }
-<div class="row">
-    <div class="col-md-9">
-        <h2 >Statement </h2>
+<style>
 
-        <h3>Billed to: @ViewBag.Company </h3>
+    .statement-top {
+        margin-bottom: 20px;
+        font-size: 11px;
+    }
+    .statement-header{
+        margin-bottom: 5px;
+    }
+    .statement-header p {
+        font-size: 11px;
+        color: darkblue;
+        margin-bottom: 3px;
+    }
+    .statement-header h2 {
+        margin-bottom: 3px;
+    }
+
+    .small-text-summary {
+        font-size: 11px;
+        margin-bottom: 3px;
+        padding-left: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .statement-details{
+        font-size:11px;
+    }
+
+    .sta
+</style>
+<div class="row statement-top">
+    <div class="col-md-12 col-sm-12">
+        <div class="col-md-2 col-sm-2">
+            <img src="~/Images/LOGO_AJRENTACAR.jpg" width="180" style="margin-top:20px;" />
+        </div>
+        <div class="col-md-8 col-sm-8 statement-header">
+            <h2>  AJ88 Car Rental Services </h2>
+            <p>Door 1 Travelers Inn Bldg., Matina Crossing Rd., Matina Pangi, Davao City, 8000</p>
+            <p>Tel# (+63)82 333-5157; (+63)9167558473; (+63)9330895358</p>
+            <p>Email: ajdavao88@gmail.com; Website: http://www.AJDavaoCarRental.com/</p>
+            <p>TIN: 414-880-772-001 (non-Vat) ; PhilGEPS No.: 241128</p>
+        </div>
     </div>
-    <div class="col-md-3">
-        <br />
-        <p> Statement Date: @today.ToString("MMM dd yyyy")</p>
 
-        <p> Period Covered: StartDate to EndDate </p>
-        <p> Amount Due: __________ </p>
-        <p> Payment Due Date: 15 Days from receipt</p>
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <td width="40%">
+                    <h4>Statement of Account </h4>
+                    <p style="margin-bottom: 3px;"> Billed to:</p>
+                    <div>
+                        <h4 style="margin-left:10px;margin-top:5px;"> @ViewBag.Company </h4>
+                        <p> @ViewBag.CompanyAddress </p>
+                    </div>
+                </td>
+                <td ></td>
+                <td width="40%">
+                    <br />
+                    <p> Statement Date: <u>@today.ToString("MMM dd yyyy")</u></p>
+
+                    @*<p> Period Covered: StartDate to EndDate </p>*@
+                    <p> Amount Due:<u> @AccBalance.ToString("#,##0.00") </u></p>
+                    <p> Payment Due Date: <u>15 Days from receipt</u></p>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 
-<table class="table">
+<table class="table statement-details">
     <tr>
-        <th> Invoice Date</th>
-        <th> Invoice </th>
-        <th> Payment Date</th>
-        <th> Account </th>
+        <th width="120"> Date</th>
+        <th width="90"> Invoice # </th>
         <th> Desc </th>
-        <th> Amount </th>
+        <th> Charges </th>
+        <th> Payments </th>
+        <th> Balance </th>
     </tr>
     @foreach (var transaction in Model)
     {
@@ -37,56 +92,78 @@
         string paymentType = "";
         bool paymentDeposited = false;
 
-        foreach (var payments in transaction.ArTransPayments)
-        {
-            transPayments += payments.ArPayment.Amount;
-            paymentType = payments.ArPayment.ArPaymentType.Type;
-            paymentDeposited = payments.ArPayment.IsDeposited ?? false;
-        }
 
         totalAmount += transaction.Amount;
-        totalPayment += transPayments;
+        totalPayment += transaction.Payment;
+        RunningBalance += transaction.Amount - transaction.Payment;
 
         <tr>
-            <td> @transaction.DtInvoice.ToString("MMM dd yyyy") </td>
-            <td> @transaction.InvoiceId </td>
+            <td> @transaction.InvoiceDate.ToString("MMM dd yyyy") </td>
+            
             <td>
-                @if (transaction.ArTransPayments.Count() > 0)
+                @if (transaction.Payment == 0)
                 {
-                    var latestPayment = transaction.ArTransPayments.LastOrDefault();
-
-                    <span> @latestPayment.ArPayment.DtPayment.ToString("MMM dd yyyy")  </span>
+                    @transaction.InvoiceRef
                 }
             </td>
             <td>
                 @transaction.Description 
-                @if (!String.IsNullOrEmpty(transaction.Remarks))
+                @*@if (!String.IsNullOrEmpty(transaction.Remarks))
                 {
                     <span> - @transaction.Remarks </span>
-                }
-                
-            <td> @transaction.Amount.ToString("#,##0.00") </td>
+                }*@
+            </td>
             <td>
-                @transPayments.ToString("#,##0.00")
-                <br />
-                <span style="font-size:11px;color:gray;">@paymentType</span>
-                @if (paymentDeposited)
+                @if (@transaction.Amount != 0)
                 {
-                    <span style="font-size:11px;color:gray;"> - Deposited </span>
+                    @transaction.Amount.ToString("#,##0.00")
                 }
+            </td>
+            <td>
+                @if (@transaction.Payment != 0)
+                {
+                    @transaction.Payment.ToString("#,##0.00")
+                }
+
+            </td>
+            <td>
+                @RunningBalance.ToString("#,##0.00")
             </td>
 
         </tr>
     }
-    <tr>
-        <td colspan="5" style="border-top:1px solid black"></td>
-        <td style="border-top:1px solid black">
-                <b> @totalAmount.ToString("#,##0.00")</b>
-            </td>
-        <td style="border-top:1px solid black">
-            <b> @totalPayment.ToString("#,##0.00")</b>
-        </td>
-    </tr>
+<tr>
+    <td style="border-top:1px solid black"> Trans: @Model.Count() </td>
+    <td colspan="2" style="border-top:1px solid black"></td>
+    <td style="border-top:1px solid black">
+        <p class="small-text-summary"> Total Amount </p>
+        <b> @totalAmount.ToString("#,##0.00")</b>
+    </td>
+    <td style="border-top:1px solid black">
+        <p class="small-text-summary"> Total Payments </p>
+        <b> @totalPayment.ToString("#,##0.00")</b>
+    </td>
+    <td style="border-top:1px solid black">
+        <p class="small-text-summary"> Outstanding Bal. </p>
+        <b>@RunningBalance.ToString("#,##0.00")</b>
+    </td>
+</tr>
 </table>
 
 <hr />
+
+<table class="table">
+    <tr>
+        <td width="40%">
+            <img src="@ViewBag.PreparedSign" width="100" style="margin-left:100px;" />  <br />
+            Prepared by: <u>@ViewBag.PreparedBy</u>
+        </td>
+        <td width="20%"></td>
+        <td>
+            <span style="margin-top:80px;display:inline-block;">
+                Received by: ___________________________
+            </span>
+        </td>
+    </tr>
+
+</table>

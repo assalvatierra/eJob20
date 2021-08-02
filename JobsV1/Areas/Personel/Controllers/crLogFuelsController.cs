@@ -36,11 +36,11 @@ namespace JobsV1.Areas.Personel.Controllers
             #endregion
 
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-30);
+            var DateFilter = today.AddDays(-90);
 
             if (statusId == null || statusId == 1 || statusId == 2)
             {
-                DateFilter = today.AddDays(-5);
+                DateFilter = today.AddDays(-10);
             }
 
             //get fuel request up to -7 days from today
@@ -95,43 +95,44 @@ namespace JobsV1.Areas.Personel.Controllers
             var DateFilter = today.AddDays(-360);
 
             //get fuel request up to -7 days from today
-            var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver).OrderBy(c => c.dtRequest)
-                .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= DateFilter);
+            var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
+                .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= DateFilter && 
+                    c.crLogFuelStatus.OrderByDescending(f=>f.Id).FirstOrDefault().crCashReqStatusId < 4);
 
           
              var statusId = 3;
 
-            List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
+            //List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
 
-            foreach (var log in crLogFuels.ToList())
-            {
-                var status = db.crCashReqStatus.Find(getLatestStatusId(log.Id)).Status;
+            //foreach (var log in crLogFuels.ToList())
+            //{
+            //    var status = db.crCashReqStatus.Find(getLatestStatusId(log.Id)).Status;
 
-                var templog = new Models.cCrLogFuel()
-                {
-                    crLogFuel = log,
-                    LatestStatusId = getLatestStatusId(log.Id),
-                    LatestStatus = status
-                };
+            //    var templog = new Models.cCrLogFuel()
+            //    {
+            //        crLogFuel = log,
+            //        LatestStatusId = getLatestStatusId(log.Id),
+            //        LatestStatus = status
+            //    };
 
-                if (templog.LatestStatusId == statusId)
-                {
-                    //add request and accecpted logs
-                    if (log.dtRequest.Date <= today.Date && templog.LatestStatusId < 4)
-                        cCrLogFuel.Add(templog);
-                    //add returned logs with date today
-                    if (log.dtRequest.Date == today.Date && templog.LatestStatusId == 4)
-                        cCrLogFuel.Add(templog);
-                }
+            //    if (templog.LatestStatusId == statusId)
+            //    {
+            //        //add request and accecpted logs
+            //        if (log.dtRequest.Date <= today.Date && templog.LatestStatusId < 4)
+            //            cCrLogFuel.Add(templog);
+            //        //add returned logs with date today
+            //        if (log.dtRequest.Date == today.Date && templog.LatestStatusId == 4)
+            //            cCrLogFuel.Add(templog);
+            //    }
 
-            }
+            //}
 
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.StatusId = statusId;
             ViewBag.crLogPaymentType = db.crLogPaymentTypes.ToList();
 
-            return View(cCrLogFuel.ToList());
+            return View(crLogFuels.ToList());
         }
 
         // GET: Personel/crLogFuels
