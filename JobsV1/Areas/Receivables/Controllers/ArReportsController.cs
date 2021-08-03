@@ -136,5 +136,31 @@ namespace JobsV1.Areas.Receivables.Controllers
             return View(arTransactions.ToList());
         }
 
+
+        // GET: ArReports/Monthly
+        public ActionResult Monthly(DateTime? dateStart, DateTime? dateEnd)
+        {
+
+            if (dateStart == null)
+            {
+                dateStart = ar.DateClassMgr.GetCurrentDate();
+            }
+
+
+            if (dateEnd == null)
+            {
+                dateEnd = ar.DateClassMgr.GetCurrentDate();
+            }
+
+            var arTransactions = ar.TransactionMgr.GetTransactionsByDateRange((DateTime)dateStart, (DateTime)dateEnd);
+
+            ViewBag.Today = ar.DateClassMgr.GetCurrentDate();
+            ViewBag.DateStart = dateStart;
+            ViewBag.DateEnd = dateEnd;
+            ViewBag.IsAdmin = true;
+
+            return View(arTransactions.ToList());
+        }
+
     }
 }

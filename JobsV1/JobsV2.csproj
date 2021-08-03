@@ -1432,6 +1432,7 @@
     <Content Include="Areas\Receivables\Scripts\Mgt\DueDate.js" />
     <Content Include="Areas\Receivables\Scripts\Mgt\Settlement.js" />
     <Content Include="Areas\Receivables\Scripts\Payments\Payments.js" />
+    <Content Include="Areas\Receivables\Scripts\Report\Monthly.js" />
     <Content Include="Areas\Receivables\Scripts\Report\Daily.js" />
     <Content Include="Areas\Receivables\Scripts\Transactions\TransactionCreate.js" />
     <Content Include="Areas\Receivables\Scripts\Transactions\TransactionEdit.js" />

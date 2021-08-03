@@ -24,17 +24,16 @@
         @using (Html.BeginForm())
         {
             <div class="input-group-btn" style="width:140px;">
-                @*<input type="text" class="form-control" name="dateSrch" value="@ViewBag.DateSrch" />*@
-                <select>
-                    <option value="2021">2021</option>
-                    <option value="2020">2020</option>
-                </select>
+                <input type="text" class="form-control" name="dateStart" value="@ViewBag.DateStart" />
+            </div>
+            <div class="input-group-btn" style="width:140px;">
+                <input type="text" class="form-control" name="dateEnd" value="@ViewBag.DateEnd" />
             </div>
             <div class="input-group-btn">
                 <button class="btn btn-default" type="submit" value="Search" id="SubmitSearchBtn">
                     Search
                 </button>
-            </div>  
+            </div>
         }
 
     </div>
@@ -76,6 +75,7 @@
         <th>
             Paid&nbsp;Amount
         </th>
+        <th></th>
     </tr>
         @foreach (var item in Model)
         {
@@ -231,6 +231,9 @@
                         }
                     </span>
                 </td>
+                <td>
+
+                </td>
             </tr>
 
             totalPayment += totalTransPayment;
@@ -239,7 +242,7 @@
           }
 
         <tr>
-            <td colspan="8">
+            <td colspan="9">
             </td>
             <td style="background-color:lightgray;">
                 <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
@@ -250,7 +253,7 @@
                 <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
             </td>
             <td style="font-weight:600;">
-                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
+                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Balance </p>
                 <p style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</p>
             </td>
         </tr>

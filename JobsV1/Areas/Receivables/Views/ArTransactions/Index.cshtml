@@ -11,10 +11,13 @@
 
     bool isAdmin = ViewBag.IsAdmin;
 
-    decimal totalAmount = 0;
+    decimal totalAmount  = 0;
     decimal totalPayment = 0;
     decimal totalBalance = 0;
-    decimal GrandTotal = 0;
+
+    decimal GrandTotal   = 0;
+    decimal GrandPayment = 0;
+    decimal GrandBalance = 0;
 }
 
 <h2>Receivables Transactions</h2>
@@ -402,6 +405,8 @@
         {
             totalBalance = totalAmount - totalPayment;
             GrandTotal += totalAmount;
+            GrandPayment += totalPayment;
+            GrandBalance += totalBalance;
         }
         <tr>
             <td colspan="8">
@@ -424,9 +429,23 @@
 </table>
 
 <div>
-    <h3>
-        <span>Grand Total :</span> @GrandTotal.ToString("#,##0.00")
-    </h3>
+    <table class="table">
+        <tr>
+            <td>
+                <h3>
+                    <span style="color:gray;">Grand Total :</span> @GrandTotal.ToString("#,##0.00")
+                </h3>
+            </td>
+            <td>
+                <h3>  <span style="color:gray;"> Payments :</span> <span style="color:green;">@GrandPayment.ToString("#,##0.00")</span>
+                </h3>
+            </td>
+            <td>
+                <h3><span style="color:gray;"> Balance :</span> <span style="color:blue;">@GrandBalance.ToString("#,##0.00")</span>
+                </h3>
+            </td>
+        </tr>
+    </table>
 </div>
 
 
