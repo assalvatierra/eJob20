@@ -54,16 +54,21 @@ namespace Payable.Areas.Payables.Controllers
         }
 
         // GET: Payables/ApTransactions/ReleasedWeekly
-        public ActionResult ReleasedWeekly(int? status, string sort)
+        public ActionResult ReleasedWeekly(DateTime? dateStart, DateTime? dateEnd)
         {
-            status = status == null ? 0 : status;
+            DateTime thisMonth = dt.GetCurrentDate();
+            var startMonthDate = new DateTime(thisMonth.Year, thisMonth.Month, 1);
+            var endMonthDate = startMonthDate.AddMonths(1).AddDays(-1);
 
-            var apTransactions = ap.TransactionMgr.GetWeeklyReleasedTransactions(sort);
+            dateStart = dateStart == null ? startMonthDate : dateStart;
+            dateEnd = dateEnd == null ? endMonthDate : dateEnd;
+
+            var apTransactions = ap.TransactionMgr.GetDailyReleasedByDateRange((DateTime)dateStart, (DateTime)dateEnd);
 
             ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.Today = ap.DateClassMgr.GetCurrentDate();
-            ViewBag.Status = status;
-            ViewBag.Sort = sort;
+            ViewBag.DateStart = dateStart;
+            ViewBag.DateEnd = dateEnd;
 
             return View(apTransactions);
         }

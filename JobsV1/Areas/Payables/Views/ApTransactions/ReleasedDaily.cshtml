@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ApModels.Models.ApTransaction>
 
 @{
-    ViewBag.Title = "Daily Payables Transactions";
+    ViewBag.Title = "Daily Expense Report";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     int status = ViewBag.Status;
@@ -19,13 +19,13 @@
     bool isAdmin = true;
 }
 
-<h2>Daily Payables Transactions </h2>
+<h2>Daily Expense Report </h2>
 
 <p>
     @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
     <a href="/Payables/ApTransactions/"> <button class="btn btn-default"> Expenses </button></a>
     <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default" disabled> Daily Expenses </button></a>
-    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default"> Weekly Expenses </button></a>
+    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default"> Monthly Expenses </button></a>
 </p>
 <div style="display:flex;flex-direction:row;">
     <div class="search-panel input-group">
@@ -104,6 +104,7 @@
             Change
         </th>
         <th>
+            Var.
         </th>
     </tr>
 
@@ -125,6 +126,7 @@
         {
             decimal totalTransPayment = 0;
             decimal transChange = 0;
+            decimal varianceAmt = 0;
 
             //get total transaction payment
             foreach (var transpayment in item.ApTransPayments)
@@ -136,9 +138,12 @@
             }
 
             //calculate change from budget and Payment amounts
-            if (item.BudgetAmt != null && !(totalTransPayment == 0))
+            if (item.ReleaseAmt != null && !(totalTransPayment == 0))
             {
-                transChange = (decimal)item.BudgetAmt - totalTransPayment;
+                transChange = (decimal)item.ReleaseAmt - totalTransPayment;
+
+                //calculate variance
+                varianceAmt = (decimal)item.ReleaseAmt - (totalTransPayment + transChange);
             }
 
             //handle text color based on due date
@@ -274,46 +279,8 @@
                 </td>
 
                 <td>
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-actions" data-toggle="dropdown">
-                            Actions
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
-                            <li>
-                                @if (item.ApTransStatusId == 1 && isAdmin)
-                                {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
-                                }
-                                else if (item.ApTransStatusId == 2)
-                                {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id)"> Payment Release </a>
 
-                                    @*if (!item.IsPrinted)
-                                        {
-                                            @Html.ActionLink("Print Request", "PrintRequestForm", "ApTransactions", new { id = item.Id }, new { @onclick="OnPrintClicked(this,"+ item.Id +")", @target="_blank" })
-                                        }*@
-
-                                }
-                                else if (item.ApTransStatusId == 3 && isAdmin)
-                                {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 4)"> Paid & Close </a>
-                                }
-                            </li>
-
-                            @if (item.ApTransStatusId == 3)
-                            {
-                                <li>
-                                    @Html.ActionLink("Payment", "CreateTransPayment", "ApPayments", new { transId = item.Id }, null)
-                                </li>
-                            }
-                            <li role="separator" class="divider"></li>
-                            <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                            <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
-                            <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
-                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                        </ul>
-                    </div>
+                    @varianceAmt.ToString("#,##0.00")
                 </td>
             </tr>
             totalPayment += totalTransPayment;
@@ -325,7 +292,7 @@
 
 
         {
-            totalBalance = totalAmount - totalPayment;
+            totalBalance = totalRelease - totalPayment;
             GrandTotal += totalAmount;
         }
         <tr>

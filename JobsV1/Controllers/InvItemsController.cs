@@ -399,7 +399,7 @@ namespace JobsV1.Controllers
             var vehicles = mtServices.GetMaintenanceVehicles();
 
             ViewBag.Today = dt.GetCurrentDate();
-            ViewBag.RecordTypes = db.InvCarRecordTypes.ToList();
+            ViewBag.RecordTypes = db.InvCarRecordTypes.OrderBy(c => c.OrderNo).ToList();
             return View(vehicles);
         }
 

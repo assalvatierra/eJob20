@@ -363,14 +363,22 @@ span {
     padding-top: 10px;
 }
 
+.tbl-total-text {
+    margin-bottom: 0px;
+    font-size: 9px;
+    color: gray;
+}
+
+.tbl-subtext {
+    font-size: 11px;
+    color: gray;
+}
 
 /* Small Screens */
 @media only screen and (max-width: 420px) {
-
     .container-content {
         margin-top:175px;
     }
-
 
     .container-module, .container-menu, .container-content {
         margin-left: 0px;

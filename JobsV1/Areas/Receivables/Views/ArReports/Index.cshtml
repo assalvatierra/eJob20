@@ -12,9 +12,9 @@
 
 <h2>Recievables Report</h2>
 <p>
-    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "" }, null) |
-    @Html.ActionLink("Daily", "Daily", "ArReports", new { area = "Receivables" }, null) |
-    @Html.ActionLink("Monthly", "Monthly", "ArReports", new { area = "Receivables" }, null)
+    @Html.ActionLink("Summary", "Index", "Home", new { area = "" }, new { @class = "btn btn-default disabled" }) 
+    @Html.ActionLink("Daily", "Daily", "ArReports", new { area = "Receivables" }, new { @class = "btn btn-default " }) 
+    @Html.ActionLink("Monthly", "Monthly", "ArReports", new { area = "Receivables" }, new { @class = "btn btn-default " })
 </p>
 <div class="col-md-12" style="margin-bottom:10px; padding-left:0px;">
     <div class="btn-group" role="group" aria-label="Filter Group">

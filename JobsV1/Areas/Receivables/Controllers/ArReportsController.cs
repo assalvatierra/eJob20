@@ -140,16 +140,18 @@ namespace JobsV1.Areas.Receivables.Controllers
         // GET: ArReports/Monthly
         public ActionResult Monthly(DateTime? dateStart, DateTime? dateEnd)
         {
+            DateTime thisMonth = ar.DateClassMgr.GetCurrentDate();
+            var startMonthDate = new DateTime(thisMonth.Year, thisMonth.Month, 1);
+            var endMonthDate = startMonthDate.AddMonths(1).AddDays(-1);
 
             if (dateStart == null)
             {
-                dateStart = ar.DateClassMgr.GetCurrentDate();
+                dateStart = startMonthDate;
             }
-
 
             if (dateEnd == null)
             {
-                dateEnd = ar.DateClassMgr.GetCurrentDate();
+                dateEnd = endMonthDate;
             }
 
             var arTransactions = ar.TransactionMgr.GetTransactionsByDateRange((DateTime)dateStart, (DateTime)dateEnd);

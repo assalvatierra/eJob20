@@ -15,8 +15,10 @@
 }
 
 <h2> Daily Receivables Report </h2>
-<p>
-    @Html.ActionLink("Back to Home", "Index", "ArReports", new { area = "Receivables" }, new { @class = "btn btn-link" })
+<p> 
+    @Html.ActionLink("Summary", "Index", "ArReports", new { area = "Receivables" }, new { @class = "btn btn-default " })
+    @Html.ActionLink("Daily", "Daily", "ArReports", new { area = "Receivables" }, new { @class = "btn btn-default disabled" }) 
+    @Html.ActionLink("Monthly", "Monthly", "ArReports", new { area = "Receivables" }, new { @class = "btn btn-default " })
 </p>
 
 <div style="display:flex;flex-direction:row;">
@@ -76,6 +78,9 @@
         <th>
             Paid&nbsp;Amount
         </th>
+        <th>
+            Balance
+        </th>
     </tr>
         @foreach (var item in Model)
         {
@@ -87,6 +92,7 @@
             //handle text color based on due date
             string textcolor = "black";
             string bgcolor = "none";
+
 
             if (item.ArTransStatusId < 5)
             {
@@ -213,6 +219,7 @@
                         decimal totalTransPayment = 0;
                         string paymentType = "";
                         bool paymentDeposited = false;
+                        decimal balance = 0;
                     }
 
                     @foreach (var payment in item.ArTransPayments)
@@ -220,6 +227,9 @@
                         totalTransPayment = totalTransPayment + payment.ArPayment.Amount;
                         paymentType = payment.ArPayment.ArPaymentType.Type;
                         paymentDeposited = payment.ArPayment.IsDeposited ?? false;
+                    }
+                    @{ 
+                        balance = item.Amount - totalTransPayment;
                     }
                     <span>
                         @totalTransPayment.ToString("#,##0.00")<br />
@@ -231,6 +241,12 @@
                         }
                     </span>
                 </td>
+                <td>
+                    @if (balance != 0)
+                    {
+                        <span style="color:blue;"> @balance.ToString("#,##0.00")</span>
+                    }
+                </td>
             </tr>
 
             totalPayment += totalTransPayment;
@@ -239,7 +255,7 @@
           }
 
         <tr>
-            <td colspan="8">
+            <td colspan="9">
             </td>
             <td style="background-color:lightgray;">
                 <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Amount </p>
@@ -250,7 +266,7 @@
                 <p style="font-size:18px;">@totalPayment.ToString("#,##0.00")</p>
             </td>
             <td style="font-weight:600;">
-                <p style="margin-bottom:0px;font-size:9px;color:gray;"> Total Balance </p>
+                <p style="margin-bottom:0px;font-size:9px;color:gray;min-width:70px;"> Total Balance </p>
                 <p style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</p>
             </td>
         </tr>

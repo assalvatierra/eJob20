@@ -24,7 +24,7 @@
     @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
     <a href="/Payables/ApTransactions/"> <button class="btn btn-default" disabled> Expenses </button></a>
     <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default"> Daily Expenses </button></a>
-    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default"> Weekly Expenses </button></a>
+    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default"> Monthly Expenses </button></a>
 </p>
 
 <div class="btn-group" style="margin-bottom:5px;margin-right:10px;">
@@ -44,10 +44,6 @@
     <button class="btn btn-default" id="sort-InvoiceDate" onclick="UpdateFilter( @status, 'InvoiceDate')"> Invoice Date</button>
     <button class="btn btn-default" id="sort-Name" onclick="UpdateFilter( @status, 'Name')"> Name </button>
     <button class="btn btn-default" id="sort-Amount" onclick="UpdateFilter( @status, 'Amount')"> Amount </button>
-</div>
-
-<div class="btn-group" style="margin-bottom:5px;">
-    <button class="btn btn-default"> Daily Payables </button>
 </div>
 
 
@@ -140,9 +136,9 @@
             }
 
             //calculate change from budget and Payment amounts
-            if (item.BudgetAmt != null && !(totalTransPayment == 0))
+            if (item.ReleaseAmt != null && !(totalTransPayment == 0))
             {
-                transChange = (decimal)item.BudgetAmt - totalTransPayment;
+                transChange = (decimal)item.ReleaseAmt - totalTransPayment;
             }
 
             //handle text color based on due date
@@ -360,7 +356,7 @@
 
 
         {
-            totalBalance = totalAmount - totalPayment;
+            totalBalance = totalRelease - totalPayment;
             GrandTotal += totalAmount;
         }
         <tr>

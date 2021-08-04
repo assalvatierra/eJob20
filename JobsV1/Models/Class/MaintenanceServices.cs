@@ -96,7 +96,7 @@ namespace JobsV1.Models.Class
         {
             List<InvCarRecord> maintenances = new List<InvCarRecord>();
             List<InvCarRecord> maintenancesEmpty = new List<InvCarRecord>();
-            var recordTypes = db.InvCarRecordTypes.ToList().Select(r => r.Id);
+            var recordTypes = db.InvCarRecordTypes.OrderBy(c=>c.OrderNo).ToList().Select(r => r.Id);
             var mtRecords = db.InvCarRecords.Where(c => c.InvItemId == id);
 
 

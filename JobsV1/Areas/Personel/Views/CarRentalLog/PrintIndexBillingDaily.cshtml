@@ -85,14 +85,14 @@
                 dtcolor = "blue";
             }
 
-            if (trip.DtTrip.DayOfWeek.ToString() == "Sunday")
-            {
+            //if (trip.DtTrip.DayOfWeek.ToString() == "Sunday")
+            //{
 
-            }
-            else
-            {
-                TotalCount += 1;
-                TotalRate += trip.Rate;
+            //}
+            //else
+            //{
+            TotalCount += 1;
+            TotalRate += trip.Rate;
 
                 <tr>
                     <td>@trip.crLogDriver.Name</td>
@@ -103,7 +103,7 @@
                     <td> </td>
                 </tr>
 
-            }
+            //}
         }
     }
     <tr>

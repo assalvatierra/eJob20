@@ -1,12 +1,9 @@
 ﻿@model IEnumerable<ApModels.Models.ApTransaction>
 
 @{
-    ViewBag.Title = "Weekly Payables Transactions";
+    ViewBag.Title = "Monthly Expense Report";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
-    int status = ViewBag.Status;
-    string sortBy = ViewBag.Sort;
-    string orderBy = ViewBag.OrderBy;
     DateTime today = ViewBag.Today;
 
     decimal totalAmount = 0;
@@ -19,31 +16,52 @@
     bool isAdmin = true;
 }
 
-<h2>Weekly Payables Transactions </h2>
+<h2>Monthly Expense Report </h2>
 <p>
     @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
     <a href="/Payables/ApTransactions/"> <button class="btn btn-default"> Expenses </button></a>
     <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default"> Daily Expenses </button></a>
-    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default" disabled> Weekly Expenses </button></a>
+    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default" disabled> Monthly Expenses </button></a>
 </p>
 
 
-<div class="btn-group" style="margin-bottom:5px;">
-    @if (status == 2)
-    {
-        <button class="btn btn-default" onclick="CheckSelected_Print()"> <i class="glyphicon glyphicon-print"></i> Print </button>
-    }
-</div>
+<div style="display:flex;flex-direction:row;">
+    <div class="search-panel input-group">
+        @using (Html.BeginForm())
+        {
+            <div class="input-group-btn" style="width:140px;">
+                <input type="text" class="form-control" name="dateStart" value="@ViewBag.DateStart" />
+            </div>
+            <div class="input-group-btn" style="width:140px;">
+                <input type="text" class="form-control" name="dateEnd" value="@ViewBag.DateEnd" />
+            </div>
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" value="Search" id="SubmitSearchBtn">
+                    Search
+                </button>
+            </div>
+        }
 
+        <div class="input-group-btn" style="margin-left:8px;">
+            <button class="btn btn-default" onclick="FilterDateLast(7)">
+                Last 7 Days
+            </button>
+            <button class="btn btn-default" onclick="FilterDateLast(15)">
+                Last 15 Days
+            </button>
+            <button class="btn btn-default" onclick="FilterDateLast(30)">
+                Last 30 Days
+            </button>
+            <button class="btn btn-default" onclick="FilterCurrentMonth()">
+                Current Month
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<p class="text-muted"> Showing expenses based on Released Date </p>
 <table class="table" id="payables-table">
     <tr>
-        <th>
-            @if (status == 2)
-            {
-                <a href="#" type="checkbox" id="payables-table-checkAll" onclick="CheckAllPayableItems()">All </a>
-            }
-
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Id)
         </th>
@@ -84,6 +102,7 @@
             Change
         </th>
         <th>
+            Var.
         </th>
     </tr>
 
@@ -105,6 +124,7 @@
         {
             decimal totalTransPayment = 0;
             decimal transChange = 0;
+            decimal varianceAmt = 0;
 
             //get total transaction payment
             foreach (var transpayment in item.ApTransPayments)
@@ -116,9 +136,12 @@
             }
 
             //calculate change from budget and Payment amounts
-            if (item.BudgetAmt != null && !(totalTransPayment == 0))
+            if (item.ReleaseAmt != null && !(totalTransPayment == 0))
             {
-                transChange = (decimal)item.BudgetAmt - totalTransPayment;
+                transChange = (decimal)item.ReleaseAmt - totalTransPayment;
+
+                //calculate variance
+                varianceAmt = (decimal)item.ReleaseAmt - (totalTransPayment + transChange);
             }
 
             //handle text color based on due date
@@ -155,13 +178,6 @@
 
             <tr style="color:@textcolor;background-color:@bgcolor;">
                 <td>
-                    @if (!item.IsPrinted && status == 2)
-                    {
-                        <input value="@item.Id" type="checkbox" class="print-Checkbox" onclick="CheckRepeatItems(this)" />
-                    }
-
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
@@ -176,7 +192,7 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)<br />
-                    <span style="font-size:11px;color:gray;">
+                    <span class="tbl-subtext">
                         @item.DtService.ToString("MMM dd yyyy") -
                         @item.DtServiceTo.ToString("MMM dd yyyy")
                     </span>
@@ -184,7 +200,7 @@
                     @if (!String.IsNullOrEmpty(item.Remarks))
                     {
                         <br />
-                        <span style="font-size:11px;color:gray;">
+                        <span class="tbl-subtext">
                             @Html.DisplayFor(modelItem => item.Remarks)
                         </span>
                     }
@@ -237,7 +253,7 @@
                     {
                         var dtRelease = (DateTime)item.DtRelease;
                         <br />
-                        <span style="font-size:11px;color:gray;">
+                        <span class="tbl-subtext">
                             @dtRelease.ToString("MMM dd yyyy")
                         </span>
                     }
@@ -255,46 +271,7 @@
                 </td>
 
                 <td>
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-actions" data-toggle="dropdown">
-                            Actions
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
-                            <li>
-                                @if (item.ApTransStatusId == 1 && isAdmin)
-                                {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
-                                }
-                                else if (item.ApTransStatusId == 2)
-                                {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReleaseModal(@item.Id)"> Payment Release </a>
-
-                                    @*if (!item.IsPrinted)
-                                        {
-                                            @Html.ActionLink("Print Request", "PrintRequestForm", "ApTransactions", new { id = item.Id }, new { @onclick="OnPrintClicked(this,"+ item.Id +")", @target="_blank" })
-                                        }*@
-
-                                }
-                                else if (item.ApTransStatusId == 3 && isAdmin)
-                                {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 4)"> Paid & Close </a>
-                                }
-                            </li>
-
-                            @if (item.ApTransStatusId == 3)
-                            {
-                                <li>
-                                    @Html.ActionLink("Payment", "CreateTransPayment", "ApPayments", new { transId = item.Id }, null)
-                                </li>
-                            }
-                            <li role="separator" class="divider"></li>
-                            <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                            <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
-                            <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
-                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                        </ul>
-                    </div>
+                    @varianceAmt.ToString("#,##0.00")
                 </td>
             </tr>
             totalPayment += totalTransPayment;
@@ -305,30 +282,30 @@
 
 
         {
-            totalBalance = totalAmount - totalPayment;
+            totalBalance = totalRelease - totalPayment;
             GrandTotal += totalAmount;
         }
         <tr>
             <td colspan="8">
             </td>
             <td>
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span>
+                <span class="tbl-total-text"> Total&nbsp;Budget </span>
                 <span style="font-size:18px;">@totalBudget.ToString("#,##0.00")</span>
             </td>
             <td>
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Released </span>
+                <span class="tbl-total-text"> Total&nbsp;Released </span>
                 <span style="font-size:18px;">@totalRelease.ToString("#,##0.00")</span>
             </td>
             <td style="background-color:lightgray;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Amount </span>
+                <span class="tbl-total-text"> Total&nbsp;Amount </span>
                 <span style="font-size:18px;">@totalAmount.ToString("#,##0.00")</span>
             </td>
             <td style="color:darkgreen;background-color:lightgray;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </span>
+                <span class="tbl-total-text"> Total&nbsp;Payment </span>
                 <span style="font-size:18px;">@totalPayment.ToString("#,##0.00")</span>
             </td>
             <td style="font-weight:600;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total Diff </span>
+                <span class="tbl-total-text"> Total Diff </span>
                 <span style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</span>
             </td>
             <td></td>
@@ -381,8 +358,6 @@
 
 @section Scripts{
     <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ApTransaction.js"></script>
-    <script>
-        $(Initialize('@status','@sortBy'));
-    </script>
+    <script type="text/javascript" src="~/Areas/Payables/Scripts/ApTransactions/ReleasedWeekly.js"></script>
 
 }

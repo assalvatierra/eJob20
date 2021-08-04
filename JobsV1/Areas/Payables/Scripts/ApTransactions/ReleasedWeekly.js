@@ -77,20 +77,21 @@ function NextDayFilter() {
 function SubmitDateFilter() {
     var dateStart = $('input[name="dateStart"]').val();
     var dateEnd = $('input[name="dateEnd"]').val();
-    window.location.href = "/Receivables/ArReports/Monthly?dateStart=" + dateStart + "&dateEnd=" + dateEnd;
+    window.location.href = "/Payables/ApTransactions/ReleasedWeekly?dateStart=" + dateStart + "&dateEnd=" + dateEnd;
 }
 
 function FilterDateLast(days) {
-    //var ddd1 = $('input[name="dateStart"]').val();
     $('input[name="dateStart"]').val(moment().add(-days, "days").format('MM/DD/YYYY'));
+    $('input[name="dateEnd"]').val(moment().format('MM/DD/YYYY'));
     SubmitDateFilter();
 
 }
 
 function FilterCurrentMonth() {
-    $('input[name="dateStart"]').val(moment().startOf('month').format('MM/DD/YYYY'));
+     $('input[name="dateStart"]').val(moment().startOf('month').format('MM/DD/YYYY'));
     $('input[name="dateEnd"]').val(moment().endOf('month').format('MM/DD/YYYY'));
     SubmitDateFilter();
 
 }
+
 
