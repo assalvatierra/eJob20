@@ -1,0 +1,133 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogCashRelease>
+
+@{
+    ViewBag.Title = "Salary Summary";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    var IsAdmin = (bool)ViewBag.IsAdmin;
+    decimal TotalAmount = 0;
+}
+
+<h2>Salary Summary</h2>
+<p>
+    @Html.ActionLink("Back to Trip Log", "Index", "CarRentalLog") |
+    @Html.ActionLink("Cash Transactions ", "Index")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DtRelease)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            Driver
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.crLogCashTypeId == 3 || item.crLogCashTypeId == 4 || item.crLogCashTypeId == 5)
+        {
+            item.Amount = item.Amount * -1;
+        }
+        TotalAmount += item.Amount;
+        <tr>
+            <td>
+                @item.DtRelease.ToShortDateString()
+            </td>
+            <td>
+                @item.Amount.ToString("#,##0.00") 
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogDriver.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.crLogCashType.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @if (item.crLogCashTypeId == 1)
+                {
+                    @Html.ActionLink("Print", "PrintSalaryForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                }
+                else
+                {
+                    @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                }
+                            
+                @Html.ActionLink("Old Form", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                <a class="cursor-hand" onclick="ApproveRelease(this, '@item.Id')"> Release </a> |
+                @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+
+
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td>
+                <p class="text-center"> No Records Found </p>
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td>
+                <span class="pull-right">Total:</span>
+            </td>
+            <td>
+                @TotalAmount.ToString("#,##0.00")
+            </td>
+            <td colspan="4">
+            </td>
+        </tr>
+    }
+</table>
+
+
+
+@section Scripts{
+    <script src="~/Areas/Personel/Script/CarRentalLogReturn.js"></script>
+    <script>
+        $(() => {
+            //FilterStatus('');
+        });
+
+
+        function ApproveRequest(e, id) {
+            $.post("/Personel/CarRentalCashRelease/ApproveRequest", { id: parseInt(id) }, (result) => {
+                console.log(result)
+                if (result == 'True') {
+                    //window.location.reload();
+                    $(e).parent().parent().parent().remove();
+                } else {
+                    alert("An Error occured while process your request");
+                }
+            });
+        }
+
+        function ApproveRelease(e,id) {
+            $.post("/Personel/CarRentalCashRelease/ApproveRelease", { id: parseInt(id) }, (result) => {
+                console.log(result)
+                if (result == 'True') {
+                    //window.location.reload();
+                    $(e).parent().parent().parent().remove();
+                } else {
+                    alert("An Error occured while process your request");
+                }
+            });
+        }
+    </script>
+}

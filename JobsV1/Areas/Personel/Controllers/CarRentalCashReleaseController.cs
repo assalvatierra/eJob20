@@ -77,6 +77,33 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
 
+        public ActionResult SalarySummary()
+        {
+        
+            var today = dt.GetCurrentDate();
+            var DateFilter = today.AddDays(-5);
+
+            //get cash releases up to -7 days from today
+            var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver)
+                .Where(c => DbFunctions.TruncateTime(c.DtRelease) > DateFilter && c.crLogCashTypeId == 1);
+
+            List<crLogCashRelease> cashReleases = new List<crLogCashRelease>();
+
+            foreach (var driver in crLogCashReleases.ToList().GroupBy(c=>c.crLogDriverId))
+            {
+                foreach (var cashtrxReq in driver.Take(1))
+                {
+                    cashtrxReq.Amount = DriverSalaryAmount(cashtrxReq.Id);
+                    cashReleases.Add(cashtrxReq);
+                }
+            }
+
+            cashReleases = cashReleases.OrderBy(c => c.DtRelease).ThenBy(c => c.crLogDriver.OrderNo).ToList();
+
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+            return View(cashReleases);
+        }
+
         // GET: Personel/crLogFuels
         public ActionResult PrevRecords()
         {
@@ -552,6 +579,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.Payments = GetDriverCashRelease(cashRelease.crLogDriverId, 3, cashRelease.DtRelease);
             ViewBag.Contributions = GetDriverCashRelease(cashRelease.crLogDriverId, 4, cashRelease.DtRelease);
             ViewBag.Others = GetDriverCashRelease(cashRelease.crLogDriverId, 5, cashRelease.DtRelease);
+            ViewBag.OtherSalary = GetDriverCashReleaseByTrxId(cashRelease.Id, 1);
             ViewBag.crLogTrips = tripLogs ?? new List<crLogTrip>();
 
             ViewBag.ActualAmount = cashRelease.Amount;
@@ -570,9 +598,27 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
 
+        public List<crLogCashRelease> GetDriverCashReleaseByTrxId(int cashTrxId, int type)
+        {
+            var today = dt.GetCurrentDate();
+
+            var cashRelease = db.crLogCashReleases.Find(cashTrxId);
+
+            today = cashRelease.DtRelease.Date;
+            var otherTrx = db.crLogCashReleases.Where(c => c.crLogCashTypeId == type
+                                    && c.crLogDriverId == cashRelease.crLogDriverId
+                                    && DbFunctions.TruncateTime(c.DtRelease) == today
+                                    && c.Id != cashTrxId
+                                    ).ToList();
+            return otherTrx;
+        }
+
+
 
         public ActionResult DriverTripList(int? id)
         {
+            var today = dt.GetCurrentDate();
+
             string tripLogErr = "";
             if (id == null)
             {
@@ -595,13 +641,85 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 return HttpNotFound();
             }
+
+            today = cashRelease.DtRelease.Date;
+            var otherTrx = db.crLogCashReleases.Where(c=>
+                                    c.crLogDriverId == cashRelease.crLogDriverId
+                                    && DbFunctions.TruncateTime(c.DtRelease) == today 
+                                    ).ToList();
+
+            var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == 1 && c.Id != id).ToList();
+            var driverCA = otherTrx.Where(c => c.crLogCashTypeId == 2).ToList();
+            var payments = otherTrx.Where(c => c.crLogCashTypeId == 3).ToList();
+            var contributions = otherTrx.Where(c => c.crLogCashTypeId == 4).ToList();
+            var others = otherTrx.Where(c => c.crLogCashTypeId == 5).ToList();
+
+            ViewBag.Contributions = contributions;
+            ViewBag.OtherSalary = otherSalary;
+            ViewBag.Others = others;
+            ViewBag.CA = driverCA;
+            ViewBag.Payments = payments;
+
             ViewBag.tripLogErr = tripLogErr;
             ViewBag.DtRelease = cashRelease.DtRelease;
             ViewBag.Driver = cashRelease.crLogDriver.Name;
             ViewBag.DriverId = cashRelease.crLogDriver.Id;
             ViewBag.Amount = cashRelease.Amount;
             ViewBag.Remarks = cashRelease.Remarks;
+            ViewBag.Id = id;
             return View(tripLogs);
+        }
+
+
+        public decimal DriverSalaryAmount(int? id)
+        {
+            var today = dt.GetCurrentDate();
+            decimal driversFee = 0;
+            decimal driversOT = 0;
+
+            if (id == null)
+            {
+                return 0;
+            }
+
+            var cashRelease = db.crLogCashReleases.Find(id);
+
+            if (cashRelease.crLogClosingId != null)
+            {
+               var tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId)
+                    .ToList();
+                driversFee = tripLogs.Sum(c => c.DriverFee);
+                driversOT = tripLogs.Sum(c => c.DriverOT);
+            }
+            else
+            {
+                    driversFee = cashRelease.Amount;
+                    driversOT = 0;
+                
+            }
+
+            if (cashRelease == null)
+            {
+                return 0;
+            }
+
+            today = cashRelease.DtRelease.Date;
+            var otherTrx = db.crLogCashReleases.Where(c =>
+                                    c.crLogDriverId == cashRelease.crLogDriverId
+                                    && DbFunctions.TruncateTime(c.DtRelease) == today
+                                    ).ToList();
+
+            var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == 1 && c.Id != id).ToList().Sum(c=>c.Amount);
+            var driverCA = otherTrx.Where(c => c.crLogCashTypeId == 2).ToList().Sum(c => c.Amount);
+            var payments = otherTrx.Where(c => c.crLogCashTypeId == 3).ToList().Sum(c => c.Amount);
+            var contributions = otherTrx.Where(c => c.crLogCashTypeId == 4).ToList().Sum(c => c.Amount);
+            var others = otherTrx.Where(c => c.crLogCashTypeId == 5).ToList().Sum(c => c.Amount);
+
+
+            decimal total = (driversFee + otherSalary + others + driverCA) - (payments + contributions);
+
+
+            return total;
         }
 
         private int GetStatusCount(int statusId, IQueryable<crLogCashRelease> cashReleases)

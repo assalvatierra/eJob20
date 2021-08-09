@@ -8,12 +8,21 @@
     decimal TotalDriverFee = 0;
     decimal TotalDriverOT = 0;
     decimal TotalSalary = 0;
+
+    decimal totalPayments = 0;
+    decimal totalOT = 0;
+    decimal totalCA = 0;
+    decimal totalCont = 0;
+    decimal total = 0;
+
+    int tripCount = 0;
 }
 
 <h2>Driver Trip List</h2>
 <p>
     @Html.ActionLink("Back to Cash Transactions", "Index") |
-    @Html.ActionLink("Driver Summary", "DriverSummary", "CarRental", new { id = ViewBag.DriverId }, null) 
+    @Html.ActionLink("Driver Summary", "DriverSummary", "CarRentallog", new { id = ViewBag.DriverId }, null) |
+    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Id }, null)
 </p>
 
 <h2> @ViewBag.Driver </h2>
@@ -65,7 +74,53 @@
         </tr>
 
     }
-    @{ 
+
+
+    @foreach (var otherSalary in ViewBag.OtherSalary as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+    {
+
+        TotalDriverFee += otherSalary.Amount;
+        <tr>
+            <td>
+                @otherSalary.DtRelease.ToString("MM/dd/yyyy (ddd)")
+            </td>
+            <td colspan="3">
+                @otherSalary.Remarks
+            </td>
+            <td>
+            </td>
+            <td>
+                @otherSalary.Amount.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
+    }
+
+
+    @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+    {
+        TotalDriverFee += ca.Amount;
+        <tr>
+            <td>
+                @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
+            </td>
+            <td colspan="2">
+
+                @ca.Remarks
+            </td>
+            <td>
+                CA
+            </td>
+            <td></td>
+            <td>
+                @ca.Amount.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
+    }
+
+
+    @{
         TotalSalary = TotalDriverFee + TotalDriverOT;
     }
     <tr>
@@ -79,16 +134,94 @@
             @TotalDriverOT.ToString("N0")
         </td>
     </tr>
-    <tr>
-        <td colspan="5">
-            <p class="pull-right"> Total </p>
-        </td>
-        <td>
-            @TotalSalary.ToString("N0")
-        </td>
-        <td>
-        </td>
+
+
+
+    @foreach (var payment in ViewBag.Payments as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+    {
+        totalPayments += payment.Amount;
+        <tr>
+            <td>
+                @payment.DtRelease.ToString("MM/dd/yyyy (ddd)")
+            </td>
+            <td colspan="2">
+                @payment.Remarks
+            </td>
+            <td>
+                Deduction(Payment)
+            </td>
+            <td></td>
+            <td>
+                - @payment.Amount.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
+    }
+
+    @foreach (var contribution in ViewBag.Contributions as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+    {
+        totalCont += contribution.Amount;
+        <tr>
+            <td>
+                @contribution.DtRelease.ToString("MM/dd/yyyy (ddd)")
+            </td>
+            <td colspan="2">
+                @contribution.Remarks
+            </td>
+            <td></td>
+            <td>
+                Contribution
+            </td>
+            <td>
+                - @contribution.Amount.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
+    }
+
+    @foreach (var others in ViewBag.Others as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+    {
+        totalCont += others.Amount;
+        <tr>
+            <td>
+                @others.DtRelease.ToString("MM/dd/yyyy (ddd)")
+            </td>
+            <td colspan="2">
+                @others.Remarks
+            </td>
+            <td></td>
+            <td>
+                Others
+            </td>
+            <td>
+                - @others.Amount.ToString("#,##0.00")
+            </td>
+            <td></td>
+        </tr>
+    }
+
+
+    @{
+        total = TotalSalary + totalCA - totalPayments - totalCont;
+    }
+
+    <tr style="border-top:1px solid gray !important;">
+        <td colspan="4"> </td>
+        <td> Net </td>
+        <td> <b>@total.ToString("#,##0.00")</b> </td>
     </tr>
+
+
+    @*<tr>
+            <td colspan="5">
+                <p class="pull-right"> Total </p>
+            </td>
+            <td>
+                @TotalSalary.ToString("N0")
+            </td>
+            <td>
+            </td>
+        </tr>*@
     @if (tripLogErr.Length > 0)
     {
         <tr>

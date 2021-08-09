@@ -591,6 +591,7 @@
                         @Html.ActionLink("[ Expenses ]", "CashExpenses", "JobExpenses", new { jobId = item.Main.Id }, null)
                         @Html.ActionLink("[ Send Invoice ]", "SendEmail", new { jobId = item.Main.Id, mailType = "CLIENT-INVOICE-SEND" }, null)
                         <a class="cursor-hand" onclick="CloseJob(this, '@item.Main.Id')"> [ Close Job ] </a>
+                        <a class="cursor-hand" onclick="CancelJob(this, '@item.Main.Id')"> [ Cancel Job ] </a>
                         @*@Html.ActionLink("[ Close ]", "CloseJob", "JobOrder", new { id = item.Main.Id }, null)*@
                     </td>
                 </tr>
@@ -683,6 +684,17 @@
 
         function CloseJob(e, id) {
             $.post('/JobOrder/CloseJob', { id: id }, (result) => {
+                console.log(result)
+
+                if (result == "OK") {
+                    $(e).parent().parent().remove();
+                }
+            })
+        }
+
+
+        function CancelJob(e, id) {
+            $.post('/JobOrder/CancelJob', { id: id }, (result) => {
                 console.log(result)
 
                 if (result == "OK") {

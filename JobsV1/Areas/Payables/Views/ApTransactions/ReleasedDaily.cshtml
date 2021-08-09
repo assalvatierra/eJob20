@@ -103,9 +103,6 @@
         <th>
             Change
         </th>
-        <th>
-            Var.
-        </th>
     </tr>
 
     @foreach (var payablesGroup in Model.GroupBy(p => p.DtDue.ToString("MMMM", null)))
@@ -278,10 +275,6 @@
                     @transChange.ToString("#,##0.00")
                 </td>
 
-                <td>
-
-                    @varianceAmt.ToString("#,##0.00")
-                </td>
             </tr>
             totalPayment += totalTransPayment;
             totalAmount += item.Amount;

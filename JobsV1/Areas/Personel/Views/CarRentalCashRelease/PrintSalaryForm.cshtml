@@ -14,6 +14,7 @@
     decimal totalOT = 0;
     decimal totalCA = 0;
     decimal totalCont = 0;
+    decimal totalOthSalary = 0;
     decimal total = 0;
 
     int tripCount = 0;
@@ -111,7 +112,6 @@
                                     @Model.DtRelease.ToString("MM/dd/yyyy (ddd)")
                                 </td>
                                 <td>
-
                                 </td>
                                 <td>
                                     @Model.Remarks
@@ -125,14 +125,60 @@
                             </tr>
                         }
 
+
+                        @foreach (var othSalary in ViewBag.OtherSalary as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            totalOthSalary += othSalary.Amount;
+                            <tr>
+                                <td>
+                                    @othSalary.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                    @othSalary.Remarks
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                                <td>
+                                    @othSalary.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            totalCA += ca.Amount;
+                            <tr>
+                                <td>
+                                    @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                    @ca.Remarks
+                                </td>
+                                <td>
+                                    CA
+                                </td>
+                                <td>
+                                    @ca.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+
+                        @{
+                            subtotalSalary +=  totalCA + totalOthSalary;
+                        }
+
                         <tr style="border-top:1px solid gray !important;">
                             <td> @tripCount trips </td>
                             <td> </td>
                             <td> SubTotal </td>
                             <td> <b>@subtotalSalary.ToString("#,##0.00")</b> </td>
-                            <td> <b>
-                                @*@totalOT.ToString("#,##0.00")*@
-                                 </b> </td>
+                            <td>
+                                <b>
+                                    @*@totalOT.ToString("#,##0.00")*@
+                                </b>
+                            </td>
                         </tr>
 
                         @{
@@ -162,29 +208,11 @@
                                     Deduction(Payment)
                                 </td>
                                 <td>
-                                   - @payment.Amount.ToString("#,##0.00")
+                                    - @payment.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
 
-                        @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
-                        {
-                            totalCA += ca.Amount;
-                            <tr>
-                                <td>
-                                    @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
-                                </td>
-                                <td>
-                                    @ca.Remarks
-                                </td>
-                                <td>
-                                    CA
-                                </td>
-                                <td>
-                                    @ca.Amount.ToString("#,##0.00")
-                                </td>
-                            </tr>
-                        }
 
                         @foreach (var contribution in ViewBag.Contributions as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
                         {
@@ -200,7 +228,7 @@
                                     Contribution
                                 </td>
                                 <td>
-                                   - @contribution.Amount.ToString("#,##0.00")
+                                    - @contribution.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -219,14 +247,14 @@
                                     Others
                                 </td>
                                 <td>
-                                   - @others.Amount.ToString("#,##0.00")
+                                    - @others.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
 
 
                         @{
-                            total = totalSalary + totalCA - totalPayments - totalCont;
+                            total = totalSalary - totalPayments - totalCont;
                         }
                         <tr style="border-top:1px solid gray !important;">
                             <td> </td>
@@ -323,6 +351,63 @@
                         }
 
 
+                        @if (tripCount == 0)
+                        {
+                            <tr>
+                                <td>
+                                    @Model.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    @Model.Remarks
+                                </td>
+                                <td>
+                                    @actualAmount.ToString("#,##0.00")
+                                </td>
+                                <td>
+                                    0
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var othSalary in ViewBag.OtherSalary as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            <tr>
+                                <td>
+                                    @othSalary.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                    @othSalary.Remarks
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                                <td>
+                                    @othSalary.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+                        @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
+                        {
+                            <tr>
+                                <td>
+                                    @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                                </td>
+                                <td>
+                                    @ca.Remarks
+                                </td>
+                                <td>
+                                    CA
+                                </td>
+                                <td>
+                                    @ca.Amount.ToString("#,##0.00")
+                                </td>
+                            </tr>
+                        }
+
+
                         @if (subtotalSalary == 0)
                         {
                             <tr>
@@ -333,7 +418,7 @@
                                 </td>
                                 <td>
                                 </td>
-                                    @Model.Remarks
+                                @Model.Remarks
                                 <td>
                                     @actualAmount.ToString("#,##0.00")
                                 </td>
@@ -380,24 +465,6 @@
                             </tr>
                         }
 
-                        @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
-                        {
-
-                            <tr>
-                                <td>
-                                    @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
-                                </td>
-                                <td>
-                                    @ca.Remarks
-                                </td>
-                                <td>
-                                    CA
-                                </td>
-                                <td>
-                                   - @ca.Amount.ToString("#,##0.00")
-                                </td>
-                            </tr>
-                        }
 
 
                         @foreach (var contr in ViewBag.Contributions as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
@@ -414,7 +481,7 @@
                                     Contributions
                                 </td>
                                 <td>
-                                   - @contr.Amount.ToString("#,##0.00")
+                                    - @contr.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -433,7 +500,7 @@
                                     Others
                                 </td>
                                 <td>
-                                   - @others.Amount.ToString("#,##0.00")
+                                    - @others.Amount.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }

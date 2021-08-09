@@ -16,7 +16,8 @@
 <h2>Cash Transaction</h2>
 <p>
     @Html.ActionLink("Back to Trip Log", "Index", "CarRentalLog") |
-    @Html.ActionLink("Previous Records", "PrevRecords")
+    @Html.ActionLink("Previous Records", "PrevRecords") |
+    @Html.ActionLink("Salary Summary", "SalarySummary")   
 </p>
 <p id="status-list">
     <span class="text-muted"> Status Filter:  </span>
@@ -43,6 +44,9 @@
             @Html.DisplayNameFor(model => model.Amount)
         </th>
         <th>
+
+        </th>
+        <th>
             Driver
         </th>
         <th>
@@ -56,7 +60,7 @@
 
     @foreach (var item in Model)
     {
-        if (item.crLogCashTypeId == 3 || item.crLogCashTypeId == 4 || item.crLogCashTypeId == 5 )
+        if (item.crLogCashTypeId == 3 || item.crLogCashTypeId == 4 || item.crLogCashTypeId == 5)
         {
             item.Amount = item.Amount * -1;
         }
@@ -67,6 +71,9 @@
             </td>
             <td>
                 @item.Amount.ToString("#,##0.00")
+            </td>
+            <td>
+                @{ Html.RenderAction("DriverSalaryAmount", new { id = item.Id }); }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
@@ -91,7 +98,7 @@
                         }
                         else
                         { 
-                            @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
+                            @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)<span> |</span>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                         }
                         break;
@@ -103,10 +110,9 @@
                             }
                             else
                             {
-                            @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                            @Html.ActionLink("Old Form", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
                             }
                             
-                            @Html.ActionLink("Old Form", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
                             <a class="cursor-hand" onclick="ApproveRelease(this, '@item.Id')"> Release </a> |
                             @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
                         </span>

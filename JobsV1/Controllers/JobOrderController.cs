@@ -2911,6 +2911,29 @@ order by x.jobid
             }
         }
 
+        [HttpPost]
+        public string CancelJob(int id)
+        {
+            try
+            {
+                var Job = db.JobMains.Find(id);
+                Job.JobStatusId = 5;
+                db.Entry(Job).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //job trail
+                trail.recordTrail("JobOrder/JobServices", HttpContext.User.Identity.Name, "Job Status changed to CANCELLED", id.ToString());
+
+                return "OK";
+                //return "Error";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+
+
         //GET: \JobOrder\GetJobRcvDetails
         [HttpGet]
         public JsonResult GetJobRcvDetails(int id)
