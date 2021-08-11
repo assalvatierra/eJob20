@@ -38,8 +38,13 @@
             <td> @transaction.DtInvoice.ToString("MMM dd yyyy") </td>
             <td> @transaction.DtDue.ToString("MMM dd yyyy") </td>
             <td>
-                <b>@transaction.ArAccount.Company</b> <br /> 
-                @transaction.ArAccount.Name 
+                <b>@transaction.ArAccount.Company</b> <br />
+                @transaction.ArAccount.Name
+
+                @if (transaction.ArAccContactId != 1)
+                {
+                    @transaction.ArAccount.Name
+                }
             </td>
             <td>
                 @transaction.Description <br />

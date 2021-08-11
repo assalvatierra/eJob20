@@ -60,17 +60,10 @@ namespace JobsV1.Areas.Receivables.Controllers
             transaction.NextRef = 0;
             transaction.InvoiceId = 0;
 
-            var accounts = ar.AccountMgr.GetArAccounts()
-                  .Select(s => new SelectListItem
-                  {
-                      Value = s.Id.ToString(),
-                      Text = s.Company + " - " + s.Name.ToString()
-                  });
-
-            ViewBag.ArAccountId = new SelectList(accounts, "Value", "Text");
             ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
-            //ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
             ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name");
+            ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
             return View(transaction);
         }
 
@@ -79,7 +72,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount")] ArTransaction arTransaction)
+        public ActionResult Create([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount,ArAccContactId")] ArTransaction arTransaction)
         {
             try
             {
@@ -103,18 +96,10 @@ namespace JobsV1.Areas.Receivables.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var accounts = ar.AccountMgr.GetArAccounts()
-                      .Select(s => new SelectListItem
-                      {
-                          Value = s.Id.ToString(),
-                          Text = s.Company + " - " + s.Name.ToString()
-                      });
-
-                ViewBag.ArAccountId = new SelectList(accounts, "Value", "Text", arTransaction.ArAccountId);
-
                 ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status");
-                //ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
+                ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company");
                 ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name");
+                ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Name");
 
                 return View(arTransaction);
             }
@@ -136,18 +121,11 @@ namespace JobsV1.Areas.Receivables.Controllers
             {
                 return HttpNotFound();
             }
-
-            var accounts = ar.AccountMgr.GetArAccounts()
-                  .Select(s => new SelectListItem
-                  {
-                      Value = s.Id.ToString(),
-                      Text = s.Company + " - " + s.Name.ToString()
-                  });
-
-            ViewBag.ArAccountId = new SelectList(accounts, "Value", "Text", arTransaction.ArAccountId);
+           
             ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status", arTransaction.ArTransStatusId);
-            //ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arTransaction.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arTransaction.ArAccountId);
             ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name", arTransaction.ArCategoryId);
+            ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetAccContacts(), "Id", "Name", arTransaction.ArAccContactId);
 
             return View(arTransaction);
         }
@@ -157,7 +135,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount")] ArTransaction arTransaction)
+        public ActionResult Edit([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount,ArAccContactId")] ArTransaction arTransaction)
         {
             if (ModelState.IsValid && InputValidation(arTransaction))
             {
@@ -165,18 +143,11 @@ namespace JobsV1.Areas.Receivables.Controllers
                 return RedirectToAction("Details", new { id = arTransaction.Id });
             }
 
-            var accounts = ar.AccountMgr.GetArAccounts()
-                  .Select(s => new SelectListItem
-                  {
-                      Value = s.Id.ToString(),
-                      Text = s.Company + " - " + s.Name.ToString()
-                  });
-
-            ViewBag.ArAccountId = new SelectList(accounts, "Value", "Text", arTransaction.ArAccountId);
-
+           
             ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status", arTransaction.ArTransStatusId);
-            //ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arTransaction.ArAccountId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arTransaction.ArAccountId);
             ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name", arTransaction.ArCategoryId);
+            ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetAccContacts(), "Id", "Name", arTransaction.ArAccContactId);
             return View(arTransaction);
         }
 
@@ -417,20 +388,32 @@ namespace JobsV1.Areas.Receivables.Controllers
                     var today = ar.DateClassMgr.GetCurrentDateTime();
                     var currentUser = HttpContext.User.Identity.Name;
 
-                    //new account
-                    if (!IsUserExist(Name) || !IsCompanyExist(Company))
+                    if (!IsUserExist(Name) && !IsCompanyExist(Company))
                     {
+                        //new account, new user
                         var acctId = CreateUser(Company, Name, Email, Mobile);
                         arTransaction.ArAccountId = acctId;
+
+                        //existing company new user
+                        acctId = CreateAccountContact(Company, Name, Email, Mobile);
+                        arTransaction.ArAccContactId = acctId; 
+                    }
+                    else if (!IsUserExist(Name) && IsCompanyExist(Company))
+                    {
+
+                        //existing account
+                        arTransaction.ArAccountId = GetUserAccountId(Company);
+
+                        //existing company new user
+                        var acctId = CreateAccountContact(Company, Name, Email, Mobile);
+                        arTransaction.ArAccContactId = acctId;
                     }
                     else
                     {
                         //existing account
-                        arTransaction.ArAccountId = GetUserAccountId(Name);
+                        arTransaction.ArAccountId = GetUserAccountId(Company);
+                        arTransaction.ArAccContactId = GetUserAccountContactId(Name);
                     }
-
-                    //ardb.ArTransactions.Add(arTransaction);
-                    //ardb.SaveChanges();
 
                     ar.TransactionMgr.AddTransaction(arTransaction);
 
@@ -442,7 +425,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                // throw ex;
                 return false;
             }
 
@@ -461,7 +444,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         //Check if the user exist on the current list
         public bool IsUserExist(string name)
         {
-            var userExists = ardb.ArAccounts.Where(a => a.Name.Contains(name)).ToList();
+            var userExists = ardb.ArAccContacts.Where(a => a.Name == name).ToList();
 
             if (userExists.Count() > 0)
             {
@@ -474,7 +457,7 @@ namespace JobsV1.Areas.Receivables.Controllers
         //Check if the user exist on the current list
         public bool IsCompanyExist(string company)
         {
-            var userExists = ardb.ArAccounts.Where(a => a.Company.Contains(company)).ToList();
+            var userExists = ardb.ArAccounts.Where(a => a.Company == company).ToList();
 
             if (userExists.Count() > 0)
             {
@@ -486,9 +469,22 @@ namespace JobsV1.Areas.Receivables.Controllers
 
 
 
-        public int GetUserAccountId(string name)
+        public int GetUserAccountId(string company)
         {
-            var userExists = ardb.ArAccounts.Where(a => a.Name.Contains(name)).ToList();
+            var userExists = ardb.ArAccounts.Where(a => a.Company == company).ToList();
+
+            if (userExists.Count() > 0)
+            {
+                return userExists.FirstOrDefault().Id;
+            }
+
+            return 0;
+        }
+
+
+        public int GetUserAccountContactId(string name)
+        {
+            var userExists = ardb.ArAccContacts.Where(a => a.Name==name).ToList();
 
             if (userExists.Count() > 0)
             {
@@ -515,6 +511,41 @@ namespace JobsV1.Areas.Receivables.Controllers
                 ar.AccountMgr.AddAccount(account);
 
                 return account.Id;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
+        // GET: ArTransactions/CreateUser
+        // Create New User Account
+        public int CreateAccountContact(string company, string name, string email, string mobile)
+        {
+            try
+            {
+
+                //find company by name
+                if (IsCompanyExist(company))
+                {
+
+                    var accountId = ardb.ArAccounts.Where(a => a.Company == company)
+                                        .FirstOrDefault().Id;
+
+
+                    ArAccContact contact = new ArAccContact();
+                    contact.Name = name;
+                    contact.Email = email;
+                    contact.Mobile = mobile;
+                    contact.ArAccountId = accountId;
+
+                    ar.AccountMgr.AddAccContact(contact);
+
+                    return contact.Id;
+                }
+
+                return 0;
             }
             catch
             {
@@ -557,7 +588,7 @@ namespace JobsV1.Areas.Receivables.Controllers
                     InvoiceId = statement.InvoiceId,
                     InvoiceRef = statement.InvoiceRef,
                     InvoiceDate = statement.DtInvoice,
-                    Description = statement.Description ,
+                    Description = statement.Description,
                     Amount = statement.Amount,
                     Payment = 0
 
@@ -592,7 +623,7 @@ namespace JobsV1.Areas.Receivables.Controllers
             ViewBag.PreparedBy = GetStaffName(user);
             ViewBag.PreparedSign = GetStaffSign(user);
 
-            return View(accStatements.OrderBy(c=>c.InvoiceDate));
+            return View(accStatements.OrderBy(c => c.InvoiceDate));
         }
 
         private string GetUser()

@@ -22,6 +22,7 @@
     <div class="col-md-4">
 
         <h4>Account</h4>
+        <h3> @Model.Company </h3>
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.Name)
@@ -54,15 +55,6 @@
             <dd>
                 @Html.DisplayFor(model => model.Mobile)
             </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Company)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Company)
-            </dd>
-
             <dt>
                 @Html.DisplayNameFor(model => model.Address)
             </dt>
@@ -211,6 +203,45 @@
 
     </div>
 </div>
+
+
+<div class="col-md-12">
+    <h4>Account Contacts</h4>
+    @Html.ActionLink("Add Contact", "CreateContact", new { id = Model.Id }, null)
+    <table class="table">
+        <tr>
+            <th> Name </th>
+            <th> Contact </th>
+            <th> Mobile </th>
+            <th> Position </th>
+            <th></th>
+        </tr>
+        @foreach (var contact in Model.ArAccContacts)
+        {
+            <tr>
+                <td>
+                    @contact.Name
+                </td>
+                <td>
+                    @contact.Mobile
+                </td>
+                <td>
+                    @contact.Email
+                </td>
+                <td>
+                    @contact.Position
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditContact", new { id = contact.Id }, null) |
+
+                    @Html.ActionLink("Delete", "DeleteContact", new { id = contact.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+    <hr />
+</div>
+
 <h4>
     Transactions List
 </h4>
@@ -274,7 +305,7 @@
                 </span>
             </td>
             <td>
-                @{ 
+                @{
                     runninBalance = runninBalance + (transaction.Amount - transPayment);
                 }
                 @runninBalance.ToString("#,##0.00")
