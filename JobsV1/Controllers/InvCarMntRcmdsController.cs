@@ -14,9 +14,10 @@ namespace JobsV1.Controllers
     public class InvCarMntRcmdsController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private DateClass dt = new DateClass();
 
         // GET: InvCarMntRcmds
-        public ActionResult Index(int? unitId)
+        public ActionResult Index(int? unitId, string sortBy, string orderBy)
         {
             #region Session
             if (unitId != null)
@@ -37,14 +38,70 @@ namespace JobsV1.Controllers
                 unitId = 0;
             }
 
+            if (sortBy == null)
+            {
+                sortBy = "DateRec";
+            }
+
+
+            if (orderBy == null)
+            {
+                orderBy = "DESC";
+            }
+
+
             var invCarMntRcmds = db.InvCarMntRcmds.Include(i => i.InvItem);
             if (unitId != null && unitId != 0)
             {
                 invCarMntRcmds = invCarMntRcmds.Where(c => c.InvItemId == unitId);
             }
 
+            if (orderBy == "DESC")
+            {
+                //Sort By Filter
+                if (sortBy == "DueDate")
+                {
+                    invCarMntRcmds = invCarMntRcmds.OrderByDescending(s => s.DateDue);
+                }
+                else if (sortBy == "Vehicle")
+                {
+                    invCarMntRcmds = invCarMntRcmds.OrderByDescending(s => s.InvItem.ItemCode);
+                }
+                else if (sortBy == "Priority")
+                {
+                    invCarMntRcmds = invCarMntRcmds.OrderByDescending(s => s.InvCarMntPriority.Order);
+                }
+                else
+                {
+                    invCarMntRcmds = invCarMntRcmds.OrderByDescending(s => s.DateRec);
+                }
+            }
+            else
+            {
+                //Sort By Filter
+                if (sortBy == "DueDate")
+                {
+                    invCarMntRcmds = invCarMntRcmds.OrderBy(s => s.DateDue);
+                }
+                else if (sortBy == "Vehicle")
+                {
+                    invCarMntRcmds = invCarMntRcmds.OrderBy(s => s.InvItem.ItemCode);
+                }
+                else if (sortBy == "Priority")
+                {
+                    invCarMntRcmds = invCarMntRcmds.OrderBy(s => s.InvCarMntPriority.Order);
+                }
+                else
+                {
+                    invCarMntRcmds = invCarMntRcmds.OrderBy(s => s.DateRec);
+                }
+            }
+
             ViewBag.InvItemsList = db.InvItems.Where(s => s.ViewLabel == "UNIT" && s.OrderNo == 100).ToList();
             ViewBag.UnitId = unitId;    //selected unit for filter
+            ViewBag.SortBy = sortBy;
+            ViewBag.OrderBy = orderBy;
+            ViewBag.Today = dt.GetCurrentDate();
 
             return View(invCarMntRcmds.ToList());
         }
@@ -76,7 +133,7 @@ namespace JobsV1.Controllers
                 );
 
             ViewBag.InvItemId = new SelectList(invItems, "Value", "Text");
-            //ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "ItemCode");
+            ViewBag.InvCarMntPriorityId = new SelectList(db.InvCarMntPriorities, "Id", "Priority");
             return View();
         }
 
@@ -85,7 +142,7 @@ namespace JobsV1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Recommendation,DateRec,IsDone,InvItemId")] InvCarMntRcmd invCarMntRcmd)
+        public ActionResult Create([Bind(Include = "Id,Recommendation,DateRec,DateDue,IsDone,InvItemId,InvCarMntPriorityId")] InvCarMntRcmd invCarMntRcmd)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +152,7 @@ namespace JobsV1.Controllers
             }
 
             ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "ItemCode", invCarMntRcmd.InvItemId);
+            ViewBag.InvCarMntPriorityId = new SelectList(db.InvCarMntPriorities, "Id", "Priority", invCarMntRcmd.InvItemId);
             return View(invCarMntRcmd);
         }
 
@@ -119,8 +177,9 @@ namespace JobsV1.Controllers
                      }
                  );
 
-            //ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "ItemCode", invCarMntRcmd.InvItemId);
+
             ViewBag.InvItemId = new SelectList(invItems, "Value", "Text", invCarMntRcmd.InvItemId);
+            ViewBag.InvCarMntPriorityId = new SelectList(db.InvCarMntPriorities, "Id", "Priority", invCarMntRcmd.InvCarMntPriorityId);
             return View(invCarMntRcmd);
         }
 
@@ -129,7 +188,7 @@ namespace JobsV1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Recommendation,DateRec,IsDone,InvItemId")] InvCarMntRcmd invCarMntRcmd)
+        public ActionResult Edit([Bind(Include = "Id,Recommendation,DateRec,DateDue,IsDone,InvItemId,InvCarMntPriorityId")] InvCarMntRcmd invCarMntRcmd)
         {
             if (ModelState.IsValid)
             {
@@ -138,6 +197,7 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "ItemCode", invCarMntRcmd.InvItemId);
+            ViewBag.InvCarMntPriorityId = new SelectList(db.InvCarMntPriorities, "Id", "Priority", invCarMntRcmd.InvCarMntPriorityId);
             return View(invCarMntRcmd);
         }
 

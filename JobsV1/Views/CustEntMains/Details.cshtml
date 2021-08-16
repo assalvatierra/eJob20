@@ -12,6 +12,15 @@
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
         @Html.ActionLink("Back to List", "Index")
+        @if (ViewBag.isAllowedHistory)
+        {
+            @Html.ActionLink("| View Activity History ", "Index", "CustEntActivities", new { id = Model.Id }, null)
+        }
+
+        @if (ViewBag.IsAdmin)
+        {
+            @Html.ActionLink("| View Assigned History ", "AssignedRecords", new { companyId = Model.Id }, null)
+        }
     </p>
 </div>
 
@@ -21,34 +30,31 @@
     </div>
     <div class="col-lg-6 no-padding">
         <P>
-            @if (ViewBag.isAllowedHistory)
-            {
-                @Html.ActionLink(" View Activity History ", "Index", "CustEntActivities", new { id = Model.Id }, new { @class = "btn btn-default btn-xs" })
-            }
+          
         </P>
 
-        <p class="no-margin"> 
+        <p > 
             <b class="text-muted" style="margin-right:20px;">Telephone:</b> 
             @Html.DisplayFor(model => model.Contact1)
         </p>
-        <p class="no-margin"> 
+        <p> 
             <b class="text-muted" style="margin-right:64px;">Fax:</b> 
-            a
+            
             @Html.DisplayFor(model => model.Contact2)
         </p>
-        <p class="no-margin"> 
+        <p> 
             <b class="text-muted" style="margin-right:43px;">Mobile:</b> 
             @Html.DisplayFor(model => model.Mobile) 
         </p>
-        <p class="no-margin"> 
+        <p> 
             <b class="text-muted" style="margin-right:32px;">Website:</b>
             <a href="http://@Html.DisplayFor(model => model.Website)/">  @Html.DisplayFor(model => model.Website) </a> 
         </p>
-        <p class="no-margin"> 
+        <p> 
             <b class="text-muted" style="margin-right:59px;">City:</b>
             @ViewBag.City 
         </p>
-        <p class="no-margin">
+        <p>
             <b class="text-muted" style="margin-right:44px;">Status:</b>
 
             @switch (Html.DisplayFor(model => model.Status).ToString())
@@ -79,29 +85,26 @@
                     break;
             }
         </p>
-        <p class="no-margin">
+        <p>
             <b class="text-muted" style="margin-right:18px;">Exclusivity:</b>
             <span>
                 @Html.DisplayFor(model => model.Exclusive)
             </span>
         </p>
-        <p class="no-margin">
+        <p>
             <b class="text-muted" style="margin-right:55px;">Type:</b>
             <span>
                 @Html.DisplayFor(model => model.CustEntAccountType.Name)
             </span>
         </p>
-        <p class="no-margin">
+        <p>
             <b class="text-muted" style="margin-right:9px;">Assigned To:</b>
             <span>
                 @Html.DisplayFor(model => model.AssignedTo)
             </span>
             <p  style="padding-left:9px;">
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                @if (ViewBag.IsAdmin)
-                {
-                    @Html.ActionLink(" View Assigned History ", "AssignedRecords", new { companyId = Model.Id }, new { @class="btn btn-default btn-xs" })
-                }
+               
 
             </p>
         </p>

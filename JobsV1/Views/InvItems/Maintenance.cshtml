@@ -83,19 +83,46 @@
                         <table class="table">
                             <tr>
                                 <th>
-                                    Recommendations
-                                    @if (@item.Recommendations.Count() > 0)
+                                    @if (item.Recommendations.Count() > 0)
                                     {
-                                        <span class="label label-info"> @item.Recommendations.Count() </span>
+                                        <span class="label label-info" style="margin-left:0px;"> 
+                                            @item.Recommendations.Count() 
+                                        </span>
                                     }
-
+                                </th>
+                                <th>
+                                    Recommendations
+                                </th>
+                                <th>
+                                    Due
                                 </th>
                                 <th width="50"></th>
                             </tr>
                             @foreach (var rec in item.Recommendations)
                             {
-                                <tr>
+
+                                var color = "black";
+                                if (rec.DateDue != null)
+                                {
+
+                                    if (rec.DateDue < today)
+                                    {
+                                        color = "#a94442";
+                                    }
+                                }
+
+                                <tr style="color:@color;">
+                                    <td>
+                                        <img src="@rec.InvCarMntPriority.IconSrc" width="20" style="padding:1px;" />
+                                    </td>
                                     <td> @rec.Recommendation </td>
+                                    <td>
+                                        @if (rec.DateDue != null)
+                                        {
+                                            DateTime dateDue = DateTime.Parse(rec.DateDue.ToString());
+                                            @dateDue.ToString("MMM dd yyyy")
+                                        }
+                                    </td>
                                     <td>
                                         <button class="btn btn-default btn-xs" onclick="MarkDone(this, @rec.Id)">
                                             <div class="glyphicon glyphicon-ok"></div>

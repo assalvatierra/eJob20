@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/29/2021 13:25:01
+-- Date Created: 08/12/2021 13:09:11
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -2605,7 +2605,18 @@ CREATE TABLE [dbo].[InvCarMntRcmds] (
     [Recommendation] nvarchar(160)  NOT NULL,
     [DateRec] datetime  NOT NULL,
     [IsDone] bit  NOT NULL,
-    [InvItemId] int  NOT NULL
+    [InvItemId] int  NOT NULL,
+    [InvCarMntPriorityId] int  NOT NULL,
+    [DateDue] datetime  NULL
+);
+GO
+
+-- Creating table 'InvCarMntPriorities'
+CREATE TABLE [dbo].[InvCarMntPriorities] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Priority] nvarchar(20)  NOT NULL,
+    [Order] int  NOT NULL,
+    [IconSrc] nvarchar(160)  NOT NULL
 );
 GO
 
@@ -3558,6 +3569,12 @@ GO
 -- Creating primary key on [Id] in table 'InvCarMntRcmds'
 ALTER TABLE [dbo].[InvCarMntRcmds]
 ADD CONSTRAINT [PK_InvCarMntRcmds]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCarMntPriorities'
+ALTER TABLE [dbo].[InvCarMntPriorities]
+ADD CONSTRAINT [PK_InvCarMntPriorities]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -5933,6 +5950,21 @@ GO
 CREATE INDEX [IX_FK_InvItemInvCarMntRcmd]
 ON [dbo].[InvCarMntRcmds]
     ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvCarMntPriorityId] in table 'InvCarMntRcmds'
+ALTER TABLE [dbo].[InvCarMntRcmds]
+ADD CONSTRAINT [FK_InvCarMntPriorityInvCarMntRcmd]
+    FOREIGN KEY ([InvCarMntPriorityId])
+    REFERENCES [dbo].[InvCarMntPriorities]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCarMntPriorityInvCarMntRcmd'
+CREATE INDEX [IX_FK_InvCarMntPriorityInvCarMntRcmd]
+ON [dbo].[InvCarMntRcmds]
+    ([InvCarMntPriorityId]);
 GO
 
 -- --------------------------------------------------

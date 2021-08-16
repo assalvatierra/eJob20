@@ -949,6 +949,9 @@
     <Compile Include="Models\InvCarGateControl.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvCarMntPriority.cs">
+      <DependentUpon>JobDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvCarMntRcmd.cs">
       <DependentUpon>JobDB.tt</DependentUpon>
     </Compile>
@@ -2027,7 +2030,10 @@
     <Content Include="Images\Icons\Maintenance\icons-car-battery.png" />
     <Content Include="Images\Icons\Maintenance\icons-change-tire.png" />
     <Content Include="Images\Icons\Maintenance\icons-gears.png" />
+    <Content Include="Images\Icons\Maintenance\icons-high-priority.png" />
     <Content Include="Images\Icons\Maintenance\icons-insurance.png" />
+    <Content Include="Images\Icons\Maintenance\icons-low-priority.png" />
+    <Content Include="Images\Icons\Maintenance\icons-mid-priority.png" />
     <Content Include="Images\Icons\Maintenance\icons-oil-industry-black.png" />
     <Content Include="Images\Icons\Maintenance\icons-oil-industry-white.png" />
     <Content Include="Images\Icons\Maintenance\icons-registration.png" />
@@ -2585,6 +2591,9 @@
     <Content Include="Areas\Receivables\Views\ArReports\Monthly.cshtml" />
     <Content Include="Areas\Receivables\Views\ArTransactions\StatementPrint.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalCashRelease\SalarySummary.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArAccounts\CreateContact.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArAccounts\EditContact.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArAccounts\DeleteContact.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

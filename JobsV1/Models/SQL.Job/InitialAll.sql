@@ -496,6 +496,12 @@ values
 ('Registration', 'OIL', 10000, 365, '/Images/Icons/Maintenance/icons-registration.png',10)
 ;
 
+insert into InvCarMntPriorities([Priority],[Order],[IconSrc])
+values 
+('LOW',1,'/Images/Icons/Maintenance/icons-low-priority.png'),
+('REGULAR',2,'/Images/Icons/Maintenance/icons-mid-priority.png'),
+('HIGH',3,'/Images/Icons/Maintenance/icons-high-priority.png');
+
 -- linking jobs vechiles to triplogs units
 insert into InvItemCrLogUnits([InvItemId], [CrLogUnitId]) 
 values 

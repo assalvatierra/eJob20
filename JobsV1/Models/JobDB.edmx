@@ -164,6 +164,7 @@
     <EntitySet Name="SalesLeadFiles" EntityType="JobDB.Store.SalesLeadFiles" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvItemCrLogUnits" EntityType="JobDB.Store.InvItemCrLogUnits" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvCarMntRcmds" EntityType="JobDB.Store.InvCarMntRcmds" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvCarMntPriorities" EntityType="JobDB.Store.InvCarMntPriorities" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="JobMainJobType" Association="JobDB.Store.JobMainJobType">
       <End Role="JobMain" EntitySet="JobMains" />
       <End Role="JobType" EntitySet="JobTypes" />
@@ -794,6 +795,10 @@
     </AssociationSet>
     <AssociationSet Name="InvItemInvCarMntRcmd" Association="JobDB.Store.InvItemInvCarMntRcmd">
       <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvCarMntRcmd" EntitySet="InvCarMntRcmds" />
+    </AssociationSet>
+    <AssociationSet Name="InvCarMntPriorityInvCarMntRcmd" Association="JobDB.Store.InvCarMntPriorityInvCarMntRcmd">
+      <End Role="InvCarMntPriority" EntitySet="InvCarMntPriorities" />
       <End Role="InvCarMntRcmd" EntitySet="InvCarMntRcmds" />
     </AssociationSet>
   </EntityContainer>
@@ -2430,6 +2435,17 @@
     <Property Name="DateRec" Type="datetime" Nullable="false" />
     <Property Name="IsDone" Type="bit" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="InvCarMntPriorityId" Type="int" Nullable="false" />
+    <Property Name="DateDue" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="InvCarMntPriorities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Priority" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Order" Type="int" Nullable="false" />
+    <Property Name="IconSrc" Type="nvarchar" Nullable="false" MaxLength="160" />
   </EntityType>
   <Association Name="JobMainJobType">
     <End Role="JobMain" Type="JobDB.Store.JobMains" Multiplicity="1" />
@@ -4327,6 +4343,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvCarMntPriorityInvCarMntRcmd">
+    <End Role="InvCarMntPriority" Type="JobDB.Store.InvCarMntPriorities" Multiplicity="1" />
+    <End Role="InvCarMntRcmd" Type="JobDB.Store.InvCarMntRcmds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvCarMntPriority">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvCarMntRcmd">
+        <PropertyRef Name="InvCarMntPriorityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -5120,6 +5148,11 @@
           <EntitySet Name="InvCarMntRcmds" EntityType="JobDB.InvCarMntRcmd" />
           <AssociationSet Name="InvItemInvCarMntRcmd" Association="JobDB.InvItemInvCarMntRcmd">
             <End Role="InvItem" EntitySet="InvItems" />
+            <End Role="InvCarMntRcmd" EntitySet="InvCarMntRcmds" />
+          </AssociationSet>
+          <EntitySet Name="InvCarMntPriorities" EntityType="JobDB.InvCarMntPriority" />
+          <AssociationSet Name="InvCarMntPriorityInvCarMntRcmd" Association="JobDB.InvCarMntPriorityInvCarMntRcmd">
+            <End Role="InvCarMntPriority" EntitySet="InvCarMntPriorities" />
             <End Role="InvCarMntRcmd" EntitySet="InvCarMntRcmds" />
           </AssociationSet>
           </EntityContainer>
@@ -8958,6 +8991,9 @@
           <Property Name="IsDone" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="InvItem" Relationship="JobDB.InvItemInvCarMntRcmd" FromRole="InvCarMntRcmd" ToRole="InvItem" />
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvCarMntPriority" Relationship="JobDB.InvCarMntPriorityInvCarMntRcmd" FromRole="InvCarMntRcmd" ToRole="InvCarMntPriority" />
+          <Property Name="InvCarMntPriorityId" Type="Int32" Nullable="false" />
+          <Property Name="DateDue" Type="DateTime" Nullable="true" />
         </EntityType>
         <Association Name="InvItemInvCarMntRcmd">
           <End Type="JobDB.InvItem" Role="InvItem" Multiplicity="1" />
@@ -8968,6 +9004,28 @@
             </Principal>
             <Dependent Role="InvCarMntRcmd">
               <PropertyRef Name="InvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvCarMntPriority">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Priority" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <Property Name="IconSrc" Type="String" Nullable="false" MaxLength="160" />
+          <NavigationProperty Name="InvCarMntRcmds" Relationship="JobDB.InvCarMntPriorityInvCarMntRcmd" FromRole="InvCarMntPriority" ToRole="InvCarMntRcmd" />
+        </EntityType>
+        <Association Name="InvCarMntPriorityInvCarMntRcmd">
+          <End Type="JobDB.InvCarMntPriority" Role="InvCarMntPriority" Multiplicity="1" />
+          <End Type="JobDB.InvCarMntRcmd" Role="InvCarMntRcmd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvCarMntPriority">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvCarMntRcmd">
+              <PropertyRef Name="InvCarMntPriorityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10766,6 +10824,18 @@
           <ScalarProperty Name="DateRec" ColumnName="DateRec" />
           <ScalarProperty Name="IsDone" ColumnName="IsDone" />
           <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="InvCarMntPriorityId" ColumnName="InvCarMntPriorityId" />
+          <ScalarProperty Name="DateDue" ColumnName="DateDue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvCarMntPriorities">
+      <EntityTypeMapping TypeName="IsTypeOf(JobDB.InvCarMntPriority)">
+        <MappingFragment StoreEntitySet="InvCarMntPriorities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+          <ScalarProperty Name="IconSrc" ColumnName="IconSrc" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

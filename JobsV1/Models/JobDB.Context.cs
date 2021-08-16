@@ -183,5 +183,6 @@ namespace JobsV1.Models
         public virtual DbSet<SalesLeadFile> SalesLeadFiles { get; set; }
         public virtual DbSet<InvItemCrLogUnit> InvItemCrLogUnits { get; set; }
         public virtual DbSet<InvCarMntRcmd> InvCarMntRcmds { get; set; }
+        public virtual DbSet<InvCarMntPriority> InvCarMntPriorities { get; set; }
     }
 }

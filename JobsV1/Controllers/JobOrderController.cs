@@ -1350,6 +1350,7 @@ order by x.jobid
 
                     if (CompanyId != null)
                     {
+                        //new company
                         AddjobCompany(jobMain.Id, (int)CompanyId);
                     }
 

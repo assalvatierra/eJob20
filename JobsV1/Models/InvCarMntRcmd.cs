@@ -19,7 +19,10 @@ namespace JobsV1.Models
         public System.DateTime DateRec { get; set; }
         public bool IsDone { get; set; }
         public int InvItemId { get; set; }
+        public int InvCarMntPriorityId { get; set; }
+        public Nullable<System.DateTime> DateDue { get; set; }
     
         public virtual InvItem InvItem { get; set; }
+        public virtual InvCarMntPriority InvCarMntPriority { get; set; }
     }
 }
