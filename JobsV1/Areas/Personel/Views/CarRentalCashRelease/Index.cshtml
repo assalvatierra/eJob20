@@ -44,9 +44,6 @@
             @Html.DisplayNameFor(model => model.Amount)
         </th>
         <th>
-
-        </th>
-        <th>
             Driver
         </th>
         <th>
@@ -71,9 +68,6 @@
             </td>
             <td>
                 @item.Amount.ToString("#,##0.00")
-            </td>
-            <td>
-                @{ Html.RenderAction("DriverSalaryAmount", new { id = item.Id }); }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)

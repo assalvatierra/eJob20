@@ -53,15 +53,18 @@
             Description
         </th>
         <th>
+            ODO
+        </th>
+        <th>
             Amount
         </th>
     </tr>
 
-    @foreach (var record in Model.crLogFuels)
+    @foreach (var record in Model.crLogFuels.OrderByDescending(f=>f.dtRequest))
     {
         <tr>
             <td>
-                @record.dtFillup.ToString("MMM DD YYYY")
+                @record.dtFillup.ToString("MMM dd yyyy")
             </td>
             <td>
                 @record.crLogDriver.Name
@@ -71,7 +74,10 @@
                 @record.Remarks
             </td>
             <td>
-                @record.orAmount
+                @record.odoFillup.ToString("#,#00")
+            </td>
+            <td>
+                @record.orAmount.ToString("#,#00.00")
             </td>
         </tr>
     }

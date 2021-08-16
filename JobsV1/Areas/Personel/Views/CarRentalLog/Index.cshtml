@@ -21,11 +21,14 @@
     .datepicker {
         z-index: 1100 !important;
     }
-
 </style>
 
 <h2>Trip Log</h2>
-
+@if (ViewBag.FilteredsDate != null)
+{
+    string date = ViewBag.FilteredsDate;
+    <p> @date </p>
+}
 <p>
     Trip Logs |
     @Html.ActionLink("Drivers", "Index", "crLogDrivers") |
@@ -330,8 +333,9 @@
                         <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
-                        
-                        @if(isAdmin){
+
+                        @if (isAdmin)
+                        {
                             <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>
                         }
                     </ul>
@@ -410,18 +414,21 @@
             if (shuttle_cookie) {
                 console.log('shuttle cookie is ' + shuttle_cookie);
 
-                if (shuttle_cookie == 1) {
-                    $("#isShuttle").removeClass("btn-default");
-                    $("#isShuttle").addClass("btn-primary");
+                console.log(shuttle_cookie == 1);
+                if (shuttle_cookie == 1 || shuttle_cookie == '1') {
+                    $("#isShuttle").prop('checked', true);
+                    //$("#isShuttle").addClass("btn-default");
                 } else {
-                    $("#isShuttle").addClass("btn-default");
-                    $("#isShuttle").removeClass("btn-primary");
+
+                    $("#isShuttle").prop('checked', false);
+                    //$("#isShuttle").removeClass("btn-default");
+                    //$("#isShuttle").addClass("btn-primary");
                 }
             } else {
                 console.log('no shuttle cookie found');
             }
 
-             $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+             //$.fn.modal.Constructor.prototype.enforceFocus = function() {};
         });
 
 

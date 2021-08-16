@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var IsAdmin = (bool)ViewBag.IsAdmin;
 }
-
 <style>
     .PanelContainer-main {
         background-color: #eff3f6;
@@ -35,6 +34,35 @@
 <p>
     @Html.ActionLink("Back to Current List", "Index")
 </p>
+
+<div class="row" style="padding-bottom:15px;">
+    @using (Html.BeginForm())
+    {
+
+
+        <div class="col-md-2">
+            <select class="form-control" name="unitId">
+                <option value="0"> All </option>
+                @foreach (var units in ViewBag.UnitList as IEnumerable<JobsV1.Areas.Personel.Models.crLogUnit>)
+                {
+
+                    <option value="@units.Id"> @units.Description </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <input type="text" name="startDate" class="form-control" value="@ViewBag.StartDate" />
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="endDate" class="form-control" value="@ViewBag.EndDate" />
+        </div>
+
+        <div class="col-md-6" style="margin-top:-5px;">
+            <button type="submit" class="btn btn-default col-md-2"> Search </button>
+        </div>
+    }
+</div>
 <table class="table">
 
     <tr>
@@ -113,7 +141,7 @@
 
                     @if (item.crLogFuel.isFullTank == true)
                     {
-                        <input type="checkbox" checked="checked"/>
+                        <input type="checkbox" checked="checked" />
                     }
                     else
                     {
@@ -121,33 +149,33 @@
                     }
                 </td>
             }
-             @switch (item.LatestStatusId)
-                {
-                    case 1:
-                        if (IsAdmin)
-                        {
-                           <td colspan="6"> </td>
-                        }
-                        else
-                        {
-                           <td colspan="6"> </td>
-                        }
-                        break;
-                    case 2:
-                           <td colspan="6"> </td>
-                        break;
-                    case 3:
-                           <td colspan="6"> </td>
-                        break;
-                    default:
-                    case 4:
-                        
-                        break;
-                }
+            @switch (item.LatestStatusId)
+            {
+                case 1:
+                    if (IsAdmin)
+                    {
+                        <td colspan="6"> </td>
+                    }
+                    else
+                    {
+                        <td colspan="6"> </td>
+                    }
+                    break;
+                case 2:
+                    <td colspan="6"> </td>
+                    break;
+                case 3:
+                    <td colspan="6"> </td>
+                    break;
+                default:
+                case 4:
+
+                    break;
+            }
             <td>
                 @item.crLogFuel.Remarks
             </td>
-               
+
             <td>
                 @switch (item.LatestStatusId)
                 {
@@ -182,9 +210,9 @@
                 @if (IsAdmin)
                 {
                     <span>
-                        | @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })
+                        @*| @Html.ActionLink("Edit", "Edit", new { id = item.crLogFuel.Id }) |*@
+                        @Html.ActionLink("Details", "Details", new { id = item.crLogFuel.Id }) 
+                        @*@Html.ActionLink("Delete", "Delete", new { id = item.crLogFuel.Id })*@
                     </span>
                 }
             </td>
@@ -204,6 +232,13 @@
 
 @section Scripts{
     <script>
+
+        //On Page Load
+        $(() => {
+            Initialize();
+        })
+
+
         function ApproveRequest(id) {
             $.post("/Personel/crLogFuels/ApproveRequest", { id: parseInt(id) }, (result) => {
                 console.log(result)
@@ -212,6 +247,30 @@
                 } else {
                     alert("Error. Unable to approve request");
                 }
+            });
+        }
+
+       function  Initialize(){
+           $('input[name="startDate"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: 2000,
+                maxYear: parseInt(moment().format('YYYY'), 10),
+                locale: {
+                    format: 'MM/DD/YYYY'
+                }
+            }, function (start, end, label) {
+            });
+
+           $('input[name="endDate"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: 2000,
+                maxYear: parseInt(moment().format('YYYY'), 10),
+                locale: {
+                    format: 'MM/DD/YYYY'
+                }
+            }, function (start, end, label) {
             });
         }
     </script>

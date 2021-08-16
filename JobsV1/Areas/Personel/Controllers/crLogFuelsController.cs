@@ -136,11 +136,34 @@ namespace JobsV1.Areas.Personel.Controllers
         }
 
         // GET: Personel/crLogFuels
-        public ActionResult PrevRecords()
+        public ActionResult PrevRecords(int? unitId, DateTime? startDate, DateTime? endDate)
         {
-            var today = dt.GetCurrentDate().AddDays(-180);
+            if (unitId == null)
+            {
+                unitId = 0;
+            }
+
+            if (startDate == null)
+            {
+                startDate = dt.GetCurrentDate().AddDays(-30);
+            }
+
+
+            if (endDate == null)
+            {
+                endDate = dt.GetCurrentDate();
+            }
+
+
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
-                .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= today ).OrderBy(c => c.dtRequest);
+                .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= startDate &&
+                DbFunctions.TruncateTime(c.dtRequest) <= endDate
+                ).OrderBy(c => c.dtRequest);
+
+            if (unitId != 0)
+            {
+                crLogFuels = crLogFuels.Where(c => c.crLogUnitId == unitId).OrderBy(c => c.dtRequest);
+            }
 
             List<cCrLogFuel> cCrLogFuel = new List<cCrLogFuel>();
 
@@ -159,9 +182,14 @@ namespace JobsV1.Areas.Personel.Controllers
                     cCrLogFuel.Add(templog);
             }
 
+            DateTime _tempDtStart = new DateTime();
+            DateTime.TryParse(startDate.ToString(), out _tempDtStart);
 
             //ViewBag.IsAdmin = User.IsInRole("Admin");
             ViewBag.IsAdmin = true;
+            ViewBag.UnitList = dl.GetUnits().ToList();
+            ViewBag.StartDate = startDate.ToString();
+            ViewBag.EndDate = endDate.ToString();
 
             return View(cCrLogFuel.OrderByDescending(c=>c.crLogFuel.dtRequest).ToList());
         }

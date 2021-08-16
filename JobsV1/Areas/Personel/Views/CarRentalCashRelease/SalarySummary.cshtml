@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var IsAdmin = (bool)ViewBag.IsAdmin;
     decimal TotalAmount = 0;
+
+    //change breakdown
+    int OneThousands = 0;
+    int FiveHundreds = 0;
+    int OneHundreds = 0;
+    int Fifties = 0;
+    int Twenties = 0;
+    int Tens = 0;
+    int Fives = 0;
 }
 
 <h2>Salary Summary</h2>
@@ -34,17 +43,19 @@
 
     @foreach (var item in Model)
     {
+        var employeeSalary = 0;
         if (item.crLogCashTypeId == 3 || item.crLogCashTypeId == 4 || item.crLogCashTypeId == 5)
         {
             item.Amount = item.Amount * -1;
         }
+
         TotalAmount += item.Amount;
         <tr>
             <td>
                 @item.DtRelease.ToShortDateString()
             </td>
             <td>
-                @item.Amount.ToString("#,##0.00") 
+                @item.Amount.ToString("#,##0.00")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
@@ -64,13 +75,110 @@
                 {
                     @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
                 }
-                            
+
                 @Html.ActionLink("Old Form", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
                 <a class="cursor-hand" onclick="ApproveRelease(this, '@item.Id')"> Release </a> |
                 @Html.ActionLink("Trip Logs", "DriverTripList", new { id = item.Id }, null)
             </td>
         </tr>
-    }
+        <tr hidden>
+            @{
+                var tempAmount = item.Amount;
+
+                //change breakdowns calculations
+                var temp1k  = 0;
+                var temp500 = 0;
+                var temp100 = 0;
+                var temp50 = 0;
+                var temp20 = 0;
+                var temp10 = 0;
+                var temp5 = 0;
+
+            }
+
+            <td>
+                @{ 
+                    temp1k += (int)(tempAmount / 1000);
+                    tempAmount = tempAmount - (temp1k * 1000);
+
+                }
+
+                <span>@temp1k</span>
+            </td>
+            <td>
+                @{
+                    var tempr = (int)(tempAmount / 500);
+                    if ( ((int)(tempAmount / 500)) > 0)
+                    {
+
+                        temp500 += (int)(tempAmount / 500);
+                        tempAmount = tempAmount - (temp500 * 500);
+                    }
+                }
+
+                <span> @temp500 </span>
+            </td>
+            <td>
+                @{
+
+                    if ((int)(tempAmount / 100) > 0)
+                    {
+                        temp100 += (int)(tempAmount / 100);
+                        tempAmount = tempAmount - (temp100 * 100);
+                    }
+
+                }
+                <span> @temp100</span>
+            </td>
+            <td>
+                @{
+
+                    if ((int)(tempAmount / 50) > 0)
+                    {
+                        temp50 += (int)(tempAmount / 50);
+                        tempAmount = tempAmount - (temp50 * 50);
+                    }
+
+                }
+                <span> @temp50</span>
+            </td>
+            <td>
+                @{
+
+                    if ((int)(tempAmount / 10) > 0)
+                    {
+                        temp10 += (int)(tempAmount / 10);
+                        tempAmount = tempAmount - (temp10 * 10);
+                    }
+
+                }
+                <span> @temp10</span>
+            </td>
+            <td>
+              
+                @{
+
+                    if ((int)(tempAmount / 5) > 0)
+                    {
+                        temp5 += (int)(tempAmount / 5);
+                        tempAmount = tempAmount - (temp5 * 5);
+                    }
+
+                }
+                <span> @temp5</span>
+            </td>
+        </tr>
+        
+        OneThousands += temp1k;
+        FiveHundreds += temp500;
+        OneHundreds += temp100;
+        Fifties += temp50;
+        Twenties += temp20;
+        Tens += temp10;
+        Fives += temp5;
+
+
+        }
 
 
     @if (Model.Count() == 0)
@@ -96,6 +204,45 @@
     }
 </table>
 
+
+<br />
+<br />
+<hr />
+<h4> Cash Breakdown </h4>
+<table class="table">
+    <tr>
+        <th> 1k </th>
+        <th> 500 </th>
+        <th> 100 </th>
+        <th> 50 </th>
+        <th> 20 </th>
+        <th> 10 </th>
+        <th> 5 </th>
+    </tr>
+    <tr>
+        <td>
+            @OneThousands
+        </td>
+        <td>
+            @FiveHundreds
+        </td>
+        <td>
+            @OneHundreds
+        </td>
+        <td>
+            @Fifties
+        </td>
+        <td>
+            @Twenties
+        </td>
+        <td>
+            @Tens
+        </td>
+        <td>
+            @Fives
+        </td>
+    </tr>
+</table>
 
 
 @section Scripts{

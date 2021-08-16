@@ -235,43 +235,39 @@ function VehicleTripFilter_AddDays(days) {
     $("#VehicleTripFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
 }
 
+//Show and Hide Shuttle Trips with cookie named 'shuttle_cookie'
+//'shuttle_cookie' = 1, show shuttle trips only, hide other trips
+//'shuttle_cookie' = 0, show all trips
 function ClickShowShuttle() {
-    //window.location.href = '/Personel/CarRentalLog?isShuttle=1';
-    //console.log('set cookie ');
-
     var shuttle_cookie_prev = getCookie('shuttle_cookie');
     if (shuttle_cookie_prev) {
-        //console.log('shuttle cookie : ' + shuttle_cookie);
 
         if (shuttle_cookie_prev == 1) {
-            //set cookie for shuttle
+            //set cookie for shuttle 
+            //Show All Trups, toggle button/switch OFF
             setCookie('shuttle_cookie', '0', 30);
 
             var shuttle_cookie = getCookie('shuttle_cookie');
 
-            $("#isShuttle").addClass("btn-default");
-            $("#isShuttle").removeClass("btn-primary");
-
-            // console.log('shuttle cookie : ' + shuttle_cookie);
+            $("#isShuttle").prop('checked', false);
 
             window.location.reload();
         } else {
+            //Show Shuttle, toggle button/switch ON
             setCookie('shuttle_cookie', '1', 30);
 
             var shuttle_cookie = getCookie('shuttle_cookie');
 
-            $("#isShuttle").removeClass("btn-default");
-            $("#isShuttle").addClass("btn-primary");
-
-            //console.log('shuttle cookie : ' + shuttle_cookie);
+            $("#isShuttle").prop('checked', true);
 
             window.location.reload();
         }
     } else {
+
+        //Show Shuttle, toggle button/switch ON
         setCookie('shuttle_cookie', '1', 30);
 
-        $("#isShuttle").removeClass("btn-default");
-        $("#isShuttle").addClass("btn-primary");
+        $("#isShuttle").prop('checked', true);
 
         // console.log('shuttle cookie added ');
         window.location.reload();

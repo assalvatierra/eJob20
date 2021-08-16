@@ -81,11 +81,11 @@ namespace JobsV1.Areas.Personel.Controllers
         {
         
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-5);
+            var DateFilter = today.AddDays(-1);
 
             //get cash releases up to -7 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver)
-                .Where(c => DbFunctions.TruncateTime(c.DtRelease) > DateFilter && c.crLogCashTypeId == 1);
+                .Where(c => DbFunctions.TruncateTime(c.DtRelease) >= DateFilter && c.crLogCashTypeId == 1);
 
             List<crLogCashRelease> cashReleases = new List<crLogCashRelease>();
 
