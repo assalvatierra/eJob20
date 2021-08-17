@@ -263,7 +263,7 @@
                     }
                     else
                     {
-                        @if (item.ArAccount.Name != "Personal Account")
+                        if (item.ArAccount.Name != "Personal Account")
                         {
                             <span style="font-size:12px;color:gray;">@Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
                         }

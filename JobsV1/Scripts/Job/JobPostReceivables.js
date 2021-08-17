@@ -52,7 +52,11 @@ function SubmitPostReceivables() {
     $.post("/Receivables/ArTransactions/PostJobReceivables", data)
         .done((result) => {
             console.log(result);
-            $("#PostJobRecievables").modal("hide");
-            alert("Receivables Posted");
+            if (result == "True") {
+                $("#PostJobRecievables").modal("hide");
+                alert("Receivables Posted");
+            } else {
+                alert("Unable to Post Job to Receivables")
+            }
         });
 }

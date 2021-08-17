@@ -97,6 +97,7 @@
 
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Link", "EditInvCrLogUnit", new { id = item.Id }) |
                 @if (isCommiAllowed)
                 {
                     <span> @Html.ActionLink("Commission", "Index", "InvItemCommis", new { id = item.Id }, null) | </span>

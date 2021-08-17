@@ -162,9 +162,13 @@ namespace JobsV1.Models.Class
         {
             try
             {
-                return db.InvItemCrLogUnits
-                    .Where(i=>i.InvItemId == vehicleId)
-                    .FirstOrDefault().CrLogUnitId;
+                var _tempLogUnit = db.InvItemCrLogUnits
+                        .Where(i => i.InvItemId == vehicleId);
+                if (_tempLogUnit.FirstOrDefault() != null)
+                {
+                    return _tempLogUnit.FirstOrDefault().CrLogUnitId;
+                }
+                return 0;
             }
             catch
             {
@@ -180,8 +184,11 @@ namespace JobsV1.Models.Class
 
                 //get last odo from triplogs of the unit
                 var unitLastTrip = crdb.crLogTrips
-                    .Where(c => c.crLogUnitId == unitId && c.OdoEnd != null).OrderByDescending(c=>c.Id)
+                    .Where(c => c.crLogUnitId == unitId && c.OdoEnd != null)
+                    .OrderByDescending(c=>c.Id)
                     .FirstOrDefault();
+
+                var LastOdo = GetUnitFuelOdo(unitId);
 
                 if (unitLastTrip != null)
                 {
@@ -190,6 +197,51 @@ namespace JobsV1.Models.Class
                         Id = unitLastTrip.Id,
                         TripDate = unitLastTrip.DtTrip,
                         Odo = unitLastTrip.OdoEnd ?? 0,
+                        Driver = unitLastTrip.crLogDriver.Name
+
+                    };
+
+                    if (LastOdo!= null)
+                    {
+                        //Odo from fuel logs is latest
+                        if (LastOdo.TripDate > unitLastTrip.DtTrip)
+                        {
+                            return LastOdo;
+                        }
+                    }
+                 
+                    return trip;
+
+                }
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        //Get the Last TripLog Details of unit
+        private crLogTripUnit GetUnitFuelOdo(int unitId)
+        {
+            try
+            {
+
+                //get last odo from triplogs of the unit
+                var unitLastTrip = crdb.crLogFuels
+                    .Where(c => c.crLogUnitId == unitId && c.odoFillup != 0)
+                    .OrderByDescending(c => c.Id)
+                    .FirstOrDefault();
+
+                if (unitLastTrip != null)
+                {
+                    crLogTripUnit trip = new crLogTripUnit
+                    {
+                        Id = unitLastTrip.Id,
+                        TripDate = unitLastTrip.dtFillup,
+                        Odo = unitLastTrip.odoFillup,
                         Driver = unitLastTrip.crLogDriver.Name
 
                     };

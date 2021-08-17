@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
 using JobsV1.Models.Class;
+using JobsV1.Areas.Personel.Models;
 
 namespace JobsV1.Controllers
 {
@@ -17,6 +18,8 @@ namespace JobsV1.Controllers
     public class InvItemsController : Controller
     {
         private JobDBContainer db = new JobDBContainer();
+        private CarRentalLogDBContainer crlogdb = new CarRentalLogDBContainer();
+
         private DateClass dt = new DateClass();
 
         private MaintenanceServices mtServices = new MaintenanceServices();
@@ -179,6 +182,52 @@ namespace JobsV1.Controllers
                 return RedirectToAction("Index");
             }
             return View(invItem);
+        }
+
+
+        // GET: InvItems/EditInvCrLogUnit/5
+        public ActionResult EditInvCrLogUnit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var invItem = db.InvItems.Find(id);
+            var _invItemCrLogUnit = db.InvItemCrLogUnits.Where(i => i.InvItemId == id);
+
+            ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "Description", invItem.Id);
+            ViewBag.CrLogUnitId = new SelectList(crlogdb.crLogUnits, "Id", "Description");
+            return View(_invItemCrLogUnit.FirstOrDefault());
+        }
+
+        // POST: InvItems/EditInvCrLogUnit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditInvCrLogUnit([Bind(Include = "Id,InvItemId,CrLogUnitId")] InvItemCrLogUnit invItemCrLogUnit)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var _invItemCrLogUnit = db.InvItemCrLogUnits.Where(i => i.InvItemId == invItemCrLogUnit.InvItemId);
+                if (_invItemCrLogUnit.FirstOrDefault() == null)
+                {
+                    //create record
+                    db.InvItemCrLogUnits.Add(invItemCrLogUnit);
+                }
+                else
+                {
+                    db.Entry(invItemCrLogUnit).State = EntityState.Modified;
+                }
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.InvItemId = new SelectList(db.InvItems, "Id", "Description", invItemCrLogUnit.InvItemId);
+            ViewBag.CrLogUnitId = new SelectList(crlogdb.crLogUnits, "Id", "Description", invItemCrLogUnit.CrLogUnitId);
+            return View(invItemCrLogUnit);
         }
 
 

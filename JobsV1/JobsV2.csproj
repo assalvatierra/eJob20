@@ -3510,6 +3510,7 @@
     <Content Include="Views\InvCarMntRcmds\Details.cshtml" />
     <Content Include="Views\InvCarMntRcmds\Edit.cshtml" />
     <Content Include="Views\InvCarMntRcmds\Index.cshtml" />
+    <Content Include="Views\InvItems\EditInvCrLogUnit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
