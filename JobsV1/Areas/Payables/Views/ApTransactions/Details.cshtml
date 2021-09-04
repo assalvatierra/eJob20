@@ -12,7 +12,9 @@
 
 <h2>Details</h2>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @if (Model.ApTransStatusId < 3) {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })<span> | </span>
+    }
     @Html.ActionLink("History", "ActionHistory", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
@@ -188,7 +190,10 @@
 
     <hr />
     <h3> Payments </h3>
-    @Html.ActionLink("Add Payment", "CreateTransPayment", "ApPayments", new { transId = Model.Id }, null)
+    @if (Model.ApTransStatusId < 4)
+    {
+        <span> @Html.ActionLink("Add Payment", "CreateTransPayment", "ApPayments", new { transId = Model.Id }, null)</span>
+    }
     <table class="table">
         <tr>
             <th> Dt </th>
@@ -239,7 +244,11 @@
                         <a onclick="AcceptPayment(@payment.Id, @Model.Id)" style="cursor:pointer;"> Accept </a>
                         <span> |</span>
                     }
-                    @Html.ActionLink("Edit", "EditTransPayment", "ApPayments", new { id = payment.ApPaymentsId }, null)
+                    @if (Model.ApTransStatusId < 4)
+                    {
+
+                        @Html.ActionLink("Edit", "EditTransPayment", "ApPayments", new { id = payment.ApPaymentsId }, null)
+                    }
                 </td>
             </tr>
         }

@@ -1,0 +1,91 @@
+﻿@model  ApModels.Models.ApPrintRequest
+@{
+    ViewBag.Title = "Print Request Details";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+    decimal totalAmount = 0;
+}
+<br />
+<p>
+    @Html.ActionLink("Back to List", "PrintRequestList", null, null)
+</p>
+<table class="table table-print">
+    <tr>
+        <td class="important-border-top">
+            <h3> Payables Request </h3>
+            <p>
+                Request No: @Model.Id
+            </p>
+        </td>
+        <td class="important-border-top" style="padding-top:65px;padding-left:60px;">
+            <span class="pull-right"> Request Date: @Model.DtRequest.ToString("MMM dd yyyy")</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="padding:10px;" class="important-border-top">
+            <h4> Payable Items </h4>
+            <table class="table payables-items-table">
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Date Invoice
+                    </th>
+                    <th>
+                        Invoice No
+                    </th>
+                    <th>
+                        Desc
+                    </th>
+                    <th>
+                        Date Due
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                </tr>
+
+                <!-- Iterate Payable Items here -->
+
+                @foreach (var payableGroup in Model.ApTransPrintReqs)
+                {
+                    var payable = payableGroup.ApTransaction;
+
+                    decimal budgetRequest = payable.BudgetAmt ?? 0;
+
+                    totalAmount += budgetRequest;
+                    <tr>
+                        <td>
+                            @payable.Id
+                        </td>
+                        <td>
+                            @payable.DtInvoice.ToString("MMM dd yyyy")
+                        </td>
+                        <td>
+                            @payable.InvoiceNo
+                        </td>
+                        <td>
+                            <b>@payable.ApAccount.Name </b>/
+                            @payable.Description <br />
+                            @payable.Remarks
+                        </td>
+                        <td>
+                            @payable.DtDue.ToString("MMM dd yyyy")
+                        </td>
+                        <td>
+                            @budgetRequest.ToString("#,##0.00")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5">
+                        <b class="pull-right" style="margin-right:20px;">Total</b>
+                    </td>
+                    <td>
+                        <b>@totalAmount.ToString("#,##0.00") </b>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

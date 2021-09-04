@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ApModels.Models.ApPrintRequest>
+@{
+    ViewBag.Title = "Print Request List";
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+}
+
+<h2>Print Request List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = " btn btn-primary" })
+    <a href="/Payables/ApTransactions/"> <button class="btn btn-default"> Expenses </button></a>
+    <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default"> Daily Expenses </button></a>
+    <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default"> Monthly Expenses </button></a>
+    <a href="/Payables/ApTransactions/PrintRequestList"> <button class="btn btn-default" disabled> Print Requests </button></a>
+</p>
+<table class="table">
+    <tr>
+        <th> Req ID </th>
+        <th> Date Req </th>
+        <th> By </th>
+        <th> Amount </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        decimal amount = 0;
+        <tr>
+            <td>
+                @item.Id
+            </td>
+
+            <td>
+                @item.DtRequest
+            </td>
+
+            <td>
+                @item.RequestBy
+            </td>
+            <td>
+                @{
+                    amount = (decimal)item.ApTransPrintReqs.Select(c => c.ApTransaction.BudgetAmt).Sum();
+                }
+                @amount.ToString("#,##0.0")
+            </td>
+            <td>
+                @Html.ActionLink("Details", "PrintRequestDetails", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+

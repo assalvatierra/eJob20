@@ -130,7 +130,7 @@ namespace Payable.Areas.Payables.Controllers
 
                 if (apTransaction.ApAccountId == 1)
                 {
-                    return RedirectToAction("CreateTransAcc", "ApAccounts" ,new { id = apTransaction.Id });
+                    return RedirectToAction("CreateTransAcc", "ApAccounts", new { id = apTransaction.Id });
                 }
 
                 return RedirectToAction("Details", new { id = apTransaction.Id });
@@ -263,7 +263,7 @@ namespace Payable.Areas.Payables.Controllers
             payable.ApTransStatusId = (int)statusId;
 
             //update payable
-            var updateResponse= ap.TransactionMgr.EditTransaction(payable);
+            var updateResponse = ap.TransactionMgr.EditTransaction(payable);
 
 
             //add action log for transaction update status 
@@ -292,7 +292,7 @@ namespace Payable.Areas.Payables.Controllers
         {
             var repeatingPayables = ap.TransactionMgr.GetRepeatingTransactions();
 
-            return Json(repeatingPayables.Select(p=> 
+            return Json(repeatingPayables.Select(p =>
                 new {
                     p.Id,
                     p.ApAccount.Name,
@@ -354,7 +354,7 @@ namespace Payable.Areas.Payables.Controllers
 
         public string GetUser()
         {
-           return HttpContext.User.Identity.Name ?? "Unknown";
+            return HttpContext.User.Identity.Name ?? "Unknown";
         }
 
         [HttpGet]
@@ -362,7 +362,7 @@ namespace Payable.Areas.Payables.Controllers
         {
             var duePayables = ap.TransactionMgr.GetDueTransactions()
                 .Select(
-                    t=> new {
+                    t => new {
                         t.Id,
                         t.ApAccount.Name,
                         t.ApTransStatu.Status,
@@ -371,7 +371,7 @@ namespace Payable.Areas.Payables.Controllers
                         InvoiceNo = t.InvoiceNo == null ? "" : t.InvoiceNo,
                         t.Amount,
                         t.Description,
-                        totalPayment = t.ApTransPayments.Sum(p=>p.ApPayment.Amount)
+                        totalPayment = t.ApTransPayments.Sum(p => p.ApPayment.Amount)
                     }
                 );
 
@@ -392,6 +392,19 @@ namespace Payable.Areas.Payables.Controllers
             return "Unable to Release Payment";
         }
 
+        [HttpPost]
+        public string ReturnAmount(int? id, decimal? amount )
+        {
+                if ( id != null && amount != null)
+                {
+                    ap.TransactionMgr.UpdateReturnAmount((int)id, (decimal)amount);
+                    return "OK";
+                }
+
+                return "Unable to Release Payment";
+            
+        }
+
         #region Print Request Form
         public ActionResult PrintRequestForm(int id)
         {
@@ -408,7 +421,7 @@ namespace Payable.Areas.Payables.Controllers
             var printGroupId = ap.TransactionMgr.AddPrintRequest(transIds, GetUser());
 
             //update print status of each payables transaction to true
-            for (int i=0; i< transIds.Length; i++)
+            for (int i = 0; i < transIds.Length; i++)
             {
                 UpdatePrintStatus(transIds[i]);
             }
@@ -424,6 +437,27 @@ namespace Payable.Areas.Payables.Controllers
         {
             //update transaction printed status to true
             return ap.TransactionMgr.UpdatePrintStatus(id, true);
+        }
+
+
+        public ActionResult PrintRequestList()
+        {
+            var requestList = ap.TransactionMgr.GetPrintRequests();
+
+            return View(requestList);
+        }
+
+
+        public ActionResult PrintRequestDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var requestDetails = ap.TransactionMgr.GetPrintRequestDetails((int)id);
+
+            return View(requestDetails);
         }
         #endregion
 

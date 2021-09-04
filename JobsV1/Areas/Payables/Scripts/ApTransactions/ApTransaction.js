@@ -20,26 +20,23 @@ function Initialize(status, sortBy) {
         $("#status-" + status).addClass('active');
         $("#status-" + status).siblings('.active').removeClass('active');
 
+        //Repeating Payables
         if (sessionStorage.getItem('ApTrans-RepeatingShowed') == null) {
             GetRepeatingPayablesCount();
 
         }
-        //Repeating Payables
-        
-        //console.log("DueShowed: " + sessionStorage.getItem('ApTrans-DueShowed'));
 
         //Due Payables
         if ($('#RepeatingPayables-Modal').is(':visible')) {
             //GetDuePayables();
         } else {
-            //console.log(sessionStorage.getItem('ApTrans-DueShowed'));
             if (!sessionStorage.getItem('ApTrans-DueShowed')) {
-                GetDuePayables();
+               // GetDuePayables();
             }
         }
 
         if (sessionStorage.getItem('ApTrans-DueShowed') == null) {
-            GetDuePayables();
+           // GetDuePayables();
         }
 
     }
@@ -344,11 +341,29 @@ function ReleasePayment() {
     var id = $("#ReleasePayment-Id").val();
     var date = $("#ReleasePayment-Date").val();
 
-    console.log(amount);
-    console.log(id);
-    console.log(date);
-    $.post("/Payables/ApTransactions/ReleasePayment", { id: id, amount: amount, date: date }, (res) => {
-        console.log(res);
-        UpdateStatus(id, 3); //update to release
+    $.post("/Payables/ApTransactions/ReleasePayment", { id: id, amount: amount }, (res) => {
+        if (res == "OK") {
+            UpdateStatus(id, 3); //update to release
+        }
     });
+}
+
+
+//Return Amount
+
+//release payment amount
+function ReturnAmount() {
+    var amount = $("#ReturnAmount-Amount").val();
+    var id = $("#ReturnAmount-Id").val();
+
+    $.post("/Payables/ApTransactions/ReturnAmount", { id: id, amount: amount }, (res) => {
+        if (res == "OK") {
+            UpdateStatus(id, 5); //update to return
+        }
+    });
+}
+
+function ShowReturnAmountModal(id) {
+    $("#ReturnAmount-Id").val(id);
+    $("#ReturnAmount-Modal").modal('show');
 }

@@ -82,7 +82,7 @@
 
                         @foreach (var trip in ViewBag.crLogTrips as List<JobsV1.Areas.Personel.Models.crLogTrip>)
                         {
-                            //totalOT = totalOT + trip.DriverOT;
+                            totalOT = totalOT + trip.DriverOT;
                             subtotalSalary = subtotalSalary + trip.DriverFee;
                             tripCount = tripCount + 1;
                             <tr>
@@ -99,7 +99,7 @@
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    @*@trip.DriverOT.ToString("#,##0.00")*@
+                                    @trip.DriverOT.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }
@@ -120,7 +120,8 @@
                                     @actualAmount.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    0
+                                    <!-- Driver OT-->
+                                   
                                 </td>
                             </tr>
                         }
@@ -176,7 +177,7 @@
                             <td> <b>@subtotalSalary.ToString("#,##0.00")</b> </td>
                             <td>
                                 <b>
-                                    @*@totalOT.ToString("#,##0.00")*@
+                                    @totalOT.ToString("#,##0.00")
                                 </b>
                             </td>
                         </tr>
@@ -345,7 +346,7 @@
                                     @trip.DriverFee.ToString("#,##0.00")
                                 </td>
                                 <td>
-                                    @*@trip.DriverOT.ToString("#,##0.00")*@
+                                    @trip.DriverOT.ToString("#,##0.00")
                                 </td>
                             </tr>
                         }

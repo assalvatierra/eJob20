@@ -50,13 +50,10 @@
             </td>
             <td>
                 <b>@transaction.ArAccount.Company</b>
-                @if (transaction.ArAccount.Name != "Personal Account")
+                @if (transaction.ArAccount.Name != "Personal Account" || transaction.ArAccount.Name != @transaction.Description)
                 {
                     <span> / </span> @transaction.ArAccount.Name
                 }
-                <br />
-
-                @transaction.Description <br />
             </td>
             <td>
                 @transaction.Description <br />

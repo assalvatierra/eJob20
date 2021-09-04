@@ -25,6 +25,7 @@
     <a href="/Payables/ApTransactions/"> <button class="btn btn-default" disabled> Expenses </button></a>
     <a href="/Payables/ApTransactions/ReleasedDaily"> <button class="btn btn-default"> Daily Expenses </button></a>
     <a href="/Payables/ApTransactions/ReleasedWeekly"> <button class="btn btn-default"> Monthly Expenses </button></a>
+    <a href="/Payables/ApTransactions/PrintRequestList"> <button class="btn btn-default"> Print Requests </button></a>
 </p>
 
 <div class="btn-group" style="margin-bottom:5px;margin-right:10px;">
@@ -79,7 +80,7 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-           Due&nbsp;Date
+            Due&nbsp;Date
         </th>
         <th style="min-width:100px;">
             Category
@@ -265,7 +266,7 @@
 
                 </td>
                 <td>
-                    @{  var budget = item.BudgetAmt ?? 0; }
+                    @{ var budget = item.BudgetAmt ?? 0; }
 
                     @budget.ToString("#,##0.00")
                 </td>
@@ -323,9 +324,10 @@
                                         }*@
 
                                 }
-                                 else if (item.ApTransStatusId == 3)
+                                else if (item.ApTransStatusId == 3)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 5)"> Return </a>
+                                    //released
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id)"> Return </a>
                                 }
                                 else if (item.ApTransStatusId == 5 && isAdmin)
                                 {
@@ -340,7 +342,10 @@
                                 </li>
                             }
                             <li role="separator" class="divider"></li>
-                            <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            @if (item.ApTransStatusId <= 2)
+                            {
+                                <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            }
                             <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
                             <li> @Html.ActionLink("History", "ActionHistory", new { id = item.Id }) </li>
                             @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
@@ -350,7 +355,7 @@
             </tr>
             totalPayment += totalTransPayment;
             totalAmount += item.Amount;
-                            
+
             totalBudget += item.BudgetAmt ?? 0;
             totalRelease += item.ReleaseAmt ?? 0;
         }
@@ -363,11 +368,11 @@
         <tr>
             <td colspan="9">
             </td>
-            <td >
+            <td>
                 <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span>
                 <span style="font-size:18px;">@totalBudget.ToString("#,##0.00")</span>
             </td>
-            <td >
+            <td>
                 <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Released </span>
                 <span style="font-size:18px;">@totalRelease.ToString("#,##0.00")</span>
             </td>
@@ -533,6 +538,46 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="ReleasePayment(this)">Release</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Return Amount Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="ReturnAmount-Modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Return Amount </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Id  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReturnAmount-Id" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Date  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReturnAmount-Date" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Amount  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="ReturnAmount-Amount" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="ReturnPayment(this)">Release</button>
             </div>
         </div>
     </div>
