@@ -72,9 +72,12 @@
             <td>
                 <b>@transaction.ArAccount.Company</b>
 
-                @if (transaction.ArAccount.Name != "Personal Account" && transaction.ArAccount.Name.Trim() != @transaction.Description.Trim())
+                @if (transaction.ArAccount != null)
                 {
-                    <span> / </span> @transaction.ArAccount.Name
+                    if (transaction.ArAccount.Name != "Personal Account" && transaction.ArAccount.Name.Trim() != @transaction.Description.Trim())
+                    {
+                        <span> / </span> @transaction.ArAccount.Name
+                    }
                 }
 
                 <br />

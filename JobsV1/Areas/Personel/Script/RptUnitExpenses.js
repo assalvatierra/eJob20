@@ -308,3 +308,27 @@ function BillingRptFilter_AddDays(days) {
     $("#BillingRptFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
 }
 
+
+/** Contributions Report Filter */
+
+function Initial_ContributionRptFilter(rptId, rptName) {
+    $("#ContributionRptFilter-rptName").val(rptName);
+    $("#ContributionRptFilter-rptId").val(rptId);
+}
+
+function Submit_ContributionRptFilter() {
+
+    var startDate = $("#ContributionRptFilter-StartDate").val();
+    var endDate = $("#ContributionRptFilter-EndDate").val();
+
+    var url = $("#ContributionReport").val();
+    url = url.replace('_startDate', startDate);
+    url = url.replace('_endDate', endDate);
+
+    window.location.href = url;
+}
+
+function ContributionRptFilter_AddDays(days) {
+    $("#ContributionRptFilter-StartDate").val(moment().add(days, 'days').format("MM/DD/YYYY"));
+}
+

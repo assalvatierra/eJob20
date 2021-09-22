@@ -99,4 +99,19 @@ namespace JobsV1.Areas.Personel.Models
         public decimal Overtime { get; set; }
         public decimal Addon { get; set; }
     }
+
+
+    public class RptCrContributionReport
+    {
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public string Description { get; set; }
+        public int Count { get; set; }
+        public string Driver { get; set; }
+        public string Remarks { get; set; }
+        public decimal SSS_Amount { get; set; }
+        public decimal PhilHealth_Amount { get; set; }
+        public decimal PagIbig_Amount { get; set; }
+        public decimal Others_Amount { get; set; }
+    }
 }

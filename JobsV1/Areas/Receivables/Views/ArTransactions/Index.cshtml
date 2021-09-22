@@ -259,18 +259,24 @@
 
                     @if (item.ArAccContactId != 1)
                     {
-                        if (item.ArAccContact.Name.Trim() != item.Description.Trim())
+                        if (item.ArAccContact != null )
                         {
-                            <span style="font-size:12px;color:gray;"> @Html.DisplayFor(modelItem => item.ArAccContact.Name)</span>
+                            if (item.ArAccContact.Name.Trim() != item.Description.Trim())
+                            {
+                                <span style="font-size:12px;color:gray;"> @Html.DisplayFor(modelItem => item.ArAccContact.Name)</span>
+                            }
                         }
                     }
                     else
                     {
                         if (item.ArAccount.Name.Trim() != "Personal Account")
                         {
-                            if (item.ArAccount.Name.Trim() != item.Description.Trim())
+                            if (item.ArAccount != null)
                             {
-                                <span style="font-size:12px;color:gray;"> @Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
+                                if (item.ArAccount.Name.Trim() != item.Description.Trim())
+                                {
+                                    <span style="font-size:12px;color:gray;"> @Html.DisplayFor(modelItem => item.ArAccount.Name)</span>
+                                }
                             }
                         }
                     }

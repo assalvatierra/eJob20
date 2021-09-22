@@ -1,0 +1,83 @@
+﻿@model IEnumerable<JobsV1.Areas.Personel.Models.RptCrContributionReport>
+@{
+    ViewBag.Title = "BillingReport";
+
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    decimal TotalAmount = 0;
+    decimal TotalSSS = 0;
+    decimal TotalPhilHealth = 0;
+    decimal TotalPagibig = 0;
+    //decimal TotalOthers = 0;
+
+    decimal DriverAmount = 0;
+    decimal DriverSSS = 0;
+    decimal DriverPagibig = 0;
+    decimal DriverPhilhealth = 0;
+    //decimal DriverOthers = 0;
+}
+
+<h2>Contribution Report</h2>
+<p>
+    @Html.ActionLink("Back to Reports","Index", "crRptUnitExpenses", null, null)
+</p>
+<table class="table">
+    <tr>
+        <th> Driver   </th>
+        <th> SSS   </th>
+        <th> Philhealth   </th>
+        <th> Pagibig   </th>
+        <th> Total </th>
+    </tr>
+
+    @foreach (var contribution in Model)
+    {
+        DriverSSS = contribution.SSS_Amount;
+        DriverPagibig = contribution.PagIbig_Amount;
+        DriverPhilhealth = contribution.PhilHealth_Amount;
+        DriverAmount = DriverSSS + DriverPagibig + DriverPhilhealth;
+
+        TotalSSS += DriverSSS;
+        TotalPagibig += DriverPagibig;
+        TotalPhilHealth += DriverPhilhealth;
+        TotalAmount += DriverAmount;
+
+        <tr>
+            <td>
+                @contribution.Driver
+            </td>
+            <td>
+                @DriverSSS.ToString("N0")
+            </td>
+            <td>
+                @DriverPagibig.ToString("N0")
+            </td>
+            <td>
+                @DriverPhilhealth.ToString("N0")
+            </td>
+            <td>
+                @DriverAmount.ToString("N0")
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td> 
+            Total Count: 
+        </td>
+        <td>
+            @TotalSSS.ToString("N0")
+        </td>
+        <td>
+            @TotalPagibig.ToString("N0")
+        </td>
+        <td>
+            @TotalPhilHealth.ToString("N0")
+        </td>
+        <td>
+            @TotalAmount.ToString("N0")
+        </td>
+    </tr>
+    
+</table>
+

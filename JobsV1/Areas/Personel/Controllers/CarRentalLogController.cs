@@ -1143,6 +1143,8 @@ namespace JobsV1.Areas.Personel.Controllers
             trip.DriverFee = 0;
             trip.DriverOTRate = 50;
             trip.OTRate = 200;
+            trip.IsFinal = false;
+            trip.AllowEdit = false;
 
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name");
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description");
@@ -1156,8 +1158,8 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT")] crLogTrip crLogTrip)
-        {
+        public ActionResult Create([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT, IsFinal, AllowEdit")] crLogTrip crLogTrip)
+        { 
             if (ModelState.IsValid)
             {
                 db.crLogTrips.Add(crLogTrip);
@@ -1209,7 +1211,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT")] crLogTrip crLogTrip)
+        public ActionResult Edit([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate, AddonOT, IsFinal, AllowEdit")] crLogTrip crLogTrip)
         {
             if (ModelState.IsValid)
             {
@@ -1218,6 +1220,12 @@ namespace JobsV1.Areas.Personel.Controllers
                 if (OTRate > 0 && crLogTrip.DriverOT == 0)
                 {
                     crLogTrip.DriverOT = (decimal)OTRate;
+                }
+
+                if (crLogTrip.IsFinal)
+                {
+                    //disable edit on finalized
+                    crLogTrip.AllowEdit = false;
                 }
 
                 db.Entry(crLogTrip).State = EntityState.Modified;
@@ -2146,6 +2154,39 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 db.crLogFuels.Add(fuelReq);
                 db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //POST : /Personel/CarRentalLog/AllowEditTripLog
+        //PARAMETER: id (crLogTrips.Id as nullable int)
+        //RETURNS: Boolean (True=Success/False=Error or null)
+        //SUMMARY: Update AllowEdit Flag on TripLogs to edit past / locked triplogs entry
+        [HttpPost]
+        public bool AllowEditTripLog(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return false;
+                }
+
+                var triplog = db.crLogTrips.Find(id);
+
+                if (triplog == null)
+                {
+                    return false;
+                }
+
+                triplog.AllowEdit = true;
+                db.Entry(triplog).State = EntityState.Modified;
+                db.SaveChanges();
+
                 return true;
             }
             catch

@@ -99,24 +99,25 @@
 
     @foreach (var ca in ViewBag.CA as List<JobsV1.Areas.Personel.Models.crLogCashRelease>)
     {
-        TotalDriverFee += ca.Amount;
-        <tr>
-            <td>
-                @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
-            </td>
-            <td colspan="2">
+         
+            TotalDriverFee += ca.Amount;
+            <tr>
+                <td>
+                    @ca.DtRelease.ToString("MM/dd/yyyy (ddd)")
+                </td>
+                <td colspan="2">
 
-                @ca.Remarks
-            </td>
-            <td>
-                CA
-            </td>
-            <td></td>
-            <td>
-                @ca.Amount.ToString("#,##0.00")
-            </td>
-            <td></td>
-        </tr>
+                    @ca.Remarks
+                </td>
+                <td>
+                    CA
+                </td>
+                <td></td>
+                <td>
+                    @ca.Amount.ToString("#,##0.00")
+                </td>
+                <td></td>
+            </tr>
     }
 
 

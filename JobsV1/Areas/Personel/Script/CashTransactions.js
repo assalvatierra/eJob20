@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
     InitDatePicker();
-    $('input[name="DtRelease"]').val(moment().format("MM/DD/YYYY hh:mm A"));
+    //$('input[name="DtRelease"]').val(moment().format("MM/DD/YYYY hh:mm A"));
 })
 
 function InitDatePicker()

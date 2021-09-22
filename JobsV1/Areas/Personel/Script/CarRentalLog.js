@@ -367,3 +367,20 @@ function UpdateOTRate(e, id) {
         });
 }
 
+
+//Allow Edit trip logs 
+//change AllowEdit Flag to True
+function AllowEdit(e, id){
+    $.post('/Personel/CarRentalLog/AllowEditTripLog', { id: id })
+        .done((res) => {
+            console.log('Allowed edit on triplog ' + id);
+            //window.location.reload(false);
+            //$(e).parent().append('<a style="cursor:not-allowed;color:gray;"> OT Calculated </a>');
+            $(e).remove();
+        })
+        .fail((err) => {
+            console.log('Unable to edit:' + id + "\n " + err);
+            alert('Unable to update Triplogs Flag : Allowed to Edit');
+        });
+}
+

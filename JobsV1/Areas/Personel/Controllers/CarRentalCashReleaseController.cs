@@ -18,6 +18,24 @@ namespace JobsV1.Areas.Personel.Controllers
         private DateClass dt = new DateClass();
         private CrDataLayer dl = new CrDataLayer();
 
+
+        private enum CASHTYPE
+        {
+            SALARY          = 1,
+            CA              = 2,
+            PAYMENTS        = 3, 
+            CONTRIBUTIONS   = 4,
+            OTHERS          = 5
+        }
+
+        private enum CASHREQ_STATUS
+        {
+           REQUEST = 1,
+           APPROVED = 2,
+           RELEASED = 3,
+           RETURNED = 4
+        }
+
         // GET: Personel/CarRentalCashRelease
         public ActionResult Index(int? statusId)
         {
@@ -31,7 +49,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 else
                 {
                     statusId = 1;
-                    Session["CRCashRelease_StatusId"] = 1;
+                    Session["CRCashRelease_StatusId"] = (int)CASHREQ_STATUS.REQUEST;
                 }
             }
             #endregion
@@ -39,12 +57,12 @@ namespace JobsV1.Areas.Personel.Controllers
             var today = dt.GetCurrentDate();
             var DateFilter = today.AddDays(-15);
             
-            if (statusId == null || statusId == 1)
+            if (statusId == null || statusId == (int)CASHREQ_STATUS.REQUEST)
             {
                 DateFilter = today.AddDays(-10);
             }
             if (statusId == null)
-                statusId = 1;
+                statusId = (int)CASHREQ_STATUS.REQUEST;
 
             //get cash releases up to -7 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver).Include(c => c.crLogClosing)
@@ -59,10 +77,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 if (lateststatusId == statusId)
                 {
                     //add request and accecpted logs
-                    if (log.DtRelease.Date <= today.Date && lateststatusId < 3)
+                    if (log.DtRelease.Date <= today.Date && lateststatusId < (int)CASHREQ_STATUS.RELEASED)
                         cashReleases.Add(log);
                     //add returned logs with date today
-                    if (log.DtRelease.Date == today.Date && lateststatusId == 3)
+                    if (log.DtRelease.Date == today.Date && lateststatusId == (int)CASHREQ_STATUS.RELEASED)
                         cashReleases.Add(log);
                 }
             }
@@ -85,7 +103,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
             //get cash releases up to -7 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver)
-                .Where(c => DbFunctions.TruncateTime(c.DtRelease) >= DateFilter && c.crLogCashTypeId == 1);
+                .Where(c => DbFunctions.TruncateTime(c.DtRelease) >= DateFilter && c.crLogCashTypeId == (int)CASHTYPE.SALARY);
 
             List<crLogCashRelease> cashReleases = new List<crLogCashRelease>();
 
@@ -118,7 +136,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 var lateststatusId = getLatestStatusId(log.Id);
 
                 //add returned logs with date today
-                if (log.DtRelease.Date < today.Date && lateststatusId == 3)
+                if (log.DtRelease.Date < today.Date && lateststatusId == (int)CASHREQ_STATUS.RELEASED)
                     cashReleases.Add(log);
                 
             }
@@ -321,7 +339,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crtrx.crLogClosingId = GenerateClosingId();
                 crtrx.Amount = releaseRequest.Amount;
                 crtrx.Remarks = releaseRequest.Remarks;
-                crtrx.crLogCashTypeId = 1; //salary
+                crtrx.crLogCashTypeId = (int)CASHTYPE.SALARY; //salary
 
                 db.crLogCashReleases.Add(crtrx);
                 db.SaveChanges();
@@ -358,7 +376,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crtrx.crLogDriverId = DriverId;
                 crtrx.Amount = Amount;
                 crtrx.Remarks = Remarks;
-                crtrx.crLogCashTypeId = 3; //payment
+                crtrx.crLogCashTypeId = (int)CASHTYPE.PAYMENTS; //payment
                 
 
                 db.crLogCashReleases.Add(crtrx);
@@ -391,7 +409,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crtrx.crLogDriverId = DriverId;
                 crtrx.Amount = Amount;
                 crtrx.Remarks = Remarks;
-                crtrx.crLogCashTypeId = 2; //CA
+                crtrx.crLogCashTypeId = (int)CASHTYPE.CA; //CA
 
                 db.crLogCashReleases.Add(crtrx);
                 db.SaveChanges();
@@ -646,19 +664,14 @@ namespace JobsV1.Areas.Personel.Controllers
             var otherTrx = db.crLogCashReleases.Where(c=>
                                     c.crLogDriverId == cashRelease.crLogDriverId
                                     && DbFunctions.TruncateTime(c.DtRelease) == today 
+                                    && c.crLogCashStatus.FirstOrDefault().crCashReqStatusId < (int)CASHREQ_STATUS.RELEASED
                                     ).ToList();
 
-            var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == 1 && c.Id != id).ToList();
-            var driverCA = otherTrx.Where(c => c.crLogCashTypeId == 2).ToList();
-            var payments = otherTrx.Where(c => c.crLogCashTypeId == 3).ToList();
-            var contributions = otherTrx.Where(c => c.crLogCashTypeId == 4).ToList();
-            var others = otherTrx.Where(c => c.crLogCashTypeId == 5).ToList();
-
-            ViewBag.Contributions = contributions;
-            ViewBag.OtherSalary = otherSalary;
-            ViewBag.Others = others;
-            ViewBag.CA = driverCA;
-            ViewBag.Payments = payments;
+            ViewBag.Contributions = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CONTRIBUTIONS).ToList();
+            ViewBag.OtherSalary = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.SALARY && c.Id != id).ToList();
+            ViewBag.Others = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.OTHERS).ToList();
+            ViewBag.CA = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CA).ToList();
+            ViewBag.Payments = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.PAYMENTS).ToList();
 
             ViewBag.tripLogErr = tripLogErr;
             ViewBag.DtRelease = cashRelease.DtRelease;
@@ -667,6 +680,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.Amount = cashRelease.Amount;
             ViewBag.Remarks = cashRelease.Remarks;
             ViewBag.Id = id;
+
             return View(tripLogs);
         }
 
@@ -709,11 +723,11 @@ namespace JobsV1.Areas.Personel.Controllers
                                     && DbFunctions.TruncateTime(c.DtRelease) == today
                                     ).ToList();
 
-            var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == 1 && c.Id != id).ToList().Sum(c=>c.Amount);
-            var driverCA = otherTrx.Where(c => c.crLogCashTypeId == 2).ToList().Sum(c => c.Amount);
-            var payments = otherTrx.Where(c => c.crLogCashTypeId == 3).ToList().Sum(c => c.Amount);
-            var contributions = otherTrx.Where(c => c.crLogCashTypeId == 4).ToList().Sum(c => c.Amount);
-            var others = otherTrx.Where(c => c.crLogCashTypeId == 5).ToList().Sum(c => c.Amount);
+            var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.SALARY && c.Id != id).ToList().Sum(c=>c.Amount);
+            var driverCA = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CA).ToList().Sum(c => c.Amount);
+            var payments = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.PAYMENTS).ToList().Sum(c => c.Amount);
+            var contributions = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CONTRIBUTIONS).ToList().Sum(c => c.Amount);
+            var others = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.OTHERS).ToList().Sum(c => c.Amount);
 
 
             decimal total = (driversFee + otherSalary + others + driverCA) - (payments + contributions);
@@ -734,10 +748,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 if (lateststatusId == statusId)
                 {
                     //add request and accecpted logs
-                    if (log.DtRelease.Date <= today.Date && lateststatusId < 3)
+                    if (log.DtRelease.Date <= today.Date && lateststatusId < (int)CASHREQ_STATUS.RELEASED)
                         statusCount++;
                     //add returned logs with date today
-                    if (log.DtRelease.Date == today.Date && lateststatusId == 3)
+                    if (log.DtRelease.Date == today.Date && lateststatusId == (int)CASHREQ_STATUS.RELEASED)
                         statusCount++;
                 }
             }

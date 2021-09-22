@@ -16,8 +16,9 @@
     <a href="" data-toggle="modal" data-target="#VehicleTripFilter">Vehicle TripLog</a> |
     <a href="" data-toggle="modal" data-target="#Vehicle-PaymentSummaryFilter">Vehicle Payment Summary</a> |
     <a href="" data-toggle="modal" data-target="#DriverSummaryFilter">Driver Summary</a> |
-    <a href="" data-toggle="modal" data-target="#POSummaryFilter">PO Summary</a>|
-    <a href="" data-toggle="modal" data-target="#BillingRptFilter">Billing</a>
+    <a href="" data-toggle="modal" data-target="#POSummaryFilter">PO Summary</a> |
+    <a href="" data-toggle="modal" data-target="#BillingRptFilter">Billing</a> |
+    <a href="" data-toggle="modal" data-target="#ContributionRptFilter">Contributions</a>
 </p>
 
 <p>
@@ -93,6 +94,7 @@
 @Html.Partial("_DriverSummaryFilter")
 @Html.Partial("_POSummaryFilter")
 @Html.Partial("_BillingRptFilter")
+@Html.Partial("_ContributionRptFilter")
 
 @Html.Partial("_ItemVehiclePaymentSummaryFilter")
 @Html.Partial("_ItemVehicleSummaryFilter")
@@ -114,6 +116,7 @@
 @Html.Hidden("DriverSummaryReport", Url.Action("DriverSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", driverId = "_driverId" }))
 @Html.Hidden("POSummaryReport", Url.Action("POSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", driverId = "_driverId" }))
 @Html.Hidden("BillingReport", Url.Action("BillingReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", driverId = "_driverId" }))
+@Html.Hidden("ContributionReport", Url.Action("ContributionReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate" }))
 
 
 

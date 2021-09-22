@@ -47,7 +47,12 @@
         @Html.ActionLink("Add New Trip", "Create", null, new { @class = " btn btn-default" })
         @Html.ActionLink("Copy Trip", "CopyTrip", null, new { @class = " btn btn-default" })
         @*@Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo", null, new { @class = " btn btn-default" })*@
-        <a class="cursor-hand btn btn-default" onclick="ShowFinalizeTrip(this)"> Show Finalize Trip </a>
+        @if (isAdmin)
+        {
+            <a class="cursor-hand btn btn-default" onclick="ShowFinalizeTrip(this)"> Show Finalize Trip </a>
+            <a class="cursor-hand btn btn-default" onclick="ShowAllowEdit(this)"> Show Allow Edit Trips </a>
+        }
+
     </div>
 
     <!-- Billing Links -->
@@ -73,6 +78,8 @@
         </button>
 
         <button type="button" class="btn btn-default" id="FinalizeTrip-Btn" onclick="FinalizeCheckedTrips()" style="display:none"> Finalize Selected Trip </button>
+
+        <button type="button" class="btn btn-default" id="AllowEditGroup-Btn" onclick="AllowEditCheckedTrips()" style="display:none"> Allow Edit Selected Trip </button>
 
     </div>
 
@@ -190,6 +197,9 @@
         <th id="tb-hd-finalize" hidden>
             <a class="cursor-hand" onclick="FinalizeAll()"> All </a>
         </th>
+        <th id="tb-hd-AllowEdit" hidden>
+            <a class="cursor-hand" onclick="AllowEditAll()"> Edit All </a>
+        </th>
         <th width="100">
             Date
         </th>
@@ -221,11 +231,11 @@
             Driver&nbsp;OT
         </th>
         @*<th>
-                Odo Start
-            </th>
-            <th>
-                Odo End
-            </th>*@
+            Odo Start
+        </th>
+        <th>
+            Odo End
+        </th>*@
         <th>
             Pass
         </th>
@@ -270,6 +280,13 @@
                 {
                     <input type="checkbox" value="@item.Id" />
                 }
+
+            </td> 
+            <td class="trip-AllowEdit" hidden>
+                @if (!item.AllowEdit)
+                {
+                    <input type="checkbox" value="@item.Id" />
+                }
             </td>
             <td>
                 @item.DtTrip.ToString("MMM dd yyyy")
@@ -305,15 +322,9 @@
                 @item.DriverOT.ToString("#,##0.00")
             </td>
 
-            @*<td class="trip-OdoStart">
-                    @item.OdoStart
-                </td>
-                <td class="trip-OdoEnd">
-                    @item.OdoEnd
-                </td>*@
 
             <td>
-                @{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id }); }
+                @{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id });}
             </td>
             <td class="actions">
 
@@ -322,20 +333,36 @@
                         Action <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                        @if (item.IsFinal && item.AllowEdit)
+                        {
+                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                        }
+                        else
+                        {
+                            if (isAdmin)
+                            {
+                                <li>@Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
+                            }
+                        }
+
                         @if (!item.IsFinal)
                         {
+                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                             <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
                             <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
-                            @*<li><a class="cursor-pointer" onclick="UpdateOTRate(this, @item.Id)"> Update OT Rate </a></li>*@
                             <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
                         }
+
                         <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
                         <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
                         <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
 
                         @if (isAdmin)
                         {
+                            if (!item.AllowEdit)
+                            {
+                                <li> <a class="cursor-pointer" onclick="AllowEdit(this, '@item.Id')"> Allow Edit </a> </li>
+                            }
                             <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>
                         }
                     </ul>
@@ -388,9 +415,9 @@
 
 @section Scripts{
     <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
-    <script src="~/Scripts/Filters/FormInputFilter.js"></script>
     <script src="~/Areas/Personel/Script/CreateTripLogTime.js"></script>
     <script src="~/Areas/Personel/Script/CarRentalLogFinalize.js"></script>
+    <script src="~/Scripts/Filters/FormInputFilter.js"></script>
     <script>
         $(document).ready(() => {
             $("#filter-unit").val("@ViewBag.FilteredUnit")

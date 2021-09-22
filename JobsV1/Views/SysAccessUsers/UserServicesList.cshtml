@@ -9,10 +9,10 @@
 <h2>@ViewBag.Username</h2>
 
 <p>
-    @Html.ActionLink("Users List", "UsersList", null,null )
+    @Html.ActionLink("Users List", "UsersList", null, null)
 </p>
 <p>
-    @Html.ActionLink("Add Module", "UserServicesAdd", new { username = ViewBag.Username },null)
+    @Html.ActionLink("Add Module", "UserServicesAdd", new { username = ViewBag.Username }, null)
 </p>
 <table class="table">
     <tr>
@@ -22,17 +22,34 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SysMenu.Menu)
-        </td>
-        <td>
-            @Html.ActionLink("SubModules", "UserSubModuleList", new { moduleId = item.SysMenuId , username = ViewBag.Username })
-             |
-            @Html.ActionLink("Remove", "UsersAccessDelete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SysMenu.Menu)
+            </td>
+            <td>
+                @Html.ActionLink("SubModules", "UserSubModuleList", new { moduleId = item.SysMenuId, username = ViewBag.Username })  |
+                @Html.ActionLink("Remove", "UsersAccessDelete", new { id = item.Id }) |
+                
+                <a class="cursor-hand" onclick="DeleteModule(this, @item.Id)"> Delete </a>
+            </td>
+        </tr>
+    }
 
 </table>
+
+@section Scripts{
+
+    <script>
+        function DeleteModule(e,id) {
+            $.post("/SysAccessUsers/DeleteModule_POST/", { id: id }, (res) => {
+                if (res == "True") {
+                    //location.reload();
+                    $(e).parent().parent().fadeOut();
+                }
+                console.log(res);
+            });
+        }
+    </script>
+}

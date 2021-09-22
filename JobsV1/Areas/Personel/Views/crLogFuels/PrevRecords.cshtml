@@ -4,6 +4,7 @@
     ViewBag.Title = "Expenses - Previous Logs";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
     var IsAdmin = (bool)ViewBag.IsAdmin;
+    Decimal TotalAmount = 0;
 }
 <style>
     .PanelContainer-main {
@@ -105,6 +106,7 @@
 
     @foreach (var item in Model)
     {
+        TotalAmount += item.crLogFuel.Amount;
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.crLogUnit.Description)
@@ -218,6 +220,20 @@
             </td>
         </tr>
     }
+
+    <tr>
+        <td colspan="4">
+
+        </td>
+        <td>
+            <span> Total Amount :</span><br />
+            <b> @TotalAmount.ToString("#,##0.00") </b>
+        </td>
+
+        <td colspan="5">
+
+        </td>
+    </tr>
 
     @if (Model.Count() == 0)
     {

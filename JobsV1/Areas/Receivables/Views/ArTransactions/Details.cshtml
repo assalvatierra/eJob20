@@ -34,7 +34,10 @@
                 </a>
                 <br />
             </h3>
-            <h4> @Model.ArAccContact.Name </h4>
+            @if (Model.ArAccContact != null)
+            {
+                <h4> @Model.ArAccContact.Name </h4>
+            }
         </p>
 
         <p>

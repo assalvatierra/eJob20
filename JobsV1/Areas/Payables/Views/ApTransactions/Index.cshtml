@@ -327,7 +327,7 @@
                                 else if (item.ApTransStatusId == 3)
                                 {
                                     //released
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id)"> Return </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id, @item.Amount)"> Return </a>
                                 }
                                 else if (item.ApTransStatusId == 5 && isAdmin)
                                 {
@@ -562,13 +562,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-2">  Date  </label>
+                        <label class="control-label col-md-2">  Amount  </label>
                         <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReturnAmount-Date" class="form-control" readonly />
+                            <input type="text" maxlength="20" id="ReturnAmount-PreAmount" class="form-control" readonly />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-2">  Amount  </label>
+                        <label class="control-label col-md-2"> Returned Amount  </label>
                         <div class="col-md-10">
                             <input type="text" maxlength="20" id="ReturnAmount-Amount" class="form-control" />
                         </div>
@@ -577,7 +577,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="ReturnPayment(this)">Release</button>
+                <button type="button" class="btn btn-primary" onclick="ReturnAmount(this)">Return</button>
             </div>
         </div>
     </div>

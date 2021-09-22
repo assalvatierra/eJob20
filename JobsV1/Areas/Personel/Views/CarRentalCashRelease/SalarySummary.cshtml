@@ -44,13 +44,22 @@
     @foreach (var item in Model)
     {
         var employeeSalary = 0;
+        var itemColor = "black";
         if (item.crLogCashTypeId == 3 || item.crLogCashTypeId == 4 || item.crLogCashTypeId == 5)
         {
             item.Amount = item.Amount * -1;
         }
 
-        TotalAmount += item.Amount;
-        <tr>
+        if (item.Remarks == "Bank Transfer")
+        {
+            TotalAmount += 0;
+            itemColor = "gray";
+        }
+        else{
+
+            TotalAmount += item.Amount;
+        }
+        <tr style="color:@itemColor;">
             <td>
                 @item.DtRelease.ToShortDateString()
             </td>
@@ -85,8 +94,14 @@
             @{
                 var tempAmount = item.Amount;
 
+                
+                if (item.Remarks == "Bank Transfer")
+                {
+                    tempAmount = 0;//do not include bank transfer to cash breakdown
+                }
+
                 //change breakdowns calculations
-                var temp1k  = 0;
+                var temp1k = 0;
                 var temp500 = 0;
                 var temp100 = 0;
                 var temp50 = 0;
@@ -97,7 +112,7 @@
             }
 
             <td>
-                @{ 
+                @{
                     temp1k += (int)(tempAmount / 1000);
                     tempAmount = tempAmount - (temp1k * 1000);
 
@@ -108,7 +123,7 @@
             <td>
                 @{
                     var tempr = (int)(tempAmount / 500);
-                    if ( ((int)(tempAmount / 500)) > 0)
+                    if (((int)(tempAmount / 500)) > 0)
                     {
 
                         temp500 += (int)(tempAmount / 500);
@@ -145,6 +160,18 @@
             <td>
                 @{
 
+                    if ((int)(tempAmount / 20) > 0)
+                    {
+                        temp20 += (int)(tempAmount / 20);
+                        tempAmount = tempAmount - (temp20 * 20);
+                    }
+
+                }
+                <span> @temp20</span>
+            </td>
+            <td>
+                @{
+
                     if ((int)(tempAmount / 10) > 0)
                     {
                         temp10 += (int)(tempAmount / 10);
@@ -155,7 +182,7 @@
                 <span> @temp10</span>
             </td>
             <td>
-              
+
                 @{
 
                     if ((int)(tempAmount / 5) > 0)

@@ -341,7 +341,7 @@ function ReleasePayment() {
     var id = $("#ReleasePayment-Id").val();
     var date = $("#ReleasePayment-Date").val();
 
-    $.post("/Payables/ApTransactions/ReleasePayment", { id: id, amount: amount }, (res) => {
+    $.post("/Payables/ApTransactions/ReleasePayment", { id: id, amount: amount, date: date }, (res) => {
         if (res == "OK") {
             UpdateStatus(id, 3); //update to release
         }
@@ -352,18 +352,22 @@ function ReleasePayment() {
 //Return Amount
 
 //release payment amount
-function ReturnAmount() {
+function ReturnAmount(e, amount) {
     var amount = $("#ReturnAmount-Amount").val();
     var id = $("#ReturnAmount-Id").val();
 
     $.post("/Payables/ApTransactions/ReturnAmount", { id: id, amount: amount }, (res) => {
         if (res == "OK") {
             UpdateStatus(id, 5); //update to return
+
+            $("#ReturnAmount-Modal").modal('hide');
         }
     });
 }
 
-function ShowReturnAmountModal(id) {
+function ShowReturnAmountModal(id, amount) {
     $("#ReturnAmount-Id").val(id);
+    $("#ReturnAmount-PreAmount").val(amount);
+
     $("#ReturnAmount-Modal").modal('show');
 }

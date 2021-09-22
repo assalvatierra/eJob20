@@ -156,9 +156,9 @@ namespace JobsV1.Areas.Personel.Controllers
 
 
             var crLogFuels = db.crLogFuels.Include(c => c.crLogUnit).Include(c => c.crLogDriver)
-                .Where(c => DbFunctions.TruncateTime(c.dtRequest) >= startDate &&
-                DbFunctions.TruncateTime(c.dtRequest) <= endDate
-                ).OrderBy(c => c.dtRequest);
+                .Where(c => DbFunctions.TruncateTime(c.dtFillup) >= startDate &&
+                DbFunctions.TruncateTime(c.dtFillup) <= endDate
+                );
 
             if (unitId != 0)
             {
@@ -191,7 +191,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.StartDate = startDate.ToString();
             ViewBag.EndDate = endDate.ToString();
 
-            return View(cCrLogFuel.OrderByDescending(c=>c.crLogFuel.dtRequest).ToList());
+            return View(cCrLogFuel.OrderByDescending(c=>c.crLogFuel.dtFillup).ToList());
         }
 
         // GET: Personel/crLogFuels/Details/5

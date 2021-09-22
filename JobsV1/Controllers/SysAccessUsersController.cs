@@ -339,6 +339,29 @@ namespace JobsV1.Controllers
             return View(sysMenu);
         }
 
+
+        // GET: SysAccessUsers/Delete/5
+        [HttpPost]
+        public string DeleteModule_POST(int? id)
+        {
+            if (id == null)
+            {
+                return "id null";
+            }
+
+            SysAccessUser sysAccessUser = db.SysAccessUsers.Find(id);
+
+            if (sysAccessUser == null)
+            {
+                return "menu null";
+            }
+
+            db.SysAccessUsers.Remove(sysAccessUser);
+            db.SaveChanges();
+
+            return "True";
+        }
+
         // POST: SysAccessUsers/Delete/5
         [HttpPost, ActionName("DeleteModuleSubMenu")]
         [ValidateAntiForgeryToken]
