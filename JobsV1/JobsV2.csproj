@@ -2596,6 +2596,9 @@
     <Content Include="Areas\Receivables\Views\ArAccounts\DeleteContact.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransactions\PrintRequestList.cshtml" />
     <Content Include="Areas\Payables\Views\ApTransactions\PrintRequestDetails.cshtml" />
+    <Content Include="Areas\Personel\Views\crRptUnitExpenses\_ContributionRptFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalReport\ContributionReport.cshtml" />
+    <Content Include="Areas\Receivables\Views\ArTransactions\EditRemarks.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

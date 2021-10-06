@@ -119,7 +119,13 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
             ViewBag.crLogOwnerList   = dl.GetOwners().ToList();
 
-            ViewBag.IsAdmin = User.IsInRole("Admin"); 
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+
+            //check and finalize trip every 6pm
+            if (string.IsNullOrEmpty(startDate))
+            {
+                CheckTripFinalizeRange(tripLogs);
+            }
 
             return View(tripLogs);
 
@@ -1530,7 +1536,7 @@ namespace JobsV1.Areas.Personel.Controllers
             return View(crLogCashRelease);
         }
 
-
+        
         // GET: Personel/CarRentalLog/EditCashTrx/5
         public ActionResult CloseCashTrx(int? id)
         {
@@ -2689,6 +2695,61 @@ namespace JobsV1.Areas.Personel.Controllers
             catch
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public bool SetTripFinalizeRange(crLogTrip triplog)
+        {
+            try
+            {
+                //find trip
+                //var triplog = db.crLogTrips.Find(id);
+
+                //set trip as final, cannot be edited
+                triplog.IsFinal = true;
+
+                //save changes
+                db.Entry(triplog).State = EntityState.Modified;
+              
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
+            }
+        }
+
+
+        public bool CheckTripFinalizeRange(List<crLogTrip> trips)
+        {
+            try
+            {
+                var dateTimeNow = dt.GetCurrentDateTime();
+
+                //18 == 6:00pm
+                //finalize trips
+                if (dateTimeNow.Hour >= 18)
+                {
+                    var result = false;
+                    foreach (var trip in trips)
+                    {
+                        result = SetTripFinalizeRange(trip);
+                    }
+                 
+                    if (result)
+                    {  
+                        //save
+                        db.SaveChanges();
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return false;
             }
         }
 

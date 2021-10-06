@@ -21,6 +21,9 @@
 <p>
     @Html.ActionLink("Back to Reports","Index", "crRptUnitExpenses", null, null)
 </p>
+<p>
+    Showing contributions from @ViewBag.DateStart to @ViewBag.DateEnd
+</p>
 <table class="table">
     <tr>
         <th> Driver   </th>
@@ -63,7 +66,7 @@
 
     <tr>
         <td> 
-            Total Count: 
+            Total Amount: 
         </td>
         <td>
             @TotalSSS.ToString("N0")

@@ -104,7 +104,7 @@
                             }
                             else
                             {
-                            @Html.ActionLink("Old Form", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
+                            @Html.ActionLink("Print", "PrintApproveForm", new { id = item.Id }, new { @target = "_blank" })<span> |</span>
                             }
                             
                             <a class="cursor-hand" onclick="ApproveRelease(this, '@item.Id')"> Release </a> |

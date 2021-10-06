@@ -7,6 +7,7 @@
     var tripLogs = ViewBag.crLogTrips as IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>;
 
     decimal actualAmount = ViewBag.ActualAmount;
+    decimal CABAlance = ViewBag.CABalance;
 
     decimal subtotalSalary = 0;
     decimal totalSalary = Model.Amount;
@@ -93,7 +94,7 @@
                                     @trip.crLogCompany.Name / @trip.crLogUnit.Description
                                 </td>
                                 <td>
-                                    @trip.Remarks
+                                    @*@trip.Remarks*@
                                 </td>
                                 <td>
                                     @trip.DriverFee.ToString("#,##0.00")
@@ -270,6 +271,7 @@
                 <td colspan="4" style="border-top:0px !important;">
                     <span> Remarks </span>
                     <p> @Model.Remarks </p>
+                    <p> CA Balance: @CABAlance </p>
                 </td>
             </tr>
             <tr>
@@ -340,7 +342,7 @@
                                     @trip.crLogCompany.Name / @trip.crLogUnit.Description
                                 </td>
                                 <td>
-                                    @trip.Remarks
+                                    @*@trip.Remarks*@
                                 </td>
                                 <td>
                                     @trip.DriverFee.ToString("#,##0.00")
@@ -519,6 +521,7 @@
                 <td colspan="4" style="border-top:0px !important;">
                     <span> Remarks </span>
                     <p> @Model.Remarks </p>
+                    <p> CA Balance: @CABAlance </p>
                 </td>
             </tr>
             <tr>

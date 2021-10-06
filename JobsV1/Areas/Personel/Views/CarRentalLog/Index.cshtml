@@ -336,6 +336,8 @@
                         @if (item.IsFinal && item.AllowEdit)
                         {
                             <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
+                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
                         }
                         else
                         {
@@ -374,7 +376,7 @@
 
     @{
         <tr>
-            <td colspan="5">
+            <td colspan="6">
                 <p> Total Count: @count </p>
             </td>
             <td>

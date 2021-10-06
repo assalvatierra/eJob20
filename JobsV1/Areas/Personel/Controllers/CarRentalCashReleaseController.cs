@@ -599,6 +599,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.Others = GetDriverCashRelease(cashRelease.crLogDriverId, 5, cashRelease.DtRelease);
             ViewBag.OtherSalary = GetDriverCashReleaseByTrxId(cashRelease.Id, 1);
             ViewBag.crLogTrips = tripLogs ?? new List<crLogTrip>();
+            ViewBag.CABalance = GetCABalance(cashRelease.crLogDriverId);
 
             ViewBag.ActualAmount = cashRelease.Amount;
             return View(cashRelease);
@@ -730,10 +731,33 @@ namespace JobsV1.Areas.Personel.Controllers
             var others = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.OTHERS).ToList().Sum(c => c.Amount);
 
 
-            decimal total = (driversFee + otherSalary + others + driverCA) - (payments + contributions);
+            decimal total = (driversFee + driversOT + otherSalary + others + driverCA) - (payments + contributions);
 
 
             return total;
+        }
+
+        private decimal GetCABalance(int DriverId)
+        {
+            decimal CABalance = 0;
+
+            var driverCashReleases = db.crLogCashReleases;
+            var  cashAdvance = driverCashReleases.Where(d => d.crLogDriverId == DriverId
+                                                    && d.crLogClosing == null && d.crLogCashTypeId == 2)
+                                                    .OrderBy(s => s.DtRelease).ToList();
+            var payments = driverCashReleases.Where(d => d.crLogDriverId == DriverId
+                                                    && d.crLogClosing == null && d.crLogCashTypeId == 3)
+                                                    .OrderBy(s => s.DtRelease).ToList();
+
+            CABalance = cashAdvance.Sum(c => c.Amount) - payments.Sum(c => c.Amount);
+            if (CABalance > 0)
+            {
+                return CABalance;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         private int GetStatusCount(int statusId, IQueryable<crLogCashRelease> cashReleases)

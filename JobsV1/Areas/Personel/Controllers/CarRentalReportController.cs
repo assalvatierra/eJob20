@@ -861,6 +861,9 @@ namespace JobsV1.Areas.Personel.Controllers
                 contributionRpt.Add(rptTrip);
             }
 
+            ViewBag.DateStart = DateTime.Parse(DtStart).ToString("MMM dd yyyy");
+            ViewBag.DateEnd= DateTime.Parse(DtEnd).ToString("MMM dd yyyy");
+
             return View(contributionRpt);
         }
 
