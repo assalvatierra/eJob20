@@ -151,6 +151,51 @@ namespace JobsV1.Areas.Receivables.Controllers
             return View(arTransaction);
         }
 
+
+        // GET: ArTransactions/Edit/5
+        public ActionResult EditRemarks(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ArTransaction arTransaction = ar.TransactionMgr.GetTransactionById((int)id);
+            if (arTransaction == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status", arTransaction.ArTransStatusId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arTransaction.ArAccountId);
+            ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name", arTransaction.ArCategoryId);
+            ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetAccContacts(), "Id", "Name", arTransaction.ArAccContactId);
+
+            return View(arTransaction);
+        }
+
+        // POST: ArTransactions/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRemarks([Bind(Include = "Id,InvoiceId,DtInvoice,Description,DtEncoded,DtDue,Amount,Interval,IsRepeating,Remarks,ArTransStatusId,ArAccountId,ArCategoryId,DtService,DtServiceTo,InvoiceRef,PrevRef,NextRef,RepeatCount,ArAccContactId")] ArTransaction arTransaction)
+        {
+            if (ModelState.IsValid && InputValidation(arTransaction))
+            {
+                ar.TransactionMgr.EditTransaction(arTransaction);
+                return RedirectToAction("Details", new { id = arTransaction.Id });
+            }
+
+
+            ViewBag.ArTransStatusId = new SelectList(ar.TransactionMgr.GetTransactionStatus(), "Id", "Status", arTransaction.ArTransStatusId);
+            ViewBag.ArAccountId = new SelectList(ar.AccountMgr.GetArAccounts(), "Id", "Company", arTransaction.ArAccountId);
+            ViewBag.ArCategoryId = new SelectList(ar.CategoryMgr.GetCategories(), "Id", "Name", arTransaction.ArCategoryId);
+            ViewBag.ArAccContactId = new SelectList(ar.AccountMgr.GetAccContacts(), "Id", "Name", arTransaction.ArAccContactId);
+            return View(arTransaction);
+        }
+
+
+
         // GET: ArTransactions/Delete/5
         public ActionResult Delete(int? id)
         {

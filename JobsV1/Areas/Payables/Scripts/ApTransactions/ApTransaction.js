@@ -350,7 +350,6 @@ function ReleasePayment() {
 
 
 //Return Amount
-
 //release payment amount
 function ReturnAmount(e, amount) {
     var amount = $("#ReturnAmount-Amount").val();
@@ -371,3 +370,32 @@ function ShowReturnAmountModal(id, amount) {
 
     $("#ReturnAmount-Modal").modal('show');
 }
+
+
+// ---- Add Payment -------- //
+//show add payment modal
+function ShowPaymentModal(Id) {
+    $("#Payment-Modal").modal('show');
+
+    $("#Payment-Id").val(Id);
+    $('#Payment-Date').val(moment().format('MM/DD/YYYY hh:mm A'));
+    $("#Payment-Remarks").val();
+    $("#Payment-Amount").val(0);
+}
+
+//submit add payment amount
+function Payment() {
+    var amount = $("#Payment-Amount").val();
+    var id = $("#Payment-Id").val();
+    var date = $("#Payment-Date").val();
+    var remarks = $("#Payment-Remarks").val();
+
+    $.post("/Payables/ApTransactions/AddPayment", { id: id, amount: amount, date: date, remarks: remarks }, (res) => {
+        if (res == "OK") {
+            //reload page
+            $("#overlay").hide();
+            window.location.reload(false);
+        }
+    });
+}
+

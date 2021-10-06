@@ -35,12 +35,19 @@
         decimal paymentTotal = 0;
         string paymentType = "";
         bool paymentDeposited = false;
+        string paymentRemarks = "";
 
         foreach (var payments in transaction.ArTransPayments)
         {
             paymentTotal += payments.ArPayment.Amount;
             paymentType = payments.ArPayment.ArPaymentType.Type;
             paymentDeposited = payments.ArPayment.IsDeposited ?? false;
+            paymentRemarks += payments.ArPayment.Reference;
+
+            if (transaction.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
+            {
+                paymentRemarks += " / ";
+            }
         }
 
         var textColor = "black";
@@ -125,6 +132,10 @@
                 {
                     <span style="font-size:11px;color:gray;"> - Deposited </span>
                 }
+                <br />
+                <span style="font-size:11px;color:gray;">
+                        @paymentRemarks
+                    </span>
 
             </td>
             <td>

@@ -405,6 +405,34 @@ namespace Payable.Areas.Payables.Controllers
             
         }
 
+        [HttpPost]
+        public string AddPayment(int? id, decimal? amount, string date, string remarks)
+        {
+            DateTime dtRelease = new DateTime();
+
+            if (DateTime.TryParse(date, out dtRelease) && id != null && amount != null)
+            {
+                var trans = ap.TransactionMgr.GetTransactionById((int)id);
+
+                ApPayments payment = new ApPayments
+                {
+                    ApAccountId = trans.ApAccountId,
+                    ApPaymentStatusId = 2,
+                    ApPaymentTypeId = 1,
+                    DtPayment = dtRelease,
+                    Remarks = remarks,
+                    Amount = (decimal)amount,
+                };
+
+                ap.PaymentMgr.AddPayment(payment);
+
+                ap.TransactionMgr.AddTransPayment((int)id, payment.Id);
+
+                return "OK";
+            }
+
+            return "Unable to Release Payment";
+        }
         #region Print Request Form
         public ActionResult PrintRequestForm(int id)
         {

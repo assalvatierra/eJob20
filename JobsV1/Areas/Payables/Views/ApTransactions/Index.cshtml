@@ -336,9 +336,10 @@
                             </li>
 
                             @if (item.ApTransStatusId == 3)
-                            {
+                            { 
                                 <li>
-                                    @Html.ActionLink("Payment", "CreateTransPayment", "ApPayments", new { transId = item.Id }, null)
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id)"> Add Payment </a>
+                                    @*@Html.ActionLink("Payment", "CreateTransPayment", "ApPayments", new { transId = item.Id }, null)*@
                                 </li>
                             }
                             <li role="separator" class="divider"></li>
@@ -544,6 +545,49 @@
 </div>
 
 
+<!-- Release Payment Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="Payment-Modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Add Payment </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Id  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="Payment-Id" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Date  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="Payment-Date" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Amount  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="20" id="Payment-Amount" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">  Remarks  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="80" id="Payment-Remarks" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="Payment(this)">Release</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Return Amount Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="ReturnAmount-Modal">

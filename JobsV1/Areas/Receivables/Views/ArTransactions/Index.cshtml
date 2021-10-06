@@ -342,6 +342,7 @@
                         decimal totalTransPayment = 0;
                         string paymentType = "";
                         bool paymentDeposited = false;
+                        string paymentRemarks = "";
                     }
 
                     @foreach (var payment in item.ArTransPayments)
@@ -349,6 +350,12 @@
                         totalTransPayment = totalTransPayment + payment.ArPayment.Amount;
                         paymentType = payment.ArPayment.ArPaymentType.Type;
                         paymentDeposited = payment.ArPayment.IsDeposited ?? false;
+                        paymentRemarks += payment.ArPayment.Remarks;
+
+                        if (item.ArTransPayments.Count() > 1 && !String.IsNullOrEmpty(paymentRemarks))
+                        {
+                            paymentRemarks += " / ";
+                        }
                     }
                     <span>
                         @totalTransPayment.ToString("#,##0.00")<br />
@@ -358,6 +365,9 @@
                         {
                             <span style="font-size:11px;color:gray;"> - Deposited </span>
                         }
+                    </span> <br />
+                    <span style="font-size:11px;color:gray;">
+                        @paymentRemarks
                     </span>
                 </td>
                 <td>
@@ -406,7 +416,10 @@
                             {
                                 <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                             }
-
+                            else
+                            {
+                                <li> @Html.ActionLink("Edit Remarks", "EditRemarks", new { id = item.Id }) </li>
+                            }
                             <li> @Html.ActionLink("Details", "Details", new { id = item.Id }) </li>
                             <li> @Html.ActionLink("Credit", "Details", "ArAccounts", new { id = item.ArAccountId }, null) </li>
                             <li> @Html.ActionLink("Statement", "StatementPrint", "ArTransactions", new { accountId = item.ArAccountId }, null) </li>
