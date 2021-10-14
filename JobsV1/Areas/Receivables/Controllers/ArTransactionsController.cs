@@ -21,6 +21,11 @@ namespace JobsV1.Areas.Receivables.Controllers
         // GET: ArTransactions
         public ActionResult Index(string status, string sortBy, string orderBy)
         {
+            if (String.IsNullOrEmpty(orderBy))
+            {
+                orderBy = "DESC";
+            }
+
             var arTransactions = ar.TransactionMgr.GetTransactions(status, sortBy, orderBy);
 
             ViewBag.Status = status;

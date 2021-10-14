@@ -1655,7 +1655,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.DtStart = DtStart;
             ViewBag.DtEnd = DtEnd;
             ViewBag.DriverId = id;
-            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers, "Id", "Name", id);
+            ViewBag.crLogDriverId = new SelectList(db.crLogDrivers.OrderBy(d=>d.OrderNo), "Id", "Name", id);
             ViewBag.reqStatus = reqStatus ?? 0;
             ViewBag.IsAdmin = User.IsInRole("Admin");
 

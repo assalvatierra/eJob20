@@ -106,7 +106,7 @@
 
     @foreach (var item in Model)
     {
-        TotalAmount += item.crLogFuel.Amount;
+        TotalAmount += item.crLogFuel.orAmount;
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogFuel.crLogUnit.Description)

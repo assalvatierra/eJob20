@@ -128,7 +128,7 @@
 
 <div class="btn-group" role="group" style="margin-bottom:5px;">
     <button type="button" class="btn btn-default disabled"> Order </button>
-    @if (orderBy == "ASC" || orderBy == null)
+    @if (orderBy == "ASC" )
     {
         <button type="button" class="btn btn-default active"> Asc </button>
     }
@@ -137,7 +137,7 @@
         @Html.ActionLink("Asc", "Index", new { status = status, sortBy = sortBy, orderBy = "ASC" }, new { @class = "btn btn-default" })
     }
 
-    @if (orderBy == "DESC")
+    @if (orderBy == "DESC" || orderBy == null)
     {
         <button type="button" class="btn btn-default active"> Desc </button>
     }
