@@ -99,11 +99,12 @@ namespace JobsV1.Areas.Personel.Controllers
         {
         
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-1);
+            var DateFilter = today.AddDays(-2);
 
             //get cash releases up to -7 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver)
-                .Where(c => DbFunctions.TruncateTime(c.DtRelease) >= DateFilter && c.crLogCashTypeId == (int)CASHTYPE.SALARY);
+                .Where(c => DbFunctions.TruncateTime(c.DtRelease) >= DateFilter && c.crLogCashTypeId == (int)CASHTYPE.SALARY && 
+                c.crLogCashStatus.OrderByDescending(d=>d.Id).FirstOrDefault().crCashReqStatusId < 3);
 
             List<crLogCashRelease> cashReleases = new List<crLogCashRelease>();
 
@@ -719,9 +720,13 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             today = cashRelease.DtRelease.Date;
+            var OneDayAfter = today.AddDays(1);
+            var OneDayBefore = today.AddDays(-1);
+
             var otherTrx = db.crLogCashReleases.Where(c =>
                                     c.crLogDriverId == cashRelease.crLogDriverId
-                                    && DbFunctions.TruncateTime(c.DtRelease) == today
+                                    && ( DbFunctions.TruncateTime(c.DtRelease) == today  ||
+                                         DbFunctions.TruncateTime(c.DtRelease) == OneDayAfter)
                                     ).ToList();
 
             var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.SALARY && c.Id != id).ToList().Sum(c=>c.Amount);
@@ -731,7 +736,7 @@ namespace JobsV1.Areas.Personel.Controllers
             var others = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.OTHERS).ToList().Sum(c => c.Amount);
 
 
-            decimal total = (driversFee + driversOT + otherSalary + others + driverCA) - (payments + contributions);
+            decimal total = (driversFee + driversOT + otherSalary  + driverCA) - (payments + contributions + others);
 
 
             return total;
