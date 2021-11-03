@@ -2214,7 +2214,7 @@ namespace JobsV1.Areas.Personel.Controllers
                                         DbFunctions.TruncateTime(c.DtTrip) == today
                                     ).ToList();
 
-            if (isInTripToday.Count()>0)
+            if (isInTripToday.Count() > 0)
             {
                 return true;
             }
@@ -2243,12 +2243,68 @@ namespace JobsV1.Areas.Personel.Controllers
             return false;
         }
 
+
+        public bool GetUnitIsInTripByDate(int unitId, DateTime? date)
+        {
+            var today = dt.GetCurrentDate();
+
+            if (date != null)
+            {
+                today = (DateTime)date;
+            }
+
+            var isInTripToday = db.crLogTrips.Where(c => c.crLogUnitId == unitId &&
+                                        DbFunctions.TruncateTime(c.DtTrip) == today
+                                    ).ToList();
+
+            if (isInTripToday.Count() > 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool GetDriverIsInTripByDate(int driverId, DateTime? date)
+        {
+            var today = dt.GetCurrentDate();
+
+            if (date != null)
+            {
+                today = (DateTime)date;
+            }
+
+            var isInTripToday = db.crLogTrips.Where(c => c.crLogDriverId == driverId &&
+                                        DbFunctions.TruncateTime(c.DtTrip) == today
+                                    ).ToList();
+
+            if (isInTripToday.Count() > 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         [HttpGet]
-        public bool GetUnitDriverIsInTripToday(int id)
+        public bool GetTripWarningByUnit(int id, string date)
         {
             var trip = db.crLogTrips.Find(id);
-           
-            if (GetUnitIsInTripToday(trip.crLogUnitId) || GetDriverIsInTripToday(trip.crLogDriverId))
+            var sdate = DateTime.Parse(date);
+            if (GetUnitIsInTripByDate(trip.crLogUnitId, sdate) && trip.crLogUnit.Description != "Office")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        [HttpGet]
+        public bool GetTripWarningByDriver(int id, string date)
+        {
+            var trip = db.crLogTrips.Find(id);
+            var sdate = DateTime.Parse(date);
+            if (GetDriverIsInTripByDate(trip.crLogDriverId, sdate))
             {
                 return true;
             }

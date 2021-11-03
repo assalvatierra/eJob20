@@ -292,13 +292,13 @@
                 @item.DtTrip.ToString("MMM dd yyyy")
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span>
             </td>
-            <td>
+            <td class="td-driver">
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.crLogCompany.Name)
             </td>
-            <td>
+            <td class="td-unit">
                 @Html.DisplayFor(modelItem => item.crLogUnit.Description)
             </td>
             <td class="td-remarks">

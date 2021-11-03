@@ -402,11 +402,14 @@ function CheckShuttleCookies() {
 function checkDriverUnitDuplicate() {
 
     $('#TripLogs-Table tr').each(function () {
-
+        var date = $("#filter-edate").val();
         var tdId = $(this).attr('id');
+
         if (tdId != undefined) {
+           
             var id = tdId.substring(5);
-            CheckDriverUnitRecordToday(this, id);
+            CheckUnitRecordToday(this, id, date);
+            CheckDriverRecordToday(this, id, date);
         }
 
     });
@@ -414,12 +417,27 @@ function checkDriverUnitDuplicate() {
 }
 
 //check trip if it have duplciate record for driver/unit
-function CheckDriverUnitRecordToday(e, tripid) {
-    var img = "<img src='/Images/SalesLead/icons-override-input.png' width='25' title='Duplicate Driver/Unit for today.' />";
-    $.get('/Personel/CarRentalLog/GetUnitDriverIsInTripToday', { id: tripid }, (res) => {
+function CheckUnitRecordToday(e, tripid, tripdate) {
+    var img = "<img src='/Images/Icons/icons-warning.png' width='15' title='Duplicate Unit for today.' />";
+    $.get('/Personel/CarRentalLog/GetTripWarningByUnit', { id: tripid, date: tripdate }, (res) => {
+      
         if (res == "True") {
-            $(e).children(".td-date").prepend(img);
+            $(e).children(".td-unit").prepend(img);
         } else {
         }
     });
 }
+
+
+//check trip if it have duplciate record for driver/unit
+function CheckDriverRecordToday(e, tripid, tripdate) {
+    var img = "<img src='/Images/Icons/icons-warning.png' width='15' title='Duplicate Driver for today.' />";
+    $.get('/Personel/CarRentalLog/GetTripWarningByDriver', { id: tripid, date: tripdate }, (res) => {
+      
+        if (res == "True") {
+            $(e).children(".td-driver").prepend(img);
+        } else {
+        }
+    });
+}
+
