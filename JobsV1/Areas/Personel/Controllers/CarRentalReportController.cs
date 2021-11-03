@@ -841,20 +841,21 @@ namespace JobsV1.Areas.Personel.Controllers
                     rptTrip.Id = contribution.Id;
                     rptTrip.Date = contribution.DtRelease;
                     rptTrip.Driver = contribution.crLogDriver.Name;
+                    rptTrip.DriverId = contribution.crLogDriver.Id;
 
                     if (contribution.Remarks.ToLower().Contains("sss"))
                     {
-                        rptTrip.SSS_Amount = contribution.Amount;
+                        rptTrip.SSS_Amount += contribution.Amount;
                     }
 
                     if (contribution.Remarks.ToLower().Contains("philhealth"))
                     {
-                        rptTrip.PhilHealth_Amount = contribution.Amount;
+                        rptTrip.PhilHealth_Amount += contribution.Amount;
                     }
 
                     if (contribution.Remarks.ToLower().Contains("pag-ibig"))
                     {
-                        rptTrip.PagIbig_Amount = contribution.Amount;
+                        rptTrip.PagIbig_Amount += contribution.Amount;
                     }
 
                 }
@@ -865,6 +866,66 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.DateEnd= DateTime.Parse(DtEnd).ToString("MMM dd yyyy");
 
             return View(contributionRpt);
+        }
+
+
+        public ActionResult ContributionReportDetails(int driverId, string DtStart, string DtEnd)
+        {
+            var CONTRIBUTIONS = 4;
+
+            DateTime sDate = new DateTime();
+            DateTime eDate = new DateTime();
+
+            if (!DateTime.TryParse(DtStart, out sDate) || !DateTime.TryParse(DtEnd, out eDate))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            TimeSpan duration = new TimeSpan(23, 59, 0); //11:59:0 PM
+            eDate = eDate.Add(duration);
+
+            //get trip logs
+            var cashReleases = db.crLogCashReleases.Where(t => t.crLogCashTypeId == CONTRIBUTIONS && t.DtRelease >= sDate && t.DtRelease <= eDate);
+
+            var drivers = cashReleases.GroupBy(c => c.crLogDriverId).Select(c => c.Key).ToList();
+
+            RptCrContributionReportDetails rptTrip = new RptCrContributionReportDetails();
+            var sss_cont = new List<crLogCashRelease>();
+            var pagibig_cont = new List<crLogCashRelease>();
+            var philhealth_cont = new List<crLogCashRelease>();
+
+            foreach (var contribution in cashReleases.Where(c => c.crLogDriverId == driverId).OrderBy(t => t.DtRelease).ToList())
+                {
+
+                    rptTrip.Id = contribution.Id;
+                    rptTrip.Driver = contribution.crLogDriver.Name;
+
+                    if (contribution.Remarks.ToLower().Contains("sss"))
+                    {
+                        sss_cont.Add(contribution);
+                    }
+
+                    if (contribution.Remarks.ToLower().Contains("philhealth"))
+                    {
+                        philhealth_cont.Add(contribution);
+                    }
+
+                    if (contribution.Remarks.ToLower().Contains("pag-ibig"))
+                    {
+                        pagibig_cont.Add(contribution);
+                    }
+
+                }
+
+            rptTrip.SSS_Contributions = sss_cont;
+            rptTrip.Pagibig_Contributions = pagibig_cont;
+            rptTrip.Philhealth_Contributions = philhealth_cont;
+
+
+            ViewBag.DateStart = DateTime.Parse(DtStart).ToString("MMM dd yyyy");
+            ViewBag.DateEnd = DateTime.Parse(DtEnd).ToString("MMM dd yyyy");
+
+            return View(rptTrip);
         }
 
         #endregion

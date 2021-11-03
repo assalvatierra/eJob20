@@ -101,10 +101,10 @@ namespace JobsV1.Areas.Personel.Controllers
             var today = dt.GetCurrentDate();
             var DateFilter = today.AddDays(-2);
 
-            //get cash releases up to -7 days from today
+            //get cash releases up to -2 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver)
-                .Where(c => DbFunctions.TruncateTime(c.DtRelease) >= DateFilter && c.crLogCashTypeId == (int)CASHTYPE.SALARY && 
-                c.crLogCashStatus.OrderByDescending(d=>d.Id).FirstOrDefault().crCashReqStatusId < 3);
+                .Where(c => DbFunctions.TruncateTime(c.DtRelease) >= DateFilter && c.crLogCashTypeId == (int)CASHTYPE.SALARY &&
+                c.crLogCashStatus.OrderByDescending(d => d.Id).FirstOrDefault().crCashReqStatusId < 3);
 
             List<crLogCashRelease> cashReleases = new List<crLogCashRelease>();
 
@@ -185,6 +185,10 @@ namespace JobsV1.Areas.Personel.Controllers
             {
                 db.crLogCashReleases.Add(crLogCashRelease);
                 db.SaveChanges();
+
+                //add status
+                AddLogStatus(crLogCashRelease.Id, 1);
+
                 return RedirectToAction("Index");
             }
 

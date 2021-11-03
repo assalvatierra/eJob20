@@ -331,7 +331,7 @@
                                 }
                                 else if (item.ApTransStatusId == 5 && isAdmin)
                                 {
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 4)"> Paid & Close </a>
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatusClose(this, @item.Id)"> Paid & Close </a>
                                 }
                             </li>
 
@@ -525,7 +525,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">  Date  </label>
                         <div class="col-md-10">
-                            <input type="text" maxlength="20" id="ReleasePayment-Date" class="form-control" readonly />
+                            <input type="text" maxlength="20" id="ReleasePayment-Date" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -543,7 +543,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Release Payment Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="Payment-Modal">

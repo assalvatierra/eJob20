@@ -108,10 +108,24 @@ namespace JobsV1.Areas.Personel.Models
         public string Description { get; set; }
         public int Count { get; set; }
         public string Driver { get; set; }
+        public int DriverId { get; set; }
         public string Remarks { get; set; }
         public decimal SSS_Amount { get; set; }
         public decimal PhilHealth_Amount { get; set; }
         public decimal PagIbig_Amount { get; set; }
         public decimal Others_Amount { get; set; }
     }
+
+    public class RptCrContributionReportDetails
+    {
+        public int Id { get; set; }
+        public string Driver { get; set; }
+        public IEnumerable<crLogCashRelease> SSS_Contributions { get; set; }
+        public IEnumerable<crLogCashRelease> Philhealth_Contributions { get; set; }
+        public IEnumerable<crLogCashRelease> Pagibig_Contributions { get; set; }
+    }
+
+
+
+
 }

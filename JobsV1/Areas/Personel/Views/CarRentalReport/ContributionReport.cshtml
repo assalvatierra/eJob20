@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<JobsV1.Areas.Personel.Models.RptCrContributionReport>
 @{
-    ViewBag.Title = "BillingReport";
+    ViewBag.Title = "Contributions Report";
 
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
@@ -47,7 +47,7 @@
 
         <tr>
             <td>
-                @contribution.Driver
+                @Html.ActionLink(contribution.Driver, "ContributionReportDetails", new { driverId = contribution.DriverId, DtStart = ViewBag.DateStart , DtEnd = ViewBag.DateEnd })
             </td>
             <td>
                 @DriverSSS.ToString("N0")

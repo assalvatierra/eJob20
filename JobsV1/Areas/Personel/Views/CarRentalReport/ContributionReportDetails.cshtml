@@ -1,0 +1,129 @@
+﻿@model JobsV1.Areas.Personel.Models.RptCrContributionReportDetails
+@{
+    ViewBag.Title = "Contributions Report";
+
+    Layout = "~/Views/Shared/_ModuleLayout.cshtml";
+
+    decimal TotalAmount = 0;
+    decimal TotalSSS = 0;
+    decimal TotalPhilHealth = 0;
+    decimal TotalPagibig = 0;
+    //decimal TotalOthers = 0;
+
+    decimal DriverAmount = 0;
+    decimal DriverSSS = 0;
+    decimal DriverPagibig = 0;
+    decimal DriverPhilhealth = 0;
+    //decimal DriverOthers = 0;
+}
+
+<h2>Contribution Report</h2>
+<p>
+    @Html.ActionLink("Back to Report", "ContributionReport", new { DtStart = ViewBag.DateStart, DtEnd = ViewBag.DateEnd })
+</p>
+<p>
+    Showing contributions from @ViewBag.DateStart to @ViewBag.DateEnd
+</p>
+
+<h2>SSS </h2>
+<table class="table">
+    <tr>
+        <td> Date </td>
+        <td> Amount </td>
+        <td> Remarks </td>
+    </tr>
+    @foreach (var item in Model.SSS_Contributions)
+    {
+        DriverSSS += item.Amount;
+        <tr>
+            <td>
+                @item.DtRelease.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @item.Amount.ToString("#,##0.00")
+            </td>
+            <td>
+                @item.Remarks
+            </td>
+        </tr>
+    }
+<tr>
+    <td>
+        Total
+    </td>
+    <td>
+        @DriverSSS.ToString("#,##0.00")
+    </td>
+    <td></td>
+</tr>
+</table>
+
+
+<h2>Pagibig </h2>
+<table class="table">
+    <tr>
+        <td> Date </td>
+        <td> Amount </td>
+        <td> Remarks </td>
+    </tr>
+    @foreach (var item in Model.Pagibig_Contributions)
+    {
+        DriverPagibig += item.Amount;
+        <tr>
+            <td>
+                @item.DtRelease.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @item.Amount.ToString("#,##0.00")
+            </td>
+            <td>
+                @item.Remarks
+            </td>
+        </tr>
+    }
+    <tr>
+        <td>
+            Total
+        </td>
+        <td>
+            @DriverPagibig.ToString("#,##0.00")
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+<h2>Philhealth </h2>
+<table class="table">
+    <tr>
+        <td> Date </td>
+        <td> Amount </td>
+        <td> Remarks </td>
+    </tr>
+    @foreach (var item in Model.Philhealth_Contributions)
+    {
+        DriverPhilhealth += item.Amount;
+        <tr>
+            <td>
+                @item.DtRelease.ToString("MMM dd yyyy")
+            </td>
+            <td>
+                @item.Amount.ToString("#,##0.00")
+            </td>
+            <td>
+                @item.Remarks
+            </td>
+        </tr>
+    }
+<tr>
+    <td>
+        Total
+    </td>
+    <td>
+        @DriverPhilhealth.ToString("#,##0.00")
+    </td>
+    <td></td>
+</tr>
+</table>
+

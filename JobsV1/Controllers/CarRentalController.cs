@@ -218,12 +218,15 @@ namespace JobsV1.Controllers
 
         public ActionResult CarReserve(int? id, int? days, int? rentType, int? meals, int? fuel)
         {
+          
+
+
             ViewBag.CarUnitId = new SelectList(db.CarUnits, "Id", "Description", id);
             ViewBag.MealsAcc = new SelectList(MealsAcc, "Value", "Text", meals);
             ViewBag.Fuel = new SelectList(Fuel, "Value", "Text", fuel);
             ViewBag.CarUnitList = db.CarUnits.ToList().OrderBy(s=>s.SortOrder);
 
-            ViewBag.carid = id;
+            ViewBag.carid = id == null ? 1 : id;
             ViewBag.days = days == null ? 1: days;
             ViewBag.fuelId = fuel == null ? 1 : fuel;
             ViewBag.meals = meals == null ? 1 : meals;
