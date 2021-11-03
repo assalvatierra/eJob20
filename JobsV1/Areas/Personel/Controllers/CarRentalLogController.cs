@@ -2201,6 +2201,61 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+        // GET: /Areas/Personal/CarRentalLog/GetDriverIsInTripToday?driverId={driverId}
+        // Returns TRUE if Driver have trip for today,
+        // Returnds FALSE if Driver does not have trip for today
+        // Used for checking duplicate entries for driver on encoding/Create and in triplog/index
+        [HttpGet]
+        public bool GetDriverIsInTripToday(int driverId)
+        {
+            var today = dt.GetCurrentDate();
+
+            var isInTripToday = db.crLogTrips.Where(c => c.crLogDriverId == driverId &&
+                                        DbFunctions.TruncateTime(c.DtTrip) == today
+                                    ).ToList();
+
+            if (isInTripToday.Count()>0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        // GET: /Areas/Personal/CarRentalLog/GetUnitIsInTripToday?unitId={unitId}
+        // Returns TRUE if Unit/Vehicle have trip for today,
+        // Returnds FALSE if Unit/Vehicle does not have trip for today
+        // Used for checking duplicate entries for Unit/Vehicle on encoding/Create and in triplog/index
+        [HttpGet]
+        public bool GetUnitIsInTripToday(int unitId)
+        {
+            var today = dt.GetCurrentDate();
+
+            var isInTripToday = db.crLogTrips.Where(c => c.crLogUnitId == unitId &&
+                                        DbFunctions.TruncateTime(c.DtTrip) == today
+                                    ).ToList();
+
+            if (isInTripToday.Count() > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        [HttpGet]
+        public bool GetUnitDriverIsInTripToday(int id)
+        {
+            var trip = db.crLogTrips.Find(id);
+           
+            if (GetUnitIsInTripToday(trip.crLogUnitId) || GetDriverIsInTripToday(trip.crLogDriverId))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         #region OT 
 
         // POST : /Personel/CarRentalLog/UpdateTripOTRate

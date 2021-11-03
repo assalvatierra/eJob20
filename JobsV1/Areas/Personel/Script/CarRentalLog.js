@@ -176,10 +176,6 @@ function Submit_OTUpdateForm() {
         console.log(response);
         if (response) {
             window.location.reload(false);
-            //var tripLog = $("#trip-" + tripId);
-            //tripLog.children(".trip-OdoStart").text(odoStart);
-            //tripLog.children(".trip-OdoEnd").text(odoEnd);
-            //$("#LogOdoUpdateModal").modal("hide");
         } else {
             alert("An error occured while updating the trip details.");
             $("#LogOTUpdateModal").modal("hide");
@@ -384,3 +380,46 @@ function AllowEdit(e, id){
         });
 }
 
+
+
+//Handle Site Cookie, check shuttle_cookie to show shuttle services only when true, else show all trips
+function CheckShuttleCookies() {
+    var shuttle_cookie = getCookie('shuttle_cookie');
+    if (shuttle_cookie) {
+
+        if (shuttle_cookie == 1 || shuttle_cookie == '1') {
+            $("#isShuttle").prop('checked', true);
+        } else {
+
+            $("#isShuttle").prop('checked', false);
+        }
+    } else {
+        console.log('no shuttle cookie found');
+    }
+}
+
+//Check table for duplicate drivers/Unit for today
+function checkDriverUnitDuplicate() {
+
+    $('#TripLogs-Table tr').each(function () {
+
+        var tdId = $(this).attr('id');
+        if (tdId != undefined) {
+            var id = tdId.substring(5);
+            CheckDriverUnitRecordToday(this, id);
+        }
+
+    });
+
+}
+
+//check trip if it have duplciate record for driver/unit
+function CheckDriverUnitRecordToday(e, tripid) {
+    var img = "<img src='/Images/SalesLead/icons-override-input.png' width='25' title='Duplicate Driver/Unit for today.' />";
+    $.get('/Personel/CarRentalLog/GetUnitDriverIsInTripToday', { id: tripid }, (res) => {
+        if (res == "True") {
+            $(e).children(".td-date").prepend(img);
+        } else {
+        }
+    });
+}

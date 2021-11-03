@@ -288,7 +288,7 @@
                     <input type="checkbox" value="@item.Id" />
                 }
             </td>
-            <td>
+            <td  class="td-date">
                 @item.DtTrip.ToString("MMM dd yyyy")
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span>
             </td>
@@ -301,7 +301,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.crLogUnit.Description)
             </td>
-            <td>
+            <td class="td-remarks">
                 <span style="color:#3d3d3d;">
                     @Html.DisplayFor(modelItem => item.Remarks)
                 </span>
@@ -414,8 +414,10 @@
 @Html.Partial("_VehicleTripFilter")
 
 <!-- For Report Redirect -->
-@Html.Hidden("VehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))
-@Html.Hidden("VehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport", new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
+@Html.Hidden("VehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport",
+    new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))
+@Html.Hidden("VehicleTripReport", Url.Action("VehicleTripReport", "CarRentalReport",
+    new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId", driverId = "_driverId" }))
 
 @section Scripts{
     <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
@@ -441,25 +443,13 @@
                 $("#filter-edate").val(moment().format("MM/DD/YYYY"))
             }
 
-            var shuttle_cookie = getCookie('shuttle_cookie');
-            if (shuttle_cookie) {
-                console.log('shuttle cookie is ' + shuttle_cookie);
+            //Handle Site Cookie, check shuttle_cookie to show
+            //shuttle services only when true, else show all trips
+            CheckShuttleCookies();
 
-                console.log(shuttle_cookie == 1);
-                if (shuttle_cookie == 1 || shuttle_cookie == '1') {
-                    $("#isShuttle").prop('checked', true);
-                    //$("#isShuttle").addClass("btn-default");
-                } else {
-
-                    $("#isShuttle").prop('checked', false);
-                    //$("#isShuttle").removeClass("btn-default");
-                    //$("#isShuttle").addClass("btn-primary");
-                }
-            } else {
-                console.log('no shuttle cookie found');
-            }
-
-             //$.fn.modal.Constructor.prototype.enforceFocus = function() {};
+            //Handle Driver and unit duplicates
+            //Shows warning flag on items that are duplicate
+            checkDriverUnitDuplicate();
         });
 
 
@@ -470,7 +460,6 @@
         function HideLoading() {
             $("#overlay").hide();
         }
-
 
     </script>
 }

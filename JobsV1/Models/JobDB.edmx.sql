@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/12/2021 13:09:11
+-- Date Created: 10/27/2021 13:30:33
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Models\JobDB.edmx
 -- --------------------------------------------------
 
@@ -491,6 +491,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemInvCarMntRcmd]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvCarMntRcmds] DROP CONSTRAINT [FK_InvItemInvCarMntRcmd];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvCarMntPriorityInvCarMntRcmd]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCarMntRcmds] DROP CONSTRAINT [FK_InvCarMntPriorityInvCarMntRcmd];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -969,6 +972,9 @@ IF OBJECT_ID(N'[dbo].[InvItemCrLogUnits]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvCarMntRcmds]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvCarMntRcmds];
+GO
+IF OBJECT_ID(N'[dbo].[InvCarMntPriorities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCarMntPriorities];
 GO
 
 -- --------------------------------------------------
