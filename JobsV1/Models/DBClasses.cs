@@ -700,7 +700,8 @@ namespace JobsV1.Models
                             FROM JobMains jm 
                             LEFT OUTER JOIN JobServices js ON jm.Id = js.JobMainId 
 	                        LEFT OUTER JOIN Customers c ON jm.CustomerId = c.Id ) job 
-                            WHERE job.DtStart >= convert(datetime, GETDATE()) OR(job.DtStart <= convert(datetime, GETDATE()) AND job.DtEnd >= convert(datetime, GETDATE())) 
+                            WHERE job.DtStart >= convert(datetime,  CAST(GETUTCDATE() as date)) OR 
+                                (job.DtStart <= convert(datetime,  CAST(GETUTCDATE() as date)) AND job.DtEnd >= convert(datetime,  CAST(GETUTCDATE() as date))) 
                             AND job.JobStatusId < 4 ";
                     break;
                 case 2: //prev

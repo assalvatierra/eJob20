@@ -569,6 +569,7 @@
     <Content Include="Areas\Payables\Scripts\ApTransactions\ReleasedWeekly.js" />
     <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
+    <Compile Include="Areas\Personel\Services\CarRentalLogSvc.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\Controllers\SmCategoriesController.cs" />
     <Compile Include="Areas\Products\Controllers\SmProdAdsController.cs" />
@@ -2011,6 +2012,7 @@
     <Content Include="Images\Icons\icons-file.png" />
     <Content Include="Images\Icons\icons-fuel-gas.png" />
     <Content Include="Images\Icons\icons-group-task.png" />
+    <Content Include="Images\Icons\icons-warning.png" />
     <Content Include="Images\Icons\icons-home.png" />
     <Content Include="Images\Icons\icons-new-post-90.png" />
     <Content Include="Images\Icons\icons-peso-symbol-white.png" />

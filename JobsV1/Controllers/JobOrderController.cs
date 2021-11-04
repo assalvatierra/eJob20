@@ -124,6 +124,7 @@ namespace JobsV1.Controllers
         // GET: JobOrder
         public ActionResult Index(int? sortid, int? serviceId, int? mainid, string search)
         {
+
             if (sortid != null)
                 Session["FilterID"] = (int)sortid;
             else
@@ -139,7 +140,6 @@ namespace JobsV1.Controllers
                 Session["FilterID"] = 1;
             }
 
-
             var data = getJobData((int)sortid); // get job list data
 
             if (!search.IsNullOrWhiteSpace())
@@ -148,31 +148,38 @@ namespace JobsV1.Controllers
             }
 
             List<Customer> customers = db.Customers.ToList();
-            ViewBag.companyList = customers;
 
             var jobmainId = serviceId != null ? db.JobServices.Find(serviceId).JobMainId : 0;
-            jobmainId = mainid != null ? (int)mainid : jobmainId;
-            ViewBag.mainId = jobmainId;
-            ViewBag.JobVehicle = jvc.GetJobVehicle(jobmainId);
-            ViewBag.SiteConfig = SITECONFIG;
 
+            jobmainId = mainid != null ? (int)mainid : jobmainId;
+
+            //Payment by Role 
             var isAllowedPayment = false;
+
             if (User.IsInRole("Admin") || User.IsInRole("Accounting"))
             {
                 isAllowedPayment = true;
             }
-            ViewBag.IsAdmin = isAllowedPayment;
-            ViewBag.SrchValue = search;
 
             //SEARCH
-            //if (search != null)
-            //{
+            if (search != null)
+            {
 
-            //    var srchData = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) ||
-            //    d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower()) || d.Company.ToLower().ToString().Contains(search.ToLower()));
-            //    if (srchData != null)
-            //        data = srchData.ToList();
-            //}
+                var srchData = data.Where(d => d.Main.Id.ToString() == search || 
+                                 d.Main.Description.ToLower().ToString().Contains(search.ToLower()) ||
+                                 d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower()) || 
+                                 d.Company.ToLower().ToString().Contains(search.ToLower()));
+                
+                if (srchData != null)
+                    data = srchData.ToList();
+            }
+
+            ViewBag.companyList = customers;
+            ViewBag.mainId = jobmainId;
+            ViewBag.JobVehicle = jvc.GetJobVehicle(jobmainId);
+            ViewBag.SiteConfig = SITECONFIG;
+            ViewBag.IsAdmin = isAllowedPayment;
+            ViewBag.SrchValue = search;
 
             if (sortid == 1)
             {
@@ -182,6 +189,7 @@ namespace JobsV1.Controllers
             {
                 return View(data.OrderByDescending(d => d.Main.JobDate));
             }
+
         }
 
         // GET: JobOrder
@@ -207,7 +215,10 @@ namespace JobsV1.Controllers
             //SEARCH
             if (search != null)
             {
-                //data = data.Where(d => d.Main.Id.ToString() == search || d.Main.Description.ToLower().ToString().Contains(search.ToLower()) || d.Main.Customer.Name.ToLower().ToString().Contains(search.ToLower())).ToList();
+                data = data.Where(d => d.Id.ToString() == search || 
+                        d.Description.ToLower().ToString().Contains(search.ToLower()) || 
+                        d.Customer.ToLower().ToString().Contains(search.ToLower()))
+                        .ToList();
             }
 
             if (sortid == 1)
@@ -395,7 +406,7 @@ namespace JobsV1.Controllers
             DateTime maxDate = new DateTime(1, 1, 1);
             DateTime today = new DateTime();
 
-            today = getDateTimeToday().Date;
+            today = getDateTimeToday();
 
             //loop though all jobservices in the jobmain
             //to get the latest date
@@ -667,7 +678,7 @@ order by x.jobid
                 case 1: //OnGoing
                     data = (List<cJobOrder>)data
                         .Where(d => (d.Main.JobStatusId == JOBINQUIRY || d.Main.JobStatusId == JOBRESERVATION || d.Main.JobStatusId == JOBCONFIRMED)).ToList()
-                        .Where(d => d.Main.JobDate.CompareTo(today.Date) >= 0).ToList();
+                        .Where(d => DateTime.Compare(d.Main.JobDate.Date.AddDays(1), today.Date) >= 0).ToList();
                     break;
                 case 2: //prev
                     data = (List<cJobOrder>)data
