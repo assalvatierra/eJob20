@@ -20,7 +20,7 @@ namespace JobsV1.Areas.Personel.Services
         private CarRentalLogDBContainer db = new CarRentalLogDBContainer();
         private DateClass dt = new DateClass();
 
-
+        //Check if Unit is encoded in trip logs for the selected date
         public bool GetUnitIsInTripByDate(int unitId, DateTime? date)
         {
             var today = dt.GetCurrentDate();
@@ -42,6 +42,7 @@ namespace JobsV1.Areas.Personel.Services
             return false;
         }
 
+        //Check if Driver is encoded in trip logs for the selected date
         public bool GetDriverIsInTripByDate(int driverId, DateTime? date)
         {
             var today = dt.GetCurrentDate();
@@ -61,6 +62,61 @@ namespace JobsV1.Areas.Personel.Services
             }
 
             return false;
+        }
+
+        public crLogTrip GetTripLogLatestTrip(int unitID, int driverID, int CompanyID)
+        {
+            return db.crLogTrips
+                .Where(c => c.crLogUnitId == unitID && c.crLogDriverId == driverID && c.crLogCompanyId == CompanyID)
+                .OrderByDescending(c => c.DtTrip).FirstOrDefault();
+        }
+
+        public int UpdateTripLogOdoRemarks(crLogTrip crLogTrip, int OdoStart, int OdoEnd, string Remarks)
+        {
+            try
+            {
+
+                crLogTrip.OdoStart = OdoStart;
+                crLogTrip.OdoEnd = OdoEnd;
+                crLogTrip.Remarks = Remarks;
+
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                return db.SaveChanges();
+
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
+        //Finalize Trip
+        public bool SetTripFinal(crLogTrip triplog)
+        {
+            try
+            {
+                //find trip
+                //var triplog = db.crLogTrips.Find(id);
+
+                //set trip as final, cannot be edited
+                triplog.IsFinal = true;
+
+                //save changes
+                db.Entry(triplog).State = EntityState.Modified;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public int SaveDbChanges()
+        {
+           return db.SaveChanges();
         }
     }
 }

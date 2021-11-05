@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
+    var siteConfig = ViewBag.SiteConfig;
 }
 
 <h2>Details</h2>
@@ -70,6 +71,168 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, null) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+
+<table>
+    <tr>
+        <th></th>
+    </tr>
+    <tr>
+        @{ 
+
+            var isCommiAllowed = false;
+        }
+        <td>
+            <!--List for Inv Item Categories-->
+            @foreach (var cat in Model.InvItemCategories as IEnumerable<JobsV1.Models.InvItemCategory>)
+            {
+                if (cat.InvItemCatId == 2 || cat.InvItemCatId == 3 || cat.InvItemCatId == 4)
+                {
+                    isCommiAllowed = true;
+                }
+
+                <span>
+                    @Html.DisplayFor(modelItem => cat.InvItemCat.Name)
+                    @Html.ActionLink(" [ x ]", "CatRemove", "InvItems", new { id = cat.Id }, null) |
+                </span>
+                <br />
+            }
+
+            <a id="catbtn" data-toggle="modal" data-target="#ShowAddCategory" style="margin-bottom:10px;cursor:pointer">Add Category</a>
+
+            <br />
+            <!--List for Inv Item Suppliers-->
+            @foreach (var supplier in Model.SupplierInvItems as IEnumerable<JobsV1.Models.SupplierInvItem>)
+            {
+
+
+                @Html.DisplayFor(modelItem => supplier.Supplier.Name)
+                @Html.ActionLink(" [ x ]", "removeSupplier", "InvItems", new { id = supplier.Id }, null)
+                <br />
+            }
+
+            @if (siteConfig != "AutoCare")
+            {
+                <a id="catbtn" data-toggle="modal" data-target="#ShowAddSupplier" style="margin-bottom:10px;cursor:pointer">Add Supplier</a>
+            }
+        </td>
+    </tr>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="ShowAddCategory" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Category List</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+
+                <div class="list-group" id="categorylist">
+                    @foreach (var cat in ViewBag.CatList as IEnumerable<JobsV1.Models.InvItemCat>)
+                        {
+                            <a href="@Url.Action("AddCategory", "InvItems", new { id = Model.Id, catid = @cat.Id })" class="list-group-item"> @cat.Name </a>
+                        }
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal -->
+<div class="modal fade" tabindex="-1" id="ShowAddSupplier" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Supplier List</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+
+                <div class="list-group" id="categorylist">
+                    @foreach (var supplier in ViewBag.SupplierList as IEnumerable<JobsV1.Models.Supplier>)
+                        {
+                            <a href="@Url.Action("AddSupplier", "InvItems", new { id = Model.Id, supId = supplier.Id })" class="list-group-item"> @supplier.Name </a>
+
+                        }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal -->
+
+<div class="modal fade" tabindex="-1" id="ShowAddCoop" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Supplier List</h4>
+            </div>
+
+            <div class="modal-body" id="modal2-content">
+
+                <div class="list-group" id="categorylist">
+                    @foreach (var member in ViewBag.coopList as IEnumerable<JobsV1.Models.CoopMember>)
+                        {
+                            <a href="@Url.Action("LinkCoopMember", "InvItems", new { id = Model.Id, memberid = member.Id })" class="list-group-item"> @member.Name </a>
+
+                        }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts{
+
+
+    <script type="text/javascript">
+    //AJAX CALLS
+    function DeleteIcon(id) {
+        var serviceURL = '/SMSWebService/CatRemove';
+
+        $.ajax({
+            type: "GET",
+            url: serviceURL,
+            data: { id: id },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc(),
+            error: errorFunc()
+        });
+
+    }
+
+    function successFunc() {
+        alert("Successfully Done!");
+        location.reload();
+    }
+
+    function errorFunc() {
+        alert('error');
+    }
+
+    function openSupModal() {
+        $('suppliers').modal('toggle');
+    }
+
+    </script>
+}

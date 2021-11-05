@@ -1693,9 +1693,7 @@ order by x.jobid
                     jobServices.ActualAmt = jobServices.QuotedAmt;
                 }
 
-
-
-                //jobServices.DtEnd = ((DateTime)jobServices.DtEnd).Add(new TimeSpan(23, 59, 59));
+                jobServices.DtEnd = ((DateTime)jobServices.DtEnd).Add(new TimeSpan(23, 59, 59));
                 db.JobServices.Add(jobServices);
                 db.SaveChanges();
 

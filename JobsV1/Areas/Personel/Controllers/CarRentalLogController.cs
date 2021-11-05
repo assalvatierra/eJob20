@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using JobsV1.Areas.Personel.Models;
 using JobsV1.Models;
 using Microsoft.Ajax.Utilities;
+using JobsV1.Areas.Personel.Services;
 
 namespace JobsV1.Areas.Personel.Controllers
 {
@@ -20,6 +21,7 @@ namespace JobsV1.Areas.Personel.Controllers
         private CrDataLayer dl = new CrDataLayer();
         private DateClass dt = new DateClass();
         private crDriverData dd = new crDriverData();
+        private CarRentalLogSvc crServices = new CarRentalLogSvc();
 
         // GET: Personel/CarRentalLog
         public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
@@ -2809,27 +2811,6 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
-        public bool SetTripFinalizeRange(crLogTrip triplog)
-        {
-            try
-            {
-                //find trip
-                //var triplog = db.crLogTrips.Find(id);
-
-                //set trip as final, cannot be edited
-                triplog.IsFinal = true;
-
-                //save changes
-                db.Entry(triplog).State = EntityState.Modified;
-              
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-                return false;
-            }
-        }
 
 
         public bool CheckTripFinalizeRange(List<crLogTrip> trips)
@@ -2845,13 +2826,13 @@ namespace JobsV1.Areas.Personel.Controllers
                     var result = false;
                     foreach (var trip in trips)
                     {
-                        result = SetTripFinalizeRange(trip);
+                        result = crServices.SetTripFinal(trip);
                     }
                  
                     if (result)
-                    {  
+                    {
                         //save
-                        db.SaveChanges();
+                        crServices.SaveDbChanges();
                     }
                 }
 
@@ -2860,7 +2841,6 @@ namespace JobsV1.Areas.Personel.Controllers
             catch (Exception ex)
             {
                 throw ex;
-                return false;
             }
         }
 
@@ -3087,20 +3067,19 @@ namespace JobsV1.Areas.Personel.Controllers
             try
             {
 
+                OdoStart = OdoStart ?? 0;
+                OdoEnd = OdoEnd ?? 0;
+
                 //check and find lastest trip
-                var crLogTripLatest = db.crLogTrips.Where(c => c.crLogUnitId == crLogUnitId && c.crLogDriverId == crLogDriverId && c.crLogCompanyId == crLogCompanyId).OrderByDescending(c => c.DtTrip).FirstOrDefault();
+                var crLogTripLatest = crServices.GetTripLogLatestTrip(crLogDriverId, crLogUnitId, crLogCompanyId);
                 if (crLogTripLatest == null)
                 {
                     ModelState.AddModelError("OdoEnd", "No Trips Found");
                 }else
                 {
                     //update odo and remarks
-                    crLogTripLatest.OdoStart = OdoStart;
-                    crLogTripLatest.OdoEnd = OdoEnd;
-                    crLogTripLatest.Remarks = Remarks;
+                    crServices.UpdateTripLogOdoRemarks(crLogTripLatest, (int)OdoStart, (int)OdoEnd, Remarks);
 
-                    db.Entry(crLogTripLatest).State = EntityState.Modified;
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
             
