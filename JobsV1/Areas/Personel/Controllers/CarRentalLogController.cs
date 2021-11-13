@@ -21,7 +21,7 @@ namespace JobsV1.Areas.Personel.Controllers
         private CrDataLayer dl = new CrDataLayer();
         private DateClass dt = new DateClass();
         private crDriverData dd = new crDriverData();
-        private CarRentalLogSvc crServices = new CarRentalLogSvc();
+        //private CarRentalLogSvc crServices = new CarRentalLogSvc();
 
         // GET: Personel/CarRentalLog
         public ActionResult Index(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
@@ -2826,13 +2826,13 @@ namespace JobsV1.Areas.Personel.Controllers
                     var result = false;
                     foreach (var trip in trips)
                     {
-                        result = crServices.SetTripFinal(trip);
+                       // result = crServices.SetTripFinal(trip);
                     }
                  
                     if (result)
                     {
                         //save
-                        crServices.SaveDbChanges();
+                        //crServices.SaveDbChanges();
                     }
                 }
 
@@ -3071,14 +3071,14 @@ namespace JobsV1.Areas.Personel.Controllers
                 OdoEnd = OdoEnd ?? 0;
 
                 //check and find lastest trip
-                var crLogTripLatest = crServices.GetTripLogLatestTrip(crLogDriverId, crLogUnitId, crLogCompanyId);
+                var crLogTripLatest = GetTripLogLatestTrip(crLogDriverId, crLogUnitId, crLogCompanyId);
                 if (crLogTripLatest == null)
                 {
                     ModelState.AddModelError("OdoEnd", "No Trips Found");
                 }else
                 {
                     //update odo and remarks
-                    crServices.UpdateTripLogOdoRemarks(crLogTripLatest, (int)OdoStart, (int)OdoEnd, Remarks);
+                    UpdateTripLogOdoRemarks(crLogTripLatest, (int)OdoStart, (int)OdoEnd, Remarks);
 
                     return RedirectToAction("Index");
                 }
@@ -3092,6 +3092,106 @@ namespace JobsV1.Areas.Personel.Controllers
             catch
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+
+        #endregion
+
+
+        #region Svc
+
+
+        //Check if Unit is encoded in trip logs for the selected date
+        public bool GetUnitIsInTripByDateSvc(int unitId, DateTime? date)
+        {
+            var today = dt.GetCurrentDate();
+
+            if (date != null)
+            {
+                today = (DateTime)date;
+            }
+
+            var isInTripToday = db.crLogTrips.Where(c => c.crLogUnitId == unitId &&
+                                        DbFunctions.TruncateTime(c.DtTrip) == today
+                                    ).ToList();
+
+            if (isInTripToday.Count() > 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        //Check if Driver is encoded in trip logs for the selected date
+        public bool GetDriverIsInTripByDateSvc(int driverId, DateTime? date)
+        {
+            var today = dt.GetCurrentDate();
+
+            if (date != null)
+            {
+                today = (DateTime)date;
+            }
+
+            var isInTripToday = db.crLogTrips.Where(c => c.crLogDriverId == driverId &&
+                                        DbFunctions.TruncateTime(c.DtTrip) == today
+                                    ).ToList();
+
+            if (isInTripToday.Count() > 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public crLogTrip GetTripLogLatestTrip(int unitID, int driverID, int CompanyID)
+        {
+            return db.crLogTrips
+                .Where(c => c.crLogUnitId == unitID && c.crLogDriverId == driverID && c.crLogCompanyId == CompanyID)
+                .OrderByDescending(c => c.DtTrip).FirstOrDefault();
+        }
+
+        public int UpdateTripLogOdoRemarks(crLogTrip crLogTrip, int OdoStart, int OdoEnd, string Remarks)
+        {
+            try
+            {
+
+                crLogTrip.OdoStart = OdoStart;
+                crLogTrip.OdoEnd = OdoEnd;
+                crLogTrip.Remarks = Remarks;
+
+                db.Entry(crLogTrip).State = EntityState.Modified;
+                return db.SaveChanges();
+
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
+        //Finalize Trip
+        public bool SetTripFinal(crLogTrip triplog)
+        {
+            try
+            {
+                //find trip
+                //var triplog = db.crLogTrips.Find(id);
+
+                //set trip as final, cannot be edited
+                triplog.IsFinal = true;
+
+                //save changes
+                db.Entry(triplog).State = EntityState.Modified;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

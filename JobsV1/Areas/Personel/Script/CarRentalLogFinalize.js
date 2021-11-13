@@ -15,7 +15,7 @@ function ShowFinalizeTrip(e) {
         $("#tb-hd-finalize").hide();
         $(".trip-Finalize").hide();
         $("#FinalizeTrip-Btn").hide();
-        $(e).text("Show Finalize Trips")
+        $(e).text("Show Finalize Trips");
     }
 }
 

@@ -14,8 +14,11 @@
 <p>
     @Html.ActionLink("Add User", "ModuleUserAdd", new { moduleId = ViewBag.MenuId })
 </p>
-<table class="table">
+<table class="table" id="usersTable">
     <tr>
+        <td>
+            <a class="cursor-hand" onclick="CheckAll()"> All </a>
+        </td>
         <th>
             @Html.DisplayNameFor(model => model.UserId)
         </th>
@@ -28,6 +31,9 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td class="userCheckbox">
+                <input type="checkbox" value="@item.Id" />
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
@@ -43,6 +49,7 @@
     }
 
 </table>
+<button class="btn btn-primary" onclick="FinalizeRemoveUsers()"> Remove Selected </button>
 
 
 
@@ -50,7 +57,7 @@
 
     <script>
         function RemoveUser(e, id) {
-            $.post('/SysAccessUsers/RemoveUser', { id : id } , (result) => {
+            $.post('/SysAccessUsers/RemoveUser', { id: id }, (result) => {
                 console.log(result);
                 if (result == "True") {
                     console.log("User Deleted from menu");
@@ -60,6 +67,67 @@
                 }
             });
         }
+
+
+
+
+        function CheckAll() {
+            $('#usersTable tr td.userCheckbox input[type="checkbox"]').each(function () {
+                $(this).prop('checked', true);
+            });
+        }
+
+
+        function FinalizeRemoveUsers() {
+
+            let doneCount = 0;
+            $('#usersTable tr td.userCheckbox input[type="checkbox"]').each(function () {
+                doneCount = doneCount + 1;
+                console.log($(this).val());
+                if ($(this).is(':checked')) {
+                    console.log("Checked " + $(this).val());
+
+                    let tripId = $(this).val();
+                    if (tripId != null || tripId != undefined) {
+                        RemoveUserList(this, tripId);
+                    }
+                }
+            });
+
+            if (doneCount == 0) {
+                alert("No Selected Trips");
+            } else {
+
+                if (GetSelectedCount() == doneCount) {
+                    //alert("Done Removing Users");
+                }
+            }
+
+        }
+
+        function GetSelectedCount() {
+            let tripCount = 0;
+            $('#usersTable tr td.userCheckbox input[type="checkbox"]').each(function () {
+                tripCount = tripCount + 1;
+            });
+
+            return tripCount;
+        }
+
+        function RemoveUserList(e, id) {
+            $.post('/SysAccessUsers/RemoveUser', { id: id }, (result) => {
+                console.log(result);
+                if (result == "True") {
+                    console.log("User Deleted from menu");
+                    $(e).parent().parent().remove();
+                } else {
+                    console.log("Unable to delete user from menu");
+                }
+            });
+        }
+
     </script>
 
 }
+
+

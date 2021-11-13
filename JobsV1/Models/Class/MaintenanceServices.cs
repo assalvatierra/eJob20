@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
 using JobsV1.Areas.Personel.Models;
 
 namespace JobsV1.Models.Class

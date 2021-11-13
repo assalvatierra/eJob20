@@ -731,10 +731,12 @@ namespace JobsV1.Areas.Personel.Controllers
                                     c.crLogDriverId == cashRelease.crLogDriverId
                                     && ( DbFunctions.TruncateTime(c.DtRelease) == today  ||
                                          DbFunctions.TruncateTime(c.DtRelease) == OneDayAfter)
+                                         && cashRelease.crLogCashStatus.OrderByDescending(d=>d.dtStatus).FirstOrDefault().crCashReqStatusId < 3
                                     ).ToList();
 
             var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.SALARY && c.Id != id).ToList().Sum(c=>c.Amount);
-            var driverCA = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CA).ToList().Sum(c => c.Amount);
+            var driverCA = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CA
+                            ).ToList().Sum(c => c.Amount);
             var payments = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.PAYMENTS).ToList().Sum(c => c.Amount);
             var contributions = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CONTRIBUTIONS).ToList().Sum(c => c.Amount);
             var others = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.OTHERS).ToList().Sum(c => c.Amount);

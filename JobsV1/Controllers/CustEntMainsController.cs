@@ -354,29 +354,29 @@ namespace JobsV1.Controllers
                 if (CompanyCreateValidation(custEntMain))
                 {
 
-                    var DuplicateCount = db.CustEntMains.Where(s => custEntMain.Name.Contains(s.Name)).ToList().Count();
+                    //var DuplicateCount = db.CustEntMains.Where(s => custEntMain.Name.Contains(s.Name)).ToList().Count();
 
-                    if (DuplicateCount == 0)
-                    {
+                    //if (false)
+                    //{
                         //create company
                         db.CustEntMains.Add(custEntMain);
                         db.SaveChanges();
 
                         //update company code
                         UpdateCompanyCode(custEntMain.Id);
-                    }
-                    else
-                    {
-                        ViewBag.Msg = "Customer Name already exist.";
+                    //}
+                    //else
+                    //{
+                    //    ViewBag.Msg = "Customer Name already exist.";
 
-                        ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
-                        ViewBag.Status = new SelectList(StatusList, "value", "text");
-                        ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
-                        ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
-                        ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
+                    //    ViewBag.CityId = new SelectList(db.Cities.OrderBy(c => c.Name).ToList(), "Id", "Name");
+                    //    ViewBag.Status = new SelectList(StatusList, "value", "text");
+                    //    ViewBag.AssignedTo = new SelectList(dbclasses.getUsers_wdException(), "UserName", "UserName");
+                    //    ViewBag.Exclusive = new SelectList(Exclusive, "value", "text");
+                    //    ViewBag.CustEntAccountTypeId = new SelectList(db.CustEntAccountTypes, "Id", "Name");
 
-                        return View(custEntMain);
-                    }
+                    //    return View(custEntMain);
+                    //}
 
                     if (id != null)
                     {

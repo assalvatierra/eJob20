@@ -161,8 +161,8 @@ namespace JobsV1.Controllers
                  .Where(s => s.SalesStatusTypeId == 1 || s.SalesStatusTypeId == 2)
                  .OrderBy(s => s.SeqNo).ThenBy(s => s.Id).ToList();
 
-            var limit1 = 500000;
-            var limit2 = 3000000;
+            //var limit1 = 500000;
+            //var limit2 = 3000000;
 
             return statusList;
         }

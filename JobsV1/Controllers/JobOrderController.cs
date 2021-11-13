@@ -2445,6 +2445,8 @@ order by x.jobid
                     return "Jecca Bilason";
                 case "kimberly.realbreeze@gmail.com":
                     return "Kimberly Pangubatan";
+                case "tin.realbreeze@gmail.com":
+                    return "Christine Cubelo";
                 default:
                     return "Elvie S. Salvatierra ";
             }
@@ -2468,6 +2470,8 @@ order by x.jobid
                     return "/Images/Signature/JeccaSign.jpg";
                 case "kimberly.realbreeze@gmail.com":
                     return "/Images/Signature/KimSign.jpg";
+                case "tin.realbreeze@gmail.com":
+                    return "/Images/Signature/TinSign.jpg";
                 default:
                     return "/Images/Signature-1.png";
             }

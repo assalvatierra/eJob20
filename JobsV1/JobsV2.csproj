@@ -2096,6 +2096,7 @@
     <Content Include="Images\Signature\KimSign.jpg" />
     <Content Include="Images\Signature\MaeSign.JPG" />
     <Content Include="Images\Signature\RamSign.JPG" />
+    <Content Include="Images\Signature\TinSign.jpg" />
     <Content Include="Images\SMS.png" />
     <Content Include="Images\Solid-steel-logo-2020.png" />
     <Content Include="Images\SolidSteel\Solid Steel Logo.jpg" />

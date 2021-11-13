@@ -473,7 +473,7 @@ namespace JobsV1.Areas.Receivables.Controllers
 
                 return true;
             }
-            catch (Exception ex)
+            catch ()
             {
                 // throw ex;
                 return false;
