@@ -775,7 +775,7 @@ namespace JobsV1.Controllers
         public string UpdateLeadStatus(int slId, int StatusId)
         {
             string strMsg;
-            string defaultStatusId = "1";
+            //string defaultStatusId = "1";
             try
             {
                 //db.Database.ExecuteSqlCommand(@"
@@ -1088,7 +1088,7 @@ namespace JobsV1.Controllers
                 return true;
 
             }
-            catch(Exception ex)
+            catch
             {
                 //throw ex;
                 return false;

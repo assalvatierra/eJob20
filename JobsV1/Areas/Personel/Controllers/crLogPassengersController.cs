@@ -279,7 +279,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreatePassTrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area,NextDay")] crLogPassenger crLogPassenger)
+        public ActionResult CreatePassTrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area,NextDay,RestDay")] crLogPassenger crLogPassenger)
         {
             if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
             {
@@ -363,7 +363,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPasstrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area,NextDay")] crLogPassenger crLogPassenger)
+        public ActionResult EditPasstrip([Bind(Include = "Id,Name,Contact,PassAddress,PickupPoint,PickupTime,DropPoint,DropTime,timeContacted,timeBoarded,timeDelivered,Remarks,crLogPassStatusId,crLogTripId,Area,NextDay,RestDay")] crLogPassenger crLogPassenger)
         {
             if (ModelState.IsValid && CreatePassValidation(crLogPassenger))
             {
@@ -399,6 +399,7 @@ namespace JobsV1.Areas.Personel.Controllers
                     passDetails.PickupTime = crLogPassenger.PickupTime;
                     passDetails.DropPoint = crLogPassenger.DropPoint;
                     passDetails.DropTime = crLogPassenger.DropTime;
+                    passDetails.RestDays = crLogPassenger.RestDay;
 
                     db.Entry(passDetails).State = EntityState.Modified;
                     db.SaveChanges();
@@ -925,6 +926,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 passengerMaster.DropTime = passenger.DropTime;
                 passengerMaster.Area = passenger.Area;
                 passengerMaster.NextDay = passenger.NextDay;
+                passengerMaster.RestDays = passenger.RestDay;
 
                 db.crLogPassengerMasters.Add(passengerMaster);
                 db.SaveChanges();

@@ -99,7 +99,7 @@ namespace JobsV1.Areas.Personel.Controllers
         {
         
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-2);
+            var DateFilter = today.AddDays(-1);
 
             //get cash releases up to -2 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver)
@@ -731,7 +731,7 @@ namespace JobsV1.Areas.Personel.Controllers
                                     c.crLogDriverId == cashRelease.crLogDriverId
                                     && ( DbFunctions.TruncateTime(c.DtRelease) == today  ||
                                          DbFunctions.TruncateTime(c.DtRelease) == OneDayAfter)
-                                         && cashRelease.crLogCashStatus.OrderByDescending(d=>d.dtStatus).FirstOrDefault().crCashReqStatusId < 3
+                                         //&& cashRelease.crLogCashStatus.OrderByDescending(d=>d.dtStatus).FirstOrDefault().crCashReqStatusId < 3
                                     ).ToList();
 
             var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.SALARY && c.Id != id).ToList().Sum(c=>c.Amount);

@@ -308,6 +308,7 @@
     <Property Name="crLogTripId" Type="int" Nullable="false" />
     <Property Name="Area" Type="nvarchar" Nullable="true" MaxLength="150" />
     <Property Name="NextDay" Type="bit" Nullable="false" />
+    <Property Name="RestDay" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="crLogPassStatus">
     <Key>
@@ -1198,6 +1199,7 @@
           <Property Name="crLogTripId" Type="Int32" Nullable="false" />
           <Property Name="Area" Type="String" Nullable="true" MaxLength="150" />
           <Property Name="NextDay" Type="Boolean" Nullable="false" />
+          <Property Name="RestDay" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <EntityType Name="crLogPassStatus">
           <Key>
@@ -1497,6 +1499,7 @@
           <ScalarProperty Name="crLogTripId" ColumnName="crLogTripId" />
           <ScalarProperty Name="Area" ColumnName="Area" />
           <ScalarProperty Name="NextDay" ColumnName="NextDay" />
+          <ScalarProperty Name="RestDay" ColumnName="RestDay" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

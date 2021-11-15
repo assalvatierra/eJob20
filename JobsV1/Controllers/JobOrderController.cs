@@ -1390,7 +1390,7 @@ order by x.jobid
             }
 
 
-            if (jobMain.Id == null)
+            if (jobMain.Id == 0)
             {
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", NewCustSysId);
             }

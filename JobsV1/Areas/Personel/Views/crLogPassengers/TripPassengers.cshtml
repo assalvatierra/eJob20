@@ -87,6 +87,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Remarks)
         </th>
+        <td>
+            RestDay
+        </td>
         <th>
             @Html.DisplayNameFor(model => model.crLogPassStatu.Status)
         </th>
@@ -490,7 +493,9 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @* @Html.DisplayFor(modelItem => item.crLogPassStatu.Status)*@
+                @Html.DisplayFor(modelItem => item.RestDay)
+            </td>
+            <td>
                 @if (item.crLogPassStatusId == 1)
                 {
                     <span class="badge badge-secondary"> @item.crLogPassStatu.Status </span>
@@ -520,11 +525,10 @@
                     <span class="badge badge-success"> @item.crLogPassStatu.Status </span>
                 }
             </td>
+
             <td>
                 <a href="#" onclick="ShowTranferPassengerModal(@item.Id)"> Transfer </a> |
                 @Html.ActionLink("Edit", "EditPassTrip", new { id = item.Id }) |
-                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
-                @*@Html.ActionLink("Delete", "DeletePassTrip", new { id = item.Id })*@
                 <span class="cursor-hand" onclick="DeletePassenger(@item.Id, '@item.Name' )" style="color:dodgerblue;">
                     Delete 
                 </span>
