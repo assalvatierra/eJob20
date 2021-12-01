@@ -1,10 +1,15 @@
-﻿@model IEnumerable<JobsV1.Areas.Personel.Models.crLogTrip>
+﻿@model JobsV1.Areas.Personel.Controllers.crLogTripBilling
 
 @{
     ViewBag.Title = "Trip Log";
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
-    int TotalCount = 0;
-    decimal TotalRate = 0;
+    int totalHrsOT = 0;
+    int TotalSundayCount = 0;
+    int TotalOTCount = 0;
+
+    decimal TotalSundayRate = 0;
+    decimal TotalOTRate = 0;
+    double TotalOTHrs = 0;
 }
 <style href=""></style>
 <style>
@@ -19,7 +24,7 @@
     }
 </style>
 
-<h2>Trip Log - Daily Rate Billing </h2>
+<h2>Trip Log - OT Billing </h2>
 
 <p>
     Trip Logs |
@@ -31,21 +36,13 @@
     @Html.ActionLink("Unit Expenses Reports", "Index", "crRptUnitExpenses")
 </p>
 <p>
-    @*@Html.ActionLink("Add New Trip", "Create") |
-        @Html.ActionLink("Copy Trip", "CopyTrip") |
-        @Html.ActionLink("Add Trip Odo", "UpdateTripLogOdo") |
-        @Html.ActionLink("Cash Advance", "Index", "CarRentalCashRelease") |*@
-    @*@Html.ActionLink("Trip Logs View", "Index") |
-        @Html.ActionLink("OT Billing", "IndexBilling", new { company = ViewBag.Company }) |
-        Daily Rate Billing |
-        @Html.ActionLink("Sunday Billing", "IndexBillingSunday")*@
     <div class="col-md-7">
-        @Html.ActionLink("Back to Trip Logs", "Index", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("Back to Trip Logs",  "Index", "CarRentalLog", null, new { @class = "btn btn-default" })
     </div>
     <div class="col-md-5 btn-group">
-        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default" })
-        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default active" })
-        @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = "btn btn-default active" })
     </div>
 </p>
 
@@ -144,76 +141,116 @@
 </div>
 <br />
 <hr />
-
-<h4>Daily Rates </h4>
-<table class="table">
-    <tr>
-        <td>
-            Driver
-        </td>
-        <td>
-            Date
-        </td>
-        <td>
-            Unit
-        </td>
-        <td>
-        </td>
-        <td>
-            Rate
-        </td>
-        <td>
-        </td>
-    </tr>
-    @foreach (var tripGroup in Model.GroupBy(t => t.DtTrip.Date))
-    {
-
-
+<div>
+    <h4>Sundays</h4>
+    <table class="table">
         <tr>
-            <td colspan="6">
+            <td>
+                Driver
+            </td>
+            <td>
+                Date
+            </td>
+            <td>
+                Unit
+            </td>
+            <td>
+            </td>
+            <td>
+                Rate
+            </td>
+            <td>
             </td>
         </tr>
-        foreach (var trip in tripGroup)
+        @foreach (var trip in Model.SundayTrips)
         {
+            TotalSundayCount += 1;
+            TotalSundayRate += trip.Rate;
 
-            var dtcolor = "black";
-
-
-            if (trip.DtTrip.DayOfWeek.ToString() == "Saturday")
+            <tr>
+                <td>@trip.Driver</td>
+                <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+                <td>@trip.Unit</td>
+                <td></td>
+                <td>@trip.Rate.ToString("#,##0") </td>
+                <td> </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4"> Total Count: @TotalSundayCount</td>
+            <td>
+                <span style="font-size:9px;"> Total Rate</span><br />
+                @TotalSundayRate.ToString("#,##0")
+            </td>
+        </tr>
+    </table>
+</div>
+<div hidden>
+    <h4>Sunday Overtime</h4>
+    <table class="table">
+        <tr>
+            <td>
+                Driver
+            </td>
+            <td>
+                Date
+            </td>
+            <td>
+                Unit
+            </td>
+            <td>
+                Time
+            </td>
+            <td>
+                Rate
+            </td>
+            <td>
+                Overtime
+            </td>
+            <td></td>
+        </tr>
+        @foreach (var tripGroup in Model.OTTrips.GroupBy(t => t.DtTrip.Date))
+        {
+            <tr><td colspan="6"> </td></tr>
+            foreach (var trip in tripGroup)
             {
-                dtcolor = "blue";
-            }
 
-            //if (trip.DtTrip.DayOfWeek.ToString() == "Sunday")
-            //{
-
-            //}
-            //else
-            //{
-            TotalCount += 1;
-            TotalRate += trip.Rate;
+                TotalOTCount += 1;
+                TotalOTRate += trip.OTRate;
+                TotalOTHrs += trip.OTHours;
 
                 <tr>
-                    <td>@trip.crLogDriver.Name</td>
-                    <td style="color:@dtcolor;">@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
-                    <td>@trip.crLogUnit.Description</td>
-                    <td> </td>
-                    <td>@trip.Rate.ToString("#,##0") </td>
-                    <td> </td>
+                    <td>@trip.Driver</td>
+                    <td>@trip.DtTrip.ToString("MMM dd yyyy (ddd)")</td>
+                    <td>@trip.Unit</td>
+                    <td>@trip.StartTime - @trip.EndTime</td>
+                    <td>
+                        <span class="OT-Rate"> @trip.OTRate.ToString("#,##0") </span>
+                    </td>
+                    <td>
+                        @trip.OTHours Hrs
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditBillingSunday", new { id = trip.Id })
+                    </td>
                 </tr>
-
-            //}
-
+            }
         }
-    }
-    <tr>
-        <td colspan="4"> Total Count: @TotalCount</td>
-        <td>
-            <span style="font-size:9px;"> Total Rate</span><br />
-            <span style="font-weight:bold;"> @TotalRate.ToString("#,##0") </span>
-        </td>
-    </tr>
-</table>
+        <!-- Summary -->
+        <tr>
+            <td colspan="4"> Total Count: @TotalOTCount </td>
+
+            <td>
+                <span style="font-size:9px;"> Total OT Rate</span><br />
+                @TotalOTRate.ToString("#,##0")
+            </td>
+            <td>
+                <span style="font-size:9px;"> Total OT Hours</span><br />
+                @TotalOTHrs
+            </td>
+        </tr>
+    </table>
+</div>
 
 
 @Html.Partial("_LogSummaryModal", null, new ViewDataDictionary { { "DriversLogSummary" , ViewBag.DriversLogSummary },
@@ -363,7 +400,7 @@
             //$("#totalOTRate").text(totalOTRate);
         }
 
-        
+
         function GetOTCompanyRate() {
             var totalOTRate = 0;
             $('#TripLogsOT-Table tr td .OTCompanyRate').each(function () {
@@ -379,7 +416,7 @@
             //$("#totalOTCompanyRate").text(totalOTRate);
         }
 
-        
+
         function ShowLoading() {
             $("#overlay").show();
         }
@@ -391,10 +428,10 @@
         function ToggleDriverTrip() {
             $("#TripLogs-Table").toggle();
         }
-        
+
         function PrintBilling() {
             ShowLoading();
-            location.href = "/Personel/CarRentalLog/PrintIndexBillingDaily"
+            location.href = "/Personel/CarRentalLog/PrintIndexBillingSunday"
         }
 
 

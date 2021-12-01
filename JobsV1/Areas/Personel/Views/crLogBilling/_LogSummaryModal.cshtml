@@ -1,0 +1,68 @@
+﻿
+@{ 
+    var DriversLogSummary = ViewBag.DriversLogSummary as List<JobsV1.Areas.Personel.Models.CrDriverLogs>;
+    var CompaniesLogSummary = ViewBag.CompaniesLogSummary as List<JobsV1.Areas.Personel.Models.CrCompanyLogs>;
+    var UnitsLogSummary = ViewBag.UnitsLogSummary as List<JobsV1.Areas.Personel.Models.CrUnitLogs>;
+}
+
+<div class="modal fade" role="dialog" id="SummaryModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> Logs Summary </h4>
+            </div>
+            <div class="modal-body">
+
+                <table class="table">
+                    <tr>
+                        <th> </th>
+                        <th> Job Count </th>
+                        <th> Amount </th>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Company </span> </td>
+                    </tr>
+                    @foreach (var log in CompaniesLogSummary)
+                    {
+                        <tr>
+                            <td> <span style="margin-left:15px;"> @log.Company </span> </td>
+                            <td> @log.JobCount </td>
+                            <td> @log.TotalAmount.ToString("#,##0.00") </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Driver</span> </td>
+                    </tr>
+                    @foreach (var log in DriversLogSummary)
+                    {
+                        <tr>
+                            <td> <span style="margin-left:15px;"> @log.Driver </span> </td>
+                            <td> @log.JobCount </td>
+                            <td> @log.TotalDriverFee.ToString("#,##0.00") </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td colspan="3"> <span class="text-muted" style="margin-left:0px;">By Unit </span> </td>
+                    </tr>
+                    @foreach (var log in UnitsLogSummary)
+                    {
+                        <tr>
+                            <td> <span style="margin-left:15px;"> @log.Unit </span> </td>
+                            <td> @log.JobCount </td>
+                            <td> @log.TotalAmount.ToString("#,##0.00") </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
