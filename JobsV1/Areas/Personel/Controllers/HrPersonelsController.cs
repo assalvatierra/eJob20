@@ -148,7 +148,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,PassportNo,SSSid,Tin,DriverId,Remarks,HrPersonelStatusId")] HrPersonel hrPersonel)
+        public ActionResult Create([Bind(Include = "Id,Name,PassportNo,SSSid,Tin,DriverId,Philhealth,Pagibig,Remarks,HrPersonelStatusId")] HrPersonel hrPersonel)
         {
             if (ModelState.IsValid)
             {
@@ -182,7 +182,7 @@ namespace JobsV1.Areas.Personel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,PassportNo,SSSid,Tin,DriverId,Remarks,HrPersonelStatusId")] HrPersonel hrPersonel)
+        public ActionResult Edit([Bind(Include = "Id,Name,PassportNo,SSSid,Tin,DriverId,DriverId,Philhealth,Pagibig,Remarks,HrPersonelStatusId")] HrPersonel hrPersonel)
         {
             if (ModelState.IsValid)
             {

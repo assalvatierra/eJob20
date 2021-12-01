@@ -35,6 +35,8 @@ namespace JobsV1.Areas.Personel.Models
         public string DriverId { get; set; }
         public string Remarks { get; set; }
         public int HrPersonelStatusId { get; set; }
+        public string Philhealth { get; set; }
+        public string Pagibig { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HrPerDoc> HrPerDocs { get; set; }

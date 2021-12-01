@@ -111,6 +111,8 @@
     <Property Name="DriverId" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="HrPersonelStatusId" Type="int" Nullable="false" />
+    <Property Name="Philhealth" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Pagibig" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="HrPerPositions">
     <Key>
@@ -607,6 +609,8 @@
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="HrPersonelStatu" Relationship="HrisDB.HrPersonelStatusHrPersonel" FromRole="HrPersonel" ToRole="HrPersonelStatus" />
           <Property Name="HrPersonelStatusId" Type="Int32" Nullable="false" />
+          <Property Name="Philhealth" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="Pagibig" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <EntityType Name="HrPerPosition">
           <Key>
@@ -1030,6 +1034,8 @@
           <ScalarProperty Name="DriverId" ColumnName="DriverId" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="HrPersonelStatusId" ColumnName="HrPersonelStatusId" />
+          <ScalarProperty Name="Philhealth" ColumnName="Philhealth" />
+          <ScalarProperty Name="Pagibig" ColumnName="Pagibig" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

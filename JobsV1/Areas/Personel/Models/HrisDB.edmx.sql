@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/03/2019 17:49:14
--- Generated from EDMX file: C:\Users\VILLOSA\Documents\GithubClassic\eJob20\JobsV1\Areas\Personel\Models\HrisDB.edmx
+-- Date Created: 11/26/2021 10:26:42
+-- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\HrisDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -141,7 +141,9 @@ CREATE TABLE [dbo].[HrPersonels] (
     [Tin] nvarchar(20)  NULL,
     [DriverId] nvarchar(20)  NULL,
     [Remarks] nvarchar(80)  NULL,
-    [HrPersonelStatusId] int  NOT NULL
+    [HrPersonelStatusId] int  NOT NULL,
+    [Philhealth] nvarchar(80)  NULL,
+    [Pagibig] nvarchar(80)  NULL
 );
 GO
 

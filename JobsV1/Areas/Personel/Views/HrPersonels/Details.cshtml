@@ -24,42 +24,54 @@
             @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
         </p>
         <p>
-         Status:  
-            <span style="font-weight:bold"> 
-                @Html.DisplayFor(model => model.HrPersonelStatu.Desc) 
+            Status:
+            <span style="font-weight:bold">
+                @Html.DisplayFor(model => model.HrPersonelStatu.Desc)
             </span>
         </p>
         <p>
-         Passport No: 
+            Passport No:
             <span style="font-weight:bold">
-               @Html.DisplayFor(model => model.PassportNo)
-            </span> 
+                @Html.DisplayFor(model => model.PassportNo)
+            </span>
         </p>
 
         <p>
-        SSS No: 
+            SSS No:
             <span style="font-weight:bold">
                 @Html.DisplayFor(model => model.SSSid)
-            </span>  
+            </span>
         </p>
 
         <p>
-          TIN: 
+            Philhealth No:
+            <span style="font-weight:bold">
+                @Html.DisplayFor(model => model.Philhealth)
+            </span>
+        </p>
+        <p>
+            Pagibig No:
+            <span style="font-weight:bold">
+                @Html.DisplayFor(model => model.Pagibig)
+            </span>
+        </p>
+        <p>
+            TIN:
             <span style="font-weight:bold">
                 @Html.DisplayFor(model => model.Tin)
             </span>
-            
+
         </p>
         <p>
-          Driver's ID:  
+            Driver's ID:
             <span style="font-weight:bold">
-                 @Html.DisplayFor(model => model.DriverId) 
-             </span>
+                @Html.DisplayFor(model => model.DriverId)
+            </span>
         </p>
         <p>
-          Remarks: 
-             <span style="font-weight:bold">
-                 @Html.DisplayFor(model => model.Remarks)
+            Remarks:
+            <span style="font-weight:bold">
+                @Html.DisplayFor(model => model.Remarks)
             </span>
         </p>
     </div>
