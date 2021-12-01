@@ -291,7 +291,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return 0;
             }
-            catch (Exception ex)
+            catch
             {
                 return 0;
             }
@@ -312,7 +312,7 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return "";
             }
-            catch (Exception ex)
+            catch 
             {
                 return "";
             }

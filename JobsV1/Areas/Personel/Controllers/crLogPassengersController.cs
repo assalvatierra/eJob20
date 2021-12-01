@@ -1062,9 +1062,8 @@ namespace JobsV1.Areas.Personel.Controllers
 
                 return RedirectToAction("TripPassengers", new { id = tripId });
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }

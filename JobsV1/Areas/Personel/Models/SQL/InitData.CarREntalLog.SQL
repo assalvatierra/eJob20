@@ -32,16 +32,16 @@ values
 ('Jeremiah'),
 ('Jonald');
 
-Insert into crLogCompanies([Name],[isShuttle])
+Insert into crLogCompanies([Name],[isShuttle],[IsInternal])
 values
-('Hubei', 0),
-('Shimizu', 0),
-('UGC', 0),
-('Teleperformance', 0),
-('Sutherland', 0),
-('IBEX', 0),
-('AwesomeOS', 1),
-('VXi', 0);
+('Realbreeze', 0, 1),
+('Shimizu', 0, 0),
+('UGC', 0, 0),
+('Teleperformance', 0, 0),
+('Sutherland', 0, 0),
+('IBEX', 0, 0),
+('AwesomeOS', 1, 0),
+('VXi', 0, 0);
 
 insert into crLogTypes([Type]) values 
 ('Fuel'), ('Maintenance'), ('Others');
