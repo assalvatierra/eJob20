@@ -28,6 +28,7 @@
     <EntitySet Name="crLogPassengerAreas" EntityType="CarRentalLogDB.Store.crLogPassengerAreas" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogPassRemarks" EntityType="CarRentalLogDB.Store.crLogPassRemarks" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="crLogOwners" EntityType="CarRentalLogDB.Store.crLogOwners" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crLogTripJobMains" EntityType="CarRentalLogDB.Store.crLogTripJobMains" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="crLogDrivercrLogTrip" Association="CarRentalLogDB.Store.crLogDrivercrLogTrip">
       <End Role="crLogDriver" EntitySet="crLogDrivers" />
       <End Role="crLogTrip" EntitySet="crLogTrips" />
@@ -116,6 +117,10 @@
       <End Role="crLogOwner" EntitySet="crLogOwners" />
       <End Role="crLogUnit" EntitySet="crLogUnits" />
     </AssociationSet>
+    <AssociationSet Name="crLogTripcrLogTripJobMain" Association="CarRentalLogDB.Store.crLogTripcrLogTripJobMain">
+      <End Role="crLogTrip" EntitySet="crLogTrips" />
+      <End Role="crLogTripJobMain" EntitySet="crLogTripJobMains" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="crLogDrivers">
     <Key>
@@ -146,6 +151,7 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Status" Type="nvarchar" Nullable="true" MaxLength="10" />
     <Property Name="IsShuttle" Type="bit" Nullable="false" />
+    <Property Name="IsInternal" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="crLogTrips">
     <Key>
@@ -357,6 +363,14 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Mobile" Type="nvarchar" Nullable="true" MaxLength="30" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="crLogTripJobMains">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JobMainId" Type="int" Nullable="false" />
+    <Property Name="crLogTripId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="crLogDrivercrLogTrip">
     <End Role="crLogDriver" Type="CarRentalLogDB.Store.crLogDrivers" Multiplicity="1" />
@@ -622,6 +636,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="crLogTripcrLogTripJobMain">
+    <End Role="crLogTrip" Type="CarRentalLogDB.Store.crLogTrips" Multiplicity="1" />
+    <End Role="crLogTripJobMain" Type="CarRentalLogDB.Store.crLogTripJobMains" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crLogTrip">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="crLogTripJobMain">
+        <PropertyRef Name="crLogTripId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -737,6 +763,11 @@
             <End Role="crLogOwner" EntitySet="crLogOwners" />
             <End Role="crLogUnit" EntitySet="crLogUnits" />
           </AssociationSet>
+          <EntitySet Name="crLogTripJobMains" EntityType="CarRentalLogDB.crLogTripJobMain" />
+          <AssociationSet Name="crLogTripcrLogTripJobMain" Association="CarRentalLogDB.crLogTripcrLogTripJobMain">
+            <End Role="crLogTrip" EntitySet="crLogTrips" />
+            <End Role="crLogTripJobMain" EntitySet="crLogTripJobMains" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="crLogDriver">
           <Key>
@@ -777,6 +808,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
           <Property Name="Status" Type="String" Nullable="true" MaxLength="10" />
           <Property Name="IsShuttle" Type="Boolean" Nullable="false" />
+          <Property Name="IsInternal" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="crLogTrip">
           <Key>
@@ -809,6 +841,7 @@
           <Property Name="AddonOT" Type="Decimal" Nullable="true" />
           <Property Name="IsFinal" Type="Boolean" Nullable="false" />
           <Property Name="AllowEdit" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="crLogTripJobMains" Relationship="CarRentalLogDB.crLogTripcrLogTripJobMain" FromRole="crLogTrip" ToRole="crLogTripJobMain" />
         </EntityType>
         <Association Name="crLogDrivercrLogTrip">
           <End Type="CarRentalLogDB.crLogDriver" Role="crLogDriver" Multiplicity="1" />
@@ -1287,6 +1320,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="crLogTripJobMain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobMainId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crLogTrip" Relationship="CarRentalLogDB.crLogTripcrLogTripJobMain" FromRole="crLogTripJobMain" ToRole="crLogTrip" />
+          <Property Name="crLogTripId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="crLogTripcrLogTripJobMain">
+          <End Type="CarRentalLogDB.crLogTrip" Role="crLogTrip" Multiplicity="1" />
+          <End Type="CarRentalLogDB.crLogTripJobMain" Role="crLogTripJobMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crLogTrip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="crLogTripJobMain">
+              <PropertyRef Name="crLogTripId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1323,6 +1377,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="IsShuttle" ColumnName="IsShuttle" />
+          <ScalarProperty Name="IsInternal" ColumnName="IsInternal" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1553,6 +1608,15 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Mobile" ColumnName="Mobile" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crLogTripJobMains">
+      <EntityTypeMapping TypeName="IsTypeOf(CarRentalLogDB.crLogTripJobMain)">
+        <MappingFragment StoreEntitySet="crLogTripJobMains">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="JobMainId" ColumnName="JobMainId" />
+          <ScalarProperty Name="crLogTripId" ColumnName="crLogTripId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

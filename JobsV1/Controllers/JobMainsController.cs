@@ -21,7 +21,7 @@ namespace JobsV1.Controllers
         private int JOBRESERVATION = 2;
         private int JOBCONFIRMED = 3;
         private int JOBCLOSED = 4;
-        private int JOBCANCELLED = 5;
+        //private int JOBCANCELLED = 5;
         private int JOBTEMPLATE = 6;
 
         private JobDBContainer db = new JobDBContainer();
@@ -940,6 +940,26 @@ namespace JobsV1.Controllers
             }
 
             return RedirectToAction("JobServices", "JobOrder", new { JobMainId = id });
+        }
+
+        //GET : JobMains/GetActiveJobList
+        [HttpGet]
+        public JsonResult GetActiveJobList()
+        {
+
+            List<cActiveJobs> activeJobs = dbc.getActiveJobs(1);
+
+            return Json(activeJobs.GroupBy(c=>c.JobMainId, 
+                (key, g)  => new { 
+                    Id = key, 
+                    JobDesc = g.Select(gs => gs.JobDesc).FirstOrDefault(),
+                    Customer = g.Select(gs => gs.Customer).FirstOrDefault(),
+                    JobDateStart = g.Select(gs => gs.DtStart).FirstOrDefault(),
+                    JobDateEnd = g.Select(gs => gs.DtEnd).FirstOrDefault(),
+                    Company = g.Select(gs => gs.Company).FirstOrDefault(),
+                }).ToList(), 
+                JsonRequestBehavior.AllowGet);
+       
         }
 
         #region Job Notes

@@ -5,6 +5,17 @@
     Layout = "~/Views/Shared/_ModuleLayout.cshtml";
 
     bool isAdmin = ViewBag.IsAdmin;
+
+    var paramDefault = new
+    {
+        startDate = ViewBag.FilteredsDate,
+        endDate = ViewBag.FilteredsDate,
+        unit = ViewBag.FilteredUnit,
+        driver = ViewBag.FilteredDriver,
+        company = ViewBag.FilteredCompany,
+        sortby = ViewBag.SortBy,
+        owner = ViewBag.Owner
+    };
 }
 
 <style>
@@ -41,7 +52,6 @@
 
 <!-- Links -->
 <div class="row">
-
     <!-- Add / Copy Links -->
     <div class="col-md-8 btn-group">
         @Html.ActionLink("Add New Trip", "Create", null, new { @class = " btn btn-default" })
@@ -57,9 +67,9 @@
 
     <!-- Billing Links -->
     <div class="col-md-4 btn-group">
-        @Html.ActionLink("OT Billing", "IndexBilling", null, new { @class = " btn btn-default" })
-        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", null, new { @class = " btn btn-default" })
-        @Html.ActionLink("Sunday Billing", "IndexBillingSunday", null, new { @class = " btn btn-default" })
+        @Html.ActionLink("OT Billing", "IndexBilling", "crLogBilling", paramDefault, new { @class = " btn btn-default" })
+        @Html.ActionLink("Daily Rate Billing", "IndexBillingDaily", "crLogBilling", paramDefault, new { @class = " btn btn-default" })
+        @Html.ActionLink("Sunday Billing", "IndexBillingSunday", "crLogBilling", paramDefault, new { @class = " btn btn-default" })
     </div>
 </div>
 
@@ -204,6 +214,9 @@
             Date
         </th>
         <th>
+            JobRef
+        </th>
+        <th>
             Driver
         </th>
         <th>
@@ -230,12 +243,6 @@
         <th>
             Driver&nbsp;OT
         </th>
-        @*<th>
-            Odo Start
-        </th>
-        <th>
-            Odo End
-        </th>*@
         <th>
             Pass
         </th>
@@ -281,16 +288,26 @@
                     <input type="checkbox" value="@item.Id" />
                 }
 
-            </td> 
+            </td>
             <td class="trip-AllowEdit" hidden>
                 @if (!item.AllowEdit)
                 {
                     <input type="checkbox" value="@item.Id" />
                 }
             </td>
-            <td  class="td-date">
+            <td class="td-date">
                 @item.DtTrip.ToString("MMM dd yyyy")
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span>
+            </td>
+            <td>
+                @if (item.crLogTripJobMains.Count != 0)
+                {
+                    var jobId = @item.crLogTripJobMains.LastOrDefault().JobMainId;
+                    <a href="/JobOrder/JobServices?JobMainId=@jobId" target="_blank">
+                        @jobId
+
+                    </a>
+                }
             </td>
             <td class="td-driver">
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
@@ -322,9 +339,10 @@
                 @item.DriverOT.ToString("#,##0.00")
             </td>
 
-
             <td>
-                @{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id });}
+                @*@{ Html.RenderAction("GetTripPassengersCount", "crLogPassengers", new { id = item.Id });}*@
+                <img src="~/Images/Icons/icons-queue.png" width="20" alt="passengers" title="passengers count" />
+                @item.crLogPassengers.Count()
             </td>
             <td class="actions">
 
@@ -347,19 +365,31 @@
                             }
                         }
 
-                        @if (!item.IsFinal)
+                        @if (!item.IsFinal && !isAdmin)
                         {
                             <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                             <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
+                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  Update OT </a></li>
                             <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
+                            if (!item.crLogCompany.IsInternal)
+                            {
+                                <li><a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link to Job </a></li>
+                            }
                         }
-
-                        <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                        <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
-                        <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
-                        <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
-                        <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
+                        else
+                        {
+                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo  </a></li>
+                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  Update OT   </a></li>
+                            
+                            if (!item.crLogCompany.IsInternal)
+                            {
+                                <li><a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link to Job </a></li>
+                            }
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
+                            <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
+                            <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
+                        }
 
                         @if (isAdmin)
                         {
@@ -413,6 +443,8 @@
 
 @Html.Partial("_VehicleTripFilter")
 
+@Html.Partial("_LogJobLinkModal")
+
 <!-- For Report Redirect -->
 @Html.Hidden("VehicleSummaryReport", Url.Action("VehicleSummaryReport", "CarRentalReport",
     new { DtStart = "_startDate", DtEnd = "_endDate", unitId = "_unitId" }))
@@ -423,6 +455,7 @@
     <script src="~/Areas/Personel/Script/CarRentalLog.js"></script>
     <script src="~/Areas/Personel/Script/CreateTripLogTime.js"></script>
     <script src="~/Areas/Personel/Script/CarRentalLogFinalize.js"></script>
+    <script src="~/Areas/Personel/Script/CrLogJobLink.js"></script>
     <script src="~/Scripts/Filters/FormInputFilter.js"></script>
     <script>
         $(document).ready(() => {
@@ -452,7 +485,6 @@
             checkDriverUnitDuplicate();
         });
 
-
         function ShowLoading() {
             $("#overlay").show();
         }
@@ -460,6 +492,7 @@
         function HideLoading() {
             $("#overlay").hide();
         }
+
 
     </script>
 }

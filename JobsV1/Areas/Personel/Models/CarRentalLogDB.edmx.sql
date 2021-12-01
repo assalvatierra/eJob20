@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/15/2021 09:52:08
+-- Date Created: 12/01/2021 12:02:18
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\eJob20\JobsV1\Areas\Personel\Models\CarRentalLogDB.edmx
 -- --------------------------------------------------
 
@@ -83,6 +83,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_crLogOwnercrLogUnit]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[crLogUnits] DROP CONSTRAINT [FK_crLogOwnercrLogUnit];
 GO
+IF OBJECT_ID(N'[dbo].[FK_crLogTripcrLogTripJobMain]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[crLogTripJobMains] DROP CONSTRAINT [FK_crLogTripcrLogTripJobMain];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -154,6 +157,9 @@ GO
 IF OBJECT_ID(N'[dbo].[crLogOwners]', 'U') IS NOT NULL
     DROP TABLE [dbo].[crLogOwners];
 GO
+IF OBJECT_ID(N'[dbo].[crLogTripJobMains]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[crLogTripJobMains];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -185,7 +191,8 @@ CREATE TABLE [dbo].[crLogCompanies] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(20)  NOT NULL,
     [Status] nvarchar(10)  NULL,
-    [IsShuttle] bit  NOT NULL
+    [IsShuttle] bit  NOT NULL,
+    [IsInternal] bit  NOT NULL
 );
 GO
 
@@ -400,6 +407,14 @@ CREATE TABLE [dbo].[crLogOwners] (
 );
 GO
 
+-- Creating table 'crLogTripJobMains'
+CREATE TABLE [dbo].[crLogTripJobMains] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [JobMainId] int  NOT NULL,
+    [crLogTripId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -533,6 +548,12 @@ GO
 -- Creating primary key on [Id] in table 'crLogOwners'
 ALTER TABLE [dbo].[crLogOwners]
 ADD CONSTRAINT [PK_crLogOwners]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'crLogTripJobMains'
+ALTER TABLE [dbo].[crLogTripJobMains]
+ADD CONSTRAINT [PK_crLogTripJobMains]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -868,6 +889,21 @@ GO
 CREATE INDEX [IX_FK_crLogOwnercrLogUnit]
 ON [dbo].[crLogUnits]
     ([crLogOwnerId]);
+GO
+
+-- Creating foreign key on [crLogTripId] in table 'crLogTripJobMains'
+ALTER TABLE [dbo].[crLogTripJobMains]
+ADD CONSTRAINT [FK_crLogTripcrLogTripJobMain]
+    FOREIGN KEY ([crLogTripId])
+    REFERENCES [dbo].[crLogTrips]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_crLogTripcrLogTripJobMain'
+CREATE INDEX [IX_FK_crLogTripcrLogTripJobMain]
+ON [dbo].[crLogTripJobMains]
+    ([crLogTripId]);
 GO
 
 -- --------------------------------------------------

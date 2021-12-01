@@ -149,6 +149,7 @@ namespace JobsV1.Models
         public string Particulars { get; set; }
         public string Service { get; set; }
         public string Customer { get; set; }
+        public string Company { get; set; }
         public string Item { get; set; }
         public string DtStart { get; set; }
         public string DtEnd { get; set; }
@@ -805,6 +806,7 @@ namespace JobsV1.Models
 
             sql =  " SELECT js.Id,  js.JobMainId ,js.Particulars, JobName = j.Description , Service = ( SELECT s.Name FROM Services s WHERE js.ServicesId = s.Id )," +
                    " Customer = (SELECT c.Name FROM Customers c WHERE j.CustomerId = c.Id) , " +
+                   " Company = (SELECT cem.Name FROM JobEntMains jem LEFT JOIN CustEntMains cem ON jem.CustEntMainId = cem.Id WHERE j.Id = jem.JobMainId ) , " +
                    " Item = (SELECT sup.Description FROM SupplierItems sup WHERE js.SupplierItemId = sup.Id )," +
                    " CONVERT(varchar, CAST( js.DtStart as DATETIME), 107) as DtStart,"+
                    " CONVERT(varchar, CAST( js.DtEnd as DATETIME), 107) as DtEnd," +

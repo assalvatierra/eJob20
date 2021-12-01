@@ -19,6 +19,7 @@ namespace JobsV1.Areas.Personel.Models
         {
             this.DriverOT = 0m;
             this.crLogPassengers = new HashSet<crLogPassenger>();
+            this.crLogTripJobMains = new HashSet<crLogTripJobMain>();
         }
     
         public int Id { get; set; }
@@ -50,5 +51,7 @@ namespace JobsV1.Areas.Personel.Models
         public virtual crLogClosing crLogClosing { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<crLogPassenger> crLogPassengers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<crLogTripJobMain> crLogTripJobMains { get; set; }
     }
 }

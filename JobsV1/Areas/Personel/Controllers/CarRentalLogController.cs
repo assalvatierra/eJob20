@@ -115,6 +115,7 @@ namespace JobsV1.Areas.Personel.Controllers
             ViewBag.FilteredDriver = driver ?? "all";
             ViewBag.FilteredCompany = company ?? "all";
             ViewBag.SortBy = sortby ?? "Date";
+            ViewBag.Owner = owner ?? "all";
 
             ViewBag.crLogUnitList    = dl.GetUnits().ToList();
             ViewBag.crLogDriverList  = dl.GetDrivers().ToList();
@@ -130,729 +131,6 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             return View(tripLogs);
-
-        }
-
-        // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult IndexBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
-        {
-
-            #region Session
-            if (!startDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-startDate"] = startDate;
-            }
-            else
-            {
-                if (Session["triplog-startDate"] != null)
-                {
-                    startDate = Session["triplog-startDate"].ToString();
-                }
-            }
-
-            if (!endDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-endDate"] = endDate;
-            }
-            else
-            {
-                if (Session["triplog-endDate"] != null)
-                {
-                    endDate = Session["triplog-endDate"].ToString();
-                }
-            }
-
-            if (!unit.IsNullOrWhiteSpace())
-            {
-                Session["triplog-unit"] = unit;
-            }
-            else
-            {
-                if (Session["triplog-unit"] != null)
-                {
-                    unit = Session["triplog-unit"].ToString();
-                }
-            }
-
-            if (!driver.IsNullOrWhiteSpace())
-            {
-                Session["triplog-driver"] = driver;
-            }
-            else
-            {
-                if (Session["triplog-driver"] != null)
-                {
-                    driver = Session["triplog-driver"].ToString();
-                }
-            }
-
-            if (!company.IsNullOrWhiteSpace())
-            {
-                Session["triplog-company"] = company;
-            }
-            else
-            {
-                if (Session["triplog-company"] != null)
-                {
-                    company = Session["triplog-company"].ToString();
-                }
-            }
-
-            if (!owner.IsNullOrWhiteSpace())
-            {
-                Session["triplog-owner"] = owner;
-            }
-            else
-            {
-                if (Session["triplog-owner"] != null)
-                {
-                    owner = Session["triplog-owner"].ToString();
-                }
-            }
-            #endregion
-
-            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
-
-            crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Sundays>();
-            tripBilling.OTTrips = new List<crBilling_OT>();
-
-            tripBilling.Company = company;
-
-            //Sundays Trip
-            var sundaysTrip = tripLogs.Where(s => s.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
-            sundaysTrip.ForEach((t) => {
-                tripBilling.SundayTrips.Add(new crBilling_Sundays
-                {
-                    Id = t.Id,
-                    Driver = t.crLogDriver.Name,
-                    DtTrip = t.DtTrip,
-                    Rate = t.Rate,
-                    Unit = t.crLogUnit.Description
-                });
-            });
-
-            // OTT trips
-            var OTTrips = tripLogs.Where(c => GetTripLogOTHours(c) > 0).ToList();
-            OTTrips.ForEach((t)=> {
-                double OTHrs = GetTripLogOTHours(t);
-                tripBilling.OTTrips.Add(new crBilling_OT {
-                    Id = t.Id,
-                    Driver = t.crLogDriver.Name,
-                    DtTrip = t.DtTrip,
-                    Unit = t.crLogUnit.Description,
-                    StartTime = t.StartTime,
-                    EndTime = t.EndTime,
-                    CompanyRate = t.Rate,
-                    OTHours = OTHrs,
-                    OTRate = GetTripLogOTCompanyRate(t, OTHrs)
-                });
-            });
-
-
-            //get summary
-            var logSummary = GetCrLogSummary(tripLogs);
-            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
-            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
-            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
-
-            ViewBag.FilteredsDate = startDate;
-            ViewBag.FilteredeDate = endDate;
-            ViewBag.FilteredUnit = unit ?? "all";
-            ViewBag.FilteredDriver = driver ?? "all";
-            ViewBag.FilteredCompany = company ?? "all";
-            ViewBag.SortBy = sortby ?? "Date";
-
-            ViewBag.crLogUnitList = dl.GetUnits().ToList();
-            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-                
-            return View(tripBilling);
-
-          
-        }
-
-
-        // GET: Personel/CarRentalLog/PrintIndexBilling
-        public ActionResult PrintIndexBilling(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
-        {
-
-            #region Session
-            if (!startDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-startDate"] = startDate;
-            }
-            else
-            {
-                if (Session["triplog-startDate"] != null)
-                {
-                    startDate = Session["triplog-startDate"].ToString();
-                }
-            }
-
-            if (!endDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-endDate"] = endDate;
-            }
-            else
-            {
-                if (Session["triplog-endDate"] != null)
-                {
-                    endDate = Session["triplog-endDate"].ToString();
-                }
-            }
-
-            if (!unit.IsNullOrWhiteSpace())
-            {
-                Session["triplog-unit"] = unit;
-            }
-            else
-            {
-                if (Session["triplog-unit"] != null)
-                {
-                    unit = Session["triplog-unit"].ToString();
-                }
-            }
-
-            if (!driver.IsNullOrWhiteSpace())
-            {
-                Session["triplog-driver"] = driver;
-            }
-            else
-            {
-                if (Session["triplog-driver"] != null)
-                {
-                    driver = Session["triplog-driver"].ToString();
-                }
-            }
-
-            if (!company.IsNullOrWhiteSpace())
-            {
-                Session["triplog-company"] = company;
-            }
-            else
-            {
-                if (Session["triplog-company"] != null)
-                {
-                    company = Session["triplog-company"].ToString();
-                }
-            }
-
-
-            if (!owner.IsNullOrWhiteSpace())
-            {
-                Session["triplog-owner"] = owner;
-            }
-            else
-            {
-                if (Session["triplog-owner"] != null)
-                {
-                    owner = Session["triplog-owner"].ToString();
-                }
-            }
-            #endregion
-
-            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
-
-            crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Sundays>();
-            tripBilling.OTTrips = new List<crBilling_OT>();
-
-            tripBilling.Company = company;
-
-            //Sundays Trip
-            var sundaysTrip = tripLogs.Where(s => s.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
-            sundaysTrip.ForEach((t) => {
-                tripBilling.SundayTrips.Add(new crBilling_Sundays
-                {
-                    Id = t.Id,
-                    Driver = t.crLogDriver.Name,
-                    DtTrip = t.DtTrip,
-                    Rate = t.Rate,
-                    Unit = t.crLogUnit.Description
-                });
-            });
-
-            // OTT trips
-            var OTTrips = tripLogs.Where(c => GetTripLogOTHours(c) > 0).ToList();
-            OTTrips.ForEach((t) => {
-                double OTHrs = GetTripLogOTHours(t);
-                tripBilling.OTTrips.Add(new crBilling_OT
-                {
-                    Id = t.Id,
-                    Driver = t.crLogDriver.Name,
-                    DtTrip = t.DtTrip,
-                    Unit = t.crLogUnit.Description,
-                    StartTime = t.StartTime,
-                    EndTime = t.EndTime,
-                    CompanyRate = t.Rate,
-                    OTHours = OTHrs,
-                    OTRate = GetTripLogOTCompanyRate(t, OTHrs)
-                });
-            });
-
-            if (startDate != "")
-            {
-                ViewBag.FilteredsDate = DateTime.Parse(startDate).ToString("MMM dd yyyy");
-                ViewBag.FilteredeDate = DateTime.Parse(endDate).ToString("MMM dd yyyy");
-            }
-
-            ViewBag.FilteredUnit = unit ?? "all";
-            ViewBag.FilteredDriver = driver ?? "all";
-            ViewBag.FilteredCompany = company ?? "all";
-            ViewBag.SortBy = sortby ?? "Date";
-
-            return View(tripBilling);
-
-
-        }
-
-        // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult IndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby)
-        {
-
-            #region Session
-            if (!startDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-startDate"] = startDate;
-            }
-            else
-            {
-                if (Session["triplog-startDate"] != null)
-                {
-                    startDate = Session["triplog-startDate"].ToString();
-                }
-            }
-
-            if (!endDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-endDate"] = endDate;
-            }
-            else
-            {
-                if (Session["triplog-endDate"] != null)
-                {
-                    endDate = Session["triplog-endDate"].ToString();
-                }
-            }
-
-            if (!unit.IsNullOrWhiteSpace())
-            {
-                Session["triplog-unit"] = unit;
-            }
-            else
-            {
-                if (Session["triplog-unit"] != null)
-                {
-                    unit = Session["triplog-unit"].ToString();
-                }
-            }
-
-            if (!driver.IsNullOrWhiteSpace())
-            {
-                Session["triplog-driver"] = driver;
-            }
-            else
-            {
-                if (Session["triplog-driver"] != null)
-                {
-                    driver = Session["triplog-driver"].ToString();
-                }
-            }
-
-            if (!company.IsNullOrWhiteSpace())
-            {
-                Session["triplog-company"] = company;
-            }
-            else
-            {
-                if (Session["triplog-company"] != null)
-                {
-                    company = Session["triplog-company"].ToString();
-                }
-            }
-
-            #endregion
-
-            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
-
-            //get summary
-            var logSummary = GetCrLogSummary(tripLogs);
-            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
-            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
-            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
-
-            ViewBag.FilteredsDate = startDate;
-            ViewBag.FilteredeDate = endDate;
-            ViewBag.FilteredUnit = unit ?? "all";
-            ViewBag.FilteredDriver = driver ?? "all";
-            ViewBag.FilteredCompany = company ?? "all";
-            ViewBag.SortBy = sortby ?? "Date";
-
-            ViewBag.crLogUnitList = dl.GetUnits().ToList();
-            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-            ViewBag.Company = company;
-
-            return View(tripLogs);
-        }
-
-
-        // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult PrintIndexBillingDaily(string startDate, string endDate, string unit, string driver, string company, string sortby, string owner)
-        {
-
-            #region Session
-            if (!startDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-startDate"] = startDate;
-            }
-            else
-            {
-                if (Session["triplog-startDate"] != null)
-                {
-                    startDate = Session["triplog-startDate"].ToString();
-                }
-            }
-
-            if (!endDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-endDate"] = endDate;
-            }
-            else
-            {
-                if (Session["triplog-endDate"] != null)
-                {
-                    endDate = Session["triplog-endDate"].ToString();
-                }
-            }
-
-            if (!unit.IsNullOrWhiteSpace())
-            {
-                Session["triplog-unit"] = unit;
-            }
-            else
-            {
-                if (Session["triplog-unit"] != null)
-                {
-                    unit = Session["triplog-unit"].ToString();
-                }
-            }
-
-            if (!driver.IsNullOrWhiteSpace())
-            {
-                Session["triplog-driver"] = driver;
-            }
-            else
-            {
-                if (Session["triplog-driver"] != null)
-                {
-                    driver = Session["triplog-driver"].ToString();
-                }
-            }
-
-            if (!company.IsNullOrWhiteSpace())
-            {
-                Session["triplog-company"] = company;
-            }
-            else
-            {
-                if (Session["triplog-company"] != null)
-                {
-                    company = Session["triplog-company"].ToString();
-                }
-            }
-
-
-            if (!owner.IsNullOrWhiteSpace())
-            {
-                Session["triplog-owner"] = owner;
-            }
-            else
-            {
-                if (Session["triplog-owner"] != null)
-                {
-                    owner = Session["triplog-owner"].ToString();
-                }
-            }
-            #endregion
-
-            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
-
-            //get summary
-            var logSummary = GetCrLogSummary(tripLogs);
-            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
-            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
-            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
-
-            ViewBag.FilteredsDate = startDate;
-            ViewBag.FilteredeDate = endDate;
-            ViewBag.FilteredUnit = unit ?? "all";
-            ViewBag.FilteredDriver = driver ?? "all";
-            ViewBag.FilteredCompany = company ?? "all";
-            ViewBag.SortBy = sortby ?? "Date";
-
-            ViewBag.crLogUnitList = dl.GetUnits().ToList();
-            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-
-            return View(tripLogs);
-        }
-
-
-        // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult IndexBillingSunday(string startDate, string endDate, string unit, string driver, string company, string sortby)
-        {
-
-            #region Session
-            if (!startDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-startDate"] = startDate;
-            }
-            else
-            {
-                if (Session["triplog-startDate"] != null)
-                {
-                    startDate = Session["triplog-startDate"].ToString();
-                }
-            }
-
-            if (!endDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-endDate"] = endDate;
-            }
-            else
-            {
-                if (Session["triplog-endDate"] != null)
-                {
-                    endDate = Session["triplog-endDate"].ToString();
-                }
-            }
-
-            if (!unit.IsNullOrWhiteSpace())
-            {
-                Session["triplog-unit"] = unit;
-            }
-            else
-            {
-                if (Session["triplog-unit"] != null)
-                {
-                    unit = Session["triplog-unit"].ToString();
-                }
-            }
-
-            if (!driver.IsNullOrWhiteSpace())
-            {
-                Session["triplog-driver"] = driver;
-            }
-            else
-            {
-                if (Session["triplog-driver"] != null)
-                {
-                    driver = Session["triplog-driver"].ToString();
-                }
-            }
-
-            if (!company.IsNullOrWhiteSpace())
-            {
-                Session["triplog-company"] = company;
-            }
-            else
-            {
-                if (Session["triplog-company"] != null)
-                {
-                    company = Session["triplog-company"].ToString();
-                }
-            }
-
-            #endregion
-
-            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
-
-            crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Sundays>();
-            tripBilling.OTTrips = new List<crBilling_OT>();
-
-            tripBilling.Company = company;
-
-            //Sundays Trip
-            var sundaysTrip = tripLogs.Where(s => s.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
-            sundaysTrip.ForEach((t) => {
-                tripBilling.SundayTrips.Add(new crBilling_Sundays
-                {
-                    Id = t.Id,
-                    Driver = t.crLogDriver.Name,
-                    DtTrip = t.DtTrip,
-                    Rate = t.Rate,
-                    Unit = t.crLogUnit.Description
-                });
-            });
-
-            // OTT trips
-            var OTTrips = tripLogs.Where(c => GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
-            OTTrips.ForEach((t) => {
-                double OTHrs = GetTripLogOTHours(t);
-                tripBilling.OTTrips.Add(new crBilling_OT
-                {
-                    Id = t.Id,
-                    Driver = t.crLogDriver.Name,
-                    DtTrip = t.DtTrip,
-                    Unit = t.crLogUnit.Description,
-                    StartTime = t.StartTime,
-                    EndTime = t.EndTime,
-                    CompanyRate = t.Rate,
-                    OTHours = OTHrs,
-                    OTRate = GetTripLogOTCompanyRate(t, OTHrs)
-                });
-            });
-
-
-            //get summary
-            var logSummary = GetCrLogSummary(tripLogs);
-            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
-            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
-            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
-
-            ViewBag.FilteredsDate = startDate;
-            ViewBag.FilteredeDate = endDate;
-            ViewBag.FilteredUnit = unit ?? "all";
-            ViewBag.FilteredDriver = driver ?? "all";
-            ViewBag.FilteredCompany = company ?? "all";
-            ViewBag.SortBy = sortby ?? "Date";
-
-            ViewBag.crLogUnitList = dl.GetUnits().ToList();
-            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-
-            return View(tripBilling);
-
-        }
-
-        // GET: Personel/CarRentalLog/IndexBilling
-        public ActionResult PrintIndexBillingSunday(string startDate, string endDate, string unit, string driver, string company, string sortby)
-        {
-
-            #region Session
-            if (!startDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-startDate"] = startDate;
-            }
-            else
-            {
-                if (Session["triplog-startDate"] != null)
-                {
-                    startDate = Session["triplog-startDate"].ToString();
-                }
-            }
-
-            if (!endDate.IsNullOrWhiteSpace())
-            {
-                Session["triplog-endDate"] = endDate;
-            }
-            else
-            {
-                if (Session["triplog-endDate"] != null)
-                {
-                    endDate = Session["triplog-endDate"].ToString();
-                }
-            }
-
-            if (!unit.IsNullOrWhiteSpace())
-            {
-                Session["triplog-unit"] = unit;
-            }
-            else
-            {
-                if (Session["triplog-unit"] != null)
-                {
-                    unit = Session["triplog-unit"].ToString();
-                }
-            }
-
-            if (!driver.IsNullOrWhiteSpace())
-            {
-                Session["triplog-driver"] = driver;
-            }
-            else
-            {
-                if (Session["triplog-driver"] != null)
-                {
-                    driver = Session["triplog-driver"].ToString();
-                }
-            }
-
-            if (!company.IsNullOrWhiteSpace())
-            {
-                Session["triplog-company"] = company;
-            }
-            else
-            {
-                if (Session["triplog-company"] != null)
-                {
-                    company = Session["triplog-company"].ToString();
-                }
-            }
-
-            #endregion
-
-            var tripLogs = GetTripLogs(startDate, endDate, unit, driver, company, sortby);
-
-            crLogTripBilling tripBilling = new crLogTripBilling();
-            tripBilling.SundayTrips = new List<crBilling_Sundays>();
-            tripBilling.OTTrips = new List<crBilling_OT>();
-
-            tripBilling.Company = company;
-
-            //Sundays Trip
-            var sundaysTrip = tripLogs.Where(s => s.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
-            sundaysTrip.ForEach((t) => {
-                tripBilling.SundayTrips.Add(new crBilling_Sundays
-                {
-                    Id = t.Id,
-                    Driver = t.crLogDriver.Name,
-                    DtTrip = t.DtTrip,
-                    Rate = t.Rate,
-                    Unit = t.crLogUnit.Description
-                });
-            });
-
-            // OTT trips
-            var OTTrips = tripLogs.Where(c => GetTripLogOTHours(c) > 0 && c.DtTrip.DayOfWeek == DayOfWeek.Sunday).ToList();
-            OTTrips.ForEach((t) => {
-                double OTHrs = GetTripLogOTHours(t);
-                tripBilling.OTTrips.Add(new crBilling_OT
-                {
-                    Id = t.Id,
-                    Driver = t.crLogDriver.Name,
-                    DtTrip = t.DtTrip,
-                    Unit = t.crLogUnit.Description,
-                    StartTime = t.StartTime,
-                    EndTime = t.EndTime,
-                    CompanyRate = t.Rate,
-                    OTHours = OTHrs,
-                    OTRate = GetTripLogOTCompanyRate(t, OTHrs)
-                });
-            });
-
-
-            //get summary
-            var logSummary = GetCrLogSummary(tripLogs);
-            ViewBag.DriversLogSummary = logSummary.CrDrivers ?? new List<CrDriverLogs>();
-            ViewBag.CompaniesLogSummary = logSummary.CrCompanies ?? new List<CrCompanyLogs>();
-            ViewBag.UnitsLogSummary = logSummary.CrUnits ?? new List<CrUnitLogs>();
-
-            ViewBag.FilteredsDate = startDate;
-            ViewBag.FilteredeDate = endDate;
-            ViewBag.FilteredUnit = unit ?? "all";
-            ViewBag.FilteredDriver = driver ?? "all";
-            ViewBag.FilteredCompany = company ?? "all";
-            ViewBag.SortBy = sortby ?? "Date";
-
-            ViewBag.crLogUnitList = dl.GetUnits().ToList();
-            ViewBag.crLogDriverList = dl.GetDrivers().ToList();
-            ViewBag.crLogCompanyList = dl.GetCompanies().ToList();
-
-            return View(tripBilling);
 
         }
 
@@ -1239,164 +517,6 @@ namespace JobsV1.Areas.Personel.Controllers
                 db.Entry(crLogTrip).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
-            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
-            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
-            return View(crLogTrip);
-        }
-
-
-        // GET: Personel/CarRentalLog/Edit/5
-        public ActionResult EditBilling(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            crLogTrip crLogTrip = db.crLogTrips.Find(id);
-            if (crLogTrip == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (crLogTrip.OTRate == null)
-            {
-                crLogTrip.OTRate = 200;
-            }
-
-
-            if (crLogTrip.DriverOTRate == null)
-            {
-                crLogTrip.DriverOTRate = 50;
-            }
-
-            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
-            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
-            return View(crLogTrip);
-        }
-
-        // POST: Personel/CarRentalLog/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditBilling([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(crLogTrip).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("IndexBilling");
-            }
-            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
-            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
-            return View(crLogTrip);
-        }
-
-
-
-        // GET: Personel/CarRentalLog/EditOTBilling/5
-        public ActionResult EditOTBilling(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            crLogTrip crLogTrip = db.crLogTrips.Find(id);
-            if (crLogTrip == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (crLogTrip.OTRate == null)
-            {
-                crLogTrip.OTRate = 200;
-            }
-
-
-            if (crLogTrip.DriverOTRate == null)
-            {
-                crLogTrip.DriverOTRate = 50;
-            }
-
-            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
-            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
-            return View(crLogTrip);
-        }
-
-        // POST: Personel/CarRentalLog/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditOTBilling([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(crLogTrip).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("IndexBilling");
-            }
-            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
-            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
-            return View(crLogTrip);
-        }
-
-
-
-        // GET: Personel/CarRentalLog/EditBillingSunday/5
-        public ActionResult EditBillingSunday(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            crLogTrip crLogTrip = db.crLogTrips.Find(id);
-            if (crLogTrip == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (crLogTrip.OTRate == null)
-            {
-                crLogTrip.OTRate = 200;
-            }
-
-
-            if (crLogTrip.DriverOTRate == null)
-            {
-                crLogTrip.DriverOTRate = 50;
-            }
-
-            ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
-            ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
-            ViewBag.crLogCompanyId = new SelectList(dl.GetCompanies(), "Id", "Name", crLogTrip.crLogCompanyId);
-            //ViewBag.crLogClosingId = new SelectList(db.crLogClosings, "Id", "Id", crLogTrip.crLogClosingId);
-            return View(crLogTrip);
-        }
-
-        // POST: Personel/CarRentalLog/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditBillingSunday([Bind(Include = "Id,crLogDriverId,crLogUnitId,crLogCompanyId,DtTrip,Rate,Addon,Expenses,DriverFee,Remarks, OdoStart, OdoEnd, crLogClosingId, DriverOt, TripHours, StartTime, EndTime, OTRate, DriverOTRate")] crLogTrip crLogTrip)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(crLogTrip).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("IndexBillingSunday");
             }
             ViewBag.crLogDriverId = new SelectList(dl.GetDrivers(), "Id", "Name", crLogTrip.crLogDriverId);
             ViewBag.crLogUnitId = new SelectList(dl.GetUnits(), "Id", "Description", crLogTrip.crLogUnitId);
@@ -2288,31 +1408,6 @@ namespace JobsV1.Areas.Personel.Controllers
             return false;
         }
 
-        [HttpGet]
-        public bool GetTripWarningByUnit(int id, string date)
-        {
-            var trip = db.crLogTrips.Find(id);
-            var sdate = DateTime.Parse(date);
-            if (GetUnitIsInTripByDate(trip.crLogUnitId, sdate) && trip.crLogUnit.Description != "Office")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        [HttpGet]
-        public bool GetTripWarningByDriver(int id, string date)
-        {
-            var trip = db.crLogTrips.Find(id);
-            var sdate = DateTime.Parse(date);
-            if (GetDriverIsInTripByDate(trip.crLogDriverId, sdate))
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         #region OT 
 
@@ -3099,8 +2194,7 @@ namespace JobsV1.Areas.Personel.Controllers
         #endregion
 
 
-        #region Svc
-
+        #region CarRentalLogs Services
 
         //Check if Unit is encoded in trip logs for the selected date
         public bool GetUnitIsInTripByDateSvc(int unitId, DateTime? date)
@@ -3172,7 +2266,11 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+        #endregion
 
+        #region CarRentalLogs APIs
+
+        //POST: CarRentalLog/SetTripFinal
         //Finalize Trip
         public bool SetTripFinal(crLogTrip triplog)
         {
@@ -3192,6 +2290,105 @@ namespace JobsV1.Areas.Personel.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+
+        [HttpGet]
+        public bool GetTripWarningByUnit(int id, string date)
+        {
+            var trip = db.crLogTrips.Find(id);
+            var sdate = DateTime.Parse(date);
+            if (GetUnitIsInTripByDate(trip.crLogUnitId, sdate) && trip.crLogUnit.Description != "Office")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        [HttpGet]
+        public bool GetTripWarningByDriver(int id, string date)
+        {
+            var trip = db.crLogTrips.Find(id);
+            var sdate = DateTime.Parse(date);
+            if (GetDriverIsInTripByDate(trip.crLogDriverId, sdate))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        //POST: CarRentalLog/SetLinkTriplogJobs/{triplogId:int, jobmainId:int}
+        [HttpPost]
+        public bool SetLinkTriplogJobs(int triplogId, int jobmainId)
+        {
+            try
+            {
+                //new entry
+                crLogTripJobMain logTripJobMain = new crLogTripJobMain();
+                logTripJobMain.crLogTripId = triplogId;
+                logTripJobMain.JobMainId = jobmainId;
+
+                db.crLogTripJobMains.Add(logTripJobMain);
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var eexm = ex;
+                return false;
+            }
+        }
+
+
+        //GET: CarRentalLog/GetLinkTriplogJobs/{triplogId:int}
+        [HttpGet]
+        public int GetLinkTriplogJobs(int triplogId)
+        {
+            try
+            {
+                //find existing triplog-jobmain link
+                var link = db.crLogTripJobMains.Where(c => c.crLogTripId == triplogId);
+
+                if (link == null)
+                {
+                    return 0;
+                }
+
+                return link.FirstOrDefault().JobMainId;
+            }
+            catch 
+            {
+                return 0;
+            }
+        }
+
+
+        //POST: CarRentalLog/DeleteLinkTriplogJobs/{triplogId:int, jobmainId:int}
+        [HttpPost]
+        public bool DeleteLinkTriplogJobs(int triplogId, int jobmainId)
+        {
+            try
+            {
+                //new entry
+                var logTripJobMain = db.crLogTripJobMains.Where(c => c.crLogTripId == triplogId && c.JobMainId == jobmainId);
+
+                if (logTripJobMain != null)
+                {
+
+                    db.crLogTripJobMains.Remove(logTripJobMain.FirstOrDefault());
+                    db.SaveChanges();
+                    return true;
+                }
+
+                return false;
+            }
+            catch 
+            {
+                return false;
             }
         }
 
