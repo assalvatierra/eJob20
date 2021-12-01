@@ -573,8 +573,13 @@ namespace JobsV1.Areas.Personel.Controllers
             }
 
             var crlogFuels = db.crLogFuels.Where(
-                                c => c.crLogDriverId == crlogFuel.crLogDriverId
-                                && c.crLogTypeId == 2 && c.crLogPaymentTypeId == 3).ToList();
+                                c => c.crLogDriverId == crlogFuel.crLogDriverId 
+                                //&& c.crLogUnitId == crlogFuel.crLogUnitId
+                                && c.crLogTypeId == 2 && c.crLogPaymentTypeId == 3 
+                                && c.crLogFuelStatus.OrderByDescending(f => f.Id).FirstOrDefault().crCashReqStatusId < 3)
+                                .ToList();
+
+
             crlogFuels = crlogFuels.Where(c => c.dtRequest.Date.CompareTo(crlogFuel.dtRequest.Date) == 0).ToList();
             ViewBag.DtRequest = crlogFuel.dtRequest;
             ViewBag.PONo = crlogFuel.Id;

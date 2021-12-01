@@ -169,6 +169,10 @@
                 }
 
             }
+            else if (item.ApTransStatusId > 6)
+            {
+                textcolor = "gray";
+            }
             else
             {
                 textcolor = "darkgreen";
@@ -259,6 +263,16 @@
                         <span class="label label-success">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
 
                     }
+                    else if (item.ApTransStatusId == 7)
+                    {
+                        <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                    }
+                    else if (item.ApTransStatusId == 8)
+                    {
+                        <span class="label label-default">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
+
+                    }
                     else
                     {
                         <span class="label label-primary">  @Html.DisplayFor(modelItem => item.ApTransStatu.Status) </span>
@@ -309,7 +323,11 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdown-actions">
-                            <li>
+                            <li> 
+                                @if (item.ApTransStatusId == 7 || item.ApTransStatusId == 8)
+                                {
+                                    <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 1)"> Request </a>
+                                }
                                 @if (item.ApTransStatusId == 1 && isAdmin)
                                 {
                                     <a class="cursor-link" style="cursor:pointer;" onclick="UpdateStatus(@item.Id, 2)"> Approve </a>
@@ -326,8 +344,12 @@
                                 }
                                 else if (item.ApTransStatusId == 3)
                                 {
-                                    //released
-                                    <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id, @item.Amount)"> Return </a>
+                                    if (item.Amount != 0)
+                                    { 
+                                        //return
+                                        <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id, @item.Amount)"> Return </a>
+                                    }
+                                   
                                 }
                                 else if (item.ApTransStatusId == 5 && isAdmin)
                                 {
@@ -339,11 +361,12 @@
                             { 
                                 <li>
                                     <a class="cursor-link" style="cursor:pointer;" onclick="ShowPaymentModal(@item.Id)"> Add Payment </a>
-                                    @*@Html.ActionLink("Payment", "CreateTransPayment", "ApPayments", new { transId = item.Id }, null)*@
+
                                 </li>
                             }
+
                             <li role="separator" class="divider"></li>
-                            @if (item.ApTransStatusId <= 2)
+                            @if (item.ApTransStatusId <= 1 || item.ApTransStatusId >= 7)
                             {
                                 <li> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
                             }
@@ -634,5 +657,4 @@
     <script>
         $(Initialize('@status','@sortBy'));
     </script>
-
 }

@@ -12,7 +12,7 @@
 
 <h2>Details</h2>
 <p>
-    @if (Model.ApTransStatusId < 3) {
+    @if (Model.ApTransStatusId < 2) {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })<span> | </span>
     }
     @Html.ActionLink("History", "ActionHistory", new { id = Model.Id }) |

@@ -104,10 +104,9 @@ namespace Payable.Areas.Payables.Controllers
             transaction.DtService = today;
             transaction.DtServiceTo = today;
 
-
             ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name");
             ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name");
-            ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus(), "Id", "Status");
+            ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus().OrderBy(c=>c.Code), "Id", "Status");
             return View(transaction);
         }
 
@@ -156,7 +155,7 @@ namespace Payable.Areas.Payables.Controllers
             }
             ViewBag.ApAccountId = new SelectList(ap.AccountMgr.GetAccounts(), "Id", "Name", apTransaction.ApAccountId);
             ViewBag.ApTransCategoryId = new SelectList(ap.TransactionMgr.GetTransCategories(), "Id", "Name", apTransaction.ApTransCategoryId);
-            ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus(), "Id", "Status", apTransaction.ApTransStatusId);
+            ViewBag.ApTransStatusId = new SelectList(ap.TransactionMgr.GetTransStatus().OrderBy(c => c.Code), "Id", "Status", apTransaction.ApTransStatusId);
             return View(apTransaction);
         }
 
