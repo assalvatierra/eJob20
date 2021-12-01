@@ -382,6 +382,7 @@
     <Compile Include="Areas\Personel\Controllers\CarRentalCashReleaseController.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalLogController.cs" />
     <Compile Include="Areas\Personel\Controllers\CarRentalReportController.cs" />
+    <Compile Include="Areas\Personel\Controllers\crLogBillingController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogCompaniesController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogDriversController.cs" />
     <Compile Include="Areas\Personel\Controllers\crLogFuelsController.cs" />
@@ -476,6 +477,9 @@
     <Compile Include="Areas\Personel\Models\crLogTrip.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Personel\Models\crLogTripJobMain.cs">
+      <DependentUpon>CarRentalLogDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Personel\Models\crLogType.cs">
       <DependentUpon>CarRentalLogDB.tt</DependentUpon>
     </Compile>
@@ -567,7 +571,7 @@
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransCreate.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ApTransDetails.js" />
     <Content Include="Areas\Payables\Scripts\ApTransactions\ReleasedWeekly.js" />
-    <Content Include="Areas\Personel\Models\SQL\InitData.CarREntalLog.SQL" />
+    <Content Include="Areas\Personel\Models\SQL\InitData.CarRentalLog.SQL" />
     <Compile Include="Areas\Personel\PersonelAreaRegistration.cs" />
     <Compile Include="Areas\Personel\Services\CarRentalLogSvc.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -1388,6 +1392,7 @@
     <Content Include="Areas\Personel\Script\CreateTripLogTime.js" />
     <Content Include="Areas\Personel\Script\CreatePassengerTime.js" />
     <Content Include="Areas\Personel\Script\CrLogFuel.js" />
+    <Content Include="Areas\Personel\Script\CrLogJobLink.js" />
     <Content Include="Areas\Personel\Script\CrLogOdoes.js" />
     <Content Include="Areas\Personel\Script\CarRentalLog.js" />
     <Content Include="Areas\Personel\Script\DateRangePicker\daterangepicker.js" />
@@ -2027,6 +2032,9 @@
     <Content Include="Images\CarRental\Home\icons-twitter-48.png" />
     <Content Include="Images\Icons\icons-valet-parking.png" />
     <Content Include="Images\Icons\icons-weight.png" />
+    <Content Include="Images\Icons\icons-link.png" />
+    <Content Include="Images\Icons\icons-external-link.png" />
+    <Content Include="Images\Icons\icons-queue.png" />
     <Content Include="Images\Icons\Maintenance\icons-aircon.png" />
     <Content Include="Images\Icons\Maintenance\icons-brake-discs.png" />
     <Content Include="Images\Icons\Maintenance\icons-car-battery.png" />
@@ -2565,20 +2573,20 @@
     <Content Include="Areas\Personel\Views\CarRentalLog\DriverSummaryTripEdit.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrintFuelRequestForm.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\PrintPOForm.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\IndexBilling.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\EditBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\IndexBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\EditBilling.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalReport\BillingReport.cshtml" />
     <Content Include="Areas\Personel\Views\crRptUnitExpenses\_BillingRptFilter.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalLog\_LogOTUpdateModal.cshtml" />
     <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexBilling.cshtml" />
     <Content Include="Areas\Personel\Views\crLogFuels\Unreturned.cshtml" />
     <Content Include="Areas\Receivables\Views\ArAccounts\CreateFromJobs.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\IndexBillingDaily.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBillingDaily.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\IndexBillingSunday.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\PrintIndexBillingSunday.cshtml" />
-    <Content Include="Areas\Personel\Views\CarRentalLog\EditOTBilling.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\IndexBillingDaily.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexBillingDaily.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\IndexBillingSunday.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\PrintIndexBillingSunday.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\EditOTBilling.cshtml" />
     <Content Include="Areas\Personel\Views\CrLogPassengerList\PassengerTrace.cshtml" />
     <Content Include="bin\ApplicationInsights.config" />
     <Content Include="Areas\Payables\Views\ApTransactions\ReleasedDaily.cshtml" />
@@ -2603,6 +2611,12 @@
     <Content Include="Areas\Personel\Views\CarRentalReport\ContributionReport.cshtml" />
     <Content Include="Areas\Receivables\Views\ArTransactions\EditRemarks.cshtml" />
     <Content Include="Areas\Personel\Views\CarRentalReport\ContributionReportDetails.cshtml" />
+    <Content Include="Areas\Personel\Views\CarRentalLog\_LogJobLinkModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\_LogSummaryModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\_LogOTUpdateModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\_LogOdoUpdateModal.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\_VehicleTripFilter.cshtml" />
+    <Content Include="Areas\Personel\Views\crLogBilling\_VehicleSummaryFilter.cshtml" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />

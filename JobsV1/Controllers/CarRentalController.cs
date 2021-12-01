@@ -404,7 +404,7 @@ namespace JobsV1.Controllers
                     //Filter email using url
 
                     //sent email 
-                    var adminEmail = "travel.realbreeze@gmail.com";
+                    //var adminEmail = "travel.realbreeze@gmail.com";
                     var emailResponse = "";
                     var adminEmailList = db.AdminEmails.ToList();
 
@@ -560,7 +560,7 @@ namespace JobsV1.Controllers
                     //Filter email using url
 
                     //sent email 
-                    var adminEmail = "inquiries.realwheels@gmail.com";
+                    //var adminEmail = "inquiries.realwheels@gmail.com";
                     var emailResponse = "";
                     var adminEmailList = db.AdminEmails.ToList();
 
@@ -769,7 +769,7 @@ namespace JobsV1.Controllers
                     //Filter email using url
 
                     //sent email 
-                    var adminEmail = "inquiries.realwheels@gmail.com";
+                    //var adminEmail = "inquiries.realwheels@gmail.com";
                     var emailResponse = "";
                     var adminEmailList = db.AdminEmails.ToList();
 
@@ -924,7 +924,7 @@ namespace JobsV1.Controllers
                     //Filter email using url
 
                     //sent email 
-                    var adminEmail = "travel.realbreeze@gmail.com";
+                    //var adminEmail = "travel.realbreeze@gmail.com";
                     var emailResponse = "";
                     var adminEmailList = db.AdminEmails.ToList();
 

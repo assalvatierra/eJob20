@@ -11,14 +11,14 @@ namespace JobsV1.Controllers
     public class ReportingController : Controller
     {
         // NEW CUSTOMER Reference ID
-        private int NewCustSysId = 1;
+        //private int NewCustSysId = 1;
         // Job Status
-        private int JOBINQUIRY = 1;
-        private int JOBRESERVATION = 2;
-        private int JOBCONFIRMED = 3;
-        private int JOBCLOSED = 4;
-        private int JOBCANCELLED = 5;
-        private int JOBTEMPLATE = 6;
+        //private int JOBINQUIRY = 1;
+        //private int JOBRESERVATION = 2;
+        //private int JOBCONFIRMED = 3;
+        //private int JOBCLOSED = 4;
+        //private int JOBCANCELLED = 5;
+        //private int JOBTEMPLATE = 6;
         
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbc = new DBClasses();

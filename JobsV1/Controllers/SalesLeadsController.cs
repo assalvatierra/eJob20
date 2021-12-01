@@ -22,11 +22,11 @@ namespace JobsV1.Controllers
         private int NewCustSysId = 1;
         // Job Status
         private int JOBINQUIRY = 1;
-        private int JOBRESERVATION = 2;
+        //private int JOBRESERVATION = 2;
         private int JOBCONFIRMED = 3;
-        private int JOBCLOSED = 4;
-        private int JOBCANCELLED = 5;
-        private int JOBTEMPLATE = 6;
+        //private int JOBCLOSED = 4;
+        //private int JOBCANCELLED = 5;
+        //private int JOBTEMPLATE = 6;
 
         private JobDBContainer db = new JobDBContainer();
         private DBClasses dbclasses = new DBClasses();

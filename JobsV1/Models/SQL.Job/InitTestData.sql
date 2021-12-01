@@ -152,9 +152,10 @@ SELECT * FROM JobServices WHERE JobMainId = 2
 					ORDER BY SORTDATE ASC
 					;
 
-
+-- GET ActiveJobs
 SELECT js.Id,  js.JobMainId ,js.Particulars, JobName = j.Description , Service = ( SELECT s.Name FROM Services s WHERE js.ServicesId = s.Id ),
                     Customer = (SELECT c.Name FROM Customers c WHERE j.CustomerId = c.Id) ,  
+                    Company = (SELECT cem.Name FROM JobEntMains jem LEFT JOIN CustEntMains cem ON jem.CustEntMainId = cem.Id WHERE j.Id = jem.JobMainId ) ,  
                     Item = (SELECT sup.Description FROM SupplierItems sup WHERE js.SupplierItemId = sup.Id ), 
                     CONVERT(varchar, CAST( js.DtStart as DATETIME), 107) as DtStart,
                     CONVERT(varchar, CAST( js.DtEnd as DATETIME), 107) as DtEnd, 
@@ -163,7 +164,8 @@ SELECT js.Id,  js.JobMainId ,js.Particulars, JobName = j.Description , Service =
                     SORTDATE = CAST( DATEADD(hh, CAST(SUBSTRING( CAST( CAST( CONVERT(varchar, isnull(jp.JsTime,'00:00:00'), 8)  as TIME) as VARCHAR),1,2 ) as INT),DtStart)  as DATETIME)
                     FROM JobServices js 
                     LEFT JOIN JobMains j ON js.JobMainId = j.Id 
-                    LEFT JOIN JobServicePickups jp ON jp.JobServicesId = js.Id ORDER BY SORTDATE;
+                    LEFT JOIN JobServicePickups jp ON jp.JobServicesId = js.Id ORDER BY SORTDATE
+                    ;
 
 -- GET Company List with filtering and sort
 SELECT cem.*,

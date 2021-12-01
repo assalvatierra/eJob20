@@ -109,7 +109,7 @@ namespace JobsV1.Controllers
         private int JOBCONFIRMED = 3;
         private int JOBCLOSED = 4;
         private int JOBCANCELLED = 5;
-        private int JOBTEMPLATE = 6;
+        //private int JOBTEMPLATE = 6;
 
         private string SITECONFIG = ConfigurationManager.AppSettings["SiteConfig"].ToString();
 
@@ -1323,14 +1323,14 @@ order by x.jobid
             {
                 ViewBag.CustomerId = new SelectList(db.Customers.Where(d => d.Status == "ACT"), "Id", "Name", id);
             }
-
+            var signedUser = HttpContext.User.Identity.Name;
             ViewBag.CompanyList = db.CustEntMains.OrderBy(s => s.Name).ToList() ?? new List<CustEntMain>();
             ViewBag.CustomerList = db.Customers.Where(s => s.Status == "ACT").OrderBy(s => s.Name).ToList() ?? new List<Customer>();
             ViewBag.CompanyId = new SelectList(db.CustEntMains, "Id", "Name");
             ViewBag.BranchId = new SelectList(db.Branches, "Id", "Name", 2);
             ViewBag.JobStatusId = new SelectList(db.JobStatus, "Id", "Status", JOBCONFIRMED);
             ViewBag.JobThruId = new SelectList(db.JobThrus, "Id", "Desc");
-            ViewBag.AssignedTo = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName");
+            ViewBag.AssignedTo = new SelectList(dbc.getUsers_wdException(), "UserName", "UserName", signedUser);
             ViewBag.JobPaymentStatusId = new SelectList(db.JobPaymentStatus, "Id", "Status", 2);
             ViewBag.SiteConfig = SITECONFIG;
 
@@ -2249,11 +2249,11 @@ order by x.jobid
 
             //handle prepared by
             var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
-
+            var assign = jobMain.AssignedTo;
             if (encoder != null)
             {
-                ViewBag.StaffName = getStaffName(encoder.user ?? null);
-                ViewBag.Sign = getStaffSign(encoder.user ?? null);
+                ViewBag.StaffName = getStaffName(assign ?? null);
+                ViewBag.Sign = getStaffSign(assign ?? null);
             }
             else
             {
@@ -2377,11 +2377,11 @@ order by x.jobid
 
             //handle prepared by
             var encoder = db.JobTrails.Where(s => s.RefTable == "joborder" && s.RefId == jobMain.Id.ToString()).FirstOrDefault();
-
+            var assign = jobMain.AssignedTo;
             if (encoder != null)
             {
-                ViewBag.StaffName = getStaffName(encoder.user ?? null);
-                ViewBag.Sign = getStaffSign(encoder.user ?? null);
+                ViewBag.StaffName = getStaffName(assign ?? null);
+                ViewBag.Sign = getStaffSign(assign ?? null);
             }
             else
             {

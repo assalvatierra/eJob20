@@ -17,7 +17,7 @@ namespace JobsV1.Models.Class
         private int JOBCONFIRMED = 3;
         private int JOBCLOSED = 4;
         private int JOBCANCELLED = 5;
-        private int JOBTEMPLATE = 6;
+        //private int JOBTEMPLATE = 6;
 
         private JobDBContainer db = new JobDBContainer();
         public int checklogin(string contactNumber, string password )
