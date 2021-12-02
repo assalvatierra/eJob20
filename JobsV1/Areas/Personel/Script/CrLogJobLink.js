@@ -6,36 +6,38 @@
 
 function Show_JobsLinkModal(triplogid) {
     $("#LogJobLinkModal").modal("show");
+
     Set_JobLinkForm_TripLogId(triplogid);
+
+    GetActiveJobs();
 
     //get existing triploglink for edit/modify link
     GetTripJobLinkId(triplogid);
 }
 
-function Show_JobSearchModal() {
-    $("#LogJobSearchModal").modal("show");
-    GetActiveJobs();
-
-}
 
 function GetActiveJobs() {
+
+    $("#Loading-jobs").show();
 
     //empty list
     $("#LogJobSearchModal-List").empty();
 
-    $.get("/JobMains/GetActiveJobList", null, (res) => {
+    $.get("/JobOrder/GetActiveJobList", null, (res) => {
         console.log(res.length)
+
+        $("#Loading-jobs").hide();
         if (res.length != 0) {
             for (var i = 0; i < res.length; i++) {
                 var itemId = res[i]["Id"];
-                var desc = res[i]["JobDesc"] == null ? " " : res[i]["JobDesc"] + " / ";
+                //var desc = res[i]["JobDesc"] == null ? " " : res[i]["JobDesc"] + " / ";
                 var customer = res[i]["Customer"];
                 var company = res[i]["Company"] == null ? " " : res[i]["Company"] + " / ";
-                var dtStart = res[i]["JobDateStart"];
-                var dtEnd = res[i]["JobDateEnd"];
+                //var dtStart = res[i]["JobDateStart"];
+                //var dtEnd = res[i]["JobDateEnd"];
 
                 var item = '<button type="button" class="list-group-item" onclick="SelectJobMainId(' + itemId + ')">' +
-                    itemId + ' - ' + desc + ' ' + company + ' ' + customer + " <br> Date: " + dtStart + " - " + dtEnd
+                    itemId + ' - ' + company + ' ' + customer + 
                 '</button>';
 
                 $("#LogJobSearchModal-List").append(item);
@@ -47,8 +49,8 @@ function GetActiveJobs() {
 function SelectJobMainId(jobId) {
     Set_JobLinkForm_JobMainId(jobId);
 
-    //hide job search modal
-    $("#LogJobSearchModal").modal("hide");
+    //select and submit
+    Submit_JobLinkForm()
 }
 
 function Set_JobLinkForm_JobMainId(jobId) {
@@ -63,22 +65,34 @@ function Set_JobLinkForm_TripLogId(triplogId) {
 function Submit_JobLinkForm() {
     var triplogId = $("#LogJobLink-TripLogId").val();
     var jobmainId = $("#LogJobLink-JobMainId").val();
-    $.post("/CarRentalLog/SetLinkTriplogJobs", { "triplogId": triplogId, "jobmainId": jobmainId }, (res) => {
-        console.log(res);
+
+    $.get("/JobMains/CheckJobById", { jobmainId: jobmainId }, (res) => {
+
+    }).done((res) => {
         if (res == "True") {
-            //alert("Linked Triplogs and jobs DONE.");
 
-            //on success, hide modal
-            $("#LogJobLinkModal").modal("hide");
+            $.post("/CarRentalLog/SetLinkTriplogJobs", { "triplogId": triplogId, "jobmainId": jobmainId }, (res) => {
+                console.log(res);
+                if (res == "True") {
+                    //alert("Linked Triplogs and jobs DONE.");
 
-            //reload
-            window.location.reload();
+                    //on success, hide modal
+                    $("#LogJobLinkModal").modal("hide");
+
+                    //reload
+                    window.location = window.location;
+                }
+            })
+                .fail((err) => {
+                    alert("Unable to Link Triplogs and jobs.");
+                });
+        } else {
+            alert("No jobs found with the entered Id.");
         }
 
-    })
-        .fail((err) => {
-            alert("Unable to Link Triplogs and jobs.");
-        });
+    });
+    
+
 }
 
 
@@ -89,34 +103,40 @@ function GetTripJobLinkId(tripLogId) {
         if (jobId != 0) {
             Set_JobLinkForm_JobMainId(jobId);
 
-            //show remove btn
-            $("#LogJobLinkModal_RemoveBtn").show();
         } else {
             //clear text field
             $("#LogJobLink-JobMainId").val("");
 
-            //hide remove btn
-            $("#LogJobLinkModal_RemoveBtn").hide();
         }
 
     })
 }
 
-function RemoveTripJobLink() {
+function RemoveTripJobLink(tripId, jobmainId) {
 
-    var triplogId = $("#LogJobLink-TripLogId").val();
-    var jobmainId = $("#LogJobLink-JobMainId").val();
-
-    $.post("/CarRentalLog/DeleteLinkTriplogJobs", { triplogId: triplogId, jobmainId, jobmainId }, (res) => {
+    $.post("/CarRentalLog/DeleteLinkTriplogJobs", { triplogId: tripId, jobmainId, jobmainId }, (res) => {
         console.log(res);
         if (res == "True") {
             //on success, hide modal
             $("#LogJobLinkModal").modal("hide");
 
             //reload
-            window.location.reload();
+            window.location = window.location;
         }
 
 
     })
+}
+
+async function  CheckJobExist() {
+    var jobmainId = $("#LogJobLink-JobMainId").val();
+    await $.get("/JobMains/CheckJobById", { jobmainId: jobmainId }, (res) => {
+       
+    }).done(( res) => {
+        if ( res == "True") {
+            return true;
+        }
+
+        return false;
+    });
 }

@@ -300,14 +300,26 @@
                 <span style="color:@color;"> @item.DtTrip.ToString(" (ddd) ")</span>
             </td>
             <td>
+
+
                 @if (item.crLogTripJobMains.Count != 0)
                 {
                     var jobId = @item.crLogTripJobMains.LastOrDefault().JobMainId;
                     <a href="/JobOrder/JobServices?JobMainId=@jobId" target="_blank">
                         @jobId
-
                     </a>
+
                 }
+                else
+                {
+                    if (!item.crLogCompany.IsInternal)
+                    {
+                        <a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link </a>
+                    }
+                }
+
+
+
             </td>
             <td class="td-driver">
                 @Html.DisplayFor(modelItem => item.crLogDriver.Name)
@@ -318,10 +330,8 @@
             <td class="td-unit">
                 @Html.DisplayFor(modelItem => item.crLogUnit.Description)
             </td>
-            <td class="td-remarks">
-                <span style="color:#3d3d3d;">
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </span>
+            <td class="td-remarks text-muted">
+                @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
                 @item.Rate.ToString("#,##0.00")
@@ -351,45 +361,58 @@
                         Action <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        @if (item.IsFinal && item.AllowEdit)
+                        @if (item.AllowEdit)
                         {
-                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
+                            @*  <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
+            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
+
+            if (!item.crLogCompany.IsInternal)
+            {
+                <li><a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link to Job </a></li>
+            }*@
                         }
                         else
                         {
+                            if (!item.IsFinal && !isAdmin)
+                            {
+                                <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                                <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> + Update Odo </a></li>
+                                <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  +  Update OT </a></li>
+                                <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
+
+                            }
+
+
                             if (isAdmin)
                             {
                                 <li>@Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
+
+                                if (item.crLogTripJobMains.Count != 0)
+                                {
+                                    var jobId = @item.crLogTripJobMains.LastOrDefault().JobMainId;
+
+                                    <li > <a class="cursor-pointer" onclick="RemoveTripJobLink(@item.Id, @jobId)"> Remove Existing Link  </a> </li>
+
+                                }
                             }
                         }
 
-                        @if (!item.IsFinal && !isAdmin)
+
+                        @if (String.IsNullOrEmpty(item.StartTime))
                         {
-                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  Update OT </a></li>
-                            <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
-                            if (!item.crLogCompany.IsInternal)
-                            {
-                                <li><a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link to Job </a></li>
-                            }
-                        }
-                        else
-                        {
-                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo  </a></li>
-                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  Update OT   </a></li>
-                            
-                            if (!item.crLogCompany.IsInternal)
-                            {
-                                <li><a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link to Job </a></li>
-                            }
                             <li role="separator" class="divider"></li>
-                            <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
-                            <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
-                            <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
+                            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> - Update Odo  </a></li>
+                            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  - Update OT   </a></li>
+
                         }
+
+
+                        <li role="separator" class="divider"></li>
+                        <li>@Html.ActionLink("Driver Summary", "DriverSummary", new { id = item.crLogDriverId })</li>
+                        <li>@Html.ActionLink("Passengers", "TripPassengers", "crLogPassengers", new { id = item.Id }, null)</li>
+                        <li>@Html.ActionLink("Driver Trip List", "DriversTripList", "crLogPassengers", new { id = item.crLogDriverId }, null)</li>
+
 
                         @if (isAdmin)
                         {

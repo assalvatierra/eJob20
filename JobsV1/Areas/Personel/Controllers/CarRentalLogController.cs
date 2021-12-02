@@ -1412,7 +1412,7 @@ namespace JobsV1.Areas.Personel.Controllers
         #region OT 
 
         // POST : /Personel/CarRentalLog/UpdateTripOTRate
-        //
+
         [HttpPost]
         public HttpResponseMessage UpdateTripOTRate(int? id)
         {
@@ -1431,6 +1431,10 @@ namespace JobsV1.Areas.Personel.Controllers
                 {
                     trip.DriverOT = (decimal)OTRate;
                 }
+
+                trip.AllowEdit = false;
+                trip.IsFinal = true;
+                trip.Remarks += "TT";
 
                 db.Entry(trip).State = EntityState.Modified;
                 db.SaveChanges();

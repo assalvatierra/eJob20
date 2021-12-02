@@ -962,6 +962,21 @@ namespace JobsV1.Controllers
        
         }
 
+        //GET : JobMains/CheckJobById/{jobmainId:int}
+        [HttpGet]
+        public bool CheckJobById(int jobmainId)
+        {
+
+            var jobmain = db.JobMains.Find(jobmainId);
+
+            if (jobmain == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         #region Job Notes
         public ActionResult JobNotes(int? id)
         {

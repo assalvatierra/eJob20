@@ -6,12 +6,12 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"> Link Triplogs to Jobs </h4>
             </div>
-            <div class="modal-body" style="margin-left:30px;">
+            <div class="modal-body" style="margin-left:10px;">
                 <div class="row">
                     <div class="form-group col-lg-12" style="padding-bottom:10px;">
                         <label class="control-label form-label col-sm-2"> TripLogId </label>
                         <div class="col-sm-6">
-                            <input class="form-control" type="number" id="LogJobLink-TripLogId"  readonly/>
+                            <input class="form-control" type="number" id="LogJobLink-TripLogId" readonly />
                         </div>
                     </div>
                     <div class="form-group col-lg-12">
@@ -20,22 +20,28 @@
                             <input class="form-control" type="number" id="LogJobLink-JobMainId" />
                         </div>
                         <div class="col-sm-4">
-                            <button class="btn btn-default" onclick="Show_JobSearchModal()"> Search Active Jobs </button>
+                            @*<button class="btn btn-default" onclick="Show_JobSearchModal()"> Search Active Jobs </button>*@
                         </div>
                     </div>
+                </div>
+                <hr />  
+                <h4 class="modal-title"> Select Active Jobs</h4><br />
+                <div class="row" id="Loading-jobs">
+                    <img src="~/Images/GIF/loading.gif" class="col-lg-2" />
+                    <h4 class="col-lg-4"> Loading Jobs... </h4>
+                </div>
+                <div class="list-group" id="LogJobSearchModal-List">
+                    @*<button type="button" class="list-group-item"> 6626 - Company / Customer </button>*@
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="LogJobLinkModal_RemoveBtn" onclick="RemoveTripJobLink()">Remove Existing Link</button>
                 <button type="button" class="btn btn-primary" onclick="Submit_JobLinkForm()">Link</button>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <!-- Triplogs - Job Link Search Modal -->
 <div class="modal fade" role="dialog" id="LogJobSearchModal" data-keyboard="false" data-backdrop="static">
@@ -46,9 +52,7 @@
                 <h4 class="modal-title"> Search Active Jobs</h4>
             </div>
             <div class="modal-body" >
-                <div class="list-group" id="LogJobSearchModal-List">
-                    @*<button type="button" class="list-group-item"> 6626 - Company / Customer </button>*@
-                </div>
+                
             </div>
 
             <div class="modal-footer">

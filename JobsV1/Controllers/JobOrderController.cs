@@ -231,6 +231,34 @@ namespace JobsV1.Controllers
             }
         }
 
+        //GET : JobOrder/GetActiveJobList
+        [HttpGet]
+        public JsonResult GetActiveJobList()
+        {
+            if (Session["CachedJobs"] == null)
+            {
+                var activeJobs = getJobData(1);
+
+                var cachedJobs = activeJobs.GroupBy(c => c.Main.Id,
+                    (key, g) => new
+                    {
+                        Id = key,
+                        JobDesc = g.Select(gs => gs.Main.Description).FirstOrDefault(),
+                        Customer = g.Select(gs => gs.Main.Customer.Name).FirstOrDefault(),
+                        JobDateStart = g.Select(gs => gs.Main.JobDate).FirstOrDefault(),
+                        //JobDateEnd = g.Select(gs => gs.DtEnd).FirstOrDefault(),
+                        Company = g.Select(gs => gs.Company).FirstOrDefault(),
+                    }).ToList();
+                Session["CachedJobs"] = cachedJobs;
+                return Json(cachedJobs, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var cachedJobs = Session["CachedJobs"] ;
+                return Json(cachedJobs, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         //GET : return list of jobs
         public List<cJobOrder> getJobData(int sortid)
         {
