@@ -351,11 +351,12 @@ function ReleasePayment() {
 
 //Return Amount
 //release payment amount
-function ReturnAmount(e, amount) {
+function ReturnAmount(e) {
+    var remarks = $("#ReturnAmount-Remarks").val();
     var amount = $("#ReturnAmount-Amount").val();
     var id = $("#ReturnAmount-Id").val();
 
-    $.post("/Payables/ApTransactions/ReturnAmount", { id: id, amount: amount }, (res) => {
+    $.post("/Payables/ApTransactions/ReturnAmount", { id: id, amount: amount, remarks: remarks }, (res) => {
         if (res == "OK") {
             UpdateStatus(id, 5); //update to return
 

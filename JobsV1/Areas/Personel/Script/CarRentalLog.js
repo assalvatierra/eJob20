@@ -381,6 +381,23 @@ function AllowEdit(e, id){
 }
 
 
+//Allow Edit trip logs 
+//change CloseForEdit Flag to True
+function CloseForEdit(e, id) {
+    $.post('/Personel/CarRentalLog/CloseForEditTripLog', { id: id })
+        .done((res) => {
+            console.log('Allowed edit on triplog ' + id);
+            //window.location.reload(false);
+            //$(e).parent().append('<a style="cursor:not-allowed;color:gray;"> OT Calculated </a>');
+            $(e).remove();
+        })
+        .fail((err) => {
+            console.log('Unable to edit:' + id + "\n " + err);
+            alert('Unable to update Triplogs Flag : Allowed to Edit');
+        });
+}
+
+
 
 //Handle Site Cookie, check shuttle_cookie to show shuttle services only when true, else show all trips
 function CheckShuttleCookies() {

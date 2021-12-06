@@ -391,12 +391,14 @@ namespace Payable.Areas.Payables.Controllers
             return "Unable to Release Payment";
         }
 
+ 
+
         [HttpPost]
-        public string ReturnAmount(int? id, decimal? amount )
+        public string ReturnAmount(int? id, decimal? amount, string remarks )
         {
                 if ( id != null && amount != null)
                 {
-                    ap.TransactionMgr.UpdateReturnAmount((int)id, (decimal)amount);
+                    ap.TransactionMgr.UpdateReturnAmount((int)id, (decimal)amount, remarks);
                     return "OK";
                 }
 

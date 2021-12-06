@@ -1323,6 +1323,40 @@ namespace JobsV1.Areas.Personel.Controllers
             }
         }
 
+
+        //POST : /Personel/CarRentalLog/CloseForEditTripLog
+        //PARAMETER: id (crLogTrips.Id as nullable int)
+        //RETURNS: Boolean (True=Success/False=Error or null)
+        //SUMMARY: Update AllowEdit Flag on TripLogs to edit past / locked triplogs entry
+        [HttpPost]
+        public bool CloseForEditTripLog(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return false;
+                }
+
+                var triplog = db.crLogTrips.Find(id);
+
+                if (triplog == null)
+                {
+                    return false;
+                }
+
+                triplog.AllowEdit = false;
+                db.Entry(triplog).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         // GET: /Areas/Personal/CarRentalLog/GetDriverIsInTripToday?driverId={driverId}
         // Returns TRUE if Driver have trip for today,
         // Returnds FALSE if Driver does not have trip for today

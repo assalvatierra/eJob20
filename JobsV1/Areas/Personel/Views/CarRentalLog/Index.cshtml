@@ -363,28 +363,25 @@
                     <ul class="dropdown-menu">
                         @if (item.AllowEdit)
                         {
-                            @*  <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-            <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
-            <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
-
-            if (!item.crLogCompany.IsInternal)
-            {
-                <li><a class="cursor-pointer" onclick="Show_JobsLinkModal('@item.Id')">  Link to Job </a></li>
-            }*@
+                              <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
+                              @*
+                                <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> Update Odo </a></li>
+                                <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')"> Update OT </a></li>
+                              *@
                         }
                         else
                         {
                             if (!item.IsFinal && !isAdmin)
                             {
                                 <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }) </li>
-                                <li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> + Update Odo </a></li>
-                                <li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  +  Update OT </a></li>
+                                @*<li><a class="cursor-pointer" onclick="Show_OdoUpdateModal('@item.Id')"> + Update Odo </a></li>*@
+                                @*<li><a class="cursor-pointer" onclick="Show_OTUpdateModal('@item.Id')">  +  Update OT </a></li>*@
                                 <li><a class="cursor-pointer" onclick="RequestPOFuel(this, @item.crLogDriverId, @item.crLogUnitId)"> Request Fuel </a></li>
 
                             }
+                        }
 
-
-                            if (isAdmin)
+                          @if (isAdmin)
                             {
                                 <li>@Html.ActionLink("Admin Edit", "Edit", new { id = item.Id }) </li>
 
@@ -396,8 +393,6 @@
 
                                 }
                             }
-                        }
-
 
                         @if (String.IsNullOrEmpty(item.StartTime))
                         {
@@ -419,6 +414,8 @@
                             if (!item.AllowEdit)
                             {
                                 <li> <a class="cursor-pointer" onclick="AllowEdit(this, '@item.Id')"> Allow Edit </a> </li>
+                            } else {
+                                <li> <a class="cursor-pointer" onclick="CloseForEdit(this, '@item.Id')"> Close For Edit </a> </li>
                             }
                             <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id }) </li>
                         }

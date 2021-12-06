@@ -126,7 +126,7 @@
         {
             decimal totalTransPayment = 0;
             decimal transChange = 0;
-
+            string paymentDate = "" ;
 
             //get total transaction payment
             foreach (var transpayment in item.ApTransPayments)
@@ -134,6 +134,7 @@
                 if (transpayment.ApPayment.ApPaymentStatusId == 2)
                 {
                     totalTransPayment += transpayment.ApPayment.Amount;
+                    paymentDate = transpayment.ApPayment.DtPayment.ToString("MMM dd yyyy");
                 }
             }
 
@@ -304,7 +305,14 @@
                 </td>
 
                 <td style="background-color:lightgray;">
-                    <span class="text-success"> @totalTransPayment.ToString("#,##0.00") </span>
+                    <span class="text-success">
+                        @totalTransPayment.ToString("#,##0.00")
+                    </span>
+                    <br />
+                    <span style="font-size:11px;color:gray;">
+                        @paymentDate
+                    </span>
+                   
                 </td>
 
                 <td>
@@ -312,6 +320,13 @@
                     {
                         <span>
                             @transChange.ToString("#,##0.00")
+                        </span>
+                    }
+
+                    @if ((totalTransPayment == 0) && item.ApTransStatusId >= 5 && item.ApTransPayments.Count() != 0)
+                    {
+                        <span>
+                            @released.ToString("#,##0.00")
                         </span>
                     }
                 </td>
@@ -344,7 +359,7 @@
                                 }
                                 else if (item.ApTransStatusId == 3)
                                 {
-                                    if (item.Amount != 0)
+                                    if (item.ApTransPayments.Count() != 0 || isAdmin)
                                     { 
                                         //return
                                         <a class="cursor-link" style="cursor:pointer;" onclick="ShowReturnAmountModal(@item.Id, @item.Amount)"> Return </a>
@@ -393,23 +408,23 @@
             <td colspan="9">
             </td>
             <td>
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Budget </span><br />
                 <span style="font-size:18px;">@totalBudget.ToString("#,##0.00")</span>
             </td>
             <td>
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Released </span>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Released </span><br />
                 <span style="font-size:18px;">@totalRelease.ToString("#,##0.00")</span>
             </td>
             <td style="background-color:lightgray;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Amount </span>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Amount </span><br />
                 <span style="font-size:18px;">@totalAmount.ToString("#,##0.00")</span>
             </td>
             <td style="color:darkgreen;background-color:lightgray;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </span>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total&nbsp;Payment </span><br />
                 <span style="font-size:18px;">@totalPayment.ToString("#,##0.00")</span>
             </td>
             <td style="font-weight:600;">
-                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total Diff </span>
+                <span style="margin-bottom:0px;font-size:9px;color:gray;"> Total Diff </span><br />
                 <span style="font-size:18px;color:blue;">@totalBalance.ToString("#,##0.00")</span>
             </td>
             <td></td>
@@ -637,6 +652,12 @@
                         <label class="control-label col-md-2"> Returned Amount  </label>
                         <div class="col-md-10">
                             <input type="text" maxlength="20" id="ReturnAmount-Amount" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Returned Remarks  </label>
+                        <div class="col-md-10">
+                            <input type="text" maxlength="80" id="ReturnAmount-Remarks" class="form-control" />
                         </div>
                     </div>
                 </div>
