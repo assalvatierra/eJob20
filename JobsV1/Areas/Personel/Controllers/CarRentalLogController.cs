@@ -1784,13 +1784,14 @@ namespace JobsV1.Areas.Personel.Controllers
             odoDetails.TripHours = triplog.TripHours ?? 10;
             odoDetails.OTRate = triplog.OTRate ?? 200;
             odoDetails.DriverOTRate = triplog.DriverOTRate ?? 50;
+            odoDetails.Remarks = triplog.Remarks;
 
 
             return Json(odoDetails, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public bool SetTripOT(int? Id, string StartTime, string EndTime, int? TripHours, Decimal? OTRate, Decimal? DriverOTRate)
+        public bool SetTripOT(int? Id, string StartTime, string EndTime, int? TripHours, Decimal? OTRate, Decimal? DriverOTRate, string Remarks)
         {
             if (Id != null)
             {
@@ -1807,6 +1808,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 crLogTrip.DriverOTRate = DriverOTRate;
                 crLogTrip.DriverOT = (decimal)GetTripOTRate(Id);
                 crLogTrip.AddonOT = (decimal)GetTripOTAddon(Id);
+                crLogTrip.Remarks = Remarks;
 
                 //save changes
                 db.Entry(crLogTrip).State = EntityState.Modified;
@@ -1998,6 +2000,8 @@ namespace JobsV1.Areas.Personel.Controllers
             public int TripHours { get; set; }
             public decimal OTRate { get; set; }
             public decimal DriverOTRate { get; set; }
+            public string Remarks { get; set; }
+
         }
 
         #endregion
@@ -2391,7 +2395,7 @@ namespace JobsV1.Areas.Personel.Controllers
                 //find existing triplog-jobmain link
                 var link = db.crLogTripJobMains.Where(c => c.crLogTripId == triplogId);
 
-                if (link == null)
+                if (link.FirstOrDefault() == null)
                 {
                     return 0;
                 }

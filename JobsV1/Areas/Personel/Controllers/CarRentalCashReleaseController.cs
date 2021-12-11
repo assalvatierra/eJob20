@@ -99,7 +99,7 @@ namespace JobsV1.Areas.Personel.Controllers
         {
         
             var today = dt.GetCurrentDate();
-            var DateFilter = today.AddDays(-1);
+            var DateFilter = today.AddDays(-2);
 
             //get cash releases up to -2 days from today
             var crLogCashReleases = db.crLogCashReleases.Include(c => c.crLogDriver)
@@ -612,13 +612,39 @@ namespace JobsV1.Areas.Personel.Controllers
 
         public List<crLogCashRelease> GetDriverCashRelease(int id, int type, DateTime dateReq)
         {
+            var cashTrx = new List<crLogCashRelease>();
+
             var today = dateReq.AddDays(-1);
             var todayAdj = dateReq.AddDays(1);
 
             var payments = db.crLogCashReleases.Where(c => c.crLogDriverId == id 
-                              && c.crLogCashTypeId == type && todayAdj.CompareTo(c.DtRelease) >= 0 && today.CompareTo(c.DtRelease) <= 0)
-                              .OrderBy(c=>c.DtRelease).ToList();
-            return payments;
+                              && c.crLogCashTypeId == type 
+                              && todayAdj.CompareTo(c.DtRelease) >= 0 
+                              && today.CompareTo(c.DtRelease) <= 0
+                              //&& c.crLogCashStatus.Select(x=>x.crCashReqStatusId).DefaultIfEmpty(0).Last() < 3
+
+                              ).OrderBy(c=>c.DtRelease).ToList();
+
+
+
+            payments.ForEach(c => {
+                if (c.crLogCashStatus.Count() != 0)
+                {
+                    //var amount = c.Amount;
+                    var cstatus = c.crLogCashStatus.Last().crCashReqStatusId < 3;
+                    if (cstatus)
+                    {
+                        cashTrx.Add(c);
+                    }
+                }
+                else
+                {
+                    //add to list anyway
+                    cashTrx.Add(c);
+                }
+            });
+
+            return cashTrx;
         }
 
 
@@ -693,59 +719,88 @@ namespace JobsV1.Areas.Personel.Controllers
 
         public decimal DriverSalaryAmount(int? id)
         {
-            var today = dt.GetCurrentDate();
-            decimal driversFee = 0;
-            decimal driversOT = 0;
-
-            if (id == null)
+            try
             {
-                return 0;
-            }
 
-            var cashRelease = db.crLogCashReleases.Find(id);
+                var today = dt.GetCurrentDate();
+                decimal driversFee = 0;
+                decimal driversOT = 0;
 
-            if (cashRelease.crLogClosingId != null)
-            {
-               var tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId)
-                    .ToList();
-                driversFee = tripLogs.Sum(c => c.DriverFee);
-                driversOT = tripLogs.Sum(c => c.DriverOT);
-            }
-            else
-            {
-                    driversFee = cashRelease.Amount;
-                    driversOT = 0;
-                
-            }
+                if (id == null)
+                {
+                    return 0;
+                }
 
-            if (cashRelease == null)
-            {
-                return 0;
-            }
+                var cashRelease = db.crLogCashReleases.Find(id);
 
-            today = cashRelease.DtRelease.Date;
-            var OneDayAfter = today.AddDays(1);
-            var OneDayBefore = today.AddDays(-1);
+                if (cashRelease.crLogClosingId != null)
+                {
+                   var tripLogs = db.crLogTrips.Where(c => c.crLogClosingId == cashRelease.crLogClosingId)
+                        .ToList();
+                    driversFee = tripLogs.Sum(c => c.DriverFee);
+                    driversOT = tripLogs.Sum(c => c.DriverOT);
+                }
+                else
+                {
+                        driversFee = cashRelease.Amount;
+                        driversOT = 0;
+                }
 
-            var otherTrx = db.crLogCashReleases.Where(c =>
-                                    c.crLogDriverId == cashRelease.crLogDriverId
-                                    && ( DbFunctions.TruncateTime(c.DtRelease) == today  ||
-                                         DbFunctions.TruncateTime(c.DtRelease) == OneDayAfter)
-                                         //&& cashRelease.crLogCashStatus.OrderByDescending(d=>d.dtStatus).FirstOrDefault().crCashReqStatusId < 3
+                if (cashRelease == null)
+                {
+                    return 0;
+                }
+
+                today = cashRelease.DtRelease.Date;
+                var OneDayAfter = today.AddDays(1);
+                var OneDayBefore = today.AddDays(-1);
+
+                decimal total = 0;
+                var otherTrx = new List<crLogCashRelease>();
+
+                var tempTrx = db.crLogCashReleases.Where(c => c.crLogDriverId == cashRelease.crLogDriverId
+                                   && (DbFunctions.TruncateTime(c.DtRelease) == today ||
+                                        DbFunctions.TruncateTime(c.DtRelease) == OneDayAfter ||
+                                        DbFunctions.TruncateTime(c.DtRelease) == OneDayBefore)
+                                    //&& c.crLogCashStatus.Select(x=>x.crCashReqStatusId).DefaultIfEmpty(1).First() < 3
                                     ).ToList();
 
-            var otherSalary = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.SALARY && c.Id != id).ToList().Sum(c=>c.Amount);
-            var driverCA = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CA
-                            ).ToList().Sum(c => c.Amount);
-            var payments = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.PAYMENTS).ToList().Sum(c => c.Amount);
-            var contributions = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CONTRIBUTIONS).ToList().Sum(c => c.Amount);
-            var others = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.OTHERS).ToList().Sum(c => c.Amount);
+                tempTrx.ForEach(c=> { 
+                    if(c.crLogCashStatus.Count() != 0)
+                    {
+                        var amount = c.Amount;
+                        var cstatus = c.crLogCashStatus.Last().crCashReqStatusId < 3;
+                        if (cstatus)
+                        {
+                            otherTrx.Add(c);
+                        }
+                    }
+                    else
+                    {
+                        //add to list anyway
+                        otherTrx.Add(c);
+                    }
+                });
 
 
-            decimal total = (driversFee + driversOT + otherSalary  + driverCA) - (payments + contributions + others);
+                if (otherTrx != null)
+                {
+                    var otherSalary   = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.SALARY && c.Id != id).ToList().Sum(c=>c.Amount);
+                    var driverCA      = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CA).ToList().Sum(c => c.Amount);
+                    var payments      = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.PAYMENTS).ToList().Sum(c => c.Amount);
+                    var contributions = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.CONTRIBUTIONS).ToList().Sum(c => c.Amount);
+                    var others        = otherTrx.Where(c => c.crLogCashTypeId == (int)CASHTYPE.OTHERS).ToList().Sum(c => c.Amount);
 
+                    total = (driversFee + driversOT + otherSalary  + driverCA) - (payments + contributions + others);
+                }
 
-            return total;
+                return total;
+
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         private decimal GetCABalance(int DriverId)
